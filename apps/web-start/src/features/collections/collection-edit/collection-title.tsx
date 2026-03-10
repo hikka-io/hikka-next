@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 
 import { CommentPlateEditor } from '@/components/plate/editor/plate-editor';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';

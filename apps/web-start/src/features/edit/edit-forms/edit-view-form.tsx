@@ -2,7 +2,7 @@
 
 import { useEdit, useUpdateEdit } from '@hikka/react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/utils/navigation';
 import { FC, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 

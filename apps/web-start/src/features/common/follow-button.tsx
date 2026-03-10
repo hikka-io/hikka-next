@@ -8,7 +8,7 @@ import {
     useUserByUsername,
 } from '@hikka/react';
 import { VariantProps } from 'class-variance-authority';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -73,7 +73,7 @@ const FollowButton: FC<Props> = ({
                 asChild
                 className={cn(className)}
             >
-                <Link href="/login">
+                <Link to="/login">
                     <MaterialSymbolsPersonAddOutlineRounded />
                     {!iconOnly && 'Відстежувати'}
                 </Link>

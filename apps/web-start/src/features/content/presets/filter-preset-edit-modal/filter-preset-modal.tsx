@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import CustomCopyAddRounded from '@/components/icons/custom/CustomCopyAddRounded';

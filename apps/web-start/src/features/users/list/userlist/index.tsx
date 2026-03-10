@@ -5,7 +5,7 @@ import {
     ReadStatusEnum,
     WatchStatusEnum,
 } from '@hikka/client';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -13,7 +13,7 @@ const OAuthHeader: FC<Props> = () => {
                     <HeaderTitle variant="h2">Додати зʼєднання</HeaderTitle>
                 </HeaderContainer>
             </Header>
-            <Link href="/">
+            <Link to="/">
                 <div className="logo-full h-[24px] w-[80px]" />
             </Link>
         </div>

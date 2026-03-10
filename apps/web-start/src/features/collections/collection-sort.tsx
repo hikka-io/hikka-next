@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from '@/utils/navigation';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 

@@ -2,8 +2,8 @@
 
 import { ArticleCategoryEnum } from '@hikka/client';
 import { useSearchArticles, useSession } from '@hikka/react';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import ArticleItem from '@/features/articles/article-item/article-item';
@@ -71,7 +71,7 @@ const ArticleList: FC<Props> = () => {
                     </HeaderTitle>
                     {user && (
                         <Button asChild size="icon-sm" variant="outline">
-                            <Link href={`${CONTENT_TYPE_LINKS['article']}/new`}>
+                            <Link to={`${CONTENT_TYPE_LINKS['article']}/new`}>
                                 <MaterialSymbolsAddRounded className="size-4" />
                             </Link>
                         </Button>

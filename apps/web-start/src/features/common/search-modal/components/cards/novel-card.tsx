@@ -1,7 +1,7 @@
 'use client';
 
 import { NovelResponse } from '@hikka/client';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import * as React from 'react';
 
 import ContentCard from '@/components/content-card/content-card';

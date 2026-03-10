@@ -1,6 +1,6 @@
 import { ArticlePreviewResponse, ContentTypeEnum } from '@hikka/client';
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import Author from '@/features/articles/article-item/article-author';
@@ -78,7 +78,7 @@ const ArticleCard: FC<Props> = ({ article }) => {
                         </StatItem>
                     )}
                     <StatItem asChild>
-                        <Link href={`/comments/article/${article.slug}`}>
+                        <Link to={`/comments/article/${article.slug}`}>
                             <MessageCircle />
                             {article.comments_count}
                         </Link>

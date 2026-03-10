@@ -2,7 +2,7 @@
 
 import { VoteContentType } from '@hikka/client';
 import { useCreateVote, useSession } from '@hikka/react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/utils/navigation';
 
 interface UseVoteParams {
     contentType: VoteContentType;

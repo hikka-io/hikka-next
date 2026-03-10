@@ -2,8 +2,8 @@
 
 import { EditResponse } from '@hikka/client';
 import { format } from 'date-fns';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useRouter } from '@/utils/navigation';
 import { FC, MouseEvent } from 'react';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';

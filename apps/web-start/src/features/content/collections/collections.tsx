@@ -2,7 +2,7 @@
 
 import { CollectionContentType } from '@hikka/client';
 import { useSearchCollections } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';

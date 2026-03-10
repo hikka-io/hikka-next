@@ -1,8 +1,8 @@
 'use client';
 
 import { useSession } from '@hikka/react';
-import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { usePathname, useSearchParams } from '@/utils/navigation';
 
 import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';

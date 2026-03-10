@@ -1,9 +1,3 @@
-import { Metadata } from 'next';
-import {
-    DeprecatedMetadataFields,
-    TemplateString,
-} from 'next/dist/lib/metadata/types/metadata-types';
-
 /**
  * Default metadata values for the Hikka application
  */
@@ -35,24 +29,32 @@ type OGImageDescriptor = {
  */
 type OGImage = string | OGImageDescriptor | URL;
 
+type TemplateString = {
+    default: string;
+    template: string;
+};
+
 /**
  * Extended metadata properties interface
  */
-interface MetadataProps extends Metadata {
-    title?: string | TemplateString | null | undefined;
-    description?: string | null | undefined;
-    images?: OGImage | OGImage[] | undefined;
+interface MetadataProps {
+    title?: string | TemplateString | null;
+    description?: string | null;
+    images?: OGImage | OGImage[];
     siteName?: string;
-    other?: {
-        [name: string]: string | number | (string | number)[];
-    } & DeprecatedMetadataFields;
+    other?: Record<string, string | number | (string | number)[]>;
+    openGraph?: Record<string, any>;
+    twitter?: Record<string, any>;
+    [key: string]: any;
 }
+
+type Metadata = Record<string, any>;
 
 /**
  * Generates complete metadata for the application by combining provided values with defaults
  *
  * @param props - Metadata properties to be used, with any missing values falling back to defaults
- * @returns Complete Metadata object ready for Next.js
+ * @returns Complete Metadata object
  */
 const generateMetadata = ({
     title,
@@ -64,39 +66,33 @@ const generateMetadata = ({
     twitter,
     ...restProps
 }: MetadataProps = {}): Metadata => {
-    // Determine values, falling back to defaults when needed
     const resolvedSiteName = siteName || DEFAULTS.siteName;
     const resolvedTitle = title || DEFAULTS.title;
     const resolvedDescription = description || DEFAULTS.description;
     const resolvedImages = images || DEFAULTS.images;
 
     return {
-        // Base metadata
         title: resolvedTitle,
         description: resolvedDescription,
 
-        // Open Graph metadata
         openGraph: {
             siteName: resolvedSiteName,
             title: resolvedTitle,
             description: resolvedDescription,
             images: resolvedImages,
-            ...openGraph, // Allow overriding default OG properties
+            ...openGraph,
         },
 
-        // Twitter metadata
         twitter: {
             site: resolvedSiteName,
             title: resolvedTitle,
             description: resolvedDescription,
             images: resolvedImages,
-            ...twitter, // Allow overriding default Twitter properties
+            ...twitter,
         },
 
-        // Other custom metadata
         other,
 
-        // Any additional properties passed
         ...restProps,
     };
 };

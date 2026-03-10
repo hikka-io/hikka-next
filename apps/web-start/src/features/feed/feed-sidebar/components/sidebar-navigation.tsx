@@ -2,7 +2,7 @@
 
 import { cva } from 'class-variance-authority';
 import { BookOpen, Layers, Pencil } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 
 import Card from '@/components/ui/card';
 

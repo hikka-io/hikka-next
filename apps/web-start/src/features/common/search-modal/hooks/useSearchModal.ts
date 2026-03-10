@@ -1,5 +1,5 @@
 import { AnimeResponse, ContentTypeEnum } from '@hikka/client';
-import { usePathname } from 'next/navigation';
+import { usePathname } from '@/utils/navigation';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';

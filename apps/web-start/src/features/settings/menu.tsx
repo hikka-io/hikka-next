@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { usePathname } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -18,7 +18,7 @@ const Menu: FC<Props> = () => {
             <TabsList className="no-scrollbar w-full justify-start overflow-auto ">
                 {SETTINGS_MENU.map((item) => (
                     <TabsTrigger asChild key={item.href} value={item.href}>
-                        <Link href={item.href}>
+                        <Link to={item.href}>
                             <div className="flex items-center gap-2">
                                 {<item.icon />} {item.title}
                             </div>

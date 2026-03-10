@@ -2,7 +2,7 @@
 
 import { CommentsContentType } from '@hikka/client';
 import { useCommentThread, useContentComments, useSession } from '@hikka/react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import CommentInput from '@/features/comments/comment-input';
@@ -81,7 +81,7 @@ const CommentList: FC<Props> = ({
                     <HeaderTitle>{title}</HeaderTitle>
                     {comment_reference && (
                         <Button size="md" variant="outline">
-                            <Link href={`/comments/${content_type}/${slug}`}>
+                            <Link to={`/comments/${content_type}/${slug}`}>
                                 Всі коментарі
                             </Link>
                         </Button>
@@ -130,7 +130,7 @@ const CommentList: FC<Props> = ({
                 )}
                 {list && list.length !== 0 && preview && (
                     <Button variant="outline" asChild>
-                        <Link href={`/comments/${content_type}/${slug}`}>
+                        <Link to={`/comments/${content_type}/${slug}`}>
                             <AntDesignArrowDownOutlined />
                             Переглянути всі
                         </Link>

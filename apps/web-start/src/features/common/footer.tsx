@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 
 import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import { Button } from '@/components/ui/button';
@@ -29,13 +29,13 @@ const Footer = () => {
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 lg:justify-start">
                         <Button variant="ghost" size="md" asChild>
-                            <Link href={FOOTER_LINKS.rules.href}>
+                            <Link to={FOOTER_LINKS.rules.href}>
                                 {FOOTER_LINKS.rules.title}
                             </Link>
                         </Button>
 
                         <Button variant="ghost" size="md" asChild>
-                            <Link href={FOOTER_LINKS.owners.href}>
+                            <Link to={FOOTER_LINKS.owners.href}>
                                 {FOOTER_LINKS.owners.title}
                             </Link>
                         </Button>

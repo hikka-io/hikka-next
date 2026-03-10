@@ -1,7 +1,7 @@
 'use client';
 
 import { EditContentType, MainContent } from '@hikka/client';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import MaterialSymbolsArrowRightAltRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
@@ -39,7 +39,7 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
                     </Link>
                 </div>
                 <Button size="icon-sm" variant="outline" asChild>
-                    <Link href={link} target="_blank">
+                    <Link to={link} target="_blank">
                         <MaterialSymbolsArrowRightAltRounded className="text-lg" />
                     </Link>
                 </Button>

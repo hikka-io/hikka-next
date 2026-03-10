@@ -1,6 +1,6 @@
 import { HistoryResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC, memo } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
@@ -30,7 +30,7 @@ interface Props {
 const User: FC<Props> = memo(({ data }) => (
     <Tooltip>
         <TooltipTrigger asChild>
-            <Link href={`/u/${data.user.username}`}>
+            <Link to={`/u/${data.user.username}`}>
                 <Avatar className="size-10 rounded-md">
                     <AvatarImage
                         className="size-10 rounded-md"

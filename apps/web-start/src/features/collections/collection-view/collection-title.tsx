@@ -1,7 +1,7 @@
 'use client';
 
 import { useCollectionByReference } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import TextExpand from '@/components/text-expand';

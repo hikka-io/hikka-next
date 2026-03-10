@@ -1,8 +1,8 @@
 'use client';
 
 import { useSearchCollections, useSession } from '@hikka/react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -74,7 +74,7 @@ const UserCollections: FC<Props> = ({ className }) => {
                         <HeaderTitle variant="h4">Колекції</HeaderTitle>
                         {loggedUser?.username === params.username && (
                             <Button asChild size="icon-sm" variant="outline">
-                                <Link href="/collections/new">
+                                <Link to="/collections/new">
                                     <MaterialSymbolsAddRounded />
                                 </Link>
                             </Button>

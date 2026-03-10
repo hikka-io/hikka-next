@@ -6,7 +6,7 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useReadStats, useSession, useUserWatchStats } from '@hikka/react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import {

@@ -6,7 +6,7 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useRandomReadByStatus, useRandomWatchByStatus } from '@hikka/react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from '@/utils/navigation';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import FeRandom from '@/components/icons/fe/FeRandom';

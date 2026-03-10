@@ -1,7 +1,7 @@
 import { CommentResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns';
 import { ArrowBigUp } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -56,7 +56,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 )}
             </HorizontalCard>
 
-            <Link href={href} className="w-full flex-1 hover:underline">
+            <Link to={href} className="w-full flex-1 hover:underline">
                 <MDViewer className="line-clamp-2 break-words text-sm" preview>
                     {comment.text}
                 </MDViewer>

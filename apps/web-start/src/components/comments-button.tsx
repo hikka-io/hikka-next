@@ -2,7 +2,7 @@
 
 import { CommentsContentType } from '@hikka/client';
 import { MessageCircle } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -24,7 +24,7 @@ interface Props {
 const CommentsButton: FC<Props> = ({ comments_count, content_type, slug }) => {
     return (
         <Button variant="outline" asChild>
-            <Link href={`/comments/${content_type}/${slug}`}>
+            <Link to={`/comments/${content_type}/${slug}`}>
                 <MessageCircle className="size-4" />
                 {comments_count || 0}{' '}
                 {getDeclensionWord(comments_count || 0, COMMENT_DECLENSIONS)}

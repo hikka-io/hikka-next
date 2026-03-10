@@ -2,7 +2,7 @@
 
 import { useSearchUsers } from '@hikka/react';
 import { User as UserIcon } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
 import { Label } from '@/components/ui/label';

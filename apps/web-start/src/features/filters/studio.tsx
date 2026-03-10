@@ -3,7 +3,7 @@
 import { CompanyTypeEnum } from '@hikka/client';
 import { useSearchCompanies } from '@hikka/react';
 import { Building2 } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 import { FC, useMemo, useState } from 'react';
 
 import { CollapsibleFilter } from '@/components/ui/collapsible-filter';

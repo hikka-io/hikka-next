@@ -51,7 +51,7 @@ function CollectionsPage() {
                     <HeaderContainer>
                         <HeaderTitle variant="h2">Колекції</HeaderTitle>
                         <Button asChild size="icon-sm" variant="outline">
-                            <Link href="/collections/new">
+                            <Link to="/collections/new">
                                 <MaterialSymbolsAddRounded />
                             </Link>
                         </Button>

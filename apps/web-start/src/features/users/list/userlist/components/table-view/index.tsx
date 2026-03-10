@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, ReadResponse, WatchResponse } from '@hikka/client';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 import { FC, Fragment } from 'react';
 
 import {

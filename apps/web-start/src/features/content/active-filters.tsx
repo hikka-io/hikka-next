@@ -3,7 +3,7 @@
 import { CompanyTypeEnum } from '@hikka/client';
 import { useGenres, useSearchCompanies } from '@hikka/react';
 import { XIcon } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 import { FC, useMemo } from 'react';
 
 import {

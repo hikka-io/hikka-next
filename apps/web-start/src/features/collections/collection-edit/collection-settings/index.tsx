@@ -2,8 +2,8 @@
 
 import { CollectionContentType, CollectionVisibilityEnum } from '@hikka/client';
 import { useCreateCollection, useUpdateCollection } from '@hikka/react';
-import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useParams, useRouter } from '@/utils/navigation';
 import { FC } from 'react';
 import { toast } from 'sonner';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useArticleBySlug } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import Author from '@/features/articles/article-item/article-author';

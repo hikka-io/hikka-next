@@ -2,7 +2,7 @@
 
 import { EditResponse, EditStatusEnum } from '@hikka/client';
 import { format } from 'date-fns';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
@@ -60,7 +60,7 @@ const Component = ({ edit, href, className, ...props }: Props) => {
                                 : 'warning'
                     }
                 >
-                    <Link href={href}>
+                    <Link to={href}>
                         {edit.status === EditStatusEnum.ACCEPTED ? (
                             <MaterialSymbolsCheckRounded />
                         ) : edit.status === EditStatusEnum.DENIED ? (

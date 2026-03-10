@@ -8,7 +8,7 @@ import {
 import { useSearchAnimeSchedule } from '@hikka/react';
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';

@@ -6,7 +6,7 @@ import {
     useUpdateArtifactPrivacy,
 } from '@hikka/react';
 import { LockKeyhole, Share2 } from 'lucide-react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';

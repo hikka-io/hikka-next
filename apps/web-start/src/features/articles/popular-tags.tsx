@@ -1,7 +1,7 @@
 'use client';
 
 import { useArticleStats } from '@hikka/react';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';

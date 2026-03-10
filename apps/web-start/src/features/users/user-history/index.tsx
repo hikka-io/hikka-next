@@ -6,7 +6,7 @@ import {
     usePathname,
     useRouter,
     useSearchParams,
-} from 'next/navigation';
+} from '@/utils/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';

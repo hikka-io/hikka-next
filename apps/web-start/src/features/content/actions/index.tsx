@@ -2,7 +2,7 @@
 
 import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import ReadListButton from '@/features/common/readlist-button';

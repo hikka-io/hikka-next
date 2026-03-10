@@ -1,4 +1,6 @@
-import NextLink, { LinkProps } from 'next/link';
+'use client';
+
+import { Link as TanstackLink } from '@tanstack/react-router';
 import { FC, PropsWithChildren } from 'react';
 
 import {
@@ -25,7 +27,7 @@ import {
 } from '@/components/content-card';
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
 
-interface Props extends LinkProps {
+interface Props {
     href: string;
     className?: string;
 }
@@ -51,12 +53,12 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <AnimeTooltip slug={link}>
-                        <NextLink
+                        <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            href={href}
+                            to={href as any}
                         >
                             {children}
-                        </NextLink>
+                        </TanstackLink>
                     </AnimeTooltip>
                 );
             }
@@ -66,12 +68,12 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <CharacterTooltip slug={link}>
-                        <NextLink
+                        <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            href={href}
+                            to={href as any}
                         >
                             {children}
-                        </NextLink>
+                        </TanstackLink>
                     </CharacterTooltip>
                 );
             }
@@ -81,12 +83,12 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <MangaTooltip slug={link}>
-                        <NextLink
+                        <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            href={href}
+                            to={href as any}
                         >
                             {children}
-                        </NextLink>
+                        </TanstackLink>
                     </MangaTooltip>
                 );
             }
@@ -96,12 +98,12 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <NovelTooltip slug={link}>
-                        <NextLink
+                        <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            href={href}
+                            to={href as any}
                         >
                             {children}
-                        </NextLink>
+                        </TanstackLink>
                     </NovelTooltip>
                 );
             }
@@ -111,12 +113,12 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <PersonTooltip slug={link}>
-                        <NextLink
+                        <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            href={href}
+                            to={href as any}
                         >
                             {children}
-                        </NextLink>
+                        </TanstackLink>
                     </PersonTooltip>
                 );
             }
@@ -126,36 +128,37 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
             if (link) {
                 return (
                     <UserTooltip username={link}>
-                        <NextLink
+                        <TanstackLink
                             className={cn(LINK_CLASSNAME, className)}
-                            href={href}
+                            to={href as any}
                         >
                             {children}
-                        </NextLink>
+                        </TanstackLink>
                     </UserTooltip>
                 );
             }
         }
 
         return (
-            <NextLink
+            <TanstackLink
                 className={cn(LINK_CLASSNAME, LINK_EXTRA_CLASSNAME, className)}
-                href={href}
+                to={href as any}
             >
                 {children}
-            </NextLink>
+            </TanstackLink>
         );
     }
 
     if (ALLOWED_HOSTS.some((host) => href.includes(host))) {
         return (
-            <NextLink
+            <a
                 target="_blank"
+                rel="noopener noreferrer"
                 className={cn(LINK_CLASSNAME, LINK_EXTRA_CLASSNAME, className)}
                 href={href}
             >
                 {children}
-            </NextLink>
+            </a>
         );
     }
 

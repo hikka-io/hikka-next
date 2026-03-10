@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { usePathname } from '@/utils/navigation';
 import { useEffect } from 'react';
 
 import {
@@ -52,7 +52,7 @@ function AppSidebar() {
         // onMouseLeave={toggleSidebar}
         >
             <SidebarHeader className="min-h-16 flex-row items-center justify-between p-4">
-                <Link href={'/'} onClick={toggleSidebar}>
+                <Link to={'/'} onClick={toggleSidebar}>
                     <div className="logo-full size-[24px] w-[80px]" />
                 </Link>
                 <SidebarTrigger />
@@ -73,7 +73,7 @@ function AppSidebar() {
                                                     navitem.url === item?.url
                                                 }
                                             >
-                                                <Link href={navitem.url}>
+                                                <Link to={navitem.url}>
                                                     {navitem.icon && (
                                                         <navitem.icon />
                                                     )}

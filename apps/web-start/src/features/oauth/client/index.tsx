@@ -1,7 +1,7 @@
 'use client';
 
 import { useClientByReference } from '@hikka/react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import Card from '@/components/ui/card';

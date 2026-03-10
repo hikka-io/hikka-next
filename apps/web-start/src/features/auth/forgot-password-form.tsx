@@ -2,7 +2,7 @@
 
 import { useCreatePasswordResetRequest } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -92,7 +92,7 @@ const ForgotPasswordForm = () => {
                     className="w-full"
                     asChild
                 >
-                    <Link href="/login">Повернутись до входу</Link>
+                    <Link to="/login">Повернутись до входу</Link>
                 </Button>
             </form>
         </Form>

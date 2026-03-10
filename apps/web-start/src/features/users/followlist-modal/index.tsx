@@ -1,7 +1,7 @@
 'use client';
 
 import { useUserFollowers, useUserFollowings } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 
 import LoadMoreButton from '@/components/load-more-button';
 

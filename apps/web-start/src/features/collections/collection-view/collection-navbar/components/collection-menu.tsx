@@ -2,8 +2,8 @@
 
 import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { useDeleteCollection } from '@hikka/react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useRouter } from '@/utils/navigation';
 import { FC } from 'react';
 import { toast } from 'sonner';
 

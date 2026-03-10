@@ -2,7 +2,7 @@
 
 import { RelatedContentType } from '@hikka/client';
 import { useFranchise } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';

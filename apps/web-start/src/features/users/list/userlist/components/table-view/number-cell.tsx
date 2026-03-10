@@ -9,7 +9,7 @@ import {
     WatchResponseBase,
 } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';

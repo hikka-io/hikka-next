@@ -6,7 +6,7 @@ import {
     ImportWatchArgs,
     ReadContentType,
 } from '@hikka/client';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { Dispatch, SetStateAction, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { xml2json } from 'xml-js';

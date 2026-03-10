@@ -3,8 +3,8 @@
 import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimeSchedule } from '@hikka/react';
 import { format } from 'date-fns';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useSearchParams } from '@/utils/navigation';
 
 import Block from '@/components/ui/block';
 import {

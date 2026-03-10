@@ -1,7 +1,7 @@
 'use client';
 
 import { usePersonBySlug } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { useRef } from 'react';
 
 const Title = () => {

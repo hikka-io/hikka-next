@@ -8,7 +8,7 @@ import {
 } from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
 import { queryKeys, useQueryClient } from '@hikka/react/core';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession, useUserFollowStats } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import FollowButton from '@/features/common/follow-button';

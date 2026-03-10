@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { ComponentPropsWithoutRef, forwardRef, memo } from 'react';
 
 import { cn } from '@/utils/cn';
@@ -57,7 +57,7 @@ const HorizontalContentCard = forwardRef<HTMLDivElement, Props>(
                                 size === 'md' && 'sm:line-clamp-2',
                             )}
                         >
-                            <Link href={href}>{title}</Link>
+                            <Link to={href}>{title}</Link>
                         </Title>
                         {description && (
                             <MDViewer className="line-clamp-2 text-xs text-muted-foreground lg:line-clamp-3">

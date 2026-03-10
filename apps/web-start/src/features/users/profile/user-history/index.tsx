@@ -1,8 +1,8 @@
 'use client';
 
 import { useUserHistory } from '@hikka/react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
@@ -60,7 +60,7 @@ const History: FC<Props> = ({ className }) => {
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Історія</HeaderTitle>
                         <Button asChild size="icon-sm" variant="outline">
-                            <Link href={`/u/${params.username}/history`}>
+                            <Link to={`/u/${params.username}/history`}>
                                 <MaterialSymbolsGridViewRounded />
                             </Link>
                         </Button>

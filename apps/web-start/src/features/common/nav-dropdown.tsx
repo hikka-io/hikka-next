@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { usePathname } from '@/utils/navigation';
 import { FC, createElement, memo } from 'react';
 
 import {
@@ -65,7 +65,7 @@ const NavDropdown: FC<Props> = ({
                                             asChild
                                             key={r.slug}
                                         >
-                                            <Link href={urlPrefix + r.url}>
+                                            <Link to={urlPrefix + r.url}>
                                                 {r.icon &&
                                                     createElement(r.icon, {
                                                         className:

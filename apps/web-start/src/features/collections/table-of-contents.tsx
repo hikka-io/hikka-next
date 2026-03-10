@@ -1,7 +1,7 @@
 'use client';
 
 import { useCollectionByReference } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import Card from '@/components/ui/card';

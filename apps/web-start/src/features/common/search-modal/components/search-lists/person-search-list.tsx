@@ -2,7 +2,7 @@
 
 import { PersonResponse } from '@hikka/client';
 import { useSearchPeople } from '@hikka/react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/utils/navigation';
 import { ReactNode, useCallback } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useUpdateArticle } from '@hikka/react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC, useCallback } from 'react';
 import { toast } from 'sonner';
 

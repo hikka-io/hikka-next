@@ -5,7 +5,7 @@ import {
     useSession,
     useUserByUsername,
 } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';

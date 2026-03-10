@@ -2,7 +2,7 @@
 
 import { EditContentType, EditStatusEnum } from '@hikka/client';
 import { useEditList } from '@hikka/react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import FiltersNotFound from '@/components/filters-not-found';

@@ -2,7 +2,7 @@
 
 import { useGenres } from '@hikka/react';
 import { Drama } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 import { FC, useMemo } from 'react';
 
 import { CollapsibleFilter } from '@/components/ui/collapsible-filter';

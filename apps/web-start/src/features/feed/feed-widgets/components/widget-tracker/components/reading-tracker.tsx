@@ -6,7 +6,7 @@ import {
     useSearchUserReads,
     useSession,
 } from '@hikka/react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';

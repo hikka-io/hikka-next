@@ -8,7 +8,7 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useSearchUserWatches } from '@hikka/react';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from '@/utils/navigation';
 
 export const useWatchList = () => {
     const searchParams = useSearchParams()!;

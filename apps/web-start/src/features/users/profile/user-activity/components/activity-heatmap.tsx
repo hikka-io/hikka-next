@@ -2,7 +2,7 @@
 
 import { useUserActivity } from '@hikka/react';
 import { format } from 'date-fns';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 
 import HeatmapCell from './heatmap-cell';

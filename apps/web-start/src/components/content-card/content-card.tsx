@@ -5,7 +5,7 @@ import {
     WatchResponseBase,
 } from '@hikka/client';
 import { type VariantProps, cva } from 'class-variance-authority';
-import Link, { LinkProps } from 'next/link';
+import { Link } from '@tanstack/react-router';
 import {
     ComponentType,
     FC,
@@ -15,7 +15,6 @@ import {
     forwardRef,
     memo,
 } from 'react';
-import { UrlObject } from 'url';
 
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import Image from '@/components/ui/image';
@@ -64,7 +63,7 @@ export interface ContentCardProps
     leftSubtitle?: string | null;
     rightSubtitle?: string | null;
     image?: string | ReactNode;
-    href?: string | UrlObject;
+    href?: string;
     containerRatio?: number;
     imageClassName?: string;
     containerClassName?: string;
@@ -79,7 +78,7 @@ export interface ContentCardProps
     content_type?: ContentTypeEnum;
     withContextMenu?: boolean;
     imageProps?: ImageProps;
-    linkProps?: LinkProps;
+    linkProps?: Record<string, any>;
 }
 
 export interface TooltipProps {
@@ -132,15 +131,15 @@ Tooltip.displayName = 'Tooltip';
 
 // CardLink — eliminates duplicated Link/div render paths
 const CardLink: FC<{
-    href?: string | UrlObject;
+    href?: string;
     target?: string;
-    linkProps?: LinkProps;
+    linkProps?: Record<string, any>;
     className?: string;
     children: ReactNode;
 }> = ({ href, target, linkProps, className, children }) => {
     if (!href) return <div className={className}>{children}</div>;
     return (
-        <Link href={href} target={target} className={className} {...linkProps}>
+        <Link to={href as any} target={target} className={className} {...linkProps}>
             {children}
         </Link>
     );

@@ -3,8 +3,8 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
 import { MessageCircle } from 'lucide-react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -78,7 +78,7 @@ const Navbar: FC<Props> = ({ className, content_type }) => {
                 )}
 
                 <Button asChild size="md" variant="ghost">
-                    <Link href={`/comments/${content_type}/${params.slug}`}>
+                    <Link to={`/comments/${content_type}/${params.slug}`}>
                         <MessageCircle />
                         {data?.data_type !== ContentTypeEnum.CHARACTER &&
                             data?.data_type !== ContentTypeEnum.PERSON && (

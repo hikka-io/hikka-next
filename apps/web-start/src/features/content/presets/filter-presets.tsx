@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from '@/utils/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';

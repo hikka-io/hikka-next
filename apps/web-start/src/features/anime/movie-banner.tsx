@@ -3,8 +3,8 @@
 import { useAnimeBySlug, useSession } from '@hikka/react';
 import { MessageCirclePlus, Popcorn } from 'lucide-react';
 import { usePlausible } from 'next-plausible';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -54,7 +54,7 @@ const MovieBanner: FC<Props> = () => {
                 onClick={handleTrackEvent}
                 asChild
             >
-                <Link href="#comments">
+                <Link to="#comments">
                     <MessageCirclePlus />
                     Написати коментар
                 </Link>

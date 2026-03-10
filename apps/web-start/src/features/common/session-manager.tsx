@@ -5,7 +5,7 @@ import {
     queryKeys,
 } from '@hikka/react/core';
 import { prefetchSession } from '@hikka/react/server';
-import { redirect } from 'next/navigation';
+import { redirect } from '@/utils/navigation';
 import { PropsWithChildren } from 'react';
 
 import { getHikkaClientConfig } from '@/utils/hikka-client';

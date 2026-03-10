@@ -2,8 +2,8 @@
 
 import { range } from '@antfu/utils';
 import { useSession } from '@hikka/react';
-import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
@@ -197,7 +197,7 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
                 className="w-full lg:w-fit"
                 asChild
             >
-                <Link href={pathname}>
+                <Link to={pathname}>
                     <AntDesignClearOutlined />
                     Очистити
                 </Link>

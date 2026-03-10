@@ -1,7 +1,7 @@
 'use client';
 
 import { Activity } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';

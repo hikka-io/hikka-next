@@ -4,7 +4,7 @@
 'use no memo';
 
 import { CalendarRange } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 import { FC, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 

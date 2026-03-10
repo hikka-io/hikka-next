@@ -2,7 +2,7 @@
 
 import { ImageType, UploadTypeEnum } from '@hikka/client';
 import { useCreateImageUpload } from '@hikka/react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/utils/navigation';
 import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { toast } from 'sonner';

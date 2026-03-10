@@ -2,7 +2,7 @@
 
 import { UserResponse } from '@hikka/client';
 import { useSearchUsers } from '@hikka/react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/utils/navigation';
 import { ReactNode, useCallback } from 'react';
 
 import {

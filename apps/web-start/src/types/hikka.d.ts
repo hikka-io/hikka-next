@@ -1,5 +1,4 @@
 import type { UserRoleEnum } from '@hikka/client';
-import { LinkProps } from 'next/link';
 import { ReactElement, ReactNode, SVGProps } from 'react';
 
 declare global {
@@ -27,7 +26,7 @@ declare global {
             role?: UserRoleEnum[];
             visible?: boolean;
             items?: NavRoute[];
-            linkProps?: Omit<LinkProps, 'href'>;
+            linkProps?: Record<string, any>;
         };
 
         type EditParamGroup = {

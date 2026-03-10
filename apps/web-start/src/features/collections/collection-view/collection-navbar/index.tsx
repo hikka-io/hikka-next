@@ -3,8 +3,8 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { useCollectionByReference, useSession } from '@hikka/react';
 import { MessageCircle, TableOfContents } from 'lucide-react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useParams } from '@/utils/navigation';
 import { FC, Fragment } from 'react';
 
 import FavoriteButton from '@/features/common/favorite-button';

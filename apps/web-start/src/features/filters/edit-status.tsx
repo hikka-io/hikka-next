@@ -2,7 +2,7 @@
 
 import { EditStatusEnum } from '@hikka/client';
 import { Activity } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';

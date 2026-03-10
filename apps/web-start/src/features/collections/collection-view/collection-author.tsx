@@ -2,7 +2,7 @@
 
 import { useCollectionByReference } from '@hikka/react';
 import { formatDistance } from 'date-fns';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 
 import FollowButton from '@/features/common/follow-button';
 import Card from '@/components/ui/card';

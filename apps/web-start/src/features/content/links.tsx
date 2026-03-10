@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, ExternalTypeEnum } from '@hikka/client';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';

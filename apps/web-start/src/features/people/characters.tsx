@@ -1,7 +1,7 @@
 'use client';
 
 import { usePersonCharacters } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import CharacterAnimeCard from '@/components/content-card/character-anime-card';

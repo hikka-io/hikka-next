@@ -2,7 +2,7 @@
 
 import { useChangeUsername } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/utils/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 

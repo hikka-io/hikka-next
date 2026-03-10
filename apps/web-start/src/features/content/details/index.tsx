@@ -8,7 +8,7 @@ import {
     NovelInfoResponse,
     PersonResponse,
 } from '@hikka/client';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 

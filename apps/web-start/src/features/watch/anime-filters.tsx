@@ -1,8 +1,8 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
@@ -144,7 +144,7 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                     onClick={clearFilters}
                     asChild
                 >
-                    <Link href={pathname}>
+                    <Link to={pathname}>
                         <AntDesignClearOutlined /> Очистити
                     </Link>
                 </Button>

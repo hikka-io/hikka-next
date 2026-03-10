@@ -2,8 +2,8 @@
 
 import { WatchArgs, WatchStatusEnum } from '@hikka/client';
 import { useCreateWatch, useSearchUserWatches, useSession } from '@hikka/react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useRouter } from '@/utils/navigation';
 import React, { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';

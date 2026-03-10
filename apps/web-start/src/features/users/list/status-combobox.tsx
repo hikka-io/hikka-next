@@ -5,7 +5,7 @@ import {
     ReadStatusEnum,
     WatchStatusEnum,
 } from '@hikka/client';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 import { createElement } from 'react';
 
 import { Label } from '@/components/ui/label';

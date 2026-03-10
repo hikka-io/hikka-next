@@ -1,22 +1,23 @@
 'use client';
 
-import NextImage, { ImageProps } from 'next/image';
-import { Ref, forwardRef, useState } from 'react';
+import { ImgHTMLAttributes, Ref, forwardRef, useState } from 'react';
 
 import { cn } from '@/utils/cn';
 
-interface Props extends ImageProps {
+interface Props extends ImgHTMLAttributes<HTMLImageElement> {
     transitionDisabled?: boolean;
+    quality?: number;
+    priority?: boolean;
 }
 
 const Component = (
-    { alt, className, transitionDisabled, ...props }: Props,
+    { alt, className, transitionDisabled, quality: _quality, priority: _priority, loading, ...props }: Props,
     ref: Ref<HTMLImageElement>,
 ) => {
     const [loaded, setLoaded] = useState(false);
 
     return (
-        <NextImage
+        <img
             ref={ref}
             className={cn(
                 loaded ? 'opacity-100' : 'opacity-0',
@@ -24,7 +25,7 @@ const Component = (
                 className,
             )}
             onLoad={() => setLoaded(true)}
-            quality={85}
+            loading={loading ?? 'lazy'}
             alt={alt}
             {...props}
         />

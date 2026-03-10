@@ -2,7 +2,7 @@
 
 import { ContentTypeEnum } from '@hikka/client';
 import { MessageCircle } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
@@ -40,7 +40,7 @@ const FeedItemFooter: FC<Props> = ({
                 </StatItem>
                 {commentsHref ? (
                     <StatItem asChild>
-                        <Link href={commentsHref}>
+                        <Link to={commentsHref}>
                             <MessageCircle />
                             {commentsCount > 0 && commentsCount}
                         </Link>

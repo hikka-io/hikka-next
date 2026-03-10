@@ -1,7 +1,7 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
 import { Copy } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC, ReactNode } from 'react';
 import { UrlObject } from 'url';
 
@@ -44,7 +44,7 @@ const ContextMenuOverlay: FC<Props> = ({
             <ContextMenuContent>
                 {href && (
                     <ContextMenuItem asChild>
-                        <Link href={href} target="_blank">
+                        <Link to={href} target="_blank">
                             <MaterialSymbolsOpenInNewRounded className="mr-2" />
                             Відкрити у новій вкладці
                         </Link>
@@ -52,7 +52,7 @@ const ContextMenuOverlay: FC<Props> = ({
                 )}
                 {image && typeof image === 'string' && (
                     <ContextMenuItem asChild>
-                        <Link href={image} target="_blank">
+                        <Link to={image} target="_blank">
                             <MaterialSymbolsImageOutlineRounded className="mr-2" />
                             Відкрити зображення
                         </Link>

@@ -2,7 +2,7 @@
 
 import { useSession } from '@hikka/react';
 import { Settings } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 
 import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -31,7 +31,7 @@ const SidebarProfile = () => {
     return (
         <Card className="items-center bg-secondary/20 backdrop-blur">
             <div className="flex items-center justify-between gap-2 w-full">
-                <Link href={`/u/${user.username}`}>
+                <Link to={`/u/${user.username}`}>
                     <Avatar className="size-12 rounded-lg">
                         <AvatarImage src={user.avatar} />
                         <AvatarFallback className="rounded-lg">
@@ -41,12 +41,12 @@ const SidebarProfile = () => {
                 </Link>
                 <div className="flex gap-2">
                     <Button variant="secondary" size="icon-md" asChild>
-                        <Link href="/settings">
+                        <Link to="/settings">
                             <Settings />
                         </Link>
                     </Button>
                     <Button variant="destructive" size="icon-md" asChild>
-                        <Link href={`/u/${user.username}`}>
+                        <Link to={`/u/${user.username}`}>
                             <MaterialSymbolsLogoutRounded />
                         </Link>
                     </Button>

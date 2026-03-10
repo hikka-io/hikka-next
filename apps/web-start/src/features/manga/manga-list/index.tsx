@@ -3,7 +3,7 @@
 import { ContentStatusEnum, MangaMediaEnum } from '@hikka/client';
 import { useSearchMangas } from '@hikka/react';
 import { queryKeys, useQueryClient } from '@hikka/react/core';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import FiltersNotFound from '@/components/filters-not-found';

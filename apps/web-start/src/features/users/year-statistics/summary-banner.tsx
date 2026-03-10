@@ -3,7 +3,7 @@
 import { useSession } from '@hikka/react';
 import { ChartLine } from 'lucide-react';
 import { usePlausible } from 'next-plausible';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -42,7 +42,7 @@ const SummaryBanner: FC<Props> = () => {
                 </div>
             </div>
             <Button onClick={handleTrackEvent} asChild>
-                <Link href={`/summary/${user.username}/${YEAR}`}>
+                <Link to={`/summary/${user.username}/${YEAR}`}>
                     <ChartLine />
                     Переглянути підсумки
                 </Link>

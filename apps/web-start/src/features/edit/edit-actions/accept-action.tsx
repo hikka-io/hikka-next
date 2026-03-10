@@ -1,7 +1,7 @@
 'use client';
 
 import { useAcceptEdit } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';

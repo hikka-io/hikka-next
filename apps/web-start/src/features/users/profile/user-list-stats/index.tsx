@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { useState } from 'react';
 
 import {

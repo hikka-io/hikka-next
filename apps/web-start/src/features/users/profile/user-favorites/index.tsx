@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, FavouriteContentType } from '@hikka/client';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
 import Block from '@/components/ui/block';

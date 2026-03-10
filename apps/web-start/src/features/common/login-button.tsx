@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { usePathname, useSearchParams } from '@/utils/navigation';
 
 import { Button, ButtonProps } from '@/components/ui/button';
 
@@ -13,7 +13,7 @@ const LoginButton = (props: ButtonProps) => {
 
     return (
         <Button size="md" variant="ghost" asChild {...props}>
-            <Link href={`/login?callbackUrl=${currentUrl}`}>Увійти</Link>
+            <Link to={`/login?callbackUrl=${currentUrl}`}>Увійти</Link>
         </Button>
     );
 };

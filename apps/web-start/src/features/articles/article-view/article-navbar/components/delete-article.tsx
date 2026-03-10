@@ -2,7 +2,7 @@
 
 import { ArticleBaseResponse } from '@hikka/client';
 import { useDeleteArticle } from '@hikka/react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/utils/navigation';
 import { FC } from 'react';
 import { toast } from 'sonner';
 

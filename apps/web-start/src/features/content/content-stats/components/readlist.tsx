@@ -5,7 +5,7 @@ import {
     ReadStatsResponse,
     ReadStatusEnum,
 } from '@hikka/client';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { createElement } from 'react';
 
 import { CONTENT_CONFIG, READ_STATUS } from '@/utils/constants/common';

@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { usePathname } from '@/utils/navigation';
 
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
@@ -22,7 +22,7 @@ const FiltersNotFound = () => {
                 className="w-full lg:w-auto"
                 asChild
             >
-                <Link href={pathname}>
+                <Link to={pathname}>
                     <AntDesignClearOutlined />
                     Очистити
                 </Link>

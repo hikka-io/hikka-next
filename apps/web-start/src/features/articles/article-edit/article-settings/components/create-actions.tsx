@@ -1,7 +1,7 @@
 'use client';
 
 import { useCreateArticle } from '@hikka/react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/utils/navigation';
 import { FC, useCallback } from 'react';
 import { toast } from 'sonner';
 

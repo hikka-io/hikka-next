@@ -1,7 +1,7 @@
 'use client';
 
 import { useCharacterBySlug } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { useState } from 'react';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';

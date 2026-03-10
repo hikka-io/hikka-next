@@ -2,7 +2,7 @@
 
 import { ArticleContentType } from '@hikka/client';
 import { useSearchArticles } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';

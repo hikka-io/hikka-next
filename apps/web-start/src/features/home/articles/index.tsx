@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchArticles, useSession } from '@hikka/react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -42,7 +42,7 @@ const Articles: FC<Props> = ({ className }) => {
                     <HeaderTitle variant="h2">Статті</HeaderTitle>
                     {loggedUser?.username && (
                         <Button asChild size="icon-sm" variant="outline">
-                            <Link href="/articles/new">
+                            <Link to="/articles/new">
                                 <MaterialSymbolsAddRounded />
                             </Link>
                         </Button>

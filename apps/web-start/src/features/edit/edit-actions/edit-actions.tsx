@@ -1,8 +1,8 @@
 'use client';
 
 import { useEdit, useSession } from '@hikka/react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -39,7 +39,7 @@ const EditActions: FC<Props> = ({ editId }) => {
                 <div className="flex items-center gap-2">
                     {isAuthor && <CloseAction />}
                     <Button variant="secondary" size="md" asChild>
-                        <Link href={`/edit/${params.editId}/update`}>
+                        <Link to={`/edit/${params.editId}/update`}>
                             Редагувати
                         </Link>
                     </Button>

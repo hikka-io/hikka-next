@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { usePathname, useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
@@ -35,7 +35,7 @@ const AuthNeeded: FC<Props> = () => {
                 </div>
             </div>
             <Button size="md" variant="outline" asChild>
-                <Link href={`/login?callbackUrl=${currentUrl}`}>Увійти</Link>
+                <Link to={`/login?callbackUrl=${currentUrl}`}>Увійти</Link>
             </Button>
         </Card>
     );

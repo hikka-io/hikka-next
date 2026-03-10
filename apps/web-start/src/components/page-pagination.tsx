@@ -1,7 +1,7 @@
 'use client';
 
 import { PaginationResponse } from '@hikka/client';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 
 import Pagination from '@/components/ui/pagination';
 

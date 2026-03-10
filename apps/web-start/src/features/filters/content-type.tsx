@@ -2,7 +2,7 @@
 
 import { ContentTypeEnum } from '@hikka/client';
 import { Play } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';

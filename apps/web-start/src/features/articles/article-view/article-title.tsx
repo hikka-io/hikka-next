@@ -1,8 +1,8 @@
 'use client';
 
 import { useArticleBySlug } from '@hikka/react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';

@@ -1,9 +1,9 @@
-import NextLink, { LinkProps } from 'next/link';
+import { Link as TanstackLink } from '@tanstack/react-router';
 import { ComponentPropsWithRef, FC } from 'react';
 
 import { cn } from '@/utils/cn';
 
-interface Props extends Omit<LinkProps, 'href'>, ComponentPropsWithRef<'a'> {
+interface Props extends Omit<ComponentPropsWithRef<'a'>, 'href'> {
     href?: string;
     className?: string;
     children?: React.ReactNode;
@@ -12,16 +12,16 @@ interface Props extends Omit<LinkProps, 'href'>, ComponentPropsWithRef<'a'> {
 const Link: FC<Props> = ({ href, className, children, ...props }) => {
     if (href) {
         return (
-            <NextLink
-                href={href}
+            <TanstackLink
+                to={href as any}
                 className={cn(
                     'cursor-pointer transition-all hover:underline',
                     className,
                 )}
-                {...props}
+                {...(props as any)}
             >
                 {children}
-            </NextLink>
+            </TanstackLink>
         );
     }
 

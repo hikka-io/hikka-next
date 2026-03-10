@@ -2,7 +2,7 @@
 
 import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimeSchedule } from '@hikka/react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 
 import Block from '@/components/ui/block';
 import {

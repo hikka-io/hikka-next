@@ -2,7 +2,7 @@
 
 import { ImageType, UploadTypeEnum } from '@hikka/client';
 import { useSession, useUserByUsername } from '@hikka/react';
-import { useParams } from 'next/navigation';
+import { useParams } from '@/utils/navigation';
 import { ChangeEvent, useRef } from 'react';
 
 import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';

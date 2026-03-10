@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from '@hikka/react';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 
 import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/components/ui/sidebar';
@@ -72,7 +72,7 @@ const Navbar = () => {
                                 className="hidden lg:flex"
                                 asChild
                             >
-                                <Link href="/signup">Реєстрація</Link>
+                                <Link to="/signup">Реєстрація</Link>
                             </Button>
                         </>
                     )}

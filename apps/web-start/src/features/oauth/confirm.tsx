@@ -1,7 +1,7 @@
 'use client';
 
 import { useCreateThirdPartyTokenRequest, useSession } from '@hikka/react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';

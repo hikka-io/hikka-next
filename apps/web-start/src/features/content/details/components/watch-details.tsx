@@ -13,8 +13,7 @@ import {
     ShieldEllipsis,
     SunSnow,
 } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
@@ -95,18 +94,19 @@ const StudioDetail = ({
     >
         <div className="flex items-start gap-2 flex-1">
             <p className="text-sm font-medium leading-tight line-clamp-2 hover:underline flex-1">
-                <Link href={`/anime?studios=${studio.company.slug}`}>
+                <Link to={`/anime` as any} search={{ studios: studio.company.slug }}>
                     {studio.company.name}
                 </Link>
             </p>
             {studio.company.image && (
-                <Link href={`/anime?studios=${studio.company.slug}`}>
-                    <Image
+                <Link to={`/anime` as any} search={{ studios: studio.company.slug }}>
+                    <img
                         src={studio.company.image}
                         alt="studio"
                         width={100}
                         height={50}
                         className="w-8 rounded-sm object-cover"
+                        loading="lazy"
                     />
                 </Link>
             )}

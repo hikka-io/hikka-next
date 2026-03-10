@@ -2,8 +2,8 @@
 
 import { useArticleBySlug, useSession } from '@hikka/react';
 import { MessageCircle } from 'lucide-react';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { Link } from '@tanstack/react-router';
+import { useParams } from '@/utils/navigation';
 import { FC, Fragment, useCallback } from 'react';
 import { toast } from 'sonner';
 
@@ -50,7 +50,7 @@ const ArticleNavbar: FC<Props> = () => {
                     <Fragment>
                         <ArticleVote article={article!} />
                         <Button asChild size="md" variant="ghost">
-                            <Link href={`/comments/article/${params.slug}`}>
+                            <Link to={`/comments/article/${params.slug}`}>
                                 <MessageCircle className="size-4" />
                                 <span>
                                     {article?.comments_count}{' '}

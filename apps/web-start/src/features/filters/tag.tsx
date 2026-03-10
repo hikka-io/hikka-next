@@ -1,7 +1,7 @@
 'use client';
 
 import { Tag as TagIcon } from 'lucide-react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { InputTags } from '@/components/ui/input-tags';

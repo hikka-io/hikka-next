@@ -8,7 +8,7 @@ import {
     ReadStatusEnum,
 } from '@hikka/client';
 import { useSearchUserReads } from '@hikka/react';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from '@/utils/navigation';
 
 export const useReadList = () => {
     const searchParams = useSearchParams()!;
