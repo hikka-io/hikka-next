@@ -1,8 +1,8 @@
 'use client';
 
 import { EditResponse, EditStatusEnum } from '@hikka/client';
-import { format } from 'date-fns';
 import { Link } from '@tanstack/react-router';
+import { format } from 'date-fns';
 
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
@@ -25,10 +25,12 @@ import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
 interface Props {
     edit: EditResponse;
     className?: string;
-    href: string;
+    href?: string;
+    to?: string;
 }
 
-const Component = ({ edit, href, className, ...props }: Props) => {
+const Component = ({ edit, href, to, className, ...props }: Props) => {
+    const resolvedHref = to ?? href ?? '';
     return (
         <div className={cn('flex flex-col gap-4', className)}>
             <HorizontalCard>
@@ -60,7 +62,7 @@ const Component = ({ edit, href, className, ...props }: Props) => {
                                 : 'warning'
                     }
                 >
-                    <Link to={href}>
+                    <Link to={resolvedHref}>
                         {edit.status === EditStatusEnum.ACCEPTED ? (
                             <MaterialSymbolsCheckRounded />
                         ) : edit.status === EditStatusEnum.DENIED ? (

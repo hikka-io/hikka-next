@@ -6,7 +6,7 @@ import { ApplicationsSettings, ClientCreateButton } from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/applications')({
     loader: async ({ context: { queryClient, hikkaClient } }) => {
-        await queryClient.prefetchInfiniteQuery(clientListOptions(hikkaClient));
+        await queryClient.prefetchInfiniteQuery(clientListOptions(hikkaClient) as any);
     },
     head: () => ({
         meta: [{ title: 'Застосунки / Налаштування / Hikka' }],

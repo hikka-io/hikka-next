@@ -6,7 +6,7 @@ import { LatestComments } from '@/features/comments';
 export const Route = createFileRoute('/_pages/comments/latest')({
     loader: async ({ context: { queryClient, hikkaClient } }) => {
         await queryClient.prefetchInfiniteQuery(
-            commentListOptions(hikkaClient),
+            commentListOptions(hikkaClient) as any,
         );
     },
     head: () => ({

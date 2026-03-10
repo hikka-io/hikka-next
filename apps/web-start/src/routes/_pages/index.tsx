@@ -38,7 +38,7 @@ export const Route = createFileRoute('/_pages/')({
                             watch_status: WatchStatusEnum.WATCHING,
                             sort: ['watch_updated:desc'],
                         },
-                    }),
+                    }) as any,
                 ),
             );
         }
@@ -53,7 +53,7 @@ export const Route = createFileRoute('/_pages/')({
                             ContentStatusEnum.ANNOUNCED,
                         ],
                     },
-                }),
+                }) as any,
             ),
         );
 

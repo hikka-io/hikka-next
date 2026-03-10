@@ -50,7 +50,7 @@ export const Route = createFileRoute('/_pages/edit/')({
                 }),
             ),
             queryClient.prefetchInfiniteQuery(
-                topEditorsListOptions(hikkaClient),
+                topEditorsListOptions(hikkaClient) as any,
             ),
         ]);
     },

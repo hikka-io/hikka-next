@@ -10,6 +10,7 @@ import { Button } from './button';
 
 interface HorizontalCardContextProps {
     href?: string;
+    to?: string;
     onClick?: () => void;
     linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
 }
@@ -31,6 +32,7 @@ const useHeader = () => {
 interface HeaderProps {
     className?: string;
     href?: string;
+    to?: string;
     linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
     onClick?: () => void;
     id?: string;
@@ -40,17 +42,19 @@ const Header: FC<PropsWithChildren<HeaderProps>> = ({
     className,
     children,
     href,
+    to,
     onClick,
     linkProps,
     ...props
 }) => {
+    const url = to ?? href;
     const contextValue = React.useMemo(() => {
         return {
-            href,
+            href: url,
             onClick,
             linkProps,
         };
-    }, [href, onClick, linkProps]);
+    }, [url, onClick, linkProps]);
 
     return (
         <HeaderContext.Provider value={contextValue}>
@@ -86,6 +90,7 @@ interface HeaderTitleProps {
     className?: string;
     variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
     href?: string;
+    to?: string;
 }
 
 const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
@@ -93,7 +98,9 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     children,
     variant,
     href: hrefProp,
+    to: toProp,
 }) => {
+    const resolvedProp = toProp ?? hrefProp;
     const { href, onClick, linkProps } = useHeader();
     const Tag = variant || 'h3';
 
@@ -101,9 +108,9 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
 
     return (
         <div className={cn('flex items-center gap-4', className)}>
-            {hrefProp || href ? (
+            {resolvedProp || href ? (
                 <Link
-                    to={hrefProp || href || ''}
+                    to={(resolvedProp || href || '') as any}
                     {...linkProps}
                     className="hover:underline text-left"
                 >

@@ -37,7 +37,7 @@ const NotificationItem: FC<Props> = ({ data }) => {
             onClick={handleOnClick}
             asChild
         >
-            <Link to={data.href} prefetch>
+            <Link to={data.href as any}>
                 <HorizontalCard className="w-full">
                     <HorizontalCardImage
                         image={data.icon}

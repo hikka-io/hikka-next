@@ -34,7 +34,7 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
             contentCommentsOptions(hikkaClient, {
                 contentType: ContentTypeEnum.EDIT,
                 slug: params.editId,
-            }),
+            }) as any,
         );
 
         return { edit };

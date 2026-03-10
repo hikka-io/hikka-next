@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { YEAR } from './constants';
 
 const PrivacySetting = () => {
-    const params = useParams<{ username: string }>();
+    const params = useParams();
     const { user: loggedUser } = useSession();
     const {
         mutate: updateArtifactPrivacy,

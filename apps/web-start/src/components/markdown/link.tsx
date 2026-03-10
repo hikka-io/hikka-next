@@ -155,7 +155,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(LINK_CLASSNAME, LINK_EXTRA_CLASSNAME, className)}
-                to={href}
+                href={href}
             >
                 {children}
             </a>

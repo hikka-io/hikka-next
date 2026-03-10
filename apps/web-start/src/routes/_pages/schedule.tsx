@@ -41,7 +41,7 @@ export const Route = createFileRoute('/_pages/schedule')({
                     only_watch,
                     airing_season: [resolvedSeason, resolvedYear],
                 },
-            }),
+            }) as any,
         );
     },
     head: () => ({

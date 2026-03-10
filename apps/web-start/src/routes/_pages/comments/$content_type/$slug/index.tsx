@@ -28,7 +28,7 @@ export const Route = createFileRoute(
             contentCommentsOptions(hikkaClient, {
                 contentType: content_type as CommentsContentType,
                 slug,
-            }),
+            }) as any,
         );
 
         return { content };

@@ -18,7 +18,8 @@ import Link from './link';
 
 interface HorizontalCardTitleProps extends ComponentPropsWithoutRef<'div'> {
     className?: string;
-    href: string;
+    href?: string;
+    to?: string;
     target?: HTMLAttributeAnchorTarget;
     titleMeta?: ReactNode;
 }
@@ -27,6 +28,7 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
     children,
     className,
     href,
+    to,
     target,
     titleMeta,
 }) => {
@@ -36,7 +38,7 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
                 asChild
                 className={cn('line-clamp-1 inline-block truncate', className)}
             >
-                <Link title={children as string} href={href} target={target}>
+                <Link title={children as string} href={to ?? href} target={target}>
                     {children}
                 </Link>
             </Label>
@@ -98,11 +100,13 @@ interface HorizontalCardImageProps {
     imageRatio?: number;
     image: string | ReactNode;
     href?: string;
+    to?: string;
 }
 
 const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
     children,
     href,
+    to,
     imageRatio,
     image,
     className,
@@ -113,7 +117,7 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
             className={cn('w-12', className)}
             containerClassName={cn(imageClassName, 'rounded-[var(--base-radius)]')}
             containerRatio={imageRatio}
-            href={href}
+            href={to ?? href}
             image={image}
         >
             {children}

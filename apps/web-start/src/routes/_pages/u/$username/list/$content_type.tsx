@@ -50,7 +50,7 @@ export const Route = createFileRoute(
                     read_status: status as ReadStatusEnum,
                     sort: [`${sort}:desc`],
                 },
-            }),
+            }) as any,
         );
     },
     head: () => ({

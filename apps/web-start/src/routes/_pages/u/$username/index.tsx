@@ -29,10 +29,10 @@ export const Route = createFileRoute('/_pages/u/$username/')({
                 userFavouritesOptions(hikkaClient, {
                     username,
                     contentType: ContentTypeEnum.ANIME,
-                }),
+                }) as any,
             ),
             queryClient.prefetchInfiniteQuery(
-                userHistoryOptions(hikkaClient, { username }),
+                userHistoryOptions(hikkaClient, { username }) as any,
             ),
             queryClient.prefetchQuery(
                 userActivityOptions(hikkaClient, { username }),
@@ -41,7 +41,7 @@ export const Route = createFileRoute('/_pages/u/$username/')({
                 searchArticlesOptions(hikkaClient, {
                     args: { author: username },
                     paginationArgs: { size: 3 },
-                }),
+                }) as any,
             ),
             queryClient.prefetchInfiniteQuery(
                 searchCollectionsOptions(hikkaClient, {
@@ -50,7 +50,7 @@ export const Route = createFileRoute('/_pages/u/$username/')({
                         sort: ['created:desc'],
                         only_public: false,
                     },
-                }),
+                }) as any,
             ),
         ]);
     },

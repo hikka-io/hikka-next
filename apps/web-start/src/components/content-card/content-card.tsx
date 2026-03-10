@@ -64,6 +64,7 @@ export interface ContentCardProps
     rightSubtitle?: string | null;
     image?: string | ReactNode;
     href?: string;
+    to?: string;
     containerRatio?: number;
     imageClassName?: string;
     containerClassName?: string;
@@ -131,15 +132,15 @@ Tooltip.displayName = 'Tooltip';
 
 // CardLink — eliminates duplicated Link/div render paths
 const CardLink: FC<{
-    href?: string;
+    to?: string;
     target?: string;
     linkProps?: Record<string, any>;
     className?: string;
     children: ReactNode;
-}> = ({ href, target, linkProps, className, children }) => {
-    if (!href) return <div className={className}>{children}</div>;
+}> = ({ to, target, linkProps, className, children }) => {
+    if (!to) return <div className={className}>{children}</div>;
     return (
-        <Link to={href as any} target={target} className={className} {...linkProps}>
+        <Link to={to as any} target={target} className={className} {...linkProps}>
             {children}
         </Link>
     );
@@ -162,6 +163,7 @@ const Content = memo(
                 className,
                 children,
                 href,
+                to,
                 disableChildrenLink,
                 onClick,
                 watch,
@@ -176,6 +178,7 @@ const Content = memo(
             },
             ref,
         ) => {
+            const resolvedHref = to ?? href;
             const hasSubtitles = Boolean(leftSubtitle || rightSubtitle);
             const hasTitleOrDescription = Boolean(title || description);
 
@@ -205,7 +208,7 @@ const Content = memo(
                             )}
                         >
                             <CardLink
-                                to={href}
+                                to={resolvedHref}
                                 target={target}
                                 linkProps={linkProps}
                                 className="absolute left-0 top-0 flex size-full items-center justify-center bg-secondary/20"
@@ -235,7 +238,7 @@ const Content = memo(
                         </AspectRatio>
                         {hasTitleOrDescription && (
                             <CardLink
-                                to={href}
+                                to={resolvedHref}
                                 target={target}
                                 linkProps={linkProps}
                                 className={cn(
@@ -344,12 +347,13 @@ const renderSubtitles = (
 // Main Component
 const ContentCard = forwardRef<HTMLDivElement, ContentCardProps>(
     (props, ref) => {
-        const { withContextMenu, slug, content_type, href, image } = props;
+        const { withContextMenu, slug, content_type, href, to, image } = props;
+        const resolvedHref = to ?? href;
 
         if (withContextMenu && slug && content_type) {
             return (
                 <ContextMenuOverlay
-                    to={href}
+                    href={resolvedHref}
                     slug={slug}
                     content_type={content_type}
                     image={image}
