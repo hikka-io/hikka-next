@@ -11,7 +11,9 @@
             "@/client": ["./client/index.ts"],
             "@/server": ["./server/index.ts"],
             "@/types": ["./types/index.ts"],
-            "@/utils": ["./utils/index.ts"]
+            "@/utils": ["./utils/index.ts"],
+            "@/options/*": ["./options/*"],
+            "@/options": ["./options/index.ts"]
         },
         "outDir": "./dist",
         "rootDir": ".",
@@ -26,7 +28,8 @@
         "server/**/*",
         "core/**/*",
         "types/**/*",
-        "utils/**/*"
+        "utils/**/*",
+        "options/**/*"
     ],
     "exclude": [
         "node_modules",

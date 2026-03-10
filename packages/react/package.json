@@ -33,6 +33,12 @@
             "import": "./dist/utils/index.mjs",
             "require": "./dist/utils/index.cjs",
             "default": "./dist/utils/index.mjs"
+        },
+        "./options": {
+            "types": "./dist/options/index.d.ts",
+            "import": "./dist/options/index.mjs",
+            "require": "./dist/options/index.cjs",
+            "default": "./dist/options/index.mjs"
         }
     },
     "scripts": {
