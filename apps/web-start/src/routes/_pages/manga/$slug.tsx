@@ -6,12 +6,16 @@ import {
     mangaCharactersOptions,
     readBySlugOptions,
     readingUsersOptions,
+    searchArticlesOptions,
 } from '@hikka/react/options';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { ContentDetailLayout } from '@/features/content';
 
 import { MANGA_NAV_ROUTES } from '@/utils/constants/navigation';
+import { parseTextFromMarkDown } from '@/utils/markdown';
+import { generateHeadMeta } from '@/utils/metadata';
+import { truncateText } from '@/utils/text';
 
 export const Route = createFileRoute('/_pages/manga/$slug')({
     loader: async ({ params, context: { queryClient, hikkaClient } }) => {
@@ -48,28 +52,44 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
                     contentType: ContentTypeEnum.MANGA,
                 }),
             ),
+            queryClient.prefetchInfiniteQuery(
+                searchArticlesOptions(hikkaClient, {
+                    args: {
+                        content_slug: params.slug,
+                        content_type: ContentTypeEnum.MANGA,
+                    },
+                }) as any,
+            ),
         ]);
 
         return { manga };
     },
-    head: ({ loaderData }) => ({
-        meta: [
-            {
-                title:
-                    loaderData?.manga?.title_ua ||
-                    loaderData?.manga?.title_en ||
-                    loaderData?.manga?.title_original ||
-                    '',
+    head: ({ loaderData }) => {
+        const manga = loaderData?.manga;
+        if (!manga) return {};
+
+        const startDate = manga.start_date
+            ? new Date(manga.start_date * 1000).getFullYear()
+            : null;
+        const title =
+            (manga.title_ua || manga.title_en || manga.title_original || '') +
+            (startDate ? ` (${startDate})` : '');
+        const synopsis = truncateText(
+            parseTextFromMarkDown(manga.synopsis_ua || manga.synopsis_en || ''),
+            150,
+            true,
+        );
+
+        return generateHeadMeta({
+            title: { default: title, template: `%s / ${title} / Hikka` },
+            description: synopsis,
+            image: `https://preview.hikka.io/manga/${manga.slug}/${manga.updated}`,
+            other: {
+                ...(manga.mal_id ? { 'mal-id': manga.mal_id } : {}),
             },
-            {
-                name: 'description',
-                content:
-                    loaderData?.manga?.synopsis_ua ||
-                    loaderData?.manga?.synopsis_en ||
-                    '',
-            },
-        ],
-    }),
+            robots: { index: !manga.nsfw },
+        });
+    },
     component: MangaDetailLayout,
 });
 

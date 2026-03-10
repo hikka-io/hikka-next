@@ -1,6 +1,8 @@
 import { collectionByReferenceOptions } from '@hikka/react/options';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
+import { generateHeadMeta } from '@/utils/metadata';
+
 export const Route = createFileRoute('/_pages/collections/$reference')({
     loader: async ({
         params,
@@ -16,15 +18,14 @@ export const Route = createFileRoute('/_pages/collections/$reference')({
 
         return { collection };
     },
-    head: ({ loaderData }) => ({
-        meta: [
-            {
-                title: loaderData?.collection?.title
-                    ? `${loaderData.collection.title} / Колекції / Hikka`
-                    : 'Колекції / Hikka',
-            },
-        ],
-    }),
+    head: ({ loaderData }) => {
+        const collection = loaderData?.collection;
+        if (!collection) return { meta: [{ title: 'Колекції / Hikka' }] };
+
+        return generateHeadMeta({
+            title: `${collection.title} / Колекції`,
+        });
+    },
     component: CollectionReferenceLayout,
 });
 

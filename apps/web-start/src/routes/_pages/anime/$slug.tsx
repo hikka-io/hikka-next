@@ -5,6 +5,7 @@ import {
     animeStaffOptions,
     favouriteStatusOptions,
     franchiseOptions,
+    searchArticlesOptions,
     watchBySlugOptions,
     watchingUsersOptions,
 } from '@hikka/react/options';
@@ -13,6 +14,9 @@ import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import { ContentDetailLayout } from '@/features/content';
 
 import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
+import { parseTextFromMarkDown } from '@/utils/markdown';
+import { generateHeadMeta } from '@/utils/metadata';
+import { truncateText } from '@/utils/text';
 
 export const Route = createFileRoute('/_pages/anime/$slug')({
     loader: async ({ params, context: { queryClient, hikkaClient } }) => {
@@ -47,28 +51,44 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
             queryClient.prefetchInfiniteQuery(
                 watchingUsersOptions(hikkaClient, { slug: params.slug }) as any,
             ),
+            queryClient.prefetchInfiniteQuery(
+                searchArticlesOptions(hikkaClient, {
+                    args: {
+                        content_slug: params.slug,
+                        content_type: ContentTypeEnum.ANIME,
+                    },
+                }) as any,
+            ),
         ]);
 
         return { anime };
     },
-    head: ({ loaderData }) => ({
-        meta: [
-            {
-                title:
-                    loaderData?.anime?.title_ua ||
-                    loaderData?.anime?.title_en ||
-                    loaderData?.anime?.title_ja ||
-                    '',
+    head: ({ loaderData }) => {
+        const anime = loaderData?.anime;
+        if (!anime) return {};
+
+        const startDate = anime.start_date
+            ? new Date(anime.start_date * 1000).getFullYear()
+            : null;
+        const title =
+            (anime.title_ua || anime.title_en || anime.title_ja || '') +
+            (startDate ? ` (${startDate})` : '');
+        const synopsis = truncateText(
+            parseTextFromMarkDown(anime.synopsis_ua || anime.synopsis_en || ''),
+            150,
+            true,
+        );
+
+        return generateHeadMeta({
+            title: { default: title, template: `%s / ${title} / Hikka` },
+            description: synopsis,
+            image: `https://preview.hikka.io/anime/${anime.slug}/${anime.updated}`,
+            other: {
+                ...(anime.mal_id ? { 'mal-id': anime.mal_id } : {}),
             },
-            {
-                name: 'description',
-                content:
-                    loaderData?.anime?.synopsis_ua ||
-                    loaderData?.anime?.synopsis_en ||
-                    '',
-            },
-        ],
-    }),
+            robots: { index: !anime.nsfw },
+        });
+    },
     component: AnimeDetailLayout,
 });
 

@@ -12,6 +12,7 @@ import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import { ContentDetailLayout } from '@/features/content';
 
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants/navigation';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/characters/$slug')({
     loader: async ({ params, context: { queryClient, hikkaClient } }) => {
@@ -44,21 +45,19 @@ export const Route = createFileRoute('/_pages/characters/$slug')({
 
         return { character };
     },
-    head: ({ loaderData }) => ({
-        meta: [
-            {
-                title:
-                    loaderData?.character?.name_ua ||
-                    loaderData?.character?.name_en ||
-                    loaderData?.character?.name_ja ||
-                    '',
-            },
-            {
-                name: 'description',
-                content: loaderData?.character?.description_ua || '',
-            },
-        ],
-    }),
+    head: ({ loaderData }) => {
+        const character = loaderData?.character;
+        if (!character) return {};
+
+        const title =
+            character.name_ua || character.name_en || character.name_ja || '';
+
+        return generateHeadMeta({
+            title: { default: title, template: `%s / ${title} / Hikka` },
+            description: character.description_ua,
+            image: character.image,
+        });
+    },
     component: CharacterDetailLayout,
 });
 

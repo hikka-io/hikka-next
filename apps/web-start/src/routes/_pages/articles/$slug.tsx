@@ -1,6 +1,8 @@
-import { ContentTypeEnum } from '@hikka/client';
 import { articleBySlugOptions } from '@hikka/react/options';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
+
+import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/articles/$slug')({
     loader: async ({
@@ -17,15 +19,23 @@ export const Route = createFileRoute('/_pages/articles/$slug')({
 
         return { article };
     },
-    head: ({ loaderData }) => ({
-        meta: [
-            {
-                title: loaderData?.article?.title
-                    ? `${loaderData.article.title} / Hikka`
-                    : 'Статті / Hikka',
+    head: ({ loaderData }) => {
+        const article = loaderData?.article;
+        if (!article) return { meta: [{ title: 'Статті / Hikka' }] };
+
+        const categoryTitle =
+            ARTICLE_CATEGORY_OPTIONS[article.category]?.title_ua || '';
+
+        return generateHeadMeta({
+            title: `${article.title} / ${categoryTitle}`,
+            keywords: article.tags?.map((tag: any) => tag.name).join(', '),
+            openGraph: {
+                type: 'article',
+                authors: [article.author.username],
             },
-        ],
-    }),
+            canonical: `https://hikka.io/articles/${article.slug}`,
+        });
+    },
     component: ArticleSlugLayout,
 });
 

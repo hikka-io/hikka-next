@@ -4,15 +4,18 @@ import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { SettingsMenu } from '@/features/settings';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/settings')({
     beforeLoad: async ({ context: { queryClient } }) => {
         const session = queryClient.getQueryData(queryKeys.user.me());
         if (!session) throw redirect({ to: '/login' });
     },
-    head: () => ({
-        meta: [{ title: 'Налаштування / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Налаштування',
+            robots: { index: false },
+        }),
     component: SettingsLayout,
 });
 

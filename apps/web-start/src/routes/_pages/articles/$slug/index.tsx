@@ -23,8 +23,38 @@ function ArticlePage() {
     const { slug } = Route.useParams();
     const { article } = Route.useRouteContext() as any;
 
+    const jsonLd = article
+        ? {
+              '@context': 'https://schema.org',
+              '@type': 'Article',
+              headline: article.title,
+              author: {
+                  '@type': 'Person',
+                  name: article.author.username,
+              },
+              publisher: {
+                  '@type': 'Organization',
+                  name: 'Hikka',
+                  logo: {
+                      '@type': 'ImageObject',
+                      url: 'https://hikka.io/logo-icon.png',
+                  },
+              },
+              datePublished: article.created,
+              dateModified: article.updated || article.created,
+          }
+        : null;
+
     return (
         <>
+            {jsonLd && (
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(jsonLd),
+                    }}
+                />
+            )}
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link

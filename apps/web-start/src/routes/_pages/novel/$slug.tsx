@@ -6,12 +6,16 @@ import {
     novelCharactersOptions,
     readBySlugOptions,
     readingUsersOptions,
+    searchArticlesOptions,
 } from '@hikka/react/options';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { ContentDetailLayout } from '@/features/content';
 
 import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
+import { parseTextFromMarkDown } from '@/utils/markdown';
+import { generateHeadMeta } from '@/utils/metadata';
+import { truncateText } from '@/utils/text';
 
 export const Route = createFileRoute('/_pages/novel/$slug')({
     loader: async ({ params, context: { queryClient, hikkaClient } }) => {
@@ -48,28 +52,44 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
                     contentType: ContentTypeEnum.NOVEL,
                 }),
             ),
+            queryClient.prefetchInfiniteQuery(
+                searchArticlesOptions(hikkaClient, {
+                    args: {
+                        content_slug: params.slug,
+                        content_type: ContentTypeEnum.NOVEL,
+                    },
+                }) as any,
+            ),
         ]);
 
         return { novel };
     },
-    head: ({ loaderData }) => ({
-        meta: [
-            {
-                title:
-                    loaderData?.novel?.title_ua ||
-                    loaderData?.novel?.title_en ||
-                    loaderData?.novel?.title_original ||
-                    '',
+    head: ({ loaderData }) => {
+        const novel = loaderData?.novel;
+        if (!novel) return {};
+
+        const startDate = novel.start_date
+            ? new Date(novel.start_date * 1000).getFullYear()
+            : null;
+        const title =
+            (novel.title_ua || novel.title_en || novel.title_original || '') +
+            (startDate ? ` (${startDate})` : '');
+        const synopsis = truncateText(
+            parseTextFromMarkDown(novel.synopsis_ua || novel.synopsis_en || ''),
+            150,
+            true,
+        );
+
+        return generateHeadMeta({
+            title: { default: title, template: `%s / ${title} / Hikka` },
+            description: synopsis,
+            image: `https://preview.hikka.io/novel/${novel.slug}/${novel.updated}`,
+            other: {
+                ...(novel.mal_id ? { 'mal-id': novel.mal_id } : {}),
             },
-            {
-                name: 'description',
-                content:
-                    loaderData?.novel?.synopsis_ua ||
-                    loaderData?.novel?.synopsis_en ||
-                    '',
-            },
-        ],
-    }),
+            robots: { index: !novel.nsfw },
+        });
+    },
     component: NovelDetailLayout,
 });
 

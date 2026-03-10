@@ -18,6 +18,7 @@ import {
     UserTitle,
 } from '@/features/users';
 import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/u/$username')({
     loader: async ({
@@ -55,19 +56,19 @@ export const Route = createFileRoute('/_pages/u/$username')({
 
         return { user };
     },
-    head: ({ loaderData }) => ({
-        meta: [
-            {
-                title: loaderData?.user?.username
-                    ? `${loaderData.user.username} / Hikka`
-                    : 'Hikka',
+    head: ({ loaderData }) => {
+        const user = loaderData?.user;
+        if (!user) return {};
+
+        return generateHeadMeta({
+            title: {
+                default: user.username,
+                template: `${user.username} / %s / Hikka`,
             },
-            {
-                name: 'description',
-                content: loaderData?.user?.description || '',
-            },
-        ],
-    }),
+            description: user.description,
+            image: `https://preview.hikka.io/u/${user.username}/${user.updated}`,
+        });
+    },
     component: UserLayout,
 });
 
