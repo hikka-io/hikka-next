@@ -20,23 +20,23 @@ export function useMutation<
     TData,
     TError = Error,
     TVariables = void,
-    TContext = unknown,
+    TOnMutateResult = unknown,
 >({
     mutationFn,
     options,
 }: {
     mutationFn: (client: HikkaClient, variables: TVariables) => Promise<TData>;
     options?: Omit<
-        UseMutationOptions<TData, TError, TVariables, TContext>,
+        UseMutationOptions<TData, TError, TVariables, TOnMutateResult>,
         'mutationFn'
     >;
-}): UseMutationResult<TData, TError, TVariables, TContext> {
+}): UseMutationResult<TData, TError, TVariables, TOnMutateResult> {
     const { client, defaultOptions } = useHikkaClient();
 
-    return useTanstackMutation<TData, TError, TVariables, TContext>({
+    return useTanstackMutation<TData, TError, TVariables, TOnMutateResult>({
         mutationFn: (variables) => mutationFn(client, variables),
         ...options,
-        onSuccess: (data, variables, context) => {
+        onSuccess: (data, variables, onMutateResult, context) => {
             options?.onSuccess?.(
                 addDeepTitleProperties(
                     data,
@@ -44,20 +44,21 @@ export function useMutation<
                     defaultOptions?.name,
                 ),
                 variables,
+                onMutateResult,
                 context,
             );
 
             // If invalidateQueries is provided, invalidate those queries
             if (options?.onSettled) {
-                options.onSettled(data, null, variables, context);
+                options.onSettled(data, null, variables, onMutateResult, context);
             }
         },
-        onError: (error, variables, context) => {
-            options?.onError?.(error, variables, context);
+        onError: (error, variables, onMutateResult, context) => {
+            options?.onError?.(error, variables, onMutateResult, context);
 
             // Call onSettled on error as well
             if (options?.onSettled) {
-                options.onSettled(undefined, error, variables, context);
+                options.onSettled(undefined, error, variables, onMutateResult, context);
             }
         },
     });
@@ -71,7 +72,7 @@ export function createMutation<
     TData,
     TError = Error,
     TVariables = void,
-    TContext = unknown,
+    TOnMutateResult = unknown,
 >({
     mutationFn,
     invalidateQueries,
@@ -97,7 +98,7 @@ export function createMutation<
         options,
     }: {
         options?: Omit<
-            UseMutationOptions<TData, TError, TVariables, TContext>,
+            UseMutationOptions<TData, TError, TVariables, TOnMutateResult>,
             'mutationFn'
         >;
     } = {}) => {
@@ -108,9 +109,10 @@ export function createMutation<
             onSuccess: (
                 data: TData,
                 variables: TVariables,
-                context: TContext,
+                onMutateResult: TOnMutateResult,
+                context: any,
             ) => {
-                options?.onSuccess?.(data, variables, context);
+                options?.onSuccess?.(data, variables, onMutateResult, context);
 
                 if (cacheByQueryKey) {
                     cacheByQueryKey({ data, queryClient, args: variables });

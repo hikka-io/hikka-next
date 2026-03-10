@@ -50,8 +50,8 @@
     },
     "dependencies": {
         "@hikka/client": "workspace:*",
-        "@tanstack/react-query": "5.76.1",
-        "@tanstack/react-query-devtools": "5.76.1",
+        "@tanstack/react-query": "^5.90.21",
+        "@tanstack/react-query-devtools": "^5.91.3",
         "react-intersection-observer": "9.16.0"
     },
     "devDependencies": {

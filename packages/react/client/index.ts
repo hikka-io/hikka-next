@@ -4,6 +4,8 @@ export * from './provider';
 export * from './useInfiniteQuery';
 export * from './useMutation';
 export * from './useQuery';
+export * from './useSuspenseQuery';
+export * from './useSuspenseInfiniteQuery';
 
 export * from './hooks/api/anime';
 export * from './hooks/api/articles';

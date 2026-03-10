@@ -1,10 +1,10 @@
 'use client';
 
-import { PaginatedResponse, PaginationArgs } from '@hikka/client';
+import { PaginatedResponse } from '@hikka/client';
 import {
     InfiniteData,
-    UseInfiniteQueryOptions,
-    useInfiniteQuery as useTanstackInfiniteQuery,
+    UseSuspenseInfiniteQueryOptions,
+    useSuspenseInfiniteQuery as useTanstackSuspenseInfiniteQuery,
 } from '@tanstack/react-query';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -13,36 +13,11 @@ import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { addDeepTitleProperties } from '@/utils';
 
 /**
- * Hook params for creating infinite queries
+ * Hook for creating suspense infinite queries with the Hikka client.
+ * Use this when data is guaranteed to be in cache (e.g., pre-loaded via route loader).
+ * Unlike useInfiniteQuery, data is never undefined and loading states are handled by Suspense boundaries.
  */
-export interface InfiniteQueryParams<
-    T,
-    TQueryKey extends readonly unknown[] = readonly unknown[],
-> {
-    /** Query options */
-    options?: Omit<
-        UseInfiniteQueryOptions<
-            T,
-            Error,
-            InfiniteData<T>,
-            TQueryKey,
-            number
-        >,
-        'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
-    > & {
-        authProtected?: boolean;
-        initialPageParam?: number;
-    };
-    /** Pagination arguments */
-    paginationArgs?: PaginationArgs;
-    queryKey?: TQueryKey;
-}
-
-/**
- * Hook for creating infinite queries with the Hikka client.
- * Accepts standard TanStack queryFn and pagination options.
- */
-export function useInfiniteQuery<
+export function useSuspenseInfiniteQuery<
     TItem,
     TError = Error,
     TQueryKey extends readonly unknown[] = readonly unknown[],
@@ -54,11 +29,13 @@ export function useInfiniteQuery<
     options,
 }: {
     queryKey: TQueryKey;
-    queryFn?: (...args: any[]) => PaginatedResponse<TItem> | Promise<PaginatedResponse<TItem>>;
+    queryFn?: (
+        ...args: any[]
+    ) => PaginatedResponse<TItem> | Promise<PaginatedResponse<TItem>>;
     initialPageParam?: number;
     getNextPageParam?: (...args: any[]) => number | undefined | null;
     options?: Omit<
-        UseInfiniteQueryOptions<
+        UseSuspenseInfiniteQueryOptions<
             PaginatedResponse<TItem>,
             TError,
             InfiniteData<PaginatedResponse<TItem>>,
@@ -67,14 +44,13 @@ export function useInfiniteQuery<
         >,
         'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
     > & {
-        authProtected?: boolean;
         initialPageParam?: number;
     };
 }) {
     const { ref, inView } = useInView();
-    const { client, defaultOptions } = useHikkaClient();
+    const { defaultOptions } = useHikkaClient();
 
-    const query = useTanstackInfiniteQuery<
+    const query = useTanstackSuspenseInfiniteQuery<
         PaginatedResponse<TItem>,
         TError,
         InfiniteData<PaginatedResponse<TItem>>,
@@ -91,9 +67,6 @@ export function useInfiniteQuery<
                 return nextPage > lastPage.pagination.pages ? null : nextPage;
             }),
         ...options,
-        enabled: options?.authProtected
-            ? !!client.getAuthToken() && options?.enabled
-            : options?.enabled,
         select: options?.select
             ? (data) =>
                   options.select!(
@@ -111,11 +84,9 @@ export function useInfiniteQuery<
                   ) as unknown as InfiniteData<PaginatedResponse<TItem>>,
     });
 
-    const list =
-        query.data && query.data?.pages.map((data) => data.list).flat(1);
+    const list = query.data.pages.map((data) => data.list).flat(1);
     const pagination =
-        query.data &&
-        query.data?.pages[query.data?.pages.length - 1]?.pagination;
+        query.data.pages[query.data.pages.length - 1]?.pagination;
 
     React.useEffect(() => {
         if (inView) {
