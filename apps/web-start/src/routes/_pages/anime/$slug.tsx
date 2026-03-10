@@ -23,17 +23,17 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
         if (!anime) throw redirect({ to: '/' });
 
         await Promise.all([
-            queryClient.ensureQueryData(
-                animeCharactersOptions(hikkaClient, { slug: params.slug }),
+            queryClient.ensureInfiniteQueryData(
+                animeCharactersOptions(hikkaClient, { slug: params.slug }) as any,
             ),
-            queryClient.ensureQueryData(
+            queryClient.ensureInfiniteQueryData(
                 franchiseOptions(hikkaClient, {
                     slug: params.slug,
                     contentType: ContentTypeEnum.ANIME,
-                }),
+                }) as any,
             ),
-            queryClient.ensureQueryData(
-                animeStaffOptions(hikkaClient, { slug: params.slug }),
+            queryClient.ensureInfiniteQueryData(
+                animeStaffOptions(hikkaClient, { slug: params.slug }) as any,
             ),
             queryClient.prefetchQuery(
                 watchBySlugOptions(hikkaClient, { slug: params.slug }),
@@ -44,8 +44,8 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
                     contentType: ContentTypeEnum.ANIME,
                 }),
             ),
-            queryClient.prefetchQuery(
-                watchingUsersOptions(hikkaClient, { slug: params.slug }),
+            queryClient.prefetchInfiniteQuery(
+                watchingUsersOptions(hikkaClient, { slug: params.slug }) as any,
             ),
         ]);
 

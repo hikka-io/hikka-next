@@ -21,11 +21,12 @@ import {
 } from '@/features/edit';
 
 export const Route = createFileRoute('/_pages/edit/new')({
+    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
     loader: async ({
         context: { queryClient, hikkaClient },
-        search,
+        location,
     }) => {
-        const { content_type, slug } = search as {
+        const { content_type, slug } = location.search as {
             content_type?: string;
             slug?: string;
         };

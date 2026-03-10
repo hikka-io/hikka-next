@@ -15,7 +15,7 @@ import { UIStoreProvider } from '@/services/providers/ui-store-provider';
 import { STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getSessionUserUI, getUserStylesCSS } from '@/utils/ui/server';
 
-interface RouterContext {
+export interface RouterContext {
     queryClient: QueryClient;
     hikkaClient: HikkaClient;
 }

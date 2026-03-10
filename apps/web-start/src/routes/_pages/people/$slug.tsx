@@ -21,17 +21,17 @@ export const Route = createFileRoute('/_pages/people/$slug')({
         if (!person) throw redirect({ to: '/' });
 
         await Promise.all([
-            queryClient.ensureQueryData(
-                personAnimeOptions(hikkaClient, { slug: params.slug }),
+            queryClient.ensureInfiniteQueryData(
+                personAnimeOptions(hikkaClient, { slug: params.slug }) as any,
             ),
-            queryClient.ensureQueryData(
-                personMangaOptions(hikkaClient, { slug: params.slug }),
+            queryClient.ensureInfiniteQueryData(
+                personMangaOptions(hikkaClient, { slug: params.slug }) as any,
             ),
-            queryClient.ensureQueryData(
-                personNovelOptions(hikkaClient, { slug: params.slug }),
+            queryClient.ensureInfiniteQueryData(
+                personNovelOptions(hikkaClient, { slug: params.slug }) as any,
             ),
-            queryClient.ensureQueryData(
-                personCharactersOptions(hikkaClient, { slug: params.slug }),
+            queryClient.ensureInfiniteQueryData(
+                personCharactersOptions(hikkaClient, { slug: params.slug }) as any,
             ),
         ]);
 

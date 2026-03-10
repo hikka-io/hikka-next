@@ -10,11 +10,12 @@ import {
 } from '@/features/oauth';
 
 export const Route = createFileRoute('/_pages/oauth')({
+    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
     loader: async ({
         context: { queryClient, hikkaClient },
-        search,
+        location,
     }) => {
-        const { reference, scope } = search as {
+        const { reference, scope } = location.search as {
             reference?: string;
             scope?: string;
         };

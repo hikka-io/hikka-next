@@ -1889,6 +1889,7 @@ __metadata:
     "@hikka/react": "workspace:*"
     "@radix-ui/react-tooltip": "npm:^1.0.7"
     "@tailwindcss/vite": "npm:^4"
+    "@tanstack/react-query": "npm:5.76.1"
     "@tanstack/react-router": "npm:^1.0.0"
     "@tanstack/react-start": "npm:^1.0.0"
     "@tanstack/router-plugin": "npm:^1.0.0"
@@ -1906,6 +1907,7 @@ __metadata:
     typescript: "npm:5.7.2"
     vite: "npm:^7.0.0"
     vite-tsconfig-paths: "npm:^5.0.0"
+    zundo: "npm:^2.3.0"
     zustand: "npm:^5.0.3"
   languageName: unknown
   linkType: soft

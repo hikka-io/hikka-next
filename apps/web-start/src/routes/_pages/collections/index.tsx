@@ -10,11 +10,12 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { CollectionList, CollectionSort } from '@/features/collections';
 
 export const Route = createFileRoute('/_pages/collections/')({
+    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
     loader: async ({
         context: { queryClient, hikkaClient },
-        search,
+        location,
     }) => {
-        const { page, sort = 'system_ranking' } = search as {
+        const { page, sort = 'system_ranking' } = location.search as {
             page?: number;
             sort?: 'system_ranking' | 'created';
         };
@@ -26,12 +27,10 @@ export const Route = createFileRoute('/_pages/collections/')({
             });
         }
 
-        const collections = await queryClient.ensureQueryData(
-            searchCollectionsOptions(hikkaClient, {
+        const collections = (await queryClient.ensureInfiniteQueryData(searchCollectionsOptions(hikkaClient, {
                 args: { sort: [`${sort}:desc`] },
                 paginationArgs: { page: Number(page) },
-            }),
-        );
+            }) as any)) as any;
 
         return { collections, page: Number(page), sort };
     },

@@ -22,14 +22,14 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
         if (!manga) throw redirect({ to: '/' });
 
         await Promise.all([
-            queryClient.ensureQueryData(
-                mangaCharactersOptions(hikkaClient, { slug: params.slug }),
+            queryClient.ensureInfiniteQueryData(
+                mangaCharactersOptions(hikkaClient, { slug: params.slug }) as any,
             ),
-            queryClient.ensureQueryData(
+            queryClient.ensureInfiniteQueryData(
                 franchiseOptions(hikkaClient, {
                     slug: params.slug,
                     contentType: ContentTypeEnum.MANGA,
-                }),
+                }) as any,
             ),
             queryClient.prefetchQuery(
                 readBySlugOptions(hikkaClient, {
@@ -37,11 +37,10 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
                     contentType: ContentTypeEnum.MANGA,
                 }),
             ),
-            queryClient.prefetchQuery(
-                readingUsersOptions(hikkaClient, {
+            queryClient.prefetchInfiniteQuery(readingUsersOptions(hikkaClient, {
                     slug: params.slug,
                     contentType: ContentTypeEnum.MANGA,
-                }),
+                }) as any,
             ),
             queryClient.prefetchQuery(
                 favouriteStatusOptions(hikkaClient, {

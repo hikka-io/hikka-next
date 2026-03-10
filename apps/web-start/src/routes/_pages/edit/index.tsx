@@ -17,9 +17,10 @@ import {
 } from '@/features/edit';
 
 export const Route = createFileRoute('/_pages/edit/')({
+    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
     loader: async ({
         context: { queryClient, hikkaClient },
-        search,
+        location,
     }) => {
         const {
             page,
@@ -27,7 +28,7 @@ export const Route = createFileRoute('/_pages/edit/')({
             order = 'desc',
             sort = 'edit_id',
             edit_status,
-        } = search as Record<string, any>;
+        } = location.search as Record<string, any>;
 
         if (!page) {
             throw redirect({

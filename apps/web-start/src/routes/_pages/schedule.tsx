@@ -15,16 +15,17 @@ import {
 import { getCurrentSeason } from '@/utils/season';
 
 export const Route = createFileRoute('/_pages/schedule')({
+    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
     loader: async ({
         context: { queryClient, hikkaClient },
-        search,
+        location,
     }) => {
         const {
             only_watch,
             season,
             year,
             status,
-        } = search as Record<string, any>;
+        } = location.search as Record<string, any>;
 
         const resolvedSeason =
             (season as SeasonEnum) || getCurrentSeason()!;

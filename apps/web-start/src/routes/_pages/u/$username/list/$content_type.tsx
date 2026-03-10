@@ -15,13 +15,14 @@ import {
 export const Route = createFileRoute(
     '/_pages/u/$username/list/$content_type',
 )({
+    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
     loader: async ({
         params,
         context: { queryClient, hikkaClient },
-        search,
+        location,
     }) => {
         const { username, content_type } = params;
-        const { status, sort } = search as {
+        const { status, sort } = location.search as {
             status?: string;
             sort?: string;
         };
