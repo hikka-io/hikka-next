@@ -1,13 +1,5 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { Outlet, createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_pages/u/$username/list')({
-    loader: async ({ params }) => {
-        throw redirect({
-            to: '/u/$username/list/$content_type',
-            params: {
-                username: params.username,
-                content_type: 'anime',
-            },
-        });
-    },
+    component: () => <Outlet />,
 });

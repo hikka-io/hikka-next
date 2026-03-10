@@ -103,7 +103,9 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
                     return (
                         <Link
                             key={status}
-                            to={`/u/${username}/list/${type}?status=${status}&sort=${sortParam}`}
+                            to={`/u/${username}/list/${type}`}
+                            search={{ status, sort: sortParam }}
+                            preload={false}
                             className={cn(
                                 'flex items-center justify-between gap-4 rounded-sm p-2 hover:bg-secondary',
                                 count === 0 && 'opacity-50',

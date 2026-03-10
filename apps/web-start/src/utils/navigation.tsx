@@ -18,6 +18,7 @@ export interface LinkProps
     search?: Record<string, unknown>;
     params?: Record<string, string>;
     hash?: string;
+    preload?: false | 'intent' | 'viewport' | 'render';
     children?:
         | React.ReactNode
         | ((state: { isActive: boolean }) => React.ReactNode);
@@ -33,7 +34,7 @@ const isExternalUrl = (url: string) =>
  * - Internal URLs use TanStack Router navigation
  */
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-    function Link({ to, search, params, hash, children, ...htmlProps }, ref) {
+    function Link({ to, search, params, hash, preload, children, ...htmlProps }, ref) {
         if (isExternalUrl(to)) {
             return (
                 <a
@@ -55,6 +56,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
                 search={search as never}
                 params={params as never}
                 hash={hash}
+                preload={preload}
                 {...(htmlProps as Record<string, unknown>)}
             >
                 {children as React.ReactNode}

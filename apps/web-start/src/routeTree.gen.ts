@@ -86,6 +86,7 @@ import { Route as PagesAnimeSlugMediaRouteImport } from './routes/_pages/anime/$
 import { Route as PagesAnimeSlugFranchiseRouteImport } from './routes/_pages/anime/$slug/franchise'
 import { Route as PagesAnimeSlugCharactersRouteImport } from './routes/_pages/anime/$slug/characters'
 import { Route as PagesAuthResetTokenRouteImport } from './routes/_pages/_auth/reset.$token'
+import { Route as PagesUUsernameListIndexRouteImport } from './routes/_pages/u/$username/list/index'
 import { Route as PagesCommentsContent_typeSlugIndexRouteImport } from './routes/_pages/comments/$content_type/$slug/index'
 import { Route as PagesUUsernameListContent_typeRouteImport } from './routes/_pages/u/$username/list/$content_type'
 import { Route as PagesCommentsContent_typeSlugSplatRouteImport } from './routes/_pages/comments/$content_type/$slug/$'
@@ -489,6 +490,11 @@ const PagesAuthResetTokenRoute = PagesAuthResetTokenRouteImport.update({
   path: '/$token',
   getParentRoute: () => PagesAuthResetRoute,
 } as any)
+const PagesUUsernameListIndexRoute = PagesUUsernameListIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PagesUUsernameListRoute,
+} as any)
 const PagesCommentsContent_typeSlugIndexRoute =
   PagesCommentsContent_typeSlugIndexRouteImport.update({
     id: '/comments/$content_type/$slug/',
@@ -587,6 +593,7 @@ export interface FileRoutesByFullPath {
   '/comments/$content_type/$slug/$': typeof PagesCommentsContent_typeSlugSplatRoute
   '/u/$username/list/$content_type': typeof PagesUUsernameListContent_typeRoute
   '/comments/$content_type/$slug/': typeof PagesCommentsContent_typeSlugIndexRoute
+  '/u/$username/list/': typeof PagesUUsernameListIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PagesIndexRoute
@@ -642,7 +649,6 @@ export interface FileRoutesByTo {
   '/summary/$username/$year': typeof PagesSummaryUsernameYearRoute
   '/u/$username/favorites': typeof PagesUUsernameFavoritesRoute
   '/u/$username/history': typeof PagesUUsernameHistoryRoute
-  '/u/$username/list': typeof PagesUUsernameListRouteWithChildren
   '/api/auth/activate/$token': typeof ApiAuthActivateTokenRoute
   '/api/auth/reset/$token': typeof ApiAuthResetTokenRoute
   '/anime/$slug': typeof PagesAnimeSlugIndexRoute
@@ -657,6 +663,7 @@ export interface FileRoutesByTo {
   '/comments/$content_type/$slug/$': typeof PagesCommentsContent_typeSlugSplatRoute
   '/u/$username/list/$content_type': typeof PagesUUsernameListContent_typeRoute
   '/comments/$content_type/$slug': typeof PagesCommentsContent_typeSlugIndexRoute
+  '/u/$username/list': typeof PagesUUsernameListIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -740,6 +747,7 @@ export interface FileRoutesById {
   '/_pages/comments/$content_type/$slug/$': typeof PagesCommentsContent_typeSlugSplatRoute
   '/_pages/u/$username/list/$content_type': typeof PagesUUsernameListContent_typeRoute
   '/_pages/comments/$content_type/$slug/': typeof PagesCommentsContent_typeSlugIndexRoute
+  '/_pages/u/$username/list/': typeof PagesUUsernameListIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -822,6 +830,7 @@ export interface FileRouteTypes {
     | '/comments/$content_type/$slug/$'
     | '/u/$username/list/$content_type'
     | '/comments/$content_type/$slug/'
+    | '/u/$username/list/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -877,7 +886,6 @@ export interface FileRouteTypes {
     | '/summary/$username/$year'
     | '/u/$username/favorites'
     | '/u/$username/history'
-    | '/u/$username/list'
     | '/api/auth/activate/$token'
     | '/api/auth/reset/$token'
     | '/anime/$slug'
@@ -892,6 +900,7 @@ export interface FileRouteTypes {
     | '/comments/$content_type/$slug/$'
     | '/u/$username/list/$content_type'
     | '/comments/$content_type/$slug'
+    | '/u/$username/list'
   id:
     | '__root__'
     | '/_pages'
@@ -974,6 +983,7 @@ export interface FileRouteTypes {
     | '/_pages/comments/$content_type/$slug/$'
     | '/_pages/u/$username/list/$content_type'
     | '/_pages/comments/$content_type/$slug/'
+    | '/_pages/u/$username/list/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1525,6 +1535,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesAuthResetTokenRouteImport
       parentRoute: typeof PagesAuthResetRoute
     }
+    '/_pages/u/$username/list/': {
+      id: '/_pages/u/$username/list/'
+      path: '/'
+      fullPath: '/u/$username/list/'
+      preLoaderRoute: typeof PagesUUsernameListIndexRouteImport
+      parentRoute: typeof PagesUUsernameListRoute
+    }
     '/_pages/comments/$content_type/$slug/': {
       id: '/_pages/comments/$content_type/$slug/'
       path: '/comments/$content_type/$slug'
@@ -1741,10 +1758,12 @@ const PagesPeopleSlugRouteWithChildren = PagesPeopleSlugRoute._addFileChildren(
 
 interface PagesUUsernameListRouteChildren {
   PagesUUsernameListContent_typeRoute: typeof PagesUUsernameListContent_typeRoute
+  PagesUUsernameListIndexRoute: typeof PagesUUsernameListIndexRoute
 }
 
 const PagesUUsernameListRouteChildren: PagesUUsernameListRouteChildren = {
   PagesUUsernameListContent_typeRoute: PagesUUsernameListContent_typeRoute,
+  PagesUUsernameListIndexRoute: PagesUUsernameListIndexRoute,
 }
 
 const PagesUUsernameListRouteWithChildren =
