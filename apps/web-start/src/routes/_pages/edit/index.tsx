@@ -32,7 +32,7 @@ export const Route = createFileRoute('/_pages/edit/')({
 
         if (!page) {
             throw redirect({
-                to: '/_pages/edit/',
+                to: '/edit',
                 search: { page: 1 },
             });
         }

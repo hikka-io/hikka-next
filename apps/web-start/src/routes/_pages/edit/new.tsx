@@ -32,7 +32,7 @@ export const Route = createFileRoute('/_pages/edit/new')({
         };
 
         if (!content_type || !slug) {
-            throw redirect({ to: '/_pages/edit/' });
+            throw redirect({ to: '/edit' });
         }
 
         let content: EditContent | undefined;
@@ -59,7 +59,7 @@ export const Route = createFileRoute('/_pages/edit/new')({
             );
         }
 
-        if (!content) throw redirect({ to: '/_pages/edit/' });
+        if (!content) throw redirect({ to: '/edit' });
 
         return { content, content_type: content_type as EditContentType, slug };
     },

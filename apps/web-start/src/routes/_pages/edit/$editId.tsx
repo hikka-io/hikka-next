@@ -28,7 +28,7 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
             editOptions(hikkaClient, { editId }),
         );
 
-        if (!edit) throw redirect({ to: '/_pages/edit/' });
+        if (!edit) throw redirect({ to: '/edit' });
 
         await queryClient.prefetchInfiniteQuery(
             contentCommentsOptions(hikkaClient, {

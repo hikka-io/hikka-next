@@ -22,7 +22,7 @@ export const Route = createFileRoute('/_pages/collections/')({
 
         if (!page) {
             throw redirect({
-                to: '/_pages/collections/',
+                to: '/collections',
                 search: { page: 1 },
             });
         }

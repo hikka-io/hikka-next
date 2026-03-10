@@ -29,7 +29,7 @@ export const Route = createFileRoute(
 
         if (!status) {
             throw redirect({
-                to: '/_pages/u/$username/list/$content_type',
+                to: '/u/$username/list/$content_type',
                 params: { username, content_type },
                 search: { status: 'completed', sort: sort || 'read_score' },
             });
@@ -37,7 +37,7 @@ export const Route = createFileRoute(
 
         if (!sort) {
             throw redirect({
-                to: '/_pages/u/$username/list/$content_type',
+                to: '/u/$username/list/$content_type',
                 params: { username, content_type },
                 search: { status, sort: 'read_score' },
             });

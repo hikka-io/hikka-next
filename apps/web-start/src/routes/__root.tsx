@@ -5,6 +5,7 @@ import {
     createRootRouteWithContext,
     HeadContent,
     Outlet,
+    Scripts,
     ScrollRestoration,
 } from '@tanstack/react-router';
 
@@ -69,6 +70,7 @@ function RootLayout() {
                     </UIStoreProvider>
                 </div>
                 <ScrollRestoration />
+                <Scripts />
             </body>
         </html>
     );
