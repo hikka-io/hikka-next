@@ -107,7 +107,7 @@ const Links: FC<Props> = ({ content_type }) => {
                                     imageRatio={1}
                                     className="w-10"
                                     image={<p>{link.text[0]}</p>}
-                                    href={link.url}
+                                    to={link.url}
                                 />
                                 <HorizontalCardContainer>
                                     <HorizontalCardTitle href={link.url} target="_blank">

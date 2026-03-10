@@ -23,7 +23,7 @@ const ArticleCard: FC<Props> = ({ article }) => {
     const contentElement = (
         <div className="relative flex flex-1 flex-col gap-4 p-4 py-0">
             <Link
-                href={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
+                to={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
                 className="absolute left-0 top-0 z-10 size-full"
             />
             <div className="flex flex-col gap-1">

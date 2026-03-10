@@ -23,7 +23,7 @@ const FeedItemComment: FC<Props> = ({ data }) => {
             {data.text && (
                 <TextExpand>
                     <Link
-                        href={`/comments/${data.content_type}/${data.preview.slug}`}
+                        to={`/comments/${data.content_type}/${data.preview.slug}`}
                         className="cursor-pointer"
                     >
                         <MDViewer

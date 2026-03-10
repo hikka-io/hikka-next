@@ -22,7 +22,7 @@ const UserCard = ({ user, onClick, type }: Props) => {
 
     return (
         <Comp
-            href={'/u/' + user.username}
+            to={'/u/' + user.username}
             onClick={onClick}
             className="flex w-full gap-4 text-left"
         >

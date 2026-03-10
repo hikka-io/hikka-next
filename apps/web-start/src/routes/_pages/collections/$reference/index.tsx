@@ -27,7 +27,7 @@ function CollectionPage() {
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link
-                        href={'/collections/' + reference}
+                        to={'/collections/' + reference}
                         className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
                     >
                         {collection?.title}

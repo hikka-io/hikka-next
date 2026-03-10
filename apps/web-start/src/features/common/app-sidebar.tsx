@@ -99,7 +99,7 @@ function AppSidebar() {
                                                                         }
                                                                     >
                                                                         <Link
-                                                                            href={
+                                                                            to={
                                                                                 subnavitem.url
                                                                             }
                                                                         >

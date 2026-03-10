@@ -30,7 +30,7 @@ const CollectionAuthor = () => {
                 <HorizontalCardImage
                     image={collection?.author.avatar}
                     imageRatio={1}
-                    href={`/u/${collection?.author.username}`}
+                    to={`/u/${collection?.author.username}`}
                 />
                 <HorizontalCardContainer className="gap-1">
                     <HorizontalCardTitle href={`/u/${collection?.author.username}`}>

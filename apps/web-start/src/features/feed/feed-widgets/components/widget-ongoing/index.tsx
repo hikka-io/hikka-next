@@ -75,7 +75,7 @@ const WidgetOngoing = () => {
                         return (
                             <Link
                                 key={anime.slug}
-                                href={`/anime/${anime.slug}`}
+                                to={`/anime/${anime.slug}`}
                                 className={cn(
                                     'group flex items-center gap-4 rounded-sm px-2 py-2',
                                     'transition-colors hover:bg-secondary/60',

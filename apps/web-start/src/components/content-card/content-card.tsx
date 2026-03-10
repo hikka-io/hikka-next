@@ -205,7 +205,7 @@ const Content = memo(
                             )}
                         >
                             <CardLink
-                                href={href}
+                                to={href}
                                 target={target}
                                 linkProps={linkProps}
                                 className="absolute left-0 top-0 flex size-full items-center justify-center bg-secondary/20"
@@ -235,7 +235,7 @@ const Content = memo(
                         </AspectRatio>
                         {hasTitleOrDescription && (
                             <CardLink
-                                href={href}
+                                to={href}
                                 target={target}
                                 linkProps={linkProps}
                                 className={cn(
@@ -349,7 +349,7 @@ const ContentCard = forwardRef<HTMLDivElement, ContentCardProps>(
         if (withContextMenu && slug && content_type) {
             return (
                 <ContextMenuOverlay
-                    href={href}
+                    to={href}
                     slug={slug}
                     content_type={content_type}
                     image={image}

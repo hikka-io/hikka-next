@@ -130,7 +130,7 @@ const Component = ({ list, setList, content_type }: Props) => {
                     Ви можете імпортувати свій список з{' '}
                     <Link
                         target="_blank"
-                        href="https://myanimelist.net/panel.php?go=export"
+                        to="https://myanimelist.net/panel.php?go=export"
                         className="text-primary-foreground hover:underline"
                     >
                         MyAnimeList

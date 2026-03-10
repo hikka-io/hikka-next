@@ -70,7 +70,7 @@ const Favorites: FC<Props> = ({ extended }) => {
     return (
         <Block>
             <Header
-                href={
+                to={
                     !extended
                         ? '/u/' + params.username + '/favorites'
                         : undefined

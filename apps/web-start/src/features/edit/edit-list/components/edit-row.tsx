@@ -62,7 +62,7 @@ const EditRow: FC<Props> = ({ edit }) => {
                     <div className="flex flex-col">
                         <Link
                             className="hover:underline"
-                            href={`/u/${edit.author!.username}`}
+                            to={`/u/${edit.author!.username}`}
                         >
                             {edit.author!.username}
                         </Link>
@@ -76,7 +76,7 @@ const EditRow: FC<Props> = ({ edit }) => {
                 <div className="flex gap-4">
                     <Link
                         className="line-clamp-2 hover:underline"
-                        href={`${CONTENT_TYPE_LINKS[edit.content_type]}/${
+                        to={`${CONTENT_TYPE_LINKS[edit.content_type]}/${
                             edit.content.slug
                         }`}
                     >

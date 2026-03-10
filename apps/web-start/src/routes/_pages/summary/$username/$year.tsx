@@ -68,7 +68,7 @@ function YearStatisticsPage() {
             <CoverImage cover={user?.cover} />
             <Breadcrumbs>
                 <Link
-                    href={`/u/${username}`}
+                    to={`/u/${username}`}
                     className="line-clamp-1 break-all text-sm font-bold hover:underline"
                 >
                     {username}

@@ -7,7 +7,7 @@ const LoginHeader = () => {
             <small className="text-muted-foreground">
                 Не маєте аккаунту?{' '}
                 <Link
-                    href="/signup"
+                    to="/signup"
                     className="font-medium text-primary-foreground hover:underline"
                 >
                     Зареєструйтесь зараз

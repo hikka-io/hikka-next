@@ -48,7 +48,7 @@ const StatusStatsList: FC<{ items: StatusStatsItem[] }> = ({ items }) => (
         {items.map((item) => (
             <Link
                 key={item.status}
-                href={item.href}
+                to={item.href}
                 className="flex items-center justify-between rounded-sm px-2 py-1.5 text-sm transition-colors hover:bg-secondary"
             >
                 <span className="flex items-center gap-2">

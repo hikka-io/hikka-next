@@ -56,7 +56,7 @@ const Footer = () => {
                                             asChild
                                         >
                                             <Link
-                                                href={link.href}
+                                                to={link.href}
                                                 target="_blank"
                                                 rel="noreferrer"
                                             >
@@ -81,7 +81,7 @@ const Footer = () => {
                                         asChild
                                     >
                                         <Link
-                                            href={link.href}
+                                            to={link.href}
                                             target="_blank"
                                             rel="noreferrer"
                                             aria-label={link.title}

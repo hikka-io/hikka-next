@@ -30,14 +30,14 @@ const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
                 <div className="hidden w-12 lg:block">
                     <ContentCard
                         image={content.image}
-                        href={`/${content_type}/${content.slug}`}
+                        to={`/${content_type}/${content.slug}`}
                     />
                 </div>
                 <div className="flex flex-1 flex-col gap-2">
                     <div className="flex items-center gap-2">
                         <Link
                             className="line-clamp-2 hover:underline"
-                            href={`/${content_type}/${content.slug}`}
+                            to={`/${content_type}/${content.slug}`}
                         >
                             {content.title}
                         </Link>

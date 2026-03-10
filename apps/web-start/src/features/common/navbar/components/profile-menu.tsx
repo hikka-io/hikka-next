@@ -89,7 +89,7 @@ const ProfileMenu = () => {
                             >
                                 <Link
                                     {...item.linkProps}
-                                    href={item.url
+                                    to={item.url
                                         .replace(
                                             '{username}',
                                             loggedUser.username,

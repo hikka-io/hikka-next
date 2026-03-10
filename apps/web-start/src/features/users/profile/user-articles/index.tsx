@@ -43,7 +43,7 @@ const UserArticles: FC<Props> = () => {
     return (
         <Block>
             <Header
-                href={`${CONTENT_TYPE_LINKS.article}?author=${params.username}`}
+                to={`${CONTENT_TYPE_LINKS.article}?author=${params.username}`}
             >
                 <HeaderContainer>
                     <HeaderTitle>Статті</HeaderTitle>
@@ -56,7 +56,7 @@ const UserArticles: FC<Props> = () => {
                                     variant="outline"
                                 >
                                     <Link
-                                        href={`${CONTENT_TYPE_LINKS.article}/?draft=true`}
+                                        to={`${CONTENT_TYPE_LINKS.article}/?draft=true`}
                                     >
                                         <MaterialSymbolsDraftRounded className="size-4" />
                                     </Link>

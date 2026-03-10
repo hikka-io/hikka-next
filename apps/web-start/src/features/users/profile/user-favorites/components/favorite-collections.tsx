@@ -54,7 +54,7 @@ const Collections: FC<Props> = ({ extended }) => {
                             key={res.reference}
                             title={res.title}
                             image={res.collection[0].content.image}
-                            href={`/collections/${res.reference}`}
+                            to={`/collections/${res.reference}`}
                             titleClassName={cn(
                                 res.spoiler && 'blur hover:blur-none',
                             )}

@@ -270,7 +270,7 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
                         <>
                             <Link
                                 className="w-fit flex-1"
-                                href={`/anime/${selectedWatch.anime.slug}`}
+                                to={`/anime/${selectedWatch.anime.slug}`}
                             >
                                 <h5>{selectedWatch.anime.title}</h5>
                                 {renderAnimeDetails()}

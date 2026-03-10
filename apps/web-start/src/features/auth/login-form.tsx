@@ -110,7 +110,7 @@ const LoginForm = () => {
                             <div className="flex items-center justify-between">
                                 <FormLabel>Пароль</FormLabel>
                                 <Link
-                                    href="/reset"
+                                    to="/reset"
                                     className="text-sm text-primary-foreground hover:underline"
                                 >
                                     Забули пароль?

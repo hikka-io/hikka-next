@@ -31,7 +31,7 @@ const ArticleMenu: FC<Props> = ({ article }) => {
             <DropdownMenuContent align="start">
                 <DropdownMenuItem asChild>
                     <Link
-                        href={`${CONTENT_TYPE_LINKS['article']}/${article.slug}/update`}
+                        to={`${CONTENT_TYPE_LINKS['article']}/${article.slug}/update`}
                     >
                         <MaterialSymbolsEditRounded className="mr-2" />
                         Редагувати

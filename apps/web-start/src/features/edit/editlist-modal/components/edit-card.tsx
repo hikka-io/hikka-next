@@ -36,7 +36,7 @@ const Component = ({ edit, href, className, ...props }: Props) => {
                     className="w-10"
                     image={edit.author?.avatar}
                     imageRatio={1}
-                    href={`/u/${edit.author?.username}`}
+                    to={`/u/${edit.author?.username}`}
                 />
                 <HorizontalCardContainer className="shrink-0">
                     <HorizontalCardTitle href={`/u/${edit.author?.username}`}>

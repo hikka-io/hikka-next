@@ -164,7 +164,7 @@ const WatchingTracker = () => {
         <div className="flex flex-col gap-4">
             {selectedWatch && (
                 <Link
-                    href={`/anime/${selectedWatch.anime.slug}`}
+                    to={`/anime/${selectedWatch.anime.slug}`}
                     className="relative block overflow-hidden rounded-lg"
                 >
                     <ContentCard

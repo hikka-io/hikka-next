@@ -44,7 +44,7 @@ const ContentHeader: FC<Props> = ({
                 <Breadcrumbs>
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                         <Link
-                            href={link}
+                            to={link}
                             className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
                         >
                             {data?.title}
@@ -57,7 +57,7 @@ const ContentHeader: FC<Props> = ({
                     {data?.image && (
                         <ContentCard
                             className="w-12"
-                            href={link}
+                            to={link}
                             image={data?.image}
                         />
                     )}

@@ -269,7 +269,7 @@ const MangaReadlist: React.FC<MangaReadlistProps> = () => {
                         <>
                             <Link
                                 className="w-fit flex-1"
-                                href={`/manga/${selectedRead.content.slug}`}
+                                to={`/manga/${selectedRead.content.slug}`}
                             >
                                 <h5>{selectedRead.content.title}</h5>
                                 {renderMangaDetails()}

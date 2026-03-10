@@ -52,7 +52,7 @@ const Characters: FC<Props> = ({ extended }) => {
                             key={res.slug}
                             title={res.name_ua || res.name_en || res.name_ja}
                             image={res.image}
-                            href={`/characters/${res.slug}`}
+                            to={`/characters/${res.slug}`}
                             content_type={ContentTypeEnum.CHARACTER}
                             slug={res.slug}
                         />

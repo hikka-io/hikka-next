@@ -44,7 +44,7 @@ const NotificationItem: FC<Props> = ({ data }) => {
                         imageRatio={1}
                         imageClassName="overflow-visible"
                         className="w-8"
-                        href={data.href}
+                        to={data.href}
                     >
                         {!data.seen && (
                             <div className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full border border-border bg-warning-foreground" />

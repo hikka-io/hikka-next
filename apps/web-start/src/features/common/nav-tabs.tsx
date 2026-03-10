@@ -34,7 +34,7 @@ const Component = ({ routes, urlPrefix }: Props) => {
                             className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:hover:bg-secondary/80"
                         >
                             <Link
-                                href={urlPrefix + r.url}
+                                to={urlPrefix + r.url}
                                 className="flex items-center gap-2"
                             >
                                 {r.icon &&

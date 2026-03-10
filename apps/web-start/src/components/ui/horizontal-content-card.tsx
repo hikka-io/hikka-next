@@ -47,7 +47,7 @@ const HorizontalContentCard = forwardRef<HTMLDivElement, Props>(
                     )}
                     containerClassName="rounded-r-none"
                     image={image}
-                    href={href}
+                    to={href}
                 />
                 <div className="flex w-full flex-col justify-between gap-2 p-4">
                     <div className="flex flex-1 flex-col gap-2">

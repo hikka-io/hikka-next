@@ -71,7 +71,7 @@ const EditActions: FC<Props> = () => {
             <Button asChild variant="secondary">
                 <Link
                     target="_blank"
-                    href={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
+                    to={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
                 >
                     <MaterialSymbolsVisibilityOutlineRounded className="size-4" />
                     Переглянути

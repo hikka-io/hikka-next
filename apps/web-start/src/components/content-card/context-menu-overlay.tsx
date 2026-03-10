@@ -72,7 +72,7 @@ const ContextMenuOverlay: FC<Props> = ({
                 <ContextMenuSeparator />
                 <ContextMenuItem asChild>
                     <Link
-                        href={`/edit/new?content_type=${content_type}&slug=${slug}`}
+                        to={`/edit/new?content_type=${content_type}&slug=${slug}`}
                     >
                         <MaterialSymbolsEditRounded className="mr-2" />
                         Створити правку

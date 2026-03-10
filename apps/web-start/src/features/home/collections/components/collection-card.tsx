@@ -52,7 +52,7 @@ const CollectionCard: FC<Props> = ({
                     className="w-10"
                     image={collection.author.avatar}
                     imageRatio={1}
-                    href={`/u/${collection.author.username}`}
+                    to={`/u/${collection.author.username}`}
                 />
                 <HorizontalCardContainer className="gap-1">
                     <HorizontalCardTitle href={`/u/${collection.author.username}`}>
@@ -79,7 +79,7 @@ const CollectionCard: FC<Props> = ({
 
             {/* Collection Title */}
             <Link
-                href={`/collections/${collection.reference}`}
+                to={`/collections/${collection.reference}`}
                 className="block"
             >
                 <Label>{collection.title}</Label>
@@ -120,7 +120,7 @@ const CollectionCard: FC<Props> = ({
                     <ContentCard
                         key={item.content.slug}
                         image={item.content.image}
-                        href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
+                        to={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         className={cn(collection.spoiler && 'spoiler-blur-md')}
                         titleClassName={cn(
                             collection.spoiler && 'spoiler-blur-xs',
@@ -146,7 +146,7 @@ const CollectionCard: FC<Props> = ({
                 ))}
                 {remainingCount > 0 && (
                     <ContentCard
-                        href={`/collections/${collection.reference}`}
+                        to={`/collections/${collection.reference}`}
                         image={
                             <div className="isolate flex items-center justify-center">
                                 {previewItem.content.image && (
@@ -173,7 +173,7 @@ const CollectionCard: FC<Props> = ({
                 <StatItemGroup>
                     <StatItem asChild>
                         <Link
-                            href={`/comments/collection/${collection.reference}`}
+                            to={`/comments/collection/${collection.reference}`}
                         >
                             <MessageCircle />
                             {collection.comments_count}

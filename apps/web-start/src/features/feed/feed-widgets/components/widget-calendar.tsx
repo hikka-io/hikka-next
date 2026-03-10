@@ -75,7 +75,7 @@ const WidgetCalendar = () => {
                     return (
                         <Link
                             key={`${item.anime.slug}-${item.episode}`}
-                            href={`/anime/${item.anime.slug}`}
+                            to={`/anime/${item.anime.slug}`}
                             className={cn(
                                 'flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors hover:bg-secondary',
                                 isAiringNow &&

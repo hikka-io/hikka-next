@@ -36,7 +36,7 @@ const Component = ({ content_type, slug }: Props) => {
             <div className={cn('relative px-6 py-4')}>
                 <Button variant="secondary" className="w-full" asChild>
                     <Link
-                        href={`/edit/new?slug=${slug}&content_type=${content_type}`}
+                        to={`/edit/new?slug=${slug}&content_type=${content_type}`}
                     >
                         <MaterialSymbolsEditRounded />
                         Створити правку
@@ -49,7 +49,7 @@ const Component = ({ content_type, slug }: Props) => {
                     {list!.map((edit) => (
                         <EditCard
                             className="px-6 py-4"
-                            href={`/edit/` + edit.edit_id}
+                            to={`/edit/` + edit.edit_id}
                             key={edit.edit_id}
                             edit={edit}
                         />

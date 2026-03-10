@@ -50,7 +50,7 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                 )}
                 <div className='relative'>
                     <Link
-                        href={`/articles/${data.slug}`}
+                        to={`/articles/${data.slug}`}
                         className="absolute left-0 top-0 z-10 size-full"
                     />
                     {data.preview && data.preview.length > 0 && (

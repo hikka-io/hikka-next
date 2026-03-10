@@ -64,7 +64,7 @@ const HistoryItem: FC<Props> = (props) => {
                               <MaterialSymbolsInfoRounded className="text-muted-foreground flex-1 text-xl" />
                           )
                 }
-                href={
+                to={
                     data.content
                         ? `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
                         : undefined
@@ -72,7 +72,7 @@ const HistoryItem: FC<Props> = (props) => {
             />
             <HorizontalCardContainer>
                 <HorizontalCardTitle
-                    href={
+                    to={
                         data.content
                             ? `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
                             : '#'

@@ -18,7 +18,7 @@ const CharacterCard = ({ character, onClick, type }: Props) => {
 
     return (
         <Comp
-            href={'/characters/' + character.slug}
+            to={'/characters/' + character.slug}
             onClick={onClick}
             className="flex w-full gap-4 text-left"
         >

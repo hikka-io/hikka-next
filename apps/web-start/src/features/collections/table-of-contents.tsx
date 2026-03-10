@@ -97,7 +97,7 @@ function TableOfContents({ className }: Props) {
                     return (
                         <li key={`${index}-${label}`}>
                             <Link
-                                href={`#${label}`}
+                                to={`#${label}`}
                                 className={cn(
                                     'line-clamp-2 text-muted-foreground',
                                     activeId === label &&

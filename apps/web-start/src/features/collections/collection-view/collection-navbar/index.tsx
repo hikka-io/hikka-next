@@ -48,7 +48,7 @@ const CollectionNavbar: FC<Props> = () => {
 
                 <Button asChild size="md" variant="ghost">
                     <Link
-                        href={
+                        to={
                             '/comments' + '/collection' + '/' + params.reference
                         }
                     >

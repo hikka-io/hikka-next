@@ -39,7 +39,7 @@ const SidebarNavigation = () => {
             {NAV_ITEMS.map((item) => (
                 <Link
                     key={item.path}
-                    href={item.path}
+                    to={item.path}
                     className={sidebarNavigationVariants({
                         variant: item.variant,
                     })}

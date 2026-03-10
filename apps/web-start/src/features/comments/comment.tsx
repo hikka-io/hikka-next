@@ -102,7 +102,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         className="w-10"
                         image={comment.author.avatar}
                         imageRatio={1}
-                        href={`/u/${comment.author.username}`}
+                        to={`/u/${comment.author.username}`}
                     />
                     <HorizontalCardContainer className="gap-1">
                         <div className="flex items-center gap-2">
@@ -185,7 +185,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                     asChild
                 >
                     <Link
-                        href={`/comments/${content_type}/${slug}/${comment.reference}`}
+                        to={`/comments/${content_type}/${slug}/${comment.reference}`}
                     >
                         <MaterialSymbolsLinkRounded />
                     </Link>

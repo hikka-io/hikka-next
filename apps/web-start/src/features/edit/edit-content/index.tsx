@@ -31,7 +31,7 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
             <div className="flex items-center justify-between gap-2">
                 <div className="flex flex-1 items-center gap-4 overflow-hidden">
                     <Link
-                        href={link}
+                        to={link}
                         target="_blank"
                         className="hover:underline"
                     >

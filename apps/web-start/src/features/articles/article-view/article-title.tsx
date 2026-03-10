@@ -22,7 +22,7 @@ const ArticleTitle: FC<Props> = () => {
         <div className="flex flex-col gap-1">
             {article?.content && (
                 <Link
-                    href={`${CONTENT_TYPE_LINKS[article.content.data_type]}/${article.content.slug}`}
+                    to={`${CONTENT_TYPE_LINKS[article.content.data_type]}/${article.content.slug}`}
                     className="text-muted-foreground w-fit text-sm hover:underline"
                 >
                     {article.content.title}

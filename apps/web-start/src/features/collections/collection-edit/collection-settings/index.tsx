@@ -224,7 +224,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     <Button asChild variant="secondary">
                         <Link
                             target="_blank"
-                            href={`${CONTENT_TYPE_LINKS['collection']}/${params.reference}`}
+                            to={`${CONTENT_TYPE_LINKS['collection']}/${params.reference}`}
                         >
                             <MaterialSymbolsVisibilityOutlineRounded className="size-4" />
                             Переглянути

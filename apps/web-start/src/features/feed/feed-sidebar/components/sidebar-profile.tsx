@@ -54,7 +54,7 @@ const SidebarProfile = () => {
             </div>
             <div className="flex flex-col gap-2 w-full">
                 <Link
-                    href={`/u/${user.username}`}
+                    to={`/u/${user.username}`}
                     className="text-sm font-bold hover:underline"
                 >
                     {user.username}

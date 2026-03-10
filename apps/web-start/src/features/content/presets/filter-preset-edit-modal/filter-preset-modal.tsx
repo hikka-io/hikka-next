@@ -177,7 +177,7 @@ const FilterPresetModal: FC = () => {
                             <div className="flex items-center gap-2">
                                 <Link
                                     onClick={() => closeModal()}
-                                    href={buildFilterPresetLink(preset)}
+                                    to={buildFilterPresetLink(preset)}
                                     className="text-sm font-medium"
                                 >
                                     {preset.name}

@@ -34,7 +34,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                     className="w-10"
                     image={comment.author.avatar}
                     imageRatio={1}
-                    href={`/u/${comment.author.username}`}
+                    to={`/u/${comment.author.username}`}
                 />
                 <HorizontalCardContainer className="gap-1">
                     <HorizontalCardTitle href={`/u/${comment.author.username}`}>
@@ -66,7 +66,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                     {CONTENT_TYPES[comment.content_type].title_ua}
                 </Badge>
                 <Link
-                    href={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
+                    to={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
                     className="text-primary-foreground flex items-center gap-1 hover:underline"
                 >
                     <small className="line-clamp-1">

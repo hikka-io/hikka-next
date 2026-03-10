@@ -187,7 +187,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
         <div className="flex flex-col gap-4">
             {selectedRead && (
                 <Link
-                    href={`${config.route}/${selectedRead.content.slug}`}
+                    to={`${config.route}/${selectedRead.content.slug}`}
                     className="relative block overflow-hidden rounded-lg"
                 >
                     <ContentCard

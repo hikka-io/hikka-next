@@ -22,7 +22,7 @@ const FeedItemContentPreview: FC<Props> = ({ contentType, slug, title }) => {
                 {CONTENT_TYPES[contentType].title_ua}
             </Badge>
             <Link
-                href={`${CONTENT_TYPE_LINKS[contentType]}/${slug}`}
+                to={`${CONTENT_TYPE_LINKS[contentType]}/${slug}`}
                 className="text-primary-foreground flex items-center gap-1 hover:underline"
             >
                 <small className="line-clamp-1">

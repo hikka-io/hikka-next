@@ -3,10 +3,15 @@ import {
     Link,
     useNavigate,
     useRouterState,
-    useParams,
+    useParams as useTanstackParams,
 } from '@tanstack/react-router';
 
-export { Link, useParams };
+export { Link };
+
+// Non-strict useParams — works without specifying the route, returns Record<string, string>
+export function useParams(): Record<string, string> {
+    return useTanstackParams({ strict: false });
+}
 
 export function useRouter() {
     const navigate = useNavigate();

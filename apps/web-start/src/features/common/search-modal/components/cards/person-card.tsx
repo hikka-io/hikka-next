@@ -18,7 +18,7 @@ const PersonCard = ({ person, onClick, type }: Props) => {
 
     return (
         <Comp
-            href={'/people/' + person.slug}
+            to={'/people/' + person.slug}
             onClick={onClick}
             className="flex w-full gap-4 text-left"
         >
