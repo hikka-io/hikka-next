@@ -42,7 +42,7 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                 </HorizontalCardTitle>
                 <HorizontalCardContainer className="flex-row items-center">
                     <HorizontalCardDescription>
-                        <Link href={`/articles?categories=${article.category}`} rel="author" className="hover:underline">
+                        <Link to={`/articles?categories=${article.category}`} rel="author" className="hover:underline">
                             {ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}
                         </Link>
                     </HorizontalCardDescription>

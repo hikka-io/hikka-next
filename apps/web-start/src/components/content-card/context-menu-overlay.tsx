@@ -3,7 +3,6 @@ import { useSession } from '@hikka/react';
 import { Copy } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { FC, ReactNode } from 'react';
-import { UrlObject } from 'url';
 
 import {
     ContextMenu,
@@ -21,7 +20,7 @@ interface Props {
     children: ReactNode;
     slug: string;
     content_type: ContentTypeEnum;
-    href?: string | UrlObject;
+    href?: string;
     image?: string | ReactNode;
 }
 

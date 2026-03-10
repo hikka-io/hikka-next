@@ -37,7 +37,6 @@ const CoverImage: FC<Props> = ({ cover, position = 'center' }) => {
                 src={cover}
                 className={`relative size-full object-cover ${getPositionClass()}`}
                 alt="cover"
-                fill
                 loading="lazy"
             />
         </div>

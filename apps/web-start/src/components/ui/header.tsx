@@ -103,7 +103,7 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
         <div className={cn('flex items-center gap-4', className)}>
             {hrefProp || href ? (
                 <Link
-                    href={hrefProp || href || ''}
+                    to={hrefProp || href || ''}
                     {...linkProps}
                     className="hover:underline text-left"
                 >
@@ -148,7 +148,7 @@ const HeaderNavButton: FC = () => {
         return (
             <Button size="icon-sm" variant="ghost" asChild>
                 <Link
-                    href={href}
+                    to={href}
                     className="flex items-center gap-2 text-muted-foreground"
                     {...linkProps}
                 >
