@@ -1,6 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { dehydrate, HydrationBoundary } from '@hikka/react/core';
-import Link from 'next/link';
+import { Link } from '@tanstack/react-router';
 import { FC, PropsWithChildren } from 'react';
 
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
@@ -22,7 +21,6 @@ interface Props extends PropsWithChildren {
     urlPrefix: string;
     title: string;
     status?: string | null;
-    dehydratedState: ReturnType<typeof dehydrate>;
 }
 
 const ContentDetailLayout: FC<Props> = ({
@@ -32,11 +30,10 @@ const ContentDetailLayout: FC<Props> = ({
     urlPrefix,
     title,
     status,
-    dehydratedState,
     children,
 }) => {
     return (
-        <HydrationBoundary state={dehydratedState}>
+        <>
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     {status && (
@@ -48,7 +45,8 @@ const ContentDetailLayout: FC<Props> = ({
                         />
                     )}
                     <Link
-                        href={`${urlPrefix}/${slug}`}
+                        to={`${urlPrefix}/$slug`}
+                        params={{ slug }}
                         className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
                     >
                         {title}
@@ -66,7 +64,7 @@ const ContentDetailLayout: FC<Props> = ({
                 content_type={contentType}
                 className="mt-12"
             />
-        </HydrationBoundary>
+        </>
     );
 };
 
