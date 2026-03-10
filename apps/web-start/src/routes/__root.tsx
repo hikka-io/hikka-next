@@ -1,0 +1,69 @@
+import '@fontsource-variable/geist';
+import '../globals.css';
+
+import { HikkaClient } from '@hikka/client';
+import { QueryClient } from '@tanstack/react-query';
+import {
+    createRootRouteWithContext,
+    HeadContent,
+    Outlet,
+    ScrollRestoration,
+} from '@tanstack/react-router';
+
+import { Providers } from '@/features/common';
+import { UIStoreProvider } from '@/services/providers/ui-store-provider';
+import { STYLE_ELEMENT_ID } from '@/utils/ui';
+import { getSessionUserUI, getUserStylesCSS } from '@/utils/ui/server';
+
+interface RouterContext {
+    queryClient: QueryClient;
+    hikkaClient: HikkaClient;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
+    head: () => ({
+        meta: [
+            { charSet: 'utf-8' },
+            {
+                name: 'viewport',
+                content: 'width=device-width, initial-scale=1, maximum-scale=1',
+            },
+            { name: 'theme-color', content: 'black' },
+            { name: 'color-scheme', content: 'dark' },
+        ],
+    }),
+    loader: async () => {
+        const userUI = await getSessionUserUI();
+        const userStylesCSS = await getUserStylesCSS(userUI);
+        return { userUI, userStylesCSS };
+    },
+    component: RootLayout,
+});
+
+function RootLayout() {
+    const { userUI, userStylesCSS } = Route.useLoaderData();
+
+    return (
+        <html lang="uk" data-theme="dark" suppressHydrationWarning>
+            <head>
+                <HeadContent />
+                {userStylesCSS && (
+                    <style
+                        id={STYLE_ELEMENT_ID}
+                        dangerouslySetInnerHTML={{ __html: userStylesCSS }}
+                    />
+                )}
+            </head>
+            <body>
+                <div data-vaul-drawer-wrapper>
+                    <UIStoreProvider initialUI={userUI}>
+                        <Providers>
+                            <Outlet />
+                        </Providers>
+                    </UIStoreProvider>
+                </div>
+                <ScrollRestoration />
+            </body>
+        </html>
+    );
+}

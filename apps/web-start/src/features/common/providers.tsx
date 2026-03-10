@@ -1,21 +1,17 @@
 'use client';
 
-import { ProgressProvider } from '@bprogress/next/app';
-import { HikkaClientConfig } from '@hikka/client';
 import { HikkaProvider } from '@hikka/react';
 import { MutationCache, QueryClientConfig } from '@hikka/react/core';
 import { uk } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
-import { FC, PropsWithChildren, useEffect, useState } from 'react';
+import { FC, PropsWithChildren, useState } from 'react';
 import { toast } from 'sonner';
 
 import EffectsManager from '@/features/common/effects-manager';
 import { TooltipProvider } from '@/components/ui/tooltip';
-
 import ModalProvider from '@/services/providers/modal-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
 import { useUIStore } from '@/services/providers/ui-store-provider';
-import { getCookie } from '@/utils/cookies';
 
 interface Props extends PropsWithChildren {}
 
@@ -31,24 +27,12 @@ const Providers: FC<Props> = ({ children }) => {
         }),
     });
 
-    const [apiClientConfig, setApiClientConfig] = useState<HikkaClientConfig>({
-        baseUrl: process.env.API_URL || process.env.NEXT_PUBLIC_API_URL,
-    });
-    useEffect(() => {
-        getCookie('auth').then(
-            (authToken) =>
-                authToken &&
-                setApiClientConfig((config) => ({ ...config, authToken })),
-        );
-    }, []);
-
     return (
         <HikkaProvider
             defaultOptions={{
                 title: UI.preferences?.title_language ?? 'title_ua',
                 name: UI.preferences?.name_language ?? 'name_ua',
             }}
-            clientConfig={apiClientConfig}
             queryClientConfig={queryClientConfig}
         >
             <ThemeProvider
@@ -59,16 +43,6 @@ const Providers: FC<Props> = ({ children }) => {
             >
                 <TooltipProvider delayDuration={0}>
                     <ModalProvider>
-                        <ProgressProvider
-                            height="4px"
-                            color="#e779c1"
-                            options={{
-                                showSpinner: false,
-                                easing: 'ease',
-                                trickle: true,
-                            }}
-                            shallowRouting
-                        />
                         <EffectsManager />
                         {children}
                     </ModalProvider>
