@@ -1,66 +1,72 @@
 'use server';
 
 import { HikkaClient, UserUI } from '@hikka/client';
-import { unstable_cache, updateTag } from 'next/cache';
-import { cache } from 'react';
+import { createServerFn } from '@tanstack/react-start';
+import { getRequest } from '@tanstack/react-start/server';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
-import { getHikkaClientConfig } from '@/utils/hikka-client';
 
-import { getCookie } from '../cookies';
 import { DEFAULT_USER_UI } from './defaults';
 import { stylesToCSS } from './inject-styles';
 import { mergeStyles, mergeUserUI } from './merge';
 
-/**
- * Cached per-user UI fetch.
- */
-export const getCachedUserUI = cache(
-    async (username: string): Promise<UserUI> => {
-        const config = await getHikkaClientConfig();
-        const client = new HikkaClient(config);
+// Module-level in-memory cache — lives for process lifetime (per-deployment).
+// Invalidated on user settings update via invalidateUserUIFn.
+const userUICache = new Map<string, UserUI>();
 
-        const cachedFetch = unstable_cache(
-            async () => client.user.getUserUI(username),
-            ['user-ui', username],
-            {
-                tags: [`user-ui:${username}`],
-            },
-        );
-
-        try {
-            return await cachedFetch();
-        } catch (error) {
-            console.error('Failed to get cached user UI', error);
-            return DEFAULT_USER_UI;
+export const fetchUserUIFn = createServerFn({ method: 'GET' })
+    .inputValidator((data: { username: string }) => data)
+    .handler(async ({ data: { username } }) => {
+        if (userUICache.has(username)) {
+            return userUICache.get(username)!;
         }
-    },
-);
+        const client = new HikkaClient({
+            baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
+        });
+        try {
+            const ui = await client.user.getUserUI(username);
+            userUICache.set(username, ui);
+            return ui;
+        } catch {
+            return null;
+        }
+    });
 
-/**
- * Get user UI for the current session.
+export const invalidateUserUIFn = createServerFn({ method: 'POST' })
+    .inputValidator((data: { username: string }) => data)
+    .handler(async ({ data: { username } }) => {
+        userUICache.delete(username);
+    });
 
- */
+function parseCookies(cookieHeader: string): Record<string, string> {
+    return Object.fromEntries(
+        cookieHeader
+            .split(';')
+            .map((c) => {
+                const [key, ...vals] = c.trim().split('=');
+                return [key, decodeURIComponent(vals.join('='))];
+            })
+            .filter(([key]) => key),
+    );
+}
+
 export async function getSessionUserUI(): Promise<UserUI> {
     try {
-        let currentUsername = await getCookie('username');
+        const request = getRequest();
+        const cookieHeader = request?.headers.get('cookie') ?? '';
+        const cookies = parseCookies(cookieHeader);
+        const username = cookies['username'];
 
-        if (!currentUsername) {
-            return DEFAULT_USER_UI;
-        }
+        if (!username) return DEFAULT_USER_UI;
 
-        const ui = await getCachedUserUI(currentUsername ?? '');
-
-        return mergeUserUI(DEFAULT_USER_UI, ui);
+        const cachedUI = await fetchUserUIFn({ data: { username } });
+        return mergeUserUI(DEFAULT_USER_UI, cachedUI ?? undefined);
     } catch (error) {
         console.error('Failed to get session user UI', error);
         return DEFAULT_USER_UI;
     }
 }
 
-/**
- * Get merged styles as CSS string for SSR injection
- */
 export async function getUserStylesCSS(userUI?: UserUI): Promise<string> {
     const resolvedUserUI = userUI ?? (await getSessionUserUI());
     const eventTheme = getActiveEventTheme();
@@ -69,24 +75,29 @@ export async function getUserStylesCSS(userUI?: UserUI): Promise<string> {
     return stylesToCSS(mergedStyles);
 }
 
-/**
- * Server action to update the user's UI and revalidate the cache.
- */
-
-export async function updateUserUI(
+export async function updateUserUIServerFn(
     userUI: Omit<UserUI, 'username'>,
 ): Promise<UserUI> {
     try {
-        const config = await getHikkaClientConfig();
-        const client = new HikkaClient(config);
+        const request = getRequest();
+        const cookieHeader = request?.headers.get('cookie') ?? '';
+        const cookies = parseCookies(cookieHeader);
+        const authToken = cookies['auth'];
+        const username = cookies['username'];
 
-        const currentUsername = await getCookie('username');
+        const client = new HikkaClient({
+            baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
+            authToken,
+        });
 
-        const updatedUserUI = await client.settings.updateUserUI(userUI);
+        const updatedUI = await client.settings.updateUserUI(userUI);
 
-        updateTag(`user-ui:${currentUsername}`);
+        // Invalidate cache so next page load fetches fresh data
+        if (username) {
+            userUICache.delete(username);
+        }
 
-        return updatedUserUI;
+        return updatedUI;
     } catch (error) {
         console.error('Failed to update user UI:', error);
         throw error;

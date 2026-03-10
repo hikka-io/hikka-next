@@ -14,7 +14,7 @@ import { type StoreApi, createStore } from 'zustand/vanilla';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import { DEFAULT_USER_UI, mergeEffects, mergeStyles } from '@/utils/ui';
-import { getSessionUserUI, updateUserUI } from '@/utils/ui/server';
+import { getSessionUserUI, updateUserUIServerFn } from '@/utils/ui/server';
 
 export type PartializedUIState = Pick<UIState, 'styles'>;
 
@@ -257,7 +257,7 @@ export function createUIStore(initialUI?: UserUI): UIStoreWithTemporal {
                         preferences: state.preferences,
                     };
 
-                    const result = await updateUserUI(userUI);
+                    const result = await updateUserUIServerFn(userUI);
 
                     return result;
                 },
