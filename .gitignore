@@ -80,3 +80,6 @@ tasks/
 .devenv*
 .direnv
 devenv.local.nix
+# TanStack Start / Vinxi
+.output
+.vinxi
