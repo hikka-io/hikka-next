@@ -3,11 +3,10 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { Franchise } from '@/features/content';
 import ContentHeader from '@/features/comments/content-header';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/novel/$slug/franchise')({
-    head: () => ({
-        meta: [{ title: "Пов'язане" }],
-    }),
+    head: () => generateHeadMeta({ title: "Пов'язане", robots: { index: false } }),
     component: NovelFranchisePage,
 });
 

@@ -15,6 +15,7 @@ import {
     ScheduleList,
 } from '@/features/schedule';
 import { getCurrentSeason } from '@/utils/season';
+import { generateHeadMeta } from '@/utils/metadata';
 import { scheduleSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/schedule')({
@@ -49,9 +50,13 @@ export const Route = createFileRoute('/_pages/schedule')({
             }),
         );
     },
-    head: () => ({
-        meta: [{ title: 'Календар / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Календар',
+            description:
+                'Календар виходу нових серій аніме на Hikka',
+            url: 'https://hikka.io/schedule',
+        }),
     component: ScheduleListPage,
 });
 

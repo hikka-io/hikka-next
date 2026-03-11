@@ -3,6 +3,7 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
+import { generateHeadMeta } from '@/utils/metadata';
 import { Header, HeaderTitle } from '@/components/ui/header';
 
 import { MangaList, MangaListNavbar } from '@/features/manga';
@@ -11,9 +12,13 @@ import { mangaSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/manga/')({
     validateSearch: zodValidator(mangaSearchSchema),
-    head: () => ({
-        meta: [{ title: 'Манґа / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Манґа',
+            description:
+                'Каталог манґи — шукайте та фільтруйте манґу на Hikka',
+            url: 'https://hikka.io/manga',
+        }),
     component: MangaListPage,
 });
 

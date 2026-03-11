@@ -8,6 +8,7 @@ import {
     OAuthHeader as Header,
     OAuthProfile as Profile,
 } from '@/features/oauth';
+import { generateHeadMeta } from '@/utils/metadata';
 import { oauthSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/oauth')({
@@ -25,9 +26,11 @@ export const Route = createFileRoute('/_pages/oauth')({
             clientByReferenceOptions(hikkaClient, { reference }),
         );
     },
-    head: () => ({
-        meta: [{ title: 'OAuth / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'OAuth',
+            robots: { index: false },
+        }),
     component: OAuthPage,
 });
 

@@ -53,9 +53,10 @@ export const Route = createFileRoute('/_pages/characters/$slug')({
             character.name_ua || character.name_en || character.name_ja || '';
 
         return generateHeadMeta({
-            title: { default: title, template: `%s / ${title} / Hikka` },
+            title,
             description: character.description_ua,
             image: character.image,
+            url: `https://hikka.io/characters/${character.slug}`,
         });
     },
     component: CharacterDetailLayout,

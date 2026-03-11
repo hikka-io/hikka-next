@@ -1,4 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
+
 import Link from '@/components/ui/link';
 
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
@@ -12,8 +13,14 @@ import {
 import ArticleProvider from '@/services/providers/article-provider';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/articles/$slug/update')({
+    head: () =>
+        generateHeadMeta({
+            title: 'Редагувати статтю',
+            robots: { index: false },
+        }),
     component: ArticleUpdatePage,
 });
 

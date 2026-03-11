@@ -15,6 +15,7 @@ import {
     EditTopStats,
     EditFilters as Filters,
 } from '@/features/edit';
+import { generateHeadMeta } from '@/utils/metadata';
 import { editSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/edit/')({
@@ -57,9 +58,12 @@ export const Route = createFileRoute('/_pages/edit/')({
             ),
         ]);
     },
-    head: () => ({
-        meta: [{ title: 'Правки / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Правки',
+            description: 'Система правок спільноти Hikka',
+            url: 'https://hikka.io/edit',
+        }),
     component: EditListPage,
 });
 

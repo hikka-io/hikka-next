@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
+import { generateHeadMeta } from '@/utils/metadata';
 import Card from '@/components/ui/card';
 import {
     ArticleSettings,
@@ -10,9 +11,11 @@ import {
 import ArticleProvider from '@/services/providers/article-provider';
 
 export const Route = createFileRoute('/_pages/articles/new')({
-    head: () => ({
-        meta: [{ title: 'Нова стаття / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Нова стаття',
+            robots: { index: false },
+        }),
     component: ArticleNewPage,
 });
 

@@ -8,6 +8,8 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import ContentHeader from '@/features/comments/content-header';
 import { CommentList as Comments, prefetchContent } from '@/features/comments';
 
+import { generateHeadMeta } from '@/utils/metadata';
+
 export const Route = createFileRoute(
     '/_pages/comments/$content_type/$slug/',
 )({
@@ -35,9 +37,20 @@ export const Route = createFileRoute(
 
         return { content };
     },
-    head: () => ({
-        meta: [{ title: 'Коментарі / Hikka' }],
-    }),
+    head: ({ loaderData }) => {
+        const content = loaderData?.content as Record<string, any> | undefined;
+        const title =
+            content?.title_ua ||
+            content?.title_en ||
+            content?.title_ja ||
+            content?.title ||
+            content?.name_ua ||
+            content?.name_en;
+
+        return generateHeadMeta({
+            title: title ? `Коментарі / ${title}` : 'Коментарі',
+        });
+    },
     component: CommentsPage,
 });
 

@@ -1,9 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { generateHeadMeta } from '@/utils/metadata';
+
 export const Route = createFileRoute('/_pages/characters/')({
-    head: () => ({
-        meta: [{ title: 'Персонажі / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Персонажі',
+            description:
+                'Каталог персонажів аніме, манґи та ранобе на Hikka',
+            url: 'https://hikka.io/characters',
+        }),
     component: CharactersListPage,
 });
 

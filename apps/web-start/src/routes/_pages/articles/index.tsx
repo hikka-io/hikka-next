@@ -13,6 +13,7 @@ import {
     PopularAuthors,
     PopularTags,
 } from '@/features/articles';
+import { generateHeadMeta } from '@/utils/metadata';
 import { articlesSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/articles/')({
@@ -44,9 +45,13 @@ export const Route = createFileRoute('/_pages/articles/')({
             queryClient.prefetchQuery(articleStatsOptions(hikkaClient)),
         ]);
     },
-    head: () => ({
-        meta: [{ title: 'Статті / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Статті',
+            description:
+                'Статті про аніме, манґу та ранобе на Hikka',
+            url: 'https://hikka.io/articles',
+        }),
     component: ArticlesPage,
 });
 

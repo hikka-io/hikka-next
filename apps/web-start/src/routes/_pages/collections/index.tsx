@@ -11,6 +11,7 @@ import Link from '@/components/ui/link';
 
 import { CollectionList, CollectionSort } from '@/features/collections';
 
+import { generateHeadMeta } from '@/utils/metadata';
 import { collectionsSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/collections/')({
@@ -35,9 +36,13 @@ export const Route = createFileRoute('/_pages/collections/')({
 
         return { collections, page: Number(page), sort };
     },
-    head: () => ({
-        meta: [{ title: 'Колекції / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Колекції',
+            description:
+                'Колекції аніме, манґи та ранобе від спільноти Hikka',
+            url: 'https://hikka.io/collections',
+        }),
     component: CollectionsPage,
 });
 

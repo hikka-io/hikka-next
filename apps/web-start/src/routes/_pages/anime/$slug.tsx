@@ -81,9 +81,10 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
         );
 
         return generateHeadMeta({
-            title: { default: title, template: `%s / ${title} / Hikka` },
+            title,
             description: synopsis,
             image: `https://preview.hikka.io/anime/${anime.slug}/${anime.updated}`,
+            url: `https://hikka.io/anime/${anime.slug}`,
             other: {
                 ...(anime.mal_id ? { 'mal-id': anime.mal_id } : {}),
             },

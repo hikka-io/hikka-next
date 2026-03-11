@@ -13,6 +13,8 @@ import {
 import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
+import { generateHeadMeta } from '@/utils/metadata';
+
 import Block from '@/components/ui/block';
 import { ReadFilters } from '@/features/read';
 import {
@@ -74,9 +76,8 @@ export const Route = createFileRoute(
             );
         }
     },
-    head: () => ({
-        meta: [{ title: 'Список / Hikka' }],
-    }),
+    head: ({ params }) =>
+        generateHeadMeta({ title: `Список / ${params.username}` }),
     component: ListPage,
 });
 

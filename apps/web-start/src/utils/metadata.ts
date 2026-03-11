@@ -3,7 +3,7 @@
  */
 export const DEFAULTS = {
     siteName: 'Hikka',
-    images: '/preview.jpg',
+    images: 'https://hikka.io/preview.jpg',
     title: {
         default: 'Hikka - енциклопедія аніме, манґи та ранобе українською',
         template: '%s / Hikka',
@@ -101,6 +101,7 @@ interface HeadMetaProps {
     title: string | TemplateString;
     description?: string | null;
     image?: string | null;
+    url?: string;
     robots?: { index?: boolean };
     other?: Record<string, string | number>;
     openGraph?: { type?: string; authors?: string[] };
@@ -109,8 +110,9 @@ interface HeadMetaProps {
 }
 
 function resolveTitle(title: string | TemplateString): string {
-    if (typeof title === 'string') return title;
-    return title.default;
+    const base = typeof title === 'string' ? title : title.default;
+    if (base.endsWith(' / Hikka') || base.startsWith('Hikka')) return base;
+    return `${base} / Hikka`;
 }
 
 function generateHeadMeta(props: HeadMetaProps) {
@@ -128,14 +130,16 @@ function generateHeadMeta(props: HeadMetaProps) {
         { property: 'og:description', content: resolvedDescription },
         { property: 'og:site_name', content: siteName },
         { property: 'og:image', content: resolvedImage },
+        { property: 'og:type', content: props.openGraph?.type || 'website' },
+        { property: 'og:locale', content: 'uk_UA' },
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: resolvedTitle },
         { name: 'twitter:description', content: resolvedDescription },
         { name: 'twitter:image', content: resolvedImage },
     ];
 
-    if (props.openGraph?.type) {
-        meta.push({ property: 'og:type', content: props.openGraph.type });
+    if (props.url) {
+        meta.push({ property: 'og:url', content: props.url });
     }
 
     if (props.openGraph?.authors) {
@@ -162,6 +166,8 @@ function generateHeadMeta(props: HeadMetaProps) {
 
     if (props.canonical) {
         links.push({ rel: 'canonical', href: props.canonical });
+    } else if (props.url) {
+        links.push({ rel: 'canonical', href: props.url });
     }
 
     return { meta, links };

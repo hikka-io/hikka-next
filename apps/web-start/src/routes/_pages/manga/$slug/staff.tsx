@@ -3,11 +3,10 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentStaff as Staff } from '@/features/content';
 import ContentHeader from '@/features/comments/content-header';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/manga/$slug/staff')({
-    head: () => ({
-        meta: [{ title: 'Автори' }],
-    }),
+    head: () => generateHeadMeta({ title: 'Автори', robots: { index: false } }),
     component: MangaStaffPage,
 });
 

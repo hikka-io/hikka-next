@@ -60,12 +60,10 @@ export const Route = createFileRoute('/_pages/u/$username')({
         if (!user) return {};
 
         return generateHeadMeta({
-            title: {
-                default: user.username,
-                template: `${user.username} / %s / Hikka`,
-            },
+            title: user.username,
             description: user.description,
             image: `https://preview.hikka.io/u/${user.username}/${user.updated}`,
+            url: `https://hikka.io/u/${user.username}`,
         });
     },
     component: UserLayout,

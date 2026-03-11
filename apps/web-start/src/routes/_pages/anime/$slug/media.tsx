@@ -3,11 +3,10 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentMedia as Media } from '@/features/content';
 import ContentHeader from '@/features/comments/content-header';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/anime/$slug/media')({
-    head: () => ({
-        meta: [{ title: 'Медіа' }],
-    }),
+    head: () => generateHeadMeta({ title: 'Медіа', robots: { index: false } }),
     component: AnimeMediaPage,
 });
 

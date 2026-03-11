@@ -3,6 +3,7 @@ import { commentListOptions } from '@hikka/react/options';
 import { createFileRoute } from '@tanstack/react-router';
 
 import { LatestComments } from '@/features/comments';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/comments/latest')({
     loader: async ({ context: { queryClient, hikkaClient } }) => {
@@ -10,9 +11,12 @@ export const Route = createFileRoute('/_pages/comments/latest')({
             commentListOptions(hikkaClient),
         );
     },
-    head: () => ({
-        meta: [{ title: 'Останні коментарі / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Останні коментарі',
+            description: 'Останні коментарі спільноти на Hikka',
+            url: 'https://hikka.io/comments/latest',
+        }),
     component: LatestCommentsPage,
 });
 

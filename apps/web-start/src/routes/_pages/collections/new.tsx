@@ -10,11 +10,14 @@ import {
     CollectionEditTitle as CollectionTitle,
 } from '@/features/collections';
 import CollectionProvider from '@/services/providers/collection-provider';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/collections/new')({
-    head: () => ({
-        meta: [{ title: 'Нова колекція / Колекції / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Нова колекція / Колекції',
+            robots: { index: false },
+        }),
     component: CollectionNewPage,
 });
 

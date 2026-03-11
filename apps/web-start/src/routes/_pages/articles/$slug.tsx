@@ -21,7 +21,7 @@ export const Route = createFileRoute('/_pages/articles/$slug')({
     },
     head: ({ loaderData }) => {
         const article = loaderData?.article;
-        if (!article) return { meta: [{ title: 'Статті / Hikka' }] };
+        if (!article) return generateHeadMeta({ title: 'Статті' });
 
         const categoryTitle =
             ARTICLE_CATEGORY_OPTIONS[article.category]?.title_ua || '';
@@ -33,6 +33,7 @@ export const Route = createFileRoute('/_pages/articles/$slug')({
                 type: 'article',
                 authors: [article.author.username],
             },
+            url: `https://hikka.io/articles/${article.slug}`,
             canonical: `https://hikka.io/articles/${article.slug}`,
         });
     },

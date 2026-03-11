@@ -20,6 +20,7 @@ import {
     EditCreateForm as EditForm,
     EditRulesAlert as RulesAlert,
 } from '@/features/edit';
+import { generateHeadMeta } from '@/utils/metadata';
 import { editNewSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/edit/new')({
@@ -63,9 +64,11 @@ export const Route = createFileRoute('/_pages/edit/new')({
 
         return { content, content_type: content_type as EditContentType, slug };
     },
-    head: () => ({
-        meta: [{ title: 'Нова правка / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Нова правка',
+            robots: { index: false },
+        }),
     component: EditNewPage,
 });
 

@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
+import { generateHeadMeta } from '@/utils/metadata';
 import Card from '@/components/ui/card';
 import {
     CollectionEditGroups as CollectionGroups,
@@ -10,6 +11,11 @@ import {
 import CollectionProvider from '@/services/providers/collection-provider';
 
 export const Route = createFileRoute('/_pages/collections/$reference/update')({
+    head: () =>
+        generateHeadMeta({
+            title: 'Редагувати колекцію',
+            robots: { index: false },
+        }),
     component: CollectionUpdatePage,
 });
 

@@ -1,11 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { SignupForm, SignupHeader } from '@/features/auth';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/_auth/signup')({
-    head: () => ({
-        meta: [{ title: 'Реєстрація — Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Реєстрація',
+            robots: { index: false },
+        }),
     component: SignupPage,
 });
 

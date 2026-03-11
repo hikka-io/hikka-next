@@ -3,6 +3,7 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
+import { generateHeadMeta } from '@/utils/metadata';
 import { Header, HeaderTitle } from '@/components/ui/header';
 
 import { AnimeList, AnimeListNavbar } from '@/features/anime';
@@ -11,9 +12,13 @@ import { animeSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/anime/')({
     validateSearch: zodValidator(animeSearchSchema),
-    head: () => ({
-        meta: [{ title: 'Аніме / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Аніме',
+            description:
+                'Каталог аніме — шукайте та фільтруйте аніме серіали на Hikka',
+            url: 'https://hikka.io/anime',
+        }),
     component: AnimeListPage,
 });
 

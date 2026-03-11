@@ -15,12 +15,15 @@ import CoverImage from '@/components/cover-image';
 
 import { FeedLayout, FeedList } from '@/features/feed';
 
+import { generateHeadMeta } from '@/utils/metadata';
 import { getCurrentSeason } from '@/utils/season';
 
 export const Route = createFileRoute('/_pages/')({
-    head: () => ({
-        meta: [{ title: 'Hikka — Аніме енциклопедія' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Hikka - енциклопедія аніме, манґи та ранобе українською',
+            url: 'https://hikka.io',
+        }),
     loader: async ({ context: { queryClient, hikkaClient } }) => {
         const season = getCurrentSeason()!;
         const year = Number(new Date().getFullYear());
