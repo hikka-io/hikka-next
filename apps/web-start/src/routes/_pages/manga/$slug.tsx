@@ -29,7 +29,7 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
 
         if (!manga) throw redirect({ to: '/' });
 
-        await Promise.all([
+        await Promise.allSettled([
             ensureInfiniteQueryData(
                 queryClient,
                 mangaCharactersOptions(hikkaClient, { slug: params.slug }),
@@ -47,7 +47,9 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
                     contentType: ContentTypeEnum.MANGA,
                 }),
             ),
-            prefetchInfiniteQuery(queryClient, readingUsersOptions(hikkaClient, {
+            prefetchInfiniteQuery(
+                queryClient,
+                readingUsersOptions(hikkaClient, {
                     slug: params.slug,
                     contentType: ContentTypeEnum.MANGA,
                 }),

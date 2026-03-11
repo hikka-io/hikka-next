@@ -1,15 +1,14 @@
-import { queryKeys } from '@hikka/react/core';
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
+import { Outlet, createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { SettingsMenu } from '@/features/settings';
+import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/settings')({
     beforeLoad: async ({ context: { queryClient } }) => {
-        const session = queryClient.getQueryData(queryKeys.user.me());
-        if (!session) throw redirect({ to: '/login' });
+        requireAuth(queryClient);
     },
     head: () =>
         generateHeadMeta({

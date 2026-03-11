@@ -1,25 +1,9 @@
-import { HikkaClient } from '@hikka/client';
 import { createFileRoute } from '@tanstack/react-router';
 
-const client = new HikkaClient({
-    baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
-});
-
-function makeCookieHeader(name: string, value: string): string {
-    const domain = process.env.COOKIE_DOMAIN;
-    const httpOnly = process.env.COOKIE_HTTP_ONLY === 'true';
-    const maxAge = 60 * 60 * 24 * 30; // 30 days
-    return [
-        `${name}=${encodeURIComponent(value)}`,
-        `Max-Age=${maxAge}`,
-        'Path=/',
-        domain ? `Domain=${domain}` : '',
-        httpOnly ? 'HttpOnly' : '',
-        'SameSite=Lax',
-    ]
-        .filter(Boolean)
-        .join('; ');
-}
+import {
+    createServerHikkaClient,
+    makeCookieHeader,
+} from '@/utils/cookies/headers';
 
 export const Route = createFileRoute('/api/auth/activate/$token')({
     server: {
@@ -28,6 +12,7 @@ export const Route = createFileRoute('/api/auth/activate/$token')({
                 const { token } = params;
 
                 try {
+                    const client = createServerHikkaClient();
                     const res = await client.auth.activateUser({ token });
 
                     const headers = new Headers({

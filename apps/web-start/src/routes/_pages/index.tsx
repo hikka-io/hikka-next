@@ -12,7 +12,9 @@ import {
 import { createFileRoute } from '@tanstack/react-router';
 
 import CoverImage from '@/components/cover-image';
+
 import { FeedLayout, FeedList } from '@/features/feed';
+
 import { getCurrentSeason } from '@/utils/season';
 
 export const Route = createFileRoute('/_pages/')({
@@ -31,7 +33,8 @@ export const Route = createFileRoute('/_pages/')({
 
         if (loggedUser) {
             promises.push(
-                ensureInfiniteQueryData(queryClient,
+                ensureInfiniteQueryData(
+                    queryClient,
                     searchUserWatchesOptions(hikkaClient, {
                         username: loggedUser.username,
                         args: {
@@ -44,7 +47,8 @@ export const Route = createFileRoute('/_pages/')({
         }
 
         promises.push(
-            ensureInfiniteQueryData(queryClient,
+            ensureInfiniteQueryData(
+                queryClient,
                 searchAnimeScheduleOptions(hikkaClient, {
                     args: {
                         airing_season: [season, year],
@@ -57,7 +61,7 @@ export const Route = createFileRoute('/_pages/')({
             ),
         );
 
-        await Promise.all(promises);
+        await Promise.allSettled(promises);
     },
     component: HomePage,
 });

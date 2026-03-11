@@ -6,9 +6,10 @@ import {
     userWatchStatsOptions,
 } from '@hikka/react/options';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
-import Link from '@/components/ui/link';
 
 import CoverImage from '@/components/cover-image';
+import Link from '@/components/ui/link';
+
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import NavMenu from '@/features/common/nav-dropdown';
 import {
@@ -17,14 +18,12 @@ import {
     UserInfo,
     UserTitle,
 } from '@/features/users';
+
 import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/u/$username')({
-    loader: async ({
-        params,
-        context: { queryClient, hikkaClient },
-    }) => {
+    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
         const { username } = params;
 
         const user = await queryClient.ensureQueryData(
@@ -33,7 +32,7 @@ export const Route = createFileRoute('/_pages/u/$username')({
 
         if (!user) throw redirect({ to: '/' });
 
-        await Promise.all([
+        await Promise.allSettled([
             queryClient.prefetchQuery(
                 readStatsOptions(hikkaClient, {
                     username,

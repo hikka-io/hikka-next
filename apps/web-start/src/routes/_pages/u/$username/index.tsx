@@ -19,32 +19,33 @@ import {
 } from '@/features/users';
 
 export const Route = createFileRoute('/_pages/u/$username/')({
-    loader: async ({
-        params,
-        context: { queryClient, hikkaClient },
-    }) => {
+    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
         const { username } = params;
 
-        await Promise.all([
-            prefetchInfiniteQuery(queryClient,
+        await Promise.allSettled([
+            prefetchInfiniteQuery(
+                queryClient,
                 userFavouritesOptions(hikkaClient, {
                     username,
                     contentType: ContentTypeEnum.ANIME,
                 }),
             ),
-            prefetchInfiniteQuery(queryClient,
+            prefetchInfiniteQuery(
+                queryClient,
                 userHistoryOptions(hikkaClient, { username }),
             ),
             queryClient.prefetchQuery(
                 userActivityOptions(hikkaClient, { username }),
             ),
-            prefetchInfiniteQuery(queryClient,
+            prefetchInfiniteQuery(
+                queryClient,
                 searchArticlesOptions(hikkaClient, {
                     args: { author: username },
                     paginationArgs: { size: 3 },
                 }),
             ),
-            prefetchInfiniteQuery(queryClient,
+            prefetchInfiniteQuery(
+                queryClient,
                 searchCollectionsOptions(hikkaClient, {
                     args: {
                         author: username,

@@ -5,11 +5,12 @@ import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { FC, PropsWithChildren, useEffect } from 'react';
 
-import EffectsManager from '@/features/common/effects-manager';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import EffectsManager from '@/features/common/effects-manager';
 import ModalProvider from '@/services/providers/modal-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
 import { useUIStore } from '@/services/providers/ui-store-provider';
+import { parseAuthCookie } from '@/utils/cookies/parse';
 
 interface Props extends PropsWithChildren {
     client: HikkaClient;
@@ -21,9 +22,9 @@ const Providers: FC<Props> = ({ children, client }) => {
 
     // Read auth token from document.cookie on mount for client-side availability
     useEffect(() => {
-        const match = document.cookie.match(/(?:^|;\s*)auth=([^;]*)/);
-        if (match) {
-            client.setAuthToken(decodeURIComponent(match[1]));
+        const authToken = parseAuthCookie(document.cookie);
+        if (authToken) {
+            client.setAuthToken(authToken);
         }
     }, [client]);
 

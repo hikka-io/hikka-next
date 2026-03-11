@@ -1,22 +1,23 @@
 import { HikkaClient } from '@hikka/client';
 import {
-    createHikkaClient,
-    createQueryClient,
     MutationCache,
     QueryClient,
+    createHikkaClient,
+    createQueryClient,
 } from '@hikka/react/core';
 import { createRouter as createTanStackRouter } from '@tanstack/react-router';
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query';
 import { toast } from 'sonner';
 
 import { routeTree } from './routeTree.gen';
+import { getAuthTokenFn } from './utils/cookies';
 
 export interface RouterContext {
     queryClient: QueryClient;
     hikkaClient: HikkaClient;
 }
 
-export function createRouter() {
+export async function createRouter() {
     const queryClient = createQueryClient({
         mutationCache: new MutationCache({
             onError: (error) => {
@@ -24,8 +25,10 @@ export function createRouter() {
             },
         }),
     });
+    const authToken = await getAuthTokenFn();
     const hikkaClient = createHikkaClient({
         baseUrl: import.meta.env.VITE_API_URL ?? 'https://api.hikka.io',
+        authToken: authToken ?? undefined,
     });
 
     const router = createTanStackRouter({

@@ -1,26 +1,28 @@
+import { queryKeys } from '@hikka/react/core';
 import { sessionOptions } from '@hikka/react/options';
-import { createFileRoute, Outlet } from '@tanstack/react-router';
+import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
-import {
-    AppSidebar,
-    Footer,
-    Navbar,
-    ScrollTop,
-} from '@/features/common';
-import { getAuthTokenFn } from '@/utils/cookies/server';
+
+import { AppSidebar, Footer, Navbar, ScrollTop } from '@/features/common';
 
 export const Route = createFileRoute('/_pages')({
     loader: async ({ context: { queryClient, hikkaClient } }) => {
-        try {
-            const authToken = await getAuthTokenFn();
-            if (authToken) {
-                hikkaClient.setAuthToken(authToken);
-                await queryClient.prefetchQuery(sessionOptions(hikkaClient));
-            }
-        } catch {
-            // auth token fetch or session prefetch failed — continue unauthenticated
+        const authToken = hikkaClient.getAuthToken();
+        if (!authToken) return;
+
+        await queryClient.prefetchQuery(sessionOptions(hikkaClient));
+
+        // Check if session prefetch stored an invalid token error
+        const sessionState = queryClient.getQueryState(queryKeys.user.me());
+        if (
+            sessionState?.error &&
+            typeof sessionState.error === 'object' &&
+            'code' in sessionState.error &&
+            (sessionState.error as any).code === 'auth:invalid_token'
+        ) {
+            throw redirect({ to: '/api/auth/logout' });
         }
     },
     component: PagesLayout,

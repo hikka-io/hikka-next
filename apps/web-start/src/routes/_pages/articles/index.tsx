@@ -13,7 +13,8 @@ import {
 } from '@/features/articles';
 
 export const Route = createFileRoute('/_pages/articles/')({
-    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
+    validateSearch: (search: Record<string, unknown>) =>
+        search as Record<string, any>,
     loader: async ({ context: { queryClient, hikkaClient }, location }) => {
         const {
             author,
@@ -24,8 +25,9 @@ export const Route = createFileRoute('/_pages/articles/')({
             categories = [],
         } = location.search as Record<string, any>;
 
-        await Promise.all([
-            prefetchInfiniteQuery(queryClient,
+        await Promise.allSettled([
+            prefetchInfiniteQuery(
+                queryClient,
                 searchArticlesOptions(hikkaClient, {
                     args: {
                         author: author as string,

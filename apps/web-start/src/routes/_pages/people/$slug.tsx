@@ -22,7 +22,7 @@ export const Route = createFileRoute('/_pages/people/$slug')({
 
         if (!person) throw redirect({ to: '/' });
 
-        await Promise.all([
+        await Promise.allSettled([
             ensureInfiniteQueryData(
                 queryClient,
                 personAnimeOptions(hikkaClient, { slug: params.slug }),
@@ -68,9 +68,7 @@ function PersonDetailLayout() {
             contentType={ContentTypeEnum.PERSON}
             navRoutes={PERSON_NAV_ROUTES}
             urlPrefix="/people"
-            title={
-                person.name_ua || person.name_en || person.name_native || ''
-            }
+            title={person.name_ua || person.name_en || person.name_native || ''}
         >
             <Outlet />
         </ContentDetailLayout>

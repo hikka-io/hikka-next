@@ -30,7 +30,7 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
 
         if (!anime) throw redirect({ to: '/' });
 
-        await Promise.all([
+        await Promise.allSettled([
             ensureInfiniteQueryData(
                 queryClient,
                 animeCharactersOptions(hikkaClient, { slug: params.slug }),

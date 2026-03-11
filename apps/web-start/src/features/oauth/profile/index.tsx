@@ -15,8 +15,8 @@ interface Props {}
 const Profle: FC<Props> = () => {
     const { user } = useSession();
 
-    const logout = async () => {
-        window.location.href = `${import.meta.env.VITE_SITE_URL}/auth/logout`;
+    const logout = () => {
+        window.location.href = '/api/auth/logout';
     };
 
     if (!user) return <AuthNeeded />;

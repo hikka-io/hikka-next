@@ -1,15 +1,13 @@
 import { EditContentType, EditStatusEnum } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
-import {
-    editListOptions,
-    topEditorsListOptions,
-} from '@hikka/react/options';
+import { editListOptions, topEditorsListOptions } from '@hikka/react/options';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import {
     EditFiltersModal,
     EditList,
@@ -18,11 +16,9 @@ import {
 } from '@/features/edit';
 
 export const Route = createFileRoute('/_pages/edit/')({
-    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
-    loader: async ({
-        context: { queryClient, hikkaClient },
-        location,
-    }) => {
+    validateSearch: (search: Record<string, unknown>) =>
+        search as Record<string, any>,
+    loader: async ({ context: { queryClient, hikkaClient }, location }) => {
         const {
             page,
             content_type,
@@ -38,11 +34,13 @@ export const Route = createFileRoute('/_pages/edit/')({
             });
         }
 
-        await Promise.all([
-            prefetchInfiniteQuery(queryClient,
+        await Promise.allSettled([
+            prefetchInfiniteQuery(
+                queryClient,
                 editListOptions(hikkaClient, {
                     args: {
-                        content_type: (content_type as EditContentType) || undefined,
+                        content_type:
+                            (content_type as EditContentType) || undefined,
                         sort: [`${sort}:${order}`],
                         status: edit_status
                             ? (edit_status as EditStatusEnum)
@@ -51,7 +49,8 @@ export const Route = createFileRoute('/_pages/edit/')({
                     paginationArgs: { page: Number(page) },
                 }),
             ),
-            prefetchInfiniteQuery(queryClient,
+            prefetchInfiniteQuery(
+                queryClient,
                 topEditorsListOptions(hikkaClient),
             ),
         ]);

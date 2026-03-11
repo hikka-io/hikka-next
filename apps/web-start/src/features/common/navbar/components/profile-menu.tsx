@@ -31,8 +31,8 @@ const ProfileMenu = () => {
         return null;
     }
 
-    const logout = async () => {
-        window.location.href = `${import.meta.env.VITE_SITE_URL}/auth/logout?callbackUrl=${currentUrl}`;
+    const logout = () => {
+        window.location.href = `/api/auth/logout?callbackUrl=${encodeURIComponent(currentUrl)}`;
     };
 
     return (

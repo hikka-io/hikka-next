@@ -1,5 +1,4 @@
 import { clientByReferenceOptions } from '@hikka/react/options';
-import { queryKeys } from '@hikka/react/core';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import {
@@ -22,17 +21,6 @@ export const Route = createFileRoute('/_pages/oauth')({
         };
 
         if (!reference || !scope) throw redirect({ to: '/' });
-
-        // Check if session has invalid token error (parent _pages loader prefetched it)
-        const sessionState = queryClient.getQueryState(queryKeys.user.me());
-        if (
-            sessionState?.error &&
-            typeof sessionState.error === 'object' &&
-            'code' in sessionState.error &&
-            (sessionState.error as any).code === 'auth:invalid_token'
-        ) {
-            throw redirect({ to: '/api/auth/logout' });
-        }
 
         await queryClient.prefetchQuery(
             clientByReferenceOptions(hikkaClient, { reference }),
