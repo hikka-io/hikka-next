@@ -4,8 +4,11 @@ import {
     Outlet,
     Scripts,
     createRootRouteWithContext,
+    useRouter,
 } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
+import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
+import { TanStackDevtools } from '@tanstack/react-devtools';
+import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 
 import NotFoundPage from '@/components/not-found-page';
 import { Providers } from '@/features/common';
@@ -57,6 +60,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 function RootLayout() {
     const { userUI, userStylesCSS } = Route.useLoaderData();
     const { hikkaClient } = Route.useRouteContext() as RouterContext;
+    const router = useRouter();
 
     return (
         <html lang="uk" data-theme="dark" suppressHydrationWarning>
@@ -106,7 +110,20 @@ function RootLayout() {
                         </Providers>
                     </UIStoreProvider>
                 </div>
-                <TanStackRouterDevtools position="bottom-right" />
+                <TanStackDevtools
+                    plugins={[
+                        {
+                            id: 'router',
+                            name: 'TanStack Router',
+                            render: <TanStackRouterDevtoolsPanel router={router} />,
+                        },
+                        {
+                            id: 'query',
+                            name: 'TanStack Query',
+                            render: <ReactQueryDevtoolsPanel />,
+                        },
+                    ]}
+                />
                 <Scripts />
             </body>
         </html>

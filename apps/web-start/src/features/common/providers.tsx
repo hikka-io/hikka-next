@@ -2,7 +2,6 @@ import { HikkaClient } from '@hikka/client';
 import { HikkaContextProvider } from '@hikka/react';
 import { uk } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { FC, PropsWithChildren, useEffect } from 'react';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -49,7 +48,6 @@ const Providers: FC<Props> = ({ children, client }) => {
                     </ModalProvider>
                 </TooltipProvider>
             </ThemeProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
         </HikkaContextProvider>
     );
 };

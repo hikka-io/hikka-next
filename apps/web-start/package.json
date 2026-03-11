@@ -57,7 +57,9 @@
         "@radix-ui/react-tooltip": "^1.2.8",
         "@radix-ui/react-use-controllable-state": "^1.2.2",
         "@tanstack/query-core": "^5.90.20",
+        "@tanstack/react-devtools": "^0.9.13",
         "@tanstack/react-query": "^5.90.21",
+        "@tanstack/react-query-devtools": "^5.91.3",
         "@tanstack/react-router": "^1.0.0",
         "@tanstack/react-router-ssr-query": "^1.166.7",
         "@tanstack/react-start": "^1.0.0",
@@ -101,6 +103,7 @@
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4",
+        "@tanstack/devtools-vite": "^0.5.5",
         "@tanstack/react-router-devtools": "^1.166.6",
         "@types/lodash": "4.17.20",
         "@types/react": "19.2.7",
