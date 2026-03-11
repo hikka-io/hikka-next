@@ -1,11 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { CharacterAnime as Anime } from '@/features/characters';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/characters/$slug/anime')({
-    head: () => ({
-        meta: [{ title: 'Аніме' }],
-    }),
+    head: () => generateHeadMeta({ title: 'Аніме', robots: { index: false } }),
     component: CharacterAnimePage,
 });
 

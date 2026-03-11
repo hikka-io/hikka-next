@@ -15,6 +15,7 @@ import {
 import Stack from '@/components/ui/stack';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
     extended?: boolean;
@@ -38,7 +39,7 @@ const MainCharacters: FC<Props> = ({ extended, content_type }) => {
 
     return (
         <Block>
-            <Header href={!extended ? params.slug + '/characters' : undefined}>
+            <Header href={!extended ? `${CONTENT_TYPE_LINKS[content_type]}/${params.slug}/characters` : undefined}>
                 <HeaderContainer>
                     <HeaderTitle>Головні Персонажі</HeaderTitle>
                 </HeaderContainer>

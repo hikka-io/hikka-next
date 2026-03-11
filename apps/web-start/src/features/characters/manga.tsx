@@ -30,7 +30,7 @@ const Manga: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header href={!extended ? params.slug + '/manga' : undefined}>
+            <Header href={!extended ? `/characters/${params.slug}/manga` : undefined}>
                 <HeaderContainer>
                     <HeaderTitle>Манґа</HeaderTitle>
                 </HeaderContainer>

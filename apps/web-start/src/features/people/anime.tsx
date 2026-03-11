@@ -30,7 +30,7 @@ const Anime: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header href={!extended ? params.slug + '/anime' : undefined}>
+            <Header href={!extended ? `/people/${params.slug}/anime` : undefined}>
                 <HeaderContainer>
                     <HeaderTitle>Аніме</HeaderTitle>
                 </HeaderContainer>

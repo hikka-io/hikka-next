@@ -30,7 +30,7 @@ const Voices: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header href={!extended ? params.slug + '/voices' : undefined}>
+            <Header href={!extended ? `/characters/${params.slug}/voices` : undefined}>
                 <HeaderContainer>
                     <HeaderTitle>Сейю</HeaderTitle>
                 </HeaderContainer>

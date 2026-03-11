@@ -45,12 +45,12 @@ export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '/anime',
     },
     {
-        slug: 'anime',
+        slug: 'manga',
         title_ua: 'Манґа',
         url: '/manga',
     },
     {
-        slug: 'anime',
+        slug: 'novel',
         title_ua: 'Ранобе',
         url: '/novel',
     },
@@ -68,12 +68,12 @@ export const PERSON_NAV_ROUTES: Hikka.NavRoute[] = [
         url: '/anime',
     },
     {
-        slug: 'anime',
+        slug: 'manga',
         title_ua: 'Манґа',
         url: '/manga',
     },
     {
-        slug: 'anime',
+        slug: 'novel',
         title_ua: 'Ранобе',
         url: '/novel',
     },

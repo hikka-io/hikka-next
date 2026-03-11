@@ -1,8 +1,15 @@
 'use client';
 
-import { Link as TanstackLink } from '@/utils/navigation';
 import { FC, PropsWithChildren } from 'react';
 
+import {
+    AnimeTooltip,
+    CharacterTooltip,
+    MangaTooltip,
+    NovelTooltip,
+    PersonTooltip,
+    UserTooltip,
+} from '@/components/content-card';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -16,15 +23,8 @@ import {
 } from '@/components/ui/alert-dialog';
 
 import { cn } from '@/utils/cn';
+import { Link as TanstackLink } from '@/utils/navigation';
 
-import {
-    AnimeTooltip,
-    CharacterTooltip,
-    MangaTooltip,
-    NovelTooltip,
-    PersonTooltip,
-    UserTooltip,
-} from '@/components/content-card';
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
 
 interface Props {
@@ -169,13 +169,13 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     {children}
                 </span>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className="w-full overflow-hidden lg:min-w-lg">
                 <AlertDialogHeader>
                     <AlertDialogTitle>
                         Ви впевнені, що хочете відкрити посилання?
                     </AlertDialogTitle>
                     <AlertDialogDescription asChild>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 w-full overflow-hidden">
                             <MaterialSymbolsLinkRounded />
                             <p
                                 className={cn(

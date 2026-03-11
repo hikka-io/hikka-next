@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+
 import { useStaff } from './hooks/use-staff';
 
 interface Props {
@@ -38,7 +40,7 @@ const Staff: FC<Props> = ({ extended, content_type }) => {
 
     return (
         <Block>
-            <Header href={!extended ? params.slug + '/staff' : undefined}>
+            <Header href={!extended ? `${CONTENT_TYPE_LINKS[content_type]}/${params.slug}/staff` : undefined}>
                 <HeaderContainer>
                     <HeaderTitle>Автори</HeaderTitle>
                 </HeaderContainer>

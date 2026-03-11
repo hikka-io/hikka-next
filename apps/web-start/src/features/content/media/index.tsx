@@ -34,7 +34,7 @@ const Media: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header href={!extended ? params.slug + '/media' : undefined}>
+            <Header href={!extended ? `/anime/${params.slug}/media` : undefined}>
                 <HeaderContainer>
                     <HeaderTitle>Медіа</HeaderTitle>
                     <ToggleGroup

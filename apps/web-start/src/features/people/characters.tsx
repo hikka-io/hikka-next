@@ -30,7 +30,7 @@ const Characters: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header href={!extended ? params.slug + '/characters' : undefined}>
+            <Header href={!extended ? `/people/${params.slug}/characters` : undefined}>
                 <HeaderContainer>
                     <HeaderTitle>Персонажі</HeaderTitle>
                 </HeaderContainer>

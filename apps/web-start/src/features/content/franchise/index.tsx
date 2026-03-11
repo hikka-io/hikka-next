@@ -21,6 +21,7 @@ import {
     DEFAULT_PREFERENCES,
     useSettingsStore,
 } from '@/services/stores/settings-store';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useParams } from '@/utils/navigation';
 
 import FranchiseFilters from './components/franchise-filters';
@@ -87,7 +88,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
             <div className="flex items-center justify-between">
                 <Header
                     className="flex-1"
-                    to={!extended ? params.slug + '/franchise' : undefined}
+                    to={!extended ? `${CONTENT_TYPE_LINKS[content_type]}/${params.slug}/franchise` : undefined}
                 >
                     <HeaderContainer>
                         <HeaderTitle>{title}</HeaderTitle>
