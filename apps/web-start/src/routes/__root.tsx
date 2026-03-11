@@ -1,4 +1,6 @@
 import '@fontsource-variable/geist';
+import { TanStackDevtools } from '@tanstack/react-devtools';
+import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 import {
     HeadContent,
     Outlet,
@@ -7,10 +9,9 @@ import {
     useRouter,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
-import { TanStackDevtools } from '@tanstack/react-devtools';
-import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 
 import NotFoundPage from '@/components/not-found-page';
+
 import { Providers } from '@/features/common';
 
 import { UIStoreProvider } from '@/services/providers/ui-store-provider';
@@ -63,8 +64,13 @@ function RootLayout() {
     const router = useRouter();
 
     return (
-        <html lang="uk" data-theme="dark" suppressHydrationWarning>
+        <html lang="uk" suppressHydrationWarning>
             <head>
+                <script
+                    dangerouslySetInnerHTML={{
+                        __html: `(function(){try{var t=localStorage.getItem('theme')||'dark';if(t==='system'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.classList.add(t);}catch(e){document.documentElement.classList.add('dark');}})();`,
+                    }}
+                />
                 <HeadContent />
                 <script
                     type="application/ld+json"
@@ -115,7 +121,9 @@ function RootLayout() {
                         {
                             id: 'router',
                             name: 'TanStack Router',
-                            render: <TanStackRouterDevtoolsPanel router={router} />,
+                            render: (
+                                <TanStackRouterDevtoolsPanel router={router} />
+                            ),
                         },
                         {
                             id: 'query',

@@ -186,19 +186,21 @@ export function stylesToCSS(styles: UIStyles | undefined): string {
         const lightDeclarations = [lightColors, radiusDecl]
             .filter(Boolean)
             .join('\n    ');
-        parts.push(`:root {\n    ${lightDeclarations}\n}`);
+        // :root:root has specificity [0,2,0] vs :root [0,1,0] — wins regardless of source order
+        parts.push(`:root:root {\n    ${lightDeclarations}\n}`);
     }
 
     if (sanitizedLightBg) {
         parts.push(
-            `:root body {\n    background-image: ${sanitizedLightBg};\n}`,
+            `:root:root body {\n    background-image: ${sanitizedLightBg};\n}`,
         );
     }
 
     const darkColors = colorTokensToCSS(styles.dark?.colors);
 
     if (darkColors) {
-        parts.push(`.dark {\n    ${darkColors}\n}`);
+        // .dark.dark has specificity [0,2,0] vs .dark [0,1,0]
+        parts.push(`.dark.dark {\n    ${darkColors}\n}`);
     }
 
     const sanitizedDarkBg = styles.dark?.body?.background_image
@@ -207,7 +209,7 @@ export function stylesToCSS(styles: UIStyles | undefined): string {
 
     if (sanitizedDarkBg) {
         parts.push(
-            `.dark body {\n    background-image: ${sanitizedDarkBg};\n}`,
+            `.dark.dark body {\n    background-image: ${sanitizedDarkBg};\n}`,
         );
     }
 
@@ -255,6 +257,10 @@ export function injectStyles(css: string): void {
     if (!styleElement) {
         styleElement = document.createElement('style');
         styleElement.id = STYLE_ELEMENT_ID;
+        document.head.appendChild(styleElement);
+    } else if (document.head.lastElementChild !== styleElement) {
+        // Move to end of <head> so source order favors user styles over any
+        // <link rel="stylesheet"> injected by Vite/framework after SSR.
         document.head.appendChild(styleElement);
     }
 

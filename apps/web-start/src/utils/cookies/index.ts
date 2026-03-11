@@ -8,4 +8,4 @@ export {
     createServerHikkaClient,
     makeCookieHeader,
 } from './headers';
-export { parseAuthCookie } from './parse';
+export { parseAuthCookie, parseCookies } from './parse';

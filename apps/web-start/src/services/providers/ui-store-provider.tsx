@@ -1,7 +1,13 @@
 'use client';
 
 import { UserUI } from '@hikka/client';
-import { PropsWithChildren, createContext, useContext, useRef } from 'react';
+import {
+    PropsWithChildren,
+    createContext,
+    useContext,
+    useEffect,
+    useRef,
+} from 'react';
 import { useStore } from 'zustand';
 import { useStoreWithEqualityFn } from 'zustand/traditional';
 
@@ -11,8 +17,20 @@ import {
     UITemporalState,
     createUIStore,
 } from '@/services/stores/ui-store';
+import { applyStyles } from '@/utils/ui/inject-styles';
 
 const UIStoreContext = createContext<UIStoreWithTemporal | null>(null);
+
+function UIStylesSyncer() {
+    const storeApi = useUIStoreApi();
+    const styles = useUIStore((state) => state.styles);
+
+    useEffect(() => {
+        applyStyles(storeApi.getState().getMergedStyles());
+    }, [styles, storeApi]);
+
+    return null;
+}
 
 export function UIStoreProvider({
     children,
@@ -28,6 +46,7 @@ export function UIStoreProvider({
 
     return (
         <UIStoreContext.Provider value={storeRef.current}>
+            <UIStylesSyncer />
             {children}
         </UIStoreContext.Provider>
     );

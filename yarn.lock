@@ -1958,6 +1958,7 @@ __metadata:
     marked: "npm:^12.0.1"
     next-plausible: "npm:^3.12.4"
     next-themes: "npm:^0.4.6"
+    nitro: "npm:nitro-nightly@latest"
     platejs: "npm:^52.0.8"
     react: "npm:19.2.1"
     react-avatar-editor: "npm:^13.0.2"
@@ -3485,6 +3486,13 @@ __metadata:
   version: 10.0.0
   resolution: "@oozcitak/util@npm:10.0.0"
   checksum: 10c0/4f143f50779790166e747c722383551af819776e7f946c9bd25b9875a128c517c91f058fb4ea11b235388eea83bf7b84a5590f882c74171e95b04487bc2b948d
+  languageName: node
+  linkType: hard
+
+"@oxc-project/types@npm:=0.115.0":
+  version: 0.115.0
+  resolution: "@oxc-project/types@npm:0.115.0"
+  checksum: 10c0/47fc31eb3fb3fcf4119955339f92ba2003f9b445834c1a28ed945cd6b9cd833c7ba66fca88aa5277336c2c55df300a593bc67970e544691eceaa486ebe12cb58
   languageName: node
   linkType: hard
 
@@ -5711,6 +5719,113 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rolldown/binding-android-arm64@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-android-arm64@npm:1.0.0-rc.9"
+  conditions: os=android & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-darwin-arm64@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-darwin-arm64@npm:1.0.0-rc.9"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-darwin-x64@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-darwin-x64@npm:1.0.0-rc.9"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-freebsd-x64@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-freebsd-x64@npm:1.0.0-rc.9"
+  conditions: os=freebsd & cpu=x64
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-linux-arm-gnueabihf@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-linux-arm-gnueabihf@npm:1.0.0-rc.9"
+  conditions: os=linux & cpu=arm
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-linux-arm64-gnu@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-linux-arm64-gnu@npm:1.0.0-rc.9"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-linux-arm64-musl@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-linux-arm64-musl@npm:1.0.0-rc.9"
+  conditions: os=linux & cpu=arm64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-linux-ppc64-gnu@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-linux-ppc64-gnu@npm:1.0.0-rc.9"
+  conditions: os=linux & cpu=ppc64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-linux-s390x-gnu@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-linux-s390x-gnu@npm:1.0.0-rc.9"
+  conditions: os=linux & cpu=s390x & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-linux-x64-gnu@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-linux-x64-gnu@npm:1.0.0-rc.9"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-linux-x64-musl@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-linux-x64-musl@npm:1.0.0-rc.9"
+  conditions: os=linux & cpu=x64 & libc=musl
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-openharmony-arm64@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-openharmony-arm64@npm:1.0.0-rc.9"
+  conditions: os=openharmony & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-wasm32-wasi@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-wasm32-wasi@npm:1.0.0-rc.9"
+  dependencies:
+    "@napi-rs/wasm-runtime": "npm:^1.1.1"
+  conditions: cpu=wasm32
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-win32-arm64-msvc@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-win32-arm64-msvc@npm:1.0.0-rc.9"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@rolldown/binding-win32-x64-msvc@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/binding-win32-x64-msvc@npm:1.0.0-rc.9"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
 "@rolldown/pluginutils@npm:1.0.0-beta.27":
   version: 1.0.0-beta.27
   resolution: "@rolldown/pluginutils@npm:1.0.0-beta.27"
@@ -5722,6 +5837,13 @@ __metadata:
   version: 1.0.0-beta.40
   resolution: "@rolldown/pluginutils@npm:1.0.0-beta.40"
   checksum: 10c0/057c640a526e7ba0f4c6d379918665017aaf616e682393df1f112f6e103e738267d27a70015f08992bd19186d7627e4c096d37f03b87e7cc4aa0353430c40e42
+  languageName: node
+  linkType: hard
+
+"@rolldown/pluginutils@npm:1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "@rolldown/pluginutils@npm:1.0.0-rc.9"
+  checksum: 10c0/fca488fb96b134ccf95b42632b6112b4abb8b3a9688f166fbd627410def2538ee201953717d234ddecbff62dfe4edc4e72c657b01a9d0750134608d767eea5fd
   languageName: node
   linkType: hard
 
@@ -9718,7 +9840,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"consola@npm:^3.4.0":
+"consola@npm:^3.4.0, consola@npm:^3.4.2":
   version: 3.4.2
   resolution: "consola@npm:3.4.2"
   checksum: 10c0/7cebe57ecf646ba74b300bcce23bff43034ed6fbec9f7e39c27cee1dc00df8a21cd336b466ad32e304ea70fba04ec9e890c200270de9a526ce021ba8a7e4c11a
@@ -9807,6 +9929,18 @@ __metadata:
     shebang-command: "npm:^2.0.0"
     which: "npm:^2.0.1"
   checksum: 10c0/053ea8b2135caff68a9e81470e845613e374e7309a47731e81639de3eaeb90c3d01af0e0b44d2ab9d50b43467223b88567dfeb3262db942dc063b9976718ffc1
+  languageName: node
+  linkType: hard
+
+"crossws@npm:^0.4.4":
+  version: 0.4.4
+  resolution: "crossws@npm:0.4.4"
+  peerDependencies:
+    srvx: ">=0.7.1"
+  peerDependenciesMeta:
+    srvx:
+      optional: true
+  checksum: 10c0/7f029a5a432a7156b376ed9222d0eedd9bdb5ce29661bd0306d4cce28f5d8d5a9feab74b8c6998f052e74b51d34571bf055edfc62def65415c9541fb421352f0
   languageName: node
   linkType: hard
 
@@ -10031,6 +10165,33 @@ __metadata:
   version: 1.11.19
   resolution: "dayjs@npm:1.11.19"
   checksum: 10c0/7d8a6074a343f821f81ea284d700bd34ea6c7abbe8d93bce7aba818948957c1b7f56131702e5e890a5622cdfc05dcebe8aed0b8313bdc6838a594d7846b0b000
+  languageName: node
+  linkType: hard
+
+"db0@npm:^0.3.4":
+  version: 0.3.4
+  resolution: "db0@npm:0.3.4"
+  peerDependencies:
+    "@electric-sql/pglite": "*"
+    "@libsql/client": "*"
+    better-sqlite3: "*"
+    drizzle-orm: "*"
+    mysql2: "*"
+    sqlite3: "*"
+  peerDependenciesMeta:
+    "@electric-sql/pglite":
+      optional: true
+    "@libsql/client":
+      optional: true
+    better-sqlite3:
+      optional: true
+    drizzle-orm:
+      optional: true
+    mysql2:
+      optional: true
+    sqlite3:
+      optional: true
+  checksum: 10c0/cd069a39783b8a160180ba4ae1a9832cd063e4f5d269442c7e7dd3e5713965e01f4d11272d5c79699e9723f4c79ba67159e52ec34b4a61e7349609865f20a368
   languageName: node
   linkType: hard
 
@@ -10588,6 +10749,24 @@ __metadata:
   version: 2.2.1
   resolution: "env-paths@npm:2.2.1"
   checksum: 10c0/285325677bf00e30845e330eec32894f5105529db97496ee3f598478e50f008c5352a41a30e5e72ec9de8a542b5a570b85699cd63bd2bc646dbcb9f311d83bc4
+  languageName: node
+  linkType: hard
+
+"env-runner@npm:^0.1.6":
+  version: 0.1.6
+  resolution: "env-runner@npm:0.1.6"
+  dependencies:
+    crossws: "npm:^0.4.4"
+    httpxy: "npm:^0.3.1"
+    srvx: "npm:^0.11.9"
+  peerDependencies:
+    miniflare: ^4.0.0
+  peerDependenciesMeta:
+    miniflare:
+      optional: true
+  bin:
+    env-runner: dist/cli.mjs
+  checksum: 10c0/37831d748f18cab5c7ab26fd00ffda4d1682a6d6d78fd9ef3a8d6c7b8ad4e8951123755d97d24dbe5a098384885ef0b1d9c8346b6dd3765b86cd5088a761ddaa
   languageName: node
   linkType: hard
 
@@ -12238,7 +12417,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"h3-v2@npm:h3@2.0.1-rc.16":
+"h3-v2@npm:h3@2.0.1-rc.16, h3@npm:^2.0.1-rc.16":
   version: 2.0.1-rc.16
   resolution: "h3@npm:2.0.1-rc.16"
   dependencies:
@@ -12449,6 +12628,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hookable@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "hookable@npm:6.0.1"
+  checksum: 10c0/a53592937c1aa74a650b3b92a9d8cf8bd58eee48422124a90299344f81e90cd2ee2f3d9f3686c45c0bc87edbc9fede4de709edf6b987dd6837bdcfa502447fa0
+  languageName: node
+  linkType: hard
+
 "html-encoding-sniffer@npm:^3.0.0":
   version: 3.0.0
   resolution: "html-encoding-sniffer@npm:3.0.0"
@@ -12561,6 +12747,13 @@ __metadata:
     agent-base: "npm:^7.1.2"
     debug: "npm:4"
   checksum: 10c0/f729219bc735edb621fa30e6e84e60ee5d00802b8247aac0d7b79b0bd6d4b3294737a337b93b86a0bd9e68099d031858a39260c976dc14cdbba238ba1f8779ac
+  languageName: node
+  linkType: hard
+
+"httpxy@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "httpxy@npm:0.3.1"
+  checksum: 10c0/de247bdbd27b9ba813ad9c8bc6b558c03fd91825385dd9642dec1f992f025099a4b7feece66548f95709d42a71dc88af422a6fafb09926dec8da5f1e15f003ba
   languageName: node
   linkType: hard
 
@@ -15469,6 +15662,60 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nf3@npm:^0.3.11":
+  version: 0.3.11
+  resolution: "nf3@npm:0.3.11"
+  checksum: 10c0/209c9c19e95437dd5c35481ac765937e3f42d817c562ca4971136806e9b84460a4c3987b05bb401474fcbdb9fd449dc6f2cc2d65412bef77df149f7125637203
+  languageName: node
+  linkType: hard
+
+"nitro@npm:nitro-nightly@latest":
+  version: 3.0.1-20260311-194443-0f366e59
+  resolution: "nitro-nightly@npm:3.0.1-20260311-194443-0f366e59"
+  dependencies:
+    consola: "npm:^3.4.2"
+    crossws: "npm:^0.4.4"
+    db0: "npm:^0.3.4"
+    env-runner: "npm:^0.1.6"
+    h3: "npm:^2.0.1-rc.16"
+    hookable: "npm:^6.0.1"
+    nf3: "npm:^0.3.11"
+    ocache: "npm:^0.1.2"
+    ofetch: "npm:^2.0.0-alpha.3"
+    ohash: "npm:^2.0.11"
+    rolldown: "npm:^1.0.0-rc.8"
+    srvx: "npm:^0.11.9"
+    unenv: "npm:^2.0.0-rc.24"
+    unstorage: "npm:^2.0.0-alpha.6"
+  peerDependencies:
+    dotenv: "*"
+    giget: "*"
+    jiti: ^2.6.1
+    rollup: ^4.59.0
+    vite: ^7 || ^8 || >=8.0.0-0
+    xml2js: ^0.6.2
+    zephyr-agent: ^0.1.15
+  peerDependenciesMeta:
+    dotenv:
+      optional: true
+    giget:
+      optional: true
+    jiti:
+      optional: true
+    rollup:
+      optional: true
+    vite:
+      optional: true
+    xml2js:
+      optional: true
+    zephyr-agent:
+      optional: true
+  bin:
+    nitro: dist/cli/index.mjs
+  checksum: 10c0/66a8eeb5ba684cbdad37a3a09101b794b6d03580814cef9562c34427f29f656a5677082410f116b474bf18562389b7f8dfd4baecbd17838068ea1f9aa8ec57c3
+  languageName: node
+  linkType: hard
+
 "no-case@npm:^3.0.4":
   version: 3.0.4
   resolution: "no-case@npm:3.0.4"
@@ -15682,6 +15929,29 @@ __metadata:
     define-properties: "npm:^1.2.1"
     es-object-atoms: "npm:^1.0.0"
   checksum: 10c0/3c47814fdc64842ae3d5a74bc9d06bdd8d21563c04d9939bf6716a9c00596a4ebc342552f8934013d1ec991c74e3671b26710a0c51815f0b603795605ab6b2c9
+  languageName: node
+  linkType: hard
+
+"ocache@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "ocache@npm:0.1.2"
+  dependencies:
+    ohash: "npm:^2.0.11"
+  checksum: 10c0/2b0a668ce769df326047f1d1d5cd40b2fb4f9d1fa0b467127a0b1b38025a07738cda096cf9e7e5a1a2a98346819df62521c07c8c947f5f2b1e0cef6ea41169a9
+  languageName: node
+  linkType: hard
+
+"ofetch@npm:^2.0.0-alpha.3":
+  version: 2.0.0-alpha.3
+  resolution: "ofetch@npm:2.0.0-alpha.3"
+  checksum: 10c0/d2b2529980d49c33a647c54cc37fde7a55601ed81c1ec53863c323d292704c84811a902df9840aeb09eb917eadc82996c15d25013002dde84dcdd6f98bb21d0d
+  languageName: node
+  linkType: hard
+
+"ohash@npm:^2.0.11":
+  version: 2.0.11
+  resolution: "ohash@npm:2.0.11"
+  checksum: 10c0/d07c8d79cc26da082c1a7c8d5b56c399dd4ed3b2bd069fcae6bae78c99a9bcc3ad813b1e1f49ca2f335292846d689c6141a762cf078727d2302a33d414e69c79
   languageName: node
   linkType: hard
 
@@ -17356,6 +17626,64 @@ __metadata:
   bin:
     rimraf: dist/esm/bin.mjs
   checksum: 10c0/7da4fd0e15118ee05b918359462cfa1e7fe4b1228c7765195a45b55576e8c15b95db513b8466ec89129666f4af45ad978a3057a02139afba1a63512a2d9644cc
+  languageName: node
+  linkType: hard
+
+"rolldown@npm:^1.0.0-rc.8":
+  version: 1.0.0-rc.9
+  resolution: "rolldown@npm:1.0.0-rc.9"
+  dependencies:
+    "@oxc-project/types": "npm:=0.115.0"
+    "@rolldown/binding-android-arm64": "npm:1.0.0-rc.9"
+    "@rolldown/binding-darwin-arm64": "npm:1.0.0-rc.9"
+    "@rolldown/binding-darwin-x64": "npm:1.0.0-rc.9"
+    "@rolldown/binding-freebsd-x64": "npm:1.0.0-rc.9"
+    "@rolldown/binding-linux-arm-gnueabihf": "npm:1.0.0-rc.9"
+    "@rolldown/binding-linux-arm64-gnu": "npm:1.0.0-rc.9"
+    "@rolldown/binding-linux-arm64-musl": "npm:1.0.0-rc.9"
+    "@rolldown/binding-linux-ppc64-gnu": "npm:1.0.0-rc.9"
+    "@rolldown/binding-linux-s390x-gnu": "npm:1.0.0-rc.9"
+    "@rolldown/binding-linux-x64-gnu": "npm:1.0.0-rc.9"
+    "@rolldown/binding-linux-x64-musl": "npm:1.0.0-rc.9"
+    "@rolldown/binding-openharmony-arm64": "npm:1.0.0-rc.9"
+    "@rolldown/binding-wasm32-wasi": "npm:1.0.0-rc.9"
+    "@rolldown/binding-win32-arm64-msvc": "npm:1.0.0-rc.9"
+    "@rolldown/binding-win32-x64-msvc": "npm:1.0.0-rc.9"
+    "@rolldown/pluginutils": "npm:1.0.0-rc.9"
+  dependenciesMeta:
+    "@rolldown/binding-android-arm64":
+      optional: true
+    "@rolldown/binding-darwin-arm64":
+      optional: true
+    "@rolldown/binding-darwin-x64":
+      optional: true
+    "@rolldown/binding-freebsd-x64":
+      optional: true
+    "@rolldown/binding-linux-arm-gnueabihf":
+      optional: true
+    "@rolldown/binding-linux-arm64-gnu":
+      optional: true
+    "@rolldown/binding-linux-arm64-musl":
+      optional: true
+    "@rolldown/binding-linux-ppc64-gnu":
+      optional: true
+    "@rolldown/binding-linux-s390x-gnu":
+      optional: true
+    "@rolldown/binding-linux-x64-gnu":
+      optional: true
+    "@rolldown/binding-linux-x64-musl":
+      optional: true
+    "@rolldown/binding-openharmony-arm64":
+      optional: true
+    "@rolldown/binding-wasm32-wasi":
+      optional: true
+    "@rolldown/binding-win32-arm64-msvc":
+      optional: true
+    "@rolldown/binding-win32-x64-msvc":
+      optional: true
+  bin:
+    rolldown: bin/cli.mjs
+  checksum: 10c0/d19af14dccf569dc25c0c3c2f1142b7a6f7cec291d55bba80cea71099f89c6d634145bb1b6487626ddd41d578f183f7065ed68067e49d2b964ad6242693b0f79
   languageName: node
   linkType: hard
 
@@ -19463,6 +19791,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unenv@npm:^2.0.0-rc.24":
+  version: 2.0.0-rc.24
+  resolution: "unenv@npm:2.0.0-rc.24"
+  dependencies:
+    pathe: "npm:^2.0.3"
+  checksum: 10c0/e8556b4287fcf647f23db790eea2782cc79f182370718680e3aba4753d5fb7177abf5d6df489c8f74f7e3ad6cd554b8623cc01caf3e6f2d5548e69178adb1691
+  languageName: node
+  linkType: hard
+
 "unicode-emoji-modifier-base@npm:^1.0.0":
   version: 1.0.0
   resolution: "unicode-emoji-modifier-base@npm:1.0.0"
@@ -19693,6 +20030,84 @@ __metadata:
     "@unrs/resolver-binding-win32-x64-msvc":
       optional: true
   checksum: 10c0/c91b112c71a33d6b24e5c708dab43ab80911f2df8ee65b87cd7a18fb5af446708e98c4b415ca262026ad8df326debcc7ca6a801b2935504d87fd6f0b9d70dce1
+  languageName: node
+  linkType: hard
+
+"unstorage@npm:^2.0.0-alpha.6":
+  version: 2.0.0-alpha.6
+  resolution: "unstorage@npm:2.0.0-alpha.6"
+  peerDependencies:
+    "@azure/app-configuration": ^1.11.0
+    "@azure/cosmos": ^4.9.1
+    "@azure/data-tables": ^13.3.2
+    "@azure/identity": ^4.13.0
+    "@azure/keyvault-secrets": ^4.10.0
+    "@azure/storage-blob": ^12.31.0
+    "@capacitor/preferences": ^6 || ^7 || ^8
+    "@deno/kv": ">=0.13.0"
+    "@netlify/blobs": ^6.5.0 || ^7.0.0 || ^8.1.0 || ^9.0.0 || ^10.0.0
+    "@planetscale/database": ^1.19.0
+    "@upstash/redis": ^1.36.2
+    "@vercel/blob": ">=0.27.3"
+    "@vercel/functions": ^2.2.12 || ^3.0.0
+    "@vercel/kv": ^1.0.1
+    aws4fetch: ^1.0.20
+    chokidar: ^4 || ^5
+    db0: ">=0.3.4"
+    idb-keyval: ^6.2.2
+    ioredis: ^5.9.3
+    lru-cache: ^11.2.6
+    mongodb: ^6 || ^7
+    ofetch: "*"
+    uploadthing: ^7.7.4
+  peerDependenciesMeta:
+    "@azure/app-configuration":
+      optional: true
+    "@azure/cosmos":
+      optional: true
+    "@azure/data-tables":
+      optional: true
+    "@azure/identity":
+      optional: true
+    "@azure/keyvault-secrets":
+      optional: true
+    "@azure/storage-blob":
+      optional: true
+    "@capacitor/preferences":
+      optional: true
+    "@deno/kv":
+      optional: true
+    "@netlify/blobs":
+      optional: true
+    "@planetscale/database":
+      optional: true
+    "@upstash/redis":
+      optional: true
+    "@vercel/blob":
+      optional: true
+    "@vercel/functions":
+      optional: true
+    "@vercel/kv":
+      optional: true
+    aws4fetch:
+      optional: true
+    chokidar:
+      optional: true
+    db0:
+      optional: true
+    idb-keyval:
+      optional: true
+    ioredis:
+      optional: true
+    lru-cache:
+      optional: true
+    mongodb:
+      optional: true
+    ofetch:
+      optional: true
+    uploadthing:
+      optional: true
+  checksum: 10c0/8306c47c1c467f999f1cf35ecc7e83102c1ae3d426388bb9b66ea3e322aec09a9b45cd334094cdcc67b73a32ead736791b964289ffbd1e561f26694d510f797a
   languageName: node
   linkType: hard
 

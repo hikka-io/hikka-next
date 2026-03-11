@@ -1,6 +1,7 @@
 import { HikkaClient, UserUI } from '@hikka/client';
 import { createServerFn } from '@tanstack/react-start';
 
+import { createServerHikkaClient, parseCookies } from '@/utils/cookies';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
 import { DEFAULT_USER_UI } from './defaults';
@@ -9,25 +10,62 @@ import { mergeStyles, mergeUserUI } from './merge';
 
 // Module-level in-memory cache — lives for process lifetime (per-deployment).
 // Invalidated on user settings update via invalidateUserUIFn.
-const userUICache = new Map<string, UserUI>();
+interface CacheEntry {
+    ui: UserUI;
+    cachedAt: number;
+}
+const userUICache = new Map<string, CacheEntry>();
 
-export const fetchUserUIFn = createServerFn({ method: 'GET' })
-    .inputValidator((data: { username: string }) => data)
-    .handler(async ({ data: { username } }) => {
-        if (userUICache.has(username)) {
-            return userUICache.get(username)!;
-        }
-        const client = new HikkaClient({
-            baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
-        });
+const CACHE_FRESH_MS = 5 * 60 * 1000; // < 5 min: serve immediately, no refresh
+const CACHE_MAX_AGE_MS = 30 * 60 * 1000; // 5-30 min: serve stale + refresh in bg
+
+// Deduplicates concurrent API calls for the same username (prevents thundering herd).
+const inFlightRequests = new Map<string, Promise<UserUI | null>>();
+
+async function fetchFromAPIAndCache(username: string): Promise<UserUI | null> {
+    const existing = inFlightRequests.get(username);
+    if (existing) return existing;
+
+    const promise = (async () => {
         try {
-            const ui = await client.user.getUserUI(username);
-            userUICache.set(username, ui);
+            const ui = await createServerHikkaClient().user.getUserUI(username);
+            userUICache.set(username, { ui, cachedAt: Date.now() });
             return ui;
         } catch {
             return null;
+        } finally {
+            inFlightRequests.delete(username);
         }
-    });
+    })();
+
+    inFlightRequests.set(username, promise);
+    return promise;
+}
+
+// Plain async function — NOT a createServerFn, so calling it from another
+// server fn handler does NOT trigger an RPC sub-request.
+async function getUIFromCacheOrFetch(
+    username: string,
+): Promise<UserUI | null> {
+    const entry = userUICache.get(username);
+    if (entry) {
+        const age = Date.now() - entry.cachedAt;
+        if (age < CACHE_FRESH_MS) return entry.ui;
+        if (age < CACHE_MAX_AGE_MS) {
+            // Stale-while-revalidate: serve immediately, refresh in background
+            fetchFromAPIAndCache(username).catch(() => {});
+            return entry.ui;
+        }
+    }
+    // No entry or too old — blocking fetch
+    return fetchFromAPIAndCache(username);
+}
+
+export const fetchUserUIFn = createServerFn({ method: 'GET' })
+    .inputValidator((data: { username: string }) => data)
+    .handler(async ({ data: { username } }) =>
+        getUIFromCacheOrFetch(username),
+    );
 
 export const invalidateUserUIFn = createServerFn({ method: 'POST' })
     .inputValidator((data: { username: string }) => data)
@@ -35,17 +73,6 @@ export const invalidateUserUIFn = createServerFn({ method: 'POST' })
         userUICache.delete(username);
     });
 
-function parseCookies(cookieHeader: string): Record<string, string> {
-    return Object.fromEntries(
-        cookieHeader
-            .split(';')
-            .map((c) => {
-                const [key, ...vals] = c.trim().split('=');
-                return [key, decodeURIComponent(vals.join('='))];
-            })
-            .filter(([key]) => key),
-    );
-}
 
 export const getSessionUserUI = createServerFn({ method: 'GET' }).handler(
     async (): Promise<UserUI> => {
@@ -60,7 +87,7 @@ export const getSessionUserUI = createServerFn({ method: 'GET' }).handler(
 
             if (!username) return DEFAULT_USER_UI;
 
-            const cachedUI = await fetchUserUIFn({ data: { username } });
+            const cachedUI = await getUIFromCacheOrFetch(username);
             return mergeUserUI(DEFAULT_USER_UI, cachedUI ?? undefined);
         } catch (error) {
             console.error('Failed to get session user UI', error);
