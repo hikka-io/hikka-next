@@ -2,7 +2,7 @@
 
 import { useAnimeBySlug, useSession } from '@hikka/react';
 import { MessageCirclePlus, Popcorn } from 'lucide-react';
-import { usePlausible } from 'next-plausible';
+import { usePlausible } from '@/utils/plausible';
 import { Link } from '@/utils/navigation';
 import { useParams } from '@/utils/navigation';
 import { FC } from 'react';

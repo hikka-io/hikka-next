@@ -7,7 +7,7 @@ import {
     withGetFragmentExcludeDiff,
 } from '@platejs/diff';
 import { MarkdownPlugin } from '@platejs/markdown';
-import cloneDeep from 'lodash/cloneDeep';
+import { cloneDeep } from 'lodash-es';
 import { type Value, createSlatePlugin } from 'platejs';
 import {
     Plate,

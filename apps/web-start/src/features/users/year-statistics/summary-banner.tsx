@@ -2,7 +2,7 @@
 
 import { useSession } from '@hikka/react';
 import { ChartLine } from 'lucide-react';
-import { usePlausible } from 'next-plausible';
+import { usePlausible } from '@/utils/plausible';
 import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/services/providers/theme-provider';
 
 import MaterialSymbolsComputerOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsComputerOutlineRounded';
 import MaterialSymbolsNightlightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsNightlightOutlineRounded';
@@ -39,7 +39,7 @@ const PreferencesSettings = () => {
                 <Label>Тема сайту</Label>
                 <Select
                     value={[theme ?? 'dark']}
-                    onValueChange={(value) => setTheme(value[0])}
+                    onValueChange={(value) => setTheme(value[0] as 'light' | 'dark' | 'system')}
                 >
                     <SelectTrigger>
                         <SelectValue placeholder="Виберіть тему..." />

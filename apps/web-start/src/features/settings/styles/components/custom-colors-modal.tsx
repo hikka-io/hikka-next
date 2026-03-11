@@ -1,7 +1,7 @@
 'use client';
 
 import { Moon, Redo2, Sun, Undo2 } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/services/providers/theme-provider';
 import { useEffect, useState } from 'react';
 
 import {

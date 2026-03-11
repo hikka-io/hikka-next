@@ -1,7 +1,7 @@
 'use client';
 
 import { Palette } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/services/providers/theme-provider';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
