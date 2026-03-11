@@ -1,18 +1,15 @@
 'use client';
 
 import { useSession } from '@hikka/react';
-import {
-    useParams,
-    usePathname,
-    useRouter,
-    useSearchParams,
-} from '@/utils/navigation';
+import { useRouter } from '@tanstack/react-router';
+import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { cn } from '@/utils/cn';
 
 import FollowingHistory from './components/following-history';
@@ -24,15 +21,18 @@ interface Props {
 
 const UserHistory: FC<Props> = ({ className }) => {
     const params = useParams();
-    const pathname = usePathname();
     const router = useRouter();
-    const searchParams = useSearchParams();
+    const { type: searchType } = useFilterSearch<{ type?: string }>();
     const { user: loggedUser } = useSession();
 
-    const type = searchParams.get('type') || 'user';
+    const type = searchType || 'user';
 
     const handleChangeType = (value: string) => {
-        router.replace(`${pathname}?type=${value}`);
+        router.navigate({
+            to: '.',
+            search: { type: value },
+            replace: true,
+        } as any);
     };
 
     return (

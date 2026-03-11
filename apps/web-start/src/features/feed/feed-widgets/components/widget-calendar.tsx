@@ -4,7 +4,7 @@ import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimeSchedule } from '@hikka/react';
 import { format } from 'date-fns';
 import { Link } from '@/utils/navigation';
-import { useSearchParams } from '@/utils/navigation';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import Block from '@/components/ui/block';
 import {
@@ -18,11 +18,14 @@ import { cn } from '@/utils/cn';
 import { getCurrentSeason } from '@/utils/season';
 
 const WidgetCalendar = () => {
-    const searchParams = useSearchParams();
+    const search = useFilterSearch<{
+        season?: string;
+        year?: string | number;
+    }>();
 
     const season =
-        (searchParams.get('season') as SeasonEnum) || getCurrentSeason()!;
-    const year = searchParams.get('year') || new Date().getFullYear();
+        (search.season as SeasonEnum) || getCurrentSeason()!;
+    const year = search.year || new Date().getFullYear();
     const status = [
         ContentStatusEnum.ONGOING,
         ContentStatusEnum.ANNOUNCED,

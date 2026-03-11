@@ -1,11 +1,9 @@
 'use client';
 
 import { SunSnow } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import FormBadgeFilter, {
     FormBadgeFilterProps,
 } from '@/components/form/form-badge-filter';
@@ -14,20 +12,18 @@ import { Label } from '@/components/ui/label';
 import { SEASON } from '@/utils/constants/common';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
 }
 
 const Season: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
-
-    const seasons = searchParams.getAll('seasons');
-    const dateRangeEnabled = searchParams.get('date_range_enabled');
+    const { seasons = [], date_range_enabled } = useFilterSearch<{ seasons?: string[]; date_range_enabled?: boolean }>();
 
     const handleChangeParam = useChangeParam();
 
-    if (dateRangeEnabled) {
+    if (date_range_enabled) {
         return null;
     }
 
@@ -44,22 +40,6 @@ const Season: FC<Props> = () => {
                 onParamChange={handleChangeParam}
             />
         </div>
-    );
-
-    return (
-        <CollapsibleFilter
-            defaultOpen
-            title="Сезон"
-            icon={<SunSnow className="size-4" />}
-            active={seasons.length > 0}
-        >
-            <BadgeFilter
-                properties={SEASON}
-                selected={seasons}
-                property="seasons"
-                onParamChange={handleChangeParam}
-            />
-        </CollapsibleFilter>
     );
 };
 

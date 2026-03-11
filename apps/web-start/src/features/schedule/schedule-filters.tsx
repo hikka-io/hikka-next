@@ -2,8 +2,7 @@
 
 import { range } from '@antfu/utils';
 import { useSession } from '@hikka/react';
-import { Link } from '@/utils/navigation';
-import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
+import { useRouter } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
@@ -20,10 +19,11 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+
 import { cn } from '@/utils/cn';
 import { RELEASE_STATUS, SEASON } from '@/utils/constants/common';
 import { getCurrentSeason } from '@/utils/season';
-import { createQueryString } from '@/utils/url';
 
 const YEARS = range(2023, new Date().getFullYear() + 1).reverse();
 
@@ -31,20 +31,26 @@ interface Props {
     className?: string;
 }
 
+interface ScheduleSearch extends Record<string, unknown> {
+    only_watch?: boolean | string;
+    season?: string;
+    year?: string;
+    status?: string[];
+}
+
 const ScheduleFilters: FC<Props> = ({ className }) => {
     const { user: loggedUser } = useSession();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
+    const search = useFilterSearch<ScheduleSearch>();
     const router = useRouter();
 
-    const only_watch = searchParams.get('only_watch')
-        ? Boolean(searchParams.get('only_watch'))
+    const only_watch = search.only_watch
+        ? Boolean(search.only_watch)
         : undefined;
-    const season = searchParams.get('season') || getCurrentSeason()!;
-    const year = searchParams.get('year') || String(YEARS[0]);
+    const season = search.season || getCurrentSeason()!;
+    const year = search.year || String(YEARS[0]);
     const status =
-        searchParams.getAll('status').length > 0
-            ? searchParams.getAll('status')
+        Array.isArray(search.status) && search.status.length > 0
+            ? search.status
             : ['ongoing', 'announced'];
 
     const getYears = () => {
@@ -74,13 +80,17 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
         param: 'season' | 'year' | 'status' | 'only_watch',
         value: string | string[] | boolean,
     ) => {
-        const query = createQueryString(
-            param,
-            value,
-            new URLSearchParams(searchParams),
-        ).toString();
+        router.navigate({
+            search: (prev: Record<string, unknown>) => ({
+                ...prev,
+                [param]: value,
+            }),
+            replace: true,
+        } as any);
+    };
 
-        router.replace(`${pathname}?${query}`);
+    const clearFilters = () => {
+        router.navigate({ search: {}, replace: true } as any);
     };
 
     return (
@@ -195,12 +205,10 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
                 variant="destructive"
                 size="md"
                 className="w-full lg:w-fit"
-                asChild
+                onClick={clearFilters}
             >
-                <Link to={pathname}>
-                    <AntDesignClearOutlined />
-                    Очистити
-                </Link>
+                <AntDesignClearOutlined />
+                Очистити
             </Button>
         </div>
     );

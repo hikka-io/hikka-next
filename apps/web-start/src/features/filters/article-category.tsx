@@ -1,7 +1,6 @@
 'use client';
 
 import { SquareLibrary } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
@@ -10,15 +9,14 @@ import { Label } from '@/components/ui/label';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
 }
 
 const ArticleCategory: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
-
-    const categories = searchParams.getAll('categories');
+    const { categories = [] } = useFilterSearch<{ categories?: string[] }>();
 
     const handleChangeParam = useChangeParam();
 

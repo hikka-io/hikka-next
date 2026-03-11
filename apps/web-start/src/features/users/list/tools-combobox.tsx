@@ -6,7 +6,9 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useRandomReadByStatus, useRandomWatchByStatus } from '@hikka/react';
-import { useParams, useRouter, useSearchParams } from '@/utils/navigation';
+import { useRouter } from '@tanstack/react-router';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { useParams } from '@/utils/navigation';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import FeRandom from '@/components/icons/fe/FeRandom';
@@ -32,25 +34,23 @@ interface Props {
 }
 
 const ToolsCombobox = ({ content_type }: Props) => {
-    const searchParams = useSearchParams();
+    const search = useFilterSearch<{ status?: string }>();
     const params = useParams();
     const router = useRouter();
 
-    const status = searchParams.get('status')! as
-        | ReadStatusEnum
-        | WatchStatusEnum;
+    const status = search.status as ReadStatusEnum | WatchStatusEnum;
 
     const mutationRandomRead = useRandomReadByStatus({
         options: {
             onSuccess: (data) => {
-                router.push(`/${content_type}/${data.slug}`);
+                router.navigate({ to: `/${content_type}/${data.slug}` as '/' });
             },
         },
     });
     const mutationRandomWatch = useRandomWatchByStatus({
         options: {
             onSuccess: (data) => {
-                router.push(`/${content_type}/${data.slug}`);
+                router.navigate({ to: `/${content_type}/${data.slug}` as '/' });
             },
         },
     });

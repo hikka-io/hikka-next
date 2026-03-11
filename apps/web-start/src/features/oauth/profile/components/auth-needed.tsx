@@ -1,8 +1,9 @@
 'use client';
 
-import { Link } from '@/utils/navigation';
-import { usePathname, useSearchParams } from '@/utils/navigation';
+import { useRouterState } from '@tanstack/react-router';
 import { FC } from 'react';
+
+import { Link } from '@/utils/navigation';
 
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import { Button } from '@/components/ui/button';
@@ -12,10 +13,9 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 interface Props {}
 
 const AuthNeeded: FC<Props> = () => {
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    const currentUrl = `${pathname}${searchParams.toString() ? `?${encodeURIComponent(searchParams.toString())}` : ''}`;
+    const currentUrl = useRouterState({
+        select: (s) => s.location.pathname + s.location.searchStr,
+    });
 
     return (
         <Card className="w-full flex-row items-center justify-between">

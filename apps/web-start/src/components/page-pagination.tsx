@@ -1,11 +1,9 @@
 'use client';
 
 import { PaginationResponse } from '@hikka/client';
-import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
+import { useRouter } from '@tanstack/react-router';
 
 import Pagination from '@/components/ui/pagination';
-
-import { createQueryString } from '@/utils/url';
 
 interface Props {
     pagination: PaginationResponse;
@@ -13,16 +11,16 @@ interface Props {
 
 const Component = ({ pagination }: Props) => {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
 
     const updatePage = (newPage: number) => {
-        const query = createQueryString(
-            'page',
-            String(newPage),
-            new URLSearchParams(searchParams),
-        );
-        router.push(`${pathname}?${query}`);
+        router.navigate({
+            to: '.',
+            search: (prev: Record<string, unknown>) => ({
+                ...prev,
+                page: newPage,
+            }),
+            replace: true,
+        } as any);
     };
 
     if (pagination.pages < 2) {

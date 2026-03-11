@@ -1,7 +1,7 @@
 'use client';
 
 import { useArticleStats } from '@hikka/react';
-import { useParams, useSearchParams } from '@/utils/navigation';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
@@ -13,10 +13,13 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 interface Props { }
 
 const PopularTags: FC<Props> = () => {
-    const params = useParams();
     const { data: articleTop } = useArticleStats();
-    const searchParams = useSearchParams()!;
-    const tags = searchParams.getAll('tags');
+    const search = useFilterSearch<{ tags?: string | string[] }>();
+    const tags = search.tags
+        ? Array.isArray(search.tags)
+            ? search.tags
+            : [search.tags]
+        : [];
     const handleChangeParam = useChangeParam();
 
     return (

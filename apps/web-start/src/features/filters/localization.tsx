@@ -1,24 +1,21 @@
 'use client';
 
 import { Languages } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import FormSwitch, { FormSwitchProps } from '@/components/form/form-switch';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
 }
 
 const Genre: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
-
-    const lang = searchParams.get('only_translated');
+    const { only_translated } = useFilterSearch<{ only_translated?: boolean }>();
 
     const handleChangeParam = useChangeParam();
 
@@ -29,37 +26,13 @@ const Genre: FC<Props> = () => {
                 <Label htmlFor="uk-translated">Перекладено українською</Label>
             </div>
             <Switch
-                checked={Boolean(lang)}
+                checked={Boolean(only_translated)}
                 onCheckedChange={() =>
-                    handleChangeParam('only_translated', !Boolean(lang))
+                    handleChangeParam('only_translated', !Boolean(only_translated))
                 }
                 id="uk-translated"
             />
         </div>
-    );
-
-    return (
-        <CollapsibleFilter
-            title="Локалізація"
-            icon={<Languages className="size-4" />}
-            active={Boolean(lang)}
-        >
-            <div className="flex items-center justify-between gap-2">
-                <Label
-                    className="text-muted-foreground"
-                    htmlFor="uk-translated"
-                >
-                    Перекладено українською
-                </Label>
-                <Switch
-                    checked={Boolean(lang)}
-                    onCheckedChange={() =>
-                        handleChangeParam('only_translated', !Boolean(lang))
-                    }
-                    id="uk-translated"
-                />
-            </div>
-        </CollapsibleFilter>
     );
 };
 

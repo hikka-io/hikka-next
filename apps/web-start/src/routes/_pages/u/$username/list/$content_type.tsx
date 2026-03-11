@@ -10,6 +10,7 @@ import {
     searchUserReadsOptions,
     searchUserWatchesOptions,
 } from '@hikka/react/options';
+import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
@@ -22,24 +23,22 @@ import {
     UserlistViewCombobox,
 } from '@/features/users';
 import { AnimeFilters } from '@/features/watch';
+import { userlistSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute(
     '/_pages/u/$username/list/$content_type',
 )({
-    validateSearch: (search: Record<string, unknown>) =>
-        search as Record<string, any>,
+    validateSearch: zodValidator(userlistSearchSchema),
+    loaderDeps: ({ search }) => search,
     loader: async ({
         params,
         context: { queryClient, hikkaClient },
-        location,
+        deps,
     }) => {
         const { username, content_type } = params;
         const isAnime = content_type === ContentTypeEnum.ANIME;
         const defaultSort = isAnime ? 'watch_score' : 'read_score';
-        const { status, sort } = location.search as {
-            status?: string;
-            sort?: string;
-        };
+        const { status, sort } = deps;
 
         if (!status || !sort) {
             throw redirect({

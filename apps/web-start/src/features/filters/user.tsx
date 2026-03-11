@@ -2,7 +2,6 @@
 
 import { useSearchUsers } from '@hikka/react';
 import { User as UserIcon } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
 import { Label } from '@/components/ui/label';
@@ -19,6 +18,7 @@ import {
 } from '@/components/ui/select';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
@@ -27,7 +27,8 @@ interface Props {
 }
 
 const User: FC<Props> = ({ paramKey, title }) => {
-    const searchParams = useSearchParams()!;
+    const search = useFilterSearch();
+    const user = search[paramKey] as string | undefined;
     const [userSearch, setUserSearch] = useState<string>();
     const { data: users, isFetching: isUsersFetching } = useSearchUsers({
         args: {
@@ -37,8 +38,6 @@ const User: FC<Props> = ({ paramKey, title }) => {
             enabled: !!userSearch,
         },
     });
-
-    const user = searchParams.get(paramKey);
 
     const handleChangeParam = useChangeParam();
 
@@ -58,7 +57,7 @@ const User: FC<Props> = ({ paramKey, title }) => {
                 <Label>{title}</Label>
             </div>
             <Select
-                value={user !== null ? [user] : []}
+                value={user ? [user] : []}
                 onValueChange={(value) => handleChangeParam(paramKey, value[0])}
                 onOpenChange={() => setUserSearch(undefined)}
                 onSearch={handleUserSearch}

@@ -8,7 +8,7 @@ import {
 } from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
 import { queryKeys, useQueryClient } from '@hikka/react/core';
-import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
+import { useRouter, useRouterState } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
@@ -19,7 +19,10 @@ import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import Stack from '@/components/ui/stack';
 
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+
 import { getSeasonByOffset } from '@/utils/season';
+import type { AnimeSearch } from '@/utils/search-schemas';
 
 import AnimeListSkeleton from './components/anime-list-skeleton';
 
@@ -27,36 +30,27 @@ interface Props {}
 
 const AnimeList: FC<Props> = () => {
     const queryClient = useQueryClient();
-    const searchParams = useSearchParams();
+    const search = useFilterSearch<AnimeSearch>();
     const router = useRouter();
-    const pathname = usePathname();
+    const pathname = useRouterState({ select: (s) => s.location.pathname });
+    const searchStr = useRouterState({ select: (s) => s.location.searchStr });
 
-    const query = searchParams.get('search');
-    const media_type = searchParams.getAll('types') as AnimeMediaEnum[];
-    const status = searchParams.getAll('statuses') as AnimeStatusEnum[];
-    const season = searchParams.getAll('seasons') as SeasonEnum[];
-    const rating = searchParams.getAll('ratings') as AnimeAgeRatingEnum[];
-    const years = searchParams.getAll('years') as unknown as number[];
-    const genres = searchParams.getAll('genres');
-    const studios = searchParams.getAll('studios');
-    const date_range = searchParams.getAll('date_range') as unknown as [
-        number,
-        number,
-    ];
-    const score =
-        searchParams.getAll('score').length > 0
-            ? (searchParams.getAll('score') as unknown as [number, number])
-            : undefined;
-
-    const only_translated = searchParams.get('only_translated');
-
-    const sort =
-        searchParams.getAll('sort').length > 0
-            ? searchParams.getAll('sort')
-            : ['score'];
-    const order = searchParams.get('order') || 'desc';
-
-    const page = Number(searchParams.get('page')) || 1;
+    const query = search.search;
+    const media_type = (search.types ?? []) as AnimeMediaEnum[];
+    const status = (search.statuses ?? []) as AnimeStatusEnum[];
+    const season = (search.seasons ?? []) as SeasonEnum[];
+    const rating = (search.ratings ?? []) as AnimeAgeRatingEnum[];
+    const years = search.years ?? [];
+    const genres = search.genres ?? [];
+    const studios = search.studios ?? [];
+    const date_range = (search.date_range ?? []) as [number, number];
+    const score = search.score?.length
+        ? (search.score as [number, number])
+        : undefined;
+    const only_translated = search.only_translated;
+    const sort = search.sort?.length ? search.sort : ['score'];
+    const order = search.order || 'desc';
+    const page = search.page || 1;
 
     const convertYears = () => {
         if (date_range && date_range.length === 2) {
@@ -110,9 +104,10 @@ const AnimeList: FC<Props> = () => {
             });
         }
 
-        const params = new URLSearchParams(searchParams.toString());
-        params.set('page', String(newPage));
-        router.replace(`${pathname}?${params.toString()}`);
+        router.navigate({
+            search: (prev: Record<string, unknown>) => ({ ...prev, page: newPage }),
+            replace: true,
+        } as any);
     };
 
     const handleLoadMore = async () => {
@@ -120,7 +115,7 @@ const AnimeList: FC<Props> = () => {
 
         const last = result?.data?.pages.at(-1)!.pagination.page;
 
-        const params = new URLSearchParams(searchParams.toString());
+        const params = new URLSearchParams(searchStr);
         params.set('page', String(last));
 
         const newUrl = `${pathname}?${params.toString()}`;

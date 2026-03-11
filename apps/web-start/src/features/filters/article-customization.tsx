@@ -1,22 +1,20 @@
 'use client';
 
 import { Eye } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
 }
 
 const ArticleCustomization: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
-
-    const draft = searchParams.get('draft');
+    const { draft } = useFilterSearch<{ draft?: boolean }>();
 
     const handleChangeParam = useChangeParam();
 

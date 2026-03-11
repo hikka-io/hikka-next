@@ -2,11 +2,9 @@
 
 import { ContentTypeEnum } from '@hikka/client';
 import { Play } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import FormBadgeFilter, {
     FormBadgeFilterProps,
 } from '@/components/form/form-badge-filter';
@@ -19,6 +17,7 @@ import {
 } from '@/utils/constants/common';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
@@ -39,9 +38,7 @@ const getMediaType = (content_type: ContentTypeEnum) => {
 };
 
 const MediaType: FC<Props> = ({ content_type }) => {
-    const searchParams = useSearchParams()!;
-
-    const types = searchParams.getAll('types');
+    const { types = [] } = useFilterSearch<{ types?: string[] }>();
 
     const handleChangeParam = useChangeParam();
 
@@ -58,21 +55,6 @@ const MediaType: FC<Props> = ({ content_type }) => {
                 onParamChange={handleChangeParam}
             />
         </div>
-    );
-
-    return (
-        <CollapsibleFilter
-            title="Тип"
-            icon={<Play className="size-4" />}
-            active={types.length > 0}
-        >
-            <BadgeFilter
-                properties={getMediaType(content_type)}
-                selected={types}
-                property="types"
-                onParamChange={handleChangeParam}
-            />
-        </CollapsibleFilter>
     );
 };
 

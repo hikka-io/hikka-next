@@ -1,8 +1,9 @@
 'use client';
 
 import { useSession } from '@hikka/react';
+import { useRouterState } from '@tanstack/react-router';
+
 import { Link } from '@/utils/navigation';
-import { usePathname, useSearchParams } from '@/utils/navigation';
 
 import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -22,10 +23,9 @@ import { PROFILE_MENU } from '@/utils/constants/navigation';
 
 const ProfileMenu = () => {
     const { user: loggedUser } = useSession();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-
-    const currentUrl = `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+    const currentUrl = useRouterState({
+        select: (s) => s.location.pathname + s.location.searchStr,
+    });
 
     if (!loggedUser) {
         return null;

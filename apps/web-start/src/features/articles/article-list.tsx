@@ -3,7 +3,6 @@
 import { ArticleCategoryEnum } from '@hikka/client';
 import { useSearchArticles, useSession } from '@hikka/react';
 import { Link } from '@/utils/navigation';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import ArticleItem from '@/features/articles/article-item/article-item';
@@ -17,27 +16,26 @@ import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { ArticleFiltersModal } from '@/features/articles';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import type { ArticlesSearch } from '@/utils/search-schemas';
 
 interface Props {}
 
 const ArticleList: FC<Props> = () => {
     const { user } = useSession();
-    const searchParams = useSearchParams();
+    const search = useFilterSearch<ArticlesSearch>();
 
-    const author = searchParams.get('author') || undefined;
-    const sort =
-        searchParams.getAll('sort').length > 0
-            ? searchParams.getAll('sort')
-            : ['created'];
-    const order = searchParams.get('order') || 'desc';
-    const tags = searchParams.getAll('tags') || undefined;
-    const draft = Boolean(searchParams.get('draft')) ?? false;
+    const author = search.author || undefined;
+    const sort = search.sort?.length ? search.sort : ['created'];
+    const order = search.order || 'desc';
+    const tags = search.tags || undefined;
+    const draft = Boolean(search.draft) ?? false;
     const categories =
-        (searchParams.getAll('categories') as ArticleCategoryEnum[]) || [];
+        (search.categories as ArticleCategoryEnum[]) || [];
 
     const selectedCategory = categories.length === 1 && categories[0];
 

@@ -1,4 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
+import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
@@ -6,8 +7,10 @@ import { Header, HeaderTitle } from '@/components/ui/header';
 
 import { AnimeList, AnimeListNavbar } from '@/features/anime';
 import { AnimeFilters } from '@/features/watch';
+import { animeSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/anime/')({
+    validateSearch: zodValidator(animeSearchSchema),
     head: () => ({
         meta: [{ title: 'Аніме / Hikka' }],
     }),

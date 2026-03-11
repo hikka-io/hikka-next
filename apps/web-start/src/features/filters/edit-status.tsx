@@ -2,7 +2,6 @@
 
 import { EditStatusEnum } from '@hikka/client';
 import { Activity } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
@@ -19,15 +18,14 @@ import {
 import { EDIT_STATUS } from '@/utils/constants/edit';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
 }
 
 const EditStatus: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
-
-    const edit_status = searchParams.get('edit_status');
+    const { edit_status } = useFilterSearch<{ edit_status?: string }>();
 
     const handleChangeParam = useChangeParam();
 

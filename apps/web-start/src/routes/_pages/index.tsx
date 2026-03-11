@@ -4,7 +4,7 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { ensureInfiniteQueryData, queryKeys } from '@hikka/react/core';
+import { queryKeys } from '@hikka/react/core';
 import {
     searchAnimeScheduleOptions,
     searchUserWatchesOptions,
@@ -33,8 +33,7 @@ export const Route = createFileRoute('/_pages/')({
 
         if (loggedUser) {
             promises.push(
-                ensureInfiniteQueryData(
-                    queryClient,
+                queryClient.ensureInfiniteQueryData(
                     searchUserWatchesOptions(hikkaClient, {
                         username: loggedUser.username,
                         args: {
@@ -47,8 +46,7 @@ export const Route = createFileRoute('/_pages/')({
         }
 
         promises.push(
-            ensureInfiniteQueryData(
-                queryClient,
+            queryClient.ensureInfiniteQueryData(
                 searchAnimeScheduleOptions(hikkaClient, {
                     args: {
                         airing_season: [season, year],

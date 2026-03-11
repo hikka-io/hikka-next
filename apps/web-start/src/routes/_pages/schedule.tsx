@@ -1,6 +1,7 @@
 import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
 import { searchAnimeScheduleOptions } from '@hikka/react/options';
+import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute } from '@tanstack/react-router';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -14,26 +15,28 @@ import {
     ScheduleList,
 } from '@/features/schedule';
 import { getCurrentSeason } from '@/utils/season';
+import { scheduleSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/schedule')({
-    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
+    validateSearch: zodValidator(scheduleSearchSchema),
+    loaderDeps: ({ search }) => search,
     loader: async ({
         context: { queryClient, hikkaClient },
-        location,
+        deps,
     }) => {
         const {
             only_watch,
             season,
             year,
             status,
-        } = location.search as Record<string, any>;
+        } = deps;
 
         const resolvedSeason =
             (season as SeasonEnum) || getCurrentSeason()!;
-        const resolvedYear = year || String(new Date().getFullYear());
+        const resolvedYear = Number(year) || new Date().getFullYear();
         const resolvedStatus =
             status && status.length > 0
-                ? status
+                ? (status as ContentStatusEnum[])
                 : [ContentStatusEnum.ONGOING, ContentStatusEnum.ANNOUNCED];
 
         await prefetchInfiniteQuery(queryClient,
@@ -41,7 +44,7 @@ export const Route = createFileRoute('/_pages/schedule')({
                 args: {
                     status: resolvedStatus,
                     only_watch,
-                    airing_season: [resolvedSeason, resolvedYear],
+                    airing_season: [resolvedSeason as SeasonEnum, resolvedYear],
                 },
             }),
         );

@@ -1,18 +1,21 @@
 'use client';
 
 import { useCreateThirdPartyTokenRequest, useSession } from '@hikka/react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
+
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import { Button } from '@/components/ui/button';
 
 interface Props {}
 
 const Confirm: FC<Props> = () => {
-    const searchParams = useSearchParams();
+    const { reference, scope } = useFilterSearch<{
+        reference?: string;
+        scope?: string;
+    }>();
 
-    const reference = searchParams.get('reference')!;
-    const scopes = searchParams.get('scope')?.split(',');
+    const scopes = scope?.split(',');
 
     const { user } = useSession();
 
@@ -26,7 +29,7 @@ const Confirm: FC<Props> = () => {
 
     const handleConfirm = () => {
         mutate({
-            clientReference: reference,
+            clientReference: reference!,
             args: {
                 scope: scopes!,
             },

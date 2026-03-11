@@ -1,11 +1,9 @@
 'use client';
 
 import { ShieldEllipsis } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import FormBadgeFilter, {
     FormBadgeFilterProps,
 } from '@/components/form/form-badge-filter';
@@ -14,15 +12,14 @@ import { Label } from '@/components/ui/label';
 import { AGE_RATING } from '@/utils/constants/common';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
 }
 
 const AgeRating: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
-
-    const ageRatings = searchParams.getAll('ratings');
+    const { ratings = [] } = useFilterSearch<{ ratings?: string[] }>();
 
     const handleChangeParam = useChangeParam();
 
@@ -34,26 +31,11 @@ const AgeRating: FC<Props> = () => {
             </div>
             <BadgeFilter
                 properties={AGE_RATING}
-                selected={ageRatings}
+                selected={ratings}
                 property="ratings"
                 onParamChange={handleChangeParam}
             />
         </div>
-    );
-
-    return (
-        <CollapsibleFilter
-            title="Віковий рейтинг"
-            icon={<ShieldEllipsis className="size-4" />}
-            active={ageRatings.length > 0}
-        >
-            <BadgeFilter
-                properties={AGE_RATING}
-                selected={ageRatings}
-                property="ratings"
-                onParamChange={handleChangeParam}
-            />
-        </CollapsibleFilter>
     );
 };
 

@@ -2,7 +2,6 @@
 
 import { useSearchUsers } from '@hikka/react';
 import { User as UserIcon } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
 import { Label } from '@/components/ui/label';
@@ -19,13 +18,14 @@ import {
 } from '@/components/ui/select';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
 }
 
 const EditModerator: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
+    const { moderator } = useFilterSearch<{ moderator?: string }>();
     const [userSearch, setUserSearch] = useState<string>();
     const { data: users, isFetching: isUsersFetching } = useSearchUsers({
         args: {
@@ -35,8 +35,6 @@ const EditModerator: FC<Props> = () => {
             enabled: !!userSearch,
         },
     });
-
-    const moderator = searchParams.get('moderator');
 
     const handleChangeParam = useChangeParam();
 
@@ -56,7 +54,7 @@ const EditModerator: FC<Props> = () => {
                 <Label>Модератор</Label>
             </div>
             <Select
-                value={moderator !== null ? [moderator] : []}
+                value={moderator ? [moderator] : []}
                 onValueChange={(value) =>
                     handleChangeParam('moderator', value[0])
                 }

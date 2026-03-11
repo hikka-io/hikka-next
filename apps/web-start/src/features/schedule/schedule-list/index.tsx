@@ -8,29 +8,29 @@ import {
 import { useSearchAnimeSchedule } from '@hikka/react';
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
-import { useSearchParams } from '@/utils/navigation';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+
 import { getCurrentSeason } from '@/utils/season';
+import type { ScheduleSearch } from '@/utils/search-schemas';
 
 import ScheduleItem from './components/schedule-item';
 
 const ScheduleList = () => {
-    const searchParams = useSearchParams();
+    const search = useFilterSearch<ScheduleSearch>();
 
-    const only_watch = searchParams.get('only_watch')
-        ? Boolean(searchParams.get('only_watch'))
-        : undefined;
+    const only_watch = search.only_watch ?? undefined;
     const season =
-        (searchParams.get('season') as SeasonEnum) || getCurrentSeason()!;
-    const year = Number(searchParams.get('year')) || new Date().getFullYear();
+        (search.season as SeasonEnum) || getCurrentSeason()!;
+    const year = Number(search.year) || new Date().getFullYear();
     const status = (
-        searchParams.getAll('status').length > 0
-            ? searchParams.getAll('status')
+        search.status?.length
+            ? search.status
             : ['ongoing', 'announced']
     ) as ContentStatusEnum[];
 

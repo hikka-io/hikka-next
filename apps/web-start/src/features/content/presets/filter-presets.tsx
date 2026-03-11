@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { usePathname, useRouter } from '@/utils/navigation';
+import { useRouter } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
@@ -14,7 +14,6 @@ import {
 
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
-import { createQueryString } from '@/utils/url';
 
 interface Props {
     className?: string;
@@ -24,14 +23,15 @@ interface Props {
 const FilterPresets: FC<Props> = ({ className, content_type }) => {
     const { filterPresets, _hasHydrated } = useSettingsStore();
     const router = useRouter();
-    const pathname = usePathname();
 
     const handleApplyFilterPreset = (preset: Hikka.FilterPreset) => {
-        const { id, name, description, ...rest } = preset;
+        const { id, name, description, content_types, ...rest } = preset;
 
-        const query = createQueryString('filters', rest, new URLSearchParams());
-
-        router.replace(`${pathname}?${query}`);
+        router.navigate({
+            to: '.',
+            search: rest,
+            replace: true,
+        } as any);
     };
 
     return (

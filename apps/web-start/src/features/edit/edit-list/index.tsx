@@ -2,13 +2,16 @@
 
 import { EditContentType, EditStatusEnum } from '@hikka/client';
 import { useEditList } from '@hikka/react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Table, TableBody } from '@/components/ui/table';
+
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+
+import type { EditSearch } from '@/utils/search-schemas';
 
 import EditHead from './components/edit-head';
 import EditRow from './components/edit-row';
@@ -17,20 +20,17 @@ import EditSkeleton from './components/edit-skeleton';
 interface Props {}
 
 const EditList: FC<Props> = () => {
-    const searchParams = useSearchParams();
+    const search = useFilterSearch<EditSearch>();
 
-    const page = searchParams.get('page') || '1';
+    const page = search.page || 1;
     const content_type =
-        (searchParams.get('content_type') as EditContentType) || undefined;
-    const order = searchParams.get('order') || 'desc';
-    const sort =
-        searchParams.getAll('sort').length > 0
-            ? searchParams.getAll('sort')
-            : ['edit_id'];
+        (search.content_type as EditContentType) || undefined;
+    const order = search.order || 'desc';
+    const sort = search.sort?.length ? search.sort : ['edit_id'];
     const edit_status =
-        (searchParams.get('edit_status') as EditStatusEnum) || undefined;
-    const author = searchParams.get('author');
-    const moderator = searchParams.get('moderator');
+        (search.edit_status as EditStatusEnum) || undefined;
+    const author = search.author;
+    const moderator = search.moderator;
 
     const { list, isLoading, pagination } = useEditList({
         args: {

@@ -1,10 +1,8 @@
 'use client';
 
 import { ArrowDownWideNarrow } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import FormSelect, { FormSelectProps } from '@/components/form/form-select';
 import MaterialSymbolsSortRounded from '@/components/icons/material-symbols/MaterialSymbolsSortRounded';
 import { Button } from '@/components/ui/button';
@@ -23,6 +21,7 @@ import {
 import { cn } from '@/utils/cn';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 export type SortType =
     | 'anime'
@@ -149,10 +148,7 @@ interface Props {
 }
 
 const Sort: FC<Props> = ({ sort_type, className }) => {
-    const searchParams = useSearchParams()!;
-
-    const order = searchParams.get('order');
-    const sort = searchParams.getAll('sort');
+    const { order, sort = [] } = useFilterSearch<{ order?: string; sort?: string[] }>();
 
     const handleChangeParam = useChangeParam();
 
@@ -205,56 +201,6 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
                 </Button>
             </div>
         </div>
-    );
-
-    return (
-        <CollapsibleFilter
-            title="Сортування"
-            icon={<ArrowDownWideNarrow className="size-4" />}
-        >
-            <div className="flex gap-2">
-                <Select
-                    multiple
-                    value={sort}
-                    onValueChange={(value) => handleChangeParam('sort', value)}
-                >
-                    <SelectTrigger className="min-w-0 flex-1">
-                        <SelectValue
-                            maxDisplay={1}
-                            placeholder="Виберіть сортування..."
-                        />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectList>
-                            <SelectGroup>
-                                {getSort(sort_type).map((item) => (
-                                    <SelectItem
-                                        key={item.value}
-                                        value={item.value}
-                                    >
-                                        {item.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectGroup>
-                        </SelectList>
-                    </SelectContent>
-                </Select>
-                <Button
-                    size="icon"
-                    variant="outline"
-                    onClick={() =>
-                        handleChangeParam(
-                            'order',
-                            order === 'asc' ? 'desc' : 'asc',
-                        )
-                    }
-                >
-                    <MaterialSymbolsSortRounded
-                        className={cn(order === 'asc' && '-scale-y-100')}
-                    />
-                </Button>
-            </div>
-        </CollapsibleFilter>
     );
 };
 

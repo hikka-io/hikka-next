@@ -2,7 +2,6 @@
 
 import { RelatedContentType } from '@hikka/client';
 import { useFranchise } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
@@ -22,6 +21,7 @@ import {
     DEFAULT_PREFERENCES,
     useSettingsStore,
 } from '@/services/stores/settings-store';
+import { useParams } from '@/utils/navigation';
 
 import FranchiseFilters from './components/franchise-filters';
 import FranchiseItem from './components/franchise-item';
@@ -43,17 +43,20 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
           DEFAULT_PREFERENCES.filters.franchiseContentTypes
         : DEFAULT_PREFERENCES.filters.franchiseContentTypes;
 
-    const { data: franchise } = useFranchise({
+    const { data: franchise, error } = useFranchise({
         contentType: content_type,
         slug: String(params.slug),
         options: {
             select: (data) => {
+                console.log('data', data);
                 return {
                     list: [...data.anime, ...data.manga, ...data.novel],
                 };
             },
         },
     });
+
+    console.log('franchise', franchise, error);
 
     if (!franchise) {
         return null;

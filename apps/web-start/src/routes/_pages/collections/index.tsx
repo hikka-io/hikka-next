@@ -1,37 +1,37 @@
-import { ensureInfiniteQueryData } from '@hikka/react/core';
 import { searchCollectionsOptions } from '@hikka/react/options';
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import Link from '@/components/ui/link';
+import { zodValidator } from '@tanstack/zod-adapter';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import Link from '@/components/ui/link';
+
 import { CollectionList, CollectionSort } from '@/features/collections';
 
+import { collectionsSearchSchema } from '@/utils/search-schemas';
+
 export const Route = createFileRoute('/_pages/collections/')({
-    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
-    loader: async ({
-        context: { queryClient, hikkaClient },
-        location,
-    }) => {
-        const { page, sort = 'system_ranking' } = location.search as {
-            page?: number;
-            sort?: 'system_ranking' | 'created';
-        };
+    validateSearch: zodValidator(collectionsSearchSchema),
+    loaderDeps: ({ search }) => search,
+    loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
+        const { page, sort = 'system_ranking' } = deps;
 
         if (!page) {
             throw redirect({
                 to: '/collections',
-                search: { page: 1 },
+                search: { ...deps, page: 1 },
             });
         }
 
-        const collections = (await ensureInfiniteQueryData(queryClient, searchCollectionsOptions(hikkaClient, {
+        const collections = await queryClient.ensureInfiniteQueryData(
+            searchCollectionsOptions(hikkaClient, {
                 args: { sort: [`${sort}:desc`] },
                 paginationArgs: { page: Number(page) },
-            }))) as any;
+            }),
+        );
 
         return { collections, page: Number(page), sort };
     },
@@ -61,9 +61,7 @@ function CollectionsPage() {
             </div>
             <CollectionList page={page} sort={sort} />
             {collections && (
-                <PagePagination
-                    pagination={collections.pages[0].pagination}
-                />
+                <PagePagination pagination={collections.pages[0].pagination} />
             )}
         </Block>
     );

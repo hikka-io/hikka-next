@@ -1,6 +1,7 @@
 import { EditContentType, EditStatusEnum } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
 import { editListOptions, topEditorsListOptions } from '@hikka/react/options';
+import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -14,23 +15,24 @@ import {
     EditTopStats,
     EditFilters as Filters,
 } from '@/features/edit';
+import { editSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/edit/')({
-    validateSearch: (search: Record<string, unknown>) =>
-        search as Record<string, any>,
-    loader: async ({ context: { queryClient, hikkaClient }, location }) => {
+    validateSearch: zodValidator(editSearchSchema),
+    loaderDeps: ({ search }) => search,
+    loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
         const {
             page,
             content_type,
             order = 'desc',
             sort = 'edit_id',
             edit_status,
-        } = location.search as Record<string, any>;
+        } = deps;
 
         if (!page) {
             throw redirect({
                 to: '/edit',
-                search: { page: 1 },
+                search: { ...deps, page: 1 },
             });
         }
 

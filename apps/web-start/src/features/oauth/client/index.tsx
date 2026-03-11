@@ -1,8 +1,9 @@
 'use client';
 
 import { useClientByReference } from '@hikka/react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
+
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -16,11 +17,12 @@ import Scope from './components/scope';
 interface Props {}
 
 const Client: FC<Props> = () => {
-    const searchParams = useSearchParams();
+    const { reference, scope } = useFilterSearch<{
+        reference?: string;
+        scope?: string;
+    }>();
 
-    const reference = searchParams.get('reference')!;
-    const scopes = searchParams
-        .get('scope')
+    const scopes = scope
         ?.split(',')
         .map(
             (s) =>
@@ -31,7 +33,7 @@ const Client: FC<Props> = () => {
         .filter((s) => s) as Hikka.Scope[];
 
     const { data: client } = useClientByReference({
-        reference,
+        reference: reference!,
     });
 
     return (

@@ -3,10 +3,8 @@
 import { CompanyTypeEnum } from '@hikka/client';
 import { useSearchCompanies } from '@hikka/react';
 import { Building2 } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC, useMemo, useState } from 'react';
 
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import FormSelect, { FormSelectProps } from '@/components/form/form-select';
 import { Label } from '@/components/ui/label';
 import {
@@ -22,15 +20,14 @@ import {
 } from '@/components/ui/select';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
 }
 
 const Studio: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
-
-    const studios = searchParams.getAll('studios');
+    const { studios = [] } = useFilterSearch<{ studios?: string[] }>();
 
     const [studioSearch, setStudioSearch] = useState<string>();
     const { list, isFetching: isStudioListFetching } = useSearchCompanies({
@@ -100,47 +97,6 @@ const Studio: FC<Props> = () => {
                 </SelectContent>
             </Select>
         </div>
-    );
-
-    return (
-        <CollapsibleFilter
-            title="Студія"
-            icon={<Building2 className="size-4" />}
-            active={studios.length > 0}
-        >
-            <Select
-                multiple
-                value={studios}
-                onValueChange={(value) => handleChangeParam('studios', value)}
-                onSearch={handleStudioSearch}
-                options={options}
-            >
-                <SelectTrigger>
-                    <SelectValue placeholder="Виберіть студію..." />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectSearch placeholder="Назва студії..." />
-                    <SelectList>
-                        <SelectGroup>
-                            {!isStudioListFetching &&
-                                list?.map((studio) => (
-                                    <SelectItem
-                                        key={studio.slug}
-                                        value={studio.slug}
-                                    >
-                                        {studio.name}
-                                    </SelectItem>
-                                ))}
-                            <SelectEmpty>
-                                {isStudioListFetching
-                                    ? 'Завантаження...'
-                                    : 'Студій не знайдено'}
-                            </SelectEmpty>
-                        </SelectGroup>
-                    </SelectList>
-                </SelectContent>
-            </Select>
-        </CollapsibleFilter>
     );
 };
 

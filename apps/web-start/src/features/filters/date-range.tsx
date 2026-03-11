@@ -3,12 +3,11 @@
 // See: https://github.com/react-hook-form/react-hook-form/issues/11910
 'use no memo';
 
+import { useRouter } from '@tanstack/react-router';
 import { CalendarRange } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 import { FC, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import FormSlider, { FormSliderProps } from '@/components/form/form-slider';
 import FormSwitch from '@/components/form/form-switch';
 import { Badge } from '@/components/ui/badge';
@@ -16,9 +15,8 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 
-import { createQueryString } from '@/utils/url';
-
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 // TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
 // See: https://github.com/react-hook-form/react-hook-form/issues/11910
@@ -62,40 +60,40 @@ interface Props {
 
 const DateRange = (props: Props) => {
     const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams()!;
-
-    const dateRangeEnabled = searchParams.get('date_range_enabled');
-    const dateRange = searchParams.getAll('date_range').map(Number);
+    const { date_range_enabled, date_range = [] } = useFilterSearch<{
+        date_range_enabled?: boolean;
+        date_range?: number[];
+    }>();
 
     const [selectingDateRange, setSelectingDateRange] = useState<number[]>(
-        dateRange.length > 0 ? dateRange : DEFAULT_DATE_RANGE,
+        date_range.length > 0 ? date_range : DEFAULT_DATE_RANGE,
     );
 
     const handleChangeParam = useChangeParam();
 
     const handleChangeDateRangeEnabled = () => {
-        const query = createQueryString(
-            'date_range_enabled',
-            !Boolean(dateRangeEnabled),
-            !!Boolean(dateRangeEnabled)
-                ? createQueryString(
-                      'date_range',
-                      [],
-                      new URLSearchParams(searchParams),
-                  )
-                : new URLSearchParams(searchParams),
-        );
-        router.replace(`${pathname}?${query}`);
+        router.navigate({
+            search: (prev: Record<string, unknown>) => {
+                const next = { ...prev };
+                if (date_range_enabled) {
+                    delete next.date_range_enabled;
+                    delete next.date_range;
+                } else {
+                    next.date_range_enabled = true;
+                }
+                return next;
+            },
+            replace: true,
+        } as any);
     };
 
+    const dateRangeKey = JSON.stringify(date_range);
     useEffect(() => {
-        if (JSON.stringify(selectingDateRange) !== JSON.stringify(dateRange)) {
-            setSelectingDateRange(
-                dateRange.length > 0 ? dateRange : DEFAULT_DATE_RANGE,
-            );
-        }
-    }, [searchParams]);
+        setSelectingDateRange(
+            date_range.length > 0 ? date_range : DEFAULT_DATE_RANGE,
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dateRangeKey]);
 
     return (
         <div className="flex flex-col gap-4">
@@ -105,14 +103,14 @@ const DateRange = (props: Props) => {
                     <Label htmlFor="date_range_enabled">Часовий проміжок</Label>
                 </div>
                 <Switch
-                    checked={Boolean(dateRangeEnabled)}
+                    checked={Boolean(date_range_enabled)}
                     onCheckedChange={handleChangeDateRangeEnabled}
                     id="date_range_enabled"
                 />
             </div>
-            {dateRangeEnabled && (
+            {date_range_enabled && (
                 <div className="flex flex-col gap-2">
-                    {dateRange && (
+                    {date_range && (
                         <div className="flex items-center gap-2">
                             <Badge variant="secondary">
                                 {
@@ -150,70 +148,6 @@ const DateRange = (props: Props) => {
                 </div>
             )}
         </div>
-    );
-
-    return (
-        <CollapsibleFilter
-            title="Часовий проміжок"
-            icon={<CalendarRange className="size-4" />}
-            active={Boolean(dateRangeEnabled)}
-        >
-            <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between gap-2">
-                    <Label
-                        className="text-muted-foreground"
-                        htmlFor="date_range_enabled"
-                    >
-                        Часовий проміжок
-                    </Label>
-                    <Switch
-                        checked={Boolean(dateRangeEnabled)}
-                        onCheckedChange={handleChangeDateRangeEnabled}
-                        id="date_range_enabled"
-                    />
-                </div>
-
-                {dateRangeEnabled && (
-                    <div className="flex flex-col gap-2">
-                        {dateRange && (
-                            <div className="flex items-center gap-2">
-                                <Badge variant="secondary">
-                                    {
-                                        DATE_RANGES[
-                                            selectingDateRange[0] as DateRangeEnum
-                                        ]
-                                    }{' '}
-                                    -{' '}
-                                    {
-                                        DATE_RANGES[
-                                            selectingDateRange[1] as DateRangeEnum
-                                        ]
-                                    }
-                                </Badge>
-                            </div>
-                        )}
-                        <div className="flex items-center gap-2">
-                            <Slider
-                                className="flex-1"
-                                onValueCommit={(value) =>
-                                    handleChangeParam(
-                                        'date_range',
-                                        (value as number[]).map(String),
-                                    )
-                                }
-                                onValueChange={(value) =>
-                                    setSelectingDateRange(value as number[])
-                                }
-                                min={Number(DEFAULT_DATE_RANGE[0])}
-                                max={Number(DEFAULT_DATE_RANGE[1])}
-                                minStepsBetweenThumbs={0}
-                                value={selectingDateRange.map((y) => Number(y))}
-                            />
-                        </div>
-                    </div>
-                )}
-            </div>
-        </CollapsibleFilter>
     );
 };
 

@@ -1936,6 +1936,7 @@ __metadata:
     "@tanstack/react-router-ssr-query": "npm:^1.166.7"
     "@tanstack/react-start": "npm:^1.0.0"
     "@tanstack/router-plugin": "npm:^1.0.0"
+    "@tanstack/zod-adapter": "npm:^1.166.7"
     "@types/lodash": "npm:4.17.20"
     "@types/react": "npm:19.2.7"
     "@types/react-avatar-editor": "npm:^13.0.3"
@@ -6908,6 +6909,16 @@ __metadata:
   version: 1.161.4
   resolution: "@tanstack/virtual-file-routes@npm:1.161.4"
   checksum: 10c0/7f07d1105e4a677e32f165c95b6fd1ae491bdbd3e854b839dedb6f7814794eb9b78704ff07c95f3cf8ffe04903d3d14af2048ae457a07d2c7dca4990d1d7f9b3
+  languageName: node
+  linkType: hard
+
+"@tanstack/zod-adapter@npm:^1.166.7":
+  version: 1.166.7
+  resolution: "@tanstack/zod-adapter@npm:1.166.7"
+  peerDependencies:
+    "@tanstack/react-router": ">=1.43.2"
+    zod: ^3.23.8
+  checksum: 10c0/91dedee44402403724a26d6537680b532b46cd42405f53e14a630b8432e87d0344e9b5231fcbde4a54a31257b61ecf3abd214a362b6c09fa398d2eb9d6b3fad1
   languageName: node
   linkType: hard
 

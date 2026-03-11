@@ -2,7 +2,7 @@
 
 import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimeSchedule } from '@hikka/react';
-import { useSearchParams } from '@/utils/navigation';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import Block from '@/components/ui/block';
 import {
@@ -18,17 +18,24 @@ import { getCurrentSeason } from '@/utils/season';
 import ScheduleItem from './components/schedule-item';
 
 const Schedule = () => {
-    const searchParams = useSearchParams();
+    const search = useFilterSearch<{
+        only_watch?: string | boolean;
+        season?: string;
+        year?: string | number;
+        status?: string | string[];
+    }>();
 
-    const only_watch = searchParams.get('only_watch')
-        ? Boolean(searchParams.get('only_watch'))
+    const only_watch = search.only_watch !== undefined
+        ? Boolean(search.only_watch)
         : undefined;
     const season =
-        (searchParams.get('season') as SeasonEnum) || getCurrentSeason()!;
-    const year = searchParams.get('year') || new Date().getFullYear();
+        (search.season as SeasonEnum) || getCurrentSeason()!;
+    const year = search.year || new Date().getFullYear();
     const status = (
-        searchParams.getAll('status').length > 0
-            ? searchParams.getAll('status')
+        search.status
+            ? Array.isArray(search.status)
+                ? search.status
+                : [search.status]
             : ['ongoing', 'announced']
     ) as ContentStatusEnum[];
 

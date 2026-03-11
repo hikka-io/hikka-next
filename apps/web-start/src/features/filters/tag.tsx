@@ -1,22 +1,20 @@
 'use client';
 
 import { Tag as TagIcon } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
 }
 
 const Tag: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
-
-    const tags = searchParams.getAll('tags');
+    const { tags = [] } = useFilterSearch<{ tags?: string[] }>();
 
     const handleChangeParam = useChangeParam();
 

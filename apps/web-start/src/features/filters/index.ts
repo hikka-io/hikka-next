@@ -16,3 +16,5 @@ export { default as StudioFilter } from './studio';
 export { default as TagFilter } from './tag';
 export { default as UserFilter } from './user';
 export { default as YearFilter } from './year';
+export { default as useChangeParam } from './hooks/use-change-param';
+export { useFilterSearch } from './hooks/use-filter-search';

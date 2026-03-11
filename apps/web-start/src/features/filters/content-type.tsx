@@ -2,7 +2,6 @@
 
 import { ContentTypeEnum } from '@hikka/client';
 import { Play } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
@@ -19,6 +18,7 @@ import {
 import { CONTENT_TYPES } from '@/utils/constants/common';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
@@ -26,9 +26,7 @@ interface Props {
 }
 
 const ContentType: FC<Props> = ({ contentTypes }) => {
-    const searchParams = useSearchParams()!;
-
-    const content_type = searchParams.get('content_type');
+    const { content_type } = useFilterSearch<{ content_type?: string }>();
 
     const handleChangeParam = useChangeParam();
 

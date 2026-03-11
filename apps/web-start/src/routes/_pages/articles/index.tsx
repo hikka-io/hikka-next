@@ -1,8 +1,10 @@
+import { ArticleCategoryEnum } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
 import {
     articleStatsOptions,
     searchArticlesOptions,
 } from '@hikka/react/options';
+import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute } from '@tanstack/react-router';
 
 import {
@@ -11,11 +13,12 @@ import {
     PopularAuthors,
     PopularTags,
 } from '@/features/articles';
+import { articlesSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/articles/')({
-    validateSearch: (search: Record<string, unknown>) =>
-        search as Record<string, any>,
-    loader: async ({ context: { queryClient, hikkaClient }, location }) => {
+    validateSearch: zodValidator(articlesSearchSchema),
+    loaderDeps: ({ search }) => search,
+    loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
         const {
             author,
             sort = 'created',
@@ -23,7 +26,7 @@ export const Route = createFileRoute('/_pages/articles/')({
             tags = [],
             draft,
             categories = [],
-        } = location.search as Record<string, any>;
+        } = deps;
 
         await Promise.allSettled([
             prefetchInfiniteQuery(
@@ -32,11 +35,9 @@ export const Route = createFileRoute('/_pages/articles/')({
                     args: {
                         author: author as string,
                         sort: [`${sort}:${order}`],
-                        tags: (Array.isArray(tags) ? tags : [tags]) as string[],
+                        tags: tags as string[],
                         draft: Boolean(draft),
-                        categories: Array.isArray(categories)
-                            ? categories
-                            : [categories],
+                        categories: categories as ArticleCategoryEnum[],
                     },
                 }),
             ),

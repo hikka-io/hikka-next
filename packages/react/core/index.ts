@@ -14,8 +14,8 @@ export {
     QueryCache,
     QueryClient,
     useQueryClient,
-    useSuspenseQuery,
     useSuspenseInfiniteQuery,
+    useSuspenseQuery,
 } from '@tanstack/react-query';
 
 export type { QueryClientConfig } from '@tanstack/react-query';

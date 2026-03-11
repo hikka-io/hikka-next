@@ -1,28 +1,34 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
+import { useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 
-import { createQueryString } from '@/utils/url';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 const Search = () => {
     const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams()!;
+    const { search: query } = useFilterSearch<{ search?: string }>();
 
-    const [search, setSearch] = useState(searchParams.get('search'));
+    const [search, setSearch] = useState(query);
 
     const handleChangeSearch = (value: string) => {
-        const query = createQueryString(
-            'search',
-            value,
-            createQueryString('page', '1', new URLSearchParams(searchParams)),
-        );
         setSearch(value);
 
-        router.replace(`${pathname}?${query}`);
+        router.navigate({
+            search: (prev: Record<string, unknown>) => {
+                const next = { ...prev };
+                if (value) {
+                    next.search = value;
+                } else {
+                    delete next.search;
+                }
+                delete next.page;
+                return next;
+            },
+            replace: true,
+        } as any);
     };
 
     return (

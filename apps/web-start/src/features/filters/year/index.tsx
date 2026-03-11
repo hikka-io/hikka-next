@@ -4,11 +4,9 @@
 'use no memo';
 
 import { Calendar } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import FormSlider, { FormSliderProps } from '@/components/form/form-slider';
 import { Badge } from '@/components/ui/badge';
 import { FormLabel } from '@/components/ui/form';
@@ -16,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 
 import useChangeParam from '../hooks/use-change-param';
+import { useFilterSearch } from '../hooks/use-filter-search';
 import YearFilterInput from './components/year-filter-input';
 
 // TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
@@ -38,10 +37,12 @@ interface Props {
 }
 
 const Year: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
+    const { years: yearsParam = [], date_range_enabled } = useFilterSearch<{
+        years?: number[];
+        date_range_enabled?: boolean;
+    }>();
 
-    const years = searchParams.getAll('years');
-    const dateRangeEnabled = searchParams.get('date_range_enabled');
+    const years = yearsParam.map(String);
 
     const [selectingYears, setSelectingYears] = useState<string[]>(
         years.length > 0 ? years : YEARS.map((y) => String(y)),
@@ -49,15 +50,15 @@ const Year: FC<Props> = () => {
 
     const handleChangeParam = useChangeParam();
 
+    const yearsKey = JSON.stringify(yearsParam);
     useEffect(() => {
-        if (JSON.stringify(selectingYears) !== JSON.stringify(years)) {
-            setSelectingYears(
-                years.length > 0 ? years : YEARS.map((y) => String(y)),
-            );
-        }
-    }, [searchParams]);
+        setSelectingYears(
+            years.length > 0 ? years : YEARS.map((y) => String(y)),
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [yearsKey]);
 
-    if (dateRangeEnabled) {
+    if (date_range_enabled) {
         return null;
     }
 
@@ -98,14 +99,6 @@ const Year: FC<Props> = () => {
                 />
             </div>
         </div>
-    );
-
-    return (
-        <CollapsibleFilter
-            title="Рік виходу"
-            icon={<Calendar className="size-4" />}
-            active={years.length > 0}
-        ></CollapsibleFilter>
     );
 };
 

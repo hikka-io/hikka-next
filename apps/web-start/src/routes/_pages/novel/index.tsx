@@ -1,4 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
+import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
@@ -6,8 +7,10 @@ import { Header, HeaderTitle } from '@/components/ui/header';
 
 import { NovelList, NovelListNavbar } from '@/features/novel';
 import { ReadFilters } from '@/features/read';
+import { novelSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/novel/')({
+    validateSearch: zodValidator(novelSearchSchema),
     head: () => ({
         meta: [{ title: 'Ранобе / Hikka' }],
     }),

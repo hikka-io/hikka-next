@@ -5,7 +5,7 @@ import {
     ReadStatusEnum,
     WatchStatusEnum,
 } from '@hikka/client';
-import { useSearchParams } from '@/utils/navigation';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
@@ -26,12 +26,10 @@ interface Props {
 }
 
 const List = ({ content_type }: Props) => {
-    const searchParams = useSearchParams()!;
+    const search = useFilterSearch<{ status?: string }>();
     const { preferences } = useSettingsStore();
 
-    const status = searchParams.get('status') as
-        | ReadStatusEnum
-        | WatchStatusEnum;
+    const status = search.status as ReadStatusEnum | WatchStatusEnum;
     const view = preferences.views.userlist || 'table';
 
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =

@@ -1,9 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
 import {
-    ensureInfiniteQueryData,
-    prefetchInfiniteQuery,
-} from '@hikka/react/core';
-import {
     animeBySlugOptions,
     animeCharactersOptions,
     animeStaffOptions,
@@ -31,36 +27,32 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
         if (!anime) throw redirect({ to: '/' });
 
         await Promise.allSettled([
-            ensureInfiniteQueryData(
-                queryClient,
+            queryClient.ensureInfiniteQueryData(
                 animeCharactersOptions(hikkaClient, { slug: params.slug }),
             ),
-            ensureInfiniteQueryData(
-                queryClient,
+            ,
+            queryClient.ensureQueryData(
                 franchiseOptions(hikkaClient, {
                     slug: params.slug,
                     contentType: ContentTypeEnum.ANIME,
                 }),
             ),
-            ensureInfiniteQueryData(
-                queryClient,
+            queryClient.ensureInfiniteQueryData(
                 animeStaffOptions(hikkaClient, { slug: params.slug }),
             ),
-            queryClient.prefetchQuery(
+            queryClient.ensureQueryData(
                 watchBySlugOptions(hikkaClient, { slug: params.slug }),
             ),
-            queryClient.prefetchQuery(
+            queryClient.ensureQueryData(
                 favouriteStatusOptions(hikkaClient, {
                     slug: params.slug,
                     contentType: ContentTypeEnum.ANIME,
                 }),
             ),
-            prefetchInfiniteQuery(
-                queryClient,
+            queryClient.ensureInfiniteQueryData(
                 watchingUsersOptions(hikkaClient, { slug: params.slug }),
             ),
-            prefetchInfiniteQuery(
-                queryClient,
+            queryClient.prefetchInfiniteQuery(
                 searchArticlesOptions(hikkaClient, {
                     args: {
                         content_slug: params.slug,

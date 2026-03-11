@@ -1,7 +1,8 @@
 'use client';
 
 import { ContentTypeEnum, ReadResponse, WatchResponse } from '@hikka/client';
-import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
+import { useRouter } from '@tanstack/react-router';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { FC, Fragment } from 'react';
 
 import {
@@ -13,7 +14,6 @@ import {
 } from '@/components/ui/table';
 
 import { cn } from '@/utils/cn';
-import { createQueryString } from '@/utils/url';
 
 import ChaptersCell from './chapters-cell';
 import DetailsCell from './details-cell';
@@ -32,12 +32,19 @@ interface Props {
 }
 
 const TableView: FC<Props> = ({ data, content_type }) => {
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
+    const search = useFilterSearch<{
+        order?: string;
+        sort?: string | string[];
+    }>();
     const router = useRouter();
 
-    const order = searchParams.get('order');
-    const sort = searchParams.getAll('sort').length > 0 ? searchParams.getAll('sort') : ['watch_score'];
+    const order = search.order || null;
+    const sortRaw = search.sort;
+    const sort = sortRaw
+        ? Array.isArray(sortRaw)
+            ? sortRaw
+            : [sortRaw]
+        : ['watch_score'];
 
     const switchSort = (
         newSort:
@@ -48,21 +55,22 @@ const TableView: FC<Props> = ({ data, content_type }) => {
             | 'watch_episodes'
             | 'media_type',
     ) => {
-        const query = createQueryString(
-            'order',
+        const newOrder =
             order && newSort !== sort[0]
                 ? order
                 : order === 'asc'
                   ? 'desc'
-                  : 'asc',
-            createQueryString(
-                'sort',
-                newSort,
-                new URLSearchParams(searchParams),
-            ),
-        ).toString();
+                  : 'asc';
 
-        router.replace(`${pathname}?${query}`);
+        router.navigate({
+            to: '.',
+            search: (prev: Record<string, unknown>) => ({
+                ...prev,
+                sort: newSort,
+                order: newOrder,
+            }),
+            replace: true,
+        } as any);
     };
 
     return (

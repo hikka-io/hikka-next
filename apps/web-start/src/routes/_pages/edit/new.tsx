@@ -10,6 +10,7 @@ import {
     novelBySlugOptions,
     personBySlugOptions,
 } from '@hikka/react/options';
+import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
@@ -19,17 +20,16 @@ import {
     EditCreateForm as EditForm,
     EditRulesAlert as RulesAlert,
 } from '@/features/edit';
+import { editNewSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/edit/new')({
-    validateSearch: (search: Record<string, unknown>) => search as Record<string, any>,
+    validateSearch: zodValidator(editNewSearchSchema),
+    loaderDeps: ({ search }) => search,
     loader: async ({
         context: { queryClient, hikkaClient },
-        location,
+        deps,
     }) => {
-        const { content_type, slug } = location.search as {
-            content_type?: string;
-            slug?: string;
-        };
+        const { content_type, slug } = deps;
 
         if (!content_type || !slug) {
             throw redirect({ to: '/edit' });

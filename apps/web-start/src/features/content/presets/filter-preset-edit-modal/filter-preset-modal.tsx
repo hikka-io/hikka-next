@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { usePathname, useSearchParams } from '@/utils/navigation';
+import { useRouterState } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import CustomCopyAddRounded from '@/components/icons/custom/CustomCopyAddRounded';
@@ -15,15 +15,18 @@ import Link from '@/components/ui/link';
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { CONTENT_TYPES } from '@/utils/constants/common';
-import { createQueryString } from '@/utils/url';
 
 import FilterPresetEditModal from '.';
 
 const FilterPresetModal: FC = () => {
     const { closeModal, openModal } = useModalContext();
     const { filterPresets, setFilterPresets } = useSettingsStore();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
+    const pathname = useRouterState({
+        select: (s) => s.location.pathname,
+    });
+    const search = useRouterState({
+        select: (s) => s.location.search as Record<string, unknown>,
+    });
 
     const handleCreatePreset = () => {
         openModal({
@@ -51,39 +54,55 @@ const FilterPresetModal: FC = () => {
         ] as const;
 
         arrayStringKeys.forEach((key) => {
-            const values = searchParams.getAll(key);
-            if (values.length > 0) {
-                currentFilters[key] = values as unknown as NonNullable<
-                    Hikka.FilterPreset[typeof key]
-                >;
+            const rawValue = search[key];
+            if (rawValue !== undefined && rawValue !== null) {
+                const values = Array.isArray(rawValue)
+                    ? rawValue.map(String)
+                    : [String(rawValue)];
+                if (values.length > 0) {
+                    currentFilters[key] = values as unknown as NonNullable<
+                        Hikka.FilterPreset[typeof key]
+                    >;
+                }
             }
         });
 
         const arrayNumberKeys = ['years', 'date_range'] as const;
         arrayNumberKeys.forEach((key) => {
-            const values = searchParams.getAll(key);
-            if (values.length > 0) {
-                const numberValues = values.map((v) => Number(v));
-                currentFilters[key] = numberValues as unknown as NonNullable<
-                    Hikka.FilterPreset[typeof key]
-                >;
+            const rawValue = search[key];
+            if (rawValue !== undefined && rawValue !== null) {
+                const values = Array.isArray(rawValue)
+                    ? rawValue.map(Number)
+                    : [Number(rawValue)];
+                if (values.length > 0) {
+                    currentFilters[key] = values as unknown as NonNullable<
+                        Hikka.FilterPreset[typeof key]
+                    >;
+                }
             }
         });
 
-        if (searchParams.has('only_translated')) {
+        if (search.only_translated !== undefined) {
             currentFilters.only_translated =
-                searchParams.get('only_translated') === 'true';
+                search.only_translated === true ||
+                search.only_translated === 'true';
         }
-        if (searchParams.has('date_range_enabled')) {
+        if (search.date_range_enabled !== undefined) {
             currentFilters.date_range_enabled =
-                searchParams.get('date_range_enabled') === 'true';
+                search.date_range_enabled === true ||
+                search.date_range_enabled === 'true';
         }
 
-        const sort = searchParams.getAll('sort');
-        if (sort.length > 0) currentFilters.sort = sort;
+        const sortRaw = search.sort;
+        if (sortRaw !== undefined && sortRaw !== null) {
+            const sort = Array.isArray(sortRaw)
+                ? sortRaw.map(String)
+                : [String(sortRaw)];
+            if (sort.length > 0) currentFilters.sort = sort;
+        }
 
-        const order = searchParams.get('order');
-        if (order) currentFilters.order = order;
+        const order = search.order;
+        if (order) currentFilters.order = String(order);
 
         if (!currentFilters.content_types) {
             if (pathname.includes('/anime')) {
@@ -125,9 +144,22 @@ const FilterPresetModal: FC = () => {
     const buildFilterPresetLink = (preset: Hikka.FilterPreset) => {
         const { id, name, description, ...rest } = preset;
 
-        const query = createQueryString('filters', rest, new URLSearchParams());
+        const params = new URLSearchParams();
+        Object.entries(rest).forEach(([key, val]) => {
+            if (val === undefined || val === null) return;
+            if (Array.isArray(val)) {
+                val.forEach((item) => {
+                    if (item !== undefined && item !== null) {
+                        params.append(key, String(item));
+                    }
+                });
+            } else {
+                params.set(key, String(val));
+            }
+        });
 
-        return `${pathname}?${query}`;
+        const query = params.toString();
+        return query ? `${pathname}?${query}` : pathname;
     };
 
     return (

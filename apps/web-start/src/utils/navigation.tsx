@@ -85,7 +85,3 @@ export function usePathname() {
     return useRouterState({ select: (s) => s.location.pathname });
 }
 
-export function useSearchParams() {
-    const search = useRouterState({ select: (s) => s.location.searchStr });
-    return new URLSearchParams(search);
-}

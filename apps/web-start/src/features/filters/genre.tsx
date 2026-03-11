@@ -2,10 +2,8 @@
 
 import { useGenres } from '@hikka/react';
 import { Drama } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC, useMemo } from 'react';
 
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import FormSelect, { FormSelectProps } from '@/components/form/form-select';
 import { Label } from '@/components/ui/label';
 import {
@@ -23,15 +21,14 @@ import {
 import { GENRE_TYPES } from '@/utils/constants/common';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
 }
 
 const Genre: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
-
-    const genres = searchParams.getAll('genres');
+    const { genres = [] } = useFilterSearch<{ genres?: string[] }>();
 
     const handleChangeParam = useChangeParam();
     const { data: genreList } = useGenres({
@@ -75,34 +72,6 @@ const Genre: FC<Props> = () => {
                 </SelectContent>
             </Select>
         </div>
-    );
-
-    return (
-        <CollapsibleFilter
-            defaultOpen
-            title="Жанри"
-            icon={<Drama className="size-4" />}
-            active={genres.length > 0}
-        >
-            <Select
-                options={genreList}
-                triState={true}
-                multiple
-                value={genres}
-                onValueChange={(value) => handleChangeParam('genres', value)}
-            >
-                <SelectTrigger>
-                    <SelectValue placeholder="Виберіть жанр/жанри..." />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectSearch placeholder="Назва жанру..." />
-                    <SelectList>
-                        {options}
-                        <SelectEmpty>Жанрів не знайдено</SelectEmpty>
-                    </SelectList>
-                </SelectContent>
-            </Select>
-        </CollapsibleFilter>
     );
 };
 

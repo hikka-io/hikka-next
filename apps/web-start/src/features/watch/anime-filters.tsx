@@ -1,8 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { Link } from '@/utils/navigation';
-import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
+import { useRouter, useRouterState } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
@@ -40,12 +39,15 @@ interface Props {
 const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
     const { closeModal, openModal } = useModalContext();
     const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
+    const search = useRouterState({
+        select: (s) => s.location.search,
+    }) as Record<string, unknown>;
+    const pathname = useRouterState({
+        select: (s) => s.location.pathname,
+    });
 
     const clearFilters = () => {
-        router.replace(`${pathname}`);
-        // setSelectingYears(YEARS.map((y) => String(y)));
+        router.navigate({ search: {}, replace: true } as any);
     };
 
     const handleCreateFromCurrent = () => {
@@ -65,8 +67,8 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
         ] as const;
 
         arrayStringKeys.forEach((key) => {
-            const values = searchParams.getAll(key);
-            if (values.length > 0) {
+            const values = search[key];
+            if (Array.isArray(values) && values.length > 0) {
                 currentFilters[key] = values as unknown as NonNullable<
                     Hikka.FilterPreset[typeof key]
                 >;
@@ -75,29 +77,34 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
 
         const arrayNumberKeys = ['years', 'date_range'] as const;
         arrayNumberKeys.forEach((key) => {
-            const values = searchParams.getAll(key);
-            if (values.length > 0) {
-                const numberValues = values.map((v) => Number(v));
+            const values = search[key];
+            if (Array.isArray(values) && values.length > 0) {
+                const numberValues = values.map((v: unknown) => Number(v));
                 currentFilters[key] = numberValues as unknown as NonNullable<
                     Hikka.FilterPreset[typeof key]
                 >;
             }
         });
 
-        if (searchParams.has('only_translated')) {
+        if ('only_translated' in search && search.only_translated != null) {
             currentFilters.only_translated =
-                searchParams.get('only_translated') === 'true';
+                search.only_translated === true ||
+                search.only_translated === 'true';
         }
-        if (searchParams.has('date_range_enabled')) {
+        if (
+            'date_range_enabled' in search &&
+            search.date_range_enabled != null
+        ) {
             currentFilters.date_range_enabled =
-                searchParams.get('date_range_enabled') === 'true';
+                search.date_range_enabled === true ||
+                search.date_range_enabled === 'true';
         }
 
-        const sort = searchParams.getAll('sort');
-        if (sort.length > 0) currentFilters.sort = sort;
+        const sort = search.sort;
+        if (Array.isArray(sort) && sort.length > 0) currentFilters.sort = sort;
 
-        const order = searchParams.get('order');
-        if (order) currentFilters.order = order;
+        const order = search.order;
+        if (order) currentFilters.order = order as string;
 
         if (!currentFilters.content_types) {
             if (pathname.includes('/anime')) {
@@ -142,11 +149,8 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                     className="flex-1"
                     variant="destructive"
                     onClick={clearFilters}
-                    asChild
                 >
-                    <Link to={pathname}>
-                        <AntDesignClearOutlined /> Очистити
-                    </Link>
+                    <AntDesignClearOutlined /> Очистити
                 </Button>
                 <Tooltip>
                     <TooltipTrigger asChild>

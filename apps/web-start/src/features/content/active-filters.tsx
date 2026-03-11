@@ -2,8 +2,8 @@
 
 import { CompanyTypeEnum } from '@hikka/client';
 import { useGenres, useSearchCompanies } from '@hikka/react';
+import { useRouter, useRouterState } from '@tanstack/react-router';
 import { XIcon } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
 import { FC, useMemo } from 'react';
 
 import {
@@ -78,8 +78,9 @@ interface Props {
 
 const ActiveFilters: FC<Props> = ({ className }) => {
     const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
+    const search = useRouterState({
+        select: (s) => s.location.search as Record<string, unknown>,
+    });
 
     const { data: genreMap } = useGenres({
         options: {
@@ -140,11 +141,11 @@ const ActiveFilters: FC<Props> = ({ className }) => {
         const filters: ActiveFilter[] = [];
         const processedRanges = new Set<string>();
 
-        searchParams.forEach((value, key) => {
+        Object.entries(search).forEach(([key, rawValue]) => {
             if (IGNORED_PARAMS.has(key) || SUBORDINATE_PARAMS.has(key)) return;
 
             if (key in COMBINED_PARAMS) {
-                if (value === 'true') {
+                if (rawValue === true || rawValue === 'true') {
                     filters.push({
                         param: key,
                         value: 'true',
@@ -158,7 +159,9 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                 if (processedRanges.has(key)) return;
                 processedRanges.add(key);
 
-                const values = searchParams.getAll(key);
+                const values = Array.isArray(rawValue)
+                    ? rawValue.map(String)
+                    : [String(rawValue)];
                 if (values.length === 2) {
                     filters.push({
                         param: key,
@@ -172,13 +175,32 @@ const ActiveFilters: FC<Props> = ({ className }) => {
             if (key in BOOLEAN_PARAMS) {
                 filters.push({
                     param: key,
-                    value,
+                    value: String(rawValue),
                     label: BOOLEAN_PARAMS[key],
                 });
                 return;
             }
 
-            const excluded = TRISTATE_PARAMS.has(key) && value.startsWith('-');
+            // Handle arrays (multi-value params like genres, statuses, etc.)
+            if (Array.isArray(rawValue)) {
+                rawValue.forEach((v) => {
+                    const value = String(v);
+                    const excluded =
+                        TRISTATE_PARAMS.has(key) && value.startsWith('-');
+                    filters.push({
+                        param: key,
+                        value,
+                        label: resolveLabel(key, value),
+                        excluded,
+                    });
+                });
+                return;
+            }
+
+            // Handle single values
+            const value = String(rawValue);
+            const excluded =
+                TRISTATE_PARAMS.has(key) && value.startsWith('-');
 
             filters.push({
                 param: key,
@@ -189,32 +211,45 @@ const ActiveFilters: FC<Props> = ({ className }) => {
         });
 
         return filters;
-    }, [searchParams, dynamicLabelMaps]);
+    }, [search, dynamicLabelMaps]);
 
     const handleRemove = (filter: ActiveFilter) => {
-        const params = new URLSearchParams(searchParams.toString());
+        router.navigate({
+            to: '.',
+            search: (prev: Record<string, unknown>) => {
+                const next: Record<string, unknown> = { ...prev };
 
-        if (filter.param in COMBINED_PARAMS) {
-            params.delete(filter.param);
-            COMBINED_PARAMS[filter.param].related.forEach((p) =>
-                params.delete(p),
-            );
-        } else if (filter.param in RANGE_PARAMS) {
-            params.delete(filter.param);
-        } else if (filter.param in BOOLEAN_PARAMS) {
-            params.delete(filter.param);
-        } else {
-            const values = params.getAll(filter.param);
-            params.delete(filter.param);
-            values
-                .filter((v) => v !== filter.value)
-                .forEach((v) => params.append(filter.param, v));
-        }
+                if (filter.param in COMBINED_PARAMS) {
+                    delete next[filter.param];
+                    COMBINED_PARAMS[filter.param].related.forEach(
+                        (p) => delete next[p],
+                    );
+                } else if (filter.param in RANGE_PARAMS) {
+                    delete next[filter.param];
+                } else if (filter.param in BOOLEAN_PARAMS) {
+                    delete next[filter.param];
+                } else {
+                    const current = next[filter.param];
+                    if (Array.isArray(current)) {
+                        const filtered = current.filter(
+                            (v) => String(v) !== filter.value,
+                        );
+                        if (filtered.length > 0) {
+                            next[filter.param] = filtered;
+                        } else {
+                            delete next[filter.param];
+                        }
+                    } else {
+                        delete next[filter.param];
+                    }
+                }
 
-        params.delete('page');
+                delete next.page;
 
-        const query = params.toString();
-        router.replace(query ? `${pathname}?${query}` : pathname);
+                return next;
+            },
+            replace: true,
+        } as any);
     };
 
     if (activeFilters.length === 0) return null;

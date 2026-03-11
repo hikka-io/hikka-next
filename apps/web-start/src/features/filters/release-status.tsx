@@ -1,7 +1,6 @@
 'use client';
 
 import { Activity } from 'lucide-react';
-import { useSearchParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
@@ -13,15 +12,14 @@ import { Label } from '@/components/ui/label';
 import { RELEASE_STATUS } from '@/utils/constants/common';
 
 import useChangeParam from './hooks/use-change-param';
+import { useFilterSearch } from './hooks/use-filter-search';
 
 interface Props {
     className?: string;
 }
 
 const ReleaseStatus: FC<Props> = () => {
-    const searchParams = useSearchParams()!;
-
-    const statuses = searchParams.getAll('statuses');
+    const { statuses = [] } = useFilterSearch<{ statuses?: string[] }>();
 
     const handleChangeParam = useChangeParam();
 

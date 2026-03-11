@@ -1,24 +1,38 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
-
-import { createQueryString } from '@/utils/url';
+import { useRouter } from '@tanstack/react-router';
 
 const useChangeParam = () => {
     const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams()!;
 
     const handleChangeParam = (
         name: string,
-        value: string | string[] | boolean,
+        value: string | string[] | number[] | boolean,
     ) => {
-        const query = createQueryString(
-            name,
-            value,
-            createQueryString('page', '1', new URLSearchParams(searchParams)),
-        );
-        router.replace(`${pathname}?${query}`);
+        router.navigate({
+            to: '.',
+            search: (prev: Record<string, unknown>) => {
+                const next: Record<string, unknown> = { ...prev };
+
+                // Reset pagination on filter change
+                delete next.page;
+
+                if (
+                    value === false ||
+                    value === '' ||
+                    value === undefined ||
+                    value === null ||
+                    (Array.isArray(value) && value.length === 0)
+                ) {
+                    delete next[name];
+                } else {
+                    next[name] = value;
+                }
+
+                return next;
+            },
+            replace: true,
+        } as any);
     };
 
     return handleChangeParam;

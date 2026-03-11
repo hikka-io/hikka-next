@@ -1,31 +1,36 @@
 'use client';
 
-import { useRouter, useSearchParams } from '@/utils/navigation';
+import { useRouter } from '@tanstack/react-router';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import { createQueryString } from '@/utils/url';
-
 const CollectionSort = () => {
     const router = useRouter();
-    const searchParams = useSearchParams();
+    const search = useFilterSearch<{ sort?: string | string[] }>();
 
-    const sort = searchParams.getAll('sort').length > 0 ? searchParams.getAll('sort') : ['system_ranking'];
+    const sortRaw = search.sort;
+    const sort = sortRaw
+        ? Array.isArray(sortRaw)
+            ? sortRaw
+            : [sortRaw]
+        : ['system_ranking'];
 
     const handleChangeSort = (value: string) => {
-        router.push(
-            '/collections?' +
-                createQueryString(
-                    'sort',
-                    value,
-                    new URLSearchParams(searchParams),
-                ).toString(),
-        );
+        router.navigate({
+            to: '.',
+            search: (prev: Record<string, unknown>) => ({
+                ...prev,
+                sort: value,
+                page: undefined,
+            }),
+            replace: true,
+        } as any);
     };
 
     return (
         <Tabs
-            defaultValue={sort[0]}
+            value={sort[0]}
             onValueChange={handleChangeSort}
         >
             <TabsList className="grid w-full grid-cols-2">

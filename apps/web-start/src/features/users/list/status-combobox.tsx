@@ -5,7 +5,8 @@ import {
     ReadStatusEnum,
     WatchStatusEnum,
 } from '@hikka/client';
-import { usePathname, useRouter, useSearchParams } from '@/utils/navigation';
+import { useRouter } from '@tanstack/react-router';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { createElement } from 'react';
 
 import { Label } from '@/components/ui/label';
@@ -21,7 +22,6 @@ import {
 
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
-import { createQueryString } from '@/utils/url';
 
 import { useReadList } from './userlist/hooks/use-readlist';
 import { useWatchList } from './userlist/hooks/use-watchlist';
@@ -36,13 +36,10 @@ interface Props {
 }
 
 const StatusCombobox = ({ content_type }: Props) => {
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
+    const search = useFilterSearch<{ status?: string }>();
     const router = useRouter();
 
-    const status = searchParams.get('status')! as
-        | ReadStatusEnum
-        | WatchStatusEnum;
+    const status = search.status as ReadStatusEnum | WatchStatusEnum;
 
     const statusInfo =
         content_type === ContentTypeEnum.ANIME
@@ -55,14 +52,14 @@ const StatusCombobox = ({ content_type }: Props) => {
         content_type === ContentTypeEnum.ANIME ? useWatchList() : useReadList();
 
     const handleStatusChange = (value: string[]) => {
-        {
-            const query = createQueryString(
-                'status',
-                value[0],
-                new URLSearchParams(searchParams),
-            );
-            router.replace(`${pathname}?${query}`);
-        }
+        router.navigate({
+            to: '.',
+            search: (prev: Record<string, unknown>) => ({
+                ...prev,
+                status: value[0],
+            }),
+            replace: true,
+        } as any);
     };
 
     return (

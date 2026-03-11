@@ -8,28 +8,29 @@ import {
     ReadStatusEnum,
 } from '@hikka/client';
 import { useSearchUserReads } from '@hikka/react';
-import { useParams, useSearchParams } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
+
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+
+import type { UserlistSearch } from '@/utils/search-schemas';
 
 export const useReadList = () => {
-    const searchParams = useSearchParams()!;
+    const search = useFilterSearch<UserlistSearch>();
     const params = useParams();
 
-    const readStatus = searchParams.get('status') as ReadStatusEnum;
+    const readStatus = search.status as ReadStatusEnum;
 
-    const media_type = searchParams.getAll('types') as (
+    const media_type = (search.types ?? []) as (
         | NovelMediaEnum
         | MangaMediaEnum
     )[];
-    const status = searchParams.getAll('statuses') as ContentStatusEnum[];
-    const years = searchParams.getAll('years') as unknown as [
-        number | null,
-        number | null,
-    ];
-    const genres = searchParams.getAll('genres');
-    const magazines = searchParams.getAll('magazines');
+    const status = (search.statuses ?? []) as ContentStatusEnum[];
+    const years = (search.years ?? []) as [number | null, number | null];
+    const genres = search.genres ?? [];
+    const magazines = search.magazines ?? [];
 
-    const order = searchParams.get('order') || 'desc';
-    const sort = searchParams.getAll('sort').length > 0 ? searchParams.getAll('sort') : ['read_score'];
+    const order = search.order || 'desc';
+    const sort = search.sort?.length ? search.sort : ['read_score'];
 
     return useSearchUserReads({
         contentType: params.content_type as ReadContentType,
