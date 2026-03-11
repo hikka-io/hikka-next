@@ -5,6 +5,7 @@ import {
     Scripts,
     createRootRouteWithContext,
 } from '@tanstack/react-router';
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
 import NotFoundPage from '@/components/not-found-page';
 import { Providers } from '@/features/common';
@@ -76,6 +77,7 @@ function RootLayout() {
                         </Providers>
                     </UIStoreProvider>
                 </div>
+                <TanStackRouterDevtools position="bottom-right" />
                 <Scripts />
             </body>
         </html>
