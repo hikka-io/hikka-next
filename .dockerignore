@@ -4,8 +4,9 @@ node_modules
 npm-debug.log
 README.md
 .next
-!.next/static
-!.next/standalone
+.output
+.tanstack
+dist
 .git
 .github
 .vscode
