@@ -1,4 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
+import { useCollectionByReference } from '@hikka/react';
 import { createFileRoute } from '@tanstack/react-router';
 import Link from '@/components/ui/link';
 
@@ -20,7 +21,7 @@ export const Route = createFileRoute('/_pages/collections/$reference/')({
 
 function CollectionPage() {
     const { reference } = Route.useParams();
-    const { collection } = Route.useRouteContext() as any;
+    const { data: collection } = useCollectionByReference({ reference });
 
     return (
         <CollectionProvider initialState={collection}>

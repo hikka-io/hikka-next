@@ -1,4 +1,5 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { useArticleBySlug } from '@hikka/react';
+import { createFileRoute } from '@tanstack/react-router';
 
 import Link from '@/components/ui/link';
 
@@ -26,7 +27,7 @@ export const Route = createFileRoute('/_pages/articles/$slug/update')({
 
 function ArticleUpdatePage() {
     const { slug } = Route.useParams();
-    const { article } = Route.useRouteContext() as any;
+    const { data: article } = useArticleBySlug({ slug });
 
     if (!article) return null;
 

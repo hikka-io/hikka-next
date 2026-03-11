@@ -1,3 +1,4 @@
+import { useCollectionByReference } from '@hikka/react';
 import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
@@ -20,7 +21,8 @@ export const Route = createFileRoute('/_pages/collections/$reference/update')({
 });
 
 function CollectionUpdatePage() {
-    const { collection } = Route.useRouteContext() as any;
+    const { reference } = Route.useParams();
+    const { data: collection } = useCollectionByReference({ reference });
 
     if (!collection) return null;
 
