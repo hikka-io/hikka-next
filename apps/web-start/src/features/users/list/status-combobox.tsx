@@ -51,6 +51,10 @@ const StatusCombobox = ({ content_type }: Props) => {
     const { pagination } =
         content_type === ContentTypeEnum.ANIME ? useWatchList() : useReadList();
 
+    if (!statusInfo) {
+        return null;
+    }
+
     const handleStatusChange = (value: string[]) => {
         router.navigate({
             to: '.',
