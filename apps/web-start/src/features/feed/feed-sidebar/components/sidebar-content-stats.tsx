@@ -38,6 +38,7 @@ const READ_STATUS_ORDER: ReadStatusEnum[] = [
 interface StatusStatsItem {
     status: string;
     href: string;
+    search?: Record<string, unknown>;
     icon?: FC<{ className?: string }>;
     label: string;
     count: number;
@@ -49,6 +50,7 @@ const StatusStatsList: FC<{ items: StatusStatsItem[] }> = ({ items }) => (
             <Link
                 key={item.status}
                 to={item.href}
+                search={item.search}
                 preload={false}
                 className="flex items-center justify-between rounded-sm px-2 py-1.5 text-sm transition-colors hover:bg-secondary"
             >
@@ -88,7 +90,8 @@ const AnimeStats = ({ username }: { username: string }) => {
 
     const items: StatusStatsItem[] = WATCH_STATUS_ORDER.map((status) => ({
         status,
-        href: `/u/${username}/list/anime?watch_status=${status}`,
+        href: `/u/${username}/list/anime`,
+        search: { status },
         icon: WATCH_STATUS[status].icon,
         label: WATCH_STATUS[status].title_ua,
         count: statusCounts[status],
@@ -118,7 +121,8 @@ const ReadStats = ({
 
     const items: StatusStatsItem[] = READ_STATUS_ORDER.map((status) => ({
         status,
-        href: `/u/${username}/list/${contentType}?read_status=${status}`,
+        href: `/u/${username}/list/${contentType}`,
+        search: { status },
         icon: READ_STATUS[status].icon,
         label: READ_STATUS[status].title_ua,
         count: statusCounts[status],
