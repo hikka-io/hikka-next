@@ -101,6 +101,8 @@ interface HeadMetaProps {
     title: string | TemplateString;
     description?: string | null;
     image?: string | null;
+    imageWidth?: number;
+    imageHeight?: number;
     url?: string;
     robots?: { index?: boolean };
     other?: Record<string, string | number>;
@@ -137,6 +139,20 @@ function generateHeadMeta(props: HeadMetaProps) {
         { name: 'twitter:description', content: resolvedDescription },
         { name: 'twitter:image', content: resolvedImage },
     ];
+
+    if (props.imageWidth) {
+        meta.push({
+            property: 'og:image:width',
+            content: String(props.imageWidth),
+        });
+    }
+
+    if (props.imageHeight) {
+        meta.push({
+            property: 'og:image:height',
+            content: String(props.imageHeight),
+        });
+    }
 
     if (props.url) {
         meta.push({ property: 'og:url', content: props.url });

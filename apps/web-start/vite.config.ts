@@ -13,6 +13,7 @@ export default defineConfig({
         tanstackStart(),
         nitro(),
         react({
+            exclude: [/utils\/og\//],
             babel: {
                 plugins: [['babel-plugin-react-compiler', {}]],
             },

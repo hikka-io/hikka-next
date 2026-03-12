@@ -104,7 +104,9 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
         return generateHeadMeta({
             title,
             description: synopsis,
-            image: `https://preview.hikka.io/novel/${novel.slug}/${novel.updated}`,
+            image: `${process.env.VITE_SITE_URL || 'https://hikka.io'}/api/og/novel?slug=${novel.slug}&v=${novel.updated}`,
+            imageWidth: 1200,
+            imageHeight: 630,
             url: `https://hikka.io/novel/${novel.slug}`,
             other: {
                 ...(novel.mal_id ? { 'mal-id': novel.mal_id } : {}),
