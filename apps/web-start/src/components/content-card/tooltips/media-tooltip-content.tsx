@@ -97,7 +97,8 @@ const MediaTooltipContent: FC<Props> = ({
                             <span key={genre.slug}>
                                 <Link
                                     className="text-sm underline decoration-primary-foreground decoration-dashed transition-colors duration-100 hover:bg-primary-border hover:text-primary-foreground"
-                                    to={`${genreBasePath}?genres=${genre.slug}`}
+                                    to={genreBasePath}
+                                    search={{ genres: [genre.slug] }}
                                 >
                                     {genre.name_ua}
                                 </Link>

@@ -13,7 +13,7 @@ const LoginButton = (props: ButtonProps) => {
 
     return (
         <Button size="md" variant="ghost" asChild {...props}>
-            <Link to={`/login?callbackUrl=${currentUrl}`}>Увійти</Link>
+            <Link to="/login" search={{ callbackUrl: currentUrl }}>Увійти</Link>
         </Button>
     );
 };

@@ -72,7 +72,8 @@ const ContextMenuOverlay: FC<Props> = ({
                 <ContextMenuSeparator />
                 <ContextMenuItem asChild>
                     <Link
-                        to={`/edit/new?content_type=${content_type}&slug=${slug}`}
+                        to="/edit/new"
+                        search={{ content_type, slug }}
                     >
                         <MaterialSymbolsEditRounded className="mr-2" />
                         Створити правку

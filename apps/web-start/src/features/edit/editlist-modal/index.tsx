@@ -36,7 +36,8 @@ const Component = ({ content_type, slug }: Props) => {
             <div className={cn('relative px-6 py-4')}>
                 <Button variant="secondary" className="w-full" asChild>
                     <Link
-                        to={`/edit/new?slug=${slug}&content_type=${content_type}`}
+                        to="/edit/new"
+                        search={{ slug, content_type }}
                     >
                         <MaterialSymbolsEditRounded />
                         Створити правку

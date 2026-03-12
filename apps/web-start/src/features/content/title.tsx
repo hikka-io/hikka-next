@@ -1,13 +1,12 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
 
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 
 import { cn } from '@/utils/cn';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { Link, useParams } from '@/utils/navigation';
 
 interface TitleProps {
     className?: string;
@@ -64,7 +63,8 @@ const Title = ({ className, content_type }: TitleProps) => {
                             <span key={genre.slug} className="text-sm">
                                 <Link
                                     className="decoration-primary-foreground hover:bg-primary-border hover:text-primary-foreground rounded px-1 underline decoration-dashed transition-colors duration-100"
-                                    to={`/${content_type}?genres=${genre.slug}`}
+                                    to={`/${content_type}`}
+                                    search={{ genres: [genre.slug] }}
                                 >
                                     {genre.name_ua}
                                 </Link>

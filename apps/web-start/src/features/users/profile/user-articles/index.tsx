@@ -56,7 +56,8 @@ const UserArticles: FC<Props> = () => {
                                     variant="outline"
                                 >
                                     <Link
-                                        to={`${CONTENT_TYPE_LINKS.article}/?draft=true`}
+                                        to={CONTENT_TYPE_LINKS.article}
+                                        search={{ draft: true }}
                                     >
                                         <MaterialSymbolsDraftRounded className="size-4" />
                                     </Link>
