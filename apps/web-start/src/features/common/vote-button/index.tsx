@@ -43,7 +43,7 @@ const VoteButton: FC<Props> = ({
                 className={cn(
                     'font-normal',
                     currentScore === 1
-                        ? 'text-success-foreground opacity-100'
+                        ? 'text-success-foreground hover:text-success-foreground'
                         : 'text-muted-foreground',
                 )}
             >
@@ -72,7 +72,7 @@ const VoteButton: FC<Props> = ({
                 className={cn(
                     'font-normal',
                     currentScore === -1
-                        ? 'text-destructive-foreground opacity-100'
+                        ? 'text-destructive-foreground hover:text-destructive-foreground'
                         : 'text-muted-foreground',
                 )}
             >

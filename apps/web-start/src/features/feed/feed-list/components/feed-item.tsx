@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { ContentTypeEnum, UserResponse } from '@hikka/client';
+import { ContentTypeEnum, UserResponse, VoteContentType } from '@hikka/client';
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
@@ -29,9 +29,9 @@ function getStats(item: FeedItemType): {
     commentsCount: number;
     voteScore: number;
     commentsHref?: string;
-    contentType: ContentTypeEnum;
-    slug: string;
-    myScore: number;
+    contentType?: VoteContentType;
+    slug?: string;
+    myScore?: number;
 } {
     switch (item.data_type) {
         case ContentTypeEnum.ARTICLE:
@@ -64,9 +64,6 @@ function getStats(item: FeedItemType): {
             return {
                 commentsCount: 0,
                 voteScore: 0,
-                contentType: ContentTypeEnum.HISTORY,
-                slug: '',
-                myScore: 0,
             };
     }
 }

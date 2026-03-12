@@ -1,6 +1,6 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { VoteContentType } from '@hikka/client';
 import { MessageCircle } from 'lucide-react';
 import { Link } from '@/utils/navigation';
 import { FC } from 'react';
@@ -13,9 +13,9 @@ interface Props {
     commentsCount: number;
     voteScore: number;
     commentsHref?: string;
-    contentType: ContentTypeEnum;
-    slug: string;
-    myScore: number;
+    contentType?: VoteContentType;
+    slug?: string;
+    myScore?: number;
 }
 
 const FeedItemFooter: FC<Props> = ({
@@ -29,15 +29,17 @@ const FeedItemFooter: FC<Props> = ({
     return (
         <div className="flex items-center justify-between p-4">
             <StatItemGroup>
-                <StatItem asChild>
-                    <VoteButton
-                        contentType={contentType as any}
-                        slug={slug}
-                        myScore={myScore}
-                        voteScore={voteScore}
-                        size="icon-sm"
-                    />
-                </StatItem>
+                {contentType && slug !== undefined && myScore !== undefined && (
+                    <StatItem asChild>
+                        <VoteButton
+                            contentType={contentType}
+                            slug={slug}
+                            myScore={myScore}
+                            voteScore={voteScore}
+                            size="icon-sm"
+                        />
+                    </StatItem>
+                )}
                 {commentsHref ? (
                     <StatItem asChild>
                         <Link to={commentsHref}>
@@ -52,8 +54,6 @@ const FeedItemFooter: FC<Props> = ({
                     </StatItem>
                 )}
             </StatItemGroup>
-
-
         </div>
     );
 };
