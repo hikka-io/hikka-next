@@ -102,7 +102,7 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
         return generateHeadMeta({
             title,
             description: synopsis,
-            image: `${process.env.VITE_SITE_URL || 'https://hikka.io'}/api/og/anime?slug=${anime.slug}&v=${anime.updated}`,
+            image: `${process.env.SITE_URL || 'https://hikka.io'}/api/og/anime?slug=${anime.slug}&v=${anime.updated}`,
             imageWidth: 1200,
             imageHeight: 630,
             url: `https://hikka.io/anime/${anime.slug}`,

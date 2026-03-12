@@ -1,8 +1,8 @@
 import { HikkaClient, UserUI } from '@hikka/client';
 import { createServerFn } from '@tanstack/react-start';
 
-import { createServerHikkaClient, parseCookies } from '@/utils/cookies';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
+import { createServerHikkaClient, parseCookies } from '@/utils/cookies';
 
 import { DEFAULT_USER_UI } from './defaults';
 import { stylesToCSS } from './inject-styles';
@@ -44,9 +44,7 @@ async function fetchFromAPIAndCache(username: string): Promise<UserUI | null> {
 
 // Plain async function — NOT a createServerFn, so calling it from another
 // server fn handler does NOT trigger an RPC sub-request.
-async function getUIFromCacheOrFetch(
-    username: string,
-): Promise<UserUI | null> {
+async function getUIFromCacheOrFetch(username: string): Promise<UserUI | null> {
     const entry = userUICache.get(username);
     if (entry) {
         const age = Date.now() - entry.cachedAt;
@@ -63,9 +61,7 @@ async function getUIFromCacheOrFetch(
 
 export const fetchUserUIFn = createServerFn({ method: 'GET' })
     .inputValidator((data: { username: string }) => data)
-    .handler(async ({ data: { username } }) =>
-        getUIFromCacheOrFetch(username),
-    );
+    .handler(async ({ data: { username } }) => getUIFromCacheOrFetch(username));
 
 export const invalidateUserUIFn = createServerFn({ method: 'POST' })
     .inputValidator((data: { username: string }) => data)
@@ -73,13 +69,10 @@ export const invalidateUserUIFn = createServerFn({ method: 'POST' })
         userUICache.delete(username);
     });
 
-
 export const getSessionUserUI = createServerFn({ method: 'GET' }).handler(
     async (): Promise<UserUI> => {
         try {
-            const { getRequest } = await import(
-                '@tanstack/react-start/server'
-            );
+            const { getRequest } = await import('@tanstack/react-start/server');
             const request = getRequest();
             const cookieHeader = request?.headers.get('cookie') ?? '';
             const cookies = parseCookies(cookieHeader);
@@ -106,9 +99,7 @@ export const updateUserUIServerFn = createServerFn({ method: 'POST' })
     .inputValidator((data: Omit<UserUI, 'username'>) => data)
     .handler(async ({ data: userUI }): Promise<UserUI> => {
         try {
-            const { getRequest } = await import(
-                '@tanstack/react-start/server'
-            );
+            const { getRequest } = await import('@tanstack/react-start/server');
             const request = getRequest();
             const cookieHeader = request?.headers.get('cookie') ?? '';
             const cookies = parseCookies(cookieHeader);

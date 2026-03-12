@@ -27,7 +27,7 @@ export async function createRouter() {
     });
     const authToken = await getAuthTokenFn();
     const hikkaClient = createHikkaClient({
-        baseUrl: import.meta.env.VITE_API_URL ?? 'https://api.hikka.io',
+        baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
         authToken: authToken ?? undefined,
     });
 

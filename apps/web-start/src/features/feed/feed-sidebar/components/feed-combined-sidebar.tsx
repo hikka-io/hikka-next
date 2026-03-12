@@ -26,10 +26,10 @@ const FeedCombinedSidebar = () => {
         <div className="flex flex-col gap-4 lg:max-h-[calc(100vh-9rem)]">
             <SidebarProfile />
             <SidebarNavigation />
-            <Tabs defaultValue="stats" className="flex min-h-0 flex-col">
+            <Tabs defaultValue="widgets" className="flex min-h-0 flex-col">
                 <TabsList className="w-full shrink-0">
-                    <TabsTrigger value="stats">Списки</TabsTrigger>
                     <TabsTrigger value="widgets">Віджети</TabsTrigger>
+                    <TabsTrigger value="stats">Списки</TabsTrigger>
                 </TabsList>
                 <TabsContent value="stats" className="overflow-auto">
                     {user && <SidebarContentStats />}
