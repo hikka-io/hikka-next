@@ -1,5 +1,6 @@
 import { ContentTypeEnum } from '@hikka/client';
 import {
+    contentCommentsOptions,
     favouriteStatusOptions,
     franchiseOptions,
     novelBySlugOptions,
@@ -7,6 +8,7 @@ import {
     readBySlugOptions,
     readingUsersOptions,
     searchArticlesOptions,
+    searchCollectionsOptions,
 } from '@hikka/react/options';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
@@ -27,7 +29,10 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
 
         await Promise.allSettled([
             queryClient.ensureInfiniteQueryData(
-                novelCharactersOptions(hikkaClient, { slug: params.slug }),
+                novelCharactersOptions(hikkaClient, {
+                    slug: params.slug,
+                    paginationArgs: { size: 20, page: 1 },
+                }),
             ),
             queryClient.ensureQueryData(
                 franchiseOptions(hikkaClient, {
@@ -57,6 +62,21 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
                 searchArticlesOptions(hikkaClient, {
                     args: {
                         content_slug: params.slug,
+                        content_type: ContentTypeEnum.NOVEL,
+                    },
+                }),
+            ),
+            queryClient.ensureInfiniteQueryData(
+                contentCommentsOptions(hikkaClient, {
+                    contentType: ContentTypeEnum.NOVEL,
+                    slug: params.slug,
+                    paginationArgs: { size: 3 },
+                }),
+            ),
+            queryClient.ensureInfiniteQueryData(
+                searchCollectionsOptions(hikkaClient, {
+                    args: {
+                        content: [params.slug],
                         content_type: ContentTypeEnum.NOVEL,
                     },
                 }),

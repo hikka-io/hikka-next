@@ -3,9 +3,11 @@ import {
     animeBySlugOptions,
     animeCharactersOptions,
     animeStaffOptions,
+    contentCommentsOptions,
     favouriteStatusOptions,
     franchiseOptions,
     searchArticlesOptions,
+    searchCollectionsOptions,
     watchBySlugOptions,
     watchingUsersOptions,
 } from '@hikka/react/options';
@@ -27,10 +29,6 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
         if (!anime) throw redirect({ to: '/' });
 
         await Promise.allSettled([
-            queryClient.ensureInfiniteQueryData(
-                animeCharactersOptions(hikkaClient, { slug: params.slug }),
-            ),
-            ,
             queryClient.ensureQueryData(
                 franchiseOptions(hikkaClient, {
                     slug: params.slug,
@@ -56,6 +54,27 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
                 searchArticlesOptions(hikkaClient, {
                     args: {
                         content_slug: params.slug,
+                        content_type: ContentTypeEnum.ANIME,
+                    },
+                }),
+            ),
+            queryClient.ensureInfiniteQueryData(
+                contentCommentsOptions(hikkaClient, {
+                    contentType: ContentTypeEnum.ANIME,
+                    slug: params.slug,
+                    paginationArgs: { size: 3 },
+                }),
+            ),
+            queryClient.ensureInfiniteQueryData(
+                animeCharactersOptions(hikkaClient, {
+                    slug: params.slug,
+                    paginationArgs: { size: 20, page: 1 },
+                }),
+            ),
+            queryClient.ensureInfiniteQueryData(
+                searchCollectionsOptions(hikkaClient, {
+                    args: {
+                        content: [params.slug],
                         content_type: ContentTypeEnum.ANIME,
                     },
                 }),
