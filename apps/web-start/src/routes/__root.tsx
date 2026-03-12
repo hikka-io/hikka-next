@@ -1,4 +1,5 @@
 import '@fontsource-variable/geist';
+import 'react-photo-view/dist/react-photo-view.css';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 import {
