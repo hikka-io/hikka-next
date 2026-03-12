@@ -2,7 +2,6 @@
 
 import { useSession } from '@hikka/react';
 import { Settings } from 'lucide-react';
-import { Link } from '@/utils/navigation';
 
 import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -10,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 
 import { LoginButton } from '@/features/common';
+
+import { Link } from '@/utils/navigation';
 
 const SidebarProfile = () => {
     const { user } = useSession();
@@ -20,7 +21,8 @@ const SidebarProfile = () => {
                 <div className="flex flex-col gap-2 w-full">
                     <p className="text-sm font-bold">Приєднуйся до hikka</p>
                     <p className="text-xs text-muted-foreground">
-                        Відслідковуй свій прогрес, створюй власні колекції та веди обговорення зі спільнотою
+                        Відслідковуй свій прогрес, створюй власні колекції та
+                        веди обговорення зі спільнотою
                     </p>
                 </div>
                 <LoginButton className="w-full" variant="secondary" />
@@ -29,7 +31,7 @@ const SidebarProfile = () => {
     }
 
     return (
-        <Card className="items-center bg-secondary/20 backdrop-blur">
+        <Card className="items-center bg-secondary/20 backdrop-blur-lg">
             <div className="flex items-center justify-between gap-2 w-full">
                 <Link to={`/u/${user.username}`}>
                     <Avatar className="size-12 rounded-lg">
@@ -59,7 +61,6 @@ const SidebarProfile = () => {
                 >
                     {user.username}
                 </Link>
-
             </div>
         </Card>
     );

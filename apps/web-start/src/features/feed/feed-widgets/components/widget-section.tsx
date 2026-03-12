@@ -5,10 +5,10 @@ import { Settings2 } from 'lucide-react';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 
 import { cn } from '@/utils/cn';
 
-import Card from '@/components/ui/card';
 import { useOpenWidgetSettings } from '../../hooks/use-open-widget-settings';
 import WidgetList from './widget-list';
 
@@ -21,10 +21,15 @@ const WidgetSection: FC<Props> = ({ className }) => {
     const openSettingsModal = useOpenWidgetSettings();
 
     return (
-        <Card className={cn('flex flex-col gap-0 h-auto overflow-hidden max-h-[calc(100vh-10rem)] bg-secondary/20 backdrop-blur p-0', className)}>
+        <Card
+            className={cn(
+                'flex flex-col gap-0 h-auto overflow-hidden max-h-[calc(100vh-10rem)] bg-secondary/20 backdrop-blur-lg p-0',
+                className,
+            )}
+        >
             <WidgetList />
             {user && (
-                <div className='p-4 bg-secondary/20 border-t'>
+                <div className="p-4 bg-secondary/20 border-t">
                     <Button
                         variant="outline"
                         className="w-full shrink-0 text-muted-foreground backdrop-blur"

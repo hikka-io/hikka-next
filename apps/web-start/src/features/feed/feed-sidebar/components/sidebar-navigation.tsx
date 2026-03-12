@@ -2,9 +2,10 @@
 
 import { cva } from 'class-variance-authority';
 import { BookOpen, Layers, Pencil } from 'lucide-react';
-import { Link } from '@/utils/navigation';
 
 import Card from '@/components/ui/card';
+
+import { Link } from '@/utils/navigation';
 
 const NAV_ITEMS = [
     // { icon: Compass, label: 'Огляд', path: '/discovery', variant: 'secondary' },
@@ -35,7 +36,7 @@ const sidebarNavigationVariants = cva(
 
 const SidebarNavigation = () => {
     return (
-        <Card className="gap-1 p-2 bg-secondary/20 backdrop-blur">
+        <Card className="gap-1 p-2 bg-secondary/20 backdrop-blur-lg">
             {NAV_ITEMS.map((item) => (
                 <Link
                     key={item.path}
