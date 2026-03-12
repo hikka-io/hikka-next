@@ -8,7 +8,7 @@ import {
 } from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
 import { queryKeys, useQueryClient } from '@hikka/react/core';
-import { useRouter, useRouterState } from '@tanstack/react-router';
+import { useRouter } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
@@ -32,8 +32,6 @@ const AnimeList: FC<Props> = () => {
     const queryClient = useQueryClient();
     const search = useFilterSearch<AnimeSearch>();
     const router = useRouter();
-    const pathname = useRouterState({ select: (s) => s.location.pathname });
-    const searchStr = useRouterState({ select: (s) => s.location.searchStr });
 
     const query = search.search;
     const media_type = (search.types ?? []) as AnimeMediaEnum[];
@@ -111,20 +109,7 @@ const AnimeList: FC<Props> = () => {
     };
 
     const handleLoadMore = async () => {
-        const result = await fetchNextPage();
-
-        const last = result?.data?.pages.at(-1)!.pagination.page;
-
-        const params = new URLSearchParams(searchStr);
-        params.set('page', String(last));
-
-        const newUrl = `${pathname}?${params.toString()}`;
-
-        window.history.replaceState(
-            { ...window.history.state, as: newUrl, url: newUrl },
-            '',
-            newUrl,
-        );
+        await fetchNextPage();
     };
 
     if (isLoading && !isFetchingNextPage) {
