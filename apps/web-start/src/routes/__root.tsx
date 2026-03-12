@@ -12,6 +12,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
 import NotFoundPage from '@/components/not-found-page';
+import RouterProgressBar from '@/components/router-progress-bar';
 
 import { Providers } from '@/features/common';
 
@@ -113,6 +114,7 @@ function RootLayout() {
                 <div data-vaul-drawer-wrapper>
                     <UIStoreProvider initialUI={userUI}>
                         <Providers client={hikkaClient}>
+                            <RouterProgressBar />
                             <Outlet />
                         </Providers>
                     </UIStoreProvider>
