@@ -44,7 +44,7 @@ const ContentDetailPage: FC<Props> = ({
                     <ContentActions content_type={contentType} />
                 </div>
             </div>
-            <div className="flex flex-col gap-8 lg:col-span-2">
+            <div className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-8">
                 <ContentTitle content_type={contentType} />
                 <ContentDescription content_type={contentType} />
                 {afterDescription}
@@ -56,6 +56,13 @@ const ContentDetailPage: FC<Props> = ({
                 <Franchise content_type={contentType} />
                 {afterFranchise}
                 <ContentStaff content_type={contentType} />
+                <div className="order-last lg:order-0">
+                    <Comments
+                        preview
+                        slug={slug}
+                        content_type={contentType}
+                    />
+                </div>
             </div>
 
             <div className="flex flex-col gap-8 lg:col-span-1">
@@ -68,13 +75,6 @@ const ContentDetailPage: FC<Props> = ({
                 <ContentArticles content_type={contentType} />
                 <Collections content_type={contentType} />
                 <ContentLinks content_type={contentType} />
-            </div>
-            <div className="flex flex-col gap-8 lg:col-span-2 lg:col-start-2">
-                <Comments
-                    preview
-                    slug={slug}
-                    content_type={contentType}
-                />
             </div>
         </div>
     );
