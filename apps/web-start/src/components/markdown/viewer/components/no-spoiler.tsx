@@ -5,7 +5,7 @@ interface Props {
 }
 
 const NoSpoiler = ({ children }: Props) => {
-    return <span className="spoiler-blur-xs">{children}</span>;
+    return <span className="spoiler-blur-sm">{children}</span>;
 };
 
 export default NoSpoiler;

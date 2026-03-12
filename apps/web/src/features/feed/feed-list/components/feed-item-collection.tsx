@@ -1,6 +1,5 @@
-import { FC } from 'react';
-
 import { CollectionContent, CollectionResponse } from '@hikka/client';
+import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Badge } from '@/components/ui/badge';
@@ -59,7 +58,7 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                         image={item.content.image}
                         href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         className={cn(data.spoiler && 'spoiler-blur-md')}
-                        titleClassName={cn(data.spoiler && 'spoiler-blur-xs')}
+                        titleClassName={cn(data.spoiler && 'spoiler-blur-sm')}
                         containerClassName={cn(data.nsfw && 'spoiler-blur-md')}
                         watch={
                             'watch' in item.content &&

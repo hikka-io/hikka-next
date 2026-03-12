@@ -3,11 +3,9 @@
 import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
 import { ArrowBigUp, MessageCircle } from 'lucide-react';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
-import FollowButton from '@/features/common/follow-button';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import {
@@ -22,8 +20,11 @@ import { Label } from '@/components/ui/label';
 import Stack, { StackSize } from '@/components/ui/stack';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 
+import FollowButton from '@/features/common/follow-button';
+
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     collection: CollectionResponse<CollectionContent>;
@@ -55,7 +56,9 @@ const CollectionCard: FC<Props> = ({
                     to={`/u/${collection.author.username}`}
                 />
                 <HorizontalCardContainer className="gap-1">
-                    <HorizontalCardTitle href={`/u/${collection.author.username}`}>
+                    <HorizontalCardTitle
+                        href={`/u/${collection.author.username}`}
+                    >
                         {collection.author.username}
                     </HorizontalCardTitle>
                     <HorizontalCardContainer className="flex-row items-center">
@@ -78,10 +81,7 @@ const CollectionCard: FC<Props> = ({
             </HorizontalCard>
 
             {/* Collection Title */}
-            <Link
-                to={`/collections/${collection.reference}`}
-                className="block"
-            >
+            <Link to={`/collections/${collection.reference}`} className="block">
                 <Label>{collection.title}</Label>
             </Link>
 
@@ -123,7 +123,7 @@ const CollectionCard: FC<Props> = ({
                         to={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         className={cn(collection.spoiler && 'spoiler-blur-md')}
                         titleClassName={cn(
-                            collection.spoiler && 'spoiler-blur-xs',
+                            collection.spoiler && 'spoiler-blur-sm',
                         )}
                         containerClassName={cn(
                             collection.nsfw && 'spoiler-blur-md',

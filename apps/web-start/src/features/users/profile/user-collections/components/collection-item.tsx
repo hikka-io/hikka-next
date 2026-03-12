@@ -23,18 +23,16 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
         content.data_type === 'anime' ? content.image : content.image;
 
     return (
-        <HorizontalCard
-            className={className}
-        >
+        <HorizontalCard className={className}>
             <HorizontalCardImage
                 image={image(data.collection[0].content)}
-                className={cn(data.nsfw && 'spoiler-blur-xs', 'w-12')}
+                className={cn(data.nsfw && 'spoiler-blur-sm', 'w-12')}
                 href={`/collections/${data.reference}`}
             />
             <HorizontalCardContainer>
                 <div className="inline-flex items-center gap-2">
                     <HorizontalCardTitle
-                        className={cn(data.spoiler && 'spoiler-blur-xs')}
+                        className={cn(data.spoiler && 'spoiler-blur-sm')}
                         href={`/collections/${data.reference}`}
                     >
                         {data.title}
@@ -47,7 +45,7 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                     )}
                 </div>
                 <HorizontalCardDescription
-                    className={cn(data.spoiler && 'spoiler-blur-xs')}
+                    className={cn(data.spoiler && 'spoiler-blur-sm')}
                 >
                     {data.description}
                 </HorizontalCardDescription>

@@ -1,10 +1,10 @@
 @import '@fontsource-variable/geist';
 
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 :root {
-    --font-geist: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+    --font-geist: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
@@ -294,8 +294,14 @@
     --font-display: var(--font-geist);
 
     /* grid extensions */
-    --grid-auto-columns-scroll: minmax(var(--grid-min, 7rem), var(--grid-max, 1fr));
-    --grid-template-columns-scroll: repeat(auto-fill, minmax(var(--grid-min, 7rem), var(--grid-max, 1fr)));
+    --grid-auto-columns-scroll: minmax(
+        var(--grid-min, 7rem),
+        var(--grid-max, 1fr)
+    );
+    --grid-template-columns-scroll: repeat(
+        auto-fill,
+        minmax(var(--grid-min, 7rem), var(--grid-max, 1fr))
+    );
 
     /* animations */
     --animate-accordion-down: accordion-down 0.2s ease-out;
@@ -320,7 +326,6 @@
 @source inline("gradient-mask-b-90 gradient-mask-b-90-d");
 @source inline("gradient-mask-l-90 gradient-mask-l-90-d");
 @source inline("gradient-mask-r-90 gradient-mask-r-90-d");
-
 
 @keyframes accordion-down {
     from {
@@ -363,7 +368,6 @@
 }
 
 @layer base {
-
     *,
     ::after,
     ::before,
@@ -378,7 +382,7 @@
     }
 
     button:not(:disabled),
-    [role="button"]:not(:disabled) {
+    [role='button']:not(:disabled) {
         cursor: pointer;
     }
 
@@ -392,20 +396,20 @@
     }
 
     h1 {
-        @apply scroll-m-20 font-display text-4xl font-bold tracking-normal lg:text-5xl;
+        @apply font-display scroll-m-20 text-4xl font-bold tracking-normal lg:text-5xl;
     }
 
     h2 {
-        @apply scroll-m-20 font-display text-2xl font-bold tracking-normal first:mt-0;
+        @apply font-display scroll-m-20 text-2xl font-bold tracking-normal first:mt-0;
     }
 
     h3 {
-        @apply scroll-m-20 font-display text-lg font-bold tracking-normal;
+        @apply font-display scroll-m-20 text-lg font-bold tracking-normal;
     }
 
     h4,
     h5 {
-        @apply scroll-m-20 font-display text-base font-bold tracking-normal;
+        @apply font-display scroll-m-20 text-base font-bold tracking-normal;
     }
 
     p {
@@ -510,243 +514,479 @@
 }
 
 @utility gradient-mask-t-0 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 100%);
 }
 
 @utility gradient-mask-t-10 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 10%, transparent 100%);
 }
 
 @utility gradient-mask-t-20 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 20%, transparent 100%);
 }
 
 @utility gradient-mask-t-30 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 30%, transparent 100%);
 }
 
 @utility gradient-mask-t-40 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 40%, transparent 100%);
 }
 
 @utility gradient-mask-t-50 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 50%, transparent 100%);
 }
 
 @utility gradient-mask-t-60 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, transparent 100%);
 }
 
 @utility gradient-mask-t-70 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 70%, transparent 100%);
 }
 
 @utility gradient-mask-t-80 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 80%, transparent 100%);
 }
 
 @utility gradient-mask-t-90 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 90%, transparent 100%);
 }
 
 @utility gradient-mask-t-50-d {
-    mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+    mask-image: linear-gradient(
+        to top,
+        transparent,
+        rgba(0, 0, 0, 1) 50%,
+        rgba(0, 0, 0, 1) 50%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-t-60-d {
-    mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+    mask-image: linear-gradient(
+        to top,
+        transparent,
+        rgba(0, 0, 0, 1) 40%,
+        rgba(0, 0, 0, 1) 60%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-t-70-d {
-    mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+    mask-image: linear-gradient(
+        to top,
+        transparent,
+        rgba(0, 0, 0, 1) 30%,
+        rgba(0, 0, 0, 1) 70%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-t-80-d {
-    mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+    mask-image: linear-gradient(
+        to top,
+        transparent,
+        rgba(0, 0, 0, 1) 20%,
+        rgba(0, 0, 0, 1) 80%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-t-90-d {
-    mask-image: linear-gradient(to top, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+    mask-image: linear-gradient(
+        to top,
+        transparent,
+        rgba(0, 0, 0, 1) 10%,
+        rgba(0, 0, 0, 1) 90%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-0 {
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 0%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-10 {
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 10%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-20 {
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 20%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-30 {
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 30%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-40 {
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 40%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-50 {
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 50%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-60 {
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 60%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-70 {
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 70%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-80 {
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 80%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-90 {
-    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 1) 90%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-50-d {
-    mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(0, 0, 0, 1) 50%,
+        rgba(0, 0, 0, 1) 50%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-60-d {
-    mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(0, 0, 0, 1) 40%,
+        rgba(0, 0, 0, 1) 60%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-70-d {
-    mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(0, 0, 0, 1) 30%,
+        rgba(0, 0, 0, 1) 70%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-80-d {
-    mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(0, 0, 0, 1) 20%,
+        rgba(0, 0, 0, 1) 80%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-b-90-d {
-    mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(0, 0, 0, 1) 10%,
+        rgba(0, 0, 0, 1) 90%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-0 {
-    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 1) 0%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-10 {
-    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 1) 10%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-20 {
-    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 1) 20%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-30 {
-    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 1) 30%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-40 {
-    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 1) 40%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-50 {
-    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 1) 50%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-60 {
-    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 1) 60%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-70 {
-    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 1) 70%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-80 {
-    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 1) 80%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-90 {
-    mask-image: linear-gradient(to right, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 1) 90%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-50-d {
-    mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        rgba(0, 0, 0, 1) 50%,
+        rgba(0, 0, 0, 1) 50%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-60-d {
-    mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        rgba(0, 0, 0, 1) 40%,
+        rgba(0, 0, 0, 1) 60%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-70-d {
-    mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        rgba(0, 0, 0, 1) 30%,
+        rgba(0, 0, 0, 1) 70%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-80-d {
-    mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        rgba(0, 0, 0, 1) 20%,
+        rgba(0, 0, 0, 1) 80%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-r-90-d {
-    mask-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        rgba(0, 0, 0, 1) 10%,
+        rgba(0, 0, 0, 1) 90%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-0 {
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 0%, transparent 100%);
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, transparent 100%);
 }
 
 @utility gradient-mask-l-10 {
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 10%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 1) 10%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-20 {
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 20%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 1) 20%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-30 {
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 30%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 1) 30%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-40 {
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 40%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 1) 40%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-50 {
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 1) 50%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-60 {
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 1) 60%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-70 {
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 1) 70%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-80 {
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 1) 80%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-90 {
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 1) 90%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-50-d {
-    mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 50%, rgba(0, 0, 0, 1.0) 50%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        transparent,
+        rgba(0, 0, 0, 1) 50%,
+        rgba(0, 0, 0, 1) 50%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-60-d {
-    mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 40%, rgba(0, 0, 0, 1.0) 60%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        transparent,
+        rgba(0, 0, 0, 1) 40%,
+        rgba(0, 0, 0, 1) 60%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-70-d {
-    mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 30%, rgba(0, 0, 0, 1.0) 70%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        transparent,
+        rgba(0, 0, 0, 1) 30%,
+        rgba(0, 0, 0, 1) 70%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-80-d {
-    mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 20%, rgba(0, 0, 0, 1.0) 80%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        transparent,
+        rgba(0, 0, 0, 1) 20%,
+        rgba(0, 0, 0, 1) 80%,
+        transparent 100%
+    );
 }
 
 @utility gradient-mask-l-90-d {
-    mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent 100%);
+    mask-image: linear-gradient(
+        to left,
+        transparent,
+        rgba(0, 0, 0, 1) 10%,
+        rgba(0, 0, 0, 1) 90%,
+        transparent 100%
+    );
 }
 
 /* Logo styles */
@@ -857,19 +1097,26 @@ td:last-child {
 
 .radial-progress:before {
     inset: 0;
-    background: radial-gradient(farthest-side, currentColor 98%, #0000) top/var(--thickness) var(--thickness) no-repeat,
+    background:
+        radial-gradient(farthest-side, currentColor 98%, #0000)
+            top/var(--thickness) var(--thickness) no-repeat,
         conic-gradient(currentColor calc(var(--value) * 1%), #0000 0);
-    -webkit-mask: radial-gradient(farthest-side,
-            #0000 calc(99% - var(--thickness)),
-            #000 calc(100% - var(--thickness)));
-    mask: radial-gradient(farthest-side,
-            #0000 calc(99% - var(--thickness)),
-            #000 calc(100% - var(--thickness)));
+    -webkit-mask: radial-gradient(
+        farthest-side,
+        #0000 calc(99% - var(--thickness)),
+        #000 calc(100% - var(--thickness))
+    );
+    mask: radial-gradient(
+        farthest-side,
+        #0000 calc(99% - var(--thickness)),
+        #000 calc(100% - var(--thickness))
+    );
 }
 
 .radial-progress:after {
     inset: calc(50% - var(--thickness) / 2);
-    transform: rotate(calc(var(--value) * 3.6deg - 90deg)) translate(calc(var(--size) / 2 - 50%));
+    transform: rotate(calc(var(--value) * 3.6deg - 90deg))
+        translate(calc(var(--size) / 2 - 50%));
     background-color: currentColor;
 }
 
@@ -922,11 +1169,11 @@ td:last-child {
 }
 
 /* Content area typography spacing */
-.prose>p,
-.prose>blockquote,
-.prose>ul,
-.prose>ol,
-.prose>.spoiler,
+.prose > p,
+.prose > blockquote,
+.prose > ul,
+.prose > ol,
+.prose > .spoiler,
 .prose .spoiler p,
 .prose .spoiler blockquote,
 .prose .spoiler ul,
@@ -934,7 +1181,7 @@ td:last-child {
     @apply mb-4;
 }
 
-.prose> :last-child,
+.prose > :last-child,
 .prose .spoiler :last-child {
     @apply mb-0;
 }
@@ -947,8 +1194,8 @@ td:last-child {
     @apply ml-6 list-decimal;
 }
 
-.prose ul>li,
-.prose ol>li {
+.prose ul > li,
+.prose ol > li {
     @apply mt-2;
 }
 
