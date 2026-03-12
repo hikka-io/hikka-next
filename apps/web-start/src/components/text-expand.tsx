@@ -46,46 +46,31 @@ const TextExpand = ({
           : isExpanded;
     const setExpanded = _setExpanded || setIsExpanded;
 
-    const checkIfNeedsExpansion = useCallback(() => {
+    const measureContent = useCallback(() => {
         if (ref.current) {
-            const needsExp = ref.current.scrollHeight > maxHeight;
-            setNeedsExpansion(needsExp);
-
-            // If content doesn't need expansion and not always collapsed, make sure it's expanded
-            if (!needsExp && !expanded && !alwaysCollapsed) {
-                setExpanded(true);
-            }
+            setNeedsExpansion(ref.current.scrollHeight > maxHeight);
         }
-    }, [maxHeight, expanded, setExpanded, alwaysCollapsed]);
+    }, [maxHeight]);
 
     useEffect(() => {
-        checkIfNeedsExpansion();
+        measureContent();
 
-        // Set up ResizeObserver to handle dynamic content changes
-        if (ref.current) {
-            const resizeObserver = new ResizeObserver(() => {
-                checkIfNeedsExpansion();
-            });
+        const el = ref.current;
+        if (!el) return;
 
-            resizeObserver.observe(ref.current);
+        const resizeObserver = new ResizeObserver(measureContent);
+        resizeObserver.observe(el);
 
-            return () => {
-                resizeObserver.disconnect();
-            };
-        }
-    }, [checkIfNeedsExpansion]);
+        return () => resizeObserver.disconnect();
+    }, [measureContent]);
 
     const handleToggle = useCallback(() => {
         setExpanded(!expanded);
     }, [expanded, setExpanded]);
 
-    const maxHeightStyle = `${maxHeight}px`;
-
-    // When alwaysCollapsed is true, we should always show content as collapsed
     const shouldShowCollapsed =
         alwaysCollapsed || (!expanded && needsExpansion);
 
-    // Show gradient only when content is actually being cut off
     const shouldShowGradient =
         shouldShowCollapsed && showGradient && needsExpansion;
 
@@ -96,25 +81,19 @@ const TextExpand = ({
                 className={cn(
                     'relative transition-all duration-300 ease-in-out',
                     shouldShowCollapsed && 'overflow-hidden',
-                    // Only apply className (which might contain height constraints) when collapsed
                     shouldShowCollapsed && className,
+                    shouldShowGradient && 'gradient-mask-b-90',
                 )}
                 style={{
-                    maxHeight: shouldShowCollapsed ? maxHeightStyle : undefined,
+                    maxHeight: shouldShowCollapsed
+                        ? `${maxHeight}px`
+                        : undefined,
                 }}
                 aria-expanded={expanded}
             >
                 {children}
-
-                {shouldShowGradient && (
-                    <div
-                        className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent"
-                        aria-hidden="true"
-                    />
-                )}
             </div>
 
-            {/* Only show expand/collapse button when not alwaysCollapsed and content needs expansion */}
             {!alwaysCollapsed && needsExpansion && (
                 <div className="flex w-full items-center justify-start pt-2">
                     <Button
