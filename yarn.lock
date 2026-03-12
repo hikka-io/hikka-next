@@ -1884,9 +1884,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@hikka/web-start@workspace:apps/web-start"
   dependencies:
+    "@antfu/utils": "npm:^0.7.10"
     "@ariakit/react": "npm:^0.4.15"
     "@dnd-kit/core": "npm:^6.1.0"
     "@dnd-kit/sortable": "npm:^8.0.0"
+    "@dnd-kit/utilities": "npm:^3.2.2"
     "@emoji-mart/data": "npm:^1.2.1"
     "@fontsource-variable/geist": "npm:^5.0.0"
     "@hikka/client": "workspace:*"
@@ -1929,6 +1931,7 @@ __metadata:
     "@radix-ui/react-toolbar": "npm:^1.1.11"
     "@radix-ui/react-tooltip": "npm:^1.2.8"
     "@radix-ui/react-use-controllable-state": "npm:^1.2.2"
+    "@react-hook/resize-observer": "npm:^2.0.2"
     "@tailwindcss/vite": "npm:^4"
     "@tanstack/devtools-vite": "npm:^0.5.5"
     "@tanstack/react-devtools": "npm:^0.9.13"
@@ -1955,10 +1958,12 @@ __metadata:
     lodash-es: "npm:^4.17.21"
     lucide-react: "npm:^0.469.0"
     marked: "npm:^12.0.1"
+    mdast-util-find-and-replace: "npm:^3.0.2"
     nitro: "npm:nitro-nightly@3.0.1-20260311-194443-0f366e59"
     platejs: "npm:^52.0.8"
     react: "npm:19.2.1"
     react-avatar-editor: "npm:^13.0.2"
+    react-colorful: "npm:^5.6.1"
     react-day-picker: "npm:8.10.1"
     react-dom: "npm:19.2.1"
     react-dropzone: "npm:^14.3.5"
@@ -1969,6 +1974,7 @@ __metadata:
     react-number-format: "npm:^5.4.2"
     react-photo-view: "npm:^1.2.7"
     react-remove-scroll: "npm:^2.6.3"
+    react-snowfall: "npm:^2.2.0"
     recharts: "npm:^3.6.0"
     remark-directive: "npm:^3.0.0"
     remark-directive-rehype: "npm:^0.4.2"
@@ -1981,6 +1987,7 @@ __metadata:
     vaul: "npm:^1.1.1"
     vite: "npm:^7.0.0"
     vite-tsconfig-paths: "npm:^5.0.0"
+    xml-js: "npm:^1.6.11"
     zod: "npm:^3.23.8"
     zod-i18n-map: "npm:^2.27.0"
     zundo: "npm:^2.3.0"
@@ -14739,7 +14746,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mdast-util-find-and-replace@npm:^3.0.0, mdast-util-find-and-replace@npm:^3.0.1":
+"mdast-util-find-and-replace@npm:^3.0.0, mdast-util-find-and-replace@npm:^3.0.1, mdast-util-find-and-replace@npm:^3.0.2":
   version: 3.0.2
   resolution: "mdast-util-find-and-replace@npm:3.0.2"
   dependencies:

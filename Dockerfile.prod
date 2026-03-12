@@ -1,4 +1,4 @@
-FROM node:20.15.1-alpine3.20 AS base
+FROM node:20-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -19,6 +19,9 @@ RUN corepack enable yarn && yarn install
 FROM deps AS builder
 WORKDIR /app
 COPY . .
+
+# Increase Node.js heap for Vite/Nitro build
+ENV NODE_OPTIONS=--max-old-space-size=4096
 
 # Build using Turbo (builds all dependencies in correct order)
 RUN yarn turbo run build --filter=@hikka/web-start
