@@ -33,12 +33,12 @@ function PagesLayout() {
         <SidebarProvider defaultOpen={false}>
             <ScrollTop />
             <div className="sticky top-0 z-50">
-                <div className="container 2xl:max-w-360 relative mx-auto">
+                <div className="relative mx-auto w-full max-w-350">
                     <AppSidebar />
                 </div>
             </div>
             <Navbar />
-            <main className="container 2xl:max-w-360 mx-auto mt-8 px-4 lg:mt-16">
+            <main className="mx-auto mt-8 w-full max-w-350 px-4 lg:mt-16">
                 <Outlet />
             </main>
             <Footer />
