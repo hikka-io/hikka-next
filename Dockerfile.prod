@@ -38,6 +38,9 @@ RUN adduser --system --uid 1001 appuser
 # Copy Nitro build output (self-contained: server + public assets)
 COPY --from=builder --chown=appuser:nodejs /app/apps/web-start/.output ./
 
+# Copy @takumi-rs native bindings for OG image generation
+COPY --from=builder --chown=appuser:nodejs /app/node_modules/@takumi-rs/ ./node_modules/@takumi-rs/
+
 USER appuser
 
 EXPOSE 3000
