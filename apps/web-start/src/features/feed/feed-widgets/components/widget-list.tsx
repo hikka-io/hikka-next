@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from '@hikka/react';
-import { FC, forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
@@ -17,7 +17,7 @@ const WIDGET_COMPONENTS: Record<string, FC> = {
     tracker: WidgetTracker,
 };
 
-const WidgetList = forwardRef<HTMLDivElement>((_, ref) => {
+const WidgetList = () => {
     const { preferences, _hasHydrated } = useSettingsStore();
     const { user } = useSession();
     const containerRef = useRef<HTMLDivElement>(null);
@@ -41,8 +41,6 @@ const WidgetList = forwardRef<HTMLDivElement>((_, ref) => {
         return true;
     });
 
-    useImperativeHandle(ref, () => containerRef.current!, []);
-
     useEffect(() => {
         if (_hasHydrated && containerRef.current) {
             containerRef.current.scrollTo({ left: 0 });
@@ -52,18 +50,18 @@ const WidgetList = forwardRef<HTMLDivElement>((_, ref) => {
     return (
         <div
             ref={containerRef}
-            className="flex w-full snap-x snap-mandatory overflow-y-hidden overflow-x-auto lg:snap-none lg:overflow-x-visible lg:flex-col lg:overflow-y-auto"
+            className={cn(
+                'flex w-full min-w-0 snap-x snap-mandatory gap-4 overflow-x-auto no-scrollbar',
+                'lg:flex-col lg:snap-none lg:overflow-visible px-4 lg:px-0',
+            )}
         >
-            {visibleWidgets.map((widget, index) => {
+            {visibleWidgets.map((widget) => {
                 const Component = WIDGET_COMPONENTS[widget.id];
                 if (!Component) return null;
                 return (
                     <div
                         key={widget.id}
-                        className={cn(
-                            'w-full shrink-0 snap-center lg:w-auto lg:shrink',
-                            index !== 0 && 'lg:border-t',
-                        )}
+                        className="w-full shrink-0 snap-center overflow-hidden"
                     >
                         <Component />
                     </div>
@@ -71,8 +69,6 @@ const WidgetList = forwardRef<HTMLDivElement>((_, ref) => {
             })}
         </div>
     );
-});
-
-WidgetList.displayName = 'WidgetList';
+};
 
 export default WidgetList;

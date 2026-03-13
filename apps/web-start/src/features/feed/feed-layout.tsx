@@ -30,11 +30,11 @@ const FeedLayout: FC<Props> = ({ children, className }) => {
                 {children}
             </main>
 
-            <aside className="lg:sticky top-20 h-fit block xl:hidden order-1 lg:order-2">
+            <aside className="h-fit block xl:hidden order-1 lg:order-2">
                 <FeedCombinedSidebar />
             </aside>
 
-            <aside className="sticky top-20 hidden h-fit xl:block xl:order-2">
+            <aside className="hidden h-fit xl:block xl:order-2">
                 <FeedWidgets />
             </aside>
         </div>

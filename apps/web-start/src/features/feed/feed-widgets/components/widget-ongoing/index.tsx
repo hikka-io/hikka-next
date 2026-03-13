@@ -3,12 +3,12 @@
 import { range } from '@antfu/utils';
 import { AnimeMediaEnum, AnimeStatusEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
-import { Link } from '@/utils/navigation';
 
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
@@ -16,7 +16,9 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { Skeleton } from '@/components/ui/skeleton';
+
 import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 
 const ONGOING_SIZE = 5;
@@ -56,63 +58,72 @@ const WidgetOngoing = () => {
     });
 
     return (
-        <Block className="gap-4 py-4 w-full">
-            <Header href="/anime?statuses=ongoing" className='px-4'>
-                <HeaderContainer>
-                    <HeaderTitle variant="h4">Онґоінґи</HeaderTitle>
-                </HeaderContainer>
-                <HeaderNavButton />
-            </Header>
+        <Card className="p-0 backdrop-blur bg-secondary/20 snap-center">
+            <Block className="gap-4 py-4 w-full">
+                <Header href="/anime?statuses=ongoing" className="px-4">
+                    <HeaderContainer>
+                        <HeaderTitle variant="h4">Онґоінґи</HeaderTitle>
+                    </HeaderContainer>
+                    <HeaderNavButton />
+                </Header>
 
-            <div className="flex flex-col px-2 gap-1">
-                {isLoading &&
-                    range(0, ONGOING_SIZE).map((i) => (
-                        <OngoingItemSkeleton key={i} />
-                    ))}
+                <div className="flex flex-col px-2 gap-1">
+                    {isLoading &&
+                        range(0, ONGOING_SIZE).map((i) => (
+                            <OngoingItemSkeleton key={i} />
+                        ))}
 
-                {!isLoading &&
-                    list?.map((anime, index) => {
-                        return (
-                            <Link
-                                key={anime.slug}
-                                to={`/anime/${anime.slug}`}
-                                className={cn(
-                                    'group flex items-center gap-4 rounded-sm px-2 py-2',
-                                    'transition-colors hover:bg-secondary/60',
-                                )}
-                            >
-                                <div className='w-4'>
-                                    <span className='text-xs font-semibold text-muted-foreground'>#{index + 1}</span>
-
-                                </div>
-
-                                {/* poster */}
-                                <ContentCard image={anime.image} className='w-10'>
-                                </ContentCard>
-
-                                {/* title + meta */}
-                                <div className="min-w-0 flex-1 flex flex-col gap-2">
-                                    <p className="line-clamp-2 text-xs font-medium group-hover:text-foreground">
-                                        {anime.title}
-                                    </p>
-                                    <div className='flex items-center gap-2'>
-                                        <span className='text-xs text-muted-foreground'>{anime.episodes_released}/{anime.episodes_total} епізодів</span>
+                    {!isLoading &&
+                        list?.map((anime, index) => {
+                            return (
+                                <Link
+                                    key={anime.slug}
+                                    to={`/anime/${anime.slug}`}
+                                    className={cn(
+                                        'group flex items-center gap-4 rounded-sm px-2 py-2',
+                                        'transition-colors hover:bg-secondary/60',
+                                    )}
+                                >
+                                    <div className="w-4">
+                                        <span className="text-xs font-semibold text-muted-foreground">
+                                            #{index + 1}
+                                        </span>
                                     </div>
-                                </div>
-                                <Badge variant="outline">
-                                    <span>{anime.score}</span> <MaterialSymbolsStarRounded className="text-yellow-400" />
-                                </Badge>
-                            </Link>
-                        );
-                    })}
 
-                {!isLoading && (!list || list.length === 0) && (
-                    <p className="py-4 text-center text-sm text-muted-foreground">
-                        Немає сезонних онґоінґів
-                    </p>
-                )}
-            </div>
-        </Block>
+                                    {/* poster */}
+                                    <ContentCard
+                                        image={anime.image}
+                                        className="w-10"
+                                    ></ContentCard>
+
+                                    {/* title + meta */}
+                                    <div className="min-w-0 flex-1 flex flex-col gap-2">
+                                        <p className="line-clamp-2 text-xs font-medium group-hover:text-foreground">
+                                            {anime.title}
+                                        </p>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-xs text-muted-foreground">
+                                                {anime.episodes_released}/
+                                                {anime.episodes_total} епізодів
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <Badge variant="outline">
+                                        <span>{anime.score}</span>{' '}
+                                        <MaterialSymbolsStarRounded className="text-yellow-400" />
+                                    </Badge>
+                                </Link>
+                            );
+                        })}
+
+                    {!isLoading && (!list || list.length === 0) && (
+                        <p className="py-4 text-center text-sm text-muted-foreground">
+                            Немає сезонних онґоінґів
+                        </p>
+                    )}
+                </div>
+            </Block>
+        </Card>
     );
 };
 
