@@ -1,61 +1,56 @@
 'use client';
 
-import { cva } from 'class-variance-authority';
-import { BookOpen, Layers, Pencil } from 'lucide-react';
+import { useSession } from '@hikka/react';
+import { BookOpen, Layers, Pencil, Plus } from 'lucide-react';
 
+import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 
 import { Link } from '@/utils/navigation';
 
 const NAV_ITEMS = [
-    // { icon: Compass, label: 'Огляд', path: '/discovery', variant: 'secondary' },
-    { icon: BookOpen, label: 'Статті', path: '/articles', variant: 'default' },
+    {
+        icon: BookOpen,
+        label: 'Статті',
+        path: '/articles',
+        createPath: '/articles/new',
+    },
     {
         icon: Layers,
         label: 'Колекції',
         path: '/collections',
-        variant: 'default',
+        createPath: '/collections/new',
     },
-    { icon: Pencil, label: 'Правки', path: '/edit', variant: 'default' },
+    { icon: Pencil, label: 'Правки', path: '/edit' },
 ] as const;
 
-const sidebarNavigationVariants = cva(
-    'flex items-center gap-3 rounded-sm px-3 py-2 text-sm transition-colors hover:bg-secondary',
-    {
-        variants: {
-            variant: {
-                default: '',
-                secondary: 'bg-secondary/20',
-            },
-        },
-        defaultVariants: {
-            variant: 'default',
-        },
-    },
-);
-
 const SidebarNavigation = () => {
+    const { user } = useSession();
+
     return (
         <Card className="gap-1 p-2 bg-secondary/20 backdrop-blur-lg">
             {NAV_ITEMS.map((item) => (
-                <Link
-                    key={item.path}
-                    to={item.path}
-                    className={sidebarNavigationVariants({
-                        variant: item.variant,
-                    })}
-                >
-                    <item.icon className="text-muted-foreground size-4" />
-                    <span
-                        className={
-                            item.variant === 'default'
-                                ? 'text-foreground font-medium'
-                                : 'text-foreground'
-                        }
+                <div key={item.path} className="flex items-center gap-1">
+                    <Link
+                        to={item.path}
+                        className="flex flex-1 items-center gap-3 rounded-sm px-3 py-2 text-sm font-medium transition-colors hover:bg-secondary"
                     >
-                        {item.label}
-                    </span>
-                </Link>
+                        <item.icon className="text-muted-foreground size-4" />
+                        <span>{item.label}</span>
+                    </Link>
+                    {user && 'createPath' in item && (
+                        <Button
+                            asChild
+                            size="icon-sm"
+                            className="text-muted-foreground"
+                            variant="ghost"
+                        >
+                            <Link to={item.createPath}>
+                                <Plus className="size-4" />
+                            </Link>
+                        </Button>
+                    )}
+                </div>
             ))}
         </Card>
     );

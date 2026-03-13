@@ -47,10 +47,14 @@ const SidebarProfile = () => {
                             <Settings />
                         </Link>
                     </Button>
-                    <Button variant="destructive" size="icon-md" asChild>
-                        <Link to={`/u/${user.username}`}>
-                            <MaterialSymbolsLogoutRounded />
-                        </Link>
+                    <Button
+                        variant="destructive"
+                        size="icon-md"
+                        onClick={() => {
+                            window.location.href = `/api/auth/logout?callbackUrl=${encodeURIComponent(window.location.href)}`;
+                        }}
+                    >
+                        <MaterialSymbolsLogoutRounded />
                     </Button>
                 </div>
             </div>
