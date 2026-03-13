@@ -105,6 +105,7 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
             image: `${import.meta.env.VITE_SITE_URL || 'https://hikka.io'}/api/og/anime?slug=${anime.slug}&v=${anime.updated}`,
             imageWidth: 1200,
             imageHeight: 630,
+            imageType: 'image/jpeg',
             url: `https://hikka.io/anime/${anime.slug}`,
             other: {
                 ...(anime.mal_id ? { 'mal-id': anime.mal_id } : {}),

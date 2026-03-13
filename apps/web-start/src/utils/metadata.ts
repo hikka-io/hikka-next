@@ -103,6 +103,7 @@ interface HeadMetaProps {
     image?: string | null;
     imageWidth?: number;
     imageHeight?: number;
+    imageType?: string;
     url?: string;
     robots?: { index?: boolean };
     other?: Record<string, string | number>;
@@ -151,6 +152,13 @@ function generateHeadMeta(props: HeadMetaProps) {
         meta.push({
             property: 'og:image:height',
             content: String(props.imageHeight),
+        });
+    }
+
+    if (props.imageType) {
+        meta.push({
+            property: 'og:image:type',
+            content: props.imageType,
         });
     }
 
