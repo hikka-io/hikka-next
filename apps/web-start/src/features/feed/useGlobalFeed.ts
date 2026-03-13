@@ -1,7 +1,5 @@
 'use client';
 
-import { useMemo } from 'react';
-
 import { ContentTypeEnum } from '@hikka/client';
 import {
     useCommentList,
@@ -10,6 +8,7 @@ import {
     useSearchCollections,
     useSession,
 } from '@hikka/react';
+import { useMemo } from 'react';
 
 import { FeedItem } from './types';
 
@@ -31,14 +30,15 @@ export function useGlobalFeed() {
         },
     });
 
-    const { list: collections, isLoading: isCollectionsLoading } = useSearchCollections({
-        args: {
-            sort: ['created:desc'],
-        },
-        paginationArgs: {
-            size: 15,
-        },
-    });
+    const { list: collections, isLoading: isCollectionsLoading } =
+        useSearchCollections({
+            args: {
+                sort: ['created:desc'],
+            },
+            paginationArgs: {
+                size: 15,
+            },
+        });
 
     const { list: history, isLoading: isHistoryLoading } = useFollowingHistory({
         paginationArgs: {
@@ -50,7 +50,10 @@ export function useGlobalFeed() {
     });
 
     const isLoading =
-        isCommentsLoading || isArticlesLoading || isCollectionsLoading || (!!user && isHistoryLoading);
+        isCommentsLoading ||
+        isArticlesLoading ||
+        isCollectionsLoading ||
+        (!!user && isHistoryLoading);
 
     const feed = useMemo<FeedItem[]>(() => {
         const items: FeedItem[] = [];
@@ -58,7 +61,7 @@ export function useGlobalFeed() {
         if (comments) {
             for (const comment of comments) {
                 items.push({
-                    reference: `comment-${comment.reference}`,
+                    reference: comment.reference,
                     created: comment.created,
                     data_type: ContentTypeEnum.COMMENT,
                     data: comment,
@@ -69,7 +72,7 @@ export function useGlobalFeed() {
         if (articles) {
             for (const article of articles) {
                 items.push({
-                    reference: `article-${article.slug}`,
+                    reference: article.slug,
                     created: article.created,
                     data_type: ContentTypeEnum.ARTICLE,
                     data: article,
@@ -80,7 +83,7 @@ export function useGlobalFeed() {
         if (collections) {
             for (const collection of collections) {
                 items.push({
-                    reference: `collection-${collection.reference}`,
+                    reference: collection.reference,
                     created: collection.created,
                     data_type: ContentTypeEnum.COLLECTION,
                     data: collection,
@@ -91,7 +94,7 @@ export function useGlobalFeed() {
         if (history) {
             for (const entry of history) {
                 items.push({
-                    reference: `history-${entry.reference}`,
+                    reference: entry.reference,
                     created: entry.created,
                     data_type: ContentTypeEnum.HISTORY,
                     data: entry,

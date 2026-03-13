@@ -167,6 +167,7 @@ const WatchingTracker = () => {
                             <ContentCard
                                 onClick={() => handleSelect(item.anime.slug)}
                                 image={item.anime.image}
+                                imageClassName="rounded-(--base-radius)"
                                 className={cn(
                                     'transition-opacity',
                                     selectedWatch?.anime.slug !==

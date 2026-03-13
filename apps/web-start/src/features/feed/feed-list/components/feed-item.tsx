@@ -1,6 +1,5 @@
-import { FC } from 'react';
-
 import { ContentTypeEnum, UserResponse, VoteContentType } from '@hikka/client';
+import { FC } from 'react';
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
@@ -56,6 +55,7 @@ function getStats(item: FeedItemType): {
             return {
                 commentsCount: 0,
                 voteScore: item.data.vote_score,
+                commentsHref: `/comments/${item.data.content_type}/${item.data.preview.slug}/${item.reference}`,
                 contentType: ContentTypeEnum.COMMENT,
                 slug: item.data.reference,
                 myScore: item.data.my_score,
