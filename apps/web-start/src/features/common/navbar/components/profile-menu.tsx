@@ -95,6 +95,7 @@ const ProfileMenu = () => {
                                             loggedUser.username,
                                         )
                                         .replace('{currentUrl}', currentUrl)}
+                                    search={item.search}
                                 >
                                     {item.icon && (
                                         <item.icon className="size-4" />

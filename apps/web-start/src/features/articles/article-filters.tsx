@@ -1,8 +1,7 @@
 'use client';
 
 import { useSession } from '@hikka/react';
-import { Link } from '@/utils/navigation';
-import { usePathname, useRouter } from '@/utils/navigation';
+import { useRouter } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
@@ -22,10 +21,9 @@ interface Props {
 const ArticleFilters: FC<Props> = ({ className }) => {
     const { user } = useSession();
     const router = useRouter();
-    const pathname = usePathname();
 
     const clearFilters = () => {
-        router.replace(`${pathname}`);
+        router.navigate({ search: {}, replace: true } as any);
     };
 
     return (
@@ -43,11 +41,8 @@ const ArticleFilters: FC<Props> = ({ className }) => {
                     className="w-full"
                     variant="destructive"
                     onClick={clearFilters}
-                    asChild
                 >
-                    <Link to={pathname}>
-                        <AntDesignClearOutlined /> Очистити
-                    </Link>
+                    <AntDesignClearOutlined /> Очистити
                 </Button>
             </div>
         </div>

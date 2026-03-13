@@ -43,7 +43,8 @@ const UserArticles: FC<Props> = () => {
     return (
         <Block>
             <Header
-                to={`${CONTENT_TYPE_LINKS.article}?author=${params.username}`}
+                to={CONTENT_TYPE_LINKS.article}
+                search={{ author: params.username }}
             >
                 <HeaderContainer>
                     <HeaderTitle>Статті</HeaderTitle>

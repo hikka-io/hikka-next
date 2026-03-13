@@ -73,9 +73,10 @@ export function useParams(): Record<string, string> {
 export function useRouter() {
     const navigate = useNavigate();
     return {
-        push: (url: string) => navigate({ to: url as '/' }),
-        replace: (url: string) =>
-            navigate({ to: url as '/', replace: true }),
+        push: (url: string, options?: { search?: Record<string, unknown> }) =>
+            navigate({ to: url as '/', search: options?.search as never }),
+        replace: (url: string, options?: { search?: Record<string, unknown> }) =>
+            navigate({ to: url as '/', replace: true, search: options?.search as never }),
         back: () => window.history.back(),
         refresh: () => window.location.reload(),
     };

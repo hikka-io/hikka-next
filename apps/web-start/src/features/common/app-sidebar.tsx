@@ -73,7 +73,7 @@ function AppSidebar() {
                                                     navitem.url === item?.url
                                                 }
                                             >
-                                                <Link to={navitem.url}>
+                                                <Link to={navitem.url} search={navitem.search}>
                                                     {navitem.icon && (
                                                         <navitem.icon />
                                                     )}
@@ -102,6 +102,7 @@ function AppSidebar() {
                                                                             to={
                                                                                 subnavitem.url
                                                                             }
+                                                                            search={subnavitem.search}
                                                                         >
                                                                             {subnavitem.icon && (
                                                                                 <subnavitem.icon />

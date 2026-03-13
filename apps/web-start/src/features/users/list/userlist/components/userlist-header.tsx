@@ -18,32 +18,12 @@ const TITLES = {
 };
 
 const UserlistHeader = ({ content_type }: Props) => {
-    /* const params = useParams();
-    const { username } = params;
-    const otherContentTypes = (
-        Object.keys(TITLES) as (typeof content_type)[]
-    ).filter((type) => type !== content_type); */
-
     return (
         <Header>
             <HeaderContainer className="gap-2">
                 <HeaderTitle variant="h2">
                     Список {TITLES[content_type]}
                 </HeaderTitle>
-
-                {/* {otherContentTypes.map((type) => (
-                    <Fragment key={type}>
-                        <P className="opacity-30">/</P>
-                        <HeaderTitle
-                            href={`/u/${username}/list/${type}?status=completed&sort=${type === ContentTypeEnum.ANIME ? 'watch_score' : 'read_score'}`}
-                            variant="h4"
-                            className="text-primary-foreground font-normal"
-                            key={type}
-                        >
-                            {TITLES[type]}
-                        </HeaderTitle>
-                    </Fragment>
-                ))} */}
             </HeaderContainer>
         </Header>
     );

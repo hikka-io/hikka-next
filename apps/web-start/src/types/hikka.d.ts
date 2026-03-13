@@ -22,6 +22,7 @@ declare global {
             slug: string;
             title_ua: string;
             url: string;
+            search?: Record<string, unknown>;
             icon?: (props: any) => ReactElement;
             role?: UserRoleEnum[];
             visible?: boolean;

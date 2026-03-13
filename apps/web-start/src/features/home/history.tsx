@@ -30,7 +30,7 @@ const History: FC<Props> = ({ className }) => {
     return (
         <Card>
             <Block className={cn(className)}>
-                <Header href={`/u/${user?.username}/history?type=following`}>
+                <Header href={`/u/${user?.username}/history`} search={{ type: 'following' }}>
                     <HeaderContainer>
                         <HeaderTitle>Активність</HeaderTitle>
                     </HeaderContainer>

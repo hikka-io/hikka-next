@@ -236,7 +236,8 @@ const COMMUNITY_GROUP: Hikka.NavRoute[] = [
             .filter((category) => !ARTICLE_CATEGORY_OPTIONS[category].admin)
             .map((category) => ({
                 title_ua: ARTICLE_CATEGORY_OPTIONS[category].title_ua,
-                url: `/articles/?categories=${category}`,
+                url: '/articles',
+                search: { categories: category },
                 visible: true,
                 icon: ARTICLE_CATEGORY_OPTIONS[category].icon,
                 slug: `articles/${category}`,
@@ -456,19 +457,22 @@ const PROFILE_LISTS_GROUP: Hikka.NavRoute[] = [
         icon: MaterialSymbolsAnimatedImages,
         title_ua: 'Список аніме',
         slug: 'anime',
-        url: '/u/{username}/list/anime?status=planned&sort=watch_score',
+        url: '/u/{username}/list/anime',
+        search: { status: 'planned', sort: 'watch_score' },
     },
     {
         icon: MaterialSymbolsPalette,
         title_ua: 'Список манґи',
         slug: 'manga',
-        url: '/u/{username}/list/manga?status=planned&sort=read_score',
+        url: '/u/{username}/list/manga',
+        search: { status: 'planned', sort: 'read_score' },
     },
     {
         icon: MaterialSymbolsMenuBookRounded,
         title_ua: 'Список ранобе',
         slug: 'novel',
-        url: '/u/{username}/list/novel?status=planned&sort=read_score',
+        url: '/u/{username}/list/novel',
+        search: { status: 'planned', sort: 'read_score' },
     },
 ];
 
