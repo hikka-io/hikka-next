@@ -190,7 +190,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             <ContentCard
                                 onClick={() => handleSelect(item.content.slug)}
                                 image={item.content.image}
-                                imageClassName="rounded-(--base-radius)"
+                                containerClassName="rounded-(--base-radius)"
                                 className={cn(
                                     'transition-opacity',
                                     selectedRead?.content.slug !==
