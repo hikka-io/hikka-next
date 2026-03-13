@@ -1,9 +1,9 @@
 'use client';
 
 import { CommentsContentType } from '@hikka/client';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
+import ContentCard from '@/components/content-card/content-card';
 import Card from '@/components/ui/card';
 import {
     Header,
@@ -13,12 +13,11 @@ import {
 } from '@/components/ui/header';
 
 import { useContent } from '@/features/comments';
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-
-import ContentCard from '@/components/content-card/content-card';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     slug: string;
@@ -56,6 +55,7 @@ const ContentHeader: FC<Props> = ({
                 <HeaderContainer>
                     {data?.image && (
                         <ContentCard
+                            containerClassName="rounded-(--base-radius)"
                             className="w-12"
                             to={link}
                             image={data?.image}
