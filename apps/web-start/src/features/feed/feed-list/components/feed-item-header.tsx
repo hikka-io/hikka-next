@@ -1,9 +1,8 @@
 'use client';
 
-import { FC } from 'react';
-
 import { ContentTypeEnum, UserResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns';
+import { FC } from 'react';
 
 import {
     HorizontalCard,
@@ -47,9 +46,7 @@ const FeedItemHeader: FC<Props> = ({
     className,
 }) => {
     return (
-        <HorizontalCard
-            className={cn('p-4', className)}
-        >
+        <HorizontalCard className={cn('p-4', className)}>
             <HorizontalCardImage
                 className="w-10"
                 image={author.avatar}

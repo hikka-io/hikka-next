@@ -38,7 +38,11 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
                 asChild
                 className={cn('line-clamp-1 inline-block truncate', className)}
             >
-                <Link title={children as string} href={to ?? href} target={target}>
+                <Link
+                    title={children as string}
+                    href={to ?? href}
+                    target={target}
+                >
                     {children}
                 </Link>
             </Label>
@@ -115,7 +119,10 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
     return (
         <ContentCard
             className={cn('w-12', className)}
-            containerClassName={cn(imageClassName, 'rounded-[var(--base-radius)]')}
+            containerClassName={cn(
+                imageClassName,
+                (!imageRatio || imageRatio !== 1) && 'rounded-(--base-radius)',
+            )}
             containerRatio={imageRatio}
             href={to ?? href}
             image={image}
@@ -127,16 +134,9 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
 
 interface Props extends ComponentProps<'div'> {}
 
-const HorizontalCard: FC<Props> = ({
-    className,
-    children,
-    ...props
-}) => {
+const HorizontalCard: FC<Props> = ({ className, children, ...props }) => {
     return (
-        <div
-            className={cn('flex items-center gap-4', className)}
-            {...props}
-        >
+        <div className={cn('flex items-center gap-4', className)} {...props}>
             {children}
         </div>
     );
