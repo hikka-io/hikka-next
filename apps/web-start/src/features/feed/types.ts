@@ -46,6 +46,14 @@ export type FeedItem =
     | FeedCommentItem
     | FeedHistoryItem;
 
+export interface FeedHistoryGroup {
+    type: 'history-group';
+    firstItem: FeedHistoryItem;
+    hiddenItems: FeedHistoryItem[];
+}
+
+export type FeedDisplayItem = FeedItem | FeedHistoryGroup;
+
 export interface WidgetConfig {
     id: string;
     visible: boolean;

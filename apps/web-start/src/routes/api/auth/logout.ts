@@ -8,7 +8,8 @@ export const Route = createFileRoute('/api/auth/logout')({
             GET: async ({ request }) => {
                 const url = new URL(request.url);
                 const callbackUrl = url.searchParams.get('callbackUrl') ?? '/';
-                const siteUrl = process.env.SITE_URL ?? 'http://localhost:3000';
+                const siteUrl =
+                    import.meta.env.VITE_SITE_URL ?? 'http://localhost:3000';
                 const domain = process.env.COOKIE_DOMAIN;
 
                 const target = new URL(callbackUrl, siteUrl);
