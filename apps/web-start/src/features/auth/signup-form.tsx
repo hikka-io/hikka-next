@@ -1,6 +1,6 @@
 'use client';
 
-import { useCreateUser } from '@hikka/react';
+import { useCreateUser, useHikkaClient } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { Eye, EyeOff } from 'lucide-react';
@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input';
 
 import { OAuthLogin } from '@/features/auth';
 
-import { setCookie } from '@/utils/cookies';
+import { setAuthCookieFn } from '@/utils/auth';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z
@@ -37,6 +37,7 @@ const formSchema = z
     });
 
 const SignupForm = () => {
+    const { client } = useHikkaClient();
     const captchaRef = useRef<TurnstileInstance>(undefined);
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
@@ -56,9 +57,13 @@ const SignupForm = () => {
     const mutationSignup = useCreateUser({
         options: {
             onSuccess: async (data) => {
-                await setCookie('auth', data.secret);
-                router.push('/');
-                router.refresh();
+                await setAuthCookieFn({
+                    data: {
+                        secret: data.secret,
+                        expiration: data.expiration,
+                    },
+                });
+                client.setAuthToken(data.secret);
 
                 toast.success(
                     <span>
@@ -70,6 +75,7 @@ const SignupForm = () => {
                 );
 
                 form.reset();
+                router.push('/');
             },
             onError: () => {
                 captchaRef.current?.reset();

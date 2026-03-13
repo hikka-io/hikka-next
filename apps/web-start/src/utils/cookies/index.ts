@@ -2,10 +2,10 @@
  * Cookie utilities barrel export
  */
 
-export { deleteCookie, getAuthTokenFn, setCookie } from './server';
+export { getAuthTokenFn } from './server';
 export {
     clearCookieHeader,
     createServerHikkaClient,
     makeCookieHeader,
 } from './headers';
-export { parseAuthCookie, parseCookies } from './parse';
+export { parseCookies } from './parse';

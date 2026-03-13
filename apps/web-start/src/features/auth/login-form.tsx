@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input';
 import { OAuthLogin } from '@/features/auth';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
-import { setCookie } from '@/utils/cookies';
+import { setAuthCookieFn } from '@/utils/auth';
 import { z } from '@/utils/i18n/zod';
 import { validateRedirectUrl } from '@/utils/url';
 
@@ -54,9 +54,14 @@ const LoginForm = () => {
     const mutationLogin = useCreateUserSession({
         options: {
             onSuccess: async (data) => {
-                await setCookie('auth', data.secret);
-                form.reset();
+                await setAuthCookieFn({
+                    data: {
+                        secret: data.secret,
+                        expiration: data.expiration,
+                    },
+                });
                 client.setAuthToken(data.secret);
+                form.reset();
                 router.push(validateRedirectUrl(callbackUrl));
             },
             onError: () => {

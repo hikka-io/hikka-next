@@ -1,10 +1,14 @@
 import { HikkaClient } from '@hikka/client';
 
-export function makeCookieHeader(name: string, value: string): string {
+export function makeCookieHeader(
+    name: string,
+    value: string,
+    options?: { maxAge?: number; httpOnly?: boolean },
+): string {
     const domain = process.env.COOKIE_DOMAIN;
-    const httpOnly = process.env.COOKIE_HTTP_ONLY === 'true';
     const secure = domain && domain !== 'localhost';
-    const maxAge = 60 * 60 * 24 * 30; // 30 days
+    const maxAge = options?.maxAge ?? 60 * 60 * 24 * 30; // default 30 days
+    const httpOnly = options?.httpOnly ?? true;
     return [
         `${name}=${encodeURIComponent(value)}`,
         `Max-Age=${maxAge}`,

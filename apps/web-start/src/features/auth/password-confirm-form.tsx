@@ -1,6 +1,6 @@
 'use client';
 
-import { useConfirmPasswordReset } from '@hikka/react';
+import { useConfirmPasswordReset, useHikkaClient } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useParams, useRouter } from '@/utils/navigation';
@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { setCookie } from '@/utils/cookies';
+import { setAuthCookieFn } from '@/utils/auth';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z
@@ -32,6 +32,7 @@ const formSchema = z
     });
 
 const PasswordConfirmForm = () => {
+    const { client } = useHikkaClient();
     const params = useParams();
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
@@ -51,10 +52,15 @@ const PasswordConfirmForm = () => {
     const mutationConfirmPasswordReset = useConfirmPasswordReset({
         options: {
             onSuccess: async (data) => {
-                await setCookie('auth', data.secret);
+                await setAuthCookieFn({
+                    data: {
+                        secret: data.secret,
+                        expiration: data.expiration,
+                    },
+                });
+                client.setAuthToken(data.secret);
                 form.reset();
                 router.push('/');
-                router.refresh();
                 toast.success('Ви успішно змінили Ваш пароль.');
             },
         },

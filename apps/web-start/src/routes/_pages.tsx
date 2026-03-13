@@ -1,3 +1,4 @@
+import { HikkaApiError } from '@hikka/client';
 import { sessionOptions } from '@hikka/react/options';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
@@ -18,8 +19,8 @@ export const Route = createFileRoute('/_pages')({
             if (!session) throw redirect({ to: '/api/auth/logout' });
         } catch (error) {
             if (
-                error instanceof Error &&
-                error.message.includes('auth:invalid_token')
+                error instanceof HikkaApiError &&
+                error.code === 'auth:invalid_token'
             ) {
                 throw redirect({ to: '/api/auth/logout' });
             }
