@@ -5,6 +5,7 @@ import { devtools as tanstackDevtools } from '@tanstack/devtools-vite';
 import { defineConfig } from 'vite';
 import { nitro } from 'nitro/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
     plugins: [
@@ -19,6 +20,12 @@ export default defineConfig({
             },
         }),
         tailwindcss(),
+        visualizer({
+            filename: 'stats.html',
+            open: true,
+            gzipSize: true,
+            brotliSize: true,
+        }),
     ],
     resolve: {
         dedupe: ['react', 'react-dom', '@tanstack/react-query'],

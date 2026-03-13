@@ -1,5 +1,4 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { prefetchInfiniteQuery } from '@hikka/react/core';
 import {
     searchArticlesOptions,
     searchCollectionsOptions,
@@ -23,29 +22,25 @@ export const Route = createFileRoute('/_pages/u/$username/')({
         const { username } = params;
 
         await Promise.allSettled([
-            prefetchInfiniteQuery(
-                queryClient,
+            queryClient.prefetchInfiniteQuery(
                 userFavouritesOptions(hikkaClient, {
                     username,
                     contentType: ContentTypeEnum.ANIME,
                 }),
             ),
-            prefetchInfiniteQuery(
-                queryClient,
+            queryClient.prefetchInfiniteQuery(
                 userHistoryOptions(hikkaClient, { username }),
             ),
             queryClient.prefetchQuery(
                 userActivityOptions(hikkaClient, { username }),
             ),
-            prefetchInfiniteQuery(
-                queryClient,
+            queryClient.prefetchInfiniteQuery(
                 searchArticlesOptions(hikkaClient, {
                     args: { author: username },
                     paginationArgs: { size: 3 },
                 }),
             ),
-            prefetchInfiniteQuery(
-                queryClient,
+            queryClient.prefetchInfiniteQuery(
                 searchCollectionsOptions(hikkaClient, {
                     args: {
                         author: username,

@@ -1,5 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { MessageSquare, Sparkles } from 'lucide-react';
+import { MessageCircle, Sparkles } from 'lucide-react';
 import { ReactElement } from 'react';
 
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
@@ -9,10 +9,24 @@ import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSy
 import { FeedFilterEnum } from '@/features/feed/types';
 
 export const AVAILABLE_WIDGETS = [
-    { id: 'ongoings', title: 'Онґоінґи', description: 'ТОП аніме онґоінґів сезону', auth: false },
-    { id: 'calendar', title: 'Календар', description: 'Розклад виходу нових епізодів аніме', auth: false },
-    { id: 'tracker', title: 'Мій список', description: 'Менеджер списків перегляду і читання', auth: true },
-
+    {
+        id: 'ongoings',
+        title: 'Онґоінґи',
+        description: 'ТОП аніме онґоінґів сезону',
+        auth: false,
+    },
+    {
+        id: 'calendar',
+        title: 'Календар',
+        description: 'Розклад виходу нових епізодів аніме',
+        auth: false,
+    },
+    {
+        id: 'tracker',
+        title: 'Мій список',
+        description: 'Менеджер списків перегляду і читання',
+        auth: true,
+    },
 ] as const;
 
 export const FEED_FILTER_OPTIONS: Record<
@@ -27,7 +41,7 @@ export const FEED_FILTER_OPTIONS: Record<
     [FeedFilterEnum.COMMENTS]: {
         label: 'Коментарі',
         data_type: ContentTypeEnum.COMMENT,
-        icon: () => <MessageSquare />,
+        icon: () => <MessageCircle />,
     },
     [FeedFilterEnum.ARTICLES]: {
         label: 'Статті',

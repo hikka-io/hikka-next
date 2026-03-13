@@ -11,12 +11,14 @@ import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query
 import { toast } from 'sonner';
 
 import { routeTree } from './routeTree.gen';
-import { getAuthTokenFn } from './utils/cookies';
+import { getAuthTokenFn, parseAuthCookie } from './utils/cookies';
 
 export interface RouterContext {
     queryClient: QueryClient;
     hikkaClient: HikkaClient;
 }
+
+const isServer = typeof window === 'undefined';
 
 export async function createRouter() {
     const queryClient = createQueryClient({
@@ -25,15 +27,12 @@ export async function createRouter() {
                 toast.error(error.message);
             },
         }),
-        /*  queryCache: new QueryCache({
-            onSuccess: (data, query) => {
-                if (typeof window === 'undefined') {
-                    console.log('[SSR Query]', query.queryKey);
-                }
-            },
-        }), */
     });
-    const authToken = await getAuthTokenFn();
+
+    const authToken = isServer
+        ? await getAuthTokenFn()
+        : parseAuthCookie(document.cookie);
+
     const hikkaClient = createHikkaClient({
         baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
         authToken: authToken ?? undefined,
@@ -52,7 +51,9 @@ export async function createRouter() {
         wrapQueryClient: true,
     });
 
-    await queryClient.prefetchQuery(sessionOptions(hikkaClient));
+    if (isServer) {
+        await queryClient.prefetchQuery(sessionOptions(hikkaClient));
+    }
 
     return router;
 }

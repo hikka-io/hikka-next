@@ -2,8 +2,9 @@
 
 import { useUserActivity } from '@hikka/react';
 import { format } from 'date-fns';
-import { useParams } from '@/utils/navigation';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
+
+import { useParams } from '@/utils/navigation';
 
 import HeatmapCell from './heatmap-cell';
 
@@ -96,12 +97,12 @@ const ActivityHeatmap: FC = () => {
         }
 
         const startDayOfWeek = (days[0].date.getDay() + 6) % 7;
-        const paddedDays: (typeof days[number] | null)[] = [
+        const paddedDays: ((typeof days)[number] | null)[] = [
             ...Array.from({ length: startDayOfWeek }, () => null),
             ...days,
         ];
 
-        const weeks: (typeof days[number] | null)[][] = [];
+        const weeks: ((typeof days)[number] | null)[][] = [];
         for (let i = 0; i < paddedDays.length; i += DAYS_IN_WEEK) {
             weeks.push(paddedDays.slice(i, i + DAYS_IN_WEEK));
         }
@@ -109,41 +110,35 @@ const ActivityHeatmap: FC = () => {
         return { grid: weeks, thresholds };
     }, [data]);
 
-    const displayGrid =
-        visibleWeeks > 0 ? grid.slice(-visibleWeeks) : [];
+    const displayGrid = visibleWeeks > 0 ? grid.slice(-visibleWeeks) : grid;
 
     return (
         <div className="flex flex-col gap-4">
             <div ref={containerRef} className="overflow-hidden">
-                {visibleWeeks > 0 && (
-                    <div className="flex gap-1">
-                        {displayGrid.map((week, weekIdx) => (
-                            <div
-                                key={weekIdx}
-                                className="flex flex-col gap-1"
-                            >
-                                {week.map((day, dayIdx) =>
-                                    day ? (
-                                        <HeatmapCell
-                                            key={dayIdx}
-                                            date={day.date}
-                                            actions={day.actions}
-                                            level={computeLevel(
-                                                day.actions,
-                                                thresholds,
-                                            )}
-                                        />
-                                    ) : (
-                                        <div
-                                            key={dayIdx}
-                                            className="size-2.5"
-                                        />
-                                    ),
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                )}
+                <div className="flex justify-end gap-1">
+                    {displayGrid.map((week, weekIdx) => (
+                        <div key={weekIdx} className="flex flex-col gap-1">
+                            {week.map((day, dayIdx) =>
+                                day ? (
+                                    <HeatmapCell
+                                        key={dayIdx}
+                                        date={day.date}
+                                        actions={day.actions}
+                                        level={computeLevel(
+                                            day.actions,
+                                            thresholds,
+                                        )}
+                                    />
+                                ) : (
+                                    <div
+                                        key={dayIdx}
+                                        className="size-2.5"
+                                    />
+                                ),
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
                 <span>Менше</span>
@@ -154,12 +149,12 @@ const ActivityHeatmap: FC = () => {
                             level === 0
                                 ? 'size-2.5 rounded-xs bg-secondary'
                                 : level === 1
-                                    ? 'size-2.5 rounded-xs bg-primary-foreground/20'
-                                    : level === 2
-                                        ? 'size-2.5 rounded-xs bg-primary-foreground/40'
-                                        : level === 3
-                                            ? 'size-2.5 rounded-xs bg-primary-foreground/70'
-                                            : 'size-2.5 rounded-xs bg-primary-foreground'
+                                  ? 'size-2.5 rounded-xs bg-primary-foreground/20'
+                                  : level === 2
+                                    ? 'size-2.5 rounded-xs bg-primary-foreground/40'
+                                    : level === 3
+                                      ? 'size-2.5 rounded-xs bg-primary-foreground/70'
+                                      : 'size-2.5 rounded-xs bg-primary-foreground'
                         }
                     />
                 ))}
