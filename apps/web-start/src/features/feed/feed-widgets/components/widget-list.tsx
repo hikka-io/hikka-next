@@ -1,12 +1,12 @@
 'use client';
 
+import { useSession } from '@hikka/react';
 import { FC, forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 
 import { useSettingsStore } from '@/services/stores/settings-store';
+import { cn } from '@/utils/cn';
 import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
 
-import { cn } from '@/utils/cn';
-import { useSession } from '@hikka/react';
 import WidgetCalendar from './widget-calendar';
 import WidgetOngoing from './widget-ongoing';
 import WidgetTracker from './widget-tracker';
@@ -27,9 +27,10 @@ const WidgetList = forwardRef<HTMLDivElement>((_, ref) => {
             ? preferences.widgets
             : AVAILABLE_WIDGETS.map((w) => ({ id: w.id, visible: true }));
 
-    const availableWidgetMap = new Map<string, (typeof AVAILABLE_WIDGETS)[number]>(
-        AVAILABLE_WIDGETS.map((w) => [w.id, w]),
-    );
+    const availableWidgetMap = new Map<
+        string,
+        (typeof AVAILABLE_WIDGETS)[number]
+    >(AVAILABLE_WIDGETS.map((w) => [w.id, w]));
 
     const visibleWidgets = widgets.filter((w) => {
         if (!w.visible) return false;
@@ -49,12 +50,21 @@ const WidgetList = forwardRef<HTMLDivElement>((_, ref) => {
     }, [_hasHydrated]);
 
     return (
-        <div ref={containerRef} className="flex w-full snap-x snap-mandatory overflow-x-auto lg:snap-none lg:overflow-x-visible lg:flex-col lg:overflow-y-auto">
+        <div
+            ref={containerRef}
+            className="flex w-full snap-x snap-mandatory overflow-y-hidden overflow-x-auto lg:snap-none lg:overflow-x-visible lg:flex-col lg:overflow-y-auto"
+        >
             {visibleWidgets.map((widget, index) => {
                 const Component = WIDGET_COMPONENTS[widget.id];
                 if (!Component) return null;
                 return (
-                    <div key={widget.id} className={cn("w-full shrink-0 snap-center lg:w-auto lg:shrink", index !== 0 && 'lg:border-t')}>
+                    <div
+                        key={widget.id}
+                        className={cn(
+                            'w-full shrink-0 snap-center lg:w-auto lg:shrink',
+                            index !== 0 && 'lg:border-t',
+                        )}
+                    >
                         <Component />
                     </div>
                 );
