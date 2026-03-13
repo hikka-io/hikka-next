@@ -3,12 +3,24 @@
 import { useMemo } from 'react';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useLatestComments, useSearchArticles, useSearchCollections } from '@hikka/react';
+import {
+    useCommentList,
+    useFollowingHistory,
+    useSearchArticles,
+    useSearchCollections,
+    useSession,
+} from '@hikka/react';
 
 import { FeedItem } from './types';
 
 export function useGlobalFeed() {
-    const { data: comments, isLoading: isCommentsLoading } = useLatestComments();
+    const { user } = useSession();
+
+    const { list: comments, isLoading: isCommentsLoading } = useCommentList({
+        paginationArgs: {
+            size: 15,
+        },
+    });
 
     const { list: articles, isLoading: isArticlesLoading } = useSearchArticles({
         args: {
@@ -28,7 +40,17 @@ export function useGlobalFeed() {
         },
     });
 
-    const isLoading = isCommentsLoading || isArticlesLoading || isCollectionsLoading;
+    const { list: history, isLoading: isHistoryLoading } = useFollowingHistory({
+        paginationArgs: {
+            size: 15,
+        },
+        options: {
+            enabled: !!user,
+        },
+    });
+
+    const isLoading =
+        isCommentsLoading || isArticlesLoading || isCollectionsLoading || (!!user && isHistoryLoading);
 
     const feed = useMemo<FeedItem[]>(() => {
         const items: FeedItem[] = [];
@@ -66,10 +88,21 @@ export function useGlobalFeed() {
             }
         }
 
+        if (history) {
+            for (const entry of history) {
+                items.push({
+                    reference: `history-${entry.reference}`,
+                    created: entry.created,
+                    data_type: ContentTypeEnum.HISTORY,
+                    data: entry,
+                });
+            }
+        }
+
         items.sort((a, b) => b.created - a.created);
 
         return items;
-    }, [comments, articles, collections]);
+    }, [comments, articles, collections, history]);
 
     return { feed, isLoading };
 }
