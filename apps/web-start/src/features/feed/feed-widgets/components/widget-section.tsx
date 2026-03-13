@@ -40,35 +40,35 @@ const WidgetSection: FC<Props> = ({ className }) => {
             )}
         >
             <WidgetList ref={widgetListRef} />
-            {user && (
-                <div className="p-4 bg-secondary/20 border-t flex gap-2">
-                    <Button
-                        variant="outline"
-                        className="flex-1"
-                        size="md"
-                        onClick={openSettingsModal}
-                    >
-                        <Settings2 />
-                        Налаштувати віджети
-                    </Button>
-                    <Button
-                        variant="outline"
-                        className="shrink-0 md:hidden"
-                        size="icon-md"
-                        onClick={() => scroll('left')}
-                    >
-                        <ArrowLeft />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        className="shrink-0 md:hidden"
-                        size="icon-md"
-                        onClick={() => scroll('right')}
-                    >
-                        <ArrowRight />
-                    </Button>
-                </div>
-            )}
+
+            <div className="p-4 bg-secondary/20 border-t flex gap-2">
+                <Button
+                    variant="outline"
+                    className="flex-1 text-muted-foreground"
+                    size="md"
+                    disabled={!user}
+                    onClick={openSettingsModal}
+                >
+                    <Settings2 />
+                    Налаштувати віджети
+                </Button>
+                <Button
+                    variant="outline"
+                    className="shrink-0 md:hidden"
+                    size="icon-md"
+                    onClick={() => scroll('left')}
+                >
+                    <ArrowLeft />
+                </Button>
+                <Button
+                    variant="outline"
+                    className="shrink-0 md:hidden"
+                    size="icon-md"
+                    onClick={() => scroll('right')}
+                >
+                    <ArrowRight />
+                </Button>
+            </div>
         </Card>
     );
 };

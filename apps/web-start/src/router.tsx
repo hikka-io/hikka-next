@@ -5,6 +5,7 @@ import {
     createHikkaClient,
     createQueryClient,
 } from '@hikka/react/core';
+import { sessionOptions } from '@hikka/react/options';
 import { createRouter as createTanStackRouter } from '@tanstack/react-router';
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query';
 import { toast } from 'sonner';
@@ -24,6 +25,13 @@ export async function createRouter() {
                 toast.error(error.message);
             },
         }),
+        /*  queryCache: new QueryCache({
+            onSuccess: (data, query) => {
+                if (typeof window === 'undefined') {
+                    console.log('[SSR Query]', query.queryKey);
+                }
+            },
+        }), */
     });
     const authToken = await getAuthTokenFn();
     const hikkaClient = createHikkaClient({
@@ -43,6 +51,8 @@ export async function createRouter() {
         queryClient,
         wrapQueryClient: true,
     });
+
+    await queryClient.prefetchQuery(sessionOptions(hikkaClient));
 
     return router;
 }
