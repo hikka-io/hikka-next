@@ -177,7 +177,11 @@ export function stylesToCSS(styles: UIStyles | undefined): string {
     const sanitizedRadius = styles.radius
         ? sanitizeCSSLength(styles.radius)
         : undefined;
-    const radiusDecl = sanitizedRadius ? `--radius: ${sanitizedRadius};` : '';
+    const radiusDecl = sanitizedRadius
+        ? sanitizedRadius === '0rem'
+            ? `--radius: 0rem;\n    --base-radius: 0rem;`
+            : `--radius: ${sanitizedRadius};`
+        : '';
     const sanitizedLightBg = styles.light?.body?.background_image
         ? sanitizeCSSGradient(styles.light.body.background_image)
         : undefined;
