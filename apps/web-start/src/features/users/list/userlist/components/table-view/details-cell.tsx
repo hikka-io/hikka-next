@@ -4,7 +4,6 @@ import {
     MangaResponse,
     NovelResponse,
 } from '@hikka/client';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -12,6 +11,8 @@ import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
+
+import { Link } from '@/utils/navigation';
 
 interface Props {
     content: MangaResponse | NovelResponse | AnimeResponse;
@@ -29,6 +30,7 @@ const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
             <div className="flex items-center gap-4">
                 <div className="hidden w-12 lg:block">
                     <ContentCard
+                        containerClassName="rounded-(--base-radius)"
                         image={content.image}
                         to={`/${content_type}/${content.slug}`}
                     />
