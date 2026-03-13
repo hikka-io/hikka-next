@@ -1,12 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, ReadArgs, ReadStatusEnum } from '@hikka/client';
-import {
-    useCreateRead,
-    useSearchUserReads,
-    useSession,
-} from '@hikka/react';
-import { Link } from '@/utils/navigation';
+import { useCreateRead, useSearchUserReads, useSession } from '@hikka/react';
 import { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -14,24 +9,24 @@ import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/Mater
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import NotFound from '@/components/ui/not-found';
 import { Progress } from '@/components/ui/progress';
+import Stack from '@/components/ui/stack';
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectIcon,
-    SelectItem,
-    SelectList,
-    SelectTrigger,
-} from '@/components/ui/select';
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import { ReadEditModal } from '@/features/read';
 
 import useDebounce from '@/services/hooks/use-debounce';
 import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { Link, useRouter } from '@/utils/navigation';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [
     'розділ',
@@ -57,6 +52,7 @@ interface ReadingTrackerProps {
 }
 
 const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
+    const router = useRouter();
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
@@ -84,12 +80,14 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
     const config = CONTENT_TYPE_CONFIG[contentType];
 
-    const handleSelectChange = (value: string[]) => {
-        const slug = value[0];
-        if (slug) {
-            setSelectedSlug(slug);
-            setUpdatedRead(null);
+    const handleSelect = (slug: string) => {
+        if (slug === selectedRead?.content.slug) {
+            router.push(`${config.route}/${slug}`);
+            return;
         }
+
+        setSelectedSlug(slug);
+        setUpdatedRead(null);
     };
 
     const openReadEditModal = () => {
@@ -185,93 +183,78 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
     return (
         <div className="flex flex-col gap-4">
+            <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4">
+                {list.map((item) => (
+                    <Tooltip key={item.content.slug}>
+                        <TooltipTrigger asChild>
+                            <ContentCard
+                                onClick={() => handleSelect(item.content.slug)}
+                                image={item.content.image}
+                                className={cn(
+                                    'transition-opacity',
+                                    selectedRead?.content.slug !==
+                                        item.content.slug &&
+                                        'opacity-30 hover:opacity-60',
+                                )}
+                            />
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-48 truncate">
+                            {item.content.title}
+                        </TooltipContent>
+                    </Tooltip>
+                ))}
+            </Stack>
+
             {selectedRead && (
-                <Link
-                    to={`${config.route}/${selectedRead.content.slug}`}
-                    className="relative block overflow-hidden rounded-lg"
-                >
-                    <ContentCard
-                        image={selectedRead.content.image}
-                        className="aspect-video w-full"
-                        containerClassName="rounded-lg"
-                        containerRatio={16 / 9}
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-3">
-                        <p className="line-clamp-1 text-sm font-bold text-white">
-                            {selectedRead.content.title}
-                        </p>
-                        <div className="mt-0.5 flex items-center gap-1.5 text-xs text-white/70">
+                <>
+                    <Link
+                        className="w-fit flex-1"
+                        to={`${config.route}/${selectedRead.content.slug}`}
+                    >
+                        <h5>{selectedRead.content.title}</h5>
+                        <div className="mt-1 flex cursor-pointer items-center gap-2">
                             {selectedRead.content.year && (
-                                <span>{selectedRead.content.year}</span>
+                                <Label className="cursor-pointer text-xs text-muted-foreground">
+                                    {selectedRead.content.year}
+                                </Label>
                             )}
                             {selectedRead.content.media_type && (
                                 <>
-                                    <div className="size-1 rounded-full bg-white/70" />
-                                    <span>
+                                    <div className="size-1 rounded-full bg-muted-foreground" />
+                                    <Label className="cursor-pointer text-xs text-muted-foreground">
                                         {
-                                            (config.mediaTypeMap as Record<string, { title_ua: string }>)[
-                                                selectedRead.content.media_type
-                                            ]?.title_ua
+                                            (
+                                                config.mediaTypeMap as Record<
+                                                    string,
+                                                    { title_ua: string }
+                                                >
+                                            )[selectedRead.content.media_type]
+                                                ?.title_ua
                                         }
-                                    </span>
+                                    </Label>
                                 </>
                             )}
                             {totalChapters && (
                                 <>
-                                    <div className="size-1 rounded-full bg-white/70" />
-                                    <span>
+                                    <div className="size-1 rounded-full bg-muted-foreground" />
+                                    <Label className="cursor-pointer text-xs text-muted-foreground">
                                         {totalChapters}{' '}
                                         {getDeclensionWord(
                                             totalChapters,
                                             CHAPTERS_DECLENSION,
                                         )}
-                                    </span>
+                                    </Label>
                                 </>
                             )}
                         </div>
-                    </div>
-                </Link>
-            )}
+                    </Link>
 
-            <Select
-                value={selectedRead ? [selectedRead.content.slug] : undefined}
-                onValueChange={handleSelectChange}
-            >
-                <SelectTrigger size="md">
-                    <span className="min-w-0 flex-1 truncate text-left">
-                        {selectedRead?.content.title}
-                    </span>
-                    <SelectIcon />
-                </SelectTrigger>
-                <SelectContent className="w-56">
-                    <SelectList>
-                        <SelectGroup>
-                            {list.map((item) => (
-                                <SelectItem
-                                    key={item.content.slug}
-                                    value={item.content.slug}
-                                >
-                                    {item.content.title}
-                                </SelectItem>
-                            ))}
-                        </SelectGroup>
-                    </SelectList>
-                </SelectContent>
-            </Select>
-
-            {selectedRead && (
-                <>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex w-full flex-col gap-2">
                         <p className="text-sm text-muted-foreground">
                             <span className="font-bold text-foreground">
                                 {currentChapters}
                             </span>
-                            /{totalChapters ?? '?'}{' '}
-                            {getDeclensionWord(
-                                totalChapters ?? 0,
-                                CHAPTERS_DECLENSION,
-                            )}
+                            /{totalChapters ?? '?'} розділів
                         </p>
                         <Progress
                             className="h-2"
@@ -279,10 +262,12 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             max={totalChapters ?? currentChapters}
                         />
                     </div>
+
                     <div className="flex gap-2">
                         <Button
                             variant="outline"
                             size="icon-md"
+                            className="shrink-0"
                             onClick={openReadEditModal}
                         >
                             <MaterialSymbolsSettingsOutlineRounded />
@@ -295,7 +280,14 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                                 size="md"
                             >
                                 <MaterialSymbolsAddRounded />
-                                Додати розділ
+                                <div className="flex gap-1">
+                                    <span className="hidden sm:block">
+                                        Додати
+                                    </span>
+                                    <span className="capitalize sm:normal-case">
+                                        розділ
+                                    </span>
+                                </div>
                             </Button>
                             <Button
                                 className="rounded-l-none"

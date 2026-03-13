@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
@@ -17,9 +17,10 @@ const WIDGET_COMPONENTS: Record<string, FC> = {
     tracker: WidgetTracker,
 };
 
-const WidgetList = () => {
-    const { preferences } = useSettingsStore();
+const WidgetList = forwardRef<HTMLDivElement>((_, ref) => {
+    const { preferences, _hasHydrated } = useSettingsStore();
     const { user } = useSession();
+    const containerRef = useRef<HTMLDivElement>(null);
 
     const widgets =
         preferences.widgets.length > 0
@@ -39,8 +40,16 @@ const WidgetList = () => {
         return true;
     });
 
+    useImperativeHandle(ref, () => containerRef.current!, []);
+
+    useEffect(() => {
+        if (_hasHydrated && containerRef.current) {
+            containerRef.current.scrollTo({ left: 0 });
+        }
+    }, [_hasHydrated]);
+
     return (
-        <div className="flex w-full snap-x snap-mandatory overflow-x-auto lg:snap-none lg:overflow-x-visible lg:flex-col lg:overflow-y-auto">
+        <div ref={containerRef} className="flex w-full snap-x snap-mandatory overflow-x-auto lg:snap-none lg:overflow-x-visible lg:flex-col lg:overflow-y-auto">
             {visibleWidgets.map((widget, index) => {
                 const Component = WIDGET_COMPONENTS[widget.id];
                 if (!Component) return null;
@@ -52,6 +61,8 @@ const WidgetList = () => {
             })}
         </div>
     );
-};
+});
+
+WidgetList.displayName = 'WidgetList';
 
 export default WidgetList;

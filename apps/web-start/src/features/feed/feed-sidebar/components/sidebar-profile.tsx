@@ -31,7 +31,7 @@ const SidebarProfile = () => {
     }
 
     return (
-        <Card className="items-center bg-secondary/20 backdrop-blur-lg">
+        <Card className="items-center bg-secondary/20 backdrop-blur-lg hidden xl:flex">
             <div className="flex items-center justify-between gap-2 w-full">
                 <Link to={`/u/${user.username}`}>
                     <Avatar className="size-12 rounded-lg">

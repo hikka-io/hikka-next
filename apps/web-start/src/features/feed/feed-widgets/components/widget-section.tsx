@@ -1,8 +1,8 @@
 'use client';
 
 import { useSession } from '@hikka/react';
-import { Settings2 } from 'lucide-react';
-import { FC } from 'react';
+import { ArrowLeft, ArrowRight, Settings2 } from 'lucide-react';
+import { FC, useCallback, useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -19,6 +19,18 @@ interface Props {
 const WidgetSection: FC<Props> = ({ className }) => {
     const { user } = useSession();
     const openSettingsModal = useOpenWidgetSettings();
+    const widgetListRef = useRef<HTMLDivElement>(null);
+
+    const scroll = useCallback((direction: 'left' | 'right') => {
+        const container = widgetListRef.current;
+        if (!container) return;
+
+        const scrollAmount = container.clientWidth;
+        container.scrollBy({
+            left: direction === 'left' ? -scrollAmount : scrollAmount,
+            behavior: 'smooth',
+        });
+    }, []);
 
     return (
         <Card
@@ -27,17 +39,33 @@ const WidgetSection: FC<Props> = ({ className }) => {
                 className,
             )}
         >
-            <WidgetList />
+            <WidgetList ref={widgetListRef} />
             {user && (
-                <div className="p-4 bg-secondary/20 border-t">
+                <div className="p-4 bg-secondary/20 border-t flex gap-2">
                     <Button
                         variant="outline"
-                        className="w-full shrink-0 text-muted-foreground backdrop-blur"
+                        className="flex-1"
                         size="md"
                         onClick={openSettingsModal}
                     >
                         <Settings2 />
                         Налаштувати віджети
+                    </Button>
+                    <Button
+                        variant="outline"
+                        className="shrink-0 md:hidden"
+                        size="icon-md"
+                        onClick={() => scroll('left')}
+                    >
+                        <ArrowLeft />
+                    </Button>
+                    <Button
+                        variant="outline"
+                        className="shrink-0 md:hidden"
+                        size="icon-md"
+                        onClick={() => scroll('right')}
+                    >
+                        <ArrowRight />
                     </Button>
                 </div>
             )}

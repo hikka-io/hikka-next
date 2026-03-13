@@ -7,6 +7,7 @@ import { persist } from 'zustand/middleware';
 import { WidgetConfig } from '@/features/feed/types';
 
 const DEFAULT_WIDGETS: WidgetConfig[] = [
+    { id: 'tracker', visible: true },
     { id: 'ongoings', visible: true },
     { id: 'calendar', visible: true },
 ];

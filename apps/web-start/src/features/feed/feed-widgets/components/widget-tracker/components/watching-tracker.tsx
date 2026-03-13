@@ -1,12 +1,7 @@
 'use client';
 
 import { WatchArgs, WatchStatusEnum } from '@hikka/client';
-import {
-    useCreateWatch,
-    useSearchUserWatches,
-    useSession,
-} from '@hikka/react';
-import { Link } from '@/utils/navigation';
+import { useCreateWatch, useSearchUserWatches, useSession } from '@hikka/react';
 import { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -14,24 +9,24 @@ import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/Mater
 import { MaterialSymbolsRemoveRounded } from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import NotFound from '@/components/ui/not-found';
 import { Progress } from '@/components/ui/progress';
+import Stack from '@/components/ui/stack';
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectIcon,
-    SelectItem,
-    SelectList,
-    SelectTrigger,
-} from '@/components/ui/select';
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import { WatchEditModal } from '@/features/watch';
 
 import useDebounce from '@/services/hooks/use-debounce';
 import { useModalContext } from '@/services/providers/modal-provider';
+import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { Link, useRouter } from '@/utils/navigation';
 
 const EPISODES_DECLENSION: [string, string, string] = [
     'епізод',
@@ -40,6 +35,7 @@ const EPISODES_DECLENSION: [string, string, string] = [
 ];
 
 const WatchingTracker = () => {
+    const router = useRouter();
     const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
 
@@ -64,12 +60,14 @@ const WatchingTracker = () => {
 
     const { mutate: mutateCreateWatch, reset } = useCreateWatch();
 
-    const handleSelectChange = (value: string[]) => {
-        const slug = value[0];
-        if (slug) {
-            setSelectedSlug(slug);
-            setUpdatedWatch(null);
+    const handleSelect = (slug: string) => {
+        if (slug === selectedWatch?.anime.slug) {
+            router.push(`/anime/${slug}`);
+            return;
         }
+
+        setSelectedSlug(slug);
+        setUpdatedWatch(null);
     };
 
     const openWatchEditModal = () => {
@@ -162,93 +160,74 @@ const WatchingTracker = () => {
 
     return (
         <div className="flex flex-col gap-4">
+            <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4">
+                {list.map((item) => (
+                    <Tooltip key={item.anime.slug}>
+                        <TooltipTrigger asChild>
+                            <ContentCard
+                                onClick={() => handleSelect(item.anime.slug)}
+                                image={item.anime.image}
+                                className={cn(
+                                    'transition-opacity',
+                                    selectedWatch?.anime.slug !==
+                                        item.anime.slug &&
+                                        'opacity-30 hover:opacity-60',
+                                )}
+                            />
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-48 truncate">
+                            {item.anime.title}
+                        </TooltipContent>
+                    </Tooltip>
+                ))}
+            </Stack>
+
             {selectedWatch && (
-                <Link
-                    to={`/anime/${selectedWatch.anime.slug}`}
-                    className="relative block overflow-hidden rounded-lg"
-                >
-                    <ContentCard
-                        image={selectedWatch.anime.image}
-                        className="aspect-video w-full"
-                        containerClassName="rounded-lg"
-                        containerRatio={16 / 9}
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-3">
-                        <p className="line-clamp-1 text-sm font-bold text-white">
-                            {selectedWatch.anime.title}
-                        </p>
-                        <div className="mt-0.5 flex items-center gap-1.5 text-xs text-white/70">
+                <>
+                    <Link
+                        className="w-fit flex-1"
+                        to={`/anime/${selectedWatch.anime.slug}`}
+                    >
+                        <h5>{selectedWatch.anime.title}</h5>
+                        <div className="mt-1 flex cursor-pointer items-center gap-2">
                             {selectedWatch.anime.year && (
-                                <span>{selectedWatch.anime.year}</span>
+                                <Label className="cursor-pointer text-xs text-muted-foreground">
+                                    {selectedWatch.anime.year}
+                                </Label>
                             )}
                             {selectedWatch.anime.media_type && (
                                 <>
-                                    <div className="size-1 rounded-full bg-white/70" />
-                                    <span>
+                                    <div className="size-1 rounded-full bg-muted-foreground" />
+                                    <Label className="cursor-pointer text-xs text-muted-foreground">
                                         {
                                             ANIME_MEDIA_TYPE[
                                                 selectedWatch.anime.media_type
                                             ]?.title_ua
                                         }
-                                    </span>
+                                    </Label>
                                 </>
                             )}
                             {totalEpisodes && (
                                 <>
-                                    <div className="size-1 rounded-full bg-white/70" />
-                                    <span>
+                                    <div className="size-1 rounded-full bg-muted-foreground" />
+                                    <Label className="cursor-pointer text-xs text-muted-foreground">
                                         {totalEpisodes}{' '}
                                         {getDeclensionWord(
                                             totalEpisodes,
                                             EPISODES_DECLENSION,
                                         )}
-                                    </span>
+                                    </Label>
                                 </>
                             )}
                         </div>
-                    </div>
-                </Link>
-            )}
+                    </Link>
 
-            <Select
-                value={selectedWatch ? [selectedWatch.anime.slug] : undefined}
-                onValueChange={handleSelectChange}
-            >
-                <SelectTrigger size="md">
-                    <span className="min-w-0 flex-1 truncate text-left">
-                        {selectedWatch?.anime.title}
-                    </span>
-                    <SelectIcon />
-                </SelectTrigger>
-                <SelectContent className="w-56">
-                    <SelectList>
-                        <SelectGroup>
-                            {list.map((item) => (
-                                <SelectItem
-                                    key={item.anime.slug}
-                                    value={item.anime.slug}
-                                >
-                                    {item.anime.title}
-                                </SelectItem>
-                            ))}
-                        </SelectGroup>
-                    </SelectList>
-                </SelectContent>
-            </Select>
-
-            {selectedWatch && (
-                <>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex w-full flex-col gap-2">
                         <p className="text-sm text-muted-foreground">
                             <span className="font-bold text-foreground">
                                 {currentEpisodes}
                             </span>
-                            /{totalEpisodes ?? '?'}{' '}
-                            {getDeclensionWord(
-                                totalEpisodes ?? 0,
-                                EPISODES_DECLENSION,
-                            )}
+                            /{totalEpisodes ?? '?'} епізодів
                         </p>
                         <Progress
                             className="h-2"
@@ -256,10 +235,12 @@ const WatchingTracker = () => {
                             max={totalEpisodes ?? currentEpisodes}
                         />
                     </div>
+
                     <div className="flex gap-2">
                         <Button
                             variant="outline"
                             size="icon-md"
+                            className="shrink-0"
                             onClick={openWatchEditModal}
                         >
                             <MaterialSymbolsSettingsOutlineRounded />
@@ -272,7 +253,14 @@ const WatchingTracker = () => {
                                 size="md"
                             >
                                 <MaterialSymbolsAddRounded />
-                                Додати епізод
+                                <div className="flex gap-1">
+                                    <span className="hidden sm:block">
+                                        Додати
+                                    </span>
+                                    <span className="capitalize sm:normal-case">
+                                        епізод
+                                    </span>
+                                </div>
                             </Button>
                             <Button
                                 className="rounded-l-none"
