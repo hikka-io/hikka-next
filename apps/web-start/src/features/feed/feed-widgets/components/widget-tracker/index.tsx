@@ -1,11 +1,9 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { CommonContentType, ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
+import { useState } from 'react';
 
-import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
@@ -14,50 +12,73 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import ReadingTracker from './components/reading-tracker';
 import WatchingTracker from './components/watching-tracker';
 
+const TAB_LIST_HREFS: Record<CommonContentType, string> = {
+    [ContentTypeEnum.ANIME]: 'list/anime?status=planned&sort=watch_score',
+    [ContentTypeEnum.MANGA]: 'list/manga?status=planned&sort=read_score',
+    [ContentTypeEnum.NOVEL]: 'list/novel?status=planned&sort=read_score',
+};
+
 const WidgetTracker = () => {
     const { user } = useSession();
+    const [activeTab, setActiveTab] = useState<CommonContentType>(
+        ContentTypeEnum.ANIME,
+    );
 
     if (!user) return null;
 
     return (
-        <Card className="backdrop-blur bg-secondary/20 snap-center ">
+        <Card className="backdrop-blur bg-secondary/20 snap-center">
             <Block>
-                <Header href={`/u/${user.username}/list`}>
+                <Header
+                    href={`/u/${user.username}/${TAB_LIST_HREFS[activeTab]}`}
+                >
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Мій список</HeaderTitle>
                     </HeaderContainer>
                     <HeaderNavButton />
                 </Header>
-                <Tabs defaultValue="anime" className="flex flex-col gap-4">
-                    <TabsList className="w-full">
-                        <TabsTrigger value="anime" className="flex gap-2">
-                            <MaterialSymbolsAnimatedImages className="size-4" />
-                            Аніме
-                        </TabsTrigger>
-                        <TabsTrigger value="manga" className="flex gap-2">
-                            <MaterialSymbolsPalette className="size-4" />
-                            Манґа
-                        </TabsTrigger>
-                        <TabsTrigger value="novel" className="flex gap-2">
-                            <MaterialSymbolsMenuBookRounded className="size-4" />
-                            Ранобе
-                        </TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="anime" className="flex-1">
-                        <WatchingTracker />
-                    </TabsContent>
-                    <TabsContent value="manga" className="flex-1">
-                        <ReadingTracker contentType={ContentTypeEnum.MANGA} />
-                    </TabsContent>
-                    <TabsContent value="novel" className="flex-1">
-                        <ReadingTracker contentType={ContentTypeEnum.NOVEL} />
-                    </TabsContent>
-                </Tabs>
+                <ToggleGroup
+                    type="single"
+                    value={activeTab}
+                    onValueChange={(value: string) =>
+                        value && setActiveTab(value as CommonContentType)
+                    }
+                    size="badge"
+                >
+                    <ToggleGroupItem
+                        value={ContentTypeEnum.ANIME}
+                        aria-label="Аніме"
+                        className="flex-1"
+                    >
+                        Аніме
+                    </ToggleGroupItem>
+                    <ToggleGroupItem
+                        value={ContentTypeEnum.MANGA}
+                        aria-label="Манґа"
+                        className="flex-1"
+                    >
+                        Манґа
+                    </ToggleGroupItem>
+                    <ToggleGroupItem
+                        value={ContentTypeEnum.NOVEL}
+                        aria-label="Ранобе"
+                        className="flex-1"
+                    >
+                        Ранобе
+                    </ToggleGroupItem>
+                </ToggleGroup>
+                {activeTab === ContentTypeEnum.ANIME && <WatchingTracker />}
+                {activeTab === ContentTypeEnum.MANGA && (
+                    <ReadingTracker contentType={ContentTypeEnum.MANGA} />
+                )}
+                {activeTab === ContentTypeEnum.NOVEL && (
+                    <ReadingTracker contentType={ContentTypeEnum.NOVEL} />
+                )}
             </Block>
         </Card>
     );

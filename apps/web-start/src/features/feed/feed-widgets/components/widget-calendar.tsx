@@ -1,9 +1,11 @@
 'use client';
 
-import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
+import { AnimeScheduleResponse, ContentStatusEnum } from '@hikka/client';
 import { useSearchAnimeSchedule } from '@hikka/react';
-import { format } from 'date-fns';
+import { getUnixTime, startOfDay } from 'date-fns';
+import { format } from 'date-fns/format';
 
+import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
@@ -13,52 +15,36 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 
 const WidgetCalendar = () => {
-    const search = useFilterSearch<{
-        season?: string;
-        year?: string | number;
-    }>();
-
-    const season = (search.season as SeasonEnum) || getCurrentSeason()!;
-    const year = search.year || new Date().getFullYear();
-    const status = [
-        ContentStatusEnum.ONGOING,
-        ContentStatusEnum.ANNOUNCED,
-    ] as ContentStatusEnum[];
+    const season = getCurrentSeason()!;
+    const year = new Date().getFullYear();
 
     const { list } = useSearchAnimeSchedule({
         args: {
-            airing_season: [season, Number(year)],
-            status,
+            airing_season: [season, year],
+            status: [ContentStatusEnum.ONGOING, ContentStatusEnum.ANNOUNCED],
         },
     });
 
-    const now = Date.now();
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
-    const todayEnd = new Date();
-    todayEnd.setHours(23, 59, 59, 999);
+    const todayKey = String(getUnixTime(startOfDay(new Date())));
 
-    const todayItems = list
-        ?.filter((item) => {
-            const airingDate = item.airing_at * 1000;
-            return (
-                airingDate >= todayStart.getTime() &&
-                airingDate <= todayEnd.getTime()
-            );
-        })
-        .slice(0, 6);
+    const groupedByDay = list?.reduce(
+        (acc: Record<string, AnimeScheduleResponse[]>, item) => {
+            const day = String(getUnixTime(startOfDay(item.airing_at * 1000)));
+            if (!(day in acc)) {
+                acc[day] = [];
+            }
+            acc[day] = [...acc[day], item];
+            return acc;
+        },
+        {},
+    );
 
-    const upcomingItems =
-        todayItems && todayItems.length > 0
-            ? todayItems
-            : list?.filter((item) => item.airing_at * 1000 > now).slice(0, 6);
+    const todayItems = groupedByDay?.[todayKey];
 
     return (
         <Card className="p-0 backdrop-blur bg-secondary/20 snap-center ">
@@ -66,12 +52,16 @@ const WidgetCalendar = () => {
                 <Header href="/schedule" className="px-4">
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Календар</HeaderTitle>
+                        <Badge variant="default">
+                            {format(new Date(), 'd MMMM')}
+                        </Badge>
                     </HeaderContainer>
                     <HeaderNavButton />
                 </Header>
                 <div className="flex flex-col gap-1 px-2">
-                    {upcomingItems?.map((item) => {
+                    {todayItems?.map((item) => {
                         const airingTime = item.airing_at * 1000;
+                        const now = Date.now();
                         const isAiringNow =
                             airingTime <= now &&
                             airingTime + 30 * 60 * 1000 > now;
@@ -121,7 +111,7 @@ const WidgetCalendar = () => {
                             </Link>
                         );
                     })}
-                    {(!upcomingItems || upcomingItems.length === 0) && (
+                    {(!todayItems || todayItems.length === 0) && (
                         <p className="text-muted-foreground py-4 text-center text-sm">
                             Немає запланованих епізодів
                         </p>

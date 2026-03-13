@@ -11,6 +11,7 @@ import { Button } from './button';
 interface HorizontalCardContextProps {
     href?: string;
     to?: string;
+    search?: Record<string, unknown>;
     onClick?: () => void;
     linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
 }
@@ -33,6 +34,7 @@ interface HeaderProps {
     className?: string;
     href?: string;
     to?: string;
+    search?: Record<string, unknown>;
     linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
     onClick?: () => void;
     id?: string;
@@ -43,6 +45,7 @@ const Header: FC<PropsWithChildren<HeaderProps>> = ({
     children,
     href,
     to,
+    search,
     onClick,
     linkProps,
     ...props
@@ -51,10 +54,11 @@ const Header: FC<PropsWithChildren<HeaderProps>> = ({
     const contextValue = React.useMemo(() => {
         return {
             href: url,
+            search,
             onClick,
             linkProps,
         };
-    }, [url, onClick, linkProps]);
+    }, [url, search, onClick, linkProps]);
 
     return (
         <HeaderContext.Provider value={contextValue}>
@@ -101,7 +105,7 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     to: toProp,
 }) => {
     const resolvedProp = toProp ?? hrefProp;
-    const { href, onClick, linkProps } = useHeader();
+    const { href, search, onClick, linkProps } = useHeader();
     const Tag = variant || 'h3';
 
     const heading = <Tag>{children}</Tag>;
@@ -111,6 +115,7 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
             {resolvedProp || href ? (
                 <Link
                     to={resolvedProp || href || ''}
+                    search={search}
                     {...linkProps}
                     className="hover:underline text-left"
                 >
@@ -145,7 +150,7 @@ const HeaderDescription: FC<PropsWithChildren<HeaderDescriptionProps>> = ({
 };
 
 const HeaderNavButton: FC = () => {
-    const { href, onClick, linkProps } = useHeader();
+    const { href, search, onClick, linkProps } = useHeader();
 
     if (!href && !onClick) {
         return null;
@@ -156,6 +161,7 @@ const HeaderNavButton: FC = () => {
             <Button size="icon-sm" variant="ghost" asChild>
                 <Link
                     to={href}
+                    search={search}
                     className="flex items-center gap-2 text-muted-foreground"
                     {...linkProps}
                 >

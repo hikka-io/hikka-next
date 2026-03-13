@@ -2,7 +2,7 @@
 
 import { useSession } from '@hikka/react';
 import { Settings2 } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useMemo, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -21,6 +21,11 @@ const WIDGET_COMPONENTS: Record<string, FC> = {
     tracker: WidgetTracker,
 };
 
+const AVAILABLE_WIDGET_MAP = new Map<
+    string,
+    (typeof AVAILABLE_WIDGETS)[number]
+>(AVAILABLE_WIDGETS.map((w) => [w.id, w]));
+
 interface Props {
     className?: string;
 }
@@ -29,31 +34,40 @@ const WidgetSection: FC<Props> = ({ className }) => {
     const { user } = useSession();
     const { preferences } = useSettingsStore();
     const openSettingsModal = useOpenWidgetSettings();
+    const [activeTab, setActiveTab] = useState<string | undefined>();
 
     const widgets =
         preferences.widgets.length > 0
             ? preferences.widgets
             : AVAILABLE_WIDGETS.map((w) => ({ id: w.id, visible: true }));
 
-    const availableWidgetMap = new Map<
-        string,
-        (typeof AVAILABLE_WIDGETS)[number]
-    >(AVAILABLE_WIDGETS.map((w) => [w.id, w]));
+    const visibleWidgets = useMemo(
+        () =>
+            widgets.filter((w) => {
+                if (!w.visible) return false;
+                const config = AVAILABLE_WIDGET_MAP.get(w.id);
+                if (config?.auth && !user) return false;
+                return true;
+            }),
+        [widgets, user],
+    );
 
-    const visibleWidgets = widgets.filter((w) => {
-        if (!w.visible) return false;
-        const config = availableWidgetMap.get(w.id);
-        if (config?.auth && !user) return false;
-        return true;
-    });
+    const currentTab =
+        activeTab && visibleWidgets.some((w) => w.id === activeTab)
+            ? activeTab
+            : visibleWidgets[0]?.id;
 
     return (
         <div className={cn('flex flex-col gap-4', className)}>
             {visibleWidgets.length > 0 && (
-                <Tabs defaultValue={visibleWidgets[0].id} className="lg:hidden">
+                <Tabs
+                    value={currentTab}
+                    onValueChange={setActiveTab}
+                    className="lg:hidden"
+                >
                     <TabsList className="w-full">
                         {visibleWidgets.map((widget) => {
-                            const config = availableWidgetMap.get(widget.id);
+                            const config = AVAILABLE_WIDGET_MAP.get(widget.id);
                             return (
                                 <TabsTrigger key={widget.id} value={widget.id}>
                                     {config?.title}

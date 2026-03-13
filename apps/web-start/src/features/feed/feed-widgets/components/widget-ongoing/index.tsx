@@ -57,10 +57,19 @@ const WidgetOngoing = () => {
         },
     });
 
+    const search = {
+        statuses: ['ongoing'],
+        types: ['tv'],
+        seasons: [currentSeason],
+        years: [year, year],
+        sort: ['scored_by', 'score', 'native_scored_by', 'native_score'],
+        order: 'desc',
+    };
+
     return (
         <Card className="p-0 backdrop-blur bg-secondary/20 snap-center">
             <Block className="gap-4 py-4 w-full">
-                <Header href="/anime?statuses=ongoing" className="px-4">
+                <Header href="/anime" search={search} className="px-4">
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Онґоінґи</HeaderTitle>
                     </HeaderContainer>
