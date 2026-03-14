@@ -39,7 +39,7 @@ const triggerClassName = cn(
 
 const dropdownItemClassName = cn(
     buttonVariants({ variant: 'ghost' }),
-    'h-auto justify-start gap-2 rounded-sm px-2 py-1.5 text-sm',
+    'h-auto justify-start gap-2 rounded-sm px-2 py-1.5 text-sm w-full',
     'text-muted-foreground',
 );
 
