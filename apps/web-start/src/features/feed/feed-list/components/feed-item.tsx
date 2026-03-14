@@ -1,7 +1,6 @@
 import {
     ContentTypeEnum,
     FeedItemResponse,
-    UserResponse,
     VoteContentType,
 } from '@hikka/client';
 import { FC } from 'react';
@@ -13,10 +12,6 @@ import FeedItemCollection from './feed-item-collection';
 import FeedItemComment from './feed-item-comment';
 import FeedItemFooter from './feed-item-footer';
 import FeedItemHeader from './feed-item-header';
-
-function getAuthor(item: FeedItemResponse): UserResponse {
-    return item.author;
-}
 
 function getStats(item: FeedItemResponse): {
     commentsCount: number;
@@ -69,14 +64,13 @@ interface Props {
 }
 
 const FeedItem: FC<Props> = ({ item }) => {
-    const author = getAuthor(item);
     const stats = getStats(item);
     const extraInfo = getExtraInfo(item);
 
     return (
         <div className="flex flex-col isolate border-b last:border-b-0! first:backdrop-blur">
             <FeedItemHeader
-                author={author}
+                author={item.author}
                 dataType={item.data_type}
                 created={item.created}
                 extraInfo={extraInfo}

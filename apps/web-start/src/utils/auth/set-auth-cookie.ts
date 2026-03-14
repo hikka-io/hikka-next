@@ -7,16 +7,17 @@ import { createServerFn } from '@tanstack/react-start';
  * Returns the auth token so the client can set it on HikkaClient in memory.
  */
 export const setAuthCookieFn = createServerFn({ method: 'POST' })
-    .inputValidator((data: { secret: string; expiration: number }) => data)
-    .handler(async ({ data: { secret, expiration } }) => {
+    .inputValidator((data: { secret: string }) => data)
+    .handler(async ({ data: { secret } }) => {
         const { setCookie } = await import('@tanstack/react-start/server');
 
         const domain = process.env.COOKIE_DOMAIN;
         const secure = !!domain && domain !== 'localhost';
-        const maxAge = Math.max(
-            0,
-            expiration - Math.floor(Date.now() / 1000),
-        );
+        // Use a fixed 30-day maxAge. The API extends the token's expiration
+        // on every authenticated request, so the cookie should outlive the
+        // server-side token lifetime. Actual expiration is enforced by the
+        // API returning auth:invalid_token.
+        const maxAge = 60 * 60 * 24 * 30; // 30 days
 
         setCookie('auth', secret, {
             maxAge,

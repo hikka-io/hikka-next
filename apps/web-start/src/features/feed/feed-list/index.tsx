@@ -60,7 +60,7 @@ const FeedList = () => {
 
     const { list: feedList, ref: feedRef } = useFeed({
         args: { content_type: contentType },
-        options: { enabled: !isActivity },
+        options: { enabled: !isActivity, authProtected: true },
     });
 
     const { list: historyList, ref: historyRef } = useFollowingHistory({

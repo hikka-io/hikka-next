@@ -8,16 +8,25 @@ interface UseVoteParams {
     contentType: VoteContentType;
     slug: string;
     myScore: number;
+    voteScore: number;
 }
 
-export function useVote({ contentType, slug, myScore }: UseVoteParams) {
+export function useVote({
+    contentType,
+    slug,
+    myScore,
+    voteScore,
+}: UseVoteParams) {
     const { user: loggedUser } = useSession();
     const router = useRouter();
     const mutation = useCreateVote();
 
-    const currentScore = mutation.variables?.score
-        ? mutation.variables.score
-        : myScore;
+    const currentMyScore =
+        mutation.variables?.score !== undefined
+            ? mutation.variables.score
+            : myScore;
+
+    const optimisticVoteScore = voteScore + (currentMyScore - myScore);
 
     const handleVote = (score: -1 | 1) => {
         if (!loggedUser) {
@@ -25,7 +34,7 @@ export function useVote({ contentType, slug, myScore }: UseVoteParams) {
             return;
         }
 
-        const updated = currentScore === score ? 0 : score;
+        const updated = currentMyScore === score ? 0 : score;
 
         mutation.mutate({
             contentType,
@@ -34,5 +43,5 @@ export function useVote({ contentType, slug, myScore }: UseVoteParams) {
         });
     };
 
-    return { currentScore, handleVote };
+    return { currentMyScore, optimisticVoteScore, handleVote };
 }

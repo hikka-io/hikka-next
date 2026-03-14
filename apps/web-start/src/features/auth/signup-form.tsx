@@ -58,10 +58,7 @@ const SignupForm = () => {
         options: {
             onSuccess: async (data) => {
                 await setAuthCookieFn({
-                    data: {
-                        secret: data.secret,
-                        expiration: data.expiration,
-                    },
+                    data: { secret: data.secret },
                 });
                 client.setAuthToken(data.secret);
 

@@ -2,7 +2,6 @@ import { ContentTypeEnum, FeedContentType } from '@hikka/client';
 import { MessageCircle, Sparkles } from 'lucide-react';
 import { ReactElement } from 'react';
 
-import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 
@@ -30,7 +29,7 @@ export const AVAILABLE_WIDGETS = [
 ] as const;
 
 export const FEED_FILTER_OPTIONS: Record<
-    FeedFilterEnum,
+    Exclude<FeedFilterEnum, FeedFilterEnum.ACTIVITY>,
     {
         label: string;
         data_type?: FeedContentType | ContentTypeEnum.HISTORY;
@@ -52,10 +51,5 @@ export const FEED_FILTER_OPTIONS: Record<
         label: 'Колекції',
         data_type: ContentTypeEnum.COLLECTION,
         icon: () => <MaterialSymbolsStack />,
-    },
-    [FeedFilterEnum.ACTIVITY]: {
-        label: 'Активність',
-        data_type: ContentTypeEnum.HISTORY,
-        icon: () => <MaterialSymbolsCalendarClockRounded />,
     },
 };

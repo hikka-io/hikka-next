@@ -2,7 +2,7 @@
  * Cookie utilities barrel export
  */
 
-export { getAuthTokenFn } from './server';
+export { getAuthTokenFn, refreshAuthCookieFn } from './server';
 export {
     clearCookieHeader,
     createServerHikkaClient,

@@ -19,10 +19,9 @@ export const Route = createFileRoute('/api/auth/google')({
                         code: String(code),
                     });
 
-                    const maxAge = Math.max(
-                        0,
-                        res.expiration - Math.floor(Date.now() / 1000),
-                    );
+                    // Fixed 30-day maxAge — API extends token on each
+                    // authenticated request; cookie should outlive the token.
+                    const maxAge = 60 * 60 * 24 * 30;
 
                     const headers = new Headers({
                         Location: `${baseURL}?auth=success&provider=google`,

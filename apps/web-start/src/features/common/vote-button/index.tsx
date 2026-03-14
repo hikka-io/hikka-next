@@ -28,10 +28,11 @@ const VoteButton: FC<Props> = ({
     voteScore,
     size = 'icon-md',
 }) => {
-    const { currentScore, handleVote } = useVote({
+    const { currentMyScore, optimisticVoteScore, handleVote } = useVote({
         contentType,
         slug,
         myScore,
+        voteScore,
     });
 
     return (
@@ -42,7 +43,7 @@ const VoteButton: FC<Props> = ({
                 size={size}
                 className={cn(
                     'font-normal',
-                    currentScore === 1
+                    currentMyScore === 1
                         ? 'text-success-foreground hover:text-success-foreground'
                         : 'text-muted-foreground',
                 )}
@@ -50,20 +51,20 @@ const VoteButton: FC<Props> = ({
                 <ArrowBigUp
                     className={cn(
                         'size-5!',
-                        currentScore === 1 && 'fill-success-foreground',
+                        currentMyScore === 1 && 'fill-success-foreground',
                     )}
                 />
             </Button>
             <Label
                 className={
-                    voteScore > 0
+                    optimisticVoteScore > 0
                         ? 'text-success-foreground'
-                        : voteScore === 0
+                        : optimisticVoteScore === 0
                             ? 'text-muted-foreground'
                             : 'text-destructive-foreground'
                 }
             >
-                {voteScore}
+                {optimisticVoteScore}
             </Label>
             <Button
                 onClick={() => handleVote(-1)}
@@ -71,7 +72,7 @@ const VoteButton: FC<Props> = ({
                 size={size}
                 className={cn(
                     'font-normal',
-                    currentScore === -1
+                    currentMyScore === -1
                         ? 'text-destructive-foreground hover:text-destructive-foreground'
                         : 'text-muted-foreground',
                 )}
@@ -79,7 +80,7 @@ const VoteButton: FC<Props> = ({
                 <ArrowBigDown
                     className={cn(
                         'size-5!',
-                        currentScore === -1 && 'fill-destructive-foreground',
+                        currentMyScore === -1 && 'fill-destructive-foreground',
                     )}
                 />
             </Button>
