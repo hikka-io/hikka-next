@@ -11,6 +11,7 @@ export * from './comments';
 export * from './companies';
 export * from './edit';
 export * from './favourite';
+export * from './feed';
 export * from './follow';
 export * from './genres';
 export * from './history';
