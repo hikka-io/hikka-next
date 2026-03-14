@@ -367,6 +367,48 @@ const SOCIAL_GROUP: Hikka.NavRoute[] = [
     },
 ];
 
+export const APP_NAV_CONTENT: Hikka.NavRoute[] = [...CONTENT_GROUP];
+
+export const APP_NAV_USER_CONTENT: Hikka.NavRoute[] = [
+    {
+        title_ua: 'Статті',
+        url: '/articles',
+        icon: () => <MaterialSymbolsDynamicFeedRounded />,
+        visible: true,
+        slug: 'articles',
+    },
+    {
+        title_ua: 'Колекції',
+        url: '/collections',
+        icon: () => <MaterialSymbolsStack />,
+        visible: true,
+        slug: 'collections',
+    },
+];
+
+export const APP_NAV_MORE: { title_ua: string; items: Hikka.NavRoute[] }[] = [
+    {
+        title_ua: 'Інше',
+        items: [
+            {
+                title_ua: 'Календар',
+                url: '/schedule',
+                icon: () => <MaterialSymbolsCalendarClockRounded />,
+                visible: true,
+                slug: 'schedule',
+            },
+        ],
+    },
+    {
+        title_ua: 'Модерація',
+        items: MODERATION_GROUP,
+    },
+    {
+        title_ua: 'Соцмережі',
+        items: SOCIAL_GROUP,
+    },
+];
+
 export const APP_SIDEBAR: { title_ua: string; items: Hikka.NavRoute[] }[] = [
     {
         title_ua: 'Контент',

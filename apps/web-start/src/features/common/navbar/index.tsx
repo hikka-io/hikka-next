@@ -4,7 +4,6 @@ import { useSession } from '@hikka/react';
 import { Link } from '@/utils/navigation';
 
 import { Button } from '@/components/ui/button';
-import { useSidebar } from '@/components/ui/sidebar';
 
 import { LoginButton, SearchModal } from '@/features/common';
 
@@ -13,13 +12,14 @@ import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
 import { cn } from '@/utils/cn';
 
 import NotificationsMenu from '../notifications-menu';
+import MobileNav from './components/mobile-nav';
+import NavMenu from './components/nav-menu';
 import ProfileMenu from './components/profile-menu';
 
 const Navbar = () => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
-    const { toggleSidebar, item } = useSidebar();
 
-    let { user: loggedUser } = useSession();
+    const { user: loggedUser } = useSession();
 
     const trigger = useScrollTrigger({
         threshold: !isDesktop ? 0 : 40,
@@ -34,27 +34,17 @@ const Navbar = () => {
             )}
         >
             <nav className="relative mx-auto flex min-h-16 w-full max-w-350 items-center gap-4 px-4 md:gap-8">
-                <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-8">
-                    <Link className="w-auto p-0" to="/">
+                <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-6">
+                    <Link className="w-auto shrink-0 p-0" to="/">
                         <div className="logo size-[24px] md:w-[80px]" />
                     </Link>
-                    <div
-                        className="flex min-w-0 flex-1 items-center gap-4"
-                        id="breadcrumbs"
-                    >
-                        {item && (
-                            <Button
-                                size="md"
-                                variant="outline"
-                                onClick={toggleSidebar}
-                                className="min-w-24 overflow-hidden"
-                            >
-                                {item.icon && <item.icon />}
-                                <span className="flex-1 truncate">
-                                    {item.title_ua}
-                                </span>
-                            </Button>
-                        )}
+
+                    <div className="hidden min-w-0 flex-1 md:flex">
+                        <NavMenu />
+                    </div>
+
+                    <div className="flex min-w-0 flex-1 md:hidden">
+                        <MobileNav />
                     </div>
                 </div>
                 <div className="flex gap-4">

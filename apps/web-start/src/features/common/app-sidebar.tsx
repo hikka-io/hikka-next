@@ -2,7 +2,6 @@
 
 import { Link } from '@/utils/navigation';
 import { usePathname } from '@/utils/navigation';
-import { useEffect } from 'react';
 
 import {
     Sidebar,
@@ -25,31 +24,18 @@ import { APP_SIDEBAR } from '@/utils/constants/navigation';
 
 function AppSidebar() {
     const pathname = usePathname();
-    const { toggleSidebar, setActiveItem, item } = useSidebar();
+    const { toggleSidebar } = useSidebar();
 
-    useEffect(() => {
-        APP_SIDEBAR.forEach((group) => {
-            group.items.forEach((navitem) => {
-                if (navitem.url === '/') {
-                    if (pathname === navitem.url) {
-                        setActiveItem(navitem);
-                    }
-                } else {
-                    if (pathname.startsWith(navitem.url)) {
-                        setActiveItem(navitem);
-                    }
-                }
-            });
-        });
-    }, [pathname]);
+    const isActive = (url: string) => {
+        if (url === '/') return pathname === '/';
+        return pathname === url || pathname.startsWith(url + '/');
+    };
 
     return (
         <Sidebar
             variant="sidebar"
             collapsible="dropdown"
-            side="top"
-            className="absolute left-0 top-0 overflow-hidden"
-        // onMouseLeave={toggleSidebar}
+            side="left"
         >
             <SidebarHeader className="min-h-16 flex-row items-center justify-between p-4">
                 <Link to={'/'} onClick={toggleSidebar}>
@@ -69,9 +55,7 @@ function AppSidebar() {
                                             <SidebarMenuButton
                                                 asChild
                                                 onClick={toggleSidebar}
-                                                isActive={
-                                                    navitem.url === item?.url
-                                                }
+                                                isActive={isActive(navitem.url)}
                                             >
                                                 <Link to={navitem.url} search={navitem.search}>
                                                     {navitem.icon && (
