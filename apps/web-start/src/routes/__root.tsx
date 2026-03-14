@@ -57,12 +57,9 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         // Must live here (not in createRouter) so it does NOT run for server routes
         // like /api/auth/logout — otherwise the refresh re-sets the cookie the
         // logout handler is trying to clear.
-        if (typeof window === 'undefined') {
-            const { getCookie } = await import('@tanstack/react-start/server');
-            if (getCookie('auth')) {
-                await refreshAuthCookieFn();
-            }
-        }
+        // refreshAuthCookieFn is a createServerFn — it no-ops if no auth cookie exists
+        // and only runs on the server (client calls become RPCs).
+        await refreshAuthCookieFn();
 
         const userUI = await getSessionUserUI();
         const userStylesCSS = getUserStylesCSS(userUI);
