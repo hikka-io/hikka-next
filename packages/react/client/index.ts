@@ -18,6 +18,7 @@ export * from './hooks/api/comments';
 export * from './hooks/api/companies';
 export * from './hooks/api/edit';
 export * from './hooks/api/favourite';
+export * from './hooks/api/feed';
 export * from './hooks/api/follow';
 export * from './hooks/api/genres';
 export * from './hooks/api/history';

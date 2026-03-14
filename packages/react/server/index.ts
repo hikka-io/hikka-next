@@ -12,6 +12,7 @@ export * from './prefetch/api/comments';
 export * from './prefetch/api/companies';
 export * from './prefetch/api/edit';
 export * from './prefetch/api/favourite';
+export * from './prefetch/api/feed';
 export * from './prefetch/api/follow';
 export * from './prefetch/api/genres';
 export * from './prefetch/api/history';
