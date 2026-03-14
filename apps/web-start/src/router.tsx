@@ -11,7 +11,7 @@ import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query
 import { toast } from 'sonner';
 
 import { routeTree } from './routeTree.gen';
-import { getAuthTokenFn, refreshAuthCookieFn } from './utils/cookies';
+import { getAuthTokenFn } from './utils/cookies';
 
 export interface RouterContext {
     queryClient: QueryClient;
@@ -51,11 +51,6 @@ export async function createRouter() {
 
     if (isServer) {
         await queryClient.prefetchQuery(sessionOptions(hikkaClient));
-
-        // Rolling cookie: extend auth cookie lifetime on every SSR request
-        if (authToken) {
-            await refreshAuthCookieFn();
-        }
     }
 
     return router;

@@ -61,9 +61,10 @@ function getExtraInfo(item: FeedItemResponse): string | undefined {
 
 interface Props {
     item: FeedItemResponse;
+    showTypeLabel?: boolean;
 }
 
-const FeedItem: FC<Props> = ({ item }) => {
+const FeedItem: FC<Props> = ({ item, showTypeLabel }) => {
     const stats = getStats(item);
     const extraInfo = getExtraInfo(item);
 
@@ -74,6 +75,7 @@ const FeedItem: FC<Props> = ({ item }) => {
                 dataType={item.data_type}
                 created={item.created}
                 extraInfo={extraInfo}
+                showTypeLabel={showTypeLabel}
             />
 
             <div className="ml-14">

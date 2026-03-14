@@ -17,6 +17,7 @@ import RouterProgressBar from '@/components/router-progress-bar';
 import { Providers } from '@/features/common';
 
 import { UIStoreProvider } from '@/services/providers/ui-store-provider';
+import { refreshAuthCookieFn } from '@/utils/cookies';
 import { STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getSessionUserUI, getUserStylesCSS } from '@/utils/ui/server';
 
@@ -52,6 +53,17 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         ],
     }),
     loader: async () => {
+        // Rolling cookie: extend auth cookie lifetime on every SSR page request.
+        // Must live here (not in createRouter) so it does NOT run for server routes
+        // like /api/auth/logout — otherwise the refresh re-sets the cookie the
+        // logout handler is trying to clear.
+        if (typeof window === 'undefined') {
+            const { getCookie } = await import('@tanstack/react-start/server');
+            if (getCookie('auth')) {
+                await refreshAuthCookieFn();
+            }
+        }
+
         const userUI = await getSessionUserUI();
         const userStylesCSS = getUserStylesCSS(userUI);
         return { userUI, userStylesCSS };

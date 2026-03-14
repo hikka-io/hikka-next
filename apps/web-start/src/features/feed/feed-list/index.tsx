@@ -38,6 +38,7 @@ const FeedList = () => {
 
     const filter = (search.type as FeedFilterEnum) || FeedFilterEnum.ALL;
     const isActivity = filter === FeedFilterEnum.ACTIVITY;
+    const showTypeLabel = filter === FeedFilterEnum.ALL;
     const contentType = FILTER_TO_CONTENT_TYPE[filter];
 
     const handleFilterChange = (value: FeedFilterEnum) => {
@@ -69,7 +70,7 @@ const FeedList = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <FeedTabs value={filter} onChange={handleFilterChange} />
+            <FeedTabs value={filter} onChange={handleFilterChange} isLoggedIn={!!user} />
 
             <div className="flex flex-col border-y border-x-0 md:rounded-lg -mx-4 md:mx-0 md:border-x overflow-hidden">
                 {isActivity
@@ -82,6 +83,7 @@ const FeedList = () => {
                                   author={item.user}
                                   dataType={ContentTypeEnum.HISTORY}
                                   created={item.created}
+                                  showTypeLabel={false}
                               />
                               <div className="ml-14">
                                   <FeedItemHistory data={item} />
@@ -89,7 +91,7 @@ const FeedList = () => {
                           </div>
                       ))
                     : feedList?.map((item) => (
-                          <FeedItem key={getFeedItemKey(item)} item={item} />
+                          <FeedItem key={getFeedItemKey(item)} item={item} showTypeLabel={showTypeLabel} />
                       ))}
             </div>
 

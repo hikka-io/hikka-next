@@ -12,15 +12,16 @@ import { FeedFilterEnum } from '../../types';
 interface Props {
     value: FeedFilterEnum;
     onChange: (value: FeedFilterEnum) => void;
+    isLoggedIn?: boolean;
 }
 
-const FeedTabs: FC<Props> = ({ value, onChange }) => {
+const FeedTabs: FC<Props> = ({ value, onChange, isLoggedIn }) => {
     return (
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full overflow-hidden">
             <Tabs
                 value={value}
                 onValueChange={(v) => onChange(v as FeedFilterEnum)}
-                className="flex-1"
+                className="flex-1 overflow-hidden"
             >
                 <TabsList className="w-full justify-start overflow-x-auto no-scrollbar ">
                     {Object.entries(FEED_FILTER_OPTIONS).map(
@@ -38,6 +39,7 @@ const FeedTabs: FC<Props> = ({ value, onChange }) => {
                 </TabsList>
             </Tabs>
             <Tabs
+                className="shrink-0"
                 value={value}
                 onValueChange={(v) => onChange(v as FeedFilterEnum)}
             >
@@ -45,6 +47,7 @@ const FeedTabs: FC<Props> = ({ value, onChange }) => {
                     <TabsTrigger
                         value={FeedFilterEnum.ACTIVITY}
                         className="flex gap-2 sm:flex-1"
+                        disabled={!isLoggedIn}
                     >
                         <MaterialSymbolsCalendarClockRounded />
                         Активність

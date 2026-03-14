@@ -36,6 +36,7 @@ interface Props {
     created: number;
     extraInfo?: string;
     className?: string;
+    showTypeLabel?: boolean;
 }
 
 const FeedItemHeader: FC<Props> = ({
@@ -44,6 +45,7 @@ const FeedItemHeader: FC<Props> = ({
     created,
     extraInfo,
     className,
+    showTypeLabel = true,
 }) => {
     return (
         <HorizontalCard className={cn('p-4', className)}>
@@ -58,23 +60,27 @@ const FeedItemHeader: FC<Props> = ({
                     {author.username}
                 </HorizontalCardTitle>
                 <HorizontalCardContainer className="flex-row items-center">
-                    <span
-                        className={cn(
-                            'text-xs font-medium',
-                            TYPE_BADGE_STYLES[dataType],
-                        )}
-                    >
-                        {TYPE_LABELS[dataType]}
-                    </span>
+                    {showTypeLabel && (
+                        <>
+                            <span
+                                className={cn(
+                                    'text-xs font-medium',
+                                    TYPE_BADGE_STYLES[dataType],
+                                )}
+                            >
+                                {TYPE_LABELS[dataType]}
+                            </span>
+                            <div className="bg-muted-foreground size-1 rounded-full" />
+                        </>
+                    )}
                     {extraInfo && (
                         <>
-                            <div className="bg-muted-foreground size-1 rounded-full" />
                             <HorizontalCardDescription>
                                 {extraInfo}
                             </HorizontalCardDescription>
+                            <div className="bg-muted-foreground size-1 rounded-full" />
                         </>
                     )}
-                    <div className="bg-muted-foreground size-1 rounded-full" />
                     <HorizontalCardDescription>
                         {formatDistance(created * 1000, Date.now(), {
                             addSuffix: true,
