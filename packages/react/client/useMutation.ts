@@ -36,8 +36,8 @@ export function useMutation<
     return useTanstackMutation<TData, TError, TVariables, TOnMutateResult>({
         mutationFn: (variables) => mutationFn(client, variables),
         ...options,
-        onSuccess: (data, variables, onMutateResult, context) => {
-            options?.onSuccess?.(
+        onSuccess: async (data, variables, onMutateResult, context) => {
+            await options?.onSuccess?.(
                 addDeepTitleProperties(
                     data,
                     defaultOptions?.title,
@@ -48,7 +48,6 @@ export function useMutation<
                 context,
             );
 
-            // If invalidateQueries is provided, invalidate those queries
             if (options?.onSettled) {
                 options.onSettled(data, null, variables, onMutateResult, context);
             }
@@ -106,13 +105,13 @@ export function createMutation<
 
         const customOptions = {
             ...options,
-            onSuccess: (
+            onSuccess: async (
                 data: TData,
                 variables: TVariables,
                 onMutateResult: TOnMutateResult,
                 context: any,
             ) => {
-                options?.onSuccess?.(data, variables, onMutateResult, context);
+                await options?.onSuccess?.(data, variables, onMutateResult, context);
 
                 if (cacheByQueryKey) {
                     cacheByQueryKey({ data, queryClient, args: variables });
