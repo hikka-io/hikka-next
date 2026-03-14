@@ -1,30 +1,24 @@
-import { ContentTypeEnum, UserResponse, VoteContentType } from '@hikka/client';
+import {
+    ContentTypeEnum,
+    FeedItemResponse,
+    UserResponse,
+    VoteContentType,
+} from '@hikka/client';
 import { FC } from 'react';
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
-import { FeedItem as FeedItemType } from '../../types';
 import FeedItemArticle from './feed-item-article';
 import FeedItemCollection from './feed-item-collection';
 import FeedItemComment from './feed-item-comment';
 import FeedItemFooter from './feed-item-footer';
 import FeedItemHeader from './feed-item-header';
-import FeedItemHistory from './feed-item-history';
 
-function getAuthor(item: FeedItemType): UserResponse {
-    switch (item.data_type) {
-        case ContentTypeEnum.ARTICLE:
-            return item.data.author;
-        case ContentTypeEnum.COLLECTION:
-            return item.data.author;
-        case ContentTypeEnum.COMMENT:
-            return item.data.author;
-        case ContentTypeEnum.HISTORY:
-            return item.data.user;
-    }
+function getAuthor(item: FeedItemResponse): UserResponse {
+    return item.author;
 }
 
-function getStats(item: FeedItemType): {
+function getStats(item: FeedItemResponse): {
     commentsCount: number;
     voteScore: number;
     commentsHref?: string;
@@ -35,48 +29,43 @@ function getStats(item: FeedItemType): {
     switch (item.data_type) {
         case ContentTypeEnum.ARTICLE:
             return {
-                commentsCount: item.data.comments_count,
-                voteScore: item.data.vote_score,
-                commentsHref: `/comments/article/${item.data.slug}`,
+                commentsCount: item.comments_count,
+                voteScore: item.vote_score,
+                commentsHref: `/comments/article/${item.slug}`,
                 contentType: ContentTypeEnum.ARTICLE,
-                slug: item.data.slug,
-                myScore: item.data.my_score,
+                slug: item.slug,
+                myScore: item.my_score,
             };
         case ContentTypeEnum.COLLECTION:
             return {
-                commentsCount: item.data.comments_count,
-                voteScore: item.data.vote_score,
-                commentsHref: `/comments/collection/${item.data.reference}`,
+                commentsCount: item.comments_count,
+                voteScore: item.vote_score,
+                commentsHref: `/comments/collection/${item.reference}`,
                 contentType: ContentTypeEnum.COLLECTION,
-                slug: item.data.reference,
-                myScore: item.data.my_score,
+                slug: item.reference,
+                myScore: item.my_score,
             };
         case ContentTypeEnum.COMMENT:
             return {
                 commentsCount: 0,
-                voteScore: item.data.vote_score,
-                commentsHref: `/comments/${item.data.content_type}/${item.data.preview.slug}/${item.reference}`,
+                voteScore: item.vote_score,
+                commentsHref: `/comments/${item.content_type}/${item.preview.slug}/${item.reference}`,
                 contentType: ContentTypeEnum.COMMENT,
-                slug: item.data.reference,
-                myScore: item.data.my_score,
-            };
-        case ContentTypeEnum.HISTORY:
-            return {
-                commentsCount: 0,
-                voteScore: 0,
+                slug: item.reference,
+                myScore: item.my_score,
             };
     }
 }
 
-function getExtraInfo(item: FeedItemType): string | undefined {
+function getExtraInfo(item: FeedItemResponse): string | undefined {
     if (item.data_type === ContentTypeEnum.ARTICLE) {
-        return ARTICLE_CATEGORY_OPTIONS[item.data.category]?.title_ua;
+        return ARTICLE_CATEGORY_OPTIONS[item.category]?.title_ua;
     }
     return undefined;
 }
 
 interface Props {
-    item: FeedItemType;
+    item: FeedItemResponse;
 }
 
 const FeedItem: FC<Props> = ({ item }) => {
@@ -94,17 +83,14 @@ const FeedItem: FC<Props> = ({ item }) => {
             />
 
             <div className="ml-14">
-                {item.data_type === ContentTypeEnum.HISTORY && (
-                    <FeedItemHistory data={item.data} />
-                )}
                 {item.data_type === ContentTypeEnum.ARTICLE && (
-                    <FeedItemArticle data={item.data} />
+                    <FeedItemArticle data={item} />
                 )}
                 {item.data_type === ContentTypeEnum.COLLECTION && (
-                    <FeedItemCollection data={item.data} />
+                    <FeedItemCollection data={item} />
                 )}
                 {item.data_type === ContentTypeEnum.COMMENT && (
-                    <FeedItemComment data={item.data} />
+                    <FeedItemComment data={item} />
                 )}
 
                 <FeedItemFooter

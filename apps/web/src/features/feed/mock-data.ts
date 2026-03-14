@@ -183,6 +183,7 @@ export const MOCK_FEED_DATA: FeedItem[] = [
         created: now - 3600 * 19,
         data_type: ContentTypeEnum.COMMENT,
         data: {
+            data_type: ContentTypeEnum.COMMENT,
             replies: [],
             total_replies: 0,
             updated: now - 3600 * 19,

@@ -1,4 +1,4 @@
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum, FeedContentType } from '@hikka/client';
 import { MessageCircle, Sparkles } from 'lucide-react';
 import { ReactElement } from 'react';
 
@@ -33,7 +33,7 @@ export const FEED_FILTER_OPTIONS: Record<
     FeedFilterEnum,
     {
         label: string;
-        data_type?: ContentTypeEnum;
+        data_type?: FeedContentType | ContentTypeEnum.HISTORY;
         icon?: (props: any) => ReactElement;
     }
 > = {

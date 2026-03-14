@@ -130,6 +130,13 @@ export const userlistSearchSchema = z.object({
     ...paginationSearch,
 });
 
+export const feedSearchSchema = z.object({
+    type: z
+        .enum(['all', 'comments', 'articles', 'collections', 'activity'])
+        .optional()
+        .catch(undefined),
+});
+
 export const oauthSearchSchema = z.object({
     reference: z.string().optional().catch(undefined),
     scope: z.string().optional().catch(undefined),
@@ -145,4 +152,5 @@ export type EditSearch = z.infer<typeof editSearchSchema>;
 export type EditNewSearch = z.infer<typeof editNewSearchSchema>;
 export type CollectionsSearch = z.infer<typeof collectionsSearchSchema>;
 export type UserlistSearch = z.infer<typeof userlistSearchSchema>;
+export type FeedSearch = z.infer<typeof feedSearchSchema>;
 export type OAuthSearch = z.infer<typeof oauthSearchSchema>;

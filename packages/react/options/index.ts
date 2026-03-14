@@ -9,6 +9,7 @@ export * from './api/comments';
 export * from './api/companies';
 export * from './api/edit';
 export * from './api/favourite';
+export * from './api/feed';
 export * from './api/follow';
 export * from './api/genres';
 export * from './api/history';
