@@ -10,6 +10,7 @@ import { useReadStats, useSession, useUserWatchStats } from '@hikka/react';
 import { FC, useState } from 'react';
 
 import Card from '@/components/ui/card';
+import { Header, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import { cn } from '@/utils/cn';
@@ -137,7 +138,10 @@ const SidebarContentStats = () => {
     if (!user) return null;
 
     return (
-        <Card className="bg-secondary/20 backdrop-blur">
+        <Card className="bg-secondary/20 backdrop-blur px-2">
+            <Header className="px-2">
+                <HeaderTitle variant="h4">Список</HeaderTitle>
+            </Header>
             <ToggleGroup
                 type="single"
                 value={activeTab}
@@ -145,6 +149,7 @@ const SidebarContentStats = () => {
                     value && setActiveTab(value as CommonContentType)
                 }
                 size="badge"
+                className="mx-2"
             >
                 <ToggleGroupItem
                     value={ContentTypeEnum.ANIME}

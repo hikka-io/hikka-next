@@ -26,7 +26,6 @@ import MaterialSymbolsPerson from '../../components/icons/material-symbols/Mater
 import MaterialSymbolsSettingsOutlineRounded from '../../components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import MaterialSymbolsStack from '../../components/icons/material-symbols/MaterialSymbolsStack';
 import MdiPuzzle from '../../components/icons/mdi/MdiPuzzle';
-import { ARTICLE_CATEGORY_OPTIONS } from './common';
 
 export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
     {
@@ -228,20 +227,6 @@ const COMMUNITY_GROUP: Hikka.NavRoute[] = [
         url: '/articles',
         icon: () => <MaterialSymbolsDynamicFeedRounded />,
         visible: true,
-        items: (
-            Object.keys(ARTICLE_CATEGORY_OPTIONS) as Array<
-                keyof typeof ARTICLE_CATEGORY_OPTIONS
-            >
-        )
-            .filter((category) => !ARTICLE_CATEGORY_OPTIONS[category].admin)
-            .map((category) => ({
-                title_ua: ARTICLE_CATEGORY_OPTIONS[category].title_ua,
-                url: '/articles',
-                search: { categories: category },
-                visible: true,
-                icon: ARTICLE_CATEGORY_OPTIONS[category].icon,
-                slug: `articles/${category}`,
-            })),
         slug: 'articles',
     },
     {
