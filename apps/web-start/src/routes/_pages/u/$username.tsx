@@ -74,7 +74,7 @@ function UserLayout() {
     const { user } = Route.useLoaderData();
 
     return (
-        <div className="flex flex-col gap-12 lg:gap-12">
+        <div className="flex flex-col gap-8">
             <ActivationAlert />
             <CoverImage cover={user?.cover} />
             <Breadcrumbs>
@@ -96,7 +96,7 @@ function UserLayout() {
                 </div>
                 <FollowStats />
             </div>
-            <div className="flex flex-col gap-12">
+            <div className="flex flex-col gap-8">
                 <Outlet />
             </div>
         </div>

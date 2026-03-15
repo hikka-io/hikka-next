@@ -95,7 +95,7 @@ const WidgetSection: FC<Props> = ({ className }) => {
                 </Tabs>
             )}
 
-            <div className="hidden lg:flex lg:flex-col lg:gap-4">
+            <div className="hidden lg:flex lg:flex-col lg:gap-6">
                 {widgets.map((widget) => {
                     const Component = WIDGET_COMPONENTS[widget.id];
                     if (!Component) return null;

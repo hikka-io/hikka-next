@@ -39,7 +39,7 @@ const WidgetList = () => {
         <div
             ref={containerRef}
             className={cn(
-                'flex w-full min-w-0 snap-x snap-mandatory gap-4 overflow-x-auto no-scrollbar',
+                'flex w-full min-w-0 snap-x snap-mandatory gap-8 overflow-x-auto no-scrollbar',
                 'lg:flex-col lg:snap-none lg:overflow-visible px-4 lg:px-0',
             )}
         >
