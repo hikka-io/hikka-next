@@ -1,4 +1,8 @@
-import { ContentTypeEnum, FeedContentType } from '@hikka/client';
+import {
+    ContentTypeEnum,
+    FeedContentType,
+    HomeWidgetsEnum,
+} from '@hikka/client';
 import { MessageCircle, Sparkles } from 'lucide-react';
 import { ReactElement } from 'react';
 
@@ -7,24 +11,28 @@ import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSy
 
 import { FeedFilterEnum } from '@/features/feed/types';
 
-export const AVAILABLE_WIDGETS = [
+export const AVAILABLE_WIDGETS: readonly {
+    id: HomeWidgetsEnum;
+    title: string;
+    description: string;
+}[] = [
     {
-        id: 'ongoings',
+        id: HomeWidgetsEnum.ONGOINGS,
         title: 'Онґоінґи',
         description: 'ТОП аніме онґоінґів сезону',
     },
     {
-        id: 'calendar',
+        id: HomeWidgetsEnum.SCHEDULE,
         title: 'Календар',
         description: 'Розклад виходу нових епізодів аніме',
     },
     {
-        id: 'tracker',
+        id: HomeWidgetsEnum.TRACKER,
         title: 'Мій список',
         description: 'Менеджер списків перегляду і читання',
     },
     {
-        id: 'history',
+        id: HomeWidgetsEnum.HISTORY,
         title: 'Активність',
         description: 'Активність користувачів, яких Ви відстежуєте',
     },

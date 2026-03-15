@@ -2,6 +2,7 @@
 
 import {
     HSLColor,
+    HomeWidgetsEnum,
     UIColorTokens,
     UIEffect,
     UIPreferences,
@@ -31,6 +32,7 @@ export interface UIActions {
     setTitleLanguage: (title_language: UIPreferences['title_language']) => void;
     setNameLanguage: (name_language: UIPreferences['name_language']) => void;
     setOverlay: (overlay: UIPreferences['overlay']) => void;
+    setHomeWidgets: (home_widgets: HomeWidgetsEnum[]) => void;
 
     // Styles
     setStyles: (styles: UIStyles | undefined) => void;
@@ -134,6 +136,19 @@ export function createUIStore(initialUI?: UserUI): UIStoreWithTemporal {
                                 DEFAULT_USER_UI.preferences ??
                                 {}),
                             overlay,
+                        },
+                    }));
+                    get().updateUserUI();
+                },
+
+                setHomeWidgets: (home_widgets) => {
+                    set((state) => ({
+                        ...state,
+                        preferences: {
+                            ...(state.preferences ??
+                                DEFAULT_USER_UI.preferences ??
+                                {}),
+                            home_widgets,
                         },
                     }));
                     get().updateUserUI();

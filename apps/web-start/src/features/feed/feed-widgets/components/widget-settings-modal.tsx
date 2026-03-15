@@ -16,21 +16,24 @@ import {
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { HomeWidgetsEnum } from '@hikka/client';
 import { GripVertical } from 'lucide-react';
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useState } from 'react';
 
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
-import { useSettingsStore } from '@/services/stores/settings-store';
-
+import { useUIStore } from '@/services/providers/ui-store-provider';
 import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
 
-import { WidgetConfig } from '../../types';
+interface WidgetItem {
+    id: HomeWidgetsEnum;
+    visible: boolean;
+}
 
 interface SortableWidgetRowProps {
-    widget: WidgetConfig;
-    onToggle: (id: string, visible: boolean) => void;
+    widget: WidgetItem;
+    onToggle: (id: HomeWidgetsEnum, visible: boolean) => void;
 }
 
 const SortableWidgetRow: FC<SortableWidgetRowProps> = ({
@@ -80,35 +83,59 @@ const SortableWidgetRow: FC<SortableWidgetRowProps> = ({
     );
 };
 
-const WidgetSettingsContent = () => {
-    const { preferences, setWidgets } = useSettingsStore();
+function deriveWidgetItems(homeWidgets: HomeWidgetsEnum[] | undefined): WidgetItem[] {
+    const allIds = AVAILABLE_WIDGETS.map((w) => w.id);
 
-    const widgets = useMemo<WidgetConfig[]>(() => {
-        const existing = preferences.widgets;
-        const knownIds = new Set(existing.map((w) => w.id));
-        const newWidgets = AVAILABLE_WIDGETS.filter(
-            (aw) => !knownIds.has(aw.id),
-        ).map((aw) => ({ id: aw.id, visible: true }));
-        return [...existing, ...newWidgets];
-    }, [preferences.widgets]);
+    if (homeWidgets === undefined) {
+        return allIds.map((id) => ({ id, visible: true }));
+    }
+
+    const visibleSet = new Set(homeWidgets);
+    const ordered: WidgetItem[] = homeWidgets.map((id) => ({ id, visible: true }));
+    const hidden = allIds
+        .filter((id) => !visibleSet.has(id))
+        .map((id) => ({ id, visible: false }));
+
+    return [...ordered, ...hidden];
+}
+
+function toHomeWidgets(items: WidgetItem[]): HomeWidgetsEnum[] {
+    return items.filter((w) => w.visible).map((w) => w.id);
+}
+
+const WidgetSettingsContent = () => {
+    const homeWidgets = useUIStore((s) => s.preferences?.home_widgets);
+    const setHomeWidgets = useUIStore((s) => s.setHomeWidgets);
+
+    const initialItems = useMemo(
+        () => deriveWidgetItems(homeWidgets),
+        [homeWidgets],
+    );
+
+    const [items, setItems] = useState<WidgetItem[]>(initialItems);
 
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+
+    const updateItems = (next: WidgetItem[]) => {
+        setItems(next);
+        setHomeWidgets(toHomeWidgets(next));
+    };
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
         if (!over || active.id === over.id) return;
 
-        const activeIndex = widgets.findIndex((w) => w.id === active.id);
-        const overIndex = widgets.findIndex((w) => w.id === over.id);
+        const activeIndex = items.findIndex((w) => w.id === active.id);
+        const overIndex = items.findIndex((w) => w.id === over.id);
 
         if (activeIndex !== -1 && overIndex !== -1) {
-            setWidgets(arrayMove(widgets, activeIndex, overIndex));
+            updateItems(arrayMove(items, activeIndex, overIndex));
         }
     };
 
-    const handleToggle = (id: string, visible: boolean) => {
-        setWidgets(
-            widgets.map((w) => (w.id === id ? { ...w, visible } : w)),
+    const handleToggle = (id: HomeWidgetsEnum, visible: boolean) => {
+        updateItems(
+            items.map((w) => (w.id === id ? { ...w, visible } : w)),
         );
     };
 
@@ -119,11 +146,11 @@ const WidgetSettingsContent = () => {
             onDragEnd={handleDragEnd}
         >
             <SortableContext
-                items={widgets.map((w) => w.id)}
+                items={items.map((w) => w.id)}
                 strategy={verticalListSortingStrategy}
             >
                 <div className="flex flex-col gap-2">
-                    {widgets.map((widget) => (
+                    {items.map((widget) => (
                         <SortableWidgetRow
                             key={widget.id}
                             widget={widget}

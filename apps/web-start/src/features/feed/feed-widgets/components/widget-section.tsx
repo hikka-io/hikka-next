@@ -1,5 +1,6 @@
 'use client';
 
+import { HomeWidgetsEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
 import { Settings2 } from 'lucide-react';
 import { FC, useState } from 'react';
@@ -7,27 +8,14 @@ import { FC, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import { useSettingsStore } from '@/services/stores/settings-store';
+import { useUIStore } from '@/services/providers/ui-store-provider';
 import { cn } from '@/utils/cn';
 import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
 
 import { useOpenWidgetSettings } from '../../hooks/use-open-widget-settings';
-import WidgetCalendar from './widget-calendar';
-import WidgetHistory from './widget-history';
-import WidgetOngoing from './widget-ongoing';
-import WidgetTracker from './widget-tracker';
+import { DEFAULT_HOME_WIDGETS, WIDGET_COMPONENTS } from '../constants';
 
-const WIDGET_COMPONENTS: Record<string, FC> = {
-    ongoings: WidgetOngoing,
-    calendar: WidgetCalendar,
-    tracker: WidgetTracker,
-    history: WidgetHistory,
-};
-
-const AVAILABLE_WIDGET_MAP = new Map<
-    string,
-    (typeof AVAILABLE_WIDGETS)[number]
->(AVAILABLE_WIDGETS.map((w) => [w.id, w]));
+const AVAILABLE_WIDGET_MAP = new Map(AVAILABLE_WIDGETS.map((w) => [w.id, w]));
 
 interface Props {
     className?: string;
@@ -35,23 +23,32 @@ interface Props {
 
 const WidgetSection: FC<Props> = ({ className }) => {
     const { user } = useSession();
-    const { preferences } = useSettingsStore();
+    const homeWidgets = useUIStore((s) => s.preferences?.home_widgets);
     const openSettingsModal = useOpenWidgetSettings();
     const [activeTab, setActiveTab] = useState<string | undefined>();
 
-    const widgets =
-        preferences.widgets.length > 0
-            ? preferences.widgets
-            : AVAILABLE_WIDGETS.map((w) => ({ id: w.id, visible: true }));
+    const widgets = homeWidgets ?? DEFAULT_HOME_WIDGETS;
 
     const currentTab =
-        activeTab && widgets.some((w) => w.id === activeTab)
+        activeTab && widgets.includes(activeTab as HomeWidgetsEnum)
             ? activeTab
-            : widgets[0]?.id;
+            : widgets[0];
+
+    const hasWidgets = widgets.length > 0;
 
     return (
         <div className={cn('flex flex-col gap-4', className)}>
-            {widgets.length > 0 && (
+            <Button
+                variant="outline"
+                className="text-muted-foreground shrink-0 hidden lg:flex"
+                size="md"
+                disabled={!user}
+                onClick={openSettingsModal}
+            >
+                <Settings2 />
+                Налаштувати віджети
+            </Button>
+            {hasWidgets ? (
                 <Tabs
                     value={currentTab}
                     onValueChange={setActiveTab}
@@ -59,14 +56,13 @@ const WidgetSection: FC<Props> = ({ className }) => {
                 >
                     <div className="flex gap-2 w-full overflow-hidden">
                         <TabsList className="flex-1 overflow-hidden overflow-x-scroll justify-start">
-                            {widgets.map((widget) => {
-                                const config = AVAILABLE_WIDGET_MAP.get(
-                                    widget.id,
-                                );
+                            {widgets.map((widgetId) => {
+                                const config =
+                                    AVAILABLE_WIDGET_MAP.get(widgetId);
                                 return (
                                     <TabsTrigger
-                                        key={widget.id}
-                                        value={widget.id}
+                                        key={widgetId}
+                                        value={widgetId}
                                     >
                                         {config?.title}
                                     </TabsTrigger>
@@ -83,36 +79,36 @@ const WidgetSection: FC<Props> = ({ className }) => {
                             <Settings2 />
                         </Button>
                     </div>
-                    {widgets.map((widget) => {
-                        const Component = WIDGET_COMPONENTS[widget.id];
+                    {widgets.map((widgetId) => {
+                        const Component = WIDGET_COMPONENTS[widgetId];
                         if (!Component) return null;
                         return (
-                            <TabsContent key={widget.id} value={widget.id}>
+                            <TabsContent key={widgetId} value={widgetId}>
                                 <Component />
                             </TabsContent>
                         );
                     })}
                 </Tabs>
+            ) : (
+                <Button
+                    variant="outline"
+                    className="text-muted-foreground lg:hidden"
+                    size="md"
+                    disabled={!user}
+                    onClick={openSettingsModal}
+                >
+                    <Settings2 />
+                    Налаштувати віджети
+                </Button>
             )}
 
             <div className="hidden lg:flex lg:flex-col lg:gap-4">
-                {widgets.map((widget) => {
-                    const Component = WIDGET_COMPONENTS[widget.id];
+                {widgets.map((widgetId) => {
+                    const Component = WIDGET_COMPONENTS[widgetId];
                     if (!Component) return null;
-                    return <Component key={widget.id} />;
+                    return <Component key={widgetId} />;
                 })}
             </div>
-
-            <Button
-                variant="outline"
-                className="text-muted-foreground shrink-0 hidden lg:flex"
-                size="md"
-                disabled={!user}
-                onClick={openSettingsModal}
-            >
-                <Settings2 />
-                Налаштувати віджети
-            </Button>
         </div>
     );
 };

@@ -1,54 +1,28 @@
 'use client';
 
-import { FC, useEffect, useRef } from 'react';
-
-import { useSettingsStore } from '@/services/stores/settings-store';
+import { useUIStore } from '@/services/providers/ui-store-provider';
 import { cn } from '@/utils/cn';
-import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
 
-import WidgetCalendar from './widget-calendar';
-import WidgetHistory from './widget-history';
-import WidgetOngoing from './widget-ongoing';
-import WidgetTracker from './widget-tracker';
-
-const WIDGET_COMPONENTS: Record<string, FC> = {
-    ongoings: WidgetOngoing,
-    calendar: WidgetCalendar,
-    tracker: WidgetTracker,
-    history: WidgetHistory,
-};
+import { DEFAULT_HOME_WIDGETS, WIDGET_COMPONENTS } from '../constants';
 
 const WidgetList = () => {
-    const { preferences, _hasHydrated } = useSettingsStore();
-    const containerRef = useRef<HTMLDivElement>(null);
+    const homeWidgets = useUIStore((s) => s.preferences?.home_widgets);
 
-    const widgets =
-        preferences.widgets.length > 0
-            ? preferences.widgets
-            : AVAILABLE_WIDGETS.map((w) => ({ id: w.id, visible: true }));
-
-    const visibleWidgets = widgets.filter((w) => w.visible);
-
-    useEffect(() => {
-        if (_hasHydrated && containerRef.current) {
-            containerRef.current.scrollTo({ left: 0 });
-        }
-    }, [_hasHydrated]);
+    const widgets = homeWidgets ?? DEFAULT_HOME_WIDGETS;
 
     return (
         <div
-            ref={containerRef}
             className={cn(
                 'flex w-full min-w-0 snap-x snap-mandatory gap-8 overflow-x-auto no-scrollbar',
                 'lg:flex-col lg:snap-none lg:overflow-visible px-4 lg:px-0',
             )}
         >
-            {visibleWidgets.map((widget) => {
-                const Component = WIDGET_COMPONENTS[widget.id];
+            {widgets.map((widgetId) => {
+                const Component = WIDGET_COMPONENTS[widgetId];
                 if (!Component) return null;
                 return (
                     <div
-                        key={widget.id}
+                        key={widgetId}
                         className="w-full shrink-0 snap-center overflow-hidden"
                     >
                         <Component />

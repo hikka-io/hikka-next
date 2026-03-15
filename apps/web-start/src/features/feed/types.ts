@@ -4,8 +4,3 @@ export enum FeedFilterEnum {
     ARTICLES = 'articles',
     COLLECTIONS = 'collections',
 }
-
-export interface WidgetConfig {
-    id: string;
-    visible: boolean;
-}

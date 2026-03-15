@@ -72,11 +72,19 @@ export type UIStyles = {
 
 export type UIEffect = 'snowfall';
 
+export enum HomeWidgetsEnum {
+    TRACKER = 'tracker',
+    HISTORY = 'history',
+    ONGOINGS = 'ongoings',
+    SCHEDULE = 'schedule',
+}
+
 export type UIPreferences = {
     title_language?: TitleLanguage;
     name_language?: NameLanguage;
     effects?: UIEffect[];
     overlay?: boolean;
+    home_widgets?: HomeWidgetsEnum[];
 };
 
 export type UserUI = {
