@@ -10,7 +10,7 @@ export const Route = createFileRoute('/api/auth/logout')({
                 const callbackUrl = url.searchParams.get('callbackUrl') ?? '/';
                 const siteUrl =
                     import.meta.env.VITE_SITE_URL ?? 'http://localhost:3000';
-                const domain = process.env.COOKIE_DOMAIN;
+                const domain = import.meta.env.COOKIE_DOMAIN;
 
                 const target = new URL(callbackUrl, siteUrl);
                 const isSafe = target.origin === new URL(siteUrl).origin;

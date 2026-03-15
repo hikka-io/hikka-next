@@ -32,7 +32,7 @@ export async function createRouter() {
     const authToken = await getAuthTokenFn();
 
     const hikkaClient = createHikkaClient({
-        baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
+        baseUrl: import.meta.env.API_URL ?? 'https://api.hikka.io',
         authToken: authToken ?? undefined,
     });
 

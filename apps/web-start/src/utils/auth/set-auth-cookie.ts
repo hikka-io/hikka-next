@@ -11,7 +11,7 @@ export const setAuthCookieFn = createServerFn({ method: 'POST' })
     .handler(async ({ data: { secret } }) => {
         const { setCookie } = await import('@tanstack/react-start/server');
 
-        const domain = process.env.COOKIE_DOMAIN;
+        const domain = import.meta.env.COOKIE_DOMAIN;
         const secure = !!domain && domain !== 'localhost';
         // Use a fixed 30-day maxAge. The API extends the token's expiration
         // on every authenticated request, so the cookie should outlive the
@@ -31,7 +31,7 @@ export const setAuthCookieFn = createServerFn({ method: 'POST' })
         // Fetch username to set the username cookie (used for UI cache)
         try {
             const client = new HikkaClient({
-                baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
+                baseUrl: import.meta.env.API_URL ?? 'https://api.hikka.io',
                 authToken: secret,
             });
             const user = await client.user.getCurrentUser();

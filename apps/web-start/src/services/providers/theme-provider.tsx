@@ -68,6 +68,8 @@ function applyTheme(
     } else {
         root.setAttribute(`data-${attribute}`, resolved);
     }
+
+    root.style.colorScheme = resolved;
 }
 
 const ThemeProvider: FC<ThemeProviderProps> = ({

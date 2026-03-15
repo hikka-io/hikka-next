@@ -107,7 +107,7 @@ export const updateUserUIServerFn = createServerFn({ method: 'POST' })
             const username = cookies['username'];
 
             const client = new HikkaClient({
-                baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
+                baseUrl: import.meta.env.API_URL ?? 'https://api.hikka.io',
                 authToken,
             });
 

@@ -19,7 +19,7 @@ export const refreshAuthCookieFn = createServerFn({ method: 'POST' }).handler(
         const token = getCookie('auth');
         if (!token) return;
 
-        const domain = process.env.COOKIE_DOMAIN;
+        const domain = import.meta.env.COOKIE_DOMAIN;
         const secure = !!domain && domain !== 'localhost';
         const maxAge = 60 * 60 * 24 * 30; // 30 days
 

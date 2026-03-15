@@ -5,7 +5,7 @@ export function makeCookieHeader(
     value: string,
     options?: { maxAge?: number; httpOnly?: boolean },
 ): string {
-    const domain = process.env.COOKIE_DOMAIN;
+    const domain = import.meta.env.COOKIE_DOMAIN;
     const secure = domain && domain !== 'localhost';
     const maxAge = options?.maxAge ?? 60 * 60 * 24 * 30; // default 30 days
     const httpOnly = options?.httpOnly ?? true;
@@ -39,6 +39,6 @@ export function clearCookieHeader(name: string, domain?: string): string {
 
 export function createServerHikkaClient(): HikkaClient {
     return new HikkaClient({
-        baseUrl: process.env.API_URL ?? 'https://api.hikka.io',
+        baseUrl: import.meta.env.API_URL ?? 'https://api.hikka.io',
     });
 }
