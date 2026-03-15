@@ -5,12 +5,12 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { WidgetConfig } from '@/features/feed/types';
+import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
 
-const DEFAULT_WIDGETS: WidgetConfig[] = [
-    { id: 'tracker', visible: true },
-    { id: 'ongoings', visible: true },
-    { id: 'calendar', visible: true },
-];
+const DEFAULT_WIDGETS: WidgetConfig[] = AVAILABLE_WIDGETS.map((w) => ({
+    id: w.id,
+    visible: true,
+}));
 
 /**
  * Preferences for persisting user UI choices across sessions.
