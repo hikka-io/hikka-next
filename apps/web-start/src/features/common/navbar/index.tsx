@@ -1,7 +1,6 @@
 'use client';
 
 import { useSession } from '@hikka/react';
-import { Link } from '@/utils/navigation';
 
 import { Button } from '@/components/ui/button';
 
@@ -10,6 +9,7 @@ import { LoginButton, SearchModal } from '@/features/common';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
 import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
 
 import NotificationsMenu from '../notifications-menu';
 import MobileNav from './components/mobile-nav';
@@ -47,10 +47,10 @@ const Navbar = () => {
                         <MobileNav />
                     </div>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-2">
                     <SearchModal />
                     {loggedUser ? (
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
                             <NotificationsMenu />
                             <ProfileMenu />
                         </div>
