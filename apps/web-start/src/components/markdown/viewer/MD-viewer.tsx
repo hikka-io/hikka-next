@@ -32,16 +32,26 @@ const previewComponents: CustomComponents = {
     ),
 };
 
+const headingComponent: React.FC<
+    React.HTMLAttributes<HTMLParagraphElement>
+> = ({ children }) => <p>{children}</p>;
+
 const components = (preview?: boolean): CustomComponents =>
     ({
         spoiler: Spoiler,
         a: Link,
+        h1: headingComponent,
+        h2: headingComponent,
+        h3: headingComponent,
+        h4: headingComponent,
+        h5: headingComponent,
+        h6: headingComponent,
         ...(preview ? previewComponents : {}),
     }) as CustomComponents;
 
 const MDViewer = ({ children, className, preview, ...props }: Props) => {
     return (
-        <div className={cn(!preview && 'prose', className)}>
+        <div className={cn('prose', className)}>
             <Markdown
                 remarkPlugins={[
                     remarkDisableTokenizer,
