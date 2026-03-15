@@ -1,23 +1,20 @@
 'use client';
 
 import {
+    CommonContentType,
     ContentTypeEnum,
     ReadStatusEnum,
     WatchStatusEnum,
 } from '@hikka/client';
 import { useReadStats, useSession, useUserWatchStats } from '@hikka/react';
-import { Link } from '@/utils/navigation';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from '@/components/ui/accordion';
+import Card from '@/components/ui/card';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
+import { Link } from '@/utils/navigation';
 
 const WATCH_STATUS_ORDER: WatchStatusEnum[] = [
     WatchStatusEnum.PLANNED,
@@ -65,7 +62,7 @@ const StatusStatsList: FC<{ items: StatusStatsItem[] }> = ({ items }) => (
                             <item.icon className="size-3 text-muted-foreground" />
                         </div>
                     )}
-                    <span className='text-sm'>{item.label}</span>
+                    <span className="text-sm">{item.label}</span>
                 </span>
                 <span className="text-sm text-muted-foreground">
                     {item.count}
@@ -133,42 +130,60 @@ const ReadStats = ({
 
 const SidebarContentStats = () => {
     const { user } = useSession();
+    const [activeTab, setActiveTab] = useState<CommonContentType>(
+        ContentTypeEnum.ANIME,
+    );
 
     if (!user) return null;
 
     return (
-        <Accordion type='single' defaultValue='anime' className='bg-secondary/20 border rounded-lg'>
-            <AccordionItem value="anime">
-                <AccordionTrigger className="px-4">
-                    Список аніме
-                </AccordionTrigger>
-                <AccordionContent className="px-2">
-                    <AnimeStats username={user.username} />
-                </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="manga">
-                <AccordionTrigger className="px-4">
-                    Список манґи
-                </AccordionTrigger>
-                <AccordionContent className="px-2">
-                    <ReadStats
-                        username={user.username}
-                        contentType={ContentTypeEnum.MANGA}
-                    />
-                </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="novel" className="border-b-0">
-                <AccordionTrigger className="px-4">
-                    Список ранобе
-                </AccordionTrigger>
-                <AccordionContent className="px-2">
-                    <ReadStats
-                        username={user.username}
-                        contentType={ContentTypeEnum.NOVEL}
-                    />
-                </AccordionContent>
-            </AccordionItem>
-        </Accordion>
+        <Card className="bg-secondary/20 backdrop-blur">
+            <ToggleGroup
+                type="single"
+                value={activeTab}
+                onValueChange={(value: string) =>
+                    value && setActiveTab(value as CommonContentType)
+                }
+                size="badge"
+            >
+                <ToggleGroupItem
+                    value={ContentTypeEnum.ANIME}
+                    aria-label="Аніме"
+                    className="flex-1"
+                >
+                    Аніме
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                    value={ContentTypeEnum.MANGA}
+                    aria-label="Манґа"
+                    className="flex-1"
+                >
+                    Манґа
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                    value={ContentTypeEnum.NOVEL}
+                    aria-label="Ранобе"
+                    className="flex-1"
+                >
+                    Ранобе
+                </ToggleGroupItem>
+            </ToggleGroup>
+            {activeTab === ContentTypeEnum.ANIME && (
+                <AnimeStats username={user.username} />
+            )}
+            {activeTab === ContentTypeEnum.MANGA && (
+                <ReadStats
+                    username={user.username}
+                    contentType={ContentTypeEnum.MANGA}
+                />
+            )}
+            {activeTab === ContentTypeEnum.NOVEL && (
+                <ReadStats
+                    username={user.username}
+                    contentType={ContentTypeEnum.NOVEL}
+                />
+            )}
+        </Card>
     );
 };
 
