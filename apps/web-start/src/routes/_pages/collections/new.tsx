@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -9,10 +8,15 @@ import {
     CollectionEditSettings as CollectionSettings,
     CollectionEditTitle as CollectionTitle,
 } from '@/features/collections';
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import CollectionProvider from '@/services/providers/collection-provider';
+import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/collections/new')({
+    beforeLoad: async ({ context: { queryClient } }) => {
+        requireAuth(queryClient);
+    },
     head: () =>
         generateHeadMeta({
             title: 'Нова колекція / Колекції',

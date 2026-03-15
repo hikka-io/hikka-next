@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
-import { generateHeadMeta } from '@/utils/metadata';
 import Card from '@/components/ui/card';
 import {
     ArticleSettings,
@@ -9,8 +8,13 @@ import {
     ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';
 import ArticleProvider from '@/services/providers/article-provider';
+import { requireAuth } from '@/utils/auth';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/articles/new')({
+    beforeLoad: async ({ context: { queryClient } }) => {
+        requireAuth(queryClient);
+    },
     head: () =>
         generateHeadMeta({
             title: 'Нова стаття',
