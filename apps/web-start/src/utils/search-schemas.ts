@@ -9,11 +9,7 @@ const stringArray = z.preprocess(
 
 const numberArray = z.preprocess(
     (v) =>
-        v == null
-            ? undefined
-            : Array.isArray(v)
-              ? v.map(Number)
-              : [Number(v)],
+        v == null ? undefined : Array.isArray(v) ? v.map(Number) : [Number(v)],
     z.array(z.number()),
 );
 
@@ -109,10 +105,7 @@ export const editNewSearchSchema = z.object({
 });
 
 export const collectionsSearchSchema = z.object({
-    sort: z
-        .enum(['system_ranking', 'created'])
-        .optional()
-        .catch(undefined),
+    sort: z.enum(['system_ranking', 'created']).optional().catch(undefined),
     ...paginationSearch,
 });
 
@@ -132,7 +125,7 @@ export const userlistSearchSchema = z.object({
 
 export const feedSearchSchema = z.object({
     type: z
-        .enum(['all', 'comments', 'articles', 'collections', 'activity'])
+        .enum(['all', 'comments', 'articles', 'collections'])
         .optional()
         .catch(undefined),
 });

@@ -2,10 +2,11 @@
 
 import { useSession } from '@hikka/react';
 import { Settings2 } from 'lucide-react';
-import { FC, useMemo, useState } from 'react';
+import { FC, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
 import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
@@ -43,41 +44,46 @@ const WidgetSection: FC<Props> = ({ className }) => {
             ? preferences.widgets
             : AVAILABLE_WIDGETS.map((w) => ({ id: w.id, visible: true }));
 
-    const visibleWidgets = useMemo(
-        () =>
-            widgets.filter((w) => {
-                if (!w.visible) return false;
-                const config = AVAILABLE_WIDGET_MAP.get(w.id);
-                if (config?.auth && !user) return false;
-                return true;
-            }),
-        [widgets, user],
-    );
-
     const currentTab =
-        activeTab && visibleWidgets.some((w) => w.id === activeTab)
+        activeTab && widgets.some((w) => w.id === activeTab)
             ? activeTab
-            : visibleWidgets[0]?.id;
+            : widgets[0]?.id;
 
     return (
         <div className={cn('flex flex-col gap-4', className)}>
-            {visibleWidgets.length > 0 && (
+            {widgets.length > 0 && (
                 <Tabs
                     value={currentTab}
                     onValueChange={setActiveTab}
                     className="lg:hidden"
                 >
-                    <TabsList className="w-full">
-                        {visibleWidgets.map((widget) => {
-                            const config = AVAILABLE_WIDGET_MAP.get(widget.id);
-                            return (
-                                <TabsTrigger key={widget.id} value={widget.id}>
-                                    {config?.title}
-                                </TabsTrigger>
-                            );
-                        })}
-                    </TabsList>
-                    {visibleWidgets.map((widget) => {
+                    <div className="flex gap-2 w-full overflow-hidden">
+                        <TabsList className="flex-1 overflow-hidden overflow-x-scroll justify-start">
+                            {widgets.map((widget) => {
+                                const config = AVAILABLE_WIDGET_MAP.get(
+                                    widget.id,
+                                );
+                                return (
+                                    <TabsTrigger
+                                        key={widget.id}
+                                        value={widget.id}
+                                    >
+                                        {config?.title}
+                                    </TabsTrigger>
+                                );
+                            })}
+                        </TabsList>
+                        <Button
+                            variant="secondary"
+                            className="text-muted-foreground shrink-0"
+                            size="icon-md"
+                            disabled={!user}
+                            onClick={openSettingsModal}
+                        >
+                            <Settings2 />
+                        </Button>
+                    </div>
+                    {widgets.map((widget) => {
                         const Component = WIDGET_COMPONENTS[widget.id];
                         if (!Component) return null;
                         return (
@@ -90,7 +96,7 @@ const WidgetSection: FC<Props> = ({ className }) => {
             )}
 
             <div className="hidden lg:flex lg:flex-col lg:gap-4">
-                {visibleWidgets.map((widget) => {
+                {widgets.map((widget) => {
                     const Component = WIDGET_COMPONENTS[widget.id];
                     if (!Component) return null;
                     return <Component key={widget.id} />;
@@ -99,7 +105,7 @@ const WidgetSection: FC<Props> = ({ className }) => {
 
             <Button
                 variant="outline"
-                className="text-muted-foreground shrink-0"
+                className="text-muted-foreground shrink-0 hidden lg:flex"
                 size="md"
                 disabled={!user}
                 onClick={openSettingsModal}

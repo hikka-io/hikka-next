@@ -1,6 +1,5 @@
 'use client';
 
-import { useSession } from '@hikka/react';
 import { FC, useEffect, useRef } from 'react';
 
 import { useSettingsStore } from '@/services/stores/settings-store';
@@ -21,7 +20,6 @@ const WIDGET_COMPONENTS: Record<string, FC> = {
 
 const WidgetList = () => {
     const { preferences, _hasHydrated } = useSettingsStore();
-    const { user } = useSession();
     const containerRef = useRef<HTMLDivElement>(null);
 
     const widgets =
@@ -29,19 +27,7 @@ const WidgetList = () => {
             ? preferences.widgets
             : AVAILABLE_WIDGETS.map((w) => ({ id: w.id, visible: true }));
 
-    const availableWidgetMap = new Map<
-        string,
-        (typeof AVAILABLE_WIDGETS)[number]
-    >(AVAILABLE_WIDGETS.map((w) => [w.id, w]));
-
-    const visibleWidgets = widgets.filter((w) => {
-        if (!w.visible) return false;
-
-        const config = availableWidgetMap.get(w.id);
-        if (config?.auth && !user) return false;
-
-        return true;
-    });
+    const visibleWidgets = widgets.filter((w) => w.visible);
 
     useEffect(() => {
         if (_hasHydrated && containerRef.current) {

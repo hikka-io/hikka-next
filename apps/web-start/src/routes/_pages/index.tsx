@@ -1,4 +1,6 @@
 import {
+    AnimeMediaEnum,
+    AnimeStatusEnum,
     ContentStatusEnum,
     ContentTypeEnum,
     FeedContentType,
@@ -11,6 +13,7 @@ import {
     feedOptions,
     followingHistoryOptions,
     searchAnimeScheduleOptions,
+    searchAnimesOptions,
     searchUserWatchesOptions,
 } from '@hikka/react/options';
 import { createFileRoute } from '@tanstack/react-router';
@@ -24,10 +27,11 @@ import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
 
-const FEED_TYPE_TO_CONTENT_TYPE: Record<string, FeedContentType> = {
+const FEED_TYPE_TO_CONTENT_TYPE: Record<string, FeedContentType | undefined> = {
     comments: ContentTypeEnum.COMMENT,
     articles: ContentTypeEnum.ARTICLE,
     collections: ContentTypeEnum.COLLECTION,
+    all: undefined,
 };
 
 export const Route = createFileRoute('/_pages/')({
@@ -60,30 +64,21 @@ export const Route = createFileRoute('/_pages/')({
                         },
                     }),
                 ),
-            );
-        }
-
-        if (type === 'activity') {
-            if (loggedUser) {
-                promises.push(
-                    queryClient.ensureInfiniteQueryData(
-                        followingHistoryOptions(hikkaClient),
-                    ),
-                );
-            }
-        } else {
-            const contentType = type
-                ? FEED_TYPE_TO_CONTENT_TYPE[type]
-                : undefined;
-
-            promises.push(
                 queryClient.ensureInfiniteQueryData(
-                    feedOptions(hikkaClient, {
-                        args: { content_type: contentType },
-                    }),
+                    followingHistoryOptions(hikkaClient),
                 ),
             );
         }
+
+        promises.push(
+            queryClient.ensureInfiniteQueryData(
+                feedOptions(hikkaClient, {
+                    args: {
+                        content_type: FEED_TYPE_TO_CONTENT_TYPE[type ?? 'all'],
+                    },
+                }),
+            ),
+        );
 
         promises.push(
             queryClient.ensureInfiniteQueryData(
@@ -94,6 +89,29 @@ export const Route = createFileRoute('/_pages/')({
                             ContentStatusEnum.ONGOING,
                             ContentStatusEnum.ANNOUNCED,
                         ],
+                    },
+                }),
+            ),
+        );
+
+        promises.push(
+            queryClient.ensureInfiniteQueryData(
+                searchAnimesOptions(hikkaClient, {
+                    args: {
+                        season: [season],
+                        media_type: [AnimeMediaEnum.TV],
+                        years: [year, year],
+                        genres: ['-ecchi', '-hentai'],
+                        status: [AnimeStatusEnum.ONGOING],
+                        sort: [
+                            'scored_by:desc',
+                            'score:desc',
+                            'native_scored_by:desc',
+                            'native_score:desc',
+                        ],
+                    },
+                    paginationArgs: {
+                        size: 5,
                     },
                 }),
             ),

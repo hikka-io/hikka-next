@@ -17,10 +17,22 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import ReadingTracker from './components/reading-tracker';
 import WatchingTracker from './components/watching-tracker';
 
-const TAB_LIST_CONFIG: Record<CommonContentType, { path: string; search: Record<string, string> }> = {
-    [ContentTypeEnum.ANIME]: { path: 'list/anime', search: { status: 'planned', sort: 'watch_score' } },
-    [ContentTypeEnum.MANGA]: { path: 'list/manga', search: { status: 'planned', sort: 'read_score' } },
-    [ContentTypeEnum.NOVEL]: { path: 'list/novel', search: { status: 'planned', sort: 'read_score' } },
+const TAB_LIST_CONFIG: Record<
+    CommonContentType,
+    { path: string; search: Record<string, string> }
+> = {
+    [ContentTypeEnum.ANIME]: {
+        path: 'list/anime',
+        search: { status: 'planned', sort: 'watch_score' },
+    },
+    [ContentTypeEnum.MANGA]: {
+        path: 'list/manga',
+        search: { status: 'planned', sort: 'read_score' },
+    },
+    [ContentTypeEnum.NOVEL]: {
+        path: 'list/novel',
+        search: { status: 'planned', sort: 'read_score' },
+    },
 };
 
 const WidgetTracker = () => {

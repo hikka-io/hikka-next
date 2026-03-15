@@ -12,25 +12,21 @@ export const AVAILABLE_WIDGETS = [
         id: 'ongoings',
         title: 'Онґоінґи',
         description: 'ТОП аніме онґоінґів сезону',
-        auth: false,
     },
     {
         id: 'calendar',
         title: 'Календар',
         description: 'Розклад виходу нових епізодів аніме',
-        auth: false,
     },
     {
         id: 'tracker',
         title: 'Мій список',
         description: 'Менеджер списків перегляду і читання',
-        auth: true,
     },
     {
         id: 'history',
         title: 'Активність',
         description: 'Активність користувачів, яких Ви відстежуєте',
-        auth: true,
     },
 ] as const;
 
