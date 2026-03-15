@@ -1,8 +1,15 @@
-import { createFileRoute, Outlet } from '@tanstack/react-router';
+import { queryKeys } from '@hikka/react/core';
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import CoverImage from '@/components/cover-image';
 
 export const Route = createFileRoute('/_pages/_auth')({
+    beforeLoad: async ({ context: { queryClient } }) => {
+        const session = queryClient.getQueryData(queryKeys.user.me());
+        if (session) {
+            throw redirect({ to: '/' });
+        }
+    },
     component: AuthLayout,
 });
 
