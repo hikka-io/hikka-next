@@ -25,14 +25,14 @@ function navItemClassName(active: boolean) {
         'border border-transparent',
         buttonVariants({ variant: active ? 'default' : 'ghost' }),
         navItemSize,
-        !active && 'text-muted-foreground',
+        !active && 'text-foreground/70',
     );
 }
 
 const triggerClassName = cn(
     navItemSize,
     'border border-transparent',
-    'bg-transparent! text-muted-foreground!',
+    'bg-transparent! text-foreground/70!',
     'hover:bg-secondary/60! hover:text-foreground!',
     'focus:bg-transparent!',
     'data-[state=open]:bg-secondary/60! data-[state=open]:text-foreground!',
