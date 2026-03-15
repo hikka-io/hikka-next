@@ -15,6 +15,7 @@ import {
     APP_NAV_CONTENT,
     APP_NAV_MORE,
     APP_NAV_USER_CONTENT,
+    isNavActive,
 } from '@/utils/constants/navigation';
 import { Link, usePathname } from '@/utils/navigation';
 
@@ -43,11 +44,6 @@ const dropdownItemClassName = cn(
     'h-auto justify-start gap-2 rounded-sm px-2 py-1.5 text-sm w-full',
     'text-muted-foreground',
 );
-
-function isNavActive(pathname: string, url: string) {
-    if (url === '/') return pathname === '/';
-    return pathname === url || pathname.startsWith(url + '/');
-}
 
 function NavMenu() {
     const pathname = usePathname();

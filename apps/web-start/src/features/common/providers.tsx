@@ -12,9 +12,10 @@ import { useUIStore } from '@/services/providers/ui-store-provider';
 
 interface Props extends PropsWithChildren {
     client: HikkaClient;
+    serverTheme?: 'light' | 'dark' | 'system' | null;
 }
 
-const Providers: FC<Props> = ({ children, client }) => {
+const Providers: FC<Props> = ({ children, client, serverTheme }) => {
     const UI = useUIStore((state) => state);
     setDefaultOptions({ locale: uk });
 
@@ -28,7 +29,7 @@ const Providers: FC<Props> = ({ children, client }) => {
         >
             <ThemeProvider
                 attribute="class"
-                defaultTheme="dark"
+                defaultTheme={serverTheme ?? 'dark'}
                 enableSystem
                 disableTransitionOnChange
             >

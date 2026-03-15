@@ -354,22 +354,7 @@ const SOCIAL_GROUP: Hikka.NavRoute[] = [
 
 export const APP_NAV_CONTENT: Hikka.NavRoute[] = [...CONTENT_GROUP];
 
-export const APP_NAV_USER_CONTENT: Hikka.NavRoute[] = [
-    {
-        title_ua: 'Колекції',
-        url: '/collections',
-        icon: () => <MaterialSymbolsStack />,
-        visible: true,
-        slug: 'collections',
-    },
-    {
-        title_ua: 'Статті',
-        url: '/articles',
-        icon: () => <MaterialSymbolsDynamicFeedRounded />,
-        visible: true,
-        slug: 'articles',
-    },
-];
+export const APP_NAV_USER_CONTENT: Hikka.NavRoute[] = [...COMMUNITY_GROUP];
 
 export const APP_NAV_MORE: { title_ua: string; items: Hikka.NavRoute[] }[] = [
     {
@@ -416,6 +401,35 @@ export const APP_SIDEBAR: { title_ua: string; items: Hikka.NavRoute[] }[] = [
         title_ua: 'Соцмережі',
     },
 ];
+
+export function isNavActive(pathname: string, url: string): boolean {
+    if (url === '/') return pathname === '/';
+    return pathname === url || pathname.startsWith(url + '/');
+}
+
+export function findActiveRoute(
+    pathname: string,
+): Hikka.NavRoute | undefined {
+    for (const group of APP_SIDEBAR) {
+        for (const item of group.items) {
+            if (item.items) {
+                for (const sub of item.items) {
+                    if (sub.visible !== false && isNavActive(pathname, sub.url)) {
+                        return sub;
+                    }
+                }
+            }
+            if (
+                item.visible !== false &&
+                item.url !== '/' &&
+                isNavActive(pathname, item.url)
+            ) {
+                return item;
+            }
+        }
+    }
+    return undefined;
+}
 
 export const CONTENT_TYPE_LINKS: Record<ContentTypeEnum, string> = {
     [ContentTypeEnum.PERSON]: '/people',

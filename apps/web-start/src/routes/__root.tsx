@@ -17,7 +17,7 @@ import RouterProgressBar from '@/components/router-progress-bar';
 import { Providers } from '@/features/common';
 
 import { UIStoreProvider } from '@/services/providers/ui-store-provider';
-import { refreshAuthCookieFn } from '@/utils/cookies';
+import { getThemeCookieFn, refreshAuthCookieFn } from '@/utils/cookies';
 import { STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getSessionUserUI, getUserStylesCSS } from '@/utils/ui/server';
 
@@ -61,16 +61,19 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         // and only runs on the server (client calls become RPCs).
         await refreshAuthCookieFn();
 
-        const userUI = await getSessionUserUI();
+        const [userUI, theme] = await Promise.all([
+            getSessionUserUI(),
+            getThemeCookieFn(),
+        ]);
         const userStylesCSS = getUserStylesCSS(userUI);
-        return { userUI, userStylesCSS };
+        return { userUI, userStylesCSS, theme };
     },
     component: RootLayout,
     notFoundComponent: NotFoundPage,
 });
 
 function RootLayout() {
-    const { userUI, userStylesCSS } = Route.useLoaderData();
+    const { userUI, userStylesCSS, theme } = Route.useLoaderData();
     const { hikkaClient } = Route.useRouteContext() as RouterContext;
     const router = useRouter();
 
@@ -79,7 +82,7 @@ function RootLayout() {
             <head>
                 <script
                     dangerouslySetInnerHTML={{
-                        __html: `(function(){try{var t=localStorage.getItem('theme')||'dark';if(t==='system'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.classList.add(t);document.documentElement.style.colorScheme=t;}catch(e){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}})();`,
+                        __html: `(function(){try{var c=document.cookie.match(/(?:^|;\\s*)theme=([^;]*)/);var t=c?decodeURIComponent(c[1]):'dark';if(t==='system'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.classList.add(t);document.documentElement.style.colorScheme=t;}catch(e){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}})();`,
                     }}
                 />
                 <HeadContent />
@@ -122,7 +125,7 @@ function RootLayout() {
             <body>
                 <div data-vaul-drawer-wrapper>
                     <UIStoreProvider initialUI={userUI}>
-                        <Providers client={hikkaClient}>
+                        <Providers client={hikkaClient} serverTheme={theme}>
                             <RouterProgressBar />
                             <Outlet />
                         </Providers>

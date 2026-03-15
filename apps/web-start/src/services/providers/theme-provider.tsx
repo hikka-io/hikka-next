@@ -26,7 +26,8 @@ interface ThemeContextValue {
     resolvedTheme: 'light' | 'dark';
 }
 
-const STORAGE_KEY = 'theme';
+const COOKIE_NAME = 'theme';
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
 const MEDIA_QUERY = '(prefers-color-scheme: dark)';
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
@@ -36,9 +37,15 @@ function getSystemTheme(): 'light' | 'dark' {
     return window.matchMedia(MEDIA_QUERY).matches ? 'dark' : 'light';
 }
 
-function getStoredTheme(defaultTheme: Theme): Theme {
-    if (typeof window === 'undefined') return defaultTheme;
-    return (localStorage.getItem(STORAGE_KEY) as Theme) || defaultTheme;
+function getThemeCookie(): string | null {
+    if (typeof document === 'undefined') return null;
+    const match = document.cookie.match(/(?:^|;\s*)theme=([^;]*)/);
+    return match ? decodeURIComponent(match[1]) : null;
+}
+
+function setThemeCookie(value: Theme): void {
+    if (typeof document === 'undefined') return;
+    document.cookie = `${COOKIE_NAME}=${encodeURIComponent(value)}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
 }
 
 function applyTheme(
@@ -79,9 +86,10 @@ const ThemeProvider: FC<ThemeProviderProps> = ({
     enableSystem = false,
     disableTransitionOnChange = false,
 }) => {
-    const [theme, setThemeState] = useState<Theme>(() =>
-        getStoredTheme(defaultTheme),
-    );
+    const [theme, setThemeState] = useState<Theme>(() => {
+        const stored = getThemeCookie();
+        return (stored as Theme) || defaultTheme;
+    });
     const [systemTheme, setSystemTheme] = useState<'light' | 'dark'>(
         getSystemTheme,
     );
@@ -90,7 +98,7 @@ const ThemeProvider: FC<ThemeProviderProps> = ({
 
     const setTheme = useCallback((newTheme: Theme) => {
         setThemeState(newTheme);
-        localStorage.setItem(STORAGE_KEY, newTheme);
+        setThemeCookie(newTheme);
     }, []);
 
     useEffect(() => {

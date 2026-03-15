@@ -12,30 +12,12 @@ import {
 } from '@/components/ui/sheet';
 
 import { cn } from '@/utils/cn';
-import { APP_SIDEBAR } from '@/utils/constants/navigation';
+import {
+    APP_SIDEBAR,
+    findActiveRoute,
+    isNavActive,
+} from '@/utils/constants/navigation';
 import { Link, usePathname } from '@/utils/navigation';
-
-function findActiveRoute(pathname: string): Hikka.NavRoute | undefined {
-    for (const group of APP_SIDEBAR) {
-        for (const item of group.items) {
-            if (item.items) {
-                for (const sub of item.items) {
-                    if (sub.visible !== false && pathname === sub.url) {
-                        return sub;
-                    }
-                }
-            }
-            if (
-                item.visible !== false &&
-                item.url !== '/' &&
-                (pathname === item.url || pathname.startsWith(item.url + '/'))
-            ) {
-                return item;
-            }
-        }
-    }
-    return undefined;
-}
 
 const navItemClassName = cn(
     'flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors',
@@ -50,11 +32,6 @@ function MobileNav() {
     const [open, setOpen] = useState(false);
 
     const activeRoute = findActiveRoute(pathname);
-
-    const isActive = (url: string) => {
-        if (url === '/') return pathname === '/';
-        return pathname === url || pathname.startsWith(url + '/');
-    };
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
@@ -93,7 +70,7 @@ function MobileNav() {
                                                 to={item.url}
                                                 search={item.search}
                                                 className={navItemClassName}
-                                                data-active={isActive(item.url)}
+                                                data-active={isNavActive(pathname,item.url)}
                                             >
                                                 {item.icon && <item.icon />}
                                                 <span>{item.title_ua}</span>
@@ -119,7 +96,7 @@ function MobileNav() {
                                                                     navItemClassName,
                                                                     'py-1.5 text-xs',
                                                                 )}
-                                                                data-active={isActive(
+                                                                data-active={isNavActive(pathname,
                                                                     sub.url,
                                                                 )}
                                                             >
