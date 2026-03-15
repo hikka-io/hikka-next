@@ -7,7 +7,6 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useReadStats, useUserWatchStats } from '@hikka/react';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
@@ -18,6 +17,7 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { Link } from '@/utils/navigation';
 
 import StatusProgressBar from './status-progress-bar';
 
@@ -54,7 +54,9 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
     const { data: readData } = useReadStats({
         username,
         contentType:
-            type === ContentTypeEnum.MANGA ? ContentTypeEnum.MANGA : ContentTypeEnum.NOVEL,
+            type === ContentTypeEnum.MANGA
+                ? ContentTypeEnum.MANGA
+                : ContentTypeEnum.NOVEL,
         options: { enabled: !isAnime },
     });
 
@@ -91,14 +93,15 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
                 </div>
                 <StatusProgressBar segments={segments} />
             </div>
-            <div className="flex flex-col px-2 gap-1">
+            <div className="flex flex-wrap px-2 gap-1">
                 {statuses.map((status) => {
                     const count = data[status as keyof typeof data] as number;
-                    const info =
-                        statusMap[status as keyof typeof statusMap] as {
-                            title_ua?: string;
-                            title_en: string;
-                        };
+                    const info = statusMap[
+                        status as keyof typeof statusMap
+                    ] as {
+                        title_ua?: string;
+                        title_en: string;
+                    };
 
                     return (
                         <Link
@@ -135,7 +138,14 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
                             <MaterialSymbolsClockLoader10 className="size-4" />
                             <Label>Час перегляду</Label>
                         </div>
-                        <Label>{watchHours} {getDeclensionWord(watchHours, ['година', 'години', 'годин'])}</Label>
+                        <Label>
+                            {watchHours}{' '}
+                            {getDeclensionWord(watchHours, [
+                                'година',
+                                'години',
+                                'годин',
+                            ])}
+                        </Label>
                     </div>
                 </div>
             )}
