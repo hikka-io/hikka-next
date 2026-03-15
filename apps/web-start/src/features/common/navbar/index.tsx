@@ -29,14 +29,14 @@ const Navbar = () => {
     return (
         <header
             className={cn(
-                'sticky top-0 z-10 w-full bg-transparent backdrop-blur transition',
+                'sticky top-0 z-10 w-full bg-transparent backdrop-blur transition-[background-color,border-color]',
                 trigger && 'border-b-border bg-background! border-b',
             )}
         >
             <nav className="relative mx-auto flex min-h-16 w-full max-w-350 items-center gap-4 px-4 md:gap-8">
                 <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-6">
                     <Link className="w-auto shrink-0 p-0" to="/">
-                        <div className="logo size-[24px] md:w-[80px]" />
+                        <div className="logo h-6 w-6 md:w-20" />
                     </Link>
 
                     <div className="hidden min-w-0 flex-1 md:flex">

@@ -64,11 +64,9 @@ const ProfileMenu = () => {
                         <Label className="truncate">
                             {loggedUser.username}
                         </Label>
-                        {loggedUser && (
-                            <p className="text-muted-foreground truncate text-xs">
-                                {USER_ROLE[loggedUser.role].label}
-                            </p>
-                        )}
+                        <p className="text-muted-foreground truncate text-xs">
+                            {USER_ROLE[loggedUser.role].label}
+                        </p>
                     </div>
                 </div>
 

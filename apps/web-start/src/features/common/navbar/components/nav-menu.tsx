@@ -31,6 +31,7 @@ function navItemClassName(active: boolean) {
 
 const triggerClassName = cn(
     navItemSize,
+    'border border-transparent',
     'bg-transparent! text-muted-foreground!',
     'hover:bg-secondary/60! hover:text-foreground!',
     'focus:bg-transparent!',
@@ -70,22 +71,40 @@ function NavMenu() {
                 ))}
                 <Separator orientation="vertical" className="h-4" />
 
-                {APP_NAV_USER_CONTENT.filter((item) => item.visible).map(
-                    (item) => (
-                        <NavigationMenuItem key={item.slug}>
-                            <Link
-                                to={item.url}
-                                search={item.search}
-                                className={navItemClassName(
-                                    isNavActive(pathname, item.url),
-                                )}
-                            >
-                                {item.icon && <item.icon />}
-                                {item.title_ua}
-                            </Link>
-                        </NavigationMenuItem>
-                    ),
+                {APP_NAV_USER_CONTENT.length > 0 && (
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger className={triggerClassName}>
+                            Спільнота
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent className="p-1!">
+                            <div className="flex w-52 flex-col gap-1">
+                                {APP_NAV_USER_CONTENT.filter(
+                                    (item) => item.visible,
+                                ).map((item) => (
+                                    <NavigationMenuItem key={item.slug}>
+                                        <Link
+                                            to={item.url}
+                                            search={item.search}
+                                            className={cn(
+                                                navItemClassName(
+                                                    isNavActive(
+                                                        pathname,
+                                                        item.url,
+                                                    ),
+                                                ),
+                                                dropdownItemClassName,
+                                            )}
+                                        >
+                                            {item.icon && <item.icon />}
+                                            {item.title_ua}
+                                        </Link>
+                                    </NavigationMenuItem>
+                                ))}
+                            </div>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
                 )}
+
                 <Separator orientation="vertical" className="h-4" />
 
                 {APP_NAV_MORE.length > 0 && (
@@ -94,7 +113,7 @@ function NavMenu() {
                             Ще
                         </NavigationMenuTrigger>
                         <NavigationMenuContent className="p-1!">
-                            <div className="flex w-52 flex-col">
+                            <div className="flex w-52 flex-col gap-1">
                                 {APP_NAV_MORE.map((group, index) => (
                                     <div key={group.title_ua}>
                                         {index > 0 && (
@@ -111,12 +130,14 @@ function NavMenu() {
                                                         <Link
                                                             to={item.url}
                                                             search={item.search}
-                                                            className={
-                                                                dropdownItemClassName
-                                                            }
-                                                            data-active={isNavActive(
-                                                                pathname,
-                                                                item.url,
+                                                            className={cn(
+                                                                navItemClassName(
+                                                                    isNavActive(
+                                                                        pathname,
+                                                                        item.url,
+                                                                    ),
+                                                                ),
+                                                                dropdownItemClassName,
                                                             )}
                                                         >
                                                             {item.icon && (

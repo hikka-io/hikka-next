@@ -2,7 +2,6 @@
 
 import { FC } from 'react';
 
-import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { FEED_FILTER_OPTIONS } from '@/utils/constants/feed';
@@ -12,10 +11,9 @@ import { FeedFilterEnum } from '../../types';
 interface Props {
     value: FeedFilterEnum;
     onChange: (value: FeedFilterEnum) => void;
-    isLoggedIn?: boolean;
 }
 
-const FeedTabs: FC<Props> = ({ value, onChange, isLoggedIn }) => {
+const FeedTabs: FC<Props> = ({ value, onChange }) => {
     return (
         <div className="flex gap-2 w-full overflow-hidden">
             <Tabs
@@ -36,22 +34,6 @@ const FeedTabs: FC<Props> = ({ value, onChange, isLoggedIn }) => {
                             </TabsTrigger>
                         ),
                     )}
-                </TabsList>
-            </Tabs>
-            <Tabs
-                className="shrink-0"
-                value={value}
-                onValueChange={(v) => onChange(v as FeedFilterEnum)}
-            >
-                <TabsList className="w-full justify-start overflow-x-auto no-scrollbar ">
-                    <TabsTrigger
-                        value={FeedFilterEnum.ACTIVITY}
-                        className="flex gap-2 sm:flex-1"
-                        disabled={!isLoggedIn}
-                    >
-                        <MaterialSymbolsCalendarClockRounded />
-                        Активність
-                    </TabsTrigger>
                 </TabsList>
             </Tabs>
         </div>

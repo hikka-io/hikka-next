@@ -26,13 +26,19 @@ export const AVAILABLE_WIDGETS = [
         description: 'Менеджер списків перегляду і читання',
         auth: true,
     },
+    {
+        id: 'history',
+        title: 'Активність',
+        description: 'Активність користувачів, яких Ви відстежуєте',
+        auth: true,
+    },
 ] as const;
 
 export const FEED_FILTER_OPTIONS: Record<
-    Exclude<FeedFilterEnum, FeedFilterEnum.ACTIVITY>,
+    FeedFilterEnum,
     {
         label: string;
-        data_type?: FeedContentType | ContentTypeEnum.HISTORY;
+        data_type?: FeedContentType;
         icon?: (props: any) => ReactElement;
     }
 > = {

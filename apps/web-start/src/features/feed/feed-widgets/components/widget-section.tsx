@@ -12,6 +12,7 @@ import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
 
 import { useOpenWidgetSettings } from '../../hooks/use-open-widget-settings';
 import WidgetCalendar from './widget-calendar';
+import WidgetHistory from './widget-history';
 import WidgetOngoing from './widget-ongoing';
 import WidgetTracker from './widget-tracker';
 
@@ -19,6 +20,7 @@ const WIDGET_COMPONENTS: Record<string, FC> = {
     ongoings: WidgetOngoing,
     calendar: WidgetCalendar,
     tracker: WidgetTracker,
+    history: WidgetHistory,
 };
 
 const AVAILABLE_WIDGET_MAP = new Map<

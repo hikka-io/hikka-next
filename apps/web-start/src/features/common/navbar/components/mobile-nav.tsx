@@ -72,7 +72,7 @@ function MobileNav() {
                 <SheetTitle className="sr-only">Навігація</SheetTitle>
                 <div className="flex min-h-16 items-center px-4">
                     <Link to="/" onClick={() => setOpen(false)}>
-                        <div className="logo-full size-[24px] w-[80px]" />
+                        <div className="logo-full h-6 w-20" />
                     </Link>
                 </div>
                 <nav className="flex flex-col gap-1 overflow-y-auto px-3 pb-4">

@@ -371,18 +371,18 @@ export const APP_NAV_CONTENT: Hikka.NavRoute[] = [...CONTENT_GROUP];
 
 export const APP_NAV_USER_CONTENT: Hikka.NavRoute[] = [
     {
-        title_ua: 'Статті',
-        url: '/articles',
-        icon: () => <MaterialSymbolsDynamicFeedRounded />,
-        visible: true,
-        slug: 'articles',
-    },
-    {
         title_ua: 'Колекції',
         url: '/collections',
         icon: () => <MaterialSymbolsStack />,
         visible: true,
         slug: 'collections',
+    },
+    {
+        title_ua: 'Статті',
+        url: '/articles',
+        icon: () => <MaterialSymbolsDynamicFeedRounded />,
+        visible: true,
+        slug: 'articles',
     },
 ];
 

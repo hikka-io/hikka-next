@@ -3,7 +3,6 @@ export enum FeedFilterEnum {
     COMMENTS = 'comments',
     ARTICLES = 'articles',
     COLLECTIONS = 'collections',
-    ACTIVITY = 'activity',
 }
 
 export interface WidgetConfig {
