@@ -1,13 +1,18 @@
 import { Link } from '@/utils/navigation';
-import { FC } from 'react';
+import { FC, Suspense, lazy } from 'react';
 
 import { ArticlePreviewResponse } from '@hikka/client';
 
-import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import FeedItemContentPreview from './feed-item-content-preview';
+
+const StaticViewer = lazy(() =>
+    import('@/components/plate/editor/static-viewer').then((m) => ({
+        default: m.StaticViewer,
+    })),
+);
 
 interface Props {
     data: ArticlePreviewResponse;
@@ -54,7 +59,13 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                         className="absolute left-0 top-0 z-10 size-full"
                     />
                     {data.preview && data.preview.length > 0 && (
-                        <StaticViewer value={data.preview} />
+                        <Suspense
+                            fallback={
+                                <div className="animate-pulse h-20 bg-muted rounded" />
+                            }
+                        >
+                            <StaticViewer value={data.preview} />
+                        </Suspense>
                     )}
                 </div>
             </div>

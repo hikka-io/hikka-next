@@ -1,5 +1,4 @@
 import '@fontsource-variable/geist';
-import 'react-photo-view/dist/react-photo-view.css';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 import {
@@ -30,7 +29,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
             { charSet: 'utf-8' },
             {
                 name: 'viewport',
-                content: 'width=device-width, initial-scale=1, maximum-scale=1',
+                content: 'width=device-width, initial-scale=1',
             },
             { name: 'theme-color', content: 'black' },
             { name: 'color-scheme', content: 'dark light' },

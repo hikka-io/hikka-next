@@ -10,6 +10,8 @@ import ModalProvider from '@/services/providers/modal-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
 import { useUIStore } from '@/services/providers/ui-store-provider';
 
+setDefaultOptions({ locale: uk });
+
 interface Props extends PropsWithChildren {
     client: HikkaClient;
     serverTheme?: 'light' | 'dark' | 'system' | null;
@@ -17,7 +19,6 @@ interface Props extends PropsWithChildren {
 
 const Providers: FC<Props> = ({ children, client, serverTheme }) => {
     const UI = useUIStore((state) => state);
-    setDefaultOptions({ locale: uk });
 
     return (
         <HikkaContextProvider

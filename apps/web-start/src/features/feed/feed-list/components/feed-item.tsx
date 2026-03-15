@@ -69,7 +69,7 @@ const FeedItem: FC<Props> = ({ item, showTypeLabel }) => {
     const extraInfo = getExtraInfo(item);
 
     return (
-        <div className="flex flex-col isolate border-b last:border-b-0! first:backdrop-blur">
+        <div className="flex flex-col isolate border-b">
             <FeedItemHeader
                 author={item.author}
                 dataType={item.data_type}
