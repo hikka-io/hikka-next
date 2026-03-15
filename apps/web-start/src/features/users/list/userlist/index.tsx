@@ -5,10 +5,11 @@ import {
     ReadStatusEnum,
     WatchStatusEnum,
 } from '@hikka/client';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
+
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import { useSettingsStore } from '@/services/stores/settings-store';
 
@@ -40,7 +41,7 @@ const List = ({ content_type }: Props) => {
     }
 
     return (
-        <Block>
+        <Block className="-mx-4 md:mx-0">
             {list.length > 0 ? (
                 view === 'table' ? (
                     <TableView data={list} content_type={content_type} />

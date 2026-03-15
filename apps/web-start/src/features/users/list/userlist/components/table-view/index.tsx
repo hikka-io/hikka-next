@@ -2,7 +2,6 @@
 
 import { ContentTypeEnum, ReadResponse, WatchResponse } from '@hikka/client';
 import { useRouter } from '@tanstack/react-router';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { FC, Fragment } from 'react';
 
 import {
@@ -12,6 +11,8 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import { cn } from '@/utils/cn';
 
@@ -79,6 +80,26 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                 <TableRow>
                     <TableHead>#</TableHead>
                     <TableHead>Деталі</TableHead>
+                    <TableHead
+                        className={cn(
+                            'w-4 cursor-pointer select-none text-center hover:underline',
+                            sort.includes(
+                                content_type === ContentTypeEnum.ANIME
+                                    ? 'watch_score'
+                                    : 'read_score',
+                            ) && 'text-primary-foreground',
+                        )}
+                        align="center"
+                        onClick={() =>
+                            switchSort(
+                                content_type === ContentTypeEnum.ANIME
+                                    ? 'watch_score'
+                                    : 'read_score',
+                            )
+                        }
+                    >
+                        Оцінка
+                    </TableHead>
                     {content_type !== ContentTypeEnum.ANIME && (
                         <Fragment>
                             <TableHead
@@ -131,26 +152,6 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                             </TableHead>
                         </Fragment>
                     )}
-                    <TableHead
-                        className={cn(
-                            'w-4 cursor-pointer select-none text-right hover:underline',
-                            sort.includes(
-                                content_type === ContentTypeEnum.ANIME
-                                    ? 'watch_score'
-                                    : 'read_score',
-                            ) && 'text-primary-foreground',
-                        )}
-                        align="right"
-                        onClick={() =>
-                            switchSort(
-                                content_type === ContentTypeEnum.ANIME
-                                    ? 'watch_score'
-                                    : 'read_score',
-                            )
-                        }
-                    >
-                        Оцінка
-                    </TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -180,6 +181,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                                     : (res as ReadResponse).rereads
                             }
                         />
+                        <ScoreCell score={res.score} />
                         {content_type !== ContentTypeEnum.ANIME && (
                             <Fragment>
                                 <ChaptersCell
@@ -212,7 +214,6 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                                 />
                             </Fragment>
                         )}
-                        <ScoreCell score={res.score} />
                     </TableRow>
                 ))}
             </TableBody>

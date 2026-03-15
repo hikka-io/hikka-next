@@ -12,7 +12,14 @@ import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 
+import { getDeclensionWord } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
+
+const REPEAT_DECLENSIONS: [string, string, string] = [
+    'перегляд',
+    'перегляди',
+    'переглядів',
+];
 
 interface Props {
     content: MangaResponse | NovelResponse | AnimeResponse;
@@ -27,7 +34,7 @@ interface Props {
 const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
     return (
         <TableCell className="w-36">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 overflow-hidden">
                 <div className="hidden w-12 lg:block">
                     <ContentCard
                         containerClassName="rounded-(--base-radius)"
@@ -43,9 +50,6 @@ const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
                         >
                             {content.title}
                         </Link>
-                        {repeats > 0 && (
-                            <Badge variant="outline">{repeats}</Badge>
-                        )}
                     </div>
                     {note && (
                         <TextExpand>
@@ -53,6 +57,12 @@ const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
                                 {note}
                             </MDViewer>
                         </TextExpand>
+                    )}
+                    {repeats > 0 && (
+                        <Badge variant="warning" className="w-fit">
+                            {repeats + 1}{' '}
+                            {getDeclensionWord(repeats + 1, REPEAT_DECLENSIONS)}
+                        </Badge>
                     )}
                 </div>
             </div>

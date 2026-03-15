@@ -18,7 +18,7 @@ interface Props {
 
 const GridView: FC<Props> = ({ data, content_type }) => {
     return (
-        <Stack size={5} extendedSize={5} extended>
+        <Stack size={5} extendedSize={5} extended className="px-4 md:px-0">
             {content_type !== ContentTypeEnum.ANIME &&
                 (data as ReadResponse[]).map((res) =>
                     res.content.data_type === 'manga' ? (
