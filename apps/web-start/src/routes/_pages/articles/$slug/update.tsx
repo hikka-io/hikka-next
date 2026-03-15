@@ -1,22 +1,35 @@
+import { ArticleDocumentResponse } from '@hikka/client';
 import { useArticleBySlug } from '@hikka/react';
+import { queryKeys } from '@hikka/react/core';
 import { createFileRoute } from '@tanstack/react-router';
 
-import Link from '@/components/ui/link';
-
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+import Link from '@/components/ui/link';
 import {
     ArticleEditDocument as ArticleDocument,
     ArticleSettings,
     ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import ArticleProvider from '@/services/providers/article-provider';
+import { requireOwner } from '@/utils/auth';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/articles/$slug/update')({
+    beforeLoad: async ({ params, context: { queryClient } }) => {
+        const article = queryClient.getQueryData<ArticleDocumentResponse>(
+            queryKeys.articles.bySlug(params.slug),
+        );
+
+        requireOwner(
+            queryClient,
+            article?.author?.username ?? '',
+            `/articles/${params.slug}`,
+        );
+    },
     head: () =>
         generateHeadMeta({
             title: 'Редагувати статтю',

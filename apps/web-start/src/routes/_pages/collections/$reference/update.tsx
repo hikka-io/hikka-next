@@ -1,8 +1,9 @@
+import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { useCollectionByReference } from '@hikka/react';
+import { queryKeys } from '@hikka/react/core';
 import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
-import { generateHeadMeta } from '@/utils/metadata';
 import Card from '@/components/ui/card';
 import {
     CollectionEditGroups as CollectionGroups,
@@ -10,8 +11,21 @@ import {
     CollectionEditTitle as CollectionTitle,
 } from '@/features/collections';
 import CollectionProvider from '@/services/providers/collection-provider';
+import { requireOwner } from '@/utils/auth';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/collections/$reference/update')({
+    beforeLoad: async ({ params, context: { queryClient } }) => {
+        const collection = queryClient.getQueryData<
+            CollectionResponse<CollectionContent>
+        >(queryKeys.collections.byReference(params.reference));
+
+        requireOwner(
+            queryClient,
+            collection?.author?.username ?? '',
+            `/collections/${params.reference}`,
+        );
+    },
     head: () =>
         generateHeadMeta({
             title: 'Редагувати колекцію',
