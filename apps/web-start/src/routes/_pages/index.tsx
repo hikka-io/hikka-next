@@ -12,9 +12,11 @@ import { queryKeys } from '@hikka/react/core';
 import {
     feedOptions,
     followingHistoryOptions,
+    readStatsOptions,
     searchAnimeScheduleOptions,
     searchAnimesOptions,
     searchUserWatchesOptions,
+    userWatchStatsOptions,
 } from '@hikka/react/options';
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
@@ -66,6 +68,23 @@ export const Route = createFileRoute('/_pages/')({
                 ),
                 queryClient.ensureInfiniteQueryData(
                     followingHistoryOptions(hikkaClient),
+                ),
+                queryClient.ensureQueryData(
+                    userWatchStatsOptions(hikkaClient, {
+                        username: loggedUser.username,
+                    }),
+                ),
+                queryClient.ensureQueryData(
+                    readStatsOptions(hikkaClient, {
+                        contentType: ContentTypeEnum.MANGA,
+                        username: loggedUser.username,
+                    }),
+                ),
+                queryClient.ensureQueryData(
+                    readStatsOptions(hikkaClient, {
+                        contentType: ContentTypeEnum.NOVEL,
+                        username: loggedUser.username,
+                    }),
                 ),
             );
         }
