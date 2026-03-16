@@ -52,7 +52,8 @@ const FeedList = () => {
                 return next;
             },
             replace: true,
-        } as any);
+            resetScroll: false,
+        });
     };
 
     const {

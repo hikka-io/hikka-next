@@ -4,7 +4,7 @@ import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { Toaster } from '@/components/ui/sonner';
 
-import { Footer, Navbar, ScrollTop } from '@/features/common';
+import { Footer, Navbar } from '@/features/common';
 
 export const Route = createFileRoute('/_pages')({
     loader: async ({ context: { queryClient, hikkaClient } }) => {
@@ -32,9 +32,8 @@ export const Route = createFileRoute('/_pages')({
 function PagesLayout() {
     return (
         <>
-            <ScrollTop />
             <Navbar />
-            <main className="mx-auto mt-8 w-full max-w-350 px-4 lg:mt-16">
+            <main className="mx-auto mt-8 mb-8 w-full max-w-350 px-4 lg:mt-16">
                 <Outlet />
             </main>
             <Footer />
