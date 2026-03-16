@@ -39,7 +39,7 @@ export async function createRouter() {
     const router = createTanStackRouter({
         routeTree,
         context: { queryClient, hikkaClient },
-        defaultPreload: 'intent',
+        defaultPreload: false,
         scrollRestoration: true,
     });
 

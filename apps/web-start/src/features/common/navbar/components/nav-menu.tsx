@@ -56,6 +56,7 @@ function NavMenu() {
                         <Link
                             to={item.url}
                             search={item.search}
+                            preload="intent"
                             className={navItemClassName(
                                 isNavActive(pathname, item.url),
                             )}
@@ -81,6 +82,7 @@ function NavMenu() {
                                         <Link
                                             to={item.url}
                                             search={item.search}
+                                            preload="intent"
                                             className={cn(
                                                 navItemClassName(
                                                     isNavActive(
@@ -126,6 +128,7 @@ function NavMenu() {
                                                         <Link
                                                             to={item.url}
                                                             search={item.search}
+                                                            preload="intent"
                                                             className={cn(
                                                                 navItemClassName(
                                                                     isNavActive(
