@@ -736,6 +736,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.28.6":
+  version: 7.28.6
+  resolution: "@babel/runtime@npm:7.28.6"
+  checksum: 10c0/358cf2429992ac1c466df1a21c1601d595c46930a13c1d4662fde908d44ee78ec3c183aaff513ecb01ef8c55c3624afe0309eeeb34715672dbfadb7feedb2c0d
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.24.0, @babel/template@npm:^7.24.7, @babel/template@npm:^7.27.2, @babel/template@npm:^7.3.3":
   version: 7.27.2
   resolution: "@babel/template@npm:7.27.2"
@@ -1934,6 +1941,7 @@ __metadata:
     "@react-hook/resize-observer": "npm:^2.0.2"
     "@tailwindcss/vite": "npm:^4"
     "@takumi-rs/image-response": "npm:^0.71.7"
+    "@tanem/react-nprogress": "npm:^6.0.3"
     "@tanstack/devtools-vite": "npm:^0.5.5"
     "@tanstack/react-devtools": "npm:^0.9.13"
     "@tanstack/react-query": "npm:^5.90.21"
@@ -6887,6 +6895,19 @@ __metadata:
   version: 0.71.7
   resolution: "@takumi-rs/wasm@npm:0.71.7"
   checksum: 10c0/6f6bd5a45c0e7c031954a5db5d8f37aa2adbf8d5e53360f4be59d4ac40592389680d81c0b8a0f05385a5f64adf8239d375588ec10836f451fe7b17a95902bdb5
+  languageName: node
+  linkType: hard
+
+"@tanem/react-nprogress@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "@tanem/react-nprogress@npm:6.0.3"
+  dependencies:
+    "@babel/runtime": "npm:^7.28.6"
+    hoist-non-react-statics: "npm:^3.3.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/73c06dbe5a5c99a719363915aede94092a9d711734768173e1c1e420bbe3f93ce6901a22b50355210de91babc8243ad5f1fdee98753a9c42e5a8b631eb8133aa
   languageName: node
   linkType: hard
 
