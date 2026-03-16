@@ -8,6 +8,7 @@ import {
 import { FC } from 'react';
 
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
+import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -15,7 +16,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import { Label } from '@/components/ui/label';
 
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
@@ -35,18 +35,25 @@ const FollowingItem: FC<Props> = ({ data, className }) => {
 
     return (
         <HorizontalCard className={className}>
-            <HorizontalCardImage className='w-10' image={data.avatar} imageRatio={1} href={`/u/${data.username}`} />
+            <HorizontalCardImage
+                className="w-10"
+                image={data.avatar}
+                imageRatio={1}
+                href={`/u/${data.username}`}
+            />
             <HorizontalCardContainer>
-                <HorizontalCardTitle href={`/u/${data.username}`}>{data.username}</HorizontalCardTitle>
+                <HorizontalCardTitle href={`/u/${data.username}`}>
+                    {data.username}
+                </HorizontalCardTitle>
                 <HorizontalCardDescription>
                     {status.title_ua}
                 </HorizontalCardDescription>
             </HorizontalCardContainer>
             {data.content[0].score > 0 && (
-                <div className="inline-flex items-center gap-1">
-                    <Label className="font-bold">{data.content[0].score}</Label>
-                    <MaterialSymbolsStarRounded className="text-yellow-400" />
-                </div>
+                <Badge variant="outline" className="gap-1">
+                    {data.content[0].score}
+                    <MaterialSymbolsStarRounded className="text-yellow-400 size-4" />
+                </Badge>
             )}
         </HorizontalCard>
     );

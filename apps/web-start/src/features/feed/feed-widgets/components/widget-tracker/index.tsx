@@ -51,7 +51,11 @@ const WidgetTracker = () => {
                     search={TAB_LIST_CONFIG[activeTab].search}
                 >
                     <HeaderContainer>
-                        <HeaderTitle variant="h4">Мій список</HeaderTitle>
+                        <HeaderTitle variant="h4">
+                            {activeTab === ContentTypeEnum.ANIME
+                                ? 'Дивлюсь'
+                                : 'Читаю'}
+                        </HeaderTitle>
                     </HeaderContainer>
                     <HeaderNavButton />
                 </Header>

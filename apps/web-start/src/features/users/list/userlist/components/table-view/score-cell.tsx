@@ -11,9 +11,9 @@ interface Props {
 const ScoreCell: FC<Props> = ({ score }) => (
     <TableCell className="w-4 text-center" align="right">
         {!!score && (
-            <Badge variant="outline">
+            <Badge variant="outline" className="gap-1">
                 {score}
-                <MaterialSymbolsStarRounded className="text-yellow-400" />
+                <MaterialSymbolsStarRounded className="text-yellow-400 size-4" />
             </Badge>
         )}
     </TableCell>

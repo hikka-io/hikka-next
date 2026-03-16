@@ -16,8 +16,8 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
-import { getCurrentSeason } from '@/utils/season';
 import type { ScheduleSearch } from '@/utils/search-schemas';
+import { getCurrentSeason } from '@/utils/season';
 
 import ScheduleItem from './components/schedule-item';
 
@@ -25,13 +25,10 @@ const ScheduleList = () => {
     const search = useFilterSearch<ScheduleSearch>();
 
     const only_watch = search.only_watch ?? undefined;
-    const season =
-        (search.season as SeasonEnum) || getCurrentSeason()!;
+    const season = (search.season as SeasonEnum) || getCurrentSeason()!;
     const year = Number(search.year) || new Date().getFullYear();
     const status = (
-        search.status?.length
-            ? search.status
-            : ['ongoing', 'announced']
+        search.status?.length ? search.status : ['ongoing', 'announced']
     ) as ContentStatusEnum[];
 
     const {
@@ -68,7 +65,7 @@ const ScheduleList = () => {
                 Object.keys(sortedList).map((day) => {
                     const formattedDay = format(
                         Number(day) * 1000,
-                        'eeee ,d MMM',
+                        'eeee ,d MMMM',
                     ).split(',');
 
                     return (
@@ -77,7 +74,7 @@ const ScheduleList = () => {
                                 <HeaderContainer>
                                     <HeaderTitle>
                                         {formattedDay[0]}
-                                        <span className="border-primary-border bg-primary text-primary-foreground rounded-sm border p-1">
+                                        <span className="border-primary-border bg-primary text-primary-foreground rounded-sm border p-1 px-2">
                                             {formattedDay[1]}
                                         </span>
                                     </HeaderTitle>

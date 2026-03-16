@@ -327,6 +327,16 @@
 @source inline("gradient-mask-l-90 gradient-mask-l-90-d");
 @source inline("gradient-mask-r-90 gradient-mask-r-90-d");
 
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 @keyframes accordion-down {
     from {
         height: 0;

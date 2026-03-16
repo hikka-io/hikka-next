@@ -118,9 +118,9 @@ const WidgetOngoing = () => {
                                             </span>
                                         </div>
                                     </div>
-                                    <Badge variant="outline">
+                                    <Badge variant="outline" className="gap-1">
                                         <span>{anime.score}</span>{' '}
-                                        <MaterialSymbolsStarRounded className="text-yellow-400" />
+                                        <MaterialSymbolsStarRounded className="text-yellow-400 size-4" />
                                     </Badge>
                                 </Link>
                             );

@@ -1,7 +1,6 @@
 'use client';
 
 import { useUserByUsername } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
@@ -11,6 +10,8 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+
+import { Link, useParams } from '@/utils/navigation';
 
 const UserTitle = () => {
     const params = useParams();
@@ -25,7 +26,11 @@ const UserTitle = () => {
     return (
         <div className="flex w-full flex-col gap-2">
             <div className="flex items-center gap-2">
-                <h3 className="line-clamp-1 break-all">{user.username}</h3>
+                <Link to={`/u/${user.username}`}>
+                    <h3 className="line-clamp-1 break-all hover:underline">
+                        {user.username}
+                    </h3>
+                </Link>
                 {(user.role === 'admin' || user.role === 'moderator') && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>

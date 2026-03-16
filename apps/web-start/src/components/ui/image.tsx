@@ -10,13 +10,18 @@ type Props = ImageProps & {
 };
 
 const Component = (
-    { alt, className, transitionDisabled, onLoad, ...props }: Props,
+    { alt, className, transitionDisabled, background, ...props }: Props,
     ref: Ref<HTMLImageElement>,
 ) => {
     return (
         <UnpicImage
             ref={ref}
-            className={cn(className)}
+            className={cn(
+                !transitionDisabled &&
+                    'animate-[fade-in_0.2s_ease-in-out]',
+                className,
+            )}
+            background={background ?? 'var(--muted)'}
             alt={alt ?? ''}
             {...props}
         />

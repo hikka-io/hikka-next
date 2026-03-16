@@ -2,7 +2,6 @@
 
 import { ImageType, UploadTypeEnum } from '@hikka/client';
 import { useSession, useUserByUsername } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { ChangeEvent, useRef } from 'react';
 
 import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
@@ -21,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { CropEditorModal } from '@/features/common';
 
 import { useModalContext } from '@/services/providers/modal-provider';
+import { Link, useParams } from '@/utils/navigation';
 
 const UserInfo = () => {
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
@@ -95,13 +95,15 @@ const UserInfo = () => {
             />
             <div className="group relative z-1 size-32 overflow-hidden rounded-lg pt-[100%] lg:size-40">
                 <div className="absolute top-0 w-full rounded-lg">
-                    <Image
-                        alt="avatar"
-                        className="size-full object-contain"
-                        width={287}
-                        height={287}
-                        src={user.avatar}
-                    />
+                    <Link to={`/u/${user.username}`}>
+                        <Image
+                            alt="avatar"
+                            className="size-full object-contain hover:underline"
+                            width={287}
+                            height={287}
+                            src={user.avatar}
+                        />
+                    </Link>
                 </div>
                 {loggedUser?.username === user.username && (
                     <DropdownMenu>
