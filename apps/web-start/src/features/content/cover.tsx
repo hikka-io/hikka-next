@@ -25,7 +25,7 @@ const Cover = ({ content_type }: Props) => {
     return (
         <div className="z-0 flex items-center px-16 md:px-48 lg:px-0">
             <ContentCard
-                imageProps={{ priority: true }}
+                imageProps={{ priority: true, width: 400, height: 600 }}
                 image={content?.image}
             />
         </div>

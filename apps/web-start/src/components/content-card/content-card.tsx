@@ -38,6 +38,8 @@ interface ImageProps {
     priority?: boolean;
     loading?: 'lazy' | 'eager';
     alt?: string;
+    width?: number;
+    height?: number;
 }
 
 const contentCardVariants = cva(
@@ -93,8 +95,8 @@ export interface TooltipProps {
 // Constants
 const DEFAULT_CONTAINER_RATIO = 0.7;
 const DEFAULT_IMAGE_DIMENSIONS = {
-    width: 150,
-    height: 225,
+    width: 300,
+    height: 450,
 };
 
 // Tooltip map
@@ -277,14 +279,15 @@ const renderImage = (
     }
 
     if (typeof image === 'string') {
+        const { width, height, ...restImageProps } = imageProps || {};
         return (
             <Image
                 src={image}
-                width={DEFAULT_IMAGE_DIMENSIONS.width}
-                height={DEFAULT_IMAGE_DIMENSIONS.height}
+                width={width ?? DEFAULT_IMAGE_DIMENSIONS.width}
+                height={height ?? DEFAULT_IMAGE_DIMENSIONS.height}
                 className={cn('size-full object-cover', imageClassName)}
                 alt="Poster"
-                {...(imageProps || { loading: 'lazy' })}
+                {...(Object.keys(restImageProps).length > 0 ? restImageProps : { loading: 'lazy' })}
             />
         );
     }

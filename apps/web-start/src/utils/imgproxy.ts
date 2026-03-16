@@ -4,8 +4,6 @@ const IMGPROXY_URL = import.meta.env.VITE_IMGPROXY_URL;
 
 const ALLOWED_SOURCES = ['cdn.hikka.io'];
 
-const DEFAULT_QUALITY = 80;
-
 function isAllowedSource(url: string): boolean {
     try {
         const parsed = new URL(url);
@@ -17,21 +15,18 @@ function isAllowedSource(url: string): boolean {
     }
 }
 
-function buildProcessingOptions(
-    operations: Operations,
-): string {
+function buildProcessingOptions(operations: Operations): string {
     const parts: string[] = [];
 
-    const width = operations.width != null ? Number(operations.width) : 0;
-    const height = operations.height != null ? Number(operations.height) : 0;
+    const width = operations.width != null ? Math.round(Number(operations.width)) : 0;
+    const height = operations.height != null ? Math.round(Number(operations.height)) : 0;
 
-    if (width > 0 || height > 0) {
-        parts.push(`rs:fill:${width}:${height}`);
+    if (width > 0) {
+        parts.push(`w:${width}`);
     }
-    parts.push(`q:${DEFAULT_QUALITY}`);
 
-    if (operations.format) {
-        parts.push(`f:${operations.format}`);
+    if (height > 0) {
+        parts.push(`h:${height}`);
     }
 
     return parts.join('/');
@@ -48,6 +43,10 @@ export function imgproxyTransformer(
     }
 
     const processingOptions = buildProcessingOptions(operations);
+
+    if (!processingOptions) {
+        return `${IMGPROXY_URL}/insecure/plain/${sourceUrl}`;
+    }
 
     return `${IMGPROXY_URL}/insecure/${processingOptions}/plain/${sourceUrl}`;
 }
