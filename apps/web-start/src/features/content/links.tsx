@@ -8,6 +8,7 @@ import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/Mat
 import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
     HorizontalCard,
@@ -16,9 +17,8 @@ import {
     HorizontalCardTitle
 } from '@/components/ui/horizontal-card';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-
-import Card from '@/components/ui/card';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { getPlatformIcon } from '@/utils/platform-icons';
 
 interface Props {
     content_type:
@@ -106,7 +106,17 @@ const Links: FC<Props> = ({ content_type }) => {
                                 <HorizontalCardImage
                                     imageRatio={1}
                                     className="w-10"
-                                    image={<p>{link.text[0]}</p>}
+                                    image={
+                                        getPlatformIcon(link.url) ? (
+                                            <img
+                                                src={getPlatformIcon(link.url)!}
+                                                alt={link.text}
+                                                className="size-full object-contain"
+                                            />
+                                        ) : (
+                                            <p>{link.text[0]}</p>
+                                        )
+                                    }
                                     to={link.url}
                                 />
                                 <HorizontalCardContainer>
