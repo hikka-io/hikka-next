@@ -5,7 +5,6 @@ import {
     WatchResponseBase,
 } from '@hikka/client';
 import { type VariantProps, cva } from 'class-variance-authority';
-import { Link } from '@/utils/navigation';
 import {
     ComponentType,
     FC,
@@ -21,6 +20,7 @@ import Image from '@/components/ui/image';
 
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
+import { Link } from '@/utils/navigation';
 
 import MaterialSymbolsImageNotSupportedOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
 import ContentStatus from './content-status';
@@ -40,22 +40,20 @@ interface ImageProps {
     alt?: string;
     width?: number;
     height?: number;
+    sizes?: string;
 }
 
-const contentCardVariants = cva(
-    'group relative flex w-full flex-col gap-2',
-    {
-        variants: {
-            interactive: {
-                true: 'cursor-pointer',
-                false: '',
-            },
-        },
-        defaultVariants: {
-            interactive: false,
+const contentCardVariants = cva('group relative flex w-full flex-col gap-2', {
+    variants: {
+        interactive: {
+            true: 'cursor-pointer',
+            false: '',
         },
     },
-);
+    defaultVariants: {
+        interactive: false,
+    },
+});
 
 export interface ContentCardProps
     extends VariantProps<typeof contentCardVariants> {
@@ -94,6 +92,10 @@ export interface TooltipProps {
 
 // Constants
 const DEFAULT_CONTAINER_RATIO = 0.7;
+
+const DEFAULT_CARD_SIZES =
+    '(min-width: 1280px) 261px, (min-width: 1024px) 230px, (min-width: 768px) 134px, (min-width: 640px) 192px, calc(50vw - 24px)';
+
 const DEFAULT_IMAGE_DIMENSIONS = {
     width: 300,
     height: 450,
@@ -102,7 +104,12 @@ const DEFAULT_IMAGE_DIMENSIONS = {
 // Tooltip map
 const TOOLTIP_MAP: Record<
     string,
-    ComponentType<{ slug?: string; children: ReactNode; watch?: WatchResponseBase; read?: ReadResponseBase }>
+    ComponentType<{
+        slug?: string;
+        children: ReactNode;
+        watch?: WatchResponseBase;
+        read?: ReadResponseBase;
+    }>
 > = {
     anime: AnimeTooltip,
     manga: MangaTooltip,
@@ -220,9 +227,7 @@ const Content = memo(
                                 {watch && (
                                     <ContentStatus
                                         status={watch.status}
-                                        icon={
-                                            WATCH_STATUS[watch.status].icon!
-                                        }
+                                        icon={WATCH_STATUS[watch.status].icon!}
                                     />
                                 )}
                                 {read && (
@@ -279,15 +284,21 @@ const renderImage = (
     }
 
     if (typeof image === 'string') {
-        const { width, height, ...restImageProps } = imageProps || {};
+        const { width, height, sizes, ...restImageProps } = imageProps || {};
         return (
             <Image
                 src={image}
                 width={width ?? DEFAULT_IMAGE_DIMENSIONS.width}
                 height={height ?? DEFAULT_IMAGE_DIMENSIONS.height}
-                className={cn('size-full object-cover', imageClassName)}
+                sizes={sizes ?? DEFAULT_CARD_SIZES}
+                className={cn(
+                    'max-w-full! size-full object-cover',
+                    imageClassName,
+                )}
                 alt="Poster"
-                {...(Object.keys(restImageProps).length > 0 ? restImageProps : { loading: 'lazy' })}
+                {...(Object.keys(restImageProps).length > 0
+                    ? restImageProps
+                    : { loading: 'lazy' })}
             />
         );
     }

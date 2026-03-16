@@ -1,10 +1,10 @@
 'use client';
 
-import {
-    type ImageProps as UnpicImageProps,
-    Image as UnpicImage,
-} from '@unpic/react/base';
 import type { Operations } from '@unpic/core/base';
+import {
+    Image as UnpicImage,
+    type ImageProps as UnpicImageProps,
+} from '@unpic/react/base';
 
 import { cn } from '@/utils/cn';
 import { imgproxyTransformer } from '@/utils/imgproxy';
@@ -24,8 +24,8 @@ const Image = ({
         ...props,
         transformer: imgproxyTransformer,
         className: cn(
-            !transitionDisabled &&
-                'animate-[fade-in_0.2s_ease-in-out]',
+            'text-transparent',
+            !transitionDisabled && 'animate-[fade-in_0.2s_ease-in-out]',
             className,
         ),
         background: background ?? 'var(--muted)',

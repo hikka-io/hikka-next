@@ -21,12 +21,8 @@ function buildProcessingOptions(operations: Operations): string {
     const width = operations.width != null ? Math.round(Number(operations.width)) : 0;
     const height = operations.height != null ? Math.round(Number(operations.height)) : 0;
 
-    if (width > 0) {
-        parts.push(`w:${width}`);
-    }
-
-    if (height > 0) {
-        parts.push(`h:${height}`);
+    if (width > 0 || height > 0) {
+        parts.push(`rs:fill:${width}:${height}`);
     }
 
     return parts.join('/');
