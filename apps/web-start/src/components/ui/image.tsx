@@ -24,7 +24,8 @@ const Image = ({
         ...props,
         transformer: imgproxyTransformer,
         className: cn(
-            !transitionDisabled && 'animate-[fade-in_0.2s_ease-in-out]',
+            !transitionDisabled &&
+                'animate-[fade-in_0.2s_ease-in-out]',
             className,
         ),
         background: background ?? 'var(--muted)',
