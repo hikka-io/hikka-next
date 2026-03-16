@@ -11,7 +11,6 @@ import { FC, PropsWithChildren, memo } from 'react';
 import MaterialSymbolsMoreHoriz from '../../icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MDViewer from '../../markdown/viewer/MD-viewer';
 import ContentCard from '../content-card';
-
 import HoverCardWrapper from './hover-card-wrapper';
 import { PersonTooltipSkeleton } from './tooltip-skeleton';
 
@@ -37,6 +36,7 @@ const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
             <div className="flex gap-2">
                 {list.slice(0, 5).map(({ anime }) => (
                     <ContentCard
+                        containerClassName="rounded-(--base-radius)"
                         className="w-10"
                         href={`/anime/${anime.slug}`}
                         key={anime.slug}
@@ -48,6 +48,7 @@ const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
                 ))}
                 {list.length > 5 && (
                     <ContentCard
+                        containerClassName="rounded-(--base-radius)"
                         className="w-10"
                         href={`/people/${slug}`}
                         image={
@@ -151,10 +152,7 @@ const PersonTooltip: FC<Props> = ({ slug, children }) => {
     if (!slug) return null;
 
     return (
-        <HoverCardWrapper
-            size="auto"
-            content={<TooltipData slug={slug} />}
-        >
+        <HoverCardWrapper size="auto" content={<TooltipData slug={slug} />}>
             {children}
         </HoverCardWrapper>
     );

@@ -5,7 +5,6 @@ import { FC, PropsWithChildren, memo } from 'react';
 
 import MDViewer from '../../markdown/viewer/MD-viewer';
 import ContentCard from '../content-card';
-
 import HoverCardWrapper from './hover-card-wrapper';
 import { CharacterTooltipSkeleton } from './tooltip-skeleton';
 
@@ -55,6 +54,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                 <div className="flex flex-col gap-2">
                     <ContentCard
                         className="w-10"
+                        containerClassName="rounded-(--base-radius)"
                         image={characterAnime.anime.image}
                         containerRatio={0.7}
                         href={'/anime/' + characterAnime.anime.slug}
@@ -71,10 +71,7 @@ const CharacterTooltip: FC<Props> = ({ slug, children }) => {
     }
 
     return (
-        <HoverCardWrapper
-            size="auto"
-            content={<TooltipData slug={slug} />}
-        >
+        <HoverCardWrapper size="auto" content={<TooltipData slug={slug} />}>
             {children}
         </HoverCardWrapper>
     );
