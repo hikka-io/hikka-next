@@ -1,31 +1,37 @@
 'use client';
 
-import { type ImageProps, Image as UnpicImage } from '@unpic/react';
-import { type Ref, forwardRef } from 'react';
+import {
+    type ImageProps as UnpicImageProps,
+    Image as UnpicImage,
+} from '@unpic/react/base';
+import type { Operations } from '@unpic/core/base';
 
 import { cn } from '@/utils/cn';
+import { imgproxyTransformer } from '@/utils/imgproxy';
 
-type Props = ImageProps & {
+type Props = Omit<UnpicImageProps<Operations, undefined>, 'transformer'> & {
     transitionDisabled?: boolean;
 };
 
-const Component = (
-    { alt, className, transitionDisabled, background, ...props }: Props,
-    ref: Ref<HTMLImageElement>,
-) => {
-    return (
-        <UnpicImage
-            ref={ref}
-            className={cn(
-                !transitionDisabled &&
-                    'animate-[fade-in_0.2s_ease-in-out]',
-                className,
-            )}
-            background={background ?? 'var(--muted)'}
-            alt={alt ?? ''}
-            {...props}
-        />
-    );
+const Image = ({
+    alt,
+    className,
+    transitionDisabled,
+    background,
+    ...props
+}: Props) => {
+    const imageProps = {
+        ...props,
+        transformer: imgproxyTransformer,
+        className: cn(
+            !transitionDisabled && 'animate-[fade-in_0.2s_ease-in-out]',
+            className,
+        ),
+        background: background ?? 'var(--muted)',
+        alt: alt ?? '',
+    } as UnpicImageProps<Operations, undefined>;
+
+    return <UnpicImage {...imageProps} />;
 };
 
-export default forwardRef(Component);
+export default Image;
