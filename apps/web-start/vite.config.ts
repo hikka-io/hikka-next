@@ -1,11 +1,10 @@
-import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import tailwindcss from '@tailwindcss/vite';
-import react from '@vitejs/plugin-react';
 import { devtools as tanstackDevtools } from '@tanstack/devtools-vite';
-import { defineConfig } from 'vite';
+import { tanstackStart } from '@tanstack/react-start/plugin/vite';
+import react from '@vitejs/plugin-react';
 import { nitro } from 'nitro/vite';
+import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
     plugins: [
@@ -20,12 +19,6 @@ export default defineConfig({
             },
         }),
         tailwindcss(),
-        visualizer({
-            filename: 'stats.html',
-            open: true,
-            gzipSize: true,
-            brotliSize: true,
-        }),
     ],
     resolve: {
         dedupe: ['react', 'react-dom', '@tanstack/react-query'],
