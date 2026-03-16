@@ -22,10 +22,12 @@ function buildProcessingOptions(
 ): string {
     const parts: string[] = [];
 
-    const width = operations.width ? Number(operations.width) : 0;
-    const height = operations.height ? Number(operations.height) : 0;
+    const width = operations.width != null ? Number(operations.width) : 0;
+    const height = operations.height != null ? Number(operations.height) : 0;
 
-    parts.push(`rs:fill:${width}:${height}`);
+    if (width > 0 || height > 0) {
+        parts.push(`rs:fill:${width}:${height}`);
+    }
     parts.push(`q:${DEFAULT_QUALITY}`);
 
     if (operations.format) {
