@@ -36,9 +36,7 @@ const Stats: FC<Props> = ({ stats }) => {
                                         <div className="relative h-2 w-full flex-1 overflow-hidden rounded-md">
                                             <div
                                                 className={cn(
-                                                    'absolute bottom-0 left-0 size-full bg-primary-foreground/10',
-                                                    !!stat.name &&
-                                                    `bg-${stat.name}`,
+                                                    'absolute bottom-0 left-0 size-full bg-secondary/60',
                                                 )}
                                             />
                                             <div
@@ -48,7 +46,7 @@ const Stats: FC<Props> = ({ stats }) => {
                                                 className={cn(
                                                     'absolute bottom-0 left-0 flex h-2 w-full items-end justify-center bg-primary-foreground',
                                                     !!stat.name &&
-                                                    `bg-${stat.name}-foreground`,
+                                                        `bg-${stat.name}-foreground`,
                                                 )}
                                             ></div>
                                         </div>
