@@ -1,7 +1,6 @@
 'use client';
 
 import { useCreateArticle } from '@hikka/react';
-import { useRouter } from '@/utils/navigation';
 import { FC, useCallback } from 'react';
 import { toast } from 'sonner';
 
@@ -11,6 +10,7 @@ import { Button } from '@/components/ui/button';
 
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { useRouter } from '@/utils/navigation';
 import { removeEmptyTextNodes } from '@/utils/plate';
 
 interface Props {}
@@ -68,16 +68,20 @@ const CreateActions: FC<Props> = () => {
     );
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex gap-4 flex-col">
             <Button
                 disabled={!title || isPending || isSuccess}
                 variant="secondary"
+                size="md"
+                className="flex-1"
                 onClick={() => handleCreateArticle(true)}
             >
                 <MaterialSymbolsDraftRounded className="size-4" />У чернетку
             </Button>
 
             <Button
+                size="md"
+                className="flex-1"
                 disabled={!title || isPending || isSuccess}
                 onClick={() => handleCreateArticle()}
             >

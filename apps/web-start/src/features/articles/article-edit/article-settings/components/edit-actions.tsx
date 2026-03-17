@@ -1,7 +1,6 @@
 'use client';
 
 import { useUpdateArticle } from '@hikka/react';
-import { Link } from '@/utils/navigation';
 import { FC, useCallback } from 'react';
 import { toast } from 'sonner';
 
@@ -9,9 +8,15 @@ import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/M
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { Button } from '@/components/ui/button';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
 import { removeEmptyTextNodes } from '@/utils/plate';
 
 interface Props {}
@@ -67,19 +72,25 @@ const EditActions: FC<Props> = () => {
     );
 
     return (
-        <div className="flex flex-col gap-4">
-            <Button asChild variant="secondary">
-                <Link
-                    target="_blank"
-                    to={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
-                >
-                    <MaterialSymbolsVisibilityOutlineRounded className="size-4" />
-                    Переглянути
-                </Link>
-            </Button>
+        <div className="flex gap-2">
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <Button asChild variant="secondary" size="icon-md">
+                        <Link
+                            target="_blank"
+                            to={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
+                        >
+                            <MaterialSymbolsVisibilityOutlineRounded className="size-4" />
+                        </Link>
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>Переглянути</TooltipContent>
+            </Tooltip>
 
             {!draft && (
                 <Button
+                    className="flex-1"
+                    size="md"
                     disabled={!title || isPending}
                     onClick={() => handleUpdateArticle()}
                 >
@@ -89,18 +100,25 @@ const EditActions: FC<Props> = () => {
             )}
 
             {draft && (
-                <Button
-                    disabled={!title || isPending}
-                    variant="secondary"
-                    onClick={() => handleUpdateArticle(true)}
-                >
-                    <MaterialSymbolsRefreshRounded className="size-4" />
-                    Оновити чернетку
-                </Button>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button
+                            size="icon-md"
+                            disabled={!title || isPending}
+                            variant="secondary"
+                            onClick={() => handleUpdateArticle(true)}
+                        >
+                            <MaterialSymbolsRefreshRounded className="size-4" />
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Оновити чернетку</TooltipContent>
+                </Tooltip>
             )}
 
             {draft && (
                 <Button
+                    size="md"
+                    className="flex-1"
                     disabled={!title || isPending}
                     onClick={() => handleUpdateArticle()}
                 >

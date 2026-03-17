@@ -3,12 +3,14 @@ import { createFileRoute } from '@tanstack/react-router';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+
 import {
     CollectionEditGroups as CollectionGroups,
     CollectionEditSettings as CollectionSettings,
     CollectionEditTitle as CollectionTitle,
 } from '@/features/collections';
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+
 import CollectionProvider from '@/services/providers/collection-provider';
 import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
@@ -37,12 +39,12 @@ function CollectionNewPage() {
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
                     <Block>
                         <CollectionTitle />
-                        <Card className="block p-0 lg:hidden">
+                        <Card className="block p-0 lg:hidden backdrop-blur bg-secondary/20">
                             <CollectionSettings />
                         </Card>
                         <CollectionGroups />
                     </Block>
-                    <Card className="bg-secondary/20 sticky top-20 order-1 hidden w-full p-0 backdrop-blur-xl lg:order-2 lg:block">
+                    <Card className="sticky top-20 order-1 hidden w-full p-0  backdrop-blur bg-secondary/20 lg:order-2 lg:block">
                         <CollectionSettings />
                     </Card>
                 </div>

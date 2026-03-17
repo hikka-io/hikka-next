@@ -2,8 +2,6 @@
 
 import { CollectionContentType, CollectionVisibilityEnum } from '@hikka/client';
 import { useCreateCollection, useUpdateCollection } from '@hikka/react';
-import { Link } from '@/utils/navigation';
-import { useParams, useRouter } from '@/utils/navigation';
 import { FC } from 'react';
 import { toast } from 'sonner';
 
@@ -25,6 +23,11 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
 import {
@@ -32,6 +35,7 @@ import {
     COLLECTION_VISIBILITY_OPTIONS,
 } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link, useParams, useRouter } from '@/utils/navigation';
 
 import GroupInputs from './components/group-inputs';
 
@@ -219,69 +223,73 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         id="spoiler"
                     />
                 </div>
-
-                <div className="flex flex-col gap-4">
-                    <Button asChild variant="secondary">
-                        <Link
-                            target="_blank"
-                            to={`${CONTENT_TYPE_LINKS['collection']}/${params.reference}`}
-                        >
-                            <MaterialSymbolsVisibilityOutlineRounded className="size-4" />
-                            Переглянути
-                        </Link>
+            </div>
+            <div className="flex gap-2 p-4 bg-secondary/20 border-t">
+                {mode === 'edit' && (
+                    <Button
+                        size="md"
+                        className="flex-1"
+                        disabled={
+                            isUpdatePending ||
+                            !title ||
+                            title.trim().length < 3 ||
+                            !description ||
+                            description.trim().length < 3
+                        }
+                        variant="default"
+                        onClick={() =>
+                            mutateUpdateCollection({
+                                args: getApiData(),
+                                reference: String(params.reference),
+                            })
+                        }
+                    >
+                        {isUpdatePending ? (
+                            <span className="loading loading-spinner"></span>
+                        ) : (
+                            <MaterialSymbolsRefreshRounded className="size-4" />
+                        )}
+                        Оновити
                     </Button>
-                    {mode === 'edit' && (
-                        <Button
-                            disabled={
-                                isUpdatePending ||
-                                !title ||
-                                title.trim().length < 3 ||
-                                !description ||
-                                description.trim().length < 3
-                            }
-                            variant="default"
-                            onClick={() =>
-                                mutateUpdateCollection({
-                                    args: getApiData(),
-                                    reference: String(params.reference),
-                                })
-                            }
-                        >
-                            {isUpdatePending ? (
-                                <span className="loading loading-spinner"></span>
-                            ) : (
-                                <MaterialSymbolsRefreshRounded className="size-4" />
-                            )}
-                            Оновити
-                        </Button>
-                    )}
-                    {mode === 'create' && (
-                        <div className="flex gap-2">
-                            <Button
-                                className="flex-1"
-                                disabled={
-                                    isSuccess ||
-                                    isCreatePending ||
-                                    !title ||
-                                    title.trim().length < 3 ||
-                                    !description ||
-                                    description.trim().length < 3
-                                }
-                                variant="default"
-                                onClick={() =>
-                                    mutateCreateCollection(getApiData())
-                                }
-                            >
-                                {isCreatePending ? (
-                                    <span className="loading loading-spinner"></span>
-                                ) : (
-                                    <MaterialSymbolsAddRounded />
-                                )}
-                                Створити
+                )}
+                {mode === 'create' && (
+                    <Button
+                        className="flex-1"
+                        disabled={
+                            isSuccess ||
+                            isCreatePending ||
+                            !title ||
+                            title.trim().length < 3 ||
+                            !description ||
+                            description.trim().length < 3
+                        }
+                        size="md"
+                        variant="default"
+                        onClick={() => mutateCreateCollection(getApiData())}
+                    >
+                        {isCreatePending ? (
+                            <span className="loading loading-spinner"></span>
+                        ) : (
+                            <MaterialSymbolsAddRounded />
+                        )}
+                        Створити
+                    </Button>
+                )}
+                {mode === 'edit' && (
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button asChild size="icon-md" variant="secondary">
+                                <Link
+                                    target="_blank"
+                                    to={`${CONTENT_TYPE_LINKS['collection']}/${params.reference}`}
+                                >
+                                    <MaterialSymbolsVisibilityOutlineRounded className="size-4" />
+                                </Link>
                             </Button>
-                        </div>
-                    )}
-                </div>
+                        </TooltipTrigger>
+                        <TooltipContent>Переглянути</TooltipContent>
+                    </Tooltip>
+                )}
             </div>
         </ScrollArea>
     );

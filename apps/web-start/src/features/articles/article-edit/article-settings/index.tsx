@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
 
 import { useArticleContext } from '@/services/providers/article-provider';
 
@@ -17,15 +17,18 @@ const ArticleSettings: FC<Props> = () => {
     const slug = useArticleContext((state) => state.slug);
 
     return (
-        <div className="flex h-full flex-col gap-6 p-4">
-            <TitleInput />
-            <ContentInput />
-            <TagsInput />
-            <CategorySelect />
-
-            {!slug && <CreateActions />}
-            {slug && <EditActions />}
-        </div>
+        <Fragment>
+            <div className="flex h-full flex-col gap-6 p-4">
+                <TitleInput />
+                <ContentInput />
+                <TagsInput />
+                <CategorySelect />
+            </div>
+            <div className="p-4 bg-secondary/20 border-t">
+                {!slug && <CreateActions />}
+                {slug && <EditActions />}
+            </div>
+        </Fragment>
     );
 };
 
