@@ -4,6 +4,8 @@ import { ComponentPropsWithoutRef, FC, useRef } from 'react';
 
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
+import { ImagePresetContext } from '@/components/content-card/image-preset-context';
+import type { ImagePreset } from '@/utils/constants/image-presets';
 
 // Define more explicit and comprehensive types
 export type StackSize = 2 | 3 | 4 | 5 | 6 | 7 | 8;
@@ -28,6 +30,11 @@ interface StackProps extends ComponentPropsWithoutRef<'div'> {
      * Custom gap size (defaults to 4 with lg:8)
      */
     gap?: 'sm' | 'md' | 'lg';
+
+    /**
+     * Image preset for child ContentCards
+     */
+    imagePreset?: ImagePreset;
 }
 
 // Improved type-safe configuration objects
@@ -63,13 +70,14 @@ const Stack: FC<StackProps> = ({
     size,
     extendedSize,
     gap = 'md',
+    imagePreset,
     className,
     ...props
 }) => {
     const ref = useRef(null);
     const { gradientClassName } = useScrollGradientMask(ref, 'horizontal');
 
-    return (
+    const content = (
         <div
             ref={ref}
             className={cn(
@@ -98,6 +106,16 @@ const Stack: FC<StackProps> = ({
             {children}
         </div>
     );
+
+    if (imagePreset) {
+        return (
+            <ImagePresetContext value={imagePreset}>
+                {content}
+            </ImagePresetContext>
+        );
+    }
+
+    return content;
 };
 
 export default Stack;

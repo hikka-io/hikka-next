@@ -25,6 +25,7 @@ const Video: FC<Props> = ({ extended, videos }) => {
             extendedSize={4}
             extended={extended}
             className="grid-min-10"
+            imagePreset="cardSm"
         >
             {filteredVideoData.map((video) => (
                 <ContentCard

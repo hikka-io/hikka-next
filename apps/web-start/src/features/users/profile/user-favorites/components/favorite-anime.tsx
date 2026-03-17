@@ -50,7 +50,7 @@ const Anime: FC<Props> = ({ extended }) => {
                     )}
                 >
                     {filteredData.map((res) => (
-                        <AnimeCard key={res.slug} anime={res} />
+                        <AnimeCard key={res.slug} anime={res} imagePreset="cardSm" />
                     ))}
                 </div>
             )}

@@ -16,7 +16,7 @@ const Cover = () => {
 
     return (
         <div className="flex items-center px-16 md:px-48 lg:px-0">
-            <ContentCard image={person.image} />
+            <ContentCard image={person.image} imagePreset="cardLg" />
         </div>
     );
 };

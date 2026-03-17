@@ -241,7 +241,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
             )}
             {list && list.length > 0 && (
                 <div className="flex h-full flex-col gap-4">
-                    <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4">
+                    <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4" imagePreset="cardXs">
                         {list.map((item) => (
                             <Tooltip key={item.content.slug}>
                                 <TooltipTrigger asChild>

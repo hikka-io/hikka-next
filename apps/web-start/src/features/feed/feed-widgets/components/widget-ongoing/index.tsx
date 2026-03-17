@@ -103,6 +103,7 @@ const WidgetOngoing = () => {
                                     <ContentCard
                                         image={anime.image}
                                         className="w-10"
+                                        imagePreset="cardXs"
                                         containerClassName="rounded-(--base-radius)"
                                     ></ContentCard>
 

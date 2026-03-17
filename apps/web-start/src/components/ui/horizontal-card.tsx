@@ -124,6 +124,7 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
                 (!imageRatio || imageRatio !== 1) && 'rounded-(--base-radius)',
             )}
             containerRatio={imageRatio}
+            imagePreset="cardXs"
             href={to ?? href}
             image={image}
         >

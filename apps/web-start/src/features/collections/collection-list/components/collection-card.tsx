@@ -121,7 +121,7 @@ const CollectionCard: FC<Props> = ({
             )}
 
             {/* Preview Items Grid */}
-            <Stack size={(maxPreviewItems + 1) as StackSize} gap="md">
+            <Stack size={(maxPreviewItems + 1) as StackSize} gap="md" imagePreset="cardSm">
                 {previewItems.map((item) => (
                     <ContentCard
                         key={item.content.slug}
@@ -166,7 +166,7 @@ const CollectionCard: FC<Props> = ({
                                     />
                                 )}
 
-                                <span className="text-lg font-semibold text-white">
+                                <span className="text-2xl font-bold drop-shadow-lg text-white">
                                     +{remainingCount}
                                 </span>
                             </div>

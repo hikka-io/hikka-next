@@ -20,7 +20,13 @@ import Image from '@/components/ui/image';
 
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
+import {
+    IMAGE_PRESETS,
+    type ImagePreset,
+} from '@/utils/constants/image-presets';
 import { Link } from '@/utils/navigation';
+
+import { useImagePreset } from './image-preset-context';
 
 import MaterialSymbolsImageNotSupportedOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
 import ContentStatus from './content-status';
@@ -79,6 +85,7 @@ export interface ContentCardProps
     content_type?: ContentTypeEnum;
     withContextMenu?: boolean;
     imageProps?: ImageProps;
+    imagePreset?: ImagePreset;
     linkProps?: Record<string, any>;
 }
 
@@ -92,14 +99,7 @@ export interface TooltipProps {
 
 // Constants
 const DEFAULT_CONTAINER_RATIO = 0.7;
-
-const DEFAULT_CARD_SIZES =
-    '(min-width: 1280px) 261px, (min-width: 1024px) 230px, (min-width: 768px) 134px, (min-width: 640px) 192px, calc(50vw - 24px)';
-
-const DEFAULT_IMAGE_DIMENSIONS = {
-    width: 300,
-    height: 450,
-};
+const DEFAULT_PRESET = IMAGE_PRESETS.card;
 
 // Tooltip map
 const TOOLTIP_MAP: Record<
@@ -181,15 +181,21 @@ const Content = memo(
                 content_type,
                 withContextMenu,
                 imageProps,
+                imagePreset,
                 linkProps,
                 target,
                 ...props
             },
             ref,
         ) => {
+            const contextPreset = useImagePreset();
+            const effectivePreset = imagePreset ?? contextPreset;
             const resolvedHref = to ?? href;
             const hasSubtitles = Boolean(leftSubtitle || rightSubtitle);
             const hasTitleOrDescription = Boolean(title || description);
+            const resolvedImageProps = effectivePreset
+                ? { ...IMAGE_PRESETS[effectivePreset], ...imageProps }
+                : imageProps;
 
             return (
                 <Tooltip
@@ -225,7 +231,7 @@ const Content = memo(
                                 {renderImage(
                                     image,
                                     imageClassName,
-                                    imageProps,
+                                    resolvedImageProps,
                                     containerRatio,
                                 )}
                                 {!disableChildrenLink && children}
@@ -291,10 +297,17 @@ const renderImage = (
 
     if (typeof image === 'string') {
         const { width, height, sizes, ...restImageProps } = imageProps || {};
+        const resolvedWidth = width ?? DEFAULT_PRESET.width;
+        const resolvedHeight =
+            height ??
+            (containerRatio
+                ? Math.round(resolvedWidth / containerRatio)
+                : DEFAULT_PRESET.height);
         return (
             <Image
-                width={width}
-                height={height}
+                width={resolvedWidth}
+                height={resolvedHeight}
+                sizes={sizes ?? DEFAULT_PRESET.sizes}
                 src={image}
                 className={cn('max-w-full! max-h-full! ', imageClassName)}
                 alt="Poster"

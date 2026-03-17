@@ -97,7 +97,7 @@ const CollectionCard: FC<Props> = ({
                     {collection.tags.length > 0 && (
                         <Badge variant="secondary">{collection.tags[0]}</Badge>
                     )}
-                    {collection.tags.slice(1, 1).map((tag) => (
+                    {collection.tags.slice(1, 2).map((tag) => (
                         <Badge key={tag} variant="secondary">
                             {tag}
                         </Badge>
@@ -115,6 +115,7 @@ const CollectionCard: FC<Props> = ({
                 gap="sm"
                 size={(maxPreviewItems + 1) as StackSize}
                 className="grid-min-5"
+                imagePreset="cardSm"
             >
                 {previewItems.map((item) => (
                     <ContentCard
@@ -159,7 +160,7 @@ const CollectionCard: FC<Props> = ({
                                     />
                                 )}
 
-                                <span className="text-lg font-semibold text-white">
+                                <span className="text-2xl font-bold drop-shadow-lg text-white">
                                     +{remainingCount}
                                 </span>
                             </div>

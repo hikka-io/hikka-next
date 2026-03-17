@@ -56,7 +56,7 @@ const Ongoings: FC<Props> = ({ className }) => {
                 <HeaderNavButton />
             </Header>
             {((list && list.length > 0) || isLoading) && (
-                <Stack size={8}>
+                <Stack size={8} imagePreset="cardSm">
                     {isLoading &&
                         range(0, 8).map((v) => <SkeletonCard key={v} />)}
                     {list &&

@@ -51,6 +51,7 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                 gap="sm"
                 size={(MAX_PREVIEW + 1) as StackSize}
                 className="grid-min-5"
+                imagePreset="cardSm"
             >
                 {previewItems.map((item) => (
                     <ContentCard
@@ -90,7 +91,7 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                                         alt="Third element"
                                     />
                                 )}
-                                <span className="text-lg font-semibold text-white">
+                                <span className="text-2xl font-bold drop-shadow-lg text-white">
                                     +{remainingCount}
                                 </span>
                             </div>

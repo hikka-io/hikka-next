@@ -46,6 +46,7 @@ const Characters: FC<Props> = ({ extended }) => {
                     size={6}
                     extendedSize={6}
                     className="grid-min-10"
+                    imagePreset="cardSm"
                 >
                     {filteredData.map((res) => (
                         <ContentCard

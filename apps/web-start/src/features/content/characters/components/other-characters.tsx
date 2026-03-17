@@ -47,6 +47,7 @@ const OtherCharacters: FC<Props> = ({ extended, content_type }) => {
                 extendedSize={5}
                 className="grid-min-6"
                 extended={extended}
+                imagePreset="card"
             >
                 {other.map((ch) => (
                     <CharacterCard

@@ -160,7 +160,7 @@ const WatchingTracker = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4">
+            <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4" imagePreset="cardXs">
                 {list.map((item) => (
                     <Tooltip key={item.anime.slug}>
                         <TooltipTrigger asChild>
