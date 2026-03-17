@@ -70,7 +70,6 @@ import { Route as ApiAuthActivateTokenRouteImport } from './routes/api/auth/acti
 import { Route as PagesUUsernameListRouteImport } from './routes/_pages/u/$username/list'
 import { Route as PagesUUsernameHistoryRouteImport } from './routes/_pages/u/$username/history'
 import { Route as PagesUUsernameFavoritesRouteImport } from './routes/_pages/u/$username/favorites'
-import { Route as PagesSummaryUsernameYearRouteImport } from './routes/_pages/summary/$username/$year'
 import { Route as PagesPeopleSlugNovelRouteImport } from './routes/_pages/people/$slug/novel'
 import { Route as PagesPeopleSlugMangaRouteImport } from './routes/_pages/people/$slug/manga'
 import { Route as PagesPeopleSlugCharactersRouteImport } from './routes/_pages/people/$slug/characters'
@@ -407,12 +406,6 @@ const PagesUUsernameFavoritesRoute = PagesUUsernameFavoritesRouteImport.update({
   path: '/favorites',
   getParentRoute: () => PagesUUsernameRoute,
 } as any)
-const PagesSummaryUsernameYearRoute =
-  PagesSummaryUsernameYearRouteImport.update({
-    id: '/summary/$username/$year',
-    path: '/summary/$username/$year',
-    getParentRoute: () => PagesRoute,
-  } as any)
 const PagesPeopleSlugNovelRoute = PagesPeopleSlugNovelRouteImport.update({
   id: '/novel',
   path: '/novel',
@@ -624,7 +617,6 @@ export interface FileRoutesByFullPath {
   '/people/$slug/characters': typeof PagesPeopleSlugCharactersRoute
   '/people/$slug/manga': typeof PagesPeopleSlugMangaRoute
   '/people/$slug/novel': typeof PagesPeopleSlugNovelRoute
-  '/summary/$username/$year': typeof PagesSummaryUsernameYearRoute
   '/u/$username/favorites': typeof PagesUUsernameFavoritesRoute
   '/u/$username/history': typeof PagesUUsernameHistoryRoute
   '/u/$username/list': typeof PagesUUsernameListRouteWithChildren
@@ -702,7 +694,6 @@ export interface FileRoutesByTo {
   '/people/$slug/characters': typeof PagesPeopleSlugCharactersRoute
   '/people/$slug/manga': typeof PagesPeopleSlugMangaRoute
   '/people/$slug/novel': typeof PagesPeopleSlugNovelRoute
-  '/summary/$username/$year': typeof PagesSummaryUsernameYearRoute
   '/u/$username/favorites': typeof PagesUUsernameFavoritesRoute
   '/u/$username/history': typeof PagesUUsernameHistoryRoute
   '/api/auth/activate/$token': typeof ApiAuthActivateTokenRoute
@@ -792,7 +783,6 @@ export interface FileRoutesById {
   '/_pages/people/$slug/characters': typeof PagesPeopleSlugCharactersRoute
   '/_pages/people/$slug/manga': typeof PagesPeopleSlugMangaRoute
   '/_pages/people/$slug/novel': typeof PagesPeopleSlugNovelRoute
-  '/_pages/summary/$username/$year': typeof PagesSummaryUsernameYearRoute
   '/_pages/u/$username/favorites': typeof PagesUUsernameFavoritesRoute
   '/_pages/u/$username/history': typeof PagesUUsernameHistoryRoute
   '/_pages/u/$username/list': typeof PagesUUsernameListRouteWithChildren
@@ -882,7 +872,6 @@ export interface FileRouteTypes {
     | '/people/$slug/characters'
     | '/people/$slug/manga'
     | '/people/$slug/novel'
-    | '/summary/$username/$year'
     | '/u/$username/favorites'
     | '/u/$username/history'
     | '/u/$username/list'
@@ -960,7 +949,6 @@ export interface FileRouteTypes {
     | '/people/$slug/characters'
     | '/people/$slug/manga'
     | '/people/$slug/novel'
-    | '/summary/$username/$year'
     | '/u/$username/favorites'
     | '/u/$username/history'
     | '/api/auth/activate/$token'
@@ -1049,7 +1037,6 @@ export interface FileRouteTypes {
     | '/_pages/people/$slug/characters'
     | '/_pages/people/$slug/manga'
     | '/_pages/people/$slug/novel'
-    | '/_pages/summary/$username/$year'
     | '/_pages/u/$username/favorites'
     | '/_pages/u/$username/history'
     | '/_pages/u/$username/list'
@@ -1514,13 +1501,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesUUsernameFavoritesRouteImport
       parentRoute: typeof PagesUUsernameRoute
     }
-    '/_pages/summary/$username/$year': {
-      id: '/_pages/summary/$username/$year'
-      path: '/summary/$username/$year'
-      fullPath: '/summary/$username/$year'
-      preLoaderRoute: typeof PagesSummaryUsernameYearRouteImport
-      parentRoute: typeof PagesRoute
-    }
     '/_pages/people/$slug/novel': {
       id: '/_pages/people/$slug/novel'
       path: '/novel'
@@ -1955,7 +1935,6 @@ interface PagesRouteChildren {
   PagesMangaIndexRoute: typeof PagesMangaIndexRoute
   PagesNovelIndexRoute: typeof PagesNovelIndexRoute
   PagesPeopleIndexRoute: typeof PagesPeopleIndexRoute
-  PagesSummaryUsernameYearRoute: typeof PagesSummaryUsernameYearRoute
   PagesCommentsContent_typeSlugSplatRoute: typeof PagesCommentsContent_typeSlugSplatRoute
   PagesCommentsContent_typeSlugIndexRoute: typeof PagesCommentsContent_typeSlugIndexRoute
 }
@@ -1988,7 +1967,6 @@ const PagesRouteChildren: PagesRouteChildren = {
   PagesMangaIndexRoute: PagesMangaIndexRoute,
   PagesNovelIndexRoute: PagesNovelIndexRoute,
   PagesPeopleIndexRoute: PagesPeopleIndexRoute,
-  PagesSummaryUsernameYearRoute: PagesSummaryUsernameYearRoute,
   PagesCommentsContent_typeSlugSplatRoute:
     PagesCommentsContent_typeSlugSplatRoute,
   PagesCommentsContent_typeSlugIndexRoute:

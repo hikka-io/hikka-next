@@ -9,6 +9,5 @@ export { default as UserHistory } from './user-history';
 
 export * from './list';
 export * from './profile';
-export * from './year-statistics';
 
 export { default as FollowListModal } from './followlist-modal';
