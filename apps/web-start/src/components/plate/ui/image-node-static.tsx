@@ -27,13 +27,9 @@ export function ImageElementStatic({
         >
             <PhotoView src={url}>
                 <Image
+                    unoptimized
                     alt="image"
-                    className={cn(
-                        className,
-                        'image-item object-cover size-auto',
-                    )}
-                    width={200}
-                    height={100}
+                    className={cn(className, 'image-item object-cover')}
                     src={url}
                 />
             </PhotoView>

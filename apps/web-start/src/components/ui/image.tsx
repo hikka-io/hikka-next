@@ -11,6 +11,7 @@ import { imgproxyTransformer } from '@/utils/imgproxy';
 
 type Props = Omit<UnpicImageProps<Operations, undefined>, 'transformer'> & {
     transitionDisabled?: boolean;
+    unoptimized?: boolean;
 };
 
 const Image = ({
@@ -18,16 +19,22 @@ const Image = ({
     className,
     transitionDisabled,
     background,
+    unoptimized,
+    src,
     ...props
 }: Props) => {
+    const resolvedClassName = cn(
+        'text-transparent',
+        !transitionDisabled && 'animate-[fade-in_0.2s_ease-in-out]',
+        className,
+    );
+
     const imageProps = {
         ...props,
-        transformer: imgproxyTransformer,
-        className: cn(
-            'text-transparent',
-            !transitionDisabled && 'animate-[fade-in_0.2s_ease-in-out]',
-            className,
-        ),
+        src,
+        transformer: (str, operations) =>
+            imgproxyTransformer(str, operations, unoptimized),
+        className: resolvedClassName,
         background: background ?? 'var(--muted)',
         alt: alt ?? '',
     } as UnpicImageProps<Operations, undefined>;
