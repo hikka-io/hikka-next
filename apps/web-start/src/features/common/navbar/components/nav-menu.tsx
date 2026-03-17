@@ -120,7 +120,7 @@ function NavMenu() {
                                         <span className="px-2 py-1.5 text-xs font-medium text-muted-foreground/70">
                                             {group.title_ua}
                                         </span>
-                                        <ul className="grid">
+                                        <ul className="grid gap-1">
                                             {group.items
                                                 .filter((item) => item.visible)
                                                 .map((item) => (
