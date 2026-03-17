@@ -20,7 +20,7 @@ const Ost: FC<Props> = ({ extended, ost }) => {
     const filteredOSTData = extended ? ost : ost.slice(0, 4);
 
     return (
-        <Stack size={4} extended={extended}>
+        <Stack size={5} extended={extended}>
             {filteredOSTData.map((ost, index) => (
                 <ContentCard
                     target="_blank"
