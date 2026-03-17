@@ -39,8 +39,7 @@ export const Route = createFileRoute('/_pages/collections/')({
     head: () =>
         generateHeadMeta({
             title: 'Колекції',
-            description:
-                'Колекції аніме, манґи та ранобе від спільноти Hikka',
+            description: 'Колекції аніме, манґи та ранобе від спільноти Hikka',
             url: 'https://hikka.io/collections',
         }),
     component: CollectionsPage,

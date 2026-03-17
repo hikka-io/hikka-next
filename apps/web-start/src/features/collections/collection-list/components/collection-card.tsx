@@ -121,7 +121,11 @@ const CollectionCard: FC<Props> = ({
             )}
 
             {/* Preview Items Grid */}
-            <Stack size={(maxPreviewItems + 1) as StackSize} gap="md" imagePreset="cardSm">
+            <Stack
+                size={(maxPreviewItems + 1) as StackSize}
+                gap="md"
+                imagePreset="cardSm"
+            >
                 {previewItems.map((item) => (
                     <ContentCard
                         key={item.content.slug}
