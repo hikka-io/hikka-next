@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { uk } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
 import { ComponentProps, FC } from 'react';
 
@@ -26,9 +27,7 @@ const utcToLocalDate = (unixTime: number): Date => {
 };
 
 const localDateToUtcUnix = (date: Date): number => {
-    return (
-        Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 1000
-    );
+    return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 1000;
 };
 
 interface Props extends ComponentProps<'textarea'> {
@@ -74,7 +73,7 @@ const FormDatePicker: FC<Props> = ({
                                         )}
                                     >
                                         {dateValue ? (
-                                            format(dateValue, 'PPP')
+                                            format(dateValue, 'PPP', { locale: uk })
                                         ) : (
                                             <span>Виберіть дату</span>
                                         )}
@@ -87,6 +86,7 @@ const FormDatePicker: FC<Props> = ({
                                 align="start"
                             >
                                 <Calendar
+                                    locale={uk}
                                     mode="single"
                                     selected={dateValue}
                                     onSelect={(date) => {

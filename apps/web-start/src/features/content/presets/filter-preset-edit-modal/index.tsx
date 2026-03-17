@@ -1,12 +1,16 @@
 'use client';
+
 // TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
 // See: https://github.com/react-hook-form/react-hook-form/issues/11910
-'use no memo';
-
 import { ContentTypeEnum } from '@hikka/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+
+import FormInput from '@/components/form/form-input';
+import FormTextarea from '@/components/form/form-textarea';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 
 import { FormAgeRating } from '@/features/filters/age-rating';
 import { FormDateRange } from '@/features/filters/date-range';
@@ -19,10 +23,6 @@ import { FormSeason } from '@/features/filters/season';
 import { FormSort, SortType } from '@/features/filters/sort';
 import { FormStudio } from '@/features/filters/studio';
 import { FormYear } from '@/features/filters/year';
-import FormInput from '@/components/form/form-input';
-import FormTextarea from '@/components/form/form-textarea';
-import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 
 import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsStore } from '@/services/stores/settings-store';
@@ -31,30 +31,6 @@ import { z } from '@/utils/i18n/zod';
 
 import ContentTypeSelect from './components/content-type-select';
 import FilterPresetModal from './filter-preset-modal';
-
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
-
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
-
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
-
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
-
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
-
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
-
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
-
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
 
 const formSchema = z.object({
     name: z.string().min(1).max(255),
@@ -103,6 +79,8 @@ interface Props {
 }
 
 const Component = ({ filterPreset }: Props) => {
+    'use no memo';
+
     const { filterPresets, setFilterPresets } = useSettingsStore();
     const { closeModal, openModal } = useModalContext();
 

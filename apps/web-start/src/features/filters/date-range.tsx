@@ -1,8 +1,7 @@
 'use client';
+
 // TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
 // See: https://github.com/react-hook-form/react-hook-form/issues/11910
-'use no memo';
-
 import { useRouter } from '@tanstack/react-router';
 import { CalendarRange } from 'lucide-react';
 import { FC, useEffect, useState } from 'react';
@@ -17,12 +16,6 @@ import { Switch } from '@/components/ui/switch';
 
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
-
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
-
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
 
 interface Props {
     className?: string;
@@ -152,6 +145,8 @@ const DateRange = (props: Props) => {
 };
 
 export const FormDateRange: FC<Props & Partial<FormSliderProps>> = (props) => {
+    'use no memo';
+
     const { watch } = useFormContext();
     const dateRangeEnabled = watch('date_range_enabled');
     const dateRange = watch('date_range');
