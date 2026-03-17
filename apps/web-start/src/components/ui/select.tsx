@@ -1,6 +1,5 @@
 'use client';
 
-import * as PopoverPrimitive from '@radix-ui/react-popover';
 import {
     Primitive,
     type PrimitivePropsWithRef,
@@ -8,6 +7,7 @@ import {
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { type VariantProps } from 'class-variance-authority';
 import { ChevronsUpDown, X } from 'lucide-react';
+import { Popover as PopoverPrimitive } from 'radix-ui';
 import React, { FC, Fragment, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 

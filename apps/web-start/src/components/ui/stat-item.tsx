@@ -1,4 +1,4 @@
-import { Slot } from '@radix-ui/react-slot';
+import { Slot as SlotPrimitive } from 'radix-ui';
 import { type VariantProps, cva } from 'class-variance-authority';
 import * as React from 'react';
 
@@ -28,7 +28,7 @@ export interface StatItemProps
 
 const StatItem = React.forwardRef<HTMLButtonElement, StatItemProps>(
     ({ className, size, asChild = false, ...props }, ref) => {
-        const Comp = asChild ? Slot : 'button';
+        const Comp = asChild ? SlotPrimitive.Slot : 'button';
         return (
             <Comp
                 className={cn(statItemVariants({ size, className }))}

@@ -1,4 +1,4 @@
-import { CollapsibleProps } from '@radix-ui/react-collapsible';
+import { CollapsibleProps } from 'radix-ui';
 import { FC, ReactNode } from 'react';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
