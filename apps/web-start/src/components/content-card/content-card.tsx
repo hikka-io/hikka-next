@@ -222,7 +222,12 @@ const Content = memo(
                                 linkProps={linkProps}
                                 className="absolute left-0 top-0 flex size-full items-center justify-center bg-secondary/20"
                             >
-                                {renderImage(image, imageClassName, imageProps)}
+                                {renderImage(
+                                    image,
+                                    imageClassName,
+                                    imageProps,
+                                    containerRatio,
+                                )}
                                 {!disableChildrenLink && children}
                                 {watch && (
                                     <ContentStatus
@@ -276,6 +281,7 @@ const renderImage = (
     image: string | ReactNode | undefined,
     imageClassName?: string,
     imageProps?: ImageProps,
+    containerRatio?: number,
 ) => {
     if (!image) {
         return (
@@ -287,14 +293,10 @@ const renderImage = (
         const { width, height, sizes, ...restImageProps } = imageProps || {};
         return (
             <Image
+                width={width}
+                height={height}
                 src={image}
-                width={width ?? DEFAULT_IMAGE_DIMENSIONS.width}
-                height={height ?? DEFAULT_IMAGE_DIMENSIONS.height}
-                sizes={sizes ?? DEFAULT_CARD_SIZES}
-                className={cn(
-                    'max-w-full! size-full object-cover',
-                    imageClassName,
-                )}
+                className={cn('max-w-full! max-h-full! ', imageClassName)}
                 alt="Poster"
                 {...(Object.keys(restImageProps).length > 0
                     ? restImageProps

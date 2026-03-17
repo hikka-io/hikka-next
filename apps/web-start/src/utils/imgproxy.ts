@@ -22,7 +22,7 @@ function buildProcessingOptions(operations: Operations): string {
         operations.height != null ? Math.round(Number(operations.height)) : 0;
 
     if (width > 0 || height > 0) {
-        parts.push(`rs:fill:${width}:${height}`);
+        parts.push(`rs:fit:${width}:${height}:0:0`);
     }
 
     return parts.join('/');

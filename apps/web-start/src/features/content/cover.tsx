@@ -27,7 +27,6 @@ const Cover = ({ content_type }: Props) => {
                 imageProps={{
                     width: 480,
                     height: 686,
-                    sizes: '(min-width: 1280px) 306px, (min-width: 1024px) 212px, (min-width: 768px) 352px, (min-width: 640px) 480px, calc(100vw - 160px)',
                 }}
             />
         </div>
