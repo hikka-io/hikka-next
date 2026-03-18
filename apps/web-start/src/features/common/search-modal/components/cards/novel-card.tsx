@@ -4,7 +4,7 @@ import { NovelResponse } from '@hikka/client';
 import * as React from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
-import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
+import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 

@@ -3,24 +3,19 @@
 import { CharacterResponse } from '@hikka/client';
 import { useSearchCharacters } from '@hikka/react';
 import { useRouter } from '@/utils/navigation';
-import { ReactNode, useCallback } from 'react';
+import { useCallback } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
-import {
-    CommandGroup,
-    CommandItem,
-    CommandList,
-} from '@/components/ui/command';
 
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 
 import CharacterCard from '../cards/character-card';
 import SearchPlaceholders from '../search-placeholders';
+import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
 interface Props {
     onDismiss: (character: CharacterResponse) => void;
     type?: 'link' | 'button';
-    children?: ReactNode;
     value?: string;
 }
 
@@ -53,21 +48,18 @@ const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
             enabled: value !== undefined && value.length >= MIN_SEARCH_LENGTH,
         },
     });
-    /* const { data, isFetching, isRefetching } = useCharacterSearchList({
-        value,
-    }); */
 
     return (
-        <CommandList className="max-h-screen">
+        <SearchList>
             <SearchPlaceholders
                 data={list}
                 isFetching={isFetching}
                 isRefetching={isRefetching}
             />
             {list && list.length > 0 && (
-                <CommandGroup>
+                <SearchGroup>
                     {list.map((character) => (
-                        <CommandItem
+                        <SearchItem
                             key={character.slug}
                             value={character.slug}
                             onSelect={() => handleSelect(character)}
@@ -77,9 +69,9 @@ const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
                                 character={character}
                                 type={type}
                             />
-                        </CommandItem>
+                        </SearchItem>
                     ))}
-                </CommandGroup>
+                </SearchGroup>
             )}
             <div className="flex items-center justify-center">
                 {hasNextPage && (
@@ -90,7 +82,7 @@ const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
                     />
                 )}
             </div>
-        </CommandList>
+        </SearchList>
     );
 };
 

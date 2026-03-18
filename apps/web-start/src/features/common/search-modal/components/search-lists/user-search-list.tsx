@@ -3,21 +3,17 @@
 import { UserResponse } from '@hikka/client';
 import { useSearchUsers } from '@hikka/react';
 import { useRouter } from '@/utils/navigation';
-import { ReactNode, useCallback } from 'react';
+import { useCallback } from 'react';
 
-import {
-    CommandGroup,
-    CommandItem,
-    CommandList,
-} from '@/components/ui/command';
+import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 
 import UserCard from '../cards/user-card';
 import SearchPlaceholders from '../search-placeholders';
+import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
 interface Props {
     onDismiss: (user: UserResponse) => void;
     type?: 'link' | 'button';
-    children?: ReactNode;
     value?: string;
 }
 
@@ -38,21 +34,22 @@ const UserSearchList = ({ onDismiss, type, value }: Props) => {
         args: { query: value || '' },
         queryKey: ['user-search-list', value],
         options: {
-            enabled: value !== undefined && value.length >= 3,
+            enabled:
+                value !== undefined && value.length >= MIN_SEARCH_LENGTH,
         },
     });
 
     return (
-        <CommandList className="max-h-screen">
+        <SearchList>
             <SearchPlaceholders
                 data={data}
                 isFetching={isFetching}
                 isRefetching={isRefetching}
             />
             {data && data.length > 0 && (
-                <CommandGroup>
+                <SearchGroup>
                     {data.map((user) => (
-                        <CommandItem
+                        <SearchItem
                             key={user.reference}
                             value={user.reference}
                             onSelect={() => handleSelect(user)}
@@ -62,11 +59,11 @@ const UserSearchList = ({ onDismiss, type, value }: Props) => {
                                 user={user}
                                 type={type}
                             />
-                        </CommandItem>
+                        </SearchItem>
                     ))}
-                </CommandGroup>
+                </SearchGroup>
             )}
-        </CommandList>
+        </SearchList>
     );
 };
 

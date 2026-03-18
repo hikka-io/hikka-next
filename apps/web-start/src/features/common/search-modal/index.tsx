@@ -1,8 +1,10 @@
 'use client';
 
 import { ContentTypeEnum, MainContent, UserResponse } from '@hikka/client';
+import { CircleX } from 'lucide-react';
 import { FC, Fragment, ReactNode, useCallback, useRef, useState } from 'react';
 
+import { Button } from '@/components/ui/button';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 
 import useDebounce from '@/services/hooks/use-debounce';
@@ -100,7 +102,20 @@ const SearchModal: FC<Props> = ({
                             type={searchType}
                         />
                     }
-                ></CommandInput>
+                >
+                    <Button
+                        onClick={() => {
+                            setSearchValue('');
+                            inputRef.current?.focus();
+                        }}
+                        size="icon-sm"
+                        variant="ghost"
+                        disabled={!searchValue || searchValue?.length === 0}
+                        className="shrink-0 text-muted-foreground"
+                    >
+                        <CircleX />
+                    </Button>
+                </CommandInput>
 
                 {searchType === 'all' && (
                     <AllSearchList

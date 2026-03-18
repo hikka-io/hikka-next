@@ -21,7 +21,7 @@ const CharacterCard = ({ character, onClick, type }: Props) => {
         <Comp
             to={'/characters/' + character.slug}
             onClick={onClick}
-            className="flex w-full gap-4 text-left items-center"
+            className="flex w-full items-center gap-4 text-left"
         >
             <div className="w-12">
                 <ContentCard image={character.image} />

@@ -3,24 +3,19 @@
 import { PersonResponse } from '@hikka/client';
 import { useSearchPeople } from '@hikka/react';
 import { useRouter } from '@/utils/navigation';
-import { ReactNode, useCallback } from 'react';
+import { useCallback } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
-import {
-    CommandGroup,
-    CommandItem,
-    CommandList,
-} from '@/components/ui/command';
 
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 
 import PersonCard from '../cards/person-card';
 import SearchPlaceholders from '../search-placeholders';
+import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
 interface Props {
     onDismiss: (person: PersonResponse) => void;
     type?: 'link' | 'button';
-    children?: ReactNode;
     value?: string;
 }
 
@@ -55,16 +50,16 @@ const PersonSearchList = ({ onDismiss, type, value }: Props) => {
     });
 
     return (
-        <CommandList className="max-h-screen">
+        <SearchList>
             <SearchPlaceholders
                 data={list}
                 isFetching={isFetching}
                 isRefetching={isRefetching}
             />
             {list && list.length > 0 && (
-                <CommandGroup>
+                <SearchGroup>
                     {list.map((person) => (
-                        <CommandItem
+                        <SearchItem
                             key={person.slug}
                             value={person.slug}
                             onSelect={() => handleSelect(person)}
@@ -74,9 +69,9 @@ const PersonSearchList = ({ onDismiss, type, value }: Props) => {
                                 person={person}
                                 type={type}
                             />
-                        </CommandItem>
+                        </SearchItem>
                     ))}
-                </CommandGroup>
+                </SearchGroup>
             )}
             <div className="flex items-center justify-center">
                 {hasNextPage && (
@@ -87,7 +82,7 @@ const PersonSearchList = ({ onDismiss, type, value }: Props) => {
                     />
                 )}
             </div>
-        </CommandList>
+        </SearchList>
     );
 };
 

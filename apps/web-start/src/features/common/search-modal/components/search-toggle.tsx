@@ -11,8 +11,6 @@ import MaterialSymbolsFeatureSearch from '@/components/icons/material-symbols/Ma
 import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
 import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
-
-import { SEARCH_TYPE_ALL, SearchTypeValue } from '../types';
 import { buttonVariants } from '@/components/ui/button';
 import {
     Select,
@@ -26,6 +24,8 @@ import {
 } from '@/components/ui/select';
 
 import { cn } from '@/utils/cn';
+
+import { SEARCH_TYPE_ALL, SearchTypeValue } from '../types';
 
 interface Props {
     type?: SearchTypeValue;
@@ -46,49 +46,49 @@ const SEARCH_TYPES: SearchType[] = [
     {
         slug: SEARCH_TYPE_ALL,
         title_ua: 'Усе',
-        icon: <MaterialSymbolsFeatureSearch className="!size-4" />,
+        icon: <MaterialSymbolsFeatureSearch className="size-4!" />,
         group: 'all',
     },
     {
         slug: ContentTypeEnum.ANIME,
         title_ua: 'Аніме',
-        icon: <MaterialSymbolsAnimatedImages className="!size-4" />,
+        icon: <MaterialSymbolsAnimatedImages className="size-4!" />,
         group: 'content',
     },
     {
         slug: ContentTypeEnum.MANGA,
         title_ua: 'Манґа',
-        icon: <MaterialSymbolsPalette className="!size-4" />,
+        icon: <MaterialSymbolsPalette className="size-4!" />,
         group: 'content',
     },
     {
         slug: ContentTypeEnum.NOVEL,
         title_ua: 'Ранобе',
-        icon: <MaterialSymbolsMenuBookRounded className="!size-4" />,
+        icon: <MaterialSymbolsMenuBookRounded className="size-4!" />,
         group: 'content',
     },
     {
         slug: ContentTypeEnum.CHARACTER,
         title_ua: 'Персонаж',
-        icon: <MaterialSymbolsFace3 className="!size-4" />,
+        icon: <MaterialSymbolsFace3 className="size-4!" />,
         group: 'content',
     },
     {
         slug: ContentTypeEnum.PERSON,
         title_ua: 'Людина',
-        icon: <MaterialSymbolsPerson className="!size-4" />,
+        icon: <MaterialSymbolsPerson className="size-4!" />,
         group: 'content',
     },
     {
         slug: ContentTypeEnum.USER,
         title_ua: 'Користувач',
-        icon: <MaterialSymbolsAccountBox className="!size-4" />,
+        icon: <MaterialSymbolsAccountBox className="size-4!" />,
         group: 'community',
     },
 ];
 
-const GROUP_LABELS: Record<string, string> = {
-    all: 'Пошук',
+const GROUP_LABELS: Record<string, string | undefined> = {
+    all: undefined,
     content: 'Контент',
     community: 'Спільнота',
 };
@@ -147,9 +147,7 @@ const SearchToggle: FC<Props> = ({
                                             >
                                                 <div className="flex items-center gap-2">
                                                     {type.icon}
-                                                    <span>
-                                                        {type.title_ua}
-                                                    </span>
+                                                    <span>{type.title_ua}</span>
                                                 </div>
                                             </SelectItem>
                                         ))}
