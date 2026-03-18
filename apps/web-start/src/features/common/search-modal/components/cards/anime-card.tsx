@@ -25,9 +25,9 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
         <Comp
             to={'/anime/' + anime.slug}
             onClick={onClick}
-            className="flex w-full items-start gap-4 text-left"
+            className="flex w-full items-center gap-4 text-left"
         >
-            <div className="w-12 sm:w-16">
+            <div className="w-12">
                 <ContentCard image={anime.image} />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">

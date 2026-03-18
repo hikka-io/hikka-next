@@ -1,11 +1,12 @@
 'use client';
 
 import { PersonResponse } from '@hikka/client';
-import { Link } from '@/utils/navigation';
 import * as React from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Label } from '@/components/ui/label';
+
+import { Link } from '@/utils/navigation';
 
 interface Props {
     person: PersonResponse;
@@ -20,9 +21,9 @@ const PersonCard = ({ person, onClick, type }: Props) => {
         <Comp
             to={'/people/' + person.slug}
             onClick={onClick}
-            className="flex w-full gap-4 text-left"
+            className="flex w-full items-center gap-4 text-left"
         >
-            <div className="w-12 sm:w-16">
+            <div className="w-12">
                 <ContentCard image={person.image} />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">

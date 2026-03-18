@@ -7,9 +7,12 @@ import { FC, Fragment, ReactNode } from 'react';
 import MaterialSymbolsAccountBox from '@/components/icons/material-symbols/MaterialSymbolsAccountBox';
 import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
+import MaterialSymbolsFeatureSearch from '@/components/icons/material-symbols/MaterialSymbolsFeatureSearch';
 import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
 import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
+
+import { SEARCH_TYPE_ALL, SearchTypeValue } from '../types';
 import { buttonVariants } from '@/components/ui/button';
 import {
     Select,
@@ -25,21 +28,27 @@ import {
 import { cn } from '@/utils/cn';
 
 interface Props {
-    type?: ContentTypeEnum;
-    setType: (type: ContentTypeEnum) => void;
+    type?: SearchTypeValue;
+    setType: (type: SearchTypeValue) => void;
     disabled?: boolean;
     inputRef: React.RefObject<HTMLInputElement | null>;
     allowedTypes?: ContentTypeEnum[];
 }
 
 type SearchType = {
-    slug: ContentTypeEnum;
+    slug: SearchTypeValue;
     title_ua: string;
     icon: ReactNode;
-    group: 'content' | 'community';
+    group: 'all' | 'content' | 'community';
 };
 
 const SEARCH_TYPES: SearchType[] = [
+    {
+        slug: SEARCH_TYPE_ALL,
+        title_ua: 'Усе',
+        icon: <MaterialSymbolsFeatureSearch className="!size-4" />,
+        group: 'all',
+    },
     {
         slug: ContentTypeEnum.ANIME,
         title_ua: 'Аніме',
@@ -79,6 +88,7 @@ const SEARCH_TYPES: SearchType[] = [
 ];
 
 const GROUP_LABELS: Record<string, string> = {
+    all: 'Пошук',
     content: 'Контент',
     community: 'Спільнота',
 };
@@ -90,13 +100,17 @@ const SearchToggle: FC<Props> = ({
     disabled,
     inputRef,
 }) => {
-    const handleOnValueChange = (value: ContentTypeEnum[]) => {
+    const handleOnValueChange = (value: SearchTypeValue[]) => {
         value && setType(value[0]);
         inputRef.current?.focus();
     };
 
     const filteredTypes = allowedTypes
-        ? SEARCH_TYPES.filter((type) => allowedTypes.includes(type.slug))
+        ? SEARCH_TYPES.filter(
+              (t) =>
+                  t.slug === SEARCH_TYPE_ALL ||
+                  allowedTypes.includes(t.slug as ContentTypeEnum),
+          )
         : SEARCH_TYPES;
 
     return (

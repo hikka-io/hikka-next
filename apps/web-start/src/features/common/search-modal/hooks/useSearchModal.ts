@@ -4,11 +4,13 @@ import { Dispatch, SetStateAction, useEffect } from 'react';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
+import { SearchTypeValue } from '../types';
+
 interface Props {
     open: boolean;
     onClick?: (anime: AnimeResponse) => void;
     setOpen: Dispatch<SetStateAction<boolean>>;
-    setSearchType?: Dispatch<SetStateAction<ContentTypeEnum>>;
+    setSearchType?: Dispatch<SetStateAction<SearchTypeValue>>;
     content_type?: ContentTypeEnum;
 }
 

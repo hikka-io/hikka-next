@@ -8,6 +8,7 @@ import { CommandDialog, CommandInput } from '@/components/ui/command';
 import useDebounce from '@/services/hooks/use-debounce';
 
 import SearchButton from './components/search-button';
+import AllSearchList from './components/search-lists/all-search-list';
 import AnimeSearchList from './components/search-lists/anime-search-list';
 import CharacterSearchList from './components/search-lists/character-search-list';
 import MangaSearchList from './components/search-lists/manga-search-list';
@@ -16,6 +17,7 @@ import PersonSearchList from './components/search-lists/person-search-list';
 import UserSearchList from './components/search-lists/user-search-list';
 import SearchToggle from './components/search-toggle';
 import useSearchModal from './hooks/useSearchModal';
+import { SEARCH_TYPE_ALL, SearchTypeValue } from './types';
 
 interface Props {
     onClick?: (content: MainContent | UserResponse) => void;
@@ -33,8 +35,8 @@ const SearchModal: FC<Props> = ({
     allowedTypes,
 }) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [searchType, setSearchType] = useState<ContentTypeEnum>(
-        content_type || ContentTypeEnum.ANIME,
+    const [searchType, setSearchType] = useState<SearchTypeValue>(
+        content_type || SEARCH_TYPE_ALL,
     );
     const [open, setOpen] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string | undefined>(
@@ -77,7 +79,7 @@ const SearchModal: FC<Props> = ({
         <Fragment>
             <SearchButton setOpen={setOpen}>{children}</SearchButton>
             <CommandDialog
-                className="sm:max-w-3xl"
+                className="sm:max-w-2xl"
                 open={open}
                 onOpenChange={handleOpenChange}
                 shouldFilter={false}
@@ -99,6 +101,18 @@ const SearchModal: FC<Props> = ({
                         />
                     }
                 ></CommandInput>
+
+                {searchType === 'all' && (
+                    <AllSearchList
+                        onDismiss={onDismiss}
+                        onClose={() => {
+                            setSearchValue('');
+                            setOpen(false);
+                        }}
+                        value={value}
+                        type={type}
+                    />
+                )}
 
                 {searchType === 'anime' && (
                     <AnimeSearchList

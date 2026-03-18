@@ -2,7 +2,6 @@
 
 import { UserResponse } from '@hikka/client';
 import { format } from 'date-fns/format';
-import { Link } from '@/utils/navigation';
 import * as React from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -10,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 
 import { USER_ROLE } from '@/utils/constants/common';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     user: UserResponse;
@@ -24,9 +24,9 @@ const UserCard = ({ user, onClick, type }: Props) => {
         <Comp
             to={'/u/' + user.username}
             onClick={onClick}
-            className="flex w-full gap-4 text-left"
+            className="flex w-full items-center gap-4 text-left"
         >
-            <div className="w-12 sm:w-16">
+            <div className="w-12">
                 <ContentCard image={user.avatar} containerRatio={1} />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">

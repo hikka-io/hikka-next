@@ -1,7 +1,6 @@
 'use client';
 
 import { NovelResponse } from '@hikka/client';
-import { Link } from '@/utils/navigation';
 import * as React from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -11,6 +10,7 @@ import { Label } from '@/components/ui/label';
 
 import { cn } from '@/utils/cn';
 import { NOVEL_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     novel: NovelResponse;
@@ -25,9 +25,9 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
         <Comp
             to={'/novel/' + novel.slug}
             onClick={onClick}
-            className="flex w-full items-start gap-4 text-left"
+            className="flex w-full items-center gap-4 text-left"
         >
-            <div className="w-12 sm:w-16">
+            <div className="w-12">
                 <ContentCard image={novel.image} />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">
@@ -76,10 +76,10 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
                 </div>
             </div>
             {novel.score > 0 && (
-                <div className="flex items-center gap-1 text-sm">
-                    <p className="font-bold leading-normal">{novel.score}</p>
-                    <MaterialSymbolsStarRounded className="hidden sm:block" />
-                </div>
+                <Badge variant="outline" className="gap-1">
+                    {novel.score}
+                    <MaterialSymbolsStarRounded className="text-yellow-400 size-4" />
+                </Badge>
             )}
         </Comp>
     );
