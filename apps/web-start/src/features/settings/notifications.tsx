@@ -6,7 +6,7 @@ import {
     useUpdateIgnoredNotifications,
 } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -15,7 +15,6 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
@@ -37,18 +36,31 @@ const formSchema = z.object({
 });
 
 const Component = () => {
-    const { closeModal } = useModalContext();
+    const { data } = useIgnoredNotifications();
+
+    const formValues = useMemo(() => {
+        const defaults = formSchema.parse({});
+
+        if (!data?.ignored_notifications) return defaults;
+
+        return data.ignored_notifications.reduce(
+            (acc, key) => {
+                acc[key as keyof z.infer<typeof formSchema>] = false;
+                return acc;
+            },
+            { ...defaults },
+        );
+    }, [data?.ignored_notifications]);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: formSchema.parse({}),
+        values: formValues,
     });
 
-    const { data } = useIgnoredNotifications();
     const { mutate: changeIgnoredNotifications, isPending } =
         useUpdateIgnoredNotifications({
             options: {
                 onSuccess: async () => {
-                    closeModal();
                     toast.success('Ви успішно змінили налаштування сповіщень.');
                 },
             },
@@ -61,20 +73,6 @@ const Component = () => {
             ) as NotificationTypeEnum[],
         });
     };
-
-    useEffect(() => {
-        if (data?.ignored_notifications) {
-            form.reset(
-                data.ignored_notifications.reduce(
-                    (acc, key) => {
-                        acc[key as keyof z.infer<typeof formSchema>] = false;
-                        return acc;
-                    },
-                    {} as z.infer<typeof formSchema>,
-                ),
-            );
-        }
-    }, [data?.ignored_notifications]);
 
     return (
         <Form {...form}>
