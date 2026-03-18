@@ -308,6 +308,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                         read={selectedRead}
                         slug={selectedRead.content.slug}
                         content_type={contentType}
+                        onClose={() => setOpen(false)}
                     />
                 </ResponsiveModalContent>
             </ResponsiveModal>

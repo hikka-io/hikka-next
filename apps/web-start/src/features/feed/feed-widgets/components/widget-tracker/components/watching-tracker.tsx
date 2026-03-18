@@ -281,6 +281,7 @@ const WatchingTracker = () => {
                     <WatchEditModal
                         watch={selectedWatch}
                         slug={selectedWatch.anime.slug}
+                        onClose={() => setOpen(false)}
                     />
                 </ResponsiveModalContent>
             </ResponsiveModal>

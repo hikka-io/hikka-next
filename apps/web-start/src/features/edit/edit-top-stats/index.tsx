@@ -10,11 +10,11 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
-    ResponsiveModalSeparator,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
+import { Separator } from '@/components/ui/separator';
 import { EditTopStatsModal } from '@/features/edit';
 
 import EditTopItem from './components/edit-top-item';
@@ -57,7 +57,7 @@ function EditTopStats() {
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>Топ авторів</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    <ResponsiveModalSeparator />
+                    <Separator />
                     <EditTopStatsModal />
                 </ResponsiveModalContent>
             </ResponsiveModal>

@@ -20,13 +20,13 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
-    ResponsiveModalSeparator,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 import { cn } from '@/utils/cn';
 
 import Card from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import CollectionItem from './components/collection-item';
 import CollectionsModal from './components/collections-modal';
 
@@ -102,7 +102,7 @@ const UserCollections: FC<Props> = ({ className }) => {
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>Колекції</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    <ResponsiveModalSeparator />
+                    <Separator />
                     <CollectionsModal />
                 </ResponsiveModalContent>
             </ResponsiveModal>

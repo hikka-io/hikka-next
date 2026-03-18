@@ -32,8 +32,6 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-import { Separator } from '@/components/ui/separator';
-
 import { cn } from '@/utils/cn';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
@@ -133,14 +131,16 @@ function ResponsiveModalTrigger({
 
 // --- Content ---
 
+type DialogContentProps = React.ComponentProps<typeof DialogContent>;
+
 interface ResponsiveModalContentProps {
     children: React.ReactNode;
     className?: string;
     side?: 'left' | 'right' | 'top' | 'bottom';
     showCloseButton?: boolean;
-    onPointerDownOutside?: (e: PointerEvent) => void;
-    onEscapeKeyDown?: (e: KeyboardEvent) => void;
-    onInteractOutside?: (e: Event) => void;
+    onPointerDownOutside?: DialogContentProps['onPointerDownOutside'];
+    onEscapeKeyDown?: DialogContentProps['onEscapeKeyDown'];
+    onInteractOutside?: DialogContentProps['onInteractOutside'];
 }
 
 function ResponsiveModalContent({
@@ -158,9 +158,9 @@ function ResponsiveModalContent({
         return (
             <DrawerContent
                 className={cn('max-h-[90dvh]', className)}
-                onPointerDownOutside={onPointerDownOutside as any}
-                onEscapeKeyDown={onEscapeKeyDown as any}
-                onInteractOutside={onInteractOutside as any}
+                onPointerDownOutside={onPointerDownOutside}
+                onEscapeKeyDown={onEscapeKeyDown}
+                onInteractOutside={onInteractOutside}
             >
                 {children}
             </DrawerContent>
@@ -176,9 +176,9 @@ function ResponsiveModalContent({
                     'flex !max-w-lg flex-col gap-0 p-0',
                     className,
                 )}
-                onPointerDownOutside={onPointerDownOutside as any}
-                onEscapeKeyDown={onEscapeKeyDown as any}
-                onInteractOutside={onInteractOutside as any}
+                onPointerDownOutside={onPointerDownOutside}
+                onEscapeKeyDown={onEscapeKeyDown}
+                onInteractOutside={onInteractOutside}
             >
                 {children}
             </SheetContent>
@@ -188,10 +188,10 @@ function ResponsiveModalContent({
     return (
         <DialogContent
             showCloseButton={showCloseButton}
-            className={cn(className)}
-            onPointerDownOutside={onPointerDownOutside as any}
-            onEscapeKeyDown={onEscapeKeyDown as any}
-            onInteractOutside={onInteractOutside as any}
+            className={className}
+            onPointerDownOutside={onPointerDownOutside}
+            onEscapeKeyDown={onEscapeKeyDown}
+            onInteractOutside={onInteractOutside}
         >
             {children}
         </DialogContent>
@@ -260,12 +260,6 @@ function ResponsiveModalClose({
     return <DialogClose {...props} />;
 }
 
-// --- Separator (convenience) ---
-
-function ResponsiveModalSeparator() {
-    return <Separator />;
-}
-
 export {
     ResponsiveModal,
     ResponsiveModalClose,
@@ -273,7 +267,6 @@ export {
     ResponsiveModalDescription,
     ResponsiveModalFooter,
     ResponsiveModalHeader,
-    ResponsiveModalSeparator,
     ResponsiveModalTitle,
     ResponsiveModalTrigger,
 };

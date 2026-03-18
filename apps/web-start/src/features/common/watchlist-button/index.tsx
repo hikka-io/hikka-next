@@ -159,9 +159,9 @@ const WatchlistButton = ({
 
     const currentStatus = watch ? [watch.status] : [];
 
-    if (size?.includes('icon')) {
-        return (
-            <>
+    return (
+        <>
+            {size?.includes('icon') ? (
                 <IconWatchStatusButton
                     {...buttonProps}
                     watch={watch}
@@ -172,64 +172,52 @@ const WatchlistButton = ({
                     isLoading={isChangingStatus}
                     onOpenModal={() => setEditOpen(true)}
                 />
-                <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
-                    <ResponsiveModalContent className="!max-w-xl">
-                        <ResponsiveModalHeader>
-                            <ResponsiveModalTitle>{anime?.title}</ResponsiveModalTitle>
-                        </ResponsiveModalHeader>
-                        <WatchEditModal slug={slug} watch={watch} onClose={() => setEditOpen(false)} />
-                    </ResponsiveModalContent>
-                </ResponsiveModal>
-            </>
-        );
-    }
+            ) : (
+                <Select
+                    disabled={disabled || isChangingStatus}
+                    value={currentStatus}
+                    onValueChange={handleChangeStatus}
+                >
+                    {watch ? (
+                        <WatchStatusTrigger
+                            watch={watch}
+                            disabled={disabled}
+                            size={size as 'sm' | 'md'}
+                            isLoading={isChangingStatus}
+                            onOpenModal={() => setEditOpen(true)}
+                        />
+                    ) : (
+                        <NewStatusTrigger
+                            size={size as 'sm' | 'md'}
+                            slug={slug}
+                            disabled={disabled}
+                            isLoading={isChangingStatus}
+                        />
+                    )}
 
-    return (
-        <>
-            <Select
-                disabled={disabled || isChangingStatus}
-                value={currentStatus}
-                onValueChange={handleChangeStatus}
-            >
-                {watch ? (
-                    <WatchStatusTrigger
-                        watch={watch}
-                        disabled={disabled}
-                        size={size as 'sm' | 'md'}
-                        anime={anime}
-                        isLoading={isChangingStatus}
-                    />
-                ) : (
-                    <NewStatusTrigger
-                        size={size as 'sm' | 'md'}
-                        slug={slug}
-                        disabled={disabled}
-                        isLoading={isChangingStatus}
-                    />
-                )}
-
-                <SelectContent>
-                    <SelectList>
-                        <SelectGroup>
-                            {STATUS_OPTIONS.map((option) => (
-                                <SelectItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </SelectItem>
-                            ))}
-                        </SelectGroup>
-                        {watch && (
-                            <>
-                                <SelectSeparator />
-                                <SelectGroup>
-                                    <SelectItem disableCheckbox value="settings">
-                                        {SETTINGS_BUTTON.label}
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                {STATUS_OPTIONS.map((option) => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                        {option.label}
                                     </SelectItem>
-                                </SelectGroup>
-                            </>
-                        )}
-                    </SelectList>
-                </SelectContent>
-            </Select>
+                                ))}
+                            </SelectGroup>
+                            {watch && (
+                                <>
+                                    <SelectSeparator />
+                                    <SelectGroup>
+                                        <SelectItem disableCheckbox value="settings">
+                                            {SETTINGS_BUTTON.label}
+                                        </SelectItem>
+                                    </SelectGroup>
+                                </>
+                            )}
+                        </SelectList>
+                    </SelectContent>
+                </Select>
+            )}
             <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
                 <ResponsiveModalContent className="!max-w-xl">
                     <ResponsiveModalHeader>

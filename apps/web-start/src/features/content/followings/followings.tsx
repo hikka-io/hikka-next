@@ -17,11 +17,11 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
-    ResponsiveModalSeparator,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 import Card from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import FollowingItem from './components/following-item';
 import FollowingsModal from './followings-modal';
 
@@ -92,7 +92,7 @@ const Followings: FC<Props> = ({ content_type }) => {
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>Відстежується</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    <ResponsiveModalSeparator />
+                    <Separator />
                     <FollowingsModal content_type={content_type} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

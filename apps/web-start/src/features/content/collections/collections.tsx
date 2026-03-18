@@ -16,7 +16,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
-    ResponsiveModalSeparator,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
@@ -24,6 +23,7 @@ import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-chang
 import CollectionItem from '@/features/users/profile/user-collections/components/collection-item';
 
 import Card from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import CollectionsModal from './collections-modal';
 
 interface Props {
@@ -71,7 +71,7 @@ const Collections: FC<Props> = ({ content_type }) => {
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>Колекції</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    <ResponsiveModalSeparator />
+                    <Separator />
                     <CollectionsModal content_type={content_type} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

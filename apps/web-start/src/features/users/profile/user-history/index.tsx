@@ -20,7 +20,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
-    ResponsiveModalSeparator,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
@@ -29,6 +28,7 @@ import HistoryItem from '@/features/users/user-history/components/history-item';
 import { cn } from '@/utils/cn';
 
 import Card from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import ActivityModal from './components/history-modal';
 
 interface Props {
@@ -86,7 +86,7 @@ const History: FC<Props> = ({ className }) => {
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>Активність</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    <ResponsiveModalSeparator />
+                    <Separator />
                     <ActivityModal />
                 </ResponsiveModalContent>
             </ResponsiveModal>

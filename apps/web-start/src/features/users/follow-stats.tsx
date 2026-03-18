@@ -12,7 +12,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
-    ResponsiveModalSeparator,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { Separator } from '@/components/ui/separator';
@@ -96,7 +95,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                             {followType === 'followers' ? 'Стежать' : 'Відстежується'}
                         </ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    <ResponsiveModalSeparator />
+                    <Separator />
                     <FollowListModal type={followType} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

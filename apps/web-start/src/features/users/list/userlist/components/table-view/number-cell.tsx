@@ -73,12 +73,14 @@ const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
                         <WatchEditModal
                             watch={record as WatchResponseBase}
                             slug={content.slug}
+                            onClose={() => setOpen(false)}
                         />
                     ) : (
                         <ReadEditModal
                             read={record as ReadResponseBase}
                             content_type={content_type}
                             slug={content.slug}
+                            onClose={() => setOpen(false)}
                         />
                     )}
                 </ResponsiveModalContent>

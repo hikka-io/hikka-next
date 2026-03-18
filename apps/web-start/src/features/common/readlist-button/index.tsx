@@ -203,9 +203,9 @@ const ReadlistButton = ({
     const hasValidRead = read && !readError;
     const currentStatus = hasValidRead ? [read.status] : [];
 
-    if (size?.includes('icon')) {
-        return (
-            <>
+    return (
+        <>
+            {size?.includes('icon') ? (
                 <IconReadStatusButton
                     {...buttonProps}
                     read={read}
@@ -217,66 +217,53 @@ const ReadlistButton = ({
                     isLoading={isChangingStatus}
                     onOpenModal={() => setEditOpen(true)}
                 />
-                <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
-                    <ResponsiveModalContent className="!max-w-xl">
-                        <ResponsiveModalHeader>
-                            <ResponsiveModalTitle>{content?.title}</ResponsiveModalTitle>
-                        </ResponsiveModalHeader>
-                        <ReadEditModal slug={slug} content_type={content_type} read={read} onClose={() => setEditOpen(false)} />
-                    </ResponsiveModalContent>
-                </ResponsiveModal>
-            </>
-        );
-    }
+            ) : (
+                <Select
+                    disabled={disabled || isChangingStatus}
+                    value={currentStatus}
+                    onValueChange={handleChangeStatus}
+                >
+                    {hasValidRead ? (
+                        <ReadStatusTrigger
+                            read={read}
+                            disabled={disabled}
+                            size={size as 'sm' | 'md'}
+                            isLoading={isChangingStatus}
+                            onOpenModal={() => setEditOpen(true)}
+                        />
+                    ) : (
+                        <NewStatusTrigger
+                            content_type={content_type}
+                            slug={slug}
+                            disabled={disabled}
+                            size={size as 'sm' | 'md'}
+                            isLoading={isChangingStatus}
+                        />
+                    )}
 
-    return (
-        <>
-            <Select
-                disabled={disabled || isChangingStatus}
-                value={currentStatus}
-                onValueChange={handleChangeStatus}
-            >
-                {hasValidRead ? (
-                    <ReadStatusTrigger
-                        content_type={content_type}
-                        read={read}
-                        disabled={disabled}
-                        content={content}
-                        size={size as 'sm' | 'md'}
-                        isLoading={isChangingStatus}
-                    />
-                ) : (
-                    <NewStatusTrigger
-                        content_type={content_type}
-                        slug={slug}
-                        disabled={disabled}
-                        size={size as 'sm' | 'md'}
-                        isLoading={isChangingStatus}
-                    />
-                )}
-
-                <SelectContent>
-                    <SelectList>
-                        <SelectGroup>
-                            {STATUS_OPTIONS.map((option) => (
-                                <SelectItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </SelectItem>
-                            ))}
-                        </SelectGroup>
-                        {hasValidRead && (
-                            <>
-                                <SelectSeparator />
-                                <SelectGroup>
-                                    <SelectItem disableCheckbox value="settings">
-                                        {SETTINGS_BUTTON.label}
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                {STATUS_OPTIONS.map((option) => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                        {option.label}
                                     </SelectItem>
-                                </SelectGroup>
-                            </>
-                        )}
-                    </SelectList>
-                </SelectContent>
-            </Select>
+                                ))}
+                            </SelectGroup>
+                            {hasValidRead && (
+                                <>
+                                    <SelectSeparator />
+                                    <SelectGroup>
+                                        <SelectItem disableCheckbox value="settings">
+                                            {SETTINGS_BUTTON.label}
+                                        </SelectItem>
+                                    </SelectGroup>
+                                </>
+                            )}
+                        </SelectList>
+                    </SelectContent>
+                </Select>
+            )}
             <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
                 <ResponsiveModalContent className="!max-w-xl">
                     <ResponsiveModalHeader>

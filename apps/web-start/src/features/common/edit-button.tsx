@@ -7,7 +7,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
-    ResponsiveModalSeparator,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import {
@@ -16,6 +15,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import { Separator } from '@/components/ui/separator';
 import { EditListModal } from '@/features/edit';
 
 import { cn } from '@/utils/cn';
@@ -53,7 +53,7 @@ const EditButton: FC<Props> = ({ className, slug, content_type, ...props }) => {
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>Список правок</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    <ResponsiveModalSeparator />
+                    <Separator />
                     <EditListModal
                         content_type={content_type}
                         slug={slug}

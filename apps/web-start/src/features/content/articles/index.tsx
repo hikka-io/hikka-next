@@ -17,11 +17,11 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
-    ResponsiveModalSeparator,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 import Card from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import ContentNewsItem from './components/content-articles-item';
 import ContentNewsModal from './components/content-articles-modal';
 
@@ -67,7 +67,7 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>Статті</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    <ResponsiveModalSeparator />
+                    <Separator />
                     <ContentNewsModal content_type={content_type} />
                 </ResponsiveModalContent>
             </ResponsiveModal>
