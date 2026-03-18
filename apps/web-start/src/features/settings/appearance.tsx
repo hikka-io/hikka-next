@@ -85,8 +85,6 @@ const Appearance = () => {
                     {loggedUser?.cover ? (
                         <Image
                             alt="cover"
-                            height={500}
-                            width={300}
                             className="size-full rounded-md object-cover"
                             src={loggedUser?.cover}
                         />
