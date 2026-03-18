@@ -1,7 +1,6 @@
 'use client';
 
 import { AnimeResponse } from '@hikka/client';
-import { Link } from '@/utils/navigation';
 import * as React from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -11,6 +10,7 @@ import { Label } from '@/components/ui/label';
 
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     anime: AnimeResponse;
@@ -76,10 +76,10 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                 </div>
             </div>
             {anime.score > 0 && (
-                <div className="flex items-center gap-1 text-sm">
-                    <p className="font-bold leading-normal">{anime.score}</p>
-                    <MaterialSymbolsStarRounded className="hidden sm:block" />
-                </div>
+                <Badge variant="outline" className="gap-1">
+                    {anime.score}
+                    <MaterialSymbolsStarRounded className="text-yellow-400 size-4" />
+                </Badge>
             )}
         </Comp>
     );

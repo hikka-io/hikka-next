@@ -89,15 +89,16 @@ const SearchModal: FC<Props> = ({
                     placeholder="Пошук..."
                     autoFocus
                     containerClassName="dark:bg-secondary/20 gap-3"
-                >
-                    <SearchToggle
-                        allowedTypes={allowedTypes}
-                        inputRef={inputRef}
-                        disabled={Boolean(content_type)}
-                        setType={setSearchType}
-                        type={searchType}
-                    />
-                </CommandInput>
+                    leftSideNode={
+                        <SearchToggle
+                            allowedTypes={allowedTypes}
+                            inputRef={inputRef}
+                            disabled={Boolean(content_type)}
+                            setType={setSearchType}
+                            type={searchType}
+                        />
+                    }
+                ></CommandInput>
 
                 {searchType === 'anime' && (
                     <AnimeSearchList

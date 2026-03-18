@@ -143,7 +143,7 @@ function CommandGroup({
         <CommandPrimitive.Group
             data-slot="command-group"
             className={cn(
-                'text-foreground **:[[cmdk-group-heading]]:text-muted-foreground overflow-hidden p-1 **:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:py-1.5 **:[[cmdk-group-heading]]:text-xs **:[[cmdk-group-heading]]:font-medium',
+                'text-foreground **:[[cmdk-group-heading]]:text-muted-foreground overflow-hidden p-1! **:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:py-1.5 **:[[cmdk-group-heading]]:text-xs **:[[cmdk-group-heading]]:font-medium',
                 className,
             )}
             {...props}
@@ -172,7 +172,7 @@ function CommandItem({
         <CommandPrimitive.Item
             data-slot="command-item"
             className={cn(
-                "relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2.5 text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-muted data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+                "relative flex cursor-pointer select-none items-center gap-2 rounded-sm p-2! text-sm outline-hidden data-[disabled=true]:pointer-events-none data-[selected='true']:bg-muted data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
                 className,
             )}
             {...props}
