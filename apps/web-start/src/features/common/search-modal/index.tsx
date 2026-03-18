@@ -77,12 +77,9 @@ const SearchModal: FC<Props> = ({
         <Fragment>
             <SearchButton setOpen={setOpen}>{children}</SearchButton>
             <CommandDialog
-                className="mt-16 flex max-h-[80dvh] max-w-3xl"
-                containerClassName="p-0"
-                overlayClassName="items-start"
+                className="sm:max-w-3xl"
                 open={open}
                 onOpenChange={handleOpenChange}
-                onClose={handleClose}
                 shouldFilter={false}
             >
                 <CommandInput

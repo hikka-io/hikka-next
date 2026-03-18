@@ -1,4 +1,3 @@
-import { CollapsibleProps } from 'radix-ui';
 import { FC, ReactNode } from 'react';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
@@ -13,7 +12,8 @@ import { Label } from '@/components/ui/label';
 
 import { cn } from '@/utils/cn';
 
-export interface CollapsibleFilterProps extends CollapsibleProps {
+export interface CollapsibleFilterProps
+    extends React.ComponentProps<typeof Collapsible> {
     active?: boolean;
     icon?: ReactNode;
 }
