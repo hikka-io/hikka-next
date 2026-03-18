@@ -86,8 +86,6 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                                     <Image
                                         className="absolute -z-10 size-full blur-lg"
                                         src={previewItem.content.image ?? ''}
-                                        width={100}
-                                        height={100}
                                         alt="Third element"
                                     />
                                 )}
