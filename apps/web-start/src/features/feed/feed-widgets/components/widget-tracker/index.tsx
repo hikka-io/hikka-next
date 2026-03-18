@@ -1,6 +1,11 @@
 'use client';
 
-import { CommonContentType, ContentTypeEnum } from '@hikka/client';
+import {
+    CommonContentType,
+    ContentTypeEnum,
+    ReadStatusEnum,
+    WatchStatusEnum,
+} from '@hikka/client';
 import { useSession } from '@hikka/react';
 import { useState } from 'react';
 
@@ -23,15 +28,15 @@ const TAB_LIST_CONFIG: Record<
 > = {
     [ContentTypeEnum.ANIME]: {
         path: 'list/anime',
-        search: { status: 'planned', sort: 'watch_score' },
+        search: { status: WatchStatusEnum.WATCHING, sort: 'watch_score' },
     },
     [ContentTypeEnum.MANGA]: {
         path: 'list/manga',
-        search: { status: 'planned', sort: 'read_score' },
+        search: { status: ReadStatusEnum.READING, sort: 'read_score' },
     },
     [ContentTypeEnum.NOVEL]: {
         path: 'list/novel',
-        search: { status: 'planned', sort: 'read_score' },
+        search: { status: ReadStatusEnum.READING, sort: 'read_score' },
     },
 };
 
