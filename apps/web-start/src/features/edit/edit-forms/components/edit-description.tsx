@@ -8,8 +8,6 @@ import { Label } from '@/components/ui/label';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
@@ -97,10 +95,7 @@ const EditDescription: FC<Props> = ({ mode }) => {
             />
         </div>
         <ResponsiveModal open={open} onOpenChange={setOpen}>
-            <ResponsiveModalContent>
-                <ResponsiveModalHeader>
-                    <ResponsiveModalTitle>Теги редагування</ResponsiveModalTitle>
-                </ResponsiveModalHeader>
+            <ResponsiveModalContent title="Теги редагування">
                 <TagsModal
                     setValue={setValue}
                     getValues={getValues}

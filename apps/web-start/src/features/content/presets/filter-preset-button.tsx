@@ -61,10 +61,7 @@ const FilterPresetButton: FC<Props> = ({ className }) => {
                 Пресети
             </Button>
             <ResponsiveModal open={presetsOpen} onOpenChange={setPresetsOpen} forceDesktop>
-                <ResponsiveModalContent className="!max-w-xl">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>Пресети</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+                <ResponsiveModalContent className="!max-w-xl" title="Пресети">
                     <FilterPresetModal
                         onClose={() => setPresetsOpen(false)}
                         onCreatePreset={handleCreatePreset}

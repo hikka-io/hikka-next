@@ -28,8 +28,6 @@ import Year from '@/features/filters/year';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 import { FilterPresetEditModal } from '@/features/content';
@@ -173,10 +171,7 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
             </div>
         </div>
         <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-            <ResponsiveModalContent className="!max-w-xl">
-                <ResponsiveModalHeader>
-                    <ResponsiveModalTitle>Створити пресет з поточних</ResponsiveModalTitle>
-                </ResponsiveModalHeader>
+            <ResponsiveModalContent className="!max-w-xl" title="Створити пресет з поточних">
                 {currentFilters && (
                     <FilterPresetEditModal
                         filterPreset={currentFilters as Hikka.FilterPreset}

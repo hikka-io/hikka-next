@@ -8,8 +8,6 @@ import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 import { ClientCreateModal } from '@/features/oauth';
@@ -26,12 +24,7 @@ const ClientCreateButton: FC = () => {
                 <MaterialSymbolsAddRounded />
             </Button>
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="!max-w-xl">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>
-                            Створення застосунку
-                        </ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+                <ResponsiveModalContent className="!max-w-xl" title="Створення застосунку">
                     <ClientCreateModal onClose={() => setOpen(false)} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

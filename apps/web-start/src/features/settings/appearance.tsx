@@ -14,8 +14,6 @@ import { Label } from '@/components/ui/label';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 import { CropEditorModal } from '@/features/common';
@@ -135,12 +133,7 @@ const Appearance = () => {
             </div>
         </div>
         <ResponsiveModal open={cropOpen} onOpenChange={setCropOpen} forceDesktop>
-            <ResponsiveModalContent className="!max-w-lg">
-                <ResponsiveModalHeader>
-                    <ResponsiveModalTitle>
-                        Редагувати медіафайл
-                    </ResponsiveModalTitle>
-                </ResponsiveModalHeader>
+            <ResponsiveModalContent className="!max-w-lg" title="Редагувати медіафайл">
                 {cropFile && (
                     <CropEditorModal
                         file={cropFile}

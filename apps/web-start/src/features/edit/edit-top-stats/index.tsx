@@ -9,8 +9,6 @@ import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
@@ -53,10 +51,7 @@ function EditTopStats() {
                 <ScrollBar orientation="horizontal" />
             </ScrollArea>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent side="right">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>Топ авторів</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+                <ResponsiveModalContent side="right" title="Топ авторів">
                     <Separator />
                     <EditTopStatsModal />
                 </ResponsiveModalContent>

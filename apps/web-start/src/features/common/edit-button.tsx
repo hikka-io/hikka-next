@@ -6,8 +6,6 @@ import { Button, ButtonProps } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import {
     Tooltip,
@@ -49,10 +47,7 @@ const EditButton: FC<Props> = ({ className, slug, content_type, ...props }) => {
                 <TooltipContent>Правки</TooltipContent>
             </Tooltip>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent side="right">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>Список правок</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+                <ResponsiveModalContent side="right" title="Список правок">
                     <Separator />
                     <EditListModal
                         content_type={content_type}

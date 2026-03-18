@@ -9,8 +9,6 @@ import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 const CollectionRulesAlert = () => {
@@ -44,10 +42,7 @@ const CollectionRulesAlert = () => {
             </div>
         </div>
         <ResponsiveModal open={open} onOpenChange={setOpen}>
-            <ResponsiveModalContent>
-                <ResponsiveModalHeader>
-                    <ResponsiveModalTitle>Правила колекцій</ResponsiveModalTitle>
-                </ResponsiveModalHeader>
+            <ResponsiveModalContent title="Правила колекцій">
                 <MDViewer className="overflow-scroll px-6 py-4 md:overflow-hidden md:p-0">
                     {rules}
                 </MDViewer>

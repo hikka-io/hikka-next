@@ -19,8 +19,6 @@ import NotFound from '@/components/ui/not-found';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 import { cn } from '@/utils/cn';
@@ -98,10 +96,7 @@ const UserCollections: FC<Props> = ({ className }) => {
                 </Block>
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent side="right">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>Колекції</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+                <ResponsiveModalContent side="right" title="Колекції">
                     <Separator />
                     <CollectionsModal />
                 </ResponsiveModalContent>

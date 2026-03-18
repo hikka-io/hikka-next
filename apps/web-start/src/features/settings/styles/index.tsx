@@ -8,8 +8,6 @@ import { Label } from '@/components/ui/label';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 import { useTheme } from '@/services/providers/theme-provider';
@@ -138,12 +136,8 @@ const StylesSettings = () => {
             <ResponsiveModalContent
                 className="!max-w-4xl"
                 onPointerDownOutside={(e) => e.preventDefault()}
+                title="Налаштування кольорів"
             >
-                <ResponsiveModalHeader>
-                    <ResponsiveModalTitle>
-                        Налаштування кольорів
-                    </ResponsiveModalTitle>
-                </ResponsiveModalHeader>
                 <CustomColorsModal onClose={() => setCustomColorsOpen(false)} />
             </ResponsiveModalContent>
         </ResponsiveModal>

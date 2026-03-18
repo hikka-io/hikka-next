@@ -19,8 +19,6 @@ import { Input } from '@/components/ui/input';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 import { CropEditorModal } from '@/features/common';
@@ -145,10 +143,7 @@ const UserInfo = () => {
                 <div className="border-success bg-success-foreground absolute -bottom-2 -right-2 z-1 size-6 rounded-full border-4" />
             )}
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="!max-w-lg">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>Редагувати медіафайл</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+                <ResponsiveModalContent className="!max-w-lg" title="Редагувати медіафайл">
                     {uploadFile && (
                         <CropEditorModal
                             file={uploadFile}

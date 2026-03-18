@@ -15,8 +15,6 @@ import {
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
@@ -67,10 +65,7 @@ const Collections: FC<Props> = ({ content_type }) => {
                 </Block>
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent side="right">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>Колекції</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+                <ResponsiveModalContent side="right" title="Колекції">
                     <Separator />
                     <CollectionsModal content_type={content_type} />
                 </ResponsiveModalContent>

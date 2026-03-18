@@ -138,6 +138,8 @@ interface ResponsiveModalContentProps {
     className?: string;
     side?: 'left' | 'right' | 'top' | 'bottom';
     showCloseButton?: boolean;
+    title?: string;
+    description?: string;
     onPointerDownOutside?: DialogContentProps['onPointerDownOutside'];
     onEscapeKeyDown?: DialogContentProps['onEscapeKeyDown'];
     onInteractOutside?: DialogContentProps['onInteractOutside'];
@@ -148,11 +150,24 @@ function ResponsiveModalContent({
     className,
     side = 'right',
     showCloseButton,
+    title,
+    description,
     onPointerDownOutside,
     onEscapeKeyDown,
     onInteractOutside,
 }: ResponsiveModalContentProps) {
     const { isDesktop, type } = useResponsiveModalContext();
+
+    const header = title ? (
+        <ResponsiveModalHeader>
+            <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
+            {description && (
+                <ResponsiveModalDescription>
+                    {description}
+                </ResponsiveModalDescription>
+            )}
+        </ResponsiveModalHeader>
+    ) : null;
 
     if (!isDesktop) {
         return (
@@ -162,6 +177,7 @@ function ResponsiveModalContent({
                 onEscapeKeyDown={onEscapeKeyDown}
                 onInteractOutside={onInteractOutside}
             >
+                {header}
                 {children}
             </DrawerContent>
         );
@@ -180,6 +196,7 @@ function ResponsiveModalContent({
                 onEscapeKeyDown={onEscapeKeyDown}
                 onInteractOutside={onInteractOutside}
             >
+                {header}
                 {children}
             </SheetContent>
         );
@@ -193,6 +210,7 @@ function ResponsiveModalContent({
             onEscapeKeyDown={onEscapeKeyDown}
             onInteractOutside={onInteractOutside}
         >
+            {header}
             {children}
         </DialogContent>
     );

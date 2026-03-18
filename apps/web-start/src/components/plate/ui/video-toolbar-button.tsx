@@ -13,8 +13,6 @@ import { Form } from '@/components/ui/form';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 
 import { z } from '@/utils/i18n/zod';
@@ -118,10 +116,7 @@ export function VideoToolbarButton() {
                 <Film className="size-4" />
             </ToolbarButton>
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="!max-w-xl">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>Додати відео</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+                <ResponsiveModalContent className="!max-w-xl" title="Додати відео">
                     <AddVideoModal editor={editor} onClose={() => setOpen(false)} />
                 </ResponsiveModalContent>
             </ResponsiveModal>
