@@ -18,7 +18,6 @@ import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/Mate
 import { Button } from '@/components/ui/button';
 import { Form, FormLabel } from '@/components/ui/form';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
@@ -32,17 +31,17 @@ const formSchema = z.object({
 
 interface Props {
     client: ClientResponse;
+    onClose?: () => void;
 }
 
-const Component = ({ client }: Props) => {
-    const { closeModal } = useModalContext();
+const Component = ({ client, onClose }: Props) => {
 
     const { mutate: updateClient, isPending: updateClientLoading } =
         useUpdateClient({
             options: {
                 onSuccess: () => {
                     toast.success('Застосунок успішно оновлено');
-                    closeModal();
+                    onClose?.();
                 },
             },
         });
@@ -51,7 +50,7 @@ const Component = ({ client }: Props) => {
             options: {
                 onSuccess: () => {
                     toast.success('Застосунок успішно видалено');
-                    closeModal();
+                    onClose?.();
                 },
             },
         });

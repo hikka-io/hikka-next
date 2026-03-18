@@ -3,8 +3,9 @@
 import { ArticleContentType } from '@hikka/client';
 import { useSearchArticles } from '@hikka/react';
 import { useParams } from '@/utils/navigation';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import Block from '@/components/ui/block';
 import {
     Header,
@@ -12,8 +13,13 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-
-import { useModalContext } from '@/services/providers/modal-provider';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalSeparator,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 
 import Card from '@/components/ui/card';
 import ContentNewsItem from './components/content-articles-item';
@@ -25,7 +31,8 @@ interface Props {
 
 const ContentArticles: FC<Props> = ({ content_type }) => {
     const params = useParams();
-    const { openModal } = useModalContext();
+    const [open, setOpen] = useState(false);
+    useCloseOnRouteChange(setOpen);
 
     const { list } = useSearchArticles({
         args: {
@@ -34,35 +41,37 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
         },
     });
 
-    const handleOpenContentNewsModal = () => {
-        openModal({
-            type: 'sheet',
-            title: 'Статті',
-            side: 'right',
-            content: <ContentNewsModal content_type={content_type} />,
-        });
-    };
-
     if (!list || list.length === 0) return null;
 
     const filteredNews = list?.slice(0, 3);
 
     return (
-        <Card className='bg-secondary/20'>
-            <Block>
-                <Header onClick={handleOpenContentNewsModal}>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Статті</HeaderTitle>
-                    </HeaderContainer>
-                    <HeaderNavButton />
-                </Header>
-                <div className="flex flex-col gap-6">
-                    {filteredNews.map((article) => (
-                        <ContentNewsItem key={article.slug} article={article} />
-                    ))}
-                </div>
-            </Block>
-        </Card>
+        <>
+            <Card className='bg-secondary/20'>
+                <Block>
+                    <Header onClick={() => setOpen(true)}>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Статті</HeaderTitle>
+                        </HeaderContainer>
+                        <HeaderNavButton />
+                    </Header>
+                    <div className="flex flex-col gap-6">
+                        {filteredNews.map((article) => (
+                            <ContentNewsItem key={article.slug} article={article} />
+                        ))}
+                    </div>
+                </Block>
+            </Card>
+            <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
+                <ResponsiveModalContent side="right">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>Статті</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    <ResponsiveModalSeparator />
+                    <ContentNewsModal content_type={content_type} />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
     );
 };
 

@@ -1,18 +1,22 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-
-import { useModalContext } from '@/services/providers/modal-provider';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 
 const EditRulesAlert = () => {
     const [rules, setRules] = React.useState('');
-    const { openModal } = useModalContext();
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         fetch('https://raw.githubusercontent.com/hikka-io/rules/main/RULES.md')
@@ -28,16 +32,7 @@ const EditRulesAlert = () => {
                     Перш ніж почати редагування контенту, рекомендуємо
                     ознайомитись з{' '}
                     <Button
-                        onClick={() =>
-                            openModal({
-                                content: (
-                                    <MDViewer className="overflow-scroll px-6 py-4 md:overflow-hidden md:p-0">
-                                        {rules}
-                                    </MDViewer>
-                                ),
-                                title: 'Правила редагування',
-                            })
-                        }
+                        onClick={() => setOpen(true)}
                         variant="link"
                         className="h-auto p-0 text-primary-foreground hover:underline"
                     >
@@ -46,6 +41,16 @@ const EditRulesAlert = () => {
                     редагування контенту.
                 </span>
             </div>
+            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                <ResponsiveModalContent className="!max-w-xl">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>Правила редагування</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    <MDViewer className="overflow-scroll px-6 py-4 md:overflow-hidden md:p-0">
+                        {rules}
+                    </MDViewer>
+                </ResponsiveModalContent>
+            </ResponsiveModal>
         </div>
     );
 };

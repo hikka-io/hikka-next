@@ -14,6 +14,12 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import NotFound from '@/components/ui/not-found';
 import { Progress } from '@/components/ui/progress';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 import Stack from '@/components/ui/stack';
 import {
     Tooltip,
@@ -23,7 +29,6 @@ import {
 
 import { ReadEditModal } from '@/features/read';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -39,8 +44,8 @@ interface NovelReadlistProps {}
 const NovelReadlist: React.FC<NovelReadlistProps> = () => {
     // Hooks and Context
     const router = useRouter();
-    const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
+    const [open, setOpen] = useState(false);
 
     // State Management
     const [selectedSlug, setSelectedSlug] = useState<string>();
@@ -79,18 +84,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
 
     const openReadEditModal = () => {
         if (selectedRead) {
-            openModal({
-                content: (
-                    <ReadEditModal
-                        read={selectedRead}
-                        slug={selectedRead.content.slug}
-                        content_type={ContentTypeEnum.NOVEL}
-                    />
-                ),
-                className: '!max-w-xl',
-                title: selectedRead.content.title,
-                forceModal: true,
-            });
+            setOpen(true);
         }
     };
 
@@ -304,6 +298,21 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
                         </>
                     )}
                 </div>
+            )}
+            {selectedRead && (
+                <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                    <ResponsiveModalContent className="!max-w-xl">
+                        <ResponsiveModalHeader>
+                            <ResponsiveModalTitle>{selectedRead.content.title}</ResponsiveModalTitle>
+                        </ResponsiveModalHeader>
+                        <ReadEditModal
+                            read={selectedRead}
+                            slug={selectedRead.content.slug}
+                            content_type={ContentTypeEnum.NOVEL}
+                            onClose={() => setOpen(false)}
+                        />
+                    </ResponsiveModalContent>
+                </ResponsiveModal>
             )}
         </>
     );

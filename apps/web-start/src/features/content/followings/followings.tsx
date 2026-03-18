@@ -3,8 +3,9 @@
 import { ContentTypeEnum, ReadContentType } from '@hikka/client';
 import { useReadingUsers, useWatchingUsers } from '@hikka/react';
 import { useParams } from '@/utils/navigation';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import Block from '@/components/ui/block';
 import {
     Header,
@@ -12,8 +13,13 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-
-import { useModalContext } from '@/services/providers/modal-provider';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalSeparator,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 
 import Card from '@/components/ui/card';
 import FollowingItem from './components/following-item';
@@ -25,7 +31,8 @@ interface Props {
 
 const Followings: FC<Props> = ({ content_type }) => {
     const params = useParams();
-    const { openModal } = useModalContext();
+    const [open, setOpen] = useState(false);
+    useCloseOnRouteChange(setOpen);
 
     const watchListQuery = useWatchingUsers({
         slug: String(params.slug),
@@ -47,15 +54,6 @@ const Followings: FC<Props> = ({ content_type }) => {
 
     const filteredFollowings = list?.slice(0, 3);
 
-    const handleOpenFollowingsModal = () => {
-        openModal({
-            type: 'sheet',
-            title: 'Відстежується',
-            side: 'right',
-            content: <FollowingsModal content_type={content_type} />,
-        });
-    };
-
     const title = (
         <span>
             Відстежується{' '}
@@ -66,28 +64,39 @@ const Followings: FC<Props> = ({ content_type }) => {
     );
 
     return (
-        <Card className='bg-secondary/20'>
-            <Block>
-                <Header onClick={handleOpenFollowingsModal}>
-                    <HeaderContainer>
-                        <HeaderTitle variant='h4'>{title}</HeaderTitle>
-                    </HeaderContainer>
-                    <HeaderNavButton />
-                </Header>
-                <div className="flex flex-col gap-6">
-                    {filteredFollowings.map((item) => (
-                        <FollowingItem
-                            data={{
-                                type: 'watch' in item ? 'watch' : 'read',
-                                content: 'watch' in item ? item.watch : item.read,
-                                ...item,
-                            }}
-                            key={item.reference}
-                        />
-                    ))}
-                </div>
-            </Block>
-        </Card>
+        <>
+            <Card className='bg-secondary/20'>
+                <Block>
+                    <Header onClick={() => setOpen(true)}>
+                        <HeaderContainer>
+                            <HeaderTitle variant='h4'>{title}</HeaderTitle>
+                        </HeaderContainer>
+                        <HeaderNavButton />
+                    </Header>
+                    <div className="flex flex-col gap-6">
+                        {filteredFollowings.map((item) => (
+                            <FollowingItem
+                                data={{
+                                    type: 'watch' in item ? 'watch' : 'read',
+                                    content: 'watch' in item ? item.watch : item.read,
+                                    ...item,
+                                }}
+                                key={item.reference}
+                            />
+                        ))}
+                    </div>
+                </Block>
+            </Card>
+            <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
+                <ResponsiveModalContent side="right">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>Відстежується</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    <ResponsiveModalSeparator />
+                    <FollowingsModal content_type={content_type} />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
     );
 };
 

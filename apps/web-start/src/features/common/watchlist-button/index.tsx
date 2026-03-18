@@ -6,9 +6,15 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useAnimeBySlug, useCreateWatch, useWatchBySlug } from '@hikka/react';
-import { createElement, useCallback, useMemo } from 'react';
+import { createElement, useCallback, useMemo, useState } from 'react';
 
 import { ButtonProps } from '@/components/ui/button';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 import {
     Select,
     SelectContent,
@@ -19,8 +25,6 @@ import {
 } from '@/components/ui/select';
 
 import { WatchEditModal } from '@/features/watch';
-
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
@@ -79,7 +83,7 @@ const WatchlistButton = ({
     size,
     buttonProps,
 }: Props) => {
-    const { openModal } = useModalContext();
+    const [editOpen, setEditOpen] = useState(false);
 
     const { data: watchQuery, isError: watchError } = useWatchBySlug({
         slug,
@@ -109,14 +113,9 @@ const WatchlistButton = ({
 
     const openWatchEditModal = useCallback(() => {
         if (anime) {
-            openModal({
-                content: <WatchEditModal slug={anime.slug} watch={watch} />,
-                className: '!max-w-xl',
-                title: anime.title,
-                forceModal: true,
-            });
+            setEditOpen(true);
         }
-    }, [anime, watch, openModal]);
+    }, [anime]);
 
     const handleChangeStatus = useCallback(
         (options: string[]) => {
@@ -162,63 +161,84 @@ const WatchlistButton = ({
 
     if (size?.includes('icon')) {
         return (
-            <IconWatchStatusButton
-                {...buttonProps}
-                watch={watch}
-                disabled={disabled}
-                size={size as 'icon-sm' | 'icon-md'}
-                slug={slug}
-                anime={anime}
-                isLoading={isChangingStatus}
-            />
+            <>
+                <IconWatchStatusButton
+                    {...buttonProps}
+                    watch={watch}
+                    disabled={disabled}
+                    size={size as 'icon-sm' | 'icon-md'}
+                    slug={slug}
+                    anime={anime}
+                    isLoading={isChangingStatus}
+                    onOpenModal={() => setEditOpen(true)}
+                />
+                <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
+                    <ResponsiveModalContent className="!max-w-xl">
+                        <ResponsiveModalHeader>
+                            <ResponsiveModalTitle>{anime?.title}</ResponsiveModalTitle>
+                        </ResponsiveModalHeader>
+                        <WatchEditModal slug={slug} watch={watch} onClose={() => setEditOpen(false)} />
+                    </ResponsiveModalContent>
+                </ResponsiveModal>
+            </>
         );
     }
 
     return (
-        <Select
-            disabled={disabled || isChangingStatus}
-            value={currentStatus}
-            onValueChange={handleChangeStatus}
-        >
-            {watch ? (
-                <WatchStatusTrigger
-                    watch={watch}
-                    disabled={disabled}
-                    size={size as 'sm' | 'md'}
-                    anime={anime}
-                    isLoading={isChangingStatus}
-                />
-            ) : (
-                <NewStatusTrigger
-                    size={size as 'sm' | 'md'}
-                    slug={slug}
-                    disabled={disabled}
-                    isLoading={isChangingStatus}
-                />
-            )}
+        <>
+            <Select
+                disabled={disabled || isChangingStatus}
+                value={currentStatus}
+                onValueChange={handleChangeStatus}
+            >
+                {watch ? (
+                    <WatchStatusTrigger
+                        watch={watch}
+                        disabled={disabled}
+                        size={size as 'sm' | 'md'}
+                        anime={anime}
+                        isLoading={isChangingStatus}
+                    />
+                ) : (
+                    <NewStatusTrigger
+                        size={size as 'sm' | 'md'}
+                        slug={slug}
+                        disabled={disabled}
+                        isLoading={isChangingStatus}
+                    />
+                )}
 
-            <SelectContent>
-                <SelectList>
-                    <SelectGroup>
-                        {STATUS_OPTIONS.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                                {option.label}
-                            </SelectItem>
-                        ))}
-                    </SelectGroup>
-                    {watch && (
-                        <>
-                            <SelectSeparator />
-                            <SelectGroup>
-                                <SelectItem disableCheckbox value="settings">
-                                    {SETTINGS_BUTTON.label}
+                <SelectContent>
+                    <SelectList>
+                        <SelectGroup>
+                            {STATUS_OPTIONS.map((option) => (
+                                <SelectItem key={option.value} value={option.value}>
+                                    {option.label}
                                 </SelectItem>
-                            </SelectGroup>
-                        </>
-                    )}
-                </SelectList>
-            </SelectContent>
-        </Select>
+                            ))}
+                        </SelectGroup>
+                        {watch && (
+                            <>
+                                <SelectSeparator />
+                                <SelectGroup>
+                                    <SelectItem disableCheckbox value="settings">
+                                        {SETTINGS_BUTTON.label}
+                                    </SelectItem>
+                                </SelectGroup>
+                            </>
+                        )}
+                    </SelectList>
+                </SelectContent>
+            </Select>
+            <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
+                <ResponsiveModalContent className="!max-w-xl">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>{anime?.title}</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    <WatchEditModal slug={slug} watch={watch} onClose={() => setEditOpen(false)} />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
     );
 };
 

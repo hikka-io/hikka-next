@@ -30,7 +30,6 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import {
     useUIStore,
     useUIStoreHistory,
@@ -39,10 +38,12 @@ import { stylesToReactStyles } from '@/utils/ui/inject-styles';
 
 import ThemeTabContent from './theme-tab-content';
 
-const CustomColorsModal = () => {
-    const { resolvedTheme } = useTheme();
+interface Props {
+    onClose?: () => void;
+}
 
-    const { closeModal } = useModalContext();
+const CustomColorsModal = ({ onClose }: Props) => {
+    const { resolvedTheme } = useTheme();
     const [activeTheme, setActiveTheme] = useState<'light' | 'dark'>(
         (resolvedTheme as 'light' | 'dark' | undefined) ?? 'dark',
     );
@@ -74,14 +75,14 @@ const CustomColorsModal = () => {
     const closeAndDiscardChanges = () => {
         syncUserUI().then(() => {
             clear();
-            closeModal();
+            onClose?.();
         });
     };
 
     const saveChanges = () => {
         updateUserUI().then(() => {
             clear();
-            closeModal();
+            onClose?.();
         });
     };
 

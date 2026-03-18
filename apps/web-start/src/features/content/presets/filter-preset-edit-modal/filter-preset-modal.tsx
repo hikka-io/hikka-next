@@ -12,14 +12,22 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from '@/components/ui/link';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 
-import FilterPresetEditModal from '.';
+interface Props {
+    onClose?: () => void;
+    onCreatePreset?: () => void;
+    onEditPreset?: (preset: Hikka.FilterPreset) => void;
+    onCreateFromCurrent?: (filters: Partial<Hikka.FilterPreset>) => void;
+}
 
-const FilterPresetModal: FC = () => {
-    const { closeModal, openModal } = useModalContext();
+const FilterPresetModal: FC<Props> = ({
+    onClose,
+    onCreatePreset,
+    onEditPreset,
+    onCreateFromCurrent,
+}) => {
     const { filterPresets, setFilterPresets } = useSettingsStore();
     const pathname = useRouterState({
         select: (s) => s.location.pathname,
@@ -29,15 +37,10 @@ const FilterPresetModal: FC = () => {
     });
 
     const handleCreatePreset = () => {
-        openModal({
-            content: <FilterPresetEditModal />,
-            className: '!max-w-xl',
-            title: 'Створити пресет',
-            forceModal: true,
-        });
+        onCreatePreset?.();
     };
 
-    const handleCreateFromCurrent = () => {
+    const handleCreateFromCurrentFilters = () => {
         const currentFilters: Partial<Hikka.FilterPreset> = {
             name: '',
             description: '',
@@ -114,25 +117,11 @@ const FilterPresetModal: FC = () => {
             }
         }
 
-        openModal({
-            content: (
-                <FilterPresetEditModal
-                    filterPreset={currentFilters as Hikka.FilterPreset}
-                />
-            ),
-            className: '!max-w-xl',
-            title: 'Створити пресет з поточних',
-            forceModal: true,
-        });
+        onCreateFromCurrent?.(currentFilters);
     };
 
     const handleEditPreset = (preset: Hikka.FilterPreset) => {
-        openModal({
-            content: <FilterPresetEditModal filterPreset={preset} />,
-            className: '!max-w-xl',
-            title: 'Редагувати пресет',
-            forceModal: true,
-        });
+        onEditPreset?.(preset);
     };
 
     const handleDeletePreset = (presetId: string) => {
@@ -189,7 +178,7 @@ const FilterPresetModal: FC = () => {
                         <Button
                             size="icon-md"
                             variant="secondary"
-                            onClick={handleCreateFromCurrent}
+                            onClick={handleCreateFromCurrentFilters}
                         >
                             <CustomCopyAddRounded className="text-lg" />
                         </Button>
@@ -208,7 +197,7 @@ const FilterPresetModal: FC = () => {
                         <div className="flex-1 space-y-1">
                             <div className="flex items-center gap-2">
                                 <Link
-                                    onClick={() => closeModal()}
+                                    onClick={() => onClose?.()}
                                     to={buildFilterPresetLink(preset)}
                                     className="text-sm font-medium"
                                 >

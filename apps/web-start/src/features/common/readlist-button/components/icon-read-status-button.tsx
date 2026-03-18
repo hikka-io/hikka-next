@@ -12,9 +12,6 @@ import { FC, createElement } from 'react';
 
 import { Button, ButtonProps } from '@/components/ui/button';
 
-import { ReadEditModal } from '@/features/read';
-
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
@@ -26,6 +23,7 @@ interface IconReadStatusButtonProps extends Omit<ButtonProps, 'content'> {
     content_type: ReadContentType;
     content?: MangaResponse | NovelResponse;
     isLoading?: boolean;
+    onOpenModal?: () => void;
 }
 
 const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
@@ -36,9 +34,9 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
     content_type,
     content,
     isLoading,
+    onOpenModal,
     ...props
 }) => {
-    const { openModal } = useModalContext();
     const { mutate: createRead } = useCreateRead();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
@@ -54,19 +52,8 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
     };
 
     const openReadEditModal = () => {
-        if (content) {
-            openModal({
-                content: (
-                    <ReadEditModal
-                        read={read}
-                        content_type={content_type}
-                        slug={content.slug}
-                    />
-                ),
-                className: '!max-w-xl',
-                title: content.title,
-                forceModal: true,
-            });
+        if (content && onOpenModal) {
+            onOpenModal();
         }
     };
 

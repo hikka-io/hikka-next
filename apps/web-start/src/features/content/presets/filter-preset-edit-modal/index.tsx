@@ -24,13 +24,11 @@ import { FormSort, SortType } from '@/features/filters/sort';
 import { FormStudio } from '@/features/filters/studio';
 import { FormYear } from '@/features/filters/year';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
 import { z } from '@/utils/i18n/zod';
 
 import ContentTypeSelect from './components/content-type-select';
-import FilterPresetModal from './filter-preset-modal';
 
 const formSchema = z.object({
     name: z.string().min(1).max(255),
@@ -76,13 +74,14 @@ const arraysEqual = (a: unknown[] | undefined, b: unknown[] | undefined) =>
 
 interface Props {
     filterPreset?: Hikka.FilterPreset;
+    onClose?: () => void;
+    onBack?: () => void;
 }
 
-const Component = ({ filterPreset }: Props) => {
+const Component = ({ filterPreset, onClose, onBack }: Props) => {
     'use no memo';
 
     const { filterPresets, setFilterPresets } = useSettingsStore();
-    const { closeModal, openModal } = useModalContext();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -144,16 +143,11 @@ const Component = ({ filterPreset }: Props) => {
         }
 
         toast.success('Фільтр успішно збережено');
-        closeModal();
+        onClose?.();
     };
 
     const handleBack = () => {
-        openModal({
-            content: <FilterPresetModal />,
-            className: '!max-w-xl',
-            title: 'Пресети',
-            forceModal: true,
-        });
+        onBack?.();
     };
 
     return (

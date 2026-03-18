@@ -14,9 +14,15 @@ import {
     useNovelBySlug,
     useReadBySlug,
 } from '@hikka/react';
-import { createElement, useCallback, useMemo } from 'react';
+import { createElement, useCallback, useMemo, useState } from 'react';
 
 import { ButtonProps } from '@/components/ui/button';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 import {
     Select,
     SelectContent,
@@ -27,8 +33,6 @@ import {
 } from '@/components/ui/select';
 
 import { ReadEditModal } from '@/features/read';
-
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
@@ -90,7 +94,7 @@ const ReadlistButton = ({
     size,
     buttonProps,
 }: Props) => {
-    const { openModal } = useModalContext();
+    const [editOpen, setEditOpen] = useState(false);
 
     const { data: readQuery, isError: readError } = useReadBySlug({
         contentType: content_type,
@@ -129,20 +133,9 @@ const ReadlistButton = ({
 
     const openReadEditModal = useCallback(() => {
         if (content) {
-            openModal({
-                content: (
-                    <ReadEditModal
-                        read={read}
-                        content_type={content_type}
-                        slug={content.slug}
-                    />
-                ),
-                className: '!max-w-xl',
-                title: content.title,
-                forceModal: true,
-            });
+            setEditOpen(true);
         }
-    }, [content, read, content_type, openModal]);
+    }, [content]);
 
     const handleChangeStatus = useCallback(
         (options: string[]) => {
@@ -212,66 +205,87 @@ const ReadlistButton = ({
 
     if (size?.includes('icon')) {
         return (
-            <IconReadStatusButton
-                {...buttonProps}
-                read={read}
-                disabled={disabled}
-                size={size as 'icon-sm' | 'icon-md'}
-                slug={slug}
-                content_type={content_type}
-                content={content}
-                isLoading={isChangingStatus}
-            />
+            <>
+                <IconReadStatusButton
+                    {...buttonProps}
+                    read={read}
+                    disabled={disabled}
+                    size={size as 'icon-sm' | 'icon-md'}
+                    slug={slug}
+                    content_type={content_type}
+                    content={content}
+                    isLoading={isChangingStatus}
+                    onOpenModal={() => setEditOpen(true)}
+                />
+                <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
+                    <ResponsiveModalContent className="!max-w-xl">
+                        <ResponsiveModalHeader>
+                            <ResponsiveModalTitle>{content?.title}</ResponsiveModalTitle>
+                        </ResponsiveModalHeader>
+                        <ReadEditModal slug={slug} content_type={content_type} read={read} onClose={() => setEditOpen(false)} />
+                    </ResponsiveModalContent>
+                </ResponsiveModal>
+            </>
         );
     }
 
     return (
-        <Select
-            disabled={disabled || isChangingStatus}
-            value={currentStatus}
-            onValueChange={handleChangeStatus}
-        >
-            {hasValidRead ? (
-                <ReadStatusTrigger
-                    content_type={content_type}
-                    read={read}
-                    disabled={disabled}
-                    content={content}
-                    size={size as 'sm' | 'md'}
-                    isLoading={isChangingStatus}
-                />
-            ) : (
-                <NewStatusTrigger
-                    content_type={content_type}
-                    slug={slug}
-                    disabled={disabled}
-                    size={size as 'sm' | 'md'}
-                    isLoading={isChangingStatus}
-                />
-            )}
+        <>
+            <Select
+                disabled={disabled || isChangingStatus}
+                value={currentStatus}
+                onValueChange={handleChangeStatus}
+            >
+                {hasValidRead ? (
+                    <ReadStatusTrigger
+                        content_type={content_type}
+                        read={read}
+                        disabled={disabled}
+                        content={content}
+                        size={size as 'sm' | 'md'}
+                        isLoading={isChangingStatus}
+                    />
+                ) : (
+                    <NewStatusTrigger
+                        content_type={content_type}
+                        slug={slug}
+                        disabled={disabled}
+                        size={size as 'sm' | 'md'}
+                        isLoading={isChangingStatus}
+                    />
+                )}
 
-            <SelectContent>
-                <SelectList>
-                    <SelectGroup>
-                        {STATUS_OPTIONS.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                                {option.label}
-                            </SelectItem>
-                        ))}
-                    </SelectGroup>
-                    {hasValidRead && (
-                        <>
-                            <SelectSeparator />
-                            <SelectGroup>
-                                <SelectItem disableCheckbox value="settings">
-                                    {SETTINGS_BUTTON.label}
+                <SelectContent>
+                    <SelectList>
+                        <SelectGroup>
+                            {STATUS_OPTIONS.map((option) => (
+                                <SelectItem key={option.value} value={option.value}>
+                                    {option.label}
                                 </SelectItem>
-                            </SelectGroup>
-                        </>
-                    )}
-                </SelectList>
-            </SelectContent>
-        </Select>
+                            ))}
+                        </SelectGroup>
+                        {hasValidRead && (
+                            <>
+                                <SelectSeparator />
+                                <SelectGroup>
+                                    <SelectItem disableCheckbox value="settings">
+                                        {SETTINGS_BUTTON.label}
+                                    </SelectItem>
+                                </SelectGroup>
+                            </>
+                        )}
+                    </SelectList>
+                </SelectContent>
+            </Select>
+            <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
+                <ResponsiveModalContent className="!max-w-xl">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>{content?.title}</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    <ReadEditModal slug={slug} content_type={content_type} read={read} onClose={() => setEditOpen(false)} />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
     );
 };
 

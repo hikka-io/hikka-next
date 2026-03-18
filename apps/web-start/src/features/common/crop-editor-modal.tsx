@@ -12,13 +12,13 @@ import MaterialSymbolsZoomOutRounded from '@/components/icons/material-symbols/M
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 import { getImage } from '@/utils/image';
 
 interface Props {
     file?: File;
     type: ImageType;
+    onClose?: () => void;
 }
 
 const CROP_PARAMS = {
@@ -34,8 +34,7 @@ const CROP_PARAMS = {
     },
 };
 
-const Component = ({ file, type }: Props) => {
-    const { closeModal } = useModalContext();
+const Component = ({ file, type, onClose }: Props) => {
     const router = useRouter();
 
     const editor = useRef<AvatarEditor>(null);
@@ -61,7 +60,7 @@ const Component = ({ file, type }: Props) => {
             },
             onSettled: () => {
                 router.refresh();
-                closeModal();
+                onClose?.();
             },
         },
     });

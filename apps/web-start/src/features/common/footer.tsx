@@ -13,7 +13,6 @@ import {
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import {
     DONATION_LINKS,
     FOOTER_LINKS,
@@ -21,8 +20,6 @@ import {
 } from '@/utils/constants/navigation';
 
 const Footer = () => {
-    const { openModal } = useModalContext();
-
     return (
         <footer className="w-full border-t border-t-border md:mt-12">
             <div className="mx-auto w-full max-w-350 p-4">

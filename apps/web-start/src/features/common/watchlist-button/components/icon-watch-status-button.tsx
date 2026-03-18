@@ -11,9 +11,6 @@ import { FC, createElement } from 'react';
 
 import { Button, ButtonProps } from '@/components/ui/button';
 
-import { WatchEditModal } from '@/features/watch';
-
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
@@ -24,6 +21,7 @@ interface IconWatchStatusButtonProps extends ButtonProps {
     slug: string;
     anime?: AnimeResponse;
     isLoading?: boolean;
+    onOpenModal?: () => void;
 }
 
 const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
@@ -33,9 +31,9 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
     slug,
     anime,
     isLoading,
+    onOpenModal,
     ...props
 }) => {
-    const { openModal } = useModalContext();
     const { mutate: createWatch } = useCreateWatch();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
@@ -50,13 +48,8 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
     };
 
     const openWatchEditModal = () => {
-        if (anime) {
-            openModal({
-                content: <WatchEditModal slug={anime.slug} watch={watch} />,
-                className: '!max-w-xl',
-                title: anime.title,
-                forceModal: true,
-            });
+        if (anime && onOpenModal) {
+            onOpenModal();
         }
     };
 

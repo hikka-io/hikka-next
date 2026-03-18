@@ -1,17 +1,21 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Button } from '@/components/ui/button';
-
-import { useModalContext } from '@/services/providers/modal-provider';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 
 const CollectionRulesAlert = () => {
     const [rules, setRules] = React.useState('');
-    const { openModal } = useModalContext();
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         fetch(
@@ -22,22 +26,14 @@ const CollectionRulesAlert = () => {
     }, []);
 
     return (
+        <>
         <div>
             <div className="flex items-center gap-4 rounded-md border border-border bg-secondary/20 p-4">
                 <MaterialSymbolsInfoRounded className="text-xl" />
                 <span className="flex-1 text-sm">
                     Перш ніж створювати колекції, рекомендуємо ознайомитись з{' '}
                     <Button
-                        onClick={() =>
-                            openModal({
-                                content: (
-                                    <MDViewer className="overflow-scroll px-6 py-4 md:overflow-hidden md:p-0">
-                                        {rules}
-                                    </MDViewer>
-                                ),
-                                title: 'Правила колекцій',
-                            })
-                        }
+                        onClick={() => setOpen(true)}
                         variant="link"
                         className="h-auto p-0 text-primary-foreground hover:underline"
                     >
@@ -47,6 +43,17 @@ const CollectionRulesAlert = () => {
                 </span>
             </div>
         </div>
+        <ResponsiveModal open={open} onOpenChange={setOpen}>
+            <ResponsiveModalContent>
+                <ResponsiveModalHeader>
+                    <ResponsiveModalTitle>Правила колекцій</ResponsiveModalTitle>
+                </ResponsiveModalHeader>
+                <MDViewer className="overflow-scroll px-6 py-4 md:overflow-hidden md:p-0">
+                    {rules}
+                </MDViewer>
+            </ResponsiveModalContent>
+        </ResponsiveModal>
+        </>
     );
 };
 

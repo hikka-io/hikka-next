@@ -19,10 +19,11 @@ import WidgetList from './widget-list';
 
 const FeedMobileWidgets = () => {
     const { user } = useSession();
-    const openSettingsModal = useOpenWidgetSettings();
+    const { openSettings: openSettingsModal, settingsModal } = useOpenWidgetSettings();
 
     return (
         <Dialog>
+            {settingsModal}
             <div className="flex items-center gap-2">
                 <DialogTrigger asChild>
                     <Button

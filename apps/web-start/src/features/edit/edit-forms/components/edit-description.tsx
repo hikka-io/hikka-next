@@ -1,14 +1,19 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsStore } from '@/services/stores/settings-store';
 
 import TagsModal from './tags-modal';
@@ -19,10 +24,11 @@ interface Props {
 
 const EditDescription: FC<Props> = ({ mode }) => {
     const { control, setValue, getValues } = useFormContext();
-    const { openModal } = useModalContext();
     const settings = useSettingsStore();
+    const [open, setOpen] = useState(false);
 
     return (
+        <>
         <div className="flex w-full flex-col gap-4">
             <Label className="flex justify-between">
                 <span>Опис правки</span>
@@ -58,17 +64,7 @@ const EditDescription: FC<Props> = ({ mode }) => {
                         <Button
                             size="badge"
                             variant="secondary"
-                            onClick={() =>
-                                openModal({
-                                    title: 'Теги редагування',
-                                    content: (
-                                        <TagsModal
-                                            setValue={setValue}
-                                            getValues={getValues}
-                                        />
-                                    ),
-                                })
-                            }
+                            onClick={() => setOpen(true)}
                         >
                             Усі теги
                         </Button>
@@ -100,6 +96,19 @@ const EditDescription: FC<Props> = ({ mode }) => {
                 )}
             />
         </div>
+        <ResponsiveModal open={open} onOpenChange={setOpen}>
+            <ResponsiveModalContent>
+                <ResponsiveModalHeader>
+                    <ResponsiveModalTitle>Теги редагування</ResponsiveModalTitle>
+                </ResponsiveModalHeader>
+                <TagsModal
+                    setValue={setValue}
+                    getValues={getValues}
+                    onClose={() => setOpen(false)}
+                />
+            </ResponsiveModalContent>
+        </ResponsiveModal>
+        </>
     );
 };
 

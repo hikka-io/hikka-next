@@ -2,7 +2,7 @@
 
 import { UploadTypeEnum } from '@hikka/client';
 import { useDeleteImage, useSession } from '@hikka/react';
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -11,15 +11,23 @@ import Card from '@/components/ui/card';
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 
 import { CropEditorModal } from '@/features/common';
-
-import { useModalContext } from '@/services/providers/modal-provider';
 
 const Appearance = () => {
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
     const uploadCoverRef = useRef<HTMLInputElement>(null);
-    const { openModal } = useModalContext();
+    const [cropOpen, setCropOpen] = useState(false);
+    const [cropFile, setCropFile] = useState<File | null>(null);
+    const [cropType, setCropType] = useState<
+        UploadTypeEnum.AVATAR | UploadTypeEnum.COVER
+    >(UploadTypeEnum.AVATAR);
 
     const { user: loggedUser } = useSession();
 
@@ -46,16 +54,14 @@ const Appearance = () => {
                     break;
             }
 
-            openModal({
-                content: <CropEditorModal file={file} type={type} />,
-                className: '!max-w-lg',
-                title: 'Редагувати медіафайл',
-                forceModal: true,
-            });
+            setCropFile(file);
+            setCropType(type);
+            setCropOpen(true);
         }
     };
 
     return (
+        <>
         <div className="isolate flex flex-col gap-6">
             <div className="flex flex-col gap-2">
                 <Label>Зображення профілю</Label>
@@ -128,6 +134,23 @@ const Appearance = () => {
                 </Avatar>
             </div>
         </div>
+        <ResponsiveModal open={cropOpen} onOpenChange={setCropOpen} forceDesktop>
+            <ResponsiveModalContent className="!max-w-lg">
+                <ResponsiveModalHeader>
+                    <ResponsiveModalTitle>
+                        Редагувати медіафайл
+                    </ResponsiveModalTitle>
+                </ResponsiveModalHeader>
+                {cropFile && (
+                    <CropEditorModal
+                        file={cropFile}
+                        type={cropType}
+                        onClose={() => setCropOpen(false)}
+                    />
+                )}
+            </ResponsiveModalContent>
+        </ResponsiveModal>
+        </>
     );
 };
 

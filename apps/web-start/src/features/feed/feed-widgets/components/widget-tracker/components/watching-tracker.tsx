@@ -19,10 +19,16 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
+
 import { WatchEditModal } from '@/features/watch';
 
 import useDebounce from '@/services/hooks/use-debounce';
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -36,8 +42,8 @@ const EPISODES_DECLENSION: [string, string, string] = [
 
 const WatchingTracker = () => {
     const router = useRouter();
-    const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
+    const [open, setOpen] = useState(false);
 
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
@@ -72,18 +78,7 @@ const WatchingTracker = () => {
 
     const openWatchEditModal = () => {
         if (!selectedWatch) return;
-
-        openModal({
-            content: (
-                <WatchEditModal
-                    watch={selectedWatch}
-                    slug={selectedWatch.anime.slug}
-                />
-            ),
-            className: '!max-w-xl',
-            title: selectedWatch.anime.title,
-            forceModal: true,
-        });
+        setOpen(true);
     };
 
     const handleAddEpisode = () => {
@@ -159,6 +154,7 @@ const WatchingTracker = () => {
     const totalEpisodes = selectedWatch?.anime.episodes_total;
 
     return (
+        <>
         <div className="flex flex-col gap-4">
             <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4" imagePreset="cardXs">
                 {list.map((item) => (
@@ -276,6 +272,20 @@ const WatchingTracker = () => {
                 </>
             )}
         </div>
+        {selectedWatch && (
+            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                <ResponsiveModalContent className="!max-w-xl">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>{selectedWatch.anime.title}</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    <WatchEditModal
+                        watch={selectedWatch}
+                        slug={selectedWatch.anime.slug}
+                    />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        )}
+        </>
     );
 };
 

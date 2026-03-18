@@ -10,14 +10,11 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import { useModalContext } from '@/services/providers/modal-provider';
-
 import General from '../components/import-list';
 import Anilist from './anilist';
 
 const Component = () => {
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
-    const { closeModal } = useModalContext();
     const [rewrite, setRewrite] = useState(true);
     const [watchList, setWatchList] = useState<ImportWatchArgs[]>([]);
     const [importing, setImporting] = useState<boolean>(false);
@@ -32,8 +29,6 @@ const Component = () => {
                         аніме до Вашого списку.
                     </span>,
                 );
-
-                closeModal();
             },
         },
     });

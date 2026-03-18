@@ -1,12 +1,18 @@
 'use client';
 
 import { Palette } from 'lucide-react';
-import { useTheme } from '@/services/providers/theme-provider';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 
-import { useModalContext } from '@/services/providers/modal-provider';
+import { useTheme } from '@/services/providers/theme-provider';
 import { useUIStore } from '@/services/providers/ui-store-provider';
 import { PREVIEW_COLOR_TOKENS } from '@/utils/constants/styles';
 import { toHSLString } from '@/utils/ui/color';
@@ -14,7 +20,7 @@ import { toHSLString } from '@/utils/ui/color';
 import CustomColorsModal from './components/custom-colors-modal';
 
 const StylesSettings = () => {
-    const { openModal } = useModalContext();
+    const [customColorsOpen, setCustomColorsOpen] = useState(false);
     const { resolvedTheme } = useTheme();
     const UI = useUIStore((state) => state);
 
@@ -27,15 +33,7 @@ const StylesSettings = () => {
     };
 
     const handleOpenCustomModal = () => {
-        openModal({
-            content: <CustomColorsModal />,
-            title: 'Налаштування кольорів',
-            description: 'Персоналізуйте кольори сайту',
-            forceModal: true,
-            className: '!max-w-4xl',
-            onClose: syncUserUI,
-            preventBackdropClose: true,
-        });
+        setCustomColorsOpen(true);
     };
 
     const currentRadius = UI.styles?.radius?.replace('rem', '') ?? '';
@@ -44,6 +42,7 @@ const StylesSettings = () => {
     const themeColors = UI.styles?.[activeTheme]?.colors;
 
     return (
+        <>
         <div className="flex w-full flex-col gap-6">
             <div className="flex w-full flex-col gap-2">
                 <Label>Палітра кольорів</Label>
@@ -126,6 +125,29 @@ const StylesSettings = () => {
                 </div>
             </div>
         </div>
+        <ResponsiveModal
+            open={customColorsOpen}
+            onOpenChange={(open) => {
+                setCustomColorsOpen(open);
+                if (!open) {
+                    syncUserUI();
+                }
+            }}
+            forceDesktop
+        >
+            <ResponsiveModalContent
+                className="!max-w-4xl"
+                onPointerDownOutside={(e) => e.preventDefault()}
+            >
+                <ResponsiveModalHeader>
+                    <ResponsiveModalTitle>
+                        Налаштування кольорів
+                    </ResponsiveModalTitle>
+                </ResponsiveModalHeader>
+                <CustomColorsModal onClose={() => setCustomColorsOpen(false)} />
+            </ResponsiveModalContent>
+        </ResponsiveModal>
+        </>
     );
 };
 

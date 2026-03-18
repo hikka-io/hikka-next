@@ -2,7 +2,7 @@
 
 import { ContentTypeEnum } from '@hikka/client';
 import { useRouter, useRouterState } from '@tanstack/react-router';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { CustomCopyAddRounded } from '@/components/icons/custom/CustomCopyAddRounded';
@@ -25,9 +25,15 @@ import Sort from '@/features/filters/sort';
 import Studio from '@/features/filters/studio';
 import Year from '@/features/filters/year';
 
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
+
 import { FilterPresetEditModal } from '@/features/content';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -37,8 +43,9 @@ interface Props {
 }
 
 const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
-    const { closeModal, openModal } = useModalContext();
     const router = useRouter();
+    const [open, setOpen] = useState(false);
+    const [currentFilters, setCurrentFilters] = useState<Partial<Hikka.FilterPreset> | null>(null);
     const search = useRouterState({
         select: (s) => s.location.search,
     }) as Record<string, unknown>;
@@ -116,19 +123,12 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
             }
         }
 
-        openModal({
-            content: (
-                <FilterPresetEditModal
-                    filterPreset={currentFilters as Hikka.FilterPreset}
-                />
-            ),
-            className: '!max-w-xl',
-            title: 'Створити пресет з поточних',
-            forceModal: true,
-        });
+        setCurrentFilters(currentFilters);
+        setOpen(true);
     };
 
     return (
+        <>
         <div className={cn('flex flex-col w-full', className)}>
             <div className="flex flex-col gap-8 overflow-y-auto p-4 py-8">
                 <Genre />
@@ -172,6 +172,20 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 </Tooltip>
             </div>
         </div>
+        <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+            <ResponsiveModalContent className="!max-w-xl">
+                <ResponsiveModalHeader>
+                    <ResponsiveModalTitle>Створити пресет з поточних</ResponsiveModalTitle>
+                </ResponsiveModalHeader>
+                {currentFilters && (
+                    <FilterPresetEditModal
+                        filterPreset={currentFilters as Hikka.FilterPreset}
+                        onClose={() => setOpen(false)}
+                    />
+                )}
+            </ResponsiveModalContent>
+        </ResponsiveModal>
+        </>
     );
 };
 

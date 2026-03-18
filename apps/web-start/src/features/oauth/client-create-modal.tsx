@@ -10,7 +10,6 @@ import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
@@ -19,15 +18,17 @@ const formSchema = z.object({
     endpoint: z.coerce.string().min(3).max(128),
 });
 
-const Component = () => {
-    const { closeModal } = useModalContext();
+interface Props {
+    onClose?: () => void;
+}
 
+const Component = ({ onClose }: Props) => {
     const { mutate: createClient, isPending: createClientLoading } =
         useCreateClient({
             options: {
                 onSuccess: () => {
                     toast.success('Застосунок успішно створено.');
-                    closeModal();
+                    onClose?.();
                 },
             },
         });

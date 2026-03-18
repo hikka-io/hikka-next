@@ -24,7 +24,7 @@ interface Props {
 const WidgetSection: FC<Props> = ({ className }) => {
     const { user } = useSession();
     const homeWidgets = useUIStore((s) => s.preferences?.home_widgets);
-    const openSettingsModal = useOpenWidgetSettings();
+    const { openSettings: openSettingsModal, settingsModal } = useOpenWidgetSettings();
     const [activeTab, setActiveTab] = useState<string | undefined>();
 
     const widgets = homeWidgets ?? DEFAULT_HOME_WIDGETS;
@@ -38,6 +38,7 @@ const WidgetSection: FC<Props> = ({ className }) => {
 
     return (
         <div className={cn('flex flex-col gap-4', className)}>
+            {settingsModal}
             <Button
                 variant="outline"
                 className="text-muted-foreground shrink-0 hidden lg:flex"

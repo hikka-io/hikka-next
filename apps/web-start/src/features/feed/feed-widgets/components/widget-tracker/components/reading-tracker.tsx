@@ -19,10 +19,16 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
+
 import { ReadEditModal } from '@/features/read';
 
 import useDebounce from '@/services/hooks/use-debounce';
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -53,8 +59,8 @@ interface ReadingTrackerProps {
 
 const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const router = useRouter();
-    const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
+    const [open, setOpen] = useState(false);
 
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [updatedRead, setUpdatedRead] = useState<ReadArgs | null>(null);
@@ -92,19 +98,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
     const openReadEditModal = () => {
         if (!selectedRead) return;
-
-        openModal({
-            content: (
-                <ReadEditModal
-                    read={selectedRead}
-                    slug={selectedRead.content.slug}
-                    content_type={contentType}
-                />
-            ),
-            className: '!max-w-xl',
-            title: selectedRead.content.title,
-            forceModal: true,
-        });
+        setOpen(true);
     };
 
     const handleAddChapter = () => {
@@ -182,6 +176,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const totalChapters = selectedRead?.content.chapters;
 
     return (
+        <>
         <div className="flex flex-col gap-4">
             <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4" imagePreset="cardXs">
                 {list.map((item) => (
@@ -303,6 +298,21 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                 </>
             )}
         </div>
+        {selectedRead && (
+            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                <ResponsiveModalContent className="!max-w-xl">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>{selectedRead.content.title}</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    <ReadEditModal
+                        read={selectedRead}
+                        slug={selectedRead.content.slug}
+                        content_type={contentType}
+                    />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        )}
+        </>
     );
 };
 

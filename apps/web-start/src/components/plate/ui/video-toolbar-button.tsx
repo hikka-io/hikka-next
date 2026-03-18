@@ -3,15 +3,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Film } from 'lucide-react';
 import { useEditorRef } from 'platejs/react';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import FormInput from '@/components/form/form-input';
 import { VideoPlugin } from '@/components/plate/editor/plugins/video-kit';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/i18n/zod';
 
 import { ToolbarButton } from './toolbar';
@@ -42,11 +47,10 @@ const formSchema = z.object({
 
 type AddVideoModalProps = {
     editor: ReturnType<typeof useEditorRef>;
+    onClose: () => void;
 };
 
-const AddVideoModal: FC<AddVideoModalProps> = ({ editor }) => {
-    const { closeModal } = useModalContext();
-
+const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     });
@@ -59,7 +63,7 @@ const AddVideoModal: FC<AddVideoModalProps> = ({ editor }) => {
             .insert.video({ url: data.url.trim() });
         editor.tf.focus();
 
-        closeModal();
+        onClose();
     };
 
     return (
@@ -79,7 +83,7 @@ const AddVideoModal: FC<AddVideoModalProps> = ({ editor }) => {
                 </div>
                 <div className="flex w-full justify-end gap-2">
                     <Button
-                        onClick={closeModal}
+                        onClick={onClose}
                         type="button"
                         variant="outline"
                         size="md"
@@ -102,24 +106,25 @@ const AddVideoModal: FC<AddVideoModalProps> = ({ editor }) => {
 
 export function VideoToolbarButton() {
     const editor = useEditorRef();
-    const { openModal } = useModalContext();
-
-    const openAddVideoModal = () => {
-        openModal({
-            content: <AddVideoModal editor={editor} />,
-            className: '!max-w-xl',
-            title: 'Додати відео',
-            forceModal: true,
-        });
-    };
+    const [open, setOpen] = useState(false);
 
     return (
-        <ToolbarButton
-            onClick={openAddVideoModal}
-            tooltip="Відео"
-            className="relative"
-        >
-            <Film className="size-4" />
-        </ToolbarButton>
+        <>
+            <ToolbarButton
+                onClick={() => setOpen(true)}
+                tooltip="Відео"
+                className="relative"
+            >
+                <Film className="size-4" />
+            </ToolbarButton>
+            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                <ResponsiveModalContent className="!max-w-xl">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>Додати відео</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    <AddVideoModal editor={editor} onClose={() => setOpen(false)} />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
     );
 }

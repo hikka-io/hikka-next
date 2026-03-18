@@ -10,16 +10,15 @@ import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-sym
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { useSettingsStore } from '@/services/stores/settings-store';
 
 interface Props {
     setValue: UseFormSetValue<any>;
     getValues: UseFormGetValues<any>;
+    onClose?: () => void;
 }
 
-const TagsModal: FC<Props> = ({ setValue, getValues }) => {
-    const { closeModal } = useModalContext();
+const TagsModal: FC<Props> = ({ setValue, getValues, onClose }) => {
     const [newTag, setNewTag] = React.useState('');
     const settings = useSettingsStore();
 
@@ -37,7 +36,7 @@ const TagsModal: FC<Props> = ({ setValue, getValues }) => {
                       (tag.split(' ')[0] == '---' ? ' ' : ', ') +
                       tag.toLowerCase(),
         );
-        closeModal();
+        onClose?.();
     };
 
     const handleRemoveTag = (tag: string) => {

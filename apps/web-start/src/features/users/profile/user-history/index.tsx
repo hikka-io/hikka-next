@@ -3,8 +3,9 @@
 import { useUserHistory } from '@hikka/react';
 import { Link } from '@/utils/navigation';
 import { useParams } from '@/utils/navigation';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
@@ -15,10 +16,16 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalSeparator,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 
 import HistoryItem from '@/features/users/user-history/components/history-item';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 
 import Card from '@/components/ui/card';
@@ -30,7 +37,8 @@ interface Props {
 
 const History: FC<Props> = ({ className }) => {
     const params = useParams();
-    const { openModal } = useModalContext();
+    const [open, setOpen] = useState(false);
+    useCloseOnRouteChange(setOpen);
 
     const { list: activity } = useUserHistory({
         username: String(params.username),
@@ -38,49 +46,51 @@ const History: FC<Props> = ({ className }) => {
 
     const filteredActivity = activity?.slice(0, 3);
 
-    const handleOpenModal = () => {
-        openModal({
-            type: 'sheet',
-            title: 'Активність',
-            side: 'right',
-            content: <ActivityModal />,
-        });
-    };
-
     return (
-        <Card className={cn('bg-secondary/20', className)}>
-            <Block>
-                <Header
-                    onClick={
-                        activity && activity?.length > 0
-                            ? handleOpenModal
-                            : undefined
-                    }
-                >
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Історія</HeaderTitle>
-                        <Button asChild size="icon-sm" variant="outline">
-                            <Link to={`/u/${params.username}/history`}>
-                                <MaterialSymbolsGridViewRounded />
-                            </Link>
-                        </Button>
-                    </HeaderContainer>
-                    <HeaderNavButton />
-                </Header>
-                <div className="flex flex-col gap-6">
-                    {filteredActivity &&
-                        filteredActivity.map((item) => (
-                            <HistoryItem data={item} key={item.reference} />
-                        ))}
-                    {activity && activity?.length === 0 && (
-                        <NotFound
-                            title={'Історія відсутня'}
-                            description="Інформація оновиться після змін у списку"
-                        />
-                    )}
-                </div>
-            </Block>
-        </Card>
+        <>
+            <Card className={cn('bg-secondary/20', className)}>
+                <Block>
+                    <Header
+                        onClick={
+                            activity && activity?.length > 0
+                                ? () => setOpen(true)
+                                : undefined
+                        }
+                    >
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Історія</HeaderTitle>
+                            <Button asChild size="icon-sm" variant="outline">
+                                <Link to={`/u/${params.username}/history`}>
+                                    <MaterialSymbolsGridViewRounded />
+                                </Link>
+                            </Button>
+                        </HeaderContainer>
+                        <HeaderNavButton />
+                    </Header>
+                    <div className="flex flex-col gap-6">
+                        {filteredActivity &&
+                            filteredActivity.map((item) => (
+                                <HistoryItem data={item} key={item.reference} />
+                            ))}
+                        {activity && activity?.length === 0 && (
+                            <NotFound
+                                title={'Історія відсутня'}
+                                description="Інформація оновиться після змін у списку"
+                            />
+                        )}
+                    </div>
+                </Block>
+            </Card>
+            <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
+                <ResponsiveModalContent side="right">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>Активність</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    <ResponsiveModalSeparator />
+                    <ActivityModal />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
     );
 };
 

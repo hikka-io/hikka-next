@@ -1,7 +1,15 @@
 import { EditContentType } from '@hikka/client';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { Button, ButtonProps } from '@/components/ui/button';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalSeparator,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 import {
     Tooltip,
     TooltipContent,
@@ -10,7 +18,6 @@ import {
 
 import { EditListModal } from '@/features/edit';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -22,34 +29,38 @@ interface Props extends ButtonProps {
 }
 
 const EditButton: FC<Props> = ({ className, slug, content_type, ...props }) => {
-    const { openModal } = useModalContext();
+    const [open, setOpen] = useState(false);
+    useCloseOnRouteChange(setOpen);
 
     return (
-        <Tooltip delayDuration={0}>
-            <TooltipTrigger asChild>
-                <Button
-                    variant="ghost"
-                    size="icon-md"
-                    onClick={() =>
-                        openModal({
-                            content: (
-                                <EditListModal
-                                    content_type={content_type}
-                                    slug={slug}
-                                />
-                            ),
-                            type: 'sheet',
-                            title: 'Список правок',
-                        })
-                    }
-                    className={cn(className)}
-                    {...props}
-                >
-                    <MaterialSymbolsEditRounded className="!size-5" />
-                </Button>
-            </TooltipTrigger>
-            <TooltipContent>Правки</TooltipContent>
-        </Tooltip>
+        <>
+            <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                    <Button
+                        variant="ghost"
+                        size="icon-md"
+                        onClick={() => setOpen(true)}
+                        className={cn(className)}
+                        {...props}
+                    >
+                        <MaterialSymbolsEditRounded className="!size-5" />
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>Правки</TooltipContent>
+            </Tooltip>
+            <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
+                <ResponsiveModalContent side="right">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>Список правок</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    <ResponsiveModalSeparator />
+                    <EditListModal
+                        content_type={content_type}
+                        slug={slug}
+                    />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
     );
 };
 

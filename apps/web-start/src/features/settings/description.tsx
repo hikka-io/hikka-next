@@ -9,7 +9,6 @@ import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
@@ -17,8 +16,6 @@ const formSchema = z.object({
 });
 
 const Component = () => {
-    const { closeModal } = useModalContext();
-
     const { user: loggedUser } = useSession();
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -31,7 +28,6 @@ const Component = () => {
     const mutationChangeDescription = useChangeDescription({
         options: {
             onSuccess: async () => {
-                closeModal();
                 toast.success(
                     'Ви успішно змінили загальні налаштування профілю.',
                 );

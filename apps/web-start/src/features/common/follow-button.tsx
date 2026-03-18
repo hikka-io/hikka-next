@@ -13,7 +13,6 @@ import { FC } from 'react';
 
 import { Button, buttonVariants } from '@/components/ui/button';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
@@ -34,8 +33,6 @@ const FollowButton: FC<Props> = ({
     iconOnly,
     size,
 }) => {
-    const { openModal } = useModalContext();
-
     const { user: loggedUser } = useSession();
 
     const { data: userQuery } = useUserByUsername({

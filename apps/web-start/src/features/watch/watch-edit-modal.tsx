@@ -29,7 +29,6 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/i18n/zod';
@@ -46,10 +45,10 @@ const formSchema = z.object({
 interface Props {
     slug: string;
     watch?: WatchResponse | WatchResponseBase;
+    onClose?: () => void;
 }
 
-const Component = ({ slug, watch: watchProp }: Props) => {
-    const { closeModal } = useModalContext();
+const Component = ({ slug, watch: watchProp, onClose }: Props) => {
     const { data: watchQuery } = useWatchBySlug({
         slug,
         options: { enabled: !watchProp },
@@ -69,7 +68,7 @@ const Component = ({ slug, watch: watchProp }: Props) => {
                             успішно оновлено.
                         </span>,
                     );
-                    closeModal();
+                    onClose?.();
                 },
             },
         },
@@ -80,7 +79,7 @@ const Component = ({ slug, watch: watchProp }: Props) => {
             options: {
                 onSuccess: () => {
                     toast.success('Аніме успішно видалено.');
-                    closeModal();
+                    onClose?.();
                 },
             },
         });

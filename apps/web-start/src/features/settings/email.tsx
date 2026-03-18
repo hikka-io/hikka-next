@@ -9,7 +9,6 @@ import FormInput from '@/components/form/form-input';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z
@@ -23,7 +22,6 @@ const formSchema = z
     });
 
 const Component = () => {
-    const { closeModal } = useModalContext();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
     });
@@ -31,7 +29,6 @@ const Component = () => {
     const mutationChangeEmail = useChangeEmail({
         options: {
             onSuccess: async () => {
-                closeModal();
                 toast.success('Ви успішно змінили поштову адресу.');
             },
         },

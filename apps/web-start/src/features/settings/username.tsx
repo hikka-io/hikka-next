@@ -10,7 +10,6 @@ import FormInput from '@/components/form/form-input';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
@@ -18,7 +17,6 @@ const formSchema = z.object({
 });
 
 const Component = () => {
-    const { closeModal } = useModalContext();
     const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -29,7 +27,6 @@ const Component = () => {
         options: {
             onSuccess: async () => {
                 router.push('/u/' + form.getValues().username);
-                closeModal();
                 toast.success('Ви успішно змінили імʼя користвача.');
             },
         },

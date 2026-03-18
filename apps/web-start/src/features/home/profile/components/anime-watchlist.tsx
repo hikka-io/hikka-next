@@ -14,6 +14,12 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import NotFound from '@/components/ui/not-found';
 import { Progress } from '@/components/ui/progress';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 import Stack from '@/components/ui/stack';
 import {
     Tooltip,
@@ -24,7 +30,6 @@ import {
 import { WatchEditModal } from '@/features/watch';
 
 import useDebounce from '@/services/hooks/use-debounce';
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -40,8 +45,8 @@ interface AnimeWatchlistProps {}
 const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
     // Hooks and Context
     const router = useRouter();
-    const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
+    const [open, setOpen] = useState(false);
 
     // State Management
     const [selectedSlug, setSelectedSlug] = useState<string>();
@@ -80,17 +85,7 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
 
     const openWatchEditModal = () => {
         if (selectedWatch) {
-            openModal({
-                content: (
-                    <WatchEditModal
-                        watch={selectedWatch}
-                        slug={selectedWatch.anime.slug}
-                    />
-                ),
-                className: '!max-w-xl',
-                title: selectedWatch.anime.title,
-                forceModal: true,
-            });
+            setOpen(true);
         }
     };
 
@@ -303,6 +298,20 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
                         </>
                     )}
                 </div>
+            )}
+            {selectedWatch && (
+                <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                    <ResponsiveModalContent className="!max-w-xl">
+                        <ResponsiveModalHeader>
+                            <ResponsiveModalTitle>{selectedWatch.anime.title}</ResponsiveModalTitle>
+                        </ResponsiveModalHeader>
+                        <WatchEditModal
+                            watch={selectedWatch}
+                            slug={selectedWatch.anime.slug}
+                            onClose={() => setOpen(false)}
+                        />
+                    </ResponsiveModalContent>
+                </ResponsiveModal>
             )}
         </>
     );

@@ -29,7 +29,6 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/i18n/zod';
@@ -48,10 +47,10 @@ interface Props {
     slug: string;
     content_type: ReadContentType;
     read?: ReadResponseBase;
+    onClose?: () => void;
 }
 
-const Component = ({ slug, content_type, read: readProp }: Props) => {
-    const { closeModal } = useModalContext();
+const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
     const { data: readQuery } = useReadBySlug({
         contentType: content_type,
         slug,
@@ -71,7 +70,7 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
                         успішно оновлено.
                     </span>,
                 );
-                closeModal();
+                onClose?.();
             },
         },
     });
@@ -81,7 +80,7 @@ const Component = ({ slug, content_type, read: readProp }: Props) => {
             options: {
                 onSuccess: () => {
                     toast.success('Контент успішно видалено.');
-                    closeModal();
+                    onClose?.();
                 },
             },
         });

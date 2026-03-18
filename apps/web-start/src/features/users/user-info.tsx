@@ -2,7 +2,7 @@
 
 import { ImageType, UploadTypeEnum } from '@hikka/client';
 import { useSession, useUserByUsername } from '@hikka/react';
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 
 import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
 import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
@@ -16,16 +16,23 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 
 import { CropEditorModal } from '@/features/common';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { Link, useParams } from '@/utils/navigation';
 
 const UserInfo = () => {
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
     const uploadCoverRef = useRef<HTMLInputElement>(null);
-    const { openModal } = useModalContext();
+    const [open, setOpen] = useState(false);
+    const [uploadFile, setUploadFile] = useState<File | null>(null);
+    const [uploadType, setUploadType] = useState<ImageType>(UploadTypeEnum.AVATAR);
     const params = useParams();
 
     const { data: user } = useUserByUsername({
@@ -56,12 +63,9 @@ const UserInfo = () => {
                     break;
             }
 
-            openModal({
-                content: <CropEditorModal file={file} type={type} />,
-                className: '!max-w-lg',
-                title: 'Редагувати медіафайл',
-                forceModal: true,
-            });
+            setUploadFile(file);
+            setUploadType(type);
+            setOpen(true);
         }
     };
 
@@ -140,6 +144,20 @@ const UserInfo = () => {
             {user.active && (
                 <div className="border-success bg-success-foreground absolute -bottom-2 -right-2 z-1 size-6 rounded-full border-4" />
             )}
+            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                <ResponsiveModalContent className="!max-w-lg">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>Редагувати медіафайл</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    {uploadFile && (
+                        <CropEditorModal
+                            file={uploadFile}
+                            type={uploadType}
+                            onClose={() => setOpen(false)}
+                        />
+                    )}
+                </ResponsiveModalContent>
+            </ResponsiveModal>
         </div>
     );
 };

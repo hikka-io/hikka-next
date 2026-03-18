@@ -10,17 +10,23 @@ import {
 } from '@hikka/client';
 import { useSession } from '@hikka/react';
 import { useParams } from '@/utils/navigation';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { TableCell } from '@/components/ui/table';
 
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
+
 import { ReadEditModal } from '@/features/read';
 import { WatchEditModal } from '@/features/watch';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -35,29 +41,8 @@ interface Props {
 
 const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
     const params = useParams();
-    const { openModal } = useModalContext();
     const { user: loggedUser } = useSession();
-
-    const openWatchEditModal = () => {
-        openModal({
-            content:
-                content_type === ContentTypeEnum.ANIME ? (
-                    <WatchEditModal
-                        watch={record as WatchResponseBase}
-                        slug={content.slug}
-                    />
-                ) : (
-                    <ReadEditModal
-                        read={record as ReadResponseBase}
-                        content_type={content_type}
-                        slug={content.slug}
-                    />
-                ),
-            className: '!max-w-xl',
-            title: content.title,
-            forceModal: true,
-        });
-    };
+    const [open, setOpen] = useState(false);
 
     return (
         <TableCell className="w-12 pr-0">
@@ -65,7 +50,7 @@ const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
                 <Button
                     size="icon-sm"
                     className="hidden group-hover:flex"
-                    onClick={openWatchEditModal}
+                    onClick={() => setOpen(true)}
                 >
                     <MaterialSymbolsMoreVert />
                 </Button>
@@ -79,6 +64,25 @@ const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
             >
                 {number}
             </Label>
+            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                <ResponsiveModalContent className="!max-w-xl">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>{content.title}</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    {content_type === ContentTypeEnum.ANIME ? (
+                        <WatchEditModal
+                            watch={record as WatchResponseBase}
+                            slug={content.slug}
+                        />
+                    ) : (
+                        <ReadEditModal
+                            read={record as ReadResponseBase}
+                            content_type={content_type}
+                            slug={content.slug}
+                        />
+                    )}
+                </ResponsiveModalContent>
+            </ResponsiveModal>
         </TableCell>
     );
 };

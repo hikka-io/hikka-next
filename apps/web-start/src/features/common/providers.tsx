@@ -6,7 +6,6 @@ import { FC, PropsWithChildren } from 'react';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
 import EffectsManager from '@/features/common/effects-manager';
-import ModalProvider from '@/services/providers/modal-provider';
 import ThemeProvider from '@/services/providers/theme-provider';
 import { useUIStore } from '@/services/providers/ui-store-provider';
 
@@ -35,10 +34,8 @@ const Providers: FC<Props> = ({ children, client, serverTheme }) => {
                 disableTransitionOnChange
             >
                 <TooltipProvider delayDuration={0}>
-                    <ModalProvider>
-                        <EffectsManager />
-                        {children}
-                    </ModalProvider>
+                    <EffectsManager />
+                    {children}
                 </TooltipProvider>
             </ThemeProvider>
         </HikkaContextProvider>

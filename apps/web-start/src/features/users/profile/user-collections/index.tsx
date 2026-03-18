@@ -3,8 +3,9 @@
 import { useSearchCollections, useSession } from '@hikka/react';
 import { Link } from '@/utils/navigation';
 import { useParams } from '@/utils/navigation';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
@@ -15,8 +16,14 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalSeparator,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
 
-import { useModalContext } from '@/services/providers/modal-provider';
 import { cn } from '@/utils/cn';
 
 import Card from '@/components/ui/card';
@@ -29,7 +36,8 @@ interface Props {
 
 const UserCollections: FC<Props> = ({ className }) => {
     const params = useParams();
-    const { openModal } = useModalContext();
+    const [open, setOpen] = useState(false);
+    useCloseOnRouteChange(setOpen);
 
     const { user: loggedUser } = useSession();
 
@@ -51,52 +59,54 @@ const UserCollections: FC<Props> = ({ className }) => {
 
     const filteredCollections = collections?.slice(0, 3);
 
-    const handleOpenCollectionsModal = () => {
-        openModal({
-            type: 'sheet',
-            title: 'Колекції',
-            side: 'right',
-            content: <CollectionsModal />,
-        });
-    };
-
     return (
-        <Card className={cn('bg-secondary/20', className)}>
-            <Block>
-                <Header
-                    onClick={
-                        collections && collections?.length > 0
-                            ? handleOpenCollectionsModal
-                            : undefined
-                    }
-                >
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Колекції</HeaderTitle>
-                        {loggedUser?.username === params.username && (
-                            <Button asChild size="icon-sm" variant="outline">
-                                <Link to="/collections/new">
-                                    <MaterialSymbolsAddRounded />
-                                </Link>
-                            </Button>
-                        )}
-                    </HeaderContainer>
-                    <HeaderNavButton />
-                </Header>
+        <>
+            <Card className={cn('bg-secondary/20', className)}>
+                <Block>
+                    <Header
+                        onClick={
+                            collections && collections?.length > 0
+                                ? () => setOpen(true)
+                                : undefined
+                        }
+                    >
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Колекції</HeaderTitle>
+                            {loggedUser?.username === params.username && (
+                                <Button asChild size="icon-sm" variant="outline">
+                                    <Link to="/collections/new">
+                                        <MaterialSymbolsAddRounded />
+                                    </Link>
+                                </Button>
+                            )}
+                        </HeaderContainer>
+                        <HeaderNavButton />
+                    </Header>
 
-                <div className="flex flex-col gap-6">
-                    {filteredCollections &&
-                        filteredCollections.map((item) => (
-                            <CollectionItem data={item} key={item.reference} />
-                        ))}
-                    {collections && collections?.length === 0 && (
-                        <NotFound
-                            title={'Колекції відсутні'}
-                            description="Створіть свою першу колекцію"
-                        />
-                    )}
-                </div>
-            </Block>
-        </Card>
+                    <div className="flex flex-col gap-6">
+                        {filteredCollections &&
+                            filteredCollections.map((item) => (
+                                <CollectionItem data={item} key={item.reference} />
+                            ))}
+                        {collections && collections?.length === 0 && (
+                            <NotFound
+                                title={'Колекції відсутні'}
+                                description="Створіть свою першу колекцію"
+                            />
+                        )}
+                    </div>
+                </Block>
+            </Card>
+            <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
+                <ResponsiveModalContent side="right">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>Колекції</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    <ResponsiveModalSeparator />
+                    <CollectionsModal />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
     );
 };
 
