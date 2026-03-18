@@ -32,9 +32,9 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-import { cn } from '@/utils/cn';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { cn } from '@/utils/cn';
 
 type ModalType = 'dialog' | 'sheet';
 
@@ -43,11 +43,12 @@ interface ResponsiveModalContextValue {
     isDesktop: boolean;
 }
 
-const ResponsiveModalContext =
-    React.createContext<ResponsiveModalContextValue>({
+const ResponsiveModalContext = React.createContext<ResponsiveModalContextValue>(
+    {
         type: 'dialog',
         isDesktop: true,
-    });
+    },
+);
 
 function useResponsiveModalContext() {
     return React.useContext(ResponsiveModalContext);
@@ -188,10 +189,7 @@ function ResponsiveModalContent({
             <SheetContent
                 side={side}
                 showCloseButton={showCloseButton}
-                className={cn(
-                    'flex !max-w-lg flex-col gap-0 p-0',
-                    className,
-                )}
+                className={cn('max-w-lg!', className)}
                 onPointerDownOutside={onPointerDownOutside}
                 onEscapeKeyDown={onEscapeKeyDown}
                 onInteractOutside={onInteractOutside}
@@ -226,15 +224,13 @@ function ResponsiveModalHeader({
 
     if (!isDesktop) return <DrawerHeader className={className} {...props} />;
     if (type === 'sheet')
-        return <SheetHeader className={cn('px-6 py-4', className)} {...props} />;
+        return <SheetHeader className={cn(className)} {...props} />;
     return <DialogHeader className={className} {...props} />;
 }
 
 // --- Footer ---
 
-function ResponsiveModalFooter({
-    ...props
-}: React.ComponentProps<'div'>) {
+function ResponsiveModalFooter({ ...props }: React.ComponentProps<'div'>) {
     const { isDesktop, type } = useResponsiveModalContext();
 
     if (!isDesktop) return <DrawerFooter {...props} />;

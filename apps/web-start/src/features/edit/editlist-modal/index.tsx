@@ -2,14 +2,14 @@
 
 import { EditContentType } from '@hikka/client';
 import { useEditList } from '@hikka/react';
-import { Link } from '@/utils/navigation';
+import { Fragment } from 'react';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 
-import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
 
 import EditCard from './components/edit-card';
 
@@ -32,41 +32,39 @@ const Component = ({ content_type, slug }: Props) => {
     }
 
     return (
-        <>
-            <div className={cn('relative px-6 py-4')}>
-                <Button variant="secondary" className="w-full" asChild>
-                    <Link
-                        to="/edit/new"
-                        search={{ slug, content_type }}
-                    >
-                        <MaterialSymbolsEditRounded />
-                        Створити правку
-                    </Link>
-                </Button>
-            </div>
-            <Separator />
+        <Fragment>
             {list!.length > 0 && (
-                <div className="h-full w-auto flex-1 overflow-y-scroll">
+                <div className="flex-1 overflow-y-scroll gap-6 -mx-4 p-4 flex flex-col">
                     {list!.map((edit) => (
                         <EditCard
-                            className="px-6 py-4"
                             to={`/edit/` + edit.edit_id}
                             key={edit.edit_id}
                             edit={edit}
                         />
                     ))}
                     {hasNextPage && (
-                        <div className="px-6 py-4">
-                            <LoadMoreButton
-                                isFetchingNextPage={isFetchingNextPage}
-                                fetchNextPage={fetchNextPage}
-                                ref={ref}
-                            />
-                        </div>
+                        <LoadMoreButton
+                            isFetchingNextPage={isFetchingNextPage}
+                            fetchNextPage={fetchNextPage}
+                            ref={ref}
+                        />
                     )}
                 </div>
             )}
-        </>
+            <ResponsiveModalFooter>
+                <Button
+                    variant="secondary"
+                    className="w-full"
+                    size="md"
+                    asChild
+                >
+                    <Link to="/edit/new" search={{ slug, content_type }}>
+                        <MaterialSymbolsEditRounded />
+                        Створити правку
+                    </Link>
+                </Button>
+            </ResponsiveModalFooter>
+        </Fragment>
     );
 };
 

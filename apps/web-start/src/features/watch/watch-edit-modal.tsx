@@ -19,6 +19,7 @@ import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-sym
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
+import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import {
     Select,
     SelectContent,
@@ -206,7 +207,7 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
                         placeholder="Залиште нотатку"
                     />
                 </div>
-                <div className="flex w-full justify-end gap-4">
+                <ResponsiveModalFooter>
                     <Button
                         type="button"
                         variant="destructive"
@@ -242,7 +243,7 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
                         )}
                         Зберегти
                     </Button>
-                </div>
+                </ResponsiveModalFooter>
             </form>
         </Form>
     );

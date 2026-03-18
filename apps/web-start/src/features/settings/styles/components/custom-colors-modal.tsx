@@ -1,8 +1,7 @@
 'use client';
 
 import { Moon, Redo2, Sun, Undo2 } from 'lucide-react';
-import { useTheme } from '@/services/providers/theme-provider';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 import {
     AlertDialog,
@@ -23,6 +22,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
+import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
     Tooltip,
@@ -30,6 +30,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import { useTheme } from '@/services/providers/theme-provider';
 import {
     useUIStore,
     useUIStoreHistory,
@@ -87,8 +88,8 @@ const CustomColorsModal = ({ onClose }: Props) => {
     };
 
     return (
-        <div className="flex flex-col gap-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Fragment>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-hidden overflow-y-scroll -m-4 p-4">
                 <Tabs
                     defaultValue={resolvedTheme ?? 'dark'}
                     onValueChange={(v) => setActiveTheme(v as 'light' | 'dark')}
@@ -192,7 +193,10 @@ const CustomColorsModal = ({ onClose }: Props) => {
                     </div>
                 </Card>
             </div>
-            <div className="flex flex-col md:flex-row justify-end gap-4 items-start md:items-center md:justify-between -mx-6 px-6 py-4 border-t sticky bottom-0 bg-background">
+
+            <ResponsiveModalFooter>
+                {/* className="flex flex-col md:flex-row justify-end gap-4 items-start md:items-center md:justify-between -mx-4 px-4 py-4 border-t shrink-0 bg-background" */}
+
                 <div className="flex items-center gap-2 w-full md:w-auto">
                     <Tooltip>
                         <TooltipTrigger asChild>
@@ -263,8 +267,8 @@ const CustomColorsModal = ({ onClose }: Props) => {
                         </AlertDialogContent>
                     </AlertDialog>
                 </div>
-            </div>
-        </div>
+            </ResponsiveModalFooter>
+        </Fragment>
     );
 };
 

@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/responsive-modal';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
-import { Separator } from '@/components/ui/separator';
 import { EditTopStatsModal } from '@/features/edit';
 
 import EditTopItem from './components/edit-top-item';
@@ -52,7 +51,6 @@ function EditTopStats() {
             </ScrollArea>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Топ авторів">
-                    <Separator />
                     <EditTopStatsModal />
                 </ResponsiveModalContent>
             </ResponsiveModal>

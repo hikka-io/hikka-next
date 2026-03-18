@@ -11,8 +11,6 @@ import Card from '@/components/ui/card';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { Separator } from '@/components/ui/separator';
 
@@ -89,13 +87,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                 </div>}
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent side="right">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>
-                            {followType === 'followers' ? 'Стежать' : 'Відстежується'}
-                        </ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
-                    <Separator />
+                <ResponsiveModalContent side="right" title={followType === 'followers' ? 'Стежать' : 'Відстежується'}>
                     <FollowListModal type={followType} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

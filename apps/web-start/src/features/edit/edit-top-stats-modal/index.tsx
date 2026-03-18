@@ -15,7 +15,7 @@ const Component = () => {
     }
 
     return (
-        <div className="h-full w-auto flex-1 overflow-y-scroll">
+        <div className="flex-1 overflow-y-scroll gap-6 -mx-4 p-4 flex flex-col">
             {list.map((stat, index) => {
                 return (
                     <EditTopItem
@@ -29,13 +29,11 @@ const Component = () => {
                 );
             })}
             {hasNextPage && (
-                <div className="px-6">
-                    <LoadMoreButton
-                        isFetchingNextPage={isFetchingNextPage}
-                        fetchNextPage={fetchNextPage}
-                        ref={ref}
-                    />
-                </div>
+                <LoadMoreButton
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
+                    ref={ref}
+                />
             )}
         </div>
     );

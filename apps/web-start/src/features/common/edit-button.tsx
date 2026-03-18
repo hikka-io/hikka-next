@@ -1,7 +1,7 @@
 import { EditContentType } from '@hikka/client';
 import { FC, useState } from 'react';
 
-import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import { Button, ButtonProps } from '@/components/ui/button';
 import {
     ResponsiveModal,
@@ -13,12 +13,10 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { Separator } from '@/components/ui/separator';
 import { EditListModal } from '@/features/edit';
 
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
-
-import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 
 interface Props extends ButtonProps {
     slug: string;
@@ -48,11 +46,7 @@ const EditButton: FC<Props> = ({ className, slug, content_type, ...props }) => {
             </Tooltip>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Список правок">
-                    <Separator />
-                    <EditListModal
-                        content_type={content_type}
-                        slug={slug}
-                    />
+                    <EditListModal content_type={content_type} slug={slug} />
                 </ResponsiveModalContent>
             </ResponsiveModal>
         </>

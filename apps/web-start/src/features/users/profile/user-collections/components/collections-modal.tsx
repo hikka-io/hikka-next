@@ -30,23 +30,20 @@ const CollectionModal: FC<Props> = ({ className }) => {
     });
 
     return (
-        <div className="h-full w-auto flex-1 overflow-y-scroll">
+        <div className="flex-1 overflow-y-scroll gap-6 -mx-4 p-4 flex flex-col">
             {collections &&
                 collections.map((item) => (
                     <CollectionItem
-                        className="px-6 py-4"
                         data={item}
                         key={item.reference}
                     />
                 ))}
             {hasNextPage && (
-                <div className="px-4">
-                    <LoadMoreButton
-                        isFetchingNextPage={isFetchingNextPage}
-                        fetchNextPage={fetchNextPage}
-                        ref={ref}
-                    />
-                </div>
+                <LoadMoreButton
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
+                    ref={ref}
+                />
             )}
         </div>
     );

@@ -21,7 +21,6 @@ import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-chang
 import CollectionItem from '@/features/users/profile/user-collections/components/collection-item';
 
 import Card from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import CollectionsModal from './collections-modal';
 
 interface Props {
@@ -66,7 +65,6 @@ const Collections: FC<Props> = ({ content_type }) => {
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Колекції">
-                    <Separator />
                     <CollectionsModal content_type={content_type} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

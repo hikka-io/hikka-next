@@ -26,7 +26,6 @@ import HistoryItem from '@/features/users/user-history/components/history-item';
 import { cn } from '@/utils/cn';
 
 import Card from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import ActivityModal from './components/history-modal';
 
 interface Props {
@@ -81,7 +80,6 @@ const History: FC<Props> = ({ className }) => {
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Активність">
-                    <Separator />
                     <ActivityModal />
                 </ResponsiveModalContent>
             </ResponsiveModal>

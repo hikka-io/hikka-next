@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/responsive-modal';
 
 import Card from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import ContentNewsItem from './components/content-articles-item';
 import ContentNewsModal from './components/content-articles-modal';
 
@@ -62,7 +61,6 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Статті">
-                    <Separator />
                     <ContentNewsModal content_type={content_type} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

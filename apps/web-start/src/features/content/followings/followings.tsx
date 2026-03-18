@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/responsive-modal';
 
 import Card from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import FollowingItem from './components/following-item';
 import FollowingsModal from './followings-modal';
 
@@ -87,7 +86,6 @@ const Followings: FC<Props> = ({ content_type }) => {
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Відстежується">
-                    <Separator />
                     <FollowingsModal content_type={content_type} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

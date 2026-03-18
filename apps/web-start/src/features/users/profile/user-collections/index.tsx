@@ -24,7 +24,6 @@ import {
 import { cn } from '@/utils/cn';
 
 import Card from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import CollectionItem from './components/collection-item';
 import CollectionsModal from './components/collections-modal';
 
@@ -97,7 +96,6 @@ const UserCollections: FC<Props> = ({ className }) => {
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Колекції">
-                    <Separator />
                     <CollectionsModal />
                 </ResponsiveModalContent>
             </ResponsiveModal>
