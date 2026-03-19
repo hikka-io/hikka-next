@@ -23,12 +23,10 @@ const EditList: FC<Props> = () => {
     const search = useFilterSearch<EditSearch>();
 
     const page = search.page || 1;
-    const content_type =
-        (search.content_type as EditContentType) || undefined;
+    const content_type = (search.content_type as EditContentType) || undefined;
     const order = search.order || 'desc';
     const sort = search.sort?.length ? search.sort : ['edit_id'];
-    const edit_status =
-        (search.edit_status as EditStatusEnum) || undefined;
+    const edit_status = (search.edit_status as EditStatusEnum) || undefined;
     const author = search.author;
     const moderator = search.moderator;
 
@@ -56,7 +54,7 @@ const EditList: FC<Props> = () => {
     }
 
     return (
-        <Block>
+        <Block className="-mx-4 md:mx-0">
             <Table className="table">
                 <EditHead />
                 <TableBody>

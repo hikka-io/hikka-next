@@ -2,8 +2,6 @@
 
 import { EditResponse } from '@hikka/client';
 import { format } from 'date-fns';
-import { Link } from '@/utils/navigation';
-import { useRouter } from '@/utils/navigation';
 import { FC, MouseEvent } from 'react';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
@@ -15,6 +13,7 @@ import { cn } from '@/utils/cn';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link, useRouter } from '@/utils/navigation';
 
 interface Props {
     edit: EditResponse;
@@ -40,8 +39,7 @@ const EditRow: FC<Props> = ({ edit }) => {
         if (e.button === 1 || (e.button === 0 && (e.ctrlKey || e.metaKey))) {
             if (e.button === 1) e.preventDefault();
             window.open(url, '_blank');
-        }
-        else if (e.button === 0) router.push(url);
+        } else if (e.button === 0) router.push(url);
     };
 
     return (
@@ -51,7 +49,7 @@ const EditRow: FC<Props> = ({ edit }) => {
             onClick={handleRowClick}
             onAuxClick={handleRowClick}
         >
-            <TableCell className="hidden w-8 sm:table-cell">                            
+            <TableCell className="hidden w-8 sm:table-cell">
                 <Label>{edit.edit_id}</Label>
             </TableCell>
             <TableCell className="w-40">
@@ -105,13 +103,8 @@ const EditRow: FC<Props> = ({ edit }) => {
             </TableCell>
             <TableCell align="center" className="w-20">
                 <div className="flex justify-end">
-                    <Badge
-                        className="size-2 p-0 md:size-auto md:px-1.5"
-                        variant={variant}
-                    >
-                        <span className="hidden md:block">
-                            {EDIT_STATUS[edit.status].title_ua}
-                        </span>
+                    <Badge className="p-0 size-auto px-1.5" variant={variant}>
+                        <span>{EDIT_STATUS[edit.status].title_ua}</span>
                     </Badge>
                 </div>
             </TableCell>
