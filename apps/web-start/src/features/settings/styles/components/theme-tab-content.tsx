@@ -14,6 +14,7 @@ import {
     SURFACE_TOKENS,
     UI_TOKENS,
 } from '@/utils/constants/styles';
+import { DEFAULT_STYLES } from '@/utils/ui';
 
 import { useStylesEditor } from './custom-colors-modal';
 import PresetButtons from './preset-buttons';
@@ -26,11 +27,13 @@ interface ThemeTabContentProps {
 const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
     const styles = useStylesEditor((state) => state.styles);
     const setColorToken = useStylesEditor((state) => state.setColorToken);
+    const setThemeColors = useStylesEditor((state) => state.setThemeColors);
     const setBody = useStylesEditor((state) => state.setBody);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     const getColor = (token: keyof UIColorTokens) =>
-        styles?.[theme]?.colors?.[token];
+        styles?.[theme]?.colors?.[token] ??
+        DEFAULT_STYLES[theme]?.colors?.[token];
 
     const handleColorChange = (token: keyof UIColorTokens, color: HSLColor) => {
         setColorToken(theme, token, color);
@@ -40,14 +43,8 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
         const presetColors = preset.styles[theme]?.colors;
         if (!presetColors) return;
 
-        (Object.keys(presetColors) as (keyof UIColorTokens)[]).forEach(
-            (token) => {
-                const color = presetColors[token];
-                if (color) {
-                    setColorToken(theme, token, color);
-                }
-            },
-        );
+        // Batch update all preset colors in a single store update
+        setThemeColors(theme, presetColors);
 
         const presetBody = preset.styles[theme]?.body;
         if (presetBody) {

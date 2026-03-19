@@ -17,7 +17,30 @@ import { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 import { ALLOWED_COLOR_TOKENS } from './inject-styles';
 
 /**
+ * Strip null/undefined values from an object so they don't overwrite
+ * base values during spread. The API returns null for unset fields.
+ */
+function stripNulls<T extends Record<string, unknown>>(
+    obj: T | undefined | null,
+): Partial<T> | undefined {
+    if (!obj) return undefined;
+
+    const result: Record<string, unknown> = {};
+    let hasValues = false;
+
+    for (const [key, value] of Object.entries(obj)) {
+        if (value != null) {
+            result[key] = value;
+            hasValues = true;
+        }
+    }
+
+    return hasValues ? (result as Partial<T>) : undefined;
+}
+
+/**
  * Merge two UIStyles objects, with override taking precedence.
+ * Null values in override are treated as "not set" and fall through to base.
  */
 export function mergeStyles(
     base: UIStyles | undefined,
@@ -29,29 +52,29 @@ export function mergeStyles(
 
     return {
         ...base,
-        ...override,
+        ...stripNulls(override),
         light: {
             ...base.light,
-            ...override.light,
+            ...stripNulls(override.light),
             colors: {
                 ...base.light?.colors,
-                ...override.light?.colors,
+                ...stripNulls(override.light?.colors),
             },
             body: {
                 ...base.light?.body,
-                ...override.light?.body,
+                ...stripNulls(override.light?.body),
             },
         },
         dark: {
             ...base.dark,
-            ...override.dark,
+            ...stripNulls(override.dark),
             colors: {
                 ...base.dark?.colors,
-                ...override.dark?.colors,
+                ...stripNulls(override.dark?.colors),
             },
             body: {
                 ...base.dark?.body,
-                ...override.dark?.body,
+                ...stripNulls(override.dark?.body),
             },
         },
         radius: override.radius ?? base.radius,

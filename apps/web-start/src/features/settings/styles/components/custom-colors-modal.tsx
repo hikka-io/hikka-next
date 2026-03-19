@@ -32,11 +32,10 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { setStylesEditing } from '@/features/common/ui-styles-syncer';
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 import { useTheme } from '@/services/providers/theme-provider';
-import { applyStyles, stylesToReactStyles } from '@/utils/ui/inject-styles';
+import { stylesToReactStyles } from '@/utils/ui/inject-styles';
 
 import {
     StylesEditorStore,
@@ -90,7 +89,7 @@ interface Props {
 
 const CustomColorsModal = ({ onClose }: Props) => {
     const { resolvedTheme } = useTheme();
-    const { styles: savedStyles, mergedStyles: savedMergedStyles } = useSessionUI();
+    const { styles: savedStyles } = useSessionUI();
     const { update } = useUpdateSessionUI();
 
     const [activeTheme, setActiveTheme] = useState<'light' | 'dark'>(
@@ -104,29 +103,8 @@ const CustomColorsModal = ({ onClose }: Props) => {
         storeRef.current.temporal.getState().pause();
     }
 
-    // Track latest savedMergedStyles so cleanup always restores the current value
-    const savedMergedStylesRef = useRef(savedMergedStyles);
-    useEffect(() => {
-        savedMergedStylesRef.current = savedMergedStyles;
-    }, [savedMergedStyles]);
-
-    // Take over CSS injection from global UIStylesSyncer
-    useEffect(() => {
-        setStylesEditing(true);
-
-        return () => {
-            setStylesEditing(false);
-            applyStyles(savedMergedStylesRef.current);
-        };
-    }, []);
-
-    // Live preview: apply editor styles on every change
+    // Preview: editor styles as inline CSS vars (scoped to the preview card only)
     const editorStyles = useStore(storeRef.current, (s) => s.styles);
-    useEffect(() => {
-        const merged = storeRef.current!.getState().getMergedStyles();
-        applyStyles(merged);
-    }, [editorStyles]);
-
     const { root, dark } = stylesToReactStyles(editorStyles);
 
     const history = useTemporalHistory(storeRef.current);

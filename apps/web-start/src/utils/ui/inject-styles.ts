@@ -230,19 +230,25 @@ export function stylesToReactStyles(styles: UIStyles | undefined): {
 } {
     if (!styles) return { root: {}, dark: {} };
 
-    const root: CSSVarStyle = {
-        ...colorTokensToReactStyle(styles.light?.colors),
-    };
-
+    const radiusVars: CSSVarStyle = {};
     if (styles.radius) {
         const sanitizedRadius = sanitizeCSSLength(styles.radius);
         if (sanitizedRadius) {
-            root['--radius'] = sanitizedRadius;
+            radiusVars['--radius'] = sanitizedRadius;
+            if (sanitizedRadius === '0rem') {
+                radiusVars['--base-radius'] = '0rem';
+            }
         }
     }
 
+    const root: CSSVarStyle = {
+        ...colorTokensToReactStyle(styles.light?.colors),
+        ...radiusVars,
+    };
+
     const dark: CSSVarStyle = {
         ...colorTokensToReactStyle(styles.dark?.colors),
+        ...radiusVars,
     };
 
     return { root, dark };
