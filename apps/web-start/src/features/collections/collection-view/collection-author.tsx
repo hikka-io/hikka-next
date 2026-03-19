@@ -2,9 +2,7 @@
 
 import { useCollectionByReference } from '@hikka/react';
 import { formatDistance } from 'date-fns';
-import { useParams } from '@/utils/navigation';
 
-import FollowButton from '@/features/common/follow-button';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -14,7 +12,10 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
+import FollowButton from '@/features/common/follow-button';
+
 import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { useParams } from '@/utils/navigation';
 
 const CollectionAuthor = () => {
     const params = useParams();
@@ -33,7 +34,9 @@ const CollectionAuthor = () => {
                     to={`/u/${collection?.author.username}`}
                 />
                 <HorizontalCardContainer className="gap-1">
-                    <HorizontalCardTitle href={`/u/${collection?.author.username}`}>
+                    <HorizontalCardTitle
+                        href={`/u/${collection?.author.username}`}
+                    >
                         {collection?.author.username}
                     </HorizontalCardTitle>
                     <HorizontalCardDescription>

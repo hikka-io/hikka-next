@@ -25,7 +25,6 @@ const CollectionRulesAlert = () => {
 
     return (
         <>
-        <div>
             <div className="border-border bg-secondary/20 flex items-center gap-4 rounded-md border p-4">
                 <MaterialSymbolsInfoRounded className="text-xl" />
                 <span className="flex-1 text-sm">
@@ -40,14 +39,17 @@ const CollectionRulesAlert = () => {
                     створення колекцій.
                 </span>
             </div>
-        </div>
-        <ResponsiveModal open={open} onOpenChange={setOpen}>
-            <ResponsiveModalContent title="Правила колекцій">
-                <MDViewer className="overflow-scroll px-6 py-4 md:overflow-hidden md:p-0">
-                    {rules}
-                </MDViewer>
-            </ResponsiveModalContent>
-        </ResponsiveModal>
+
+            <ResponsiveModal open={open} onOpenChange={setOpen}>
+                <ResponsiveModalContent
+                    title="Правила колекцій"
+                    className="min-w-xl"
+                >
+                    <MDViewer className="-m-4 overflow-scroll p-4">
+                        {rules}
+                    </MDViewer>
+                </ResponsiveModalContent>
+            </ResponsiveModal>
         </>
     );
 };

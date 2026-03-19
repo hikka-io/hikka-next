@@ -44,6 +44,16 @@ export type CollectionActions = {
     setVisibility: (visibility: CollectionVisibilityEnum) => void;
     setGroups: (groups: Group[]) => void;
     addGroup: () => void;
+    addItem: (
+        groupId: string | number,
+        content: CollectionContent & { title?: string },
+    ) => void;
+    removeItem: (groupId: string | number, itemId: string | number) => void;
+    updateItemComment: (
+        groupId: string | number,
+        itemId: string | number,
+        comment: string,
+    ) => void;
     setApiData: (data: CollectionResponse<CollectionContent>) => void;
     getApiData: () => CollectionArgs;
 };
@@ -81,6 +91,66 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
         setVisibility: (visibility: CollectionVisibilityEnum) =>
             set({ visibility }),
         setGroups: (groups: Group[]) => set({ groups }),
+        addItem: (
+            groupId: string | number,
+            content: CollectionContent & { title?: string },
+        ) => {
+            const { groups } = get();
+            const isDuplicate = groups.some((g) =>
+                g.items.some((item) => item.content.slug === content.slug),
+            );
+            if (isDuplicate) return;
+
+            set({
+                groups: groups.map((g) =>
+                    g.id === groupId
+                        ? {
+                              ...g,
+                              items: [
+                                  ...g.items,
+                                  { id: content.slug, content },
+                              ],
+                          }
+                        : g,
+                ),
+            });
+        },
+        removeItem: (groupId: string | number, itemId: string | number) => {
+            const { groups } = get();
+            set({
+                groups: groups.map((g) =>
+                    g.id === groupId
+                        ? {
+                              ...g,
+                              items: g.items.filter(
+                                  (item) => item.id !== itemId,
+                              ),
+                          }
+                        : g,
+                ),
+            });
+        },
+        updateItemComment: (
+            groupId: string | number,
+            itemId: string | number,
+            comment: string,
+        ) => {
+            const { groups } = get();
+            set({
+                groups: groups.map((g) =>
+                    g.id === groupId
+                        ? {
+                              ...g,
+                              items: g.items.map((item) =>
+                                  item.id === itemId
+                                      ? { ...item, comment }
+                                      : item,
+                              ),
+                          }
+                        : g,
+                ),
+            });
+        },
         addGroup: () => {
             const state = get();
             const newGroup = {
@@ -143,7 +213,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                 .map((group, i) => {
                     return group.items.map((item, k) => {
                         return {
-                            comment: item.comment || undefined,
+                            comment: item.comment,
                             label: group.title || undefined,
                             order: 0,
                             slug: item.content.slug,

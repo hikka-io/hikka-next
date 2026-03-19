@@ -1,19 +1,7 @@
 'use client';
 
-import {
-    DndContext,
-    DragEndEvent,
-    MouseSensor,
-    TouchSensor,
-    closestCenter,
-    useSensor,
-    useSensors,
-} from '@dnd-kit/core';
-import {
-    SortableContext,
-    arrayMove,
-    rectSortingStrategy,
-} from '@dnd-kit/sortable';
+import { useDroppable } from '@dnd-kit/core';
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { CollectionContent } from '@hikka/client';
 import { FC } from 'react';
 
@@ -24,7 +12,8 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { SearchModal } from '@/features/common';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
-import { Group, Item } from '@/services/stores/collection-store';
+import { Group } from '@/services/stores/collection-store';
+import { cn } from '@/utils/cn';
 
 import SortableCard from './components/sortable-card';
 
@@ -35,141 +24,75 @@ interface Props {
 const CollectionGrid: FC<Props> = ({ group }) => {
     const groups = useCollectionContext((state) => state.groups);
     const content_type = useCollectionContext((state) => state.content_type);
-    const setGroups = useCollectionContext((state) => state.setGroups);
+    const addItem = useCollectionContext((state) => state.addItem);
+    const removeItem = useCollectionContext((state) => state.removeItem);
+    const updateItemComment = useCollectionContext(
+        (state) => state.updateItemComment,
+    );
 
-    const items = groups.find((g) => g.id === group.id)?.items;
+    const items = groups.find((g) => g.id === group.id)?.items ?? [];
 
-    if (!items) {
-        return null;
-    }
-
-    const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
-
-    const handleDragEnd = (event: DragEndEvent) => {
-        const { active, over } = event;
-        if (!over) return;
-
-        const activeItem = items.find((item) => item.id === active.id);
-        const overItem = items.find((item) => item.id === over.id);
-
-        if (!activeItem || !overItem) {
-            return;
-        }
-
-        const activeIndex = items.findIndex((item) => item.id === active.id);
-        const overIndex = items.findIndex((item) => item.id === over.id);
-
-        if (activeIndex !== overIndex) {
-            setGroups(
-                groups.map((g) => {
-                    if (g.id === group.id) {
-                        return {
-                            ...g,
-                            items: arrayMove<Item>(
-                                g.items,
-                                activeIndex,
-                                overIndex,
-                            ),
-                        };
-                    }
-
-                    return g;
-                }),
-            );
-        }
-    };
+    const { setNodeRef, isOver } = useDroppable({
+        id: group.id,
+    });
 
     const handleAddItem = (content: CollectionContent & { title?: string }) => {
-        if (JSON.stringify(groups).includes(content.slug)) {
-            return;
-        }
-
-        setGroups(
-            groups.map((g) => {
-                if (g.id === group.id) {
-                    return {
-                        ...g,
-                        items: [
-                            ...g.items,
-                            {
-                                id: content.slug,
-                                content: content,
-                            },
-                        ],
-                    };
-                }
-
-                return g;
-            }),
-        );
-    };
-
-    const handleRemoveItem = (id: string | number) => {
-        setGroups(
-            groups.map((g) => {
-                if (g.id === group.id) {
-                    return {
-                        ...g,
-                        items: g.items.filter((item) => item.id !== id),
-                    };
-                }
-
-                return g;
-            }),
-        );
+        addItem(group.id, content);
     };
 
     return (
-        <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-        >
-            <SortableContext items={items} strategy={rectSortingStrategy}>
-                <div className="flex flex-col gap-4">
-                    {group.isGroup && (
-                        <Header>
-                            <HeaderContainer>
-                                <HeaderTitle variant="h5">
-                                    {group.title &&
-                                    group.title.trim().length > 0
-                                        ? group.title
-                                        : 'Нова група'}
-                                </HeaderTitle>
-                            </HeaderContainer>
-                        </Header>
+        <SortableContext items={items} strategy={rectSortingStrategy}>
+            <div className="flex flex-col gap-4">
+                {group.isGroup && (
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h5">
+                                {group.title && group.title.trim().length > 0
+                                    ? group.title
+                                    : 'Нова група'}
+                            </HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
+                )}
+                <div
+                    ref={setNodeRef}
+                    className={cn(
+                        'grid grid-cols-2 gap-4 rounded-lg transition-colors md:grid-cols-5 lg:gap-8',
+                        isOver && 'ring-primary/30 bg-primary/5 ring-2',
                     )}
-                    <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
-                        {items.map((item) => (
-                            <SortableCard
-                                key={item.id}
-                                id={String(item.id)}
-                                content={item.content}
-                                onRemove={() => handleRemoveItem(item.id)}
-                            />
-                        ))}
+                >
+                    {items.map((item) => (
+                        <SortableCard
+                            key={item.id}
+                            id={String(item.id)}
+                            groupId={group.id}
+                            content={item.content}
+                            comment={item.comment}
+                            onRemove={removeItem}
+                            onCommentChange={updateItemComment}
+                        />
+                    ))}
 
-                        <SearchModal
-                            content_type={content_type}
-                            onClick={(value) =>
-                                handleAddItem(
-                                    value as CollectionContent & {
-                                        title?: string;
-                                    },
-                                )
+                    <SearchModal
+                        content_type={content_type}
+                        onClick={(value) =>
+                            handleAddItem(
+                                value as CollectionContent & {
+                                    title?: string;
+                                },
+                            )
+                        }
+                        type="button"
+                    >
+                        <ContentCard
+                            image={
+                                <MaterialSymbolsAddRounded className="text-muted-foreground text-4xl" />
                             }
-                            type="button"
-                        >
-                            <ContentCard
-                                image={
-                                    <MaterialSymbolsAddRounded className="text-muted-foreground text-4xl" />
-                                }
-                            />
-                        </SearchModal>
-                    </div>
+                        />
+                    </SearchModal>
                 </div>
-            </SortableContext>
-        </DndContext>
+            </div>
+        </SortableContext>
     );
 };
 

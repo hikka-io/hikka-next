@@ -2,8 +2,6 @@
 
 import { CollectionContent, CollectionResponse } from '@hikka/client';
 import { useDeleteCollection } from '@hikka/react';
-import { Link } from '@/utils/navigation';
-import { useRouter } from '@/utils/navigation';
 import { FC } from 'react';
 import { toast } from 'sonner';
 
@@ -30,6 +28,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
+import { useRouter } from '@/utils/navigation';
 
 interface Props {
     collection: CollectionResponse<CollectionContent>;
@@ -51,7 +51,7 @@ const CollectionMenu: FC<Props> = ({ collection }) => {
             deleteCollectionMutation.mutate(collection.reference);
         } catch (e) {
             toast.error(
-                'Виникла помилка при видаленні повідомлення. Спробуйте, будь ласка, ще раз',
+                'Виникла помилка при видаленні колекції. Спробуйте, будь ласка, ще раз',
             );
         }
     };
@@ -86,7 +86,7 @@ const CollectionMenu: FC<Props> = ({ collection }) => {
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>
-                                Ви впевнені, що хочете видалити коментар?
+                                Ви впевнені, що хочете видалити колекцію?
                             </AlertDialogTitle>
                             <AlertDialogDescription>
                                 Після цієї операції, Ви вже не зможете його

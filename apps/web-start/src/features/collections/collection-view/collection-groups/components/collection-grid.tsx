@@ -5,7 +5,7 @@ import {
     CollectionContentResponse,
     ContentTypeEnum,
 } from '@hikka/client';
-import { FC, memo, useRef } from 'react';
+import { FC, memo } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -20,19 +20,8 @@ interface Props {
 }
 
 const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
-    const ref = useRef<HTMLDivElement>(null);
-
-    /* const isVisible = useOnScreen(ref);
-
-    useEffect(() => {
-        if (isVisible) {
-            console.log('Visible', group);
-        }
-    }, [isVisible]);
-    */
-
     return (
-        <div className="flex scroll-mt-20 flex-col gap-4" id={group} ref={ref}>
+        <div className="flex scroll-mt-20 flex-col gap-4" id={group}>
             {group && (
                 <Header href={`#${group}`}>
                     <HeaderContainer>
@@ -42,26 +31,35 @@ const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
             )}
             <Stack size={5} extendedSize={5} extended>
                 {items.map((item) => (
-                    <ContentCard
-                        slug={item.content.slug}
-                        content_type={content_type}
-                        href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
+                    <div
                         key={item.content.slug}
-                        image={item.content.image}
-                        title={item.content.title}
-                        watch={
-                            'watch' in item.content &&
-                            item.content.watch.length > 0
-                                ? item.content.watch[0]
-                                : undefined
-                        }
-                        read={
-                            'read' in item.content &&
-                            item.content.read.length > 0
-                                ? item.content.read[0]
-                                : undefined
-                        }
-                    />
+                        className="flex flex-col gap-1"
+                    >
+                        <ContentCard
+                            slug={item.content.slug}
+                            content_type={content_type}
+                            href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
+                            image={item.content.image}
+                            title={item.content.title}
+                            watch={
+                                'watch' in item.content &&
+                                item.content.watch.length > 0
+                                    ? item.content.watch[0]
+                                    : undefined
+                            }
+                            read={
+                                'read' in item.content &&
+                                item.content.read.length > 0
+                                    ? item.content.read[0]
+                                    : undefined
+                            }
+                        />
+                        {item.comment && (
+                            <p className="text-muted-foreground line-clamp-2 text-xs">
+                                {item.comment}
+                            </p>
+                        )}
+                    </div>
                 ))}
             </Stack>
         </div>

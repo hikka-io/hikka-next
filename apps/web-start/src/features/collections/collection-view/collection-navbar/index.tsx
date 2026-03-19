@@ -3,11 +3,8 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { useCollectionByReference, useSession } from '@hikka/react';
 import { MessageCircle, TableOfContents } from 'lucide-react';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
 import { FC, Fragment } from 'react';
 
-import FavoriteButton from '@/features/common/favorite-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {
@@ -16,8 +13,12 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 
+import FavoriteButton from '@/features/common/favorite-button';
+
 import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { Link } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
 
 import TableOfContentsComponent from '../../table-of-contents';
 import CollectionMenu from './components/collection-menu';
@@ -77,7 +78,11 @@ const CollectionNavbar: FC<Props> = () => {
                             </Button>
                         </PopoverTrigger>
 
-                        <PopoverContent align="end" className="w-64 p-0">
+                        <PopoverContent
+                            align="end"
+                            side="top"
+                            className="w-64 p-0"
+                        >
                             <TableOfContentsComponent className="max-h-96 border-none" />
                         </PopoverContent>
                     </Popover>

@@ -1,12 +1,13 @@
 'use client';
 
 import { useCollectionByReference } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC, useEffect } from 'react';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
+import { useParams } from '@/utils/navigation';
 
 import CollectionGrid from './collection-grid';
+import CollectionDndContext from './collection-grid/collection-dnd-context';
 
 interface Props {
     mode?: 'create' | 'edit';
@@ -33,9 +34,13 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
         return null;
     }
 
-    return groups.map((group) => (
-        <CollectionGrid key={group.id} group={group} />
-    ));
+    return (
+        <CollectionDndContext>
+            {groups.map((group) => (
+                <CollectionGrid key={group.id} group={group} />
+            ))}
+        </CollectionDndContext>
+    );
 };
 
 export default CollectionGroups;

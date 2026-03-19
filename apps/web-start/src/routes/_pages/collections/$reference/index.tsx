@@ -1,10 +1,10 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { useCollectionByReference } from '@hikka/react';
 import { createFileRoute } from '@tanstack/react-router';
+
+import Block from '@/components/ui/block';
 import Link from '@/components/ui/link';
 
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
-import Block from '@/components/ui/block';
 import {
     CollectionViewAuthor as CollectionAuthor,
     CollectionViewGroups as CollectionGroups,
@@ -13,6 +13,8 @@ import {
     TableOfContents,
 } from '@/features/collections';
 import { CommentList as Comments } from '@/features/comments';
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+
 import CollectionProvider from '@/services/providers/collection-provider';
 
 export const Route = createFileRoute('/_pages/collections/$reference/')({

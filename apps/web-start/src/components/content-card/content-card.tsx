@@ -97,7 +97,7 @@ export interface TooltipProps {
 }
 
 // Constants
-const DEFAULT_CONTAINER_RATIO = 0.7;
+export const DEFAULT_CONTAINER_RATIO = 0.7;
 const DEFAULT_PRESET = IMAGE_PRESETS.card;
 
 // Tooltip map

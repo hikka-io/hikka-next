@@ -5,10 +5,7 @@ import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
 
 export const Route = createFileRoute('/_pages/collections/$reference')({
-    loader: async ({
-        params,
-        context: { queryClient, hikkaClient },
-    }) => {
+    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
         const { reference } = params;
 
         const collection = await queryClient.ensureQueryData(

@@ -76,8 +76,21 @@ const GroupInputs = () => {
             return;
         }
 
-        const newGroups = items.filter((group) => group.id !== id);
-        setGroups(newGroups);
+        const removedGroup = items.find((group) => group.id === id);
+        const remainingGroups = items.filter((group) => group.id !== id);
+
+        if (
+            removedGroup &&
+            removedGroup.items.length > 0 &&
+            remainingGroups.length > 0
+        ) {
+            remainingGroups[0] = {
+                ...remainingGroups[0],
+                items: [...remainingGroups[0].items, ...removedGroup.items],
+            };
+        }
+
+        setGroups(remainingGroups);
     };
 
     return (
