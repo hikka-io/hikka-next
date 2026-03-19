@@ -4,25 +4,27 @@ import {
     useRouterState,
     useParams as useTanstackParams,
 } from '@tanstack/react-router';
+import type {
+    LinkComponentProps,
+    NavigateOptions,
+    AnyRouter,
+} from '@tanstack/react-router';
 import { forwardRef } from 'react';
 
 /**
- * Link props with relaxed `to` typing.
- * TanStack Router's Link enforces strict route-based types on `to`,
- * but this codebase constructs URLs dynamically (template literals, maps, etc.).
- * This interface accepts any string while preserving TanStack-specific props.
+ * Link props derived from TanStack Router's native LinkComponentProps
+ * with relaxed `to` typing to allow dynamic URL construction.
+ *
+ * Uses `string` for all route path generics so any URL string is accepted
+ * while preserving the full set of TanStack Router link props
+ * (activeProps, inactiveProps, preload, mask, resetScroll, etc.).
  */
-export interface LinkProps
-    extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'children'> {
+export type LinkProps = Omit<
+    LinkComponentProps<'a', AnyRouter, string, string, string, string>,
+    'to'
+> & {
     to: string;
-    search?: Record<string, unknown>;
-    params?: Record<string, string>;
-    hash?: string;
-    preload?: false | 'intent' | 'viewport' | 'render';
-    children?:
-        | React.ReactNode
-        | ((state: { isActive: boolean }) => React.ReactNode);
-}
+};
 
 const isExternalUrl = (url: string) =>
     url.startsWith('http://') || url.startsWith('https://');
@@ -33,50 +35,58 @@ const isExternalUrl = (url: string) =>
  * - External URLs (http/https) render as native <a> tags
  * - Internal URLs use TanStack Router navigation
  */
-export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-    function Link({ to, search, params, hash, preload, children, ...htmlProps }, ref) {
-        if (isExternalUrl(to)) {
-            return (
-                <a
-                    ref={ref}
-                    href={to}
-                    target={htmlProps.target ?? '_blank'}
-                    rel={htmlProps.rel ?? 'noopener noreferrer'}
-                    {...htmlProps}
-                >
-                    {children as React.ReactNode}
-                </a>
-            );
-        }
-
+export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
+    { to, children, ...rest },
+    ref,
+) {
+    if (isExternalUrl(to)) {
+        const { target, rel, className, style, onClick, id, ...htmlProps } =
+            rest as React.AnchorHTMLAttributes<HTMLAnchorElement>;
         return (
-            <TanStackLink
+            <a
                 ref={ref}
-                to={to as '/'}
-                search={search as never}
-                params={params as never}
-                hash={hash}
-                preload={preload}
-                {...(htmlProps as Record<string, unknown>)}
+                href={to}
+                target={target ?? '_blank'}
+                rel={rel ?? 'noopener noreferrer'}
+                className={className}
+                style={style}
+                onClick={onClick}
+                id={id}
+                {...htmlProps}
             >
                 {children as React.ReactNode}
-            </TanStackLink>
+            </a>
         );
-    },
-);
+    }
+
+    return (
+        <TanStackLink ref={ref} to={to as '/'} {...(rest as any)}>
+            {children as React.ReactNode}
+        </TanStackLink>
+    );
+});
 
 // Non-strict useParams — works without specifying the route
 export function useParams(): Record<string, string> {
     return useTanstackParams({ strict: false });
 }
 
+type RelaxedNavigateOptions = Omit<
+    NavigateOptions<AnyRouter, string, string, string, string>,
+    'to'
+> & {
+    to?: string;
+};
+
 export function useRouter() {
     const navigate = useNavigate();
     return {
-        push: (url: string, options?: { search?: Record<string, unknown> }) =>
-            navigate({ to: url as '/', search: options?.search as never }),
-        replace: (url: string, options?: { search?: Record<string, unknown> }) =>
-            navigate({ to: url as '/', replace: true, search: options?.search as never }),
+        push: (url: string, options?: Omit<RelaxedNavigateOptions, 'to'>) =>
+            navigate({ ...options, to: url as '/' } as any),
+        replace: (
+            url: string,
+            options?: Omit<RelaxedNavigateOptions, 'to' | 'replace'>,
+        ) => navigate({ ...options, to: url as '/', replace: true } as any),
         back: () => window.history.back(),
         refresh: () => window.location.reload(),
     };
@@ -85,4 +95,3 @@ export function useRouter() {
 export function usePathname() {
     return useRouterState({ select: (s) => s.location.pathname });
 }
-
