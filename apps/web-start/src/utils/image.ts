@@ -185,4 +185,3 @@ const estimateDataUrlSize = (dataUrl: string): number => {
     // Estimate size (base64 is ~33% larger than binary)
     return Math.round((base64.length * 3) / 4);
 };
-

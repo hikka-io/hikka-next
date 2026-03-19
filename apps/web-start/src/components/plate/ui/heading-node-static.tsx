@@ -9,11 +9,7 @@ export function HeadingElementStatic({
     ...props
 }: SlateElementProps & { variant?: HeadingVariant }) {
     return (
-        <SlateElement
-            as={variant}
-            className="relative mb-4"
-            {...props}
-        >
+        <SlateElement as={variant} className="relative mb-4" {...props}>
             {props.children}
         </SlateElement>
     );

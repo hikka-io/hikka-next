@@ -1,9 +1,7 @@
 import { ArticlePreviewResponse, ContentTypeEnum } from '@hikka/client';
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
-import Author from '@/features/articles/article-item/article-author';
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
@@ -11,7 +9,10 @@ import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 
+import Author from '@/features/articles/article-item/article-author';
+
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     article: ArticlePreviewResponse;

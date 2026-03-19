@@ -2,9 +2,9 @@
 
 import { useRouterState } from '@tanstack/react-router';
 
-import { Link } from '@/utils/navigation';
-
 import { Button, ButtonProps } from '@/components/ui/button';
+
+import { Link } from '@/utils/navigation';
 
 const LoginButton = (props: ButtonProps) => {
     const currentUrl = useRouterState({
@@ -13,7 +13,9 @@ const LoginButton = (props: ButtonProps) => {
 
     return (
         <Button size="md" variant="ghost" asChild {...props}>
-            <Link to="/login" search={{ callbackUrl: currentUrl }}>Увійти</Link>
+            <Link to="/login" search={{ callbackUrl: currentUrl }}>
+                Увійти
+            </Link>
         </Button>
     );
 };

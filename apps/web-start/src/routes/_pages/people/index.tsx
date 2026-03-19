@@ -6,8 +6,7 @@ export const Route = createFileRoute('/_pages/people/')({
     head: () =>
         generateHeadMeta({
             title: 'Люди',
-            description:
-                'Каталог людей — режисери, сейю та автори на Hikka',
+            description: 'Каталог людей — режисери, сейю та автори на Hikka',
             url: 'https://hikka.io/people',
         }),
     component: PeopleListPage,

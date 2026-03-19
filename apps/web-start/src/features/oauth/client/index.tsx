@@ -3,11 +3,11 @@
 import { useClientByReference } from '@hikka/react';
 import { FC } from 'react';
 
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import { cn } from '@/utils/cn';
 import { SCOPES, SCOPE_GROUPS } from '@/utils/constants/oauth';

@@ -2,12 +2,13 @@
 
 import { VoteContentType } from '@hikka/client';
 import { MessageCircle } from 'lucide-react';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 
 import VoteButton from '@/features/common/vote-button';
+
+import { Link } from '@/utils/navigation';
 
 interface Props {
     commentsCount: number;

@@ -15,7 +15,9 @@ interface Props {
 }
 
 const Genre: FC<Props> = () => {
-    const { only_translated } = useFilterSearch<{ only_translated?: boolean }>();
+    const { only_translated } = useFilterSearch<{
+        only_translated?: boolean;
+    }>();
 
     const handleChangeParam = useChangeParam();
 
@@ -28,7 +30,10 @@ const Genre: FC<Props> = () => {
             <Switch
                 checked={Boolean(only_translated)}
                 onCheckedChange={() =>
-                    handleChangeParam('only_translated', !Boolean(only_translated))
+                    handleChangeParam(
+                        'only_translated',
+                        !Boolean(only_translated),
+                    )
                 }
                 id="uk-translated"
             />

@@ -7,15 +7,14 @@ import {
     useFavouriteStatus,
 } from '@hikka/react';
 
+import { MaterialSymbolsFavoriteOutlineRounded } from '@/components/icons/material-symbols/MaterialSymbolsFavoriteOutlineRounded';
+import { MaterialSymbolsFavoriteRounded } from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import { Button, ButtonProps } from '@/components/ui/button';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
-import { MaterialSymbolsFavoriteOutlineRounded } from '@/components/icons/material-symbols/MaterialSymbolsFavoriteOutlineRounded';
-import { MaterialSymbolsFavoriteRounded } from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 
 interface Props extends ButtonProps {
     slug: string;

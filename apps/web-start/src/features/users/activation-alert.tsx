@@ -5,12 +5,12 @@ import {
     useSession,
     useUserByUsername,
 } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { toast } from 'sonner';
 
+import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';
 
-import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
+import { useParams } from '@/utils/navigation';
 
 const ActivationAlert = () => {
     const params = useParams();

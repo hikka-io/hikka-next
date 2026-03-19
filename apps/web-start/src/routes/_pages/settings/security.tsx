@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import { EmailSettings, PasswordSettings } from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/security')({

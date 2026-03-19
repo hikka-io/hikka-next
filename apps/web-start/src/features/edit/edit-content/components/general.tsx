@@ -31,9 +31,15 @@ const General: FC<Props> = ({ content, content_type, slug }) => {
     return (
         <Card className="w-full">
             <HorizontalCard>
-                <HorizontalCardImage image={image} className="w-14" href={link || '#'} />
+                <HorizontalCardImage
+                    image={image}
+                    className="w-14"
+                    href={link || '#'}
+                />
                 <HorizontalCardContainer>
-                    <HorizontalCardTitle href={link || '#'}>Інформація</HorizontalCardTitle>
+                    <HorizontalCardTitle href={link || '#'}>
+                        Інформація
+                    </HorizontalCardTitle>
                     <HorizontalCardDescription>
                         <MaterialSymbolsCategoryOutlineRounded className="text-muted-foreground size-4" />
                         {CONTENT_TYPES[content_type].title_ua}

@@ -12,19 +12,18 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import NotFound from '@/components/ui/not-found';
 import { Progress } from '@/components/ui/progress';
-import Stack from '@/components/ui/stack';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
-
 import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
+import Stack from '@/components/ui/stack';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import { ReadEditModal } from '@/features/read';
 
@@ -177,142 +176,155 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
     return (
         <>
-        <div className="flex flex-col gap-4">
-            <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4" imagePreset="cardXs">
-                {list.map((item) => (
-                    <Tooltip key={item.content.slug}>
-                        <TooltipTrigger asChild>
-                            <ContentCard
-                                onClick={() => handleSelect(item.content.slug)}
-                                image={item.content.image}
-                                containerClassName="rounded-(--base-radius)"
-                                className={cn(
-                                    'transition-opacity',
-                                    selectedRead?.content.slug !==
-                                        item.content.slug &&
-                                        'opacity-30 hover:opacity-60',
-                                )}
-                            />
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-48 truncate">
-                            {item.content.title}
-                        </TooltipContent>
-                    </Tooltip>
-                ))}
-            </Stack>
+            <div className="flex flex-col gap-4">
+                <Stack
+                    className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4"
+                    imagePreset="cardXs"
+                >
+                    {list.map((item) => (
+                        <Tooltip key={item.content.slug}>
+                            <TooltipTrigger asChild>
+                                <ContentCard
+                                    onClick={() =>
+                                        handleSelect(item.content.slug)
+                                    }
+                                    image={item.content.image}
+                                    containerClassName="rounded-(--base-radius)"
+                                    className={cn(
+                                        'transition-opacity',
+                                        selectedRead?.content.slug !==
+                                            item.content.slug &&
+                                            'opacity-30 hover:opacity-60',
+                                    )}
+                                />
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-48 truncate">
+                                {item.content.title}
+                            </TooltipContent>
+                        </Tooltip>
+                    ))}
+                </Stack>
 
-            {selectedRead && (
-                <>
-                    <Link
-                        className="w-fit flex-1"
-                        to={`${config.route}/${selectedRead.content.slug}`}
-                    >
-                        <h5>{selectedRead.content.title}</h5>
-                        <div className="mt-1 flex cursor-pointer items-center gap-2">
-                            {selectedRead.content.year && (
-                                <Label className="text-muted-foreground cursor-pointer text-xs">
-                                    {selectedRead.content.year}
-                                </Label>
-                            )}
-                            {selectedRead.content.media_type && (
-                                <>
-                                    <div className="bg-muted-foreground size-1 rounded-full" />
-                                    <Label className="text-muted-foreground cursor-pointer text-xs">
-                                        {
-                                            (
-                                                config.mediaTypeMap as Record<
-                                                    string,
-                                                    { title_ua: string }
-                                                >
-                                            )[selectedRead.content.media_type]
-                                                ?.title_ua
-                                        }
-                                    </Label>
-                                </>
-                            )}
-                            {totalChapters && (
-                                <>
-                                    <div className="bg-muted-foreground size-1 rounded-full" />
-                                    <Label className="text-muted-foreground cursor-pointer text-xs">
-                                        {totalChapters}{' '}
-                                        {getDeclensionWord(
-                                            totalChapters,
-                                            CHAPTERS_DECLENSION,
-                                        )}
-                                    </Label>
-                                </>
-                            )}
-                        </div>
-                    </Link>
-
-                    <div className="flex w-full flex-col gap-2">
-                        <p className="text-muted-foreground text-sm">
-                            <span className="text-foreground font-bold">
-                                {currentChapters}
-                            </span>
-                            /{totalChapters ?? '?'} розділів
-                        </p>
-                        <Progress
-                            className="h-2"
-                            value={currentChapters}
-                            max={totalChapters ?? currentChapters}
-                        />
-                    </div>
-
-                    <div className="flex gap-2">
-                        <Button
-                            variant="outline"
-                            size="icon-md"
-                            className="shrink-0"
-                            onClick={openReadEditModal}
+                {selectedRead && (
+                    <>
+                        <Link
+                            className="w-fit flex-1"
+                            to={`${config.route}/${selectedRead.content.slug}`}
                         >
-                            <MaterialSymbolsSettingsOutlineRounded />
-                        </Button>
-                        <div className="flex flex-1">
-                            <Button
-                                className="flex-1 rounded-r-none"
-                                onClick={handleAddChapter}
-                                variant="secondary"
-                                size="md"
-                            >
-                                <MaterialSymbolsAddRounded />
-                                <div className="flex gap-1">
-                                    <span className="hidden sm:block">
-                                        Додати
-                                    </span>
-                                    <span className="capitalize sm:normal-case">
-                                        розділ
-                                    </span>
-                                </div>
-                            </Button>
-                            <Button
-                                className="rounded-l-none"
-                                onClick={handleRemoveChapter}
-                                variant="secondary"
-                                size="icon-md"
-                            >
-                                <MaterialSymbolsRemoveRounded />
-                            </Button>
+                            <h5>{selectedRead.content.title}</h5>
+                            <div className="mt-1 flex cursor-pointer items-center gap-2">
+                                {selectedRead.content.year && (
+                                    <Label className="text-muted-foreground cursor-pointer text-xs">
+                                        {selectedRead.content.year}
+                                    </Label>
+                                )}
+                                {selectedRead.content.media_type && (
+                                    <>
+                                        <div className="bg-muted-foreground size-1 rounded-full" />
+                                        <Label className="text-muted-foreground cursor-pointer text-xs">
+                                            {
+                                                (
+                                                    config.mediaTypeMap as Record<
+                                                        string,
+                                                        { title_ua: string }
+                                                    >
+                                                )[
+                                                    selectedRead.content
+                                                        .media_type
+                                                ]?.title_ua
+                                            }
+                                        </Label>
+                                    </>
+                                )}
+                                {totalChapters && (
+                                    <>
+                                        <div className="bg-muted-foreground size-1 rounded-full" />
+                                        <Label className="text-muted-foreground cursor-pointer text-xs">
+                                            {totalChapters}{' '}
+                                            {getDeclensionWord(
+                                                totalChapters,
+                                                CHAPTERS_DECLENSION,
+                                            )}
+                                        </Label>
+                                    </>
+                                )}
+                            </div>
+                        </Link>
+
+                        <div className="flex w-full flex-col gap-2">
+                            <p className="text-muted-foreground text-sm">
+                                <span className="text-foreground font-bold">
+                                    {currentChapters}
+                                </span>
+                                /{totalChapters ?? '?'} розділів
+                            </p>
+                            <Progress
+                                className="h-2"
+                                value={currentChapters}
+                                max={totalChapters ?? currentChapters}
+                            />
                         </div>
-                    </div>
-                </>
+
+                        <div className="flex gap-2">
+                            <Button
+                                variant="outline"
+                                size="icon-md"
+                                className="shrink-0"
+                                onClick={openReadEditModal}
+                            >
+                                <MaterialSymbolsSettingsOutlineRounded />
+                            </Button>
+                            <div className="flex flex-1">
+                                <Button
+                                    className="flex-1 rounded-r-none"
+                                    onClick={handleAddChapter}
+                                    variant="secondary"
+                                    size="md"
+                                >
+                                    <MaterialSymbolsAddRounded />
+                                    <div className="flex gap-1">
+                                        <span className="hidden sm:block">
+                                            Додати
+                                        </span>
+                                        <span className="capitalize sm:normal-case">
+                                            розділ
+                                        </span>
+                                    </div>
+                                </Button>
+                                <Button
+                                    className="rounded-l-none"
+                                    onClick={handleRemoveChapter}
+                                    variant="secondary"
+                                    size="icon-md"
+                                >
+                                    <MaterialSymbolsRemoveRounded />
+                                </Button>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+            {selectedRead && (
+                <ResponsiveModal
+                    open={open}
+                    onOpenChange={setOpen}
+                    forceDesktop
+                >
+                    <ResponsiveModalContent className="max-w-xl!">
+                        <ResponsiveModalHeader>
+                            <ResponsiveModalTitle>
+                                {selectedRead.content.title}
+                            </ResponsiveModalTitle>
+                        </ResponsiveModalHeader>
+                        <ReadEditModal
+                            read={selectedRead}
+                            slug={selectedRead.content.slug}
+                            content_type={contentType}
+                            onClose={() => setOpen(false)}
+                        />
+                    </ResponsiveModalContent>
+                </ResponsiveModal>
             )}
-        </div>
-        {selectedRead && (
-            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="max-w-xl!">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>{selectedRead.content.title}</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
-                    <ReadEditModal
-                        read={selectedRead}
-                        slug={selectedRead.content.slug}
-                        content_type={contentType}
-                        onClose={() => setOpen(false)}
-                    />
-                </ResponsiveModalContent>
-            </ResponsiveModal>
-        )}
         </>
     );
 };

@@ -1,14 +1,12 @@
 'use client';
 
 import { useSearchCollections, useSession } from '@hikka/react';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
-import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
@@ -21,9 +19,11 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
 
-import Card from '@/components/ui/card';
 import CollectionItem from './components/collection-item';
 import CollectionsModal from './components/collections-modal';
 
@@ -70,7 +70,11 @@ const UserCollections: FC<Props> = ({ className }) => {
                         <HeaderContainer>
                             <HeaderTitle variant="h4">Колекції</HeaderTitle>
                             {loggedUser?.username === params.username && (
-                                <Button asChild size="icon-sm" variant="outline">
+                                <Button
+                                    asChild
+                                    size="icon-sm"
+                                    variant="outline"
+                                >
                                     <Link to="/collections/new">
                                         <MaterialSymbolsAddRounded />
                                     </Link>
@@ -83,7 +87,10 @@ const UserCollections: FC<Props> = ({ className }) => {
                     <div className="flex flex-col gap-6">
                         {filteredCollections &&
                             filteredCollections.map((item) => (
-                                <CollectionItem data={item} key={item.reference} />
+                                <CollectionItem
+                                    data={item}
+                                    key={item.reference}
+                                />
                             ))}
                         {collections && collections?.length === 0 && (
                             <NotFound

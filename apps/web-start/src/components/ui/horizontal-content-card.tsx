@@ -1,7 +1,7 @@
-import { Link } from '@/utils/navigation';
 import { ComponentPropsWithoutRef, forwardRef, memo } from 'react';
 
 import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
 
 import ContentCard from '../content-card/content-card';
 import MDViewer from '../markdown/viewer/MD-viewer';

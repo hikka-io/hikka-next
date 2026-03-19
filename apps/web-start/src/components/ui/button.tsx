@@ -1,5 +1,5 @@
-import { Slot as SlotPrimitive } from 'radix-ui';
 import { type VariantProps, cva } from 'class-variance-authority';
+import { Slot as SlotPrimitive } from 'radix-ui';
 import * as React from 'react';
 
 import { cn } from '@/utils/cn';

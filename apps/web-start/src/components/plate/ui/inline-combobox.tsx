@@ -403,6 +403,5 @@ export {
     InlineComboboxGroupLabel,
     InlineComboboxInput,
     InlineComboboxItem,
-    InlineComboboxRow
+    InlineComboboxRow,
 };
-

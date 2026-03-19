@@ -27,4 +27,3 @@ export const USER_ROLE: Record<UserRoleEnum, { label: string; color: string }> =
             color: '#000',
         },
     };
-

@@ -134,7 +134,12 @@ const getCommentLink = (
  * @returns React component for the avatar
  */
 const createAvatarImage = (avatar?: string) => (
-    <ContentCard containerRatio={1} className="w-10" imagePreset="cardXs" image={avatar} />
+    <ContentCard
+        containerRatio={1}
+        className="w-10"
+        imagePreset="cardXs"
+        image={avatar}
+    />
 );
 
 /**

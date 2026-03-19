@@ -32,4 +32,3 @@ export function withProps<T extends React.ElementType>(
         return <ComponentWithClassName ref={ref} {...newProps} />;
     });
 }
-

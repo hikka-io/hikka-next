@@ -30,9 +30,15 @@ const ContentInput: FC<Props> = () => {
             <Label className="text-muted-foreground">Контент</Label>
             {content && (
                 <HorizontalCard>
-                    <HorizontalCardImage image={content.image} href={`/${content.data_type}/${content.slug}`} />
+                    <HorizontalCardImage
+                        image={content.image}
+                        href={`/${content.data_type}/${content.slug}`}
+                    />
                     <HorizontalCardContainer className="flex-1">
-                        <HorizontalCardTitle className="line-clamp-2" href={`/${content.data_type}/${content.slug}`}>
+                        <HorizontalCardTitle
+                            className="line-clamp-2"
+                            href={`/${content.data_type}/${content.slug}`}
+                        >
                             {content.title ||
                                 content.title_ua ||
                                 content.title_en}

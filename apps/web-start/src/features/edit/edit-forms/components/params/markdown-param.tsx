@@ -1,7 +1,6 @@
 'use client';
 
 import { useEdit } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import * as React from 'react';
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -13,6 +12,8 @@ import { DiffViewer } from '@/components/plate/editor/diff-viewer';
 import { CommentPlateEditor } from '@/components/plate/editor/plate-editor';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     param: Hikka.EditParam;

@@ -1,10 +1,11 @@
 'use client';
 
 import { useCloseEdit } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
+
+import { useParams } from '@/utils/navigation';
 
 interface Props {}
 

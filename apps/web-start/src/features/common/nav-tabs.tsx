@@ -1,11 +1,12 @@
 'use client';
 
-import { Link } from '@/utils/navigation';
-import { usePathname } from '@/utils/navigation';
 import { createElement } from 'react';
 
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import { Link } from '@/utils/navigation';
+import { usePathname } from '@/utils/navigation';
 
 interface Props {
     routes: Hikka.NavRoute[];

@@ -2,8 +2,6 @@
 
 import { ContentTypeEnum, NovelMediaEnum, ReadStatusEnum } from '@hikka/client';
 import { useCreateRead, useSearchUserReads, useSession } from '@hikka/react';
-import { Link } from '@/utils/navigation';
-import { useRouter } from '@/utils/navigation';
 import React, { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -32,6 +30,8 @@ import { ReadEditModal } from '@/features/read';
 import { cn } from '@/utils/cn';
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { Link } from '@/utils/navigation';
+import { useRouter } from '@/utils/navigation';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [
     'розділ',
@@ -235,7 +235,10 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
             )}
             {list && list.length > 0 && (
                 <div className="flex h-full flex-col gap-4">
-                    <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4" imagePreset="cardXs">
+                    <Stack
+                        className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4"
+                        imagePreset="cardXs"
+                    >
                         {list.map((item) => (
                             <Tooltip key={item.content.slug}>
                                 <TooltipTrigger asChild>
@@ -300,10 +303,16 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
                 </div>
             )}
             {selectedRead && (
-                <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                <ResponsiveModal
+                    open={open}
+                    onOpenChange={setOpen}
+                    forceDesktop
+                >
                     <ResponsiveModalContent className="max-w-xl!">
                         <ResponsiveModalHeader>
-                            <ResponsiveModalTitle>{selectedRead.content.title}</ResponsiveModalTitle>
+                            <ResponsiveModalTitle>
+                                {selectedRead.content.title}
+                            </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <ReadEditModal
                             read={selectedRead}

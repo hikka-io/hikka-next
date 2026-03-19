@@ -1,7 +1,6 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import CharacterCard from '@/components/content-card/character-card';
@@ -10,6 +9,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     extended?: boolean;

@@ -2,12 +2,13 @@
 
 import { CollectionContentType } from '@hikka/client';
 import { useSearchCollections } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 
 import CollectionItem from '@/features/users/profile/user-collections/components/collection-item';
+
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     content_type: CollectionContentType;

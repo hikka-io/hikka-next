@@ -1,10 +1,10 @@
-import { Link } from '@/utils/navigation';
 import { FC, ReactNode } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 
 import { cn } from '@/utils/cn';
 import { RELEASE_STATUS } from '@/utils/constants/common';
+import { Link } from '@/utils/navigation';
 
 import MDViewer from '../../markdown/viewer/MD-viewer';
 

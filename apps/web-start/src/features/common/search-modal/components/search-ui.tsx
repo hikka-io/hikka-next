@@ -17,10 +17,7 @@ export function SearchList({ className, ...props }: CommandListProps) {
 export function SearchGroup({ className, ...props }: CommandGroupProps) {
     return (
         <CommandGroup
-            className={cn(
-                'p-0! **:[[cmdk-group-heading]]:px-3!',
-                className,
-            )}
+            className={cn('p-0! **:[[cmdk-group-heading]]:px-3!', className)}
             {...props}
         />
     );

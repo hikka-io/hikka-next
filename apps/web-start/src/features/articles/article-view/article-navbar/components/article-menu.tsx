@@ -1,5 +1,4 @@
 import { ArticleBaseResponse } from '@hikka/client';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -13,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
 
 import DeleteArticle from './delete-article';
 

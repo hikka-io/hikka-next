@@ -1,22 +1,15 @@
 import { CommentsContentType } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
-import {
-    contentCommentsOptions,
-} from '@hikka/react/options';
+import { contentCommentsOptions } from '@hikka/react/options';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import ContentHeader from '@/features/comments/content-header';
 import { CommentList as Comments, prefetchContent } from '@/features/comments';
+import ContentHeader from '@/features/comments/content-header';
 
 import { generateHeadMeta } from '@/utils/metadata';
 
-export const Route = createFileRoute(
-    '/_pages/comments/$content_type/$slug/',
-)({
-    loader: async ({
-        params,
-        context: { queryClient, hikkaClient },
-    }) => {
+export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
+    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
         const { content_type, slug } = params;
 
         const content = await prefetchContent({
@@ -28,7 +21,8 @@ export const Route = createFileRoute(
 
         if (!content) throw redirect({ to: '/' });
 
-        await prefetchInfiniteQuery(queryClient,
+        await prefetchInfiniteQuery(
+            queryClient,
             contentCommentsOptions(hikkaClient, {
                 contentType: content_type as CommentsContentType,
                 slug,

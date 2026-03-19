@@ -8,9 +8,9 @@ import {
     NovelInfoResponse,
     PersonResponse,
 } from '@hikka/client';
-import { useParams } from '@/utils/navigation';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { useParams } from '@/utils/navigation';
 
 import CharacterDetails from './components/character-details';
 import PersonDetails from './components/person-details';

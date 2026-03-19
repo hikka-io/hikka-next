@@ -47,8 +47,7 @@ export const Route = createFileRoute('/api/auth/google')({
 
                     return new Response(null, { status: 302, headers });
                 } catch (e: any) {
-                    const errorCode =
-                        'code' in e ? e.code : String(e);
+                    const errorCode = 'code' in e ? e.code : String(e);
 
                     return new Response(null, {
                         status: 302,

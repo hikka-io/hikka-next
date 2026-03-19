@@ -10,12 +10,11 @@ import {
     searchUserReadsOptions,
     searchUserWatchesOptions,
 } from '@hikka/react/options';
-import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute, redirect } from '@tanstack/react-router';
-
-import { generateHeadMeta } from '@/utils/metadata';
+import { zodValidator } from '@tanstack/zod-adapter';
 
 import Block from '@/components/ui/block';
+
 import { ReadFilters } from '@/features/read';
 import {
     Userlist,
@@ -25,18 +24,14 @@ import {
     UserlistViewCombobox,
 } from '@/features/users';
 import { AnimeFilters } from '@/features/watch';
+
+import { generateHeadMeta } from '@/utils/metadata';
 import { userlistSearchSchema } from '@/utils/search-schemas';
 
-export const Route = createFileRoute(
-    '/_pages/u/$username/list/$content_type',
-)({
+export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
     validateSearch: zodValidator(userlistSearchSchema),
     loaderDeps: ({ search }) => search,
-    loader: async ({
-        params,
-        context: { queryClient, hikkaClient },
-        deps,
-    }) => {
+    loader: async ({ params, context: { queryClient, hikkaClient }, deps }) => {
         const { username, content_type } = params;
         const isAnime = content_type === ContentTypeEnum.ANIME;
         const defaultSort = isAnime ? 'watch_score' : 'read_score';
@@ -54,7 +49,8 @@ export const Route = createFileRoute(
         }
 
         if (isAnime) {
-            await prefetchInfiniteQuery(queryClient,
+            await prefetchInfiniteQuery(
+                queryClient,
                 searchUserWatchesOptions(hikkaClient, {
                     username,
                     args: {
@@ -64,7 +60,8 @@ export const Route = createFileRoute(
                 }),
             );
         } else {
-            await prefetchInfiniteQuery(queryClient,
+            await prefetchInfiniteQuery(
+                queryClient,
                 searchUserReadsOptions(hikkaClient, {
                     username,
                     contentType: content_type as ReadContentType,

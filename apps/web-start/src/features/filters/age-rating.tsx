@@ -3,10 +3,10 @@
 import { ShieldEllipsis } from 'lucide-react';
 import { FC } from 'react';
 
-import { BadgeFilter } from '@/components/ui/badge-filter';
 import FormBadgeFilter, {
     FormBadgeFilterProps,
 } from '@/components/form/form-badge-filter';
+import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 
 import { AGE_RATING } from '@/utils/constants/common';

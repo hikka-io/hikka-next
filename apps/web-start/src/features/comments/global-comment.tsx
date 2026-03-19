@@ -1,9 +1,9 @@
 import { CommentResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns';
 import { ArrowBigUp } from 'lucide-react';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,
@@ -16,8 +16,7 @@ import { StatItem } from '@/components/ui/stat-item';
 
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     comment: CommentResponse;
@@ -27,9 +26,7 @@ interface Props {
 const GlobalComment: FC<Props> = ({ comment, href }) => {
     return (
         <div className="flex size-full flex-col items-start gap-4">
-            <HorizontalCard
-                className="w-full gap-3"
-            >
+            <HorizontalCard className="w-full gap-3">
                 <HorizontalCardImage
                     className="w-10"
                     image={comment.author.avatar}
@@ -57,7 +54,10 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
             </HorizontalCard>
 
             <Link to={href} className="w-full flex-1 hover:underline">
-                <MDViewer className="line-clamp-2 text-sm wrap-break-word" preview>
+                <MDViewer
+                    className="line-clamp-2 text-sm wrap-break-word"
+                    preview
+                >
                     {comment.text}
                 </MDViewer>
             </Link>

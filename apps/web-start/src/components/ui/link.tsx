@@ -1,7 +1,7 @@
-import { Link as TanstackLink } from '@/utils/navigation';
 import { ComponentPropsWithRef, FC } from 'react';
 
 import { cn } from '@/utils/cn';
+import { Link as TanstackLink } from '@/utils/navigation';
 
 interface Props extends Omit<ComponentPropsWithRef<'a'>, 'href'> {
     href?: string;
@@ -11,7 +11,14 @@ interface Props extends Omit<ComponentPropsWithRef<'a'>, 'href'> {
     children?: React.ReactNode;
 }
 
-const Link: FC<Props> = ({ href, to, search, className, children, ...props }) => {
+const Link: FC<Props> = ({
+    href,
+    to,
+    search,
+    className,
+    children,
+    ...props
+}) => {
     const url = to ?? href;
     if (url) {
         return (

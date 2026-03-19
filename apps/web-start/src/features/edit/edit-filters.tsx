@@ -6,6 +6,7 @@ import { FC } from 'react';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
+
 import ContentType from '@/features/filters/content-type';
 import EditStatus from '@/features/filters/edit-status';
 import Sort from '@/features/filters/sort';

@@ -1,7 +1,5 @@
 'use client';
 
-import { Link } from '@/utils/navigation';
-
 import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,6 +16,7 @@ import {
     FOOTER_LINKS,
     SOCIAL_LINKS,
 } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
 
 const Footer = () => {
     return (

@@ -60,89 +60,103 @@ const Appearance = () => {
 
     return (
         <>
-        <div className="isolate flex flex-col gap-6">
-            <div className="flex flex-col gap-2">
-                <Label>Зображення профілю</Label>
-                <p className="text-muted-foreground text-sm">
-                    Рекомендований розмір обкладинки 1500x500, аватару 400x400
-                </p>
-            </div>
-            <div className="relative mb-4 flex h-48 w-full cursor-pointer">
-                {loggedUser?.cover && (
-                    <Button
-                        className="absolute top-2 right-2 z-10"
-                        variant="destructive"
-                        size={'icon-sm'}
-                        onClick={() =>
-                            deleteImage({ imageType: UploadTypeEnum.COVER })
-                        }
-                        disabled={isDeletingImage}
-                    >
-                        {isDeletingImage ? (
-                            <span className="loading loading-spinner"></span>
-                        ) : (
-                            <MaterialSymbolsDeleteForeverRounded className="size-4" />
-                        )}
-                    </Button>
-                )}
-                <Card className="bg-secondary/20 flex-1 overflow-hidden p-0 transition-opacity hover:opacity-60">
-                    {loggedUser?.cover ? (
-                        <Image
-                            alt="cover"
-                            className="size-full rounded-md object-cover"
-                            src={loggedUser?.cover}
-                        />
-                    ) : (
-                        <div className="flex flex-1 items-center justify-center">
-                            <p className="text-muted-foreground text-sm">
-                                Натисність, щоб завантажити обкладинку
-                            </p>
-                        </div>
+            <div className="isolate flex flex-col gap-6">
+                <div className="flex flex-col gap-2">
+                    <Label>Зображення профілю</Label>
+                    <p className="text-muted-foreground text-sm">
+                        Рекомендований розмір обкладинки 1500x500, аватару
+                        400x400
+                    </p>
+                </div>
+                <div className="relative mb-4 flex h-48 w-full cursor-pointer">
+                    {loggedUser?.cover && (
+                        <Button
+                            className="absolute top-2 right-2 z-10"
+                            variant="destructive"
+                            size={'icon-sm'}
+                            onClick={() =>
+                                deleteImage({ imageType: UploadTypeEnum.COVER })
+                            }
+                            disabled={isDeletingImage}
+                        >
+                            {isDeletingImage ? (
+                                <span className="loading loading-spinner"></span>
+                            ) : (
+                                <MaterialSymbolsDeleteForeverRounded className="size-4" />
+                            )}
+                        </Button>
                     )}
+                    <Card className="bg-secondary/20 flex-1 overflow-hidden p-0 transition-opacity hover:opacity-60">
+                        {loggedUser?.cover ? (
+                            <Image
+                                alt="cover"
+                                className="size-full rounded-md object-cover"
+                                src={loggedUser?.cover}
+                            />
+                        ) : (
+                            <div className="flex flex-1 items-center justify-center">
+                                <p className="text-muted-foreground text-sm">
+                                    Натисність, щоб завантажити обкладинку
+                                </p>
+                            </div>
+                        )}
 
-                    <Input
-                        type="file"
-                        id="cover-input"
-                        onChange={(e) =>
-                            handleUploadImageSelected(e, UploadTypeEnum.COVER)
-                        }
-                        ref={uploadCoverRef}
-                        multiple={false}
-                        className="absolute top-0 left-0 size-full cursor-pointer opacity-0"
-                        accept="image/*"
-                    />
-                </Card>
-                <Avatar className="absolute -bottom-4 left-4 size-32 rounded-md transition-opacity hover:opacity-60">
-                    <AvatarImage src={loggedUser?.avatar} />
-                    <AvatarFallback className="rounded-md">
-                        {loggedUser?.username[0]}
-                    </AvatarFallback>
-                    <Input
-                        type="file"
-                        id="avatar-input"
-                        onChange={(e) =>
-                            handleUploadImageSelected(e, UploadTypeEnum.AVATAR)
-                        }
-                        ref={uploadAvatarRef}
-                        multiple={false}
-                        // eslint-disable-next-line tailwindcss/classnames-order
-                        className="absolute left-0 top-0 size-full opacity-0 cursor-pointer"
-                        accept="image/*"
-                    />
-                </Avatar>
+                        <Input
+                            type="file"
+                            id="cover-input"
+                            onChange={(e) =>
+                                handleUploadImageSelected(
+                                    e,
+                                    UploadTypeEnum.COVER,
+                                )
+                            }
+                            ref={uploadCoverRef}
+                            multiple={false}
+                            className="absolute top-0 left-0 size-full cursor-pointer opacity-0"
+                            accept="image/*"
+                        />
+                    </Card>
+                    <Avatar className="absolute -bottom-4 left-4 size-32 rounded-md transition-opacity hover:opacity-60">
+                        <AvatarImage src={loggedUser?.avatar} />
+                        <AvatarFallback className="rounded-md">
+                            {loggedUser?.username[0]}
+                        </AvatarFallback>
+                        <Input
+                            type="file"
+                            id="avatar-input"
+                            onChange={(e) =>
+                                handleUploadImageSelected(
+                                    e,
+                                    UploadTypeEnum.AVATAR,
+                                )
+                            }
+                            ref={uploadAvatarRef}
+                            multiple={false}
+                            // eslint-disable-next-line tailwindcss/classnames-order
+                            className="absolute left-0 top-0 size-full opacity-0 cursor-pointer"
+                            accept="image/*"
+                        />
+                    </Avatar>
+                </div>
             </div>
-        </div>
-        <ResponsiveModal open={cropOpen} onOpenChange={setCropOpen} forceDesktop>
-            <ResponsiveModalContent className="max-w-lg!" title="Редагувати медіафайл">
-                {cropFile && (
-                    <CropEditorModal
-                        file={cropFile}
-                        type={cropType}
-                        onClose={() => setCropOpen(false)}
-                    />
-                )}
-            </ResponsiveModalContent>
-        </ResponsiveModal>
+            <ResponsiveModal
+                open={cropOpen}
+                onOpenChange={setCropOpen}
+                forceDesktop
+            >
+                <ResponsiveModalContent
+                    className="max-w-lg!"
+                    title="Редагувати медіафайл"
+                >
+                    {cropFile && (
+                        <CropEditorModal
+                            file={cropFile}
+                            type={cropType}
+                            onClose={() => setCropOpen(false)}
+                        />
+                    )}
+                </ResponsiveModalContent>
+            </ResponsiveModal>
         </>
     );
 };

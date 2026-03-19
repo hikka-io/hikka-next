@@ -2,7 +2,6 @@
 
 import { ImageType, UploadTypeEnum } from '@hikka/client';
 import { useCreateImageUpload } from '@hikka/react';
-import { useRouter } from '@/utils/navigation';
 import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { toast } from 'sonner';
@@ -14,6 +13,7 @@ import { Slider } from '@/components/ui/slider';
 
 import { cn } from '@/utils/cn';
 import { getImage } from '@/utils/image';
+import { useRouter } from '@/utils/navigation';
 
 interface Props {
     file?: File;

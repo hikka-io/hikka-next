@@ -44,101 +44,105 @@ const StylesSettings = () => {
 
     return (
         <>
-        <div className="flex w-full flex-col gap-6">
-            <div className="flex w-full flex-col gap-2">
-                <Label>Палітра кольорів</Label>
-                <div className="flex flex-wrap gap-2">
-                    {PREVIEW_COLOR_TOKENS.map((token) => (
-                        <div
-                            key={token}
-                            className="size-9 rounded-md border"
-                            style={{
-                                backgroundColor: toHSLString(
-                                    themeColors?.[token],
-                                ),
-                            }}
-                        />
-                    ))}
-                    <Button onClick={handleOpenCustomModal} size="md">
-                        <Palette className="size-4" />
-                        Налаштувати
-                    </Button>
+            <div className="flex w-full flex-col gap-6">
+                <div className="flex w-full flex-col gap-2">
+                    <Label>Палітра кольорів</Label>
+                    <div className="flex flex-wrap gap-2">
+                        {PREVIEW_COLOR_TOKENS.map((token) => (
+                            <div
+                                key={token}
+                                className="size-9 rounded-md border"
+                                style={{
+                                    backgroundColor: toHSLString(
+                                        themeColors?.[token],
+                                    ),
+                                }}
+                            />
+                        ))}
+                        <Button onClick={handleOpenCustomModal} size="md">
+                            <Palette className="size-4" />
+                            Налаштувати
+                        </Button>
+                    </div>
                 </div>
-            </div>
 
-            <div className="flex w-full flex-col gap-2">
-                <Label>Радіус заокруглення</Label>
-                <div className="flex flex-wrap gap-2">
-                    <Button
-                        variant={currentRadius === '0' ? 'default' : 'outline'}
-                        onClick={() => handleRadiusChange('0')}
-                        size="badge"
-                    >
-                        Без заокруглення
-                    </Button>
-                    <Button
-                        variant={
-                            currentRadius === '0.25' ? 'default' : 'outline'
-                        }
-                        onClick={() => handleRadiusChange('0.25')}
-                        size="badge"
-                    >
-                        XS
-                    </Button>
-                    <Button
-                        variant={
-                            currentRadius === '0.5' ? 'default' : 'outline'
-                        }
-                        onClick={() => handleRadiusChange('0.5')}
-                        size="badge"
-                    >
-                        SM
-                    </Button>
-                    <Button
-                        variant={
-                            currentRadius === '0.625' || !currentRadius
-                                ? 'default'
-                                : 'outline'
-                        }
-                        onClick={() => handleRadiusChange('0.625')}
-                        size="badge"
-                    >
-                        MD
-                    </Button>
-                    <Button
-                        variant={
-                            currentRadius === '0.75' ? 'default' : 'outline'
-                        }
-                        onClick={() => handleRadiusChange('0.75')}
-                        size="badge"
-                    >
-                        LG
-                    </Button>
-                    <Button
-                        variant={
-                            currentRadius === '1.5' ? 'default' : 'outline'
-                        }
-                        onClick={() => handleRadiusChange('1.5')}
-                        size="badge"
-                    >
-                        XL
-                    </Button>
+                <div className="flex w-full flex-col gap-2">
+                    <Label>Радіус заокруглення</Label>
+                    <div className="flex flex-wrap gap-2">
+                        <Button
+                            variant={
+                                currentRadius === '0' ? 'default' : 'outline'
+                            }
+                            onClick={() => handleRadiusChange('0')}
+                            size="badge"
+                        >
+                            Без заокруглення
+                        </Button>
+                        <Button
+                            variant={
+                                currentRadius === '0.25' ? 'default' : 'outline'
+                            }
+                            onClick={() => handleRadiusChange('0.25')}
+                            size="badge"
+                        >
+                            XS
+                        </Button>
+                        <Button
+                            variant={
+                                currentRadius === '0.5' ? 'default' : 'outline'
+                            }
+                            onClick={() => handleRadiusChange('0.5')}
+                            size="badge"
+                        >
+                            SM
+                        </Button>
+                        <Button
+                            variant={
+                                currentRadius === '0.625' || !currentRadius
+                                    ? 'default'
+                                    : 'outline'
+                            }
+                            onClick={() => handleRadiusChange('0.625')}
+                            size="badge"
+                        >
+                            MD
+                        </Button>
+                        <Button
+                            variant={
+                                currentRadius === '0.75' ? 'default' : 'outline'
+                            }
+                            onClick={() => handleRadiusChange('0.75')}
+                            size="badge"
+                        >
+                            LG
+                        </Button>
+                        <Button
+                            variant={
+                                currentRadius === '1.5' ? 'default' : 'outline'
+                            }
+                            onClick={() => handleRadiusChange('1.5')}
+                            size="badge"
+                        >
+                            XL
+                        </Button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <ResponsiveModal
-            open={customColorsOpen}
-            onOpenChange={setCustomColorsOpen}
-            forceDesktop
-        >
-            <ResponsiveModalContent
-                className="max-w-4xl!"
-                onPointerDownOutside={(e) => e.preventDefault()}
-                title="Налаштування кольорів"
+            <ResponsiveModal
+                open={customColorsOpen}
+                onOpenChange={setCustomColorsOpen}
+                forceDesktop
             >
-                <CustomColorsModal onClose={() => setCustomColorsOpen(false)} />
-            </ResponsiveModalContent>
-        </ResponsiveModal>
+                <ResponsiveModalContent
+                    className="max-w-4xl!"
+                    onPointerDownOutside={(e) => e.preventDefault()}
+                    title="Налаштування кольорів"
+                >
+                    <CustomColorsModal
+                        onClose={() => setCustomColorsOpen(false)}
+                    />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
         </>
     );
 };

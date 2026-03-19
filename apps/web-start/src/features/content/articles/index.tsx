@@ -2,11 +2,10 @@
 
 import { ArticleContentType } from '@hikka/client';
 import { useSearchArticles } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
-import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
@@ -18,7 +17,9 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 
-import Card from '@/components/ui/card';
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useParams } from '@/utils/navigation';
+
 import ContentNewsItem from './components/content-articles-item';
 import ContentNewsModal from './components/content-articles-modal';
 
@@ -44,7 +45,7 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
 
     return (
         <>
-            <Card className='bg-secondary/20'>
+            <Card className="bg-secondary/20">
                 <Block>
                     <Header onClick={() => setOpen(true)}>
                         <HeaderContainer>
@@ -54,7 +55,10 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
                     </Header>
                     <div className="flex flex-col gap-6">
                         {filteredNews.map((article) => (
-                            <ContentNewsItem key={article.slug} article={article} />
+                            <ContentNewsItem
+                                key={article.slug}
+                                article={article}
+                            />
                         ))}
                     </div>
                 </Block>

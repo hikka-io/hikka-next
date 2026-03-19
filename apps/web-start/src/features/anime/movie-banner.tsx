@@ -2,9 +2,6 @@
 
 import { useAnimeBySlug, useSession } from '@hikka/react';
 import { MessageCirclePlus, Popcorn } from 'lucide-react';
-import { usePlausible } from '@/utils/plausible';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -12,6 +9,9 @@ import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
 import { MOVIE_BANNERS } from '@/utils/constants/banners';
+import { Link } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
+import { usePlausible } from '@/utils/plausible';
 
 interface Props {}
 

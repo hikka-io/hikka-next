@@ -4,9 +4,9 @@ import { ContentTypeEnum, ReadResponseBase } from '@hikka/client';
 import { useNovelBySlug, useSession } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
-
 import { ReadlistButton } from '@/features/common';
+
+import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent from './media-tooltip-content';
@@ -95,9 +95,7 @@ const NovelTooltip: FC<Props> = ({ slug, children, read }) => {
     }
 
     return (
-        <HoverCardWrapper
-            content={<TooltipData slug={slug} read={read} />}
-        >
+        <HoverCardWrapper content={<TooltipData slug={slug} read={read} />}>
             {children}
         </HoverCardWrapper>
     );

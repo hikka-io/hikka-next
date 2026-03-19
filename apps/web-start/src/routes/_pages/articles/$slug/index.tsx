@@ -1,11 +1,11 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { useArticleBySlug } from '@hikka/react';
 import { createFileRoute } from '@tanstack/react-router';
-import Link from '@/components/ui/link';
 
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+import Link from '@/components/ui/link';
+
 import {
     ArticleAuthor,
     ArticleDocument,
@@ -14,6 +14,8 @@ import {
     ArticleTitle,
 } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 export const Route = createFileRoute('/_pages/articles/$slug/')({

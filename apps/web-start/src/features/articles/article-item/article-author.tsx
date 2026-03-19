@@ -11,11 +11,11 @@ import {
 } from '@/components/ui/horizontal-card';
 import Link from '@/components/ui/link';
 
+import { FollowButton } from '@/features/common';
+
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
-
-import { FollowButton } from '@/features/common';
 
 interface Props {
     article: ArticleBaseResponse;
@@ -27,9 +27,7 @@ const Author: FC<Props> = ({ article, preview, className }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
     return (
-        <HorizontalCard
-            className={cn('p-4', className)}
-        >
+        <HorizontalCard className={cn('p-4', className)}>
             <HorizontalCardImage
                 className={preview ? 'w-10' : ''}
                 image={article.author.avatar}
@@ -42,8 +40,16 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                 </HorizontalCardTitle>
                 <HorizontalCardContainer className="flex-row items-center">
                     <HorizontalCardDescription>
-                        <Link to="/articles" search={{ categories: article.category }} rel="author" className="hover:underline">
-                            {ARTICLE_CATEGORY_OPTIONS[article.category].title_ua}
+                        <Link
+                            to="/articles"
+                            search={{ categories: article.category }}
+                            rel="author"
+                            className="hover:underline"
+                        >
+                            {
+                                ARTICLE_CATEGORY_OPTIONS[article.category]
+                                    .title_ua
+                            }
                         </Link>
                     </HorizontalCardDescription>
                     <div className="bg-muted-foreground size-1 rounded-full" />
@@ -51,12 +57,12 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                         {article.draft
                             ? 'Чернетка'
                             : formatDistance(
-                                article.updated * 1000,
-                                Date.now(),
-                                {
-                                    addSuffix: true,
-                                },
-                            )}
+                                  article.updated * 1000,
+                                  Date.now(),
+                                  {
+                                      addSuffix: true,
+                                  },
+                              )}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
             </HorizontalCardContainer>

@@ -2,7 +2,6 @@
 
 import { useCreatePasswordResetRequest } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link } from '@/utils/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -17,6 +16,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { z } from '@/utils/i18n/zod';
+import { Link } from '@/utils/navigation';
 
 const formSchema = z.object({
     email: z.string().email(),

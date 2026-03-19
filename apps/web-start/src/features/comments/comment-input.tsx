@@ -4,6 +4,7 @@ import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { FC } from 'react';
 
 import { CommentPlateEditor } from '@/components/plate/editor/plate-editor';
+
 import CommentInputBottomBar from './comment-input-bottom-bar';
 
 interface Props {

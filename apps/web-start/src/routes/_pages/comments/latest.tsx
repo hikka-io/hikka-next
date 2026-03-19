@@ -3,11 +3,13 @@ import { commentListOptions } from '@hikka/react/options';
 import { createFileRoute } from '@tanstack/react-router';
 
 import { LatestComments } from '@/features/comments';
+
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/comments/latest')({
     loader: async ({ context: { queryClient, hikkaClient } }) => {
-        await prefetchInfiniteQuery(queryClient,
+        await prefetchInfiniteQuery(
+            queryClient,
             commentListOptions(hikkaClient),
         );
     },

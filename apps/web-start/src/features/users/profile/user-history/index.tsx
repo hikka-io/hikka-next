@@ -1,14 +1,12 @@
 'use client';
 
 import { useUserHistory } from '@hikka/react';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
-import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
@@ -23,9 +21,11 @@ import {
 
 import HistoryItem from '@/features/users/user-history/components/history-item';
 
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
 
-import Card from '@/components/ui/card';
 import ActivityModal from './components/history-modal';
 
 interface Props {

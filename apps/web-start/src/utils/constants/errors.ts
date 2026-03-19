@@ -90,4 +90,3 @@ export const ERRORS: Record<string, Record<string, string>> = {
         not_found: 'Людину не знайдено',
     },
 };
-

@@ -3,8 +3,6 @@
 import { useSession } from '@hikka/react';
 import { useRouterState } from '@tanstack/react-router';
 
-import { Link } from '@/utils/navigation';
-
 import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -20,6 +18,7 @@ import { Label } from '@/components/ui/label';
 
 import { USER_ROLE } from '@/utils/constants/common';
 import { PROFILE_MENU } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
 
 const ProfileMenu = () => {
     const { user: loggedUser } = useSession();

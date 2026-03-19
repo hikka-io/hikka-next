@@ -8,11 +8,17 @@ import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClear
 import { CustomCopyAddRounded } from '@/components/icons/custom/CustomCopyAddRounded';
 import { Button } from '@/components/ui/button';
 import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+} from '@/components/ui/responsive-modal';
+import {
     Tooltip,
     TooltipContent,
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+
+import { FilterPresetEditModal } from '@/features/content';
 import AgeRating from '@/features/filters/age-rating';
 import DateRange from '@/features/filters/date-range';
 import Genre from '@/features/filters/genre';
@@ -25,13 +31,6 @@ import Sort from '@/features/filters/sort';
 import Studio from '@/features/filters/studio';
 import Year from '@/features/filters/year';
 
-import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
-
-import { FilterPresetEditModal } from '@/features/content';
-
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -43,7 +42,8 @@ interface Props {
 const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
     const router = useRouter();
     const [open, setOpen] = useState(false);
-    const [currentFilters, setCurrentFilters] = useState<Partial<Hikka.FilterPreset> | null>(null);
+    const [currentFilters, setCurrentFilters] =
+        useState<Partial<Hikka.FilterPreset> | null>(null);
     const search = useRouterState({
         select: (s) => s.location.search,
     }) as Record<string, unknown>;
@@ -127,59 +127,62 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
 
     return (
         <>
-        <div className={cn('flex w-full flex-col', className)}>
-            <div className="flex flex-col gap-8 overflow-y-auto p-4 py-8">
-                <Genre />
-                <Sort sort_type={sort_type} />
-                <Studio />
-                <ReleaseStatus />
-                <Season />
-                <MediaType content_type={content_type} />
-                <AgeRating />
-                <Score score_type="score" />
-                <Year />
-                {sort_type === 'anime' && <DateRange />}
-                <Localization />
+            <div className={cn('flex w-full flex-col', className)}>
+                <div className="flex flex-col gap-8 overflow-y-auto p-4 py-8">
+                    <Genre />
+                    <Sort sort_type={sort_type} />
+                    <Studio />
+                    <ReleaseStatus />
+                    <Season />
+                    <MediaType content_type={content_type} />
+                    <AgeRating />
+                    <Score score_type="score" />
+                    <Year />
+                    {sort_type === 'anime' && <DateRange />}
+                    <Localization />
+                </div>
+                <div className="bg-secondary/20 flex shrink-0 gap-2 border-t p-4">
+                    <Button
+                        size="md"
+                        className="flex-1"
+                        variant="destructive"
+                        onClick={clearFilters}
+                    >
+                        <AntDesignClearOutlined /> Очистити
+                    </Button>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                size="icon-md"
+                                variant="secondary"
+                                onClick={handleCreateFromCurrent}
+                            >
+                                <CustomCopyAddRounded />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipPortal>
+                            <TooltipContent>
+                                <p className="text-sm">
+                                    Створити пресет з поточних фільтрів
+                                </p>
+                            </TooltipContent>
+                        </TooltipPortal>
+                    </Tooltip>
+                </div>
             </div>
-            <div className="bg-secondary/20 flex shrink-0 gap-2 border-t p-4">
-                <Button
-                    size="md"
-                    className="flex-1"
-                    variant="destructive"
-                    onClick={clearFilters}
+            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                <ResponsiveModalContent
+                    className="max-w-xl!"
+                    title="Створити пресет з поточних"
                 >
-                    <AntDesignClearOutlined /> Очистити
-                </Button>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button
-                            size="icon-md"
-                            variant="secondary"
-                            onClick={handleCreateFromCurrent}
-                        >
-                            <CustomCopyAddRounded />
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipPortal>
-                        <TooltipContent>
-                            <p className="text-sm">
-                                Створити пресет з поточних фільтрів
-                            </p>
-                        </TooltipContent>
-                    </TooltipPortal>
-                </Tooltip>
-            </div>
-        </div>
-        <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-            <ResponsiveModalContent className="max-w-xl!" title="Створити пресет з поточних">
-                {currentFilters && (
-                    <FilterPresetEditModal
-                        filterPreset={currentFilters as Hikka.FilterPreset}
-                        onClose={() => setOpen(false)}
-                    />
-                )}
-            </ResponsiveModalContent>
-        </ResponsiveModal>
+                    {currentFilters && (
+                        <FilterPresetEditModal
+                            filterPreset={currentFilters as Hikka.FilterPreset}
+                            onClose={() => setOpen(false)}
+                        />
+                    )}
+                </ResponsiveModalContent>
+            </ResponsiveModal>
         </>
     );
 };

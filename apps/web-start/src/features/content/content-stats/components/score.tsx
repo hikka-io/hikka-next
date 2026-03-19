@@ -5,9 +5,9 @@ import {
     ContentTypeEnum,
     ReadStatsResponse,
 } from '@hikka/client';
-import { useParams } from '@/utils/navigation';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { useParams } from '@/utils/navigation';
 
 import Stats from './stats';
 

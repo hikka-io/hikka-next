@@ -33,10 +33,9 @@ export function getMediaCardProps(
         image: entity.image ?? undefined,
         title: entity.title ?? undefined,
         leftSubtitle: entity.year ? String(entity.year) : undefined,
-        rightSubtitle:
-            entity.media_type
-                ? config.mediaTypeMap[entity.media_type]?.title_ua
-                : undefined,
+        rightSubtitle: entity.media_type
+            ? config.mediaTypeMap[entity.media_type]?.title_ua
+            : undefined,
         ...status,
     };
 }

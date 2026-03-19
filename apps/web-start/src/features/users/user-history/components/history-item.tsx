@@ -1,6 +1,5 @@
 import { HistoryResponse } from '@hikka/client';
 import { formatDistance } from 'date-fns/formatDistance';
-import { Link } from '@/utils/navigation';
 import { FC, memo } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
@@ -20,6 +19,7 @@ import {
 
 import { convertActivity } from '@/utils/adapters/convert-activity';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     data: HistoryResponse;
@@ -53,9 +53,7 @@ const HistoryItem: FC<Props> = (props) => {
     let activity = convertActivity(data);
 
     return (
-        <HorizontalCard
-            className={className}
-        >
+        <HorizontalCard className={className}>
             <HorizontalCardImage
                 image={
                     data.content?.data_type === 'anime'

@@ -32,7 +32,10 @@ const Component = ({ watchList, setWatchList, importing }: Props) => {
     });
 
     const getFromAniList = async () => {
-        fetchAnilist({ username: aniListUsername, type: AnilistTypeEnum.ANIME });
+        fetchAnilist({
+            username: aniListUsername,
+            type: AnilistTypeEnum.ANIME,
+        });
     };
 
     return (

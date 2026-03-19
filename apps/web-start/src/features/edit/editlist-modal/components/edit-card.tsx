@@ -1,7 +1,6 @@
 'use client';
 
 import { EditResponse, EditStatusEnum } from '@hikka/client';
-import { Link } from '@/utils/navigation';
 import { format } from 'date-fns';
 
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
@@ -21,6 +20,7 @@ import {
 
 import { cn } from '@/utils/cn';
 import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     edit: EditResponse;

@@ -2,12 +2,12 @@
 
 import { CommentsContentType } from '@hikka/client';
 import { MessageCircle } from 'lucide-react';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { Link } from '@/utils/navigation';
 
 const COMMENT_DECLENSIONS: [string, string, string] = [
     'коментар',

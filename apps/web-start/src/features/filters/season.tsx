@@ -3,10 +3,10 @@
 import { SunSnow } from 'lucide-react';
 import { FC } from 'react';
 
-import { BadgeFilter } from '@/components/ui/badge-filter';
 import FormBadgeFilter, {
     FormBadgeFilterProps,
 } from '@/components/form/form-badge-filter';
+import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 
 import { SEASON } from '@/utils/constants/common';
@@ -19,7 +19,10 @@ interface Props {
 }
 
 const Season: FC<Props> = () => {
-    const { seasons = [], date_range_enabled } = useFilterSearch<{ seasons?: string[]; date_range_enabled?: boolean }>();
+    const { seasons = [], date_range_enabled } = useFilterSearch<{
+        seasons?: string[];
+        date_range_enabled?: boolean;
+    }>();
 
     const handleChangeParam = useChangeParam();
 

@@ -30,7 +30,9 @@ const UserInfo = () => {
     const uploadCoverRef = useRef<HTMLInputElement>(null);
     const [open, setOpen] = useState(false);
     const [uploadFile, setUploadFile] = useState<File | null>(null);
-    const [uploadType, setUploadType] = useState<ImageType>(UploadTypeEnum.AVATAR);
+    const [uploadType, setUploadType] = useState<ImageType>(
+        UploadTypeEnum.AVATAR,
+    );
     const params = useParams();
 
     const { data: user } = useUserByUsername({
@@ -143,7 +145,10 @@ const UserInfo = () => {
                 <div className="border-success bg-success-foreground absolute -right-2 -bottom-2 z-1 size-6 rounded-full border-4" />
             )}
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="max-w-lg!" title="Редагувати медіафайл">
+                <ResponsiveModalContent
+                    className="max-w-lg!"
+                    title="Редагувати медіафайл"
+                >
                     {uploadFile && (
                         <CropEditorModal
                             file={uploadFile}

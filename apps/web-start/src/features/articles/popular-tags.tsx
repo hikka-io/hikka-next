@@ -1,16 +1,17 @@
 'use client';
 
 import { useArticleStats } from '@hikka/react';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
-import useChangeParam from '@/features/filters/hooks/use-change-param';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-interface Props { }
+import useChangeParam from '@/features/filters/hooks/use-change-param';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+
+interface Props {}
 
 const PopularTags: FC<Props> = () => {
     const { data: articleTop } = useArticleStats();
@@ -27,7 +28,7 @@ const PopularTags: FC<Props> = () => {
             <Block>
                 <Header>
                     <HeaderContainer>
-                        <HeaderTitle variant='h4'>Популярні теги</HeaderTitle>
+                        <HeaderTitle variant="h4">Популярні теги</HeaderTitle>
                     </HeaderContainer>
                 </Header>
                 <BadgeFilter

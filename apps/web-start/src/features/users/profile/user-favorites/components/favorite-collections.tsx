@@ -2,7 +2,6 @@
 
 import { ContentTypeEnum, FavouriteCollectionResponse } from '@hikka/client';
 import { useUserFavourites } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -10,6 +9,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 
 import { cn } from '@/utils/cn';
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     extended?: boolean;

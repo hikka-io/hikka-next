@@ -13,8 +13,8 @@ import { ReactNode, useCallback } from 'react';
 
 import { CommandItem } from '@/components/ui/command';
 
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useRouter } from '@/utils/navigation';
 
 import AnimeCard from '../cards/anime-card';
@@ -146,9 +146,7 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
         (item: MainContent, contentType: ContentTypeEnum) => {
             onDismiss(item);
             if (type !== 'button') {
-                router.push(
-                    CONTENT_TYPE_LINKS[contentType] + '/' + item.slug,
-                );
+                router.push(CONTENT_TYPE_LINKS[contentType] + '/' + item.slug);
             }
         },
         [onDismiss, router, type],
@@ -177,9 +175,7 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
                 list={anime.list}
                 heading="Аніме"
                 contentType={ContentTypeEnum.ANIME}
-                onSelect={(item) =>
-                    handleSelect(item, ContentTypeEnum.ANIME)
-                }
+                onSelect={(item) => handleSelect(item, ContentTypeEnum.ANIME)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.ANIME)}
                 renderCard={(item) => (
                     <AnimeCard
@@ -194,9 +190,7 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
                 list={manga.list}
                 heading="Манґа"
                 contentType={ContentTypeEnum.MANGA}
-                onSelect={(item) =>
-                    handleSelect(item, ContentTypeEnum.MANGA)
-                }
+                onSelect={(item) => handleSelect(item, ContentTypeEnum.MANGA)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.MANGA)}
                 renderCard={(item) => (
                     <MangaCard
@@ -211,9 +205,7 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
                 list={novel.list}
                 heading="Ранобе"
                 contentType={ContentTypeEnum.NOVEL}
-                onSelect={(item) =>
-                    handleSelect(item, ContentTypeEnum.NOVEL)
-                }
+                onSelect={(item) => handleSelect(item, ContentTypeEnum.NOVEL)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.NOVEL)}
                 renderCard={(item) => (
                     <NovelCard
@@ -231,9 +223,7 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
                 onSelect={(item) =>
                     handleSelect(item, ContentTypeEnum.CHARACTER)
                 }
-                onNavigate={() =>
-                    handleNavigate(ContentTypeEnum.CHARACTER)
-                }
+                onNavigate={() => handleNavigate(ContentTypeEnum.CHARACTER)}
                 renderCard={(item) => (
                     <CharacterCard
                         onClick={() => onDismiss(item)}
@@ -247,9 +237,7 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
                 list={people.list}
                 heading="Люди"
                 contentType={ContentTypeEnum.PERSON}
-                onSelect={(item) =>
-                    handleSelect(item, ContentTypeEnum.PERSON)
-                }
+                onSelect={(item) => handleSelect(item, ContentTypeEnum.PERSON)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.PERSON)}
                 renderCard={(item) => (
                     <PersonCard

@@ -13,8 +13,7 @@ export const Route = createFileRoute('/api/sitemap/manga')({
                 return new Response(buildSitemapXml(entries, 'manga'), {
                     headers: {
                         'Content-Type': 'application/xml',
-                        'Cache-Control':
-                            'public, max-age=3600, s-maxage=3600',
+                        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
                     },
                 });
             },

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCharacterBySlug } from '@hikka/react';
+
 import { useParams } from '@/utils/navigation';
 
 const Title = () => {

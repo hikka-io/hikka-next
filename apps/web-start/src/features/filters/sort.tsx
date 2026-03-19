@@ -148,7 +148,10 @@ interface Props {
 }
 
 const Sort: FC<Props> = ({ sort_type, className }) => {
-    const { order, sort = [] } = useFilterSearch<{ order?: string; sort?: string[] }>();
+    const { order, sort = [] } = useFilterSearch<{
+        order?: string;
+        sort?: string[];
+    }>();
 
     const handleChangeParam = useChangeParam();
 

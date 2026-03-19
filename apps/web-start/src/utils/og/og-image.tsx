@@ -54,7 +54,8 @@ export const renderOgCard = (data: OgContentCardData) => {
                                 {data.title}
                                 {data.year && (
                                     <span tw="font-normal">
-                                        {' '}({data.year.toString()})
+                                        {' '}
+                                        ({data.year.toString()})
                                     </span>
                                 )}
                             </span>

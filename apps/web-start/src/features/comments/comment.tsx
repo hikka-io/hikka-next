@@ -3,11 +3,14 @@
 import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { useSession } from '@hikka/react';
 import { formatDistance } from 'date-fns';
-import { Link } from '@/utils/navigation';
 import { FC, useEffect, useState } from 'react';
 
+import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
+import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import {
     HorizontalCard,
@@ -24,11 +27,8 @@ import {
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { Link } from '@/utils/navigation';
 
-import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
-import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
-import TextExpand from '@/components/text-expand';
 import CommentInput from './comment-input';
 import CommentMenu from './comment-menu';
 import CommentVote from './comment-vote';
@@ -95,9 +95,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
             id={comment.reference}
         >
             <div className="flex w-full flex-col items-start gap-2 overflow-hidden">
-                <HorizontalCard
-                    className="w-full gap-3"
-                >
+                <HorizontalCard className="w-full gap-3">
                     <HorizontalCardImage
                         className="w-10"
                         image={comment.author.avatar}
@@ -106,33 +104,35 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                     />
                     <HorizontalCardContainer className="gap-1">
                         <div className="flex items-center gap-2">
-                            <HorizontalCardTitle href={`/u/${comment.author.username}`}>
+                            <HorizontalCardTitle
+                                href={`/u/${comment.author.username}`}
+                            >
                                 {comment.author.username}
                             </HorizontalCardTitle>
                             {(comment.author.role === 'admin' ||
                                 comment.author.role === 'moderator') && (
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger>
-                                            <div className="text-xs font-bold">
-                                                {comment.author.role ===
-                                                    'admin' && (
-                                                        <MaterialSymbolsSecurity className="text-[#d0bfff]" />
-                                                    )}
-                                                {comment.author.role ===
-                                                    'moderator' && (
-                                                        <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
-                                                    )}
-                                            </div>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p className="text-sm">
-                                                {comment.author.role === 'admin'
-                                                    ? 'Адміністратор'
-                                                    : 'Модератор'}
-                                            </p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )}
+                                <Tooltip delayDuration={0}>
+                                    <TooltipTrigger>
+                                        <div className="text-xs font-bold">
+                                            {comment.author.role ===
+                                                'admin' && (
+                                                <MaterialSymbolsSecurity className="text-[#d0bfff]" />
+                                            )}
+                                            {comment.author.role ===
+                                                'moderator' && (
+                                                <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
+                                            )}
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p className="text-sm">
+                                            {comment.author.role === 'admin'
+                                                ? 'Адміністратор'
+                                                : 'Модератор'}
+                                        </p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
                         </div>
                         <HorizontalCardDescription>
                             {formatDistance(

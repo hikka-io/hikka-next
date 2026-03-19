@@ -1,7 +1,6 @@
 'use client';
 
 import { ContentTypeEnum, FavouriteContentType } from '@hikka/client';
-import { useParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
 import Block from '@/components/ui/block';
@@ -13,6 +12,7 @@ import {
 } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
+import { useParams } from '@/utils/navigation';
 import { DEFAULT_USER_UI } from '@/utils/ui';
 import { mergeUserUI } from '@/utils/ui/merge';
 

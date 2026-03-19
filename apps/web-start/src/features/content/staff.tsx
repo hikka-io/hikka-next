@@ -1,11 +1,10 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
-import LoadMoreButton from '@/components/load-more-button';
 import PersonCard from '@/components/content-card/person-card';
+import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import {
     Header,
@@ -16,6 +15,7 @@ import {
 import Stack from '@/components/ui/stack';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { useParams } from '@/utils/navigation';
 
 import { useStaff } from './hooks/use-staff';
 
@@ -40,7 +40,13 @@ const Staff: FC<Props> = ({ extended, content_type }) => {
 
     return (
         <Block>
-            <Header href={!extended ? `${CONTENT_TYPE_LINKS[content_type]}/${params.slug}/staff` : undefined}>
+            <Header
+                href={
+                    !extended
+                        ? `${CONTENT_TYPE_LINKS[content_type]}/${params.slug}/staff`
+                        : undefined
+                }
+            >
                 <HeaderContainer>
                     <HeaderTitle>Автори</HeaderTitle>
                 </HeaderContainer>

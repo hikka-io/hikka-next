@@ -67,4 +67,3 @@ export default function parseYouTubeThumbnail(
     const videoId = extractYouTubeVideoId(url);
     return getYouTubeThumbnail(videoId, quality);
 }
-

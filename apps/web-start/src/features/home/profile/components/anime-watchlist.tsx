@@ -2,8 +2,6 @@
 
 import { WatchArgs, WatchStatusEnum } from '@hikka/client';
 import { useCreateWatch, useSearchUserWatches, useSession } from '@hikka/react';
-import { Link } from '@/utils/navigation';
-import { useRouter } from '@/utils/navigation';
 import React, { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -33,6 +31,8 @@ import useDebounce from '@/services/hooks/use-debounce';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { Link } from '@/utils/navigation';
+import { useRouter } from '@/utils/navigation';
 
 const EPISODES_DECLENSION: [string, string, string] = [
     'епізод',
@@ -237,7 +237,10 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
             )}
             {list && list.length > 0 && (
                 <div className="flex h-full flex-col gap-4">
-                    <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4" imagePreset="cardXs">
+                    <Stack
+                        className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4"
+                        imagePreset="cardXs"
+                    >
                         {list.map((item) => (
                             <Tooltip key={item.anime.slug}>
                                 <TooltipTrigger asChild>
@@ -300,10 +303,16 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
                 </div>
             )}
             {selectedWatch && (
-                <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                <ResponsiveModal
+                    open={open}
+                    onOpenChange={setOpen}
+                    forceDesktop
+                >
                     <ResponsiveModalContent className="max-w-xl!">
                         <ResponsiveModalHeader>
-                            <ResponsiveModalTitle>{selectedWatch.anime.title}</ResponsiveModalTitle>
+                            <ResponsiveModalTitle>
+                                {selectedWatch.anime.title}
+                            </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <WatchEditModal
                             watch={selectedWatch}

@@ -1,7 +1,6 @@
 'use client';
 
 import { usePersonAnime } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
@@ -14,6 +13,8 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
+
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     extended?: boolean;
@@ -30,7 +31,9 @@ const Anime: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header href={!extended ? `/people/${params.slug}/anime` : undefined}>
+            <Header
+                href={!extended ? `/people/${params.slug}/anime` : undefined}
+            >
                 <HeaderContainer>
                     <HeaderTitle>Аніме</HeaderTitle>
                 </HeaderContainer>

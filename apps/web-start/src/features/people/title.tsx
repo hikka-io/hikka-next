@@ -1,8 +1,9 @@
 'use client';
 
 import { usePersonBySlug } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { useRef } from 'react';
+
+import { useParams } from '@/utils/navigation';
 
 const Title = () => {
     const divRef = useRef<HTMLDivElement>(null);

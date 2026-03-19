@@ -18,13 +18,13 @@ import {
 } from '@/components/ui/tooltip';
 
 import { FollowButton } from '@/features/common';
+
 import MaterialSymbolsAnimatedImages from '../../icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsMenuBookRounded from '../../icons/material-symbols/MaterialSymbolsMenuBookRounded';
 import MaterialSymbolsPalette from '../../icons/material-symbols/MaterialSymbolsPalette';
 import MaterialSymbolsSecurity from '../../icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '../../icons/material-symbols/MaterialSymbolsShieldPerson';
 import MDViewer from '../../markdown/viewer/MD-viewer';
-
 import HoverCardWrapper from './hover-card-wrapper';
 import { UserTooltipSkeleton } from './tooltip-skeleton';
 

@@ -6,6 +6,7 @@ import { FC, memo } from 'react';
 import HorizontalContentCard, {
     Props as HorizontalContentCardProps,
 } from '@/components/ui/horizontal-content-card';
+
 import WatchlistButton from '@/features/common/watchlist-button';
 
 import { cn } from '@/utils/cn';

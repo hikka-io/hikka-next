@@ -5,8 +5,10 @@ import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 import { FC, PropsWithChildren } from 'react';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
+
 import EffectsManager from '@/features/common/effects-manager';
 import UIStylesSyncer from '@/features/common/ui-styles-syncer';
+
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import ThemeProvider from '@/services/providers/theme-provider';
 

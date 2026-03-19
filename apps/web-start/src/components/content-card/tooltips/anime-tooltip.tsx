@@ -4,9 +4,9 @@ import { WatchResponseBase } from '@hikka/client';
 import { useAnimeBySlug, useSession } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
-
 import { WatchlistButton } from '@/features/common';
+
+import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent from './media-tooltip-content';
@@ -79,9 +79,7 @@ const AnimeTooltip: FC<Props> = ({ slug, children, watch }) => {
     }
 
     return (
-        <HoverCardWrapper
-            content={<TooltipData slug={slug} watch={watch} />}
-        >
+        <HoverCardWrapper content={<TooltipData slug={slug} watch={watch} />}>
             {children}
         </HoverCardWrapper>
     );

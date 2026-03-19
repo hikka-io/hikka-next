@@ -3,12 +3,12 @@
 import { useRouterState } from '@tanstack/react-router';
 import { FC } from 'react';
 
-import { Link } from '@/utils/navigation';
-
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
+import { Link } from '@/utils/navigation';
 
 interface Props {}
 
@@ -35,7 +35,9 @@ const AuthNeeded: FC<Props> = () => {
                 </div>
             </div>
             <Button size="md" variant="outline" asChild>
-                <Link to="/login" search={{ callbackUrl: currentUrl }}>Увійти</Link>
+                <Link to="/login" search={{ callbackUrl: currentUrl }}>
+                    Увійти
+                </Link>
             </Button>
         </Card>
     );

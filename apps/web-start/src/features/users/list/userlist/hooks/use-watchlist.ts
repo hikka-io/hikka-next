@@ -8,10 +8,10 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useSearchUserWatches } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
+import { useParams } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
 
 export const useWatchList = () => {
@@ -43,7 +43,10 @@ export const useWatchList = () => {
             years,
             genres,
             studios,
-            sort: sort && order ? sort.map((item) => `${item}:${order}`) : undefined,
+            sort:
+                sort && order
+                    ? sort.map((item) => `${item}:${order}`)
+                    : undefined,
         },
     });
 };

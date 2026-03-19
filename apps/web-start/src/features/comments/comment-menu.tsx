@@ -3,6 +3,9 @@ import { useDeleteComment, useSession } from '@hikka/react';
 import { FC } from 'react';
 import { toast } from 'sonner';
 
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -23,10 +26,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
-
-import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
-import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
-import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 
 interface Props {
     comment: CommentResponse;

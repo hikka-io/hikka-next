@@ -1,10 +1,11 @@
 'use client';
 
 import { useArticleBySlug } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
+
+import { useParams } from '@/utils/navigation';
 
 interface Props {}
 

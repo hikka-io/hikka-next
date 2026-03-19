@@ -2,10 +2,10 @@
 
 import { UserResponse } from '@hikka/client';
 import { useSearchUsers } from '@hikka/react';
-import { useRouter } from '@/utils/navigation';
 import { useCallback } from 'react';
 
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
+import { useRouter } from '@/utils/navigation';
 
 import UserCard from '../cards/user-card';
 import SearchPlaceholders from '../search-placeholders';
@@ -34,8 +34,7 @@ const UserSearchList = ({ onDismiss, type, value }: Props) => {
         args: { query: value || '' },
         queryKey: ['user-search-list', value],
         options: {
-            enabled:
-                value !== undefined && value.length >= MIN_SEARCH_LENGTH,
+            enabled: value !== undefined && value.length >= MIN_SEARCH_LENGTH,
         },
     });
 

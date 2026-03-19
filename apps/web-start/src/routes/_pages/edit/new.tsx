@@ -1,8 +1,4 @@
-import {
-    ContentTypeEnum,
-    EditContentType,
-    EditContent,
-} from '@hikka/client';
+import { ContentTypeEnum, EditContent, EditContentType } from '@hikka/client';
 import {
     animeBySlugOptions,
     characterBySlugOptions,
@@ -10,26 +6,25 @@ import {
     novelBySlugOptions,
     personBySlugOptions,
 } from '@hikka/react/options';
-import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute, redirect } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import {
     EditContent as Content,
     EditCreateForm as EditForm,
     EditRulesAlert as RulesAlert,
 } from '@/features/edit';
+
 import { generateHeadMeta } from '@/utils/metadata';
 import { editNewSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/edit/new')({
     validateSearch: zodValidator(editNewSearchSchema),
     loaderDeps: ({ search }) => search,
-    loader: async ({
-        context: { queryClient, hikkaClient },
-        deps,
-    }) => {
+    loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
         const { content_type, slug } = deps;
 
         if (!content_type || !slug) {

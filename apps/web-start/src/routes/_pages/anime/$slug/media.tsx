@@ -1,8 +1,9 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentMedia as Media } from '@/features/content';
 import ContentHeader from '@/features/comments/content-header';
+import { ContentMedia as Media } from '@/features/content';
+
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/anime/$slug/media')({

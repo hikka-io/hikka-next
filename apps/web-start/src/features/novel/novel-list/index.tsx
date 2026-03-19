@@ -6,9 +6,9 @@ import { queryKeys, useQueryClient } from '@hikka/react/core';
 import { useRouter } from '@tanstack/react-router';
 import { FC } from 'react';
 
+import NovelCard from '@/components/content-card/novel-card';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
-import NovelCard from '@/components/content-card/novel-card';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
@@ -79,7 +79,10 @@ const NovelList: FC<Props> = () => {
         }
 
         router.navigate({
-            search: (prev: Record<string, unknown>) => ({ ...prev, page: newPage }),
+            search: (prev: Record<string, unknown>) => ({
+                ...prev,
+                page: newPage,
+            }),
             replace: true,
         } as any);
     };

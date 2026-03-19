@@ -1,11 +1,10 @@
 'use client';
 
 import { usePersonManga } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
-import LoadMoreButton from '@/components/load-more-button';
 import MangaCard from '@/components/content-card/manga-card';
+import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import {
     Header,
@@ -14,6 +13,8 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
+
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     extended?: boolean;
@@ -30,7 +31,9 @@ const Manga: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header href={!extended ? `/people/${params.slug}/manga` : undefined}>
+            <Header
+                href={!extended ? `/people/${params.slug}/manga` : undefined}
+            >
                 <HeaderContainer>
                     <HeaderTitle>Манґа</HeaderTitle>
                 </HeaderContainer>

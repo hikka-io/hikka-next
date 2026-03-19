@@ -21,7 +21,9 @@ const ListExportItem = ({
             <Label>{title}</Label>
             <p className="text-muted-foreground text-sm">{description}</p>
             <Button onClick={onExport} disabled={isExporting} size="md">
-                {isExporting && <span className="loading loading-spinner"></span>}
+                {isExporting && (
+                    <span className="loading loading-spinner"></span>
+                )}
                 Експортувати
             </Button>
         </div>

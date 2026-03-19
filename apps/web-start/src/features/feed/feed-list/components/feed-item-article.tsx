@@ -1,10 +1,10 @@
-import { Link } from '@/utils/navigation';
-import { FC, Suspense, lazy } from 'react';
-
 import { ArticlePreviewResponse } from '@hikka/client';
+import { FC, Suspense, lazy } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
+import { Link } from '@/utils/navigation';
 
 import FeedItemContentPreview from './feed-item-content-preview';
 
@@ -27,15 +27,10 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                 title={data.content?.title}
             />
 
-            <div
-                className="flex flex-col gap-4"
-            >
-
+            <div className="flex flex-col gap-4">
                 <Header href={`/articles/${data.slug}`}>
                     <HeaderContainer>
-                        <HeaderTitle variant="h4">
-                            {data.title}
-                        </HeaderTitle>
+                        <HeaderTitle variant="h4">{data.title}</HeaderTitle>
                     </HeaderContainer>
                 </Header>
 
@@ -53,7 +48,7 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                         )}
                     </div>
                 )}
-                <div className='relative'>
+                <div className="relative">
                     <Link
                         to={`/articles/${data.slug}`}
                         className="absolute top-0 left-0 z-10 size-full"

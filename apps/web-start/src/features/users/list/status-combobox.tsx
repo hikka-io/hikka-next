@@ -6,7 +6,6 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useRouter } from '@tanstack/react-router';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { createElement } from 'react';
 
 import { Label } from '@/components/ui/label';
@@ -20,6 +19,8 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
@@ -30,9 +31,9 @@ const STATUSES = { ...WATCH_STATUS, ...READ_STATUS };
 
 interface Props {
     content_type:
-    | ContentTypeEnum.ANIME
-    | ContentTypeEnum.MANGA
-    | ContentTypeEnum.NOVEL;
+        | ContentTypeEnum.ANIME
+        | ContentTypeEnum.MANGA
+        | ContentTypeEnum.NOVEL;
 }
 
 const StatusCombobox = ({ content_type }: Props) => {

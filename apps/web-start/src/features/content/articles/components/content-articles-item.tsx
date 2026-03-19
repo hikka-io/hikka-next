@@ -20,17 +20,18 @@ interface Props {
 
 const ContentArticlesItem: FC<Props> = ({ article, className }) => {
     return (
-        <HorizontalCard
-            className={className}
-            key={article.slug}
-        >
+        <HorizontalCard className={className} key={article.slug}>
             <HorizontalCardImage
                 href={`/u/${article.author.username}`}
                 image={article.author.avatar}
                 imageRatio={1}
             />
             <HorizontalCardContainer>
-                <HorizontalCardTitle href={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}>{article.title}</HorizontalCardTitle>
+                <HorizontalCardTitle
+                    href={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
+                >
+                    {article.title}
+                </HorizontalCardTitle>
                 <HorizontalCardDescription className="text-muted-foreground flex-row text-xs">
                     <div className="flex items-center gap-1">
                         <MaterialSymbolsDriveFileRenameOutlineRounded />

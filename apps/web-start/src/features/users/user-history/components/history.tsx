@@ -1,7 +1,6 @@
 'use client';
 
 import { useUserHistory } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC, Fragment } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
@@ -11,6 +10,8 @@ import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 
 import HistoryItem from '@/features/users/user-history/components/history-item';
+
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     className?: string;

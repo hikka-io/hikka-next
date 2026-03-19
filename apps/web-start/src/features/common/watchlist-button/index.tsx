@@ -8,6 +8,7 @@ import {
 import { useAnimeBySlug, useCreateWatch, useWatchBySlug } from '@hikka/react';
 import { createElement, useCallback, useMemo, useState } from 'react';
 
+import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { ButtonProps } from '@/components/ui/button';
 import {
     ResponsiveModal,
@@ -25,10 +26,10 @@ import {
 } from '@/components/ui/select';
 
 import { WatchEditModal } from '@/features/watch';
+
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
-import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import IconWatchStatusButton from './components/icon-watch-status-button';
 import NewStatusTrigger from './components/new-status-trigger';
 import WatchStatusTrigger from './components/watch-status-trigger';
@@ -129,25 +130,25 @@ const WatchlistButton = ({
             // Extract current watch parameters
             const currentWatchParams = watch
                 ? {
-                    episodes: watch.episodes || undefined,
-                    score: watch.score || undefined,
-                    note: watch.note || undefined,
-                    rewatches: watch.rewatches || undefined,
-                }
+                      episodes: watch.episodes || undefined,
+                      score: watch.score || undefined,
+                      note: watch.note || undefined,
+                      rewatches: watch.rewatches || undefined,
+                  }
                 : {};
 
             // Handle completed status specially to set episodes to total
             const watchArgs =
                 selectedOption === 'completed'
                     ? {
-                        status: WatchStatusEnum.COMPLETED,
-                        ...currentWatchParams,
-                        episodes: anime?.episodes_total || undefined,
-                    }
+                          status: WatchStatusEnum.COMPLETED,
+                          ...currentWatchParams,
+                          episodes: anime?.episodes_total || undefined,
+                      }
                     : {
-                        status: selectedOption as WatchStatusEnum,
-                        ...currentWatchParams,
-                    };
+                          status: selectedOption as WatchStatusEnum,
+                          ...currentWatchParams,
+                      };
 
             addWatch({
                 slug,
@@ -199,7 +200,10 @@ const WatchlistButton = ({
                         <SelectList>
                             <SelectGroup>
                                 {STATUS_OPTIONS.map((option) => (
-                                    <SelectItem key={option.value} value={option.value}>
+                                    <SelectItem
+                                        key={option.value}
+                                        value={option.value}
+                                    >
                                         {option.label}
                                     </SelectItem>
                                 ))}
@@ -208,7 +212,10 @@ const WatchlistButton = ({
                                 <>
                                     <SelectSeparator />
                                     <SelectGroup>
-                                        <SelectItem disableCheckbox value="settings">
+                                        <SelectItem
+                                            disableCheckbox
+                                            value="settings"
+                                        >
                                             {SETTINGS_BUTTON.label}
                                         </SelectItem>
                                     </SelectGroup>
@@ -218,12 +225,22 @@ const WatchlistButton = ({
                     </SelectContent>
                 </Select>
             )}
-            <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
+            <ResponsiveModal
+                open={editOpen}
+                onOpenChange={setEditOpen}
+                forceDesktop
+            >
                 <ResponsiveModalContent className="max-w-xl!">
                     <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>{anime?.title}</ResponsiveModalTitle>
+                        <ResponsiveModalTitle>
+                            {anime?.title}
+                        </ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    <WatchEditModal slug={slug} watch={watch} onClose={() => setEditOpen(false)} />
+                    <WatchEditModal
+                        slug={slug}
+                        watch={watch}
+                        onClose={() => setEditOpen(false)}
+                    />
                 </ResponsiveModalContent>
             </ResponsiveModal>
         </>

@@ -28,10 +28,7 @@ const CharacterAnimeCard: FC<Props> = ({ character, anime, ...props }) => {
             description={anime.title}
             {...props}
         >
-            <CardOverlay
-                href={`/anime/${anime.slug}`}
-                image={anime.image}
-            />
+            <CardOverlay href={`/anime/${anime.slug}`} image={anime.image} />
         </ContentCard>
     );
 };

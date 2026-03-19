@@ -1,9 +1,8 @@
-import 'react-photo-view/dist/react-photo-view.css';
-
 import type { SlateElementProps } from 'platejs/static';
 import { SlateElement } from 'platejs/static';
 import { useEffect, useRef } from 'react';
 import { PhotoProvider } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 
 import { cn } from '@/utils/cn';
 

@@ -6,7 +6,6 @@ import {
     ImportWatchArgs,
     ReadContentType,
 } from '@hikka/client';
-import { Link } from '@/utils/navigation';
 import { Dispatch, SetStateAction, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { xml2json } from 'xml-js';
@@ -14,6 +13,7 @@ import { xml2json } from 'xml-js';
 import { Label } from '@/components/ui/label';
 
 import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
 
 import FoundList from './found-list';
 

@@ -6,15 +6,14 @@ import { MarkdownPlugin } from '@platejs/markdown';
 import { Value } from 'platejs';
 import { FC } from 'react';
 
+import MaterialSymbolsReplyRounded from '@/components/icons/material-symbols/MaterialSymbolsReplyRounded';
+import { useCommentEditor } from '@/components/plate/editor/comment-kit';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
-
-import MaterialSymbolsReplyRounded from '@/components/icons/material-symbols/MaterialSymbolsReplyRounded';
-import { useCommentEditor } from '@/components/plate/editor/comment-kit';
 
 interface Props {
     slug: string;
@@ -71,8 +70,8 @@ const CommentInputBottomBar: FC<Props> = ({
     const removeEmptyTextNodes = (value: Value) => {
         return value.filter((node, index) =>
             node.type === 'p' &&
-                node.children[0].text === '' &&
-                (index === 0 || index === value.length - 1)
+            node.children[0].text === '' &&
+            (index === 0 || index === value.length - 1)
                 ? false
                 : true,
         );

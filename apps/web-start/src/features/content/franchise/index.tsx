@@ -88,7 +88,11 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
             <div className="flex items-center justify-between">
                 <Header
                     className="flex-1"
-                    to={!extended ? `${CONTENT_TYPE_LINKS[content_type]}/${params.slug}/franchise` : undefined}
+                    to={
+                        !extended
+                            ? `${CONTENT_TYPE_LINKS[content_type]}/${params.slug}/franchise`
+                            : undefined
+                    }
                 >
                     <HeaderContainer>
                         <HeaderTitle>{title}</HeaderTitle>

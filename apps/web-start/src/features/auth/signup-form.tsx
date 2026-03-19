@@ -4,7 +4,6 @@ import { useCreateUser, useHikkaClient } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { Eye, EyeOff } from 'lucide-react';
-import { useRouter } from '@/utils/navigation';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -23,6 +22,7 @@ import { OAuthLogin } from '@/features/auth';
 
 import { setAuthCookieFn } from '@/utils/auth';
 import { z } from '@/utils/i18n/zod';
+import { useRouter } from '@/utils/navigation';
 
 const formSchema = z
     .object({

@@ -1,7 +1,5 @@
 'use client';
 
-import { useTheme } from '@/services/providers/theme-provider';
-
 import MaterialSymbolsComputerOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsComputerOutlineRounded';
 import MaterialSymbolsNightlightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsNightlightOutlineRounded';
 import MaterialSymbolsSunnyOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSunnyOutlineRounded';
@@ -19,6 +17,7 @@ import { Switch } from '@/components/ui/switch';
 
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
+import { useTheme } from '@/services/providers/theme-provider';
 
 const PreferencesSettings = () => {
     const { preferences } = useSessionUI();
@@ -29,14 +28,20 @@ const PreferencesSettings = () => {
     const handleChangeTitleLanguage = (value: string[]) =>
         update({
             preferences: {
-                title_language: value[0] as 'title_ua' | 'title_en' | 'title_ja',
+                title_language: value[0] as
+                    | 'title_ua'
+                    | 'title_en'
+                    | 'title_ja',
             },
         });
 
     const handleChangeNameLanguage = (value: string[]) =>
         update({
             preferences: {
-                name_language: value[0] as 'name_ua' | 'name_en' | 'name_native',
+                name_language: value[0] as
+                    | 'name_ua'
+                    | 'name_en'
+                    | 'name_native',
             },
         });
 
@@ -46,7 +51,9 @@ const PreferencesSettings = () => {
                 <Label>Тема сайту</Label>
                 <Select
                     value={[theme ?? 'dark']}
-                    onValueChange={(value) => setTheme(value[0] as 'light' | 'dark' | 'system')}
+                    onValueChange={(value) =>
+                        setTheme(value[0] as 'light' | 'dark' | 'system')
+                    }
                 >
                     <SelectTrigger>
                         <SelectValue placeholder="Виберіть тему..." />

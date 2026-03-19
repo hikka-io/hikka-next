@@ -1,4 +1,6 @@
 import '@fontsource-variable/geist';
+import { UserUI } from '@hikka/client';
+import { queryKeys } from '@hikka/react/core';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 import {
@@ -14,9 +16,6 @@ import NotFoundPage from '@/components/not-found-page';
 import RouterProgressBar from '@/components/router-progress-bar';
 
 import { Providers } from '@/features/common';
-
-import { UserUI } from '@hikka/client';
-import { queryKeys } from '@hikka/react/core';
 
 import { getThemeCookieFn, refreshAuthCookieFn } from '@/utils/cookies';
 import { DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
@@ -67,9 +66,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         // User UI is already prefetched in createRouter via sessionUserUIOptions.
         // Read from query cache — no extra server fn call needed.
         const userUI =
-            context.queryClient.getQueryData<UserUI>(
-                queryKeys.user.ui('me'),
-            ) ?? DEFAULT_USER_UI;
+            context.queryClient.getQueryData<UserUI>(queryKeys.user.ui('me')) ??
+            DEFAULT_USER_UI;
 
         const userStylesCSS = getUserStylesCSS(userUI);
         return { userStylesCSS, theme };

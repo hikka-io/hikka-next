@@ -1,12 +1,12 @@
 'use client';
 
-import { Link } from '@/utils/navigation';
-import { usePathname } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { SETTINGS_MENU } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
+import { usePathname } from '@/utils/navigation';
 
 interface Props {}
 

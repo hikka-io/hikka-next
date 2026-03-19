@@ -1,6 +1,5 @@
 'use client';
 
-import { useParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
 import Block from '@/components/ui/block';
@@ -13,6 +12,7 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { useParams } from '@/utils/navigation';
 
 import Ost from './components/ost';
 import Video from './components/video';
@@ -34,7 +34,9 @@ const Media: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header href={!extended ? `/anime/${params.slug}/media` : undefined}>
+            <Header
+                href={!extended ? `/anime/${params.slug}/media` : undefined}
+            >
                 <HeaderContainer>
                     <HeaderTitle>Медіа</HeaderTitle>
                     <ToggleGroup

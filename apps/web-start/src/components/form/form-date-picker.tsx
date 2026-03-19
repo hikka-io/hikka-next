@@ -73,7 +73,9 @@ const FormDatePicker: FC<Props> = ({
                                         )}
                                     >
                                         {dateValue ? (
-                                            format(dateValue, 'PPP', { locale: uk })
+                                            format(dateValue, 'PPP', {
+                                                locale: uk,
+                                            })
                                         ) : (
                                             <span>Виберіть дату</span>
                                         )}

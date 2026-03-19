@@ -5,9 +5,9 @@ import {
     useParams as useTanstackParams,
 } from '@tanstack/react-router';
 import type {
+    AnyRouter,
     LinkComponentProps,
     NavigateOptions,
-    AnyRouter,
 } from '@tanstack/react-router';
 import { forwardRef } from 'react';
 

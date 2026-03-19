@@ -12,19 +12,18 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import NotFound from '@/components/ui/not-found';
 import { Progress } from '@/components/ui/progress';
-import Stack from '@/components/ui/stack';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
-
 import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
+import Stack from '@/components/ui/stack';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import { WatchEditModal } from '@/features/watch';
 
@@ -155,137 +154,149 @@ const WatchingTracker = () => {
 
     return (
         <>
-        <div className="flex flex-col gap-4">
-            <Stack className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4" imagePreset="cardXs">
-                {list.map((item) => (
-                    <Tooltip key={item.anime.slug}>
-                        <TooltipTrigger asChild>
-                            <ContentCard
-                                onClick={() => handleSelect(item.anime.slug)}
-                                image={item.anime.image}
-                                containerClassName="rounded-(--base-radius)"
-                                className={cn(
-                                    'transition-opacity',
-                                    selectedWatch?.anime.slug !==
-                                        item.anime.slug &&
-                                        'opacity-30 hover:opacity-60',
-                                )}
-                            />
-                        </TooltipTrigger>
-                        <TooltipContent className="max-w-48 truncate">
-                            {item.anime.title}
-                        </TooltipContent>
-                    </Tooltip>
-                ))}
-            </Stack>
+            <div className="flex flex-col gap-4">
+                <Stack
+                    className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4"
+                    imagePreset="cardXs"
+                >
+                    {list.map((item) => (
+                        <Tooltip key={item.anime.slug}>
+                            <TooltipTrigger asChild>
+                                <ContentCard
+                                    onClick={() =>
+                                        handleSelect(item.anime.slug)
+                                    }
+                                    image={item.anime.image}
+                                    containerClassName="rounded-(--base-radius)"
+                                    className={cn(
+                                        'transition-opacity',
+                                        selectedWatch?.anime.slug !==
+                                            item.anime.slug &&
+                                            'opacity-30 hover:opacity-60',
+                                    )}
+                                />
+                            </TooltipTrigger>
+                            <TooltipContent className="max-w-48 truncate">
+                                {item.anime.title}
+                            </TooltipContent>
+                        </Tooltip>
+                    ))}
+                </Stack>
 
-            {selectedWatch && (
-                <>
-                    <Link
-                        className="w-fit flex-1"
-                        to={`/anime/${selectedWatch.anime.slug}`}
-                    >
-                        <h5>{selectedWatch.anime.title}</h5>
-                        <div className="mt-1 flex cursor-pointer items-center gap-2">
-                            {selectedWatch.anime.year && (
-                                <Label className="text-muted-foreground cursor-pointer text-xs">
-                                    {selectedWatch.anime.year}
-                                </Label>
-                            )}
-                            {selectedWatch.anime.media_type && (
-                                <>
-                                    <div className="bg-muted-foreground size-1 rounded-full" />
-                                    <Label className="text-muted-foreground cursor-pointer text-xs">
-                                        {
-                                            ANIME_MEDIA_TYPE[
-                                                selectedWatch.anime.media_type
-                                            ]?.title_ua
-                                        }
-                                    </Label>
-                                </>
-                            )}
-                            {totalEpisodes && (
-                                <>
-                                    <div className="bg-muted-foreground size-1 rounded-full" />
-                                    <Label className="text-muted-foreground cursor-pointer text-xs">
-                                        {totalEpisodes}{' '}
-                                        {getDeclensionWord(
-                                            totalEpisodes,
-                                            EPISODES_DECLENSION,
-                                        )}
-                                    </Label>
-                                </>
-                            )}
-                        </div>
-                    </Link>
-
-                    <div className="flex w-full flex-col gap-2">
-                        <p className="text-muted-foreground text-sm">
-                            <span className="text-foreground font-bold">
-                                {currentEpisodes}
-                            </span>
-                            /{totalEpisodes ?? '?'} епізодів
-                        </p>
-                        <Progress
-                            className="h-2"
-                            value={currentEpisodes}
-                            max={totalEpisodes ?? currentEpisodes}
-                        />
-                    </div>
-
-                    <div className="flex gap-2">
-                        <Button
-                            variant="outline"
-                            size="icon-md"
-                            className="shrink-0"
-                            onClick={openWatchEditModal}
+                {selectedWatch && (
+                    <>
+                        <Link
+                            className="w-fit flex-1"
+                            to={`/anime/${selectedWatch.anime.slug}`}
                         >
-                            <MaterialSymbolsSettingsOutlineRounded />
-                        </Button>
-                        <div className="flex flex-1">
-                            <Button
-                                className="flex-1 rounded-r-none"
-                                onClick={handleAddEpisode}
-                                variant="secondary"
-                                size="md"
-                            >
-                                <MaterialSymbolsAddRounded />
-                                <div className="flex gap-1">
-                                    <span className="hidden sm:block">
-                                        Додати
-                                    </span>
-                                    <span className="capitalize sm:normal-case">
-                                        епізод
-                                    </span>
-                                </div>
-                            </Button>
-                            <Button
-                                className="rounded-l-none"
-                                onClick={handleRemoveEpisode}
-                                variant="secondary"
-                                size="icon-md"
-                            >
-                                <MaterialSymbolsRemoveRounded />
-                            </Button>
+                            <h5>{selectedWatch.anime.title}</h5>
+                            <div className="mt-1 flex cursor-pointer items-center gap-2">
+                                {selectedWatch.anime.year && (
+                                    <Label className="text-muted-foreground cursor-pointer text-xs">
+                                        {selectedWatch.anime.year}
+                                    </Label>
+                                )}
+                                {selectedWatch.anime.media_type && (
+                                    <>
+                                        <div className="bg-muted-foreground size-1 rounded-full" />
+                                        <Label className="text-muted-foreground cursor-pointer text-xs">
+                                            {
+                                                ANIME_MEDIA_TYPE[
+                                                    selectedWatch.anime
+                                                        .media_type
+                                                ]?.title_ua
+                                            }
+                                        </Label>
+                                    </>
+                                )}
+                                {totalEpisodes && (
+                                    <>
+                                        <div className="bg-muted-foreground size-1 rounded-full" />
+                                        <Label className="text-muted-foreground cursor-pointer text-xs">
+                                            {totalEpisodes}{' '}
+                                            {getDeclensionWord(
+                                                totalEpisodes,
+                                                EPISODES_DECLENSION,
+                                            )}
+                                        </Label>
+                                    </>
+                                )}
+                            </div>
+                        </Link>
+
+                        <div className="flex w-full flex-col gap-2">
+                            <p className="text-muted-foreground text-sm">
+                                <span className="text-foreground font-bold">
+                                    {currentEpisodes}
+                                </span>
+                                /{totalEpisodes ?? '?'} епізодів
+                            </p>
+                            <Progress
+                                className="h-2"
+                                value={currentEpisodes}
+                                max={totalEpisodes ?? currentEpisodes}
+                            />
                         </div>
-                    </div>
-                </>
+
+                        <div className="flex gap-2">
+                            <Button
+                                variant="outline"
+                                size="icon-md"
+                                className="shrink-0"
+                                onClick={openWatchEditModal}
+                            >
+                                <MaterialSymbolsSettingsOutlineRounded />
+                            </Button>
+                            <div className="flex flex-1">
+                                <Button
+                                    className="flex-1 rounded-r-none"
+                                    onClick={handleAddEpisode}
+                                    variant="secondary"
+                                    size="md"
+                                >
+                                    <MaterialSymbolsAddRounded />
+                                    <div className="flex gap-1">
+                                        <span className="hidden sm:block">
+                                            Додати
+                                        </span>
+                                        <span className="capitalize sm:normal-case">
+                                            епізод
+                                        </span>
+                                    </div>
+                                </Button>
+                                <Button
+                                    className="rounded-l-none"
+                                    onClick={handleRemoveEpisode}
+                                    variant="secondary"
+                                    size="icon-md"
+                                >
+                                    <MaterialSymbolsRemoveRounded />
+                                </Button>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+            {selectedWatch && (
+                <ResponsiveModal
+                    open={open}
+                    onOpenChange={setOpen}
+                    forceDesktop
+                >
+                    <ResponsiveModalContent className="max-w-xl!">
+                        <ResponsiveModalHeader>
+                            <ResponsiveModalTitle>
+                                {selectedWatch.anime.title}
+                            </ResponsiveModalTitle>
+                        </ResponsiveModalHeader>
+                        <WatchEditModal
+                            watch={selectedWatch}
+                            slug={selectedWatch.anime.slug}
+                            onClose={() => setOpen(false)}
+                        />
+                    </ResponsiveModalContent>
+                </ResponsiveModal>
             )}
-        </div>
-        {selectedWatch && (
-            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="max-w-xl!">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>{selectedWatch.anime.title}</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
-                    <WatchEditModal
-                        watch={selectedWatch}
-                        slug={selectedWatch.anime.slug}
-                        onClose={() => setOpen(false)}
-                    />
-                </ResponsiveModalContent>
-            </ResponsiveModal>
-        )}
         </>
     );
 };

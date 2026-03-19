@@ -1,16 +1,14 @@
 import { ContentTypeEnum, EditContentType } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
-import {
-    contentCommentsOptions,
-    editOptions,
-} from '@hikka/react/options';
+import { contentCommentsOptions, editOptions } from '@hikka/react/options';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
-import Link from '@/components/ui/link';
 
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import Link from '@/components/ui/link';
+
+import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import {
     EditAuthor as Author,
     EditContent as Content,
@@ -19,10 +17,7 @@ import {
 } from '@/features/edit';
 
 export const Route = createFileRoute('/_pages/edit/$editId')({
-    loader: async ({
-        params,
-        context: { queryClient, hikkaClient },
-    }) => {
+    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
         const editId = Number(params.editId);
 
         const edit = await queryClient.ensureQueryData(
@@ -31,7 +26,8 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
 
         if (!edit) throw redirect({ to: '/edit' });
 
-        await prefetchInfiniteQuery(queryClient,
+        await prefetchInfiniteQuery(
+            queryClient,
             contentCommentsOptions(hikkaClient, {
                 contentType: ContentTypeEnum.EDIT,
                 slug: params.editId,

@@ -1,7 +1,6 @@
 'use client';
 
 import { useDenyEdit } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import {
@@ -15,6 +14,8 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+
+import { useParams } from '@/utils/navigation';
 
 interface Props {}
 

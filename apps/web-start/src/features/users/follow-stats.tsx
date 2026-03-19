@@ -1,11 +1,8 @@
 'use client';
 
 import { useSession, useUserFollowStats } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
-import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
-import FollowButton from '@/features/common/follow-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {
@@ -14,9 +11,13 @@ import {
 } from '@/components/ui/responsive-modal';
 import { Separator } from '@/components/ui/separator';
 
-import FollowListModal from './followlist-modal';
+import FollowButton from '@/features/common/follow-button';
 
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
+import { useParams } from '@/utils/navigation';
+
+import FollowListModal from './followlist-modal';
 
 interface Props {
     className?: string;
@@ -24,7 +25,9 @@ interface Props {
 
 const FollowStats: FC<Props> = ({ className }) => {
     const [open, setOpen] = useState(false);
-    const [followType, setFollowType] = useState<'followers' | 'followings'>('followers');
+    const [followType, setFollowType] = useState<'followers' | 'followings'>(
+        'followers',
+    );
     useCloseOnRouteChange(setOpen);
     const params = useParams();
     const { user: loggedUser } = useSession();
@@ -45,7 +48,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                     className,
                 )}
             >
-                <div className='flex h-full w-full items-center gap-2'>
+                <div className="flex h-full w-full items-center gap-2">
                     <Button
                         onClick={() => {
                             setFollowType('followers');
@@ -59,7 +62,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                         </span>
                         <span className="text-muted-foreground">стежать</span>
                     </Button>
-                    <Separator orientation="vertical" className='h-8' />
+                    <Separator orientation="vertical" className="h-8" />
                     <Button
                         variant="ghost"
                         onClick={() => {
@@ -76,18 +79,30 @@ const FollowStats: FC<Props> = ({ className }) => {
                         </span>
                     </Button>
                 </div>
-                {loggedUser?.username !== String(params.username) && <Separator orientation="vertical" className='hidden h-8 lg:block' />}
-
-                {loggedUser?.username !== String(params.username) && <div className="flex w-full gap-4 p-2">
-                    <FollowButton
-                        size="md"
-                        username={String(params.username)}
-                        className='flex-1'
+                {loggedUser?.username !== String(params.username) && (
+                    <Separator
+                        orientation="vertical"
+                        className="hidden h-8 lg:block"
                     />
-                </div>}
+                )}
+
+                {loggedUser?.username !== String(params.username) && (
+                    <div className="flex w-full gap-4 p-2">
+                        <FollowButton
+                            size="md"
+                            username={String(params.username)}
+                            className="flex-1"
+                        />
+                    </div>
+                )}
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent side="right" title={followType === 'followers' ? 'Стежать' : 'Відстежується'}>
+                <ResponsiveModalContent
+                    side="right"
+                    title={
+                        followType === 'followers' ? 'Стежать' : 'Відстежується'
+                    }
+                >
                     <FollowListModal type={followType} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

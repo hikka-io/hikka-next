@@ -1,7 +1,8 @@
 'use client';
 
-import { usePathname } from '@/utils/navigation';
 import * as React from 'react';
+
+import { usePathname } from '@/utils/navigation';
 
 interface UseScrollTriggerOptions {
     disableHysteresis?: boolean;

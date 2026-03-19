@@ -3,13 +3,12 @@
 import { ReadResponseBase } from '@hikka/client';
 import { FC, createElement } from 'react';
 
+import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
-
-import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 
 interface ReadStatusTriggerProps {
     read: ReadResponseBase;

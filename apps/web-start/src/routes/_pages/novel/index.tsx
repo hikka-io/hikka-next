@@ -1,13 +1,14 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
 
 import Block from '@/components/ui/block';
-import { generateHeadMeta } from '@/utils/metadata';
 import { Header, HeaderTitle } from '@/components/ui/header';
 
 import { NovelList, NovelListNavbar } from '@/features/novel';
 import { ReadFilters } from '@/features/read';
+
+import { generateHeadMeta } from '@/utils/metadata';
 import { novelSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/novel/')({

@@ -2,11 +2,10 @@
 
 import { ContentTypeEnum, ReadContentType } from '@hikka/client';
 import { useReadingUsers, useWatchingUsers } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
-import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
 import {
     Header,
     HeaderContainer,
@@ -18,7 +17,9 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 
-import Card from '@/components/ui/card';
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useParams } from '@/utils/navigation';
+
 import FollowingItem from './components/following-item';
 import FollowingsModal from './followings-modal';
 
@@ -62,11 +63,11 @@ const Followings: FC<Props> = ({ content_type }) => {
 
     return (
         <>
-            <Card className='bg-secondary/20'>
+            <Card className="bg-secondary/20">
                 <Block>
                     <Header onClick={() => setOpen(true)}>
                         <HeaderContainer>
-                            <HeaderTitle variant='h4'>{title}</HeaderTitle>
+                            <HeaderTitle variant="h4">{title}</HeaderTitle>
                         </HeaderContainer>
                         <HeaderNavButton />
                     </Header>
@@ -75,7 +76,10 @@ const Followings: FC<Props> = ({ content_type }) => {
                             <FollowingItem
                                 data={{
                                     type: 'watch' in item ? 'watch' : 'read',
-                                    content: 'watch' in item ? item.watch : item.read,
+                                    content:
+                                        'watch' in item
+                                            ? item.watch
+                                            : item.read,
                                     ...item,
                                 }}
                                 key={item.reference}

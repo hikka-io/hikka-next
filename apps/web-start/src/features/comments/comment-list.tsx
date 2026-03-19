@@ -2,11 +2,8 @@
 
 import { CommentsContentType } from '@hikka/client';
 import { useCommentThread, useContentComments, useSession } from '@hikka/react';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
-import CommentInput from '@/features/comments/comment-input';
-import Comments from '@/features/comments/comments';
 import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
@@ -19,10 +16,13 @@ import {
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 
+import CommentInput from '@/features/comments/comment-input';
+import Comments from '@/features/comments/comments';
 import { LoginButton } from '@/features/common';
 
 import CommentsProvider from '@/services/providers/comments-provider';
 import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     slug: string;

@@ -2,7 +2,6 @@
 
 import { useChangeUsername } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from '@/utils/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -11,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 
 import { z } from '@/utils/i18n/zod';
+import { useRouter } from '@/utils/navigation';
 
 const formSchema = z.object({
     username: z.string().min(2).max(50),

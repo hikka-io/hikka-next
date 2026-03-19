@@ -3,14 +3,13 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
+import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-
-import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
 
 const EditRulesAlert = () => {
     const [rules, setRules] = React.useState('');
@@ -40,7 +39,10 @@ const EditRulesAlert = () => {
                 </span>
             </div>
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="max-w-xl!" title="Правила редагування">
+                <ResponsiveModalContent
+                    className="max-w-xl!"
+                    title="Правила редагування"
+                >
                     <MDViewer className="overflow-scroll px-6 py-4 md:overflow-hidden md:p-0">
                         {rules}
                     </MDViewer>

@@ -105,4 +105,3 @@ export const CONTENT_CONFIG = {
     [ContentTypeEnum.CHARACTER]: CHARACTER_CONFIG,
     [ContentTypeEnum.PERSON]: PERSON_CONFIG,
 };
-

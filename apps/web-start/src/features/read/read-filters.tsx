@@ -6,6 +6,7 @@ import { FC } from 'react';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
+
 import Genre from '@/features/filters/genre';
 import Localization from '@/features/filters/localization';
 import MediaType from '@/features/filters/media-type';

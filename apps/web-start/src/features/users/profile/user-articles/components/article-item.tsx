@@ -22,7 +22,11 @@ const ArticleItem: FC<Props> = ({ article }) => {
         <Card className="gap-2">
             <HorizontalCard>
                 <HorizontalCardContainer>
-                    <HorizontalCardTitle href={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}>{article.title}</HorizontalCardTitle>
+                    <HorizontalCardTitle
+                        href={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
+                    >
+                        {article.title}
+                    </HorizontalCardTitle>
                 </HorizontalCardContainer>
             </HorizontalCard>
             <div className="flex items-center justify-between gap-3">

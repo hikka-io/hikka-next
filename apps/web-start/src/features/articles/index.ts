@@ -13,4 +13,3 @@ export { default as ArticleSettings } from './article-edit/article-settings';
 export { default as ArticleEditTitle } from './article-edit/article-title';
 export { default as ArticleFilters } from './article-filters';
 export { default as ArticleFiltersModal } from './article-filters-modal';
-

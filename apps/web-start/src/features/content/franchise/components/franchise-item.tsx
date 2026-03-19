@@ -11,10 +11,10 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
-import { MEDIA_TYPE } from '@/utils/constants/common';
-
 import ReadlistButton from '@/features/common/readlist-button';
 import WatchlistButton from '@/features/common/watchlist-button';
+
+import { MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props {
     content: AnimeResponse | MangaResponse | NovelResponse;
@@ -26,9 +26,16 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
     return (
         <Card>
             <HorizontalCard>
-                <HorizontalCardImage image={content.image} href={`/${content.data_type}/${content.slug}`} />
+                <HorizontalCardImage
+                    image={content.image}
+                    href={`/${content.data_type}/${content.slug}`}
+                />
                 <HorizontalCardContainer>
-                    <HorizontalCardTitle href={`/${content.data_type}/${content.slug}`}>{content.title}</HorizontalCardTitle>
+                    <HorizontalCardTitle
+                        href={`/${content.data_type}/${content.slug}`}
+                    >
+                        {content.title}
+                    </HorizontalCardTitle>
                     <HorizontalCardDescription>
                         {content.year && <p>{content.year}</p>}
                         {content.year && content.media_type && (

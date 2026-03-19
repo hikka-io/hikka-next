@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { SignupForm, SignupHeader } from '@/features/auth';
+
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/_auth/signup')({

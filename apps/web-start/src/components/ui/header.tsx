@@ -1,9 +1,9 @@
 'use client';
 
-import { Link } from '@/utils/navigation';
 import React, { FC, PropsWithChildren } from 'react';
 
 import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
 
 import { MaterialSymbolsArrowRightAltRounded } from '../icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import { Button } from './button';

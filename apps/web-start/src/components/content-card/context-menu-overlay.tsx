@@ -1,7 +1,6 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
 import { Copy } from 'lucide-react';
-import { Link } from '@/utils/navigation';
 import { FC, ReactNode } from 'react';
 
 import {
@@ -11,6 +10,8 @@ import {
     ContextMenuSeparator,
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
+
+import { Link } from '@/utils/navigation';
 
 import { MaterialSymbolsEditRounded } from '../icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsImageOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageOutlineRounded';
@@ -71,10 +72,7 @@ const ContextMenuOverlay: FC<Props> = ({
 
                 <ContextMenuSeparator />
                 <ContextMenuItem asChild>
-                    <Link
-                        to="/edit/new"
-                        search={{ content_type, slug }}
-                    >
+                    <Link to="/edit/new" search={{ content_type, slug }}>
                         <MaterialSymbolsEditRounded className="mr-2" />
                         Створити правку
                     </Link>

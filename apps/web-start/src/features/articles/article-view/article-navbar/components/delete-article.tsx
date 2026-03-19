@@ -2,7 +2,6 @@
 
 import { ArticleBaseResponse } from '@hikka/client';
 import { useDeleteArticle } from '@hikka/react';
-import { useRouter } from '@/utils/navigation';
 import { FC } from 'react';
 import { toast } from 'sonner';
 
@@ -19,6 +18,8 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+
+import { useRouter } from '@/utils/navigation';
 
 interface Props {
     article: ArticleBaseResponse;

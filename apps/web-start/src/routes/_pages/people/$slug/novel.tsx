@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import ContentHeader from '@/features/comments/content-header';
 import { PersonNovel as Novel } from '@/features/people';
+
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/people/$slug/novel')({

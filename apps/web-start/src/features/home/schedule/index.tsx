@@ -2,7 +2,6 @@
 
 import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimeSchedule } from '@hikka/react';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import Block from '@/components/ui/block';
 import {
@@ -12,6 +11,8 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
+
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import { getCurrentSeason } from '@/utils/season';
 
@@ -25,11 +26,11 @@ const Schedule = () => {
         status?: string | string[];
     }>();
 
-    const only_watch = search.only_watch !== undefined
-        ? Boolean(search.only_watch)
-        : undefined;
-    const season =
-        (search.season as SeasonEnum) || getCurrentSeason()!;
+    const only_watch =
+        search.only_watch !== undefined
+            ? Boolean(search.only_watch)
+            : undefined;
+    const season = (search.season as SeasonEnum) || getCurrentSeason()!;
     const year = search.year || new Date().getFullYear();
     const status = (
         search.status

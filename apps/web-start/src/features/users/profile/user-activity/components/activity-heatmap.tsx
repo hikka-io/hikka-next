@@ -130,10 +130,7 @@ const ActivityHeatmap: FC = () => {
                                         )}
                                     />
                                 ) : (
-                                    <div
-                                        key={dayIdx}
-                                        className="size-2.5"
-                                    />
+                                    <div key={dayIdx} className="size-2.5" />
                                 ),
                             )}
                         </div>

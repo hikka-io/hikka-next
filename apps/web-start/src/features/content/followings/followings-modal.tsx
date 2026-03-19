@@ -2,10 +2,11 @@
 
 import { ContentTypeEnum, ReadContentType } from '@hikka/client';
 import { useReadingUsers, useWatchingUsers } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
+
+import { useParams } from '@/utils/navigation';
 
 import FollowingItem from './components/following-item';
 

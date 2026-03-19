@@ -16,9 +16,7 @@ export function requireOwner(
     authorUsername: string,
     redirectTo = '/',
 ) {
-    const session = queryClient.getQueryData<UserResponse>(
-        queryKeys.user.me(),
-    );
+    const session = queryClient.getQueryData<UserResponse>(queryKeys.user.me());
 
     if (!session) {
         throw redirect({ to: '/login' });

@@ -3,7 +3,6 @@
 import { useCommentList } from '@hikka/react';
 import { FC } from 'react';
 
-import GlobalComment from '@/features/comments/global-comment';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
@@ -11,6 +10,8 @@ import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
+
+import GlobalComment from '@/features/comments/global-comment';
 
 import { cn } from '@/utils/cn';
 

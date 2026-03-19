@@ -25,9 +25,7 @@ const Score: FC<Props> = ({ score_type }) => {
     const scores = (search[score_type] as number[] | undefined) ?? [];
 
     const [selectingScores, setSelectingScores] = useState<number[]>(
-        scores.length > 0
-            ? scores
-            : [DEFAULT_SCORE_MIN, DEFAULT_SCORE_MAX],
+        scores.length > 0 ? scores : [DEFAULT_SCORE_MIN, DEFAULT_SCORE_MAX],
     );
 
     const handleChangeParam = useChangeParam();
@@ -35,9 +33,7 @@ const Score: FC<Props> = ({ score_type }) => {
     const scoresKey = JSON.stringify(scores);
     useEffect(() => {
         setSelectingScores(
-            scores.length > 0
-                ? scores
-                : [DEFAULT_SCORE_MIN, DEFAULT_SCORE_MAX],
+            scores.length > 0 ? scores : [DEFAULT_SCORE_MIN, DEFAULT_SCORE_MAX],
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scoresKey]);

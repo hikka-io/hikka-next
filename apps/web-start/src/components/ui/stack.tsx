@@ -2,9 +2,10 @@
 
 import { ComponentPropsWithoutRef, FC, useRef } from 'react';
 
+import { ImagePresetContext } from '@/components/content-card/image-preset-context';
+
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
-import { ImagePresetContext } from '@/components/content-card/image-preset-context';
 import type { ImagePreset } from '@/utils/constants/image-presets';
 
 // Define more explicit and comprehensive types

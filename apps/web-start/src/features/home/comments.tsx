@@ -3,7 +3,6 @@
 import { useLatestComments } from '@hikka/react';
 import { FC } from 'react';
 
-import GlobalComment from '@/features/comments/global-comment';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
@@ -13,6 +12,8 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
+
+import GlobalComment from '@/features/comments/global-comment';
 
 import { cn } from '@/utils/cn';
 

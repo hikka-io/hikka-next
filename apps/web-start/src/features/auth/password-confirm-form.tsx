@@ -3,7 +3,6 @@
 import { useConfirmPasswordReset, useHikkaClient } from '@hikka/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
-import { useParams, useRouter } from '@/utils/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -20,6 +19,7 @@ import { Input } from '@/components/ui/input';
 
 import { setAuthCookieFn } from '@/utils/auth';
 import { z } from '@/utils/i18n/zod';
+import { useParams, useRouter } from '@/utils/navigation';
 
 const formSchema = z
     .object({

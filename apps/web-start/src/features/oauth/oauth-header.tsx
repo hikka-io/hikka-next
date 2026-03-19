@@ -1,7 +1,8 @@
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
+import { Link } from '@/utils/navigation';
 
 interface Props {}
 

@@ -21,8 +21,8 @@ import Stack from '@/components/ui/stack';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
-import { getSeasonByOffset } from '@/utils/season';
 import type { AnimeSearch } from '@/utils/search-schemas';
+import { getSeasonByOffset } from '@/utils/season';
 
 import AnimeListSkeleton from './components/anime-list-skeleton';
 
@@ -103,7 +103,10 @@ const AnimeList: FC<Props> = () => {
         }
 
         router.navigate({
-            search: (prev: Record<string, unknown>) => ({ ...prev, page: newPage }),
+            search: (prev: Record<string, unknown>) => ({
+                ...prev,
+                page: newPage,
+            }),
             replace: true,
         } as any);
     };

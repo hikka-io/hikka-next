@@ -1,7 +1,7 @@
 'use client';
 
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import { Button } from '@/components/ui/button';
+import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 
 import { COLOR_PRESETS, ColorPreset } from '@/utils/constants/styles';
 
@@ -42,4 +42,3 @@ const PresetButtons = ({
 );
 
 export default PresetButtons;
-

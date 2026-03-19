@@ -20,11 +20,18 @@ const ClientCreateButton: FC = () => {
 
     return (
         <Fragment>
-            <Button size="icon-sm" variant="outline" onClick={() => setOpen(true)}>
+            <Button
+                size="icon-sm"
+                variant="outline"
+                onClick={() => setOpen(true)}
+            >
                 <MaterialSymbolsAddRounded />
             </Button>
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="max-w-xl!" title="Створення застосунку">
+                <ResponsiveModalContent
+                    className="max-w-xl!"
+                    title="Створення застосунку"
+                >
                     <ClientCreateModal onClose={() => setOpen(false)} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

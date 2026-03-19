@@ -5,8 +5,8 @@
         o = r.currentScript,
         l = o.getAttribute('data-api') || new URL(o.src).origin + '/event';
     function s(t, e) {
-        t && console.warn('Ignoring Event: ' + t),
-            e && e.callback && e.callback();
+        (t && console.warn('Ignoring Event: ' + t),
+            e && e.callback && e.callback());
     }
     function t(t, e) {
         if (
@@ -36,12 +36,12 @@
                 e && e.meta && (n.m = JSON.stringify(e.meta)),
                 e && e.props && (n.p = e.props),
                 new XMLHttpRequest());
-        i.open('POST', l, !0),
+        (i.open('POST', l, !0),
             i.setRequestHeader('Content-Type', 'text/plain'),
             i.send(JSON.stringify(n)),
             (i.onreadystatechange = function () {
                 4 === i.readyState && e && e.callback && e.callback();
-            });
+            }));
     }
     var e = (window.plausible && window.plausible.q) || [];
     window.plausible = t;
@@ -51,15 +51,15 @@
     }
     var c,
         w = window.history;
-    w.pushState &&
+    (w.pushState &&
         ((c = w.pushState),
         (w.pushState = function () {
-            c.apply(this, arguments), p();
+            (c.apply(this, arguments), p());
         }),
         window.addEventListener('popstate', p)),
         'prerender' === r.visibilityState
             ? r.addEventListener('visibilitychange', function () {
                   n || 'visible' !== r.visibilityState || p();
               })
-            : p();
+            : p());
 })();

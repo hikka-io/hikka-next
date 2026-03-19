@@ -22,7 +22,10 @@ const ScheduleItem: FC<Props> = ({ item }) => {
     return (
         <Card>
             <HorizontalCard>
-                <HorizontalCardImage image={item.anime.image || undefined} href={`/anime/${item.anime.slug}`} />
+                <HorizontalCardImage
+                    image={item.anime.image || undefined}
+                    href={`/anime/${item.anime.slug}`}
+                />
                 <HorizontalCardContainer>
                     <HorizontalCardTitle href={`/anime/${item.anime.slug}`}>
                         {item.anime.title!}

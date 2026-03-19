@@ -2,12 +2,12 @@
 
 import { CharacterResponse } from '@hikka/client';
 import { useSearchCharacters } from '@hikka/react';
-import { useRouter } from '@/utils/navigation';
 import { useCallback } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
+import { useRouter } from '@/utils/navigation';
 
 import CharacterCard from '../cards/character-card';
 import SearchPlaceholders from '../search-placeholders';

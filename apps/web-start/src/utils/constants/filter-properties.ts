@@ -397,4 +397,3 @@ export const ARTICLE_CATEGORY_OPTIONS: Hikka.FilterProperty<
         icon: MaterialSymbolsStarsRounded,
     },
 };
-

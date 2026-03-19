@@ -30,24 +30,19 @@ const HeatmapCell: FC<Props> = ({ date, actions, level }) => {
         <Tooltip delayDuration={0}>
             <TooltipTrigger asChild>
                 <div
-                    className={cn(
-                        'size-2.5 rounded-xs',
-                        LEVEL_CLASSES[level],
-                    )}
+                    className={cn('size-2.5 rounded-xs', LEVEL_CLASSES[level])}
                 />
             </TooltipTrigger>
             <TooltipContent>
-                <span>
-                    {format(date, 'd MMM yyyy')}
-                </span>
+                <span>{format(date, 'd MMM yyyy')}</span>
                 {' — '}
                 <span className="text-muted-foreground">
                     {actions}{' '}
                     {actions === 1
                         ? 'дія'
                         : actions >= 2 && actions <= 4
-                            ? 'дії'
-                            : 'дій'}
+                          ? 'дії'
+                          : 'дій'}
                 </span>
             </TooltipContent>
         </Tooltip>

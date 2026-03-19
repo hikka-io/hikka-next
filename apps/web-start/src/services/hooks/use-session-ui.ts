@@ -6,12 +6,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
 import { useMemo } from 'react';
 
-import {
-    DEFAULT_USER_UI,
-    mergeEffects,
-    mergeStyles,
-} from '@/utils/ui';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
+import { DEFAULT_USER_UI, mergeEffects, mergeStyles } from '@/utils/ui';
 
 const rootRoute = getRouteApi('__root__');
 

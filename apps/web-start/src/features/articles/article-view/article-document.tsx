@@ -1,10 +1,11 @@
 'use client';
 
 import { useArticleBySlug } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
+
+import { useParams } from '@/utils/navigation';
 
 interface Props {}
 

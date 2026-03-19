@@ -1,7 +1,6 @@
 'use client';
 
 import { EditContentType, MainContent } from '@hikka/client';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsArrowRightAltRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
@@ -9,6 +8,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
 
 import Details from './components/details';
 import General from './components/general';
@@ -30,11 +30,7 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
         <Block>
             <div className="flex items-center justify-between gap-2">
                 <div className="flex flex-1 items-center gap-4 overflow-hidden">
-                    <Link
-                        to={link}
-                        target="_blank"
-                        className="hover:underline"
-                    >
+                    <Link to={link} target="_blank" className="hover:underline">
                         <h3>Контент</h3>
                     </Link>
                 </div>

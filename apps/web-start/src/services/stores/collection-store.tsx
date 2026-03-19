@@ -13,6 +13,7 @@ import { createStore } from 'zustand';
 export type Item = {
     id: string | number;
     content: CollectionContent & { title?: string };
+    comment?: string;
 };
 
 export type Group = {
@@ -110,7 +111,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                 let group = acc.find((g) => g.title === item.label);
                 if (!group) {
                     group = {
-                        id: item.label || String(Date.now()),
+                        id: item.label || 'default',
                         title: item.label,
                         isGroup: !!item.label,
                         items: [],
@@ -120,6 +121,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                 group.items.push({
                     id: item.content.slug,
                     content: item.content,
+                    comment: item.comment ?? undefined,
                 });
                 return acc;
             }, []);
@@ -141,7 +143,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                 .map((group, i) => {
                     return group.items.map((item, k) => {
                         return {
-                            comment: undefined,
+                            comment: item.comment || undefined,
                             label: group.title || undefined,
                             order: 0,
                             slug: item.content.slug,

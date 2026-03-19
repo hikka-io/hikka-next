@@ -35,4 +35,3 @@ export const COLLECTION_VISIBILITY_OPTIONS = [
         label: 'Лише у профілі',
     },
 ];
-

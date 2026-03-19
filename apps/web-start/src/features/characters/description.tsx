@@ -1,7 +1,6 @@
 'use client';
 
 import { useCharacterBySlug } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { useState } from 'react';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
@@ -9,6 +8,8 @@ import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+
+import { useParams } from '@/utils/navigation';
 
 const Description = () => {
     const [active, setActive] = useState<'description_ua'>('description_ua');

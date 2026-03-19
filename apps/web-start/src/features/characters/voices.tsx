@@ -1,9 +1,9 @@
 'use client';
 
 import { useCharacterVoices } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
+import VoiceCard from '@/components/content-card/voice-card';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import {
@@ -13,7 +13,8 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-import VoiceCard from '@/components/content-card/voice-card';
+
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     extended?: boolean;
@@ -30,7 +31,11 @@ const Voices: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header href={!extended ? `/characters/${params.slug}/voices` : undefined}>
+            <Header
+                href={
+                    !extended ? `/characters/${params.slug}/voices` : undefined
+                }
+            >
                 <HeaderContainer>
                     <HeaderTitle>Сейю</HeaderTitle>
                 </HeaderContainer>

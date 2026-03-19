@@ -7,4 +7,3 @@ export default function getApiErrorMessage(error: any) {
         return ERRORS[splittedCode[0]][splittedCode[1]];
     }
 }
-

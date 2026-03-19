@@ -2,7 +2,6 @@
 
 import { ContentTypeEnum, FavouriteAnimeResponse } from '@hikka/client';
 import { useUserFavourites } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
@@ -10,6 +9,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 
 import { cn } from '@/utils/cn';
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     extended?: boolean;
@@ -50,7 +50,11 @@ const Anime: FC<Props> = ({ extended }) => {
                     )}
                 >
                     {filteredData.map((res) => (
-                        <AnimeCard key={res.slug} anime={res} imagePreset="cardSm" />
+                        <AnimeCard
+                            key={res.slug}
+                            anime={res}
+                            imagePreset="cardSm"
+                        />
                     ))}
                 </div>
             )}

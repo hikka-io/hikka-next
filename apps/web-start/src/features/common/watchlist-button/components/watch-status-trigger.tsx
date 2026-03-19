@@ -3,13 +3,12 @@
 import { WatchResponse, WatchResponseBase } from '@hikka/client';
 import { FC, createElement } from 'react';
 
+import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
-
-import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 
 interface WatchStatusTriggerProps {
     watch: WatchResponse | WatchResponseBase;

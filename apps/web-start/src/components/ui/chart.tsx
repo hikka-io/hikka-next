@@ -84,13 +84,13 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
                         ([theme, prefix]) => `
 ${prefix} [data-chart=${id}] {
 ${colorConfig
-                                .map(([key, itemConfig]) => {
-                                    const color =
-                                        itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
-                                        itemConfig.color;
-                                    return color ? `  --color-${key}: ${color};` : null;
-                                })
-                                .join('\n')}
+    .map(([key, itemConfig]) => {
+        const color =
+            itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
+            itemConfig.color;
+        return color ? `  --color-${key}: ${color};` : null;
+    })
+    .join('\n')}
 }
 `,
                     )
@@ -232,8 +232,8 @@ const ChartTooltipContent = React.forwardRef<
                                 )}
                             >
                                 {formatter &&
-                                    item?.value !== undefined &&
-                                    item.name ? (
+                                item?.value !== undefined &&
+                                item.name ? (
                                     formatter(
                                         item.value,
                                         item.name,
@@ -263,7 +263,7 @@ const ChartTooltipContent = React.forwardRef<
                                                             'my-0.5':
                                                                 nestLabel &&
                                                                 indicator ===
-                                                                'dashed',
+                                                                    'dashed',
                                                         },
                                                     )}
                                                     style={
@@ -297,7 +297,7 @@ const ChartTooltipContent = React.forwardRef<
                                             {item.value && (
                                                 <span className="text-foreground font-mono font-medium tabular-nums">
                                                     {typeof item.value ===
-                                                        'number'
+                                                    'number'
                                                         ? item.value.toLocaleString()
                                                         : item.value}
                                                 </span>
@@ -406,8 +406,8 @@ function getPayloadConfigFromPayload(
 
     const payloadPayload =
         'payload' in payload &&
-            typeof payload.payload === 'object' &&
-            payload.payload !== null
+        typeof payload.payload === 'object' &&
+        payload.payload !== null
             ? payload.payload
             : undefined;
 
@@ -439,6 +439,5 @@ export {
     ChartLegendContent,
     ChartStyle,
     ChartTooltip,
-    ChartTooltipContent
+    ChartTooltipContent,
 };
-

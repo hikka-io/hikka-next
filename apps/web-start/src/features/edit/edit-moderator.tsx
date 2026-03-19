@@ -36,7 +36,9 @@ const EditModerator: FC<Props> = ({ editId }) => {
                         href={`/u/${edit.moderator.username}`}
                     />
                     <HorizontalCardContainer>
-                        <HorizontalCardTitle href={`/u/${edit.moderator.username}`}>
+                        <HorizontalCardTitle
+                            href={`/u/${edit.moderator.username}`}
+                        >
                             {edit.moderator.username}
                         </HorizontalCardTitle>
                         <HorizontalCardDescription>

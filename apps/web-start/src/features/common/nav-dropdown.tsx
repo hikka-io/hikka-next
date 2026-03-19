@@ -1,7 +1,5 @@
 'use client';
 
-import { Link } from '@/utils/navigation';
-import { usePathname } from '@/utils/navigation';
 import { FC, createElement, memo } from 'react';
 
 import {
@@ -14,6 +12,8 @@ import {
 } from '@/components/ui/navigation-menu';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { Link } from '@/utils/navigation';
+import { usePathname } from '@/utils/navigation';
 
 interface Props {
     routes: Hikka.NavRoute[];

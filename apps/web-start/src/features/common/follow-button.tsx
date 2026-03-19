@@ -8,15 +8,14 @@ import {
     useUserByUsername,
 } from '@hikka/react';
 import { VariantProps } from 'class-variance-authority';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
-
-import { Button, buttonVariants } from '@/components/ui/button';
-
-import { cn } from '@/utils/cn';
 
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 import MaterialSymbolsPersonRemoveOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonRemoveOutlineRounded';
+import { Button, buttonVariants } from '@/components/ui/button';
+
+import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     className?: string;

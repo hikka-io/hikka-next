@@ -57,11 +57,7 @@ const ContentDetailPage: FC<Props> = ({
                 {afterFranchise}
                 <ContentStaff content_type={contentType} />
                 <div className="order-last lg:order-0">
-                    <Comments
-                        preview
-                        slug={slug}
-                        content_type={contentType}
-                    />
+                    <Comments preview slug={slug} content_type={contentType} />
                 </div>
             </div>
 

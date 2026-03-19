@@ -60,8 +60,8 @@ const VoteButton: FC<Props> = ({
                     optimisticVoteScore > 0
                         ? 'text-success-foreground'
                         : optimisticVoteScore === 0
-                            ? 'text-muted-foreground'
-                            : 'text-destructive-foreground'
+                          ? 'text-muted-foreground'
+                          : 'text-destructive-foreground'
                 }
             >
                 {optimisticVoteScore}

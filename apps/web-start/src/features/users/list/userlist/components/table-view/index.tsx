@@ -90,8 +90,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
 
     const paddingTop =
         virtualRows.length > 0
-            ? virtualRows[0].start -
-              (rowVirtualizer.options.scrollMargin ?? 0)
+            ? virtualRows[0].start - (rowVirtualizer.options.scrollMargin ?? 0)
             : 0;
     const paddingBottom =
         virtualRows.length > 0
@@ -240,9 +239,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                                         }
                                     />
                                     <VolumesCell
-                                        volumes={
-                                            (res as ReadResponse).volumes
-                                        }
+                                        volumes={(res as ReadResponse).volumes}
                                         total={
                                             (res as ReadResponse).content
                                                 .volumes

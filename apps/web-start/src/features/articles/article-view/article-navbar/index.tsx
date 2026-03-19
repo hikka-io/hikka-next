@@ -2,8 +2,6 @@
 
 import { useArticleBySlug, useSession } from '@hikka/react';
 import { MessageCircle } from 'lucide-react';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
 import { FC, Fragment, useCallback } from 'react';
 import { toast } from 'sonner';
 
@@ -18,6 +16,8 @@ import {
 
 import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { Link } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
 
 import ArticleMenu from './components/article-menu';
 import ArticleVote from './components/article-vote';

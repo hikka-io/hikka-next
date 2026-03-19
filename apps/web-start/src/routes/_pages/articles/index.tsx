@@ -4,8 +4,8 @@ import {
     articleStatsOptions,
     searchArticlesOptions,
 } from '@hikka/react/options';
-import { zodValidator } from '@tanstack/zod-adapter';
 import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
 
 import {
     ArticleFilters,
@@ -13,6 +13,7 @@ import {
     PopularAuthors,
     PopularTags,
 } from '@/features/articles';
+
 import { generateHeadMeta } from '@/utils/metadata';
 import { articlesSearchSchema } from '@/utils/search-schemas';
 
@@ -48,8 +49,7 @@ export const Route = createFileRoute('/_pages/articles/')({
     head: () =>
         generateHeadMeta({
             title: 'Статті',
-            description:
-                'Статті про аніме, манґу та ранобе на Hikka',
+            description: 'Статті про аніме, манґу та ранобе на Hikka',
             url: 'https://hikka.io/articles',
         }),
     component: ArticlesPage,

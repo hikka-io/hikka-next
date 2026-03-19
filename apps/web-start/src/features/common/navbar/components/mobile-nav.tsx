@@ -70,7 +70,10 @@ function MobileNav() {
                                                 to={item.url}
                                                 search={item.search}
                                                 className={navItemClassName}
-                                                data-active={isNavActive(pathname,item.url)}
+                                                data-active={isNavActive(
+                                                    pathname,
+                                                    item.url,
+                                                )}
                                             >
                                                 {item.icon && <item.icon />}
                                                 <span>{item.title_ua}</span>
@@ -96,7 +99,8 @@ function MobileNav() {
                                                                     navItemClassName,
                                                                     'py-1.5 text-xs',
                                                                 )}
-                                                                data-active={isNavActive(pathname,
+                                                                data-active={isNavActive(
+                                                                    pathname,
                                                                     sub.url,
                                                                 )}
                                                             >

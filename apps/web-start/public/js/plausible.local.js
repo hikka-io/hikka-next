@@ -25,12 +25,12 @@
                 e && e.meta && (i.m = JSON.stringify(e.meta)),
                 e && e.props && (i.p = e.props),
                 new XMLHttpRequest());
-        n.open('POST', s, !0),
+        (n.open('POST', s, !0),
             n.setRequestHeader('Content-Type', 'application/json'),
             n.send(JSON.stringify(i)),
             (n.onreadystatechange = function () {
                 4 === n.readyState && e && e.callback && e.callback();
-            });
+            }));
     }
 
     var e = (window.plausible && window.plausible.q) || [];
@@ -43,15 +43,15 @@
 
     var p,
         c = window.history;
-    c.pushState &&
+    (c.pushState &&
         ((p = c.pushState),
         (c.pushState = function () {
-            p.apply(this, arguments), n();
+            (p.apply(this, arguments), n());
         }),
         window.addEventListener('popstate', n)),
         'prerender' === o.visibilityState
             ? o.addEventListener('visibilitychange', function () {
                   a || 'visible' !== o.visibilityState || n();
               })
-            : n();
+            : n());
 })();

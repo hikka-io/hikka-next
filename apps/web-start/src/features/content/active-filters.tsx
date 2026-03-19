@@ -6,6 +6,8 @@ import { useRouter, useRouterState } from '@tanstack/react-router';
 import { XIcon } from 'lucide-react';
 import { FC, useMemo } from 'react';
 
+import { Badge } from '@/components/ui/badge';
+
 import {
     SORT_ARTICLELIST,
     SORT_CONTENT,
@@ -13,7 +15,6 @@ import {
     SORT_READLIST,
     SORT_WATCHLIST,
 } from '@/features/filters/sort';
-import { Badge } from '@/components/ui/badge';
 
 import { cn } from '@/utils/cn';
 import {
@@ -199,8 +200,7 @@ const ActiveFilters: FC<Props> = ({ className }) => {
 
             // Handle single values
             const value = String(rawValue);
-            const excluded =
-                TRISTATE_PARAMS.has(key) && value.startsWith('-');
+            const excluded = TRISTATE_PARAMS.has(key) && value.startsWith('-');
 
             filters.push({
                 param: key,

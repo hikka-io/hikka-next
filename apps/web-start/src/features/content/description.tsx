@@ -1,7 +1,6 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useParams } from '@/utils/navigation';
 import { useState } from 'react';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
@@ -11,6 +10,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     className?: string;

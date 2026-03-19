@@ -1,12 +1,14 @@
 import { ContentTypeEnum } from '@hikka/client';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentCharacters as Characters } from '@/features/content';
 import ContentHeader from '@/features/comments/content-header';
+import { ContentCharacters as Characters } from '@/features/content';
+
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/anime/$slug/characters')({
-    head: () => generateHeadMeta({ title: 'Персонажі', robots: { index: false } }),
+    head: () =>
+        generateHeadMeta({ title: 'Персонажі', robots: { index: false } }),
     component: AnimeCharactersPage,
 });
 

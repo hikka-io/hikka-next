@@ -1,7 +1,7 @@
-import { Link } from '@/utils/navigation';
-
 import { Button } from '@/components/ui/button';
 import Image from '@/components/ui/image';
+
+import { Link } from '@/utils/navigation';
 
 const NotFoundPage = () => {
     return (

@@ -10,11 +10,7 @@ export function HeadingElement({
     ...props
 }: PlateElementProps & { variant?: HeadingVariant }) {
     return (
-        <PlateElement
-            as={variant}
-            className="relative mb-4"
-            {...props}
-        >
+        <PlateElement as={variant} className="relative mb-4" {...props}>
             {props.children}
         </PlateElement>
     );

@@ -9,10 +9,10 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 
+import IconamoonSignDivisionSlashThin from '@/components/icons/iconamoon/IconamoonSignDivisionSlashThin';
+
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
-
-import IconamoonSignDivisionSlashThin from '@/components/icons/iconamoon/IconamoonSignDivisionSlashThin';
 
 interface NavBreadcrumbsProps extends PropsWithChildren {}
 

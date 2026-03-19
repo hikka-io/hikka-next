@@ -1,7 +1,6 @@
 'use client';
 
 import { Label as LabelPrimitive, Slot as SlotPrimitive } from 'radix-ui';
-
 import * as React from 'react';
 import {
     Controller,
@@ -73,9 +72,7 @@ type FormItemContextValue = {
     id: string;
 };
 
-const FormItemContext = React.createContext<FormItemContextValue | null>(
-    null,
-);
+const FormItemContext = React.createContext<FormItemContextValue | null>(null);
 
 const FormItem = React.forwardRef<
     HTMLDivElement,

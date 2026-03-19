@@ -41,4 +41,3 @@ export function hasPlateContent(value?: Value): boolean {
 
     return hasNonEmptyContent(value);
 }
-

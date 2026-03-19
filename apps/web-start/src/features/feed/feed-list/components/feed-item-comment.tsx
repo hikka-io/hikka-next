@@ -1,10 +1,10 @@
-import { Link } from '@/utils/navigation';
-import { FC } from 'react';
-
 import { CommentResponse } from '@hikka/client';
+import { FC } from 'react';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import TextExpand from '@/components/text-expand';
+
+import { Link } from '@/utils/navigation';
 
 import FeedItemContentPreview from './feed-item-content-preview';
 
@@ -26,10 +26,7 @@ const FeedItemComment: FC<Props> = ({ data }) => {
                         to={`/comments/${data.content_type}/${data.preview.slug}`}
                         className="cursor-pointer"
                     >
-                        <MDViewer
-                            className="text-[0.9375rem]"
-                            preview
-                        >
+                        <MDViewer className="text-[0.9375rem]" preview>
                             {data.text}
                         </MDViewer>
                     </Link>

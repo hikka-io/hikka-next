@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { UserHistory as History } from '@/features/users';
+
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/u/$username/history')({

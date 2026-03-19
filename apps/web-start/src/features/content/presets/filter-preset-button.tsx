@@ -23,7 +23,9 @@ interface Props {
 const FilterPresetButton: FC<Props> = ({ className }) => {
     const [presetsOpen, setPresetsOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
-    const [editPreset, setEditPreset] = useState<Hikka.FilterPreset | undefined>(undefined);
+    const [editPreset, setEditPreset] = useState<
+        Hikka.FilterPreset | undefined
+    >(undefined);
 
     const handleCreatePreset = () => {
         setEditPreset(undefined);
@@ -60,7 +62,11 @@ const FilterPresetButton: FC<Props> = ({ className }) => {
                 <ListFilter className="size-2" />
                 Пресети
             </Button>
-            <ResponsiveModal open={presetsOpen} onOpenChange={setPresetsOpen} forceDesktop>
+            <ResponsiveModal
+                open={presetsOpen}
+                onOpenChange={setPresetsOpen}
+                forceDesktop
+            >
                 <ResponsiveModalContent className="max-w-xl!" title="Пресети">
                     <FilterPresetModal
                         onClose={() => setPresetsOpen(false)}
@@ -70,11 +76,17 @@ const FilterPresetButton: FC<Props> = ({ className }) => {
                     />
                 </ResponsiveModalContent>
             </ResponsiveModal>
-            <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
+            <ResponsiveModal
+                open={editOpen}
+                onOpenChange={setEditOpen}
+                forceDesktop
+            >
                 <ResponsiveModalContent className="max-w-xl!">
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>
-                            {editPreset?.id ? 'Редагувати пресет' : 'Створити пресет'}
+                            {editPreset?.id
+                                ? 'Редагувати пресет'
+                                : 'Створити пресет'}
                         </ResponsiveModalTitle>
                     </ResponsiveModalHeader>
                     <FilterPresetEditModal

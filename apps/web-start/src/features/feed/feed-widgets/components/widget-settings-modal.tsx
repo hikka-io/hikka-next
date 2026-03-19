@@ -71,9 +71,13 @@ const SortableWidgetRow: FC<SortableWidgetRowProps> = ({
             >
                 <GripVertical className="size-4" />
             </button>
-            <div className='flex flex-1 flex-col gap-1'>
+            <div className="flex flex-1 flex-col gap-1">
                 <Label>{widgetMeta?.title ?? widget.id}</Label>
-                {widgetMeta?.description && <p className='text-muted-foreground text-xs'>{widgetMeta?.description}</p>}
+                {widgetMeta?.description && (
+                    <p className="text-muted-foreground text-xs">
+                        {widgetMeta?.description}
+                    </p>
+                )}
             </div>
 
             <Switch
@@ -84,7 +88,9 @@ const SortableWidgetRow: FC<SortableWidgetRowProps> = ({
     );
 };
 
-function deriveWidgetItems(homeWidgets: HomeWidgetsEnum[] | undefined): WidgetItem[] {
+function deriveWidgetItems(
+    homeWidgets: HomeWidgetsEnum[] | undefined,
+): WidgetItem[] {
     const allIds = AVAILABLE_WIDGETS.map((w) => w.id);
 
     if (homeWidgets === undefined) {
@@ -92,7 +98,10 @@ function deriveWidgetItems(homeWidgets: HomeWidgetsEnum[] | undefined): WidgetIt
     }
 
     const visibleSet = new Set(homeWidgets);
-    const ordered: WidgetItem[] = homeWidgets.map((id) => ({ id, visible: true }));
+    const ordered: WidgetItem[] = homeWidgets.map((id) => ({
+        id,
+        visible: true,
+    }));
     const hidden = allIds
         .filter((id) => !visibleSet.has(id))
         .map((id) => ({ id, visible: false }));
@@ -138,9 +147,7 @@ const WidgetSettingsContent = () => {
     };
 
     const handleToggle = (id: HomeWidgetsEnum, visible: boolean) => {
-        updateItems(
-            items.map((w) => (w.id === id ? { ...w, visible } : w)),
-        );
+        updateItems(items.map((w) => (w.id === id ? { ...w, visible } : w)));
     };
 
     return (

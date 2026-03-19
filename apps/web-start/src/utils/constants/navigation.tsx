@@ -407,14 +407,15 @@ export function isNavActive(pathname: string, url: string): boolean {
     return pathname === url || pathname.startsWith(url + '/');
 }
 
-export function findActiveRoute(
-    pathname: string,
-): Hikka.NavRoute | undefined {
+export function findActiveRoute(pathname: string): Hikka.NavRoute | undefined {
     for (const group of APP_SIDEBAR) {
         for (const item of group.items) {
             if (item.items) {
                 for (const sub of item.items) {
-                    if (sub.visible !== false && isNavActive(pathname, sub.url)) {
+                    if (
+                        sub.visible !== false &&
+                        isNavActive(pathname, sub.url)
+                    ) {
                         return sub;
                     }
                 }

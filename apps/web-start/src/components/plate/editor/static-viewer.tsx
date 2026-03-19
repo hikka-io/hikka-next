@@ -23,8 +23,8 @@ export function StaticViewer({ value, className }: StaticEditorProps) {
             value={
                 typeof value === 'string'
                     ? editor
-                        .getApi(MarkdownPlugin)
-                        .markdown.deserialize(value ?? '')
+                          .getApi(MarkdownPlugin)
+                          .markdown.deserialize(value ?? '')
                     : value
             }
             editor={editor}

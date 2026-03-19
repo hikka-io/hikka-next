@@ -1,12 +1,12 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { useParams } from '@/utils/navigation';
 
 import MainCharacters from './components/main-characters';
 import OtherCharacters from './components/other-characters';

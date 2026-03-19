@@ -7,8 +7,6 @@ import {
 } from '@hikka/client';
 import { useRandomReadByStatus, useRandomWatchByStatus } from '@hikka/react';
 import { useRouter } from '@tanstack/react-router';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-import { useParams } from '@/utils/navigation';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import FeRandom from '@/components/icons/fe/FeRandom';
@@ -21,10 +19,12 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { ReadFiltersModal } from '@/features/read';
 import { AnimeFiltersModal } from '@/features/watch';
 
 import { CONTENT_TYPES } from '@/utils/constants/common';
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     content_type:

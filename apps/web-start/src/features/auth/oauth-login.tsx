@@ -19,8 +19,7 @@ const OAuthLogin = ({
         options: {
             select: (data) => {
                 return {
-                    url:
-                        data.url + `&state=${import.meta.env.VITE_SITE_URL}`,
+                    url: data.url + `&state=${import.meta.env.VITE_SITE_URL}`,
                 };
             },
         },

@@ -1,11 +1,11 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
 
 interface Props {
     contentType?: ContentTypeEnum;

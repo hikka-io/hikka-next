@@ -2,6 +2,7 @@ import { ignoredNotificationsOptions } from '@hikka/react/options';
 import { createFileRoute } from '@tanstack/react-router';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 import { NotificationsSettings } from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/notifications')({

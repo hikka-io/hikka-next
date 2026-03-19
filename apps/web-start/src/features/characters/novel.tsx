@@ -1,11 +1,10 @@
 'use client';
 
 import { useCharacterNovel } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
-import LoadMoreButton from '@/components/load-more-button';
 import NovelCard from '@/components/content-card/novel-card';
+import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import {
     Header,
@@ -14,6 +13,8 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
+
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     extended?: boolean;
@@ -30,7 +31,11 @@ const Novel: FC<Props> = ({ extended }) => {
 
     return (
         <Block>
-            <Header href={!extended ? `/characters/${params.slug}/novel` : undefined}>
+            <Header
+                href={
+                    !extended ? `/characters/${params.slug}/novel` : undefined
+                }
+            >
                 <HeaderContainer>
                     <HeaderTitle>Ранобе</HeaderTitle>
                 </HeaderContainer>

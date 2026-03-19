@@ -19,7 +19,8 @@ import WidgetList from './widget-list';
 
 const FeedMobileWidgets = () => {
     const { user } = useSession();
-    const { openSettings: openSettingsModal, settingsModal } = useOpenWidgetSettings();
+    const { openSettings: openSettingsModal, settingsModal } =
+        useOpenWidgetSettings();
 
     return (
         <Dialog>

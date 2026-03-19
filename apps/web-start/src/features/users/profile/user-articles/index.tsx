@@ -1,8 +1,6 @@
 'use client';
 
 import { useSearchArticles, useSession } from '@hikka/react';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
@@ -21,6 +19,8 @@ import {
 } from '@/components/ui/tooltip';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
 
 import ArticleItem from './components/article-item';
 

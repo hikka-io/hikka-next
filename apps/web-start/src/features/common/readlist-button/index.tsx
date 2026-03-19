@@ -16,6 +16,7 @@ import {
 } from '@hikka/react';
 import { createElement, useCallback, useMemo, useState } from 'react';
 
+import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { ButtonProps } from '@/components/ui/button';
 import {
     ResponsiveModal,
@@ -33,10 +34,10 @@ import {
 } from '@/components/ui/select';
 
 import { ReadEditModal } from '@/features/read';
+
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
-import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import IconReadStatusButton from './components/icon-read-status-button';
 import NewStatusTrigger from './components/new-status-trigger';
 import ReadStatusTrigger from './components/read-status-trigger';
@@ -150,37 +151,37 @@ const ReadlistButton = ({
             const currentReadParams =
                 read && !readError
                     ? {
-                        chapters: read.chapters || undefined,
-                        volumes: read.volumes || undefined,
-                        score: read.score || undefined,
-                        note: read.note || undefined,
-                        rereads: read.rereads || undefined,
-                    }
+                          chapters: read.chapters || undefined,
+                          volumes: read.volumes || undefined,
+                          score: read.score || undefined,
+                          note: read.note || undefined,
+                          rereads: read.rereads || undefined,
+                      }
                     : {};
 
             // Handle completed status specially to set volumes and chapters for manga/novel
             const readArgs =
                 selectedOption === 'completed'
                     ? {
-                        status: ReadStatusEnum.COMPLETED,
-                        ...currentReadParams,
-                        volumes:
-                            (content_type === ContentTypeEnum.MANGA
-                                ? manga?.volumes
-                                : novel?.volumes) ||
-                            read?.volumes ||
-                            undefined,
-                        chapters:
-                            (content_type === ContentTypeEnum.MANGA
-                                ? manga?.chapters
-                                : novel?.chapters) ||
-                            read?.chapters ||
-                            undefined,
-                    }
+                          status: ReadStatusEnum.COMPLETED,
+                          ...currentReadParams,
+                          volumes:
+                              (content_type === ContentTypeEnum.MANGA
+                                  ? manga?.volumes
+                                  : novel?.volumes) ||
+                              read?.volumes ||
+                              undefined,
+                          chapters:
+                              (content_type === ContentTypeEnum.MANGA
+                                  ? manga?.chapters
+                                  : novel?.chapters) ||
+                              read?.chapters ||
+                              undefined,
+                      }
                     : {
-                        status: selectedOption as ReadStatusEnum,
-                        ...currentReadParams,
-                    };
+                          status: selectedOption as ReadStatusEnum,
+                          ...currentReadParams,
+                      };
 
             createRead({
                 contentType: content_type,
@@ -245,7 +246,10 @@ const ReadlistButton = ({
                         <SelectList>
                             <SelectGroup>
                                 {STATUS_OPTIONS.map((option) => (
-                                    <SelectItem key={option.value} value={option.value}>
+                                    <SelectItem
+                                        key={option.value}
+                                        value={option.value}
+                                    >
                                         {option.label}
                                     </SelectItem>
                                 ))}
@@ -254,7 +258,10 @@ const ReadlistButton = ({
                                 <>
                                     <SelectSeparator />
                                     <SelectGroup>
-                                        <SelectItem disableCheckbox value="settings">
+                                        <SelectItem
+                                            disableCheckbox
+                                            value="settings"
+                                        >
                                             {SETTINGS_BUTTON.label}
                                         </SelectItem>
                                     </SelectGroup>
@@ -264,12 +271,23 @@ const ReadlistButton = ({
                     </SelectContent>
                 </Select>
             )}
-            <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
+            <ResponsiveModal
+                open={editOpen}
+                onOpenChange={setEditOpen}
+                forceDesktop
+            >
                 <ResponsiveModalContent className="max-w-xl!">
                     <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>{content?.title}</ResponsiveModalTitle>
+                        <ResponsiveModalTitle>
+                            {content?.title}
+                        </ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    <ReadEditModal slug={slug} content_type={content_type} read={read} onClose={() => setEditOpen(false)} />
+                    <ReadEditModal
+                        slug={slug}
+                        content_type={content_type}
+                        read={read}
+                        onClose={() => setEditOpen(false)}
+                    />
                 </ResponsiveModalContent>
             </ResponsiveModal>
         </>

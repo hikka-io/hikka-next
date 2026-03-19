@@ -1,10 +1,11 @@
 'use client';
 
 import { useSearchCollections } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
+
+import { useParams } from '@/utils/navigation';
 
 import CollectionItem from './collection-item';
 
@@ -33,10 +34,7 @@ const CollectionModal: FC<Props> = ({ className }) => {
         <div className="-mx-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
             {collections &&
                 collections.map((item) => (
-                    <CollectionItem
-                        data={item}
-                        key={item.reference}
-                    />
+                    <CollectionItem data={item} key={item.reference} />
                 ))}
             {hasNextPage && (
                 <LoadMoreButton

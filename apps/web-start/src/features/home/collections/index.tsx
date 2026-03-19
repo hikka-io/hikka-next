@@ -1,7 +1,6 @@
 'use client';
 
 import { useSearchCollections, useSession } from '@hikka/react';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -16,6 +15,7 @@ import {
 import Stack from '@/components/ui/stack';
 
 import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
 
 import CollectionCard from './components/collection-card';
 

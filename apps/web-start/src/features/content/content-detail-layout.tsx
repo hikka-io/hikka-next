@@ -1,13 +1,12 @@
 import { ContentTypeEnum } from '@hikka/client';
-import { Link } from '@/utils/navigation';
 import { FC, PropsWithChildren } from 'react';
 
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import NavMenu from '@/features/common/nav-dropdown';
-
 import { ContentNavbar } from '@/features/content';
 
 import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
 
 interface Props extends PropsWithChildren {
     slug: string;
@@ -59,10 +58,7 @@ const ContentDetailLayout: FC<Props> = ({
 
             {children}
 
-            <ContentNavbar
-                content_type={contentType}
-                className="mt-12"
-            />
+            <ContentNavbar content_type={contentType} className="mt-12" />
         </>
     );
 };

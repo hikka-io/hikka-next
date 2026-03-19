@@ -3,7 +3,6 @@
 import { useArticleStats } from '@hikka/react';
 import { FC } from 'react';
 
-import FollowButton from '@/features/common/follow-button';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -15,7 +14,9 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
-interface Props { }
+import FollowButton from '@/features/common/follow-button';
+
+interface Props {}
 
 const PopularAuthors: FC<Props> = () => {
     const { data: articleTop } = useArticleStats();
@@ -25,22 +26,22 @@ const PopularAuthors: FC<Props> = () => {
             <Block>
                 <Header>
                     <HeaderContainer>
-                        <HeaderTitle variant='h4'>Популярні автори</HeaderTitle>
+                        <HeaderTitle variant="h4">Популярні автори</HeaderTitle>
                     </HeaderContainer>
                 </Header>
                 <div className="flex flex-col gap-6">
                     {articleTop?.authors.slice(0, 4).map((author) => (
-                        <HorizontalCard
-                            key={author.user.username}
-                        >
+                        <HorizontalCard key={author.user.username}>
                             <HorizontalCardImage
                                 imageRatio={1}
-                                className='w-10'
+                                className="w-10"
                                 image={author.user.avatar}
                                 href={`/u/${author.user.username}`}
                             />
                             <HorizontalCardContainer>
-                                <HorizontalCardTitle href={`/u/${author.user.username}`}>
+                                <HorizontalCardTitle
+                                    href={`/u/${author.user.username}`}
+                                >
                                     {author.user.username}
                                 </HorizontalCardTitle>
                                 <HorizontalCardDescription className="line-clamp-1">

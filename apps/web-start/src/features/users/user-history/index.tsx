@@ -2,7 +2,6 @@
 
 import { useSession } from '@hikka/react';
 import { useRouter } from '@tanstack/react-router';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
 import Block from '@/components/ui/block';
@@ -10,7 +9,9 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+
 import { cn } from '@/utils/cn';
+import { useParams } from '@/utils/navigation';
 
 import FollowingHistory from './components/following-history';
 import History from './components/history';

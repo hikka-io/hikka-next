@@ -2,11 +2,8 @@
 
 import { ArticleCategoryEnum } from '@hikka/client';
 import { useSearchArticles, useSession } from '@hikka/react';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
-import ArticleItem from '@/features/articles/article-item/article-item';
-import ArticleItemSkeleton from '@/features/articles/article-item/article-item-skeleton';
 import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import MaterialSymbolsAddRounded from '@/components/icons/watch-status/planned';
@@ -16,11 +13,14 @@ import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { ArticleFiltersModal } from '@/features/articles';
+import ArticleItem from '@/features/articles/article-item/article-item';
+import ArticleItemSkeleton from '@/features/articles/article-item/article-item-skeleton';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
 import type { ArticlesSearch } from '@/utils/search-schemas';
 
 interface Props {}
@@ -34,8 +34,7 @@ const ArticleList: FC<Props> = () => {
     const order = search.order || 'desc';
     const tags = search.tags || undefined;
     const draft = Boolean(search.draft) ?? false;
-    const categories =
-        (search.categories as ArticleCategoryEnum[]) || [];
+    const categories = (search.categories as ArticleCategoryEnum[]) || [];
 
     const selectedCategory = categories.length === 1 && categories[0];
 

@@ -30,10 +30,7 @@ const VoiceCard: FC<Props> = ({ person, anime, language, ...props }) => {
             leftSubtitle={language.toUpperCase()}
             {...props}
         >
-            <CardOverlay
-                href={`/anime/${anime.slug}`}
-                image={anime.image}
-            />
+            <CardOverlay href={`/anime/${anime.slug}`} image={anime.image} />
         </ContentCard>
     );
 };

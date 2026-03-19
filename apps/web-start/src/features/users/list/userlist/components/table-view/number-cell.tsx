@@ -9,25 +9,24 @@ import {
     WatchResponseBase,
 } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
 import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { TableCell } from '@/components/ui/table';
-
 import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
+import { TableCell } from '@/components/ui/table';
 
 import { ReadEditModal } from '@/features/read';
 import { WatchEditModal } from '@/features/watch';
 
 import { cn } from '@/utils/cn';
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     number: number;
@@ -67,7 +66,9 @@ const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
                 <ResponsiveModalContent className="max-w-xl!">
                     <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>{content.title}</ResponsiveModalTitle>
+                        <ResponsiveModalTitle>
+                            {content.title}
+                        </ResponsiveModalTitle>
                     </ResponsiveModalHeader>
                     {content_type === ContentTypeEnum.ANIME ? (
                         <WatchEditModal

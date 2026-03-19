@@ -13,10 +13,11 @@ import {
     ShieldEllipsis,
     SunSnow,
 } from 'lucide-react';
-import { Link } from '@/utils/navigation';
+import { Fragment } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import {
     Tooltip,
     TooltipContent,
@@ -31,9 +32,8 @@ import {
     SEASON,
 } from '@/utils/constants/common';
 import { getScheduleDuration } from '@/utils/i18n';
+import { Link } from '@/utils/navigation';
 
-import { Separator } from '@/components/ui/separator';
-import { Fragment } from 'react';
 import DetailItem from './detail-item';
 
 // Utility functions
@@ -144,7 +144,7 @@ const WatchDetails = ({
     return (
         <Card className={cn('bg-secondary/20 px-0 backdrop-blur', className)}>
             {/* Basic Info Section */}
-            <div className='flex flex-col gap-4 px-4'>
+            <div className="flex flex-col gap-4 px-4">
                 <DetailItem
                     icon={<Play className="size-4" />}
                     title="Тип"
@@ -172,67 +172,75 @@ const WatchDetails = ({
             </div>
 
             {/* Episode Info Section */}
-            {Boolean(data.episodes_total || data.episodes_released) && <Fragment>
-                <Separator />
-                <div className='flex flex-col gap-4 px-4'>
-                    <DetailItem
-                        icon={<Hash className="size-4" />}
-                        title="Епізоди"
-                        value={
-                            (data.episodes_total || data.episodes_released) &&
+            {Boolean(data.episodes_total || data.episodes_released) && (
+                <Fragment>
+                    <Separator />
+                    <div className="flex flex-col gap-4 px-4">
+                        <DetailItem
+                            icon={<Hash className="size-4" />}
+                            title="Епізоди"
+                            value={
+                                (data.episodes_total ||
+                                    data.episodes_released) &&
                                 (data.media_type !== 'movie' ||
-                                    (data.episodes_total ?? data.episodes_released ?? 0) >
-                                    1)
-                                ? formatEpisodeCount(
-                                    data.status!,
-                                    data.episodes_released,
-                                    data.episodes_total,
-                                )
-                                : undefined
-                        }
-                    />
+                                    (data.episodes_total ??
+                                        data.episodes_released ??
+                                        0) > 1)
+                                    ? formatEpisodeCount(
+                                          data.status!,
+                                          data.episodes_released,
+                                          data.episodes_total,
+                                      )
+                                    : undefined
+                            }
+                        />
 
-                    {nextEpisodeSchedule && (
-                        <NextEpisodeDetail schedule={nextEpisodeSchedule} />
-                    )}
+                        {nextEpisodeSchedule && (
+                            <NextEpisodeDetail schedule={nextEpisodeSchedule} />
+                        )}
 
-                    <DetailItem
-                        icon={<Clock8 className="size-4" />}
-                        title="Тривалість епізоду"
-                        value={
-                            data.duration
-                                ? formatEpisodeDuration(data.duration)
-                                : undefined
-                        }
-                    />
-                </div>
-            </Fragment>}
+                        <DetailItem
+                            icon={<Clock8 className="size-4" />}
+                            title="Тривалість епізоду"
+                            value={
+                                data.duration
+                                    ? formatEpisodeDuration(data.duration)
+                                    : undefined
+                            }
+                        />
+                    </div>
+                </Fragment>
+            )}
 
             <Separator />
 
             {/* Additional Info Section */}
-            <div className='flex flex-col gap-4 px-4'>
+            <div className="flex flex-col gap-4 px-4">
                 <DetailItem
                     icon={<ShieldEllipsis className="size-4" />}
                     title="Рейтинг"
                     value={
-                        data.rating ? AGE_RATING[data.rating].title_ua : undefined
+                        data.rating
+                            ? AGE_RATING[data.rating].title_ua
+                            : undefined
                     }
                 />
 
                 {studio && <StudioDetail studio={studio} />}
             </div>
 
-            {data.synonyms.length > 0 && <Fragment>
-                <Separator />
-                <div className='flex flex-col gap-4 px-4'>
-                    <DetailItem
-                        icon={<BookType className="size-4" />}
-                        title="Синоніми"
-                        value={data.synonyms}
-                    />
-                </div>
-            </Fragment>}
+            {data.synonyms.length > 0 && (
+                <Fragment>
+                    <Separator />
+                    <div className="flex flex-col gap-4 px-4">
+                        <DetailItem
+                            icon={<BookType className="size-4" />}
+                            title="Синоніми"
+                            value={data.synonyms}
+                        />
+                    </div>
+                </Fragment>
+            )}
         </Card>
     );
 };

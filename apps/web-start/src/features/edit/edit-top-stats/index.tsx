@@ -3,7 +3,6 @@
 import { useTopEditorsList } from '@hikka/react';
 import { useState } from 'react';
 
-import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,6 +12,8 @@ import {
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 import { EditTopStatsModal } from '@/features/edit';
+
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 
 import EditTopItem from './components/edit-top-item';
 

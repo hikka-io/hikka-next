@@ -3,9 +3,9 @@
 import { useCreateThirdPartyTokenRequest, useSession } from '@hikka/react';
 import { FC } from 'react';
 
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-
 import { Button } from '@/components/ui/button';
+
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 interface Props {}
 

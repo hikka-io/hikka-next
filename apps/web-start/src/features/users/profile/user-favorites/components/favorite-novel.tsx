@@ -2,14 +2,14 @@
 
 import { ContentTypeEnum, FavouriteNovelResponse } from '@hikka/client';
 import { useUserFavourites } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { FC } from 'react';
 
-import LoadMoreButton from '@/components/load-more-button';
 import NovelCard from '@/components/content-card/novel-card';
+import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 
 import { cn } from '@/utils/cn';
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     extended?: boolean;
@@ -50,7 +50,11 @@ const Novel: FC<Props> = ({ extended }) => {
                     )}
                 >
                     {filteredData.map((res) => (
-                        <NovelCard key={res.slug} novel={res} imagePreset="cardSm" />
+                        <NovelCard
+                            key={res.slug}
+                            novel={res}
+                            imagePreset="cardSm"
+                        />
                     ))}
                 </div>
             )}

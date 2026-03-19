@@ -1,7 +1,6 @@
 'use client';
 
 import { ContentTypeEnum, ExternalTypeEnum } from '@hikka/client';
-import { useParams } from '@/utils/navigation';
 import { FC, useState } from 'react';
 
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
@@ -14,17 +13,19 @@ import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardImage,
-    HorizontalCardTitle
+    HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+
 import { CONTENT_CONFIG } from '@/utils/constants/common';
+import { useParams } from '@/utils/navigation';
 import { getPlatformIcon } from '@/utils/platform-icons';
 
 interface Props {
     content_type:
-    | ContentTypeEnum.ANIME
-    | ContentTypeEnum.MANGA
-    | ContentTypeEnum.NOVEL;
+        | ContentTypeEnum.ANIME
+        | ContentTypeEnum.MANGA
+        | ContentTypeEnum.NOVEL;
 }
 
 const Links: FC<Props> = ({ content_type }) => {
@@ -100,9 +101,7 @@ const Links: FC<Props> = ({ content_type }) => {
                 >
                     <div className="flex flex-col gap-4">
                         {linksData.map((link) => (
-                            <HorizontalCard
-                                key={link.url}
-                            >
+                            <HorizontalCard key={link.url}>
                                 <HorizontalCardImage
                                     imageRatio={1}
                                     className="w-10"
@@ -120,7 +119,10 @@ const Links: FC<Props> = ({ content_type }) => {
                                     to={link.url}
                                 />
                                 <HorizontalCardContainer>
-                                    <HorizontalCardTitle href={link.url} target="_blank">
+                                    <HorizontalCardTitle
+                                        href={link.url}
+                                        target="_blank"
+                                    >
                                         {link.text}
                                     </HorizontalCardTitle>
                                 </HorizontalCardContainer>

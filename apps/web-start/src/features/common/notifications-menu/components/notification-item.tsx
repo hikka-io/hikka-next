@@ -2,7 +2,6 @@
 
 import { useUpdateNotificationSeen } from '@hikka/react';
 import { formatDistance } from 'date-fns/formatDistance';
-import { Link } from '@/utils/navigation';
 import { FC } from 'react';
 
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
@@ -13,6 +12,8 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
+
+import { Link } from '@/utils/navigation';
 
 interface Props {
     data: Hikka.TextNotification | null;
@@ -51,7 +52,9 @@ const NotificationItem: FC<Props> = ({ data }) => {
                         )}
                     </HorizontalCardImage>
                     <HorizontalCardContainer>
-                        <HorizontalCardTitle href={data.href}>{data.title}</HorizontalCardTitle>
+                        <HorizontalCardTitle href={data.href}>
+                            {data.title}
+                        </HorizontalCardTitle>
                         <HorizontalCardDescription className="line-clamp-2">
                             {data.description}
                         </HorizontalCardDescription>

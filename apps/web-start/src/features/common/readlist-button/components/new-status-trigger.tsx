@@ -5,13 +5,12 @@ import { useCreateRead } from '@hikka/react';
 import * as React from 'react';
 import { FC, createElement } from 'react';
 
+import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
-
-import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 
 interface NewStatusTriggerProps {
     disabled?: boolean;
