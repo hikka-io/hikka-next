@@ -3,6 +3,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CollectionContent } from '@hikka/client';
+import { Check, Trash2, X } from 'lucide-react';
 import { FC, memo, useState } from 'react';
 
 import ContentCard, {
@@ -16,6 +17,7 @@ import { Label } from '@/components/ui/label';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
+    ResponsiveModalFooter,
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
@@ -38,6 +40,7 @@ interface Props {
 
 const ASPECT_RATIO = String(DEFAULT_CONTAINER_RATIO);
 
+// Memoized to skip re-renders during drag (SortableCard re-renders ~60fps)
 const SortableCardContent = memo<{
     id: string;
     groupId: string;
@@ -51,6 +54,22 @@ const SortableCardContent = memo<{
     ) => void;
 }>(({ id, groupId, content, comment, onRemove, onCommentChange }) => {
     const [commentOpen, setCommentOpen] = useState(false);
+    const [draft, setDraft] = useState('');
+
+    const handleOpen = () => {
+        setDraft(comment ?? '');
+        setCommentOpen(true);
+    };
+
+    const handleSave = () => {
+        onCommentChange?.(groupId, id, draft);
+        setCommentOpen(false);
+    };
+
+    const handleDiscard = () => {
+        onCommentChange?.(groupId, id, '');
+        setCommentOpen(false);
+    };
 
     return (
         <>
@@ -64,8 +83,11 @@ const SortableCardContent = memo<{
                     <Button
                         size="icon-sm"
                         variant="secondary"
-                        onClick={() => setCommentOpen(true)}
-                        className={cn(comment && 'text-primary')}
+                        onClick={handleOpen}
+                        className={cn(
+                            comment &&
+                                'text-primary-foreground bg-primary border-primary-border',
+                        )}
                     >
                         <MaterialSymbolsAddCommentRounded />
                     </Button>
@@ -76,6 +98,7 @@ const SortableCardContent = memo<{
                     >
                         <MaterialSymbolsDeleteForever />
                     </Button>
+                    {/* Spacer for drag handle (rendered in parent wrapper) */}
                     <div className="h-8 w-8" />
                 </div>
                 <div className="from-background pointer-events-none absolute bottom-0 left-0 z-0 h-16 w-full rounded-b-md bg-linear-to-t to-transparent" />
@@ -83,10 +106,13 @@ const SortableCardContent = memo<{
 
             {commentOpen && (
                 <ResponsiveModal
+                    forceDesktop
                     open={commentOpen}
-                    onOpenChange={setCommentOpen}
+                    onOpenChange={(open) => {
+                        if (!open) setCommentOpen(false);
+                    }}
                 >
-                    <ResponsiveModalContent className="max-w-lg">
+                    <ResponsiveModalContent className="max-w-xl!">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
                                 {content.title || 'Коментар'}
@@ -95,18 +121,37 @@ const SortableCardContent = memo<{
                         <div className="flex w-full flex-col gap-2">
                             <Label>Коментар</Label>
                             <Textarea
-                                value={comment ?? ''}
-                                onChange={(e) =>
-                                    onCommentChange?.(
-                                        groupId,
-                                        id,
-                                        e.target.value,
-                                    )
-                                }
+                                value={draft}
+                                onChange={(e) => setDraft(e.target.value)}
                                 placeholder="Додати коментар до елементу..."
                                 className="min-h-[80px] w-full"
                             />
                         </div>
+                        <ResponsiveModalFooter>
+                            {comment && (
+                                <Button
+                                    variant="destructive"
+                                    size="md"
+                                    onClick={handleDiscard}
+                                >
+                                    <Trash2 className="size-4" />
+                                    Видалити
+                                </Button>
+                            )}
+                            <div className="flex-1" />
+                            <Button
+                                variant="outline"
+                                size="md"
+                                onClick={() => setCommentOpen(false)}
+                            >
+                                <X className="size-4" />
+                                Скасувати
+                            </Button>
+                            <Button size="md" onClick={handleSave}>
+                                <Check className="size-4" />
+                                Зберегти
+                            </Button>
+                        </ResponsiveModalFooter>
                     </ResponsiveModalContent>
                 </ResponsiveModal>
             )}

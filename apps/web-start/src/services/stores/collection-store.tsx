@@ -280,7 +280,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
             let order = 0;
             const content = state.groups.flatMap((group) =>
                 group.items.map((item) => ({
-                    comment: item.comment,
+                    comment: item.comment || undefined,
                     label: group.title || undefined,
                     order: ++order,
                     slug: item.content.slug,

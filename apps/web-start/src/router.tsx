@@ -10,6 +10,8 @@ import { createRouter as createTanStackRouter } from '@tanstack/react-router';
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query';
 import { toast } from 'sonner';
 
+import ErrorPage from '@/components/error-page';
+
 import { routeTree } from './routeTree.gen';
 import { getAuthTokenFn } from './utils/cookies';
 
@@ -40,6 +42,7 @@ export async function createRouter() {
         routeTree,
         context: { queryClient, hikkaClient },
         defaultPreload: false,
+        defaultErrorComponent: ErrorPage,
         scrollRestoration: true,
     });
 
