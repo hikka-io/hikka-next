@@ -9,21 +9,19 @@ import {
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
-import {
-    SortableContext,
-    arrayMove,
-    rectSortingStrategy,
-} from '@dnd-kit/sortable';
-import React from 'react';
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
-import { Group } from '@/services/stores/collection-store';
 
 import SortableInput from './sortable-input';
 
 const GroupInputs = () => {
-    const items = useCollectionContext((state) => state.groups);
-    const setGroups = useCollectionContext((state) => state.setGroups);
+    const groups = useCollectionContext((state) => state.groups);
+    const reorderGroups = useCollectionContext((state) => state.reorderGroups);
+    const updateGroupTitle = useCollectionContext(
+        (state) => state.updateGroupTitle,
+    );
+    const removeGroup = useCollectionContext((state) => state.removeGroup);
 
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
@@ -31,66 +29,16 @@ const GroupInputs = () => {
         const { active, over } = event;
         if (!over) return;
 
-        const activeItem = items.find((item) => item.id === active.id);
-        const overItem = items.find((item) => item.id === over.id);
-
-        if (!activeItem || !overItem) {
-            return;
-        }
-
-        const activeIndex = items.findIndex((item) => item.id === active.id);
-        const overIndex = items.findIndex((item) => item.id === over.id);
-
-        if (activeIndex !== overIndex) {
-            setGroups(arrayMove<Group>(items, activeIndex, overIndex));
-        }
-    };
-
-    const handleGroupTitleChange = (
-        id: string | number,
-        e: React.ChangeEvent<HTMLInputElement>,
-    ) => {
-        const newGroups = items.map((group) => {
-            if (group.id === id) {
-                return {
-                    ...group,
-                    title: e.target.value,
-                };
-            }
-            return group;
-        });
-
-        setGroups(newGroups);
-    };
-
-    const handleRemoveGroup = (id: string | number) => {
-        if (items.length === 1 && items[0].isGroup) {
-            setGroups([
-                {
-                    ...items[0],
-                    title: null,
-                    isGroup: false,
-                },
-            ]);
-
-            return;
-        }
-
-        const removedGroup = items.find((group) => group.id === id);
-        const remainingGroups = items.filter((group) => group.id !== id);
+        const activeIndex = groups.findIndex((g) => g.id === active.id);
+        const overIndex = groups.findIndex((g) => g.id === over.id);
 
         if (
-            removedGroup &&
-            removedGroup.items.length > 0 &&
-            remainingGroups.length > 0
+            activeIndex !== -1 &&
+            overIndex !== -1 &&
+            activeIndex !== overIndex
         ) {
-            remainingGroups[0] = {
-                ...remainingGroups[0],
-                items: [...remainingGroups[0].items, ...removedGroup.items],
-            };
+            reorderGroups(activeIndex, overIndex);
         }
-
-        setGroups(remainingGroups);
     };
 
     return (
@@ -99,16 +47,18 @@ const GroupInputs = () => {
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
         >
-            <SortableContext items={items} strategy={rectSortingStrategy}>
-                {items.map((group) => (
+            <SortableContext items={groups} strategy={rectSortingStrategy}>
+                {groups.map((group) => (
                     <SortableInput
                         key={group.id}
                         placeholder="Введіть назву"
-                        value={group.title!}
-                        id={String(group.id)}
+                        value={group.title ?? ''}
+                        id={group.id}
                         className="flex-1"
-                        onChange={(e) => handleGroupTitleChange(group.id, e)}
-                        onRemove={() => handleRemoveGroup(group.id)}
+                        onChange={(e) =>
+                            updateGroupTitle(group.id, e.target.value)
+                        }
+                        onRemove={() => removeGroup(group.id)}
                     />
                 ))}
             </SortableContext>

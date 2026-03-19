@@ -1,5 +1,6 @@
 'use client';
 
+import { arrayMove } from '@dnd-kit/sortable';
 import {
     CollectionArgs,
     CollectionContent,
@@ -17,10 +18,9 @@ export type Item = {
 };
 
 export type Group = {
-    id: string | number;
+    id: string;
     title: string | null;
     items: Item[];
-    isGroup: boolean;
 };
 
 export type CollectionState = {
@@ -42,23 +42,53 @@ export type CollectionActions = {
     setNsfw: (nsfw: boolean) => void;
     setSpoiler: (spoiler: boolean) => void;
     setVisibility: (visibility: CollectionVisibilityEnum) => void;
+
+    // Group actions
     setGroups: (groups: Group[]) => void;
     addGroup: () => void;
+    removeGroup: (groupId: string) => void;
+    updateGroupTitle: (groupId: string, title: string) => void;
+    reorderGroups: (activeIndex: number, overIndex: number) => void;
+
+    // Item actions
     addItem: (
-        groupId: string | number,
+        groupId: string,
         content: CollectionContent & { title?: string },
     ) => void;
-    removeItem: (groupId: string | number, itemId: string | number) => void;
+    removeItem: (groupId: string, itemId: string | number) => void;
     updateItemComment: (
-        groupId: string | number,
+        groupId: string,
         itemId: string | number,
         comment: string,
     ) => void;
+
+    // DnD actions (use get() internally — no stale closures)
+    moveItemToGroup: (
+        itemId: string | number,
+        fromGroupId: string,
+        toGroupId: string,
+        insertIndex: number,
+    ) => void;
+    reorderItem: (
+        groupId: string,
+        activeIndex: number,
+        overIndex: number,
+    ) => void;
+
+    // API serialization
     setApiData: (data: CollectionResponse<CollectionContent>) => void;
     getApiData: () => CollectionArgs;
 };
 
 export type CollectionStore = CollectionState & CollectionActions;
+
+function updateGroup(
+    groups: Group[],
+    groupId: string,
+    updater: (group: Group) => Group,
+): Group[] {
+    return groups.map((g) => (g.id === groupId ? updater(g) : g));
+}
 
 export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
     const DEFAULT_PROPS: CollectionState = {
@@ -67,9 +97,8 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
         content_type: ContentTypeEnum.ANIME,
         groups: [
             {
-                id: String(Date.now()),
-                title: '',
-                isGroup: true,
+                id: crypto.randomUUID(),
+                title: null,
                 items: [],
             },
         ],
@@ -81,20 +110,71 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
     return createStore<CollectionStore>()((set, get) => ({
         ...DEFAULT_PROPS,
         ...initProps,
-        setTitle: (title: string) => set({ title }),
-        setDescription: (description: string) => set({ description }),
-        setTags: (tags: string[]) => set({ tags }),
-        setContentType: (content_type: CollectionContentType) =>
-            set({ content_type }),
-        setNsfw: (nsfw: boolean) => set({ nsfw }),
-        setSpoiler: (spoiler: boolean) => set({ spoiler }),
-        setVisibility: (visibility: CollectionVisibilityEnum) =>
-            set({ visibility }),
-        setGroups: (groups: Group[]) => set({ groups }),
-        addItem: (
-            groupId: string | number,
-            content: CollectionContent & { title?: string },
-        ) => {
+        setTitle: (title) => set({ title }),
+        setDescription: (description) => set({ description }),
+        setTags: (tags) => set({ tags }),
+        setContentType: (content_type) => set({ content_type }),
+        setNsfw: (nsfw) => set({ nsfw }),
+        setSpoiler: (spoiler) => set({ spoiler }),
+        setVisibility: (visibility) => set({ visibility }),
+        setGroups: (groups) => set({ groups }),
+
+        addGroup: () => {
+            const { groups } = get();
+            const newGroup: Group = {
+                id: crypto.randomUUID(),
+                title: '',
+                items: [],
+            };
+
+            if (groups.length === 1 && groups[0].title === null) {
+                // Convert the ungrouped container into a labeled group
+                set({
+                    groups: [{ ...groups[0], title: '' }],
+                });
+            } else {
+                set({ groups: [...groups, newGroup] });
+            }
+        },
+
+        removeGroup: (groupId) => {
+            const { groups } = get();
+            if (groups.length === 1 && groups[0].title !== null) {
+                // Last labeled group — convert back to ungrouped
+                set({
+                    groups: [{ ...groups[0], title: null }],
+                });
+                return;
+            }
+
+            const removed = groups.find((g) => g.id === groupId);
+            const remaining = groups.filter((g) => g.id !== groupId);
+
+            // Redistribute items to first remaining group
+            if (removed && removed.items.length > 0 && remaining.length > 0) {
+                remaining[0] = {
+                    ...remaining[0],
+                    items: [...remaining[0].items, ...removed.items],
+                };
+            }
+
+            set({ groups: remaining });
+        },
+
+        updateGroupTitle: (groupId, title) => {
+            set({
+                groups: updateGroup(get().groups, groupId, (g) => ({
+                    ...g,
+                    title,
+                })),
+            });
+        },
+
+        reorderGroups: (activeIndex, overIndex) => {
+            set({ groups: arrayMove(get().groups, activeIndex, overIndex) });
+        },
+
+        addItem: (groupId, content) => {
             const { groups } = get();
             const isDuplicate = groups.some((g) =>
                 g.items.some((item) => item.content.slug === content.slug),
@@ -102,88 +182,75 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
             if (isDuplicate) return;
 
             set({
-                groups: groups.map((g) =>
-                    g.id === groupId
-                        ? {
-                              ...g,
-                              items: [
-                                  ...g.items,
-                                  { id: content.slug, content },
-                              ],
-                          }
-                        : g,
-                ),
+                groups: updateGroup(groups, groupId, (g) => ({
+                    ...g,
+                    items: [...g.items, { id: content.slug, content }],
+                })),
             });
         },
-        removeItem: (groupId: string | number, itemId: string | number) => {
-            const { groups } = get();
-            set({
-                groups: groups.map((g) =>
-                    g.id === groupId
-                        ? {
-                              ...g,
-                              items: g.items.filter(
-                                  (item) => item.id !== itemId,
-                              ),
-                          }
-                        : g,
-                ),
-            });
-        },
-        updateItemComment: (
-            groupId: string | number,
-            itemId: string | number,
-            comment: string,
-        ) => {
-            const { groups } = get();
-            set({
-                groups: groups.map((g) =>
-                    g.id === groupId
-                        ? {
-                              ...g,
-                              items: g.items.map((item) =>
-                                  item.id === itemId
-                                      ? { ...item, comment }
-                                      : item,
-                              ),
-                          }
-                        : g,
-                ),
-            });
-        },
-        addGroup: () => {
-            const state = get();
-            const newGroup = {
-                id: String(Date.now()),
-                title: '',
-                isGroup: true,
-                items: [],
-            };
 
-            if (state.groups.length === 1 && !state.groups[0].isGroup) {
-                set({
-                    groups: [
-                        {
-                            ...state.groups[0],
-                            title: '',
-                            isGroup: true,
-                        },
-                    ],
-                });
-            } else {
-                set({
-                    groups: [...state.groups, newGroup],
-                });
-            }
+        removeItem: (groupId, itemId) => {
+            set({
+                groups: updateGroup(get().groups, groupId, (g) => ({
+                    ...g,
+                    items: g.items.filter((item) => item.id !== itemId),
+                })),
+            });
         },
-        setApiData: (data: CollectionResponse<CollectionContent>) => {
-            const groups = data.collection.reduce((acc: Group[], item) => {
+
+        updateItemComment: (groupId, itemId, comment) => {
+            set({
+                groups: updateGroup(get().groups, groupId, (g) => ({
+                    ...g,
+                    items: g.items.map((item) =>
+                        item.id === itemId ? { ...item, comment } : item,
+                    ),
+                })),
+            });
+        },
+
+        moveItemToGroup: (itemId, fromGroupId, toGroupId, insertIndex) => {
+            const { groups } = get();
+            const fromGroup = groups.find((g) => g.id === fromGroupId);
+            if (!fromGroup) return;
+
+            const item = fromGroup.items.find((i) => i.id === itemId);
+            if (!item) return;
+
+            set({
+                groups: groups.map((g) => {
+                    if (g.id === fromGroupId) {
+                        return {
+                            ...g,
+                            items: g.items.filter((i) => i.id !== itemId),
+                        };
+                    }
+                    if (g.id === toGroupId) {
+                        const newItems = [...g.items];
+                        newItems.splice(insertIndex, 0, item);
+                        return { ...g, items: newItems };
+                    }
+                    return g;
+                }),
+            });
+        },
+
+        reorderItem: (groupId, activeIndex, overIndex) => {
+            set({
+                groups: updateGroup(get().groups, groupId, (g) => ({
+                    ...g,
+                    items: arrayMove(g.items, activeIndex, overIndex),
+                })),
+            });
+        },
+
+        setApiData: (data) => {
+            const groups = data.collection.reduce<Group[]>((acc, item) => {
                 let group = acc.find((g) => g.title === item.label);
                 if (!group) {
                     group = {
                         id: item.label || 'default',
                         title: item.label,
-                        isGroup: !!item.label,
                         items: [],
                     };
                     acc.push(group);
@@ -200,28 +267,25 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                 title: data.title,
                 description: data.description,
                 content_type: data.content_type,
-                groups: groups,
+                groups,
                 nsfw: data.nsfw,
                 spoiler: data.spoiler,
                 visibility: data.visibility,
                 tags: data.tags,
             });
         },
+
         getApiData: () => {
             const state = get();
-            const content = state.groups
-                .map((group, i) => {
-                    return group.items.map((item, k) => {
-                        return {
-                            comment: item.comment,
-                            label: group.title || undefined,
-                            order: 0,
-                            slug: item.content.slug,
-                        };
-                    });
-                })
-                .flat(1)
-                .map((item, i) => ({ ...item, order: i + 1 }));
+            let order = 0;
+            const content = state.groups.flatMap((group) =>
+                group.items.map((item) => ({
+                    comment: item.comment,
+                    label: group.title || undefined,
+                    order: ++order,
+                    slug: item.content.slug,
+                })),
+            );
 
             return {
                 title: state.title!,
@@ -231,9 +295,9 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
                 spoiler: state.spoiler,
                 visibility: state.visibility,
                 labels_order: state.groups
-                    .map((group) => group.title || '')
-                    .filter((title) => title !== ''),
-                content: content,
+                    .map((g) => g.title || '')
+                    .filter(Boolean),
+                content,
                 tags: state.tags,
             };
         },

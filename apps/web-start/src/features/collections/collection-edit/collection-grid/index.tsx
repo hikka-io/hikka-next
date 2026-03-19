@@ -22,7 +22,12 @@ interface Props {
 }
 
 const CollectionGrid: FC<Props> = ({ group }) => {
-    const groups = useCollectionContext((state) => state.groups);
+    // Subscribe to only this group's items — Zustand skips re-render
+    // when the reference hasn't changed (unmodified groups keep same ref)
+    const items =
+        useCollectionContext(
+            (state) => state.groups.find((g) => g.id === group.id)?.items,
+        ) ?? [];
     const content_type = useCollectionContext((state) => state.content_type);
     const addItem = useCollectionContext((state) => state.addItem);
     const removeItem = useCollectionContext((state) => state.removeItem);
@@ -30,20 +35,14 @@ const CollectionGrid: FC<Props> = ({ group }) => {
         (state) => state.updateItemComment,
     );
 
-    const items = groups.find((g) => g.id === group.id)?.items ?? [];
-
     const { setNodeRef, isOver } = useDroppable({
         id: group.id,
     });
 
-    const handleAddItem = (content: CollectionContent & { title?: string }) => {
-        addItem(group.id, content);
-    };
-
     return (
         <SortableContext items={items} strategy={rectSortingStrategy}>
             <div className="flex flex-col gap-4">
-                {group.isGroup && (
+                {group.title !== null && (
                     <Header>
                         <HeaderContainer>
                             <HeaderTitle variant="h5">
@@ -76,7 +75,8 @@ const CollectionGrid: FC<Props> = ({ group }) => {
                     <SearchModal
                         content_type={content_type}
                         onClick={(value) =>
-                            handleAddItem(
+                            addItem(
+                                group.id,
                                 value as CollectionContent & {
                                     title?: string;
                                 },

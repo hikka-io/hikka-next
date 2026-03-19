@@ -25,12 +25,12 @@ import { cn } from '@/utils/cn';
 
 interface Props {
     id: string;
-    groupId: string | number;
+    groupId: string;
     content: CollectionContent & { title?: string };
     comment?: string;
-    onRemove: (groupId: string | number, itemId: string | number) => void;
+    onRemove: (groupId: string, itemId: string | number) => void;
     onCommentChange?: (
-        groupId: string | number,
+        groupId: string,
         itemId: string | number,
         comment: string,
     ) => void;
@@ -40,12 +40,12 @@ const ASPECT_RATIO = String(DEFAULT_CONTAINER_RATIO);
 
 const SortableCardContent = memo<{
     id: string;
-    groupId: string | number;
+    groupId: string;
     content: CollectionContent & { title?: string };
     comment?: string;
-    onRemove: (groupId: string | number, itemId: string | number) => void;
+    onRemove: (groupId: string, itemId: string | number) => void;
     onCommentChange?: (
-        groupId: string | number,
+        groupId: string,
         itemId: string | number,
         comment: string,
     ) => void;

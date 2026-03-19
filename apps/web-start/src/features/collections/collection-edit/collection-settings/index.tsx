@@ -109,7 +109,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                 <div className="flex flex-col gap-4">
                     <Label className="text-muted-foreground">Групи</Label>
                     {groups.length > 0 &&
-                        groups.some((group) => group.isGroup) && (
+                        groups.some((group) => group.title !== null) && (
                             <GroupInputs />
                         )}
                     <Button variant="secondary" onClick={addGroup}>

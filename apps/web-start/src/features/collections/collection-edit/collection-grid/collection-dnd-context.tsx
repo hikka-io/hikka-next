@@ -13,12 +13,11 @@ import {
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
-import { FC, ReactNode, useRef, useState } from 'react';
+import { FC, ReactNode, memo, useRef, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 
-import { useCollectionContext } from '@/services/providers/collection-provider';
+import { useCollectionStore } from '@/services/providers/collection-provider';
 import { Group, Item } from '@/services/stores/collection-store';
 
 interface Props {
@@ -28,17 +27,17 @@ interface Props {
 function findGroupContainingItem(
     groups: Group[],
     itemId: UniqueIdentifier,
-): string | number | undefined {
+): string | undefined {
     return groups.find((g) => g.items.some((item) => item.id === itemId))?.id;
 }
 
 function findGroupId(
     groups: Group[],
     overId: UniqueIdentifier,
-): string | number | undefined {
+): string | undefined {
     return (
         findGroupContainingItem(groups, overId) ??
-        (groups.find((g) => g.id === overId) ? overId : undefined)
+        (groups.find((g) => g.id === overId) ? String(overId) : undefined)
     );
 }
 
@@ -50,17 +49,18 @@ function findItem(groups: Group[], itemId: UniqueIdentifier): Item | undefined {
     return undefined;
 }
 
-const CollectionDndContext: FC<Props> = ({ children }) => {
-    const groups = useCollectionContext((state) => state.groups);
-    const setGroups = useCollectionContext((state) => state.setGroups);
-    const activeItemRef = useRef<Item | undefined>(undefined);
-    const [isDragging, setIsDragging] = useState(false);
+const OverlayCard = memo<{ content: Item['content'] }>(({ content }) => (
+    <ContentCard image={content.image} title={content.title} />
+));
 
-    const groupsRef = useRef(groups);
-    groupsRef.current = groups;
+OverlayCard.displayName = 'OverlayCard';
+
+const CollectionDndContext: FC<Props> = ({ children }) => {
+    const store = useCollectionStore();
+    const [activeItem, setActiveItem] = useState<Item | null>(null);
 
     // Prevents ping-pong during cross-group drags
-    const lastOverContainerRef = useRef<string | number | null>(null);
+    const lastOverContainerRef = useRef<string | null>(null);
 
     const sensors = useSensors(
         useSensor(MouseSensor, { activationConstraint: { distance: 8 } }),
@@ -70,8 +70,8 @@ const CollectionDndContext: FC<Props> = ({ children }) => {
     );
 
     const handleDragStart = (event: DragStartEvent) => {
-        activeItemRef.current = findItem(groupsRef.current, event.active.id);
-        setIsDragging(true);
+        const { groups } = store.getState();
+        setActiveItem(findItem(groups, event.active.id) ?? null);
         lastOverContainerRef.current = null;
     };
 
@@ -79,10 +79,10 @@ const CollectionDndContext: FC<Props> = ({ children }) => {
         const { active, over } = event;
         if (!over) return;
 
-        const currentGroups = groupsRef.current;
+        const { groups } = store.getState();
 
-        const activeGroupId = findGroupContainingItem(currentGroups, active.id);
-        const overGroupId = findGroupId(currentGroups, over.id);
+        const activeGroupId = findGroupContainingItem(groups, active.id);
+        const overGroupId = findGroupId(groups, over.id);
 
         if (!activeGroupId || !overGroupId) return;
         if (activeGroupId === overGroupId) return;
@@ -90,78 +90,50 @@ const CollectionDndContext: FC<Props> = ({ children }) => {
         if (lastOverContainerRef.current === overGroupId) return;
         lastOverContainerRef.current = overGroupId;
 
-        const activeGroup = currentGroups.find((g) => g.id === activeGroupId);
-        const overGroup = currentGroups.find((g) => g.id === overGroupId);
-        if (!activeGroup || !overGroup) return;
-
-        const activeItemObj = activeGroup.items.find(
-            (item) => item.id === active.id,
-        );
-        if (!activeItemObj) return;
+        const overGroup = groups.find((g) => g.id === overGroupId);
+        if (!overGroup) return;
 
         const overIndex = overGroup.items.findIndex(
             (item) => item.id === over.id,
         );
         const insertIndex = overIndex >= 0 ? overIndex : overGroup.items.length;
 
-        setGroups(
-            currentGroups.map((g) => {
-                if (g.id === activeGroupId) {
-                    return {
-                        ...g,
-                        items: g.items.filter((item) => item.id !== active.id),
-                    };
-                }
-                if (g.id === overGroupId) {
-                    const newItems = [...g.items];
-                    newItems.splice(insertIndex, 0, activeItemObj);
-                    return { ...g, items: newItems };
-                }
-                return g;
-            }),
-        );
+        store
+            .getState()
+            .moveItemToGroup(
+                active.id,
+                activeGroupId,
+                overGroupId,
+                insertIndex,
+            );
     };
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
-        activeItemRef.current = undefined;
-        setIsDragging(false);
+        setActiveItem(null);
         lastOverContainerRef.current = null;
 
         if (!over) return;
 
-        const currentGroups = groupsRef.current;
+        const { groups } = store.getState();
 
-        const activeGroupId = findGroupContainingItem(currentGroups, active.id);
-        const overGroupId = findGroupId(currentGroups, over.id);
+        const activeGroupId = findGroupContainingItem(groups, active.id);
+        const overGroupId = findGroupId(groups, over.id);
 
         if (!activeGroupId || !overGroupId) return;
         if (activeGroupId !== overGroupId) return;
 
-        const group = currentGroups.find((g) => g.id === activeGroupId);
+        const group = groups.find((g) => g.id === activeGroupId);
         if (!group) return;
 
         const activeIndex = group.items.findIndex(
             (item) => item.id === active.id,
         );
         const overIndex = group.items.findIndex((item) => item.id === over.id);
+        if (overIndex === -1) return;
 
         if (activeIndex !== overIndex) {
-            setGroups(
-                currentGroups.map((g) => {
-                    if (g.id === activeGroupId) {
-                        return {
-                            ...g,
-                            items: arrayMove<Item>(
-                                g.items,
-                                activeIndex,
-                                overIndex,
-                            ),
-                        };
-                    }
-                    return g;
-                }),
-            );
+            store.getState().reorderItem(activeGroupId, activeIndex, overIndex);
         }
     };
 
@@ -175,11 +147,8 @@ const CollectionDndContext: FC<Props> = ({ children }) => {
         >
             {children}
             <DragOverlay zIndex={50}>
-                {activeItemRef.current ? (
-                    <ContentCard
-                        image={activeItemRef.current.content.image}
-                        title={activeItemRef.current.content.title}
-                    />
+                {activeItem ? (
+                    <OverlayCard content={activeItem.content} />
                 ) : null}
             </DragOverlay>
         </DndContext>

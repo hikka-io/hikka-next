@@ -44,3 +44,10 @@ export function useCollectionContext<T>(
         throw new Error('Missing CollectionContext.Provider in the tree');
     return useStore(store, selector);
 }
+
+export function useCollectionStore(): CollectionReturnStore {
+    const store = useContext(CollectionContext);
+    if (!store)
+        throw new Error('Missing CollectionContext.Provider in the tree');
+    return store;
+}
