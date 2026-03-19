@@ -24,7 +24,7 @@ function ListSettingsPage() {
                         <HeaderTitle>Список</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                     Імпорт і експорт аніме, манґи та ранобе.
                 </p>
             </div>

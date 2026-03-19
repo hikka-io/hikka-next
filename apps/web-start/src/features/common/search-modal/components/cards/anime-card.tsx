@@ -43,22 +43,22 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                     <div className="flex items-center gap-2">
                         {anime.year && (
                             <>
-                                <Label className="text-xs text-muted-foreground">
+                                <Label className="text-muted-foreground text-xs">
                                     {anime.year}
                                 </Label>
-                                <div className="size-1 rounded-full bg-muted-foreground" />
+                                <div className="bg-muted-foreground size-1 rounded-full" />
                             </>
                         )}
 
                         {anime.media_type && (
                             <>
-                                <Label className="text-xs text-muted-foreground">
+                                <Label className="text-muted-foreground text-xs">
                                     {
                                         ANIME_MEDIA_TYPE[anime.media_type]
                                             .title_ua
                                     }
                                 </Label>
-                                <div className="size-1 rounded-full bg-muted-foreground" />
+                                <div className="bg-muted-foreground size-1 rounded-full" />
                             </>
                         )}
 
@@ -78,7 +78,7 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
             {anime.score > 0 && (
                 <Badge variant="outline" className="gap-1">
                     {anime.score}
-                    <MaterialSymbolsStarRounded className="text-yellow-400 size-4" />
+                    <MaterialSymbolsStarRounded className="size-4 text-yellow-400" />
                 </Badge>
             )}
         </Comp>

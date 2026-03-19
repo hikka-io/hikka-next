@@ -60,7 +60,7 @@ const SearchResultGroup = ({
             <CommandItem
                 value={`view-all-${contentType}`}
                 onSelect={onNavigate}
-                className="justify-center border-y rounded-none text-muted-foreground"
+                className="text-muted-foreground justify-center rounded-none border-y"
             >
                 <Ellipsis />
                 Показати всі результати

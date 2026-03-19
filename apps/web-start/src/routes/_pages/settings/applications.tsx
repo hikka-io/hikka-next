@@ -25,7 +25,7 @@ function ApplicationsSettingsPage() {
                         <ClientCreateButton />
                     </HeaderContainer>
                 </Header>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                     Підключіть OAuth авторизацію через hikka за допомогою
                     застосунку (для розробників)
                 </p>

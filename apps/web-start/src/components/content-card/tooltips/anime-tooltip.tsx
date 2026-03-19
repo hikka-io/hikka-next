@@ -50,12 +50,12 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
                 data.episodes_released !== null ? (
                     <div className="flex">
                         <div className="w-1/4">
-                            <span className="text-sm font-medium leading-tight text-muted-foreground">
+                            <span className="text-muted-foreground text-sm leading-tight font-medium">
                                 Епізоди:
                             </span>
                         </div>
                         <div className="flex-1">
-                            <span className="text-sm font-medium leading-tight">
+                            <span className="text-sm leading-tight font-medium">
                                 {data.status === 'finished'
                                     ? data.episodes_total
                                     : `${data.episodes_released} / ${data.episodes_total}`}

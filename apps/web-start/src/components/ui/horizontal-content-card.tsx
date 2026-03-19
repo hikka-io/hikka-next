@@ -35,7 +35,7 @@ const HorizontalContentCard = forwardRef<HTMLDivElement, Props>(
             <div
                 ref={ref}
                 className={cn(
-                    'flex rounded-md border border-border bg-secondary/20',
+                    'border-border bg-secondary/20 flex rounded-md border',
                     className,
                 )}
                 {...props}
@@ -60,7 +60,7 @@ const HorizontalContentCard = forwardRef<HTMLDivElement, Props>(
                             <Link to={href}>{title}</Link>
                         </Title>
                         {description && (
-                            <MDViewer className="line-clamp-2 text-xs text-muted-foreground lg:line-clamp-3">
+                            <MDViewer className="text-muted-foreground line-clamp-2 text-xs lg:line-clamp-3">
                                 {description}
                             </MDViewer>
                         )}

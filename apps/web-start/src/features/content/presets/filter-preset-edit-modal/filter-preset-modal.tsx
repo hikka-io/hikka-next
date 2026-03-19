@@ -170,7 +170,7 @@ const FilterPresetModal: FC<Props> = ({
                                 Поточні фільтри
                             </span>
                         </div>
-                        <p className="line-clamp-2 text-xs text-muted-foreground">
+                        <p className="text-muted-foreground line-clamp-2 text-xs">
                             Створити пресет із поточних фільтрів
                         </p>
                     </div>
@@ -186,13 +186,13 @@ const FilterPresetModal: FC<Props> = ({
                 </div>
             </div>
 
-            <hr className="-mx-6 h-px w-auto bg-border" />
+            <hr className="bg-border -mx-6 h-px w-auto" />
 
             <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
                 {filterPresets?.map((preset) => (
                     <div
                         key={preset.id}
-                        className="flex items-center justify-between gap-2 border-border px-6 py-3 last:border-b-0"
+                        className="border-border flex items-center justify-between gap-2 px-6 py-3 last:border-b-0"
                     >
                         <div className="flex-1 space-y-1">
                             <div className="flex items-center gap-2">
@@ -220,7 +220,7 @@ const FilterPresetModal: FC<Props> = ({
                                 </div>
                             </div>
                             {preset.description && (
-                                <p className="line-clamp-2 text-xs text-muted-foreground">
+                                <p className="text-muted-foreground line-clamp-2 text-xs">
                                     {preset.description}
                                 </p>
                             )}
@@ -246,7 +246,7 @@ const FilterPresetModal: FC<Props> = ({
 
                 {filterPresets?.length === 0 && (
                     <div className="px-6 py-8">
-                        <p className="text-center text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-center text-sm">
                             Не знайдено збережених пресетів фільтрів
                         </p>
                     </div>

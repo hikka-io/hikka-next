@@ -71,7 +71,7 @@ const NextEpisodeDetail = ({
     >
         <Tooltip>
             <TooltipTrigger asChild>
-                <span className="text-sm font-medium leading-tight cursor-text line-clamp-2 select-auto">
+                <span className="line-clamp-2 cursor-text text-sm leading-tight font-medium select-auto">
                     {formatNextEpisodeDate(schedule.airing_at)}
                 </span>
             </TooltipTrigger>
@@ -92,8 +92,8 @@ const StudioDetail = ({
         icon={<Building2 className="size-4" />}
         className="grid-cols-[1fr_60%]"
     >
-        <div className="flex items-start gap-2 flex-1">
-            <p className="text-sm font-medium leading-tight line-clamp-2 hover:underline flex-1">
+        <div className="flex flex-1 items-start gap-2">
+            <p className="line-clamp-2 flex-1 text-sm leading-tight font-medium hover:underline">
                 <Link to="/anime" search={{ studios: studio.company.slug }}>
                     {studio.company.name}
                 </Link>
@@ -142,9 +142,9 @@ const WatchDetails = ({
         : null;
 
     return (
-        <Card className={cn('bg-secondary/20 backdrop-blur px-0', className)}>
+        <Card className={cn('bg-secondary/20 px-0 backdrop-blur', className)}>
             {/* Basic Info Section */}
-            <div className='px-4 gap-4 flex flex-col'>
+            <div className='flex flex-col gap-4 px-4'>
                 <DetailItem
                     icon={<Play className="size-4" />}
                     title="Тип"
@@ -174,7 +174,7 @@ const WatchDetails = ({
             {/* Episode Info Section */}
             {Boolean(data.episodes_total || data.episodes_released) && <Fragment>
                 <Separator />
-                <div className='px-4 gap-4 flex flex-col'>
+                <div className='flex flex-col gap-4 px-4'>
                     <DetailItem
                         icon={<Hash className="size-4" />}
                         title="Епізоди"
@@ -211,7 +211,7 @@ const WatchDetails = ({
             <Separator />
 
             {/* Additional Info Section */}
-            <div className='px-4 gap-4 flex flex-col'>
+            <div className='flex flex-col gap-4 px-4'>
                 <DetailItem
                     icon={<ShieldEllipsis className="size-4" />}
                     title="Рейтинг"
@@ -225,7 +225,7 @@ const WatchDetails = ({
 
             {data.synonyms.length > 0 && <Fragment>
                 <Separator />
-                <div className='px-4 gap-4 flex flex-col'>
+                <div className='flex flex-col gap-4 px-4'>
                     <DetailItem
                         icon={<BookType className="size-4" />}
                         title="Синоніми"

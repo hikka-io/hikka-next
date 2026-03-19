@@ -60,13 +60,13 @@ function ArticlePage() {
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link
                         to={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
-                        className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
+                        className="flex-1 overflow-hidden text-sm font-bold text-ellipsis hover:underline"
                     >
                         {article?.title}
                     </Link>
                 </div>
             </Breadcrumbs>
-            <div className="w-full mx-auto isolate flex max-w-3xl flex-col gap-12 p-0">
+            <div className="isolate mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
                 {article?.category !== 'system' && (
                     <Card className="gap-0 overflow-hidden p-0">
                         <ArticleAuthor />

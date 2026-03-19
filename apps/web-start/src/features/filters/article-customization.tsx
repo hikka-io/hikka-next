@@ -20,7 +20,7 @@ const ArticleCustomization: FC<Props> = () => {
 
     return (
         <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2">
                 <Eye className="size-4 shrink-0" />
                 <Label htmlFor="draft">Чернетки</Label>
             </div>

@@ -19,7 +19,7 @@ const ListExportItem = ({
     return (
         <div className="flex flex-col items-start gap-2">
             <Label>{title}</Label>
-            <p className="text-sm text-muted-foreground">{description}</p>
+            <p className="text-muted-foreground text-sm">{description}</p>
             <Button onClick={onExport} disabled={isExporting} size="md">
                 {isExporting && <span className="loading loading-spinner"></span>}
                 Експортувати

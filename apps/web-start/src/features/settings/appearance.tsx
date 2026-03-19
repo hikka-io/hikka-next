@@ -63,14 +63,14 @@ const Appearance = () => {
         <div className="isolate flex flex-col gap-6">
             <div className="flex flex-col gap-2">
                 <Label>Зображення профілю</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                     Рекомендований розмір обкладинки 1500x500, аватару 400x400
                 </p>
             </div>
             <div className="relative mb-4 flex h-48 w-full cursor-pointer">
                 {loggedUser?.cover && (
                     <Button
-                        className="absolute right-2 top-2 z-10"
+                        className="absolute top-2 right-2 z-10"
                         variant="destructive"
                         size={'icon-sm'}
                         onClick={() =>
@@ -85,7 +85,7 @@ const Appearance = () => {
                         )}
                     </Button>
                 )}
-                <Card className="flex-1 overflow-hidden bg-secondary/20 p-0 transition-opacity hover:opacity-60">
+                <Card className="bg-secondary/20 flex-1 overflow-hidden p-0 transition-opacity hover:opacity-60">
                     {loggedUser?.cover ? (
                         <Image
                             alt="cover"
@@ -94,7 +94,7 @@ const Appearance = () => {
                         />
                     ) : (
                         <div className="flex flex-1 items-center justify-center">
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-muted-foreground text-sm">
                                 Натисність, щоб завантажити обкладинку
                             </p>
                         </div>
@@ -108,7 +108,7 @@ const Appearance = () => {
                         }
                         ref={uploadCoverRef}
                         multiple={false}
-                        className="absolute left-0 top-0 size-full cursor-pointer opacity-0"
+                        className="absolute top-0 left-0 size-full cursor-pointer opacity-0"
                         accept="image/*"
                     />
                 </Card>

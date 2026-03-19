@@ -140,21 +140,21 @@ const ActivityHeatmap: FC = () => {
                     ))}
                 </div>
             </div>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-1 text-xs">
                 <span>Менше</span>
                 {[0, 1, 2, 3, 4].map((level) => (
                     <div
                         key={level}
                         className={
                             level === 0
-                                ? 'size-2.5 rounded-xs bg-secondary'
+                                ? 'bg-secondary size-2.5 rounded-xs'
                                 : level === 1
-                                  ? 'size-2.5 rounded-xs bg-primary-foreground/20'
+                                  ? 'bg-primary-foreground/20 size-2.5 rounded-xs'
                                   : level === 2
-                                    ? 'size-2.5 rounded-xs bg-primary-foreground/40'
+                                    ? 'bg-primary-foreground/40 size-2.5 rounded-xs'
                                     : level === 3
-                                      ? 'size-2.5 rounded-xs bg-primary-foreground/70'
-                                      : 'size-2.5 rounded-xs bg-primary-foreground'
+                                      ? 'bg-primary-foreground/70 size-2.5 rounded-xs'
+                                      : 'bg-primary-foreground size-2.5 rounded-xs'
                         }
                     />
                 ))}

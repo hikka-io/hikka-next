@@ -54,7 +54,7 @@ const Client: FC<Props> = () => {
                 </p>
             </div>
             <Separator className="-mx-4 w-auto" />
-            <div className="-m-4 flex max-h-60 flex-col gap-4 overflow-scroll p-4 gradient-mask-b-90-d">
+            <div className="gradient-mask-b-90-d -m-4 flex max-h-60 flex-col gap-4 overflow-scroll p-4">
                 {scopes.map((s) => (
                     <Scope key={s.slug} scope={s} />
                 ))}

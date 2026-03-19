@@ -26,7 +26,7 @@ const PresetButtons = ({
                                 : 'outline'
                         }
                         size="badge"
-                        className="text-left justify-start"
+                        className="justify-start text-left"
                         onClick={() => onPresetSelect(preset)}
                     >
                         <div

@@ -9,7 +9,7 @@ const Component = () => {
             <div className="flex w-full flex-row items-center justify-between gap-2">
                 <div>
                     <Label>Підсумок року</Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                         Статистика підсумку року буде доступна для всіх
                     </p>
                 </div>

@@ -19,7 +19,7 @@ function SecuritySettingsPage() {
                         <HeaderTitle>Безпека</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                     Захистіть свій обліковий запис: змініть пароль чи email
                 </p>
             </div>

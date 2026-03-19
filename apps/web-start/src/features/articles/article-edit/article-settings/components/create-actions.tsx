@@ -68,7 +68,7 @@ const CreateActions: FC<Props> = () => {
     );
 
     return (
-        <div className="flex gap-4 flex-col">
+        <div className="flex flex-col gap-4">
             <Button
                 disabled={!title || isPending || isSuccess}
                 variant="secondary"

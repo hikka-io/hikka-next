@@ -15,13 +15,13 @@ interface Props {
 
 const FeedTabs: FC<Props> = ({ value, onChange }) => {
     return (
-        <div className="flex gap-2 w-full overflow-hidden">
+        <div className="flex w-full gap-2 overflow-hidden">
             <Tabs
                 value={value}
                 onValueChange={(v) => onChange(v as FeedFilterEnum)}
                 className="flex-1 overflow-hidden"
             >
-                <TabsList className="w-full justify-start overflow-x-auto no-scrollbar ">
+                <TabsList className="no-scrollbar w-full justify-start overflow-x-auto ">
                     {Object.entries(FEED_FILTER_OPTIONS).map(
                         ([key, option]) => (
                             <TabsTrigger

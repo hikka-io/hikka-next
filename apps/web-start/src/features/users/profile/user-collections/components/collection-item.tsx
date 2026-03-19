@@ -38,10 +38,10 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                         {data.title}
                     </HorizontalCardTitle>
                     {data.spoiler && (
-                        <div className="size-2 rounded-full bg-warning-foreground" />
+                        <div className="bg-warning-foreground size-2 rounded-full" />
                     )}
                     {data.nsfw && (
-                        <div className="size-2 rounded-full bg-destructive-foreground" />
+                        <div className="bg-destructive-foreground size-2 rounded-full" />
                     )}
                 </div>
                 <HorizontalCardDescription

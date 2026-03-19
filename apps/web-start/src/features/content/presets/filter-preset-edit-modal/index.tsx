@@ -153,7 +153,7 @@ const Component = ({ filterPreset, onClose, onBack }: Props) => {
 
     return (
         <Form {...form}>
-            <div className="flex -m-4 p-4 flex-col gap-6 flex-1 overflow-y-scroll">
+            <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
                 <FormInput
                     name="name"
                     label="Назва"

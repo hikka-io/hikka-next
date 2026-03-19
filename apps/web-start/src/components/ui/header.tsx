@@ -117,12 +117,12 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
                     to={resolvedProp || href || ''}
                     search={search}
                     {...linkProps}
-                    className="hover:underline text-left"
+                    className="text-left hover:underline"
                 >
                     {heading}
                 </Link>
             ) : onClick ? (
-                <button onClick={onClick} className="hover:underline text-left">
+                <button onClick={onClick} className="text-left hover:underline">
                     {heading}
                 </button>
             ) : (
@@ -143,7 +143,7 @@ const HeaderDescription: FC<PropsWithChildren<HeaderDescriptionProps>> = ({
     children,
 }) => {
     return (
-        <span className={cn('text-sm text-muted-foreground', className)}>
+        <span className={cn('text-muted-foreground text-sm', className)}>
             {children}
         </span>
     );
@@ -162,7 +162,7 @@ const HeaderNavButton: FC = () => {
                 <Link
                     to={href}
                     search={search}
-                    className="flex items-center gap-2 text-muted-foreground"
+                    className="text-muted-foreground flex items-center gap-2"
                     {...linkProps}
                 >
                     <MaterialSymbolsArrowRightAltRounded className="text-lg" />
@@ -175,7 +175,7 @@ const HeaderNavButton: FC = () => {
         <Button
             onClick={onClick}
             size="icon-sm"
-            className="flex items-center gap-2 text-muted-foreground"
+            className="text-muted-foreground flex items-center gap-2"
             variant="ghost"
         >
             <MaterialSymbolsArrowRightAltRounded className="text-lg" />

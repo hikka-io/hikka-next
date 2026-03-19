@@ -26,7 +26,7 @@ const ApplicationItem: FC<Props> = ({ client }) => {
                     {client.verified && (
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="rounded-sm border border-border bg-secondary/20 p-1 text-xs font-bold backdrop-blur">
+                                <div className="border-border bg-secondary/20 rounded-sm border p-1 text-xs font-bold backdrop-blur">
                                     <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
                                 </div>
                             </TooltipTrigger>
@@ -37,14 +37,14 @@ const ApplicationItem: FC<Props> = ({ client }) => {
                     )}
                 </div>
                 {client.description && (
-                    <p className="line-clamp-6 text-sm text-muted-foreground">
+                    <p className="text-muted-foreground line-clamp-6 text-sm">
                         {client.description}
                     </p>
                 )}
             </div>
             <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-end">
                 <div className="flex flex-1 flex-col">
-                    <p className="text-xs text-muted-foreground opacity-60">
+                    <p className="text-muted-foreground text-xs opacity-60">
                         {format(new Date(client.updated * 1000), 'd MMMM yyyy')}
                     </p>
                 </div>

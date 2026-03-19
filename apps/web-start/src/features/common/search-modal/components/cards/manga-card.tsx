@@ -43,22 +43,22 @@ const MangaCard = ({ manga, onClick, type }: Props) => {
                     <div className="flex items-center gap-2">
                         {manga.year && (
                             <>
-                                <Label className="text-xs text-muted-foreground">
+                                <Label className="text-muted-foreground text-xs">
                                     {manga.year}
                                 </Label>
-                                <div className="size-1 rounded-full bg-muted-foreground" />
+                                <div className="bg-muted-foreground size-1 rounded-full" />
                             </>
                         )}
 
                         {manga.media_type && (
                             <>
-                                <Label className="text-xs text-muted-foreground">
+                                <Label className="text-muted-foreground text-xs">
                                     {
                                         MANGA_MEDIA_TYPE[manga.media_type]
                                             .title_ua
                                     }
                                 </Label>
-                                <div className="size-1 rounded-full bg-muted-foreground" />
+                                <div className="bg-muted-foreground size-1 rounded-full" />
                             </>
                         )}
 
@@ -78,7 +78,7 @@ const MangaCard = ({ manga, onClick, type }: Props) => {
             {manga.score > 0 && (
                 <Badge variant="outline" className="gap-1">
                     {manga.score}
-                    <MaterialSymbolsStarRounded className="text-yellow-400 size-4" />
+                    <MaterialSymbolsStarRounded className="size-4 text-yellow-400" />
                 </Badge>
             )}
         </Comp>

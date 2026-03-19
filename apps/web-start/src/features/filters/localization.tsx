@@ -21,7 +21,7 @@ const Genre: FC<Props> = () => {
 
     return (
         <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2">
                 <Languages className="size-4 shrink-0" />
                 <Label htmlFor="uk-translated">Перекладено українською</Label>
             </div>

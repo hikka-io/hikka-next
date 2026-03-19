@@ -41,18 +41,18 @@ const FollowStats: FC<Props> = ({ className }) => {
         <>
             <Card
                 className={cn(
-                    'flex-col lg:flex-row items-center bg-secondary/20 backdrop-blur p-2 gap-2 w-full md:w-auto',
+                    'bg-secondary/20 w-full flex-col items-center gap-2 p-2 backdrop-blur md:w-auto lg:flex-row',
                     className,
                 )}
             >
-                <div className='flex gap-2 h-full w-full items-center'>
+                <div className='flex h-full w-full items-center gap-2'>
                     <Button
                         onClick={() => {
                             setFollowType('followers');
                             setOpen(true);
                         }}
                         variant="ghost"
-                        className="flex flex-col gap-0 p-2 h-auto w-auto text-foreground flex-1"
+                        className="text-foreground flex h-auto w-auto flex-1 flex-col gap-0 p-2"
                     >
                         <span className="font-bold">
                             {followStats.followers}
@@ -66,7 +66,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                             setFollowType('followings');
                             setOpen(true);
                         }}
-                        className="flex flex-col gap-0 p-2 h-auto w-auto text-foreground flex-1"
+                        className="text-foreground flex h-auto w-auto flex-1 flex-col gap-0 p-2"
                     >
                         <span className="font-bold">
                             {followStats.following}
@@ -76,9 +76,9 @@ const FollowStats: FC<Props> = ({ className }) => {
                         </span>
                     </Button>
                 </div>
-                {loggedUser?.username !== String(params.username) && <Separator orientation="vertical" className='h-8 hidden lg:block' />}
+                {loggedUser?.username !== String(params.username) && <Separator orientation="vertical" className='hidden h-8 lg:block' />}
 
-                {loggedUser?.username !== String(params.username) && <div className="p-2 flex gap-4 w-full">
+                {loggedUser?.username !== String(params.username) && <div className="flex w-full gap-4 p-2">
                     <FollowButton
                         size="md"
                         username={String(params.username)}

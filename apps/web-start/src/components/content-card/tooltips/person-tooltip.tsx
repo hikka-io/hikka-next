@@ -30,7 +30,7 @@ const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
 
     return (
         <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium leading-tight text-muted-foreground">
+            <span className="text-muted-foreground text-sm leading-tight font-medium">
                 Роботи
             </span>
             <div className="flex gap-2">
@@ -52,7 +52,7 @@ const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
                         className="w-10"
                         href={`/people/${slug}`}
                         image={
-                            <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
+                            <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
                         }
                         containerRatio={0.7}
                     />
@@ -70,7 +70,7 @@ const PersonCharactersList: FC<{
 
     return (
         <div className="flex flex-col gap-2">
-            <span className="text-sm font-medium leading-tight text-muted-foreground">
+            <span className="text-muted-foreground text-sm leading-tight font-medium">
                 Ролі
             </span>
             <div className="flex gap-2">
@@ -90,7 +90,7 @@ const PersonCharactersList: FC<{
                         className="w-10"
                         href={`/people/${slug}`}
                         image={
-                            <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
+                            <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
                         }
                         containerRatio={0.7}
                     />
@@ -130,12 +130,12 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
             />
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
-                    <span className="line-clamp-2 text-sm font-bold leading-tight">
+                    <span className="line-clamp-2 text-sm leading-tight font-bold">
                         {data.name_ua || data.name_en || data.name_native}
                     </span>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <MDViewer className="whitespace-normal break-normal text-sm text-muted-foreground md:line-clamp-3">
+                    <MDViewer className="text-muted-foreground text-sm break-normal whitespace-normal md:line-clamp-3">
                         {data.description_ua}
                     </MDViewer>
                     {data.characters_count === 0 && (

@@ -14,7 +14,7 @@ function AnimeMediaPage() {
     const { slug } = Route.useParams();
 
     return (
-        <div className="w-full mx-auto flex max-w-3xl flex-col gap-12 p-0">
+        <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
             <div className="flex flex-col gap-12">
                 <ContentHeader
                     disableBreadcrumbs

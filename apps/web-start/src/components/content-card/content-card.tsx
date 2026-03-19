@@ -218,7 +218,7 @@ const Content = memo(
                         <AspectRatio
                             ratio={containerRatio}
                             className={cn(
-                                'relative w-full overflow-hidden rounded-md bg-muted',
+                                'bg-muted relative w-full overflow-hidden rounded-md',
                                 containerClassName,
                             )}
                         >
@@ -226,7 +226,7 @@ const Content = memo(
                                 to={resolvedHref}
                                 target={target}
                                 linkProps={linkProps}
-                                className="absolute left-0 top-0 flex size-full items-center justify-center bg-secondary/20"
+                                className="bg-secondary/20 absolute top-0 left-0 flex size-full items-center justify-center"
                             >
                                 {renderImage(
                                     image,
@@ -291,7 +291,7 @@ const renderImage = (
 ) => {
     if (!image) {
         return (
-            <MaterialSymbolsImageNotSupportedOutlineRounded className="text-4xl text-muted-foreground" />
+            <MaterialSymbolsImageNotSupportedOutlineRounded className="text-muted-foreground text-4xl" />
         );
     }
 
@@ -309,7 +309,7 @@ const renderImage = (
                 height={resolvedHeight}
                 sizes={sizes ?? DEFAULT_PRESET.sizes}
                 src={image}
-                className={cn('max-w-full! max-h-full! ', imageClassName)}
+                className={cn('max-h-full! max-w-full! ', imageClassName)}
                 alt="Poster"
                 {...(Object.keys(restImageProps).length > 0
                     ? restImageProps
@@ -324,7 +324,7 @@ const renderImage = (
 const renderDescription = (description?: string | null) => {
     if (!description) return null;
     return (
-        <p className="mb-1 truncate text-xs text-muted-foreground">
+        <p className="text-muted-foreground mb-1 truncate text-xs">
             {description}
         </p>
     );
@@ -339,7 +339,7 @@ const renderTitle = (
     return (
         <span
             className={cn(
-                'text-sm font-medium leading-5',
+                'text-sm leading-5 font-medium',
                 !hasSubtitles && 'line-clamp-2',
                 titleClassName,
             )}
@@ -357,15 +357,15 @@ const renderSubtitles = (
     return (
         <div className="mt-1 flex items-center gap-2">
             {leftSubtitle && (
-                <span className="text-xs font-medium leading-tight text-muted-foreground">
+                <span className="text-muted-foreground text-xs leading-tight font-medium">
                     {leftSubtitle}
                 </span>
             )}
             {leftSubtitle && rightSubtitle && (
-                <div className="size-1 rounded-full bg-muted-foreground" />
+                <div className="bg-muted-foreground size-1 rounded-full" />
             )}
             {rightSubtitle && (
-                <span className="text-xs font-medium leading-tight text-muted-foreground">
+                <span className="text-muted-foreground text-xs leading-tight font-medium">
                     {rightSubtitle}
                 </span>
             )}

@@ -21,7 +21,7 @@ import {
 
 const Footer = () => {
     return (
-        <footer className="w-full border-t border-t-border md:mt-12">
+        <footer className="border-t-border w-full border-t md:mt-12">
             <div className="mx-auto w-full max-w-350 p-4">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 lg:justify-start">
@@ -91,7 +91,7 @@ const Footer = () => {
                         </div>
                         <Separator
                             orientation="vertical"
-                            className="h-6 mx-2 hidden min-[320px]:block"
+                            className="mx-2 hidden h-6 min-[320px]:block"
                         />
                         <Label
                             id="hikka-footer-label"

@@ -26,15 +26,15 @@ const FeedLayout: FC<Props> = ({ children, className }) => {
                 <FeedSidebar />
             </aside>
 
-            <main className="flex min-w-0 flex-col gap-4 order-2 lg:order-1">
+            <main className="order-2 flex min-w-0 flex-col gap-4 lg:order-1">
                 {children}
             </main>
 
-            <aside className="h-fit block xl:hidden order-1 lg:order-2">
+            <aside className="order-1 block h-fit lg:order-2 xl:hidden">
                 <FeedCombinedSidebar />
             </aside>
 
-            <aside className="hidden h-fit xl:block xl:order-2">
+            <aside className="hidden h-fit xl:order-2 xl:block">
                 <FeedWidgets />
             </aside>
         </div>

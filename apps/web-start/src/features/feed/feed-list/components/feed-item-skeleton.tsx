@@ -13,12 +13,12 @@ const FeedItemSkeleton: FC = () => {
                 </div>
             </div>
 
-            <div className="ml-14 mt-3 flex flex-col gap-3">
+            <div className="mt-3 ml-14 flex flex-col gap-3">
                 <Skeleton className="h-4 w-3/4" />
                 <Skeleton className="h-4 w-1/2" />
                 <Skeleton className="h-32 w-full rounded-lg" />
 
-                <div className="flex items-center gap-4 mt-1">
+                <div className="mt-1 flex items-center gap-4">
                     <Skeleton className="h-4 w-12" />
                     <Skeleton className="h-4 w-12" />
                 </div>

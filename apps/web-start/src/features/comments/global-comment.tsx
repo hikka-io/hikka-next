@@ -49,7 +49,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 {comment.vote_score > 0 && (
                     <div className="flex flex-1 justify-end self-start">
                         <StatItem size="sm" className="text-success-foreground">
-                            <ArrowBigUp className="size-5! fill-success-foreground" />
+                            <ArrowBigUp className="fill-success-foreground size-5!" />
                             {comment.vote_score}
                         </StatItem>
                     </div>
@@ -57,7 +57,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
             </HorizontalCard>
 
             <Link to={href} className="w-full flex-1 hover:underline">
-                <MDViewer className="line-clamp-2 wrap-break-word text-sm" preview>
+                <MDViewer className="line-clamp-2 text-sm wrap-break-word" preview>
                     {comment.text}
                 </MDViewer>
             </Link>

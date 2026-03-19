@@ -26,7 +26,7 @@ const ONGOING_SIZE = 5;
 const OngoingItemSkeleton = () => (
     <div className="flex items-center gap-3 rounded-sm px-2 py-1.5">
         <Skeleton className="size-10 shrink-0 rounded-sm" />
-        <div className="min-w-0 flex-1 flex flex-col gap-1.5">
+        <div className="flex min-w-0 flex-1 flex-col gap-1.5">
             <Skeleton className="h-3.5 w-full rounded" />
             <Skeleton className="h-3 w-2/3 rounded" />
         </div>
@@ -67,8 +67,8 @@ const WidgetOngoing = () => {
     };
 
     return (
-        <Card className="p-0 backdrop-blur bg-secondary/20 snap-center">
-            <Block className="gap-4 py-4 w-full">
+        <Card className="bg-secondary/20 snap-center p-0 backdrop-blur">
+            <Block className="w-full gap-4 py-4">
                 <Header href="/anime" search={search} className="px-4">
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Онґоінґи</HeaderTitle>
@@ -76,7 +76,7 @@ const WidgetOngoing = () => {
                     <HeaderNavButton />
                 </Header>
 
-                <div className="flex flex-col px-2 gap-1">
+                <div className="flex flex-col gap-1 px-2">
                     {isLoading &&
                         range(0, ONGOING_SIZE).map((i) => (
                             <OngoingItemSkeleton key={i} />
@@ -90,11 +90,11 @@ const WidgetOngoing = () => {
                                     to={`/anime/${anime.slug}`}
                                     className={cn(
                                         'group flex items-center gap-4 rounded-sm px-2 py-2',
-                                        'transition-colors hover:bg-secondary/60',
+                                        'hover:bg-secondary/60 transition-colors',
                                     )}
                                 >
                                     <div className="w-4">
-                                        <span className="text-xs font-semibold text-muted-foreground">
+                                        <span className="text-muted-foreground text-xs font-semibold">
                                             #{index + 1}
                                         </span>
                                     </div>
@@ -108,12 +108,12 @@ const WidgetOngoing = () => {
                                     ></ContentCard>
 
                                     {/* title + meta */}
-                                    <div className="min-w-0 flex-1 flex flex-col gap-2">
-                                        <p className="line-clamp-2 text-xs font-medium group-hover:text-foreground">
+                                    <div className="flex min-w-0 flex-1 flex-col gap-2">
+                                        <p className="group-hover:text-foreground line-clamp-2 text-xs font-medium">
                                             {anime.title}
                                         </p>
                                         <div className="flex items-center gap-2">
-                                            <span className="text-xs text-muted-foreground">
+                                            <span className="text-muted-foreground text-xs">
                                                 {anime.episodes_released}/
                                                 {anime.episodes_total} епізодів
                                             </span>
@@ -121,14 +121,14 @@ const WidgetOngoing = () => {
                                     </div>
                                     <Badge variant="outline" className="gap-1">
                                         <span>{anime.score}</span>{' '}
-                                        <MaterialSymbolsStarRounded className="text-yellow-400 size-4" />
+                                        <MaterialSymbolsStarRounded className="size-4 text-yellow-400" />
                                     </Badge>
                                 </Link>
                             );
                         })}
 
                     {!isLoading && (!list || list.length === 0) && (
-                        <p className="py-4 text-center text-sm text-muted-foreground">
+                        <p className="text-muted-foreground py-4 text-center text-sm">
                             Немає сезонних онґоінґів
                         </p>
                     )}

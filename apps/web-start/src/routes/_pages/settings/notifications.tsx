@@ -25,7 +25,7 @@ function NotificationsSettingsPage() {
                         <HeaderTitle>Сповіщення</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                     Налаштуйте персоналізовані сповіщення
                 </p>
             </div>

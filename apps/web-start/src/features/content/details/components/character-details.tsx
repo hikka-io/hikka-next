@@ -17,8 +17,8 @@ const CharacterDetails = ({
     data: CharacterResponse;
 }) => {
     return (
-        <Card className={cn('bg-secondary/20 backdrop-blur px-0', className)}>
-            <div className='px-4 gap-4 flex flex-col'>
+        <Card className={cn('bg-secondary/20 px-0 backdrop-blur', className)}>
+            <div className='flex flex-col gap-4 px-4'>
                 <DetailItem
                     icon={<Languages className="size-4" />}
                     title="Імʼя англ."
@@ -33,7 +33,7 @@ const CharacterDetails = ({
 
             {data.synonyms.length > 0 && <Fragment>
                 <Separator />
-                <div className='px-4 gap-4 flex flex-col'>
+                <div className='flex flex-col gap-4 px-4'>
                     <DetailItem
                         icon={<BookType className="size-4" />}
                         title="Синоніми"

@@ -26,7 +26,7 @@ const EditModerator: FC<Props> = ({ editId }) => {
 
     return (
         <>
-            <hr className="my-4 h-px w-full text-muted-foreground" />
+            <hr className="text-muted-foreground my-4 h-px w-full" />
             <div className="flex flex-col gap-4">
                 <Label className="text-muted-foreground">Модератор</Label>
                 <HorizontalCard>

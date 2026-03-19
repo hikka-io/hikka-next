@@ -17,10 +17,10 @@ const SidebarProfile = () => {
 
     if (!user) {
         return (
-            <Card className="items-center bg-secondary/20">
-                <div className="flex flex-col gap-2 w-full">
+            <Card className="bg-secondary/20 items-center">
+                <div className="flex w-full flex-col gap-2">
                     <p className="text-sm font-bold">Приєднуйся до hikka</p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-muted-foreground text-xs">
                         Відслідковуй свій прогрес, створюй власні колекції та
                         веди обговорення зі спільнотою
                     </p>
@@ -31,8 +31,8 @@ const SidebarProfile = () => {
     }
 
     return (
-        <Card className="items-center bg-secondary/20 backdrop-blur-lg hidden xl:flex">
-            <div className="flex items-center justify-between gap-2 w-full">
+        <Card className="bg-secondary/20 hidden items-center backdrop-blur-lg xl:flex">
+            <div className="flex w-full items-center justify-between gap-2">
                 <Link to={`/u/${user.username}`}>
                     <Avatar className="size-12 rounded-lg">
                         <AvatarImage src={user.avatar} />
@@ -58,7 +58,7 @@ const SidebarProfile = () => {
                     </Button>
                 </div>
             </div>
-            <div className="flex flex-col gap-2 w-full">
+            <div className="flex w-full flex-col gap-2">
                 <Link
                     to={`/u/${user.username}`}
                     className="text-sm font-bold hover:underline"

@@ -43,22 +43,22 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
                     <div className="flex items-center gap-2">
                         {novel.year && (
                             <>
-                                <Label className="text-xs text-muted-foreground">
+                                <Label className="text-muted-foreground text-xs">
                                     {novel.year}
                                 </Label>
-                                <div className="size-1 rounded-full bg-muted-foreground" />
+                                <div className="bg-muted-foreground size-1 rounded-full" />
                             </>
                         )}
 
                         {novel.media_type && (
                             <>
-                                <Label className="text-xs text-muted-foreground">
+                                <Label className="text-muted-foreground text-xs">
                                     {
                                         NOVEL_MEDIA_TYPE[novel.media_type]
                                             .title_ua
                                     }
                                 </Label>
-                                <div className="size-1 rounded-full bg-muted-foreground" />
+                                <div className="bg-muted-foreground size-1 rounded-full" />
                             </>
                         )}
 
@@ -78,7 +78,7 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
             {novel.score > 0 && (
                 <Badge variant="outline" className="gap-1">
                     {novel.score}
-                    <MaterialSymbolsStarRounded className="text-yellow-400 size-4" />
+                    <MaterialSymbolsStarRounded className="size-4 text-yellow-400" />
                 </Badge>
             )}
         </Comp>

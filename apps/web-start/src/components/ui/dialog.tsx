@@ -40,7 +40,7 @@ function DialogOverlay({
         <DialogPrimitive.Overlay
             data-slot="dialog-overlay"
             className={cn(
-                'data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs fixed inset-0 isolate z-50',
+                'data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs',
                 className,
             )}
             {...props}
@@ -62,7 +62,7 @@ function DialogContent({
             <DialogPrimitive.Content
                 data-slot="dialog-content"
                 className={cn(
-                    'bg-background p-4 data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 ring-foreground/10 flex max-w-[calc(100%-2rem)] max-h-[calc(100dvh-2rem)] flex-col gap-4 rounded-xl text-sm ring-1 duration-100 sm:max-w-sm fixed top-1/2 left-1/2 z-50 w-full -translate-x-1/2 -translate-y-1/2 outline-none overflow-hidden',
+                    'bg-background data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 ring-foreground/10 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-hidden rounded-xl p-4 text-sm ring-1 duration-100 outline-none sm:max-w-sm',
                     className,
                 )}
                 {...props}
@@ -90,7 +90,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="dialog-header"
             className={cn(
-                'gap-2 flex flex-col -mx-4 -mt-4 p-4 border-b bg-secondary/20',
+                'bg-secondary/20 -mx-4 -mt-4 flex flex-col gap-2 border-b p-4',
                 className,
             )}
             {...props}
@@ -110,7 +110,7 @@ function DialogFooter({
         <div
             data-slot="dialog-footer"
             className={cn(
-                'bg-secondary/20 -mx-4 -mb-4 rounded-b-xl border-t p-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
+                'bg-secondary/20 -mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t p-4 sm:flex-row sm:justify-end',
                 className,
             )}
             {...props}

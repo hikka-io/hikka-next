@@ -40,9 +40,9 @@ const ReadDetails = ({
     data: MangaInfoResponse | NovelInfoResponse;
 }) => {
     return (
-        <Card className={cn('bg-secondary/20 backdrop-blur px-0', className)}>
+        <Card className={cn('bg-secondary/20 px-0 backdrop-blur', className)}>
             {/* Basic Info Section */}
-            <div className='px-4 gap-4 flex flex-col'>
+            <div className='flex flex-col gap-4 px-4'>
                 <DetailItem
                     icon={<Play className="size-4" />}
                     title="Тип"
@@ -66,7 +66,7 @@ const ReadDetails = ({
             {/* Chapters Info Section */}
             {(data.chapters || data.volumes) && <Fragment>
                 <Separator />
-                <div className='px-4 gap-4 flex flex-col'>
+                <div className='flex flex-col gap-4 px-4'>
                     <DetailItem
                         icon={<Hash className="size-4" />}
                         title="Розділи"
@@ -84,7 +84,7 @@ const ReadDetails = ({
             {/* Additional Info Section */}
             {data.magazines.length > 0 && <Fragment>
                 <Separator />
-                <div className='px-4 gap-4 flex flex-col'>
+                <div className='flex flex-col gap-4 px-4'>
                     <DetailItem
                         icon={<Building2 className="size-4" />}
                         title="Видавець"
@@ -97,7 +97,7 @@ const ReadDetails = ({
 
             {data.synonyms.length > 0 && <Fragment>
                 <Separator />
-                <div className='px-4 gap-4 flex flex-col'>
+                <div className='flex flex-col gap-4 px-4'>
                     <DetailItem
                         icon={<BookType className="size-4" />}
                         title="Синоніми"

@@ -49,7 +49,7 @@ const WidgetTracker = () => {
     if (!user) return null;
 
     return (
-        <Card className="backdrop-blur bg-secondary/20 snap-center">
+        <Card className="bg-secondary/20 snap-center backdrop-blur">
             <Block>
                 <Header
                     href={`/u/${user.username}/${TAB_LIST_CONFIG[activeTab].path}`}

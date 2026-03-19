@@ -33,7 +33,7 @@ function navItemClassName(active: boolean) {
 const triggerClassName = cn(
     navItemSize,
     'border border-transparent',
-    'bg-transparent! text-foreground/70!',
+    'text-foreground/70! bg-transparent!',
     'hover:bg-secondary/60! hover:text-foreground!',
     'focus:bg-transparent!',
     'data-[state=open]:bg-secondary/60! data-[state=open]:text-foreground!',
@@ -41,7 +41,7 @@ const triggerClassName = cn(
 
 const dropdownItemClassName = cn(
     buttonVariants({ variant: 'ghost' }),
-    'h-auto justify-start gap-2 rounded-sm px-2 py-1.5 text-sm w-full',
+    'h-auto w-full justify-start gap-2 rounded-sm px-2 py-1.5 text-sm',
     'text-muted-foreground',
 );
 
@@ -117,7 +117,7 @@ function NavMenu() {
                                         {index > 0 && (
                                             <Separator className="my-1" />
                                         )}
-                                        <span className="px-2 py-1.5 text-xs font-medium text-muted-foreground/70">
+                                        <span className="text-muted-foreground/70 px-2 py-1.5 text-xs font-medium">
                                             {group.title_ua}
                                         </span>
                                         <ul className="grid gap-1">

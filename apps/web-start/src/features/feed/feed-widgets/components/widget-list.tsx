@@ -14,8 +14,8 @@ const WidgetList = () => {
     return (
         <div
             className={cn(
-                'flex w-full min-w-0 snap-x snap-mandatory gap-8 overflow-x-auto no-scrollbar',
-                'lg:flex-col lg:snap-none lg:overflow-visible px-4 lg:px-0',
+                'no-scrollbar flex w-full min-w-0 snap-x snap-mandatory gap-8 overflow-x-auto',
+                'px-4 lg:snap-none lg:flex-col lg:overflow-visible lg:px-0',
             )}
         >
             {widgets.map((widgetId) => {

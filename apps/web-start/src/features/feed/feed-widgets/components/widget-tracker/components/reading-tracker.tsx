@@ -210,14 +210,14 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                         <h5>{selectedRead.content.title}</h5>
                         <div className="mt-1 flex cursor-pointer items-center gap-2">
                             {selectedRead.content.year && (
-                                <Label className="cursor-pointer text-xs text-muted-foreground">
+                                <Label className="text-muted-foreground cursor-pointer text-xs">
                                     {selectedRead.content.year}
                                 </Label>
                             )}
                             {selectedRead.content.media_type && (
                                 <>
-                                    <div className="size-1 rounded-full bg-muted-foreground" />
-                                    <Label className="cursor-pointer text-xs text-muted-foreground">
+                                    <div className="bg-muted-foreground size-1 rounded-full" />
+                                    <Label className="text-muted-foreground cursor-pointer text-xs">
                                         {
                                             (
                                                 config.mediaTypeMap as Record<
@@ -232,8 +232,8 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             )}
                             {totalChapters && (
                                 <>
-                                    <div className="size-1 rounded-full bg-muted-foreground" />
-                                    <Label className="cursor-pointer text-xs text-muted-foreground">
+                                    <div className="bg-muted-foreground size-1 rounded-full" />
+                                    <Label className="text-muted-foreground cursor-pointer text-xs">
                                         {totalChapters}{' '}
                                         {getDeclensionWord(
                                             totalChapters,
@@ -246,8 +246,8 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                     </Link>
 
                     <div className="flex w-full flex-col gap-2">
-                        <p className="text-sm text-muted-foreground">
-                            <span className="font-bold text-foreground">
+                        <p className="text-muted-foreground text-sm">
+                            <span className="text-foreground font-bold">
                                 {currentChapters}
                             </span>
                             /{totalChapters ?? '?'} розділів

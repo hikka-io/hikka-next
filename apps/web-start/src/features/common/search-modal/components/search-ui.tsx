@@ -30,7 +30,7 @@ export function SearchItem({ className, ...props }: CommandItemProps) {
     return (
         <CommandItem
             className={cn(
-                'rounded-none! px-3! border-t first:border-t-0',
+                'rounded-none! border-t px-3! first:border-t-0',
                 className,
             )}
             {...props}

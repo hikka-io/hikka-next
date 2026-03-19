@@ -47,8 +47,8 @@ const WidgetCalendar = () => {
     const todayItems = groupedByDay?.[todayKey];
 
     return (
-        <Card className="p-0 backdrop-blur bg-secondary/20 snap-center ">
-            <Block className="py-4 w-full">
+        <Card className="bg-secondary/20 snap-center p-0 backdrop-blur ">
+            <Block className="w-full py-4">
                 <Header href="/schedule" className="px-4">
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Календар</HeaderTitle>
@@ -72,9 +72,9 @@ const WidgetCalendar = () => {
                                 key={`${item.anime.slug}-${item.episode}`}
                                 to={`/anime/${item.anime.slug}`}
                                 className={cn(
-                                    'flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors hover:bg-secondary',
+                                    'hover:bg-secondary flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors',
                                     isAiringNow &&
-                                        'bg-primary border border-primary-border',
+                                        'bg-primary border-primary-border border',
                                 )}
                             >
                                 <span
@@ -92,7 +92,7 @@ const WidgetCalendar = () => {
                                     className={cn(
                                         'min-w-0 flex-1 truncate',
                                         isAiringNow &&
-                                            'text-primary-foreground font-medium text-sm',
+                                            'text-primary-foreground text-sm font-medium',
                                         isPrev && 'text-muted-foreground',
                                     )}
                                 >

@@ -87,7 +87,7 @@ export const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
                 id="image-group-input"
                 onChange={(e) => insertImage({ files: e.target.files })}
                 multiple={false}
-                className="absolute left-0 top-0 size-full cursor-pointer opacity-0"
+                className="absolute top-0 left-0 size-full cursor-pointer opacity-0"
                 accept="image/*"
             />
             {isPending && <span className="loading loading-spinner"></span>}

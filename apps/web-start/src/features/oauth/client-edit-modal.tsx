@@ -102,7 +102,7 @@ const Component = ({ client, onClose }: Props) => {
                 onSubmit={(e) => e.preventDefault()}
                 className="flex flex-col gap-6"
             >
-                <div className="flex flex-1 -m-4 p-4 flex-col gap-6">
+                <div className="-m-4 flex flex-1 flex-col gap-6 p-4">
                     <FormInput
                         name="name"
                         label="Назва застосунку"

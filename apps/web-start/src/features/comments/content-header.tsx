@@ -44,7 +44,7 @@ const ContentHeader: FC<Props> = ({
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                         <Link
                             to={link}
-                            className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
+                            className="flex-1 overflow-hidden text-sm font-bold text-ellipsis hover:underline"
                         >
                             {data?.title}
                         </Link>
@@ -63,7 +63,7 @@ const ContentHeader: FC<Props> = ({
                     )}
                     <div className="flex flex-1 flex-col">
                         <HeaderTitle variant="h4">{data?.title}</HeaderTitle>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                             {CONTENT_TYPES[content_type].title_ua}
                         </p>
                     </div>

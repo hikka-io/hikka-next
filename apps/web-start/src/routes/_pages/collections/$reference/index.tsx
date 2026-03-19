@@ -29,29 +29,29 @@ function CollectionPage() {
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link
                         to={'/collections/' + reference}
-                        className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
+                        className="flex-1 overflow-hidden text-sm font-bold text-ellipsis hover:underline"
                     >
                         {collection?.title}
                     </Link>
                 </div>
             </Breadcrumbs>
             <div className="flex flex-col gap-12">
-                <div className="w-full mx-auto max-w-3xl p-0">
+                <div className="mx-auto w-full max-w-3xl p-0">
                     <CollectionAuthor />
                 </div>
                 <div className="grid grid-cols-1 justify-items-center gap-12 lg:grid-cols-[auto_1fr_auto] lg:gap-4">
-                    <div className="hidden min-w-52 max-w-56 lg:block" />
+                    <div className="hidden max-w-56 min-w-52 lg:block" />
                     <Block className="max-w-3xl">
                         <CollectionTitle />
                         <CollectionGroups />
                     </Block>
-                    <div className="hidden min-w-52 max-w-56 lg:block">
+                    <div className="hidden max-w-56 min-w-52 lg:block">
                         <div className="sticky top-20 h-[calc(100vh-5rem)]">
-                            <TableOfContents className="max-h-[70vh] bg-secondary/20 opacity-60 backdrop-blur-xl transition-opacity hover:opacity-100" />
+                            <TableOfContents className="bg-secondary/20 max-h-[70vh] opacity-60 backdrop-blur-xl transition-opacity hover:opacity-100" />
                         </div>
                     </div>
                 </div>
-                <div className="w-full mx-auto max-w-3xl p-0">
+                <div className="mx-auto w-full max-w-3xl p-0">
                     <Comments
                         preview
                         slug={reference}

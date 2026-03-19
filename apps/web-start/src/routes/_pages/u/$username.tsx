@@ -80,7 +80,7 @@ function UserLayout() {
             <Breadcrumbs>
                 <Link
                     to={`/u/${username}`}
-                    className="line-clamp-1 break-all text-sm font-bold hover:underline"
+                    className="line-clamp-1 text-sm font-bold break-all hover:underline"
                 >
                     {username}
                 </Link>
@@ -89,8 +89,8 @@ function UserLayout() {
                     urlPrefix={`/u/${username}`}
                 />
             </Breadcrumbs>
-            <div className="flex gap-4 lg:gap-8 lg:items-end flex-col md:flex-row">
-                <div className="flex gap-4 lg:gap-8 flex-1">
+            <div className="flex flex-col gap-4 md:flex-row lg:items-end lg:gap-8">
+                <div className="flex flex-1 gap-4 lg:gap-8">
                     <UserInfo />
                     <UserTitle />
                 </div>

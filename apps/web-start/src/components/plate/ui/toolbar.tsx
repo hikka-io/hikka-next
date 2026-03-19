@@ -22,7 +22,7 @@ export function Toolbar({
 }: React.ComponentProps<typeof ToolbarPrimitive.Root>) {
     return (
         <ToolbarPrimitive.Root
-            className={cn('relative flex select-none items-center', className)}
+            className={cn('relative flex items-center select-none', className)}
             {...props}
         />
     );
@@ -61,7 +61,7 @@ export function ToolbarSeparator({
 }: React.ComponentProps<typeof ToolbarPrimitive.Separator>) {
     return (
         <ToolbarPrimitive.Separator
-            className={cn('mx-2 my-1 w-px shrink-0 bg-border', className)}
+            className={cn('bg-border mx-2 my-1 w-px shrink-0', className)}
             {...props}
         />
     );
@@ -92,7 +92,7 @@ const toolbarButtonVariants = cva(
 
 const dropdownArrowVariants = cva(
     cn(
-        'inline-flex items-center justify-center rounded-r-md text-sm font-medium text-foreground transition-colors disabled:pointer-events-none disabled:opacity-50',
+        'text-foreground inline-flex items-center justify-center rounded-r-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50',
     ),
     {
         defaultVariants: {
@@ -158,7 +158,7 @@ export const ToolbarButton = withTooltip(function ToolbarButton({
                         </div>
                         <div>
                             <ChevronDown
-                                className="size-3.5 text-muted-foreground"
+                                className="text-muted-foreground size-3.5"
                                 data-icon
                             />
                         </div>
@@ -252,7 +252,7 @@ export function ToolbarSplitButtonSecondary({
             role="button"
             {...props}
         >
-            <ChevronDown className="size-3.5 text-muted-foreground" data-icon />
+            <ChevronDown className="text-muted-foreground size-3.5" data-icon />
         </span>
     );
 }
@@ -286,7 +286,7 @@ export function ToolbarGroup({
         >
             <div className="flex items-center">{children}</div>
 
-            <div className="group-last/toolbar-group:hidden! mx-1.5 py-0.5">
+            <div className="mx-1.5 py-0.5 group-last/toolbar-group:hidden!">
                 <Separator orientation="vertical" />
             </div>
         </div>
@@ -351,7 +351,7 @@ function TooltipContent({
         <TooltipPrimitive.Portal>
             <TooltipPrimitive.Content
                 className={cn(
-                    'origin-(--radix-tooltip-content-transform-origin) z-50 w-fit text-balance rounded-md bg-primary px-3 py-1.5 text-xs text-foreground hidden md:flex',
+                    'bg-primary text-foreground z-50 hidden w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance md:flex',
                     className,
                 )}
                 data-slot="tooltip-content"
@@ -390,7 +390,7 @@ export function ToolbarMenuGroup({
                 )}
             >
                 {label && (
-                    <DropdownMenuLabel className="select-none text-xs font-semibold text-muted-foreground">
+                    <DropdownMenuLabel className="text-muted-foreground text-xs font-semibold select-none">
                         {label}
                     </DropdownMenuLabel>
                 )}

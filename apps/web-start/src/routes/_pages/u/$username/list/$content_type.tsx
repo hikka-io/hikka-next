@@ -101,7 +101,7 @@ function ListPage() {
                 </div>
                 <Userlist content_type={content_type} />
             </Block>
-            <div className="sticky top-20 hidden w-full max-h-[calc(100vh-9rem)] rounded-lg border border-border bg-secondary/20 backdrop-blur-xl overflow-hidden lg:flex">
+            <div className="border-border bg-secondary/20 sticky top-20 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border backdrop-blur-xl lg:flex">
                 {isAnime ? (
                     <AnimeFilters
                         sort_type="watch"

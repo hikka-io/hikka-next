@@ -29,7 +29,7 @@ const FeedMobileWidgets = () => {
                     <Button
                         variant="outline"
                         size="md"
-                        className="flex-1 text-muted-foreground"
+                        className="text-muted-foreground flex-1"
                     >
                         Віджети
                     </Button>
@@ -46,12 +46,12 @@ const FeedMobileWidgets = () => {
                 )}
             </div>
             <DialogContent
-                className={cn('h-dvh p-0 flex flex-col overflow-hidden')}
+                className={cn('flex h-dvh flex-col overflow-hidden p-0')}
             >
                 <DialogHeader className="bg-secondary/20 p-4">
                     <DialogTitle>Віджети</DialogTitle>
                 </DialogHeader>
-                <div className="gap-4 overflow-auto p-4 flex-1 flex flex-col w-full h-full">
+                <div className="flex h-full w-full flex-1 flex-col gap-4 overflow-auto p-4">
                     <WidgetList />
                 </div>
             </DialogContent>

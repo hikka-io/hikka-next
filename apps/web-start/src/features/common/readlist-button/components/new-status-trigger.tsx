@@ -66,7 +66,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                     ) : (
                         <div
                             className={cn(
-                                'rounded-sm border border-secondary-foreground/20 p-1',
+                                'border-secondary-foreground/20 rounded-sm border p-1',
                             )}
                         >
                             {createElement(READ_STATUS.planned.icon!, {

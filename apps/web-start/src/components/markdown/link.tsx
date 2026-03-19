@@ -175,7 +175,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                         Ви впевнені, що хочете відкрити посилання?
                     </AlertDialogTitle>
                     <AlertDialogDescription asChild>
-                        <div className="flex items-center gap-2 w-full overflow-hidden">
+                        <div className="flex w-full items-center gap-2 overflow-hidden">
                             <MaterialSymbolsLinkRounded />
                             <p
                                 className={cn(

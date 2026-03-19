@@ -57,13 +57,13 @@ export const Route = createFileRoute('/_pages/articles/')({
 
 function ArticlesPage() {
     return (
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-[1fr_25%] xl:grid-cols-[20%_1fr_20%] lg:gap-12">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-[1fr_25%] lg:gap-12 xl:grid-cols-[20%_1fr_20%]">
             <div className="sticky top-20 hidden flex-col gap-8 self-start xl:flex">
                 <PopularAuthors />
                 <PopularTags />
             </div>
             <ArticleList />
-            <div className="sticky top-20 hidden w-full max-h-[calc(100vh-9rem)] self-start rounded-lg border border-border bg-secondary/20 backdrop-blur-xl overflow-hidden sm:flex">
+            <div className="border-border bg-secondary/20 sticky top-20 hidden max-h-[calc(100vh-9rem)] w-full self-start overflow-hidden rounded-lg border backdrop-blur-xl sm:flex">
                 <ArticleFilters />
             </div>
         </div>

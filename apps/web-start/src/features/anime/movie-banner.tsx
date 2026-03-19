@@ -40,8 +40,8 @@ const MovieBanner: FC<Props> = () => {
             className="isolate flex-col justify-between overflow-hidden bg-center md:flex-row"
             style={{ backgroundImage: `url(${banner.image ?? anime?.image})` }}
         >
-            <div className="gradient-mask-t-40 absolute left-0 top-0 -z-10 size-full backdrop-blur" />
-            <div className="absolute left-0 top-0 -z-50 size-full bg-black/40" />
+            <div className="gradient-mask-t-40 absolute top-0 left-0 -z-10 size-full backdrop-blur" />
+            <div className="absolute top-0 left-0 -z-50 size-full bg-black/40" />
             <div className="flex items-center gap-4">
                 <Popcorn className="size-6" />
                 <div className="flex flex-col justify-center gap-1">

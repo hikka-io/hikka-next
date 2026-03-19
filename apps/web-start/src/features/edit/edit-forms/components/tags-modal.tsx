@@ -63,7 +63,7 @@ const TagsModal: FC<Props> = ({ setValue, getValues, onClose }) => {
                 </div>
             </div>
 
-            <hr className="-mx-6 h-px w-auto bg-border" />
+            <hr className="bg-border -mx-6 h-px w-auto" />
 
             <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
                 {settings.editTags?.map((tag, index) => (
@@ -93,7 +93,7 @@ const TagsModal: FC<Props> = ({ setValue, getValues, onClose }) => {
 
                 {settings.editTags?.length === 0 && (
                     <div className="px-6">
-                        <p className="text-center text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-center text-sm">
                             Не знайдено збережених тегів редагування
                         </p>
                     </div>

@@ -18,8 +18,8 @@ const editorContainerVariants = cva(
             variant: {
                 default: cn(
                     'flex flex-col justify-between gap-1 text-sm',
-                    'rounded-lg border border-border bg-secondary/20',
-                    'has-[[data-slate-editor]:focus]:border-primary-foreground/50 has-[[data-slate-editor]:focus]:ring-2 has-[[data-slate-editor]:focus]:ring-primary-foreground/30',
+                    'border-border bg-secondary/20 rounded-lg border',
+                    'has-[[data-slate-editor]:focus]:border-primary-foreground/50 has-[[data-slate-editor]:focus]:ring-primary-foreground/30 has-[[data-slate-editor]:focus]:ring-2',
                     'has-aria-disabled:border-border has-aria-disabled:bg-muted',
                 ),
                 drawer: cn(
@@ -50,9 +50,9 @@ export function EditorContainer({
 const editorVariants = cva(
     cn(
         'group/editor',
-        'relative w-full cursor-text select-text overflow-x-hidden whitespace-pre-wrap wrap-break-word',
-        'rounded-md ring-offset-background focus-visible:outline-hidden',
-        '**:data-slate-placeholder:top-[auto_!important] **:data-slate-placeholder:text-muted-foreground/80 **:data-slate-placeholder:opacity-100! placeholder:text-muted-foreground/80',
+        'relative w-full cursor-text overflow-x-hidden wrap-break-word whitespace-pre-wrap select-text',
+        'ring-offset-background rounded-md focus-visible:outline-hidden',
+        '**:data-slate-placeholder:text-muted-foreground/80 placeholder:text-muted-foreground/80 **:data-slate-placeholder:top-[auto_!important] **:data-slate-placeholder:opacity-100!',
         '[&_strong]:font-bold',
     ),
     {

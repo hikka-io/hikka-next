@@ -169,7 +169,7 @@ const CustomColorsModal = ({ onClose }: Props) => {
     return (
         <StylesEditorContext.Provider value={storeRef.current}>
             <Fragment>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-hidden overflow-y-scroll -m-4 p-4">
+                <div className="-m-4 grid flex-1 grid-cols-1 gap-4 overflow-hidden overflow-y-scroll p-4 md:grid-cols-2">
                     <Tabs
                         defaultValue={resolvedTheme ?? 'dark'}
                         onValueChange={(v) =>
@@ -197,27 +197,27 @@ const CustomColorsModal = ({ onClose }: Props) => {
                         style={{
                             ...(activeTheme === 'light' ? root : dark),
                         }}
-                        className="p-0 gap-0 overflow-hidden bg-background h-fit top-4 sticky"
+                        className="bg-background sticky top-4 h-fit gap-0 overflow-hidden p-0"
                     >
-                        <div className="border-b p-3 flex gap-4 w-full bg-muted/30 border-border">
+                        <div className="bg-muted/30 border-border flex w-full gap-4 border-b p-3">
                             <div className="flex items-center gap-1.5">
-                                <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
-                                <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
-                                <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                                <div className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                                <div className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+                                <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
                             </div>
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-muted-foreground text-xs">
                                 Попередній перегляд
                             </span>
                         </div>
                         <div
-                            className="p-4 flex flex-col gap-4"
+                            className="flex flex-col gap-4 p-4"
                             style={{
                                 backgroundImage:
                                     editorStyles?.[activeTheme]?.body
                                         ?.background_image,
                             }}
                         >
-                            <div className="flex gap-2 flex-wrap items-start">
+                            <div className="flex flex-wrap items-start gap-2">
                                 <Button variant="default" size="md">
                                     Основна
                                 </Button>
@@ -245,26 +245,26 @@ const CustomColorsModal = ({ onClose }: Props) => {
                                 </PopoverPrimitive.Trigger>
                                 <PopoverPrimitive.Content
                                     sideOffset={4}
-                                    className="bg-popover text-popover-foreground ring-foreground/10 flex flex-col gap-2.5 rounded-lg p-3 text-sm shadow-md ring-1 z-50 w-64"
+                                    className="bg-popover text-popover-foreground ring-foreground/10 z-50 flex w-64 flex-col gap-2.5 rounded-lg p-3 text-sm shadow-md ring-1"
                                 >
                                     <div className="flex flex-col gap-2">
-                                        <span className="text-sm font-medium text-popover-foreground">
+                                        <span className="text-popover-foreground text-sm font-medium">
                                             Спливаюче вікно
                                         </span>
-                                        <span className="text-sm text-muted-foreground">
+                                        <span className="text-muted-foreground text-sm">
                                             Приклад тексту у спливаючому вікні
                                         </span>
                                     </div>
                                 </PopoverPrimitive.Content>
                             </PopoverPrimitive.Root>
-                            <div className="rounded-md border border-border bg-muted p-2">
-                                <span className="text-sm text-muted-foreground">
+                            <div className="border-border bg-muted rounded-md border p-2">
+                                <span className="text-muted-foreground text-sm">
                                     Приглушений блок з текстом
                                 </span>
                             </div>
-                            <p className="text-sm text-foreground leading-relaxed">
+                            <p className="text-foreground text-sm leading-relaxed">
                                 Талановиті брати{' '}
-                                <span className="text-primary-foreground font-medium hover:underline hover:cursor-pointer">
+                                <span className="text-primary-foreground font-medium hover:cursor-pointer hover:underline">
                                     Елріки
                                 </span>{' '}
                                 порушили головну заборону алхімії.{' '}
@@ -272,17 +272,17 @@ const CustomColorsModal = ({ onClose }: Props) => {
                                     Це приглушений текст для прикладу.
                                 </span>
                             </p>
-                            <div className="flex items-center gap-2 pt-4 border-t border-border">
-                                <div className="flex-1 h-2 rounded-full bg-primary" />
-                                <div className="flex-1 h-2 rounded-full bg-secondary" />
-                                <div className="flex-1 h-2 rounded-full bg-muted" />
+                            <div className="border-border flex items-center gap-2 border-t pt-4">
+                                <div className="bg-primary h-2 flex-1 rounded-full" />
+                                <div className="bg-secondary h-2 flex-1 rounded-full" />
+                                <div className="bg-muted h-2 flex-1 rounded-full" />
                             </div>
                         </div>
                     </Card>
                 </div>
 
                 <ResponsiveModalFooter>
-                    <div className="flex items-center gap-2 w-full md:w-auto">
+                    <div className="flex w-full items-center gap-2 md:w-auto">
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button
@@ -318,7 +318,7 @@ const CustomColorsModal = ({ onClose }: Props) => {
                             Скинути зміни
                         </Button>
                     </div>
-                    <div className="flex gap-2 items-center w-full justify-end">
+                    <div className="flex w-full items-center justify-end gap-2">
                         <Button
                             variant="ghost"
                             onClick={closeAndDiscardChanges}

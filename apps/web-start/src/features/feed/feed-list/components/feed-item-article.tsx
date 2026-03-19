@@ -56,12 +56,12 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                 <div className='relative'>
                     <Link
                         to={`/articles/${data.slug}`}
-                        className="absolute left-0 top-0 z-10 size-full"
+                        className="absolute top-0 left-0 z-10 size-full"
                     />
                     {data.preview && data.preview.length > 0 && (
                         <Suspense
                             fallback={
-                                <div className="animate-pulse h-20 bg-muted rounded" />
+                                <div className="bg-muted h-20 animate-pulse rounded" />
                             }
                         >
                             <StaticViewer value={data.preview} />

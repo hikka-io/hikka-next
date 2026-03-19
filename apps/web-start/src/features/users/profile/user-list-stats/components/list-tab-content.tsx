@@ -85,7 +85,7 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
         <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-4 px-4">
                 <div className="flex items-center justify-between gap-2">
-                    <div className="flex gap-2 text-muted-foreground">
+                    <div className="text-muted-foreground flex gap-2">
                         <MaterialSymbolsPlayArrowRounded className="size-4" />
                         <Label>Всього</Label>
                     </div>
@@ -93,7 +93,7 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
                 </div>
                 <StatusProgressBar segments={segments} />
             </div>
-            <div className="flex flex-wrap px-2 gap-1">
+            <div className="flex flex-wrap gap-1 px-2">
                 {statuses.map((status) => {
                     const count = data[status as keyof typeof data] as number;
                     const info = statusMap[
@@ -110,7 +110,7 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
                             search={{ status, sort: sortParam }}
                             preload={false}
                             className={cn(
-                                'flex items-center justify-between gap-4 rounded-sm p-2 hover:bg-secondary',
+                                'hover:bg-secondary flex items-center justify-between gap-4 rounded-sm p-2',
                                 count === 0 && 'opacity-50',
                             )}
                         >
@@ -121,7 +121,7 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
                                         `bg-${status}-foreground`,
                                     )}
                                 />
-                                <Label className="cursor-pointer truncate text-muted-foreground">
+                                <Label className="text-muted-foreground cursor-pointer truncate">
                                     {info.title_ua || info.title_en}
                                 </Label>
                             </div>
@@ -134,7 +134,7 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
                 <div className="flex flex-col gap-4">
                     <Separator />
                     <div className="flex items-center justify-between gap-2 px-4">
-                        <div className="flex items-center gap-2 text-muted-foreground">
+                        <div className="text-muted-foreground flex items-center gap-2">
                             <MaterialSymbolsClockLoader10 className="size-4" />
                             <Label>Час перегляду</Label>
                         </div>

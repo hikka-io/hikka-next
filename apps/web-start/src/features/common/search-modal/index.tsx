@@ -111,7 +111,7 @@ const SearchModal: FC<Props> = ({
                         size="icon-sm"
                         variant="ghost"
                         disabled={!searchValue || searchValue?.length === 0}
-                        className="shrink-0 text-muted-foreground"
+                        className="text-muted-foreground shrink-0"
                     >
                         <CircleX />
                     </Button>

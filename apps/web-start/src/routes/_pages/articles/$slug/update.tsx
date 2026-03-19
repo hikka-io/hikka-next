@@ -60,7 +60,7 @@ function ArticleUpdatePage() {
                     />
                     <Link
                         to={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
-                        className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
+                        className="flex-1 overflow-hidden text-sm font-bold text-ellipsis hover:underline"
                     >
                         {article?.title}
                     </Link>
@@ -76,7 +76,7 @@ function ArticleUpdatePage() {
                 <div className="grid grid-cols-1 justify-center md:grid-cols-[1fr_30%] md:items-start md:justify-between md:gap-12 lg:grid-cols-[1fr_25%]">
                     <Block>
                         <ArticleTitle />
-                        <Card className="flex w-full p-0 md:hidden bg-secondary/20 backdrop-blur">
+                        <Card className="bg-secondary/20 flex w-full p-0 backdrop-blur md:hidden">
                             <ArticleSettings />
                         </Card>
                         <ArticleDocument />

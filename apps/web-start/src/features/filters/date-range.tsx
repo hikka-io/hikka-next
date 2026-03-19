@@ -91,7 +91,7 @@ const DateRange = (props: Props) => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="text-muted-foreground flex items-center gap-2">
                     <CalendarRange className="size-4 shrink-0" />
                     <Label htmlFor="date_range_enabled">Часовий проміжок</Label>
                 </div>

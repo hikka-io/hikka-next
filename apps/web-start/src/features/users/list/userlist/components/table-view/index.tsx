@@ -101,13 +101,13 @@ const TableView: FC<Props> = ({ data, content_type }) => {
 
     return (
         <Table className="table">
-            <TableHeader className="overflow-hidden rounded-lg bg-secondary/20 backdrop-blur [&_tr]:border-b-0">
+            <TableHeader className="bg-secondary/20 overflow-hidden rounded-lg backdrop-blur [&_tr]:border-b-0">
                 <TableRow>
                     <TableHead>#</TableHead>
                     <TableHead>Деталі</TableHead>
                     <TableHead
                         className={cn(
-                            'w-4 cursor-pointer select-none text-center hover:underline',
+                            'w-4 cursor-pointer text-center select-none hover:underline',
                             sort.includes(
                                 content_type === ContentTypeEnum.ANIME
                                     ? 'watch_score'
@@ -129,7 +129,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                         <Fragment>
                             <TableHead
                                 className={cn(
-                                    'cursor-pointer select-none text-center hover:underline',
+                                    'cursor-pointer text-center select-none hover:underline',
                                     sort.includes('read_chapters') &&
                                         'text-primary-foreground',
                                 )}
@@ -140,7 +140,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                             </TableHead>
                             <TableHead
                                 className={cn(
-                                    'cursor-pointer select-none text-center hover:underline',
+                                    'cursor-pointer text-center select-none hover:underline',
                                     sort.includes('read_volumes') &&
                                         'text-primary-foreground',
                                 )}
@@ -155,7 +155,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                         <Fragment>
                             <TableHead
                                 className={cn(
-                                    'cursor-pointer select-none text-center hover:underline',
+                                    'cursor-pointer text-center select-none hover:underline',
                                     sort.includes('watch_episodes') &&
                                         'text-primary-foreground',
                                 )}
@@ -166,7 +166,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                             </TableHead>
                             <TableHead
                                 className={cn(
-                                    'hidden w-20 cursor-pointer select-none text-center hover:underline lg:table-cell',
+                                    'hidden w-20 cursor-pointer text-center select-none hover:underline lg:table-cell',
                                     sort.includes('media_type') &&
                                         'text-primary-foreground',
                                 )}

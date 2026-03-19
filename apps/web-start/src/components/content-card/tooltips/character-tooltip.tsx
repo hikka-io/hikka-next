@@ -38,13 +38,13 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
             />
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
-                    <span className="line-clamp-2 text-sm font-bold leading-tight">
+                    <span className="line-clamp-2 text-sm leading-tight font-bold">
                         {data.name_ua || data.name_en || data.name_ja}
                     </span>
                 </div>
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                        <MDViewer className="whitespace-normal break-normal text-sm text-muted-foreground md:line-clamp-3">
+                        <MDViewer className="text-muted-foreground text-sm break-normal whitespace-normal md:line-clamp-3">
                             {data.description_ua}
                         </MDViewer>
                     </div>

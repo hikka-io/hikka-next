@@ -19,7 +19,7 @@ export function ImageGroupToolbarButton() {
                     id="image-group-input"
                     max={4}
                     multiple
-                    className="absolute left-0 top-0 size-full cursor-pointer opacity-0"
+                    className="absolute top-0 left-0 size-full cursor-pointer opacity-0"
                     accept="image/*"
                 />
             </ImageGroupAddImage>

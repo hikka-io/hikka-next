@@ -23,7 +23,7 @@ function ProfileSettingsPage() {
                         <HeaderTitle>Профіль</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                     Налаштуйте вигляд та деталі свого профілю
                 </p>
             </div>

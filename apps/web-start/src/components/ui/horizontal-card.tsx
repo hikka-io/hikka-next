@@ -62,7 +62,7 @@ const HorizontalCardDescription: FC<
         return (
             <MDViewer
                 className={cn(
-                    'line-clamp-1 text-xs! text-muted-foreground',
+                    'text-muted-foreground line-clamp-1 text-xs!',
                     className,
                 )}
                 preview
@@ -75,7 +75,7 @@ const HorizontalCardDescription: FC<
     return (
         <div
             className={cn(
-                'inline-flex items-center gap-2 text-xs text-muted-foreground',
+                'text-muted-foreground inline-flex items-center gap-2 text-xs',
                 className,
             )}
         >

@@ -52,7 +52,7 @@ const FollowingItem: FC<Props> = ({ data, className }) => {
             {data.content[0].score > 0 && (
                 <Badge variant="outline" className="gap-1">
                     {data.content[0].score}
-                    <MaterialSymbolsStarRounded className="text-yellow-400 size-4" />
+                    <MaterialSymbolsStarRounded className="size-4 text-yellow-400" />
                 </Badge>
             )}
         </HorizontalCard>

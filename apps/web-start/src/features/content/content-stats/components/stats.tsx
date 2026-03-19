@@ -29,14 +29,14 @@ const Stats: FC<Props> = ({ stats }) => {
                                 <div className="flex items-center justify-between gap-2">
                                     <div className="flex w-full flex-1 items-center gap-2">
                                         {stat.icon && (
-                                            <div className="flex size-6 items-center justify-center rounded-md bg-secondary/20">
+                                            <div className="bg-secondary/20 flex size-6 items-center justify-center rounded-md">
                                                 {stat.icon}
                                             </div>
                                         )}
                                         <div className="relative h-2 w-full flex-1 overflow-hidden rounded-md">
                                             <div
                                                 className={cn(
-                                                    'absolute bottom-0 left-0 size-full bg-secondary/60',
+                                                    'bg-secondary/60 absolute bottom-0 left-0 size-full',
                                                 )}
                                             />
                                             <div
@@ -44,14 +44,14 @@ const Stats: FC<Props> = ({ stats }) => {
                                                     width: `${stat.percentage}%`,
                                                 }}
                                                 className={cn(
-                                                    'absolute bottom-0 left-0 flex h-2 w-full items-end justify-center bg-primary-foreground',
+                                                    'bg-primary-foreground absolute bottom-0 left-0 flex h-2 w-full items-end justify-center',
                                                     !!stat.name &&
                                                         `bg-${stat.name}-foreground`,
                                                 )}
                                             ></div>
                                         </div>
                                     </div>
-                                    <small className="w-14 text-right text-muted-foreground">
+                                    <small className="text-muted-foreground w-14 text-right">
                                         <NumericFormat
                                             thousandSeparator
                                             displayType="text"

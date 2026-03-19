@@ -13,7 +13,7 @@ const ScoreCell: FC<Props> = ({ score }) => (
         {!!score && (
             <Badge variant="outline" className="gap-1">
                 {score}
-                <MaterialSymbolsStarRounded className="text-yellow-400 size-4" />
+                <MaterialSymbolsStarRounded className="size-4 text-yellow-400" />
             </Badge>
         )}
     </TableCell>

@@ -45,7 +45,7 @@ const ArticleNavbar: FC<Props> = () => {
 
     return (
         <div className="sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4">
-            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
+            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
                 {article?.category !== 'system' && (
                     <Fragment>
                         <ArticleVote article={article!} />
@@ -63,7 +63,7 @@ const ArticleNavbar: FC<Props> = () => {
                                 </span>
                             </Link>
                         </Button>
-                        <div className="h-full w-px bg-secondary" />
+                        <div className="bg-secondary h-full w-px" />
                     </Fragment>
                 )}
 

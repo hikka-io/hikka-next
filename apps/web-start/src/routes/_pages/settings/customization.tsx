@@ -19,7 +19,7 @@ function CustomizationSettingsPage() {
                         <HeaderTitle>Кастомізація</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                     Налаштуйте відображення контенту, теми та інше
                 </p>
             </div>

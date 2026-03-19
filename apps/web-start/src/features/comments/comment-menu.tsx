@@ -55,7 +55,7 @@ const CommentMenu: FC<Props> = ({ comment }) => {
                 <Button
                     variant="ghost"
                     size="icon-xs"
-                    className="text-sm text-muted-foreground"
+                    className="text-muted-foreground text-sm"
                 >
                     <MaterialSymbolsMoreHoriz />
                 </Button>

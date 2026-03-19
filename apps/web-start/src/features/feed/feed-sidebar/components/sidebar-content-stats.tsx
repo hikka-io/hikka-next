@@ -50,7 +50,7 @@ const StatusStatsList: FC<{ items: StatusStatsItem[] }> = ({ items }) => (
                 to={item.href}
                 search={item.search}
                 preload={false}
-                className="flex items-center justify-between rounded-sm px-2 py-1.5 text-sm transition-colors hover:bg-secondary"
+                className="hover:bg-secondary flex items-center justify-between rounded-sm px-2 py-1.5 text-sm transition-colors"
             >
                 <span className="flex items-center gap-2">
                     {item.icon && (
@@ -60,12 +60,12 @@ const StatusStatsList: FC<{ items: StatusStatsItem[] }> = ({ items }) => (
                                 `bg-${item.status} text-${item.status}-foreground border-${item.status}-border`,
                             )}
                         >
-                            <item.icon className="size-3 text-muted-foreground" />
+                            <item.icon className="text-muted-foreground size-3" />
                         </div>
                     )}
                     <span className="text-sm">{item.label}</span>
                 </span>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-muted-foreground text-sm">
                     {item.count}
                 </span>
             </Link>
@@ -138,7 +138,7 @@ const SidebarContentStats = () => {
     if (!user) return null;
 
     return (
-        <Card className="bg-secondary/20 backdrop-blur px-2">
+        <Card className="bg-secondary/20 px-2 backdrop-blur">
             <Header className="px-2">
                 <HeaderTitle variant="h4">Список</HeaderTitle>
             </Header>

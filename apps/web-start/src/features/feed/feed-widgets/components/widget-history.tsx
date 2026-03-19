@@ -25,8 +25,8 @@ const WidgetHistory = () => {
     if (!user) return null;
 
     return (
-        <Card className="p-0 backdrop-blur bg-secondary/20 snap-center">
-            <Block className="gap-4 py-4 w-full">
+        <Card className="bg-secondary/20 snap-center p-0 backdrop-blur">
+            <Block className="w-full gap-4 py-4">
                 <Header
                     href={`/u/${user.username}/history`}
                     search={{ type: 'following' }}

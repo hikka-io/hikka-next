@@ -23,7 +23,7 @@ const TokenGroup = ({
 }: TokenGroupProps) => (
     <div className="flex flex-col gap-2">
         <Label>{title}</Label>
-        <div className="grid grid-cols-2 gap-2 w-full">
+        <div className="grid w-full grid-cols-2 gap-2">
             {tokens.map((token) => (
                 <ColorTokenButton
                     key={`${keyPrefix}-${token}`}

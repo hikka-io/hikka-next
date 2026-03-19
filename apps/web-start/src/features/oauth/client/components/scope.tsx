@@ -11,10 +11,10 @@ const Scope: FC<Props> = ({ scope }) => {
 
     return (
         <div className="flex items-center gap-3">
-            <div className="rounded-sm bg-secondary/20 p-1">
+            <div className="bg-secondary/20 rounded-sm p-1">
                 <scope.level.icon className={cn('size-4', scope.level.color)} />
             </div>
-            <p className="text-sm text-muted-foreground">{scope.title_ua}</p>
+            <p className="text-muted-foreground text-sm">{scope.title_ua}</p>
         </div>
     );
 };

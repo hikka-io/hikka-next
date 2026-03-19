@@ -115,7 +115,7 @@ const LoginForm = () => {
                                 <FormLabel>Пароль</FormLabel>
                                 <Link
                                     to="/reset"
-                                    className="text-sm text-primary-foreground hover:underline"
+                                    className="text-primary-foreground text-sm hover:underline"
                                 >
                                     Забули пароль?
                                 </Link>
@@ -134,7 +134,7 @@ const LoginForm = () => {
                                         type="button"
                                         variant="ghost"
                                         size="icon-sm"
-                                        className="absolute right-2 top-1/2 size-8 -translate-y-1/2"
+                                        className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
                                         onClick={() =>
                                             setShowPassword(!showPassword)
                                         }

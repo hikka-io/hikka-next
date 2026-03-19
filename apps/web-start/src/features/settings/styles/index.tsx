@@ -68,7 +68,7 @@ const StylesSettings = () => {
 
             <div className="flex w-full flex-col gap-2">
                 <Label>Радіус заокруглення</Label>
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex flex-wrap gap-2">
                     <Button
                         variant={currentRadius === '0' ? 'default' : 'outline'}
                         onClick={() => handleRadiusChange('0')}

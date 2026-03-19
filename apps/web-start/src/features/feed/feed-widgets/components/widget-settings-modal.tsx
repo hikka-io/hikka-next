@@ -62,18 +62,18 @@ const SortableWidgetRow: FC<SortableWidgetRowProps> = ({
         <div
             ref={setNodeRef}
             style={style}
-            className="flex items-center gap-3 rounded-lg border border-border bg-secondary/30 p-3"
+            className="border-border bg-secondary/30 flex items-center gap-3 rounded-lg border p-3"
         >
             <button
-                className="cursor-grab touch-none text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground cursor-grab touch-none"
                 {...attributes}
                 {...listeners}
             >
                 <GripVertical className="size-4" />
             </button>
-            <div className='flex flex-col gap-1 flex-1'>
+            <div className='flex flex-1 flex-col gap-1'>
                 <Label>{widgetMeta?.title ?? widget.id}</Label>
-                {widgetMeta?.description && <p className='text-xs text-muted-foreground'>{widgetMeta?.description}</p>}
+                {widgetMeta?.description && <p className='text-muted-foreground text-xs'>{widgetMeta?.description}</p>}
             </div>
 
             <Switch

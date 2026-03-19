@@ -89,7 +89,7 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                                         alt="Third element"
                                     />
                                 )}
-                                <span className="text-2xl font-bold drop-shadow-lg text-white">
+                                <span className="text-2xl font-bold text-white drop-shadow-lg">
                                     +{remainingCount}
                                 </span>
                             </div>

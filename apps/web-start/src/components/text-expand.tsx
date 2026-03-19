@@ -99,7 +99,7 @@ const TextExpand = ({
                     <Button
                         variant="link"
                         size="sm"
-                        className="h-auto p-0 text-sm font-medium text-muted-foreground hover:text-foreground"
+                        className="text-muted-foreground hover:text-foreground h-auto p-0 text-sm font-medium"
                         onClick={handleToggle}
                         aria-label={expanded ? collapseText : expandText}
                     >

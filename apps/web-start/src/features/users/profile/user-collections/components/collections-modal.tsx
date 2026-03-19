@@ -30,7 +30,7 @@ const CollectionModal: FC<Props> = ({ className }) => {
     });
 
     return (
-        <div className="flex-1 overflow-y-scroll gap-6 -mx-4 p-4 flex flex-col">
+        <div className="-mx-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
             {collections &&
                 collections.map((item) => (
                     <CollectionItem

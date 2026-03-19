@@ -32,7 +32,7 @@ const CoverImage: FC<Props> = ({ cover, position = 'center' }) => {
         <div
             data-cover-image
             data-overlay={overlay}
-            className="absolute left-0 top-0 -z-20 h-80 w-full overflow-hidden opacity-40 gradient-mask-b-0"
+            className="gradient-mask-b-0 absolute top-0 left-0 -z-20 h-80 w-full overflow-hidden opacity-40"
         >
             <Image
                 src={cover}

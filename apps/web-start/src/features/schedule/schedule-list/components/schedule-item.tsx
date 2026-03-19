@@ -36,8 +36,8 @@ const ScheduleItem: FC<Props> = ({ item, ...props }) => {
         >
             <div className="flex w-full items-end gap-4">
                 <div className="flex flex-1 flex-col justify-between gap-2">
-                    <p className="text-sm text-muted-foreground">
-                        <span className="font-bold text-foreground">
+                    <p className="text-muted-foreground text-sm">
+                        <span className="text-foreground font-bold">
                             {item.episode}
                         </span>
                         /{item.anime.episodes_total || '?'}

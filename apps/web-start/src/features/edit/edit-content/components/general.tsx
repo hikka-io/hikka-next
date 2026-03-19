@@ -35,14 +35,14 @@ const General: FC<Props> = ({ content, content_type, slug }) => {
                 <HorizontalCardContainer>
                     <HorizontalCardTitle href={link || '#'}>Інформація</HorizontalCardTitle>
                     <HorizontalCardDescription>
-                        <MaterialSymbolsCategoryOutlineRounded className="size-4 text-muted-foreground" />
+                        <MaterialSymbolsCategoryOutlineRounded className="text-muted-foreground size-4" />
                         {CONTENT_TYPES[content_type].title_ua}
                     </HorizontalCardDescription>
                     {(content.data_type === ContentTypeEnum.ANIME ||
                         content.data_type === ContentTypeEnum.MANGA ||
                         content.data_type === ContentTypeEnum.NOVEL) && (
                         <HorizontalCardDescription>
-                            <MaterialSymbolsCalendarClockRounded className="size-4 text-muted-foreground" />
+                            <MaterialSymbolsCalendarClockRounded className="text-muted-foreground size-4" />
                             {content.year}
                         </HorizontalCardDescription>
                     )}

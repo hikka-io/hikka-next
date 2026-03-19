@@ -52,7 +52,7 @@ const User: FC<Props> = ({ paramKey, title }) => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2">
                 <UserIcon className="size-4 shrink-0" />
                 <Label>{title}</Label>
             </div>

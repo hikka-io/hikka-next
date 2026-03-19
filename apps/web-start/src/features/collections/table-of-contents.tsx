@@ -99,9 +99,9 @@ function TableOfContents({ className }: Props) {
                             <Link
                                 to={`#${label}`}
                                 className={cn(
-                                    'line-clamp-2 text-muted-foreground',
+                                    'text-muted-foreground line-clamp-2',
                                     activeId === label &&
-                                        'font-medium text-foreground',
+                                        'text-foreground font-medium',
                                 )}
                             >
                                 {label}

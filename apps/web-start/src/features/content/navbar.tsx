@@ -66,7 +66,7 @@ const Navbar: FC<Props> = ({ className, content_type }) => {
                 className,
             )}
         >
-            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
+            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
                 <UserlistButton content_type={content_type} />
                 {content_type !== ContentTypeEnum.PERSON && (
                     <FavoriteButton
@@ -101,7 +101,7 @@ const Navbar: FC<Props> = ({ className, content_type }) => {
 
                 {loggedUser && (
                     <>
-                        <div className="h-full w-px bg-secondary" />
+                        <div className="bg-secondary h-full w-px" />
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}

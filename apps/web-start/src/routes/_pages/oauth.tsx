@@ -36,7 +36,7 @@ export const Route = createFileRoute('/_pages/oauth')({
 
 function OAuthPage() {
     return (
-        <div className="w-full mx-auto my-8 min-h-screen max-w-xl px-4 lg:my-16">
+        <div className="mx-auto my-8 min-h-screen w-full max-w-xl px-4 lg:my-16">
             <div className="flex h-full flex-col items-center justify-start gap-8">
                 <Header />
                 <Profile />

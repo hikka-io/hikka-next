@@ -116,7 +116,7 @@ const CommentInputBottomBar: FC<Props> = ({
     };
 
     return (
-        <div className="pointer-events-none bottom-0 flex w-full items-center justify-between border-t border-border bg-secondary/20 p-2 md:absolute md:border-t-0 md:bg-transparent">
+        <div className="border-border bg-secondary/20 pointer-events-none bottom-0 flex w-full items-center justify-between border-t p-2 md:absolute md:border-t-0 md:bg-transparent">
             {comment && !isEdit ? (
                 <Badge variant="secondary" className="gap-2 p-0 pr-2">
                     <Avatar className="size-6 rounded-sm">

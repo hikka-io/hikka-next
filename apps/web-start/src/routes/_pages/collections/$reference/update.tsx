@@ -48,7 +48,7 @@ function CollectionUpdatePage() {
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
                     <Block>
                         <CollectionTitle />
-                        <div className="border-border bg-secondary/20 backdrop-blur block rounded-md border lg:hidden">
+                        <div className="border-border bg-secondary/20 block rounded-md border backdrop-blur lg:hidden">
                             <CollectionSettings mode="edit" />
                         </div>
                         <CollectionGroups mode="edit" />

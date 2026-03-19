@@ -27,7 +27,7 @@ const ArticleFilters: FC<Props> = ({ className }) => {
     };
 
     return (
-        <div className={cn('flex flex-col w-full', className)}>
+        <div className={cn('flex w-full flex-col', className)}>
             <div className="flex flex-col gap-8 overflow-y-auto p-4 py-8">
                 <ArticleCategory />
                 <Sort sort_type="article" />
@@ -35,7 +35,7 @@ const ArticleFilters: FC<Props> = ({ className }) => {
                 <Tag />
                 {user && <ArticleCustomization />}
             </div>
-            <div className="flex shrink-0 gap-2 border-t bg-secondary/20 p-4">
+            <div className="bg-secondary/20 flex shrink-0 gap-2 border-t p-4">
                 <Button
                     size="md"
                     className="w-full"

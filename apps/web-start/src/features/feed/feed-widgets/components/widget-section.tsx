@@ -43,7 +43,7 @@ const WidgetSection: FC<Props> = ({ className }) => {
             {settingsModal}
             <Button
                 variant="outline"
-                className="text-muted-foreground backdrop-blur shrink-0 hidden lg:flex"
+                className="text-muted-foreground hidden shrink-0 backdrop-blur lg:flex"
                 size="md"
                 disabled={!user}
                 onClick={openSettingsModal}
@@ -57,8 +57,8 @@ const WidgetSection: FC<Props> = ({ className }) => {
                     onValueChange={setActiveTab}
                     className="lg:hidden"
                 >
-                    <div className="flex gap-2 w-full overflow-hidden">
-                        <TabsList className="flex-1 overflow-hidden overflow-x-scroll justify-start">
+                    <div className="flex w-full gap-2 overflow-hidden">
+                        <TabsList className="flex-1 justify-start overflow-hidden overflow-x-scroll">
                             {widgets.map((widgetId) => {
                                 const config =
                                     AVAILABLE_WIDGET_MAP.get(widgetId);

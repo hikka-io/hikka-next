@@ -32,7 +32,7 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
 
             if (value.length < 2) {
                 return (
-                    <p className="text-sm font-medium leading-tight cursor-text line-clamp-2 select-auto">
+                    <p className="line-clamp-2 cursor-text text-sm leading-tight font-medium select-auto">
                         {formattedValue}
                     </p>
                 );
@@ -41,11 +41,11 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
             return (
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <span className="text-sm font-medium leading-tight cursor-text line-clamp-2">
+                        <span className="line-clamp-2 cursor-text text-sm leading-tight font-medium">
                             {formattedValue}
                         </span>
                     </TooltipTrigger>
-                    <TooltipContent className="max-w-[300px] text-left flex flex-col gap-2 p-3">
+                    <TooltipContent className="flex max-w-[300px] flex-col gap-2 p-3 text-left">
                         {value.map((item, index) => (
                             <p key={item}>
                                 <span className="text-muted-foreground">
@@ -60,7 +60,7 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
         }
 
         return (
-            <p className="text-sm font-medium leading-tight cursor-text line-clamp-2 select-auto">
+            <p className="line-clamp-2 cursor-text text-sm leading-tight font-medium select-auto">
                 {value}
             </p>
         );
@@ -69,13 +69,13 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
     return (
         <div
             className={cn(
-                'grid grid-cols-2 justify-between items-start gap-2',
+                'grid grid-cols-2 items-start justify-between gap-2',
                 className,
             )}
         >
-            <div className="flex items-center gap-3 text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-3">
                 {icon}
-                <Label className="flex-1 line-clamp-2">{title}</Label>
+                <Label className="line-clamp-2 flex-1">{title}</Label>
             </div>
 
             <div className="flex-1 text-right">{renderValue()}</div>

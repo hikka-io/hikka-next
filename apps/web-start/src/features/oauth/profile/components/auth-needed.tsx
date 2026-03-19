@@ -20,7 +20,7 @@ const AuthNeeded: FC<Props> = () => {
     return (
         <Card className="w-full flex-row items-center justify-between">
             <div className="flex items-center gap-4">
-                <MaterialSymbolsLoginRounded className="text-3xl text-muted-foreground" />
+                <MaterialSymbolsLoginRounded className="text-muted-foreground text-3xl" />
                 <div className="flex flex-1 flex-col">
                     <Header>
                         <HeaderContainer>
@@ -29,7 +29,7 @@ const AuthNeeded: FC<Props> = () => {
                             </HeaderTitle>
                         </HeaderContainer>
                     </Header>
-                    <p className="line-clamp-2 text-sm text-muted-foreground">
+                    <p className="text-muted-foreground line-clamp-2 text-sm">
                         Вам необіхдно авторизуватись, перш ніж надати доступ
                     </p>
                 </div>

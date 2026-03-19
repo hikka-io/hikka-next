@@ -93,25 +93,25 @@ const ColorTokenButton = ({
             <PopoverTrigger asChild>
                 <Button
                     variant="outline"
-                    className="text-left justify-start overflow-hidden"
+                    className="justify-start overflow-hidden text-left"
                 >
                     <div
-                        className="size-8 rounded-md border shrink-0"
+                        className="size-8 shrink-0 rounded-md border"
                         style={{ backgroundColor: toHSLString(color) }}
                     />
-                    <div className="flex flex-col flex-1 truncate">
+                    <div className="flex flex-1 flex-col truncate">
                         <span className="truncate">
                             {COLOR_TOKEN_LABELS[token]}
                         </span>
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-muted-foreground text-xs">
                             {formatHSL(color) ?? 'Не вибрано'}
                         </span>
                     </div>
                 </Button>
             </PopoverTrigger>
             <PopoverPortal>
-                <PopoverContent className="min-w-80 p-4 z-999">
-                    <div className="flex flex-col gap-4 w-full">
+                <PopoverContent className="z-999 min-w-80 p-4">
+                    <div className="flex w-full flex-col gap-4">
                         <HslColorPicker
                             className="w-full!"
                             color={localColor}
@@ -119,7 +119,7 @@ const ColorTokenButton = ({
                             onMouseUp={handleChangeComplete}
                             onTouchEnd={handleChangeComplete}
                         />
-                        <div className="flex items-center gap-2 w-full">
+                        <div className="flex w-full items-center gap-2">
                             <Button
                                 variant="outline"
                                 size="md"
@@ -138,18 +138,18 @@ const ColorTokenButton = ({
                                     onChange={handleHexChange}
                                     onBlur={handleHexBlur}
                                     placeholder="#000000"
-                                    className="font-mono uppercase h-10 flex-1"
+                                    className="h-10 flex-1 font-mono uppercase"
                                     maxLength={7}
                                 />
                             ) : (
-                                <div className="flex gap-2 flex-1">
+                                <div className="flex flex-1 gap-2">
                                     <Input
                                         value={Math.round(localColor.h)}
                                         onChange={(e) =>
                                             handleHslChange('h', e.target.value)
                                         }
                                         placeholder="H"
-                                        className="font-mono h-10 text-center "
+                                        className="h-10 text-center font-mono "
                                         type="number"
                                         min={0}
                                         max={360}
@@ -160,7 +160,7 @@ const ColorTokenButton = ({
                                             handleHslChange('s', e.target.value)
                                         }
                                         placeholder="S"
-                                        className="font-mono h-10 text-center"
+                                        className="h-10 text-center font-mono"
                                         type="number"
                                         min={0}
                                         max={100}
@@ -171,7 +171,7 @@ const ColorTokenButton = ({
                                             handleHslChange('l', e.target.value)
                                         }
                                         placeholder="L"
-                                        className="font-mono h-10 text-center "
+                                        className="h-10 text-center font-mono "
                                         type="number"
                                         min={0}
                                         max={100}

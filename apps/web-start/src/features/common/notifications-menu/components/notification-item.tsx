@@ -47,7 +47,7 @@ const NotificationItem: FC<Props> = ({ data }) => {
                         to={data.href}
                     >
                         {!data.seen && (
-                            <div className="absolute -bottom-0.5 -right-0.5 size-2 rounded-full border border-border bg-warning-foreground" />
+                            <div className="border-border bg-warning-foreground absolute -right-0.5 -bottom-0.5 size-2 rounded-full border" />
                         )}
                     </HorizontalCardImage>
                     <HorizontalCardContainer>

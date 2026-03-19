@@ -99,7 +99,7 @@ const PaginationInput: FC<PaginationInputProps> = ({
                 }
             }}
             className={cn(
-                'size-9 border-none bg-secondary/60 text-center sm:size-10',
+                'bg-secondary/60 size-9 border-none text-center sm:size-10',
                 pageToMove && ' w-16 sm:w-16',
             )}
         />

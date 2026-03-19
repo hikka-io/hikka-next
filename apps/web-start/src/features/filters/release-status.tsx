@@ -25,7 +25,7 @@ const ReleaseStatus: FC<Props> = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2">
                 <Activity className="size-4 shrink-0" />
                 <Label>Статус</Label>
             </div>

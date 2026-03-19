@@ -33,11 +33,11 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
             <div className="relative flex flex-col gap-4 p-4 py-0">
                 <Link
                     to={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}
-                    className="absolute left-0 top-0 z-10 size-full"
+                    className="absolute top-0 left-0 z-10 size-full"
                 />
                 <div className="flex flex-col gap-1">
                     {article.content && (
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-muted-foreground text-sm">
                             {article.content.title_ua ||
                                 article.content.title_en ||
                                 (article.content.data_type ===

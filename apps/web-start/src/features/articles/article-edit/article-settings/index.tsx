@@ -24,7 +24,7 @@ const ArticleSettings: FC<Props> = () => {
                 <TagsInput />
                 <CategorySelect />
             </div>
-            <div className="p-4 bg-secondary/20 border-t">
+            <div className="bg-secondary/20 border-t p-4">
                 {!slug && <CreateActions />}
                 {slug && <EditActions />}
             </div>

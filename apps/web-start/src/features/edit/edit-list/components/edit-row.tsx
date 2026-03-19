@@ -81,7 +81,7 @@ const EditRow: FC<Props> = ({ edit }) => {
                         {edit.content.title}
                     </Link>
                 </div>
-                <Label className="text-xs text-muted-foreground">
+                <Label className="text-muted-foreground text-xs">
                     {CONTENT_TYPES[edit.content_type].title_ua}
                 </Label>
             </TableCell>
@@ -103,7 +103,7 @@ const EditRow: FC<Props> = ({ edit }) => {
             </TableCell>
             <TableCell align="center" className="w-20">
                 <div className="flex justify-end">
-                    <Badge className="p-0 size-auto px-1.5" variant={variant}>
+                    <Badge className="size-auto p-0 px-1.5" variant={variant}>
                         <span>{EDIT_STATUS[edit.status].title_ua}</span>
                     </Badge>
                 </div>

@@ -46,7 +46,7 @@ const ContentDetailLayout: FC<Props> = ({
                     )}
                     <Link
                         to={`${urlPrefix}/${slug}`}
-                        className="flex-1 overflow-hidden text-ellipsis text-sm font-bold hover:underline"
+                        className="flex-1 overflow-hidden text-sm font-bold text-ellipsis hover:underline"
                     >
                         {title}
                     </Link>

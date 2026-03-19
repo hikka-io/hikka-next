@@ -15,10 +15,10 @@ const fixedToolbarVariants = cva(
         variants: {
             variant: {
                 default: cn(
-                    'flex border border-border md:sticky md:top-16 md:z-50 md:mx-0 md:overflow-x-auto md:rounded-none md:rounded-t-lg md:border-0 md:border-b md:backdrop-blur-xl',
+                    'border-border flex border md:sticky md:top-16 md:z-50 md:mx-0 md:overflow-x-auto md:rounded-none md:rounded-t-lg md:border-0 md:border-b md:backdrop-blur-xl',
                 ),
                 article: cn(
-                    'sticky top-[104px] z-50 overflow-x-auto rounded-t-lg border-b border-b-border backdrop-blur-xl md:top-16',
+                    'border-b-border sticky top-[104px] z-50 overflow-x-auto rounded-t-lg border-b backdrop-blur-xl md:top-16',
                 ),
             },
         },

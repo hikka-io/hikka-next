@@ -24,7 +24,7 @@ const navItemClassName = cn(
     'text-muted-foreground',
     'hover:bg-secondary/60 hover:text-foreground',
     'data-[active=true]:bg-secondary/60 data-[active=true]:text-foreground data-[active=true]:font-medium',
-    '[&_svg:not([class*=size-])]:size-4 [&_svg]:shrink-0',
+    '[&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4',
 );
 
 function MobileNav() {
@@ -38,7 +38,7 @@ function MobileNav() {
             <Button size="md" variant="outline" onClick={() => setOpen(true)}>
                 {activeRoute?.icon && <activeRoute.icon />}
                 <span>{activeRoute?.title_ua ?? 'Навігація'}</span>
-                <ChevronRight className="size-3 text-muted-foreground/50" />
+                <ChevronRight className="text-muted-foreground/50 size-3" />
             </Button>
 
             <SheetContent
@@ -58,7 +58,7 @@ function MobileNav() {
                             key={group.title_ua}
                             className="flex flex-col gap-0.5"
                         >
-                            <span className="px-2 py-1.5 text-xs font-medium text-muted-foreground/70">
+                            <span className="text-muted-foreground/70 px-2 py-1.5 text-xs font-medium">
                                 {group.title_ua}
                             </span>
                             {group.items
@@ -77,7 +77,7 @@ function MobileNav() {
                                             </Link>
                                         </SheetClose>
                                         {item.items && (
-                                            <div className="ml-4 flex flex-col gap-0.5 border-l border-border pl-2">
+                                            <div className="border-border ml-4 flex flex-col gap-0.5 border-l pl-2">
                                                 {item.items
                                                     .filter(
                                                         (sub) => sub.visible,

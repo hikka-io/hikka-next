@@ -69,7 +69,7 @@ const FeedList = () => {
         <div className="flex flex-col gap-4">
             <FeedTabs value={filter} onChange={handleFilterChange} />
 
-            <div className="flex flex-col border-y border-x-0 md:rounded-lg -mx-4 md:mx-0 md:border-x overflow-hidden">
+            <div className="-mx-4 flex flex-col overflow-hidden border-x-0 border-y md:mx-0 md:rounded-lg md:border-x">
                 {isPending
                     ? Array.from({ length: 3 }).map((_, i) => (
                           <FeedItemSkeleton key={i} />

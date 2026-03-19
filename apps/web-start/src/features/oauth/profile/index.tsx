@@ -38,7 +38,7 @@ const Profle: FC<Props> = () => {
                             </HeaderTitle>
                         </HeaderContainer>
                     </Header>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                         Ваш обліковий запис
                     </p>
                 </div>

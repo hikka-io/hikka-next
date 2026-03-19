@@ -8,7 +8,7 @@ const Card = ({ children, className, ...props }: Props) => {
     return (
         <div
             className={cn(
-                'relative flex flex-col gap-4 rounded-lg border border-border p-4',
+                'border-border relative flex flex-col gap-4 rounded-lg border p-4',
                 className,
             )}
             {...props}

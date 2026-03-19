@@ -25,9 +25,9 @@ const Component = ({ setOpen, children }: Props) => {
             variant="outline"
             onClick={() => setOpen(true)}
             className={cn(
-                'lg:w-52 lg:justify-between lg:font-normal lg:text-muted-foreground!',
+                'lg:text-muted-foreground! lg:w-52 lg:justify-between lg:font-normal',
                 'transition-all duration-200',
-                'lg:hover:w-64 lg:hover:text-foreground!',
+                'lg:hover:text-foreground! lg:hover:w-64',
                 'items-center',
             )}
         >
@@ -36,7 +36,7 @@ const Component = ({ setOpen, children }: Props) => {
                 <span className="hidden lg:block">Пошук...</span>
             </div>
             <div className="hidden items-center lg:flex">
-                <kbd className="pointer-events-none flex select-none items-center gap-1 rounded bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100">
+                <kbd className="bg-muted pointer-events-none flex items-center gap-1 rounded px-1.5 font-mono text-[10px] font-medium opacity-100 select-none">
                     <span className="text-xs">/</span>
                 </kbd>
             </div>

@@ -21,7 +21,7 @@ export default function RouterProgressBar() {
             }}
         >
             <div
-                className="h-0.5 bg-primary-foreground shadow-[0_0_10px_var(--primary-foreground),0_0_5px_var(--primary-foreground)]"
+                className="bg-primary-foreground h-0.5 shadow-[0_0_10px_var(--primary-foreground),0_0_5px_var(--primary-foreground)]"
                 style={{
                     width: `${progress * 100}%`,
                     transition: `width ${animationDuration}ms ease`,

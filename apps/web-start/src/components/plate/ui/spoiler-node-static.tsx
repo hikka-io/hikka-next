@@ -22,7 +22,7 @@ export function SpoilerElementStatic(props: SlateElementProps) {
                     Спойлер <ChevronsUpDown className="size-3" />
                 </Button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="rounded-md border border-border bg-secondary/20 p-2">
+            <CollapsibleContent className="border-border bg-secondary/20 rounded-md border p-2">
                 {props.children}
             </CollapsibleContent>
         </SlateElement>

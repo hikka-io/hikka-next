@@ -23,7 +23,7 @@ const Spoiler: FC<Props> = ({ children, className }) => {
                     Спойлер <ChevronsUpDown className="size-3" />
                 </Button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="rounded-md border border-border bg-secondary/20 p-2">
+            <CollapsibleContent className="border-border bg-secondary/20 rounded-md border p-2">
                 {children}
             </CollapsibleContent>
         </Collapsible>

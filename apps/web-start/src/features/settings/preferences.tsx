@@ -133,7 +133,7 @@ const PreferencesSettings = () => {
             <div className="flex w-full flex-row items-center justify-between gap-2">
                 <div className="flex flex-col gap-1">
                     <Label>Накладання градієнту</Label>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-muted-foreground text-xs">
                         Накладати градієнт на обкладинку
                     </span>
                 </div>
