@@ -8,7 +8,6 @@ import { useFormContext } from 'react-hook-form';
 
 import FormSlider, { FormSliderProps } from '@/components/form/form-slider';
 import { Badge } from '@/components/ui/badge';
-import { FormLabel } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 
@@ -105,7 +104,7 @@ export const FormYear: FC<Props & Partial<FormSliderProps>> = (props) => {
     return (
         <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-                <FormLabel>Рік виходу</FormLabel>
+                <Label>Рік виходу</Label>
                 {years && (
                     <div className="flex items-center gap-2">
                         <Badge variant="secondary">
