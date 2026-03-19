@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 import Image from '@/components/ui/image';
 
-import { useUIStore } from '@/services/providers/ui-store-provider';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 
 interface Props {
     cover?: string | null;
@@ -12,7 +12,8 @@ interface Props {
 }
 
 const CoverImage: FC<Props> = ({ cover, position = 'center' }) => {
-    const overlay = useUIStore((state) => state.preferences?.overlay);
+    const { preferences } = useSessionUI();
+    const overlay = preferences.overlay;
     if (!cover) return null;
 
     const getPositionClass = () => {

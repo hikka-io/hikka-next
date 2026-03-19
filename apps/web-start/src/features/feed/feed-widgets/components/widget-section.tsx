@@ -8,7 +8,7 @@ import { FC, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import { useUIStore } from '@/services/providers/ui-store-provider';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { cn } from '@/utils/cn';
 import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
 
@@ -23,7 +23,8 @@ interface Props {
 
 const WidgetSection: FC<Props> = ({ className }) => {
     const { user } = useSession();
-    const homeWidgets = useUIStore((s) => s.preferences?.home_widgets);
+    const { preferences } = useSessionUI();
+    const homeWidgets = preferences.home_widgets;
     const { openSettings: openSettingsModal, settingsModal } =
         useOpenWidgetSettings();
     const [activeTab, setActiveTab] = useState<string | undefined>();

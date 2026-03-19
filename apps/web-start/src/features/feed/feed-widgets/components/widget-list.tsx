@@ -1,12 +1,13 @@
 'use client';
 
-import { useUIStore } from '@/services/providers/ui-store-provider';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { cn } from '@/utils/cn';
 
 import { DEFAULT_HOME_WIDGETS, WIDGET_COMPONENTS } from '../constants';
 
 const WidgetList = () => {
-    const homeWidgets = useUIStore((s) => s.preferences?.home_widgets);
+    const { preferences } = useSessionUI();
+    const homeWidgets = preferences.home_widgets;
 
     const widgets = homeWidgets ?? DEFAULT_HOME_WIDGETS;
 

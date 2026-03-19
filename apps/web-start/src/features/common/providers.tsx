@@ -6,8 +6,9 @@ import { FC, PropsWithChildren } from 'react';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
 import EffectsManager from '@/features/common/effects-manager';
+import UIStylesSyncer from '@/features/common/ui-styles-syncer';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 import ThemeProvider from '@/services/providers/theme-provider';
-import { useUIStore } from '@/services/providers/ui-store-provider';
 
 setDefaultOptions({ locale: uk });
 
@@ -17,14 +18,14 @@ interface Props extends PropsWithChildren {
 }
 
 const Providers: FC<Props> = ({ children, client, serverTheme }) => {
-    const UI = useUIStore((state) => state);
+    const { preferences } = useSessionUI();
 
     return (
         <HikkaContextProvider
             client={client}
             defaultOptions={{
-                title: UI.preferences?.title_language ?? 'title_ua',
-                name: UI.preferences?.name_language ?? 'name_ua',
+                title: preferences.title_language ?? 'title_ua',
+                name: preferences.name_language ?? 'name_ua',
             }}
         >
             <ThemeProvider
@@ -34,6 +35,7 @@ const Providers: FC<Props> = ({ children, client, serverTheme }) => {
                 disableTransitionOnChange
             >
                 <TooltipProvider delayDuration={0}>
+                    <UIStylesSyncer />
                     <EffectsManager />
                     {children}
                 </TooltipProvider>

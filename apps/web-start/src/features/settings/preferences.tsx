@@ -17,21 +17,28 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 
-import { useUIStore } from '@/services/providers/ui-store-provider';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 
 const PreferencesSettings = () => {
-    const UI = useUIStore((state) => state);
-    const setTitleLanguage = useUIStore((state) => state.setTitleLanguage);
-    const setNameLanguage = useUIStore((state) => state.setNameLanguage);
-    const setOverlay = useUIStore((state) => state.setOverlay);
+    const { preferences } = useSessionUI();
+    const { update } = useUpdateSessionUI();
 
     const { setTheme, theme } = useTheme();
 
     const handleChangeTitleLanguage = (value: string[]) =>
-        setTitleLanguage(value[0] as 'title_ua' | 'title_en' | 'title_ja');
+        update({
+            preferences: {
+                title_language: value[0] as 'title_ua' | 'title_en' | 'title_ja',
+            },
+        });
 
     const handleChangeNameLanguage = (value: string[]) =>
-        setNameLanguage(value[0] as 'name_ua' | 'name_en' | 'name_native');
+        update({
+            preferences: {
+                name_language: value[0] as 'name_ua' | 'name_en' | 'name_native',
+            },
+        });
 
     return (
         <div className="flex w-full flex-col gap-6">
@@ -74,7 +81,7 @@ const PreferencesSettings = () => {
                 <Label>Мова назв контенту</Label>
 
                 <Select
-                    value={[UI.preferences?.title_language ?? 'title_ua']}
+                    value={[preferences.title_language ?? 'title_ua']}
                     onValueChange={handleChangeTitleLanguage}
                 >
                     <SelectTrigger>
@@ -99,7 +106,7 @@ const PreferencesSettings = () => {
                 <Label>Мова імен</Label>
 
                 <Select
-                    value={[UI.preferences?.name_language ?? 'name_ua']}
+                    value={[preferences.name_language ?? 'name_ua']}
                     onValueChange={handleChangeNameLanguage}
                 >
                     <SelectTrigger>
@@ -132,8 +139,10 @@ const PreferencesSettings = () => {
                 </div>
 
                 <Switch
-                    checked={UI.preferences?.overlay ?? true}
-                    onCheckedChange={(value) => setOverlay(value)}
+                    checked={preferences.overlay ?? true}
+                    onCheckedChange={(value) =>
+                        update({ preferences: { overlay: value } })
+                    }
                 />
             </div>
         </div>

@@ -23,7 +23,8 @@ import { FC, useMemo, useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
-import { useUIStore } from '@/services/providers/ui-store-provider';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 import { AVAILABLE_WIDGETS } from '@/utils/constants/feed';
 
 interface WidgetItem {
@@ -104,8 +105,11 @@ function toHomeWidgets(items: WidgetItem[]): HomeWidgetsEnum[] {
 }
 
 const WidgetSettingsContent = () => {
-    const homeWidgets = useUIStore((s) => s.preferences?.home_widgets);
-    const setHomeWidgets = useUIStore((s) => s.setHomeWidgets);
+    const { preferences } = useSessionUI();
+    const { update } = useUpdateSessionUI();
+    const homeWidgets = preferences.home_widgets;
+    const setHomeWidgets = (widgets: HomeWidgetsEnum[]) =>
+        update({ preferences: { home_widgets: widgets } });
 
     const initialItems = useMemo(
         () => deriveWidgetItems(homeWidgets),

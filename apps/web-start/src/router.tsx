@@ -5,7 +5,7 @@ import {
     createHikkaClient,
     createQueryClient,
 } from '@hikka/react/core';
-import { sessionOptions } from '@hikka/react/options';
+import { sessionOptions, sessionUserUIOptions } from '@hikka/react/options';
 import { createRouter as createTanStackRouter } from '@tanstack/react-router';
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query';
 import { toast } from 'sonner';
@@ -50,7 +50,10 @@ export async function createRouter() {
     });
 
     if (isServer) {
-        await queryClient.prefetchQuery(sessionOptions(hikkaClient));
+        await Promise.all([
+            queryClient.prefetchQuery(sessionOptions(hikkaClient)),
+            queryClient.prefetchQuery(sessionUserUIOptions(hikkaClient)),
+        ]);
     }
 
     return router;

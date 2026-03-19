@@ -6,7 +6,6 @@ import { useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import { useUIStore } from '@/services/providers/ui-store-provider';
 import {
     COLOR_PRESETS,
     ColorPreset,
@@ -16,6 +15,7 @@ import {
     UI_TOKENS,
 } from '@/utils/constants/styles';
 
+import { useStylesEditor } from './custom-colors-modal';
 import PresetButtons from './preset-buttons';
 import TokenGroup from './token-group';
 
@@ -24,13 +24,13 @@ interface ThemeTabContentProps {
 }
 
 const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
-    const UI = useUIStore((state) => state);
-    const setColorToken = useUIStore((state) => state.setColorToken);
-    const setBody = useUIStore((state) => state.setBody);
+    const styles = useStylesEditor((state) => state.styles);
+    const setColorToken = useStylesEditor((state) => state.setColorToken);
+    const setBody = useStylesEditor((state) => state.setBody);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     const getColor = (token: keyof UIColorTokens) =>
-        UI.styles?.[theme]?.colors?.[token];
+        styles?.[theme]?.colors?.[token];
 
     const handleColorChange = (token: keyof UIColorTokens, color: HSLColor) => {
         setColorToken(theme, token, color);
@@ -56,7 +56,7 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
     };
 
     const getSelectedPresetName = (): string | null => {
-        const currentColors = UI.styles?.[theme]?.colors;
+        const currentColors = styles?.[theme]?.colors;
         if (!currentColors) return null;
 
         const matchingPreset = COLOR_PRESETS.find((preset) => {
@@ -95,7 +95,7 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
                             }
                             type="text"
                             value={
-                                UI.styles?.[theme]?.body?.background_image ?? ''
+                                styles?.[theme]?.body?.background_image ?? ''
                             }
                         />
                     </div>

@@ -1,11 +1,9 @@
 'use client';
 
 import { UIEffect } from '@hikka/client';
-import { Suspense, lazy, useMemo } from 'react';
+import { Suspense, lazy } from 'react';
 
-import { useUIStore } from '@/services/providers/ui-store-provider';
-import { getActiveEventTheme } from '@/utils/constants/event-themes';
-import { mergeEffects } from '@/utils/ui';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 
 const SnowfallEffect = lazy(() => import('./snowfall-effect'));
 
@@ -14,15 +12,9 @@ const EFFECT_COMPONENTS: Record<UIEffect, React.ComponentType> = {
 };
 
 const EffectsManager = () => {
-    const userEffects = useUIStore((state) => state.preferences?.effects);
-    const hasHydrated = useUIStore((state) => state._hasHydrated);
+    const { activeEffects } = useSessionUI();
 
-    const activeEffects = useMemo(() => {
-        const eventTheme = getActiveEventTheme();
-        return mergeEffects(eventTheme?.effects, userEffects);
-    }, [userEffects]);
-
-    if (!hasHydrated || activeEffects.length === 0) {
+    if (activeEffects.length === 0) {
         return null;
     }
 

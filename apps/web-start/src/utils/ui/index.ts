@@ -14,4 +14,4 @@ export {
     STYLE_ELEMENT_ID,
     stylesToCSS,
 } from './inject-styles';
-export { mergeEffects, mergeStyles } from './merge';
+export { mergeEffects, mergeStyles, mergeWithEventTheme } from './merge';

@@ -3,6 +3,8 @@
  */
 import { UIEffect, UIPreferences, UIStyles, UserUI } from '@hikka/client';
 
+import { getActiveEventTheme } from '@/utils/constants/event-themes';
+
 import { DEFAULT_USER_UI } from './defaults';
 
 /**
@@ -92,5 +94,24 @@ export function mergeUserUI(
         ...override,
         styles: mergeStyles(base.styles, override.styles),
         preferences: mergePreferences(base.preferences, override.preferences),
+    };
+}
+
+/**
+ * Merge user UI with the currently active event theme (if any).
+ * Single canonical source for event theme merging — use this instead of
+ * calling getActiveEventTheme() + mergeStyles/mergeEffects separately.
+ */
+export function mergeWithEventTheme(userUI: UserUI): {
+    mergedStyles: UIStyles;
+    activeEffects: UIEffect[];
+} {
+    const eventTheme = getActiveEventTheme();
+    return {
+        mergedStyles: mergeStyles(eventTheme?.styles, userUI.styles),
+        activeEffects: mergeEffects(
+            eventTheme?.effects,
+            userUI.preferences?.effects,
+        ),
     };
 }

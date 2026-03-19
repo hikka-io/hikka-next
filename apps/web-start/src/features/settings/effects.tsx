@@ -1,27 +1,23 @@
 'use client';
 
-import { useMemo } from 'react';
-
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
-import { useUIStore } from '@/services/providers/ui-store-provider';
-import { getActiveEventTheme } from '@/utils/constants/event-themes';
-import { mergeEffects } from '@/utils/ui';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 
 const EffectsSettings = () => {
-    const userEffects = useUIStore((state) => state.preferences?.effects);
-    const toggleEffect = useUIStore((state) => state.toggleEffect);
-    const reset = useUIStore((state) => state.reset);
+    const { activeEffects, preferences } = useSessionUI();
+    const { update } = useUpdateSessionUI();
 
     const handleChangeSnowflakes = () => {
-        toggleEffect('snowfall');
+        const currentEffects = preferences.effects ?? [];
+        const hasEffect = currentEffects.includes('snowfall');
+        const effects = hasEffect
+            ? currentEffects.filter((e) => e !== 'snowfall')
+            : [...currentEffects, 'snowfall' as const];
+        update({ preferences: { effects } });
     };
-
-    const activeEffects = useMemo(() => {
-        const eventTheme = getActiveEventTheme();
-        return mergeEffects(eventTheme?.effects, userEffects);
-    }, [userEffects]);
 
     const hasSnowfall = activeEffects.includes('snowfall');
 

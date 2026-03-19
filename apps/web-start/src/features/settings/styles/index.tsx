@@ -10,8 +10,9 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 import { useTheme } from '@/services/providers/theme-provider';
-import { useUIStore } from '@/services/providers/ui-store-provider';
 import { PREVIEW_COLOR_TOKENS } from '@/utils/constants/styles';
 import { toHSLString } from '@/utils/ui/color';
 
@@ -20,24 +21,26 @@ import CustomColorsModal from './components/custom-colors-modal';
 const StylesSettings = () => {
     const [customColorsOpen, setCustomColorsOpen] = useState(false);
     const { resolvedTheme } = useTheme();
-    const UI = useUIStore((state) => state);
-
-    const setRadius = useUIStore((state) => state.setRadius);
-
-    const syncUserUI = useUIStore((state) => state.syncUserUI);
+    const { styles } = useSessionUI();
+    const { update } = useUpdateSessionUI();
 
     const handleRadiusChange = (value: string) => {
-        setRadius(value ? `${value}rem` : undefined);
+        update({
+            styles: {
+                ...styles,
+                radius: value ? `${value}rem` : undefined,
+            },
+        });
     };
 
     const handleOpenCustomModal = () => {
         setCustomColorsOpen(true);
     };
 
-    const currentRadius = UI.styles?.radius?.replace('rem', '') ?? '';
+    const currentRadius = styles?.radius?.replace('rem', '') ?? '';
 
     const activeTheme = (resolvedTheme as 'light' | 'dark') ?? 'dark';
-    const themeColors = UI.styles?.[activeTheme]?.colors;
+    const themeColors = styles?.[activeTheme]?.colors;
 
     return (
         <>
@@ -125,12 +128,7 @@ const StylesSettings = () => {
         </div>
         <ResponsiveModal
             open={customColorsOpen}
-            onOpenChange={(open) => {
-                setCustomColorsOpen(open);
-                if (!open) {
-                    syncUserUI();
-                }
-            }}
+            onOpenChange={setCustomColorsOpen}
             forceDesktop
         >
             <ResponsiveModalContent

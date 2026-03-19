@@ -15,10 +15,12 @@ import RouterProgressBar from '@/components/router-progress-bar';
 
 import { Providers } from '@/features/common';
 
-import { UIStoreProvider } from '@/services/providers/ui-store-provider';
+import { UserUI } from '@hikka/client';
+import { queryKeys } from '@hikka/react/core';
+
 import { getThemeCookieFn, refreshAuthCookieFn } from '@/utils/cookies';
-import { STYLE_ELEMENT_ID } from '@/utils/ui';
-import { getSessionUserUI, getUserStylesCSS } from '@/utils/ui/server';
+import { DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
+import { getUserStylesCSS } from '@/utils/ui/server';
 
 import '../globals.css';
 import { RouterContext } from '../router';
@@ -51,7 +53,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
             },
         ],
     }),
-    loader: async () => {
+    loader: async ({ context }) => {
         // Rolling cookie: extend auth cookie lifetime on every SSR page request.
         // Must live here (not in createRouter) so it does NOT run for server routes
         // like /api/auth/logout — otherwise the refresh re-sets the cookie the
@@ -60,19 +62,24 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         // and only runs on the server (client calls become RPCs).
         await refreshAuthCookieFn();
 
-        const [userUI, theme] = await Promise.all([
-            getSessionUserUI(),
-            getThemeCookieFn(),
-        ]);
+        const theme = await getThemeCookieFn();
+
+        // User UI is already prefetched in createRouter via sessionUserUIOptions.
+        // Read from query cache — no extra server fn call needed.
+        const userUI =
+            context.queryClient.getQueryData<UserUI>(
+                queryKeys.user.ui('me'),
+            ) ?? DEFAULT_USER_UI;
+
         const userStylesCSS = getUserStylesCSS(userUI);
-        return { userUI, userStylesCSS, theme };
+        return { userStylesCSS, theme };
     },
     component: RootLayout,
     notFoundComponent: NotFoundPage,
 });
 
 function RootLayout() {
-    const { userUI, userStylesCSS, theme } = Route.useLoaderData();
+    const { userStylesCSS, theme } = Route.useLoaderData();
     const { hikkaClient } = Route.useRouteContext() as RouterContext;
     const router = useRouter();
 
@@ -123,12 +130,10 @@ function RootLayout() {
             </head>
             <body>
                 <div data-vaul-drawer-wrapper>
-                    <UIStoreProvider initialUI={userUI}>
-                        <Providers client={hikkaClient} serverTheme={theme}>
-                            <RouterProgressBar />
-                            <Outlet />
-                        </Providers>
-                    </UIStoreProvider>
+                    <Providers client={hikkaClient} serverTheme={theme}>
+                        <RouterProgressBar />
+                        <Outlet />
+                    </Providers>
                 </div>
                 <TanStackDevtools
                     plugins={[
