@@ -24,7 +24,7 @@ const ClientCreateButton: FC = () => {
                 <MaterialSymbolsAddRounded />
             </Button>
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="!max-w-xl" title="Створення застосунку">
+                <ResponsiveModalContent className="max-w-xl!" title="Створення застосунку">
                     <ClientCreateModal onClose={() => setOpen(false)} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

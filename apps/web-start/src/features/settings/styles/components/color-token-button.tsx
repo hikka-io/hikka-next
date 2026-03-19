@@ -110,10 +110,10 @@ const ColorTokenButton = ({
                 </Button>
             </PopoverTrigger>
             <PopoverPortal>
-                <PopoverContent className="min-w-80 p-4 z-[999]">
+                <PopoverContent className="min-w-80 p-4 z-999">
                     <div className="flex flex-col gap-4 w-full">
                         <HslColorPicker
-                            className="!w-full"
+                            className="w-full!"
                             color={localColor}
                             onChange={handleChange}
                             onMouseUp={handleChangeComplete}

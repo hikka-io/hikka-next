@@ -427,7 +427,7 @@ const SelectValue = React.forwardRef<
                     <p className="pointer-events-none min-w-0 flex-1 truncate text-muted-foreground">
                         {placeholder}
                     </p>
-                    <SelectIcon className="!size-4" />
+                    <SelectIcon className="size-4!" />
                 </Fragment>
             );
         }
@@ -441,7 +441,7 @@ const SelectValue = React.forwardRef<
                         {item?.label ?? displayValue[0]}
                     </span>
 
-                    <SelectIcon className="!size-4" />
+                    <SelectIcon className="size-4!" />
                 </Fragment>
             );
         }
@@ -511,7 +511,7 @@ const SelectValue = React.forwardRef<
                                         <TooltipContent
                                             side="bottom"
                                             align="start"
-                                            className="z-[51]"
+                                            className="z-51"
                                         >
                                             {content}
                                         </TooltipContent>
@@ -615,7 +615,7 @@ const SelectContent = React.forwardRef<
             >
                 <Command
                     className={cn(
-                        'max-h-96 w-full min-w-[var(--radix-select-trigger-width)]',
+                        'max-h-96 w-full min-w-(--radix-select-trigger-width)',
                         className,
                     )}
                     shouldFilter={!context.onSearch}

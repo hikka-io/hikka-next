@@ -50,7 +50,7 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                             )}
                         >
                             {createElement(READ_STATUS[read.status].icon!, {
-                                className: '!size-3',
+                                className: 'size-3!',
                             })}
                         </div>
                     )}

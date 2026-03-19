@@ -131,7 +131,7 @@ const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
                                                 READ_STATUS[selectedStatus]
                                                     .icon!,
                                                 {
-                                                    className: '!size-3',
+                                                    className: 'size-3!',
                                                 },
                                             )}
                                         </div>

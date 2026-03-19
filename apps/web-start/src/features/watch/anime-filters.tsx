@@ -171,7 +171,7 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
             </div>
         </div>
         <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-            <ResponsiveModalContent className="!max-w-xl" title="Створити пресет з поточних">
+            <ResponsiveModalContent className="max-w-xl!" title="Створити пресет з поточних">
                 {currentFilters && (
                     <FilterPresetEditModal
                         filterPreset={currentFilters as Hikka.FilterPreset}

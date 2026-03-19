@@ -229,7 +229,7 @@ const InlineComboboxInput = React.forwardRef<
         <>
             {showTrigger && trigger}
 
-            <span className="relative min-h-[1lh]">
+            <span className="relative min-h-lh">
                 <span
                     className="invisible overflow-hidden text-nowrap"
                     aria-hidden="true"
@@ -264,7 +264,7 @@ const InlineComboboxContent: typeof ComboboxPopover = ({
         <Portal>
             <ComboboxPopover
                 className={cn(
-                    'z-[100] max-h-[288px] w-[300px] overflow-y-auto rounded-md border bg-secondary/20 backdrop-blur-xs',
+                    'z-100 max-h-[288px] w-[300px] overflow-y-auto rounded-md border bg-secondary/20 backdrop-blur-xs',
                     className,
                 )}
                 {...props}

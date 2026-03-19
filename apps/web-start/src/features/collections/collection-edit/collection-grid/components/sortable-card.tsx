@@ -31,7 +31,7 @@ const SortableCard: FC<Props> = ({ id, content, onRemove }) => {
                 () => (
                     <ContentCard image={content.image} title={content.title}>
                         <div className="absolute bottom-0 left-0 w-full">
-                            <div className="absolute bottom-2 right-2 z-[1] flex gap-2">
+                            <div className="absolute bottom-2 right-2 z-1 flex gap-2">
                                 <Button
                                     size="icon-sm"
                                     variant="secondary"
@@ -47,7 +47,7 @@ const SortableCard: FC<Props> = ({ id, content, onRemove }) => {
                                     <MaterialSymbolsDragIndicator />
                                 </Button>
                             </div>
-                            <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-gradient-to-t from-background to-transparent" />
+                            <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-linear-to-t from-background to-transparent" />
                         </div>
                     </ContentCard>
                 ),

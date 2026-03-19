@@ -91,7 +91,7 @@ export const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
                 accept="image/*"
             />
             {isPending && <span className="loading loading-spinner"></span>}
-            {!isPending && <Plus className="!size-8" />}
+            {!isPending && <Plus className="size-8!" />}
         </Button>
     );
 };

@@ -50,7 +50,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                             )}
                         >
                             {createElement(watchStatus.icon!, {
-                                className: '!size-3',
+                                className: 'size-3!',
                             })}
                         </div>
                     )}

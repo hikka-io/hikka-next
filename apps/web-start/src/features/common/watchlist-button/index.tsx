@@ -67,7 +67,7 @@ const STATUS_OPTIONS = Object.keys(WATCH_STATUS).map((status) => ({
                 )}
             >
                 {createElement(WATCH_STATUS[status as WatchStatusEnum].icon!, {
-                    className: '!size-3',
+                    className: 'size-3!',
                 })}
             </div>
             {WATCH_STATUS[status as WatchStatusEnum].title_ua}
@@ -219,7 +219,7 @@ const WatchlistButton = ({
                 </Select>
             )}
             <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
-                <ResponsiveModalContent className="!max-w-xl">
+                <ResponsiveModalContent className="max-w-xl!">
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>{anime?.title}</ResponsiveModalTitle>
                     </ResponsiveModalHeader>

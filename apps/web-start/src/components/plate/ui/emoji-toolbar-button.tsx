@@ -120,7 +120,7 @@ export function EmojiPopover({
             <Popover.Trigger asChild>{control}</Popover.Trigger>
 
             <Popover.Portal>
-                <Popover.Content className="z-[100]">
+                <Popover.Content className="z-100">
                     {children}
                 </Popover.Content>
             </Popover.Portal>
@@ -156,7 +156,7 @@ export function EmojiPicker({
         <div
             className={cn(
                 'flex flex-col rounded-xl bg-popover text-popover-foreground',
-                'h-[23rem] w-80 border shadow-md',
+                'h-92 w-80 border shadow-md',
             )}
         >
             <EmojiPickerNavigation
@@ -312,7 +312,7 @@ function EmojiPickerContent({
                         style={{ width: getRowWidth }}
                         data-id={categoryId}
                     >
-                        <div className="sticky -top-px z-[1] bg-popover/90 p-1 py-2 text-sm font-semibold backdrop-blur-xs">
+                        <div className="sticky -top-px z-1 bg-popover/90 p-1 py-2 text-sm font-semibold backdrop-blur-xs">
                             {i18n.categories[categoryId]}
                         </div>
                         <div
@@ -351,7 +351,7 @@ function EmojiPickerContent({
     const SearchList = React.useCallback(() => {
         return (
             <div style={{ width: getRowWidth }} data-id="search">
-                <div className="backdrop-blur-xs sticky -top-px z-[1] bg-popover/90 p-1 py-2 text-sm font-semibold">
+                <div className="backdrop-blur-xs sticky -top-px z-1 bg-popover/90 p-1 py-2 text-sm font-semibold">
                     {i18n.searchResult}
                 </div>
                 <div className="relative flex flex-wrap">

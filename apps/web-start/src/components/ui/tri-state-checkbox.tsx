@@ -56,8 +56,8 @@ const TriStateCheckbox = React.forwardRef<
             <CheckboxPrimitive.Indicator
                 className={cn('flex items-center justify-center text-current')}
             >
-                {value === 'include' && <Plus className="!size-3" />}
-                {value === 'exclude' && <Minus className="!size-3" />}
+                {value === 'include' && <Plus className="size-3!" />}
+                {value === 'exclude' && <Minus className="size-3!" />}
             </CheckboxPrimitive.Indicator>
         </CheckboxPrimitive.Root>
     );

@@ -39,7 +39,7 @@ const EditButton: FC<Props> = ({ className, slug, content_type, ...props }) => {
                         className={cn(className)}
                         {...props}
                     >
-                        <MaterialSymbolsEditRounded className="!size-5" />
+                        <MaterialSymbolsEditRounded className="size-5!" />
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>Правки</TooltipContent>

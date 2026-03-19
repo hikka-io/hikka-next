@@ -77,7 +77,7 @@ const StatusCombobox = ({ content_type }: Props) => {
                         )}
                     >
                         {createElement(statusInfo.icon!, {
-                            className: '!size-3',
+                            className: 'size-3!',
                         })}
                     </div>
                     <div className="flex items-center gap-2">

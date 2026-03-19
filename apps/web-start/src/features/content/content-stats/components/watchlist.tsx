@@ -37,7 +37,7 @@ const Watchlist = () => {
                     icon:
                         status.icon &&
                         createElement(status.icon, {
-                            className: '!size-3',
+                            className: 'size-3!',
                         }),
                     name: stat,
                 });

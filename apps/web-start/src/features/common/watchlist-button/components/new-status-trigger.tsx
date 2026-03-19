@@ -67,7 +67,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                             )}
                         >
                             {createElement(WATCH_STATUS.planned.icon!, {
-                                className: '!size-3',
+                                className: 'size-3!',
                             })}
                         </div>
                     )}

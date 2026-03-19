@@ -3,205 +3,22 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-:root {
-    --font-geist: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
-}
-
-:root {
-    --background: hsl(0 0% 100%);
-    --foreground: hsl(240 10% 3.9%);
-
-    --popover: hsl(0 0% 100%);
-    --popover-foreground: hsl(240 10% 3.9%);
-
-    --primary: hsl(321 100% 95%);
-    --primary-foreground: hsl(321 70% 65%);
-    --primary-border: hsl(321 90% 90%);
-
-    --secondary: hsl(0 0% 96.1%);
-    --secondary-foreground: hsl(0 0% 9%);
-
-    --muted: hsl(240 4.8% 95.9%);
-    --muted-foreground: hsl(240 3.8% 46.1%);
-    --accent-foreground: hsl(240 5.9% 10%);
-
-    --border: hsl(240 5.9% 90%);
-    --ring: hsl(240 5.9% 10%);
-    --radius: 0.625rem;
-
-    --sidebar-background: hsl(0 0% 100%);
-    --sidebar-foreground: hsl(240 5.3% 26.1%);
-    --sidebar-primary: hsl(240 5.9% 10%);
-    --sidebar-primary-foreground: hsl(0 0% 98%);
-    --sidebar-accent: hsl(240 4.8% 95.9%);
-    --sidebar-accent-foreground: hsl(240 5.9% 10%);
-    --sidebar-border: hsl(220 13% 91%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
-
-    /* General colors */
-
-    --success: hsl(143 85% 96%);
-    --success-foreground: hsl(140 100% 27%);
-    --success-border: hsl(145 92% 87%);
-
-    --info: hsl(208 100% 97%);
-    --info-foreground: hsl(210 92% 45%);
-    --info-border: hsl(221 91% 93%);
-
-    --warning: hsl(49 100% 97%);
-    --warning-foreground: hsl(31 92% 45%);
-    --warning-border: hsl(49 91% 84%);
-
-    --destructive: hsl(359 100% 97%);
-    --destructive-foreground: hsl(360 100% 45%);
-    --destructive-border: hsl(359 100% 94%);
-
-    /* Status colors */
-
-    --finished-background: var(--success);
-    --finished-border: var(--success-border);
-    --finished-foreground: var(--success-foreground);
-
-    --ongoing-background: var(--info);
-    --ongoing-border: var(--info-border);
-    --ongoing-foreground: var(--info-foreground);
-
-    --announced-background: var(--warning);
-    --announced-border: var(--warning-border);
-    --announced-foreground: var(--warning-foreground);
-
-    --discontinued-background: var(--destructive);
-    --discontinued-border: var(--destructive-border);
-    --discontinued-foreground: var(--destructive-foreground);
-
-    --paused-background: hsl(0 0% 97%);
-    --paused-border: hsl(0 0% 85%);
-    --paused-foreground: hsl(0 0% 45%);
-
-    /* Read/Watch status colors */
-
-    --planned-background: var(--announced-background);
-    --planned-border: var(--announced-border);
-    --planned-foreground: var(--announced-foreground);
-
-    --completed-background: var(--finished-background);
-    --completed-border: var(--finished-border);
-    --completed-foreground: var(--finished-foreground);
-
-    --on-hold-background: var(--paused-background);
-    --on-hold-border: var(--paused-border);
-    --on-hold-foreground: var(--paused-foreground);
-
-    --dropped-background: var(--discontinued-background);
-    --dropped-border: var(--discontinued-border);
-    --dropped-foreground: var(--discontinued-foreground);
-
-    --reading-background: var(--ongoing-background);
-    --reading-border: var(--ongoing-border);
-    --reading-foreground: var(--ongoing-foreground);
-
-    --watching-background: var(--ongoing-background);
-    --watching-border: var(--ongoing-border);
-    --watching-foreground: var(--ongoing-foreground);
-}
-
-.dark {
-    --background: hsl(0 0% 0%);
-    --foreground: hsl(0 0% 98%);
-
-    --popover: hsl(240 10% 3.9%);
-    --popover-foreground: hsl(0 0% 98%);
-
-    --primary: hsl(300 10% 5%);
-    --primary-foreground: hsl(321 70% 69%);
-    --primary-border: hsl(321 43% 17%);
-
-    --secondary: hsl(240 3.7% 15.9%);
-    --secondary-foreground: hsl(0 0% 98%);
-
-    --muted: hsl(240 3.7% 15.9%);
-    --muted-foreground: hsl(240 5% 64.9%);
-    --accent-foreground: hsl(0 0% 98%);
-
-    --border: hsl(240 3.7% 10%);
-    --ring: hsl(240 4.9% 83.9%);
-    --radius: 0.625rem;
-
-    --sidebar-background: hsl(0 0% 0%);
-    --sidebar-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-primary: hsl(224.3 76.3% 48%);
-    --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(240 3.7% 15.9%);
-    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-border: hsl(240 3.7% 15.9%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
-
-    /* General colors */
-
-    --success: hsl(150 100% 6%);
-    --success-foreground: hsl(150 86% 65%);
-    --success-border: hsl(147 100% 12%);
-
-    --info: hsl(215 100% 6%);
-    --info-foreground: hsl(216 87% 65%);
-    --info-border: hsl(223 43% 17%);
-
-    --warning: hsl(64 100% 6%);
-    --warning-foreground: hsl(46 87% 65%);
-    --warning-border: hsl(60 100% 9%);
-
-    --destructive: hsl(358 76% 10%);
-    --destructive-foreground: hsl(358 100% 81%);
-    --destructive-border: hsl(357 89% 16%);
-
-    /* Status colors */
-
-    --finished-background: var(--success);
-    --finished-border: var(--success-border);
-    --finished-foreground: var(--success-foreground);
-
-    --ongoing-background: var(--info);
-    --ongoing-border: var(--info-border);
-    --ongoing-foreground: var(--info-foreground);
-
-    --announced-background: var(--warning);
-    --announced-border: var(--warning-border);
-    --announced-foreground: var(--warning-foreground);
-
-    --discontinued-background: var(--destructive);
-    --discontinued-border: var(--destructive-border);
-    --discontinued-foreground: var(--destructive-foreground);
-
-    --paused-background: hsl(0 0% 15%);
-    --paused-border: hsl(0 0% 20%);
-    --paused-foreground: hsl(0 0% 65%);
-
-    /* Read/Watch status colors */
-
-    --planned-background: var(--announced-background);
-    --planned-border: var(--announced-border);
-    --planned-foreground: var(--announced-foreground);
-
-    --completed-background: var(--finished-background);
-    --completed-border: var(--finished-border);
-    --completed-foreground: var(--finished-foreground);
-
-    --on-hold-background: var(--paused-background);
-    --on-hold-border: var(--paused-border);
-    --on-hold-foreground: var(--paused-foreground);
-
-    --dropped-background: var(--discontinued-background);
-    --dropped-border: var(--discontinued-border);
-    --dropped-foreground: var(--discontinued-foreground);
-
-    --reading-background: var(--ongoing-background);
-    --reading-border: var(--ongoing-border);
-    --reading-foreground: var(--ongoing-foreground);
-
-    --watching-background: var(--ongoing-background);
-    --watching-border: var(--ongoing-border);
-    --watching-foreground: var(--ongoing-foreground);
-}
+/* Safelist inline */
+@source inline("bg-ongoing bg-ongoing-foreground text-ongoing-foreground border-ongoing-border");
+@source inline("bg-finished bg-finished-foreground text-finished-foreground border-finished-border");
+@source inline("bg-announced bg-announced-foreground text-announced-foreground border-announced-border");
+@source inline("bg-discontinued bg-discontinued-foreground text-discontinued-foreground border-discontinued-border");
+@source inline("bg-paused bg-paused-foreground text-paused-foreground border-paused-border");
+@source inline("bg-planned bg-planned-foreground text-planned-foreground text-planned border-planned-border");
+@source inline("bg-completed bg-completed-foreground text-completed-foreground border-completed-border");
+@source inline("bg-on_hold bg-on_hold-foreground text-on_hold-foreground text-on_hold border-on_hold-border");
+@source inline("bg-dropped bg-dropped-foreground text-dropped-foreground text-dropped border-dropped-border");
+@source inline("bg-reading bg-reading-foreground text-reading-foreground text-reading border-reading-border");
+@source inline("bg-watching bg-watching-foreground text-watching-foreground text-watching border-watching-border");
+@source inline("gradient-mask-t-90 gradient-mask-t-90-d");
+@source inline("gradient-mask-b-90 gradient-mask-b-90-d");
+@source inline("gradient-mask-l-90 gradient-mask-l-90-d");
+@source inline("gradient-mask-r-90 gradient-mask-r-90-d");
 
 @theme inline {
     --color-background: var(--background);
@@ -308,131 +125,6 @@
     --animate-accordion-up: accordion-up 0.2s ease-out;
     --animate-collapsible-down: collapsible-down 0.2s ease-out;
     --animate-collapsible-up: collapsible-up 0.2s ease-out;
-}
-
-/* Safelist inline */
-@source inline("bg-ongoing bg-ongoing-foreground text-ongoing-foreground border-ongoing-border");
-@source inline("bg-finished bg-finished-foreground text-finished-foreground border-finished-border");
-@source inline("bg-announced bg-announced-foreground text-announced-foreground border-announced-border");
-@source inline("bg-discontinued bg-discontinued-foreground text-discontinued-foreground border-discontinued-border");
-@source inline("bg-paused bg-paused-foreground text-paused-foreground border-paused-border");
-@source inline("bg-planned bg-planned-foreground text-planned-foreground text-planned border-planned-border");
-@source inline("bg-completed bg-completed-foreground text-completed-foreground border-completed-border");
-@source inline("bg-on_hold bg-on_hold-foreground text-on_hold-foreground text-on_hold border-on_hold-border");
-@source inline("bg-dropped bg-dropped-foreground text-dropped-foreground text-dropped border-dropped-border");
-@source inline("bg-reading bg-reading-foreground text-reading-foreground text-reading border-reading-border");
-@source inline("bg-watching bg-watching-foreground text-watching-foreground text-watching border-watching-border");
-@source inline("gradient-mask-t-90 gradient-mask-t-90-d");
-@source inline("gradient-mask-b-90 gradient-mask-b-90-d");
-@source inline("gradient-mask-l-90 gradient-mask-l-90-d");
-@source inline("gradient-mask-r-90 gradient-mask-r-90-d");
-
-@keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes accordion-down {
-    from {
-        height: 0;
-    }
-
-    to {
-        height: var(--radix-accordion-content-height);
-    }
-}
-
-@keyframes accordion-up {
-    from {
-        height: var(--radix-accordion-content-height);
-    }
-
-    to {
-        height: 0;
-    }
-}
-
-@keyframes collapsible-down {
-    from {
-        height: 0;
-    }
-
-    to {
-        height: var(--radix-collapsible-content-height);
-    }
-}
-
-@keyframes collapsible-up {
-    from {
-        height: var(--radix-collapsible-content-height);
-    }
-
-    to {
-        height: 0;
-    }
-}
-
-@layer base {
-    *,
-    ::after,
-    ::before,
-    ::backdrop,
-    ::file-selector-button {
-        border-color: var(--color-border, currentColor);
-    }
-
-    * {
-        scrollbar-width: thin;
-        scrollbar-color: var(--secondary) transparent;
-    }
-
-    button:not(:disabled),
-    [role='button']:not(:disabled) {
-        cursor: pointer;
-    }
-
-    body {
-        @apply bg-background text-foreground bg-no-repeat;
-        background-size: 100% 100vh;
-    }
-
-    body:has([data-cover-image][data-overlay='false']) {
-        background-image: none !important;
-    }
-
-    h1 {
-        @apply font-display scroll-m-20 text-4xl font-bold tracking-normal lg:text-5xl;
-    }
-
-    h2 {
-        @apply font-display scroll-m-20 text-2xl font-bold tracking-normal first:mt-0;
-    }
-
-    h3 {
-        @apply font-display scroll-m-20 text-lg font-bold tracking-normal;
-    }
-
-    h4,
-    h5 {
-        @apply font-display scroll-m-20 text-base font-bold tracking-normal;
-    }
-
-    p {
-        @apply break-words;
-    }
-
-    small {
-        @apply text-xs leading-normal;
-    }
-
-    blockquote {
-        @apply border-l-2 pl-6 italic;
-    }
 }
 
 /* Grid min utilities */
@@ -997,6 +689,314 @@
         rgba(0, 0, 0, 1) 90%,
         transparent 100%
     );
+}
+
+:root {
+    --font-geist: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(240 10% 3.9%);
+
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(240 10% 3.9%);
+
+    --primary: hsl(321 100% 95%);
+    --primary-foreground: hsl(321 70% 65%);
+    --primary-border: hsl(321 90% 90%);
+
+    --secondary: hsl(0 0% 96.1%);
+    --secondary-foreground: hsl(0 0% 9%);
+
+    --muted: hsl(240 4.8% 95.9%);
+    --muted-foreground: hsl(240 3.8% 46.1%);
+    --accent-foreground: hsl(240 5.9% 10%);
+
+    --border: hsl(240 5.9% 90%);
+    --ring: hsl(240 5.9% 10%);
+    --radius: 0.625rem;
+
+    --sidebar-background: hsl(0 0% 100%);
+    --sidebar-foreground: hsl(240 5.3% 26.1%);
+    --sidebar-primary: hsl(240 5.9% 10%);
+    --sidebar-primary-foreground: hsl(0 0% 98%);
+    --sidebar-accent: hsl(240 4.8% 95.9%);
+    --sidebar-accent-foreground: hsl(240 5.9% 10%);
+    --sidebar-border: hsl(220 13% 91%);
+    --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+    /* General colors */
+
+    --success: hsl(143 85% 96%);
+    --success-foreground: hsl(140 100% 27%);
+    --success-border: hsl(145 92% 87%);
+
+    --info: hsl(208 100% 97%);
+    --info-foreground: hsl(210 92% 45%);
+    --info-border: hsl(221 91% 93%);
+
+    --warning: hsl(49 100% 97%);
+    --warning-foreground: hsl(31 92% 45%);
+    --warning-border: hsl(49 91% 84%);
+
+    --destructive: hsl(359 100% 97%);
+    --destructive-foreground: hsl(360 100% 45%);
+    --destructive-border: hsl(359 100% 94%);
+
+    /* Status colors */
+
+    --finished-background: var(--success);
+    --finished-border: var(--success-border);
+    --finished-foreground: var(--success-foreground);
+
+    --ongoing-background: var(--info);
+    --ongoing-border: var(--info-border);
+    --ongoing-foreground: var(--info-foreground);
+
+    --announced-background: var(--warning);
+    --announced-border: var(--warning-border);
+    --announced-foreground: var(--warning-foreground);
+
+    --discontinued-background: var(--destructive);
+    --discontinued-border: var(--destructive-border);
+    --discontinued-foreground: var(--destructive-foreground);
+
+    --paused-background: hsl(0 0% 97%);
+    --paused-border: hsl(0 0% 85%);
+    --paused-foreground: hsl(0 0% 45%);
+
+    /* Read/Watch status colors */
+
+    --planned-background: var(--announced-background);
+    --planned-border: var(--announced-border);
+    --planned-foreground: var(--announced-foreground);
+
+    --completed-background: var(--finished-background);
+    --completed-border: var(--finished-border);
+    --completed-foreground: var(--finished-foreground);
+
+    --on-hold-background: var(--paused-background);
+    --on-hold-border: var(--paused-border);
+    --on-hold-foreground: var(--paused-foreground);
+
+    --dropped-background: var(--discontinued-background);
+    --dropped-border: var(--discontinued-border);
+    --dropped-foreground: var(--discontinued-foreground);
+
+    --reading-background: var(--ongoing-background);
+    --reading-border: var(--ongoing-border);
+    --reading-foreground: var(--ongoing-foreground);
+
+    --watching-background: var(--ongoing-background);
+    --watching-border: var(--ongoing-border);
+    --watching-foreground: var(--ongoing-foreground);
+}
+
+.dark {
+    --background: hsl(0 0% 0%);
+    --foreground: hsl(0 0% 98%);
+
+    --popover: hsl(240 10% 3.9%);
+    --popover-foreground: hsl(0 0% 98%);
+
+    --primary: hsl(300 10% 5%);
+    --primary-foreground: hsl(321 70% 69%);
+    --primary-border: hsl(321 43% 17%);
+
+    --secondary: hsl(240 3.7% 15.9%);
+    --secondary-foreground: hsl(0 0% 98%);
+
+    --muted: hsl(240 3.7% 15.9%);
+    --muted-foreground: hsl(240 5% 64.9%);
+    --accent-foreground: hsl(0 0% 98%);
+
+    --border: hsl(240 3.7% 10%);
+    --ring: hsl(240 4.9% 83.9%);
+    --radius: 0.625rem;
+
+    --sidebar-background: hsl(0 0% 0%);
+    --sidebar-foreground: hsl(240 4.8% 95.9%);
+    --sidebar-primary: hsl(224.3 76.3% 48%);
+    --sidebar-primary-foreground: hsl(0 0% 100%);
+    --sidebar-accent: hsl(240 3.7% 15.9%);
+    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+    --sidebar-border: hsl(240 3.7% 15.9%);
+    --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+    /* General colors */
+
+    --success: hsl(150 100% 6%);
+    --success-foreground: hsl(150 86% 65%);
+    --success-border: hsl(147 100% 12%);
+
+    --info: hsl(215 100% 6%);
+    --info-foreground: hsl(216 87% 65%);
+    --info-border: hsl(223 43% 17%);
+
+    --warning: hsl(64 100% 6%);
+    --warning-foreground: hsl(46 87% 65%);
+    --warning-border: hsl(60 100% 9%);
+
+    --destructive: hsl(358 76% 10%);
+    --destructive-foreground: hsl(358 100% 81%);
+    --destructive-border: hsl(357 89% 16%);
+
+    /* Status colors */
+
+    --finished-background: var(--success);
+    --finished-border: var(--success-border);
+    --finished-foreground: var(--success-foreground);
+
+    --ongoing-background: var(--info);
+    --ongoing-border: var(--info-border);
+    --ongoing-foreground: var(--info-foreground);
+
+    --announced-background: var(--warning);
+    --announced-border: var(--warning-border);
+    --announced-foreground: var(--warning-foreground);
+
+    --discontinued-background: var(--destructive);
+    --discontinued-border: var(--destructive-border);
+    --discontinued-foreground: var(--destructive-foreground);
+
+    --paused-background: hsl(0 0% 15%);
+    --paused-border: hsl(0 0% 20%);
+    --paused-foreground: hsl(0 0% 65%);
+
+    /* Read/Watch status colors */
+
+    --planned-background: var(--announced-background);
+    --planned-border: var(--announced-border);
+    --planned-foreground: var(--announced-foreground);
+
+    --completed-background: var(--finished-background);
+    --completed-border: var(--finished-border);
+    --completed-foreground: var(--finished-foreground);
+
+    --on-hold-background: var(--paused-background);
+    --on-hold-border: var(--paused-border);
+    --on-hold-foreground: var(--paused-foreground);
+
+    --dropped-background: var(--discontinued-background);
+    --dropped-border: var(--discontinued-border);
+    --dropped-foreground: var(--discontinued-foreground);
+
+    --reading-background: var(--ongoing-background);
+    --reading-border: var(--ongoing-border);
+    --reading-foreground: var(--ongoing-foreground);
+
+    --watching-background: var(--ongoing-background);
+    --watching-border: var(--ongoing-border);
+    --watching-foreground: var(--ongoing-foreground);
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes accordion-down {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: var(--radix-accordion-content-height);
+    }
+}
+
+@keyframes accordion-up {
+    from {
+        height: var(--radix-accordion-content-height);
+    }
+
+    to {
+        height: 0;
+    }
+}
+
+@keyframes collapsible-down {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: var(--radix-collapsible-content-height);
+    }
+}
+
+@keyframes collapsible-up {
+    from {
+        height: var(--radix-collapsible-content-height);
+    }
+
+    to {
+        height: 0;
+    }
+}
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-border, currentColor);
+    }
+
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--secondary) transparent;
+    }
+
+    button:not(:disabled),
+    [role='button']:not(:disabled) {
+        cursor: pointer;
+    }
+
+    body {
+        @apply bg-background text-foreground bg-no-repeat;
+        background-size: 100% 100vh;
+    }
+
+    body:has([data-cover-image][data-overlay='false']) {
+        background-image: none !important;
+    }
+
+    h1 {
+        @apply font-display scroll-m-20 text-4xl font-bold tracking-normal lg:text-5xl;
+    }
+
+    h2 {
+        @apply font-display scroll-m-20 text-2xl font-bold tracking-normal first:mt-0;
+    }
+
+    h3 {
+        @apply font-display scroll-m-20 text-lg font-bold tracking-normal;
+    }
+
+    h4,
+    h5 {
+        @apply font-display scroll-m-20 text-base font-bold tracking-normal;
+    }
+
+    p {
+        @apply wrap-break-word;
+    }
+
+    small {
+        @apply text-xs leading-normal;
+    }
+
+    blockquote {
+        @apply border-l-2 pl-6 italic;
+    }
 }
 
 /* Logo styles */

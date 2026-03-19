@@ -45,7 +45,7 @@ const ClientEditButton: FC<Props> = ({ client }) => {
                 Редагувати
             </Button>
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="!max-w-xl">
+                <ResponsiveModalContent className="max-w-xl!">
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>
                             {client.name}

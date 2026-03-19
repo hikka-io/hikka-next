@@ -31,7 +31,7 @@ const FollowingHistory: FC<Props> = ({ className }) => {
                     <Card key={item.reference}>
                         <Badge
                             variant="secondary"
-                            className="absolute -top-3 left-4 z-[1]"
+                            className="absolute -top-3 left-4 z-1"
                         >
                             #{index + 1}
                         </Badge>

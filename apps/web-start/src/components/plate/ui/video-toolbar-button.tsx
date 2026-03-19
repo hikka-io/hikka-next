@@ -116,7 +116,7 @@ export function VideoToolbarButton() {
                 <Film className="size-4" />
             </ToolbarButton>
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="!max-w-xl" title="Додати відео">
+                <ResponsiveModalContent className="max-w-xl!" title="Додати відео">
                     <AddVideoModal editor={editor} onClose={() => setOpen(false)} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

@@ -77,7 +77,7 @@ const STATUS_OPTIONS = Object.keys(READ_STATUS).map((status) => ({
                 )}
             >
                 {createElement(READ_STATUS[status as ReadStatusEnum].icon!, {
-                    className: '!size-3',
+                    className: 'size-3!',
                 })}
             </div>
             {READ_STATUS[status as ReadStatusEnum].title_ua}
@@ -265,7 +265,7 @@ const ReadlistButton = ({
                 </Select>
             )}
             <ResponsiveModal open={editOpen} onOpenChange={setEditOpen} forceDesktop>
-                <ResponsiveModalContent className="!max-w-xl">
+                <ResponsiveModalContent className="max-w-xl!">
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>{content?.title}</ResponsiveModalTitle>
                     </ResponsiveModalHeader>

@@ -301,7 +301,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
             )}
             {selectedRead && (
                 <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                    <ResponsiveModalContent className="!max-w-xl">
+                    <ResponsiveModalContent className="max-w-xl!">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>{selectedRead.content.title}</ResponsiveModalTitle>
                         </ResponsiveModalHeader>

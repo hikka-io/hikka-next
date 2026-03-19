@@ -57,7 +57,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
             </HorizontalCard>
 
             <Link to={href} className="w-full flex-1 hover:underline">
-                <MDViewer className="line-clamp-2 break-words text-sm" preview>
+                <MDViewer className="line-clamp-2 wrap-break-word text-sm" preview>
                     {comment.text}
                 </MDViewer>
             </Link>

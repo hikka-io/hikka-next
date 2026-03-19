@@ -130,7 +130,7 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
                                                 WATCH_STATUS[selectedStatus]
                                                     .icon!,
                                                 {
-                                                    className: '!size-3',
+                                                    className: 'size-3!',
                                                 },
                                             )}
                                         </div>

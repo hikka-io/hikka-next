@@ -65,7 +65,7 @@ const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
                 {number}
             </Label>
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="!max-w-xl">
+                <ResponsiveModalContent className="max-w-xl!">
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>{content.title}</ResponsiveModalTitle>
                     </ResponsiveModalHeader>

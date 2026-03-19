@@ -132,7 +132,7 @@ const StylesSettings = () => {
             forceDesktop
         >
             <ResponsiveModalContent
-                className="!max-w-4xl"
+                className="max-w-4xl!"
                 onPointerDownOutside={(e) => e.preventDefault()}
                 title="Налаштування кольорів"
             >

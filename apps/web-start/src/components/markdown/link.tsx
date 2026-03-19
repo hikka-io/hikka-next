@@ -43,7 +43,7 @@ const ALLOWED_HOSTS = [
 
 const LINK_EXTRA_CLASSNAME = 'break-all';
 const LINK_CLASSNAME =
-    'cursor-pointer text-primary-foreground hover:underline break-words whitespace-normal';
+    'cursor-pointer text-primary-foreground hover:underline wrap-break-word whitespace-normal';
 
 const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     if (href.includes('hikka.io') || !href.includes('http')) {

@@ -80,7 +80,7 @@ const Component = ({ file, type, onClose }: Props) => {
                 <AvatarEditor
                     ref={editor}
                     className={cn(
-                        '!m-auto !h-auto !w-full',
+                        'm-auto! h-auto! w-full!',
                         'rounded',
                         uploadImageMutation.isPending && 'pointer-events-none',
                     )}
