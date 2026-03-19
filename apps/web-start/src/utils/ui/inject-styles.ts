@@ -3,8 +3,8 @@ import type { CSSProperties } from 'react';
 
 export const STYLE_ELEMENT_ID = 'user-styles';
 
-/** Valid color token keys for CSS variable generation. */
-const ALLOWED_COLOR_TOKENS = new Set<keyof UIColorTokens>([
+/** Valid color token keys — shared with merge.ts for diff filtering. */
+export const ALLOWED_COLOR_TOKENS = new Set<keyof UIColorTokens>([
     'background',
     'foreground',
     'primary',

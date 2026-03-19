@@ -6,7 +6,12 @@ import { useQuery } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
 import { useMemo } from 'react';
 
-import { DEFAULT_USER_UI, mergeWithEventTheme } from '@/utils/ui';
+import {
+    DEFAULT_USER_UI,
+    mergeEffects,
+    mergeStyles,
+} from '@/utils/ui';
+import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
 const rootRoute = getRouteApi('__root__');
 
@@ -30,10 +35,21 @@ export function useSessionUI(): SessionUI {
     const userUI = data ?? DEFAULT_USER_UI;
 
     return useMemo(() => {
-        const { mergedStyles, activeEffects } = mergeWithEventTheme(userUI);
+        // Merge sparse API styles with defaults so editors/UI always have full tokens
+        const resolvedStyles = mergeStyles(
+            DEFAULT_USER_UI.styles,
+            userUI.styles,
+        );
+        // Then layer event theme on top of resolved styles (single merge, not two)
+        const eventTheme = getActiveEventTheme();
+        const mergedStyles = mergeStyles(eventTheme?.styles, resolvedStyles);
+        const activeEffects = mergeEffects(
+            eventTheme?.effects,
+            userUI.preferences?.effects,
+        );
         return {
             preferences: userUI.preferences ?? DEFAULT_USER_UI.preferences!,
-            styles: userUI.styles ?? DEFAULT_USER_UI.styles!,
+            styles: resolvedStyles,
             mergedStyles,
             activeEffects,
         };
