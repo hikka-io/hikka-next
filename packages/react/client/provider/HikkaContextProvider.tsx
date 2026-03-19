@@ -5,8 +5,8 @@ import { ReactNode, useMemo } from 'react';
 
 import { getHikkaClient } from '@/core';
 
-import { HikkaContext } from './context';
 import { DefaultOptions } from './HikkaProvider';
+import { HikkaContext } from './context';
 
 export interface HikkaContextProviderProps {
     children: ReactNode;
@@ -41,8 +41,6 @@ export function HikkaContextProvider({
     );
 
     return (
-        <HikkaContext.Provider value={value}>
-            {children}
-        </HikkaContext.Provider>
+        <HikkaContext.Provider value={value}>{children}</HikkaContext.Provider>
     );
 }

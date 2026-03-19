@@ -1,5 +1,5 @@
-Ukrainian online anime encyclopedia. The entire list of anime, detailed content information, flexible and clean interface. Complete your own watch list, customize your profile and share with friends.   
-  
+Ukrainian online anime encyclopedia. The entire list of anime, detailed content information, flexible and clean interface. Complete your own watch list, customize your profile and share with friends.
+
 [View Project](https://hikka.io) · [Report Bug](https://github.com/hikka-io/hikka-next/issues) · [Request Feature](https://github.com/hikka-io/hikka-next/issues) · [Backend](https://github.com/hikka-io/hikka)
 
 ## About The Project
@@ -36,22 +36,30 @@ packages/react/       → React hooks & query options (@hikka/react)
 ### Installation
 
 1. Clone the repo
-  ```sh
-    git clone https://github.com/hikka-io/hikka-next.git
-  ```
+
+```sh
+  git clone https://github.com/hikka-io/hikka-next.git
+```
+
 2. Enable Corepack and activate Yarn
-  ```sh
-    corepack enable yarn
-  ```
+
+```sh
+  corepack enable yarn
+```
+
 3. Install dependencies
-  ```sh
-    yarn install
-  ```
+
+```sh
+  yarn install
+```
+
 4. Start the development server
-  ```sh
-    yarn dev
-  ```
-  This starts all packages in dev/watch mode. The web app will be available at `http://localhost:3000`.
+
+```sh
+  yarn dev
+```
+
+This starts all packages in dev/watch mode. The web app will be available at `http://localhost:3000`.
 
 ### Scripts
 

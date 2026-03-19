@@ -19,9 +19,6 @@ export function ensureInfiniteQueryData<T>(
  *
  * Same type mismatch as ensureInfiniteQueryData — centralizes the cast.
  */
-export function prefetchInfiniteQuery<T>(
-    queryClient: QueryClient,
-    options: T,
-) {
+export function prefetchInfiniteQuery<T>(queryClient: QueryClient, options: T) {
     return queryClient.prefetchInfiniteQuery(options as any);
 }

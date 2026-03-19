@@ -20,10 +20,7 @@ export function characterBySlugOptions(
 
 export function characterAnimeOptions(
     client: HikkaClient,
-    {
-        slug,
-        paginationArgs,
-    }: UseCharacterContentParams,
+    { slug, paginationArgs }: UseCharacterContentParams,
 ) {
     return infiniteQueryOptions({
         queryKey: queryKeys.characters.anime(slug, paginationArgs),
@@ -42,10 +39,7 @@ export function characterAnimeOptions(
 
 export function characterMangaOptions(
     client: HikkaClient,
-    {
-        slug,
-        paginationArgs,
-    }: UseCharacterContentParams,
+    { slug, paginationArgs }: UseCharacterContentParams,
 ) {
     return infiniteQueryOptions({
         queryKey: queryKeys.characters.manga(slug, paginationArgs),
@@ -64,10 +58,7 @@ export function characterMangaOptions(
 
 export function characterNovelOptions(
     client: HikkaClient,
-    {
-        slug,
-        paginationArgs,
-    }: UseCharacterContentParams,
+    { slug, paginationArgs }: UseCharacterContentParams,
 ) {
     return infiniteQueryOptions({
         queryKey: queryKeys.characters.novel(slug, paginationArgs),
@@ -86,10 +77,7 @@ export function characterNovelOptions(
 
 export function characterVoicesOptions(
     client: HikkaClient,
-    {
-        slug,
-        paginationArgs,
-    }: UseCharacterContentParams,
+    { slug, paginationArgs }: UseCharacterContentParams,
 ) {
     return infiniteQueryOptions({
         queryKey: queryKeys.characters.voices(slug, paginationArgs),

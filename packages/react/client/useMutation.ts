@@ -49,7 +49,13 @@ export function useMutation<
             );
 
             if (options?.onSettled) {
-                options.onSettled(data, null, variables, onMutateResult, context);
+                options.onSettled(
+                    data,
+                    null,
+                    variables,
+                    onMutateResult,
+                    context,
+                );
             }
         },
         onError: (error, variables, onMutateResult, context) => {
@@ -57,7 +63,13 @@ export function useMutation<
 
             // Call onSettled on error as well
             if (options?.onSettled) {
-                options.onSettled(undefined, error, variables, onMutateResult, context);
+                options.onSettled(
+                    undefined,
+                    error,
+                    variables,
+                    onMutateResult,
+                    context,
+                );
             }
         },
     });
@@ -111,7 +123,12 @@ export function createMutation<
                 onMutateResult: TOnMutateResult,
                 context: any,
             ) => {
-                await options?.onSuccess?.(data, variables, onMutateResult, context);
+                await options?.onSuccess?.(
+                    data,
+                    variables,
+                    onMutateResult,
+                    context,
+                );
 
                 if (cacheByQueryKey) {
                     cacheByQueryKey({ data, queryClient, args: variables });

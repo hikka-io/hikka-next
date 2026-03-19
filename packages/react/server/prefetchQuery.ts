@@ -24,9 +24,7 @@ export async function prefetchQuery<TData>({
     queryClient: queryClientProp,
     optionsFactory,
 }: PrefetchQueryParams & {
-    optionsFactory: (
-        client: HikkaClient,
-    ) => {
+    optionsFactory: (client: HikkaClient) => {
         queryKey: readonly unknown[];
         queryFn?: (...args: any[]) => TData | Promise<TData>;
     };

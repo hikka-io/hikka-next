@@ -1,4 +1,8 @@
-import { CommonContentType, ContentTypeEnum, PaginatedResponse } from './common';
+import {
+    CommonContentType,
+    ContentTypeEnum,
+    PaginatedResponse,
+} from './common';
 import { UserResponse } from './user';
 
 /**
@@ -125,7 +129,7 @@ export interface ArticlesListArgs {
  * Paginated articles response
  */
 export interface ArticlesListResponse
-    extends PaginatedResponse<ArticlePreviewResponse> { }
+    extends PaginatedResponse<ArticlePreviewResponse> {}
 
 /**
  * User article stats response

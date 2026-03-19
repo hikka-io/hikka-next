@@ -2,11 +2,11 @@
 
 import { HistoryPaginationResponse } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     followingHistoryOptions,
     userHistoryOptions,

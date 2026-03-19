@@ -111,7 +111,10 @@ export const useCreatePasswordResetRequest = createMutation({
 export const useCreateUserSession = createMutation({
     mutationFn: (
         client,
-        { args, captcha }: { args: EmailLoginArgs | UsernameLoginArgs; captcha: CaptchaArgs },
+        {
+            args,
+            captcha,
+        }: { args: EmailLoginArgs | UsernameLoginArgs; captcha: CaptchaArgs },
     ) => client.auth.createUserSession(args, captcha),
     invalidateQueries: () => [queryKeys.auth.tokenInfo(), queryKeys.user.me()],
 });

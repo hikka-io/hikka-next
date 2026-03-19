@@ -9,19 +9,19 @@ import {
     PersonSearchPaginationResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { QueryParams, useQuery } from '@/client/useQuery';
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    personBySlugOptions,
-    searchPeopleOptions,
     personAnimeOptions,
+    personBySlugOptions,
+    personCharactersOptions,
     personMangaOptions,
     personNovelOptions,
-    personCharactersOptions,
+    searchPeopleOptions,
 } from '@/options/api/people';
 import {
     UsePeopleSearchParams,

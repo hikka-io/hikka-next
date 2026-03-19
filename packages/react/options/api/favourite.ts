@@ -1,8 +1,4 @@
-import {
-    FavouriteItem,
-    HikkaClient,
-    PaginationArgs,
-} from '@hikka/client';
+import { FavouriteItem, HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
 import { queryKeys } from '@/core';

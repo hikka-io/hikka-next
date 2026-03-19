@@ -2,11 +2,11 @@
 
 import { AnimeScheduleResponsePaginationResponse } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { searchAnimeScheduleOptions } from '@/options/api/schedule';
 import { UseAnimeScheduleParams } from '@/types/schedule';
 

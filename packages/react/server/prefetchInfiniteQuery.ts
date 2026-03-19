@@ -30,9 +30,7 @@ export async function prefetchInfiniteQuery<TData>({
     queryClient: queryClientProp,
     optionsFactory,
 }: PrefetchInfiniteQueryParams & {
-    optionsFactory: (
-        client: HikkaClient,
-    ) => {
+    optionsFactory: (client: HikkaClient) => {
         queryKey: readonly unknown[];
         queryFn?: (...args: any[]) => TData | Promise<TData>;
         initialPageParam: number;
@@ -55,5 +53,7 @@ export async function prefetchInfiniteQuery<TData>({
         initialPageParam: opts.initialPageParam,
     });
 
-    return queryClient.getQueryData<InfiniteData<Awaited<TData>>>(opts.queryKey);
+    return queryClient.getQueryData<InfiniteData<Awaited<TData>>>(
+        opts.queryKey,
+    );
 }

@@ -1,8 +1,6 @@
 'use client';
 
-import {
-    useInfiniteQuery as useTanstackInfiniteQuery,
-} from '@tanstack/react-query';
+import { useInfiniteQuery as useTanstackInfiniteQuery } from '@tanstack/react-query';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 

@@ -30,9 +30,7 @@ export async function prefetchSearchUsers({
 /**
  * Prefetches the current user's profile for server-side rendering
  */
-export async function prefetchSession({
-    ...rest
-}: PrefetchQueryParams = {}) {
+export async function prefetchSession({ ...rest }: PrefetchQueryParams = {}) {
     return prefetchQuery({
         optionsFactory: (client) => sessionOptions(client),
         ...rest,
@@ -60,8 +58,7 @@ export async function prefetchUserByUsername({
     ...rest
 }: PrefetchQueryParams & UseUserByUsernameParams) {
     return prefetchQuery({
-        optionsFactory: (client) =>
-            userByUsernameOptions(client, { username }),
+        optionsFactory: (client) => userByUsernameOptions(client, { username }),
         ...rest,
     });
 }
@@ -82,9 +79,7 @@ export async function prefetchUserUI({
 /**
  * Prefetches the current user's UI config for server-side rendering
  */
-export async function prefetchSessionUserUI({
-    ...rest
-}: PrefetchQueryParams) {
+export async function prefetchSessionUserUI({ ...rest }: PrefetchQueryParams) {
     return prefetchQuery({
         optionsFactory: (client) => sessionUserUIOptions(client),
         ...rest,

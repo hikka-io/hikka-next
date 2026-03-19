@@ -16,9 +16,9 @@ import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
 import {
     followStatusOptions,
+    userFollowStatsOptions,
     userFollowersOptions,
     userFollowingsOptions,
-    userFollowStatsOptions,
 } from '@/options/api/follow';
 import {
     UseFollowStatsParams,

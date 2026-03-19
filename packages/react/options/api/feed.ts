@@ -4,10 +4,7 @@ import { infiniteQueryOptions } from '@tanstack/react-query';
 import { queryKeys } from '@/core';
 import { UseFeedParams } from '@/types/feed';
 
-export function feedOptions(
-    client: HikkaClient,
-    { args }: UseFeedParams = {},
-) {
+export function feedOptions(client: HikkaClient, { args }: UseFeedParams = {}) {
     return infiniteQueryOptions({
         queryKey: queryKeys.feed.list(args),
         queryFn: ({ pageParam }) =>

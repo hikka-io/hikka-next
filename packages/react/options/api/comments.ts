@@ -29,11 +29,7 @@ export function commentListOptions(
 
 export function contentCommentsOptions(
     client: HikkaClient,
-    {
-        contentType,
-        slug,
-        paginationArgs,
-    }: UseContentCommentsParams,
+    { contentType, slug, paginationArgs }: UseContentCommentsParams,
 ) {
     return infiniteQueryOptions({
         queryKey: queryKeys.comments.content(contentType, slug, paginationArgs),

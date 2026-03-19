@@ -6,15 +6,15 @@ import {
     ArtifactResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { queryKeys } from '@/core';
 import {
     artifactOptions,
     artifactPrivacyOptions,
     userArtifactPrivacyOptions,
 } from '@/options/api/artifacts';
-import { queryKeys } from '@/core';
 
 /**
  * Hook for retrieving an artifact by username and name

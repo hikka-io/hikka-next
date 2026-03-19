@@ -9,15 +9,15 @@ import {
     CharactersSearchPaginationResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { QueryParams, useQuery } from '@/client/useQuery';
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    characterBySlugOptions,
     characterAnimeOptions,
+    characterBySlugOptions,
     characterMangaOptions,
     characterNovelOptions,
     characterVoicesOptions,

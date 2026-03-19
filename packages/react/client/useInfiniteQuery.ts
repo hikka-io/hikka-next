@@ -21,13 +21,7 @@ export interface InfiniteQueryParams<
 > {
     /** Query options */
     options?: Omit<
-        UseInfiniteQueryOptions<
-            T,
-            Error,
-            InfiniteData<T>,
-            TQueryKey,
-            number
-        >,
+        UseInfiniteQueryOptions<T, Error, InfiniteData<T>, TQueryKey, number>,
         'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
     > & {
         authProtected?: boolean;
@@ -54,7 +48,9 @@ export function useInfiniteQuery<
     options,
 }: {
     queryKey: TQueryKey;
-    queryFn?: (...args: any[]) => PaginatedResponse<TItem> | Promise<PaginatedResponse<TItem>>;
+    queryFn?: (
+        ...args: any[]
+    ) => PaginatedResponse<TItem> | Promise<PaginatedResponse<TItem>>;
     initialPageParam?: number;
     getNextPageParam?: (...args: any[]) => number | undefined | null;
     options?: Omit<

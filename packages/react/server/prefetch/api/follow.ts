@@ -1,8 +1,8 @@
 import {
     followStatusOptions,
+    userFollowStatsOptions,
     userFollowersOptions,
     userFollowingsOptions,
-    userFollowStatsOptions,
 } from '@/options/api/follow';
 import {
     PrefetchInfiniteQueryParams,
@@ -24,8 +24,7 @@ export async function prefetchFollowStatus({
     ...rest
 }: PrefetchQueryParams & UseFollowStatusParams) {
     return prefetchQuery({
-        optionsFactory: (client) =>
-            followStatusOptions(client, { username }),
+        optionsFactory: (client) => followStatusOptions(client, { username }),
         ...rest,
     });
 }

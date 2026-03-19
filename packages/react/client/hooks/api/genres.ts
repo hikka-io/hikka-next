@@ -2,8 +2,8 @@
 
 import { GenreListResponse } from '@hikka/client';
 
-import { QueryParams, useQuery } from '@/client/useQuery';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { QueryParams, useQuery } from '@/client/useQuery';
 import { genresOptions } from '@/options/api/genres';
 
 /**

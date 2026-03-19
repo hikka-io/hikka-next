@@ -2,11 +2,11 @@
 
 import { EditsTopPaginationResponse } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { topEditorsListOptions } from '@/options/api/stats';
 import { UseTopEditorsListParams } from '@/types/stats';
 

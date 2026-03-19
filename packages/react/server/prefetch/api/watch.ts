@@ -44,8 +44,7 @@ export async function prefetchUserWatchStats({
     ...rest
 }: PrefetchQueryParams & UseWatchStatsParams) {
     return prefetchQuery({
-        optionsFactory: (client) =>
-            userWatchStatsOptions(client, { username }),
+        optionsFactory: (client) => userWatchStatsOptions(client, { username }),
         ...rest,
     });
 }

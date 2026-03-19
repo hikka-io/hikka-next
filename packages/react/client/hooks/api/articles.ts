@@ -7,19 +7,19 @@ import {
     ArticlesTopResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { queryKeys } from '@/core';
 import {
     articleBySlugOptions,
     articleStatsOptions,
     searchArticlesOptions,
 } from '@/options/api/articles';
-import { queryKeys } from '@/core';
 import { UseArticleParams, UseArticlesListParams } from '@/types/articles';
 
 /**

@@ -1,6 +1,11 @@
 'use client';
 
-import { ImportReadArgs, ImportReadStatusEnum, ImportWatchArgs, ImportWatchStatusEnum } from '@hikka/client';
+import {
+    ImportReadArgs,
+    ImportReadStatusEnum,
+    ImportWatchArgs,
+    ImportWatchStatusEnum,
+} from '@hikka/client';
 import { UseMutationResult, useMutation } from '@tanstack/react-query';
 
 export interface Response {
@@ -256,12 +261,12 @@ const transformAnilistAnimeData = (
                 const watchStatus = isCustomList
                     ? list.name
                     : getWatchStatus(
-                        list.name === AnilistStatusEnum.REWATCHING
-                            ? AnilistStatusEnum.WATCHING
-                            : list.isCompletedList
+                          list.name === AnilistStatusEnum.REWATCHING
+                              ? AnilistStatusEnum.WATCHING
+                              : list.isCompletedList
                                 ? AnilistStatusEnum.COMPLETED
                                 : list.name,
-                    );
+                      );
 
                 const MALEntry: ImportWatchArgs = {
                     series_animedb_id: entry.media.idMal,
@@ -302,10 +307,10 @@ const transformAnilistMangaData = (
                 const readStatus = isCustomList
                     ? (list.name as unknown as ImportReadStatusEnum)
                     : getReadStatus(
-                        list.isCompletedList
-                            ? AnilistStatusEnum.COMPLETED
-                            : list.name,
-                    );
+                          list.isCompletedList
+                              ? AnilistStatusEnum.COMPLETED
+                              : list.name,
+                      );
 
                 const readEntry: ImportReadArgs = {
                     manga_mangadb_id: entry.media.idMal,
@@ -336,11 +341,21 @@ export function useAnilist({
 }: {
     options?: Omit<
         Parameters<
-            typeof useMutation<ImportWatchArgs[] | ImportReadArgs[], Error, AnilistParams, unknown>
+            typeof useMutation<
+                ImportWatchArgs[] | ImportReadArgs[],
+                Error,
+                AnilistParams,
+                unknown
+            >
         >[0],
         'mutationFn'
     >;
-} = {}): UseMutationResult<ImportWatchArgs[] | ImportReadArgs[], Error, AnilistParams, unknown> {
+} = {}): UseMutationResult<
+    ImportWatchArgs[] | ImportReadArgs[],
+    Error,
+    AnilistParams,
+    unknown
+> {
     return useMutation({
         mutationFn: fetchAnilistData,
         ...options,

@@ -8,10 +8,7 @@ import {
     UseTodoEditListParams,
 } from '@/types/edit';
 
-export function editOptions(
-    client: HikkaClient,
-    { editId }: UseEditParams,
-) {
+export function editOptions(client: HikkaClient, { editId }: UseEditParams) {
     return queryOptions({
         queryKey: queryKeys.edit.byId(editId),
         queryFn: () => client.edit.getEdit(editId),

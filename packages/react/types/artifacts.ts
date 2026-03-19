@@ -7,4 +7,3 @@ export interface UseUpdateArtifactPrivacyParams {
     name: string;
     isPrivate: boolean;
 }
-

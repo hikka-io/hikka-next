@@ -2,8 +2,8 @@
 
 import { FranchiseResponse } from '@hikka/client';
 
-import { QueryParams, useQuery } from '@/client/useQuery';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { QueryParams, useQuery } from '@/client/useQuery';
 import { franchiseOptions } from '@/options/api/related';
 import { UseFranchiseParams } from '@/types/related';
 

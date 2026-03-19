@@ -305,8 +305,7 @@ export const queryKeys = {
     // Feed module keys
     feed: {
         all: ['feed'] as const,
-        list: (args: unknown) =>
-            [...queryKeys.feed.all, 'list', args] as const,
+        list: (args: unknown) => [...queryKeys.feed.all, 'list', args] as const,
     },
 
     // Follow module keys
