@@ -28,7 +28,10 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
             className="flex w-full items-center gap-4 text-left"
         >
             <div className="w-12">
-                <ContentCard image={novel.image} />
+                <ContentCard
+                    containerClassName="rounded-(--base-radius)"
+                    image={novel.image}
+                />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">

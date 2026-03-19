@@ -1,15 +1,14 @@
 'use client';
 
 import { useCollectionByReference } from '@hikka/react';
-import { useParams } from '@/utils/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 import Card from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import Link from '@/components/ui/link';
 
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
+import { useParams } from '@/utils/navigation';
 
 interface Props {
     className?: string;
@@ -84,7 +83,7 @@ function TableOfContents({ className }: Props) {
 
     return (
         <Card className={cn(className)}>
-            <Label>Зміст</Label>
+            <h4>Зміст</h4>
 
             <ul
                 ref={tocScrollRef}
