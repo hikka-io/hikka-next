@@ -1,7 +1,14 @@
 'use client';
 
 import { Moon, Redo2, Sun, Undo2 } from 'lucide-react';
-import { Fragment, createContext, useContext, useEffect, useRef, useState } from 'react';
+import {
+    Fragment,
+    createContext,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import { useStore } from 'zustand';
 import { useStoreWithEqualityFn } from 'zustand/traditional';
 
@@ -19,11 +26,7 @@ import {
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover as PopoverPrimitive } from 'radix-ui';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -43,27 +46,54 @@ import {
     StylesEditorTemporalState,
     createStylesEditorStore,
 } from '../stores/styles-editor-store';
-
 import ThemeTabContent from './theme-tab-content';
 
 // Context for the scoped editor store
-const StylesEditorContext = createContext<StylesEditorStoreWithTemporal | null>(null);
+const StylesEditorContext = createContext<StylesEditorStoreWithTemporal | null>(
+    null,
+);
 
-export function useStylesEditor<T>(selector: (state: StylesEditorStore) => T): T {
+export function useStylesEditor<T>(
+    selector: (state: StylesEditorStore) => T,
+): T {
     const store = useContext(StylesEditorContext);
-    if (!store) throw new Error('useStylesEditor must be used within CustomColorsModal');
+    if (!store)
+        throw new Error(
+            'useStylesEditor must be used within CustomColorsModal',
+        );
     return useStore(store, selector);
 }
 
 // Primitive: accepts a store directly
 function useTemporalHistory(store: StylesEditorStoreWithTemporal) {
-    const undo = useStoreWithEqualityFn(store.temporal, (s: StylesEditorTemporalState) => s.undo);
-    const redo = useStoreWithEqualityFn(store.temporal, (s: StylesEditorTemporalState) => s.redo);
-    const clear = useStoreWithEqualityFn(store.temporal, (s: StylesEditorTemporalState) => s.clear);
-    const pause = useStoreWithEqualityFn(store.temporal, (s: StylesEditorTemporalState) => s.pause);
-    const resume = useStoreWithEqualityFn(store.temporal, (s: StylesEditorTemporalState) => s.resume);
-    const pastStates = useStoreWithEqualityFn(store.temporal, (s: StylesEditorTemporalState) => s.pastStates);
-    const futureStates = useStoreWithEqualityFn(store.temporal, (s: StylesEditorTemporalState) => s.futureStates);
+    const undo = useStoreWithEqualityFn(
+        store.temporal,
+        (s: StylesEditorTemporalState) => s.undo,
+    );
+    const redo = useStoreWithEqualityFn(
+        store.temporal,
+        (s: StylesEditorTemporalState) => s.redo,
+    );
+    const clear = useStoreWithEqualityFn(
+        store.temporal,
+        (s: StylesEditorTemporalState) => s.clear,
+    );
+    const pause = useStoreWithEqualityFn(
+        store.temporal,
+        (s: StylesEditorTemporalState) => s.pause,
+    );
+    const resume = useStoreWithEqualityFn(
+        store.temporal,
+        (s: StylesEditorTemporalState) => s.resume,
+    );
+    const pastStates = useStoreWithEqualityFn(
+        store.temporal,
+        (s: StylesEditorTemporalState) => s.pastStates,
+    );
+    const futureStates = useStoreWithEqualityFn(
+        store.temporal,
+        (s: StylesEditorTemporalState) => s.futureStates,
+    );
 
     return {
         undo,
@@ -79,7 +109,10 @@ function useTemporalHistory(store: StylesEditorStoreWithTemporal) {
 // Context-based wrapper for child components (e.g. ThemeTabContent)
 export function useStylesEditorHistory() {
     const store = useContext(StylesEditorContext);
-    if (!store) throw new Error('useStylesEditorHistory must be used within CustomColorsModal');
+    if (!store)
+        throw new Error(
+            'useStylesEditorHistory must be used within CustomColorsModal',
+        );
     return useTemporalHistory(store);
 }
 
@@ -139,7 +172,9 @@ const CustomColorsModal = ({ onClose }: Props) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 overflow-hidden overflow-y-scroll -m-4 p-4">
                     <Tabs
                         defaultValue={resolvedTheme ?? 'dark'}
-                        onValueChange={(v) => setActiveTheme(v as 'light' | 'dark')}
+                        onValueChange={(v) =>
+                            setActiveTheme(v as 'light' | 'dark')
+                        }
                     >
                         <TabsList className="w-full">
                             <TabsTrigger value="light">
@@ -164,7 +199,7 @@ const CustomColorsModal = ({ onClose }: Props) => {
                         }}
                         className="p-0 gap-0 overflow-hidden bg-background h-fit top-4 sticky"
                     >
-                        <div className="border-b p-3 flex gap-4 w-full bg-muted/30">
+                        <div className="border-b p-3 flex gap-4 w-full bg-muted/30 border-border">
                             <div className="flex items-center gap-1.5">
                                 <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
                                 <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
@@ -178,7 +213,8 @@ const CustomColorsModal = ({ onClose }: Props) => {
                             className="p-4 flex flex-col gap-4"
                             style={{
                                 backgroundImage:
-                                    editorStyles?.[activeTheme]?.body?.background_image,
+                                    editorStyles?.[activeTheme]?.body
+                                        ?.background_image,
                             }}
                         >
                             <div className="flex gap-2 flex-wrap items-start">
@@ -200,13 +236,17 @@ const CustomColorsModal = ({ onClose }: Props) => {
                                 </Button>
                             </div>
                             <Input placeholder="Введіть текст..." />
-                            <Popover>
-                                <PopoverTrigger asChild>
+                            {/* Portal-less popover so it inherits the Card's inline CSS vars */}
+                            <PopoverPrimitive.Root>
+                                <PopoverPrimitive.Trigger asChild>
                                     <Button variant="outline" className="">
                                         Натисніть для спливаючого вікна
                                     </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-64 p-3">
+                                </PopoverPrimitive.Trigger>
+                                <PopoverPrimitive.Content
+                                    sideOffset={4}
+                                    className="bg-popover text-popover-foreground ring-foreground/10 flex flex-col gap-2.5 rounded-lg p-3 text-sm shadow-md ring-1 z-50 w-64"
+                                >
                                     <div className="flex flex-col gap-2">
                                         <span className="text-sm font-medium text-popover-foreground">
                                             Спливаюче вікно
@@ -215,9 +255,9 @@ const CustomColorsModal = ({ onClose }: Props) => {
                                             Приклад тексту у спливаючому вікні
                                         </span>
                                     </div>
-                                </PopoverContent>
-                            </Popover>
-                            <div className="rounded-md border bg-muted p-2">
+                                </PopoverPrimitive.Content>
+                            </PopoverPrimitive.Root>
+                            <div className="rounded-md border border-border bg-muted p-2">
                                 <span className="text-sm text-muted-foreground">
                                     Приглушений блок з текстом
                                 </span>
@@ -232,7 +272,7 @@ const CustomColorsModal = ({ onClose }: Props) => {
                                     Це приглушений текст для прикладу.
                                 </span>
                             </p>
-                            <div className="flex items-center gap-2 pt-4 border-t">
+                            <div className="flex items-center gap-2 pt-4 border-t border-border">
                                 <div className="flex-1 h-2 rounded-full bg-primary" />
                                 <div className="flex-1 h-2 rounded-full bg-secondary" />
                                 <div className="flex-1 h-2 rounded-full bg-muted" />
@@ -299,12 +339,14 @@ const CustomColorsModal = ({ onClose }: Props) => {
                                     </AlertDialogTitle>
                                     <AlertDialogDescription>
                                         Ви впевнені, що хочете зберегти зміни
-                                        кольорової палітри? Нові налаштування будуть
-                                        застосовані до вашого профілю.
+                                        кольорової палітри? Нові налаштування
+                                        будуть застосовані до вашого профілю.
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                    <AlertDialogCancel>Скасувати</AlertDialogCancel>
+                                    <AlertDialogCancel>
+                                        Скасувати
+                                    </AlertDialogCancel>
                                     <AlertDialogAction onClick={saveChanges}>
                                         Зберегти
                                     </AlertDialogAction>
