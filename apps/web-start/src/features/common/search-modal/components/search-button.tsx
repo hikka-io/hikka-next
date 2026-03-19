@@ -25,9 +25,9 @@ const Component = ({ setOpen, children }: Props) => {
             variant="outline"
             onClick={() => setOpen(true)}
             className={cn(
-                'lg:w-48 lg:justify-between lg:font-normal lg:!text-muted-foreground',
+                'lg:w-52 lg:justify-between lg:font-normal lg:text-muted-foreground!',
                 'transition-all duration-200',
-                'lg:hover:w-60 lg:hover:!text-foreground',
+                'lg:hover:w-64 lg:hover:text-foreground!',
                 'items-center',
             )}
         >

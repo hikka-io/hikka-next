@@ -24,7 +24,8 @@ interface Props {
 const WidgetSection: FC<Props> = ({ className }) => {
     const { user } = useSession();
     const homeWidgets = useUIStore((s) => s.preferences?.home_widgets);
-    const { openSettings: openSettingsModal, settingsModal } = useOpenWidgetSettings();
+    const { openSettings: openSettingsModal, settingsModal } =
+        useOpenWidgetSettings();
     const [activeTab, setActiveTab] = useState<string | undefined>();
 
     const widgets = homeWidgets ?? DEFAULT_HOME_WIDGETS;
@@ -41,7 +42,7 @@ const WidgetSection: FC<Props> = ({ className }) => {
             {settingsModal}
             <Button
                 variant="outline"
-                className="text-muted-foreground shrink-0 hidden lg:flex"
+                className="text-muted-foreground backdrop-blur shrink-0 hidden lg:flex"
                 size="md"
                 disabled={!user}
                 onClick={openSettingsModal}

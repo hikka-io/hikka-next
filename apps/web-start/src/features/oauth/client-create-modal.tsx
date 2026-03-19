@@ -9,6 +9,7 @@ import FormInput from '@/components/form/form-input';
 import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 
 import { z } from '@/utils/i18n/zod';
 
@@ -65,10 +66,12 @@ const Component = ({ onClose }: Props) => {
                         placeholder="https://example.com/"
                         type="string"
                     />
+                </div>
+                <ResponsiveModalFooter>
                     <Button
                         variant="default"
+                        size="md"
                         onClick={form.handleSubmit(onCreate)}
-                        className="w-full"
                         type="submit"
                     >
                         {createClientLoading && (
@@ -76,7 +79,7 @@ const Component = ({ onClose }: Props) => {
                         )}
                         Створити
                     </Button>
-                </div>
+                </ResponsiveModalFooter>
             </form>
         </Form>
     );
