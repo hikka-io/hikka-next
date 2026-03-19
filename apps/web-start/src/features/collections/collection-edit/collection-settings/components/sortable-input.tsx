@@ -27,10 +27,10 @@ const SortableInput: FC<Props> = ({ id, value, onRemove, ...props }) => {
     return (
         <div ref={setNodeRef} style={style} className="flex items-center gap-2">
             <Input value={value} {...props} />
-            <Button size="icon" variant="outline" onClick={onRemove}>
+            <Button size="icon-md" variant="outline" onClick={onRemove}>
                 <MaterialSymbolsDeleteForever />
             </Button>
-            <Button size="icon" variant="outline" {...listeners}>
+            <Button size="icon-md" variant="outline" {...listeners}>
                 <MaterialSymbolsDragIndicator />
             </Button>
         </div>

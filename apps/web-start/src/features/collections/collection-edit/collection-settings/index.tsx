@@ -112,7 +112,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         groups.some((group) => group.title !== null) && (
                             <GroupInputs />
                         )}
-                    <Button variant="secondary" onClick={addGroup}>
+                    <Button variant="secondary" size="md" onClick={addGroup}>
                         Додати групу
                     </Button>
                 </div>
@@ -146,7 +146,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                                 )
                             }
                         >
-                            <SelectTrigger>
+                            <SelectTrigger size="md">
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -180,7 +180,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                             setVisibility(value[0] as CollectionVisibilityEnum)
                         }
                     >
-                        <SelectTrigger>
+                        <SelectTrigger size="md">
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
