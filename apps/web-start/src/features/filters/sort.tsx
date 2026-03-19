@@ -6,7 +6,7 @@ import { FC } from 'react';
 import FormSelect, { FormSelectProps } from '@/components/form/form-select';
 import MaterialSymbolsSortRounded from '@/components/icons/material-symbols/MaterialSymbolsSortRounded';
 import { Button } from '@/components/ui/button';
-import { FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { FormField, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -207,7 +207,7 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
 export const FormSort: FC<Props & Partial<FormSelectProps>> = (props) => {
     return (
         <div className="flex flex-col gap-2">
-            <FormLabel>Сортування</FormLabel>
+            <Label>Сортування</Label>
             <div className="flex gap-2">
                 <FormSelect
                     {...props}

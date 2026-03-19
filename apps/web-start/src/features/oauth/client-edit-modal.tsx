@@ -16,7 +16,9 @@ import FormSwitch from '@/components/form/form-switch';
 import FormTextarea from '@/components/form/form-textarea';
 import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/MaterialSymbolsContentCopy';
 import { Button } from '@/components/ui/button';
-import { Form, FormLabel } from '@/components/ui/form';
+import { Form } from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
+import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 
 import { z } from '@/utils/i18n/zod';
 
@@ -35,7 +37,6 @@ interface Props {
 }
 
 const Component = ({ client, onClose }: Props) => {
-
     const { mutate: updateClient, isPending: updateClientLoading } =
         useUpdateClient({
             options: {
@@ -101,7 +102,7 @@ const Component = ({ client, onClose }: Props) => {
                 onSubmit={(e) => e.preventDefault()}
                 className="flex flex-col gap-6"
             >
-                <div className="flex w-full flex-col gap-6">
+                <div className="flex flex-1 -m-4 p-4 flex-col gap-6">
                     <FormInput
                         name="name"
                         label="Назва застосунку"
@@ -120,7 +121,7 @@ const Component = ({ client, onClose }: Props) => {
                         type="string"
                     />
                     <div>
-                        <FormLabel>Референс</FormLabel>
+                        <Label>Референс</Label>
                         <div className="flex w-full items-end gap-2">
                             <FormInput
                                 name="reference"
@@ -140,7 +141,7 @@ const Component = ({ client, onClose }: Props) => {
                         </div>
                     </div>
                     <div>
-                        <FormLabel>Ключ</FormLabel>
+                        <Label>Ключ</Label>
                         <div className="flex w-full items-end gap-2">
                             <FormInput
                                 name="secret"
@@ -165,35 +166,33 @@ const Component = ({ client, onClose }: Props) => {
                         label="Перестворити секрет"
                         className="w-full"
                     />
-                    <div className="grid w-full grid-cols-2 gap-8">
-                        <Button
-                            variant="secondary"
-                            onClick={form.handleSubmit(onUpdate)}
-                            type="submit"
-                            disabled={
-                                deleteClientLoading || updateClientLoading
-                            }
-                        >
-                            {updateClientLoading && (
-                                <span className="loading loading-spinner"></span>
-                            )}
-                            Оновити
-                        </Button>
-                        <Button
-                            type="button"
-                            variant="destructive"
-                            onClick={onDelete}
-                            disabled={
-                                deleteClientLoading || updateClientLoading
-                            }
-                        >
-                            {deleteClientLoading && (
-                                <span className="loading loading-spinner"></span>
-                            )}
-                            Видалити
-                        </Button>
-                    </div>
                 </div>
+                <ResponsiveModalFooter>
+                    <Button
+                        size="md"
+                        variant="secondary"
+                        onClick={form.handleSubmit(onUpdate)}
+                        type="submit"
+                        disabled={deleteClientLoading || updateClientLoading}
+                    >
+                        {updateClientLoading && (
+                            <span className="loading loading-spinner"></span>
+                        )}
+                        Оновити
+                    </Button>
+                    <Button
+                        size="md"
+                        type="button"
+                        variant="destructive"
+                        onClick={onDelete}
+                        disabled={deleteClientLoading || updateClientLoading}
+                    >
+                        {deleteClientLoading && (
+                            <span className="loading loading-spinner"></span>
+                        )}
+                        Видалити
+                    </Button>
+                </ResponsiveModalFooter>
             </form>
         </Form>
     );

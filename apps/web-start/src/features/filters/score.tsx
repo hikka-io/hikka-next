@@ -5,7 +5,6 @@ import { FC, useEffect, useState } from 'react';
 
 import FormSlider, { FormSliderProps } from '@/components/form/form-slider';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
-import { FormLabel } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 
@@ -79,7 +78,7 @@ export const FormScore: FC<Props & Partial<FormSliderProps>> = ({
     return (
         <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-                <FormLabel>Оцінка</FormLabel>
+                <Label>Оцінка</Label>
             </div>
 
             <div className="flex items-center gap-2">

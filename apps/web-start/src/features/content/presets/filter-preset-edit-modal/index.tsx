@@ -11,6 +11,7 @@ import FormInput from '@/components/form/form-input';
 import FormTextarea from '@/components/form/form-textarea';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 
 import { FormAgeRating } from '@/features/filters/age-rating';
 import { FormDateRange } from '@/features/filters/date-range';
@@ -152,76 +153,74 @@ const Component = ({ filterPreset, onClose, onBack }: Props) => {
 
     return (
         <Form {...form}>
-            <div className="flex flex-col gap-8 overflow-y-auto flex-1">
-                <div className="flex w-full flex-col gap-6">
-                    <FormInput
-                        name="name"
-                        label="Назва"
-                        placeholder="Назва"
-                        required
-                    />
-                    <FormTextarea
-                        name="description"
-                        label="Опис"
-                        placeholder="Опис"
-                    />
-                    <ContentTypeSelect
-                        disabled={!!filterPreset}
-                        defaultValues={DEFAULT_VALUES}
-                    />
-                    <div
-                        className={cn(
-                            !content_types && 'pointer-events-none opacity-50',
-                            'flex w-full flex-col gap-6',
+            <div className="flex -m-4 p-4 flex-col gap-6 flex-1 overflow-y-scroll">
+                <FormInput
+                    name="name"
+                    label="Назва"
+                    placeholder="Назва"
+                    required
+                />
+                <FormTextarea
+                    name="description"
+                    label="Опис"
+                    placeholder="Опис"
+                />
+                <ContentTypeSelect
+                    disabled={!!filterPreset}
+                    defaultValues={DEFAULT_VALUES}
+                />
+                <div
+                    className={cn(
+                        !content_types && 'pointer-events-none opacity-50',
+                        'flex w-full flex-col gap-6',
+                    )}
+                >
+                    <FormReleaseStatus />
+                    {!date_range_enabled &&
+                        content_types &&
+                        content_types.includes(ContentTypeEnum.ANIME) && (
+                            <FormSeason />
                         )}
-                    >
-                        <FormReleaseStatus />
-                        {!date_range_enabled &&
-                            content_types &&
-                            content_types.includes(ContentTypeEnum.ANIME) && (
-                                <FormSeason />
-                            )}
-                        {!date_range_enabled && <FormYear />}
-                        {content_types &&
-                            content_types.length === 1 &&
-                            content_types.includes(ContentTypeEnum.ANIME) && (
-                                <FormDateRange />
-                            )}
-                        <FormGenre />
-                        {content_types && content_types.length === 1 && (
-                            <FormMediaType content_type={content_types[0]} />
+                    {!date_range_enabled && <FormYear />}
+                    {content_types &&
+                        content_types.length === 1 &&
+                        content_types.includes(ContentTypeEnum.ANIME) && (
+                            <FormDateRange />
                         )}
-                        <FormLocalization />
-                        {content_types && (
-                            <FormSort
-                                sort_type={
-                                    content_types.length > 1
-                                        ? 'anime'
-                                        : (content_types[0] as SortType)
-                                }
-                            />
+                    <FormGenre />
+                    {content_types && content_types.length === 1 && (
+                        <FormMediaType content_type={content_types[0]} />
+                    )}
+                    <FormLocalization />
+                    {content_types && (
+                        <FormSort
+                            sort_type={
+                                content_types.length > 1
+                                    ? 'anime'
+                                    : (content_types[0] as SortType)
+                            }
+                        />
+                    )}
+                    <FormAgeRating />
+                    <FormScore score_type="score" />
+                    {content_types &&
+                        content_types.includes(ContentTypeEnum.ANIME) && (
+                            <FormStudio />
                         )}
-                        <FormAgeRating />
-                        <FormScore score_type="score" />
-                        {content_types &&
-                            content_types.includes(ContentTypeEnum.ANIME) && (
-                                <FormStudio />
-                            )}
-                    </div>
-                </div>
-                <div className="flex w-full justify-end gap-4">
-                    <Button size="md" variant="outline" onClick={handleBack}>
-                        Скасувати
-                    </Button>
-                    <Button
-                        size="md"
-                        type="submit"
-                        onClick={form.handleSubmit(handleSubmit)}
-                    >
-                        Зберегти
-                    </Button>
                 </div>
             </div>
+            <ResponsiveModalFooter>
+                <Button size="md" variant="outline" onClick={handleBack}>
+                    Скасувати
+                </Button>
+                <Button
+                    size="md"
+                    type="submit"
+                    onClick={form.handleSubmit(handleSubmit)}
+                >
+                    Зберегти
+                </Button>
+            </ResponsiveModalFooter>
         </Form>
     );
 };
