@@ -38,6 +38,14 @@ const createBlockNode = (editor: PlateEditor, type: string): TElement => {
  * - Lists: uses toggleList (converts current block to list)
  */
 export const insertBlock = (editor: PlateEditor, type: string) => {
+    // Ensure editor has a selection (e.g. when toolbar is clicked before focusing)
+    if (!editor.selection) {
+        const end = editor.api.end([]);
+        if (end) {
+            editor.tf.select(end);
+        }
+    }
+
     editor.tf.withoutNormalizing(() => {
         const block = editor.api.block();
         if (!block) return;

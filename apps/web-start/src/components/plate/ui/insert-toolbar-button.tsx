@@ -210,7 +210,8 @@ export function InsertToolbarButton(
                                 className="min-w-[180px]"
                                 onSelect={() => {
                                     onSelect(editor, value);
-                                    editor.tf.focus();
+                                    // Defer focus to after dropdown closes
+                                    setTimeout(() => editor.tf.focus(), 0);
                                 }}
                             >
                                 {icon}
