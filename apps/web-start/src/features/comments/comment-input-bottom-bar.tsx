@@ -3,11 +3,14 @@
 import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { useCreateComment, useUpdateComment } from '@hikka/react';
 import { MarkdownPlugin } from '@platejs/markdown';
+import { Send } from 'lucide-react';
 import { Value } from 'platejs';
 import { FC } from 'react';
 
 import MaterialSymbolsReplyRounded from '@/components/icons/material-symbols/MaterialSymbolsReplyRounded';
-import { useCommentEditor } from '@/components/plate/editor/comment-kit';
+import { useMarkdownEditor } from '@/components/plate/editor/markdown-editor-kit';
+import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
+import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -21,6 +24,7 @@ interface Props {
     comment?: CommentResponse;
     className?: string;
     isEdit?: boolean;
+    onClose?: () => void;
 }
 
 const CommentInputBottomBar: FC<Props> = ({
@@ -29,15 +33,16 @@ const CommentInputBottomBar: FC<Props> = ({
     content_type,
     className,
     isEdit,
+    onClose,
 }) => {
     const { setState: setCommentsState } = useCommentsContext();
-    const editor = useCommentEditor();
+    const editor = useMarkdownEditor();
 
     const onSuccess = async () => {
         editor.tf.reset();
 
         if (comment) {
-            setCommentsState!((prev) => ({
+            setCommentsState?.((prev) => ({
                 ...prev,
                 currentReply: undefined,
                 currentEdit: undefined,
@@ -60,11 +65,12 @@ const CommentInputBottomBar: FC<Props> = ({
         });
 
     const handleCancel = () => {
-        setCommentsState!((prev) => ({
+        setCommentsState?.((prev) => ({
             ...prev,
             currentReply: isEdit ? prev.currentReply : undefined,
             currentEdit: isEdit ? undefined : prev.currentEdit,
         }));
+        onClose?.();
     };
 
     const removeEmptyTextNodes = (value: Value) => {
@@ -115,50 +121,53 @@ const CommentInputBottomBar: FC<Props> = ({
     };
 
     return (
-        <div className="border-border bg-secondary/20 pointer-events-none bottom-0 flex w-full items-center justify-between border-t p-2 md:absolute md:border-t-0 md:bg-transparent">
-            {comment && !isEdit ? (
-                <Badge variant="secondary" className="gap-2 p-0 pr-2">
-                    <Avatar className="size-6 rounded-sm">
-                        <AvatarImage
-                            className="size-6 rounded-sm"
-                            src={comment.author.avatar}
-                        />
-                    </Avatar>
-                    <Label className="hidden md:block">
-                        {comment.author.username}
-                    </Label>
-                    <MaterialSymbolsReplyRounded />
-                </Badge>
-            ) : (
-                <div />
-            )}
-            <div className="flex gap-2">
-                {comment && (
+        <FixedToolbar className="bg-secondary/20 sticky bottom-0 gap-4 self-start rounded-b-md border-t p-2 backdrop-blur">
+            <FixedMarkdownToolbarButtons className="-m-2 p-2" />
+            <div className="flex justify-between gap-2">
+                {comment && !isEdit && (
+                    <Badge
+                        variant="secondary"
+                        className="gap-2 p-0 pr-2 md:pointer-events-auto"
+                    >
+                        <Avatar className="size-6 rounded-sm">
+                            <AvatarImage
+                                className="size-6 rounded-sm"
+                                src={comment.author.avatar}
+                            />
+                        </Avatar>
+                        <Label className="hidden md:block">
+                            {comment.author.username}
+                        </Label>
+                        <MaterialSymbolsReplyRounded />
+                    </Badge>
+                )}
+                <div className="flex gap-2 md:pointer-events-auto">
                     <Button
                         type="button"
                         onClick={handleCancel}
-                        size="md"
+                        size="sm"
                         variant="outline"
-                        className="pointer-events-auto"
+                        className={comment ? '' : 'md:hidden'}
                     >
                         Скасувати
                     </Button>
-                )}
-                <Button
-                    onClick={onSubmit}
-                    disabled={isAddPending || isEditPending}
-                    size="md"
-                    type="submit"
-                    variant="secondary"
-                    className="pointer-events-auto"
-                >
-                    {(isAddPending || isEditPending) && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    {isEdit ? 'Зберегти' : 'Відправити'}
-                </Button>
+
+                    <Button
+                        onClick={onSubmit}
+                        disabled={isAddPending || isEditPending}
+                        size="sm"
+                        type="submit"
+                    >
+                        {isAddPending || isEditPending ? (
+                            <span className="loading loading-spinner"></span>
+                        ) : (
+                            <Send />
+                        )}
+                        {isEdit ? 'Зберегти' : 'Відправити'}
+                    </Button>
+                </div>
             </div>
-        </div>
+        </FixedToolbar>
     );
 };
 

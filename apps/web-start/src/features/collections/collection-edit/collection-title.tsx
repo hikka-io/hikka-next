@@ -1,6 +1,6 @@
 'use client';
 
-import { CommentPlateEditor } from '@/components/plate/editor/plate-editor';
+import { PlateMarkdownEditor } from '@/components/plate/editor/plate-editor';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
@@ -29,7 +29,7 @@ const CollectionTitle = () => {
             </Header>
             <RulesAlert />
             {((reference && description !== undefined) || !reference) && (
-                <CommentPlateEditor
+                <PlateMarkdownEditor
                     onValueChange={setDescription}
                     placeholder="Введіть опис"
                     modalTitle="Опис колекції"

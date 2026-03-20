@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { Editor, EditorContainer } from '@/components/plate/ui/editor';
+import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
+import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';
 import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import {
@@ -18,14 +20,12 @@ import {
     SheetTrigger,
 } from '@/components/ui/sheet';
 
-import { useIsMobile } from '@/services/hooks/use-mobile';
-import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
 import { cn } from '@/utils/cn';
 
 import { ArticleKit } from './article-kit';
-import { CommentKit } from './comment-kit';
+import { usePlateMarkdownSetup } from './markdown-editor-kit';
 
-function CommentPreview({
+export function EditorPreview({
     editor,
     isOpen,
     buttonTitle,
@@ -69,7 +69,7 @@ function CommentPreview({
     );
 }
 
-export interface CommentPlateEditorProps {
+export interface PlateMarkdownEditorProps {
     value?: string;
     children?: React.ReactNode;
     className?: string;
@@ -81,7 +81,7 @@ export interface CommentPlateEditorProps {
     onValueChange?: (value: string) => void;
 }
 
-export function CommentPlateEditor({
+export function PlateMarkdownEditor({
     value,
     children,
     className,
@@ -91,22 +91,9 @@ export function CommentPlateEditor({
     modalButtonTitle = 'Написати коментар',
     modalEditButtonTitle = 'Редагувати коментар',
     modalTitle = 'Коментар',
-}: CommentPlateEditorProps) {
-    const editor = usePlateEditor({
-        plugins: CommentKit,
-        value: (editor) =>
-            editor.getApi(MarkdownPlugin).markdown.deserialize(value ?? ''),
-    });
-
-    const [isModalOpen, setIsModalOpen] = useState(modalDefaultOpen ?? false);
-    const [hasUnsavedContent, setHasUnsavedContent] = useState(false);
-    const isMobile = useIsMobile();
-
-    useEffect(() => {
-        setHasUnsavedContent(!editor.api.isEmpty());
-    }, [editor]);
-
-    usePreventUnsavedClose(hasUnsavedContent);
+}: PlateMarkdownEditorProps) {
+    const { editor, isMobile, isModalOpen, setIsModalOpen, handleChange } =
+        usePlateMarkdownSetup({ value, modalDefaultOpen });
 
     if (isMobile === undefined) {
         return null;
@@ -115,9 +102,7 @@ export function CommentPlateEditor({
     return (
         <Plate
             editor={editor}
-            onChange={() => {
-                setHasUnsavedContent(!editor.api.isEmpty());
-            }}
+            onChange={handleChange}
             onValueChange={
                 onValueChange
                     ? () =>
@@ -136,7 +121,7 @@ export function CommentPlateEditor({
                     onOpenChange={setIsModalOpen}
                 >
                     <SheetTrigger asChild>
-                        <CommentPreview
+                        <EditorPreview
                             buttonTitle={modalButtonTitle}
                             editButtonTitle={modalEditButtonTitle}
                             editor={editor}
@@ -156,6 +141,9 @@ export function CommentPlateEditor({
                                 variant="drawer"
                                 placeholder={placeholder}
                             />
+                            <FixedToolbar className="rounded-none border-t">
+                                <FixedMarkdownToolbarButtons />
+                            </FixedToolbar>
                             {children}
                         </EditorContainer>
                     </SheetContent>
@@ -164,6 +152,9 @@ export function CommentPlateEditor({
 
             {!isMobile && (
                 <EditorContainer className={className}>
+                    <FixedToolbar>
+                        <FixedMarkdownToolbarButtons />
+                    </FixedToolbar>
                     <Editor variant="comment" placeholder={placeholder} />
                     {children}
                 </EditorContainer>

@@ -7,7 +7,7 @@ import { cn } from '@/utils/cn';
 import { Toolbar } from './toolbar';
 
 const fixedToolbarVariants = cva(
-    'scrollbar-hide supports-backdrop-blur:bg-secondary/20 left-0 w-full justify-between self-start bg-secondary/20 p-1',
+    'scrollbar-hide left-0 w-full justify-between self-start p-1',
     {
         defaultVariants: {
             variant: 'default',
@@ -15,7 +15,7 @@ const fixedToolbarVariants = cva(
         variants: {
             variant: {
                 default: cn(
-                    'border-border flex border md:sticky md:top-16 md:z-50 md:mx-0 md:overflow-x-auto md:rounded-none md:rounded-t-lg md:border-0 md:border-b md:backdrop-blur-xl',
+                    'flex md:sticky md:top-16 md:z-50 md:mx-0 md:overflow-x-auto',
                 ),
                 article: cn(
                     'border-b-border sticky top-[104px] z-50 overflow-x-auto rounded-t-lg border-b backdrop-blur-xl md:top-16',

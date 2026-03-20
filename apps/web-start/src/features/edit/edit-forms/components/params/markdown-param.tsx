@@ -9,7 +9,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 // import PlateDiff from '@/components/markdown/plate-editor/plate-diff';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
 import { DiffViewer } from '@/components/plate/editor/diff-viewer';
-import { CommentPlateEditor } from '@/components/plate/editor/plate-editor';
+import { PlateMarkdownEditor } from '@/components/plate/editor/plate-editor';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
@@ -76,7 +76,7 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                 control={control}
                 name={param.slug}
                 render={({ field: { onChange, value } }) => (
-                    <CommentPlateEditor
+                    <PlateMarkdownEditor
                         placeholder={param.placeholder}
                         value={value || ''}
                         onValueChange={onChange}

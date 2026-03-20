@@ -23,7 +23,7 @@ const editorContainerVariants = cva(
                     'has-aria-disabled:border-border has-aria-disabled:bg-muted',
                 ),
                 drawer: cn(
-                    'grid flex-1 grid-rows-[auto_1fr_auto] overflow-hidden',
+                    'flex flex-1 flex-col overflow-hidden',
                 ),
             },
         },
@@ -69,7 +69,7 @@ const editorVariants = cva(
             variant: {
                 default: 'flex-1 p-2 px-3 text-[0.9375rem]',
                 comment: 'p-2 px-3 text-[0.9375rem] pb-14',
-                drawer: 'p-2 px-3 text-[0.9375rem]',
+                drawer: 'p-2 px-3 text-[0.9375rem] flex-1 overflow-y-auto',
             },
         },
     },

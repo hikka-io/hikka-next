@@ -3,6 +3,10 @@
 import { BoldIcon, ItalicIcon } from 'lucide-react';
 import { KEYS } from 'platejs';
 import { useEditorReadOnly } from 'platejs/react';
+import { useRef } from 'react';
+
+import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
+import { cn } from '@/utils/cn';
 
 import { EmojiToolbarButton } from './emoji-toolbar-button';
 import { RedoToolbarButton, UndoToolbarButton } from './history-toolbar-button';
@@ -13,11 +17,20 @@ import { MarkToolbarButton } from './mark-toolbar-button';
 import { ToolbarGroup } from './toolbar';
 import { VideoToolbarButton } from './video-toolbar-button';
 
-export function FixedCommentToolbarButtons() {
+interface Props {
+    className?: string;
+}
+
+export function FixedMarkdownToolbarButtons({ className }: Props) {
     const readOnly = useEditorReadOnly();
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const { gradientClassName } = useScrollGradientMask(scrollRef, 'horizontal');
 
     return (
-        <div className="flex flex-1">
+        <div
+            ref={scrollRef}
+            className={cn('flex flex-1 overflow-x-scroll', gradientClassName, className)}
+        >
             {!readOnly && (
                 <>
                     <ToolbarGroup>
