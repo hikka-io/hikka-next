@@ -93,16 +93,10 @@ const WidgetOngoing = () => {
                                         'hover:bg-secondary/60 transition-colors',
                                     )}
                                 >
-                                    <div className="w-4">
-                                        <span className="text-muted-foreground text-xs font-semibold">
-                                            #{index + 1}
-                                        </span>
-                                    </div>
-
                                     {/* poster */}
                                     <ContentCard
                                         image={anime.image}
-                                        className="w-10"
+                                        className="w-12"
                                         imagePreset="cardXs"
                                         containerClassName="rounded-(--base-radius)"
                                     ></ContentCard>
@@ -110,6 +104,10 @@ const WidgetOngoing = () => {
                                     {/* title + meta */}
                                     <div className="flex min-w-0 flex-1 flex-col gap-2">
                                         <p className="group-hover:text-foreground line-clamp-2 text-xs font-medium">
+                                            <span className="text-muted-foreground font-bold">
+                                                #{index + 1}
+                                                {' / '}
+                                            </span>
                                             {anime.title}
                                         </p>
                                         <div className="flex items-center gap-2">
