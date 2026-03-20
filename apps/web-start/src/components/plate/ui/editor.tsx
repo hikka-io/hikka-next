@@ -22,9 +22,7 @@ const editorContainerVariants = cva(
                     'has-[[data-slate-editor]:focus]:border-primary-foreground/50 has-[[data-slate-editor]:focus]:ring-primary-foreground/30 has-[[data-slate-editor]:focus]:ring-2',
                     'has-aria-disabled:border-border has-aria-disabled:bg-muted',
                 ),
-                drawer: cn(
-                    'flex flex-1 flex-col overflow-hidden',
-                ),
+                drawer: cn('flex flex-1 flex-col overflow-hidden'),
             },
         },
     },
@@ -52,7 +50,7 @@ const editorVariants = cva(
         'group/editor prose',
         'relative w-full cursor-text overflow-x-hidden wrap-break-word whitespace-pre-wrap select-text',
         'ring-offset-background rounded-md focus-visible:outline-hidden',
-        '**:data-slate-placeholder:text-muted-foreground/80 placeholder:text-muted-foreground/80 **:data-slate-placeholder:top-[auto_!important] **:data-slate-placeholder:opacity-100!',
+        '**:data-slate-placeholder:text-muted-foreground/80 placeholder:text-muted-foreground/80 **:data-slate-placeholder:opacity-100!',
         '[&_strong]:font-bold',
     ),
     {
@@ -67,9 +65,9 @@ const editorVariants = cva(
                 true: 'ring-2 ring-ring ring-offset-2',
             },
             variant: {
-                default: 'flex-1 p-2 px-3 text-[0.9375rem]',
-                comment: 'p-2 px-3 text-[0.9375rem] pb-14',
-                drawer: 'p-2 px-3 text-[0.9375rem] flex-1 overflow-y-auto',
+                default: 'flex-1 p-4 text-[0.9375rem]',
+                comment: 'p-4 text-[0.9375rem] pb-14',
+                drawer: 'p-4 text-[0.9375rem] flex-1 overflow-y-auto',
             },
         },
     },
