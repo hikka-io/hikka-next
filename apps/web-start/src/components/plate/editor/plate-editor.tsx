@@ -11,12 +11,12 @@ import { Editor, EditorContainer } from '@/components/plate/ui/editor';
 import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog';
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from '@/components/ui/sheet';
 
 import { useIsMobile } from '@/services/hooks/use-mobile';
 import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
@@ -130,35 +130,36 @@ export function CommentPlateEditor({
             }
         >
             {isMobile && (
-                <Dialog
+                <Sheet
                     open={isModalOpen}
                     defaultOpen={modalDefaultOpen}
                     onOpenChange={setIsModalOpen}
                 >
-                    <DialogTrigger asChild>
+                    <SheetTrigger asChild>
                         <CommentPreview
                             buttonTitle={modalButtonTitle}
                             editButtonTitle={modalEditButtonTitle}
                             editor={editor}
                             isOpen={isModalOpen}
                         />
-                    </DialogTrigger>
-                    <DialogContent
-                        className={cn('flex h-dvh flex-col gap-0 p-0')}
-                    >
-                        <DialogHeader className="bg-secondary/20 py-4">
-                            <DialogTitle>{modalTitle}</DialogTitle>
-                        </DialogHeader>
+                    </SheetTrigger>
+                    <SheetContent side="bottom" className="h-dvh!">
+                        <SheetHeader className="bg-secondary/20">
+                            <SheetTitle>{modalTitle}</SheetTitle>
+                        </SheetHeader>
 
-                        <EditorContainer variant="drawer" className={className}>
+                        <EditorContainer
+                            variant="drawer"
+                            className={cn('-m-4 w-auto', className)}
+                        >
                             <Editor
                                 variant="drawer"
                                 placeholder={placeholder}
                             />
                             {children}
                         </EditorContainer>
-                    </DialogContent>
-                </Dialog>
+                    </SheetContent>
+                </Sheet>
             )}
 
             {!isMobile && (

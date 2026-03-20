@@ -38,12 +38,12 @@ const EditRulesAlert = () => {
                     редагування контенту.
                 </span>
             </div>
-            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+            <ResponsiveModal open={open} onOpenChange={setOpen}>
                 <ResponsiveModalContent
                     className="max-w-xl!"
                     title="Правила редагування"
                 >
-                    <MDViewer className="overflow-scroll px-6 py-4 md:overflow-hidden md:p-0">
+                    <MDViewer className="-m-4 overflow-scroll p-4">
                         {rules}
                     </MDViewer>
                 </ResponsiveModalContent>

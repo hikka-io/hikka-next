@@ -26,7 +26,7 @@ const ContentArticlesModal: FC<Props> = ({ content_type }) => {
         });
 
     return (
-        <div className="-mx-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
+        <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
             {list &&
                 list.map((article) => (
                     <ContentArticlesItem article={article} key={article.slug} />

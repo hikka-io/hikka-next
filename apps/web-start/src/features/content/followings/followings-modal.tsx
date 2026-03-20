@@ -32,7 +32,7 @@ const FollowingsModal: FC<Props> = ({ content_type }) => {
         content_type === 'anime' ? watchListQuery : readListQuery;
 
     return (
-        <div className="-mx-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
+        <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
             {list &&
                 list.map((item) => (
                     <FollowingItem
