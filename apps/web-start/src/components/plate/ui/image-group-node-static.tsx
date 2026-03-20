@@ -48,7 +48,7 @@ export function ImageGroupElementStatic({
                 ref={imageGroupRef}
                 element={element}
                 className={cn(
-                    'image-group mb-4 overflow-hidden rounded-md border',
+                    'image-group overflow-hidden rounded-md border',
                     `image-group-size-${element.children.length}`,
                     className,
                 )}

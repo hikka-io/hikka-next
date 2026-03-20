@@ -6,7 +6,7 @@ import { cn } from '@/utils/cn';
 
 export const editorVariants = cva(
     cn(
-        'group/editor',
+        'group/editor prose',
         'relative w-full cursor-text overflow-x-hidden wrap-break-word whitespace-pre-wrap select-text',
         '[&_strong]:font-bold',
     ),

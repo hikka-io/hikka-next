@@ -3,7 +3,7 @@ import { SlateElement } from 'platejs/static';
 
 export function ParagraphElementStatic(props: SlateElementProps) {
     return (
-        <SlateElement as="p" {...props} className="mb-4">
+        <SlateElement as="p" {...props}>
             {props.children}
         </SlateElement>
     );

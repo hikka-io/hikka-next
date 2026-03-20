@@ -89,7 +89,7 @@ const serializeContainerDirective = (
 export const MarkdownKit = [
     MarkdownPlugin.configure({
         options: {
-            disallowedNodes: [KEYS.suggestion],
+            disallowedNodes: [KEYS.suggestion, KEYS.codeBlock, KEYS.code],
             remarkPlugins: [remarkDirective],
 
             rules: {

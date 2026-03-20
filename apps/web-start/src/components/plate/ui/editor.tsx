@@ -49,7 +49,7 @@ export function EditorContainer({
 
 const editorVariants = cva(
     cn(
-        'group/editor',
+        'group/editor prose',
         'relative w-full cursor-text overflow-x-hidden wrap-break-word whitespace-pre-wrap select-text',
         'ring-offset-background rounded-md focus-visible:outline-hidden',
         '**:data-slate-placeholder:text-muted-foreground/80 placeholder:text-muted-foreground/80 **:data-slate-placeholder:top-[auto_!important] **:data-slate-placeholder:opacity-100!',

@@ -1200,24 +1200,56 @@ td:last-child {
     }
 }
 
-/* Content area typography spacing */
-.prose > p,
-.prose > blockquote,
-.prose > ul,
-.prose > ol,
-.prose > .spoiler,
-.prose .spoiler p,
-.prose .spoiler blockquote,
-.prose .spoiler ul,
-.prose .spoiler ol {
+/*
+ * Content area typography — single source of truth for:
+ *   - MDViewer (react-markdown): renders semantic HTML (p, h3, ul, etc.)
+ *   - Plate static viewer: renders semantic HTML with .slate-* classes
+ *   - Plate interactive editor: renders all elements as <div class="slate-{type}">
+ */
+.prose {
+    @apply leading-relaxed;
+}
+
+/* Block spacing */
+.prose :is(p, .slate-p),
+.prose :is(blockquote, .slate-blockquote),
+.prose :is(ul, .slate-ul),
+.prose :is(ol, .slate-ol),
+.prose :is(h3, .slate-h3),
+.prose :is(h4, .slate-h4),
+.prose :is(h5, .slate-h5),
+.prose .spoiler,
+.prose .image-group,
+.prose .video-embed {
     @apply mb-4;
 }
 
+/* Remove trailing margin on last block in any container */
 .prose > :last-child,
-.prose .spoiler :last-child {
+.prose .spoiler :last-child,
+.prose :is(blockquote, .slate-blockquote) > :last-child {
     @apply mb-0;
 }
 
+/* Reset margin for paragraphs inside list items */
+.prose :is(li, .slate-li) > :is(p, .slate-p) {
+    @apply mb-0;
+}
+
+/* Headings */
+.prose :is(h3, .slate-h3) {
+    @apply text-lg font-semibold;
+}
+
+.prose :is(h4, .slate-h4) {
+    @apply text-base font-semibold;
+}
+
+.prose :is(h5, .slate-h5) {
+    @apply text-sm font-semibold;
+}
+
+/* Lists — visual styles for semantic HTML (MDViewer + PlateStatic) */
 .prose ul {
     @apply ml-6 list-disc;
 }
@@ -1226,18 +1258,13 @@ td:last-child {
     @apply ml-6 list-decimal;
 }
 
-.prose ul > li,
-.prose ol > li {
+/* List item spacing */
+.prose :is(ul, ol, .slate-ul, .slate-ol) > :is(li, .slate-li) {
     @apply mt-2;
 }
 
-.prose li {
+.prose :is(li, .slate-li) {
     @apply ps-2;
-}
-
-div.slate-editor:last-child,
-.slate-image_group:last-child {
-    @apply mb-0;
 }
 
 .image-group {

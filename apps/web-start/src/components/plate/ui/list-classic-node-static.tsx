@@ -1,25 +1,11 @@
-import { type VariantProps, cva } from 'class-variance-authority';
 import { SlateElement, SlateElementProps } from 'platejs/static';
-
-const listVariants = cva('mb-4', {
-    variants: {
-        variant: {
-            ul: 'ml-6 list-disc [&>li]:mt-2',
-            ol: 'ml-6 list-decimal [&>li]:mt-2',
-        },
-    },
-});
 
 export function ListElementStatic({
     variant,
     ...props
-}: SlateElementProps & VariantProps<typeof listVariants>) {
+}: SlateElementProps & { variant?: 'ul' | 'ol' }) {
     return (
-        <SlateElement
-            as={variant!}
-            className={listVariants({ variant })}
-            {...props}
-        >
+        <SlateElement as={variant!} {...props}>
             {props.children}
         </SlateElement>
     );
@@ -39,7 +25,7 @@ export function ListItemElementStatic(props: SlateElementProps) {
 
 export function BaseListItemElementStatic(props: SlateElementProps) {
     return (
-        <SlateElement as="li" {...props} className="ps-2">
+        <SlateElement as="li" {...props}>
             {props.children}
         </SlateElement>
     );

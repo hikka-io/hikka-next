@@ -21,7 +21,7 @@ export function VideoElementStatic({
     if (!videoId) {
         return (
             <SlateElement {...props} element={element}>
-                <div className={cn('mb-4', className)}>
+                <div className={cn('video-embed', className)}>
                     <div className="bg-muted text-muted-foreground flex aspect-video items-center justify-center rounded-md">
                         Invalid video URL
                     </div>
@@ -35,7 +35,7 @@ export function VideoElementStatic({
             as="div"
             {...props}
             element={element}
-            className={cn('mb-4', className)}
+            className={cn('video-embed', className)}
         >
             <LiteYouTubeEmbed
                 id={videoId}

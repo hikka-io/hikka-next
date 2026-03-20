@@ -114,24 +114,6 @@ export const SpoilerPlugin = createPlatePlugin({
                                 return;
                             }
                         }
-
-                        // Ensure first child is a paragraph if not already
-                        const firstChild = children[0];
-                        if (
-                            firstChild &&
-                            ElementApi.isElement(firstChild) &&
-                            firstChild.type !== KEYS.p
-                        ) {
-                            // Insert paragraph at the beginning
-                            const paragraphNode = {
-                                type: KEYS.p,
-                                children: [{ text: '' }],
-                            };
-                            editor.tf.insertNodes(paragraphNode, {
-                                at: [...path, 0],
-                            });
-                            return;
-                        }
                     }
                 }
 
