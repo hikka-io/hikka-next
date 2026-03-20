@@ -66,7 +66,7 @@ const editorVariants = cva(
             },
             variant: {
                 default: 'flex-1 p-4 text-[0.9375rem]',
-                comment: 'p-4 text-[0.9375rem] pb-14',
+                comment: 'p-4 text-[0.9375rem]',
                 drawer: 'p-4 text-[0.9375rem] flex-1 overflow-y-auto',
             },
         },

@@ -3,7 +3,7 @@
 import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { useCreateComment, useUpdateComment } from '@hikka/react';
 import { MarkdownPlugin } from '@platejs/markdown';
-import { Send } from 'lucide-react';
+import { Minimize2, Send } from 'lucide-react';
 import { Value } from 'platejs';
 import { FC } from 'react';
 
@@ -121,15 +121,12 @@ const CommentInputBottomBar: FC<Props> = ({
     };
 
     return (
-        <FixedToolbar className="bg-secondary/20 sticky bottom-0 gap-4 self-start rounded-b-md border-t p-2 backdrop-blur">
-            <FixedMarkdownToolbarButtons className="-m-2 p-2" />
+        <FixedToolbar className="gap-4 px-2 py-2">
+            <FixedMarkdownToolbarButtons className="-mx-2 -my-2 px-2 py-2" />
             <div className="flex justify-between gap-2">
                 {comment && !isEdit && (
-                    <Badge
-                        variant="secondary"
-                        className="gap-2 p-0 pr-2 md:pointer-events-auto"
-                    >
-                        <Avatar className="size-6 rounded-sm">
+                    <Badge variant="secondary" className="gap-2">
+                        <Avatar className="size-5 rounded-sm">
                             <AvatarImage
                                 className="size-6 rounded-sm"
                                 src={comment.author.avatar}
@@ -149,7 +146,8 @@ const CommentInputBottomBar: FC<Props> = ({
                         variant="outline"
                         className={comment ? '' : 'md:hidden'}
                     >
-                        Скасувати
+                        <Minimize2 />
+                        <span className="hidden md:inline">Скасувати</span>
                     </Button>
 
                     <Button

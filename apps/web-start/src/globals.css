@@ -1219,7 +1219,7 @@ td:last-child {
 .prose :is(h4, .slate-h4),
 .prose :is(h5, .slate-h5),
 .prose .spoiler,
-.prose .image-group,
+.prose :is(.image-group, .slate-image_group),
 .prose .video-embed {
     @apply mb-4;
 }

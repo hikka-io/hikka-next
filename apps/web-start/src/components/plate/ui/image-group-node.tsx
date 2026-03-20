@@ -26,7 +26,7 @@ export function ImageGroupElement({
     return (
         <PlateElement
             as="div"
-            className={cn('image-group flex gap-3 overflow-x-auto', className)}
+            className={cn('flex items-start gap-3 overflow-x-auto', className)}
             element={element}
             editor={editor}
             {...props}

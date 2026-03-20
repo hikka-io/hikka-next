@@ -141,7 +141,7 @@ export function PlateMarkdownEditor({
                                 variant="drawer"
                                 placeholder={placeholder}
                             />
-                            <FixedToolbar className="rounded-none border-t">
+                            <FixedToolbar className="rounded-none">
                                 <FixedMarkdownToolbarButtons />
                             </FixedToolbar>
                             {children}
@@ -152,7 +152,7 @@ export function PlateMarkdownEditor({
 
             {!isMobile && (
                 <EditorContainer className={className}>
-                    <FixedToolbar>
+                    <FixedToolbar variant="top">
                         <FixedMarkdownToolbarButtons />
                     </FixedToolbar>
                     <Editor variant="comment" placeholder={placeholder} />

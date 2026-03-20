@@ -26,7 +26,7 @@ export const FixedArticleToolbarKit = [
         key: 'fixed-article-toolbar',
         render: {
             beforeEditable: () => (
-                <FixedToolbar variant="article">
+                <FixedToolbar variant="top">
                     <FixedArticleToolbarButtons />
                 </FixedToolbar>
             ),

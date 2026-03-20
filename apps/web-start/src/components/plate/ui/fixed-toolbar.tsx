@@ -7,19 +7,15 @@ import { cn } from '@/utils/cn';
 import { Toolbar } from './toolbar';
 
 const fixedToolbarVariants = cva(
-    'scrollbar-hide left-0 w-full justify-between self-start p-1',
+    'scrollbar-hide left-0 w-full justify-between self-start p-1 z-50',
     {
         defaultVariants: {
             variant: 'default',
         },
         variants: {
             variant: {
-                default: cn(
-                    'flex md:sticky md:top-16 md:z-50 md:mx-0 md:overflow-x-auto',
-                ),
-                article: cn(
-                    'border-b-border sticky top-[104px] z-50 overflow-x-auto rounded-t-lg border-b backdrop-blur-xl md:top-16',
-                ),
+                default: 'sticky bottom-0 border-t',
+                top: 'sticky top-0 overflow-x-auto border-b backdrop-blur-xl',
             },
         },
     },
@@ -33,7 +29,6 @@ export function FixedToolbar(
         <Toolbar
             {...props}
             className={cn(
-                //'scrollbar-hide supports-backdrop-blur:bg-secondary/20 left-0 flex w-full justify-between self-start border border-border bg-secondary/20 p-1 md:sticky md:top-16 md:z-50 md:mx-0 md:overflow-x-auto md:rounded-none md:rounded-t-lg md:border-0 md:border-b md:backdrop-blur-xl',
                 fixedToolbarVariants({ variant: props.variant }),
                 props.className,
             )}
