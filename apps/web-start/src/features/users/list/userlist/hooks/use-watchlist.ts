@@ -35,7 +35,10 @@ export const useWatchList = () => {
     return useSearchUserWatches({
         username: String(params.username),
         args: {
-            watch_status: String(watchStatus) as WatchStatusEnum,
+            watch_status:
+                watchStatus !== 'all'
+                    ? (String(watchStatus) as WatchStatusEnum)
+                    : undefined,
             media_type,
             status,
             season,

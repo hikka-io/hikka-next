@@ -5,27 +5,16 @@ import {
     ReadStatusEnum,
     WatchStatusEnum,
 } from '@hikka/client';
-import { useRouter } from '@tanstack/react-router';
-import { createElement } from 'react';
+import { createElement, useRef } from 'react';
 
-import { Label } from '@/components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectIcon,
-    SelectItem,
-    SelectList,
-    SelectTrigger,
-} from '@/components/ui/select';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+import useChangeParam from '@/features/filters/hooks/use-change-param';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
+import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
-
-import { useReadList } from './userlist/hooks/use-readlist';
-import { useWatchList } from './userlist/hooks/use-watchlist';
 
 const STATUSES = { ...WATCH_STATUS, ...READ_STATUS };
 
@@ -38,9 +27,14 @@ interface Props {
 
 const StatusCombobox = ({ content_type }: Props) => {
     const search = useFilterSearch<{ status?: string }>();
-    const router = useRouter();
+    const handleChangeParam = useChangeParam();
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const { gradientClassName } = useScrollGradientMask(
+        scrollRef,
+        'horizontal',
+    );
 
-    const status = search.status as ReadStatusEnum | WatchStatusEnum;
+    const status = search.status as ReadStatusEnum | WatchStatusEnum | 'all';
 
     const statusInfo =
         content_type === ContentTypeEnum.ANIME
@@ -49,66 +43,46 @@ const StatusCombobox = ({ content_type }: Props) => {
     const statuses =
         content_type === ContentTypeEnum.ANIME ? WATCH_STATUS : READ_STATUS;
 
-    const { pagination } =
-        content_type === ContentTypeEnum.ANIME ? useWatchList() : useReadList();
-
-    if (!statusInfo) {
+    if (!statusInfo && status !== 'all') {
         return null;
     }
 
-    const handleStatusChange = (value: string[]) => {
-        router.navigate({
-            to: '.',
-            search: (prev: Record<string, unknown>) => ({
-                ...prev,
-                status: value[0],
-            }),
-            replace: true,
-        } as any);
-    };
-
     return (
-        <Select value={[status]} onValueChange={handleStatusChange}>
-            <SelectTrigger>
-                <div className="flex items-center gap-2">
-                    <div
-                        className={cn(
-                            'w-fit rounded-sm border p-1 text-white',
-                            `bg-${status} text-${status}-foreground border-${status}-border`,
-                        )}
-                    >
-                        {createElement(statusInfo.icon!, {
-                            className: 'size-3!',
-                        })}
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <h5>{statusInfo.title_ua}</h5>
-                        {pagination && (
-                            <Label className="text-muted-foreground">
-                                ({pagination.total})
-                            </Label>
-                        )}
-                    </div>
-                </div>
-                <SelectIcon />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectList>
-                    <SelectGroup>
-                        {(
-                            Object.keys(statuses) as (
-                                | ReadStatusEnum
-                                | WatchStatusEnum
-                            )[]
-                        ).map((o) => (
-                            <SelectItem key={o} value={o}>
-                                {STATUSES[o].title_ua}
-                            </SelectItem>
-                        ))}
-                    </SelectGroup>
-                </SelectList>
-            </SelectContent>
-        </Select>
+        <Tabs
+            value={status}
+            onValueChange={(value) => handleChangeParam('status', value)}
+            className="overflow-hidden"
+        >
+            <TabsList
+                ref={scrollRef}
+                className={cn(
+                    'no-scrollbar w-full justify-start overflow-x-scroll',
+                    gradientClassName,
+                )}
+            >
+                <TabsTrigger value="all">Усе</TabsTrigger>
+                {(
+                    Object.keys(statuses) as (
+                        | ReadStatusEnum
+                        | WatchStatusEnum
+                    )[]
+                ).map((o) => (
+                    <TabsTrigger key={o} value={o} className="flex gap-2">
+                        <div
+                            className={cn(
+                                'w-fit rounded-sm border p-1 text-white',
+                                `bg-${o} text-${o}-foreground border-${o}-border`,
+                            )}
+                        >
+                            {createElement(statuses[o].icon, {
+                                className: 'size-3!',
+                            })}
+                        </div>
+                        {STATUSES[o].title_ua}
+                    </TabsTrigger>
+                ))}
+            </TabsList>
+        </Tabs>
     );
 };
 

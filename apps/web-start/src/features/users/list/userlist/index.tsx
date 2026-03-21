@@ -30,7 +30,7 @@ const List = ({ content_type }: Props) => {
     const search = useFilterSearch<{ status?: string }>();
     const { preferences } = useSettingsStore();
 
-    const status = search.status as ReadStatusEnum | WatchStatusEnum;
+    const status = search.status as ReadStatusEnum | WatchStatusEnum | 'all';
     const view = preferences.views.userlist || 'table';
 
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =

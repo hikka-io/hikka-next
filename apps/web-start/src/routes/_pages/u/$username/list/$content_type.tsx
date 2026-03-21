@@ -54,7 +54,10 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                 searchUserWatchesOptions(hikkaClient, {
                     username,
                     args: {
-                        watch_status: status as WatchStatusEnum,
+                        watch_status:
+                            status !== 'all'
+                                ? (status as WatchStatusEnum)
+                                : undefined,
                         sort: [`${sort}:desc`],
                     },
                 }),
@@ -66,7 +69,10 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                     username,
                     contentType: content_type as ReadContentType,
                     args: {
-                        read_status: status as ReadStatusEnum,
+                        read_status:
+                            status !== 'all'
+                                ? (status as ReadStatusEnum)
+                                : undefined,
                         sort: [`${sort}:desc`],
                     },
                 }),
@@ -87,10 +93,8 @@ function ListPage() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-12">
             <Block>
                 <UserlistHeader content_type={content_type} />
-                <div className="flex items-center justify-between">
-                    <div className="flex gap-2">
-                        <UserlistStatusCombobox content_type={content_type} />
-                    </div>
+                <div className="flex items-center justify-between gap-2 overflow-hidden">
+                    <UserlistStatusCombobox content_type={content_type} />
                     <div className="flex items-center gap-2">
                         <UserlistViewCombobox />
                         <UserlistToolsCombobox content_type={content_type} />

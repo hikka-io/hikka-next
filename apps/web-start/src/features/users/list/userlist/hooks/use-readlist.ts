@@ -18,7 +18,7 @@ export const useReadList = () => {
     const search = useFilterSearch<UserlistSearch>();
     const params = useParams();
 
-    const readStatus = search.status as ReadStatusEnum;
+    const readStatus = search.status as ReadStatusEnum | 'all';
 
     const media_type = (search.types ?? []) as (
         | NovelMediaEnum
@@ -36,7 +36,7 @@ export const useReadList = () => {
         contentType: params.content_type as ReadContentType,
         username: String(params.username),
         args: {
-            read_status: readStatus,
+            read_status: readStatus !== 'all' ? readStatus : undefined,
             media_type,
             status,
             years,
