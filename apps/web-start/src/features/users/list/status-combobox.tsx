@@ -2,9 +2,13 @@
 
 import {
     ContentTypeEnum,
+    ReadStatsResponse,
     ReadStatusEnum,
+    WatchStatsResponse,
     WatchStatusEnum,
 } from '@hikka/client';
+import { useReadStats, useUserWatchStats } from '@hikka/react';
+import { Table } from 'lucide-react';
 import { createElement, useRef } from 'react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -15,6 +19,7 @@ import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
+import { useParams } from '@/utils/navigation';
 
 const STATUSES = { ...WATCH_STATUS, ...READ_STATUS };
 
@@ -26,7 +31,9 @@ interface Props {
 }
 
 const StatusCombobox = ({ content_type }: Props) => {
+    const isAnime = content_type === ContentTypeEnum.ANIME;
     const search = useFilterSearch<{ status?: string }>();
+    const params = useParams();
     const handleChangeParam = useChangeParam();
     const scrollRef = useRef<HTMLDivElement>(null);
     const { gradientClassName } = useScrollGradientMask(
@@ -34,18 +41,37 @@ const StatusCombobox = ({ content_type }: Props) => {
         'horizontal',
     );
 
+    const { data: watchData } = useUserWatchStats({
+        username: params.username,
+        options: { enabled: isAnime },
+    });
+
+    const { data: readData } = useReadStats({
+        username: params.username,
+        contentType: content_type as ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL,
+        options: { enabled: !isAnime },
+    });
+
     const status = search.status as ReadStatusEnum | WatchStatusEnum | 'all';
 
-    const statusInfo =
-        content_type === ContentTypeEnum.ANIME
-            ? WATCH_STATUS[status as WatchStatusEnum]
-            : READ_STATUS[status as ReadStatusEnum];
-    const statuses =
-        content_type === ContentTypeEnum.ANIME ? WATCH_STATUS : READ_STATUS;
+    const statusInfo = isAnime
+        ? WATCH_STATUS[status as WatchStatusEnum]
+        : READ_STATUS[status as ReadStatusEnum];
 
-    if (!statusInfo && status !== 'all') {
-        return null;
-    }
+    const listData = isAnime ? watchData : readData;
+
+    if (!statusInfo && status !== 'all') return null;
+    if (!listData) return null;
+    const allAmount =
+        listData.completed +
+        listData.dropped +
+        listData.on_hold +
+        listData.planned +
+        (isAnime
+            ? (listData as WatchStatsResponse).watching
+            : (listData as ReadStatsResponse).reading);
+
+    const statuses = isAnime ? WATCH_STATUS : READ_STATUS;
 
     return (
         <Tabs
@@ -60,7 +86,11 @@ const StatusCombobox = ({ content_type }: Props) => {
                     gradientClassName,
                 )}
             >
-                <TabsTrigger value="all">Усе</TabsTrigger>
+                <TabsTrigger value="all">
+                    <Table className="size-4" />
+                    Усе{' '}
+                    <span className="text-muted-foreground">({allAmount})</span>
+                </TabsTrigger>
                 {(
                     Object.keys(statuses) as (
                         | ReadStatusEnum
@@ -74,11 +104,14 @@ const StatusCombobox = ({ content_type }: Props) => {
                                 `bg-${o} text-${o}-foreground border-${o}-border`,
                             )}
                         >
-                            {createElement(statuses[o].icon, {
+                            {createElement(STATUSES[o].icon!, {
                                 className: 'size-3!',
                             })}
                         </div>
-                        {STATUSES[o].title_ua}
+                        {STATUSES[o].title_ua}{' '}
+                        <span className="text-muted-foreground">
+                            ({listData[o]})
+                        </span>
                     </TabsTrigger>
                 ))}
             </TabsList>

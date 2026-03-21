@@ -32,6 +32,7 @@ const useChangeParam = () => {
                 return next;
             },
             replace: true,
+            resetScroll: false,
         } as any);
     };
 

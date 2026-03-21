@@ -91,7 +91,7 @@ function ListPage() {
 
     return (
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-12">
-            <Block>
+            <Block className="overflow-hidden">
                 <UserlistHeader content_type={content_type} />
                 <div className="flex items-center justify-between gap-2 overflow-hidden">
                     <UserlistStatusCombobox content_type={content_type} />
@@ -102,7 +102,7 @@ function ListPage() {
                 </div>
                 <Userlist content_type={content_type} />
             </Block>
-            <div className="border-border bg-secondary/20 sticky top-20 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border backdrop-blur-xl lg:flex">
+            <div className="border-border bg-secondary/20 sticky top-20 hidden h-fit max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border backdrop-blur-xl lg:flex">
                 {isAnime ? (
                     <AnimeFilters
                         sort_type="watch"
