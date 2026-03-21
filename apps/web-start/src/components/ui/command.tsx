@@ -53,7 +53,7 @@ function CommandDialog({
             </DialogHeader>
             <DialogContent
                 className={cn(
-                    'flex max-h-[80dvh] flex-col overflow-hidden rounded-xl! p-0 sm:max-w-lg',
+                    'flex max-h-[calc(var(--visual-viewport-height,100dvh)*0.8)] flex-col overflow-hidden rounded-xl! p-0 sm:max-w-lg',
                     className,
                 )}
                 showCloseButton={showCloseButton}

@@ -128,7 +128,7 @@ export function PlateMarkdownEditor({
                             isOpen={isModalOpen}
                         />
                     </SheetTrigger>
-                    <SheetContent side="bottom" className="h-dvh!">
+                    <SheetContent side="bottom" className="h-(--visual-viewport-height,100dvh)! transition-[height] duration-100">
                         <SheetHeader className="bg-secondary/20">
                             <SheetTitle>{modalTitle}</SheetTitle>
                         </SheetHeader>
