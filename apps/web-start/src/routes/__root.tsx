@@ -31,7 +31,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
             {
                 name: 'viewport',
                 content:
-                    'width=device-width, initial-scale=1, maximum-scale=1',
+                    'width=device-width, initial-scale=1, maximum-scale=1, interactive-widget=resizes-content',
             },
             { name: 'theme-color', content: 'black' },
             { name: 'color-scheme', content: 'dark light' },
