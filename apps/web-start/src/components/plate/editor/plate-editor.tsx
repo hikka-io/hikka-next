@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import {
     Sheet,
     SheetContent,
+    SheetDescription,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
@@ -76,6 +77,7 @@ export interface PlateMarkdownEditorProps {
     placeholder?: string;
     modalDefaultOpen?: boolean;
     modalTitle?: string;
+    modalDescription?: string;
     modalButtonTitle?: string;
     modalEditButtonTitle?: string;
     onValueChange?: (value: string) => void;
@@ -91,6 +93,7 @@ export function PlateMarkdownEditor({
     modalButtonTitle = 'Написати коментар',
     modalEditButtonTitle = 'Редагувати коментар',
     modalTitle = 'Коментар',
+    modalDescription,
 }: PlateMarkdownEditorProps) {
     const { editor, isMobile, isModalOpen, setIsModalOpen, handleChange } =
         usePlateMarkdownSetup({ value, modalDefaultOpen });
@@ -128,9 +131,17 @@ export function PlateMarkdownEditor({
                             isOpen={isModalOpen}
                         />
                     </SheetTrigger>
-                    <SheetContent side="bottom" className="top-(--visual-viewport-offset-top,0px)! bottom-auto! h-(--visual-viewport-height,100dvh)!">
+                    <SheetContent
+                        side="bottom"
+                        className="top-(--visual-viewport-offset-top,0px)! bottom-auto! h-(--visual-viewport-height,100dvh)!"
+                    >
                         <SheetHeader className="bg-secondary/20">
                             <SheetTitle>{modalTitle}</SheetTitle>
+                            {modalDescription && (
+                                <SheetDescription>
+                                    {modalDescription}
+                                </SheetDescription>
+                            )}
                         </SheetHeader>
 
                         <EditorContainer
