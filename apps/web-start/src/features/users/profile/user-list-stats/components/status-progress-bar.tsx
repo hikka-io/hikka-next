@@ -19,7 +19,7 @@ const StatusProgressBar: FC<Props> = ({ segments }) => {
     if (total === 0) return null;
 
     return (
-        <div className="flex h-2 w-full gap-1">
+        <div className="flex h-2 w-full gap-1 px-2">
             {segments.map(
                 (segment) =>
                     segment.count > 0 && (

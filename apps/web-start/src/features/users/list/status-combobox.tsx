@@ -110,7 +110,7 @@ const StatusCombobox = ({ content_type }: Props) => {
                         </div>
                         {STATUSES[o].title_ua}{' '}
                         <span className="text-muted-foreground">
-                            ({listData[o]})
+                            ({listData[o as keyof typeof listData]})
                         </span>
                     </TabsTrigger>
                 ))}

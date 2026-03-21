@@ -83,14 +83,21 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
 
     return (
         <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-4 px-4">
-                <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-col gap-2 px-2">
+                <Link
+                    to={`/u/${username}/list/${type}`}
+                    search={{ status: 'all' }}
+                    className={cn(
+                        'hover:bg-secondary flex items-center justify-between gap-2 rounded-sm p-2',
+                        total === 0 && 'opacity-50',
+                    )}
+                >
                     <div className="text-muted-foreground flex gap-2">
                         <MaterialSymbolsPlayArrowRounded className="size-4" />
                         <Label>Всього</Label>
                     </div>
                     <Label>{total}</Label>
-                </div>
+                </Link>
                 <StatusProgressBar segments={segments} />
             </div>
             <div className="flex flex-wrap gap-1 px-2">
