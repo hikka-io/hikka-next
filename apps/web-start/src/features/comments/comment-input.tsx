@@ -54,7 +54,7 @@ const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
                             isOpen={isModalOpen}
                         />
                     </SheetTrigger>
-                    <SheetContent side="bottom" className="h-(--visual-viewport-height,100dvh)! transition-[height] duration-100">
+                    <SheetContent side="bottom" className="top-(--visual-viewport-offset-top,0px)! bottom-auto! h-(--visual-viewport-height,100dvh)!">
                         <SheetHeader>
                             <SheetTitle>Коментар</SheetTitle>
                         </SheetHeader>

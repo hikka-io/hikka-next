@@ -3,12 +3,17 @@
 import { useEffect } from 'react';
 
 /**
- * Tracks `window.visualViewport` size and sets a CSS custom property
- * `--visual-viewport-height` on the document root. This allows
- * fixed/sticky elements (like editor toolbars inside modals) to stay
- * visible above the virtual keyboard on mobile devices.
+ * Tracks `window.visualViewport` and sets CSS custom properties on the
+ * document root so fixed modals can stay within the visible area when
+ * the virtual keyboard opens on mobile.
  *
- * Usage in CSS/Tailwind: `h-[var(--visual-viewport-height,100dvh)]`
+ * Sets:
+ *  - `--visual-viewport-height`     (visible area height, in px)
+ *  - `--visual-viewport-offset-top` (scroll offset on iOS, in px)
+ *
+ * Usage on a fixed full-screen sheet:
+ *   top: var(--visual-viewport-offset-top, 0px)
+ *   height: var(--visual-viewport-height, 100dvh)
  */
 export function useVisualViewport() {
     useEffect(() => {
@@ -16,9 +21,14 @@ export function useVisualViewport() {
         if (!viewport) return;
 
         const update = () => {
-            document.documentElement.style.setProperty(
+            const root = document.documentElement;
+            root.style.setProperty(
                 '--visual-viewport-height',
                 `${viewport.height}px`,
+            );
+            root.style.setProperty(
+                '--visual-viewport-offset-top',
+                `${viewport.offsetTop}px`,
             );
         };
 
@@ -31,6 +41,9 @@ export function useVisualViewport() {
             viewport.removeEventListener('scroll', update);
             document.documentElement.style.removeProperty(
                 '--visual-viewport-height',
+            );
+            document.documentElement.style.removeProperty(
+                '--visual-viewport-offset-top',
             );
         };
     }, []);
