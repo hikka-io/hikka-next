@@ -1,9 +1,11 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
+import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
+import { cn } from '@/utils/cn';
 import { FEED_FILTER_OPTIONS } from '@/utils/constants/feed';
 
 import { FeedFilterEnum } from '../../types';
@@ -14,6 +16,12 @@ interface Props {
 }
 
 const FeedTabs: FC<Props> = ({ value, onChange }) => {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const { gradientClassName } = useScrollGradientMask(
+        scrollRef,
+        'horizontal',
+    );
+
     return (
         <div className="flex w-full gap-2 overflow-hidden">
             <Tabs
@@ -21,7 +29,13 @@ const FeedTabs: FC<Props> = ({ value, onChange }) => {
                 onValueChange={(v) => onChange(v as FeedFilterEnum)}
                 className="flex-1 overflow-hidden"
             >
-                <TabsList className="no-scrollbar w-full justify-start overflow-x-auto ">
+                <TabsList
+                    ref={scrollRef}
+                    className={cn(
+                        'no-scrollbar w-full justify-start overflow-x-auto',
+                        gradientClassName,
+                    )}
+                >
                     {Object.entries(FEED_FILTER_OPTIONS).map(
                         ([key, option]) => (
                             <TabsTrigger
