@@ -178,6 +178,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
         <>
             <div className="flex flex-col gap-4">
                 <Stack
+                    visibleScrollbar
                     className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4"
                     imagePreset="cardXs"
                 >

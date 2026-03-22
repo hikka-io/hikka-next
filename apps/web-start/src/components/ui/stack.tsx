@@ -36,6 +36,11 @@ interface StackProps extends ComponentPropsWithoutRef<'div'> {
      * Image preset for child ContentCards
      */
     imagePreset?: ImagePreset;
+
+    /**
+     * Scrollbar visability
+     */
+    visibleScrollbar?: boolean;
 }
 
 // Improved type-safe configuration objects
@@ -71,6 +76,7 @@ const Stack: FC<StackProps> = ({
     size,
     extendedSize,
     gap = 'md',
+    visibleScrollbar = false,
     imagePreset,
     className,
     ...props
@@ -92,12 +98,15 @@ const Stack: FC<StackProps> = ({
                 // Size configuration for standard layout
                 size && SIZES[size],
 
+                // Scrollbar visability
+                !visibleScrollbar && 'no-scrollbar',
+
                 // Extended layout configuration
                 extended
                     ? extendedSize
                         ? EXTENDED_SIZES[extendedSize]
                         : 'grid-cols-2 md:grid-cols-6'
-                    : `no-scrollbar auto-cols-scroll grid-cols-scroll md:gradient-mask-none -mx-4 grid-flow-col overflow-x-scroll px-4 ${gradientClassName}`,
+                    : `auto-cols-scroll grid-cols-scroll md:gradient-mask-none -mx-4 grid-flow-col overflow-x-scroll px-4 ${gradientClassName}`,
 
                 // Allow additional className overrides
                 className,
