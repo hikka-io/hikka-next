@@ -311,7 +311,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                     onOpenChange={setOpen}
                     forceDesktop
                 >
-                    <ResponsiveModalContent className="max-w-xl!">
+                    <ResponsiveModalContent className="md:max-w-xl">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
                                 {selectedRead.content.title}

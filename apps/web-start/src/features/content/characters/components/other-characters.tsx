@@ -45,7 +45,7 @@ const OtherCharacters: FC<Props> = ({ extended, content_type }) => {
             <Stack
                 size={5}
                 extendedSize={5}
-                className="grid-min-6"
+                className="grid-min-6 grid-cols-3 sm:grid-cols-4"
                 extended={extended}
                 imagePreset="card"
             >

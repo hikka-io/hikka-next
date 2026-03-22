@@ -41,7 +41,12 @@ const Voices: FC<Props> = ({ extended }) => {
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-            <Stack size={4} extendedSize={5} extended={extended}>
+            <Stack
+                size={4}
+                extendedSize={5}
+                className="grid-cols-3 sm:grid-cols-4"
+                extended={extended}
+            >
                 {(extended ? list : list.slice(0, 4)).map((ch) => (
                     <VoiceCard
                         key={ch.person.slug + ch.anime.slug}

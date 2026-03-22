@@ -30,8 +30,7 @@ import { ReadEditModal } from '@/features/read';
 import { cn } from '@/utils/cn';
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
-import { Link } from '@/utils/navigation';
-import { useRouter } from '@/utils/navigation';
+import { Link, useRouter } from '@/utils/navigation';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [
     'розділ',
@@ -308,7 +307,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
                     onOpenChange={setOpen}
                     forceDesktop
                 >
-                    <ResponsiveModalContent className="max-w-xl!">
+                    <ResponsiveModalContent className="md:max-w-xl">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
                                 {selectedRead.content.title}

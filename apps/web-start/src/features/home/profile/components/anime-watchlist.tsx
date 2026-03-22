@@ -31,8 +31,7 @@ import useDebounce from '@/services/hooks/use-debounce';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
-import { Link } from '@/utils/navigation';
-import { useRouter } from '@/utils/navigation';
+import { Link, useRouter } from '@/utils/navigation';
 
 const EPISODES_DECLENSION: [string, string, string] = [
     'епізод',
@@ -308,7 +307,7 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
                     onOpenChange={setOpen}
                     forceDesktop
                 >
-                    <ResponsiveModalContent className="max-w-xl!">
+                    <ResponsiveModalContent className="md:max-w-xl">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
                                 {selectedWatch.anime.title}

@@ -230,7 +230,7 @@ const WatchlistButton = ({
                 onOpenChange={setEditOpen}
                 forceDesktop
             >
-                <ResponsiveModalContent className="max-w-xl!">
+                <ResponsiveModalContent className="md:max-w-xl">
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>
                             {anime?.title}

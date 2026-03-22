@@ -284,7 +284,7 @@ const WatchingTracker = () => {
                     onOpenChange={setOpen}
                     forceDesktop
                 >
-                    <ResponsiveModalContent className="max-w-xl!">
+                    <ResponsiveModalContent className="md:max-w-xl">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
                                 {selectedWatch.anime.title}
