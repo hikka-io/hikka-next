@@ -10,7 +10,6 @@ import { useReadStats, useUserWatchStats } from '@hikka/react';
 import { FC } from 'react';
 
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
-import { MaterialSymbolsPlayArrowRounded } from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 
@@ -84,23 +83,30 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
     return (
         <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-2 px-2">
+                <StatusProgressBar segments={segments} />
+            </div>
+            <div className="flex flex-wrap gap-1 px-2">
                 <Link
                     to={`/u/${username}/list/${type}`}
                     search={{ status: 'all' }}
                     className={cn(
-                        'hover:bg-secondary flex items-center justify-between gap-2 rounded-sm p-2',
+                        'hover:bg-secondary flex items-center justify-between gap-2 rounded-sm p-2 flex-1 md:flex-0',
                         total === 0 && 'opacity-50',
                     )}
                 >
-                    <div className="text-muted-foreground flex gap-2">
-                        <MaterialSymbolsPlayArrowRounded className="size-4" />
-                        <Label>Всього</Label>
+                    <div className="flex min-w-0 items-center gap-2">
+                        <div
+                            className={cn(
+                                'size-2 rounded-full',
+                                `bg-foreground`,
+                            )}
+                        />
+                        <Label className="text-muted-foreground cursor-pointer truncate">
+                            Всього
+                        </Label>
                     </div>
                     <Label>{total}</Label>
                 </Link>
-                <StatusProgressBar segments={segments} />
-            </div>
-            <div className="flex flex-wrap gap-1 px-2">
                 {statuses.map((status) => {
                     const count = data[status as keyof typeof data] as number;
                     const info = statusMap[
@@ -117,7 +123,7 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
                             search={{ status, sort: sortParam }}
                             preload={false}
                             className={cn(
-                                'hover:bg-secondary flex items-center justify-between gap-4 rounded-sm p-2',
+                                'hover:bg-secondary flex items-center justify-between gap-2 rounded-sm p-2 flex-1  md:flex-0',
                                 count === 0 && 'opacity-50',
                             )}
                         >
