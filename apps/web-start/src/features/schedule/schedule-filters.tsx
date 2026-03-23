@@ -96,7 +96,7 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
     return (
         <div
             className={cn(
-                'md:mt-0" mt-4 flex flex-col items-end gap-8 lg:flex-row lg:gap-4',
+                'flex flex-col items-end gap-8 lg:flex-row lg:gap-4',
                 className,
             )}
         >
