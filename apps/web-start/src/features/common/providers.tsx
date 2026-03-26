@@ -2,7 +2,7 @@ import { HikkaClient } from '@hikka/client';
 import { HikkaContextProvider } from '@hikka/react';
 import { uk } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, useMemo } from 'react';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
 
@@ -23,13 +23,18 @@ interface Props extends PropsWithChildren {
 const Providers: FC<Props> = ({ children, client, serverTheme }) => {
     const { preferences } = useSessionUI();
 
+    const defaultOptions = useMemo(
+        () => ({
+            title: preferences.title_language ?? 'title_ua',
+            name: preferences.name_language ?? 'name_ua',
+        }),
+        [preferences.title_language, preferences.name_language],
+    );
+
     return (
         <HikkaContextProvider
             client={client}
-            defaultOptions={{
-                title: preferences.title_language ?? 'title_ua',
-                name: preferences.name_language ?? 'name_ua',
-            }}
+            defaultOptions={defaultOptions}
         >
             <ThemeProvider
                 attribute="class"
