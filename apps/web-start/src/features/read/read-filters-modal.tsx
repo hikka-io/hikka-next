@@ -10,7 +10,6 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Separator } from '@/components/ui/separator';
 
 import { ReadFilters } from '@/features/read';
 
@@ -35,7 +34,6 @@ const ReadFiltersModal = ({ sort_type, content_type, children }: Props) => {
                 <DrawerHeader>
                     <DrawerTitle>Фільтри</DrawerTitle>
                 </DrawerHeader>
-                <Separator className="w-auto" />
                 <ReadFilters
                     content_type={content_type}
                     sort_type={sort_type}

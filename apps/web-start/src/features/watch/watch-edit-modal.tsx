@@ -65,7 +65,12 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
                     toast.info(
                         <span>
                             <span className="font-bold">
-                                {getTitle(data.anime as unknown as Record<string, unknown>)}
+                                {getTitle(
+                                    data.anime as unknown as Record<
+                                        string,
+                                        unknown
+                                    >,
+                                )}
                             </span>{' '}
                             успішно оновлено.
                         </span>,
@@ -105,147 +110,137 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
 
     return (
         <Form {...form}>
-            <form
-                onSubmit={(e) => e.preventDefault()}
-                className="flex flex-col gap-6"
-            >
-                <div className="flex w-full flex-col gap-6">
-                    <div className="flex w-full flex-col gap-2">
-                        <Label>Список</Label>
-                        <Select
-                            value={selectedStatus && [selectedStatus]}
-                            onValueChange={(value) => {
-                                setSelectedStatus(value[0] as WatchStatusEnum);
-                            }}
-                        >
-                            <SelectTrigger>
-                                <div className="flex items-center gap-2">
-                                    {selectedStatus && (
-                                        <div
-                                            className={cn(
-                                                'w-fit rounded-sm border p-1',
-                                                `bg-${selectedStatus} text-${selectedStatus}-foreground border-${selectedStatus}-border`,
-                                            )}
-                                        >
-                                            {createElement(
-                                                WATCH_STATUS[selectedStatus]
-                                                    .icon!,
-                                                {
-                                                    className: 'size-3!',
-                                                },
-                                            )}
-                                        </div>
-                                    )}
-                                    {(selectedStatus &&
-                                        WATCH_STATUS[selectedStatus]
-                                            .title_ua) ||
-                                        'Виберіть список'}
-                                </div>
-                                <SelectIcon />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectList>
-                                    <SelectGroup>
-                                        {(
-                                            Object.keys(
-                                                WATCH_STATUS,
-                                            ) as WatchStatusEnum[]
-                                        ).map((status) => (
-                                            <SelectItem
-                                                value={status}
-                                                key={status}
-                                            >
-                                                {WATCH_STATUS[status].title_ua}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectGroup>
-                                </SelectList>
-                            </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="flex w-full gap-8">
-                        <FormInput
-                            name="score"
-                            label="Оцінка"
-                            placeholder="Введіть оцінку"
-                            type="number"
-                            className="flex-1"
-                            min={0}
-                            max={10}
-                        />
-                        <FormInput
-                            name="episodes"
-                            label="Епізоди"
-                            placeholder="Введіть к-сть переглянутих епізодів"
-                            type="number"
-                            className="flex-1"
-                            min={0}
-                        />
-                    </div>
+            <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
+                <div className="flex w-full flex-col gap-2">
+                    <Label>Список</Label>
+                    <Select
+                        value={selectedStatus && [selectedStatus]}
+                        onValueChange={(value) => {
+                            setSelectedStatus(value[0] as WatchStatusEnum);
+                        }}
+                    >
+                        <SelectTrigger size="md">
+                            <div className="flex items-center gap-2">
+                                {selectedStatus && (
+                                    <div
+                                        className={cn(
+                                            'w-fit rounded-sm border p-1',
+                                            `bg-${selectedStatus} text-${selectedStatus}-foreground border-${selectedStatus}-border`,
+                                        )}
+                                    >
+                                        {createElement(
+                                            WATCH_STATUS[selectedStatus].icon!,
+                                            {
+                                                className: 'size-3!',
+                                            },
+                                        )}
+                                    </div>
+                                )}
+                                {(selectedStatus &&
+                                    WATCH_STATUS[selectedStatus].title_ua) ||
+                                    'Виберіть список'}
+                            </div>
+                            <SelectIcon />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectList>
+                                <SelectGroup>
+                                    {(
+                                        Object.keys(
+                                            WATCH_STATUS,
+                                        ) as WatchStatusEnum[]
+                                    ).map((status) => (
+                                        <SelectItem value={status} key={status}>
+                                            {WATCH_STATUS[status].title_ua}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectList>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="flex w-full gap-8">
                     <FormInput
-                        name="rewatches"
-                        label="Повторні перегляди"
-                        placeholder="Введіть к-сть повторних переглядів"
+                        name="score"
+                        label="Оцінка"
+                        placeholder="Введіть оцінку"
                         type="number"
+                        className="flex-1"
+                        min={0}
+                        max={10}
+                    />
+                    <FormInput
+                        name="episodes"
+                        label="Епізоди"
+                        placeholder="Введіть к-сть переглянутих епізодів"
+                        type="number"
+                        className="flex-1"
                         min={0}
                     />
-                    <div className="flex w-full gap-8">
-                        <FormDatePicker
-                            className="flex-1"
-                            name="start_date"
-                            label="Дата початку"
-                        />
-                        <FormDatePicker
-                            className="flex-1"
-                            name="end_date"
-                            label="Дата завершення"
-                            minDate={form.watch('start_date') ?? undefined}
-                        />
-                    </div>
-                    <FormTextarea
-                        name="note"
-                        label="Нотатки"
-                        placeholder="Залиште нотатку"
+                </div>
+                <FormInput
+                    name="rewatches"
+                    label="Повторні перегляди"
+                    placeholder="Введіть к-сть повторних переглядів"
+                    type="number"
+                    min={0}
+                />
+                <div className="flex w-full gap-8">
+                    <FormDatePicker
+                        className="flex-1"
+                        name="start_date"
+                        label="Дата початку"
+                    />
+                    <FormDatePicker
+                        className="flex-1"
+                        name="end_date"
+                        label="Дата завершення"
+                        minDate={form.watch('start_date') ?? undefined}
                     />
                 </div>
-                <ResponsiveModalFooter>
-                    <Button
-                        type="button"
-                        variant="destructive"
-                        size="md"
-                        onClick={() => deleteWatch(slug)}
-                        disabled={addToListLoading || deleteFromListLoading}
-                    >
-                        {deleteFromListLoading ? (
-                            <span className="loading loading-spinner"></span>
-                        ) : (
-                            <MaterialSymbolsDeleteForeverRounded className="size-4" />
-                        )}
-                        Видалити
-                    </Button>
-                    <Button
-                        size="md"
-                        onClick={form.handleSubmit((data) =>
-                            createWatch({
-                                slug,
-                                args: {
-                                    status: selectedStatus!,
-                                    ...data,
-                                },
-                            }),
-                        )}
-                        type="submit"
-                        disabled={addToListLoading || deleteFromListLoading}
-                    >
-                        {addToListLoading ? (
-                            <span className="loading loading-spinner"></span>
-                        ) : (
-                            <MaterialSymbolsCheckRounded className="size-4" />
-                        )}
-                        Зберегти
-                    </Button>
-                </ResponsiveModalFooter>
-            </form>
+                <FormTextarea
+                    name="note"
+                    label="Нотатки"
+                    placeholder="Залиште нотатку"
+                />
+            </div>
+            <ResponsiveModalFooter>
+                <Button
+                    type="button"
+                    variant="destructive"
+                    size="md"
+                    onClick={() => deleteWatch(slug)}
+                    disabled={addToListLoading || deleteFromListLoading}
+                >
+                    {deleteFromListLoading ? (
+                        <span className="loading loading-spinner"></span>
+                    ) : (
+                        <MaterialSymbolsDeleteForeverRounded className="size-4" />
+                    )}
+                    Видалити
+                </Button>
+                <Button
+                    size="md"
+                    onClick={form.handleSubmit((data) =>
+                        createWatch({
+                            slug,
+                            args: {
+                                status: selectedStatus!,
+                                ...data,
+                            },
+                        }),
+                    )}
+                    type="submit"
+                    disabled={addToListLoading || deleteFromListLoading}
+                >
+                    {addToListLoading ? (
+                        <span className="loading loading-spinner"></span>
+                    ) : (
+                        <MaterialSymbolsCheckRounded className="size-4" />
+                    )}
+                    Зберегти
+                </Button>
+            </ResponsiveModalFooter>
         </Form>
     );
 };

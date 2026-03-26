@@ -22,7 +22,7 @@ export const useOpenWidgetSettings = (): {
     const settingsModal = (
         <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
             <ResponsiveModalContent
-                className="max-w-xl!"
+                className="md:max-w-xl"
                 title="Налаштувати віджети"
                 description="Змінюйте порядок та відображення доступних віджетів"
             >

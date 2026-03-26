@@ -10,7 +10,6 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Separator } from '@/components/ui/separator';
 
 import { AnimeFilters } from '@/features/watch';
 
@@ -34,7 +33,6 @@ const AnimeFiltersModal = ({ sort_type, children }: Props) => {
                 <DrawerHeader>
                     <DrawerTitle>Фільтри</DrawerTitle>
                 </DrawerHeader>
-                <Separator className="w-auto" />
                 <AnimeFilters
                     content_type={ContentTypeEnum.ANIME}
                     className="overflow-hidden"

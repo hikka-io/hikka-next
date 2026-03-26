@@ -44,43 +44,38 @@ const Component = ({ onClose }: Props) => {
 
     return (
         <Form {...form}>
-            <form
-                onSubmit={(e) => e.preventDefault()}
-                className="flex flex-col gap-6"
-            >
-                <div className="flex w-full flex-col gap-6">
-                    <FormInput
-                        name="name"
-                        label="Назва застосунку"
-                        placeholder="Введіть назву застосунку"
-                        type="string"
-                    />
-                    <FormTextarea
-                        name="description"
-                        label="Опис"
-                        placeholder="Залиште опис до застосунку"
-                    />
-                    <FormInput
-                        name="endpoint"
-                        label="Посилання переспрямування"
-                        placeholder="https://example.com/"
-                        type="string"
-                    />
-                </div>
-                <ResponsiveModalFooter>
-                    <Button
-                        variant="default"
-                        size="md"
-                        onClick={form.handleSubmit(onCreate)}
-                        type="submit"
-                    >
-                        {createClientLoading && (
-                            <span className="loading loading-spinner"></span>
-                        )}
-                        Створити
-                    </Button>
-                </ResponsiveModalFooter>
-            </form>
+            <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
+                <FormInput
+                    name="name"
+                    label="Назва застосунку"
+                    placeholder="Введіть назву застосунку"
+                    type="string"
+                />
+                <FormTextarea
+                    name="description"
+                    label="Опис"
+                    placeholder="Залиште опис до застосунку"
+                />
+                <FormInput
+                    name="endpoint"
+                    label="Посилання переспрямування"
+                    placeholder="https://example.com/"
+                    type="string"
+                />
+            </div>
+            <ResponsiveModalFooter>
+                <Button
+                    variant="default"
+                    size="md"
+                    onClick={form.handleSubmit(onCreate)}
+                    type="submit"
+                >
+                    {createClientLoading && (
+                        <span className="loading loading-spinner"></span>
+                    )}
+                    Створити
+                </Button>
+            </ResponsiveModalFooter>
         </Form>
     );
 };

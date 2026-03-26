@@ -114,7 +114,7 @@ const SortableCardContent = memo<{
                         if (!open) setCommentOpen(false);
                     }}
                 >
-                    <ResponsiveModalContent className="max-w-xl!">
+                    <ResponsiveModalContent className="md:max-w-xl">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
                                 {title || 'Коментар'}
@@ -126,7 +126,7 @@ const SortableCardContent = memo<{
                                 value={draft}
                                 onChange={(e) => setDraft(e.target.value)}
                                 placeholder="Додати коментар до елементу..."
-                                className="min-h-[80px] w-full"
+                                className="min-h-20 w-full"
                             />
                         </div>
                         <ResponsiveModalFooter>

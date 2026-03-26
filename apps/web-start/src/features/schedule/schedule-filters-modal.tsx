@@ -9,7 +9,6 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Separator } from '@/components/ui/separator';
 
 import { ScheduleFilters as Filters } from '@/features/schedule';
 
@@ -31,8 +30,7 @@ const Component = ({ children }: Props) => {
                 <DrawerHeader>
                     <DrawerTitle>Фільтри</DrawerTitle>
                 </DrawerHeader>
-                <Separator />
-                <Filters className="px-6" />
+                <Filters />
             </DrawerContent>
         </Drawer>
     );

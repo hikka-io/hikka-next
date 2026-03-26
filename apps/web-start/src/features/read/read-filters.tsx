@@ -31,7 +31,7 @@ const ReadFilters: FC<Props> = ({ className, content_type, sort_type }) => {
     };
 
     return (
-        <div className={cn('flex w-full flex-col', className)}>
+        <div className={cn('-m-4 flex flex-col lg:m-0', className)}>
             <div className="flex flex-col gap-8 overflow-y-auto p-4 py-8">
                 <ReleaseStatus />
                 <Genre />

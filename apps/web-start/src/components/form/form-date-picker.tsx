@@ -65,6 +65,7 @@ const FormDatePicker: FC<Props> = ({
                             <PopoverTrigger asChild>
                                 <FormControl>
                                     <Button
+                                        size="md"
                                         variant="outline"
                                         className={cn(
                                             'w-full pl-3 text-left font-normal',

@@ -26,8 +26,13 @@ const EditFilters: FC<Props> = ({ className }) => {
     };
 
     return (
-        <div className={cn('flex w-full flex-col', className)}>
-            <div className="flex flex-col gap-8 overflow-y-auto p-4 py-8">
+        <div
+            className={cn(
+                '-m-4 flex flex-1 flex-col lg:m-0 lg:w-full',
+                className,
+            )}
+        >
+            <div className="flex flex-1 flex-col gap-8 overflow-y-auto p-4 py-8">
                 <Sort sort_type="edit" />
                 <EditStatus />
                 <ContentType

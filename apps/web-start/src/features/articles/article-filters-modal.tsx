@@ -9,7 +9,6 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Separator } from '@/components/ui/separator';
 
 import { ArticleFilters } from '@/features/articles';
 
@@ -32,7 +31,6 @@ const ArticleFiltersModal = ({ children }: Props) => {
                 <DrawerHeader>
                     <DrawerTitle>Фільтри</DrawerTitle>
                 </DrawerHeader>
-                <Separator className="w-auto" />
                 <ArticleFilters className="overflow-hidden" />
             </DrawerContent>
         </Drawer>

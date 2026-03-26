@@ -43,7 +43,7 @@ const CollectionRulesAlert = () => {
             <ResponsiveModal open={open} onOpenChange={setOpen}>
                 <ResponsiveModalContent
                     title="Правила колекцій"
-                    className="max-w-xl!"
+                    className="md:max-w-xl"
                 >
                     <MDViewer className="-m-4 overflow-scroll p-4">
                         {rules}
