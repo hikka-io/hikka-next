@@ -1,8 +1,8 @@
 import {
-    KeyboardEvent,
-    MouseEvent,
-    ReactElement,
-    SVGProps,
+    type KeyboardEvent,
+    type MouseEvent,
+    type ReactElement,
+    type SVGProps,
     useCallback,
     useEffect,
     useRef,
@@ -52,29 +52,23 @@ const Rating = ({
         (e: MouseEvent<HTMLElement>) => {
             if (!ratingContainerRef.current) return 0;
 
-            try {
-                const { width, left } =
-                    ratingContainerRef.current.getBoundingClientRect();
-                const percent = (e.clientX - left) / width;
+            const { width, left } =
+                ratingContainerRef.current.getBoundingClientRect();
+            const percent = (e.clientX - left) / width;
 
-                if (percent < 0.05) {
-                    return 0;
-                }
-
-                const numberInStars = percent * totalStars;
-                const nearestNumber =
-                    Math.round((numberInStars + precision / 2) / precision) *
-                    precision;
-
-                return Number(
-                    nearestNumber.toFixed(
-                        precision.toString().split('.')[1]?.length || 0,
-                    ),
-                );
-            } catch (error) {
-                console.error('Error calculating rating:', error);
+            if (percent < 0.05) {
                 return 0;
             }
+
+            const numberInStars = percent * totalStars;
+            const nearestNumber =
+                Math.round(numberInStars / precision) * precision;
+
+            return Number(
+                nearestNumber.toFixed(
+                    precision.toString().split('.')[1]?.length || 0,
+                ),
+            );
         },
         [totalStars, precision],
     );
@@ -189,11 +183,17 @@ const Rating = ({
 
                 return (
                     <div
-                        className="relative cursor-pointer"
+                        className="relative transition-transform duration-100 ease-in-out"
+                        style={{
+                            transform: isStarHovered
+                                ? 'scale(1.2)'
+                                : 'scale(1)',
+                            transformOrigin: 'center',
+                        }}
                         key={index}
                         role="presentation"
                     >
-                        <div className="relative text-2xl transition-transform duration-100 ease-in-out">
+                        <div className="relative text-2xl">
                             <div
                                 className="absolute inset-0 overflow-hidden"
                                 style={{
@@ -216,14 +216,6 @@ const Rating = ({
                                 )}
                             </div>
                         </div>
-                        <style jsx>{`
-                            .relative {
-                                transform: ${isStarHovered
-                                    ? 'scale(1.2)'
-                                    : 'scale(1)'};
-                                transform-origin: center;
-                            }
-                        `}</style>
                     </div>
                 );
             })}
