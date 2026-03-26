@@ -8,7 +8,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 
 import {
@@ -24,17 +23,16 @@ const Footer = () => {
             <div className="mx-auto w-full max-w-350 p-4">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 lg:justify-start">
-                        <Button variant="ghost" size="md" asChild>
-                            <Link to={FOOTER_LINKS.rules.href}>
-                                {FOOTER_LINKS.rules.title}
-                            </Link>
-                        </Button>
-
-                        <Button variant="ghost" size="md" asChild>
-                            <Link to={FOOTER_LINKS.owners.href}>
-                                {FOOTER_LINKS.owners.title}
-                            </Link>
-                        </Button>
+                        {Object.values(FOOTER_LINKS).map((link) => (
+                            <Button
+                                key={link.href}
+                                variant="ghost"
+                                size="md"
+                                asChild
+                            >
+                                <Link to={link.href}>{link.title}</Link>
+                            </Button>
+                        ))}
 
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -44,60 +42,50 @@ const Footer = () => {
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>
-                                {DONATION_LINKS.map((link) => {
-                                    const Icon = link.icon;
-                                    return (
-                                        <DropdownMenuItem
-                                            key={link.href}
-                                            asChild
-                                        >
+                                {DONATION_LINKS.map(
+                                    ({ href, title, icon: Icon }) => (
+                                        <DropdownMenuItem key={href} asChild>
                                             <Link
-                                                to={link.href}
+                                                to={href}
                                                 target="_blank"
                                                 rel="noreferrer"
                                             >
                                                 <Icon className="mr-2 size-4" />
-                                                {link.title}
+                                                {title}
                                             </Link>
                                         </DropdownMenuItem>
-                                    );
-                                })}
+                                    ),
+                                )}
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
                     <div className="flex flex-wrap items-center justify-center gap-2 lg:justify-end">
                         <div className="flex items-center gap-2">
-                            {SOCIAL_LINKS.map((link) => {
-                                const Icon = link.icon;
-                                return (
-                                    <Button
-                                        key={link.href}
-                                        variant="ghost"
-                                        size="icon-md"
-                                        asChild
+                            {SOCIAL_LINKS.map(({ href, title, icon: Icon }) => (
+                                <Button
+                                    key={href}
+                                    variant="ghost"
+                                    size="icon-md"
+                                    asChild
+                                >
+                                    <Link
+                                        to={href}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        aria-label={title}
                                     >
-                                        <Link
-                                            to={link.href}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            aria-label={link.title}
-                                        >
-                                            <Icon className="size-4" />
-                                        </Link>
-                                    </Button>
-                                );
-                            })}
+                                        <Icon className="size-4" />
+                                    </Link>
+                                </Button>
+                            ))}
                         </div>
                         <Separator
                             orientation="vertical"
-                            className="mx-2 hidden h-6 min-[320px]:block"
+                            className="mx-2 block h-6"
                         />
-                        <Label
-                            id="hikka-footer-label"
-                            className="text-muted-foreground whitespace-nowrap"
-                        >
+                        <p className="text-muted-foreground text-sm whitespace-nowrap">
                             © {new Date().getFullYear()} Hikka
-                        </Label>
+                        </p>
                     </div>
                 </div>
             </div>
