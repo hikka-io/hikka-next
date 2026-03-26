@@ -2,7 +2,8 @@
 
 import { range } from '@antfu/utils';
 import { AnimeMediaEnum, AnimeStatusEnum, SeasonEnum } from '@hikka/client';
-import { useSearchAnimes } from '@hikka/react';
+import { useHikkaClient, useSearchAnimes } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
@@ -18,10 +19,16 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 
 import { cn } from '@/utils/cn';
+import { getDeclensionWord } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 
 const ONGOING_SIZE = 5;
+const EPISODE_DECLENSIONS: [string, string, string] = [
+    'епізод',
+    'епізоди',
+    'епізодів',
+];
 
 const OngoingItemSkeleton = () => (
     <div className="flex items-center gap-3 rounded-sm px-2 py-1.5">
@@ -35,6 +42,7 @@ const OngoingItemSkeleton = () => (
 );
 
 const WidgetOngoing = () => {
+    const { defaultOptions } = useHikkaClient();
     const currentSeason = getCurrentSeason() as SeasonEnum;
     const year = new Date().getFullYear();
 
@@ -99,7 +107,7 @@ const WidgetOngoing = () => {
                                         className="w-12"
                                         imagePreset="cardXs"
                                         containerClassName="rounded-(--base-radius)"
-                                    ></ContentCard>
+                                    />
 
                                     {/* title + meta */}
                                     <div className="flex min-w-0 flex-1 flex-col gap-2">
@@ -108,12 +116,22 @@ const WidgetOngoing = () => {
                                                 #{index + 1}
                                                 {' / '}
                                             </span>
-                                            {anime.title}
+                                            {getTitle(
+                                                anime,
+                                                defaultOptions?.title,
+                                                defaultOptions?.name,
+                                            )}
                                         </p>
                                         <div className="flex items-center gap-2">
                                             <span className="text-muted-foreground text-xs">
-                                                {anime.episodes_released}/
-                                                {anime.episodes_total} епізодів
+                                                <span className="font-bold">
+                                                    {anime.episodes_released}
+                                                </span>
+                                                /{anime.episodes_total ?? '?'}{' '}
+                                                {getDeclensionWord(
+                                                    anime.episodes_total ?? 0,
+                                                    EPISODE_DECLENSIONS,
+                                                )}
                                             </span>
                                         </div>
                                     </div>
