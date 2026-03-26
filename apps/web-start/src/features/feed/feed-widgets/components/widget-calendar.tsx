@@ -1,7 +1,8 @@
 'use client';
 
 import { AnimeScheduleResponse, ContentStatusEnum } from '@hikka/client';
-import { useSearchAnimeSchedule } from '@hikka/react';
+import { useHikkaClient, useSearchAnimeSchedule } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
 
@@ -20,6 +21,7 @@ import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 
 const WidgetCalendar = () => {
+    const { defaultOptions } = useHikkaClient();
     const season = getCurrentSeason()!;
     const year = new Date().getFullYear();
 
@@ -96,7 +98,7 @@ const WidgetCalendar = () => {
                                         isPrev && 'text-muted-foreground',
                                     )}
                                 >
-                                    {item.anime.title}
+                                    {getTitle(item.anime, defaultOptions?.title, defaultOptions?.name)}
                                 </span>
                                 <span
                                     className={cn(

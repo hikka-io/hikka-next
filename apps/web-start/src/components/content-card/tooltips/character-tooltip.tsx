@@ -1,6 +1,6 @@
 'use client';
 
-import { useCharacterAnime, useCharacterBySlug } from '@hikka/react';
+import { useCharacterAnime, useCharacterBySlug, useTitle } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
 import MDViewer from '../../markdown/viewer/MD-viewer';
@@ -24,6 +24,8 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
         (a, b) => b.anime.score - a.anime.score,
     )[0];
 
+    const name = useTitle(data);
+
     if (!data) {
         return <CharacterTooltipSkeleton />;
     }
@@ -39,7 +41,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
                     <span className="line-clamp-2 text-sm leading-tight font-bold">
-                        {data.name_ua || data.name_en || data.name_ja}
+                        {name}
                     </span>
                 </div>
                 <div className="flex flex-col gap-2">

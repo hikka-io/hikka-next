@@ -4,6 +4,7 @@ import {
     MangaResponse,
     NovelResponse,
 } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -32,6 +33,8 @@ interface Props {
 }
 
 const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
+    const title = useTitle(content as unknown as Record<string, unknown>);
+
     return (
         <TableCell className="w-36">
             <div className="flex items-center gap-4 overflow-hidden">
@@ -48,7 +51,7 @@ const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
                             className="line-clamp-2 hover:underline"
                             to={`/${content_type}/${content.slug}`}
                         >
-                            {content.title}
+                            {title}
                         </Link>
                     </div>
                     {note && (

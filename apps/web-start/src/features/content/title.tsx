@@ -1,6 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 
@@ -19,6 +20,7 @@ interface TitleProps {
 const Title = ({ className, content_type }: TitleProps) => {
     const params = useParams();
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
+    const title = useTitle(data);
 
     if (!data) {
         return null;
@@ -29,7 +31,7 @@ const Title = ({ className, content_type }: TitleProps) => {
             <div className="flex flex-col items-start justify-between gap-4 lg:flex-row">
                 <div>
                     <h2>
-                        {data.title}{' '}
+                        {title}{' '}
                         {data.start_date && (
                             <span className="font-sans font-normal">
                                 (

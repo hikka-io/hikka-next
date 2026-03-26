@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, ReadResponseBase } from '@hikka/client';
-import { useNovelBySlug, useSession } from '@hikka/react';
+import { useNovelBySlug, useSession, useTitle } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
 import { ReadlistButton } from '@/features/common';
@@ -25,6 +25,7 @@ interface Props extends PropsWithChildren {
 const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
     const { user: loggedUser } = useSession();
     const { data } = useNovelBySlug({ slug });
+    const title = useTitle(data);
 
     if (!data) {
         return <MediaTooltipSkeleton />;
@@ -32,7 +33,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
 
     return (
         <MediaTooltipContent
-            title={data.title}
+            title={title}
             score={data.score}
             synopsis_ua={data.synopsis_ua}
             synopsis_en={data.synopsis_en}

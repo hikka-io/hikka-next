@@ -3,6 +3,7 @@ import {
     NovelInfoResponse,
     NovelResponse,
 } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { FC } from 'react';
 
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
@@ -15,6 +16,8 @@ interface Props extends ContentCardProps {
 }
 
 const NovelCard: FC<Props> = ({ novel, ...props }) => {
+    const title = useTitle(novel);
+
     return (
         <ContentCard
             {...getMediaCardProps(
@@ -26,6 +29,7 @@ const NovelCard: FC<Props> = ({ novel, ...props }) => {
                 },
                 { read: novel.read ? novel.read[0] : undefined },
             )}
+            title={title}
             {...props}
         />
     );

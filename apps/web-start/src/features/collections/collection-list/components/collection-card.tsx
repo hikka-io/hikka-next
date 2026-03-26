@@ -1,6 +1,8 @@
 'use client';
 
 import { CollectionContent, CollectionResponse } from '@hikka/client';
+import { useHikkaClient } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { formatDistance } from 'date-fns/formatDistance';
 import { ArrowBigUp, MessageCircle } from 'lucide-react';
 import { FC } from 'react';
@@ -38,6 +40,7 @@ const CollectionCard: FC<Props> = ({
     maxPreviewItems = 6,
 }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
+    const { defaultOptions } = useHikkaClient();
     const previewItems = collection.collection.slice(0, maxPreviewItems);
     const remainingCount = collection.entries - maxPreviewItems;
     const previewItem =
@@ -130,7 +133,7 @@ const CollectionCard: FC<Props> = ({
                     <ContentCard
                         key={item.content.slug}
                         image={item.content.image}
-                        title={item.content.title}
+                        title={getTitle(item.content as unknown as Record<string, unknown>, defaultOptions?.title, defaultOptions?.name)}
                         to={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         className={cn(collection.spoiler && 'spoiler-blur-md')}
                         titleClassName={cn(

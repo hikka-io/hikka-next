@@ -1,6 +1,6 @@
 'use client';
 
-import { useCharacterBySlug } from '@hikka/react';
+import { useCharacterBySlug, useTitle } from '@hikka/react';
 
 import { useParams } from '@/utils/navigation';
 
@@ -9,6 +9,7 @@ const Title = () => {
     const { data: character } = useCharacterBySlug({
         slug: String(params.slug),
     });
+    const title = useTitle(character);
 
     if (!character) {
         return null;
@@ -18,7 +19,7 @@ const Title = () => {
         <div className="flex flex-col gap-4">
             <div className="flex justify-between gap-4">
                 <div>
-                    <h2>{character.title}</h2>
+                    <h2>{title}</h2>
                     <p className="text-muted-foreground text-sm">
                         {character.name_ja}
                     </p>

@@ -1,6 +1,7 @@
 'use client';
 
 import { CharacterResponse } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import * as React from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -16,6 +17,7 @@ interface Props {
 
 const CharacterCard = ({ character, onClick, type }: Props) => {
     const Comp = type === 'button' ? 'button' : Link;
+    const title = useTitle(character);
 
     return (
         <Comp
@@ -32,7 +34,7 @@ const CharacterCard = ({ character, onClick, type }: Props) => {
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
                     <Label className="font-bold">
-                        {character.title}{' '}
+                        {title}{' '}
                         <Label className="text-muted-foreground">
                             / {character.name_ja}
                         </Label>

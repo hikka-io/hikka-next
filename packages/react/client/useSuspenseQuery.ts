@@ -6,8 +6,6 @@ import {
     useSuspenseQuery as useTanstackSuspenseQuery,
 } from '@tanstack/react-query';
 
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
-import { addDeepTitleProperties } from '@/utils';
 
 /**
  * Hook for creating suspense queries with the Hikka client.
@@ -31,26 +29,9 @@ export function useSuspenseQuery<
         'queryKey' | 'queryFn'
     >;
 }): UseSuspenseQueryResult<TData, TError> {
-    const { defaultOptions } = useHikkaClient();
-
     return useTanstackSuspenseQuery<TQueryFnData, TError, TData, TQueryKey>({
         queryKey,
         queryFn: queryFn!,
         ...options,
-        select: options?.select
-            ? (data) =>
-                  options.select!(
-                      addDeepTitleProperties(
-                          data,
-                          defaultOptions?.title,
-                          defaultOptions?.name,
-                      ),
-                  )
-            : (data) =>
-                  addDeepTitleProperties(
-                      data,
-                      defaultOptions?.title,
-                      defaultOptions?.name,
-                  ) as unknown as TData,
     });
 }

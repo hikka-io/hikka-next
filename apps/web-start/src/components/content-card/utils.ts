@@ -9,7 +9,6 @@ import { ContentCardProps } from './content-card';
 interface MediaEntity {
     slug: string;
     image?: string | null;
-    title?: string | null;
     year?: number | null;
     media_type?: string | null;
 }
@@ -31,7 +30,6 @@ export function getMediaCardProps(
         withContextMenu: true,
         href: `${config.basePath}/${entity.slug}`,
         image: entity.image ?? undefined,
-        title: entity.title ?? undefined,
         leftSubtitle: entity.year ? String(entity.year) : undefined,
         rightSubtitle: entity.media_type
             ? config.mediaTypeMap[entity.media_type]?.title_ua

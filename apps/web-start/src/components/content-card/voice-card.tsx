@@ -4,6 +4,7 @@ import {
     ContentTypeEnum,
     PersonResponse,
 } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { FC } from 'react';
 
 import CardOverlay from './card-overlay';
@@ -16,13 +17,16 @@ interface Props extends ContentCardProps {
 }
 
 const VoiceCard: FC<Props> = ({ person, anime, language, ...props }) => {
+    const personTitle = useTitle(person);
+    const animeTitle = useTitle(anime);
+
     return (
         <ContentCard
             key={person.slug + anime.slug}
             href={`/people/${person.slug}`}
             image={person.image}
-            title={person.name_ua || person.name_en || person.name_native}
-            description={anime.title}
+            title={personTitle}
+            description={animeTitle}
             disableChildrenLink
             withContextMenu
             content_type={ContentTypeEnum.PERSON}

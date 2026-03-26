@@ -1,4 +1,6 @@
 import { ContentTypeEnum, PersonResponse, RoleResponse } from '@hikka/client';
+import { useTitle } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { FC } from 'react';
 
 import ContentCard, { ContentCardProps } from './content-card';
@@ -9,12 +11,14 @@ interface Props extends ContentCardProps {
 }
 
 const PersonCard: FC<Props> = ({ person, roles, ...props }) => {
+    const title = useTitle(person);
+
     const getRole = (roles: Props['roles']) => {
         if (roles.length === 0) {
             return undefined;
         }
 
-        return roles[0].name_ua || roles[0].name_en;
+        return getTitle(roles[0]);
     };
 
     return (
@@ -26,7 +30,7 @@ const PersonCard: FC<Props> = ({ person, roles, ...props }) => {
             slug={person.slug}
             content_type={ContentTypeEnum.PERSON}
             withContextMenu
-            title={person.title}
+            title={title}
             {...props}
         />
     );

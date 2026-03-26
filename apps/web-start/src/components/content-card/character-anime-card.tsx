@@ -4,6 +4,7 @@ import {
     CharacterResponse,
     ContentTypeEnum,
 } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { FC } from 'react';
 
 import CardOverlay from './card-overlay';
@@ -15,17 +16,20 @@ interface Props extends ContentCardProps {
 }
 
 const CharacterAnimeCard: FC<Props> = ({ character, anime, ...props }) => {
+    const characterTitle = useTitle(character);
+    const animeTitle = useTitle(anime);
+
     return (
         <ContentCard
             key={character.slug + anime.slug}
             href={`/characters/${character.slug}`}
             image={character.image}
-            title={character.name_ua || character.name_en || character.name_ja}
+            title={characterTitle}
             slug={character.slug}
             withContextMenu
             content_type={ContentTypeEnum.CHARACTER}
             disableChildrenLink
-            description={anime.title}
+            description={animeTitle}
             {...props}
         >
             <CardOverlay href={`/anime/${anime.slug}`} image={anime.image} />

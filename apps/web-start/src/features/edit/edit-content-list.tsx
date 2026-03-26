@@ -2,7 +2,8 @@
 
 import { range } from '@antfu/utils';
 import { ContentTypeEnum } from '@hikka/client';
-import { useTodoEditList } from '@hikka/react';
+import { useHikkaClient, useTodoEditList } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { FC, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -35,6 +36,7 @@ const OPTIONS = [
 ];
 
 const ContentList: FC<Props> = ({ extended }) => {
+    const { defaultOptions } = useHikkaClient();
     const [param, setParam] = useState('title_ua');
     const option = OPTIONS.find((o) => o.value === param);
 
@@ -115,7 +117,7 @@ const ContentList: FC<Props> = ({ extended }) => {
                         slug={anime.slug}
                         href={`/anime/${anime.slug}`}
                         image={anime.image}
-                        title={anime.title}
+                        title={getTitle(anime as unknown as Record<string, unknown>, defaultOptions?.title, defaultOptions?.name)}
                     />
                 ))}
             </div>

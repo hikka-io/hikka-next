@@ -1,6 +1,6 @@
 'use client';
 
-import { useArticleBySlug } from '@hikka/react';
+import { useArticleBySlug, useTitle } from '@hikka/react';
 import { FC } from 'react';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -18,6 +18,8 @@ const ArticleTitle: FC<Props> = () => {
         slug: String(params.slug),
     });
 
+    const contentTitle = useTitle(article?.content as unknown as Record<string, unknown> | undefined);
+
     return (
         <div className="flex flex-col gap-1">
             {article?.content && (
@@ -25,7 +27,7 @@ const ArticleTitle: FC<Props> = () => {
                     to={`${CONTENT_TYPE_LINKS[article.content.data_type]}/${article.content.slug}`}
                     className="text-muted-foreground w-fit text-sm hover:underline"
                 >
-                    {article.content.title}
+                    {contentTitle}
                 </Link>
             )}
             <Header>

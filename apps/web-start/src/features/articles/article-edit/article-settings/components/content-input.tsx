@@ -1,6 +1,7 @@
 'use client';
 
 import { ArticleContent, ContentTypeEnum } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { FC } from 'react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
@@ -24,6 +25,7 @@ interface Props {}
 const ContentInput: FC<Props> = () => {
     const content = useArticleContext((state) => state.content);
     const setContent = useArticleContext((state) => state.setContent);
+    const contentTitle = useTitle(content as unknown as Record<string, unknown> | undefined);
 
     return (
         <div className="flex flex-col gap-4">
@@ -39,9 +41,7 @@ const ContentInput: FC<Props> = () => {
                             className="line-clamp-2"
                             href={`/${content.data_type}/${content.slug}`}
                         >
-                            {content.title ||
-                                content.title_ua ||
-                                content.title_en}
+                            {contentTitle}
                         </HorizontalCardTitle>
                         <HorizontalCardDescription>
                             {CONTENT_TYPES[content.data_type].title_ua}

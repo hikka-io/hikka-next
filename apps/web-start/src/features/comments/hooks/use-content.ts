@@ -9,10 +9,12 @@ import {
     useCharacterBySlug,
     useCollectionByReference,
     useEdit,
+    useHikkaClient,
     useMangaBySlug,
     useNovelBySlug,
     usePersonBySlug,
 } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 
 interface UseContentParams {
     content_type: CommentsContentType | EditContentType;
@@ -20,13 +22,17 @@ interface UseContentParams {
 }
 
 export function useContent({ content_type, slug }: UseContentParams) {
+    const { defaultOptions } = useHikkaClient();
+    const titleLang = defaultOptions?.title;
+    const nameLang = defaultOptions?.name;
+
     const animeQuery = useAnimeBySlug({
         slug: slug,
         options: {
             enabled: content_type === ContentTypeEnum.ANIME,
             select: (data) => ({
                 content_type: ContentTypeEnum.ANIME,
-                title: data.title,
+                title: getTitle(data, titleLang, nameLang),
                 image: data.image,
             }),
         },
@@ -38,7 +44,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
             enabled: content_type === ContentTypeEnum.MANGA,
             select: (data) => ({
                 content_type: ContentTypeEnum.MANGA,
-                title: data.title,
+                title: getTitle(data, titleLang, nameLang),
                 image: data.image,
             }),
         },
@@ -50,7 +56,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
             enabled: content_type === ContentTypeEnum.NOVEL,
             select: (data) => ({
                 content_type: ContentTypeEnum.NOVEL,
-                title: data.title,
+                title: getTitle(data, titleLang, nameLang),
                 image: data.image,
             }),
         },
@@ -62,7 +68,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
             enabled: content_type === ContentTypeEnum.CHARACTER,
             select: (data) => ({
                 content_type: ContentTypeEnum.CHARACTER,
-                title: data.title,
+                title: getTitle(data, titleLang, nameLang),
                 image: data.image,
             }),
         },
@@ -74,7 +80,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
             enabled: content_type === ContentTypeEnum.PERSON,
             select: (data) => ({
                 content_type: ContentTypeEnum.PERSON,
-                title: data.title,
+                title: getTitle(data, titleLang, nameLang),
                 image: data.image,
             }),
         },

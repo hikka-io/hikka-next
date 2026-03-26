@@ -1,4 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import {
     characterAnimeOptions,
     characterBySlugOptions,
@@ -7,6 +8,7 @@ import {
     characterVoicesOptions,
     favouriteStatusOptions,
 } from '@hikka/react/options';
+import { getTitle } from '@hikka/react/utils';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { ContentDetailLayout } from '@/features/content';
@@ -49,8 +51,7 @@ export const Route = createFileRoute('/_pages/characters/$slug')({
         const character = loaderData?.character;
         if (!character) return {};
 
-        const title =
-            character.name_ua || character.name_en || character.name_ja || '';
+        const title = getTitle(character) || '';
 
         return generateHeadMeta({
             title,
@@ -64,6 +65,7 @@ export const Route = createFileRoute('/_pages/characters/$slug')({
 
 function CharacterDetailLayout() {
     const { character } = Route.useLoaderData();
+    const title = useTitle(character);
 
     return (
         <ContentDetailLayout
@@ -71,12 +73,7 @@ function CharacterDetailLayout() {
             contentType={ContentTypeEnum.CHARACTER}
             navRoutes={CHARACTER_NAV_ROUTES}
             urlPrefix="/characters"
-            title={
-                character.name_ua ||
-                character.name_en ||
-                character.name_ja ||
-                ''
-            }
+            title={title}
         >
             <Outlet />
         </ContentDetailLayout>

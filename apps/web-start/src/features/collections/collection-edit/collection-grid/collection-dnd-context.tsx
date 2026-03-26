@@ -13,6 +13,7 @@ import {
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
+import { useTitle } from '@hikka/react';
 import { FC, ReactNode, memo, useRef, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -49,9 +50,10 @@ function findItem(groups: Group[], itemId: UniqueIdentifier): Item | undefined {
     return undefined;
 }
 
-const OverlayCard = memo<{ content: Item['content'] }>(({ content }) => (
-    <ContentCard image={content.image} title={content.title} />
-));
+const OverlayCard = memo<{ content: Item['content'] }>(({ content }) => {
+    const title = useTitle(content as unknown as Record<string, unknown>);
+    return <ContentCard image={content.image} title={title} />;
+});
 
 OverlayCard.displayName = 'OverlayCard';
 

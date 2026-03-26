@@ -1,7 +1,13 @@
 'use client';
 
 import { ContentTypeEnum, ReadArgs, ReadStatusEnum } from '@hikka/client';
-import { useCreateRead, useSearchUserReads, useSession } from '@hikka/react';
+import {
+    useCreateRead,
+    useHikkaClient,
+    useSearchUserReads,
+    useSession,
+} from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -59,6 +65,7 @@ interface ReadingTrackerProps {
 const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const router = useRouter();
     const { user: loggedUser } = useSession();
+    const { defaultOptions } = useHikkaClient();
     const [open, setOpen] = useState(false);
 
     const [selectedSlug, setSelectedSlug] = useState<string>();
@@ -200,7 +207,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                                 />
                             </TooltipTrigger>
                             <TooltipContent className="max-w-48 truncate">
-                                {item.content.title}
+                                {getTitle(item.content, defaultOptions?.title, defaultOptions?.name)}
                             </TooltipContent>
                         </Tooltip>
                     ))}
@@ -212,7 +219,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             className="w-fit flex-1"
                             to={`${config.route}/${selectedRead.content.slug}`}
                         >
-                            <h5>{selectedRead.content.title}</h5>
+                            <h5>{getTitle(selectedRead.content, defaultOptions?.title, defaultOptions?.name)}</h5>
                             <div className="mt-1 flex cursor-pointer items-center gap-2">
                                 {selectedRead.content.year && (
                                     <Label className="text-muted-foreground cursor-pointer text-xs">
@@ -314,7 +321,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                     <ResponsiveModalContent className="md:max-w-xl">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
-                                {selectedRead.content.title}
+                                {getTitle(selectedRead.content, defaultOptions?.title, defaultOptions?.name)}
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <ReadEditModal

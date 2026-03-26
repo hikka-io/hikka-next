@@ -5,6 +5,8 @@ import {
     CollectionContentResponse,
     ContentTypeEnum,
 } from '@hikka/client';
+import { useHikkaClient } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { Info } from 'lucide-react';
 import { FC, memo, useRef } from 'react';
 
@@ -84,6 +86,8 @@ interface Props {
 }
 
 const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
+    const { defaultOptions } = useHikkaClient();
+
     return (
         <div className="flex scroll-mt-20 flex-col gap-4" id={group}>
             {group && (
@@ -101,7 +105,7 @@ const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
                             content_type={content_type}
                             href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
                             image={item.content.image}
-                            title={item.content.title}
+                            title={getTitle(item.content as unknown as Record<string, unknown>, defaultOptions?.title, defaultOptions?.name)}
                             watch={
                                 'watch' in item.content &&
                                 item.content.watch.length > 0

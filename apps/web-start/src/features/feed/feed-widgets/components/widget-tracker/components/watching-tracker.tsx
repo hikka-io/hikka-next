@@ -1,7 +1,13 @@
 'use client';
 
 import { WatchArgs, WatchStatusEnum } from '@hikka/client';
-import { useCreateWatch, useSearchUserWatches, useSession } from '@hikka/react';
+import {
+    useCreateWatch,
+    useHikkaClient,
+    useSearchUserWatches,
+    useSession,
+} from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -42,6 +48,7 @@ const EPISODES_DECLENSION: [string, string, string] = [
 const WatchingTracker = () => {
     const router = useRouter();
     const { user: loggedUser } = useSession();
+    const { defaultOptions } = useHikkaClient();
     const [open, setOpen] = useState(false);
 
     const [selectedSlug, setSelectedSlug] = useState<string>();
@@ -178,7 +185,7 @@ const WatchingTracker = () => {
                                 />
                             </TooltipTrigger>
                             <TooltipContent className="max-w-48 truncate">
-                                {item.anime.title}
+                                {getTitle(item.anime, defaultOptions?.title, defaultOptions?.name)}
                             </TooltipContent>
                         </Tooltip>
                     ))}
@@ -190,7 +197,7 @@ const WatchingTracker = () => {
                             className="w-fit flex-1"
                             to={`/anime/${selectedWatch.anime.slug}`}
                         >
-                            <h5>{selectedWatch.anime.title}</h5>
+                            <h5>{getTitle(selectedWatch.anime, defaultOptions?.title, defaultOptions?.name)}</h5>
                             <div className="mt-1 flex cursor-pointer items-center gap-2">
                                 {selectedWatch.anime.year && (
                                     <Label className="text-muted-foreground cursor-pointer text-xs">
@@ -287,7 +294,7 @@ const WatchingTracker = () => {
                     <ResponsiveModalContent className="md:max-w-xl">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
-                                {selectedWatch.anime.title}
+                                {getTitle(selectedWatch.anime, defaultOptions?.title, defaultOptions?.name)}
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <WatchEditModal

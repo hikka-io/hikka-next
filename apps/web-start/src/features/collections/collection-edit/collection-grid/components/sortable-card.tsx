@@ -3,6 +3,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { CollectionContent } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { Check, Trash2, X } from 'lucide-react';
 import { FC, memo, useState } from 'react';
 
@@ -53,6 +54,7 @@ const SortableCardContent = memo<{
         comment: string,
     ) => void;
 }>(({ id, groupId, content, comment, onRemove, onCommentChange }) => {
+    const title = useTitle(content as unknown as Record<string, unknown>);
     const [commentOpen, setCommentOpen] = useState(false);
     const [draft, setDraft] = useState('');
 
@@ -73,7 +75,7 @@ const SortableCardContent = memo<{
 
     return (
         <>
-            <ContentCard image={content.image} title={content.title} />
+            <ContentCard image={content.image} title={title} />
 
             <div
                 className="pointer-events-none absolute top-0 left-0 w-full"
@@ -115,7 +117,7 @@ const SortableCardContent = memo<{
                     <ResponsiveModalContent className="max-w-xl!">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
-                                {content.title || 'Коментар'}
+                                {title || 'Коментар'}
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <div className="flex w-full flex-col gap-2">

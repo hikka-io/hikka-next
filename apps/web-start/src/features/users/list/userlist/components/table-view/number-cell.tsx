@@ -8,7 +8,7 @@ import {
     ReadResponseBase,
     WatchResponseBase,
 } from '@hikka/client';
-import { useSession } from '@hikka/react';
+import { useSession, useTitle } from '@hikka/react';
 import { FC, useState } from 'react';
 
 import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
@@ -41,6 +41,7 @@ interface Props {
 const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
     const params = useParams();
     const { user: loggedUser } = useSession();
+    const title = useTitle(content as unknown as Record<string, unknown>);
     const [open, setOpen] = useState(false);
 
     return (
@@ -67,7 +68,7 @@ const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
                 <ResponsiveModalContent className="md:max-w-xl">
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>
-                            {content.title}
+                            {title}
                         </ResponsiveModalTitle>
                     </ResponsiveModalHeader>
                     {content_type === ContentTypeEnum.ANIME ? (

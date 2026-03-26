@@ -6,6 +6,7 @@ import {
     ReadStatusEnum,
 } from '@hikka/client';
 import { useCreateRead, useDeleteRead, useReadBySlug } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -67,7 +68,7 @@ const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
             onSuccess: (data) => {
                 toast.success(
                     <span>
-                        <span className="font-bold">{data.content.title}</span>{' '}
+                        <span className="font-bold">{getTitle(data.content as unknown as Record<string, unknown>)}</span>{' '}
                         успішно оновлено.
                     </span>,
                 );

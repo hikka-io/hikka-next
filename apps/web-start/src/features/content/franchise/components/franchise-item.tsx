@@ -1,5 +1,5 @@
 import { AnimeResponse, MangaResponse, NovelResponse } from '@hikka/client';
-import { useSession } from '@hikka/react';
+import { useSession, useTitle } from '@hikka/react';
 import { FC } from 'react';
 
 import Card from '@/components/ui/card';
@@ -23,6 +23,8 @@ interface Props {
 
 const FranchiseItem: FC<Props> = ({ content, preview }) => {
     const { user } = useSession();
+    const title = useTitle(content);
+
     return (
         <Card>
             <HorizontalCard>
@@ -34,7 +36,7 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                     <HorizontalCardTitle
                         href={`/${content.data_type}/${content.slug}`}
                     >
-                        {content.title}
+                        {title}
                     </HorizontalCardTitle>
                     <HorizontalCardDescription>
                         {content.year && <p>{content.year}</p>}

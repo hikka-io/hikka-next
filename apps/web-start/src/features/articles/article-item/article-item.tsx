@@ -1,4 +1,5 @@
-import { ArticlePreviewResponse, ContentTypeEnum } from '@hikka/client';
+import { ArticlePreviewResponse } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
 import { FC } from 'react';
 
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const ArticleItem: FC<Props> = ({ article, className }) => {
+    const contentTitle = useTitle(article.content as unknown as Record<string, unknown> | undefined);
     const document = article.preview;
 
     return (
@@ -38,11 +40,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                 <div className="flex flex-col gap-1">
                     {article.content && (
                         <p className="text-muted-foreground text-sm">
-                            {article.content.title_ua ||
-                                article.content.title_en ||
-                                (article.content.data_type ===
-                                    ContentTypeEnum.ANIME &&
-                                    article.content.title_ja)}
+                            {contentTitle}
                         </p>
                     )}
                     <Header>

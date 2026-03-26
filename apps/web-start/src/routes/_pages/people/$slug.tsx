@@ -1,4 +1,5 @@
 import { ContentTypeEnum } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import {
     personAnimeOptions,
     personBySlugOptions,
@@ -6,6 +7,7 @@ import {
     personMangaOptions,
     personNovelOptions,
 } from '@hikka/react/options';
+import { getTitle } from '@hikka/react/utils';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { ContentDetailLayout } from '@/features/content';
@@ -42,8 +44,7 @@ export const Route = createFileRoute('/_pages/people/$slug')({
         const person = loaderData?.person;
         if (!person) return {};
 
-        const title =
-            person.name_ua || person.name_en || person.name_native || '';
+        const title = getTitle(person) || '';
 
         return generateHeadMeta({
             title,
@@ -57,6 +58,7 @@ export const Route = createFileRoute('/_pages/people/$slug')({
 
 function PersonDetailLayout() {
     const { person } = Route.useLoaderData();
+    const title = useTitle(person);
 
     return (
         <ContentDetailLayout
@@ -64,7 +66,7 @@ function PersonDetailLayout() {
             contentType={ContentTypeEnum.PERSON}
             navRoutes={PERSON_NAV_ROUTES}
             urlPrefix="/people"
-            title={person.name_ua || person.name_en || person.name_native || ''}
+            title={title}
         >
             <Outlet />
         </ContentDetailLayout>

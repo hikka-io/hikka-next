@@ -1,6 +1,7 @@
 'use client';
 
 import { usePersonManga } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { FC } from 'react';
 
 import MangaCard from '@/components/content-card/manga-card';
@@ -45,9 +46,9 @@ const Manga: FC<Props> = ({ extended }) => {
                         key={ch.manga.slug}
                         manga={ch.manga}
                         description={
-                            ch.roles[0]?.name_ua ||
-                            ch.roles[0]?.name_en ||
-                            undefined
+                            ch.roles[0]
+                                ? getTitle(ch.roles[0])
+                                : undefined
                         }
                     />
                 ))}

@@ -12,6 +12,7 @@ import {
     NotificationTypeEnum,
     NotificationVoteData,
 } from '@hikka/client';
+import { getTitle } from '@hikka/react/utils';
 import { ReactNode } from 'react';
 
 import ContentCard from '../../components/content-card/content-card';
@@ -353,12 +354,11 @@ const notificationHandlers = {
     schedule_anime: (
         notification: NotificationResponse<NotificationScheduleAnimeData>,
     ): Hikka.TextNotification => {
-        const { title_ua, title_en, title_ja, slug, image, after } =
-            notification.data;
+        const { slug, image, after } = notification.data;
 
         return {
             ...getInitialData(notification),
-            title: title_ua || title_en || title_ja,
+            title: getTitle(notification.data as unknown as Record<string, unknown>),
             description: NOTIFICATION_DESCRIPTIONS.schedule_anime(
                 after.episodes_released,
             ),

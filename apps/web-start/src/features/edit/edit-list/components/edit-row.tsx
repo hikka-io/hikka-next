@@ -1,6 +1,7 @@
 'use client';
 
 import { EditResponse } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { format } from 'date-fns';
 import { FC, MouseEvent } from 'react';
 
@@ -21,6 +22,7 @@ interface Props {
 
 const EditRow: FC<Props> = ({ edit }) => {
     const router = useRouter();
+    const contentTitle = useTitle(edit.content as unknown as Record<string, unknown>);
 
     const variant =
         edit.status === 'pending'
@@ -78,7 +80,7 @@ const EditRow: FC<Props> = ({ edit }) => {
                             edit.content.slug
                         }`}
                     >
-                        {edit.content.title}
+                        {contentTitle}
                     </Link>
                 </div>
                 <Label className="text-muted-foreground text-xs">

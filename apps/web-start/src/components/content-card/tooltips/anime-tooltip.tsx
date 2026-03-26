@@ -1,7 +1,7 @@
 'use client';
 
 import { WatchResponseBase } from '@hikka/client';
-import { useAnimeBySlug, useSession } from '@hikka/react';
+import { useAnimeBySlug, useSession, useTitle } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
 import { WatchlistButton } from '@/features/common';
@@ -25,6 +25,7 @@ interface Props extends PropsWithChildren {
 const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
     const { user: loggedUser } = useSession();
     const { data } = useAnimeBySlug({ slug });
+    const title = useTitle(data);
 
     if (!data) {
         return <MediaTooltipSkeleton />;
@@ -32,7 +33,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
 
     return (
         <MediaTooltipContent
-            title={data.title}
+            title={title}
             score={data.score}
             synopsis_ua={data.synopsis_ua}
             synopsis_en={data.synopsis_en}

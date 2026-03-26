@@ -9,8 +9,6 @@ import {
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
-import { addDeepTitleProperties } from '@/utils';
 
 /**
  * Hook for creating suspense infinite queries with the Hikka client.
@@ -48,8 +46,6 @@ export function useSuspenseInfiniteQuery<
     };
 }) {
     const { ref, inView } = useInView();
-    const { defaultOptions } = useHikkaClient();
-
     const query = useTanstackSuspenseInfiniteQuery<
         PaginatedResponse<TItem>,
         TError,
@@ -67,21 +63,6 @@ export function useSuspenseInfiniteQuery<
                 return nextPage > lastPage.pagination.pages ? null : nextPage;
             }),
         ...options,
-        select: options?.select
-            ? (data) =>
-                  options.select!(
-                      addDeepTitleProperties(
-                          data,
-                          defaultOptions?.title,
-                          defaultOptions?.name,
-                      ),
-                  )
-            : (data) =>
-                  addDeepTitleProperties(
-                      data,
-                      defaultOptions?.title,
-                      defaultOptions?.name,
-                  ) as unknown as InfiniteData<PaginatedResponse<TItem>>,
     });
 
     const list = query.data.pages.map((data) => data.list).flat(1);

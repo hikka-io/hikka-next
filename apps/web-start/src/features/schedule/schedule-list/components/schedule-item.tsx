@@ -1,6 +1,7 @@
 'use client';
 
 import { AnimeScheduleResponse } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { FC, memo } from 'react';
 
 import HorizontalContentCard, {
@@ -17,6 +18,8 @@ interface Props extends Omit<HorizontalContentCardProps, 'title' | 'href'> {
 }
 
 const ScheduleItem: FC<Props> = ({ item, ...props }) => {
+    const title = useTitle(item.anime);
+
     const getDuration = () => {
         if (item.time_left <= 0) {
             return 'Вийшло';
@@ -27,7 +30,7 @@ const ScheduleItem: FC<Props> = ({ item, ...props }) => {
 
     return (
         <HorizontalContentCard
-            title={item.anime.title!}
+            title={title}
             href={`/anime/${item.anime.slug}`}
             description={
                 item.anime.synopsis_ua || item.anime.synopsis_en || undefined

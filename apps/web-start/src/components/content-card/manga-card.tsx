@@ -3,6 +3,7 @@ import {
     MangaInfoResponse,
     MangaResponse,
 } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { FC } from 'react';
 
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
@@ -15,6 +16,8 @@ interface Props extends ContentCardProps {
 }
 
 const MangaCard: FC<Props> = ({ manga, ...props }) => {
+    const title = useTitle(manga);
+
     return (
         <ContentCard
             {...getMediaCardProps(
@@ -26,6 +29,7 @@ const MangaCard: FC<Props> = ({ manga, ...props }) => {
                 },
                 { read: manga.read ? manga.read[0] : undefined },
             )}
+            title={title}
             {...props}
         />
     );

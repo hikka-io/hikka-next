@@ -1,4 +1,5 @@
 import { HistoryResponse } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { formatDistance } from 'date-fns/formatDistance';
 import { FC, memo } from 'react';
 
@@ -49,6 +50,7 @@ const User: FC<Props> = memo(({ data }) => (
 
 const HistoryItem: FC<Props> = (props) => {
     const { data, withUser, className } = props;
+    const title = useTitle(data.content as unknown as Record<string, unknown> | undefined);
 
     let activity = convertActivity(data);
 
@@ -76,7 +78,7 @@ const HistoryItem: FC<Props> = (props) => {
                             : '#'
                     }
                 >
-                    {data.content?.title || 'Загальне'}
+                    {title || 'Загальне'}
                 </HorizontalCardTitle>
                 {activity.length > 0 && (
                     <HorizontalCardDescription className="line-clamp-2">

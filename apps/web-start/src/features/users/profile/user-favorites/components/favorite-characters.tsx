@@ -1,7 +1,8 @@
 'use client';
 
 import { ContentTypeEnum, FavouriteCharacterResponse } from '@hikka/client';
-import { useUserFavourites } from '@hikka/react';
+import { useHikkaClient, useUserFavourites } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -17,6 +18,7 @@ interface Props {
 
 const Characters: FC<Props> = ({ extended }) => {
     const params = useParams();
+    const { defaultOptions } = useHikkaClient();
     const {
         list,
         isPending,
@@ -52,7 +54,7 @@ const Characters: FC<Props> = ({ extended }) => {
                     {filteredData.map((res) => (
                         <ContentCard
                             key={res.slug}
-                            title={res.name_ua || res.name_en || res.name_ja}
+                            title={getTitle(res, defaultOptions?.title, defaultOptions?.name)}
                             image={res.image}
                             to={`/characters/${res.slug}`}
                             content_type={ContentTypeEnum.CHARACTER}

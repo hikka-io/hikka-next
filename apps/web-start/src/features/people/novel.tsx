@@ -1,6 +1,7 @@
 'use client';
 
 import { usePersonNovel } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { FC } from 'react';
 
 import NovelCard from '@/components/content-card/novel-card';
@@ -45,9 +46,9 @@ const Novel: FC<Props> = ({ extended }) => {
                         key={ch.novel.slug}
                         novel={ch.novel}
                         description={
-                            ch.roles[0]?.name_ua ||
-                            ch.roles[0]?.name_en ||
-                            undefined
+                            ch.roles[0]
+                                ? getTitle(ch.roles[0])
+                                : undefined
                         }
                     />
                 ))}

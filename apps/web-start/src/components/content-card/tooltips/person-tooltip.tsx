@@ -5,6 +5,7 @@ import {
     usePersonAnime,
     usePersonBySlug,
     usePersonCharacters,
+    useTitle,
 } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
@@ -116,6 +117,8 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
         },
     });
 
+    const name = useTitle(data);
+
     if (!data || (!anime && !characters)) {
         return <PersonTooltipSkeleton />;
     }
@@ -131,7 +134,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
                     <span className="line-clamp-2 text-sm leading-tight font-bold">
-                        {data.name_ua || data.name_en || data.name_native}
+                        {name}
                     </span>
                 </div>
                 <div className="flex flex-col gap-2">

@@ -13,6 +13,7 @@ import {
     useMangaBySlug,
     useNovelBySlug,
     useReadBySlug,
+    useTitle,
 } from '@hikka/react';
 import { createElement, useCallback, useMemo, useState } from 'react';
 
@@ -131,6 +132,8 @@ const ReadlistButton = ({
         () => contentProp || manga || novel,
         [contentProp, manga, novel],
     );
+
+    const title = useTitle(content);
 
     const openReadEditModal = useCallback(() => {
         if (content) {
@@ -279,7 +282,7 @@ const ReadlistButton = ({
                 <ResponsiveModalContent className="md:max-w-xl">
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>
-                            {content?.title}
+                            {title}
                         </ResponsiveModalTitle>
                     </ResponsiveModalHeader>
                     <ReadEditModal

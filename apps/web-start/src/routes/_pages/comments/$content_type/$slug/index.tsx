@@ -1,6 +1,7 @@
 import { CommentsContentType } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
 import { contentCommentsOptions } from '@hikka/react/options';
+import { getTitle } from '@hikka/react/utils';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import { CommentList as Comments, prefetchContent } from '@/features/comments';
@@ -33,13 +34,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
     },
     head: ({ loaderData }) => {
         const content = loaderData?.content as Record<string, any> | undefined;
-        const title =
-            content?.title_ua ||
-            content?.title_en ||
-            content?.title_ja ||
-            content?.title ||
-            content?.name_ua ||
-            content?.name_en;
+        const title = getTitle(content);
 
         return generateHeadMeta({
             title: title ? `Коментарі / ${title}` : 'Коментарі',

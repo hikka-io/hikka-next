@@ -1,6 +1,7 @@
 'use client';
 
 import { usePersonAnime } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
@@ -45,9 +46,9 @@ const Anime: FC<Props> = ({ extended }) => {
                         key={ch.anime.slug}
                         anime={ch.anime}
                         description={
-                            ch.roles[0]?.name_ua ||
-                            ch.roles[0]?.name_en ||
-                            undefined
+                            ch.roles[0]
+                                ? getTitle(ch.roles[0])
+                                : undefined
                         }
                     />
                 ))}

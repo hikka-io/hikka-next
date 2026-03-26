@@ -1,7 +1,13 @@
 'use client';
 
 import { ContentTypeEnum, NovelMediaEnum, ReadStatusEnum } from '@hikka/client';
-import { useCreateRead, useSearchUserReads, useSession } from '@hikka/react';
+import {
+    useCreateRead,
+    useHikkaClient,
+    useSearchUserReads,
+    useSession,
+} from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import React, { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -44,6 +50,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
     // Hooks and Context
     const router = useRouter();
     const { user: loggedUser } = useSession();
+    const { defaultOptions } = useHikkaClient();
     const [open, setOpen] = useState(false);
 
     // State Management
@@ -255,7 +262,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
                                     />
                                 </TooltipTrigger>
                                 <TooltipContent className="max-w-48 truncate">
-                                    {item.content.title}
+                                    {getTitle(item.content, defaultOptions?.title, defaultOptions?.name)}
                                 </TooltipContent>
                             </Tooltip>
                         ))}
@@ -267,7 +274,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
                                 className="w-fit flex-1"
                                 to={`/novel/${selectedRead.content.slug}`}
                             >
-                                <h5>{selectedRead.content.title}</h5>
+                                <h5>{getTitle(selectedRead.content, defaultOptions?.title, defaultOptions?.name)}</h5>
                                 {renderNovelDetails()}
                             </Link>
 
@@ -310,7 +317,7 @@ const NovelReadlist: React.FC<NovelReadlistProps> = () => {
                     <ResponsiveModalContent className="md:max-w-xl">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
-                                {selectedRead.content.title}
+                                {getTitle(selectedRead.content, defaultOptions?.title, defaultOptions?.name)}
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <ReadEditModal

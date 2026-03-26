@@ -5,7 +5,12 @@ import {
     WatchResponseBase,
     WatchStatusEnum,
 } from '@hikka/client';
-import { useAnimeBySlug, useCreateWatch, useWatchBySlug } from '@hikka/react';
+import {
+    useAnimeBySlug,
+    useCreateWatch,
+    useTitle,
+    useWatchBySlug,
+} from '@hikka/react';
 import { createElement, useCallback, useMemo, useState } from 'react';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
@@ -111,6 +116,8 @@ const WatchlistButton = ({
         () => animeProp || animeQuery,
         [animeProp, animeQuery],
     );
+
+    const title = useTitle(anime);
 
     const openWatchEditModal = useCallback(() => {
         if (anime) {
@@ -233,7 +240,7 @@ const WatchlistButton = ({
                 <ResponsiveModalContent className="md:max-w-xl">
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>
-                            {anime?.title}
+                            {title}
                         </ResponsiveModalTitle>
                     </ResponsiveModalHeader>
                     <WatchEditModal

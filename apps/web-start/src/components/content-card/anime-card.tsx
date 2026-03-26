@@ -3,6 +3,7 @@ import {
     AnimeResponse,
     ContentTypeEnum,
 } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { FC } from 'react';
 
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
@@ -15,6 +16,8 @@ interface Props extends ContentCardProps {
 }
 
 const AnimeCard: FC<Props> = ({ anime, ...props }) => {
+    const title = useTitle(anime);
+
     return (
         <ContentCard
             {...getMediaCardProps(
@@ -26,6 +29,7 @@ const AnimeCard: FC<Props> = ({ anime, ...props }) => {
                 },
                 { watch: anime.watch ? anime.watch[0] : undefined },
             )}
+            title={title}
             {...props}
         />
     );

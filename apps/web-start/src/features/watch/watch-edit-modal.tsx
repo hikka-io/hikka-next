@@ -6,6 +6,7 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useCreateWatch, useDeleteWatch, useWatchBySlug } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createElement, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -64,7 +65,7 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
                     toast.info(
                         <span>
                             <span className="font-bold">
-                                {data.anime.title}
+                                {getTitle(data.anime as unknown as Record<string, unknown>)}
                             </span>{' '}
                             успішно оновлено.
                         </span>,
