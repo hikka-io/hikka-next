@@ -44,6 +44,7 @@ export async function createRouter() {
         defaultPreload: false,
         defaultErrorComponent: ErrorPage,
         scrollRestoration: true,
+        defaultStaleTime: Infinity,
     });
 
     setupRouterSsrQueryIntegration({

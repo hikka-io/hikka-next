@@ -80,7 +80,11 @@ interface Props {
 const ActiveFilters: FC<Props> = ({ className }) => {
     const router = useRouter();
     const search = useRouterState({
-        select: (s) => s.location.search as Record<string, unknown>,
+        select: (s) =>
+            (s.resolvedLocation ?? s.location).search as Record<
+                string,
+                unknown
+            >,
     });
 
     const { data: genreMap } = useGenres({

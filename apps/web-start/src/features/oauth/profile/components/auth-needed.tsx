@@ -14,7 +14,10 @@ interface Props {}
 
 const AuthNeeded: FC<Props> = () => {
     const currentUrl = useRouterState({
-        select: (s) => s.location.pathname + s.location.searchStr,
+        select: (s) => {
+            const loc = s.resolvedLocation ?? s.location;
+            return loc.pathname + loc.searchStr;
+        },
     });
 
     return (

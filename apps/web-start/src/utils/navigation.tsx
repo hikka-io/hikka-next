@@ -93,5 +93,7 @@ export function useRouter() {
 }
 
 export function usePathname() {
-    return useRouterState({ select: (s) => s.location.pathname });
+    return useRouterState({
+        select: (s) => (s.resolvedLocation ?? s.location).pathname,
+    });
 }

@@ -23,7 +23,10 @@ import { Link } from '@/utils/navigation';
 const ProfileMenu = () => {
     const { user: loggedUser } = useSession();
     const currentUrl = useRouterState({
-        select: (s) => s.location.pathname + s.location.searchStr,
+        select: (s) => {
+            const loc = s.resolvedLocation ?? s.location;
+            return loc.pathname + loc.searchStr;
+        },
     });
 
     if (!loggedUser) {

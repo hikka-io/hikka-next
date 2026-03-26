@@ -30,10 +30,14 @@ const FilterPresetModal: FC<Props> = ({
 }) => {
     const { filterPresets, setFilterPresets } = useSettingsStore();
     const pathname = useRouterState({
-        select: (s) => s.location.pathname,
+        select: (s) => (s.resolvedLocation ?? s.location).pathname,
     });
     const search = useRouterState({
-        select: (s) => s.location.search as Record<string, unknown>,
+        select: (s) =>
+            (s.resolvedLocation ?? s.location).search as Record<
+                string,
+                unknown
+            >,
     });
 
     const handleCreatePreset = () => {

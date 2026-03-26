@@ -45,10 +45,10 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
     const [currentFilters, setCurrentFilters] =
         useState<Partial<Hikka.FilterPreset> | null>(null);
     const search = useRouterState({
-        select: (s) => s.location.search,
+        select: (s) => (s.resolvedLocation ?? s.location).search,
     }) as Record<string, unknown>;
     const pathname = useRouterState({
-        select: (s) => s.location.pathname,
+        select: (s) => (s.resolvedLocation ?? s.location).pathname,
     });
 
     const clearFilters = () => {

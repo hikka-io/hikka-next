@@ -7,7 +7,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { Footer, Navbar } from '@/features/common';
 
 export const Route = createFileRoute('/_pages')({
-    loader: async ({ context: { queryClient, hikkaClient } }) => {
+    beforeLoad: async ({ context: { queryClient, hikkaClient } }) => {
         const authToken = hikkaClient.getAuthToken();
         if (!authToken) return;
 
