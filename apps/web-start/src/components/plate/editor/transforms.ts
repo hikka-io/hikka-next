@@ -31,11 +31,17 @@ const createBlockNode = (editor: PlateEditor, type: string): TElement => {
     return editor.api.create.block({ type });
 };
 
+/** Check if the cursor is inside a container of the given type */
+export const isInsideBlock = (editor: PlateEditor, type: string): boolean => {
+    return !!editor.api.block({ match: { type } });
+};
+
 /**
  * Insert a new block.
  * - On an empty paragraph: replaces it
  * - On a non-empty block: inserts after
  * - Lists: uses toggleList (converts current block to list)
+ * - Prevents nesting containers of the same type
  */
 export const insertBlock = (editor: PlateEditor, type: string) => {
     // Ensure editor has a selection (e.g. when toolbar is clicked before focusing)
@@ -44,6 +50,11 @@ export const insertBlock = (editor: PlateEditor, type: string) => {
         if (end) {
             editor.tf.select(end);
         }
+    }
+
+    // Prevent nesting containers of the same type (e.g. spoiler inside spoiler)
+    if (CONTAINER_TYPES.has(type) && isInsideBlock(editor, type)) {
+        return;
     }
 
     editor.tf.withoutNormalizing(() => {

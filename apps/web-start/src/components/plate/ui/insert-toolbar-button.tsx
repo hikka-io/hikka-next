@@ -12,12 +12,17 @@ import {
     QuoteIcon,
 } from 'lucide-react';
 import { KEYS } from 'platejs';
-import { type PlateEditor, useEditorRef } from 'platejs/react';
+import {
+    type PlateEditor,
+    useEditorRef,
+    useEditorSelector,
+} from 'platejs/react';
 import * as React from 'react';
 
 import {
     insertBlock,
     insertInlineElement,
+    isInsideBlock,
 } from '@/components/plate/editor/transforms';
 import {
     DropdownMenu,
@@ -28,6 +33,9 @@ import {
 
 import { ELEMENT_SPOILER } from '../editor/plugins/spoiler-kit';
 import { ToolbarButton, ToolbarMenuGroup } from './toolbar';
+
+/** Container types that cannot be nested inside themselves */
+const NO_NEST_TYPES: Set<string> = new Set([ELEMENT_SPOILER, KEYS.blockquote]);
 
 type Group = {
     group: string;
@@ -183,6 +191,18 @@ export function InsertToolbarButton(
     const editor = useEditorRef();
     const [open, setOpen] = React.useState(false);
 
+    const disabledTypes = useEditorSelector((editor) => {
+        const disabled = new Set<string>();
+
+        for (const type of NO_NEST_TYPES) {
+            if (isInsideBlock(editor, type)) {
+                disabled.add(type);
+            }
+        }
+
+        return disabled;
+    }, []);
+
     const groups = props.type === 'comment' ? COMMENT_GROUPS : ARTICLE_GROUPS;
 
     return (
@@ -199,25 +219,29 @@ export function InsertToolbarButton(
             </DropdownMenuTrigger>
 
             <DropdownMenuContent
-                className="flex max-h-[500px] min-w-0 flex-col overflow-y-auto"
+                className="flex min-w-0 flex-col overflow-y-auto"
                 align="start"
             >
                 {groups.map(({ group, items: nestedItems }) => (
                     <ToolbarMenuGroup key={group} label={group}>
-                        {nestedItems.map(({ icon, label, value, onSelect }) => (
-                            <DropdownMenuItem
-                                key={value}
-                                className="min-w-[180px]"
-                                onSelect={() => {
-                                    onSelect(editor, value);
-                                    // Defer focus to after dropdown closes
-                                    setTimeout(() => editor.tf.focus(), 0);
-                                }}
-                            >
-                                {icon}
-                                {label}
-                            </DropdownMenuItem>
-                        ))}
+                        {nestedItems.map(({ icon, label, value, onSelect }) => {
+                            const disabled = disabledTypes.has(value);
+
+                            return (
+                                <DropdownMenuItem
+                                    key={value}
+                                    className="min-w-45"
+                                    disabled={disabled}
+                                    onSelect={() => {
+                                        onSelect(editor, value);
+                                        editor.tf.focus();
+                                    }}
+                                >
+                                    {icon}
+                                    {label}
+                                </DropdownMenuItem>
+                            );
+                        })}
                     </ToolbarMenuGroup>
                 ))}
             </DropdownMenuContent>

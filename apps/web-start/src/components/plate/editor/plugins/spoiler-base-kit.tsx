@@ -9,7 +9,26 @@ export const BaseSpoilerPlugin = createSlatePlugin({
     node: {
         isElement: true,
     },
-});
+    parsers: {
+        html: {
+            deserializer: {
+                rules: [
+                    {
+                        validNodeName: 'DIV',
+                        validClassName: 'spoiler',
+                    },
+                ],
+                parse: () => ({
+                    type: ELEMENT_SPOILER,
+                }),
+            },
+        },
+    },
+}).extendTransforms(({ editor, type }) => ({
+    toggle: () => {
+        editor.tf.toggleBlock(type);
+    },
+}));
 
 export const BaseSpoilerKit = [
     BaseSpoilerPlugin.withComponent(SpoilerElementStatic),
