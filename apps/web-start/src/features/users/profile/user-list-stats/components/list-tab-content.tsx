@@ -7,7 +7,7 @@ import {
     WatchStatusEnum,
 } from '@hikka/client';
 import { useReadStats, useUserWatchStats } from '@hikka/react';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
 import { Label } from '@/components/ui/label';
@@ -23,6 +23,7 @@ import StatusProgressBar from './status-progress-bar';
 interface Props {
     type: CommonContentType;
     username: string;
+    className?: string;
 }
 
 const WATCH_ORDER: WatchStatusEnum[] = [
@@ -41,7 +42,8 @@ const READ_ORDER: ReadStatusEnum[] = [
     ReadStatusEnum.ON_HOLD,
 ];
 
-const ListTabContent: FC<Props> = ({ type, username }) => {
+const ListTabContent: FC<Props> = ({ type, username, className }) => {
+    const [hoveredStatus, setHoveredStatus] = useState<string | null>(null);
     const isAnime = type === ContentTypeEnum.ANIME;
     const sortParam = isAnime ? 'watch_score' : 'read_score';
 
@@ -71,26 +73,33 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
         0,
     );
 
-    const segments = statuses.map((status) => ({
-        status,
-        count: data[status as keyof typeof data] as number,
-    }));
+    const segments = statuses.map((status) => {
+        const info = statusMap[status as keyof typeof statusMap] as {
+            title_ua?: string;
+            title_en: string;
+        };
+        return {
+            status,
+            count: data[status as keyof typeof data] as number,
+            label: info.title_ua || info.title_en,
+        };
+    });
 
     const watchHours = isAnime
         ? Math.round((watchData!.duration || 0) / 60)
         : null;
 
     return (
-        <div className="flex flex-col gap-2">
+        <div className={cn('flex flex-col gap-2', className)}>
             <div className="flex flex-col gap-2 px-2">
-                <StatusProgressBar segments={segments} />
+                <StatusProgressBar segments={segments} hoveredStatus={hoveredStatus} />
             </div>
             <div className="flex flex-wrap gap-1 px-2">
                 <Link
                     to={`/u/${username}/list/${type}`}
                     search={{ status: 'all' }}
                     className={cn(
-                        'hover:bg-secondary flex items-center justify-between gap-2 rounded-sm p-2 flex-1 md:flex-0',
+                        'hover:bg-secondary flex flex-1 items-center justify-between gap-2 rounded-sm p-2 md:flex-0',
                         total === 0 && 'opacity-50',
                     )}
                 >
@@ -122,8 +131,10 @@ const ListTabContent: FC<Props> = ({ type, username }) => {
                             to={`/u/${username}/list/${type}`}
                             search={{ status, sort: sortParam }}
                             preload={false}
+                            onMouseEnter={() => setHoveredStatus(status)}
+                            onMouseLeave={() => setHoveredStatus(null)}
                             className={cn(
-                                'hover:bg-secondary flex items-center justify-between gap-2 rounded-sm p-2 flex-1  md:flex-0',
+                                'hover:bg-secondary flex flex-1 items-center justify-between gap-2 rounded-sm p-2  md:flex-0',
                                 count === 0 && 'opacity-50',
                             )}
                         >

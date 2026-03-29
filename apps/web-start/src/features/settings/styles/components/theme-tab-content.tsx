@@ -10,7 +10,6 @@ import {
     COLOR_PRESETS,
     ColorPreset,
     PRIMARY_TOKENS,
-    SIDEBAR_TOKENS,
     SURFACE_TOKENS,
     UI_TOKENS,
 } from '@/utils/constants/styles';
@@ -113,13 +112,6 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
                     <TokenGroup
                         title="Елементи інтерфейсу"
                         tokens={UI_TOKENS}
-                        keyPrefix={theme}
-                        getColor={getColor}
-                        onColorChange={handleColorChange}
-                    />
-                    <TokenGroup
-                        title="Бокова панель"
-                        tokens={SIDEBAR_TOKENS}
                         keyPrefix={theme}
                         getColor={getColor}
                         onColorChange={handleColorChange}

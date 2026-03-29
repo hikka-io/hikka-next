@@ -16,6 +16,8 @@ import { useParams } from '@/utils/navigation';
 
 import ListTabContent from './components/list-tab-content';
 
+export { ListTabContent };
+
 const TAB_LIST_CONFIG: Record<
     CommonContentType,
     { path: string; search: Record<string, string> }

@@ -18,7 +18,7 @@ const FeedLayout: FC<Props> = ({ children, className }) => {
         <div
             className={cn(
                 'grid grid-cols-1 gap-8',
-                'lg:grid-cols-[1fr_19rem] xl:grid-cols-[19rem_1fr_19rem]',
+                'lg:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]',
                 className,
             )}
         >

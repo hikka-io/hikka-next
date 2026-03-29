@@ -2,18 +2,27 @@
 
 import { FC } from 'react';
 
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipPortal,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+
 import { cn } from '@/utils/cn';
 
 interface Segment {
     status: string;
     count: number;
+    label?: string;
 }
 
 interface Props {
     segments: Segment[];
+    hoveredStatus?: string | null;
 }
 
-const StatusProgressBar: FC<Props> = ({ segments }) => {
+const StatusProgressBar: FC<Props> = ({ segments, hoveredStatus }) => {
     const total = segments.reduce((acc, s) => acc + s.count, 0);
 
     if (total === 0) return null;
@@ -23,16 +32,34 @@ const StatusProgressBar: FC<Props> = ({ segments }) => {
             {segments.map(
                 (segment) =>
                     segment.count > 0 && (
-                        <div
+                        <Tooltip
                             key={segment.status}
-                            className={cn(
-                                'rounded-xs',
-                                `bg-${segment.status}-foreground`,
-                            )}
-                            style={{
-                                width: `${(segment.count / total) * 100}%`,
-                            }}
-                        />
+                            open={hoveredStatus === segment.status || undefined}
+                        >
+                            <TooltipTrigger asChild>
+                                <div
+                                    className={cn(
+                                        'min-w-2 rounded-xs transition-opacity',
+                                        `bg-${segment.status}-foreground`,
+                                        hoveredStatus &&
+                                            hoveredStatus !== segment.status &&
+                                            'opacity-30',
+                                    )}
+                                    style={{
+                                        width: `${(segment.count / total) * 100}%`,
+                                    }}
+                                />
+                            </TooltipTrigger>
+                            <TooltipPortal>
+                                <TooltipContent>
+                                    {segment.label}{' '}
+                                    {Math.round(
+                                        (segment.count / total) * 100,
+                                    )}
+                                    %
+                                </TooltipContent>
+                            </TooltipPortal>
+                        </Tooltip>
                     ),
             )}
         </div>
