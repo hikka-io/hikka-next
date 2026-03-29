@@ -1,36 +1,42 @@
 'use client';
 
-import {
-    Dispatch,
-    ReactNode,
-    SetStateAction,
-    createContext,
-    useContext,
-    useState,
-} from 'react';
+import { CommentResponse } from '@hikka/client';
+import { ReactNode, createContext, useCallback, useContext, useState } from 'react';
 
-interface State {
-    currentDepth: number;
-    currentReply?: string;
-    currentEdit?: string;
+interface ActiveEditor {
+    type: 'reply' | 'edit';
+    reference: string;
 }
 
-interface ContextProps extends State {
-    setState?: Dispatch<SetStateAction<State>>;
+export interface PendingReply {
+    comment: CommentResponse;
+    insertAfter?: string;
 }
 
-const CommentsContext = createContext<ContextProps>(getInitialState());
+interface CommentsContextValue {
+    active: ActiveEditor | null;
+    setReply: (reference: string) => void;
+    setEdit: (reference: string) => void;
+    clearActive: () => void;
+    pendingReplies: PendingReply[];
+    addPendingReply: (reply: PendingReply) => void;
+    removePendingReply: (reference: string) => void;
+    updatePendingReply: (reference: string, comment: CommentResponse) => void;
+}
+
+const CommentsContext = createContext<CommentsContextValue>({
+    active: null,
+    setReply: () => {},
+    setEdit: () => {},
+    clearActive: () => {},
+    pendingReplies: [],
+    addPendingReply: () => {},
+    removePendingReply: () => {},
+    updatePendingReply: () => {},
+});
 
 interface Props {
     children: ReactNode;
-}
-
-function getInitialState(): State {
-    return {
-        currentDepth: 1,
-        currentReply: undefined,
-        currentEdit: undefined,
-    };
 }
 
 export const useCommentsContext = () => {
@@ -38,13 +44,55 @@ export const useCommentsContext = () => {
 };
 
 export default function CommentsProvider({ children }: Props) {
-    const [state, setState] = useState<State>(getInitialState());
+    const [active, setActive] = useState<ActiveEditor | null>(null);
+    const [pendingReplies, setPendingReplies] = useState<PendingReply[]>([]);
+
+    const setReply = useCallback((reference: string) => {
+        setActive({ type: 'reply', reference });
+    }, []);
+
+    const setEdit = useCallback((reference: string) => {
+        setActive({ type: 'edit', reference });
+    }, []);
+
+    const clearActive = useCallback(() => {
+        setActive(null);
+    }, []);
+
+    const addPendingReply = useCallback((reply: PendingReply) => {
+        setPendingReplies((prev) => [...prev, reply]);
+    }, []);
+
+    const removePendingReply = useCallback((reference: string) => {
+        setPendingReplies((prev) =>
+            prev.filter((r) => r.comment.reference !== reference),
+        );
+    }, []);
+
+    const updatePendingReply = useCallback(
+        (reference: string, comment: CommentResponse) => {
+            setPendingReplies((prev) => {
+                if (!prev.some((r) => r.comment.reference === reference))
+                    return prev;
+                return prev.map((r) =>
+                    r.comment.reference === reference ? { ...r, comment } : r,
+                );
+            });
+        },
+        [],
+    );
 
     return (
         <CommentsContext.Provider
             value={{
-                ...state,
-                setState,
+                active,
+                setReply,
+                setEdit,
+                clearActive,
+                pendingReplies,
+                addPendingReply,
+                removePendingReply,
+                updatePendingReply,
             }}
         >
             {children}

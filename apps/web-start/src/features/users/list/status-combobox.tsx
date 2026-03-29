@@ -16,6 +16,8 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useChangeParam from '@/features/filters/hooks/use-change-param';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
+import { useReadList } from '@/features/users/list/userlist/hooks/use-readlist';
+import { useWatchList } from '@/features/users/list/userlist/hooks/use-watchlist';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
@@ -51,6 +53,12 @@ const StatusCombobox = ({ content_type }: Props) => {
         contentType: content_type as ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL,
         options: { enabled: !isAnime },
     });
+
+    const watchList = useWatchList();
+    const readList = useReadList();
+    const paginationTotal = isAnime
+        ? watchList.data?.pages[0]?.pagination.total
+        : readList.data?.pages[0]?.pagination.total;
 
     const status = search.status as ReadStatusEnum | WatchStatusEnum | 'all';
 
@@ -88,8 +96,10 @@ const StatusCombobox = ({ content_type }: Props) => {
             >
                 <TabsTrigger value="all">
                     <Table className="size-4" />
-                    Усе{' '}
-                    <span className="text-muted-foreground">({allAmount})</span>
+                    {status === 'all' && 'Усе'}{' '}
+                    <span className="text-muted-foreground">
+                        ({status === 'all' && paginationTotal !== undefined ? paginationTotal : allAmount})
+                    </span>
                 </TabsTrigger>
                 {(
                     Object.keys(statuses) as (
@@ -108,9 +118,9 @@ const StatusCombobox = ({ content_type }: Props) => {
                                 className: 'size-3!',
                             })}
                         </div>
-                        {STATUSES[o].title_ua}{' '}
+                        {status === o && STATUSES[o].title_ua}{' '}
                         <span className="text-muted-foreground">
-                            ({listData[o as keyof typeof listData]})
+                            ({status === o && paginationTotal !== undefined ? paginationTotal : listData[o as keyof typeof listData]})
                         </span>
                     </TabsTrigger>
                 ))}

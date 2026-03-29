@@ -32,20 +32,22 @@ interface Props {
 }
 
 const CommentMenu: FC<Props> = ({ comment }) => {
-    const { setState: setCommentsState } = useCommentsContext();
+    const { setEdit, removePendingReply } = useCommentsContext();
 
     const { user: loggedUser } = useSession();
 
-    const deleteCommentMutation = useDeleteComment();
+    const deleteCommentMutation = useDeleteComment({
+        options: {
+            onSuccess: () => removePendingReply(comment.reference),
+            onError: () =>
+                toast.error(
+                    'Виникла помилка при видаленні повідомлення. Спробуйте, будь ласка, ще раз',
+                ),
+        },
+    });
 
-    const handleDeleteComment = async () => {
-        try {
-            deleteCommentMutation.mutate(comment.reference);
-        } catch (e) {
-            toast.error(
-                'Виникла помилка при видаленні повідомлення. Спробуйте, будь ласка, ще раз',
-            );
-        }
+    const handleDeleteComment = () => {
+        deleteCommentMutation.mutate(comment.reference);
     };
 
     return (
@@ -62,12 +64,7 @@ const CommentMenu: FC<Props> = ({ comment }) => {
             <DropdownMenuContent align="start">
                 {loggedUser?.username === comment.author.username && (
                     <DropdownMenuItem
-                        onClick={() =>
-                            setCommentsState!((prev) => ({
-                                ...prev,
-                                currentEdit: comment.reference,
-                            }))
-                        }
+                        onClick={() => setEdit(comment.reference)}
                     >
                         <MaterialSymbolsEditRounded className="mr-2" />
                         Редагувати

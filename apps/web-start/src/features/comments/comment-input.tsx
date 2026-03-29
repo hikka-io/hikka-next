@@ -2,7 +2,7 @@
 
 import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { Plate } from 'platejs/react';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { usePlateMarkdownSetup } from '@/components/plate/editor/markdown-editor-kit';
 import { EditorPreview } from '@/components/plate/editor/plate-editor';
@@ -33,6 +33,12 @@ const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
             value: isEdit && comment ? comment.text! : undefined,
             modalDefaultOpen: comment !== undefined,
         });
+
+    useEffect(() => {
+        if (comment) {
+            setTimeout(() => editor.tf.focus(), 0);
+        }
+    }, []);
 
     if (isMobile === undefined) {
         return null;

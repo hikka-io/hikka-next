@@ -3,7 +3,8 @@
 import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { useSession } from '@hikka/react';
 import { formatDistance } from 'date-fns';
-import { FC, useEffect, useState } from 'react';
+import { uk } from 'date-fns/locale/uk';
+import { FC, useMemo, useState } from 'react';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
@@ -41,36 +42,61 @@ interface Props {
 }
 
 const Comment: FC<Props> = ({ comment, slug, content_type }) => {
-    const {
-        currentReply,
-        currentEdit,
-        setState: setCommentsState,
-    } = useCommentsContext();
+    const { active, setReply, pendingReplies } = useCommentsContext();
     const [expand, setExpand] = useState<boolean>(comment.depth < 2);
-    const [isInputVisible, setIsInputVisible] = useState<boolean>(false);
 
     const { user: loggedUser } = useSession();
 
+    const isReplyActive =
+        active?.type === 'reply' && active.reference === comment.reference;
+    const isEditActive =
+        active?.type === 'edit' && active.reference === comment.reference;
+
     const addReplyInput = () => {
-        setCommentsState!((prev) => ({
-            ...prev,
-            currentReply: comment.reference,
-        }));
-        setIsInputVisible(true);
+        setReply(comment.reference);
+        setExpand(true);
     };
 
-    const getRepliesCount = (comments: CommentResponse[]) => {
-        let count = comments.length;
+    const allReplies = useMemo(() => {
+        if (pendingReplies.length === 0) return comment.replies;
 
-        comments.forEach((comment) => {
-            count += getRepliesCount(comment.replies);
+        const prepend = pendingReplies.filter(
+            (r) => r.comment.parent === comment.reference && !r.insertAfter,
+        );
+        const insertAfters = pendingReplies.filter(
+            (r) => r.comment.parent === comment.reference && r.insertAfter,
+        );
+        const pendingRefs = new Set(
+            [...prepend, ...insertAfters].map((r) => r.comment.reference),
+        );
+        const serverReplies = comment.replies.filter(
+            (r) => !pendingRefs.has(r.reference),
+        );
+
+        const insertAfterMap = new Map<string, CommentResponse[]>();
+        for (const entry of insertAfters) {
+            const key = entry.insertAfter!;
+            const list = insertAfterMap.get(key) ?? [];
+            list.push(entry.comment);
+            insertAfterMap.set(key, list);
+        }
+
+        const merged = [...prepend.map((r) => r.comment), ...serverReplies];
+        if (insertAfterMap.size === 0) return merged;
+
+        return merged.flatMap((r) => {
+            const after = insertAfterMap.get(r.reference);
+            return after ? [r, ...after] : [r];
         });
-
-        return count;
-    };
+    }, [pendingReplies, comment.replies, comment.reference]);
 
     const getDeclensedReplyCount = () => {
-        const repliesCount = getRepliesCount(comment.replies);
+        const hasPendingForThis = pendingReplies.some(
+            (r) => r.comment.parent === comment.reference,
+        );
+        const repliesCount = hasPendingForThis
+            ? allReplies.length
+            : comment.total_replies;
 
         return (
             repliesCount +
@@ -82,12 +108,6 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
             ])
         );
     };
-
-    useEffect(() => {
-        if (currentReply && currentReply === comment.reference) {
-            setExpand(true);
-        }
-    }, [currentReply]);
 
     return (
         <div
@@ -138,7 +158,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             {formatDistance(
                                 comment.created * 1000,
                                 Date.now(),
-                                { addSuffix: true },
+                                { addSuffix: true, locale: uk },
                             )}
                         </HorizontalCardDescription>
                     </HorizontalCardContainer>
@@ -146,7 +166,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                 </HorizontalCard>
 
                 {!comment.hidden ? (
-                    currentEdit === comment.reference ? (
+                    isEditActive ? (
                         <CommentInput
                             slug={slug}
                             content_type={content_type}
@@ -158,7 +178,6 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             <MDViewer className="text-[0.9375rem]">
                                 {comment.text}
                             </MDViewer>
-                            {/* <StaticViewer value={comment.text} /> */}
                         </TextExpand>
                     )
                 ) : (
@@ -196,7 +215,16 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                     loggedUser?.role === 'moderator') &&
                     !comment.hidden && <CommentMenu comment={comment} />}
             </div>
-            {comment.replies.length > 0 && (
+            {isReplyActive && (
+                <div className="flex gap-6">
+                    <CommentInput
+                        slug={slug}
+                        content_type={content_type}
+                        comment={comment}
+                    />
+                </div>
+            )}
+            {allReplies.length > 0 && (
                 <div className="flex w-full">
                     {expand && (
                         <button
@@ -221,19 +249,9 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         <Comments
                             slug={slug}
                             content_type={content_type}
-                            comments={comment.replies}
+                            comments={allReplies}
                         />
                     )}
-                </div>
-            )}
-            {isInputVisible && currentReply === comment.reference && (
-                <div className="flex gap-6">
-                    <div className="-mt-2 h-auto w-px bg-white" />
-                    <CommentInput
-                        slug={slug}
-                        content_type={content_type}
-                        comment={comment}
-                    />
                 </div>
             )}
         </div>

@@ -89,54 +89,54 @@ const CommentList: FC<Props> = ({
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-            <div className="flex flex-col gap-4">
-                {!loggedUser && (
-                    <NotFound
-                        title={<span>Ви не авторизовані</span>}
-                        description="Увійдіть у свій акаунт, щоб залишити коментар"
-                    >
-                        <LoginButton
-                            variant="default"
-                            size="md"
-                            className="w-full lg:w-auto"
-                            asChild
+            <CommentsProvider>
+                <div className="flex flex-col gap-4">
+                    {!loggedUser && (
+                        <NotFound
+                            title={<span>Ви не авторизовані</span>}
+                            description="Увійдіть у свій акаунт, щоб залишити коментар"
+                        >
+                            <LoginButton
+                                variant="default"
+                                size="md"
+                                className="w-full lg:w-auto"
+                                asChild
+                            />
+                        </NotFound>
+                    )}
+                    {loggedUser && !comment_reference && (
+                        <CommentInput slug={slug} content_type={content_type} />
+                    )}
+                    {list && list.length === 0 && (
+                        <NotFound
+                            title={<span>Коментарів не знайдено</span>}
+                            description="Ви можете розпочати обговорення першим"
                         />
-                    </NotFound>
-                )}
-                {loggedUser && !comment_reference && (
-                    <CommentInput slug={slug} content_type={content_type} />
-                )}
-                {list && list.length === 0 && (
-                    <NotFound
-                        title={<span>Коментарів не знайдено</span>}
-                        description="Ви можете розпочати обговорення першим"
-                    />
-                )}
-                {list && (
-                    <CommentsProvider>
+                    )}
+                    {list && (
                         <Comments
                             slug={slug}
                             content_type={content_type}
                             comments={list}
                         />
-                    </CommentsProvider>
-                )}
-                {hasNextPage && !preview && (
-                    <LoadMoreButton
-                        isFetchingNextPage={isFetchingNextPage}
-                        fetchNextPage={fetchNextPage}
-                        ref={ref}
-                    />
-                )}
-                {list && list.length !== 0 && preview && (
-                    <Button variant="outline" asChild>
-                        <Link to={`/comments/${content_type}/${slug}`}>
-                            <AntDesignArrowDownOutlined />
-                            Переглянути всі
-                        </Link>
-                    </Button>
-                )}
-            </div>
+                    )}
+                    {hasNextPage && !preview && (
+                        <LoadMoreButton
+                            isFetchingNextPage={isFetchingNextPage}
+                            fetchNextPage={fetchNextPage}
+                            ref={ref}
+                        />
+                    )}
+                    {list && list.length !== 0 && preview && (
+                        <Button variant="outline" asChild>
+                            <Link to={`/comments/${content_type}/${slug}`}>
+                                <AntDesignArrowDownOutlined />
+                                Переглянути всі
+                            </Link>
+                        </Button>
+                    )}
+                </div>
+            </CommentsProvider>
         </Block>
     );
 };

@@ -4,7 +4,6 @@ import { CommentResponse, CommentsContentType } from '@hikka/client';
 import { useCreateComment, useUpdateComment } from '@hikka/react';
 import { MarkdownPlugin } from '@platejs/markdown';
 import { Minimize2, Send } from 'lucide-react';
-import { Value } from 'platejs';
 import { FC } from 'react';
 
 import MaterialSymbolsReplyRounded from '@/components/icons/material-symbols/MaterialSymbolsReplyRounded';
@@ -17,6 +16,8 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
+import { MAX_COMMENT_DEPTH } from '@/utils/constants/common';
+import { removeEmptyTextNodes } from '@/utils/plate';
 
 interface Props {
     slug: string;
@@ -35,52 +36,52 @@ const CommentInputBottomBar: FC<Props> = ({
     isEdit,
     onClose,
 }) => {
-    const { setState: setCommentsState } = useCommentsContext();
+    const { clearActive, addPendingReply, updatePendingReply } =
+        useCommentsContext();
     const editor = useMarkdownEditor();
 
-    const onSuccess = async () => {
+    const onEditSuccess = async (data: CommentResponse) => {
+        editor.tf.reset();
+        updatePendingReply(data.reference, data);
+
+        if (comment) {
+            clearActive();
+        }
+    };
+
+    const onCreateSuccess = async (data: CommentResponse) => {
         editor.tf.reset();
 
         if (comment) {
-            setCommentsState?.((prev) => ({
-                ...prev,
-                currentReply: undefined,
-                currentEdit: undefined,
-            }));
+            if (comment.depth >= MAX_COMMENT_DEPTH) {
+                addPendingReply({
+                    comment: data,
+                    insertAfter: comment.reference,
+                });
+            } else {
+                addPendingReply({ comment: data });
+            }
+            clearActive();
         }
     };
 
     const { mutate: mutateEditComment, isPending: isEditPending } =
         useUpdateComment({
             options: {
-                onSuccess,
+                onSuccess: onEditSuccess,
             },
         });
 
     const { mutate: mutateWriteComment, isPending: isAddPending } =
         useCreateComment({
             options: {
-                onSuccess,
+                onSuccess: onCreateSuccess,
             },
         });
 
     const handleCancel = () => {
-        setCommentsState?.((prev) => ({
-            ...prev,
-            currentReply: isEdit ? prev.currentReply : undefined,
-            currentEdit: isEdit ? undefined : prev.currentEdit,
-        }));
+        clearActive();
         onClose?.();
-    };
-
-    const removeEmptyTextNodes = (value: Value) => {
-        return value.filter((node, index) =>
-            node.type === 'p' &&
-            node.children[0].text === '' &&
-            (index === 0 || index === value.length - 1)
-                ? false
-                : true,
-        );
     };
 
     const onSubmit = () => {
@@ -107,12 +108,12 @@ const CommentInputBottomBar: FC<Props> = ({
                 slug: slug,
                 args: {
                     parent: comment?.depth
-                        ? comment?.depth < 5
+                        ? comment?.depth < MAX_COMMENT_DEPTH
                             ? comment?.reference
                             : comment?.parent!
                         : undefined,
                     text:
-                        comment?.depth && comment?.depth >= 5
+                        comment?.depth && comment?.depth >= MAX_COMMENT_DEPTH
                             ? `@${comment.author.username} ${text}`
                             : text,
                 },
@@ -161,7 +162,9 @@ const CommentInputBottomBar: FC<Props> = ({
                         ) : (
                             <Send />
                         )}
-                        {isEdit ? 'Зберегти' : 'Відправити'}
+                        <span className="hidden md:inline">
+                            {isEdit ? 'Зберегти' : 'Відправити'}
+                        </span>
                     </Button>
                 </div>
             </div>
