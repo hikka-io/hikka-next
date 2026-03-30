@@ -1,6 +1,5 @@
 'use client';
 
-import { triggerFloatingLink } from '@platejs/link/react';
 import { toggleList } from '@platejs/list-classic';
 import {
     KEYS,
@@ -95,19 +94,6 @@ export const insertBlock = (editor: PlateEditor, type: string) => {
             );
         }
     });
-};
-
-const insertInlineMap: Record<
-    string,
-    (editor: PlateEditor, type: string) => void
-> = {
-    [KEYS.link]: (editor) => triggerFloatingLink(editor, { focused: true }),
-};
-
-export const insertInlineElement = (editor: PlateEditor, type: string) => {
-    if (insertInlineMap[type]) {
-        insertInlineMap[type](editor, type);
-    }
 };
 
 const setBlockMap: Record<

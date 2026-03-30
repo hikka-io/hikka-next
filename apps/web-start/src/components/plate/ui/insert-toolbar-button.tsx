@@ -4,7 +4,6 @@ import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 import {
     EyeOffIcon,
     Heading3Icon,
-    Link2Icon,
     ListIcon,
     ListOrderedIcon,
     PilcrowIcon,
@@ -21,7 +20,6 @@ import * as React from 'react';
 
 import {
     insertBlock,
-    insertInlineElement,
     isInsideBlock,
 } from '@/components/plate/editor/transforms';
 import {
@@ -96,22 +94,6 @@ const COMMENT_GROUPS: Group[] = [
             },
         })),
     },
-
-    {
-        group: 'Вбудовані елементи',
-        items: [
-            {
-                icon: <Link2Icon />,
-                label: 'Посилання',
-                value: KEYS.link,
-            },
-        ].map((item) => ({
-            ...item,
-            onSelect: (editor, value) => {
-                insertInlineElement(editor, value);
-            },
-        })),
-    },
 ];
 
 const ARTICLE_GROUPS: Group[] = [
@@ -162,22 +144,6 @@ const ARTICLE_GROUPS: Group[] = [
             ...item,
             onSelect: (editor, value) => {
                 insertBlock(editor, value);
-            },
-        })),
-    },
-
-    {
-        group: 'Вбудовані елементи',
-        items: [
-            {
-                icon: <Link2Icon />,
-                label: 'Посилання',
-                value: KEYS.link,
-            },
-        ].map((item) => ({
-            ...item,
-            onSelect: (editor, value) => {
-                insertInlineElement(editor, value);
             },
         })),
     },

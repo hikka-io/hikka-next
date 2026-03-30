@@ -1,28 +1,30 @@
 'use client';
 
-import {
-    useLinkToolbarButton,
-    useLinkToolbarButtonState,
-} from '@platejs/link/react';
 import { Link } from 'lucide-react';
-import * as React from 'react';
+import { useEditorRef } from 'platejs/react';
 
+import { LinkDialog, useLinkDialog } from './link-dialog';
 import { ToolbarButton } from './toolbar';
 
-export function LinkToolbarButton(
-    props: React.ComponentProps<typeof ToolbarButton>,
-) {
-    const state = useLinkToolbarButtonState();
-    const { props: buttonProps } = useLinkToolbarButton(state);
+export function LinkToolbarButton() {
+    const editor = useEditorRef();
+    const dialog = useLinkDialog(editor);
 
     return (
-        <ToolbarButton
-            {...props}
-            {...buttonProps}
-            data-plate-focus
-            tooltip="Посилання"
-        >
-            <Link />
-        </ToolbarButton>
+        <>
+            <ToolbarButton
+                onClick={dialog.openInsert}
+                data-plate-focus
+                tooltip="Посилання"
+            >
+                <Link />
+            </ToolbarButton>
+            <LinkDialog
+                open={dialog.open}
+                onOpenChange={dialog.onOpenChange}
+                defaultValues={dialog.defaultValues}
+                onSubmit={dialog.onSubmit}
+            />
+        </>
     );
 }
