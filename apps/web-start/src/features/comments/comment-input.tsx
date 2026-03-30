@@ -44,6 +44,11 @@ const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
         return null;
     }
 
+    const isReply = !!comment && !isEdit;
+    const placeholder = isReply
+        ? `Відповідь для ${comment.author.username}...`
+        : 'Напишіть повідомлення...';
+
     return (
         <Plate editor={editor} onChange={handleChange}>
             {isMobile && (
@@ -71,7 +76,7 @@ const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
                         >
                             <Editor
                                 variant="drawer"
-                                placeholder="Напишіть повідомлення..."
+                                placeholder={placeholder}
                             />
                             <CommentInputBottomBar
                                 comment={comment}
@@ -88,7 +93,7 @@ const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
                 <EditorContainer className={cn(className)}>
                     <Editor
                         variant="comment"
-                        placeholder="Напишіть повідомлення..."
+                        placeholder={placeholder}
                     />
                     <CommentInputBottomBar
                         comment={comment}

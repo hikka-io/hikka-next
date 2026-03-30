@@ -6,14 +6,10 @@ import { MarkdownPlugin } from '@platejs/markdown';
 import { Minimize2, Send } from 'lucide-react';
 import { FC } from 'react';
 
-import MaterialSymbolsReplyRounded from '@/components/icons/material-symbols/MaterialSymbolsReplyRounded';
 import { useMarkdownEditor } from '@/components/plate/editor/markdown-editor-kit';
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
 import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { MAX_COMMENT_DEPTH } from '@/utils/constants/common';
@@ -125,20 +121,6 @@ const CommentInputBottomBar: FC<Props> = ({
         <FixedToolbar className="gap-4 px-2 py-2">
             <FixedMarkdownToolbarButtons className="-mx-2 -my-2 px-2 py-2" />
             <div className="flex justify-between gap-2">
-                {comment && !isEdit && (
-                    <Badge variant="secondary" className="gap-2">
-                        <Avatar className="size-5 rounded-sm">
-                            <AvatarImage
-                                className="size-6 rounded-sm"
-                                src={comment.author.avatar}
-                            />
-                        </Avatar>
-                        <Label className="hidden md:block">
-                            {comment.author.username}
-                        </Label>
-                        <MaterialSymbolsReplyRounded />
-                    </Badge>
-                )}
                 <div className="flex gap-2 md:pointer-events-auto">
                     <Button
                         type="button"

@@ -166,8 +166,18 @@ const WatchDetails = ({
                     <DetailItem
                         title="Сезон"
                         icon={<SunSnow className="size-4" />}
-                        value={seasonLabel}
-                    />
+                    >
+                        <Link
+                            className="hover:underline line-clamp-1 text-sm font-medium"
+                            to="/anime"
+                            search={{
+                                seasons: [data.season],
+                                years: [data.year, data.year],
+                            }}
+                        >
+                            {`${seasonLabel} ${data.year}`}
+                        </Link>
+                    </DetailItem>
                 )}
             </div>
 

@@ -1531,7 +1531,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/core@npm:^1.7.1, @floating-ui/core@npm:^1.7.3":
+"@floating-ui/core@npm:^1.6.7, @floating-ui/core@npm:^1.7.5":
+  version: 1.7.5
+  resolution: "@floating-ui/core@npm:1.7.5"
+  dependencies:
+    "@floating-ui/utils": "npm:^0.2.11"
+  checksum: 10c0/f9c52205e198b231d63a387b09c659aab08c46a1899e0b0bbe147b8b4f048b546f15ba17cb5d2a471da9534f1883d979425e13e5c4ceee67be63e4b0abd4db5d
+  languageName: node
+  linkType: hard
+
+"@floating-ui/core@npm:^1.7.3":
   version: 1.7.3
   resolution: "@floating-ui/core@npm:1.7.3"
   dependencies:
@@ -1550,7 +1559,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react-dom@npm:^2.0.0, @floating-ui/react-dom@npm:^2.1.6":
+"@floating-ui/dom@npm:^1.7.6":
+  version: 1.7.6
+  resolution: "@floating-ui/dom@npm:1.7.6"
+  dependencies:
+    "@floating-ui/core": "npm:^1.7.5"
+    "@floating-ui/utils": "npm:^0.2.11"
+  checksum: 10c0/5c098e0d7b58c9bc769f276cca1766994c2c9c70c92d091a61bba8b3e9be53c011e0a79a8457fc2fb2f3d91697a26eb52e0a4962ef936dc963b45f58613c212f
+  languageName: node
+  linkType: hard
+
+"@floating-ui/react-dom@npm:^2.0.0":
   version: 2.1.6
   resolution: "@floating-ui/react-dom@npm:2.1.6"
   dependencies:
@@ -1562,17 +1581,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react@npm:^0.27.12":
-  version: 0.27.16
-  resolution: "@floating-ui/react@npm:0.27.16"
+"@floating-ui/react-dom@npm:^2.1.2":
+  version: 2.1.8
+  resolution: "@floating-ui/react-dom@npm:2.1.8"
   dependencies:
-    "@floating-ui/react-dom": "npm:^2.1.6"
-    "@floating-ui/utils": "npm:^0.2.10"
+    "@floating-ui/dom": "npm:^1.7.6"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10c0/26260ca4bb23b57c73b824062505abf977a008ce6e0463bdacca74f7e49853c4cd1d2bbf1a77c6caa17fa37dfffda2c6c4cd07a8737ebd7474aaff7818401d75
+  languageName: node
+  linkType: hard
+
+"@floating-ui/react@npm:^0.26.23":
+  version: 0.26.28
+  resolution: "@floating-ui/react@npm:0.26.28"
+  dependencies:
+    "@floating-ui/react-dom": "npm:^2.1.2"
+    "@floating-ui/utils": "npm:^0.2.8"
     tabbable: "npm:^6.0.0"
   peerDependencies:
-    react: ">=17.0.0"
-    react-dom: ">=17.0.0"
-  checksum: 10c0/a026266d8875e69de1ac1e1a00588660c8ee299c1e7d067c5c5fd1d69a46fd10acff5dd6cb66c3fe40a3347b443234309ba95f5b33d49059d0cda121f558f566
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10c0/a42df129e1e976fe8ba3f4c8efdda265a0196c1b66b83f2b9b27423d08dcc765406f893aeff9d830e70e3f14a9d4c490867eb4c32983317cbaa33863b0fae6f6
   languageName: node
   linkType: hard
 
@@ -1580,6 +1611,13 @@ __metadata:
   version: 0.2.10
   resolution: "@floating-ui/utils@npm:0.2.10"
   checksum: 10c0/e9bc2a1730ede1ee25843937e911ab6e846a733a4488623cd353f94721b05ec2c9ec6437613a2ac9379a94c2fd40c797a2ba6fa1df2716f5ce4aa6ddb1cf9ea4
+  languageName: node
+  linkType: hard
+
+"@floating-ui/utils@npm:^0.2.11, @floating-ui/utils@npm:^0.2.8":
+  version: 0.2.11
+  resolution: "@floating-ui/utils@npm:0.2.11"
+  checksum: 10c0/f4bcea1559bdbb721ecc8e8ead423ac58d6a5b6e70b602cf0810ba6ad4ed1c77211b207faa88b278a9042f0c743133de08a203ed6741c1b6443423332884d5b3
   languageName: node
   linkType: hard
 
@@ -1641,15 +1679,15 @@ __metadata:
     "@hikka/react": "workspace:*"
     "@hookform/resolvers": "npm:^3.9.1"
     "@marsidev/react-turnstile": "npm:1.1.0"
-    "@platejs/autoformat": "npm:^52.3.4"
-    "@platejs/basic-nodes": "npm:^52.0.11"
-    "@platejs/combobox": "npm:^52.0.15"
-    "@platejs/diff": "npm:^52.0.11"
-    "@platejs/emoji": "npm:^52.0.15"
-    "@platejs/floating": "npm:^52.0.11"
-    "@platejs/link": "npm:^52.0.11"
-    "@platejs/list-classic": "npm:^52.0.11"
-    "@platejs/markdown": "npm:^52.3.5"
+    "@platejs/autoformat": "npm:^52.3.10"
+    "@platejs/basic-nodes": "npm:^52.3.10"
+    "@platejs/combobox": "npm:^52.3.10"
+    "@platejs/diff": "npm:^52.3.10"
+    "@platejs/emoji": "npm:^52.3.10"
+    "@platejs/floating": "npm:^52.3.10"
+    "@platejs/link": "npm:^52.3.17"
+    "@platejs/list-classic": "npm:^52.3.10"
+    "@platejs/markdown": "npm:^52.3.10"
     "@radix-ui/react-primitive": "npm:^2.1.4"
     "@radix-ui/react-use-controllable-state": "npm:^1.2.2"
     "@react-hook/resize-observer": "npm:^2.0.2"
@@ -1685,7 +1723,7 @@ __metadata:
     marked: "npm:^12.0.1"
     mdast-util-find-and-replace: "npm:^3.0.2"
     nitro: "npm:nitro-nightly@3.0.1-20260311-194443-0f366e59"
-    platejs: "npm:^52.3.4"
+    platejs: "npm:^52.3.16"
     radix-ui: "npm:^1.4.3"
     react: "npm:19.2.1"
     react-avatar-editor: "npm:^13.0.2"
@@ -2235,9 +2273,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@platejs/autoformat@npm:^52.3.4":
-  version: 52.3.4
-  resolution: "@platejs/autoformat@npm:52.3.4"
+"@platejs/autoformat@npm:^52.3.10":
+  version: 52.3.10
+  resolution: "@platejs/autoformat@npm:52.3.10"
   dependencies:
     lodash: "npm:^4.17.21"
     react-compiler-runtime: "npm:^1.0.0"
@@ -2245,41 +2283,41 @@ __metadata:
     platejs: ">=52.3.4"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/7574ffe47c47dbcbc93c5494f4dadcdd09fa5abb123d1bba8642d37ee6f38a4bf46288e8f9c92e943ce17cab6484d41986c968b0c90aa1b8d1d5b01718683a0f
+  checksum: 10c0/c66ce780b9c11d4954d2ddab50c07878ff4b7bb294955511f1d59428c8b5423706058e8c52f3d7aa1012f766c82d81071bc5006aab6fd731f94d4eff10888c23
   languageName: node
   linkType: hard
 
-"@platejs/basic-nodes@npm:^52.0.11":
-  version: 52.0.11
-  resolution: "@platejs/basic-nodes@npm:52.0.11"
+"@platejs/basic-nodes@npm:^52.3.10":
+  version: 52.3.10
+  resolution: "@platejs/basic-nodes@npm:52.3.10"
   dependencies:
     react-compiler-runtime: "npm:^1.0.0"
   peerDependencies:
     platejs: ">=52.0.11"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/a8a203804c8bb00cabe650470775ae251ec00d899803efec57b0f69e097b4470d55fcb4d05b7393251c63c15ac2b9ba59243201b3d6707dd99e51bedef892b74
+  checksum: 10c0/12deeaf1e6bdce4cf009d3b1e1058d3a56f25c75e17e8636fe5bfc6383c96e59efe1e86b3810b384d00f853b1e3a934a3da1091ce02a96aa068e18d0422b3afc
   languageName: node
   linkType: hard
 
-"@platejs/combobox@npm:52.0.15, @platejs/combobox@npm:^52.0.15":
-  version: 52.0.15
-  resolution: "@platejs/combobox@npm:52.0.15"
+"@platejs/combobox@npm:52.3.10, @platejs/combobox@npm:^52.3.10":
+  version: 52.3.10
+  resolution: "@platejs/combobox@npm:52.3.10"
   dependencies:
     react-compiler-runtime: "npm:^1.0.0"
   peerDependencies:
     platejs: ">=52.0.15"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/e7cd7a7f40e4e7d94b4fda83338ec2581d33229b45b558c21296fff5ce5f8854e6bb8d617fa68a58290d6e3221d5cc11070e34d363de385fa82f626af83281ef
+  checksum: 10c0/910faa1c050ff18977e61afca69b20dbc9852e9b76b55effaf8d23e79c62bc36308a49b31d4f58f4d7577c45bee9418e01e4237e1ce003e3000ee84db8df8201
   languageName: node
   linkType: hard
 
-"@platejs/core@npm:52.3.4, @platejs/core@npm:^52.3.4":
-  version: 52.3.4
-  resolution: "@platejs/core@npm:52.3.4"
+"@platejs/core@npm:^52.3.16":
+  version: 52.3.16
+  resolution: "@platejs/core@npm:52.3.16"
   dependencies:
-    "@platejs/slate": "npm:52.3.4"
+    "@platejs/slate": "npm:52.3.12"
     "@udecode/react-hotkeys": "npm:52.0.11"
     "@udecode/react-utils": "npm:52.3.4"
     "@udecode/utils": "npm:52.3.4"
@@ -2303,13 +2341,13 @@ __metadata:
   peerDependencies:
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/a58abed8a29047fc9f8332e164e5ced9312fe26a1de56e83ba31499d91fe4cc78c3bcf7e44969e50dce930fc71a537744e09c506140125eef026b25e0a44fe93
+  checksum: 10c0/50521ccee5422becc4a5f79ccde7f9faded80da6a755db1a6517e7dca7a23339aa4b76e91cc0e993fe0d21452938779dd2d523b9c81ae0c2784efb9ae7a24b04
   languageName: node
   linkType: hard
 
-"@platejs/diff@npm:^52.0.11":
-  version: 52.0.11
-  resolution: "@platejs/diff@npm:52.0.11"
+"@platejs/diff@npm:^52.3.10":
+  version: 52.3.10
+  resolution: "@platejs/diff@npm:52.3.10"
   dependencies:
     diff-match-patch-ts: "npm:^0.6.0"
     lodash: "npm:^4.17.21"
@@ -2318,57 +2356,57 @@ __metadata:
     platejs: ">=52.0.11"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/d8633d62c26c68c3b4c92e47ee854848b42262d250ef076a89d491b7cfed323f9b64d37211b9b560fe03b5d8a9b106534fabf9ddd02eb5db12b4d6522ca26ec7
+  checksum: 10c0/ab1e81c336afa22e66b105a9b640fba9411652d390035fc2e95bb617a92595e8c7291803c327561867b081a61387f312fd42b01472ca751a7b54a56723d41bec
   languageName: node
   linkType: hard
 
-"@platejs/emoji@npm:^52.0.15":
-  version: 52.0.15
-  resolution: "@platejs/emoji@npm:52.0.15"
+"@platejs/emoji@npm:^52.3.10":
+  version: 52.3.10
+  resolution: "@platejs/emoji@npm:52.3.10"
   dependencies:
-    "@platejs/combobox": "npm:52.0.15"
+    "@platejs/combobox": "npm:52.3.10"
     react-compiler-runtime: "npm:^1.0.0"
   peerDependencies:
     "@emoji-mart/data": ">=1.2.0"
     platejs: ">=52.0.15"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/6c1dd77f4d52f444c3c1afec15c8006813a9565027fd2840c84dc81983aabd474bf75a29ba6e8a78ae62fc79a0f9e8af4fb6ed29b57bfdb8275fc078773fcbd1
+  checksum: 10c0/fa4f0040db07a3d35e3c8f9163b1728e9b7d6167e354711a6e43679c3b40cec408ad3657d85f83be2adec24fa9e5d2737047e4bfeb7ffde893faf962b128121c
   languageName: node
   linkType: hard
 
-"@platejs/floating@npm:52.0.11, @platejs/floating@npm:^52.0.11":
-  version: 52.0.11
-  resolution: "@platejs/floating@npm:52.0.11"
+"@platejs/floating@npm:^52.3.10":
+  version: 52.3.10
+  resolution: "@platejs/floating@npm:52.3.10"
   dependencies:
-    "@floating-ui/core": "npm:^1.7.1"
-    "@floating-ui/react": "npm:^0.27.12"
+    "@floating-ui/core": "npm:^1.6.7"
+    "@floating-ui/react": "npm:^0.26.23"
     react-compiler-runtime: "npm:^1.0.0"
   peerDependencies:
     platejs: ">=52.0.11"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/3f3aaf83e09a25f0d947ef1764faa20d704e541d21e8fcdace80a0b2b8265f26fd6f5169d17cf4bf79684809fdd3f087accf8ab19b9e004500bf7266e434d13e
+  checksum: 10c0/3e48ff092eebc7544aa0f87f0e646a9d6c26865402d4a66557b75e9627657c3308fa7bf1ef4aa514afd7a2e872f0020fcd36564cc2e9f11ce09ca1726b4e4e83
   languageName: node
   linkType: hard
 
-"@platejs/link@npm:^52.0.11":
-  version: 52.0.11
-  resolution: "@platejs/link@npm:52.0.11"
+"@platejs/link@npm:^52.3.17":
+  version: 52.3.17
+  resolution: "@platejs/link@npm:52.3.17"
   dependencies:
-    "@platejs/floating": "npm:52.0.11"
+    "@platejs/floating": "npm:^52.3.10"
     react-compiler-runtime: "npm:^1.0.0"
   peerDependencies:
     platejs: ">=52.0.11"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/6e95082ffb2713bf4eaee2afecd5d182f8e3949df5a2634baffe2509def2bd27c1905f3d1dbcdfa9922c0118291a635c06ae6c4dcbe351ab21a122f257df9c43
+  checksum: 10c0/50d504ac44632c32bdd2c070abe079fc047ffa5c9138e20fde9c8e487032773ada8678779017a3e7f10f39d00f90e182b08e1e1b26e83d550248828773f09709
   languageName: node
   linkType: hard
 
-"@platejs/list-classic@npm:^52.0.11":
-  version: 52.0.11
-  resolution: "@platejs/list-classic@npm:52.0.11"
+"@platejs/list-classic@npm:^52.3.10":
+  version: 52.3.10
+  resolution: "@platejs/list-classic@npm:52.3.10"
   dependencies:
     lodash: "npm:^4.17.21"
     react-compiler-runtime: "npm:^1.0.0"
@@ -2376,13 +2414,13 @@ __metadata:
     platejs: ">=52.0.11"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/8fe7961a3578bbf4ee8a7f09d3b47ce2c18d0b148408f6e297fcda21e07304322b1c407ec12163cdcfb52e8634078fb60fe99c5c0f440b357a2098ef7a0aac90
+  checksum: 10c0/0764be710f08a97ef08ddd11b0fb193b99e9168a329da12b57d4008e169d76c9f41e45044e9f26d53c2256cb16c885aadc0d9e410e1f7e713821121416edec6d
   languageName: node
   linkType: hard
 
-"@platejs/markdown@npm:^52.3.5":
-  version: 52.3.5
-  resolution: "@platejs/markdown@npm:52.3.5"
+"@platejs/markdown@npm:^52.3.10":
+  version: 52.3.10
+  resolution: "@platejs/markdown@npm:52.3.10"
   dependencies:
     lodash: "npm:^4.17.23"
     marked: "npm:^15.0.12"
@@ -2399,13 +2437,13 @@ __metadata:
     platejs: ">=52.0.11"
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/a9f928308973ff8f0eb245a4ef9c2ddf42ab811aaaf57b8c45a078c1933be1a753fb4c406f784c03ab50ad7402acfb4b5932c9b01573f3c48b34b1579b605d72
+  checksum: 10c0/b292b882edeecb800dcd7a77bab28cf154566d2e5a435510ff6270544cb0abbde2fa4d428b4d0106b1b5388c84fd41dec2801a6c118f050f1b77c9221917d7a8
   languageName: node
   linkType: hard
 
-"@platejs/slate@npm:52.3.4, @platejs/slate@npm:^52.3.4":
-  version: 52.3.4
-  resolution: "@platejs/slate@npm:52.3.4"
+"@platejs/slate@npm:52.3.12, @platejs/slate@npm:^52.3.12":
+  version: 52.3.12
+  resolution: "@platejs/slate@npm:52.3.12"
   dependencies:
     "@udecode/utils": "npm:^52.3.4"
     is-plain-object: "npm:^5.0.0"
@@ -2413,16 +2451,16 @@ __metadata:
     scroll-into-view-if-needed: "npm:^3.1.0"
     slate: "npm:0.123.0"
     slate-dom: "npm:0.123.0"
-  checksum: 10c0/de8e9cbf555d8374a72ec6a4808eb6de5885e4bb2f8fea3857a88c7756f518e3ecfea8af4cfc309c8cefa59167726a218183c743b617b0b55ab115583dc84cc4
+  checksum: 10c0/b6a6ebc65cf08bd851312c003239ddaee31d8b0c666aca9f1ef7ced12f8025f4ede450fd9a5ac00f09c07f574067ac44c705f52db31ba8651f00570a366b0d35
   languageName: node
   linkType: hard
 
-"@platejs/utils@npm:52.3.4":
-  version: 52.3.4
-  resolution: "@platejs/utils@npm:52.3.4"
+"@platejs/utils@npm:^52.3.16":
+  version: 52.3.16
+  resolution: "@platejs/utils@npm:52.3.16"
   dependencies:
-    "@platejs/core": "npm:^52.3.4"
-    "@platejs/slate": "npm:^52.3.4"
+    "@platejs/core": "npm:^52.3.16"
+    "@platejs/slate": "npm:^52.3.12"
     "@udecode/react-utils": "npm:^52.3.4"
     "@udecode/utils": "npm:^52.3.4"
     clsx: "npm:^2.1.1"
@@ -2431,7 +2469,7 @@ __metadata:
   peerDependencies:
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/73cfb66d1d8b957cf1bfedc4da207de2d24ce28405d6a438d0edd1820e2d4d4daa33c387f2c26cfcc7f2bacb8bdc786c61dded5aa47bf039f1bc84b39fe5708e
+  checksum: 10c0/63e4dca88da45dbd0d31f32963f9fb0c32d8831a03fc0b64d6962c61991f695ad6bb15912e0d3666c3c5d7d569f4377630e4445c98231497fa803dd52b53d195
   languageName: node
   linkType: hard
 
@@ -6374,7 +6412,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@udecode/react-hotkeys@npm:52.0.11":
+"@udecode/react-hotkeys@npm:52.0.11, @udecode/react-hotkeys@npm:^52.0.11":
   version: 52.0.11
   resolution: "@udecode/react-hotkeys@npm:52.0.11"
   dependencies:
@@ -13291,21 +13329,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"platejs@npm:^52.3.4":
-  version: 52.3.4
-  resolution: "platejs@npm:52.3.4"
+"platejs@npm:^52.3.16":
+  version: 52.3.16
+  resolution: "platejs@npm:52.3.16"
   dependencies:
-    "@platejs/core": "npm:52.3.4"
-    "@platejs/slate": "npm:52.3.4"
-    "@platejs/utils": "npm:52.3.4"
-    "@udecode/react-hotkeys": "npm:52.0.11"
-    "@udecode/react-utils": "npm:52.3.4"
-    "@udecode/utils": "npm:52.3.4"
+    "@platejs/core": "npm:^52.3.16"
+    "@platejs/slate": "npm:^52.3.12"
+    "@platejs/utils": "npm:^52.3.16"
+    "@udecode/react-hotkeys": "npm:^52.0.11"
+    "@udecode/react-utils": "npm:^52.3.4"
+    "@udecode/utils": "npm:^52.3.4"
     react-compiler-runtime: "npm:^1.0.0"
   peerDependencies:
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10c0/efd9607537e286d73a474deb551910290689a60a1432e3a051e582800066ac113e199ef5129caaf3490d9cfacb3099027c5f0435dbc307b836f23b092e0247cb
+  checksum: 10c0/a32cf6f63655601e3b6ccb5876bee98ce4fea65c1f8b5bc08574cb512570ef2ecaa3a0fd86677b21ce072b41c0f68b38f33421ca1fa0fd8016779bfeaad7eb47
   languageName: node
   linkType: hard
 
