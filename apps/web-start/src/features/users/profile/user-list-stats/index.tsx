@@ -14,7 +14,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import { useParams } from '@/utils/navigation';
 
-import ListTabContent from './components/list-tab-content';
+import ListTabContent from './list-tab-content';
 
 export { ListTabContent };
 

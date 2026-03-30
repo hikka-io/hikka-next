@@ -2,13 +2,6 @@
 
 import { FC } from 'react';
 
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipPortal,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
-
 import { cn } from '@/utils/cn';
 
 interface Segment {
@@ -32,34 +25,18 @@ const StatusProgressBar: FC<Props> = ({ segments, hoveredStatus }) => {
             {segments.map(
                 (segment) =>
                     segment.count > 0 && (
-                        <Tooltip
-                            key={segment.status}
-                            open={hoveredStatus === segment.status || undefined}
-                        >
-                            <TooltipTrigger asChild>
-                                <div
-                                    className={cn(
-                                        'min-w-2 rounded-xs transition-opacity',
-                                        `bg-${segment.status}-foreground`,
-                                        hoveredStatus &&
-                                            hoveredStatus !== segment.status &&
-                                            'opacity-30',
-                                    )}
-                                    style={{
-                                        width: `${(segment.count / total) * 100}%`,
-                                    }}
-                                />
-                            </TooltipTrigger>
-                            <TooltipPortal>
-                                <TooltipContent>
-                                    {segment.label}{' '}
-                                    {Math.round(
-                                        (segment.count / total) * 100,
-                                    )}
-                                    %
-                                </TooltipContent>
-                            </TooltipPortal>
-                        </Tooltip>
+                        <div
+                            className={cn(
+                                'min-w-2 rounded-xs transition-opacity',
+                                `bg-${segment.status}-foreground`,
+                                hoveredStatus &&
+                                    hoveredStatus !== segment.status &&
+                                    'opacity-30',
+                            )}
+                            style={{
+                                width: `${(segment.count / total) * 100}%`,
+                            }}
+                        />
                     ),
             )}
         </div>
