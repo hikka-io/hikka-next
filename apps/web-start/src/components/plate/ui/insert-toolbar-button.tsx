@@ -218,10 +218,7 @@ export function InsertToolbarButton(
                 </ToolbarButton>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent
-                className="flex min-w-0 flex-col overflow-y-auto"
-                align="start"
-            >
+            <DropdownMenuContent className="w-52" align="start">
                 {groups.map(({ group, items: nestedItems }) => (
                     <ToolbarMenuGroup key={group} label={group}>
                         {nestedItems.map(({ icon, label, value, onSelect }) => {
@@ -230,7 +227,6 @@ export function InsertToolbarButton(
                             return (
                                 <DropdownMenuItem
                                     key={value}
-                                    className="min-w-45"
                                     disabled={disabled}
                                     onSelect={() => {
                                         onSelect(editor, value);

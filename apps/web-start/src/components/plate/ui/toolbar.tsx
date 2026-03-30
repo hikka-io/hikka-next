@@ -7,6 +7,7 @@ import { ChevronDown } from 'lucide-react';
 import * as React from 'react';
 
 import {
+    DropdownMenuGroup,
     DropdownMenuLabel,
     DropdownMenuRadioGroup,
     DropdownMenuSeparator,
@@ -158,7 +159,7 @@ export const ToolbarButton = withTooltip(function ToolbarButton({
                         </div>
                         <div>
                             <ChevronDown
-                                className="text-muted-foreground size-3.5"
+                                className="text-muted-foreground size-4"
                                 data-icon
                             />
                         </div>
@@ -381,21 +382,17 @@ export function ToolbarMenuGroup({
                 )}
             />
 
-            <DropdownMenuRadioGroup
+            <DropdownMenuGroup
                 {...props}
                 className={cn(
                     'hidden',
-                    'peer/menu-group group/menu-group my-1.5 has-[[role=menuitem]]:block has-[[role=menuitemradio]]:block has-[[role=option]]:block',
+                    'peer/menu-group group/menu-group  has-[[role=menuitem]]:block has-[[role=menuitemradio]]:block has-[[role=option]]:block',
                     className,
                 )}
             >
-                {label && (
-                    <DropdownMenuLabel className="text-muted-foreground text-xs font-semibold select-none">
-                        {label}
-                    </DropdownMenuLabel>
-                )}
+                {label && <DropdownMenuLabel>{label}</DropdownMenuLabel>}
                 {children}
-            </DropdownMenuRadioGroup>
+            </DropdownMenuGroup>
         </>
     );
 }
