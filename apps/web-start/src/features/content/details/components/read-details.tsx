@@ -56,7 +56,7 @@ const SynonymsTrigger = ({
             <DetailItem icon={<BookType className="size-4" />} title="Синоніми">
                 <button
                     type="button"
-                    className="line-clamp-2 cursor-pointer text-right text-sm leading-tight font-medium hover:underline"
+                    className="line-clamp-2 text-right cursor-pointer w-fit text-sm leading-tight font-medium hover:underline"
                     onClick={() => setOpen(true)}
                 >
                     {synonyms.join(', ')}
