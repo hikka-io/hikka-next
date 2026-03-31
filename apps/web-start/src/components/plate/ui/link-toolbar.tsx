@@ -23,6 +23,7 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 
 import { buttonVariants } from '@/components/ui/button';
+import { usePortalContainer } from '@/components/ui/portal-container-context';
 import { Separator } from '@/components/ui/separator';
 
 import { useLinkDialogContext } from './link-dialog';
@@ -33,6 +34,7 @@ const popoverVariants = cva(
 
 export function LinkFloatingToolbar() {
     const { openEdit } = useLinkDialogContext();
+    const portalContainer = usePortalContainer();
 
     const activeCommentId = usePluginOption({ key: KEYS.comment }, 'activeId');
     const activeSuggestionId = usePluginOption(
@@ -96,7 +98,7 @@ export function LinkFloatingToolbar() {
                 </button>
             </div>
         </div>,
-        document.body,
+        portalContainer ?? document.body,
     );
 }
 

@@ -1,4 +1,5 @@
 'use client';
+'use no memo';
 
 import type { Emoji } from '@emoji-mart/data';
 import {
@@ -30,6 +31,7 @@ import * as React from 'react';
 
 import { ToolbarButton } from '@/components/plate/ui/toolbar';
 import { Button } from '@/components/ui/button';
+import { usePortalContainer } from '@/components/ui/portal-container-context';
 import {
     Tooltip,
     TooltipContent,
@@ -115,11 +117,13 @@ export function EmojiPopover({
     isOpen: boolean;
     setIsOpen: (open: boolean) => void;
 }) {
+    const portalContainer = usePortalContainer();
+
     return (
         <Popover.Root open={isOpen} onOpenChange={setIsOpen}>
             <Popover.Trigger asChild>{control}</Popover.Trigger>
 
-            <Popover.Portal>
+            <Popover.Portal container={portalContainer ?? undefined}>
                 <Popover.Content className="z-100">{children}</Popover.Content>
             </Popover.Portal>
         </Popover.Root>
@@ -286,94 +290,6 @@ function EmojiPickerContent({
 >) {
     const getRowWidth = settings.perLine.value * settings.buttonSize.value;
 
-    const isCategoryVisible = React.useCallback(
-        (categoryId: any) => {
-            return visibleCategories.has(categoryId)
-                ? visibleCategories.get(categoryId)
-                : false;
-        },
-        [visibleCategories],
-    );
-
-    const EmojiList = React.useCallback(() => {
-        return emojiLibrary
-            .getGrid()
-            .sections()
-            .map(({ id: categoryId }) => {
-                const section = emojiLibrary.getGrid().section(categoryId);
-                const { buttonSize } = settings;
-
-                return (
-                    <div
-                        key={categoryId}
-                        ref={section.root}
-                        style={{ width: getRowWidth }}
-                        data-id={categoryId}
-                    >
-                        <div className="bg-popover/90 sticky -top-px z-1 p-1 py-2 text-sm font-semibold backdrop-blur-xs">
-                            {i18n.categories[categoryId]}
-                        </div>
-                        <div
-                            className="relative flex flex-wrap"
-                            style={{
-                                height:
-                                    section.getRows().length * buttonSize.value,
-                            }}
-                        >
-                            {isCategoryVisible(categoryId) &&
-                                section
-                                    .getRows()
-                                    .map((row: GridRow) => (
-                                        <RowOfButtons
-                                            key={row.id}
-                                            onMouseOver={onMouseOver}
-                                            onSelectEmoji={onSelectEmoji}
-                                            emojiLibrary={emojiLibrary}
-                                            row={row}
-                                        />
-                                    ))}
-                        </div>
-                    </div>
-                );
-            });
-    }, [
-        emojiLibrary,
-        getRowWidth,
-        i18n.categories,
-        isCategoryVisible,
-        onSelectEmoji,
-        onMouseOver,
-        settings,
-    ]);
-
-    const SearchList = React.useCallback(() => {
-        return (
-            <div style={{ width: getRowWidth }} data-id="search">
-                <div className="bg-popover/90 sticky -top-px z-1 p-1 py-2 text-sm font-semibold backdrop-blur-xs">
-                    {i18n.searchResult}
-                </div>
-                <div className="relative flex flex-wrap">
-                    {searchResult.map((emoji: Emoji, index: number) => (
-                        <EmojiButton
-                            key={emoji.id}
-                            onMouseOver={onMouseOver}
-                            onSelect={onSelectEmoji}
-                            emoji={emojiLibrary.getEmoji(emoji.id)}
-                            index={index}
-                        />
-                    ))}
-                </div>
-            </div>
-        );
-    }, [
-        emojiLibrary,
-        getRowWidth,
-        i18n.searchResult,
-        searchResult,
-        onSelectEmoji,
-        onMouseOver,
-    ]);
-
     return (
         <div
             ref={refs.current.contentRoot}
@@ -387,7 +303,76 @@ function EmojiPickerContent({
             data-id="scroll"
         >
             <div ref={refs.current.content} className="h-full">
-                {isSearching ? SearchList() : EmojiList()}
+                {isSearching ? (
+                    <div style={{ width: getRowWidth }} data-id="search">
+                        <div className="bg-popover/90 sticky -top-px z-1 p-1 py-2 text-sm font-semibold backdrop-blur-xs">
+                            {i18n.searchResult}
+                        </div>
+                        <div className="relative flex flex-wrap">
+                            {searchResult.map(
+                                (emoji: Emoji, index: number) => (
+                                    <EmojiButton
+                                        key={emoji.id}
+                                        onMouseOver={onMouseOver}
+                                        onSelect={onSelectEmoji}
+                                        emoji={emojiLibrary.getEmoji(emoji.id)}
+                                        index={index}
+                                    />
+                                ),
+                            )}
+                        </div>
+                    </div>
+                ) : (
+                    emojiLibrary
+                        .getGrid()
+                        .sections()
+                        .map(({ id: categoryId }) => {
+                            const section = emojiLibrary
+                                .getGrid()
+                                .section(categoryId);
+                            const { buttonSize } = settings;
+
+                            return (
+                                <div
+                                    key={categoryId}
+                                    ref={section.root}
+                                    style={{ width: getRowWidth }}
+                                    data-id={categoryId}
+                                >
+                                    <div className="bg-popover/90 sticky -top-px z-1 p-1 py-2 text-sm font-semibold backdrop-blur-xs">
+                                        {i18n.categories[categoryId]}
+                                    </div>
+                                    <div
+                                        className="relative flex flex-wrap"
+                                        style={{
+                                            height:
+                                                section.getRows().length *
+                                                buttonSize.value,
+                                        }}
+                                    >
+                                        {visibleCategories.get(categoryId) &&
+                                            section
+                                                .getRows()
+                                                .map((row: GridRow) => (
+                                                    <RowOfButtons
+                                                        key={row.id}
+                                                        onMouseOver={
+                                                            onMouseOver
+                                                        }
+                                                        onSelectEmoji={
+                                                            onSelectEmoji
+                                                        }
+                                                        emojiLibrary={
+                                                            emojiLibrary
+                                                        }
+                                                        row={row}
+                                                    />
+                                                ))}
+                                    </div>
+                                </div>
+                            );
+                        })
+                )}
             </div>
         </div>
     );
