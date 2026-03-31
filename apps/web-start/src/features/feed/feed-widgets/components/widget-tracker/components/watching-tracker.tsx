@@ -185,7 +185,11 @@ const WatchingTracker = () => {
                                 />
                             </TooltipTrigger>
                             <TooltipContent className="max-w-48 truncate">
-                                {getTitle(item.anime, defaultOptions?.title, defaultOptions?.name)}
+                                {getTitle(
+                                    item.anime,
+                                    defaultOptions?.title,
+                                    defaultOptions?.name,
+                                )}
                             </TooltipContent>
                         </Tooltip>
                     ))}
@@ -197,7 +201,13 @@ const WatchingTracker = () => {
                             className="w-fit flex-1"
                             to={`/anime/${selectedWatch.anime.slug}`}
                         >
-                            <h5>{getTitle(selectedWatch.anime, defaultOptions?.title, defaultOptions?.name)}</h5>
+                            <h5>
+                                {getTitle(
+                                    selectedWatch.anime,
+                                    defaultOptions?.title,
+                                    defaultOptions?.name,
+                                )}
+                            </h5>
                             <div className="mt-1 flex cursor-pointer items-center gap-2">
                                 {selectedWatch.anime.year && (
                                     <Label className="text-muted-foreground cursor-pointer text-xs">
@@ -294,7 +304,11 @@ const WatchingTracker = () => {
                     <ResponsiveModalContent className="md:max-w-xl">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
-                                {getTitle(selectedWatch.anime, defaultOptions?.title, defaultOptions?.name)}
+                                {getTitle(
+                                    selectedWatch.anime,
+                                    defaultOptions?.title,
+                                    defaultOptions?.name,
+                                )}
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <WatchEditModal

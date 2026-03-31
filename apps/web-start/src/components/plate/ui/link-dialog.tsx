@@ -149,7 +149,7 @@ const LinkDialogForm: FC<LinkDialogFormProps> = ({
 
     return (
         <Form {...form}>
-            <div className="flex w-full flex-col gap-6">
+            <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
                 <FormInput
                     name="url"
                     label="Посилання"
@@ -198,7 +198,7 @@ export function LinkDialog({
     onSubmit,
 }: LinkDialogProps) {
     return (
-        <ResponsiveModal open={open} onOpenChange={onOpenChange}>
+        <ResponsiveModal open={open} onOpenChange={onOpenChange} forceDesktop>
             <ResponsiveModalContent className="md:max-w-md" title="Посилання">
                 <LinkDialogForm
                     key={open ? 'open' : 'closed'}
