@@ -90,6 +90,7 @@ const CommentList: FC<Props> = ({
                 <HeaderNavButton />
             </Header>
             <CommentsProvider>
+                <CommentInput slug={slug} content_type={content_type} />
                 <div className="flex flex-col gap-4">
                     {!loggedUser && (
                         <NotFound

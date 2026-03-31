@@ -65,7 +65,14 @@ const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
                             isOpen={isModalOpen}
                         />
                     </SheetTrigger>
-                    <SheetContent side="bottom" className="top-(--visual-viewport-offset-top,0px)! bottom-auto! h-(--visual-viewport-height,100dvh)!">
+                    <SheetContent
+                        side="bottom"
+                        className="top-(--visual-viewport-offset-top,0px)! bottom-auto! h-(--visual-viewport-height,100dvh)!"
+                        onOpenAutoFocus={(e) => {
+                            e.preventDefault();
+                            editor.tf.focus();
+                        }}
+                    >
                         <SheetHeader>
                             <SheetTitle>Коментар</SheetTitle>
                         </SheetHeader>
@@ -91,10 +98,7 @@ const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
 
             {!isMobile && (
                 <EditorContainer className={cn(className)}>
-                    <Editor
-                        variant="comment"
-                        placeholder={placeholder}
-                    />
+                    <Editor variant="comment" placeholder={placeholder} />
                     <CommentInputBottomBar
                         comment={comment}
                         isEdit={isEdit}
