@@ -5,7 +5,14 @@ import {
     MangaInfoResponse,
     NovelInfoResponse,
 } from '@hikka/client';
-import { BookType, Building2, CircleDashed, Hash, Play } from 'lucide-react';
+import {
+    BookType,
+    Building2,
+    Calendar,
+    CircleDashed,
+    Hash,
+    Play,
+} from 'lucide-react';
 import { Fragment } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -18,6 +25,7 @@ import {
     NOVEL_MEDIA_TYPE,
     RELEASE_STATUS,
 } from '@/utils/constants/common';
+import { Link } from '@/utils/navigation';
 
 import DetailItem from './detail-item';
 
@@ -61,6 +69,23 @@ const ReadDetails = ({
                 >
                     {data.status && <StatusBadge status={data.status} />}
                 </DetailItem>
+
+                {!!data.year && (
+                    <DetailItem
+                        title="Рік"
+                        icon={<Calendar className="size-4" />}
+                    >
+                        <Link
+                            className="hover:underline line-clamp-1 text-sm font-medium"
+                            to={`/${data.data_type}`}
+                            search={{
+                                years: [data.year, data.year],
+                            }}
+                        >
+                            {data.year}
+                        </Link>
+                    </DetailItem>
+                )}
             </div>
 
             {/* Chapters Info Section */}

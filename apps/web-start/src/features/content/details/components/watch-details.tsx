@@ -5,13 +5,13 @@ import { format, formatDuration, intervalToDuration } from 'date-fns';
 import {
     BookType,
     Building2,
+    Calendar,
     CalendarClock,
     CircleDashed,
     Clock8,
     Hash,
     Play,
     ShieldEllipsis,
-    SunSnow,
 } from 'lucide-react';
 import { Fragment } from 'react';
 
@@ -164,8 +164,8 @@ const WatchDetails = ({
 
                 {seasonLabel && (
                     <DetailItem
-                        title="Сезон"
-                        icon={<SunSnow className="size-4" />}
+                        title="Сезон/рік"
+                        icon={<Calendar className="size-4" />}
                     >
                         <Link
                             className="hover:underline line-clamp-1 text-sm font-medium"
