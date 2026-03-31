@@ -23,6 +23,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
+import { PortalContainerProvider } from '@/components/ui/portal-container-context';
 import { cn } from '@/utils/cn';
 
 import { SEARCH_TYPE_ALL, SearchTypeValue } from '../types';
@@ -114,22 +115,23 @@ const SearchToggle: FC<Props> = ({
         : SEARCH_TYPES;
 
     return (
-        <Select
-            disabled={disabled}
-            value={type ? [type] : undefined}
-            onValueChange={handleOnValueChange}
-        >
-            <SelectTrigger
-                className={cn(
-                    buttonVariants({ variant: 'outline', size: 'sm' }),
-                    'h-8',
-                )}
-                asChild
+        <PortalContainerProvider value={null}>
+            <Select
+                disabled={disabled}
+                value={type ? [type] : undefined}
+                onValueChange={handleOnValueChange}
             >
-                <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectList>
+                <SelectTrigger
+                    className={cn(
+                        buttonVariants({ variant: 'outline', size: 'sm' }),
+                        'h-8',
+                    )}
+                    asChild
+                >
+                    <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectList>
                     {Object.entries(GROUP_LABELS).map(
                         ([group, label], index) => {
                             const items = filteredTypes.filter(
@@ -157,8 +159,9 @@ const SearchToggle: FC<Props> = ({
                         },
                     )}
                 </SelectList>
-            </SelectContent>
-        </Select>
+                </SelectContent>
+            </Select>
+        </PortalContainerProvider>
     );
 };
 
