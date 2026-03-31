@@ -8,7 +8,7 @@
         "node": ">=20.15.0"
     },
     "scripts": {
-        "dev": "vite dev --port 3000",
+        "dev": "vite dev --port 3000 --host",
         "build": "vite build",
         "preview": "vite preview --port 3000",
         "start": "node .output/server/index.mjs",

@@ -5,6 +5,7 @@ import { Dialog as DialogPrimitive } from 'radix-ui';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
+import { PortalContainerProvider } from '@/components/ui/portal-container-context';
 
 import { cn } from '@/utils/cn';
 
@@ -56,10 +57,13 @@ function DialogContent({
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
     showCloseButton?: boolean;
 }) {
+    const [container, setContainer] = React.useState<HTMLElement | null>(null);
+
     return (
         <DialogPortal>
             <DialogOverlay />
             <DialogPrimitive.Content
+                ref={setContainer}
                 data-slot="dialog-content"
                 className={cn(
                     'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 ring-foreground/10 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(var(--visual-viewport-height,100dvh)-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-hidden rounded-xl p-4 text-sm ring-1 duration-200 outline-none md:max-w-sm',
@@ -67,7 +71,9 @@ function DialogContent({
                 )}
                 {...props}
             >
-                {children}
+                <PortalContainerProvider value={container}>
+                    {children}
+                </PortalContainerProvider>
                 {showCloseButton && (
                     <DialogPrimitive.Close data-slot="dialog-close" asChild>
                         <Button

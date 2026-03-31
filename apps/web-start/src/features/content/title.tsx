@@ -30,16 +30,7 @@ const Title = ({ className, content_type }: TitleProps) => {
         <div className={cn('flex flex-col gap-4', className)}>
             <div className="flex flex-col items-start justify-between gap-4 lg:flex-row">
                 <div>
-                    <h2>
-                        {title}{' '}
-                        {data.start_date && (
-                            <span className="font-sans font-normal">
-                                (
-                                {new Date(data.start_date * 1000).getFullYear()}
-                                )
-                            </span>
-                        )}
-                    </h2>
+                    <h2>{title}</h2>
 
                     <p className="text-muted-foreground text-sm">
                         {data.data_type === ContentTypeEnum.ANIME

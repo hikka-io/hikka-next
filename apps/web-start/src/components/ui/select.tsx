@@ -11,6 +11,8 @@ import { Popover as PopoverPrimitive } from 'radix-ui';
 import React, { FC, Fragment, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
+import { usePortalContainer } from '@/components/ui/portal-container-context';
+
 import { cn } from '@/utils/cn';
 
 import { Badge } from './badge';
@@ -568,6 +570,7 @@ const SelectContent = React.forwardRef<
     SelectContentProps
 >(({ className, children, ...props }, ref) => {
     const context = useSelect();
+    const portalContainer = usePortalContainer();
 
     const fragmentRef = React.useRef<DocumentFragment | null>(null);
 
@@ -588,7 +591,7 @@ const SelectContent = React.forwardRef<
     }
 
     return (
-        <PopoverPrimitive.Portal>
+        <PopoverPrimitive.Portal container={portalContainer}>
             <PopoverPrimitive.Content
                 ref={ref}
                 align="start"

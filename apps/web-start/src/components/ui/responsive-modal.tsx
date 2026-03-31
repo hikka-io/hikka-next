@@ -173,7 +173,7 @@ function ResponsiveModalContent({
     if (!isDesktop) {
         return (
             <DrawerContent
-                className={cn('max-h-[90dvh]', className)}
+                className={cn('max-h-[calc(var(--visual-viewport-height,100dvh)*0.9)]', className)}
                 onPointerDownOutside={onPointerDownOutside}
                 onEscapeKeyDown={onEscapeKeyDown}
                 onInteractOutside={onInteractOutside}
