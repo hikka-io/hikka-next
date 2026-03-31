@@ -1,6 +1,7 @@
 'use client';
 
 import { AnimeInfoResponse, AnimeStatusEnum } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { format, formatDuration, intervalToDuration } from 'date-fns';
 import {
     BookType,
@@ -13,7 +14,7 @@ import {
     Play,
     ShieldEllipsis,
 } from 'lucide-react';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
@@ -35,6 +36,7 @@ import { getScheduleDuration } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
 
 import DetailItem from './detail-item';
+import SynonymsModal from './synonyms-modal';
 
 // Utility functions
 const formatEpisodeDuration = (duration: number) =>
@@ -125,6 +127,36 @@ const StatusBadge = ({ status }: { status: string }) => (
     </Badge>
 );
 
+const SynonymsTrigger = ({
+    synonyms,
+    title,
+}: {
+    synonyms: string[];
+    title?: string;
+}) => {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <>
+            <DetailItem icon={<BookType className="size-4" />} title="Синоніми">
+                <button
+                    type="button"
+                    className="line-clamp-2 cursor-pointer text-right text-sm leading-tight font-medium hover:underline"
+                    onClick={() => setOpen(true)}
+                >
+                    {synonyms.join(', ')}
+                </button>
+            </DetailItem>
+            <SynonymsModal
+                description={title}
+                synonyms={synonyms}
+                open={open}
+                onOpenChange={setOpen}
+            />
+        </>
+    );
+};
+
 const WatchDetails = ({
     className,
     data,
@@ -132,6 +164,8 @@ const WatchDetails = ({
     className?: string;
     data: AnimeInfoResponse;
 }) => {
+    const title = useTitle(data);
+
     const nextEpisodeSchedule = data.schedule.find(
         (s) => s.airing_at * 1000 > Date.now(),
     );
@@ -243,10 +277,9 @@ const WatchDetails = ({
                 <Fragment>
                     <Separator />
                     <div className="flex flex-col gap-4 px-4">
-                        <DetailItem
-                            icon={<BookType className="size-4" />}
-                            title="Синоніми"
-                            value={data.synonyms}
+                        <SynonymsTrigger
+                            title={title}
+                            synonyms={data.synonyms}
                         />
                     </div>
                 </Fragment>

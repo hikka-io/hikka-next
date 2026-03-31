@@ -5,6 +5,7 @@ import {
     MangaInfoResponse,
     NovelInfoResponse,
 } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import {
     BookType,
     Building2,
@@ -13,7 +14,7 @@ import {
     Hash,
     Play,
 } from 'lucide-react';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
@@ -28,6 +29,7 @@ import {
 import { Link } from '@/utils/navigation';
 
 import DetailItem from './detail-item';
+import SynonymsModal from './synonyms-modal';
 
 const StatusBadge = ({ status }: { status: string }) => (
     <Badge
@@ -40,6 +42,36 @@ const StatusBadge = ({ status }: { status: string }) => (
     </Badge>
 );
 
+const SynonymsTrigger = ({
+    synonyms,
+    title,
+}: {
+    synonyms: string[];
+    title?: string;
+}) => {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <>
+            <DetailItem icon={<BookType className="size-4" />} title="Синоніми">
+                <button
+                    type="button"
+                    className="line-clamp-2 cursor-pointer text-right text-sm leading-tight font-medium hover:underline"
+                    onClick={() => setOpen(true)}
+                >
+                    {synonyms.join(', ')}
+                </button>
+            </DetailItem>
+            <SynonymsModal
+                description={title}
+                synonyms={synonyms}
+                open={open}
+                onOpenChange={setOpen}
+            />
+        </>
+    );
+};
+
 const ReadDetails = ({
     className,
     data,
@@ -47,6 +79,8 @@ const ReadDetails = ({
     className?: string;
     data: MangaInfoResponse | NovelInfoResponse;
 }) => {
+    const title = useTitle(data);
+
     return (
         <Card className={cn('bg-secondary/20 px-0 backdrop-blur', className)}>
             {/* Basic Info Section */}
@@ -128,10 +162,9 @@ const ReadDetails = ({
                 <Fragment>
                     <Separator />
                     <div className="flex flex-col gap-4 px-4">
-                        <DetailItem
-                            icon={<BookType className="size-4" />}
-                            title="Синоніми"
-                            value={data.synonyms}
+                        <SynonymsTrigger
+                            title={title}
+                            synonyms={data.synonyms}
                         />
                     </div>
                 </Fragment>
