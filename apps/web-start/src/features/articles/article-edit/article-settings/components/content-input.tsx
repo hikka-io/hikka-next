@@ -25,7 +25,9 @@ interface Props {}
 const ContentInput: FC<Props> = () => {
     const content = useArticleContext((state) => state.content);
     const setContent = useArticleContext((state) => state.setContent);
-    const contentTitle = useTitle(content as unknown as Record<string, unknown> | undefined);
+    const contentTitle = useTitle(
+        content as unknown as Record<string, unknown> | undefined,
+    );
 
     return (
         <div className="flex flex-col gap-4">
@@ -72,7 +74,9 @@ const ContentInput: FC<Props> = () => {
                     }
                     type="button"
                 >
-                    <Button variant="secondary">Додати контент</Button>
+                    <Button variant="secondary" size="md">
+                        Додати контент
+                    </Button>
                 </SearchModal>
             )}
         </div>

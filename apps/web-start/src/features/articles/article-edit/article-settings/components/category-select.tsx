@@ -52,7 +52,7 @@ const CategorySelect: FC<Props> = () => {
                         setCategory(value[0])
                     }
                 >
-                    <SelectTrigger>
+                    <SelectTrigger size="md">
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
