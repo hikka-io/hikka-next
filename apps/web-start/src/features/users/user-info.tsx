@@ -97,7 +97,7 @@ const UserInfo = () => {
                 className="absolute top-0 left-0 size-full opacity-0"
                 accept="image/*"
             />
-            <div className="group relative z-1 size-32 overflow-hidden rounded-lg pt-[100%] lg:size-40">
+            <div className="group relative z-1 size-26 overflow-hidden rounded-lg pt-[100%] lg:size-40">
                 <div className="absolute top-0 w-full rounded-lg">
                     <Link to={`/u/${user.username}`}>
                         <Image

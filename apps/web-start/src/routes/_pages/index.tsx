@@ -16,6 +16,7 @@ import {
     searchAnimeScheduleOptions,
     searchAnimesOptions,
     searchUserWatchesOptions,
+    userFollowStatsOptions,
     userWatchStatsOptions,
 } from '@hikka/react/options';
 import { createFileRoute } from '@tanstack/react-router';
@@ -83,6 +84,11 @@ export const Route = createFileRoute('/_pages/')({
                 queryClient.ensureQueryData(
                     readStatsOptions(hikkaClient, {
                         contentType: ContentTypeEnum.NOVEL,
+                        username: loggedUser.username,
+                    }),
+                ),
+                queryClient.ensureQueryData(
+                    userFollowStatsOptions(hikkaClient, {
                         username: loggedUser.username,
                     }),
                 ),

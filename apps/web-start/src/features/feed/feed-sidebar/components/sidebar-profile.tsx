@@ -7,21 +7,27 @@ import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+} from '@/components/ui/responsive-modal';
 
 import { LoginButton } from '@/features/common';
+import FollowListModal from '@/features/users/followlist-modal';
 
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { Link } from '@/utils/navigation';
 
 const SidebarProfile = () => {
-    const { user: loggedUser } = useSession();
     const [open, setOpen] = useState(false);
     const [followType, setFollowType] = useState<'followers' | 'followings'>(
         'followers',
     );
-    const { data: followStats } = useUserFollowStats({
-        username: String(loggedUser?.username),
-    });
+    useCloseOnRouteChange(setOpen);
     const { user } = useSession();
+    const { data: followStats } = useUserFollowStats({
+        username: String(user?.username),
+    });
 
     if (!user || !followStats) {
         return (
@@ -39,45 +45,78 @@ const SidebarProfile = () => {
     }
 
     return (
-        <Card className="bg-secondary/20 hidden items-center backdrop-blur-lg xl:flex">
-            <div className="flex w-full items-center justify-between gap-2">
-                <div className="flex items-center gap-4">
-                    <Link to={`/u/${user.username}`}>
-                        <Avatar className="size-12 rounded-lg">
-                            <AvatarImage src={user.avatar} />
-                            <AvatarFallback className="rounded-lg">
-                                {user.username[0]}
-                            </AvatarFallback>
-                        </Avatar>
-                    </Link>
-                    <div className="flex flex-col gap-2">
-                        <Link
-                            to={`/u/${user.username}`}
-                            className="text-sm font-bold hover:underline"
-                        >
-                            {user.username}
+        <>
+            <Card className="bg-secondary/20 hidden items-center xl:flex backdrop-blur-xl">
+                <div className="flex w-full items-center justify-between gap-2">
+                    <div className="flex items-center gap-4">
+                        <Link to={`/u/${user.username}`}>
+                            <Avatar className="size-12 rounded-lg">
+                                <AvatarImage src={user.avatar} />
+                                <AvatarFallback className="rounded-lg">
+                                    {user.username[0]}
+                                </AvatarFallback>
+                            </Avatar>
                         </Link>
+                        <div className="flex flex-col gap-2">
+                            <Link
+                                to={`/u/${user.username}`}
+                                className="text-sm font-bold hover:underline"
+                            >
+                                {user.username}
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="flex gap-2">
+                        <Button variant="outline" size="icon-md" asChild>
+                            <Link to="/settings">
+                                <Settings />
+                            </Link>
+                        </Button>
                     </div>
                 </div>
-                <div className="flex gap-2">
-                    <Button variant="outline" size="icon-md" asChild>
-                        <Link to="/settings">
-                            <Settings />
-                        </Link>
-                    </Button>
+                <div className="flex h-full w-full items-center gap-4">
+                    <button
+                        onClick={() => {
+                            setFollowType('followers');
+                            setOpen(true);
+                        }}
+                        className="flex cursor-pointer gap-1 text-sm hover:underline"
+                    >
+                        <span className="font-bold">
+                            {followStats.followers}
+                        </span>
+                        <span className="text-muted-foreground">стежать</span>
+                    </button>
+                    <button
+                        onClick={() => {
+                            setFollowType('followings');
+                            setOpen(true);
+                        }}
+                        className="flex cursor-pointer gap-1 text-sm hover:underline"
+                    >
+                        <span className="font-bold">
+                            {followStats.following}
+                        </span>
+                        <span className="text-muted-foreground">
+                            відстежується
+                        </span>
+                    </button>
                 </div>
-            </div>
-            <div className="flex h-full w-full items-center gap-4">
-                <p className="flex gap-1 text-sm">
-                    <span className="font-bold">{followStats?.followers}</span>
-                    <span className="text-muted-foreground">стежать</span>
-                </p>
-                <p className="flex  gap-1 text-sm">
-                    <span className="font-bold">{followStats?.following}</span>
-                    <span className="text-muted-foreground">відстежується</span>
-                </p>
-            </div>
-        </Card>
+            </Card>
+            <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
+                <ResponsiveModalContent
+                    side="right"
+                    title={
+                        followType === 'followers' ? 'Стежать' : 'Відстежується'
+                    }
+                >
+                    <FollowListModal
+                        type={followType}
+                        username={user.username}
+                    />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
     );
 };
 

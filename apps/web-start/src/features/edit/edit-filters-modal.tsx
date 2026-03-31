@@ -3,12 +3,12 @@ import { ReactNode } from 'react';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { Button } from '@/components/ui/button';
 import {
-    Drawer,
-    DrawerContent,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from '@/components/ui/drawer';
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from '@/components/ui/sheet';
 
 import { EditFilters } from '@/features/edit';
 
@@ -18,22 +18,22 @@ interface Props {
 
 const EditFiltersModal = ({ children }: Props) => {
     return (
-        <Drawer>
-            <DrawerTrigger asChild>
+        <Sheet>
+            <SheetTrigger asChild>
                 {children || (
                     <Button variant="outline" size="sm">
                         <AntDesignFilterFilled />
                         Фільтри
                     </Button>
                 )}
-            </DrawerTrigger>
-            <DrawerContent className="h-[90dvh]">
-                <DrawerHeader>
-                    <DrawerTitle>Фільтри</DrawerTitle>
-                </DrawerHeader>
+            </SheetTrigger>
+            <SheetContent className="h-[90dvh]">
+                <SheetHeader>
+                    <SheetTitle>Фільтри</SheetTitle>
+                </SheetHeader>
                 <EditFilters className="overflow-hidden" />
-            </DrawerContent>
-        </Drawer>
+            </SheetContent>
+        </Sheet>
     );
 };
 

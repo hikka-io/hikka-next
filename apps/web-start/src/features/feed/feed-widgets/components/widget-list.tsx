@@ -14,7 +14,7 @@ const WidgetList = () => {
     return (
         <div
             className={cn(
-                'no-scrollbar flex w-full min-w-0 snap-x snap-mandatory gap-8 overflow-x-auto',
+                'no-scrollbar flex w-full min-w-0 gap-8 overflow-x-auto',
                 'px-4 lg:snap-none lg:flex-col lg:overflow-visible lg:px-0',
             )}
         >
@@ -24,7 +24,7 @@ const WidgetList = () => {
                 return (
                     <div
                         key={widgetId}
-                        className="w-full shrink-0 snap-center overflow-hidden"
+                        className="w-full shrink-0 overflow-hidden"
                     >
                         <Component />
                     </div>

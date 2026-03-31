@@ -10,20 +10,22 @@ import FollowUserItem from './components/follow-user-item';
 
 interface Props {
     type: 'followers' | 'followings';
+    username?: string;
 }
 
-const FollowlistModal = ({ type }: Props) => {
+const FollowlistModal = ({ type, username }: Props) => {
     const params = useParams();
+    const resolvedUsername = username ?? String(params.username);
 
     const followersQuery = useUserFollowers({
-        username: String(params.username),
+        username: resolvedUsername,
         options: {
             enabled: type === 'followers',
         },
     });
 
     const followingsQuery = useUserFollowings({
-        username: String(params.username),
+        username: resolvedUsername,
         options: {
             enabled: type === 'followings',
         },

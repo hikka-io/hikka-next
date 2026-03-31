@@ -4,12 +4,12 @@ import { ReactNode } from 'react';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { Button } from '@/components/ui/button';
 import {
-    Drawer,
-    DrawerContent,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from '@/components/ui/drawer';
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from '@/components/ui/sheet';
 
 import { ReadFilters } from '@/features/read';
 
@@ -21,26 +21,26 @@ interface Props {
 
 const ReadFiltersModal = ({ sort_type, content_type, children }: Props) => {
     return (
-        <Drawer>
-            <DrawerTrigger asChild>
+        <Sheet>
+            <SheetTrigger asChild>
                 {children || (
                     <Button variant="outline" size="sm">
                         <AntDesignFilterFilled />
                         Фільтри
                     </Button>
                 )}
-            </DrawerTrigger>
-            <DrawerContent className="h-[90dvh]">
-                <DrawerHeader>
-                    <DrawerTitle>Фільтри</DrawerTitle>
-                </DrawerHeader>
+            </SheetTrigger>
+            <SheetContent>
+                <SheetHeader>
+                    <SheetTitle>Фільтри</SheetTitle>
+                </SheetHeader>
                 <ReadFilters
                     content_type={content_type}
                     sort_type={sort_type}
                     className="overflow-hidden"
                 />
-            </DrawerContent>
-        </Drawer>
+            </SheetContent>
+        </Sheet>
     );
 };
 

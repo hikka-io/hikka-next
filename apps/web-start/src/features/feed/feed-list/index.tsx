@@ -75,18 +75,11 @@ const FeedList = () => {
                           <FeedItemSkeleton key={i} />
                       ))
                     : feedList?.map((item) => (
-                          <div
+                          <FeedItem
                               key={getFeedItemKey(item)}
-                              style={{
-                                  contentVisibility: 'auto',
-                                  containIntrinsicSize: '0 300px',
-                              }}
-                          >
-                              <FeedItem
-                                  item={item}
-                                  showTypeLabel={showTypeLabel}
-                              />
-                          </div>
+                              item={item}
+                              showTypeLabel={showTypeLabel}
+                          />
                       ))}
             </div>
 

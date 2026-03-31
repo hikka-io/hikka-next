@@ -49,7 +49,7 @@ const WidgetCalendar = () => {
     const todayItems = groupedByDay?.[todayKey];
 
     return (
-        <Card className="bg-secondary/20 snap-center p-0 backdrop-blur ">
+        <Card className="bg-secondary/20 p-0 backdrop-blur-xl">
             <Block className="w-full py-4">
                 <Header href="/schedule" className="px-4">
                     <HeaderContainer>
@@ -98,7 +98,11 @@ const WidgetCalendar = () => {
                                         isPrev && 'text-muted-foreground',
                                     )}
                                 >
-                                    {getTitle(item.anime, defaultOptions?.title, defaultOptions?.name)}
+                                    {getTitle(
+                                        item.anime,
+                                        defaultOptions?.title,
+                                        defaultOptions?.name,
+                                    )}
                                 </span>
                                 <span
                                     className={cn(
