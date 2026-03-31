@@ -21,6 +21,7 @@ import {
     SheetTrigger,
 } from '@/components/ui/sheet';
 
+import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
 import { cn } from '@/utils/cn';
 
 import { ArticleKit } from './article-kit';
@@ -97,6 +98,8 @@ export function PlateMarkdownEditor({
 }: PlateMarkdownEditorProps) {
     const { editor, isMobile, isModalOpen, setIsModalOpen, handleChange } =
         usePlateMarkdownSetup({ value, modalDefaultOpen });
+
+    useVisualViewportOffset(!!isModalOpen);
 
     if (isMobile === undefined) {
         return null;

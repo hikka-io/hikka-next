@@ -15,6 +15,7 @@ import {
     SheetTrigger,
 } from '@/components/ui/sheet';
 
+import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
 import { cn } from '@/utils/cn';
 
 import CommentInputBottomBar from './comment-input-bottom-bar';
@@ -33,6 +34,8 @@ const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
             value: isEdit && comment ? comment.text! : undefined,
             modalDefaultOpen: comment !== undefined,
         });
+
+    useVisualViewportOffset(!!isModalOpen);
 
     useEffect(() => {
         if (comment) {
