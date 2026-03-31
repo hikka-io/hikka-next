@@ -144,7 +144,7 @@ const SynonymsTrigger = ({
                     className="line-clamp-2 text-right cursor-pointer w-fit text-sm leading-tight font-medium hover:underline"
                     onClick={() => setOpen(true)}
                 >
-                    {synonyms.slice(0, 2).join(', ')}
+                    {synonyms.slice(0, 3).join(', ')}
                 </button>
             </DetailItem>
             <SynonymsModal
