@@ -1,6 +1,23 @@
-Ukrainian online anime encyclopedia. The entire list of anime, detailed content information, flexible and clean interface. Complete your own watch list, customize your profile and share with friends.
-
-[View Project](https://hikka.io) · [Report Bug](https://github.com/hikka-io/hikka-next/issues) · [Request Feature](https://github.com/hikka-io/hikka-next/issues) · [Backend](https://github.com/hikka-io/hikka)
+<div align="center">
+   <a href="https://github.com/hikka-io/hikka-next">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="apps/web-start/public/logo-dark.svg">
+  <img alt="Logo" src="apps/web-start/public/logo.svg" width="120" height="80">
+</picture>
+</a>
+  <p align="center">
+    Ukrainian online anime encyclopedia. The entire list of anime, detailed content information, flexible and clean interface. Complete your own watch list, customize your profile and share with friends.
+    <br />
+    <br />
+    <a href="https://hikka.io">View Project</a>
+    ·
+    <a href="https://github.com/hikka-io/hikka-next/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/hikka-io/hikka-next/issues">Request Feature</a>
+    ·
+    <a href="https://github.com/hikka-io/hikka">Backend</a>
+  </p>
+</div>
 
 ## About The Project
 
