@@ -1,10 +1,8 @@
 import {
-    AuthTokenInfoPaginationResponse,
-    AuthTokenInfoResponse,
-    ProviderUrlResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    authTokenDetailsOptions,
+    oAuthProviderUrlOptions,
+    thirdPartyTokenListOptions,
+} from '@/options/api/auth';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -20,10 +18,9 @@ import {
  */
 export async function prefetchAuthTokenDetails({
     ...rest
-}: PrefetchQueryParams<AuthTokenInfoResponse> = {}) {
+}: PrefetchQueryParams = {}) {
     return prefetchQuery({
-        queryKey: queryKeys.auth.tokenInfo(),
-        queryFn: (client) => client.auth.getAuthTokenDetails(),
+        optionsFactory: (client) => authTokenDetailsOptions(client),
         ...rest,
     });
 }
@@ -34,10 +31,10 @@ export async function prefetchAuthTokenDetails({
 export async function prefetchOAuthProviderUrl({
     provider,
     ...rest
-}: PrefetchQueryParams<ProviderUrlResponse> & UseOAuthProviderUrlParams) {
+}: PrefetchQueryParams & UseOAuthProviderUrlParams) {
     return prefetchQuery({
-        queryKey: queryKeys.auth.oauthUrl(provider),
-        queryFn: (client) => client.auth.getOAuthProviderUrl(provider),
+        optionsFactory: (client) =>
+            oAuthProviderUrlOptions(client, { provider }),
         ...rest,
     });
 }
@@ -48,15 +45,10 @@ export async function prefetchOAuthProviderUrl({
 export async function prefetchThirdPartyTokenList({
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<AuthTokenInfoPaginationResponse> &
-    UseThirdPartyTokenListParams) {
+}: PrefetchInfiniteQueryParams & UseThirdPartyTokenListParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.auth.thirdPartyTokens(paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.auth.getThirdPartyTokenList({
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            thirdPartyTokenListOptions(client, { paginationArgs }),
         ...rest,
     });
 }

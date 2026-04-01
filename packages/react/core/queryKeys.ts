@@ -302,6 +302,12 @@ export const queryKeys = {
             [...queryKeys.comments.all, 'thread', commentReference] as const,
     },
 
+    // Feed module keys
+    feed: {
+        all: ['feed'] as const,
+        list: (args: unknown) => [...queryKeys.feed.all, 'list', args] as const,
+    },
+
     // Follow module keys
     follow: {
         all: ['follow'] as const,

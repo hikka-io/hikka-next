@@ -1,10 +1,8 @@
 import {
-    ContentCharacterPaginationResponse,
-    MangaInfoResponse,
-    MangaPaginationResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    mangaBySlugOptions,
+    mangaCharactersOptions,
+    searchMangasOptions,
+} from '@/options/api/manga';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -22,10 +20,9 @@ import {
 export async function prefetchMangaBySlug({
     slug,
     ...rest
-}: PrefetchQueryParams<MangaInfoResponse> & UseMangaInfoParams) {
+}: PrefetchQueryParams & UseMangaInfoParams) {
     return prefetchQuery({
-        queryKey: queryKeys.manga.details(slug),
-        queryFn: (client) => client.manga.getMangaBySlug(slug),
+        optionsFactory: (client) => mangaBySlugOptions(client, { slug }),
         ...rest,
     });
 }
@@ -37,15 +34,10 @@ export async function prefetchMangaCharacters({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<ContentCharacterPaginationResponse> &
-    UseMangaCharactersParams) {
+}: PrefetchInfiniteQueryParams & UseMangaCharactersParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.manga.characters(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.manga.getMangaCharacters(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            mangaCharactersOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }
@@ -57,15 +49,10 @@ export async function prefetchSearchMangas({
     args,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<MangaPaginationResponse> &
-    UseSearchMangasParams) {
+}: PrefetchInfiniteQueryParams & UseSearchMangasParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.manga.search({ args, paginationArgs }),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.manga.searchMangas(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            searchMangasOptions(client, { args, paginationArgs }),
         ...rest,
     });
 }

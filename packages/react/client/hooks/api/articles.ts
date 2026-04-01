@@ -7,6 +7,7 @@ import {
     ArticlesTopResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
@@ -14,6 +15,11 @@ import {
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import {
+    articleBySlugOptions,
+    articleStatsOptions,
+    searchArticlesOptions,
+} from '@/options/api/articles';
 import { UseArticleParams, UseArticlesListParams } from '@/types/articles';
 
 /**
@@ -23,9 +29,9 @@ export function useArticleBySlug<TResult = ArticleDocumentResponse>({
     slug,
     ...rest
 }: UseArticleParams & QueryParams<ArticleDocumentResponse, TResult>) {
+    const { client } = useHikkaClient();
     return useQuery<ArticleDocumentResponse, Error, TResult>({
-        queryKey: queryKeys.articles.bySlug(slug),
-        queryFn: (client) => client.articles.getArticleBySlug(slug),
+        ...articleBySlugOptions(client, { slug }),
         ...rest,
     });
 }
@@ -62,9 +68,9 @@ export const useDeleteArticle = createMutation({
 export function useArticleStats({
     ...rest
 }: QueryParams<ArticlesTopResponse> = {}) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.articles.stats(),
-        queryFn: (client) => client.articles.getArticleStats(),
+        ...articleStatsOptions(client),
         ...rest,
     });
 }
@@ -77,13 +83,14 @@ export function useSearchArticles({
     paginationArgs,
     ...rest
 }: UseArticlesListParams & InfiniteQueryParams<ArticlesListResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        searchArticlesOptions(client, { args, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.articles.list(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.articles.searchArticles(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

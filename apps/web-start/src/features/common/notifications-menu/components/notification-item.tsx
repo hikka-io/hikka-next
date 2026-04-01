@@ -1,0 +1,74 @@
+'use client';
+
+import { useUpdateNotificationSeen } from '@hikka/react';
+import { formatDistance } from 'date-fns/formatDistance';
+import { FC } from 'react';
+
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardDescription,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '@/components/ui/horizontal-card';
+
+import { Link } from '@/utils/navigation';
+
+interface Props {
+    data: Hikka.TextNotification | null;
+}
+
+const NotificationItem: FC<Props> = ({ data }) => {
+    const { mutate: asSeen } = useUpdateNotificationSeen();
+
+    if (!data) {
+        return null;
+    }
+
+    const handleOnClick = () => {
+        if (!data.seen) {
+            asSeen(data.reference);
+        }
+    };
+
+    return (
+        <DropdownMenuItem
+            className="flex items-center gap-4 py-3"
+            onClick={handleOnClick}
+            asChild
+        >
+            <Link to={data.href}>
+                <HorizontalCard className="w-full">
+                    <HorizontalCardImage
+                        image={data.icon}
+                        imageRatio={1}
+                        imageClassName="overflow-visible"
+                        className="w-8"
+                        to={data.href}
+                    >
+                        {!data.seen && (
+                            <div className="border-border bg-warning-foreground absolute -right-0.5 -bottom-0.5 size-2 rounded-full border" />
+                        )}
+                    </HorizontalCardImage>
+                    <HorizontalCardContainer>
+                        <HorizontalCardTitle href={data.href}>
+                            {data.title}
+                        </HorizontalCardTitle>
+                        <HorizontalCardDescription className="line-clamp-2">
+                            {data.description}
+                        </HorizontalCardDescription>
+                        <HorizontalCardDescription className="opacity-60">
+                            {formatDistance(data.created * 1000, Date.now(), {
+                                addSuffix: true,
+                            })}
+                        </HorizontalCardDescription>
+                    </HorizontalCardContainer>
+                    {data.image && data.image}
+                </HorizontalCard>
+            </Link>
+        </DropdownMenuItem>
+    );
+};
+
+export default NotificationItem;

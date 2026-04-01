@@ -50,7 +50,7 @@ export interface NovelResponse {
  * Paginated novel response
  */
 export interface NovelPaginationResponse
-    extends PaginatedResponse<NovelResponse> { }
+    extends PaginatedResponse<NovelResponse> {}
 
 /**
  * Novel search parameters

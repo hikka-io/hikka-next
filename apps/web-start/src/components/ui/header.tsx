@@ -1,0 +1,192 @@
+'use client';
+
+import React, { FC, PropsWithChildren } from 'react';
+
+import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
+
+import { MaterialSymbolsArrowRightAltRounded } from '../icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
+import { Button } from './button';
+
+interface HorizontalCardContextProps {
+    href?: string;
+    to?: string;
+    search?: Record<string, unknown>;
+    onClick?: () => void;
+    linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
+}
+
+const HeaderContext = React.createContext<
+    HorizontalCardContextProps | undefined
+>(undefined);
+
+const useHeader = () => {
+    const context = React.useContext(HeaderContext);
+
+    if (!context) {
+        throw new Error('useHeader must be used within HeaderContext');
+    }
+
+    return context;
+};
+
+interface HeaderProps {
+    className?: string;
+    href?: string;
+    to?: string;
+    search?: Record<string, unknown>;
+    linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
+    onClick?: () => void;
+    id?: string;
+}
+
+const Header: FC<PropsWithChildren<HeaderProps>> = ({
+    className,
+    children,
+    href,
+    to,
+    search,
+    onClick,
+    linkProps,
+    ...props
+}) => {
+    const url = to ?? href;
+    const contextValue = React.useMemo(() => {
+        return {
+            href: url,
+            search,
+            onClick,
+            linkProps,
+        };
+    }, [url, search, onClick, linkProps]);
+
+    return (
+        <HeaderContext.Provider value={contextValue}>
+            <div
+                className={cn(
+                    'flex items-center justify-between gap-2',
+                    className,
+                )}
+                {...props}
+            >
+                {children}
+            </div>
+        </HeaderContext.Provider>
+    );
+};
+
+interface HeaderContainerProps {
+    className?: string;
+}
+
+const HeaderContainer: FC<PropsWithChildren<HeaderContainerProps>> = ({
+    className,
+    children,
+}) => {
+    return (
+        <div className={cn('flex flex-1 items-center gap-4', className)}>
+            {children}
+        </div>
+    );
+};
+
+interface HeaderTitleProps {
+    className?: string;
+    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+    href?: string;
+    to?: string;
+}
+
+const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
+    className,
+    children,
+    variant,
+    href: hrefProp,
+    to: toProp,
+}) => {
+    const resolvedProp = toProp ?? hrefProp;
+    const { href, search, onClick, linkProps } = useHeader();
+    const Tag = variant || 'h3';
+
+    const heading = <Tag>{children}</Tag>;
+
+    return (
+        <div className={cn('flex items-center gap-4', className)}>
+            {resolvedProp || href ? (
+                <Link
+                    to={resolvedProp || href || ''}
+                    search={search}
+                    {...linkProps}
+                    className="text-left hover:underline"
+                >
+                    {heading}
+                </Link>
+            ) : onClick ? (
+                <button onClick={onClick} className="text-left hover:underline">
+                    {heading}
+                </button>
+            ) : (
+                heading
+            )}
+        </div>
+    );
+};
+
+interface HeaderDescriptionProps {
+    className?: string;
+    variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+    href?: string;
+}
+
+const HeaderDescription: FC<PropsWithChildren<HeaderDescriptionProps>> = ({
+    className,
+    children,
+}) => {
+    return (
+        <span className={cn('text-muted-foreground text-sm', className)}>
+            {children}
+        </span>
+    );
+};
+
+const HeaderNavButton: FC = () => {
+    const { href, search, onClick, linkProps } = useHeader();
+
+    if (!href && !onClick) {
+        return null;
+    }
+
+    if (href) {
+        return (
+            <Button size="icon-sm" variant="ghost" asChild>
+                <Link
+                    to={href}
+                    search={search}
+                    className="text-muted-foreground flex items-center gap-2"
+                    {...linkProps}
+                >
+                    <MaterialSymbolsArrowRightAltRounded className="text-lg" />
+                </Link>
+            </Button>
+        );
+    }
+
+    return (
+        <Button
+            onClick={onClick}
+            size="icon-sm"
+            className="text-muted-foreground flex items-center gap-2"
+            variant="ghost"
+        >
+            <MaterialSymbolsArrowRightAltRounded className="text-lg" />
+        </Button>
+    );
+};
+
+export {
+    Header,
+    HeaderContainer,
+    HeaderDescription,
+    HeaderNavButton,
+    HeaderTitle,
+};

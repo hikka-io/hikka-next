@@ -1,0 +1,90 @@
+'use client';
+
+import { useUserHistory } from '@hikka/react';
+import { FC, useState } from 'react';
+
+import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
+import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import {
+    Header,
+    HeaderContainer,
+    HeaderNavButton,
+    HeaderTitle,
+} from '@/components/ui/header';
+import NotFound from '@/components/ui/not-found';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+} from '@/components/ui/responsive-modal';
+
+import HistoryItem from '@/features/users/user-history/components/history-item';
+
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
+
+import ActivityModal from './components/history-modal';
+
+interface Props {
+    className?: string;
+}
+
+const History: FC<Props> = ({ className }) => {
+    const params = useParams();
+    const [open, setOpen] = useState(false);
+    useCloseOnRouteChange(setOpen);
+
+    const { list: activity } = useUserHistory({
+        username: String(params.username),
+    });
+
+    const filteredActivity = activity?.slice(0, 3);
+
+    return (
+        <>
+            <Card className={cn('bg-secondary/20', className)}>
+                <Block>
+                    <Header
+                        onClick={
+                            activity && activity?.length > 0
+                                ? () => setOpen(true)
+                                : undefined
+                        }
+                    >
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Історія</HeaderTitle>
+                            <Button asChild size="icon-sm" variant="outline">
+                                <Link to={`/u/${params.username}/history`}>
+                                    <MaterialSymbolsGridViewRounded />
+                                </Link>
+                            </Button>
+                        </HeaderContainer>
+                        <HeaderNavButton />
+                    </Header>
+                    <div className="flex flex-col gap-6">
+                        {filteredActivity &&
+                            filteredActivity.map((item) => (
+                                <HistoryItem data={item} key={item.reference} />
+                            ))}
+                        {activity && activity?.length === 0 && (
+                            <NotFound
+                                title={'Історія відсутня'}
+                                description="Інформація оновиться після змін у списку"
+                            />
+                        )}
+                    </div>
+                </Block>
+            </Card>
+            <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
+                <ResponsiveModalContent side="right" title="Активність">
+                    <ActivityModal />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
+    );
+};
+
+export default History;

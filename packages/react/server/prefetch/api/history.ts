@@ -1,6 +1,7 @@
-import { HistoryPaginationResponse } from '@hikka/client';
-
-import { queryKeys } from '@/core';
+import {
+    followingHistoryOptions,
+    userHistoryOptions,
+} from '@/options/api/history';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -13,14 +14,10 @@ import { UseUserHistoryParams } from '@/types/history';
 export async function prefetchFollowingHistory({
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<HistoryPaginationResponse> = {}) {
+}: PrefetchInfiniteQueryParams = {}) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.history.following(paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.history.getFollowingHistory({
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            followingHistoryOptions(client, { paginationArgs }),
         ...rest,
     });
 }
@@ -32,15 +29,10 @@ export async function prefetchUserHistory({
     username,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<HistoryPaginationResponse> &
-    UseUserHistoryParams) {
+}: PrefetchInfiniteQueryParams & UseUserHistoryParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.history.user(username, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.history.getUserHistory(username, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            userHistoryOptions(client, { username, paginationArgs }),
         ...rest,
     });
 }

@@ -1,14 +1,6 @@
 import { QueryClient } from '@tanstack/query-core';
 import { QueryClientConfig } from '@tanstack/react-query';
-import { cache } from 'react';
 
-/**
- * Creates a QueryClient instance.
- * This ensures a clean QueryClient is created for each request.
- *
- * @param config - The QueryClient config
- * @returns A new QueryClient instance
- */
 export function createQueryClient(config?: QueryClientConfig) {
     return new QueryClient({
         ...config,
@@ -24,4 +16,6 @@ export function createQueryClient(config?: QueryClientConfig) {
     });
 }
 
-export const getQueryClient = cache(createQueryClient);
+// Alias for backward compatibility — callers that used getQueryClient()
+// must now manage the instance themselves (or use router context)
+export const getQueryClient = createQueryClient;

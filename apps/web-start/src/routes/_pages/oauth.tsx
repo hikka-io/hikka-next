@@ -1,0 +1,46 @@
+import { clientByReferenceOptions } from '@hikka/react/options';
+import { createFileRoute, redirect } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+
+import {
+    OAuthClient as Client,
+    OAuthConfirm as Confirm,
+    OAuthHeader as Header,
+    OAuthProfile as Profile,
+} from '@/features/oauth';
+
+import { generateHeadMeta } from '@/utils/metadata';
+import { oauthSearchSchema } from '@/utils/search-schemas';
+
+export const Route = createFileRoute('/_pages/oauth')({
+    validateSearch: zodValidator(oauthSearchSchema),
+    loaderDeps: ({ search }) => search,
+    loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
+        const { reference, scope } = deps;
+
+        if (!reference || !scope) throw redirect({ to: '/' });
+
+        await queryClient.prefetchQuery(
+            clientByReferenceOptions(hikkaClient, { reference }),
+        );
+    },
+    head: () =>
+        generateHeadMeta({
+            title: 'OAuth',
+            robots: { index: false },
+        }),
+    component: OAuthPage,
+});
+
+function OAuthPage() {
+    return (
+        <div className="mx-auto my-8 min-h-screen w-full max-w-xl px-4 lg:my-16">
+            <div className="flex h-full flex-col items-center justify-start gap-8">
+                <Header />
+                <Profile />
+                <Client />
+                <Confirm />
+            </div>
+        </div>
+    );
+}

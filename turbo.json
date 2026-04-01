@@ -4,7 +4,7 @@
     "tasks": {
         "build": {
             "dependsOn": ["^build"],
-            "outputs": ["dist/**", ".next/**", "build/**"]
+            "outputs": ["dist/**", ".next/**", "build/**", ".output/**"]
         },
         "lint": {
             "outputs": []

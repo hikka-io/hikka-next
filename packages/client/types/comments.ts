@@ -22,6 +22,7 @@ export type CommentsContentType =
  * Comment response
  */
 export interface CommentResponse {
+    data_type: ContentTypeEnum.COMMENT;
     replies: CommentResponse[];
     total_replies: number;
     updated: number;

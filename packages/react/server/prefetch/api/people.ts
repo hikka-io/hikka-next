@@ -1,13 +1,11 @@
 import {
-    PersonAnimePaginationResponse,
-    PersonCharactersPaginationResponse,
-    PersonCountResponse,
-    PersonMangaPaginationResponse,
-    PersonNovelPaginationResponse,
-    PersonSearchPaginationResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    personAnimeOptions,
+    personBySlugOptions,
+    personCharactersOptions,
+    personMangaOptions,
+    personNovelOptions,
+    searchPeopleOptions,
+} from '@/options/api/people';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -28,10 +26,9 @@ import {
 export async function prefetchPersonBySlug({
     slug,
     ...rest
-}: PrefetchQueryParams<PersonCountResponse> & UsePersonInfoParams) {
+}: PrefetchQueryParams & UsePersonInfoParams) {
     return prefetchQuery({
-        queryKey: queryKeys.people.bySlug(slug),
-        queryFn: (client) => client.people.getPersonBySlug(slug),
+        optionsFactory: (client) => personBySlugOptions(client, { slug }),
         ...rest,
     });
 }
@@ -43,15 +40,10 @@ export async function prefetchPersonAnime({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<PersonAnimePaginationResponse> &
-    UsePersonAnimeParams) {
+}: PrefetchInfiniteQueryParams & UsePersonAnimeParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.people.anime(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.people.getPersonAnime(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            personAnimeOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }
@@ -63,15 +55,10 @@ export async function prefetchPersonManga({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<PersonMangaPaginationResponse> &
-    UsePersonMangaParams) {
+}: PrefetchInfiniteQueryParams & UsePersonMangaParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.people.manga(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.people.getPersonManga(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            personMangaOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }
@@ -83,15 +70,10 @@ export async function prefetchPersonNovel({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<PersonNovelPaginationResponse> &
-    UsePersonNovelParams) {
+}: PrefetchInfiniteQueryParams & UsePersonNovelParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.people.novel(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.people.getPersonNovel(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            personNovelOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }
@@ -103,15 +85,10 @@ export async function prefetchPersonCharacters({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<PersonCharactersPaginationResponse> &
-    UsePersonCharactersParams) {
+}: PrefetchInfiniteQueryParams & UsePersonCharactersParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.people.characters(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.people.getPersonCharacters(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            personCharactersOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }
@@ -123,15 +100,10 @@ export async function prefetchSearchPeople({
     args = {},
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<PersonSearchPaginationResponse> &
-    UsePeopleSearchParams) {
+}: PrefetchInfiniteQueryParams & UsePeopleSearchParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.people.search(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.people.searchPeople(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            searchPeopleOptions(client, { args, paginationArgs }),
         ...rest,
     });
 }

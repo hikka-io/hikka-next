@@ -1,0 +1,38 @@
+import type { SlateElementProps } from 'platejs/static';
+import { SlateElement } from 'platejs/static';
+import { PhotoView } from 'react-photo-view';
+
+import Image from '@/components/ui/image';
+
+import { cn } from '@/utils/cn';
+
+export interface ImageElementStaticProps extends SlateElementProps {
+    className?: string;
+    url?: string;
+}
+
+export function ImageElementStatic({
+    className,
+    element,
+    ...props
+}: ImageElementStaticProps) {
+    const url = (element as any)?.url || '';
+
+    return (
+        <SlateElement
+            as="picture"
+            {...props}
+            element={element}
+            className="image-group-item relative"
+        >
+            <PhotoView src={url}>
+                <Image
+                    unoptimized
+                    alt="image"
+                    className={cn(className, 'image-item object-cover')}
+                    src={url}
+                />
+            </PhotoView>
+        </SlateElement>
+    );
+}

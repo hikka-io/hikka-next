@@ -1,0 +1,65 @@
+'use client';
+
+import {
+    ContentTypeEnum,
+    ReadStatusEnum,
+    WatchStatusEnum,
+} from '@hikka/client';
+
+import LoadMoreButton from '@/components/load-more-button';
+import Block from '@/components/ui/block';
+
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+
+import { useSettingsStore } from '@/services/stores/settings-store';
+
+import GridView from './components/grid-view';
+import RecordsNotFound from './components/records-not-found';
+import TableView from './components/table-view';
+import { useReadList } from './hooks/use-readlist';
+import { useWatchList } from './hooks/use-watchlist';
+
+interface Props {
+    content_type:
+        | ContentTypeEnum.ANIME
+        | ContentTypeEnum.MANGA
+        | ContentTypeEnum.NOVEL;
+}
+
+const List = ({ content_type }: Props) => {
+    const search = useFilterSearch<{ status?: string }>();
+    const { preferences } = useSettingsStore();
+
+    const status = search.status as ReadStatusEnum | WatchStatusEnum | 'all';
+    const view = preferences.views.userlist || 'table';
+
+    const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
+        content_type === ContentTypeEnum.ANIME ? useWatchList() : useReadList();
+
+    if (!list || !status) {
+        return null;
+    }
+
+    return (
+        <Block className="-mx-4 md:mx-0">
+            {list.length > 0 ? (
+                view === 'table' ? (
+                    <TableView data={list} content_type={content_type} />
+                ) : (
+                    <GridView data={list} content_type={content_type} />
+                )
+            ) : (
+                <RecordsNotFound status={status} content_type={content_type} />
+            )}
+            {hasNextPage && (
+                <LoadMoreButton
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
+                    ref={ref}
+                />
+            )}
+        </Block>
+    );
+};
+
+export default List;

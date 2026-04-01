@@ -1,5 +1,6 @@
 export * from './createHikkaClient';
 export * from './createQueryClient';
+export * from './queryClientHelpers';
 export * from './queryKeys';
 
 // Hikka client exports
@@ -13,6 +14,8 @@ export {
     QueryCache,
     QueryClient,
     useQueryClient,
+    useSuspenseInfiniteQuery,
+    useSuspenseQuery,
 } from '@tanstack/react-query';
 
 export type { QueryClientConfig } from '@tanstack/react-query';

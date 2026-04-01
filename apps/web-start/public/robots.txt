@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /settings
+Disallow: /oauth
+Disallow: /edit/new
+
+Host: https://hikka.io
+
+Sitemap: https://hikka.io/api/sitemap

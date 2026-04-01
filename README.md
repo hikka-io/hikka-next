@@ -1,66 +1,86 @@
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/hikka-io/hikka-next">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="apps/web/public/logo-dark.svg">
-      <img alt="Logo" src="apps/web/public/logo.svg" width="120" height="80">
-    </picture>
-  </a>
-  <p align="center">
-    Ukrainian online anime encyclopedia. The entire list of anime, detailed content information, flexible and clean interface. Complete your own watch list, customize your profile and share with friends.
-    <br />
-    <br />
-    <a href="https://hikka.io">View Project</a>
-    ·
-    <a href="https://github.com/hikka-io/hikka-next/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/hikka-io/hikka-next/issues">Request Feature</a>
-    ·
-    <a href="https://github.com/hikka-io/hikka">Backend</a>
-  </p>
-</div>
+Ukrainian online anime encyclopedia. The entire list of anime, detailed content information, flexible and clean interface. Complete your own watch list, customize your profile and share with friends.
 
-<!-- ABOUT THE PROJECT -->
+[View Project](https://hikka.io) · [Report Bug](https://github.com/hikka-io/hikka-next/issues) · [Request Feature](https://github.com/hikka-io/hikka-next/issues) · [Backend](https://github.com/hikka-io/hikka)
 
 ## About The Project
 
 ### Built With
 
-The list of frameworks and core libraries, that uses in the project
+- [TanStack Start](https://tanstack.com/start) — full-stack React framework (Vite + Nitro)
+- [TanStack Router](https://tanstack.com/router) — type-safe file-based routing
+- [TanStack Query](https://tanstack.com/query) — server state management
+- [React 19](https://react.dev/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
+- [Radix UI](https://www.radix-ui.com/) / [shadcn/ui](https://ui.shadcn.com/)
+- [TypeScript](https://www.typescriptlang.org/)
 
-- [Next.js](https://nextjs.org/)
-- [React.js](https://reactjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Shadcn UI](https://ui.shadcn.com/)
-- [Typescript](https://www.typescriptlang.org/)
+## Monorepo Structure
 
-<!-- GETTING STARTED -->
+```
+apps/web-start/       → TanStack Start frontend (@hikka/web-start)
+packages/client/      → TypeScript API client (@hikka/client)
+packages/react/       → React hooks & query options (@hikka/react)
+```
+
+**Package manager**: Yarn 4.5.3  
+**Build orchestration**: Turborepo  
+**Library builds**: tsup
 
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+### Prerequisites
+
+- Node.js >= 20.15.0
+- Corepack enabled (ships with Node.js)
 
 ### Installation
 
 1. Clone the repo
-    ```sh
-    git clone https://github.com/hikka-io/hikka-next.git
-    ```
-1. Install and enable corepack to activate yarn as a default package manager
-    ```sh
-    npm install -g corepack && corepack enable yarn
-    ```
-1. Install NPM packages
-    ```sh
-    yarn install
-    ```
-1. Run the Next.js development server
-    ```sh
-    yarn dev
-    ```
 
-<!-- CONTRIBUTING -->
+```sh
+  git clone https://github.com/hikka-io/hikka-next.git
+```
+
+2. Enable Corepack and activate Yarn
+
+```sh
+  corepack enable yarn
+```
+
+3. Install dependencies
+
+```sh
+  yarn install
+```
+
+4. Start the development server
+
+```sh
+  yarn dev
+```
+
+This starts all packages in dev/watch mode. The web app will be available at `http://localhost:3000`.
+
+### Scripts
+
+```bash
+# Development
+yarn dev              # Start all packages in dev mode
+yarn dev:web-start    # Start TanStack Start dev server
+yarn dev:client       # Watch-build @hikka/client
+yarn dev:react        # Watch-build @hikka/react
+
+# Building
+yarn build            # Build everything
+yarn build:web-start  # Build web app
+yarn start:web-start  # Run production build
+
+# Code Quality
+yarn lint             # ESLint across all packages
+yarn lint:fix         # ESLint with auto-fix
+yarn format           # Prettier format all files
+yarn format:check     # Check formatting without writing
+```
 
 ## Contributing
 
@@ -73,8 +93,6 @@ If you have a suggestion that would make this better, please fork the repo and c
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-<!-- LICENSE -->
 
 ## License
 

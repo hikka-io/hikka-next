@@ -1,0 +1,68 @@
+'use client';
+
+import { UserResponse } from '@hikka/client';
+import { format } from 'date-fns/format';
+import * as React from 'react';
+
+import ContentCard from '@/components/content-card/content-card';
+import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+
+import { USER_ROLE } from '@/utils/constants/common';
+import { Link } from '@/utils/navigation';
+
+interface Props {
+    user: UserResponse;
+    onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
+    type?: 'link' | 'button';
+}
+
+const UserCard = ({ user, onClick, type }: Props) => {
+    const Comp = type === 'button' ? 'button' : Link;
+
+    return (
+        <Comp
+            to={'/u/' + user.username}
+            onClick={onClick}
+            className="flex w-full items-center gap-4 text-left"
+        >
+            <div className="w-12">
+                <ContentCard image={user.avatar} containerRatio={1} />
+            </div>
+            <div className="flex w-full flex-1 flex-col gap-2">
+                <div className="flex items-center gap-2">
+                    <Label className="line-clamp-2 font-bold">
+                        {user.username}
+                    </Label>
+
+                    {user.active && (
+                        <div className="border-success bg-success-foreground -right-2 -bottom-2 z-1 size-2 rounded-full border" />
+                    )}
+
+                    {(user.role === 'admin' || user.role === 'moderator') && (
+                        <Badge
+                            className="text-xs"
+                            variant="status"
+                            bgColor={USER_ROLE[user.role].color}
+                        >
+                            {USER_ROLE[user.role].label}
+                        </Badge>
+                    )}
+                </div>
+
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                        <Label className="text-muted-foreground text-xs">
+                            {format(
+                                new Date(user.created * 1000),
+                                'd MMMM yyyy',
+                            )}
+                        </Label>
+                    </div>
+                </div>
+            </div>
+        </Comp>
+    );
+};
+
+export default UserCard;

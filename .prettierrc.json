@@ -3,7 +3,7 @@
         "prettier-plugin-tailwindcss",
         "@trivago/prettier-plugin-sort-imports"
     ],
-    "tailwindFunctions": ["clsx"],
+    "tailwindFunctions": ["cn"],
     "semi": true,
     "singleQuote": true,
     "trailingComma": "all",

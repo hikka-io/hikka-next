@@ -1,0 +1,184 @@
+'use client';
+
+import { ContentTypeEnum, MainContent, UserResponse } from '@hikka/client';
+import { CircleX } from 'lucide-react';
+import { FC, Fragment, ReactNode, useCallback, useRef, useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { CommandDialog, CommandInput } from '@/components/ui/command';
+
+import useDebounce from '@/services/hooks/use-debounce';
+
+import SearchButton from './components/search-button';
+import AllSearchList from './components/search-lists/all-search-list';
+import AnimeSearchList from './components/search-lists/anime-search-list';
+import CharacterSearchList from './components/search-lists/character-search-list';
+import MangaSearchList from './components/search-lists/manga-search-list';
+import NovelSearchList from './components/search-lists/novel-search-list';
+import PersonSearchList from './components/search-lists/person-search-list';
+import UserSearchList from './components/search-lists/user-search-list';
+import SearchToggle from './components/search-toggle';
+import useSearchModal from './hooks/useSearchModal';
+import { SEARCH_TYPE_ALL, SearchTypeValue } from './types';
+
+interface Props {
+    onClick?: (content: MainContent | UserResponse) => void;
+    type?: 'link' | 'button';
+    children?: ReactNode;
+    content_type?: ContentTypeEnum;
+    allowedTypes?: ContentTypeEnum[];
+}
+
+const SearchModal: FC<Props> = ({
+    onClick,
+    type,
+    content_type,
+    children,
+    allowedTypes,
+}) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [searchType, setSearchType] = useState<SearchTypeValue>(
+        content_type || SEARCH_TYPE_ALL,
+    );
+    const [open, setOpen] = useState<boolean>(false);
+    const [searchValue, setSearchValue] = useState<string | undefined>(
+        undefined,
+    );
+    const value = useDebounce({
+        value: searchValue,
+        delay: 500,
+    });
+
+    const onDismiss = useCallback(
+        (content: MainContent | UserResponse) => {
+            setSearchValue('');
+            setOpen(false);
+
+            onClick && onClick(content);
+        },
+        [onClick],
+    );
+
+    const handleClose = useCallback(() => {
+        if (searchValue && searchValue.length > 0) {
+            setSearchValue('');
+            inputRef.current?.focus();
+        } else {
+            setOpen(false);
+        }
+    }, [searchValue]);
+
+    const handleOpenChange = useCallback((isOpen: boolean) => {
+        if (!isOpen) {
+            setSearchValue('');
+        }
+        setOpen(isOpen);
+    }, []);
+
+    useSearchModal({ open, setOpen, onClick, content_type, setSearchType });
+
+    return (
+        <Fragment>
+            <SearchButton setOpen={setOpen}>{children}</SearchButton>
+            <CommandDialog
+                className="top-24 max-h-[calc(var(--visual-viewport-height,100dvh)-6rem-1rem)] translate-y-0 transition-[max-height] duration-100 md:top-1/2 md:max-h-[calc(var(--visual-viewport-height,100dvh)*0.8)] md:max-w-2xl md:-translate-y-1/2"
+                open={open}
+                onOpenChange={handleOpenChange}
+                shouldFilter={false}
+            >
+                <CommandInput
+                    ref={inputRef}
+                    value={searchValue}
+                    onValueChange={(value) => setSearchValue(value)}
+                    placeholder="Пошук..."
+                    autoFocus
+                    containerClassName="dark:bg-secondary/20 gap-3"
+                    leftSideNode={
+                        <SearchToggle
+                            allowedTypes={allowedTypes}
+                            inputRef={inputRef}
+                            disabled={Boolean(content_type)}
+                            setType={setSearchType}
+                            type={searchType}
+                        />
+                    }
+                >
+                    <Button
+                        onClick={() => {
+                            setSearchValue('');
+                            inputRef.current?.focus();
+                        }}
+                        size="icon-sm"
+                        variant="ghost"
+                        disabled={!searchValue || searchValue?.length === 0}
+                        className="text-muted-foreground shrink-0"
+                    >
+                        <CircleX />
+                    </Button>
+                </CommandInput>
+
+                {searchType === 'all' && (
+                    <AllSearchList
+                        onDismiss={onDismiss}
+                        onClose={() => {
+                            setSearchValue('');
+                            setOpen(false);
+                        }}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'anime' && (
+                    <AnimeSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'manga' && (
+                    <MangaSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'novel' && (
+                    <NovelSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'character' && (
+                    <CharacterSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'person' && (
+                    <PersonSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+
+                {searchType === 'user' && (
+                    <UserSearchList
+                        onDismiss={onDismiss}
+                        value={value}
+                        type={type}
+                    />
+                )}
+            </CommandDialog>
+        </Fragment>
+    );
+};
+
+export default SearchModal;

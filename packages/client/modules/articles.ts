@@ -36,7 +36,10 @@ export class ArticlesModule extends BaseModule {
         slug: string,
         options?: BaseRequestOptionsArgs,
     ): Promise<ArticleDocumentResponse> {
-        return this.client.get<ArticleDocumentResponse>(`/articles/${slug}`, options);
+        return this.client.get<ArticleDocumentResponse>(
+            `/articles/${slug}`,
+            options,
+        );
     }
 
     /**

@@ -16,8 +16,8 @@ import {
     TokenRequestArgs,
     TokenRequestResponse,
     TokenResponse,
-    UsernameLoginArgs,
     UserResponse,
+    UsernameLoginArgs,
 } from '../types';
 import { BaseModule } from './base';
 

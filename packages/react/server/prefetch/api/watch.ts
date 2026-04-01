@@ -1,11 +1,9 @@
 import {
-    UserWatchPaginationResponse,
-    WatchPaginationResponse,
-    WatchResponse,
-    WatchStatsResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    searchUserWatchesOptions,
+    userWatchStatsOptions,
+    watchBySlugOptions,
+    watchingUsersOptions,
+} from '@/options/api/watch';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -26,13 +24,13 @@ export async function prefetchSearchUserWatches({
     args,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<WatchPaginationResponse> & UseWatchListParams) {
+}: PrefetchInfiniteQueryParams & UseWatchListParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.watch.list(username, args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.watch.searchUserWatches(username, args, {
-                page,
-                size: paginationArgs?.size,
+        optionsFactory: (client) =>
+            searchUserWatchesOptions(client, {
+                username,
+                args,
+                paginationArgs,
             }),
         ...rest,
     });
@@ -44,10 +42,9 @@ export async function prefetchSearchUserWatches({
 export async function prefetchUserWatchStats({
     username,
     ...rest
-}: PrefetchQueryParams<WatchStatsResponse> & UseWatchStatsParams) {
+}: PrefetchQueryParams & UseWatchStatsParams) {
     return prefetchQuery({
-        queryKey: queryKeys.watch.stats(username),
-        queryFn: (client) => client.watch.getUserWatchStats(username),
+        optionsFactory: (client) => userWatchStatsOptions(client, { username }),
         ...rest,
     });
 }
@@ -58,10 +55,9 @@ export async function prefetchUserWatchStats({
 export async function prefetchWatchBySlug({
     slug,
     ...rest
-}: PrefetchQueryParams<WatchResponse> & UseWatchEntryParams) {
+}: PrefetchQueryParams & UseWatchEntryParams) {
     return prefetchQuery({
-        queryKey: queryKeys.watch.entry(slug),
-        queryFn: (client) => client.watch.getWatchBySlug(slug),
+        optionsFactory: (client) => watchBySlugOptions(client, { slug }),
         ...rest,
     });
 }
@@ -73,15 +69,10 @@ export async function prefetchWatchingUsers({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<UserWatchPaginationResponse> &
-    UseFollowingWatchersParams) {
+}: PrefetchInfiniteQueryParams & UseFollowingWatchersParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.watch.followingUsers(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.watch.getWatchingUsers(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            watchingUsersOptions(client, { slug, paginationArgs }),
         ...rest,
     });
 }

@@ -33,6 +33,12 @@
             "import": "./dist/utils/index.mjs",
             "require": "./dist/utils/index.cjs",
             "default": "./dist/utils/index.mjs"
+        },
+        "./options": {
+            "types": "./dist/options/index.d.ts",
+            "import": "./dist/options/index.mjs",
+            "require": "./dist/options/index.cjs",
+            "default": "./dist/options/index.mjs"
         }
     },
     "scripts": {
@@ -44,8 +50,8 @@
     },
     "dependencies": {
         "@hikka/client": "workspace:*",
-        "@tanstack/react-query": "5.76.1",
-        "@tanstack/react-query-devtools": "5.76.1",
+        "@tanstack/react-query": "^5.90.21",
+        "@tanstack/react-query-devtools": "^5.91.3",
         "react-intersection-observer": "9.16.0"
     },
     "devDependencies": {

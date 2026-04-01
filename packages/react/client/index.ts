@@ -4,6 +4,8 @@ export * from './provider';
 export * from './useInfiniteQuery';
 export * from './useMutation';
 export * from './useQuery';
+export * from './useSuspenseQuery';
+export * from './useSuspenseInfiniteQuery';
 
 export * from './hooks/api/anime';
 export * from './hooks/api/articles';
@@ -16,6 +18,7 @@ export * from './hooks/api/comments';
 export * from './hooks/api/companies';
 export * from './hooks/api/edit';
 export * from './hooks/api/favourite';
+export * from './hooks/api/feed';
 export * from './hooks/api/follow';
 export * from './hooks/api/genres';
 export * from './hooks/api/history';
@@ -34,4 +37,4 @@ export * from './hooks/api/vote';
 export * from './hooks/api/watch';
 
 export * from './hooks/utils/useAnilist';
-export * from './hooks/utils/useTitleUtils';
+export * from './useTitle';

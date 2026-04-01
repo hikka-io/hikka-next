@@ -1,0 +1,81 @@
+'use client';
+
+import { ContentTypeEnum } from '@hikka/client';
+import { useRouter } from '@tanstack/react-router';
+import { FC } from 'react';
+
+import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
+import { Button } from '@/components/ui/button';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+
+import { useSettingsStore } from '@/services/stores/settings-store';
+import { cn } from '@/utils/cn';
+
+interface Props {
+    className?: string;
+    content_type: ContentTypeEnum;
+}
+
+const FilterPresets: FC<Props> = ({ className, content_type }) => {
+    const { filterPresets, _hasHydrated } = useSettingsStore();
+    const router = useRouter();
+
+    const handleApplyFilterPreset = (preset: Hikka.FilterPreset) => {
+        const { id, name, description, content_types, ...rest } = preset;
+
+        router.navigate({
+            to: '.',
+            search: rest,
+            replace: true,
+        } as any);
+    };
+
+    return (
+        <div
+            className={cn(
+                'no-scrollbar gradient-mask-r-90-d md:gradient-mask-none -mx-4 flex flex-1 items-center overflow-x-auto px-4 lg:mx-0 lg:border-r lg:px-0',
+                className,
+            )}
+        >
+            {_hasHydrated &&
+                filterPresets
+                    .filter((preset) =>
+                        preset.content_types.includes(content_type),
+                    )
+                    .map((preset) => (
+                        <Button
+                            key={preset.id}
+                            size="badge"
+                            variant="outline"
+                            className="mr-2 h-fit"
+                            onClick={() => handleApplyFilterPreset(preset)}
+                        >
+                            {preset.name}
+                            {preset.description && (
+                                <Tooltip delayDuration={0}>
+                                    <TooltipTrigger
+                                        asChild
+                                        className="hidden md:block"
+                                    >
+                                        <div>
+                                            <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p className="text-sm">
+                                            {preset.description}
+                                        </p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            )}
+                        </Button>
+                    ))}
+        </div>
+    );
+};
+
+export default FilterPresets;

@@ -16,6 +16,7 @@ import {
     UsernameLoginArgs,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
@@ -23,6 +24,11 @@ import {
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import {
+    authTokenDetailsOptions,
+    oAuthProviderUrlOptions,
+    thirdPartyTokenListOptions,
+} from '@/options/api/auth';
 import {
     UseOAuthProviderUrlParams,
     UseThirdPartyTokenListParams,
@@ -34,9 +40,9 @@ import {
 export function useAuthTokenDetails({
     ...rest
 }: QueryParams<AuthTokenInfoResponse> = {}) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.auth.tokenInfo(),
-        queryFn: (client) => client.auth.getAuthTokenDetails(),
+        ...authTokenDetailsOptions(client),
         ...rest,
     });
 }
@@ -48,9 +54,9 @@ export function useOAuthProviderUrl({
     provider,
     ...rest
 }: UseOAuthProviderUrlParams & QueryParams<ProviderUrlResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.auth.oauthUrl(provider),
-        queryFn: (client) => client.auth.getOAuthProviderUrl(provider),
+        ...oAuthProviderUrlOptions(client, { provider }),
         ...rest,
     });
 }
@@ -63,13 +69,14 @@ export function useThirdPartyTokenList({
     ...rest
 }: InfiniteQueryParams<AuthTokenInfoPaginationResponse> &
     UseThirdPartyTokenListParams) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        thirdPartyTokenListOptions(client, { paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.auth.thirdPartyTokens(paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.auth.getThirdPartyTokenList({
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -104,7 +111,10 @@ export const useCreatePasswordResetRequest = createMutation({
 export const useCreateUserSession = createMutation({
     mutationFn: (
         client,
-        { args, captcha }: { args: EmailLoginArgs | UsernameLoginArgs; captcha: CaptchaArgs },
+        {
+            args,
+            captcha,
+        }: { args: EmailLoginArgs | UsernameLoginArgs; captcha: CaptchaArgs },
     ) => client.auth.createUserSession(args, captcha),
     invalidateQueries: () => [queryKeys.auth.tokenInfo(), queryKeys.user.me()],
 });

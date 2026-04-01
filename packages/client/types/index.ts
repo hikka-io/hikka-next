@@ -37,6 +37,9 @@ export * from './comments';
 // Favourite related types
 export * from './favourite';
 
+// Feed related types
+export * from './feed';
+
 // History related types
 export * from './history';
 

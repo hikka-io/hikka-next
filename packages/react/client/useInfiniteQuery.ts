@@ -1,6 +1,6 @@
 'use client';
 
-import { HikkaClient, PaginatedResponse, PaginationArgs } from '@hikka/client';
+import { PaginatedResponse, PaginationArgs } from '@hikka/client';
 import {
     InfiniteData,
     UseInfiniteQueryOptions,
@@ -10,7 +10,6 @@ import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
-import { addDeepTitleProperties } from '@/utils';
 
 /**
  * Hook params for creating infinite queries
@@ -21,16 +20,10 @@ export interface InfiniteQueryParams<
 > {
     /** Query options */
     options?: Omit<
-        UseInfiniteQueryOptions<
-            T,
-            Error,
-            InfiniteData<T>,
-            T,
-            TQueryKey,
-            number
-        >,
+        UseInfiniteQueryOptions<T, Error, InfiniteData<T>, TQueryKey, number>,
         'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
     > & {
+        authProtected?: boolean;
         initialPageParam?: number;
     };
     /** Pagination arguments */
@@ -40,7 +33,7 @@ export interface InfiniteQueryParams<
 
 /**
  * Hook for creating infinite queries with the Hikka client.
- * Automatically provides the client to the queryFn.
+ * Accepts standard TanStack queryFn and pagination options.
  */
 export function useInfiniteQuery<
     TItem,
@@ -49,32 +42,32 @@ export function useInfiniteQuery<
 >({
     queryKey,
     queryFn,
+    initialPageParam,
+    getNextPageParam,
     options,
 }: {
     queryKey: TQueryKey;
-    queryFn: (
-        client: HikkaClient,
-        pageParam: number,
-    ) => Promise<PaginatedResponse<TItem>>;
+    queryFn?: (
+        ...args: any[]
+    ) => PaginatedResponse<TItem> | Promise<PaginatedResponse<TItem>>;
+    initialPageParam?: number;
+    getNextPageParam?: (...args: any[]) => number | undefined | null;
     options?: Omit<
         UseInfiniteQueryOptions<
             PaginatedResponse<TItem>,
             TError,
             InfiniteData<PaginatedResponse<TItem>>,
-            PaginatedResponse<TItem>,
             TQueryKey,
             number
         >,
-        'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
+        'queryKey' | 'queryFn' | 'getNextPageParam' | 'initialPageParam'
     > & {
-        getNextPageParam?: (
-            lastPage: PaginatedResponse<TItem>,
-        ) => number | undefined | null;
         authProtected?: boolean;
+        initialPageParam?: number;
     };
 }) {
     const { ref, inView } = useInView();
-    const { client, defaultOptions } = useHikkaClient();
+    const { client } = useHikkaClient();
 
     const query = useTanstackInfiniteQuery<
         PaginatedResponse<TItem>,
@@ -84,37 +77,18 @@ export function useInfiniteQuery<
         number
     >({
         queryKey,
-        queryFn: ({ pageParam }) => queryFn(client, pageParam),
-        initialPageParam: 1, // Default to page 1
-        getNextPageParam: (lastPage) => {
-            // Use custom getNextPageParam if provided
-            if (options?.getNextPageParam) {
-                return options.getNextPageParam(lastPage);
-            }
-
-            // Default implementation for pagination
-            const nextPage = lastPage.pagination.page + 1;
-            return nextPage > lastPage.pagination.pages ? null : nextPage;
-        },
+        queryFn: queryFn!,
+        initialPageParam: options?.initialPageParam ?? initialPageParam ?? 1,
+        getNextPageParam:
+            getNextPageParam ??
+            ((lastPage) => {
+                const nextPage = lastPage.pagination.page + 1;
+                return nextPage > lastPage.pagination.pages ? null : nextPage;
+            }),
         ...options,
         enabled: options?.authProtected
             ? !!client.getAuthToken() && options?.enabled
             : options?.enabled,
-        select: options?.select
-            ? (data) =>
-                  options.select!(
-                      addDeepTitleProperties(
-                          data,
-                          defaultOptions?.title,
-                          defaultOptions?.name,
-                      ),
-                  )
-            : (data) =>
-                  addDeepTitleProperties(
-                      data,
-                      defaultOptions?.title,
-                      defaultOptions?.name,
-                  ) as unknown as InfiniteData<PaginatedResponse<TItem>>,
     });
 
     const list =

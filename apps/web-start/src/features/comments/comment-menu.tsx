@@ -1,0 +1,106 @@
+import { CommentResponse } from '@hikka/client';
+import { useDeleteComment, useSession } from '@hikka/react';
+import { FC } from 'react';
+import { toast } from 'sonner';
+
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+import { useCommentsContext } from '@/services/providers/comments-provider';
+
+interface Props {
+    comment: CommentResponse;
+}
+
+const CommentMenu: FC<Props> = ({ comment }) => {
+    const { setEdit, removePendingReply } = useCommentsContext();
+
+    const { user: loggedUser } = useSession();
+
+    const deleteCommentMutation = useDeleteComment({
+        options: {
+            onSuccess: () => removePendingReply(comment.reference),
+            onError: () =>
+                toast.error(
+                    'Виникла помилка при видаленні повідомлення. Спробуйте, будь ласка, ще раз',
+                ),
+        },
+    });
+
+    const handleDeleteComment = () => {
+        deleteCommentMutation.mutate(comment.reference);
+    };
+
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button
+                    variant="ghost"
+                    size="icon-xs"
+                    className="text-muted-foreground text-sm"
+                >
+                    <MaterialSymbolsMoreHoriz />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+                {loggedUser?.username === comment.author.username && (
+                    <DropdownMenuItem
+                        onClick={() => setEdit(comment.reference)}
+                    >
+                        <MaterialSymbolsEditRounded className="mr-2" />
+                        Редагувати
+                    </DropdownMenuItem>
+                )}
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <DropdownMenuItem
+                            onSelect={(e) => e.preventDefault()}
+                            className="text-destructive-foreground"
+                        >
+                            <MaterialSymbolsDeleteForeverRounded className="mr-2" />
+                            Видалити
+                        </DropdownMenuItem>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>
+                                Ви впевнені, що хочете видалити коментар?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Після цієї операції, Ви вже не зможете його
+                                відновити.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Відмінити</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDeleteComment}>
+                                Підтвердити
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
+};
+
+export default CommentMenu;

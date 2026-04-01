@@ -7,6 +7,7 @@ import {
     FavouriteResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
@@ -14,6 +15,10 @@ import {
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import {
+    favouriteStatusOptions,
+    userFavouritesOptions,
+} from '@/options/api/favourite';
 import {
     UseFavouriteListParams,
     UseFavouriteStatusParams,
@@ -28,10 +33,9 @@ export function useFavouriteStatus({
     options,
     ...rest
 }: UseFavouriteStatusParams & QueryParams<FavouriteResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.favourite.status(contentType, slug),
-        queryFn: (client) =>
-            client.favourite.getFavouriteStatus(contentType, slug),
+        ...favouriteStatusOptions(client, { contentType, slug }),
         options: {
             authProtected: true,
             ...options,
@@ -50,17 +54,18 @@ export function useUserFavourites<TItem extends FavouriteItem>({
     ...rest
 }: UseFavouriteListParams &
     InfiniteQueryParams<FavouritePaginationResponse<TItem>>) {
-    return useInfiniteQuery({
-        queryKey: queryKeys.favourite.list(
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        userFavouritesOptions<TItem>(client, {
             contentType,
             username,
             paginationArgs,
-        ),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.favourite.getUserFavourites<TItem>(contentType, username, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        });
+    return useInfiniteQuery({
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

@@ -1,0 +1,23 @@
+import { queryKeys } from '@hikka/react/core';
+import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
+
+import CoverImage from '@/components/cover-image';
+
+export const Route = createFileRoute('/_pages/_auth')({
+    beforeLoad: async ({ context: { queryClient } }) => {
+        const session = queryClient.getQueryData(queryKeys.user.me());
+        if (session) {
+            throw redirect({ to: '/' });
+        }
+    },
+    component: AuthLayout,
+});
+
+function AuthLayout() {
+    return (
+        <div className="mx-auto flex min-h-[inherit] w-full max-w-lg items-center justify-center p-0">
+            <CoverImage cover="/hikka.art.w.jpg" position="bottom" />
+            <Outlet />
+        </div>
+    );
+}

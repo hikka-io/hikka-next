@@ -10,7 +10,6 @@ import {
 } from '@tanstack/react-query';
 
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
-import { addDeepTitleProperties } from '@/utils';
 
 /**
  * Hook for creating mutations with the Hikka client.
@@ -20,46 +19,22 @@ export function useMutation<
     TData,
     TError = Error,
     TVariables = void,
-    TContext = unknown,
+    TOnMutateResult = unknown,
 >({
     mutationFn,
     options,
 }: {
     mutationFn: (client: HikkaClient, variables: TVariables) => Promise<TData>;
     options?: Omit<
-        UseMutationOptions<TData, TError, TVariables, TContext>,
+        UseMutationOptions<TData, TError, TVariables, TOnMutateResult>,
         'mutationFn'
     >;
-}): UseMutationResult<TData, TError, TVariables, TContext> {
-    const { client, defaultOptions } = useHikkaClient();
+}): UseMutationResult<TData, TError, TVariables, TOnMutateResult> {
+    const { client } = useHikkaClient();
 
-    return useTanstackMutation<TData, TError, TVariables, TContext>({
+    return useTanstackMutation<TData, TError, TVariables, TOnMutateResult>({
         mutationFn: (variables) => mutationFn(client, variables),
         ...options,
-        onSuccess: (data, variables, context) => {
-            options?.onSuccess?.(
-                addDeepTitleProperties(
-                    data,
-                    defaultOptions?.title,
-                    defaultOptions?.name,
-                ),
-                variables,
-                context,
-            );
-
-            // If invalidateQueries is provided, invalidate those queries
-            if (options?.onSettled) {
-                options.onSettled(data, null, variables, context);
-            }
-        },
-        onError: (error, variables, context) => {
-            options?.onError?.(error, variables, context);
-
-            // Call onSettled on error as well
-            if (options?.onSettled) {
-                options.onSettled(undefined, error, variables, context);
-            }
-        },
     });
 }
 
@@ -71,7 +46,7 @@ export function createMutation<
     TData,
     TError = Error,
     TVariables = void,
-    TContext = unknown,
+    TOnMutateResult = unknown,
 >({
     mutationFn,
     invalidateQueries,
@@ -97,7 +72,7 @@ export function createMutation<
         options,
     }: {
         options?: Omit<
-            UseMutationOptions<TData, TError, TVariables, TContext>,
+            UseMutationOptions<TData, TError, TVariables, TOnMutateResult>,
             'mutationFn'
         >;
     } = {}) => {
@@ -105,12 +80,18 @@ export function createMutation<
 
         const customOptions = {
             ...options,
-            onSuccess: (
+            onSuccess: async (
                 data: TData,
                 variables: TVariables,
-                context: TContext,
+                onMutateResult: TOnMutateResult,
+                context: any,
             ) => {
-                options?.onSuccess?.(data, variables, context);
+                await options?.onSuccess?.(
+                    data,
+                    variables,
+                    onMutateResult,
+                    context,
+                );
 
                 if (cacheByQueryKey) {
                     cacheByQueryKey({ data, queryClient, args: variables });

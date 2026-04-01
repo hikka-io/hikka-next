@@ -1,0 +1,112 @@
+'use client';
+
+import { ArticleCategoryEnum } from '@hikka/client';
+import { useSearchArticles, useSession } from '@hikka/react';
+import { FC } from 'react';
+
+import FiltersNotFound from '@/components/filters-not-found';
+import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
+import MaterialSymbolsAddRounded from '@/components/icons/watch-status/planned';
+import LoadMoreButton from '@/components/load-more-button';
+import Block from '@/components/ui/block';
+import { Button } from '@/components/ui/button';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
+import { ArticleFiltersModal } from '@/features/articles';
+import ArticleItem from '@/features/articles/article-item/article-item';
+import ArticleItemSkeleton from '@/features/articles/article-item/article-item-skeleton';
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+
+import { cn } from '@/utils/cn';
+import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { Link } from '@/utils/navigation';
+import type { ArticlesSearch } from '@/utils/search-schemas';
+
+interface Props {}
+
+const ArticleList: FC<Props> = () => {
+    const { user } = useSession();
+    const search = useFilterSearch<ArticlesSearch>();
+
+    const author = search.author || undefined;
+    const sort = search.sort?.length ? search.sort : ['created'];
+    const order = search.order || 'desc';
+    const tags = search.tags || undefined;
+    const draft = Boolean(search.draft) ?? false;
+    const categories = (search.categories as ArticleCategoryEnum[]) || [];
+
+    const selectedCategory = categories.length === 1 && categories[0];
+
+    const {
+        ref,
+        list,
+        pagination,
+        fetchNextPage,
+        isFetchingNextPage,
+        isPending,
+        hasNextPage,
+    } = useSearchArticles({
+        args: {
+            categories,
+            author,
+            sort: sort.map((item) => `${item}:${order}`),
+            tags,
+            draft,
+        },
+    });
+
+    return (
+        <Block>
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle variant="h2">
+                        {selectedCategory
+                            ? ARTICLE_CATEGORY_OPTIONS[selectedCategory]
+                                  ?.title_ua
+                            : 'Статті'}
+                    </HeaderTitle>
+                    {user && (
+                        <Button asChild size="icon-sm" variant="outline">
+                            <Link to={`${CONTENT_TYPE_LINKS['article']}/new`}>
+                                <MaterialSymbolsAddRounded className="size-4" />
+                            </Link>
+                        </Button>
+                    )}
+                </HeaderContainer>
+                <ArticleFiltersModal>
+                    <Button
+                        variant="outline"
+                        size="md"
+                        className="flex md:hidden"
+                    >
+                        <AntDesignFilterFilled /> Фільтри
+                    </Button>
+                </ArticleFiltersModal>
+            </Header>
+            <div
+                className={cn(
+                    '-mx-4 flex flex-col gap-6 md:mx-0',
+                    (!list || list.length === 0) && 'mx-0',
+                )}
+            >
+                {isPending && <ArticleItemSkeleton />}
+                {list?.map((article) => (
+                    <ArticleItem article={article} key={article.slug} />
+                ))}
+                {(!list || list.length === 0) && !isPending && (
+                    <FiltersNotFound />
+                )}
+                {hasNextPage && (
+                    <LoadMoreButton
+                        ref={ref}
+                        isFetchingNextPage={isFetchingNextPage}
+                        fetchNextPage={fetchNextPage}
+                    />
+                )}
+            </div>
+        </Block>
+    );
+};
+
+export default ArticleList;

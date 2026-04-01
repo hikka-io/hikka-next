@@ -1,0 +1,76 @@
+'use client';
+
+import { ArticleBaseResponse } from '@hikka/client';
+import { useDeleteArticle } from '@hikka/react';
+import { FC } from 'react';
+import { toast } from 'sonner';
+
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+
+import { useRouter } from '@/utils/navigation';
+
+interface Props {
+    article: ArticleBaseResponse;
+}
+
+const DeleteArticle: FC<Props> = ({ article }) => {
+    const router = useRouter();
+
+    const deleteArticleMutation = useDeleteArticle({
+        options: {
+            onSuccess: () => {
+                toast.success('Статтю успішно видалено.');
+
+                router.push('/articles');
+            },
+        },
+    });
+
+    const handleDeleteArticle = async () => {
+        deleteArticleMutation.mutate(article.slug);
+    };
+
+    return (
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <DropdownMenuItem
+                    onSelect={(e) => e.preventDefault()}
+                    className="text-destructive-foreground"
+                >
+                    <MaterialSymbolsDeleteForeverRounded className="mr-2" />
+                    Видалити
+                </DropdownMenuItem>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>
+                        Ви впевнені, що хочете видалити коментар?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                        Після цієї операції, Ви вже не зможете його відновити.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Відмінити</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleDeleteArticle}>
+                        Підтвердити
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    );
+};
+
+export default DeleteArticle;

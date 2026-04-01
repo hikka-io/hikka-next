@@ -5,6 +5,7 @@ import {
     NotificationUnseenResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
@@ -12,25 +13,32 @@ import {
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import {
+    notificationListOptions,
+    unseenNotificationsCountOptions,
+} from '@/options/api/notifications';
 
 /**
  * Hook for retrieving notifications
  */
 export function useNotificationList({
     paginationArgs,
+    options,
     ...rest
 }: InfiniteQueryParams<NotificationPaginationResponse> = {}) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        notificationListOptions(client, { paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.notifications.list(paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.notifications.getNotificationList({
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         options: {
             authProtected: true,
-            ...rest.options,
+            ...options,
         },
+        ...rest,
     });
 }
 
@@ -38,14 +46,15 @@ export function useNotificationList({
  * Hook for retrieving unseen notifications count
  */
 export function useUnseenNotificationsCount({
+    options,
     ...rest
 }: QueryParams<NotificationUnseenResponse> = {}) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.notifications.unseenCount(),
-        queryFn: (client) => client.notifications.getNotificationUnseenCount(),
+        ...unseenNotificationsCountOptions(client),
         options: {
             authProtected: true,
-            ...rest.options,
+            ...options,
         },
         ...rest,
     });

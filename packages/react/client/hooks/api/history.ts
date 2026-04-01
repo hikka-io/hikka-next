@@ -2,11 +2,15 @@
 
 import { HistoryPaginationResponse } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { queryKeys } from '@/core';
+import {
+    followingHistoryOptions,
+    userHistoryOptions,
+} from '@/options/api/history';
 import { UseUserHistoryParams } from '@/types/history';
 
 /**
@@ -16,13 +20,14 @@ export function useFollowingHistory({
     paginationArgs,
     ...rest
 }: InfiniteQueryParams<HistoryPaginationResponse> = {}) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        followingHistoryOptions(client, { paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.history.following(paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.history.getFollowingHistory({
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -35,13 +40,14 @@ export function useUserHistory({
     paginationArgs,
     ...rest
 }: UseUserHistoryParams & InfiniteQueryParams<HistoryPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        userHistoryOptions(client, { username, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.history.user(username, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.history.getUserHistory(username, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

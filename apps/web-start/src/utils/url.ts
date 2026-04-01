@@ -1,0 +1,24 @@
+/**
+ * URL utilities
+ */
+
+/**
+ * Validates and sanitizes a redirect URL to prevent open redirect attacks.
+ * Only allows redirects to paths within the same origin.
+ *
+ * @param url - The URL to validate
+ * @returns A safe pathname+search string, or '/' if the URL is invalid or external
+ */
+export const validateRedirectUrl = (url: string): string => {
+    try {
+        const parsed = new URL(url, window.location.origin);
+
+        if (parsed.origin === window.location.origin) {
+            return parsed.pathname + parsed.search;
+        }
+    } catch (e) {
+        console.error(e);
+    }
+
+    return '/';
+};

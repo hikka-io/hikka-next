@@ -11,6 +11,7 @@ import { CommentsModule } from './modules/comments';
 import { CompaniesModule } from './modules/companies';
 import { EditModule } from './modules/edit';
 import { FavouriteModule } from './modules/favourite';
+import { FeedModule } from './modules/feed';
 import { FollowModule } from './modules/follow';
 import { GenresModule } from './modules/genres';
 import { HistoryModule } from './modules/history';
@@ -64,6 +65,7 @@ export class HikkaClient {
     public characters: CharactersModule;
     public people: PeopleModule;
     public favourite: FavouriteModule;
+    public feed: FeedModule;
     public follow: FollowModule;
     public genres: GenresModule;
     public companies: CompaniesModule;
@@ -99,6 +101,7 @@ export class HikkaClient {
         this.characters = new CharactersModule(this);
         this.people = new PeopleModule(this);
         this.favourite = new FavouriteModule(this);
+        this.feed = new FeedModule(this);
         this.follow = new FollowModule(this);
         this.genres = new GenresModule(this);
         this.companies = new CompaniesModule(this);

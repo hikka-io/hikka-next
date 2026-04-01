@@ -2,11 +2,12 @@
 
 import { AnimeScheduleResponsePaginationResponse } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { queryKeys } from '@/core';
+import { searchAnimeScheduleOptions } from '@/options/api/schedule';
 import { UseAnimeScheduleParams } from '@/types/schedule';
 
 /**
@@ -18,13 +19,14 @@ export function useSearchAnimeSchedule({
     ...rest
 }: UseAnimeScheduleParams &
     InfiniteQueryParams<AnimeScheduleResponsePaginationResponse> = {}) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        searchAnimeScheduleOptions(client, { args, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.schedule.anime(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.schedule.searchAnimeSchedule(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

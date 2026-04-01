@@ -1,0 +1,66 @@
+'use client';
+
+import { useAnimeBySlug, useSession } from '@hikka/react';
+import { MessageCirclePlus, Popcorn } from 'lucide-react';
+import { FC } from 'react';
+
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+
+import { MOVIE_BANNERS } from '@/utils/constants/banners';
+import { Link } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
+import { usePlausible } from '@/utils/plausible';
+
+interface Props {}
+
+const MovieBanner: FC<Props> = () => {
+    const { user } = useSession();
+    const plausible = usePlausible<Hikka.PlausibleEvents>();
+    const params = useParams();
+    const { data: anime } = useAnimeBySlug({ slug: String(params.slug) });
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+
+    const banner = MOVIE_BANNERS.find(
+        (mb) =>
+            mb.slug === params.slug &&
+            mb.duration[0] <= currentTimestamp &&
+            mb.duration[1] >= currentTimestamp,
+    );
+
+    if (!anime || !banner) return null;
+
+    const handleTrackEvent = () => {
+        plausible('movie-banner-click');
+    };
+
+    return (
+        <Card
+            className="isolate flex-col justify-between overflow-hidden bg-center md:flex-row"
+            style={{ backgroundImage: `url(${banner.image ?? anime?.image})` }}
+        >
+            <div className="gradient-mask-t-40 absolute top-0 left-0 -z-10 size-full backdrop-blur" />
+            <div className="absolute top-0 left-0 -z-50 size-full bg-black/40" />
+            <div className="flex items-center gap-4">
+                <Popcorn className="size-6" />
+                <div className="flex flex-col justify-center gap-1">
+                    <h3 className="leading-5">{banner.title}</h3>
+                    <Label>{banner.description}</Label>
+                </div>
+            </div>
+            <Button
+                className="border-primary-foreground bg-primary/60"
+                onClick={handleTrackEvent}
+                asChild
+            >
+                <Link to="#comments">
+                    <MessageCirclePlus />
+                    Написати коментар
+                </Link>
+            </Button>
+        </Card>
+    );
+};
+
+export default MovieBanner;

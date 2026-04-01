@@ -1,6 +1,4 @@
-import { VoteResponse } from '@hikka/client';
-
-import { queryKeys } from '@/core';
+import { contentVoteOptions } from '@/options/api/vote';
 import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import { UseVoteStatusParams } from '@/types/vote';
 
@@ -11,10 +9,10 @@ export async function prefetchContentVote({
     contentType,
     slug,
     ...rest
-}: PrefetchQueryParams<VoteResponse> & UseVoteStatusParams) {
+}: PrefetchQueryParams & UseVoteStatusParams) {
     return prefetchQuery({
-        queryKey: queryKeys.vote.status(contentType, slug),
-        queryFn: (client) => client.vote.getContentVote(contentType, slug),
+        optionsFactory: (client) =>
+            contentVoteOptions(client, { contentType, slug }),
         ...rest,
     });
 }

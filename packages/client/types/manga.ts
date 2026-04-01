@@ -54,7 +54,7 @@ export interface MangaResponse {
  * Paginated manga response
  */
 export interface MangaPaginationResponse
-    extends PaginatedResponse<MangaResponse> { }
+    extends PaginatedResponse<MangaResponse> {}
 
 /**
  * Manga search parameters

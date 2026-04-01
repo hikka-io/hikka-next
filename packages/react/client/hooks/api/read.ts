@@ -10,6 +10,7 @@ import {
     UserReadPaginationResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
@@ -17,6 +18,12 @@ import {
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import {
+    readBySlugOptions,
+    readStatsOptions,
+    readingUsersOptions,
+    searchUserReadsOptions,
+} from '@/options/api/read';
 import {
     UseReadEntryParams,
     UseReadListParams,
@@ -33,9 +40,9 @@ export function useReadBySlug({
     options,
     ...rest
 }: UseReadEntryParams & QueryParams<ReadResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.read.entry(contentType, slug),
-        queryFn: (client) => client.read.getReadBySlug(contentType, slug),
+        ...readBySlugOptions(client, { contentType, slug }),
         options: {
             authProtected: true,
             ...options,
@@ -121,10 +128,9 @@ export function useReadStats({
     username,
     ...rest
 }: UseReadStatsParams & QueryParams<ReadStatsResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.read.stats(contentType, username),
-        queryFn: (client) =>
-            client.read.getUserReadStats(contentType, username),
+        ...readStatsOptions(client, { contentType, username }),
         ...rest,
     });
 }
@@ -139,17 +145,14 @@ export function useReadingUsers({
     options,
     ...rest
 }: UseReadingUsersParams & InfiniteQueryParams<UserReadPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        readingUsersOptions(client, { contentType, slug, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.read.followingUsers(
-            contentType,
-            slug,
-            paginationArgs,
-        ),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.read.getReadingUsers(contentType, slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         options: {
             authProtected: true,
             ...options,
@@ -168,18 +171,19 @@ export function useSearchUserReads({
     paginationArgs,
     ...rest
 }: UseReadListParams & InfiniteQueryParams<ReadPaginationResponse>) {
-    return useInfiniteQuery({
-        queryKey: queryKeys.read.list(
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        searchUserReadsOptions(client, {
             contentType,
             username,
             args,
             paginationArgs,
-        ),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.read.searchUserReads(contentType, username, args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        });
+    return useInfiniteQuery({
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

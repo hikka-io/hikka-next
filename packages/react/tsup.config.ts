@@ -49,4 +49,11 @@ export default defineConfig([
         },
         outDir: 'dist/utils',
     },
+    {
+        ...commonConfig,
+        entry: {
+            index: 'options/index.ts',
+        },
+        outDir: 'dist/options',
+    },
 ]);

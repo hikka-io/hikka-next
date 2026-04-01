@@ -6,12 +6,17 @@ import {
     NovelPaginationResponse,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { QueryParams, useQuery } from '@/client/useQuery';
-import { queryKeys } from '@/core';
+import {
+    novelBySlugOptions,
+    novelCharactersOptions,
+    searchNovelsOptions,
+} from '@/options/api/novel';
 import {
     UseNovelCharactersParams,
     UseNovelInfoParams,
@@ -25,9 +30,9 @@ export function useNovelBySlug<TResult = NovelInfoResponse>({
     slug,
     ...rest
 }: UseNovelInfoParams & QueryParams<NovelInfoResponse, TResult>) {
+    const { client } = useHikkaClient();
     return useQuery<NovelInfoResponse, Error, TResult>({
-        queryKey: queryKeys.novel.details(slug),
-        queryFn: (client) => client.novel.getNovelBySlug(slug),
+        ...novelBySlugOptions(client, { slug }),
         ...rest,
     });
 }
@@ -41,13 +46,14 @@ export function useNovelCharacters({
     ...rest
 }: UseNovelCharactersParams &
     InfiniteQueryParams<ContentCharacterPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        novelCharactersOptions(client, { slug, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.novel.characters(slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.novel.getNovelCharacters(slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -60,13 +66,14 @@ export function useSearchNovels({
     paginationArgs,
     ...rest
 }: UseSearchNovelsParams & InfiniteQueryParams<NovelPaginationResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        searchNovelsOptions(client, { args, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.novel.search({ args, paginationArgs }),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.novel.searchNovels(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }

@@ -156,7 +156,16 @@ export enum ContentTypeEnum {
     EDIT = 'edit',
     COMMENT = 'comment',
     USER = 'user',
+    HISTORY = 'history',
 }
+
+/**
+ * Common content type enum
+ */
+export type CommonContentType =
+    | ContentTypeEnum.ANIME
+    | ContentTypeEnum.MANGA
+    | ContentTypeEnum.NOVEL;
 
 /**
  * Content type

@@ -1,11 +1,9 @@
 import {
-    ReadPaginationResponse,
-    ReadResponse,
-    ReadStatsResponse,
-    UserReadPaginationResponse,
-} from '@hikka/client';
-
-import { queryKeys } from '@/core';
+    readBySlugOptions,
+    readStatsOptions,
+    readingUsersOptions,
+    searchUserReadsOptions,
+} from '@/options/api/read';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -25,10 +23,10 @@ export async function prefetchReadBySlug({
     contentType,
     slug,
     ...rest
-}: PrefetchQueryParams<ReadResponse> & UseReadEntryParams) {
+}: PrefetchQueryParams & UseReadEntryParams) {
     return prefetchQuery({
-        queryKey: queryKeys.read.entry(contentType, slug),
-        queryFn: (client) => client.read.getReadBySlug(contentType, slug),
+        optionsFactory: (client) =>
+            readBySlugOptions(client, { contentType, slug }),
         ...rest,
     });
 }
@@ -40,11 +38,10 @@ export async function prefetchReadStats({
     contentType,
     username,
     ...rest
-}: PrefetchQueryParams<ReadStatsResponse> & UseReadStatsParams) {
+}: PrefetchQueryParams & UseReadStatsParams) {
     return prefetchQuery({
-        queryKey: queryKeys.read.stats(contentType, username),
-        queryFn: (client) =>
-            client.read.getUserReadStats(contentType, username),
+        optionsFactory: (client) =>
+            readStatsOptions(client, { contentType, username }),
         ...rest,
     });
 }
@@ -57,19 +54,10 @@ export async function prefetchReadingUsers({
     slug,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<UserReadPaginationResponse> &
-    UseReadingUsersParams) {
+}: PrefetchInfiniteQueryParams & UseReadingUsersParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.read.followingUsers(
-            contentType,
-            slug,
-            paginationArgs,
-        ),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.read.getReadingUsers(contentType, slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            readingUsersOptions(client, { contentType, slug, paginationArgs }),
         ...rest,
     });
 }
@@ -83,18 +71,14 @@ export async function prefetchSearchUserReads({
     args,
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<ReadPaginationResponse> & UseReadListParams) {
+}: PrefetchInfiniteQueryParams & UseReadListParams) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.read.list(
-            contentType,
-            username,
-            args,
-            paginationArgs,
-        ),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.read.searchUserReads(contentType, username, args, {
-                page,
-                size: paginationArgs?.size,
+        optionsFactory: (client) =>
+            searchUserReadsOptions(client, {
+                contentType,
+                username,
+                args,
+                paginationArgs,
             }),
         ...rest,
     });

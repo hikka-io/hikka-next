@@ -8,6 +8,7 @@ import {
     CommentsContentType,
 } from '@hikka/client';
 
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
     InfiniteQueryParams,
     useInfiniteQuery,
@@ -15,6 +16,12 @@ import {
 import { createMutation } from '@/client/useMutation';
 import { QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
+import {
+    commentListOptions,
+    commentThreadOptions,
+    contentCommentsOptions,
+    latestCommentsOptions,
+} from '@/options/api/comments';
 import {
     UseCommentListParams,
     UseCommentThreadParams,
@@ -29,13 +36,14 @@ export function useCommentList({
     paginationArgs,
     ...rest
 }: InfiniteQueryParams<CommentListResponse> & UseCommentListParams = {}) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        commentListOptions(client, { paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.comments.list(paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.comments.getCommentList({
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -49,13 +57,14 @@ export function useContentComments({
     paginationArgs,
     ...rest
 }: UseContentCommentsParams & InfiniteQueryParams<CommentListResponse>) {
+    const { client } = useHikkaClient();
+    const { queryKey, queryFn, initialPageParam, getNextPageParam } =
+        contentCommentsOptions(client, { contentType, slug, paginationArgs });
     return useInfiniteQuery({
-        queryKey: queryKeys.comments.content(contentType, slug, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.comments.getContentComments(contentType, slug, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        queryKey,
+        queryFn,
+        initialPageParam,
+        getNextPageParam,
         ...rest,
     });
 }
@@ -66,9 +75,9 @@ export function useContentComments({
 export function useLatestComments({
     ...rest
 }: QueryParams<CommentResponse[]> & UseLatestCommentsParams = {}) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.comments.latest(),
-        queryFn: (client) => client.comments.getLatestComments(),
+        ...latestCommentsOptions(client),
         ...rest,
     });
 }
@@ -80,9 +89,9 @@ export function useCommentThread({
     commentReference,
     ...rest
 }: UseCommentThreadParams & QueryParams<CommentResponse>) {
+    const { client } = useHikkaClient();
     return useQuery({
-        queryKey: queryKeys.comments.thread(commentReference),
-        queryFn: (client) => client.comments.getCommentThread(commentReference),
+        ...commentThreadOptions(client, { commentReference }),
         ...rest,
     });
 }

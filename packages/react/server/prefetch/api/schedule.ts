@@ -1,6 +1,4 @@
-import { AnimeScheduleResponsePaginationResponse } from '@hikka/client';
-
-import { queryKeys } from '@/core';
+import { searchAnimeScheduleOptions } from '@/options/api/schedule';
 import {
     PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
@@ -14,15 +12,10 @@ export async function prefetchSearchAnimeSchedule({
     args = {},
     paginationArgs,
     ...rest
-}: PrefetchInfiniteQueryParams<AnimeScheduleResponsePaginationResponse> &
-    UseAnimeScheduleParams = {}) {
+}: PrefetchInfiniteQueryParams & UseAnimeScheduleParams = {}) {
     return prefetchInfiniteQuery({
-        queryKey: queryKeys.schedule.anime(args, paginationArgs),
-        queryFn: (client, page = paginationArgs?.page || 1) =>
-            client.schedule.searchAnimeSchedule(args, {
-                page,
-                size: paginationArgs?.size,
-            }),
+        optionsFactory: (client) =>
+            searchAnimeScheduleOptions(client, { args, paginationArgs }),
         ...rest,
     });
 }
