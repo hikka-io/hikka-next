@@ -16,9 +16,21 @@ function LinkAfterEditable() {
 
 export const LinkKit = [
     LinkPlugin.configure({
+        options: {
+            triggerFloatingLinkHotkeys: false as unknown as string,
+        },
         render: {
             node: LinkElement,
             afterEditable: LinkAfterEditable,
+        },
+        shortcuts: {
+            openLinkDialog: {
+                keys: ['meta+k', 'ctrl+k'],
+                handler: ({ editor }) => {
+                    (editor as any)._linkDialog?.openInsert();
+                },
+                preventDefault: true,
+            },
         },
     }),
 ];

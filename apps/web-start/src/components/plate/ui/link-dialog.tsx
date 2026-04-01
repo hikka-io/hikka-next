@@ -240,6 +240,13 @@ export function LinkDialogProvider({
     const editor = useEditorRef();
     const dialog = useLinkDialog(editor);
 
+    React.useEffect(() => {
+        (editor as any)._linkDialog = {
+            openInsert: dialog.openInsert,
+            openEdit: dialog.openEdit,
+        };
+    }, [editor, dialog.openInsert, dialog.openEdit]);
+
     return (
         <LinkDialogContext.Provider
             value={{ openInsert: dialog.openInsert, openEdit: dialog.openEdit }}
