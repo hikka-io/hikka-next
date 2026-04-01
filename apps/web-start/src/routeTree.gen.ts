@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PagesRouteImport } from './routes/_pages'
 import { Route as PagesIndexRouteImport } from './routes/_pages/index'
+import { Route as AuthGoogleRouteImport } from './routes/auth/google'
 import { Route as PagesSettingsRouteImport } from './routes/_pages/settings'
 import { Route as PagesScheduleRouteImport } from './routes/_pages/schedule'
 import { Route as PagesOauthRouteImport } from './routes/_pages/oauth'
@@ -105,6 +106,11 @@ const PagesIndexRoute = PagesIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PagesRoute,
+} as any)
+const AuthGoogleRoute = AuthGoogleRouteImport.update({
+  id: '/auth/google',
+  path: '/auth/google',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PagesSettingsRoute = PagesSettingsRouteImport.update({
   id: '/settings',
@@ -554,6 +560,7 @@ export interface FileRoutesByFullPath {
   '/oauth': typeof PagesOauthRoute
   '/schedule': typeof PagesScheduleRoute
   '/settings': typeof PagesSettingsRouteWithChildren
+  '/auth/google': typeof AuthGoogleRoute
   '/login': typeof PagesAuthLoginRoute
   '/reset': typeof PagesAuthResetRouteWithChildren
   '/signup': typeof PagesAuthSignupRoute
@@ -640,6 +647,7 @@ export interface FileRoutesByTo {
   '/': typeof PagesIndexRoute
   '/oauth': typeof PagesOauthRoute
   '/schedule': typeof PagesScheduleRoute
+  '/auth/google': typeof AuthGoogleRoute
   '/login': typeof PagesAuthLoginRoute
   '/reset': typeof PagesAuthResetRouteWithChildren
   '/signup': typeof PagesAuthSignupRoute
@@ -719,6 +727,7 @@ export interface FileRoutesById {
   '/_pages/oauth': typeof PagesOauthRoute
   '/_pages/schedule': typeof PagesScheduleRoute
   '/_pages/settings': typeof PagesSettingsRouteWithChildren
+  '/auth/google': typeof AuthGoogleRoute
   '/_pages/': typeof PagesIndexRoute
   '/_pages/_auth/login': typeof PagesAuthLoginRoute
   '/_pages/_auth/reset': typeof PagesAuthResetRouteWithChildren
@@ -809,6 +818,7 @@ export interface FileRouteTypes {
     | '/oauth'
     | '/schedule'
     | '/settings'
+    | '/auth/google'
     | '/login'
     | '/reset'
     | '/signup'
@@ -895,6 +905,7 @@ export interface FileRouteTypes {
     | '/'
     | '/oauth'
     | '/schedule'
+    | '/auth/google'
     | '/login'
     | '/reset'
     | '/signup'
@@ -973,6 +984,7 @@ export interface FileRouteTypes {
     | '/_pages/oauth'
     | '/_pages/schedule'
     | '/_pages/settings'
+    | '/auth/google'
     | '/_pages/'
     | '/_pages/_auth/login'
     | '/_pages/_auth/reset'
@@ -1059,6 +1071,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   PagesRoute: typeof PagesRouteWithChildren
+  AuthGoogleRoute: typeof AuthGoogleRoute
   ApiAuthGoogleRoute: typeof ApiAuthGoogleRoute
   ApiAuthLogoutRoute: typeof ApiAuthLogoutRoute
   ApiOgAnimeRoute: typeof ApiOgAnimeRoute
@@ -1087,6 +1100,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof PagesIndexRouteImport
       parentRoute: typeof PagesRoute
+    }
+    '/auth/google': {
+      id: '/auth/google'
+      path: '/auth/google'
+      fullPath: '/auth/google'
+      preLoaderRoute: typeof AuthGoogleRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_pages/settings': {
       id: '/_pages/settings'
@@ -1977,6 +1997,7 @@ const PagesRouteWithChildren = PagesRoute._addFileChildren(PagesRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   PagesRoute: PagesRouteWithChildren,
+  AuthGoogleRoute: AuthGoogleRoute,
   ApiAuthGoogleRoute: ApiAuthGoogleRoute,
   ApiAuthLogoutRoute: ApiAuthLogoutRoute,
   ApiOgAnimeRoute: ApiOgAnimeRoute,
