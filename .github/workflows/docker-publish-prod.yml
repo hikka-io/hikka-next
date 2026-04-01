@@ -40,14 +40,28 @@ jobs:
                   username: ${{ github.actor }}
                   password: ${{ github.token }}
 
-            # https://github.com/actions/delete-package-versions
-            - name: Delete old package versions
-              uses: actions/delete-package-versions@v5
-              with:
-                  package-name: 'hikka-next'
-                  package-type: 'container'
-                  min-versions-to-keep: 3
-                  ignore-versions: '^dev$'
+            - name: Delete old package versions (keep dev)
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  # Get all tagged versions as "id tags" lines (newest first)
+                  # Skip dev-tagged and untagged versions, keep 3 newest prod, delete the rest
+                  VERSIONS=$(gh api \
+                    "orgs/${{ github.repository_owner }}/packages/container/hikka-next/versions" \
+                    --paginate --jq '.[] | select(.metadata.container.tags | length > 0) | "\(.id) \(.metadata.container.tags | join(","))"')
+
+                  # Filter out dev versions, skip first 3 (newest), collect the rest for deletion
+                  DELETE_IDS=$(echo "$VERSIONS" | { grep -vw "dev" || true; } | tail -n +4 | awk '{print $1}')
+
+                  if [ -z "$DELETE_IDS" ]; then
+                    echo "No old versions to delete"
+                  else
+                    echo "$DELETE_IDS" | while read -r id; do
+                      echo "Deleting version $id"
+                      gh api --method DELETE \
+                        "orgs/${{ github.repository_owner }}/packages/container/hikka-next/versions/$id" || echo "Failed to delete version $id"
+                    done
+                  fi
 
             # https://github.com/docker/metadata-action
             - name: Extract Docker metadata
