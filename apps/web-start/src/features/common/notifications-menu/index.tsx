@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import {
     useNotificationList,
     useUnseenNotificationsCount,
@@ -24,6 +26,7 @@ import NotFoundNotifications from './components/not-found-notifications';
 import NotificationItem from './components/notification-item';
 
 const NotificationsMenu = () => {
+    const [isOpen, setIsOpen] = useState(false);
     const { data: countData } = useUnseenNotificationsCount();
 
     const {
@@ -31,14 +34,15 @@ const NotificationsMenu = () => {
         hasNextPage,
         isFetchingNextPage,
         fetchNextPage,
-        refetch,
         ref,
-    } = useNotificationList();
+    } = useNotificationList({
+        options: { enabled: isOpen },
+    });
 
     const { mutate: asSeen } = useUpdateNotificationSeen();
 
     return (
-        <DropdownMenu onOpenChange={(open) => open && refetch()}>
+        <DropdownMenu onOpenChange={setIsOpen}>
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon-md" className="relative">
                     <MaterialSymbolsNotificationsRounded />

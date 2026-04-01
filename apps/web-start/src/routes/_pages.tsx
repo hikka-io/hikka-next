@@ -1,5 +1,10 @@
 import { HikkaApiError } from '@hikka/client';
-import { sessionOptions } from '@hikka/react/options';
+import { prefetchInfiniteQuery } from '@hikka/react/core';
+import {
+    notificationListOptions,
+    sessionOptions,
+    unseenNotificationsCountOptions,
+} from '@hikka/react/options';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { Toaster } from '@/components/ui/sonner';
@@ -25,6 +30,19 @@ export const Route = createFileRoute('/_pages')({
             }
             throw error;
         }
+    },
+    loader: async ({ context: { queryClient, hikkaClient } }) => {
+        if (!hikkaClient.getAuthToken()) return;
+
+        await Promise.allSettled([
+            prefetchInfiniteQuery(
+                queryClient,
+                notificationListOptions(hikkaClient),
+            ),
+            queryClient.prefetchQuery(
+                unseenNotificationsCountOptions(hikkaClient),
+            ),
+        ]);
     },
     component: PagesLayout,
 });
