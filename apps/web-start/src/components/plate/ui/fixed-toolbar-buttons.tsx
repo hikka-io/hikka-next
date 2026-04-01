@@ -24,12 +24,19 @@ interface Props {
 export function FixedMarkdownToolbarButtons({ className }: Props) {
     const readOnly = useEditorReadOnly();
     const scrollRef = useRef<HTMLDivElement>(null);
-    const { gradientClassName } = useScrollGradientMask(scrollRef, 'horizontal');
+    const { gradientClassName } = useScrollGradientMask(
+        scrollRef,
+        'horizontal',
+    );
 
     return (
         <div
             ref={scrollRef}
-            className={cn('flex flex-1 overflow-x-scroll', gradientClassName, className)}
+            className={cn(
+                'flex flex-1 overflow-x-scroll md:overflow-x-hidden',
+                gradientClassName,
+                className,
+            )}
         >
             {!readOnly && (
                 <>
