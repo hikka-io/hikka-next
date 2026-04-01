@@ -26,6 +26,7 @@ const StatusProgressBar: FC<Props> = ({ segments, hoveredStatus }) => {
                 (segment) =>
                     segment.count > 0 && (
                         <div
+                            key={segment.status}
                             className={cn(
                                 'min-w-2 rounded-xs transition-opacity',
                                 `bg-${segment.status}-foreground`,

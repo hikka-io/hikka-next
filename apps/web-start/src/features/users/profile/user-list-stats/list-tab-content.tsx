@@ -135,10 +135,9 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                     };
 
                     return (
-                        <Tooltip>
+                        <Tooltip key={status}>
                             <TooltipTrigger asChild>
                                 <Link
-                                    key={status}
                                     to={`/u/${username}/list/${type}`}
                                     search={{ status, sort: sortParam }}
                                     preload={false}
