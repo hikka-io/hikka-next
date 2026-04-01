@@ -73,7 +73,7 @@ function NavMenu() {
                         <NavigationMenuTrigger className={triggerClassName}>
                             Спільнота
                         </NavigationMenuTrigger>
-                        <NavigationMenuContent className="p-1!">
+                        <NavigationMenuContent className="p-1! data-[motion^=from-]:animate-none! data-[motion^=to-]:animate-none!">
                             <div className="flex w-52 flex-col gap-1">
                                 {APP_NAV_USER_CONTENT.filter(
                                     (item) => item.visible,
@@ -110,7 +110,7 @@ function NavMenu() {
                         <NavigationMenuTrigger className={triggerClassName}>
                             Ще
                         </NavigationMenuTrigger>
-                        <NavigationMenuContent className="p-1!">
+                        <NavigationMenuContent className="p-1! data-[motion^=from-]:animate-none! data-[motion^=to-]:animate-none!">
                             <div className="flex w-52 flex-col gap-1">
                                 {APP_NAV_MORE.map((group, index) => (
                                     <div key={group.title_ua}>

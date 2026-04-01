@@ -18,6 +18,11 @@ import { DEFAULT_HOME_WIDGETS, WIDGET_COMPONENTS } from '../constants';
 
 const AVAILABLE_WIDGET_MAP = new Map(AVAILABLE_WIDGETS.map((w) => [w.id, w]));
 
+const AUTH_REQUIRED_WIDGETS: HomeWidgetsEnum[] = [
+    HomeWidgetsEnum.TRACKER,
+    HomeWidgetsEnum.HISTORY,
+];
+
 interface Props {
     className?: string;
 }
@@ -35,7 +40,12 @@ const WidgetSection: FC<Props> = ({ className }) => {
         'horizontal',
     );
 
-    const widgets = homeWidgets ?? DEFAULT_HOME_WIDGETS;
+    const allWidgets = homeWidgets ?? DEFAULT_HOME_WIDGETS;
+    const widgets = user
+        ? allWidgets
+        : allWidgets.filter(
+              (w) => !AUTH_REQUIRED_WIDGETS.includes(w),
+          );
 
     const currentTab =
         activeTab && widgets.includes(activeTab as HomeWidgetsEnum)
