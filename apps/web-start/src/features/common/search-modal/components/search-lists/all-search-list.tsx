@@ -164,7 +164,7 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
     );
 
     return (
-        <SearchList className="py-1">
+        <SearchList>
             <SearchPlaceholders
                 data={placeholderData}
                 isFetching={anyFetching}
