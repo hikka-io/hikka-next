@@ -2,7 +2,6 @@
 
 import { ContentTypeEnum } from '@hikka/client';
 import { useTitle } from '@hikka/react';
-import { Fragment } from 'react';
 
 import Hikka from '@/components/icons/custom/Hikka';
 import MAL from '@/components/icons/custom/MAL';
@@ -50,44 +49,45 @@ const Title = ({ className, content_type }: TitleProps) => {
                 </div>
                 {(data.score > 0 || data.native_score > 0) && (
                     <div className="flex gap-2 bg-secondary/20 backdrop-blur px-2 py-1 rounded-md border items-center">
-                        <div className="flex gap-2 items-center">
-                            <MAL className="w-4 h-4 text-foreground" />
-                            <div className="flex flex-col items-start justify-start">
-                                <div className="flex items-center gap-1">
-                                    <p className="font-display  font-bold">
-                                        {data.score}
-                                    </p>
-
-                                    <MaterialSymbolsStarRounded className="text-lg text-yellow-400" />
-                                </div>
-
-                                <p className="text-xs tracking-wider text-muted-foreground">
-                                    {compact(data.scored_by)}
-                                </p>
-                            </div>
-                        </div>
-                        {!!data.native_score && (
-                            <Fragment>
-                                <Separator
-                                    orientation="vertical"
-                                    className="h-8"
-                                />
-                                <div className="flex gap-2 items-center">
-                                    <Hikka className="w-4 h-4 text-foreground" />
-                                    <div className="flex flex-col items-start justify-start">
-                                        <div className="flex items-center gap-1">
-                                            <p className="font-display font-bold">
-                                                {data.native_score}
-                                            </p>
-
-                                            <MaterialSymbolsStarRounded className="text-lg text-yellow-400" />
-                                        </div>
-                                        <p className="text-xs tracking-wider text-muted-foreground">
-                                            {compact(data.native_scored_by)}
+                        {!!data.score && (
+                            <div className="flex gap-2 items-center">
+                                <MAL className="w-4 h-4 text-foreground" />
+                                <div className="flex flex-col items-start justify-start">
+                                    <div className="flex items-center gap-1">
+                                        <p className="font-display  font-bold">
+                                            {data.score}
                                         </p>
+
+                                        <MaterialSymbolsStarRounded className="text-lg text-yellow-400" />
                                     </div>
+
+                                    <p className="text-xs tracking-wider text-muted-foreground">
+                                        {compact(data.scored_by)}
+                                    </p>
                                 </div>
-                            </Fragment>
+                            </div>
+                        )}
+
+                        {!!data.score && !!data.native_score && (
+                            <Separator orientation="vertical" className="h-8" />
+                        )}
+
+                        {!!data.native_score && (
+                            <div className="flex gap-2 items-center">
+                                <Hikka className="w-4 h-4 text-foreground" />
+                                <div className="flex flex-col items-start justify-start">
+                                    <div className="flex items-center gap-1">
+                                        <p className="font-display font-bold">
+                                            {data.native_score}
+                                        </p>
+
+                                        <MaterialSymbolsStarRounded className="text-lg text-yellow-400" />
+                                    </div>
+                                    <p className="text-xs tracking-wider text-muted-foreground">
+                                        {compact(data.native_scored_by)}
+                                    </p>
+                                </div>
+                            </div>
                         )}
                     </div>
                 )}

@@ -62,7 +62,7 @@ const SortableWidgetRow: FC<SortableWidgetRowProps> = ({
         <div
             ref={setNodeRef}
             style={style}
-            className="border-border bg-secondary/30 flex items-center gap-3 rounded-lg border p-3"
+            className="border bg-secondary/20 flex items-center gap-3 rounded-lg p-3"
         >
             <button
                 className="text-muted-foreground hover:text-foreground cursor-grab touch-none"
