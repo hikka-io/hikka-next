@@ -47,6 +47,7 @@ jobs:
                   package-name: 'hikka-next'
                   package-type: 'container'
                   min-versions-to-keep: 3
+                  ignore-versions: '^dev$'
 
             # https://github.com/docker/metadata-action
             - name: Extract Docker metadata
