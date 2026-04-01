@@ -62,6 +62,7 @@ export interface AnimeResponse {
     scored_by: number;
     score: number;
     native_score: number;
+    native_scored_by: number;
     slug: string;
     start_date: number | null;
     end_date: number | null;
