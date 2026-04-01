@@ -9,7 +9,7 @@ import * as React from 'react';
 import { cn } from '@/utils/cn';
 
 const editorContainerVariants = cva(
-    'relative isolate z-1 w-full cursor-text caret-primary-foreground select-text selection:bg-primary-foreground/25 focus-visible:outline-hidden [&_.slate-selection-area]:z-50 [&_.slate-selection-area]:border [&_.slate-selection-area]:border-primary-foreground/25 [&_.slate-selection-area]:bg-primary-foreground/15',
+    'relative isolate z-1 w-full caret-primary-foreground select-text selection:bg-primary-foreground/25 focus-visible:outline-hidden [&_.slate-selection-area]:z-50 [&_.slate-selection-area]:border [&_.slate-selection-area]:border-primary-foreground/25 [&_.slate-selection-area]:bg-primary-foreground/15',
     {
         defaultVariants: {
             variant: 'default',
