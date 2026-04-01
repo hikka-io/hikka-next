@@ -49,7 +49,7 @@ const WidgetTracker = () => {
     if (!user) return null;
 
     return (
-        <Card className="bg-secondary/20 backdrop-blur-xl">
+        <Card className="bg-secondary/20 backdrop-blur-xl" id="tracker">
             <Block>
                 <Header
                     href={`/u/${user.username}/${TAB_LIST_CONFIG[activeTab].path}`}

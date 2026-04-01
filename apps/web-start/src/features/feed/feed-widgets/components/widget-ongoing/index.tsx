@@ -75,7 +75,7 @@ const WidgetOngoing = () => {
     };
 
     return (
-        <Card className="bg-secondary/20 p-0 backdrop-blur-xl">
+        <Card className="bg-secondary/20 p-0 backdrop-blur-xl" id="ongoings">
             <Block className="w-full gap-4 py-4">
                 <Header href="/anime" search={search} className="px-4">
                     <HeaderContainer>

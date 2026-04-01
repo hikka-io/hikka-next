@@ -25,7 +25,7 @@ const WidgetHistory = () => {
     if (!user) return null;
 
     return (
-        <Card className="bg-secondary/20 p-0 backdrop-blur-xl">
+        <Card className="bg-secondary/20 p-0 backdrop-blur-xl" id="history">
             <Block className="w-full gap-4 py-4">
                 <Header
                     href={`/u/${user.username}/history`}
