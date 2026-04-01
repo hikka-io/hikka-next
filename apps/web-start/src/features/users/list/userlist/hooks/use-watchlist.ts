@@ -14,7 +14,7 @@ import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useParams } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
 
-export const useWatchList = () => {
+export const useWatchList = (options?: { enabled?: boolean }) => {
     const search = useFilterSearch<UserlistSearch>();
     const params = useParams();
 
@@ -51,5 +51,6 @@ export const useWatchList = () => {
                     ? sort.map((item) => `${item}:${order}`)
                     : undefined,
         },
+        options: { enabled: options?.enabled },
     });
 };

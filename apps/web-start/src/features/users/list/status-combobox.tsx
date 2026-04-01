@@ -54,8 +54,8 @@ const StatusCombobox = ({ content_type }: Props) => {
         options: { enabled: !isAnime },
     });
 
-    const watchList = useWatchList();
-    const readList = useReadList();
+    const watchList = useWatchList({ enabled: isAnime });
+    const readList = useReadList({ enabled: !isAnime });
     const paginationTotal = isAnime
         ? watchList.data?.pages[0]?.pagination.total
         : readList.data?.pages[0]?.pagination.total;

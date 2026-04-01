@@ -1,8 +1,15 @@
 import {
+    AnimeAgeRatingEnum,
+    AnimeMediaEnum,
+    AnimeStatusEnum,
     CommonContentType,
+    ContentStatusEnum,
     ContentTypeEnum,
+    MangaMediaEnum,
+    NovelMediaEnum,
     ReadContentType,
     ReadStatusEnum,
+    SeasonEnum,
     WatchStatusEnum,
 } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
@@ -35,20 +42,33 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
         const { username, content_type } = params;
         const isAnime = content_type === ContentTypeEnum.ANIME;
         const defaultSort = isAnime ? 'watch_score' : 'read_score';
-        const { status, sort } = deps;
+        const { status, sort: sortParam } = deps;
 
-        if (!status || !sort) {
+        if (!status || !sortParam) {
             throw redirect({
                 to: '/u/$username/list/$content_type',
                 params: { username, content_type },
                 search: {
                     status: status || 'completed',
-                    sort: sort || defaultSort,
+                    sort: sortParam || defaultSort,
                 },
             });
         }
 
+        const order = deps.order || 'desc';
+        const sort = sortParam.length
+            ? sortParam.map((item) => `${item}:${order}`)
+            : undefined;
+
         if (isAnime) {
+            const media_type = (deps.types ?? []) as AnimeMediaEnum[];
+            const animeStatus = (deps.statuses ?? []) as AnimeStatusEnum[];
+            const season = (deps.seasons ?? []) as SeasonEnum[];
+            const rating = (deps.ratings ?? []) as AnimeAgeRatingEnum[];
+            const years = (deps.years ?? []) as [number | null, number | null];
+            const genres = deps.genres ?? [];
+            const studios = deps.studios ?? [];
+
             await prefetchInfiniteQuery(
                 queryClient,
                 searchUserWatchesOptions(hikkaClient, {
@@ -58,11 +78,28 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                             status !== 'all'
                                 ? (status as WatchStatusEnum)
                                 : undefined,
-                        sort: [`${sort}:desc`],
+                        media_type,
+                        status: animeStatus,
+                        season,
+                        rating,
+                        years,
+                        genres,
+                        studios,
+                        sort,
                     },
                 }),
             );
         } else {
+            const media_type = (deps.types ?? []) as (
+                | NovelMediaEnum
+                | MangaMediaEnum
+            )[];
+            const readContentStatus = (deps.statuses ??
+                []) as ContentStatusEnum[];
+            const years = (deps.years ?? []) as [number | null, number | null];
+            const genres = deps.genres ?? [];
+            const magazines = deps.magazines ?? [];
+
             await prefetchInfiniteQuery(
                 queryClient,
                 searchUserReadsOptions(hikkaClient, {
@@ -73,7 +110,12 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                             status !== 'all'
                                 ? (status as ReadStatusEnum)
                                 : undefined,
-                        sort: [`${sort}:desc`],
+                        media_type,
+                        status: readContentStatus,
+                        years,
+                        genres,
+                        magazines,
+                        sort,
                     },
                 }),
             );
