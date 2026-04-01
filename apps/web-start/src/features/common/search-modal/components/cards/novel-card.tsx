@@ -33,6 +33,8 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
                 <ContentCard
                     containerClassName="rounded-(--base-radius)"
                     image={novel.image}
+                    read={novel.read ? novel.read[0] : undefined}
+                    statusSize="sm"
                 />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">

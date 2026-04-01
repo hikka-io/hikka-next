@@ -86,6 +86,7 @@ export interface ContentCardProps
     imageProps?: ImageProps;
     imagePreset?: ImagePreset;
     linkProps?: Record<string, any>;
+    statusSize?: 'default' | 'sm';
 }
 
 export interface TooltipProps {
@@ -183,6 +184,7 @@ const Content = memo(
                 imagePreset,
                 linkProps,
                 target,
+                statusSize,
                 ...props
             },
             ref,
@@ -238,6 +240,7 @@ const Content = memo(
                                     <ContentStatus
                                         status={watch.status}
                                         icon={WATCH_STATUS[watch.status].icon!}
+                                        size={statusSize}
                                     />
                                 )}
                                 {read && (
@@ -248,6 +251,7 @@ const Content = memo(
                                                 read.status as ReadStatusEnum
                                             ].icon!
                                         }
+                                        size={statusSize}
                                     />
                                 )}
                             </CardLink>

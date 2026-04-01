@@ -33,6 +33,8 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                 <ContentCard
                     containerClassName="rounded-(--base-radius)"
                     image={anime.image}
+                    watch={anime.watch ? anime.watch[0] : undefined}
+                    statusSize="sm"
                 />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">
