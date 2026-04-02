@@ -42,7 +42,7 @@ function getStats(item: FeedItemResponse): {
             };
         case ContentTypeEnum.COMMENT:
             return {
-                commentsCount: 0,
+                commentsCount: item.total_replies,
                 voteScore: item.vote_score,
                 commentsHref: `/comments/${item.content_type}/${item.preview.slug}/${item.reference}`,
                 contentType: ContentTypeEnum.COMMENT,
