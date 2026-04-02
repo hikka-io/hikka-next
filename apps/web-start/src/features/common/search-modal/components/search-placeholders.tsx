@@ -15,27 +15,27 @@ interface Props {
 }
 
 const SearchPlaceholders = ({ data, isFetching, isRefetching }: Props) => {
+    if (data && (Array.isArray(data) ? data.length > 0 : data.list.length > 0))
+        return null;
+
     return (
-        <>
-            {data &&
-                (Array.isArray(data)
-                    ? data.length === 0
-                    : data.list.length === 0) && (
-                    <p className="text-muted-foreground py-6 text-center text-sm">
-                        За Вашим запитом нічого не знайдено
-                    </p>
-                )}
-            {isFetching && !isRefetching && (
-                <div className="w-full py-4 text-center">
-                    <span className="loading loading-spinner"></span>
-                </div>
-            )}
-            {!data && !isFetching && (
-                <p className="text-muted-foreground py-6 text-center text-sm">
-                    Введіть назву, щоб розпочати пошук...
+        <div className="py-6 flex justify-center items-center">
+            {isFetching && !isRefetching ? (
+                <span className="loading loading-spinner size-5! text-center"></span>
+            ) : (
+                <p className="text-muted-foreground text-center text-sm">
+                    {data &&
+                        (Array.isArray(data)
+                            ? data.length === 0
+                            : data.list.length === 0) &&
+                        'За Вашим запитом нічого не знайдено'}
+
+                    {!data &&
+                        !isFetching &&
+                        'Введіть назву, щоб розпочати пошук...'}
                 </p>
             )}
-        </>
+        </div>
     );
 };
 
