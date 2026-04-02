@@ -2,11 +2,13 @@
 
 import {
     AddEditArgs,
+    ContentTypeEnum,
     EditPaginationResponse,
     EditResponse,
     TodoEditResponse,
     UpdateEditArgs,
 } from '@hikka/client';
+import { QueryClient } from '@tanstack/react-query';
 
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
@@ -81,6 +83,32 @@ export function useTodoEditList<T = any>({
     });
 }
 
+function invalidateContentQueries({
+    data,
+    queryClient,
+}: {
+    data: EditResponse;
+    queryClient: QueryClient;
+}) {
+    const slug = data.content?.slug;
+    if (!slug) return;
+
+    const contentKeyMap: Partial<
+        Record<ContentTypeEnum, readonly unknown[]>
+    > = {
+        [ContentTypeEnum.ANIME]: queryKeys.anime.details(slug),
+        [ContentTypeEnum.MANGA]: queryKeys.manga.details(slug),
+        [ContentTypeEnum.NOVEL]: queryKeys.novel.details(slug),
+        [ContentTypeEnum.CHARACTER]: queryKeys.characters.bySlug(slug),
+        [ContentTypeEnum.PERSON]: queryKeys.people.bySlug(slug),
+    };
+
+    const queryKey = contentKeyMap[data.content_type];
+    if (queryKey) {
+        queryClient.invalidateQueries({ queryKey, exact: false });
+    }
+}
+
 /**
  * Hook for adding an edit to content
  */
@@ -88,6 +116,7 @@ export const useCreateEdit = createMutation({
     mutationFn: (client, args: AddEditArgs<any>) =>
         client.edit.createEdit(args),
     invalidateQueries: () => [queryKeys.edit.all],
+    cacheByQueryKey: invalidateContentQueries,
 });
 
 /**
@@ -114,6 +143,7 @@ export const useAcceptEdit = createMutation({
         queryKeys.edit.all,
         queryKeys.edit.byId(editId),
     ],
+    cacheByQueryKey: invalidateContentQueries,
 });
 
 /**
