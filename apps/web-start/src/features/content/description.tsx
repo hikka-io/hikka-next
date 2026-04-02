@@ -32,7 +32,7 @@ const Description = ({ className, content_type }: Props) => {
     }
 
     return (
-        <Block className={className}>
+        <Block className={className} id="content-description">
             <Header>
                 <HeaderContainer>
                     <HeaderTitle>Опис</HeaderTitle>

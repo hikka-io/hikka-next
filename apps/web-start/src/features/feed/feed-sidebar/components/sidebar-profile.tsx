@@ -31,7 +31,7 @@ const SidebarProfile = () => {
 
     if (!user || !followStats) {
         return (
-            <Card className="bg-secondary/20 items-center">
+            <Card className="bg-secondary/20 items-center" id="sidebar-profile">
                 <div className="flex w-full flex-col gap-2">
                     <p className="text-sm font-bold">Приєднуйся до hikka</p>
                     <p className="text-muted-foreground text-xs">
@@ -46,7 +46,10 @@ const SidebarProfile = () => {
 
     return (
         <>
-            <Card className="bg-secondary/20 hidden items-center xl:flex backdrop-blur-xl">
+            <Card
+                className="bg-secondary/20 hidden items-center xl:flex backdrop-blur-xl"
+                id="sidebar-profile"
+            >
                 <div className="flex w-full items-center justify-between gap-2">
                     <div className="flex items-center gap-4">
                         <Link to={`/u/${user.username}`}>

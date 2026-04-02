@@ -21,7 +21,10 @@ const Cover = ({ content_type }: Props) => {
     );
 
     return (
-        <div className="z-0 flex items-center px-16 md:px-48 lg:px-0">
+        <div
+            className="z-0 flex items-center px-16 md:px-48 lg:px-0"
+            id="content-cover"
+        >
             <ContentCard image={content?.image} imagePreset="cardLg" />
         </div>
     );

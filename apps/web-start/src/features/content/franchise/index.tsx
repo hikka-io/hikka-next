@@ -57,8 +57,6 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
         },
     });
 
-    console.log('franchise', franchise, error);
-
     if (!franchise) {
         return null;
     }
@@ -84,7 +82,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
     );
 
     return (
-        <Block>
+        <Block id="content-franchise">
             <div className="flex items-center justify-between">
                 <Header
                     className="flex-1"

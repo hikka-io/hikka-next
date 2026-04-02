@@ -12,7 +12,7 @@ import ActivityHeatmap from './components/activity-heatmap';
 
 const UserActivity = () => {
     return (
-        <Card className="bg-secondary/20">
+        <Card className="bg-secondary/20" id="user-activity">
             <Header>
                 <HeaderContainer>
                     <HeaderTitle variant="h4">Активність</HeaderTitle>

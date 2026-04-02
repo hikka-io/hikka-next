@@ -35,6 +35,7 @@ const Scores = ({ className, content_type }: ScoresProps) => {
 
     return (
         <div
+            id="content-scores"
             className={cn(
                 'flex gap-4 bg-secondary/20 backdrop-blur p-2 px-4 rounded-md border items-center',
                 (data.score === 0 || data.native_score === 0) &&

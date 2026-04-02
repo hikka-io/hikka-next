@@ -57,7 +57,10 @@ export const Route = createFileRoute('/_pages/u/$username/')({
 function UserPage() {
     return (
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_25%] lg:gap-12">
-            <div className="contents lg:flex lg:flex-col lg:gap-8">
+            <div
+                className="contents lg:flex lg:flex-col lg:gap-8"
+                id="profile-left-side"
+            >
                 <div className="order-1 grid grid-cols-1 gap-8 md:grid-cols-2 lg:order-0">
                     <UserListStats />
                     <UserActivity />
@@ -69,7 +72,10 @@ function UserPage() {
                     <UserArticles />
                 </div>
             </div>
-            <div className="contents lg:flex lg:flex-col lg:gap-8">
+            <div
+                className="contents lg:flex lg:flex-col lg:gap-8"
+                id="profile-right-side"
+            >
                 <div className="order-2 lg:order-0">
                     <History />
                 </div>

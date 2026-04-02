@@ -21,8 +21,7 @@ import {
 
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
+import { Link, useParams } from '@/utils/navigation';
 
 import CollectionItem from './components/collection-item';
 import CollectionsModal from './components/collections-modal';
@@ -58,7 +57,10 @@ const UserCollections: FC<Props> = ({ className }) => {
 
     return (
         <>
-            <Card className={cn('bg-secondary/20', className)}>
+            <Card
+                className={cn('bg-secondary/20', className)}
+                id="user-collections"
+            >
                 <Block>
                     <Header
                         onClick={

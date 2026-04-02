@@ -45,7 +45,7 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
 
     return (
         <>
-            <Card className="bg-secondary/20">
+            <Card className="bg-secondary/20" id="content-articles">
                 <Block>
                     <Header onClick={() => setOpen(true)}>
                         <HeaderContainer>

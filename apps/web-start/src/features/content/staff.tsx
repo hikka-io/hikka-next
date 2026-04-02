@@ -39,7 +39,7 @@ const Staff: FC<Props> = ({ extended, content_type }) => {
     const filteredData = extended ? list : list.slice(0, 5);
 
     return (
-        <Block>
+        <Block id="content-staff">
             <Header
                 href={
                     !extended

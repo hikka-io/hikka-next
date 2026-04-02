@@ -68,7 +68,7 @@ const Favorites: FC<Props> = ({ extended }) => {
     };
 
     return (
-        <Block>
+        <Block id="user-favorites">
             <Header
                 to={
                     !extended

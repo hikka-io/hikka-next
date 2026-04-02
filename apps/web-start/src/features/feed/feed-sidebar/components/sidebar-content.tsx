@@ -19,10 +19,13 @@ const SidebarContent = () => {
     );
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4" id="sidebar">
             <SidebarProfile />
             {user && (
-                <Card className="bg-secondary/20 px-2 backdrop-blur">
+                <Card
+                    className="bg-secondary/20 px-2 backdrop-blur"
+                    id="sidebar-list-stats"
+                >
                     <Header className="px-2">
                         <HeaderTitle variant="h4">Список</HeaderTitle>
                     </Header>

@@ -176,7 +176,10 @@ const WatchDetails = ({
         : null;
 
     return (
-        <Card className={cn('bg-secondary/20 px-0 backdrop-blur', className)}>
+        <Card
+            className={cn('bg-secondary/20 px-0 backdrop-blur', className)}
+            id="watch-details"
+        >
             {/* Basic Info Section */}
             <div className="flex flex-col gap-4 px-4">
                 <DetailItem

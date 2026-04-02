@@ -43,9 +43,7 @@ const WidgetSection: FC<Props> = ({ className }) => {
     const allWidgets = homeWidgets ?? DEFAULT_HOME_WIDGETS;
     const widgets = user
         ? allWidgets
-        : allWidgets.filter(
-              (w) => !AUTH_REQUIRED_WIDGETS.includes(w),
-          );
+        : allWidgets.filter((w) => !AUTH_REQUIRED_WIDGETS.includes(w));
 
     const currentTab =
         activeTab && widgets.includes(activeTab as HomeWidgetsEnum)
@@ -55,7 +53,7 @@ const WidgetSection: FC<Props> = ({ className }) => {
     const hasWidgets = widgets.length > 0;
 
     return (
-        <div className={cn('flex flex-col gap-4', className)}>
+        <div className={cn('flex flex-col gap-4', className)} id="widgets">
             {settingsModal}
             <Button
                 variant="outline"

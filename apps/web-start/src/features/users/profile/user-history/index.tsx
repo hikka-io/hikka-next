@@ -23,8 +23,7 @@ import HistoryItem from '@/features/users/user-history/components/history-item';
 
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
+import { Link, useParams } from '@/utils/navigation';
 
 import ActivityModal from './components/history-modal';
 
@@ -45,7 +44,10 @@ const History: FC<Props> = ({ className }) => {
 
     return (
         <>
-            <Card className={cn('bg-secondary/20', className)}>
+            <Card
+                className={cn('bg-secondary/20', className)}
+                id="user-history"
+            >
                 <Block>
                     <Header
                         onClick={

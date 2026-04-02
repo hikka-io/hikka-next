@@ -25,7 +25,7 @@ const Characters: FC<Props> = ({ extended, content_type }) => {
         CONTENT_CONFIG[content_type].useCharacters(String(params.slug));
 
     return (
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-12" id="content-characters">
             <MainCharacters extended={extended} content_type={content_type} />
             {extended && (
                 <OtherCharacters

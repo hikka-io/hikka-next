@@ -24,7 +24,7 @@ const Title = ({ className, content_type }: TitleProps) => {
     }
 
     return (
-        <div className="flex flex-col justify-between gap-4">
+        <div className="flex flex-col justify-between gap-4" id="content-title">
             <div className="flex flex-col">
                 <h2>{title}</h2>
 

@@ -19,8 +19,7 @@ import {
 } from '@/components/ui/tooltip';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
+import { Link, useParams } from '@/utils/navigation';
 
 import ArticleItem from './components/article-item';
 
@@ -41,7 +40,7 @@ const UserArticles: FC<Props> = () => {
     if (!availableArticles || availableArticles.length === 0) return null;
 
     return (
-        <Block>
+        <Block id="user-articles">
             <Header
                 to={CONTENT_TYPE_LINKS.article}
                 search={{ author: params.username }}

@@ -39,13 +39,19 @@ const ContentDetailPage: FC<Props> = ({
     return (
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-12">
             {jsonLd}
-            <div className="flex flex-col gap-4 lg:col-span-1">
+            <div
+                className="flex flex-col gap-4 lg:col-span-1"
+                id="content-left-side"
+            >
                 <ContentCover content_type={contentType} />
                 <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
                     <ContentActions content_type={contentType} />
                 </div>
             </div>
-            <div className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-8">
+            <div
+                className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-8"
+                id="content-center"
+            >
                 <ContentTitle content_type={contentType} />
                 <ContentScores
                     className="lg:hidden"
@@ -67,7 +73,10 @@ const ContentDetailPage: FC<Props> = ({
                 </div>
             </div>
 
-            <div className="flex flex-col gap-8 lg:col-span-1">
+            <div
+                className="flex flex-col gap-8 lg:col-span-1"
+                id="content-right-side"
+            >
                 <ContentScores
                     className="hidden lg:flex"
                     content_type={contentType}
