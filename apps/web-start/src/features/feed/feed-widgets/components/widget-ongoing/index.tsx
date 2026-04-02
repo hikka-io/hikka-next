@@ -6,6 +6,7 @@ import { useHikkaClient, useSearchAnimes } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
 import ContentCard from '@/components/content-card/content-card';
+import { AnimeTooltip } from '@/components/content-card';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
@@ -93,53 +94,57 @@ const WidgetOngoing = () => {
                     {!isLoading &&
                         list?.map((anime, index) => {
                             return (
-                                <Link
+                                <AnimeTooltip
                                     key={anime.slug}
-                                    to={`/anime/${anime.slug}`}
-                                    className={cn(
-                                        'group flex items-center gap-4 rounded-sm px-2 py-2',
-                                        'hover:bg-secondary/60 transition-colors',
-                                    )}
+                                    slug={anime.slug}
                                 >
-                                    {/* poster */}
-                                    <ContentCard
-                                        image={anime.image}
-                                        className="w-12"
-                                        imagePreset="cardXs"
-                                        containerClassName="rounded-(--base-radius)"
-                                    />
+                                    <Link
+                                        to={`/anime/${anime.slug}`}
+                                        className={cn(
+                                            'group flex items-center gap-4 rounded-sm px-2 py-2',
+                                            'hover:bg-secondary/60 transition-colors',
+                                        )}
+                                    >
+                                        {/* poster */}
+                                        <ContentCard
+                                            image={anime.image}
+                                            className="w-12"
+                                            imagePreset="cardXs"
+                                            containerClassName="rounded-(--base-radius)"
+                                        />
 
-                                    {/* title + meta */}
-                                    <div className="flex min-w-0 flex-1 flex-col gap-2">
-                                        <p className="group-hover:text-foreground line-clamp-2 text-xs font-medium">
-                                            <span className="text-muted-foreground font-bold">
-                                                #{index + 1}
-                                                {' / '}
-                                            </span>
-                                            {getTitle(
-                                                anime,
-                                                defaultOptions?.title,
-                                                defaultOptions?.name,
-                                            )}
-                                        </p>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-muted-foreground text-xs">
-                                                <span className="font-bold">
-                                                    {anime.episodes_released}
+                                        {/* title + meta */}
+                                        <div className="flex min-w-0 flex-1 flex-col gap-2">
+                                            <p className="group-hover:text-foreground line-clamp-2 text-xs font-medium">
+                                                <span className="text-muted-foreground font-bold">
+                                                    #{index + 1}
+                                                    {' / '}
                                                 </span>
-                                                /{anime.episodes_total ?? '?'}{' '}
-                                                {getDeclensionWord(
-                                                    anime.episodes_total ?? 0,
-                                                    EPISODE_DECLENSIONS,
+                                                {getTitle(
+                                                    anime,
+                                                    defaultOptions?.title,
+                                                    defaultOptions?.name,
                                                 )}
-                                            </span>
+                                            </p>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-muted-foreground text-xs">
+                                                    <span className="font-bold">
+                                                        {anime.episodes_released}
+                                                    </span>
+                                                    /{anime.episodes_total ?? '?'}{' '}
+                                                    {getDeclensionWord(
+                                                        anime.episodes_total ?? 0,
+                                                        EPISODE_DECLENSIONS,
+                                                    )}
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <Badge variant="outline" className="gap-1">
-                                        <span>{anime.score}</span>{' '}
-                                        <MaterialSymbolsStarRounded className="size-4 text-yellow-400" />
-                                    </Badge>
-                                </Link>
+                                        <Badge variant="outline" className="gap-1">
+                                            <span>{anime.score}</span>{' '}
+                                            <MaterialSymbolsStarRounded className="size-4 text-yellow-400" />
+                                        </Badge>
+                                    </Link>
+                                </AnimeTooltip>
                             );
                         })}
 
