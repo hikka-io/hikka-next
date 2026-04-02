@@ -165,7 +165,13 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <span className={cn(LINK_CLASSNAME, className)}>
+                <span
+                    className={cn(
+                        LINK_CLASSNAME,
+                        LINK_EXTRA_CLASSNAME,
+                        className,
+                    )}
+                >
                     {children}
                 </span>
             </AlertDialogTrigger>
