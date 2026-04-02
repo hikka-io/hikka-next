@@ -55,7 +55,7 @@ const Scores = ({ className, content_type }: ScoresProps) => {
                             <MaterialSymbolsStarRounded className="text-lg text-yellow-400" />
                         </div>
 
-                        <p className="text-xs tracking-wider text-muted-foreground">
+                        <p className="text-xs tracking-wider text-muted-foreground line-clamp-1">
                             {compact(data.scored_by)} оцінок
                         </p>
                     </div>
@@ -77,7 +77,7 @@ const Scores = ({ className, content_type }: ScoresProps) => {
 
                             <MaterialSymbolsStarRounded className="text-lg text-yellow-400" />
                         </div>
-                        <p className="text-xs tracking-wider text-muted-foreground">
+                        <p className="text-xs tracking-wider text-muted-foreground line-clamp-1">
                             {compact(data.native_scored_by)} оцінок
                         </p>
                     </div>
