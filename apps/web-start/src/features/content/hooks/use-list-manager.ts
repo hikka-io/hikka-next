@@ -97,11 +97,12 @@ export const useUserlistManager = ({
     listItem,
     content_type,
 }: ListManagerProps) => {
-    const [updatedListItem, setUpdatedListItem] =
-        useState<MappedListItem | null>(null);
+    const [pendingUpdate, setPendingUpdate] = useState<MappedListItem | null>(
+        null,
+    );
 
-    const deboucedUpdatedListItem = useDebounce({
-        value: updatedListItem,
+    const debouncedUpdate = useDebounce({
+        value: pendingUpdate,
         delay: 500,
     });
 
@@ -110,83 +111,83 @@ export const useUserlistManager = ({
 
     const mappedListItem = mapListItem({ listItem, content_type });
 
+    useEffect(() => {
+        setPendingUpdate(null);
+    }, [mappedListItem.slug]);
+
+    const currentScore = pendingUpdate?.score ?? mappedListItem.score;
+    const currentProgress = pendingUpdate?.progress ?? mappedListItem.progress;
+    const currentStatus = pendingUpdate?.status ?? mappedListItem.status;
+
+    const updateListItem = (
+        fields: Partial<Pick<MappedListItem, 'score' | 'progress' | 'status'>>,
+    ) => {
+        setPendingUpdate({
+            slug: mappedListItem.slug,
+            total: mappedListItem.total,
+            extraArgs: mappedListItem.extraArgs,
+            score: currentScore,
+            progress: currentProgress,
+            status: currentStatus,
+            ...fields,
+        });
+    };
+
     const addProgress = () => {
-        if (listItem) {
-            const progress =
-                (updatedListItem?.progress ?? mappedListItem.progress) + 1;
+        if (!listItem) return;
 
-            if (mappedListItem.total && progress > mappedListItem.total) return;
+        const progress = currentProgress + 1;
 
-            let status = updatedListItem?.status ?? mappedListItem.status;
+        if (mappedListItem.total && progress > mappedListItem.total) return;
 
-            if (progress === mappedListItem.total) {
-                status = statuses[content_type][CommonStatusEnum.COMPLETED];
-            }
+        let status = currentStatus;
 
-            if (
-                !mappedListItem.progress &&
-                mappedListItem.status ===
-                    statuses[content_type][CommonStatusEnum.PLANNED]
-            ) {
-                status = statuses[content_type][CommonStatusEnum.ON_PROGRESS];
-            }
-
-            setUpdatedListItem({
-                slug: mappedListItem.slug,
-                score: mappedListItem.score,
-                total: mappedListItem.total,
-                extraArgs: mappedListItem.extraArgs,
-                ...updatedListItem,
-                status,
-                progress,
-            });
+        if (progress === mappedListItem.total) {
+            status = statuses[content_type][CommonStatusEnum.COMPLETED];
         }
+
+        if (
+            !mappedListItem.progress &&
+            mappedListItem.status ===
+                statuses[content_type][CommonStatusEnum.PLANNED]
+        ) {
+            status = statuses[content_type][CommonStatusEnum.ON_PROGRESS];
+        }
+
+        updateListItem({ progress, status });
     };
 
     const removeProgress = () => {
-        if (listItem) {
-            const progress =
-                (updatedListItem?.progress ?? mappedListItem.progress) - 1;
+        if (!listItem) return;
 
-            if (progress < 0) return;
+        const progress = currentProgress - 1;
 
-            setUpdatedListItem({
-                status: mappedListItem.status,
-                slug: mappedListItem.slug,
-                score: mappedListItem.score,
-                total: mappedListItem.total,
-                extraArgs: mappedListItem.extraArgs,
-                ...updatedListItem,
-                progress,
-            });
-        }
+        if (progress < 0) return;
+
+        updateListItem({ progress });
     };
 
     const setScore = (value: number) => {
-        if (listItem) {
-            setUpdatedListItem({
-                status: mappedListItem.status,
-                progress: mappedListItem.progress,
-                slug: mappedListItem.slug,
-                total: mappedListItem.total,
-                extraArgs: mappedListItem.extraArgs,
-                ...updatedListItem,
-                score: value * 2,
-            });
-        }
+        if (!listItem) return;
+
+        updateListItem({ score: value * 2 });
     };
 
-    const mutateListItem = () => {
+    useEffect(() => {
+        if (!debouncedUpdate || debouncedUpdate.slug !== mappedListItem.slug) {
+            return;
+        }
+
         switch (content_type) {
             case ContentTypeEnum.ANIME:
                 mutateCreateWatch({
-                    slug: mappedListItem.slug,
+                    slug: debouncedUpdate.slug,
                     args: {
-                        note: deboucedUpdatedListItem?.extraArgs.note,
-                        rewatches: deboucedUpdatedListItem?.extraArgs.rewatches,
-                        score: deboucedUpdatedListItem?.score,
-                        status: deboucedUpdatedListItem?.status as WatchStatusEnum,
-                        episodes: deboucedUpdatedListItem?.progress,
+                        note: debouncedUpdate.extraArgs.note,
+                        rewatches: debouncedUpdate.extraArgs.rewatches,
+                        score: debouncedUpdate.score,
+                        status: debouncedUpdate.status as WatchStatusEnum,
+                        episodes: debouncedUpdate.progress,
                     },
                 });
                 break;
@@ -194,34 +195,26 @@ export const useUserlistManager = ({
             case ContentTypeEnum.NOVEL:
                 mutateCreateRead({
                     contentType: content_type,
-                    slug: mappedListItem.slug,
+                    slug: debouncedUpdate.slug,
                     args: {
-                        note: deboucedUpdatedListItem?.extraArgs.note,
-                        rereads: deboucedUpdatedListItem?.extraArgs.rereads,
-                        score: deboucedUpdatedListItem?.score,
-                        status: deboucedUpdatedListItem?.status as ReadStatusEnum,
-                        chapters: deboucedUpdatedListItem?.progress,
-                        volumes: deboucedUpdatedListItem?.extraArgs.volumes,
+                        note: debouncedUpdate.extraArgs.note,
+                        rereads: debouncedUpdate.extraArgs.rereads,
+                        score: debouncedUpdate.score,
+                        status: debouncedUpdate.status as ReadStatusEnum,
+                        chapters: debouncedUpdate.progress,
+                        volumes: debouncedUpdate.extraArgs.volumes,
                     },
                 });
                 break;
-            default:
-                break;
         }
-    };
-
-    useEffect(() => {
-        if (deboucedUpdatedListItem) {
-            mutateListItem();
-        }
-    }, [deboucedUpdatedListItem]);
+    }, [debouncedUpdate]);
 
     return {
         addProgress,
         removeProgress,
         setScore,
-        score: updatedListItem?.score ?? mappedListItem.score,
-        progress: updatedListItem?.progress ?? mappedListItem.progress,
-        total: updatedListItem?.total ?? mappedListItem.total,
+        score: currentScore,
+        progress: currentProgress,
+        total: pendingUpdate?.total ?? mappedListItem.total,
     };
 };
