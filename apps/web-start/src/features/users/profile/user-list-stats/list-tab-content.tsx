@@ -95,6 +95,19 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
         ? Math.round((watchData!.duration || 0) / 60)
         : null;
 
+    const watchTotalDays = watchHours !== null ? Math.floor(watchHours / 24) : 0;
+    const watchMonths = Math.floor(watchTotalDays / 30);
+    const watchDays = watchTotalDays % 30;
+
+    const watchDisplayLabel = [
+        watchMonths > 0 &&
+            `${watchMonths} ${getDeclensionWord(watchMonths, ['місяць', 'місяці', 'місяців'])}`,
+        (watchDays > 0 || watchMonths === 0) &&
+            `${watchDays} ${getDeclensionWord(watchDays, ['день', 'дні', 'днів'])}`,
+    ]
+        .filter(Boolean)
+        .join(' ');
+
     return (
         <div className={cn('flex flex-col gap-2', className)}>
             <div className="flex flex-col gap-2 px-2">
@@ -183,14 +196,23 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                             <MaterialSymbolsClockLoader10 className="size-4" />
                             <Label>Час перегляду</Label>
                         </div>
-                        <Label>
-                            {watchHours}{' '}
-                            {getDeclensionWord(watchHours, [
-                                'година',
-                                'години',
-                                'годин',
-                            ])}
-                        </Label>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Label className="cursor-pointer">
+                                    {watchDisplayLabel}
+                                </Label>
+                            </TooltipTrigger>
+                            <TooltipPortal>
+                                <TooltipContent>
+                                    {watchHours}{' '}
+                                    {getDeclensionWord(watchHours, [
+                                        'година',
+                                        'години',
+                                        'годин',
+                                    ])}
+                                </TooltipContent>
+                            </TooltipPortal>
+                        </Tooltip>
                     </div>
                 </div>
             )}
