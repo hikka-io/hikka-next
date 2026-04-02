@@ -14,6 +14,7 @@ import ContentDetails from './details';
 import { Followings } from './followings';
 import Franchise from './franchise';
 import ContentLinks from './links';
+import ContentScores from './scores';
 import ContentStaff from './staff';
 import ContentTitle from './title';
 
@@ -46,8 +47,13 @@ const ContentDetailPage: FC<Props> = ({
             </div>
             <div className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-8">
                 <ContentTitle content_type={contentType} />
+                <ContentScores
+                    className="lg:hidden"
+                    content_type={contentType}
+                />
                 <ContentDescription content_type={contentType} />
                 {afterDescription}
+
                 <ContentDetails
                     className="lg:hidden"
                     content_type={contentType}
@@ -62,6 +68,10 @@ const ContentDetailPage: FC<Props> = ({
             </div>
 
             <div className="flex flex-col gap-8 lg:col-span-1">
+                <ContentScores
+                    className="hidden lg:flex"
+                    content_type={contentType}
+                />
                 <ContentDetails
                     className="hidden lg:flex"
                     content_type={contentType}
