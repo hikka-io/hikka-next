@@ -5,8 +5,8 @@ import { AnimeMediaEnum, AnimeStatusEnum, SeasonEnum } from '@hikka/client';
 import { useHikkaClient, useSearchAnimes } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
-import ContentCard from '@/components/content-card/content-card';
 import { AnimeTooltip } from '@/components/content-card';
+import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
@@ -97,6 +97,11 @@ const WidgetOngoing = () => {
                                 <AnimeTooltip
                                     key={anime.slug}
                                     slug={anime.slug}
+                                    watch={
+                                        anime.watch.length > 0
+                                            ? anime.watch[0]
+                                            : undefined
+                                    }
                                 >
                                     <Link
                                         to={`/anime/${anime.slug}`}
@@ -129,17 +134,25 @@ const WidgetOngoing = () => {
                                             <div className="flex items-center gap-2">
                                                 <span className="text-muted-foreground text-xs">
                                                     <span className="font-bold">
-                                                        {anime.episodes_released}
+                                                        {
+                                                            anime.episodes_released
+                                                        }
                                                     </span>
-                                                    /{anime.episodes_total ?? '?'}{' '}
+                                                    /
+                                                    {anime.episodes_total ??
+                                                        '?'}{' '}
                                                     {getDeclensionWord(
-                                                        anime.episodes_total ?? 0,
+                                                        anime.episodes_total ??
+                                                            0,
                                                         EPISODE_DECLENSIONS,
                                                     )}
                                                 </span>
                                             </div>
                                         </div>
-                                        <Badge variant="outline" className="gap-1">
+                                        <Badge
+                                            variant="outline"
+                                            className="gap-1"
+                                        >
                                             <span>{anime.score}</span>{' '}
                                             <MaterialSymbolsStarRounded className="size-4 text-yellow-400" />
                                         </Badge>
