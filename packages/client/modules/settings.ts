@@ -173,12 +173,16 @@ export class SettingsModule extends BaseModule {
     }
 
     /**
-     * Update user UI config by username
+     * Update user UI config
      */
     public async updateUserUI(
-        userUI: Omit<UserUI, 'username'>,
+        userUI: UserUI,
         options?: BaseRequestOptionsArgs,
-    ): Promise<UserUI> {
-        return this.client.put<UserUI>(`/settings/ui`, userUI, options);
+    ): Promise<SuccessResponse> {
+        return this.client.put<SuccessResponse>(
+            `/settings/ui`,
+            userUI,
+            options,
+        );
     }
 }

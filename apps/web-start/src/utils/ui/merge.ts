@@ -97,10 +97,10 @@ export function mergeEffects(
  */
 export function mergePreferences(
     base: UIPreferences | undefined,
-    override: UIPreferences | undefined,
+    override: Partial<UIPreferences> | undefined,
 ): UIPreferences {
-    if (!base && !override) return {};
-    if (!base) return override!;
+    if (!base && !override) return DEFAULT_USER_UI.preferences;
+    if (!base) return { ...DEFAULT_USER_UI.preferences, ...override };
     if (!override) return base;
 
     return {

@@ -72,23 +72,50 @@ export type UIStyles = {
 
 export type UIEffect = 'snowfall';
 
+export type UIScoreType = 'mal' | 'native';
+
 export enum HomeWidgetsEnum {
+    LIST = 'list',
+    PROFILE = 'profile',
+    FEED = 'feed',
     TRACKER = 'tracker',
     HISTORY = 'history',
     ONGOINGS = 'ongoings',
     SCHEDULE = 'schedule',
 }
 
+export type UIFeedWidgetSide = 'left' | 'center' | 'right';
+
+export type UIFeedWidgetSlug =
+    | 'list'
+    | 'profile'
+    | 'feed'
+    | 'tracker'
+    | 'history'
+    | 'ongoings'
+    | 'schedule';
+
+export type UIFeedWidget = {
+    side: UIFeedWidgetSide;
+    slug: UIFeedWidgetSlug;
+    order: number;
+};
+
+export type UIFeedSettings = {
+    widgets: UIFeedWidget[];
+};
+
 export type UIPreferences = {
+    score?: UIScoreType;
     title_language?: TitleLanguage;
     name_language?: NameLanguage;
     effects?: UIEffect[];
     overlay?: boolean;
-    home_widgets?: HomeWidgetsEnum[];
+    feed: UIFeedSettings;
+    home_widgets: HomeWidgetsEnum[];
 };
 
 export type UserUI = {
-    styles?: UIStyles;
-    preferences?: UIPreferences;
-    username?: string;
+    styles: UIStyles;
+    preferences: UIPreferences;
 };

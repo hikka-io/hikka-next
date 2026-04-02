@@ -35,6 +35,7 @@ const Favorites: FC<Props> = ({ extended }) => {
     console.log(
         mergeUserUI(DEFAULT_USER_UI, {
             preferences: {
+                ...DEFAULT_USER_UI.preferences,
                 overlay: true,
             },
             styles: {

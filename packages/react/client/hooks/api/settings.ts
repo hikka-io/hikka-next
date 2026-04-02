@@ -1,6 +1,10 @@
 'use client';
 
-import { IgnoredNotificationsResponse, UserUI } from '@hikka/client';
+import {
+    IgnoredNotificationsResponse,
+    SuccessResponse,
+    UserUI,
+} from '@hikka/client';
 
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { createMutation } from '@/client/useMutation';
@@ -151,9 +155,9 @@ export const useDeleteImage = createMutation({
  * Hook for updating a user's UI config
  */
 export const useUpdateUserUI = createMutation<
-    UserUI,
+    SuccessResponse,
     Error,
-    { userUI: Omit<UserUI, 'username'> }
+    { userUI: UserUI }
 >({
     mutationFn: (client, { userUI }) => client.settings.updateUserUI(userUI),
     invalidateQueries: () => [queryKeys.user.ui('me')],

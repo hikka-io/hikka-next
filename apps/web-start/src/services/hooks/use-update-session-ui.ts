@@ -7,7 +7,10 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { DEFAULT_USER_UI, diffStyles } from '@/utils/ui';
 
-type SessionUIPatch = Partial<Pick<UserUI, 'styles' | 'preferences'>>;
+type SessionUIPatch = {
+    styles?: UserUI['styles'];
+    preferences?: Partial<UserUI['preferences']>;
+};
 
 export function useUpdateSessionUI() {
     const queryClient = useQueryClient();
@@ -19,7 +22,7 @@ export function useUpdateSessionUI() {
             queryClient.getQueryData<UserUI>(queryKey) ?? DEFAULT_USER_UI;
 
         // Full resolved styles for optimistic cache update (used by rendering)
-        const resolvedNext: Omit<UserUI, 'username'> = {
+        const resolvedNext: UserUI = {
             styles: patch.styles ?? currentUI.styles,
             preferences: patch.preferences
                 ? { ...currentUI.preferences, ...patch.preferences }
@@ -27,8 +30,8 @@ export function useUpdateSessionUI() {
         };
 
         // Sparse styles for API: diff against defaults so only overrides are persisted
-        const apiPayload: Omit<UserUI, 'username'> = {
-            styles: diffStyles(resolvedNext.styles),
+        const apiPayload: UserUI = {
+            styles: diffStyles(resolvedNext.styles) || {},
             preferences: resolvedNext.preferences,
         };
 

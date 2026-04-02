@@ -1,7 +1,7 @@
 /**
  * Default UI styles and UI settings.
  */
-import { UIStyles, UserUI } from '@hikka/client';
+import { HomeWidgetsEnum, UIStyles, UserUI } from '@hikka/client';
 
 /**
  * Default UI styles for light and dark themes.
@@ -78,5 +78,22 @@ export const DEFAULT_USER_UI: UserUI = {
         name_language: 'name_ua',
         effects: [],
         overlay: true,
+        home_widgets: [
+            HomeWidgetsEnum.TRACKER,
+            HomeWidgetsEnum.HISTORY,
+            HomeWidgetsEnum.ONGOINGS,
+            HomeWidgetsEnum.SCHEDULE,
+        ],
+        feed: {
+            widgets: [
+                { side: 'left', slug: 'profile', order: 1 },
+                { side: 'left', slug: 'list', order: 2 },
+                { side: 'center', slug: 'feed', order: 1 },
+                { side: 'right', slug: 'tracker', order: 1 },
+                { side: 'right', slug: 'history', order: 2 },
+                { side: 'right', slug: 'ongoings', order: 3 },
+                { side: 'right', slug: 'schedule', order: 4 },
+            ],
+        },
     },
 };
