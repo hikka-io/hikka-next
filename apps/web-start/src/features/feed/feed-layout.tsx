@@ -26,7 +26,7 @@ const WidgetColumn: FC<{ widgets: UIFeedWidget[]; className?: string }> = ({
     widgets,
     className,
 }) => (
-    <div className={cn('flex flex-col gap-4', className)}>
+    <div className={cn('flex flex-col gap-6', className)}>
         {widgets.map((w) => (
             <WidgetRenderer key={w.slug} widget={w} />
         ))}
@@ -99,7 +99,7 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
     const sidebarWidgets = useMemo(() => [...left, ...right], [left, right]);
 
     const gridClasses = cn(
-        'mx-auto grid w-full grid-cols-1 gap-8',
+        'mx-auto grid w-full grid-cols-1 gap-6',
         layout === 3 &&
             'lg:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]',
         layout === 2 && 'max-w-6xl lg:grid-cols-[28rem_1fr]',
@@ -189,7 +189,7 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
             {hasCenter && (
                 <main
                     className={cn(
-                        'flex min-w-0 flex-col gap-4',
+                        'flex min-w-0 flex-col gap-6',
                         layout === 3 && 'order-2 lg:order-1',
                     )}
                     id="feed"
