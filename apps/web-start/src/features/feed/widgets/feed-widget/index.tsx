@@ -1,14 +1,8 @@
 'use client';
 
-import {
-    ContentTypeEnum,
-    FeedArgs,
-    FeedContentType,
-    FeedItemResponse,
-} from '@hikka/client';
+import { ContentTypeEnum, FeedArgs, FeedItemResponse } from '@hikka/client';
 import { useFeed } from '@hikka/react';
-import { useRouter } from '@tanstack/react-router';
-import { FC, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -19,23 +13,13 @@ import {
 } from '@/components/ui/field';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import { useFilterSearch } from '@/features/filters';
-
-import { useSettingsStore } from '@/services/stores/settings-store';
-import { FeedSearch } from '@/utils/search-schemas';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 
 import { WidgetProps } from '../../constants';
-import { FeedFilterEnum } from '../../types';
 import FeedItem from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
 import FeedSubTypeSelect from './components/feed-sub-type-select';
-
-const FILTER_TO_CONTENT_TYPE: Partial<Record<FeedFilterEnum, FeedContentType>> =
-    {
-        [FeedFilterEnum.COMMENTS]: ContentTypeEnum.COMMENT,
-        [FeedFilterEnum.ARTICLES]: ContentTypeEnum.ARTICLE,
-        [FeedFilterEnum.COLLECTIONS]: ContentTypeEnum.COLLECTION,
-    };
 
 function getFeedItemKey(item: FeedItemResponse): string {
     if (item.data_type === ContentTypeEnum.ARTICLE) return item.slug;
@@ -43,62 +27,38 @@ function getFeedItemKey(item: FeedItemResponse): string {
 }
 
 const FeedWidget: FC<WidgetProps> = () => {
-    const search = useFilterSearch<FeedSearch>();
-    const router = useRouter();
-    const { preferences } = useSettingsStore();
-    const [onlyFollowed, setOnlyFollowed] = useState(false);
+    const { preferences } = useSessionUI();
+    const { update } = useUpdateSessionUI();
 
-    const filter = (search.type as FeedFilterEnum) || FeedFilterEnum.ALL;
-    const showTypeLabel = filter === FeedFilterEnum.ALL;
+    const feedSettings = preferences.feed;
+    const onlyFollowed = feedSettings.only_followed ?? false;
 
-    const commentTypes = preferences.filters.feedCommentContentTypes || [];
-    const articleTypes = preferences.filters.feedArticleContentTypes || [];
-    const articleCategories = preferences.filters.feedArticleCategories || [];
-    const collectionTypes =
-        preferences.filters.feedCollectionContentTypes || [];
+    const handleOnlyFollowedChange = (value: boolean | 'indeterminate') => {
+        update({ preferences: { feed: { only_followed: Boolean(value) } } });
+    };
 
     const feedArgs = useMemo((): FeedArgs => {
         const args: FeedArgs = {};
 
-        if (filter !== FeedFilterEnum.ALL) {
-            args.content_type = FILTER_TO_CONTENT_TYPE[filter];
-        }
+        if (onlyFollowed) args.only_followed = true;
 
-        if (
-            filter === FeedFilterEnum.ALL ||
-            filter === FeedFilterEnum.COMMENTS
-        ) {
-            if (commentTypes.length)
-                args.comment_content_types =
-                    commentTypes as FeedArgs['comment_content_types'];
-        }
-        if (
-            filter === FeedFilterEnum.ALL ||
-            filter === FeedFilterEnum.ARTICLES
-        ) {
-            if (articleTypes.length)
-                args.article_content_types =
-                    articleTypes as FeedArgs['article_content_types'];
-            if (articleCategories.length)
-                args.article_categories =
-                    articleCategories as FeedArgs['article_categories'];
-        }
-        if (
-            filter === FeedFilterEnum.ALL ||
-            filter === FeedFilterEnum.COLLECTIONS
-        ) {
-            if (collectionTypes.length)
-                args.collection_content_types =
-                    collectionTypes as FeedArgs['collection_content_types'];
-        }
+        if (feedSettings.comment_content_types?.length)
+            args.comment_content_types = feedSettings.comment_content_types;
+        if (feedSettings.article_content_types?.length)
+            args.article_content_types = feedSettings.article_content_types;
+        if (feedSettings.article_categories?.length)
+            args.article_categories = feedSettings.article_categories;
+        if (feedSettings.collection_content_types?.length)
+            args.collection_content_types =
+                feedSettings.collection_content_types;
 
         return args;
     }, [
-        filter,
-        commentTypes,
-        articleTypes,
-        articleCategories,
-        collectionTypes,
+        onlyFollowed,
+        feedSettings.comment_content_types,
+        feedSettings.article_content_types,
+        feedSettings.article_categories,
+        feedSettings.collection_content_types,
     ]);
 
     const {
@@ -122,9 +82,7 @@ const FeedWidget: FC<WidgetProps> = () => {
                             <Field orientation="horizontal">
                                 <Checkbox
                                     checked={onlyFollowed}
-                                    onCheckedChange={(value) =>
-                                        setOnlyFollowed(Boolean(value))
-                                    }
+                                    onCheckedChange={handleOnlyFollowedChange}
                                     id="only-followed-checkbox"
                                     name="only-followed-checkbox"
                                 />
@@ -133,14 +91,14 @@ const FeedWidget: FC<WidgetProps> = () => {
                                 </FieldContent>
                             </Field>
                         </FieldLabel>
-                        <FeedSubTypeSelect filter={filter} />
+                        <FeedSubTypeSelect />
                     </div>
                 </Header>
                 {feedList && feedList?.length > 0 && (
                     <FeedItem
                         key={getFeedItemKey(feedList[0])}
                         item={feedList[0]}
-                        showTypeLabel={showTypeLabel}
+                        showTypeLabel
                     />
                 )}
             </div>
@@ -155,7 +113,7 @@ const FeedWidget: FC<WidgetProps> = () => {
                           <FeedItem
                               key={getFeedItemKey(item)}
                               item={item}
-                              showTypeLabel={showTypeLabel}
+                              showTypeLabel
                           />
                       ))}
 

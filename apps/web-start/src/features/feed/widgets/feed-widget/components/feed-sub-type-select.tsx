@@ -5,6 +5,7 @@ import {
     CollectionContentType,
     CommentsContentType,
     ContentTypeEnum,
+    FeedArticleCategory,
     FeedArticleContentType,
 } from '@hikka/client';
 import { FC, useMemo } from 'react';
@@ -20,55 +21,56 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-import { useSettingsStore } from '@/services/stores/settings-store';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
+import {
+    ARTICLE_CATEGORY_OPTIONS,
+    CONTENT_TYPES,
+} from '@/utils/constants/common';
+import { COLLECTION_CONTENT_TYPE_OPTIONS } from '@/utils/constants/common';
 
-import { FeedFilterEnum } from '../../../types';
-
-const COMMENT_OPTIONS: { value: CommentsContentType; label: string }[] = [
-    { value: ContentTypeEnum.ANIME, label: 'Аніме' },
-    { value: ContentTypeEnum.MANGA, label: 'Манґа' },
-    { value: ContentTypeEnum.NOVEL, label: 'Ранобе' },
-    { value: ContentTypeEnum.CHARACTER, label: 'Персонаж' },
-    { value: ContentTypeEnum.PERSON, label: 'Автор' },
-    { value: ContentTypeEnum.COLLECTION, label: 'Колекція' },
-    { value: ContentTypeEnum.ARTICLE, label: 'Стаття' },
-    { value: ContentTypeEnum.EDIT, label: 'Правка' },
-];
+const COMMENT_OPTIONS: { value: CommentsContentType; label: string }[] = (
+    [
+        ContentTypeEnum.ANIME,
+        ContentTypeEnum.MANGA,
+        ContentTypeEnum.NOVEL,
+        ContentTypeEnum.CHARACTER,
+        ContentTypeEnum.PERSON,
+        ContentTypeEnum.COLLECTION,
+        ContentTypeEnum.ARTICLE,
+        ContentTypeEnum.EDIT,
+    ] as CommentsContentType[]
+).map((v) => ({ value: v, label: CONTENT_TYPES[v].title_ua }));
 
 const ARTICLE_CONTENT_OPTIONS: {
     value: FeedArticleContentType;
     label: string;
 }[] = [
-    { value: ContentTypeEnum.ANIME, label: 'Аніме' },
-    { value: ContentTypeEnum.MANGA, label: 'Манґа' },
-    { value: ContentTypeEnum.NOVEL, label: 'Ранобе' },
+    { value: ContentTypeEnum.ANIME, label: CONTENT_TYPES.anime.title_ua },
+    { value: ContentTypeEnum.MANGA, label: CONTENT_TYPES.manga.title_ua },
+    { value: ContentTypeEnum.NOVEL, label: CONTENT_TYPES.novel.title_ua },
     { value: 'no_content', label: 'Без контенту' },
 ];
 
-const ARTICLE_CATEGORY_OPTIONS: {
-    value: ArticleCategoryEnum;
+const FEED_ARTICLE_CATEGORY_OPTIONS: {
+    value: FeedArticleCategory;
     label: string;
-}[] = [
-    { value: ArticleCategoryEnum.ORIGINAL, label: 'Авторське' },
-    { value: ArticleCategoryEnum.REVIEWS, label: 'Огляди' },
-    { value: ArticleCategoryEnum.NEWS, label: 'Новини' },
-];
-
-const COLLECTION_OPTIONS: { value: CollectionContentType; label: string }[] = [
-    { value: ContentTypeEnum.ANIME, label: 'Аніме' },
-    { value: ContentTypeEnum.MANGA, label: 'Манґа' },
-    { value: ContentTypeEnum.NOVEL, label: 'Ранобе' },
-    { value: ContentTypeEnum.CHARACTER, label: 'Персонаж' },
-    { value: ContentTypeEnum.PERSON, label: 'Людина' },
-];
+}[] = (
+    Object.keys(ARTICLE_CATEGORY_OPTIONS) as ArticleCategoryEnum[]
+)
+    .filter((k) => k !== ArticleCategoryEnum.SYSTEM)
+    .map((k) => ({
+        value: k as FeedArticleCategory,
+        label: ARTICLE_CATEGORY_OPTIONS[k].title_ua,
+    }));
 
 type Prefix = 'comment' | 'article' | 'articleCategory' | 'collection';
 
 function buildPrefixedValues(
-    commentTypes: string[],
-    articleTypes: string[],
-    articleCategories: string[],
-    collectionTypes: string[],
+    commentTypes: readonly string[],
+    articleTypes: readonly string[],
+    articleCategories: readonly string[],
+    collectionTypes: readonly string[],
 ): string[] {
     return [
         ...commentTypes.map((v) => `comment:${v}`),
@@ -99,113 +101,102 @@ function parsePrefixedValues(values: string[]): Record<Prefix, string[]> {
     return result;
 }
 
-interface Props {
-    filter: FeedFilterEnum;
-}
+const EMPTY: readonly string[] = [];
 
-const FeedSubTypeSelect: FC<Props> = ({ filter }) => {
-    const { preferences, setFilterPreference } = useSettingsStore();
+const FeedSubTypeSelect: FC = () => {
+    const { preferences } = useSessionUI();
+    const { update } = useUpdateSessionUI();
 
-    const commentTypes = preferences.filters.feedCommentContentTypes || [];
-    const articleTypes = preferences.filters.feedArticleContentTypes || [];
-    const articleCategories = preferences.filters.feedArticleCategories || [];
-    const collectionTypes =
-        preferences.filters.feedCollectionContentTypes || [];
+    const feedSettings = preferences.feed;
 
     const prefixedValues = useMemo(
         () =>
             buildPrefixedValues(
-                commentTypes,
-                articleTypes,
-                articleCategories,
-                collectionTypes,
+                feedSettings.comment_content_types ?? EMPTY,
+                feedSettings.article_content_types ?? EMPTY,
+                feedSettings.article_categories ?? EMPTY,
+                feedSettings.collection_content_types ?? EMPTY,
             ),
-        [commentTypes, articleTypes, articleCategories, collectionTypes],
+        [
+            feedSettings.comment_content_types,
+            feedSettings.article_content_types,
+            feedSettings.article_categories,
+            feedSettings.collection_content_types,
+        ],
     );
 
     const handleChange = (values: string[]) => {
         const parsed = parsePrefixedValues(values);
-        setFilterPreference('feedCommentContentTypes', parsed.comment);
-        setFilterPreference('feedArticleContentTypes', parsed.article);
-        setFilterPreference('feedArticleCategories', parsed.articleCategory);
-        setFilterPreference('feedCollectionContentTypes', parsed.collection);
+        update({
+            preferences: {
+                feed: {
+                    comment_content_types: parsed.comment.length
+                        ? (parsed.comment as CommentsContentType[])
+                        : null,
+                    article_content_types: parsed.article.length
+                        ? (parsed.article as FeedArticleContentType[])
+                        : null,
+                    article_categories: parsed.articleCategory.length
+                        ? (parsed.articleCategory as FeedArticleCategory[])
+                        : null,
+                    collection_content_types: parsed.collection.length
+                        ? (parsed.collection as CollectionContentType[])
+                        : null,
+                },
+            },
+        });
     };
 
-    const showComments =
-        filter === FeedFilterEnum.ALL || filter === FeedFilterEnum.COMMENTS;
-    const showArticles =
-        filter === FeedFilterEnum.ALL || filter === FeedFilterEnum.ARTICLES;
-    const showCollections =
-        filter === FeedFilterEnum.ALL || filter === FeedFilterEnum.COLLECTIONS;
-
-    const visibleValues = useMemo(() => {
-        return prefixedValues.filter((v) => {
-            if (v.startsWith('comment:')) return showComments;
-            if (v.startsWith('article:') || v.startsWith('articleCategory:'))
-                return showArticles;
-            if (v.startsWith('collection:')) return showCollections;
-            return false;
-        });
-    }, [prefixedValues, showComments, showArticles, showCollections]);
-
     return (
-        <Select multiple value={visibleValues} onValueChange={handleChange}>
+        <Select multiple value={prefixedValues} onValueChange={handleChange}>
             <SelectTrigger size="md">
                 <SelectValue placeholder="Фільтри контенту" maxDisplay={1} />
             </SelectTrigger>
             <SelectContent>
                 <SelectList>
-                    {showComments && (
-                        <SelectGroup heading="Коментарі">
-                            {COMMENT_OPTIONS.map((opt) => (
-                                <SelectItem
-                                    key={`comment:${opt.value}`}
-                                    value={`comment:${opt.value}`}
-                                >
-                                    {opt.label}
-                                </SelectItem>
-                            ))}
-                        </SelectGroup>
-                    )}
-                    {showComments && showArticles && <SelectSeparator />}
-                    {showArticles && (
-                        <>
-                            <SelectGroup heading="Статті: контент">
-                                {ARTICLE_CONTENT_OPTIONS.map((opt) => (
-                                    <SelectItem
-                                        key={`article:${opt.value}`}
-                                        value={`article:${opt.value}`}
-                                    >
-                                        {opt.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectGroup>
-                            <SelectSeparator />
-                            <SelectGroup heading="Статті: категорія">
-                                {ARTICLE_CATEGORY_OPTIONS.map((opt) => (
-                                    <SelectItem
-                                        key={`articleCategory:${opt.value}`}
-                                        value={`articleCategory:${opt.value}`}
-                                    >
-                                        {opt.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectGroup>
-                        </>
-                    )}
-                    {showArticles && showCollections && <SelectSeparator />}
-                    {showCollections && (
-                        <SelectGroup heading="Колекції">
-                            {COLLECTION_OPTIONS.map((opt) => (
-                                <SelectItem
-                                    key={`collection:${opt.value}`}
-                                    value={`collection:${opt.value}`}
-                                >
-                                    {opt.label}
-                                </SelectItem>
-                            ))}
-                        </SelectGroup>
-                    )}
+                    <SelectGroup heading="Коментарі">
+                        {COMMENT_OPTIONS.map((opt) => (
+                            <SelectItem
+                                key={`comment:${opt.value}`}
+                                value={`comment:${opt.value}`}
+                            >
+                                {opt.label}
+                            </SelectItem>
+                        ))}
+                    </SelectGroup>
+                    <SelectSeparator />
+                    <SelectGroup heading="Статті: контент">
+                        {ARTICLE_CONTENT_OPTIONS.map((opt) => (
+                            <SelectItem
+                                key={`article:${opt.value}`}
+                                value={`article:${opt.value}`}
+                            >
+                                {opt.label}
+                            </SelectItem>
+                        ))}
+                    </SelectGroup>
+                    <SelectSeparator />
+                    <SelectGroup heading="Статті: категорія">
+                        {FEED_ARTICLE_CATEGORY_OPTIONS.map((opt) => (
+                            <SelectItem
+                                key={`articleCategory:${opt.value}`}
+                                value={`articleCategory:${opt.value}`}
+                            >
+                                {opt.label}
+                            </SelectItem>
+                        ))}
+                    </SelectGroup>
+                    <SelectSeparator />
+                    <SelectGroup heading="Колекції">
+                        {COLLECTION_CONTENT_TYPE_OPTIONS.map((opt) => (
+                            <SelectItem
+                                key={`collection:${opt.value}`}
+                                value={`collection:${opt.value}`}
+                            >
+                                {opt.label}
+                            </SelectItem>
+                        ))}
+                    </SelectGroup>
                 </SelectList>
             </SelectContent>
         </Select>

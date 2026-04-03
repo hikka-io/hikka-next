@@ -1,6 +1,6 @@
 'use client';
 
-import { UserUI } from '@hikka/client';
+import { UIFeedSettings, UserUI } from '@hikka/client';
 import { useUpdateUserUI } from '@hikka/react';
 import { queryKeys } from '@hikka/react/core';
 import { useQueryClient } from '@tanstack/react-query';
@@ -9,7 +9,11 @@ import { DEFAULT_USER_UI, diffStyles } from '@/utils/ui';
 
 type SessionUIPatch = {
     styles?: UserUI['styles'];
-    preferences?: Partial<UserUI['preferences']>;
+    preferences?: Partial<
+        Omit<UserUI['preferences'], 'feed'> & {
+            feed?: Partial<UIFeedSettings>;
+        }
+    >;
 };
 
 export function useUpdateSessionUI() {
@@ -18,25 +22,32 @@ export function useUpdateSessionUI() {
     const mutation = useUpdateUserUI();
 
     const update = (patch: SessionUIPatch) => {
-        const currentUI =
-            queryClient.getQueryData<UserUI>(queryKey) ?? DEFAULT_USER_UI;
+        const previous = queryClient.getQueryData<UserUI>(queryKey);
+        const currentUI = previous ?? DEFAULT_USER_UI;
 
-        // Full resolved styles for optimistic cache update (used by rendering)
+        const mergedPreferences = patch.preferences
+            ? {
+                  ...currentUI.preferences,
+                  ...patch.preferences,
+                  feed: patch.preferences.feed
+                      ? {
+                            ...currentUI.preferences.feed,
+                            ...patch.preferences.feed,
+                        }
+                      : currentUI.preferences.feed,
+              }
+            : currentUI.preferences;
+
         const resolvedNext: UserUI = {
             styles: patch.styles ?? currentUI.styles,
-            preferences: patch.preferences
-                ? { ...currentUI.preferences, ...patch.preferences }
-                : currentUI.preferences,
+            preferences: mergedPreferences,
         };
 
-        // Sparse styles for API: diff against defaults so only overrides are persisted
         const apiPayload: UserUI = {
             styles: diffStyles(resolvedNext.styles) || {},
             preferences: resolvedNext.preferences,
         };
 
-        // Optimistic update with full resolved styles for immediate rendering
-        const previous = queryClient.getQueryData<UserUI>(queryKey);
         queryClient.setQueryData<UserUI>(queryKey, (old) => ({
             ...old,
             ...resolvedNext,

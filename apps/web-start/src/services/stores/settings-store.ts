@@ -48,10 +48,6 @@ export const DEFAULT_PREFERENCES: Preferences = {
             ContentTypeEnum.MANGA,
             ContentTypeEnum.NOVEL,
         ],
-        feedCommentContentTypes: [],
-        feedArticleContentTypes: [],
-        feedArticleCategories: [],
-        feedCollectionContentTypes: [],
     },
     collapsibles: {
         content_score: true,

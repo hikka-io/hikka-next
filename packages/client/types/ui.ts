@@ -1,7 +1,14 @@
 /**
  * UI and customization types.
- *
  */
+
+import { CollectionContentType } from './collections';
+import { CommentsContentType } from './comments';
+import {
+    FeedArticleCategory,
+    FeedArticleContentType,
+    FeedContentType,
+} from './feed';
 
 /**
  * Title language options
@@ -102,6 +109,12 @@ export type UIFeedWidget = {
 };
 
 export type UIFeedSettings = {
+    collection_content_types?: CollectionContentType[] | null;
+    comment_content_types?: CommentsContentType[] | null;
+    article_content_types?: FeedArticleContentType[] | null;
+    article_categories?: FeedArticleCategory[] | null;
+    feed_content_types?: FeedContentType[] | null;
+    only_followed?: boolean;
     widgets: UIFeedWidget[];
 };
 
