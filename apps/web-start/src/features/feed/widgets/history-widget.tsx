@@ -16,7 +16,7 @@ import HistoryItem from '@/features/users/user-history/components/history-item';
 
 const HISTORY_SIZE = 3;
 
-const WidgetHistory = () => {
+const HistoryWidget = () => {
     const { user } = useSession();
     const { list } = useFollowingHistory();
 
@@ -58,4 +58,4 @@ const WidgetHistory = () => {
     );
 };
 
-export default WidgetHistory;
+export default HistoryWidget;

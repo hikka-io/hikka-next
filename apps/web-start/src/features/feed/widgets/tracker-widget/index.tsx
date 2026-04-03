@@ -40,7 +40,7 @@ const TAB_LIST_CONFIG: Record<
     },
 };
 
-const WidgetTracker = () => {
+const TrackerWidget = () => {
     const { user } = useSession();
     const [activeTab, setActiveTab] = useState<CommonContentType>(
         ContentTypeEnum.ANIME,
@@ -106,4 +106,4 @@ const WidgetTracker = () => {
     );
 };
 
-export default WidgetTracker;
+export default TrackerWidget;

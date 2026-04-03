@@ -8,7 +8,7 @@ import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { FEED_FILTER_OPTIONS } from '@/utils/constants/feed';
 
-import { FeedFilterEnum } from '../../types';
+import { FeedFilterEnum } from '../../../types';
 
 interface Props {
     value: FeedFilterEnum;

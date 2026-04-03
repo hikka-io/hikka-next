@@ -12,7 +12,7 @@ import { useFilterSearch } from '@/features/filters';
 
 import { FeedSearch } from '@/utils/search-schemas';
 
-import { FeedFilterEnum } from '../types';
+import { FeedFilterEnum } from '../../types';
 import FeedItem from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
 import FeedTabs from './components/feed-tabs';
@@ -29,7 +29,7 @@ function getFeedItemKey(item: FeedItemResponse): string {
     return item.reference;
 }
 
-const FeedList = () => {
+const FeedWidget = () => {
     const search = useFilterSearch<FeedSearch>();
     const router = useRouter();
 
@@ -88,4 +88,4 @@ const FeedList = () => {
     );
 };
 
-export default FeedList;
+export default FeedWidget;

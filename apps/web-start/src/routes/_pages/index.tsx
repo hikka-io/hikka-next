@@ -24,7 +24,7 @@ import { zodValidator } from '@tanstack/zod-adapter';
 
 import CoverImage from '@/components/cover-image';
 
-import { FeedLayout, FeedList } from '@/features/feed';
+import { FeedLayout } from '@/features/feed';
 
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
@@ -153,9 +153,7 @@ function HomePage() {
     return (
         <>
             <CoverImage cover={loggedUser?.cover} />
-            <FeedLayout>
-                <FeedList />
-            </FeedLayout>
+            <FeedLayout />
         </>
     );
 }

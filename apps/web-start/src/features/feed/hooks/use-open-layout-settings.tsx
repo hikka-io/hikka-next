@@ -7,9 +7,9 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 
-import WidgetSettingsContent from '../feed-widgets/components/widget-settings-modal';
+import LayoutSettingsContent from '../layout-settings-modal';
 
-export const useOpenWidgetSettings = (): {
+export const useOpenLayoutSettings = (): {
     openSettings: () => void;
     settingsModal: ReactNode;
 } => {
@@ -20,13 +20,13 @@ export const useOpenWidgetSettings = (): {
     }, []);
 
     const settingsModal = (
-        <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+        <ResponsiveModal open={open} onOpenChange={setOpen}>
             <ResponsiveModalContent
-                className="md:max-w-xl"
-                title="Налаштувати віджети"
-                description="Змінюйте порядок та відображення доступних віджетів"
+                className="md:max-w-3xl"
+                title="Налаштувати макет стрічки"
+                description="Переміщуйте віджети між колонками, змінюйте порядок та видимість"
             >
-                <WidgetSettingsContent />
+                <LayoutSettingsContent />
             </ResponsiveModalContent>
         </ResponsiveModal>
     );

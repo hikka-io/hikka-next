@@ -20,7 +20,7 @@ import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 
-const WidgetCalendar = () => {
+const ScheduleWidget = () => {
     const { defaultOptions } = useHikkaClient();
     const season = getCurrentSeason()!;
     const year = new Date().getFullYear();
@@ -128,4 +128,4 @@ const WidgetCalendar = () => {
     );
 };
 
-export default WidgetCalendar;
+export default ScheduleWidget;

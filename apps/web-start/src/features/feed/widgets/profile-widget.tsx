@@ -18,7 +18,7 @@ import FollowListModal from '@/features/users/followlist-modal';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { Link } from '@/utils/navigation';
 
-const SidebarProfile = () => {
+const ProfileWidget = () => {
     const [open, setOpen] = useState(false);
     const [followType, setFollowType] = useState<'followers' | 'followings'>(
         'followers',
@@ -47,7 +47,7 @@ const SidebarProfile = () => {
     return (
         <>
             <Card
-                className="bg-secondary/20 hidden items-center xl:flex backdrop-blur-xl"
+                className="bg-secondary/20 items-center backdrop-blur-xl"
                 id="sidebar-profile"
             >
                 <div className="flex w-full items-center justify-between gap-2">
@@ -123,4 +123,4 @@ const SidebarProfile = () => {
     );
 };
 
-export default SidebarProfile;
+export default ProfileWidget;

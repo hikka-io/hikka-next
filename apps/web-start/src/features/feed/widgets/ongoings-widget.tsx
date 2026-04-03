@@ -42,7 +42,7 @@ const OngoingItemSkeleton = () => (
     </div>
 );
 
-const WidgetOngoing = () => {
+const OngoingsWidget = () => {
     const { defaultOptions } = useHikkaClient();
     const currentSeason = getCurrentSeason() as SeasonEnum;
     const year = new Date().getFullYear();
@@ -110,7 +110,6 @@ const WidgetOngoing = () => {
                                             'hover:bg-secondary/60 transition-colors',
                                         )}
                                     >
-                                        {/* poster */}
                                         <ContentCard
                                             image={anime.image}
                                             className="w-12"
@@ -118,7 +117,6 @@ const WidgetOngoing = () => {
                                             containerClassName="rounded-(--base-radius)"
                                         />
 
-                                        {/* title + meta */}
                                         <div className="flex min-w-0 flex-1 flex-col gap-2">
                                             <p className="group-hover:text-foreground line-clamp-2 text-xs font-medium">
                                                 <span className="text-muted-foreground font-bold">
@@ -172,4 +170,4 @@ const WidgetOngoing = () => {
     );
 };
 
-export default WidgetOngoing;
+export default OngoingsWidget;
