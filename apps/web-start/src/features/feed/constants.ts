@@ -28,7 +28,7 @@ export const WIDGET_REGISTRY: Record<UIFeedWidgetSlug, WidgetMeta> = {
         title: 'Профіль',
         description: 'Профіль та статистика підписок',
         component: ProfileWidget,
-        authRequired: true,
+        authRequired: false,
         defaultSide: 'left',
     },
     list: {

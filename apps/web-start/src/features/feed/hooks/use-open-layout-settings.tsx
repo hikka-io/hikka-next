@@ -20,7 +20,7 @@ export const useOpenLayoutSettings = (): {
     }, []);
 
     const settingsModal = (
-        <ResponsiveModal open={open} onOpenChange={setOpen}>
+        <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
             <ResponsiveModalContent
                 className="md:max-w-3xl"
                 title="Налаштувати макет стрічки"

@@ -8,6 +8,7 @@ import {
     MouseSensor,
     TouchSensor,
     closestCenter,
+    pointerWithin,
     useDroppable,
     useSensor,
     useSensors,
@@ -37,8 +38,6 @@ import { cn } from '@/utils/cn';
 import { ALL_WIDGET_SLUGS, WIDGET_REGISTRY } from './constants';
 import { groupBySide } from './utils';
 
-// --- Constants ---
-
 const COLUMNS: UIFeedWidgetSide[] = ['left', 'center', 'right'];
 
 const COLUMN_LABELS: Record<UIFeedWidgetSide, string> = {
@@ -47,13 +46,10 @@ const COLUMN_LABELS: Record<UIFeedWidgetSide, string> = {
     right: 'Права панель',
 };
 
-// --- Helpers ---
-
 function isColumnId(id: string | number): id is UIFeedWidgetSide {
     return COLUMNS.includes(id as UIFeedWidgetSide);
 }
 
-// Assign sequential 1-based orders per side, preserving array order.
 function reindex(widgets: UIFeedWidget[]): UIFeedWidget[] {
     const grouped: Record<UIFeedWidgetSide, UIFeedWidget[]> = {
         left: [],
@@ -72,14 +68,23 @@ function reindex(widgets: UIFeedWidget[]): UIFeedWidget[] {
     return result;
 }
 
-// closestCenter but prefer sortable items over column containers.
 const itemPreferringCollision: CollisionDetection = (args) => {
-    const collisions = closestCenter(args);
-    const items = collisions.filter((c) => !isColumnId(c.id));
-    return items.length > 0 ? items : collisions;
-};
+    const pointerCollisions = pointerWithin(args);
 
-// --- Sortable widget row ---
+    const itemsUnderPointer = pointerCollisions.filter(
+        (c) => !isColumnId(c.id),
+    );
+    if (itemsUnderPointer.length > 0) return itemsUnderPointer;
+
+    const columnsUnderPointer = pointerCollisions.filter((c) =>
+        isColumnId(c.id),
+    );
+    if (columnsUnderPointer.length > 0) return columnsUnderPointer;
+
+    const closestCollisions = closestCenter(args);
+    const nearestItems = closestCollisions.filter((c) => !isColumnId(c.id));
+    return nearestItems.length > 0 ? nearestItems : closestCollisions;
+};
 
 const SortableWidgetItem: FC<{
     widget: UIFeedWidget;
@@ -106,15 +111,11 @@ const SortableWidgetItem: FC<{
         <div
             ref={setNodeRef}
             style={style}
-            className="border bg-secondary/20 flex items-center gap-2 rounded-lg p-2"
+            className="border bg-secondary/20 flex touch-none items-center gap-2 rounded-lg p-2"
+            {...attributes}
+            {...listeners}
         >
-            <button
-                className="text-muted-foreground hover:text-foreground cursor-grab touch-none"
-                {...attributes}
-                {...listeners}
-            >
-                <GripVertical className="size-4" />
-            </button>
+            <GripVertical className="text-muted-foreground size-4 shrink-0" />
             <div className="flex flex-1 flex-col">
                 <Label className="text-xs">{meta?.title ?? widget.slug}</Label>
             </div>
@@ -127,8 +128,6 @@ const SortableWidgetItem: FC<{
         </div>
     );
 };
-
-// --- Droppable column ---
 
 const DroppableColumn: FC<{
     side: UIFeedWidgetSide;
@@ -173,8 +172,6 @@ const DroppableColumn: FC<{
     );
 };
 
-// --- Main component ---
-
 const LayoutSettingsContent = () => {
     const { preferences } = useSessionUI();
     const { update } = useUpdateSessionUI();
@@ -209,12 +206,7 @@ const LayoutSettingsContent = () => {
     };
 
     const handleAdd = (slug: UIFeedWidgetSlug, side: UIFeedWidgetSide) => {
-        const current = widgetsRef.current;
-        const maxOrder = Math.max(
-            0,
-            ...current.filter((w) => w.side === side).map((w) => w.order),
-        );
-        persist([...current, { slug, side, order: maxOrder + 1 }]);
+        persist([...widgetsRef.current, { slug, side, order: 0 }]);
     };
 
     const handleDragStart = (_event: DragStartEvent) => {
@@ -243,7 +235,6 @@ const LayoutSettingsContent = () => {
         const grouped = groupBySide(current);
 
         if (activeSide === overSide && !overIsColumn) {
-            // Same-column reorder
             const items = grouped[activeSide];
             const activeIndex = items.findIndex((w) => w.slug === activeId);
             const overIndex = items.findIndex((w) => w.slug === overId);
@@ -254,7 +245,6 @@ const LayoutSettingsContent = () => {
             const others = current.filter((w) => w.side !== activeSide);
             setWidgets(reindex([...others, ...reordered]));
         } else if (activeSide !== overSide) {
-            // Cross-column move
             const source = grouped[activeSide].filter(
                 (w) => w.slug !== activeId,
             );
@@ -280,7 +270,7 @@ const LayoutSettingsContent = () => {
         preDragRef.current = null;
 
         const current = widgetsRef.current;
-        if (!pre || JSON.stringify(pre) !== JSON.stringify(current)) {
+        if (pre !== current) {
             persist(current);
         }
     };

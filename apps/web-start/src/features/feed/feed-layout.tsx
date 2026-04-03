@@ -84,58 +84,29 @@ const SidebarWidgetTabs: FC<{
     );
 };
 
-const SidebarColumn: FC<{
-    widgets: UIFeedWidget[];
-    asideClassName: string;
-    buttonClassName?: string;
-    onOpenSettings: () => void;
-    showButton: boolean;
-}> = ({
-    widgets,
-    asideClassName,
-    buttonClassName,
-    onOpenSettings,
-    showButton,
-}) => (
-    <aside className={cn('min-w-0 h-fit', asideClassName)}>
-        {showButton && (
-            <Button
-                variant="outline"
-                className={cn(
-                    'text-muted-foreground mb-4 w-full backdrop-blur',
-                    buttonClassName,
-                )}
-                size="md"
-                onClick={onOpenSettings}
-            >
-                <Settings2 />
-                Налаштувати макет
-            </Button>
-        )}
-        <WidgetColumn widgets={widgets} />
-    </aside>
-);
-
 const FeedLayout: FC<{ className?: string }> = ({ className }) => {
     const { user } = useSession();
     const { left, center, right } = useFeedLayout();
     const { openSettings, settingsModal } = useOpenLayoutSettings();
 
     const hasLeft = left.length > 0;
+    const hasCenter = center.length > 0;
     const hasRight = right.length > 0;
+    const filledSides = [hasLeft, hasCenter, hasRight].filter(Boolean).length;
+
+    const layout = !user ? 3 : filledSides;
 
     const sidebarWidgets = useMemo(() => [...left, ...right], [left, right]);
 
     const gridClasses = cn(
-        'grid grid-cols-1 gap-8',
-        hasLeft &&
-            hasRight &&
+        'mx-auto grid w-full grid-cols-1 gap-8',
+        layout === 3 &&
             'lg:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]',
-        hasRight && !hasLeft && 'lg:grid-cols-[1fr_20rem]',
-        hasLeft && !hasRight && 'lg:grid-cols-[20rem_1fr]',
+        layout === 2 && 'max-w-6xl lg:grid-cols-[28rem_1fr]',
+        layout <= 1 && 'max-w-2xl',
     );
 
-    const settingsButton = user ? (
+    const settingsIconButton = user ? (
         <Button
             variant="secondary"
             className="text-muted-foreground shrink-0"
@@ -146,102 +117,93 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
         </Button>
     ) : null;
 
+    const settingsFullButton = user ? (
+        <Button
+            variant="outline"
+            className="text-muted-foreground w-full backdrop-blur"
+            size="md"
+            onClick={openSettings}
+        >
+            <Settings2 />
+            Налаштувати макет
+        </Button>
+    ) : null;
+
     return (
         <div className={cn(gridClasses, className)}>
             {settingsModal}
 
-            {/* Left sidebar — XL only, 3-column layout */}
-            {hasLeft && hasRight && (
-                <SidebarColumn
-                    widgets={left}
-                    asideClassName="hidden xl:block"
-                    buttonClassName="hidden xl:flex"
-                    onOpenSettings={openSettings}
-                    showButton={!!user}
-                />
-            )}
-
-            {/* Center column */}
-            <main
-                className={cn(
-                    'flex min-w-0 flex-col gap-4',
-                    hasLeft && hasRight && 'order-2 lg:order-1',
-                    hasRight && !hasLeft && 'order-1',
-                    hasLeft && !hasRight && 'order-1 lg:order-2',
-                )}
-                id="feed"
-            >
-                {center.map((w) => (
-                    <WidgetRenderer key={w.slug} widget={w} />
-                ))}
-            </main>
-
-            {/* Combined sidebar — mobile/tablet */}
-            {sidebarWidgets.length > 0 && (
+            {layout >= 2 && sidebarWidgets.length > 0 && (
                 <aside
                     className={cn(
-                        'block min-w-0 h-fit',
-                        hasLeft && hasRight
-                            ? 'order-1 lg:order-2 xl:hidden'
-                            : 'order-1 lg:hidden',
+                        'min-w-0 h-fit lg:hidden',
+                        layout === 3 && 'order-1',
                     )}
                 >
-                    {/* Mobile: tab interface */}
-                    <div className="lg:hidden">
-                        <SidebarWidgetTabs
-                            widgets={sidebarWidgets}
-                            settingsButton={settingsButton}
-                        />
-                    </div>
+                    <SidebarWidgetTabs
+                        widgets={sidebarWidgets}
+                        settingsButton={settingsIconButton}
+                    />
+                </aside>
+            )}
 
-                    {/* Tablet: stacked widgets (only for 3-col layout) */}
-                    <div className="hidden lg:flex lg:flex-col lg:gap-4 xl:hidden">
-                        {user && (
-                            <Button
-                                variant="outline"
-                                className="text-muted-foreground w-full backdrop-blur"
-                                size="md"
-                                onClick={openSettings}
-                            >
-                                <Settings2 />
-                                Налаштувати макет
-                            </Button>
+            {layout === 3 && (
+                <aside className="order-1 hidden min-w-0 h-fit lg:order-2 lg:block xl:hidden">
+                    <div className="flex flex-col gap-4">
+                        {settingsFullButton}
+                        {sidebarWidgets.length > 0 && (
+                            <WidgetColumn widgets={sidebarWidgets} />
                         )}
+                    </div>
+                </aside>
+            )}
+
+            {layout === 3 && (
+                <aside className="hidden min-w-0 h-fit xl:block">
+                    {hasLeft ? (
+                        <div className="flex flex-col gap-4">
+                            {settingsFullButton}
+                            <WidgetColumn widgets={left} />
+                        </div>
+                    ) : (
+                        settingsFullButton
+                    )}
+                </aside>
+            )}
+
+            {layout === 3 && (
+                <aside className="hidden min-w-0 h-fit xl:order-2 xl:block">
+                    {hasRight && <WidgetColumn widgets={right} />}
+                </aside>
+            )}
+
+            {layout === 2 && sidebarWidgets.length > 0 && (
+                <aside className="hidden min-w-0 h-fit lg:block">
+                    <div className="flex flex-col gap-4">
+                        {settingsFullButton}
                         <WidgetColumn widgets={sidebarWidgets} />
                     </div>
                 </aside>
             )}
 
-            {/* Right sidebar — XL only, 3-column layout */}
-            {hasLeft && hasRight && (
-                <SidebarColumn
-                    widgets={right}
-                    asideClassName="hidden xl:order-2 xl:block"
-                    onOpenSettings={openSettings}
-                    showButton={false}
-                />
+            {hasCenter && (
+                <main
+                    className={cn(
+                        'flex min-w-0 flex-col gap-4',
+                        layout === 3 && 'order-2 lg:order-1',
+                    )}
+                    id="feed"
+                >
+                    {center.map((w) => (
+                        <WidgetRenderer key={w.slug} widget={w} />
+                    ))}
+                </main>
             )}
 
-            {/* Right sidebar — lg+, 2-column layout (no left) */}
-            {hasRight && !hasLeft && (
-                <SidebarColumn
-                    widgets={right}
-                    asideClassName="hidden lg:block"
-                    buttonClassName="hidden lg:flex"
-                    onOpenSettings={openSettings}
-                    showButton={!!user}
-                />
-            )}
+            {layout <= 1 && settingsFullButton}
 
-            {/* Left sidebar — lg+, 2-column layout (no right) */}
-            {hasLeft && !hasRight && (
-                <SidebarColumn
-                    widgets={left}
-                    asideClassName="hidden lg:order-1 lg:block"
-                    buttonClassName="hidden lg:flex"
-                    onOpenSettings={openSettings}
-                    showButton={!!user}
-                />
+            {layout === 1 && !hasCenter && (
+                <WidgetColumn widgets={hasLeft ? left : right} />
             )}
         </div>
     );
