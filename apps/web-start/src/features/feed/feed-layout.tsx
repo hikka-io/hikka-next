@@ -19,7 +19,7 @@ const WidgetRenderer: FC<{ widget: UIFeedWidget }> = ({ widget }) => {
     const meta = WIDGET_REGISTRY[widget.slug as UIFeedWidgetSlug];
     if (!meta) return null;
     const Component = meta.component;
-    return <Component />;
+    return <Component side={widget.side} />;
 };
 
 const WidgetColumn: FC<{ widgets: UIFeedWidget[]; className?: string }> = ({
@@ -90,7 +90,13 @@ const SidebarColumn: FC<{
     buttonClassName?: string;
     onOpenSettings: () => void;
     showButton: boolean;
-}> = ({ widgets, asideClassName, buttonClassName, onOpenSettings, showButton }) => (
+}> = ({
+    widgets,
+    asideClassName,
+    buttonClassName,
+    onOpenSettings,
+    showButton,
+}) => (
     <aside className={cn('min-w-0 h-fit', asideClassName)}>
         {showButton && (
             <Button
@@ -118,14 +124,12 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
     const hasLeft = left.length > 0;
     const hasRight = right.length > 0;
 
-    const sidebarWidgets = useMemo(
-        () => [...left, ...right],
-        [left, right],
-    );
+    const sidebarWidgets = useMemo(() => [...left, ...right], [left, right]);
 
     const gridClasses = cn(
         'grid grid-cols-1 gap-8',
-        hasLeft && hasRight &&
+        hasLeft &&
+            hasRight &&
             'lg:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]',
         hasRight && !hasLeft && 'lg:grid-cols-[1fr_20rem]',
         hasLeft && !hasRight && 'lg:grid-cols-[20rem_1fr]',

@@ -3,6 +3,8 @@
 import { AnimeScheduleResponse, ContentStatusEnum } from '@hikka/client';
 import { useHikkaClient, useSearchAnimeSchedule } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
+import { FC } from 'react';
+
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
 
@@ -20,7 +22,9 @@ import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 
-const ScheduleWidget = () => {
+import { WidgetProps } from '../constants';
+
+const ScheduleWidget: FC<WidgetProps> = () => {
     const { defaultOptions } = useHikkaClient();
     const season = getCurrentSeason()!;
     const year = new Date().getFullYear();

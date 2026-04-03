@@ -4,9 +4,12 @@ import { range } from '@antfu/utils';
 import { AnimeMediaEnum, AnimeStatusEnum, SeasonEnum } from '@hikka/client';
 import { useHikkaClient, useSearchAnimes } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
+import { FC } from 'react';
 
 import { AnimeTooltip } from '@/components/content-card';
+import AnimeCard from '@/components/content-card/anime-card';
 import ContentCard from '@/components/content-card/content-card';
+import SkeletonCard from '@/components/content-card/content-card-skeleton';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
@@ -17,14 +20,19 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import NotFound from '@/components/ui/not-found';
 import { Skeleton } from '@/components/ui/skeleton';
+import Stack from '@/components/ui/stack';
 
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 
-const ONGOING_SIZE = 5;
+import { WidgetProps } from '../constants';
+
+const SIDEBAR_SIZE = 5;
+const CENTER_SIZE = 5;
 const EPISODE_DECLENSIONS: [string, string, string] = [
     'епізод',
     'епізоди',
@@ -42,10 +50,11 @@ const OngoingItemSkeleton = () => (
     </div>
 );
 
-const OngoingsWidget = () => {
+const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
     const { defaultOptions } = useHikkaClient();
     const currentSeason = getCurrentSeason() as SeasonEnum;
     const year = new Date().getFullYear();
+    const isCenter = side === 'center';
 
     const { list, isLoading } = useSearchAnimes({
         args: {
@@ -62,7 +71,7 @@ const OngoingsWidget = () => {
             ],
         },
         paginationArgs: {
-            size: ONGOING_SIZE,
+            size: isCenter ? CENTER_SIZE : SIDEBAR_SIZE,
         },
     });
 
@@ -74,6 +83,47 @@ const OngoingsWidget = () => {
         sort: ['scored_by', 'score', 'native_scored_by', 'native_score'],
         order: 'desc',
     };
+
+    if (isCenter) {
+        return (
+            <Card
+                className="bg-secondary/20 p-0 backdrop-blur-xl"
+                id="ongoings"
+            >
+                <Block className="w-full gap-4 py-4">
+                    <Header href="/anime" search={search} className="px-4">
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Онґоінґи</HeaderTitle>
+                        </HeaderContainer>
+                        <HeaderNavButton />
+                    </Header>
+                    {((list && list.length > 0) || isLoading) && (
+                        <Stack
+                            size={CENTER_SIZE}
+                            imagePreset="cardSm"
+                            className="px-4 mx-0"
+                        >
+                            {isLoading &&
+                                range(0, CENTER_SIZE).map((v) => (
+                                    <SkeletonCard key={v} />
+                                ))}
+                            {list &&
+                                list.length > 0 &&
+                                list.map((item) => (
+                                    <AnimeCard anime={item} key={item.slug} />
+                                ))}
+                        </Stack>
+                    )}
+                    {list && list.length === 0 && (
+                        <NotFound
+                            title="Не знайдено сезонних онґоінґів"
+                            description="Сезон ще не почався або поки немає достатньо оцінених тайтлів"
+                        />
+                    )}
+                </Block>
+            </Card>
+        );
+    }
 
     return (
         <Card className="bg-secondary/20 p-0 backdrop-blur-xl" id="ongoings">
@@ -87,7 +137,7 @@ const OngoingsWidget = () => {
 
                 <div className="flex flex-col gap-1 px-2">
                     {isLoading &&
-                        range(0, ONGOING_SIZE).map((i) => (
+                        range(0, SIDEBAR_SIZE).map((i) => (
                             <OngoingItemSkeleton key={i} />
                         ))}
 

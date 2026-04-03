@@ -11,10 +11,14 @@ import {
     TrackerWidget,
 } from './widgets';
 
+export interface WidgetProps {
+    side: UIFeedWidgetSide;
+}
+
 export interface WidgetMeta {
     title: string;
     description: string;
-    component: FC;
+    component: FC<WidgetProps>;
     authRequired: boolean;
     defaultSide: UIFeedWidgetSide;
 }

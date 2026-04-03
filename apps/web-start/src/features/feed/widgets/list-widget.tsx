@@ -2,7 +2,7 @@
 
 import { CommonContentType, ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
@@ -10,7 +10,9 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import { ListTabContent } from '@/features/users/profile/user-list-stats';
 
-const ListWidget = () => {
+import { WidgetProps } from '../constants';
+
+const ListWidget: FC<WidgetProps> = () => {
     const { user } = useSession();
     const [activeTab, setActiveTab] = useState<CommonContentType>(
         ContentTypeEnum.ANIME,

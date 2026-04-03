@@ -2,7 +2,7 @@
 
 import { useSession, useUserFollowStats } from '@hikka/react';
 import { Settings } from 'lucide-react';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,9 @@ import FollowListModal from '@/features/users/followlist-modal';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { Link } from '@/utils/navigation';
 
-const ProfileWidget = () => {
+import { WidgetProps } from '../constants';
+
+const ProfileWidget: FC<WidgetProps> = () => {
     const [open, setOpen] = useState(false);
     const [followType, setFollowType] = useState<'followers' | 'followings'>(
         'followers',

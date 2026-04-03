@@ -7,11 +7,13 @@ import {
 } from '@hikka/client';
 import { useFeed } from '@hikka/react';
 import { useRouter } from '@tanstack/react-router';
+import { FC } from 'react';
 
 import { useFilterSearch } from '@/features/filters';
 
 import { FeedSearch } from '@/utils/search-schemas';
 
+import { WidgetProps } from '../../constants';
 import { FeedFilterEnum } from '../../types';
 import FeedItem from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
@@ -29,7 +31,7 @@ function getFeedItemKey(item: FeedItemResponse): string {
     return item.reference;
 }
 
-const FeedWidget = () => {
+const FeedWidget: FC<WidgetProps> = () => {
     const search = useFilterSearch<FeedSearch>();
     const router = useRouter();
 
@@ -66,7 +68,7 @@ const FeedWidget = () => {
     });
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
             <FeedTabs value={filter} onChange={handleFilterChange} />
 
             <div className="-mx-4 flex flex-col overflow-hidden border-x-0 border-y md:mx-0 md:rounded-lg md:border-x">

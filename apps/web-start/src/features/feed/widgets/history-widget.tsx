@@ -1,6 +1,7 @@
 'use client';
 
 import { useFollowingHistory, useSession } from '@hikka/react';
+import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -14,9 +15,11 @@ import NotFound from '@/components/ui/not-found';
 
 import HistoryItem from '@/features/users/user-history/components/history-item';
 
+import { WidgetProps } from '../constants';
+
 const HISTORY_SIZE = 3;
 
-const HistoryWidget = () => {
+const HistoryWidget: FC<WidgetProps> = () => {
     const { user } = useSession();
     const { list } = useFollowingHistory();
 
