@@ -128,32 +128,30 @@ function derivePreset(widgets: UIFeedWidget[]): LayoutPreset {
     return 'center-only';
 }
 
-function redistributeWidgets(
-    widgets: UIFeedWidget[],
-    targetPreset: LayoutPreset,
-): UIFeedWidget[] {
-    const activeSides = new Set(PRESET_COLUMNS[targetPreset]);
-    const result: UIFeedWidget[] = [];
+const SIDE_FALLBACK: Record<UIFeedWidgetSide, UIFeedWidgetSide[]> = {
+    left: ['right', 'center'],
+    center: ['right', 'left'],
+    right: ['center', 'left'],
+};
 
-    const fallbackOrder: Record<UIFeedWidgetSide, UIFeedWidgetSide[]> = {
-        left: ['center', 'right'],
-        center: ['right', 'left'],
-        right: ['center', 'left'],
-    };
+function resolveSide(
+    defaultSide: UIFeedWidgetSide,
+    activeSides: UIFeedWidgetSide[],
+): UIFeedWidgetSide {
+    if (activeSides.includes(defaultSide)) return defaultSide;
+    return (
+        SIDE_FALLBACK[defaultSide].find((s) => activeSides.includes(s)) ??
+        activeSides[0]
+    );
+}
 
-    for (const w of widgets) {
-        if (activeSides.has(w.side)) {
-            result.push(w);
-        } else {
-            const fallbacks = fallbackOrder[w.side];
-            const target = fallbacks.find((s) => activeSides.has(s));
-            if (target) {
-                result.push({ ...w, side: target });
-            }
-        }
-    }
-
-    return result;
+function buildPresetWidgets(preset: LayoutPreset): UIFeedWidget[] {
+    const activeSides = PRESET_COLUMNS[preset];
+    return ALL_WIDGET_SLUGS.map((slug) => ({
+        slug,
+        side: resolveSide(WIDGET_REGISTRY[slug].defaultSide, activeSides),
+        order: 0,
+    }));
 }
 
 function isColumnId(id: string | number): id is UIFeedWidgetSide {
@@ -414,11 +412,7 @@ const LayoutSettingsContent = () => {
 
     const handlePresetChange = (newPreset: LayoutPreset) => {
         setPreset(newPreset);
-        const redistributed = redistributeWidgets(
-            widgetsRef.current,
-            newPreset,
-        );
-        persist(redistributed);
+        persist(buildPresetWidgets(newPreset));
     };
 
     const handleRemove = (slug: UIFeedWidgetSlug) => {
@@ -427,10 +421,7 @@ const LayoutSettingsContent = () => {
 
     const handleAdd = (slug: UIFeedWidgetSlug) => {
         const meta = WIDGET_REGISTRY[slug];
-        const defaultSide = meta?.defaultSide ?? 'center';
-        const side = activeColumns.includes(defaultSide)
-            ? defaultSide
-            : activeColumns[0];
+        const side = resolveSide(meta.defaultSide, activeColumns);
         persist([...widgetsRef.current, { slug, side, order: 0 }]);
     };
 

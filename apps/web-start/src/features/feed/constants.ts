@@ -36,27 +36,6 @@ export const WIDGET_REGISTRY: Record<UIFeedWidgetSlug, WidgetMeta> = {
         description: 'Статистика списків перегляду та читання',
         component: ListWidget,
         authRequired: true,
-        defaultSide: 'left',
-    },
-    feed: {
-        title: 'Стрічка',
-        description: 'Стрічка новин спільноти',
-        component: FeedWidget,
-        authRequired: false,
-        defaultSide: 'center',
-    },
-    tracker: {
-        title: 'Мій список',
-        description: 'Менеджер списків перегляду і читання',
-        component: TrackerWidget,
-        authRequired: true,
-        defaultSide: 'right',
-    },
-    history: {
-        title: 'Активність',
-        description: 'Активність користувачів, яких Ви відстежуєте',
-        component: HistoryWidget,
-        authRequired: true,
         defaultSide: 'right',
     },
     ongoings: {
@@ -64,7 +43,21 @@ export const WIDGET_REGISTRY: Record<UIFeedWidgetSlug, WidgetMeta> = {
         description: 'ТОП аніме онґоінґів сезону',
         component: OngoingsWidget,
         authRequired: false,
-        defaultSide: 'right',
+        defaultSide: 'center',
+    },
+    tracker: {
+        title: 'Дивлюсь/читаю',
+        description: 'Менеджер списків перегляду і читання',
+        component: TrackerWidget,
+        authRequired: true,
+        defaultSide: 'left',
+    },
+    history: {
+        title: 'Активність',
+        description: 'Активність користувачів, яких Ви відстежуєте',
+        component: HistoryWidget,
+        authRequired: true,
+        defaultSide: 'left',
     },
     schedule: {
         title: 'Календар',
@@ -72,6 +65,13 @@ export const WIDGET_REGISTRY: Record<UIFeedWidgetSlug, WidgetMeta> = {
         component: ScheduleWidget,
         authRequired: false,
         defaultSide: 'right',
+    },
+    feed: {
+        title: 'Стрічка',
+        description: 'Стрічка новин спільноти',
+        component: FeedWidget,
+        authRequired: false,
+        defaultSide: 'center',
     },
 };
 
