@@ -105,6 +105,7 @@ export const useCreateFollow = createMutation({
         queryKeys.follow.all,
         queryKeys.articles.all,
         queryKeys.collections.all,
+        queryKeys.feed.all,
         queryKeys.user.byUsername(username),
     ],
 });
@@ -119,6 +120,7 @@ export const useDeleteFollow = createMutation({
         queryKeys.follow.all,
         queryKeys.articles.all,
         queryKeys.collections.all,
+        queryKeys.feed.all,
         queryKeys.user.byUsername(username),
     ],
 });
