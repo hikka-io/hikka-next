@@ -87,7 +87,7 @@ const FeedWidget: FC<WidgetProps> = () => {
 
         if (onlyFollowed) args.only_followed = true;
 
-        if (filters.feed_content_types?.length)
+        if (filters.feed_content_types !== null)
             args.feed_content_types = filters.feed_content_types;
         if (filters.comment_content_types?.length)
             args.comment_content_types =

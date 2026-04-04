@@ -94,7 +94,7 @@ function toggleSection(
     }
 
     const next = current.filter((t) => t !== type);
-    return next.length === 0 ? next : next;
+    return next;
 }
 
 function toggleSubType<T extends string>(
