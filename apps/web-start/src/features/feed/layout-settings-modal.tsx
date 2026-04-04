@@ -25,20 +25,89 @@ import {
     UIFeedWidgetSide,
     UIFeedWidgetSlug,
 } from '@hikka/client';
-import { GripVertical, Plus, X } from 'lucide-react';
+import { GripVertical, Plus, Smartphone, X } from 'lucide-react';
 import { FC, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Field, FieldLabel } from '@/components/ui/field';
 import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Separator } from '@/components/ui/separator';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipPortal,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 import { cn } from '@/utils/cn';
 
 import { ALL_WIDGET_SLUGS, WIDGET_REGISTRY } from './constants';
-import { groupBySide } from './utils';
+import { COLUMNS, groupBySide } from './utils';
 
-const COLUMNS: UIFeedWidgetSide[] = ['left', 'center', 'right'];
+// --- Preset types & helpers ---
+
+type LayoutPreset =
+    | 'left-center-right'
+    | 'left-center'
+    | 'center-right'
+    | 'left-right'
+    | 'center-only';
+
+const PRESET_COLUMNS: Record<LayoutPreset, UIFeedWidgetSide[]> = {
+    'left-center-right': ['left', 'center', 'right'],
+    'left-center': ['left', 'center'],
+    'center-right': ['center', 'right'],
+    'left-right': ['left', 'right'],
+    'center-only': ['center'],
+};
+
+const PRESET_META: {
+    id: LayoutPreset;
+    label: string;
+    bars: { flex: number; type: 'sidebar' | 'center' }[];
+}[] = [
+    {
+        id: 'left-center-right',
+        label: 'Повний макет',
+        bars: [
+            { flex: 1, type: 'sidebar' },
+            { flex: 2, type: 'center' },
+            { flex: 1, type: 'sidebar' },
+        ],
+    },
+    {
+        id: 'left-center',
+        label: 'Ліва + центр',
+        bars: [
+            { flex: 1.4, type: 'sidebar' },
+            { flex: 2, type: 'center' },
+        ],
+    },
+    {
+        id: 'center-right',
+        label: 'Центр + права',
+        bars: [
+            { flex: 2, type: 'center' },
+            { flex: 1.4, type: 'sidebar' },
+        ],
+    },
+    {
+        id: 'left-right',
+        label: 'Дві колонки',
+        bars: [
+            { flex: 1, type: 'sidebar' },
+            { flex: 1, type: 'sidebar' },
+        ],
+    },
+    {
+        id: 'center-only',
+        label: 'Одна колонка',
+        bars: [{ flex: 1, type: 'center' }],
+    },
+];
 
 const COLUMN_LABELS: Record<UIFeedWidgetSide, string> = {
     left: 'Ліва панель',
@@ -46,26 +115,56 @@ const COLUMN_LABELS: Record<UIFeedWidgetSide, string> = {
     right: 'Права панель',
 };
 
+function derivePreset(widgets: UIFeedWidget[]): LayoutPreset {
+    const sides = new Set(widgets.map((w) => w.side));
+    const hasLeft = sides.has('left');
+    const hasCenter = sides.has('center');
+    const hasRight = sides.has('right');
+
+    if (hasLeft && hasCenter && hasRight) return 'left-center-right';
+    if (hasLeft && hasCenter) return 'left-center';
+    if (hasCenter && hasRight) return 'center-right';
+    if (hasLeft && hasRight) return 'left-right';
+    return 'center-only';
+}
+
+function redistributeWidgets(
+    widgets: UIFeedWidget[],
+    targetPreset: LayoutPreset,
+): UIFeedWidget[] {
+    const activeSides = new Set(PRESET_COLUMNS[targetPreset]);
+    const result: UIFeedWidget[] = [];
+
+    const fallbackOrder: Record<UIFeedWidgetSide, UIFeedWidgetSide[]> = {
+        left: ['center', 'right'],
+        center: ['right', 'left'],
+        right: ['center', 'left'],
+    };
+
+    for (const w of widgets) {
+        if (activeSides.has(w.side)) {
+            result.push(w);
+        } else {
+            const fallbacks = fallbackOrder[w.side];
+            const target = fallbacks.find((s) => activeSides.has(s));
+            if (target) {
+                result.push({ ...w, side: target });
+            }
+        }
+    }
+
+    return result;
+}
+
 function isColumnId(id: string | number): id is UIFeedWidgetSide {
     return COLUMNS.includes(id as UIFeedWidgetSide);
 }
 
 function reindex(widgets: UIFeedWidget[]): UIFeedWidget[] {
-    const grouped: Record<UIFeedWidgetSide, UIFeedWidget[]> = {
-        left: [],
-        center: [],
-        right: [],
-    };
-    for (const w of widgets) {
-        grouped[w.side]?.push(w);
-    }
-    const result: UIFeedWidget[] = [];
-    for (const side of COLUMNS) {
-        grouped[side].forEach((w, i) => {
-            result.push({ ...w, order: i + 1 });
-        });
-    }
-    return result;
+    const grouped = groupBySide(widgets);
+    return COLUMNS.flatMap((side) =>
+        grouped[side].map((w, i) => ({ ...w, order: i + 1 })),
+    );
 }
 
 const itemPreferringCollision: CollisionDetection = (args) => {
@@ -85,6 +184,75 @@ const itemPreferringCollision: CollisionDetection = (args) => {
     const nearestItems = closestCollisions.filter((c) => !isColumnId(c.id));
     return nearestItems.length > 0 ? nearestItems : closestCollisions;
 };
+
+// --- Layout Preset Selector ---
+
+const PresetThumbnail: FC<{
+    bars: (typeof PRESET_META)[number]['bars'];
+    checked: boolean;
+}> = ({ bars, checked }) => (
+    <div className="flex h-8 w-full items-stretch gap-1">
+        {bars.map((bar, i) => (
+            <div
+                key={i}
+                style={{ flex: bar.flex }}
+                className={cn(
+                    'rounded-sm transition-colors',
+                    bar.type === 'center'
+                        ? checked
+                            ? 'bg-primary-foreground/60'
+                            : 'bg-primary-foreground/20'
+                        : checked
+                          ? 'bg-muted-foreground/60'
+                          : 'bg-muted-foreground/20',
+                )}
+            />
+        ))}
+    </div>
+);
+
+const LayoutPresetSelector: FC<{
+    value: LayoutPreset;
+    onChange: (preset: LayoutPreset) => void;
+}> = ({ value, onChange }) => {
+    return (
+        <RadioGroup
+            value={value}
+            onValueChange={(v) => onChange(v as LayoutPreset)}
+            className="grid grid-cols-3 gap-2 sm:grid-cols-5 p-4"
+        >
+            {PRESET_META.map((preset) => (
+                <FieldLabel key={preset.id} className="transition-colors hover:bg-secondary/60">
+                    <Field>
+                        <RadioGroupItem
+                            value={preset.id}
+                            id={`preset-${preset.id}`}
+                            className="sr-only"
+                        />
+                        <div className="flex cursor-pointer flex-col items-center gap-2">
+                            <PresetThumbnail
+                                bars={preset.bars}
+                                checked={value === preset.id}
+                            />
+                            <span
+                                className={cn(
+                                    'text-xs leading-tight font-medium',
+                                    value === preset.id
+                                        ? 'text-primary-foreground'
+                                        : 'text-muted-foreground',
+                                )}
+                            >
+                                {preset.label}
+                            </span>
+                        </div>
+                    </Field>
+                </FieldLabel>
+            ))}
+        </RadioGroup>
+    );
+};
+
+// --- DnD Components ---
 
 const SortableWidgetItem: FC<{
     widget: UIFeedWidget;
@@ -111,17 +279,20 @@ const SortableWidgetItem: FC<{
         <div
             ref={setNodeRef}
             style={style}
-            className="border bg-secondary/20 flex touch-none items-center gap-2 rounded-lg p-2"
-            {...attributes}
-            {...listeners}
+            className="border bg-secondary/20 flex items-center gap-2 rounded-lg p-2"
         >
-            <GripVertical className="text-muted-foreground size-4 shrink-0" />
-            <div className="flex flex-1 flex-col">
+            <div
+                className="flex flex-1 touch-none items-center gap-2"
+                {...attributes}
+                {...listeners}
+            >
+                <GripVertical className="text-muted-foreground size-4 shrink-0" />
                 <Label className="text-xs">{meta?.title ?? widget.slug}</Label>
             </div>
             <button
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center rounded-sm"
                 onClick={() => onRemove(widget.slug)}
+                aria-label={`Видалити ${meta?.title ?? widget.slug}`}
             >
                 <X className="size-3.5" />
             </button>
@@ -129,30 +300,50 @@ const SortableWidgetItem: FC<{
     );
 };
 
+function isSidebarTabbed(
+    side: UIFeedWidgetSide,
+    preset: LayoutPreset,
+): boolean {
+    if (side === 'center') return false;
+    if (preset === 'left-right') return false;
+    return true;
+}
+
 const DroppableColumn: FC<{
     side: UIFeedWidgetSide;
     widgets: UIFeedWidget[];
+    preset: LayoutPreset;
     onRemove: (slug: UIFeedWidgetSlug) => void;
-}> = ({ side, widgets, onRemove }) => {
-    const { setNodeRef, isOver } = useDroppable({ id: side });
+}> = ({ side, widgets, preset, onRemove }) => {
+    const { setNodeRef } = useDroppable({ id: side });
+    const showTabHint = isSidebarTabbed(side, preset);
 
     return (
         <div className="flex flex-col gap-2">
-            <Label className="text-muted-foreground text-xs font-medium">
-                {COLUMN_LABELS[side]}
-            </Label>
+            <div className="flex items-center gap-1.5">
+                <Label className="text-muted-foreground text-xs font-medium">
+                    {COLUMN_LABELS[side]}
+                </Label>
+                {showTabHint && (
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Smartphone className="size-4 text-muted-foreground" />
+                        </TooltipTrigger>
+                        <TooltipPortal>
+                            <TooltipContent>
+                                На мобільних пристроях – вкладки
+                            </TooltipContent>
+                        </TooltipPortal>
+                    </Tooltip>
+                )}
+            </div>
             <SortableContext
                 items={widgets.map((w) => w.slug)}
                 strategy={verticalListSortingStrategy}
             >
                 <div
                     ref={setNodeRef}
-                    className={cn(
-                        'flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed p-2 transition-colors',
-                        isOver
-                            ? 'border-primary/50 bg-primary/5'
-                            : 'bg-muted/30',
-                    )}
+                    className="flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed bg-secondary/20 p-2 transition-colors"
                 >
                     {widgets.map((widget) => (
                         <SortableWidgetItem
@@ -172,6 +363,8 @@ const DroppableColumn: FC<{
     );
 };
 
+// --- Main Content ---
+
 const LayoutSettingsContent = () => {
     const { preferences } = useSessionUI();
     const { update } = useUpdateSessionUI();
@@ -179,11 +372,17 @@ const LayoutSettingsContent = () => {
     const [widgets, setWidgets] = useState<UIFeedWidget[]>(
         () => preferences.feed.widgets,
     );
+    const [preset, setPreset] = useState<LayoutPreset>(() =>
+        derivePreset(preferences.feed.widgets),
+    );
+
     const widgetsRef = useRef(widgets);
     widgetsRef.current = widgets;
     const preDragRef = useRef<UIFeedWidget[] | null>(null);
 
+    const activeColumns = PRESET_COLUMNS[preset];
     const columns = groupBySide(widgets);
+
     const hiddenSlugs = ALL_WIDGET_SLUGS.filter(
         (slug) => !widgets.some((w) => w.slug === slug),
     );
@@ -201,11 +400,25 @@ const LayoutSettingsContent = () => {
         update({ preferences: { feed: { widgets: reindexed } } });
     };
 
+    const handlePresetChange = (newPreset: LayoutPreset) => {
+        setPreset(newPreset);
+        const redistributed = redistributeWidgets(
+            widgetsRef.current,
+            newPreset,
+        );
+        persist(redistributed);
+    };
+
     const handleRemove = (slug: UIFeedWidgetSlug) => {
         persist(widgetsRef.current.filter((w) => w.slug !== slug));
     };
 
-    const handleAdd = (slug: UIFeedWidgetSlug, side: UIFeedWidgetSide) => {
+    const handleAdd = (slug: UIFeedWidgetSlug) => {
+        const meta = WIDGET_REGISTRY[slug];
+        const defaultSide = meta?.defaultSide ?? 'center';
+        const side = activeColumns.includes(defaultSide)
+            ? defaultSide
+            : activeColumns[0];
         persist([...widgetsRef.current, { slug, side, order: 0 }]);
     };
 
@@ -276,56 +489,67 @@ const LayoutSettingsContent = () => {
     };
 
     return (
-        <DndContext
-            sensors={sensors}
-            collisionDetection={itemPreferringCollision}
-            onDragStart={handleDragStart}
-            onDragOver={handleDragOver}
-            onDragEnd={handleDragEnd}
-        >
-            <div className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                    {COLUMNS.map((side) => (
-                        <DroppableColumn
-                            key={side}
-                            side={side}
-                            widgets={columns[side]}
-                            onRemove={handleRemove}
-                        />
-                    ))}
-                </div>
+        <div className="flex flex-col -m-4 overflow-hidden">
+            <LayoutPresetSelector
+                value={preset}
+                onChange={handlePresetChange}
+            />
 
-                {hiddenSlugs.length > 0 && (
-                    <div className="flex flex-col gap-2">
-                        <Label className="text-muted-foreground text-xs font-medium">
-                            Приховані
-                        </Label>
-                        <div className="flex flex-wrap gap-2">
-                            {hiddenSlugs.map((slug) => {
-                                const meta = WIDGET_REGISTRY[slug];
-                                return (
-                                    <Button
-                                        key={slug}
-                                        variant="outline"
-                                        size="sm"
-                                        className="gap-1.5"
-                                        onClick={() =>
-                                            handleAdd(
-                                                slug,
-                                                meta?.defaultSide ?? 'right',
-                                            )
-                                        }
-                                    >
-                                        <Plus className="size-3.5" />
-                                        {meta?.title}
-                                    </Button>
-                                );
-                            })}
-                        </div>
+            <Separator />
+
+            <DndContext
+                sensors={sensors}
+                collisionDetection={itemPreferringCollision}
+                onDragStart={handleDragStart}
+                onDragOver={handleDragOver}
+                onDragEnd={handleDragEnd}
+            >
+                <div className="flex flex-col gap-4 p-4 overflow-y-scroll flex-1">
+                    <div
+                        className={cn(
+                            'grid grid-cols-1 gap-3',
+                            activeColumns.length === 3 && 'sm:grid-cols-3',
+                            activeColumns.length === 2 && 'sm:grid-cols-2',
+                        )}
+                    >
+                        {activeColumns.map((side) => (
+                            <DroppableColumn
+                                key={side}
+                                side={side}
+                                widgets={columns[side]}
+                                preset={preset}
+                                onRemove={handleRemove}
+                            />
+                        ))}
                     </div>
-                )}
-            </div>
-        </DndContext>
+
+                    {hiddenSlugs.length > 0 && (
+                        <div className="flex flex-col gap-2">
+                            <Label className="text-muted-foreground text-xs font-medium">
+                                Приховані
+                            </Label>
+                            <div className="flex flex-wrap gap-2">
+                                {hiddenSlugs.map((slug) => {
+                                    const meta = WIDGET_REGISTRY[slug];
+                                    return (
+                                        <Button
+                                            key={slug}
+                                            variant="outline"
+                                            size="sm"
+                                            className="gap-1.5"
+                                            onClick={() => handleAdd(slug)}
+                                        >
+                                            <Plus className="size-3.5" />
+                                            {meta?.title}
+                                        </Button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </DndContext>
+        </div>
     );
 };
 

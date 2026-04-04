@@ -1,6 +1,6 @@
 import { UIFeedWidget, UIFeedWidgetSide } from '@hikka/client';
 
-const COLUMNS: UIFeedWidgetSide[] = ['left', 'center', 'right'];
+export const COLUMNS: UIFeedWidgetSide[] = ['left', 'center', 'right'];
 
 export function groupBySide(
     widgets: UIFeedWidget[],

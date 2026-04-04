@@ -1689,6 +1689,7 @@ __metadata:
     "@platejs/list-classic": "npm:^52.3.10"
     "@platejs/markdown": "npm:^52.3.10"
     "@radix-ui/react-primitive": "npm:^2.1.4"
+    "@radix-ui/react-radio-group": "npm:^1.3.8"
     "@radix-ui/react-use-controllable-state": "npm:^1.2.2"
     "@react-hook/resize-observer": "npm:^2.0.2"
     "@tailwindcss/vite": "npm:^4"
@@ -3265,7 +3266,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-radio-group@npm:1.3.8":
+"@radix-ui/react-radio-group@npm:1.3.8, @radix-ui/react-radio-group@npm:^1.3.8":
   version: 1.3.8
   resolution: "@radix-ui/react-radio-group@npm:1.3.8"
   dependencies:

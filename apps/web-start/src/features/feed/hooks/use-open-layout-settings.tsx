@@ -24,7 +24,7 @@ export const useOpenLayoutSettings = (): {
             <ResponsiveModalContent
                 className="md:max-w-3xl"
                 title="Налаштувати макет сторінки"
-                description="Переміщуйте віджети між колонками, змінюйте порядок та видимість"
+                description="Оберіть тип макету, налаштуйте віджети та їх порядок"
             >
                 <LayoutSettingsContent />
             </ResponsiveModalContent>
