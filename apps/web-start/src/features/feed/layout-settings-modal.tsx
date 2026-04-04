@@ -333,7 +333,7 @@ const DroppableColumn: FC<{
     return (
         <div className="flex flex-col gap-2">
             <div className="flex items-center gap-1.5">
-                <Label className="text-muted-foreground text-xs font-medium">
+                <Label className="text-muted-foreground text-sm">
                     {COLUMN_LABELS[side]}
                 </Label>
                 {showTabHint && (

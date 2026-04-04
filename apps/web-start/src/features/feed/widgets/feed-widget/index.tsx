@@ -38,6 +38,7 @@ function getFeedItemKey(item: FeedItemResponse): string {
 }
 
 const EMPTY_FILTERS: FeedSubTypeFilters = {
+    feed_content_types: null,
     comment_content_types: null,
     article_content_types: null,
     article_categories: null,
@@ -57,6 +58,8 @@ const FeedWidget: FC<WidgetProps> = () => {
 
     const filters = user
         ? {
+              feed_content_types:
+                  feedSettings.feed_content_types ?? null,
               comment_content_types:
                   feedSettings.comment_content_types ?? null,
               article_content_types:
@@ -84,6 +87,8 @@ const FeedWidget: FC<WidgetProps> = () => {
 
         if (onlyFollowed) args.only_followed = true;
 
+        if (filters.feed_content_types?.length)
+            args.feed_content_types = filters.feed_content_types;
         if (filters.comment_content_types?.length)
             args.comment_content_types =
                 filters.comment_content_types as CommentsContentType[];
