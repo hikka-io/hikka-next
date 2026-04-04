@@ -1,8 +1,16 @@
 'use client';
 
-import { ContentTypeEnum, FeedArgs, FeedItemResponse } from '@hikka/client';
-import { useFeed } from '@hikka/react';
-import { FC, useMemo } from 'react';
+import {
+    CollectionContentType,
+    CommentsContentType,
+    ContentTypeEnum,
+    FeedArticleCategory,
+    FeedArticleContentType,
+    FeedArgs,
+    FeedItemResponse,
+} from '@hikka/client';
+import { useFeed, useSession } from '@hikka/react';
+import { FC, useMemo, useState } from 'react';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -12,6 +20,7 @@ import {
     FieldTitle,
 } from '@/components/ui/field';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import NotFound from '@/components/ui/not-found';
 
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
@@ -19,22 +28,55 @@ import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 import { WidgetProps } from '../../constants';
 import FeedItem from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
-import FeedSubTypeSelect from './components/feed-sub-type-select';
+import FeedSubTypeSelect, {
+    FeedSubTypeFilters,
+} from './components/feed-sub-type-select';
 
 function getFeedItemKey(item: FeedItemResponse): string {
     if (item.data_type === ContentTypeEnum.ARTICLE) return item.slug;
     return item.reference;
 }
 
+const EMPTY_FILTERS: FeedSubTypeFilters = {
+    comment_content_types: null,
+    article_content_types: null,
+    article_categories: null,
+    collection_content_types: null,
+};
+
 const FeedWidget: FC<WidgetProps> = () => {
+    const { user } = useSession();
     const { preferences } = useSessionUI();
     const { update } = useUpdateSessionUI();
+
+    const [localFilters, setLocalFilters] =
+        useState<FeedSubTypeFilters>(EMPTY_FILTERS);
 
     const feedSettings = preferences.feed;
     const onlyFollowed = feedSettings.only_followed ?? false;
 
+    const filters = user
+        ? {
+              comment_content_types:
+                  feedSettings.comment_content_types ?? null,
+              article_content_types:
+                  feedSettings.article_content_types ?? null,
+              article_categories: feedSettings.article_categories ?? null,
+              collection_content_types:
+                  feedSettings.collection_content_types ?? null,
+          }
+        : localFilters;
+
     const handleOnlyFollowedChange = (value: boolean | 'indeterminate') => {
         update({ preferences: { feed: { only_followed: Boolean(value) } } });
+    };
+
+    const handleFiltersChange = (next: FeedSubTypeFilters) => {
+        if (user) {
+            update({ preferences: { feed: next } });
+        } else {
+            setLocalFilters(next);
+        }
     };
 
     const feedArgs = useMemo((): FeedArgs => {
@@ -42,24 +84,21 @@ const FeedWidget: FC<WidgetProps> = () => {
 
         if (onlyFollowed) args.only_followed = true;
 
-        if (feedSettings.comment_content_types?.length)
-            args.comment_content_types = feedSettings.comment_content_types;
-        if (feedSettings.article_content_types?.length)
-            args.article_content_types = feedSettings.article_content_types;
-        if (feedSettings.article_categories?.length)
-            args.article_categories = feedSettings.article_categories;
-        if (feedSettings.collection_content_types?.length)
+        if (filters.comment_content_types?.length)
+            args.comment_content_types =
+                filters.comment_content_types as CommentsContentType[];
+        if (filters.article_content_types?.length)
+            args.article_content_types =
+                filters.article_content_types as FeedArticleContentType[];
+        if (filters.article_categories?.length)
+            args.article_categories =
+                filters.article_categories as FeedArticleCategory[];
+        if (filters.collection_content_types?.length)
             args.collection_content_types =
-                feedSettings.collection_content_types;
+                filters.collection_content_types as CollectionContentType[];
 
         return args;
-    }, [
-        onlyFollowed,
-        feedSettings.comment_content_types,
-        feedSettings.article_content_types,
-        feedSettings.article_categories,
-        feedSettings.collection_content_types,
-    ]);
+    }, [onlyFollowed, filters]);
 
     const {
         list: feedList,
@@ -67,7 +106,6 @@ const FeedWidget: FC<WidgetProps> = () => {
         isPending,
     } = useFeed({
         args: feedArgs,
-        options: { authProtected: true },
     });
 
     return (
@@ -78,20 +116,27 @@ const FeedWidget: FC<WidgetProps> = () => {
                         <HeaderTitle variant="h4">Стрічка</HeaderTitle>
                     </HeaderContainer>
                     <div className="flex gap-2">
-                        <FieldLabel className="w-fit! cursor-pointer">
-                            <Field orientation="horizontal">
-                                <Checkbox
-                                    checked={onlyFollowed}
-                                    onCheckedChange={handleOnlyFollowedChange}
-                                    id="only-followed-checkbox"
-                                    name="only-followed-checkbox"
-                                />
-                                <FieldContent className="flex-0">
-                                    <FieldTitle>Власна</FieldTitle>
-                                </FieldContent>
-                            </Field>
-                        </FieldLabel>
-                        <FeedSubTypeSelect />
+                        {user && (
+                            <FieldLabel className="w-fit! cursor-pointer">
+                                <Field orientation="horizontal">
+                                    <Checkbox
+                                        checked={onlyFollowed}
+                                        onCheckedChange={
+                                            handleOnlyFollowedChange
+                                        }
+                                        id="only-followed-checkbox"
+                                        name="only-followed-checkbox"
+                                    />
+                                    <FieldContent className="flex-0">
+                                        <FieldTitle>Власна</FieldTitle>
+                                    </FieldContent>
+                                </Field>
+                            </FieldLabel>
+                        )}
+                        <FeedSubTypeSelect
+                            value={filters}
+                            onChange={handleFiltersChange}
+                        />
                     </div>
                 </Header>
                 {feedList && feedList?.length > 0 && (
@@ -116,6 +161,15 @@ const FeedWidget: FC<WidgetProps> = () => {
                               showTypeLabel
                           />
                       ))}
+
+            {!isPending && onlyFollowed && feedList?.length === 0 && (
+                <div className="p-4">
+                    <NotFound
+                        title="Стрічка порожня"
+                        description="У вашій персональній стрічці поки немає записів. Підпишіться на інших користувачів, щоб бачити їхню активність."
+                    />
+                </div>
+            )}
 
             <div ref={feedRef} />
         </div>

@@ -21,13 +21,18 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 import {
     ARTICLE_CATEGORY_OPTIONS,
+    COLLECTION_CONTENT_TYPE_OPTIONS,
     CONTENT_TYPES,
 } from '@/utils/constants/common';
-import { COLLECTION_CONTENT_TYPE_OPTIONS } from '@/utils/constants/common';
+
+export interface FeedSubTypeFilters {
+    comment_content_types: CommentsContentType[] | null;
+    article_content_types: FeedArticleContentType[] | null;
+    article_categories: FeedArticleCategory[] | null;
+    collection_content_types: CollectionContentType[] | null;
+}
 
 const COMMENT_OPTIONS: { value: CommentsContentType; label: string }[] = (
     [
@@ -55,9 +60,7 @@ const ARTICLE_CONTENT_OPTIONS: {
 const FEED_ARTICLE_CATEGORY_OPTIONS: {
     value: FeedArticleCategory;
     label: string;
-}[] = (
-    Object.keys(ARTICLE_CATEGORY_OPTIONS) as ArticleCategoryEnum[]
-)
+}[] = (Object.keys(ARTICLE_CATEGORY_OPTIONS) as ArticleCategoryEnum[])
     .filter((k) => k !== ArticleCategoryEnum.SYSTEM)
     .map((k) => ({
         value: k as FeedArticleCategory,
@@ -103,53 +106,47 @@ function parsePrefixedValues(values: string[]): Record<Prefix, string[]> {
 
 const EMPTY: readonly string[] = [];
 
-const FeedSubTypeSelect: FC = () => {
-    const { preferences } = useSessionUI();
-    const { update } = useUpdateSessionUI();
-
-    const feedSettings = preferences.feed;
-
+const FeedSubTypeSelect: FC<{
+    value: FeedSubTypeFilters;
+    onChange: (filters: FeedSubTypeFilters) => void;
+}> = ({ value, onChange }) => {
     const prefixedValues = useMemo(
         () =>
             buildPrefixedValues(
-                feedSettings.comment_content_types ?? EMPTY,
-                feedSettings.article_content_types ?? EMPTY,
-                feedSettings.article_categories ?? EMPTY,
-                feedSettings.collection_content_types ?? EMPTY,
+                value.comment_content_types ?? EMPTY,
+                value.article_content_types ?? EMPTY,
+                value.article_categories ?? EMPTY,
+                value.collection_content_types ?? EMPTY,
             ),
         [
-            feedSettings.comment_content_types,
-            feedSettings.article_content_types,
-            feedSettings.article_categories,
-            feedSettings.collection_content_types,
+            value.comment_content_types,
+            value.article_content_types,
+            value.article_categories,
+            value.collection_content_types,
         ],
     );
 
     const handleChange = (values: string[]) => {
         const parsed = parsePrefixedValues(values);
-        update({
-            preferences: {
-                feed: {
-                    comment_content_types: parsed.comment.length
-                        ? (parsed.comment as CommentsContentType[])
-                        : null,
-                    article_content_types: parsed.article.length
-                        ? (parsed.article as FeedArticleContentType[])
-                        : null,
-                    article_categories: parsed.articleCategory.length
-                        ? (parsed.articleCategory as FeedArticleCategory[])
-                        : null,
-                    collection_content_types: parsed.collection.length
-                        ? (parsed.collection as CollectionContentType[])
-                        : null,
-                },
-            },
+        onChange({
+            comment_content_types: parsed.comment.length
+                ? (parsed.comment as CommentsContentType[])
+                : null,
+            article_content_types: parsed.article.length
+                ? (parsed.article as FeedArticleContentType[])
+                : null,
+            article_categories: parsed.articleCategory.length
+                ? (parsed.articleCategory as FeedArticleCategory[])
+                : null,
+            collection_content_types: parsed.collection.length
+                ? (parsed.collection as CollectionContentType[])
+                : null,
         });
     };
 
     return (
         <Select multiple value={prefixedValues} onValueChange={handleChange}>
-            <SelectTrigger size="md">
+            <SelectTrigger size="md" className="w-44">
                 <SelectValue placeholder="Фільтри контенту" maxDisplay={1} />
             </SelectTrigger>
             <SelectContent>
