@@ -11,15 +11,17 @@ interface Props extends ButtonProps {
 
 const LoadMoreButton = forwardRef(
     (
-        { fetchNextPage, isFetchingNextPage }: Props,
+        { fetchNextPage, isFetchingNextPage, ...props }: Props,
         ref: ForwardedRef<HTMLButtonElement>,
     ) => {
         return (
             <Button
                 variant="ghost"
+                size="md"
                 ref={ref}
                 disabled={isFetchingNextPage}
                 onClick={fetchNextPage}
+                {...props}
             >
                 {isFetchingNextPage ? (
                     <span className="loading loading-spinner"></span>

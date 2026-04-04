@@ -13,6 +13,7 @@ import {
 
 export interface WidgetProps {
     side: UIFeedWidgetSide;
+    isLast?: boolean;
 }
 
 export interface WidgetMeta {

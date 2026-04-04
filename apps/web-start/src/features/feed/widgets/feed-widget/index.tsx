@@ -4,14 +4,15 @@ import {
     CollectionContentType,
     CommentsContentType,
     ContentTypeEnum,
+    FeedArgs,
     FeedArticleCategory,
     FeedArticleContentType,
-    FeedArgs,
     FeedItemResponse,
 } from '@hikka/client';
 import { useFeed, useSession } from '@hikka/react';
 import { FC, useMemo, useState } from 'react';
 
+import LoadMoreButton from '@/components/load-more-button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
     Field,
@@ -45,7 +46,7 @@ const EMPTY_FILTERS: FeedSubTypeFilters = {
     collection_content_types: null,
 };
 
-const FeedWidget: FC<WidgetProps> = () => {
+const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
     const { user } = useSession();
     const { preferences } = useSessionUI();
     const { update } = useUpdateSessionUI();
@@ -58,12 +59,9 @@ const FeedWidget: FC<WidgetProps> = () => {
 
     const filters = user
         ? {
-              feed_content_types:
-                  feedSettings.feed_content_types ?? null,
-              comment_content_types:
-                  feedSettings.comment_content_types ?? null,
-              article_content_types:
-                  feedSettings.article_content_types ?? null,
+              feed_content_types: feedSettings.feed_content_types ?? null,
+              comment_content_types: feedSettings.comment_content_types ?? null,
+              article_content_types: feedSettings.article_content_types ?? null,
               article_categories: feedSettings.article_categories ?? null,
               collection_content_types:
                   feedSettings.collection_content_types ?? null,
@@ -109,6 +107,9 @@ const FeedWidget: FC<WidgetProps> = () => {
         list: feedList,
         ref: feedRef,
         isPending,
+        hasNextPage,
+        isFetchingNextPage,
+        fetchNextPage,
     } = useFeed({
         args: feedArgs,
     });
@@ -180,7 +181,16 @@ const FeedWidget: FC<WidgetProps> = () => {
                 </div>
             )}
 
-            <div ref={feedRef} />
+            {hasNextPage && (
+                <div className="flex w-full p-4">
+                    <LoadMoreButton
+                        className="flex-1"
+                        isFetchingNextPage={isFetchingNextPage}
+                        fetchNextPage={fetchNextPage}
+                        ref={isLast !== false ? feedRef : undefined}
+                    />
+                </div>
+            )}
         </div>
     );
 };

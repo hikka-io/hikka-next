@@ -15,11 +15,14 @@ import { WIDGET_REGISTRY } from './constants';
 import { useFeedLayout } from './hooks/use-feed-layout';
 import { useOpenLayoutSettings } from './hooks/use-open-layout-settings';
 
-const WidgetRenderer: FC<{ widget: UIFeedWidget }> = ({ widget }) => {
+const WidgetRenderer: FC<{ widget: UIFeedWidget; isLast?: boolean }> = ({
+    widget,
+    isLast,
+}) => {
     const meta = WIDGET_REGISTRY[widget.slug as UIFeedWidgetSlug];
     if (!meta) return null;
     const Component = meta.component;
-    return <Component side={widget.side} />;
+    return <Component side={widget.side} isLast={isLast} />;
 };
 
 const WidgetColumn: FC<{ widgets: UIFeedWidget[]; className?: string }> = ({
@@ -27,8 +30,12 @@ const WidgetColumn: FC<{ widgets: UIFeedWidget[]; className?: string }> = ({
     className,
 }) => (
     <div className={cn('flex flex-col gap-6', className)}>
-        {widgets.map((w) => (
-            <WidgetRenderer key={w.slug} widget={w} />
+        {widgets.map((w, i) => (
+            <WidgetRenderer
+                key={w.slug}
+                widget={w}
+                isLast={i === widgets.length - 1}
+            />
         ))}
     </div>
 );
@@ -77,7 +84,7 @@ const SidebarWidgetTabs: FC<{
             </div>
             {widgets.map((w) => (
                 <TabsContent key={w.slug} value={w.slug}>
-                    <WidgetRenderer widget={w} />
+                    <WidgetRenderer widget={w} isLast />
                 </TabsContent>
             ))}
         </Tabs>
@@ -218,8 +225,12 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
                     )}
                     id="feed"
                 >
-                    {center.map((w) => (
-                        <WidgetRenderer key={w.slug} widget={w} />
+                    {center.map((w, i) => (
+                        <WidgetRenderer
+                            key={w.slug}
+                            widget={w}
+                            isLast={i === center.length - 1}
+                        />
                     ))}
                 </main>
             )}
