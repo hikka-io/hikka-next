@@ -212,6 +212,15 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
                 </>
             )}
 
+            {layout <= 1 && (
+                <div className="flex flex-col gap-4">
+                    {settingsFullButton}
+                    {!hasCenter && (
+                        <WidgetColumn widgets={hasLeft ? left : right} />
+                    )}
+                </div>
+            )}
+
             {hasCenter && (
                 <main
                     className={cn(
@@ -225,12 +234,6 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
                         <WidgetRenderer key={w.slug} widget={w} />
                     ))}
                 </main>
-            )}
-
-            {layout <= 1 && settingsFullButton}
-
-            {layout === 1 && !hasCenter && (
-                <WidgetColumn widgets={hasLeft ? left : right} />
             )}
         </div>
     );

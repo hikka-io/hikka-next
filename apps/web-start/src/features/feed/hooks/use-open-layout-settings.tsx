@@ -23,7 +23,7 @@ export const useOpenLayoutSettings = (): {
         <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
             <ResponsiveModalContent
                 className="md:max-w-3xl"
-                title="Налаштувати макет стрічки"
+                title="Налаштувати макет сторінки"
                 description="Переміщуйте віджети між колонками, змінюйте порядок та видимість"
             >
                 <LayoutSettingsContent />
