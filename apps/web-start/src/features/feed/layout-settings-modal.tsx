@@ -161,7 +161,14 @@ function isColumnId(id: string | number): id is UIFeedWidgetSide {
 }
 
 function reindex(widgets: UIFeedWidget[]): UIFeedWidget[] {
-    const grouped = groupBySide(widgets);
+    const grouped: Record<UIFeedWidgetSide, UIFeedWidget[]> = {
+        left: [],
+        center: [],
+        right: [],
+    };
+    for (const w of widgets) {
+        grouped[w.side]?.push(w);
+    }
     return COLUMNS.flatMap((side) =>
         grouped[side].map((w, i) => ({ ...w, order: i + 1 })),
     );
@@ -222,7 +229,10 @@ const LayoutPresetSelector: FC<{
             className="grid grid-cols-3 gap-2 sm:grid-cols-5 p-4"
         >
             {PRESET_META.map((preset) => (
-                <FieldLabel key={preset.id} className="transition-colors hover:bg-secondary/60">
+                <FieldLabel
+                    key={preset.id}
+                    className="transition-colors hover:bg-secondary/60"
+                >
                     <Field>
                         <RadioGroupItem
                             value={preset.id}
@@ -279,18 +289,20 @@ const SortableWidgetItem: FC<{
         <div
             ref={setNodeRef}
             style={style}
-            className="border bg-secondary/20 flex items-center gap-2 rounded-lg p-2"
+            className={cn(
+                'border bg-secondary/20 flex touch-none items-center gap-2 rounded-lg p-2',
+                isDragging ? 'cursor-grabbing' : 'cursor-grab',
+            )}
+            {...attributes}
+            {...listeners}
         >
-            <div
-                className="flex flex-1 touch-none items-center gap-2"
-                {...attributes}
-                {...listeners}
-            >
-                <GripVertical className="text-muted-foreground size-4 shrink-0" />
-                <Label className="text-xs">{meta?.title ?? widget.slug}</Label>
-            </div>
+            <GripVertical className="text-muted-foreground size-4 shrink-0" />
+            <span className="flex-1 text-xs font-medium">
+                {meta?.title ?? widget.slug}
+            </span>
             <button
                 className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center rounded-sm"
+                onPointerDown={(e) => e.stopPropagation()}
                 onClick={() => onRemove(widget.slug)}
                 aria-label={`Видалити ${meta?.title ?? widget.slug}`}
             >

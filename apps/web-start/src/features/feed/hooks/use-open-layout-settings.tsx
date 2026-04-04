@@ -22,7 +22,7 @@ export const useOpenLayoutSettings = (): {
     const settingsModal = (
         <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
             <ResponsiveModalContent
-                className="md:max-w-3xl"
+                className="md:min-h-112 md:max-w-3xl"
                 title="Налаштувати макет сторінки"
                 description="Оберіть тип макету, налаштуйте віджети та їх порядок"
             >
