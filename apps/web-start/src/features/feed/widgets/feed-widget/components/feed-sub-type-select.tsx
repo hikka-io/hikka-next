@@ -250,7 +250,7 @@ const FeedSubTypeSelect: FC<{
                 )}
             </Button>
 
-            <ResponsiveModal open={open} onOpenChange={setOpen}>
+            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
                 <ResponsiveModalContent
                     title="Фільтри стрічки"
                     className="md:max-w-lg"
