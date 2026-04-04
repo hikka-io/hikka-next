@@ -160,53 +160,41 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
             )}
 
             {layout === 3 && (
-                <aside className="order-1 hidden min-w-0 h-fit lg:order-2 lg:block xl:hidden">
-                    <div className="flex flex-col gap-4">
-                        {settingsFullButton}
-                        {sidebarWidgets.length > 0 && (
-                            <WidgetColumn widgets={sidebarWidgets} />
-                        )}
-                    </div>
-                </aside>
-            )}
-
-            {layout === 3 && (
-                <aside className="hidden min-w-0 h-fit xl:block">
-                    {hasLeft ? (
-                        <div className="flex flex-col gap-4">
-                            {settingsFullButton}
-                            <WidgetColumn widgets={left} />
-                        </div>
-                    ) : (
-                        settingsFullButton
+                <aside id="feed-left" className="order-1 hidden min-w-0 h-fit flex-col gap-4 lg:order-2 lg:flex xl:hidden">
+                    {settingsFullButton}
+                    {sidebarWidgets.length > 0 && (
+                        <WidgetColumn widgets={sidebarWidgets} />
                     )}
                 </aside>
             )}
 
             {layout === 3 && (
-                <aside className="hidden min-w-0 h-fit xl:order-2 xl:block">
+                <aside id="feed-left" className="hidden min-w-0 h-fit flex-col gap-4 xl:flex">
+                    {settingsFullButton}
+                    {hasLeft && <WidgetColumn widgets={left} />}
+                </aside>
+            )}
+
+            {layout === 3 && (
+                <aside id="feed-right" className="hidden min-w-0 h-fit xl:order-2 xl:block">
                     {hasRight && <WidgetColumn widgets={right} />}
                 </aside>
             )}
 
             {layout === 2 && !isLeftRightOnly && sidebarWidgets.length > 0 && (
-                <aside className={cn('hidden min-w-0 h-fit lg:block', isCenterRight && 'lg:order-2')}>
-                    <div className="flex flex-col gap-4">
-                        {settingsFullButton}
-                        <WidgetColumn widgets={sidebarWidgets} />
-                    </div>
+                <aside id="feed-left" className={cn('hidden min-w-0 h-fit flex-col gap-4 lg:flex', isCenterRight && 'lg:order-2')}>
+                    {settingsFullButton}
+                    <WidgetColumn widgets={sidebarWidgets} />
                 </aside>
             )}
 
             {layout === 2 && isLeftRightOnly && (
                 <>
-                    <aside className="hidden min-w-0 h-fit lg:block">
-                        <div className="flex flex-col gap-4">
-                            {settingsFullButton}
-                            <WidgetColumn widgets={left} />
-                        </div>
+                    <aside id="feed-left" className="hidden min-w-0 h-fit flex-col gap-4 lg:flex">
+                        {settingsFullButton}
+                        <WidgetColumn widgets={left} />
                     </aside>
-                    <aside className="hidden min-w-0 h-fit lg:block">
+                    <aside id="feed-right" className="hidden min-w-0 h-fit lg:block">
                         <WidgetColumn widgets={right} />
                     </aside>
                 </>
