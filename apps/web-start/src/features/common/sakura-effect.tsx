@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
+import { useIsMobile } from '@/services/hooks/use-mobile';
+
 const PETAL_COUNT_DESKTOP = 40;
 const PETAL_COUNT_MOBILE = 16;
 const AMBIENT_COUNT_DESKTOP = 15;
@@ -151,7 +153,7 @@ function createPetal(width: number, height: number, startAbove = false): Petal {
         palette,
         opacity: random(0.4, 0.7) + depth * 0.2,
         rotation: random(0, Math.PI * 2),
-        rotationSpeed: random(0.003, 0.014) * depthScale,
+        rotationSpeed: random(0.003, 0.009) * depthScale,
         swayPhase: random(0, Math.PI * 2),
         swayFrequency: random(0.004, 0.012),
         swayAmplitude: random(20, 45),
@@ -472,7 +474,7 @@ function createBranchTree(
 
     // Branch starts from top corner of offscreen canvas
     const startX = mirrored ? areaW - 10 : -25;
-    const startY = 45;
+    const startY = isNarrow ? 15 : 45;
 
     // Initial angle: nearly horizontal, very slight downward slant
     const baseAngle = mirrored ? random(0.03, 0.08) : random(0.04, 0.1);
@@ -510,7 +512,7 @@ function drawPetal(ctx: CanvasRenderingContext2D, petal: Petal) {
     ctx.translate(petal.x, petal.y);
     ctx.rotate(petal.rotation);
 
-    const scaleX = Math.cos(petal.rotation * 2.5);
+    const scaleX = Math.cos(petal.rotation * 1.3);
     ctx.scale(scaleX === 0 ? 0.1 : scaleX, 1);
 
     ctx.globalAlpha = petal.opacity;
@@ -537,42 +539,57 @@ function drawAmbientParticle(
 
 // --- Component ---
 
-const SakuraEffect = () => {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
+const BRANCH_TOP_OFFSET_DESKTOP = 32;
+const BRANCH_TOP_OFFSET_MOBILE = 28;
+
+const SakuraCanvas = ({ isNarrow }: { isNarrow: boolean }) => {
+    const branchCanvasRef = useRef<HTMLCanvasElement>(null);
+    const particleCanvasRef = useRef<HTMLCanvasElement>(null);
+
+    const branchTopOffset = isNarrow
+        ? BRANCH_TOP_OFFSET_MOBILE
+        : BRANCH_TOP_OFFSET_DESKTOP;
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
+        const branchCanvas = branchCanvasRef.current;
+        const particleCanvas = particleCanvasRef.current;
+        if (!branchCanvas || !particleCanvas) return;
 
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
+        const branchCtx = branchCanvas.getContext('2d');
+        const particleCtx = particleCanvas.getContext('2d');
+        if (!branchCtx || !particleCtx) return;
+
+        // Capture narrowed references for use in closures
+        const bCtx = branchCtx;
+        const pCtx = particleCtx;
 
         let animationId: number;
         let time = 0;
 
         const dpr = window.devicePixelRatio || 1;
+        const W = window.innerWidth;
+        const H = window.innerHeight;
 
-        let branches: BranchTree[] = [];
-        let W = window.innerWidth;
-        let H = window.innerHeight;
+        const branchH = H - branchTopOffset;
+        branchCanvas.width = W * dpr;
+        branchCanvas.height = branchH * dpr;
+        branchCanvas.style.width = `${W}px`;
+        branchCanvas.style.height = `${branchH}px`;
+        branchCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        function resize() {
-            W = window.innerWidth;
-            H = window.innerHeight;
-            canvas!.width = W * dpr;
-            canvas!.height = H * dpr;
-            canvas!.style.width = `${W}px`;
-            canvas!.style.height = `100lvh`;
-            ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
+        // Particle canvas (absolute, covers viewport)
+        particleCanvas.width = W * dpr;
+        particleCanvas.height = H * dpr;
+        particleCanvas.style.width = `${W}px`;
+        particleCanvas.style.height = `${H}px`;
+        particleCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-            branches = [createBranchTree(false, W, H)];
-        }
+        const branches: BranchTree[] = [createBranchTree(false, W, branchH)];
 
-        resize();
-
-        const isNarrow = W < 768;
         const petalCount = isNarrow ? PETAL_COUNT_MOBILE : PETAL_COUNT_DESKTOP;
-        const ambientCount = isNarrow ? AMBIENT_COUNT_MOBILE : AMBIENT_COUNT_DESKTOP;
+        const ambientCount = isNarrow
+            ? AMBIENT_COUNT_MOBILE
+            : AMBIENT_COUNT_DESKTOP;
 
         const petals: Petal[] = Array.from({ length: petalCount }, () =>
             createPetal(W, H),
@@ -617,15 +634,25 @@ const SakuraEffect = () => {
 
         function animate() {
             time++;
-            ctx!.clearRect(0, 0, W, H);
+
+            // Particles + petals (absolute canvas)
+            pCtx.clearRect(0, 0, W, H);
 
             for (const particle of ambientParticles) {
                 updateAmbientParticle(particle);
-                drawAmbientParticle(ctx!, particle);
+                drawAmbientParticle(pCtx, particle);
             }
 
+            for (const petal of petals) {
+                updatePetal(petal);
+                drawPetal(pCtx, petal);
+            }
+
+            // Branches (fixed canvas)
+            bCtx.clearRect(0, 0, W, branchH);
+
             for (const branch of branches) {
-                ctx!.save();
+                bCtx.save();
 
                 const swayAngle =
                     Math.sin(time * branch.swaySpeed + branch.swayPhase) *
@@ -634,11 +661,11 @@ const SakuraEffect = () => {
                 const pivotX =
                     branch.originX + (branch.canvas.width / dpr) * 0.05;
                 const pivotY = branch.originY;
-                ctx!.translate(pivotX, pivotY);
-                ctx!.rotate(swayAngle);
-                ctx!.translate(-pivotX, -pivotY);
+                bCtx.translate(pivotX, pivotY);
+                bCtx.rotate(swayAngle);
+                bCtx.translate(-pivotX, -pivotY);
 
-                ctx!.drawImage(
+                bCtx.drawImage(
                     branch.canvas,
                     branch.originX,
                     branch.originY,
@@ -646,12 +673,7 @@ const SakuraEffect = () => {
                     branch.canvas.height / dpr,
                 );
 
-                ctx!.restore();
-            }
-
-            for (const petal of petals) {
-                updatePetal(petal);
-                drawPetal(ctx!, petal);
+                bCtx.restore();
             }
 
             animationId = requestAnimationFrame(animate);
@@ -667,41 +689,56 @@ const SakuraEffect = () => {
             }
         }
 
-        let resizeTimeout: ReturnType<typeof setTimeout>;
-        function handleResize() {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(resize, 150);
-        }
-
         document.addEventListener('visibilitychange', onVisibilityChange);
-        window.addEventListener('resize', handleResize);
 
         return () => {
             cancelAnimationFrame(animationId);
-            clearTimeout(resizeTimeout);
-            document.removeEventListener('visibilitychange', onVisibilityChange);
-            window.removeEventListener('resize', handleResize);
+            document.removeEventListener(
+                'visibilitychange',
+                onVisibilityChange,
+            );
+
+            for (const p of petals) p.cachedCanvas.remove();
+            for (const a of ambientParticles) a.glowCanvas.remove();
+            for (const b of branches) b.canvas.remove();
         };
     }, []);
 
     return (
-        <canvas
-            ref={canvasRef}
-            style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100vw',
-                height: '100lvh',
-                pointerEvents: 'none',
-                zIndex: 50,
-                maskImage:
-                    'linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0))',
-                WebkitMaskImage:
-                    'linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0))',
-            }}
-        />
+        <>
+            <canvas
+                ref={branchCanvasRef}
+                style={{
+                    position: 'fixed',
+                    top: branchTopOffset,
+                    left: 0,
+                    pointerEvents: 'none',
+                    zIndex: 50,
+                }}
+            />
+            <canvas
+                ref={particleCanvasRef}
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    pointerEvents: 'none',
+                    zIndex: 50,
+                    maskImage:
+                        'linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0))',
+                    WebkitMaskImage:
+                        'linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0))',
+                }}
+            />
+        </>
     );
+};
+
+const SakuraEffect = () => {
+    const isMobile = useIsMobile();
+    const isNarrow = isMobile ?? false;
+
+    return <SakuraCanvas key={String(isNarrow)} isNarrow={isNarrow} />;
 };
 
 export default SakuraEffect;
