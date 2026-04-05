@@ -82,13 +82,14 @@ export function mergeStyles(
 }
 
 /**
- * Merge two effect arrays, deduplicating the result.
+ * Merge event theme effects with the user's singular effect, deduplicating.
  */
 export function mergeEffects(
-    base: UIEffect[] | undefined,
-    override: UIEffect[] | undefined,
+    eventEffects: UIEffect[] | undefined,
+    userEffect: UIEffect | null | undefined,
 ): UIEffect[] {
-    const combined = [...(base ?? []), ...(override ?? [])];
+    const combined = [...(eventEffects ?? [])];
+    if (userEffect) combined.push(userEffect);
     return [...new Set(combined)];
 }
 
@@ -213,7 +214,7 @@ export function mergeWithEventTheme(userUI: UserUI): {
         mergedStyles: mergeStyles(eventTheme?.styles, userUI.styles),
         activeEffects: mergeEffects(
             eventTheme?.effects,
-            userUI.preferences?.effects,
+            userUI.preferences?.effect,
         ),
     };
 }

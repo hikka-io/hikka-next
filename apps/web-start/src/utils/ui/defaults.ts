@@ -76,7 +76,6 @@ export const DEFAULT_USER_UI: UserUI = {
     preferences: {
         title_language: 'title_ua',
         name_language: 'name_ua',
-        effects: [],
         overlay: true,
         home_widgets: [
             HomeWidgetsEnum.TRACKER,

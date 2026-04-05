@@ -122,7 +122,8 @@ export type UIPreferences = {
     score?: UIScoreType;
     title_language?: TitleLanguage;
     name_language?: NameLanguage;
-    effects?: UIEffect[];
+    effect?: UIEffect | null;
+    effects?: UIEffect[] | null;
     overlay?: boolean;
     feed: UIFeedSettings;
     home_widgets: HomeWidgetsEnum[];

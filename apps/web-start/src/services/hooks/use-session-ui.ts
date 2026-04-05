@@ -41,7 +41,7 @@ export function useSessionUI(): SessionUI {
         const mergedStyles = mergeStyles(eventTheme?.styles, resolvedStyles);
         const activeEffects = mergeEffects(
             eventTheme?.effects,
-            userUI.preferences?.effects,
+            userUI.preferences?.effect,
         );
         return {
             preferences: userUI.preferences ?? DEFAULT_USER_UI.preferences!,

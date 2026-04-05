@@ -1,59 +1,54 @@
 'use client';
 
+import { UIEffect } from '@hikka/client';
+
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
 import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { useSettingsStore } from '@/services/stores/settings-store';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 
+const EFFECTS: { value: UIEffect; label: string; description: string }[] = [
+    {
+        value: 'snowfall',
+        label: 'Сніжинки ❄️',
+        description: 'Включити анімацію сніжинок на сайті',
+    },
+    {
+        value: 'sakura',
+        label: 'Сакура 🌸',
+        description: 'Включити анімацію пелюсток сакури на сайті',
+    },
+];
+
 const EffectsSettings = () => {
-    const { activeEffects, preferences } = useSessionUI();
+    const { preferences } = useSessionUI();
     const { update } = useUpdateSessionUI();
-    const { localEffects, toggleLocalEffect } = useSettingsStore();
 
-    const handleChangeSnowflakes = () => {
-        const currentEffects = preferences.effects ?? [];
-        const hasEffect = currentEffects.includes('snowfall');
-        const effects = hasEffect
-            ? currentEffects.filter((e) => e !== 'snowfall')
-            : [...currentEffects, 'snowfall' as const];
-        update({ preferences: { effects } });
+    const handleToggleEffect = (value: UIEffect) => {
+        const isActive = preferences.effect === value;
+        update({ preferences: { effect: isActive ? null : value } });
     };
-
-    const handleChangeSakura = () => {
-        toggleLocalEffect('sakura');
-    };
-
-    const hasSnowfall = activeEffects.includes('snowfall');
-    const hasSakura = localEffects.includes('sakura');
 
     return (
         <div className="flex w-full flex-col gap-6">
-            <div className="flex w-full flex-row items-center justify-between gap-2">
-                <div className="flex flex-col">
-                    <Label>Сніжинки ❄️</Label>
-                    <small className="text-muted-foreground">
-                        Включити анімацію сніжинок на сайті
-                    </small>
+            {EFFECTS.map(({ value, label, description }) => (
+                <div
+                    key={value}
+                    className="flex w-full flex-row items-center justify-between gap-2"
+                >
+                    <div className="flex flex-col">
+                        <Label>{label}</Label>
+                        <small className="text-muted-foreground">
+                            {description}
+                        </small>
+                    </div>
+                    <Switch
+                        checked={preferences.effect === value}
+                        onCheckedChange={() => handleToggleEffect(value)}
+                    />
                 </div>
-                <Switch
-                    checked={hasSnowfall}
-                    onCheckedChange={handleChangeSnowflakes}
-                />
-            </div>
-            <div className="flex w-full flex-row items-center justify-between gap-2">
-                <div className="flex flex-col">
-                    <Label>Сакура 🌸</Label>
-                    <small className="text-muted-foreground">
-                        Включити анімацію пелюсток сакури на сайті
-                    </small>
-                </div>
-                <Switch
-                    checked={hasSakura}
-                    onCheckedChange={handleChangeSakura}
-                />
-            </div>
+            ))}
         </div>
     );
 };
