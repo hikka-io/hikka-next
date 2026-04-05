@@ -77,7 +77,7 @@ export type UIStyles = {
     };
 };
 
-export type UIEffect = 'snowfall';
+export type UIEffect = 'snowfall' | 'sakura';
 
 export type UIScoreType = 'mal' | 'native';
 

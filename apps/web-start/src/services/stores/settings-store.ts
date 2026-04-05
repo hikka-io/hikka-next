@@ -1,6 +1,6 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum, UIEffect } from '@hikka/client';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -21,6 +21,7 @@ export interface SettingsState {
     editTags: string[];
     filterPresets: Hikka.FilterPreset[];
     preferences: Preferences;
+    localEffects: UIEffect[];
     _hasHydrated: boolean;
 }
 
@@ -34,6 +35,7 @@ export interface SettingsActions {
     setFilterPreference: (key: string, values: string[]) => void;
     /** Set a collapsible state for a specific context */
     setCollapsible: (key: string, open: boolean) => void;
+    toggleLocalEffect: (effect: UIEffect) => void;
     reset: () => void;
 }
 
@@ -60,6 +62,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
 
 const DEFAULT_SETTINGS: SettingsState = {
     _hasHydrated: false,
+    localEffects: [],
     editTags: ['Додано назву', 'Додано синоніми', 'Додано опис', 'Додано імʼя'],
     filterPresets: [
         {
@@ -117,6 +120,12 @@ export const useSettingsStore = create<SettingsStore>()(
                             [key]: open,
                         },
                     },
+                })),
+            toggleLocalEffect: (effect) =>
+                set((state) => ({
+                    localEffects: state.localEffects.includes(effect)
+                        ? state.localEffects.filter((e) => e !== effect)
+                        : [...state.localEffects, effect],
                 })),
             reset: () => set(DEFAULT_SETTINGS),
         }),
