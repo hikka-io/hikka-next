@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
+import { cn } from '@/utils/cn';
+
 import { useIsMobile } from '@/services/hooks/use-mobile';
 
 const PETAL_COUNT_DESKTOP = 40;
@@ -156,7 +158,7 @@ function createPetal(width: number, height: number, startAbove = false): Petal {
         rotationSpeed: random(0.003, 0.009) * depthScale,
         swayPhase: random(0, Math.PI * 2),
         swayFrequency: random(0.004, 0.012),
-        swayAmplitude: random(20, 45),
+        swayAmplitude: random(20, 45) * 0.008,
         fallSpeed: random(0.12, 0.35) * depthScale,
         depth,
         curl,
@@ -507,26 +509,30 @@ function createBranchTree(
 
 // --- Draw functions ---
 
-function drawPetal(ctx: CanvasRenderingContext2D, petal: Petal) {
-    ctx.save();
-    ctx.translate(petal.x, petal.y);
-    ctx.rotate(petal.rotation);
+function drawPetal(ctx: CanvasRenderingContext2D, petal: Petal, dpr: number) {
+    const cos = Math.cos(petal.rotation);
+    const sin = Math.sin(petal.rotation);
+    let scaleX = Math.cos(petal.rotation * 1.3);
+    if (scaleX === 0) scaleX = 0.1;
 
-    const scaleX = Math.cos(petal.rotation * 1.3);
-    ctx.scale(scaleX === 0 ? 0.1 : scaleX, 1);
+    ctx.setTransform(
+        dpr * cos * scaleX,
+        dpr * sin * scaleX,
+        -dpr * sin,
+        dpr * cos,
+        dpr * petal.x,
+        dpr * petal.y,
+    );
 
     ctx.globalAlpha = petal.opacity;
     const c = petal.cachedCanvas;
     ctx.drawImage(c, -c.width / 2, -c.height / 2);
-
-    ctx.restore();
 }
 
 function drawAmbientParticle(
     ctx: CanvasRenderingContext2D,
     particle: AmbientParticle,
 ) {
-    ctx.save();
     ctx.globalAlpha = particle.opacity;
     const size = particle.glowCanvas.width;
     ctx.drawImage(
@@ -534,7 +540,6 @@ function drawAmbientParticle(
         particle.x - size / 2,
         particle.y - size / 2,
     );
-    ctx.restore();
 }
 
 // --- Component ---
@@ -558,31 +563,37 @@ const SakuraCanvas = ({ isNarrow }: { isNarrow: boolean }) => {
         const branchCtx = branchCanvas.getContext('2d');
         const particleCtx = particleCanvas.getContext('2d');
         if (!branchCtx || !particleCtx) return;
-
-        // Capture narrowed references for use in closures
         const bCtx = branchCtx;
         const pCtx = particleCtx;
 
         let animationId: number;
         let time = 0;
 
-        const dpr = window.devicePixelRatio || 1;
-        const W = window.innerWidth;
-        const H = window.innerHeight;
+        const getViewport = () => ({
+            W: document.documentElement.clientWidth,
+            H: window.innerHeight,
+            dpr: window.devicePixelRatio || 1,
+        });
 
-        const branchH = H - branchTopOffset;
-        branchCanvas.width = W * dpr;
-        branchCanvas.height = branchH * dpr;
-        branchCanvas.style.width = `${W}px`;
-        branchCanvas.style.height = `${branchH}px`;
-        branchCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        let { W, H, dpr } = getViewport();
+        let branchH = H - branchTopOffset;
 
-        // Particle canvas (absolute, covers viewport)
-        particleCanvas.width = W * dpr;
-        particleCanvas.height = H * dpr;
-        particleCanvas.style.width = `${W}px`;
-        particleCanvas.style.height = `${H}px`;
-        particleCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const sizeCanvases = () => {
+            branchH = H - branchTopOffset;
+            branchCanvas.width = W * dpr;
+            branchCanvas.height = branchH * dpr;
+            branchCanvas.style.width = `${W}px`;
+            branchCanvas.style.height = `${branchH}px`;
+            branchCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            particleCanvas.width = W * dpr;
+            particleCanvas.height = H * dpr;
+            particleCanvas.style.width = `${W}px`;
+            particleCanvas.style.height = `${H}px`;
+            particleCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        };
+
+        sizeCanvases();
 
         const branches: BranchTree[] = [createBranchTree(false, W, branchH)];
 
@@ -605,8 +616,7 @@ const SakuraCanvas = ({ isNarrow }: { isNarrow: boolean }) => {
             petal.y += petal.fallSpeed;
             petal.x +=
                 Math.sin(time * petal.swayFrequency + petal.swayPhase) *
-                petal.swayAmplitude *
-                0.008;
+                petal.swayAmplitude;
             petal.rotation += petal.rotationSpeed;
 
             if (petal.y > H + 30) {
@@ -635,7 +645,7 @@ const SakuraCanvas = ({ isNarrow }: { isNarrow: boolean }) => {
         function animate() {
             time++;
 
-            // Particles + petals (absolute canvas)
+            pCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
             pCtx.clearRect(0, 0, W, H);
 
             for (const particle of ambientParticles) {
@@ -645,35 +655,41 @@ const SakuraCanvas = ({ isNarrow }: { isNarrow: boolean }) => {
 
             for (const petal of petals) {
                 updatePetal(petal);
-                drawPetal(pCtx, petal);
+                drawPetal(pCtx, petal, dpr);
             }
 
-            // Branches (fixed canvas)
+            bCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
             bCtx.clearRect(0, 0, W, branchH);
 
             for (const branch of branches) {
-                bCtx.save();
+                const bW = branch.canvas.width / dpr;
+                const bH = branch.canvas.height / dpr;
 
                 const swayAngle =
                     Math.sin(time * branch.swaySpeed + branch.swayPhase) *
                     (Math.PI / 120);
 
-                const pivotX =
-                    branch.originX + (branch.canvas.width / dpr) * 0.05;
+                const pivotX = branch.originX + bW * 0.05;
                 const pivotY = branch.originY;
-                bCtx.translate(pivotX, pivotY);
-                bCtx.rotate(swayAngle);
-                bCtx.translate(-pivotX, -pivotY);
+
+                const cos = Math.cos(swayAngle);
+                const sin = Math.sin(swayAngle);
+                bCtx.setTransform(
+                    dpr * cos,
+                    dpr * sin,
+                    -dpr * sin,
+                    dpr * cos,
+                    dpr * (pivotX - pivotX * cos + pivotY * sin),
+                    dpr * (pivotY - pivotX * sin - pivotY * cos),
+                );
 
                 bCtx.drawImage(
                     branch.canvas,
                     branch.originX,
                     branch.originY,
-                    branch.canvas.width / dpr,
-                    branch.canvas.height / dpr,
+                    bW,
+                    bH,
                 );
-
-                bCtx.restore();
             }
 
             animationId = requestAnimationFrame(animate);
@@ -681,10 +697,20 @@ const SakuraCanvas = ({ isNarrow }: { isNarrow: boolean }) => {
 
         animationId = requestAnimationFrame(animate);
 
+        function onResize() {
+            const next = getViewport();
+            if (next.W === W && next.H === H && next.dpr === dpr) return;
+            W = next.W;
+            H = next.H;
+            dpr = next.dpr;
+            sizeCanvases();
+        }
+
+        window.addEventListener('resize', onResize);
+
         function onVisibilityChange() {
-            if (document.hidden) {
-                cancelAnimationFrame(animationId);
-            } else {
+            cancelAnimationFrame(animationId);
+            if (!document.hidden) {
                 animationId = requestAnimationFrame(animate);
             }
         }
@@ -693,6 +719,7 @@ const SakuraCanvas = ({ isNarrow }: { isNarrow: boolean }) => {
 
         return () => {
             cancelAnimationFrame(animationId);
+            window.removeEventListener('resize', onResize);
             document.removeEventListener(
                 'visibilitychange',
                 onVisibilityChange,
@@ -708,28 +735,17 @@ const SakuraCanvas = ({ isNarrow }: { isNarrow: boolean }) => {
         <>
             <canvas
                 ref={branchCanvasRef}
-                style={{
-                    position: 'fixed',
-                    top: branchTopOffset,
-                    left: 0,
-                    pointerEvents: 'none',
-                    zIndex: 50,
-                }}
+                className={cn(
+                    'pointer-events-none fixed left-0 z-50',
+                    isNarrow ? 'top-7' : 'top-8',
+                )}
             />
-            <canvas
-                ref={particleCanvasRef}
-                style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    pointerEvents: 'none',
-                    zIndex: 50,
-                    maskImage:
-                        'linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0))',
-                    WebkitMaskImage:
-                        'linear-gradient(to bottom, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0))',
-                }}
-            />
+            <div className="pointer-events-none absolute top-0 left-0 z-50 h-screen w-full overflow-hidden">
+                <canvas
+                    ref={particleCanvasRef}
+                    className="pointer-events-none absolute top-0 left-0 mask-[linear-gradient(to_bottom,rgba(0,0,0,1)_75%,rgba(0,0,0,0))]"
+                />
+            </div>
         </>
     );
 };
