@@ -66,5 +66,5 @@ export function useUnseenNotificationsCount({
 export const useUpdateNotificationSeen = createMutation({
     mutationFn: (client, reference: string) =>
         client.notifications.updateNotificationSeen(reference),
-    invalidateQueries: () => [queryKeys.notifications.unseenCount()],
+    invalidateQueries: () => [queryKeys.notifications.all],
 });
