@@ -14,7 +14,7 @@ const ContentStatus: FC<Props> = ({ status, icon, size = 'default' }) => (
             className={cn(
                 'absolute z-1 w-fit rounded-md border',
                 size === 'sm'
-                    ? 'top-1 right-1 p-1 [&>svg]:size-3 rounded-sm'
+                    ? 'top-1 right-1 rounded-sm p-1 [&>svg]:size-3'
                     : 'top-2 right-2 p-1',
                 `bg-${status} text-${status}-foreground border-${status}-border`,
             )}

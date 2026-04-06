@@ -37,15 +37,15 @@ const Scores = ({ className, content_type }: ScoresProps) => {
         <div
             id="content-scores"
             className={cn(
-                'flex gap-4 bg-secondary/20 backdrop-blur p-2 px-4 rounded-md border items-center',
+                'bg-secondary/20 flex items-center gap-4 rounded-md border p-2 px-4 backdrop-blur',
                 (data.score === 0 || data.native_score === 0) &&
                     'w-fit self-end',
                 className,
             )}
         >
             {!!data.score && (
-                <div className="flex gap-4 items-center justify-center flex-1">
-                    <MAL className="w-4 h-4 text-foreground" />
+                <div className="flex flex-1 items-center justify-center gap-4">
+                    <MAL className="text-foreground h-4 w-4" />
                     <div className="flex flex-col items-start justify-start">
                         <div className="flex items-center gap-1">
                             <p className="font-display  font-bold">
@@ -55,7 +55,7 @@ const Scores = ({ className, content_type }: ScoresProps) => {
                             <MaterialSymbolsStarRounded className="text-lg text-yellow-400" />
                         </div>
 
-                        <p className="text-xs tracking-wider text-muted-foreground line-clamp-1">
+                        <p className="text-muted-foreground line-clamp-1 text-xs tracking-wider">
                             {compact(data.scored_by)} оцінок
                         </p>
                     </div>
@@ -67,8 +67,8 @@ const Scores = ({ className, content_type }: ScoresProps) => {
             )}
 
             {!!data.native_score && (
-                <div className="flex gap-4 items-center justify-center flex-1">
-                    <Hikka className="w-4 h-4 shrink-0" />
+                <div className="flex flex-1 items-center justify-center gap-4">
+                    <Hikka className="h-4 w-4 shrink-0" />
                     <div className="flex flex-col items-start justify-start">
                         <div className="flex items-center gap-1">
                             <p className="font-display font-bold">
@@ -77,7 +77,7 @@ const Scores = ({ className, content_type }: ScoresProps) => {
 
                             <MaterialSymbolsStarRounded className="text-lg text-yellow-400" />
                         </div>
-                        <p className="text-xs tracking-wider text-muted-foreground line-clamp-1">
+                        <p className="text-muted-foreground line-clamp-1 text-xs tracking-wider">
                             {compact(data.native_scored_by)} оцінок
                         </p>
                     </div>

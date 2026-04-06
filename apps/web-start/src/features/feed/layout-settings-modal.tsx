@@ -224,12 +224,12 @@ const LayoutPresetSelector: FC<{
         <RadioGroup
             value={value}
             onValueChange={(v) => onChange(v as LayoutPreset)}
-            className="grid grid-cols-3 gap-2 sm:grid-cols-5 p-4"
+            className="grid grid-cols-3 gap-2 p-4 sm:grid-cols-5"
         >
             {PRESET_META.map((preset) => (
                 <FieldLabel
                     key={preset.id}
-                    className="transition-colors hover:bg-secondary/60"
+                    className="hover:bg-secondary/60 transition-colors"
                 >
                     <Field>
                         <RadioGroupItem
@@ -288,7 +288,7 @@ const SortableWidgetItem: FC<{
             ref={setNodeRef}
             style={style}
             className={cn(
-                'border bg-secondary/20 flex touch-none items-center gap-2 rounded-lg p-2',
+                'bg-secondary/20 flex touch-none items-center gap-2 rounded-lg border p-2',
                 isDragging ? 'cursor-grabbing' : 'cursor-grab',
             )}
             {...attributes}
@@ -337,7 +337,7 @@ const DroppableColumn: FC<{
                 {showTabHint && (
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Smartphone className="size-4 text-muted-foreground" />
+                            <Smartphone className="text-muted-foreground size-4" />
                         </TooltipTrigger>
                         <TooltipPortal>
                             <TooltipContent>
@@ -353,7 +353,7 @@ const DroppableColumn: FC<{
             >
                 <div
                     ref={setNodeRef}
-                    className="flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed bg-secondary/20 p-2 transition-colors"
+                    className="bg-secondary/20 flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed p-2 transition-colors"
                 >
                     {widgets.map((widget) => (
                         <SortableWidgetItem
@@ -492,7 +492,7 @@ const LayoutSettingsContent = () => {
     };
 
     return (
-        <div className="flex flex-col -m-4 overflow-hidden">
+        <div className="-m-4 flex flex-col overflow-hidden">
             <LayoutPresetSelector
                 value={preset}
                 onChange={handlePresetChange}
@@ -507,7 +507,7 @@ const LayoutSettingsContent = () => {
                 onDragOver={handleDragOver}
                 onDragEnd={handleDragEnd}
             >
-                <div className="flex flex-col gap-4 p-4 overflow-y-scroll flex-1">
+                <div className="flex flex-1 flex-col gap-4 overflow-y-scroll p-4">
                     <div
                         className={cn(
                             'grid grid-cols-1 gap-3',

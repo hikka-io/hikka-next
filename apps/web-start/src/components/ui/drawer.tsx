@@ -46,7 +46,7 @@ function DrawerOverlay({
         <DrawerPrimitive.Overlay
             data-slot="drawer-overlay"
             className={cn(
-                'fixed inset-0 z-50 bg-black/30 backdrop-blur-xs data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0',
+                'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/30 backdrop-blur-xs',
                 className,
             )}
             {...props}
@@ -78,7 +78,7 @@ function DrawerContent({
                 {...props}
             >
                 <PortalContainerProvider value={container}>
-                    <div className="absolute w-full flex justify-center items-center left-0 top-2">
+                    <div className="absolute top-2 left-0 flex w-full items-center justify-center">
                         <div className="bg-muted mx-auto hidden h-1 w-10 shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
                     </div>
                     {children}

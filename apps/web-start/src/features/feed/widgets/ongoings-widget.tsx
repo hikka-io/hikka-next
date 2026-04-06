@@ -101,7 +101,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                         <Stack
                             size={CENTER_SIZE}
                             imagePreset="cardSm"
-                            className="px-4 mx-0"
+                            className="mx-0 px-4"
                         >
                             {isLoading &&
                                 range(0, CENTER_SIZE).map((v) => (

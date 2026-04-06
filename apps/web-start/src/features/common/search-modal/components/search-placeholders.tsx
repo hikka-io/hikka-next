@@ -19,7 +19,7 @@ const SearchPlaceholders = ({ data, isFetching, isRefetching }: Props) => {
         return null;
 
     return (
-        <div className="py-6 flex justify-center items-center">
+        <div className="flex items-center justify-center py-6">
             {isFetching && !isRefetching ? (
                 <span className="loading loading-spinner size-5! text-center"></span>
             ) : (

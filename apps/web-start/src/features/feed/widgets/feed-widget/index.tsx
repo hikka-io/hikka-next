@@ -115,7 +115,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
     });
 
     return (
-        <div className="flex flex-col overflow-hidden border-x-0 border-y -mx-4 md:mx-0 md:rounded-lg md:border-x">
+        <div className="-mx-4 flex flex-col overflow-hidden border-x-0 border-y md:mx-0 md:rounded-lg md:border-x">
             <div className="backdrop-blur-xl">
                 <Header className="px-4 pt-4">
                     <HeaderContainer>

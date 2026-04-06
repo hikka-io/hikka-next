@@ -78,7 +78,7 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
                 <Label className="line-clamp-2 flex-1">{title}</Label>
             </div>
 
-            <div className="flex-1 text-right flex justify-end items-center">
+            <div className="flex flex-1 items-center justify-end text-right">
                 {renderValue()}
             </div>
         </div>

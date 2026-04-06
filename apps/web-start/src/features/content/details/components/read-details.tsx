@@ -56,7 +56,7 @@ const SynonymsTrigger = ({
             <DetailItem icon={<BookType className="size-4" />} title="Синоніми">
                 <button
                     type="button"
-                    className="line-clamp-2 text-right cursor-pointer w-fit text-sm leading-tight font-medium hover:underline"
+                    className="line-clamp-2 w-fit cursor-pointer text-right text-sm leading-tight font-medium hover:underline"
                     onClick={() => setOpen(true)}
                 >
                     {synonyms.slice(0, 3).join(', ')}
@@ -113,7 +113,7 @@ const ReadDetails = ({
                         icon={<Calendar className="size-4" />}
                     >
                         <Link
-                            className="hover:underline line-clamp-1 text-sm font-medium"
+                            className="line-clamp-1 text-sm font-medium hover:underline"
                             to={`/${data.data_type}`}
                             search={{
                                 years: [data.year, data.year],
