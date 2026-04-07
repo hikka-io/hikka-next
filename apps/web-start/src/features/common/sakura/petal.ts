@@ -81,7 +81,6 @@ class Petal {
         cache: SpriteCache,
         size: number,
         curl: number,
-        palette: PetalPalette,
         paletteIndex: number,
         blur: number,
         dpr: number,
@@ -95,7 +94,7 @@ class Petal {
             c = renderPetalCanvas(
                 sizeBucket,
                 curlBucket,
-                palette,
+                PETAL_PALETTES[paletteIndex],
                 blur,
                 dpr,
             );
@@ -146,7 +145,6 @@ class Petal {
         const size = random(20, 32) * depthScale;
         const curl = random(-0.15, 0.15);
         const paletteIndex = Math.floor(Math.random() * PETAL_PALETTES.length);
-        const palette = PETAL_PALETTES[paletteIndex];
 
         this.x = random(0, width);
         this.y = startAbove
@@ -169,7 +167,6 @@ class Petal {
             cache,
             size,
             curl,
-            palette,
             paletteIndex,
             blur,
             dpr,

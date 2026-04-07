@@ -229,8 +229,6 @@ function drawMainBranch(
 }
 
 class Branch {
-    originX: number;
-    originY: number;
     canvas: HTMLCanvasElement;
     swayPhase: number;
     swaySpeed: number;
@@ -262,8 +260,6 @@ class Branch {
             isNarrow,
         );
 
-        this.originX = 0;
-        this.originY = 0;
         this.canvas = offscreen;
         this.swayPhase = random(0, Math.PI * 2);
         this.swaySpeed = random(0.006, 0.012);
@@ -274,7 +270,7 @@ class Branch {
         const bW = this.canvas.width / dpr;
         const bH = this.canvas.height / dpr;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.drawImage(this.canvas, this.originX, this.originY, bW, bH);
+        ctx.drawImage(this.canvas, 0, 0, bW, bH);
     }
 
     /** Instantaneous sway angle in radians, driven by accumulated time. */

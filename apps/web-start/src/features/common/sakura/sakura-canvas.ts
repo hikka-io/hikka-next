@@ -145,13 +145,10 @@ export class SakuraCanvas {
         const b = this.branches[0];
         if (!b) return;
         const { dpr } = this.viewport;
-        const logicalW = b.canvas.width / dpr;
-        const logicalH = b.canvas.height / dpr;
-
-        this.branchCanvas.width = logicalW * dpr;
-        this.branchCanvas.height = logicalH * dpr;
-        this.branchCanvas.style.width = `${logicalW}px`;
-        this.branchCanvas.style.height = `${logicalH}px`;
+        this.branchCanvas.width = b.canvas.width;
+        this.branchCanvas.height = b.canvas.height;
+        this.branchCanvas.style.width = `${b.canvas.width / dpr}px`;
+        this.branchCanvas.style.height = `${b.canvas.height / dpr}px`;
     }
 
     private createEntities() {
