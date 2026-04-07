@@ -74,7 +74,7 @@
         "react-number-format": "^5.4.2",
         "react-photo-view": "^1.2.7",
         "react-remove-scroll": "^2.6.3",
-        "react-snowfall": "^2.2.0",
+        "react-snowfall": "^2.4.0",
         "recharts": "^3.6.0",
         "remark-directive": "^3.0.0",
         "remark-directive-rehype": "^0.4.2",

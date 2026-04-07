@@ -459,7 +459,7 @@ for (const f of fs.readdirSync(OUT)) {
 // Petals: 4 palettes × 3 curl variants. Single nominal size of 24, scaled in CSS.
 const PETAL_NOMINAL = 24;
 const CURLS = [-0.12, 0, 0.12];
-let petalManifest = [];
+const petalManifest = [];
 PETAL_PALETTES.forEach((palette, pi) => {
     CURLS.forEach((curl, ci) => {
         const ctx = new SvgContext();

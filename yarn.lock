@@ -1739,7 +1739,7 @@ __metadata:
     react-number-format: "npm:^5.4.2"
     react-photo-view: "npm:^1.2.7"
     react-remove-scroll: "npm:^2.6.3"
-    react-snowfall: "npm:^2.2.0"
+    react-snowfall: "npm:^2.4.0"
     recharts: "npm:^3.6.0"
     remark-directive: "npm:^3.0.0"
     remark-directive-rehype: "npm:^0.4.2"
@@ -13944,15 +13944,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-snowfall@npm:^2.2.0":
-  version: 2.3.0
-  resolution: "react-snowfall@npm:2.3.0"
+"react-snowfall@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "react-snowfall@npm:2.4.0"
   dependencies:
     react-fast-compare: "npm:^3.2.2"
   peerDependencies:
     react: ^16.8 || 17.x || 18.x || 19.x
     react-dom: ^16.8 || 17.x || 18.x || 19.x
-  checksum: 10c0/ab0cb06b2bbdb7ccb958e630a9b9608a5735a8eca7f54aa506fc92fc42bcb3bea021f8895119f0de43dd4ef503460aaeb4a061a428c8abf41442abe73d183d38
+  checksum: 10c0/11fa0b250ce8cab4026b933123f1212a0874124d810bdfd881a30f1c28b1b4daaf6f0c1d05e26e26ce9d19fedbc0ef7869a5313177523b210fb2efe39c4f88c6
   languageName: node
   linkType: hard
 
