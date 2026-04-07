@@ -69,7 +69,7 @@ const FeedItem: FC<Props> = ({ item, showTypeLabel }) => {
     const extraInfo = getExtraInfo(item);
 
     return (
-        <div className="isolate flex flex-col border-b">
+        <div className="feed-item isolate flex flex-col border-b">
             <FeedItemHeader
                 author={item.author}
                 dataType={item.data_type}
@@ -78,7 +78,7 @@ const FeedItem: FC<Props> = ({ item, showTypeLabel }) => {
                 showTypeLabel={showTypeLabel}
             />
 
-            <div className="ml-14">
+            <div className="feed-item-content ml-14">
                 {item.data_type === ContentTypeEnum.ARTICLE && (
                     <FeedItemArticle data={item} />
                 )}
