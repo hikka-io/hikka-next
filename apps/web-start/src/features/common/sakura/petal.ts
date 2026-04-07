@@ -1,30 +1,18 @@
 import { PETAL_PALETTES, PetalPalette } from './config';
 import { SpriteCache, edgeFade, random } from './utils';
 
-/**
- * Renders a petal sprite at device-pixel resolution. The returned canvas has
- * physical size `logicalSize * dpr` so that `drawImage` at logical target size
- * under a dpr-scaled transform produces a 1:1 pixel mapping (no blur).
- *
- * When `blur > 0`, the canvas is padded by `blur * 3` on each side so the
- * gaussian tail isn't clipped, and `ctx.filter = 'blur(Npx)'` is applied once
- * before the path is stroked. The blur cost is paid here at sprite-bake time
- * — the render loop stays filter-free.
- */
 function renderPetalCanvas(
     size: number,
     curl: number,
     palette: PetalPalette,
     blur: number,
-    dpr: number,
 ): HTMLCanvasElement {
     const pad = blur > 0 ? Math.ceil(blur * 3) : 0;
     const logicalSize = Math.ceil(size) + pad * 2;
     const c = document.createElement('canvas');
-    c.width = logicalSize * dpr;
-    c.height = logicalSize * dpr;
+    c.width = logicalSize;
+    c.height = logicalSize;
     const ctx = c.getContext('2d')!;
-    ctx.scale(dpr, dpr);
 
     if (blur > 0) ctx.filter = `blur(${blur}px)`;
 
@@ -72,10 +60,6 @@ function renderPetalCanvas(
     return c;
 }
 
-/**
- * Petal sprites are cached in an instance-scoped Map owned by SakuraCanvas.
- * Key includes dpr so cross-monitor moves don't reuse mismatched sprites.
- */
 class Petal {
     private static getCachedCanvas(
         cache: SpriteCache,
@@ -83,11 +67,10 @@ class Petal {
         curl: number,
         paletteIndex: number,
         blur: number,
-        dpr: number,
     ): HTMLCanvasElement {
         const sizeBucket = Math.round(size);
         const curlBucket = Math.round(curl * 20) / 20;
-        const key = `${sizeBucket}|${curlBucket}|${paletteIndex}|${blur}|${dpr}`;
+        const key = `${sizeBucket}|${curlBucket}|${paletteIndex}|${blur}`;
 
         let c = cache.get(key);
         if (!c) {
@@ -96,7 +79,6 @@ class Petal {
                 curlBucket,
                 PETAL_PALETTES[paletteIndex],
                 blur,
-                dpr,
             );
             cache.set(key, c);
         }
@@ -124,9 +106,8 @@ class Petal {
     swayAmplitude: number;
     fallSpeed: number;
     depth: number;
-    cachedCanvas: HTMLCanvasElement;
-    /** Logical size of the cached sprite (canvas.width / dpr). */
-    logicalSize: number;
+    private cachedCanvas: HTMLCanvasElement;
+    private logicalSize: number;
     // Per-frame trig cache — written in update(), read in draw(). Avoids
     // recomputing cos/sin/scaleX three times per petal per frame.
     private cosR = 1;
@@ -137,7 +118,6 @@ class Petal {
         cache: SpriteCache,
         width: number,
         height: number,
-        dpr: number,
         startAbove = false,
     ) {
         const depth = Math.random();
@@ -169,9 +149,8 @@ class Petal {
             curl,
             paletteIndex,
             blur,
-            dpr,
         );
-        this.logicalSize = this.cachedCanvas.width / dpr;
+        this.logicalSize = this.cachedCanvas.width;
     }
 
     static createPetals(
@@ -179,11 +158,10 @@ class Petal {
         count: number,
         width: number,
         height: number,
-        dpr: number,
     ): Petal[] {
         const petals: Petal[] = Array.from(
             { length: count },
-            () => new Petal(cache, width, height, dpr),
+            () => new Petal(cache, width, height),
         );
         petals.sort((a, b) => a.depth - b.depth);
         return petals;
@@ -214,31 +192,23 @@ class Petal {
         this.scaleX = scaleX;
     }
 
-    draw(ctx: CanvasRenderingContext2D, dpr: number, H: number) {
+    draw(ctx: CanvasRenderingContext2D, H: number) {
         const alpha = this.opacity * edgeFade(this.y, H);
         if (alpha <= 0) return;
 
         const { cosR, sinR, scaleX } = this;
         ctx.setTransform(
-            dpr * cosR * scaleX,
-            dpr * sinR * scaleX,
-            -dpr * sinR,
-            dpr * cosR,
-            dpr * this.x,
-            dpr * this.y,
+            cosR * scaleX,
+            sinR * scaleX,
+            -sinR,
+            cosR,
+            this.x,
+            this.y,
         );
 
         ctx.globalAlpha = alpha;
         const half = this.logicalSize / 2;
-        // 5-arg drawImage with logical target size — the dpr baked into the
-        // transform scales it to physical pixels, giving a 1:1 sprite mapping.
-        ctx.drawImage(
-            this.cachedCanvas,
-            -half,
-            -half,
-            this.logicalSize,
-            this.logicalSize,
-        );
+        ctx.drawImage(this.cachedCanvas, -half, -half);
     }
 }
 
