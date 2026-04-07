@@ -1,5 +1,5 @@
 import { AMBIENT_COLORS } from './config';
-import { SpriteCache, edgeFade, random, randomItem } from './utils';
+import { SpriteCache, random, randomItem } from './utils';
 
 function renderGlowCanvas(
     radius: number,
@@ -96,8 +96,8 @@ class AmbientParticle {
         this.y = (((this.y + 10) % spanY) + spanY) % spanY - 10;
     }
 
-    draw(ctx: CanvasRenderingContext2D, H: number) {
-        const alpha = this.opacity * edgeFade(this.y, H);
+    draw(ctx: CanvasRenderingContext2D) {
+        const alpha = this.opacity;
         if (alpha <= 0) return;
 
         ctx.setTransform(1, 0, 0, 1, 0, 0);

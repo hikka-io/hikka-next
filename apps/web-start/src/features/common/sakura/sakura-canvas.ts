@@ -201,12 +201,12 @@ export class SakuraCanvas {
 
         for (const particle of this.ambientParticles) {
             particle.update(W, H, framesPassed, this.time);
-            particle.draw(pCtx, H);
+            particle.draw(pCtx);
         }
 
         for (const petal of this.petals) {
             petal.update(W, H, framesPassed, this.time);
-            petal.draw(pCtx, H);
+            petal.draw(pCtx);
         }
 
         pCtx.globalAlpha = 1;

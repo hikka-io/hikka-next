@@ -85,7 +85,7 @@ const SakuraEffect = () => {
             />
             <canvas
                 ref={particleCanvasRef}
-                className="pointer-events-none absolute top-0 left-0 z-50"
+                className="pointer-events-none absolute top-0 left-0 z-50 h-lvh w-full mask-[linear-gradient(to_bottom,rgba(0,0,0,1)_75%,rgba(0,0,0,0))]"
             />
         </>
     );

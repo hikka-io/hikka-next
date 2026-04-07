@@ -1,5 +1,5 @@
 import { PETAL_PALETTES, PetalPalette } from './config';
-import { SpriteCache, edgeFade, random } from './utils';
+import { SpriteCache, random } from './utils';
 
 function renderPetalCanvas(
     size: number,
@@ -192,8 +192,8 @@ class Petal {
         this.scaleX = scaleX;
     }
 
-    draw(ctx: CanvasRenderingContext2D, H: number) {
-        const alpha = this.opacity * edgeFade(this.y, H);
+    draw(ctx: CanvasRenderingContext2D) {
+        const alpha = this.opacity;
         if (alpha <= 0) return;
 
         const { cosR, sinR, scaleX } = this;
