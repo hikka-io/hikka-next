@@ -11,18 +11,43 @@ import Petal from './petal';
 import { SpriteCache } from './utils';
 
 /**
- * The particle canvas (petals + ambient glows) renders at 1× regardless of
- * the device pixel ratio. On a 2× retina display this drops backing-store
- * pixels by 4× and texture-upload bandwidth proportionally — the dominant
- * cost on the renderer + GPU compositor processes for a full-viewport canvas.
+ * The particle canvas DPR is picked dynamically based on device capability.
+ * The full-viewport canvas's dominant cost is backing-store pixels × upload
+ * bandwidth, so halving DPR quarters that cost. Tiers:
  *
- * Petals are soft organic shapes 16-28px wide; the perceptual softness from
- * 1× rendering is minimal compared to the CPU savings.
+ *   Low  (mobile / ≤4 cores / ≤4 GB)   → 1×
+ *   Mid  (default desktop)              → min(devicePixelRatio, 1.5)
+ *   High (≥8 cores + memory OK)         → min(devicePixelRatio, 2)
+ *
+ * The chosen DPR is baked into the sprite cache key (see petal.ts /
+ * ambient-particle.ts), so it must stay constant for the lifetime of the
+ * SakuraCanvas instance. A viewport-class flip (mobile ↔ desktop) already
+ * triggers a remount via React `key`, which re-runs this pick.
  *
  * The branch canvas keeps viewport DPR — it draws once at init and is
  * animated via CSS transform after that, so high DPR there is free.
  */
-const PARTICLE_DPR = 1;
+function pickParticleDpr(isNarrow: boolean): number {
+    if (typeof window === 'undefined') return 1;
+    const deviceDpr = window.devicePixelRatio || 1;
+
+    const nav = navigator as any;
+    const cores: number =
+        typeof nav.hardwareConcurrency === 'number'
+            ? nav.hardwareConcurrency
+            : 4;
+    // `deviceMemory` is undefined on Safari; treat unknown as neutral.
+    const mem: number | undefined =
+        typeof nav.deviceMemory === 'number' ? nav.deviceMemory : undefined;
+
+    if (isNarrow || cores <= 4 || (mem !== undefined && mem <= 4)) {
+        return 1;
+    }
+    if (cores >= 8 && (mem === undefined || mem >= 8)) {
+        return Math.min(deviceDpr, 2);
+    }
+    return Math.min(deviceDpr, 1.5);
+}
 
 export interface SakuraCanvasConfig {
     isNarrow: boolean;
@@ -59,6 +84,7 @@ export class SakuraCanvas {
     private viewport: Viewport;
     private branchH: number;
 
+    private particleDpr: number;
     private spriteCache: SpriteCache = new Map();
     private petals: Petal[] = [];
     private ambientParticles: AmbientParticle[] = [];
@@ -77,6 +103,7 @@ export class SakuraCanvas {
         this.particleCanvas = particleCanvas;
         this.particleCtx = particleCanvas.getContext('2d')!;
         this.config = config;
+        this.particleDpr = pickParticleDpr(config.isNarrow);
 
         this.viewport = readViewport();
         this.branchH = this.viewport.H - this.config.branchTopOffset;
@@ -95,13 +122,18 @@ export class SakuraCanvas {
 
     private sizeParticleCanvas() {
         const { W, H } = this.viewport;
-        // Particle canvas backing is at PARTICLE_DPR (1×), CSS-stretched to
-        // logical viewport size. See PARTICLE_DPR constant for rationale.
-        this.particleCanvas.width = W * PARTICLE_DPR;
-        this.particleCanvas.height = H * PARTICLE_DPR;
+        this.particleCanvas.width = W * this.particleDpr;
+        this.particleCanvas.height = H * this.particleDpr;
         this.particleCanvas.style.width = `${W}px`;
         this.particleCanvas.style.height = `${H}px`;
-        this.particleCtx.setTransform(PARTICLE_DPR, 0, 0, PARTICLE_DPR, 0, 0);
+        this.particleCtx.setTransform(
+            this.particleDpr,
+            0,
+            0,
+            this.particleDpr,
+            0,
+            0,
+        );
     }
 
     /**
@@ -136,16 +168,18 @@ export class SakuraCanvas {
             petalCount,
             W,
             H,
-            PARTICLE_DPR,
+            this.particleDpr,
         );
         this.ambientParticles = AmbientParticle.create(
             this.spriteCache,
             ambientCount,
             W,
             H,
-            PARTICLE_DPR,
+            this.particleDpr,
         );
-        this.branches = [new Branch(W, this.branchH)];
+        this.branches = [
+            new Branch(W, this.branchH, this.config.isNarrow, this.viewport.dpr),
+        ];
     }
 
     private disposeBranches() {
@@ -186,9 +220,10 @@ export class SakuraCanvas {
         this.branchH = next.H - this.config.branchTopOffset;
         this.sizeParticleCanvas();
 
-        // Particle sprites are baked at PARTICLE_DPR (constant), so monitor
-        // DPR changes don't invalidate them — just clamp positions to the
-        // new bounds. Branch sprite is rebuilt below at the new viewport DPR.
+        // Particle sprites are baked at particleDpr (fixed for the instance
+        // lifetime), so a monitor DPR change doesn't invalidate them — just
+        // clamp positions to the new bounds. Branch sprite is rebuilt below
+        // at the new viewport DPR.
         for (const p of this.petals) {
             p.x = (p.x / oldW) * next.W;
             p.y = (p.y / oldH) * next.H;
@@ -201,7 +236,9 @@ export class SakuraCanvas {
         // Branches bake viewport-dependent geometry — rebuild them, then
         // resize the DOM canvas to match the new branch area.
         this.disposeBranches();
-        this.branches = [new Branch(next.W, this.branchH)];
+        this.branches = [
+            new Branch(next.W, this.branchH, this.config.isNarrow, next.dpr),
+        ];
         this.sizeBranchCanvasToBranch();
         this.blitBranches();
     }
@@ -210,17 +247,17 @@ export class SakuraCanvas {
         const { W, H } = this.viewport;
         const pCtx = this.particleCtx;
 
-        pCtx.setTransform(PARTICLE_DPR, 0, 0, PARTICLE_DPR, 0, 0);
+        pCtx.setTransform(this.particleDpr, 0, 0, this.particleDpr, 0, 0);
         pCtx.clearRect(0, 0, W, H);
 
         for (const particle of this.ambientParticles) {
             particle.update(W, H, framesPassed, this.time);
-            particle.draw(pCtx, PARTICLE_DPR, H);
+            particle.draw(pCtx, this.particleDpr, H);
         }
 
         for (const petal of this.petals) {
             petal.update(W, H, framesPassed, this.time);
-            petal.draw(pCtx, PARTICLE_DPR, H);
+            petal.draw(pCtx, this.particleDpr, H);
         }
 
         pCtx.globalAlpha = 1;

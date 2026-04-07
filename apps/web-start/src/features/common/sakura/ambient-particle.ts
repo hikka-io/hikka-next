@@ -108,7 +108,6 @@ class AmbientParticle {
             this.baseOpacity +
             Math.sin(time * this.opacitySpeed + this.opacityPhase) * 0.12;
 
-        // Modulo wrap-around with a 10px margin on each side.
         const spanX = W + 20;
         const spanY = H + 20;
         this.x = (((this.x + 10) % spanX) + spanX) % spanX - 10;

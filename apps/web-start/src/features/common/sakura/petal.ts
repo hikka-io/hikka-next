@@ -209,7 +209,9 @@ class Petal {
         this.sinR = Math.sin(this.rotation);
         // Pseudo-3D flip via non-uniform X scale. The 1.3× multiplier
         // decouples the flip cycle from the spin cycle so the petal appears
-        // to tumble. Clamped away from zero to avoid minification artifacts.
+        // to tumble. Clamped away from zero so the sprite never collapses to
+        // a degenerate sliver (which both looks bad and risks numerical
+        // instability in the resulting transform matrix).
         let scaleX = Math.cos(this.rotation * 1.3);
         if (Math.abs(scaleX) < 0.1) scaleX = scaleX < 0 ? -0.1 : 0.1;
         this.scaleX = scaleX;

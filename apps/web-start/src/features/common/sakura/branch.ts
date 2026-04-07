@@ -235,14 +235,11 @@ class Branch {
     swayPhase: number;
     swaySpeed: number;
 
-    constructor(viewW: number, viewH: number) {
-        const isNarrow = viewW < 768;
-
+    constructor(viewW: number, viewH: number, isNarrow: boolean, dpr: number) {
         const areaW = isNarrow ? viewW * 0.4 : viewW * 0.35;
         const areaH = isNarrow ? viewH * 0.35 : viewH * 0.32;
 
         const offscreen = document.createElement('canvas');
-        const dpr = window.devicePixelRatio || 1;
         offscreen.width = areaW * dpr;
         offscreen.height = areaH * dpr;
 
