@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 
 import { useIsMobile } from '@/services/hooks/use-mobile';
-import { useReducedMotion } from '@/services/hooks/use-reduced-motion';
 import { cn } from '@/utils/cn';
 
 import { BRANCH_TOP_OFFSET_DESKTOP, BRANCH_TOP_OFFSET_MOBILE } from './config';
@@ -76,13 +75,8 @@ const SakuraCanvasView = ({ isNarrow }: { isNarrow: boolean }) => {
 
 const SakuraEffect = () => {
     const isMobile = useIsMobile();
-    const reducedMotion = useReducedMotion();
     const isNarrow = isMobile ?? false;
 
-    if (reducedMotion) return null;
-
-    // Remount on viewport-class flip so petal counts and branch geometry
-    // rebuild from scratch — simpler than diffing through updateConfig.
     return <SakuraCanvasView key={String(isNarrow)} isNarrow={isNarrow} />;
 };
 
