@@ -90,16 +90,36 @@ declare global {
             name_native: string;
         };
 
-        type TextNotification = {
-            type: NotificationType;
-            icon: ReactNode;
+        type NotificationActor = {
+            username?: string;
+            avatar?: string;
+            href?: string;
+        };
+
+        type NotificationAccent =
+            | 'primary'
+            | 'success'
+            | 'warning'
+            | 'destructive'
+            | 'info'
+            | 'neutral';
+
+        type Notification = {
+            reference: string;
+            type: import('@hikka/client').NotificationTypeEnum;
+            created: number;
+            seen: boolean;
+
             title: string;
             description: ReactNode;
-            reference: string;
-            created: number;
             href: string;
-            seen: boolean;
-            image?: ReactNode;
+            typeIcon: ReactNode;
+            accent: NotificationAccent;
+
+            actor?: NotificationActor;
+            preview?: string;
+            scoreSign?: 1 | -1;
+            contentImage?: string;
         };
 
         type ListStat = {

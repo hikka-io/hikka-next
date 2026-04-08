@@ -4,70 +4,108 @@ import { useUpdateNotificationSeen } from '@hikka/react';
 import { formatDistance } from 'date-fns/formatDistance';
 import { FC } from 'react';
 
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import {
-    HorizontalCard,
-    HorizontalCardContainer,
-    HorizontalCardDescription,
-    HorizontalCardImage,
-    HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import { HorizontalCardDescription } from '@/components/ui/horizontal-card';
 
+import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
+import {
+    accentBadgeClasses,
+    accentBarClasses,
+} from '../utils/notification-accents';
+import NotificationLeadingVisual from './notification-leading-visual';
+
 interface Props {
-    data: Hikka.TextNotification | null;
+    data: Hikka.Notification;
+    onNavigate?: () => void;
 }
 
-const NotificationItem: FC<Props> = ({ data }) => {
-    const { mutate: asSeen } = useUpdateNotificationSeen();
+const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
+    const { mutate: markSeen } = useUpdateNotificationSeen();
 
-    if (!data) {
-        return null;
-    }
-
-    const handleOnClick = () => {
-        if (!data.seen) {
-            asSeen(data.reference);
-        }
+    const handleNotificationClick = () => {
+        if (!data.seen) markSeen(data.reference);
+        onNavigate?.();
     };
 
+    const leadingVisual = (
+        <NotificationLeadingVisual
+            actor={data.actor}
+            contentImage={data.contentImage}
+            typeIcon={data.typeIcon}
+            accent={data.accent}
+        />
+    );
+
     return (
-        <DropdownMenuItem
-            className="flex items-center gap-4 py-3"
-            onClick={handleOnClick}
-            asChild
+        <div
+            className={cn(
+                'group/item border-border flex gap-3 border-t border-l-2 px-3 py-2.5 transition-colors first:border-t-0',
+                data.seen
+                    ? 'border-l-transparent'
+                    : accentBarClasses[data.accent],
+                !data.seen && 'bg-primary/5',
+                'hover:bg-muted',
+            )}
         >
-            <Link to={data.href}>
-                <HorizontalCard className="w-full">
-                    <HorizontalCardImage
-                        image={data.icon}
-                        imageRatio={1}
-                        imageClassName="overflow-visible"
-                        className="w-8"
-                        to={data.href}
-                    >
-                        {!data.seen && (
-                            <div className="border-border bg-warning-foreground absolute -right-0.5 -bottom-0.5 size-2 rounded-full border" />
-                        )}
-                    </HorizontalCardImage>
-                    <HorizontalCardContainer>
-                        <HorizontalCardTitle href={data.href}>
-                            {data.title}
-                        </HorizontalCardTitle>
-                        <HorizontalCardDescription className="line-clamp-2">
-                            {data.description}
-                        </HorizontalCardDescription>
-                        <HorizontalCardDescription className="opacity-60">
-                            {formatDistance(data.created * 1000, Date.now(), {
-                                addSuffix: true,
-                            })}
-                        </HorizontalCardDescription>
-                    </HorizontalCardContainer>
-                    {data.image && data.image}
-                </HorizontalCard>
-            </Link>
-        </DropdownMenuItem>
+            {data.actor?.href ? (
+                <Link
+                    to={data.actor.href}
+                    onClick={() => onNavigate?.()}
+                    className="shrink-0"
+                    aria-label={data.actor.username}
+                >
+                    {leadingVisual}
+                </Link>
+            ) : (
+                leadingVisual
+            )}
+
+            <div className="relative flex min-w-0 flex-1 flex-col gap-1">
+                <Link
+                    to={data.href}
+                    onClick={handleNotificationClick}
+                    aria-label={data.title}
+                    className="absolute inset-0 z-10"
+                />
+                <div className="flex items-center justify-between gap-2">
+                    <span className="truncate text-sm leading-tight font-medium">
+                        {data.title}
+                    </span>
+                    {data.scoreSign && (
+                        <span
+                            className={cn(
+                                'shrink-0 rounded-sm border px-1 text-xs font-bold',
+                                data.scoreSign > 0
+                                    ? accentBadgeClasses.success
+                                    : accentBadgeClasses.destructive,
+                            )}
+                        >
+                            {data.scoreSign > 0 ? '+1' : '-1'}
+                        </span>
+                    )}
+                </div>
+                <HorizontalCardDescription className="group-hover/item:text-foreground line-clamp-2">
+                    {data.description}
+                </HorizontalCardDescription>
+                {data.preview && (
+                    <blockquote className="border-muted-foreground/20 mt-0.5 line-clamp-1 border-l-2 pl-2">
+                        <MDViewer
+                            preview
+                            className="text-muted-foreground text-xs!"
+                        >
+                            {data.preview}
+                        </MDViewer>
+                    </blockquote>
+                )}
+                <HorizontalCardDescription className="opacity-60 group-hover/item:opacity-100">
+                    {formatDistance(data.created * 1000, Date.now(), {
+                        addSuffix: true,
+                    })}
+                </HorizontalCardDescription>
+            </div>
+        </div>
     );
 };
 

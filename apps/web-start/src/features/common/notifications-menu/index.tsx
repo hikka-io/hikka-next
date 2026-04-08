@@ -1,102 +1,140 @@
 'use client';
 
-import { useState } from 'react';
-
 import {
     useNotificationList,
     useUnseenNotificationsCount,
     useUpdateNotificationSeen,
 } from '@hikka/react';
+import { FC, useMemo, useState } from 'react';
 
 import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
-import LoadMoreButton from '@/components/load-more-button';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+    Drawer,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from '@/components/ui/drawer';
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { convertNotification } from '@/utils/adapters/convert-notification';
 
-import NotFoundNotifications from './components/not-found-notifications';
-import NotificationItem from './components/notification-item';
+import NotificationsContent from './components/notifications-content';
+import NotificationsHeader from './components/notifications-header';
+import { groupNotificationsByDay } from './utils/group-notifications-by-day';
 
-const NotificationsMenu = () => {
+const NotificationsMenu: FC = () => {
+    const isDesktop = useMediaQuery('(min-width: 768px)');
     const [isOpen, setIsOpen] = useState(false);
+    const [isBulkMarking, setIsBulkMarking] = useState(false);
+
     const { data: countData } = useUnseenNotificationsCount();
 
-    const {
-        list,
-        hasNextPage,
-        isFetchingNextPage,
-        fetchNextPage,
-        ref,
-    } = useNotificationList({
-        options: { enabled: isOpen },
-    });
+    const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
+        useNotificationList({
+            options: { enabled: isOpen },
+        });
 
-    const { mutate: asSeen } = useUpdateNotificationSeen();
+    const { mutateAsync: markSeen } = useUpdateNotificationSeen();
+
+    const { normalized, grouped } = useMemo(() => {
+        const items = list
+            ?.map(convertNotification)
+            .filter((n): n is Hikka.Notification => n !== null);
+        return {
+            normalized: items,
+            grouped: groupNotificationsByDay(items ?? []),
+        };
+    }, [list]);
+
+    const unseenCount = countData?.unseen ?? 0;
+
+    const handleMarkAllSeen = async () => {
+        if (!normalized) return;
+        const unseen = normalized.filter((n) => !n.seen);
+        if (unseen.length === 0) return;
+        setIsBulkMarking(true);
+        try {
+            await Promise.allSettled(unseen.map((n) => markSeen(n.reference)));
+        } finally {
+            setIsBulkMarking(false);
+        }
+    };
+
+    const triggerButton = (
+        <Button variant="outline" size="icon-md" className="relative">
+            <MaterialSymbolsNotificationsRounded />
+            {unseenCount > 0 && (
+                <div className="border-warning-border bg-warning text-warning-foreground absolute -right-0.5 -bottom-0.5 rounded-full border p-0.5 px-1 text-[0.6rem] leading-none font-bold">
+                    {unseenCount < 100 ? unseenCount : '99+'}
+                </div>
+            )}
+        </Button>
+    );
+
+    if (isDesktop) {
+        return (
+            <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+                <DropdownMenuTrigger asChild>
+                    {triggerButton}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                    align="end"
+                    className="flex max-h-128 w-80 flex-col p-0 sm:w-96"
+                >
+                    <NotificationsHeader
+                        unseenCount={unseenCount}
+                        isBulkMarking={isBulkMarking}
+                        onMarkAllSeen={handleMarkAllSeen}
+                        className="bg-secondary/20 px-3 py-3.5"
+                    />
+                    <DropdownMenuSeparator className="m-0" />
+                    <NotificationsContent
+                        normalized={normalized}
+                        grouped={grouped}
+                        hasNextPage={hasNextPage}
+                        isFetchingNextPage={isFetchingNextPage}
+                        fetchNextPage={fetchNextPage}
+                        loadMoreRef={ref}
+                        onNavigate={() => setIsOpen(false)}
+                    />
+                </DropdownMenuContent>
+            </DropdownMenu>
+        );
+    }
 
     return (
-        <DropdownMenu onOpenChange={setIsOpen}>
-            <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon-md" className="relative">
-                    <MaterialSymbolsNotificationsRounded />
-                    {countData && countData.unseen > 0 && (
-                        <div className="border-warning-border bg-warning text-warning-foreground absolute -right-0.5 -bottom-0.5 rounded-full border p-0.5 px-1 text-[0.6rem] leading-none font-bold">
-                            {countData.unseen < 100 ? countData.unseen : '99+'}
-                        </div>
-                    )}
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-                align="end"
-                className="flex max-h-96 w-80 flex-col sm:w-96"
-            >
-                <DropdownMenuLabel className="bg-secondary/20 -m-1 flex items-center justify-between gap-2 px-3 py-3.5">
-                    <div className="flex gap-2">
-                        Сповіщення
-                        {countData && countData.unseen > 0 && (
-                            <Badge variant="warning">{countData.unseen}</Badge>
-                        )}
-                    </div>
-                    {countData && countData.unseen > 0 && (
-                        <Button
-                            size="badge"
-                            variant="outline"
-                            onClick={() => asSeen(list![0].reference)}
-                        >
-                            Прочитати
-                        </Button>
-                    )}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <div className="no-scrollbar h-full overflow-scroll">
-                    {list &&
-                        list.length > 0 &&
-                        list.map((item) => (
-                            <NotificationItem
-                                key={item.reference}
-                                data={convertNotification(item)}
-                            />
-                        ))}
-                    {list && list.length === 0 && <NotFoundNotifications />}
-                    {hasNextPage && (
-                        <div className="px-2 py-3">
-                            <LoadMoreButton
-                                isFetchingNextPage={isFetchingNextPage}
-                                fetchNextPage={fetchNextPage}
-                                ref={ref}
-                            />
-                        </div>
-                    )}
-                </div>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <Drawer open={isOpen} onOpenChange={setIsOpen}>
+            <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
+            <DrawerContent className="max-h-[85dvh]">
+                <DrawerHeader className="border-border border-b p-0">
+                    <DrawerTitle className="sr-only">Сповіщення</DrawerTitle>
+
+                    <NotificationsHeader
+                        unseenCount={unseenCount}
+                        isBulkMarking={isBulkMarking}
+                        onMarkAllSeen={handleMarkAllSeen}
+                        className="px-4 py-4"
+                    />
+                </DrawerHeader>
+                <NotificationsContent
+                    normalized={normalized}
+                    grouped={grouped}
+                    hasNextPage={hasNextPage}
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
+                    loadMoreRef={ref}
+                    onNavigate={() => setIsOpen(false)}
+                />
+            </DrawerContent>
+        </Drawer>
     );
 };
 
