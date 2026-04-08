@@ -88,26 +88,27 @@ const FormDatePicker: FC<Props> = ({
                                 className="w-auto p-0"
                                 align="start"
                             >
-                                <Calendar
-                                    locale={uk}
-                                    mode="single"
-                                    selected={dateValue}
-                                    onSelect={(date) => {
-                                        field.onChange(
-                                            date
-                                                ? localDateToUtcUnix(date)
-                                                : undefined,
-                                        );
-                                    }}
-                                    disabled={(date) =>
-                                        date > new Date() ||
-                                        date < new Date('1900-01-01') ||
-                                        (minDate
-                                            ? date < utcToLocalDate(minDate)
-                                            : false)
-                                    }
-                                    initialFocus
-                                />
+                                    <Calendar
+                                        locale={uk}
+                                        mode="single"
+                                        selected={dateValue}
+                                        captionLayout="dropdown"
+                                        onSelect={(date) => {
+                                            field.onChange(
+                                                date
+                                                    ? localDateToUtcUnix(date)
+                                                    : undefined,
+                                            );
+                                        }}
+                                        disabled={(date) =>
+                                            date > new Date() ||
+                                            date < new Date('1900-01-01') ||
+                                            (minDate
+                                                ? date < utcToLocalDate(minDate)
+                                                : false)
+                                        }
+                                        initialFocus
+                                    />
                             </PopoverContent>
                         </Popover>
 

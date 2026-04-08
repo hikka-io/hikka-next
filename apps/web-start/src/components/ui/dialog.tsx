@@ -66,7 +66,7 @@ function DialogContent({
                 ref={setContainer}
                 data-slot="dialog-content"
                 className={cn(
-                    'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 ring-foreground/10 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(var(--visual-viewport-height,100dvh)-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 overflow-hidden rounded-xl p-4 text-sm ring-1 duration-200 outline-none md:max-w-sm',
+                    'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 ring-foreground/10 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(var(--visual-viewport-height,100dvh)-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-xl p-4 text-sm ring-1 duration-200 outline-none md:max-w-sm',
                     className,
                 )}
                 {...props}
@@ -96,7 +96,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="dialog-header"
             className={cn(
-                'bg-secondary/20 -mx-4 -mt-4 flex flex-col gap-2 border-b p-4',
+                'bg-secondary/20 -mx-4 -mt-4 flex flex-col gap-2 border-b p-4 pr-12',
                 className,
             )}
             {...props}
@@ -138,7 +138,10 @@ function DialogTitle({
     return (
         <DialogPrimitive.Title
             data-slot="dialog-title"
-            className={cn('text-base leading-none font-medium', className)}
+            className={cn(
+                'truncate text-base leading-none font-medium',
+                className,
+            )}
             {...props}
         />
     );
