@@ -8,15 +8,18 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
+import { useCurrentUrl } from '@/utils/navigation';
+
 import AuthNeeded from './components/auth-needed';
 
 interface Props {}
 
 const Profle: FC<Props> = () => {
     const { user } = useSession();
+    const currentUrl = useCurrentUrl();
 
     const logout = () => {
-        window.location.href = '/api/auth/logout';
+        window.location.href = `/api/auth/logout?callbackUrl=${encodeURIComponent(currentUrl)}`;
     };
 
     if (!user) return <AuthNeeded />;

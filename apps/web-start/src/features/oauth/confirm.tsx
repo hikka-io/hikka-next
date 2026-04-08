@@ -1,19 +1,17 @@
 'use client';
 
 import { useCreateThirdPartyTokenRequest, useSession } from '@hikka/react';
+import { getRouteApi } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-
 interface Props {}
 
+const routeApi = getRouteApi('/_pages/oauth');
+
 const Confirm: FC<Props> = () => {
-    const { reference, scope } = useFilterSearch<{
-        reference?: string;
-        scope?: string;
-    }>();
+    const { reference, scope } = routeApi.useSearch();
 
     const scopes = scope?.split(',');
 

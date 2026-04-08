@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouterState } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
@@ -8,17 +7,12 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
-import { Link } from '@/utils/navigation';
+import { Link, useCurrentUrl } from '@/utils/navigation';
 
 interface Props {}
 
 const AuthNeeded: FC<Props> = () => {
-    const currentUrl = useRouterState({
-        select: (s) => {
-            const loc = s.resolvedLocation ?? s.location;
-            return loc.pathname + loc.searchStr;
-        },
-    });
+    const currentUrl = useCurrentUrl();
 
     return (
         <Card className="w-full flex-row items-center justify-between">

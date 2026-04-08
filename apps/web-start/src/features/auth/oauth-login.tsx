@@ -5,6 +5,10 @@ import { useOAuthProviderUrl } from '@hikka/react';
 import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';
 import { Button } from '@/components/ui/button';
 
+import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+
+import { getSiteUrl } from '@/utils/url';
+
 interface Props {
     disabled?: boolean;
     buttonText?: string;
@@ -14,12 +18,18 @@ const OAuthLogin = ({
     disabled = false,
     buttonText = 'Увійти з Google',
 }: Props) => {
+    const { callbackUrl } = useFilterSearch<{ callbackUrl?: string }>();
+
     const { data: oauthUrl } = useOAuthProviderUrl({
         provider: 'google',
         options: {
             select: (data) => {
+                const state = new URL(
+                    callbackUrl ?? '/',
+                    getSiteUrl(),
+                ).toString();
                 return {
-                    url: data.url + `&state=${import.meta.env.VITE_SITE_URL}`,
+                    url: data.url + `&state=${encodeURIComponent(state)}`,
                 };
             },
         },

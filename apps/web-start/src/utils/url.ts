@@ -3,6 +3,15 @@
  */
 
 /**
+ * Resolves the absolute site URL with environment fallback.
+ */
+export const getSiteUrl = (): string => {
+    if (import.meta.env.VITE_SITE_URL) return import.meta.env.VITE_SITE_URL;
+    if (typeof window !== 'undefined') return window.location.origin;
+    return 'http://localhost:3000';
+};
+
+/**
  * Validates and sanitizes a redirect URL to prevent open redirect attacks.
  * Only allows redirects to paths within the same origin.
  *

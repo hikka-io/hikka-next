@@ -97,3 +97,12 @@ export function usePathname() {
         select: (s) => (s.resolvedLocation ?? s.location).pathname,
     });
 }
+
+export function useCurrentUrl() {
+    return useRouterState({
+        select: (s) => {
+            const loc = s.resolvedLocation ?? s.location;
+            return loc.pathname + loc.searchStr;
+        },
+    });
+}

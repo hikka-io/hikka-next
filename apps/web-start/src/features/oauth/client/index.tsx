@@ -1,13 +1,12 @@
 'use client';
 
 import { useClientByReference } from '@hikka/react';
+import { getRouteApi } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import { cn } from '@/utils/cn';
 import { SCOPES, SCOPE_GROUPS } from '@/utils/constants/oauth';
@@ -16,21 +15,20 @@ import Scope from './components/scope';
 
 interface Props {}
 
-const Client: FC<Props> = () => {
-    const { reference, scope } = useFilterSearch<{
-        reference?: string;
-        scope?: string;
-    }>();
+const routeApi = getRouteApi('/_pages/oauth');
 
-    const scopes = scope
-        ?.split(',')
-        .map(
-            (s) =>
-                SCOPE_GROUPS.find((sg) => sg.slug === s)?.scopes ||
-                SCOPES.find((sg) => sg.slug === s),
-        )
-        .flat()
-        .filter((s) => s) as Hikka.Scope[];
+const Client: FC<Props> = () => {
+    const { reference, scope } = routeApi.useSearch();
+
+    const scopes =
+        scope
+            ?.split(',')
+            .flatMap(
+                (s) =>
+                    SCOPE_GROUPS.find((sg) => sg.slug === s)?.scopes ??
+                    SCOPES.find((sg) => sg.slug === s) ??
+                    [],
+            ) ?? [];
 
     const { data: client } = useClientByReference({
         reference: reference!,

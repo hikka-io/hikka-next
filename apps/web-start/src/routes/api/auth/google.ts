@@ -4,6 +4,17 @@ import {
     createServerHikkaClient,
     makeCookieHeader,
 } from '@/utils/cookies/headers';
+import { getSiteUrl } from '@/utils/url';
+
+const resolveRedirectBase = (state: string, siteUrl: string): URL => {
+    try {
+        const target = new URL(state, siteUrl);
+        if (target.origin === new URL(siteUrl).origin) return target;
+    } catch {
+        // ignore
+    }
+    return new URL(siteUrl);
+};
 
 export const Route = createFileRoute('/api/auth/google')({
     server: {
@@ -11,7 +22,8 @@ export const Route = createFileRoute('/api/auth/google')({
             GET: async ({ request }) => {
                 const url = new URL(request.url);
                 const code = url.searchParams.get('code');
-                const baseURL = url.searchParams.get('state') ?? '/';
+                const state = url.searchParams.get('state') ?? '/';
+                const redirectBase = resolveRedirectBase(state, getSiteUrl());
 
                 try {
                     const client = createServerHikkaClient();
@@ -23,8 +35,12 @@ export const Route = createFileRoute('/api/auth/google')({
                     // authenticated request; cookie should outlive the token.
                     const maxAge = 60 * 60 * 24 * 30;
 
+                    const location = new URL(redirectBase);
+                    location.searchParams.set('auth', 'success');
+                    location.searchParams.set('provider', 'google');
+
                     const headers = new Headers({
-                        Location: `${baseURL}?auth=success&provider=google`,
+                        Location: location.toString(),
                     });
                     headers.append(
                         'Set-Cookie',
@@ -49,11 +65,14 @@ export const Route = createFileRoute('/api/auth/google')({
                 } catch (e: any) {
                     const errorCode = 'code' in e ? e.code : String(e);
 
+                    const location = new URL(redirectBase);
+                    location.searchParams.set('auth', 'error');
+                    location.searchParams.set('provider', 'google');
+                    location.searchParams.set('error', errorCode);
+
                     return new Response(null, {
                         status: 302,
-                        headers: {
-                            Location: `${baseURL}?auth=error&provider=google&error=${errorCode}`,
-                        },
+                        headers: { Location: location.toString() },
                     });
                 }
             },
