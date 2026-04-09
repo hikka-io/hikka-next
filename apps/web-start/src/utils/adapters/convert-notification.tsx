@@ -209,15 +209,24 @@ const FOLLOW_COPY: ActorCopy = {
     withoutActor: 'Хтось підписався на Ваш профіль',
 };
 
-const EDIT_ACTION_DESCRIPTIONS: Record<
+type EditActionType =
     | NotificationTypeEnum.EDIT_ACCEPTED
     | NotificationTypeEnum.EDIT_DENIED
-    | NotificationTypeEnum.EDIT_UPDATED,
-    string
-> = {
-    [NotificationTypeEnum.EDIT_ACCEPTED]: 'Ваша правка була прийнята',
-    [NotificationTypeEnum.EDIT_DENIED]: 'Ваша правка була відхилена',
-    [NotificationTypeEnum.EDIT_UPDATED]: 'Ваша правка була оновлена',
+    | NotificationTypeEnum.EDIT_UPDATED;
+
+const EDIT_ACTION_COPY: Record<EditActionType, ActorCopy> = {
+    [NotificationTypeEnum.EDIT_ACCEPTED]: {
+        withActor: (u) => `Модератор **${u}** прийняв Вашу правку`,
+        withoutActor: 'Ваша правка була прийнята',
+    },
+    [NotificationTypeEnum.EDIT_DENIED]: {
+        withActor: (u) => `Модератор **${u}** відхилив Вашу правку`,
+        withoutActor: 'Ваша правка була відхилена',
+    },
+    [NotificationTypeEnum.EDIT_UPDATED]: {
+        withActor: (u) => `Модератор **${u}** оновив Вашу правку`,
+        withoutActor: 'Ваша правка була оновлена',
+    },
 };
 
 const createCommentVoteNotification = (
@@ -237,17 +246,17 @@ const createCommentVoteNotification = (
 
 const createEditActionNotification = (
     notification: NotificationResponse<NotificationEditData>,
-    type:
-        | NotificationTypeEnum.EDIT_ACCEPTED
-        | NotificationTypeEnum.EDIT_DENIED
-        | NotificationTypeEnum.EDIT_UPDATED,
+    type: EditActionType,
 ): Hikka.Notification => {
     const { edit_id, description } = notification.data;
+    const actor = resolveActor(notification);
+    const copy = EDIT_ACTION_COPY[type];
 
     return {
         ...getBaseNotification(notification),
-        description: EDIT_ACTION_DESCRIPTIONS[type],
+        description: actor ? copy.withActor(actor.username!) : copy.withoutActor,
         href: `/edit/${edit_id}`,
+        actor,
         preview: description || undefined,
     };
 };

@@ -10,10 +10,7 @@ import { HorizontalCardDescription } from '@/components/ui/horizontal-card';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-import {
-    accentBadgeClasses,
-    accentBarClasses,
-} from '../utils/notification-accents';
+import { accentBadgeClasses } from '../utils/notification-accents';
 import NotificationLeadingVisual from './notification-leading-visual';
 
 interface Props {
@@ -41,11 +38,10 @@ const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
     return (
         <div
             className={cn(
-                'group/item border-border flex gap-3 border-t border-l-2 px-3 py-2.5 transition-colors first:border-t-0',
+                'group/item border-border flex gap-3 border-t border-l-4 px-3 py-2.5 transition-colors first:border-t-0',
                 data.seen
                     ? 'border-l-transparent'
-                    : accentBarClasses[data.accent],
-                !data.seen && 'bg-primary/5',
+                    : 'border-l-primary-foreground/60 bg-primary-foreground/10',
                 'hover:bg-muted',
             )}
         >

@@ -1,9 +1,9 @@
 export const accentBarClasses: Record<Hikka.NotificationAccent, string> = {
-    primary: 'border-l-primary-border',
-    success: 'border-l-success-border',
-    warning: 'border-l-warning-border',
-    destructive: 'border-l-destructive-border',
-    info: 'border-l-info-border',
+    primary: 'border-l-primary-foreground/20',
+    success: 'border-l-success-foreground/20',
+    warning: 'border-l-warning-foreground/20',
+    destructive: 'border-l-destructive-foreground/20',
+    info: 'border-l-info-foreground/20',
     neutral: 'border-l-border',
 };
 
