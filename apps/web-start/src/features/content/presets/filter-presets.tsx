@@ -37,7 +37,7 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
     return (
         <div
             className={cn(
-                'no-scrollbar gradient-mask-r-90-d md:gradient-mask-none -mx-4 flex flex-1 items-center overflow-x-auto px-4 lg:mx-0 lg:border-r lg:px-0',
+                'no-scrollbar gradient-mask-r-90-d md:gradient-mask-none -mx-4 flex flex-1 items-center overflow-x-auto px-4 lg:mx-0 lg:px-0',
                 className,
             )}
         >
@@ -49,9 +49,9 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
                     .map((preset) => (
                         <Button
                             key={preset.id}
-                            size="badge"
+                            size="sm"
                             variant="outline"
-                            className="mr-2 h-fit"
+                            className="mr-2"
                             onClick={() => handleApplyFilterPreset(preset)}
                         >
                             {preset.name}

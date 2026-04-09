@@ -145,9 +145,11 @@ export const getSort = (sort_type: SortType) => {
 interface Props {
     className?: string;
     sort_type: SortType;
+    /** Render as a compact inline control (no label header). */
+    compact?: boolean;
 }
 
-const Sort: FC<Props> = ({ sort_type, className }) => {
+const Sort: FC<Props> = ({ sort_type, className, compact = false }) => {
     const { order, sort = [] } = useFilterSearch<{
         order?: string;
         sort?: string[];
@@ -155,54 +157,63 @@ const Sort: FC<Props> = ({ sort_type, className }) => {
 
     const handleChangeParam = useChangeParam();
 
+    const control = (
+        <div className={cn('flex', compact && 'w-auto')}>
+            <Select
+                multiple
+                value={sort}
+                onValueChange={(value) => handleChangeParam('sort', value)}
+            >
+                <SelectTrigger
+                    size="md"
+                    className={cn(
+                        'min-w-0 rounded-r-none',
+                        compact ? 'w-auto' : 'flex-1',
+                    )}
+                >
+                    <SelectValue
+                        maxDisplay={1}
+                        placeholder="Виберіть сортування..."
+                    />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectList>
+                        <SelectGroup>
+                            {getSort(sort_type).map((item) => (
+                                <SelectItem key={item.value} value={item.value}>
+                                    {item.label}
+                                </SelectItem>
+                            ))}
+                        </SelectGroup>
+                    </SelectList>
+                </SelectContent>
+            </Select>
+            <Button
+                size="icon-md"
+                variant="outline"
+                className="shrink-0 rounded-l-none border-l-0"
+                onClick={() =>
+                    handleChangeParam('order', order === 'asc' ? 'desc' : 'asc')
+                }
+            >
+                <MaterialSymbolsSortRounded
+                    className={cn(order === 'asc' && '-scale-y-100')}
+                />
+            </Button>
+        </div>
+    );
+
+    if (compact) {
+        return <div className={className}>{control}</div>;
+    }
+
     return (
-        <div className="flex flex-col gap-4">
+        <div className={cn('flex flex-col gap-4', className)}>
             <div className="text-muted-foreground flex items-center gap-2">
                 <ArrowDownWideNarrow className="size-4 shrink-0" />
                 <Label>Сортування</Label>
             </div>
-            <div className="flex gap-2">
-                <Select
-                    multiple
-                    value={sort}
-                    onValueChange={(value) => handleChangeParam('sort', value)}
-                >
-                    <SelectTrigger size="md" className="min-w-0 flex-1">
-                        <SelectValue
-                            maxDisplay={1}
-                            placeholder="Виберіть сортування..."
-                        />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectList>
-                            <SelectGroup>
-                                {getSort(sort_type).map((item) => (
-                                    <SelectItem
-                                        key={item.value}
-                                        value={item.value}
-                                    >
-                                        {item.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectGroup>
-                        </SelectList>
-                    </SelectContent>
-                </Select>
-                <Button
-                    size="icon-md"
-                    variant="outline"
-                    onClick={() =>
-                        handleChangeParam(
-                            'order',
-                            order === 'asc' ? 'desc' : 'asc',
-                        )
-                    }
-                >
-                    <MaterialSymbolsSortRounded
-                        className={cn(order === 'asc' && '-scale-y-100')}
-                    />
-                </Button>
-            </div>
+            {control}
         </div>
     );
 };

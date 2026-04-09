@@ -7,6 +7,7 @@ import {
 } from '@hikka/client';
 import { useRandomReadByStatus, useRandomWatchByStatus } from '@hikka/react';
 import { useRouter } from '@tanstack/react-router';
+import { useState } from 'react';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import FeRandom from '@/components/icons/fe/FeRandom';
@@ -34,6 +35,7 @@ interface Props {
 }
 
 const ToolsCombobox = ({ content_type }: Props) => {
+    const [animeFiltersOpen, setAnimeFiltersOpen] = useState(false);
     const search = useFilterSearch<{ status?: string }>();
     const params = useParams();
     const router = useRouter();
@@ -102,16 +104,24 @@ const ToolsCombobox = ({ content_type }: Props) => {
                     </ReadFiltersModal>
                 )}
                 {content_type === ContentTypeEnum.ANIME && (
-                    <AnimeFiltersModal sort_type="watch">
-                        <DropdownMenuItem
-                            className="flex lg:hidden"
-                            onSelect={(e) => e.preventDefault()}
-                        >
-                            <AntDesignFilterFilled className="size-4" /> Фільтри
-                        </DropdownMenuItem>
-                    </AnimeFiltersModal>
+                    <DropdownMenuItem
+                        className="flex lg:hidden"
+                        onSelect={(e) => {
+                            e.preventDefault();
+                            setAnimeFiltersOpen(true);
+                        }}
+                    >
+                        <AntDesignFilterFilled className="size-4" /> Фільтри
+                    </DropdownMenuItem>
                 )}
             </DropdownMenuContent>
+            {content_type === ContentTypeEnum.ANIME && (
+                <AnimeFiltersModal
+                    open={animeFiltersOpen}
+                    onOpenChange={setAnimeFiltersOpen}
+                    sort_type="watch"
+                />
+            )}
         </DropdownMenu>
     );
 };

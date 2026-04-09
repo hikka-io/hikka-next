@@ -1,12 +1,5 @@
 'use client';
 
-import {
-    AnimeAgeRatingEnum,
-    AnimeMediaEnum,
-    AnimeStatusEnum,
-    SeasonEnum,
-} from '@hikka/client';
-import { useSearchAnimes } from '@hikka/react';
 import { queryKeys, useQueryClient } from '@hikka/react/core';
 import { useRouter } from '@tanstack/react-router';
 import { FC } from 'react';
@@ -17,67 +10,21 @@ import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
-import Stack from '@/components/ui/stack';
+import Stack, { StackSize } from '@/components/ui/stack';
 
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-
-import type { AnimeSearch } from '@/utils/search-schemas';
-import { getSeasonByOffset } from '@/utils/season';
+import { useCatalogView } from '@/features/anime/hooks/use-catalog-view';
+import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 
 import AnimeListSkeleton from './components/anime-list-skeleton';
+import { useAnimeSearchQuery } from './use-anime-search-query';
 
 interface Props {}
 
 const AnimeList: FC<Props> = () => {
     const queryClient = useQueryClient();
-    const search = useFilterSearch<AnimeSearch>();
     const router = useRouter();
-
-    const query = search.search;
-    const media_type = (search.types ?? []) as AnimeMediaEnum[];
-    const status = (search.statuses ?? []) as AnimeStatusEnum[];
-    const season = (search.seasons ?? []) as SeasonEnum[];
-    const rating = (search.ratings ?? []) as AnimeAgeRatingEnum[];
-    const years = search.years ?? [];
-    const genres = search.genres ?? [];
-    const studios = search.studios ?? [];
-    const date_range = (search.date_range ?? []) as [number, number];
-    const score = search.score?.length
-        ? (search.score as [number, number])
-        : undefined;
-    const only_translated = search.only_translated;
-    const sort = search.sort?.length ? search.sort : ['score'];
-    const order = search.order || 'desc';
-    const page = search.page || 1;
-
-    const convertYears = () => {
-        if (date_range && date_range.length === 2) {
-            return [
-                getSeasonByOffset(date_range[0]),
-                getSeasonByOffset(date_range[1]),
-            ];
-        }
-
-        return years;
-    };
-
-    const args = {
-        query: query || undefined,
-        media_type: media_type,
-        status: status,
-        season: season,
-        rating: rating,
-        years: convertYears(),
-        genres: genres,
-        studios: studios,
-        score: score,
-        only_translated: Boolean(only_translated),
-        sort: sort ? sort.map((item) => `${item}:${order}`) : undefined,
-    };
-
-    const paginationArgs = {
-        page: page,
-    };
+    const { visible: sidebarVisible } = useFiltersSidebar();
+    const { view } = useCatalogView();
 
     const {
         fetchNextPage,
@@ -87,13 +34,9 @@ const AnimeList: FC<Props> = () => {
         data,
         list,
         pagination,
-    } = useSearchAnimes({
         args,
         paginationArgs,
-        options: {
-            initialPageParam: page,
-        },
-    });
+    } = useAnimeSearchQuery();
 
     const handlePageChange = (newPage: number) => {
         if (data && data?.pages.length > 1) {
@@ -123,9 +66,12 @@ const AnimeList: FC<Props> = () => {
         return <FiltersNotFound />;
     }
 
+    const extendedSize: StackSize =
+        view === 'list' ? 1 : sidebarVisible ? 5 : 6;
+
     return (
         <Block className="isolate">
-            <Stack extended={true} size={5} extendedSize={5}>
+            <Stack extended={true} size={5} extendedSize={extendedSize}>
                 {list.map((anime) => {
                     return <AnimeCard key={anime.slug} anime={anime} />;
                 })}

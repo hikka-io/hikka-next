@@ -7,14 +7,7 @@ import { XIcon } from 'lucide-react';
 import { FC, useMemo } from 'react';
 
 import { Badge } from '@/components/ui/badge';
-
-import {
-    SORT_ARTICLELIST,
-    SORT_CONTENT,
-    SORT_EDITLIST,
-    SORT_READLIST,
-    SORT_WATCHLIST,
-} from '@/features/filters/sort';
+import { Button } from '@/components/ui/button';
 
 import { cn } from '@/utils/cn';
 import {
@@ -23,16 +16,6 @@ import {
     RELEASE_STATUS,
     SEASON,
 } from '@/utils/constants/common';
-
-const SORT_LABELS: Record<string, string> = Object.fromEntries(
-    [
-        ...SORT_CONTENT,
-        ...SORT_WATCHLIST,
-        ...SORT_READLIST,
-        ...SORT_EDITLIST,
-        ...SORT_ARTICLELIST,
-    ].map(({ value, label }) => [value, label]),
-);
 
 const STATIC_LABEL_MAPS: Record<
     string,
@@ -44,7 +27,7 @@ const STATIC_LABEL_MAPS: Record<
     ratings: AGE_RATING,
 };
 
-const IGNORED_PARAMS = new Set(['page', 'search', 'order']);
+const IGNORED_PARAMS = new Set(['page', 'search', 'order', 'sort']);
 
 const SUBORDINATE_PARAMS = new Set(['date_range']);
 
@@ -135,10 +118,6 @@ const ActiveFilters: FC<Props> = ({ className }) => {
             return STATIC_LABEL_MAPS[key][value].title_ua;
         }
 
-        if (key === 'sort' && SORT_LABELS[value]) {
-            return SORT_LABELS[value];
-        }
-
         return value;
     };
 
@@ -186,7 +165,6 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                 return;
             }
 
-            // Handle arrays (multi-value params like genres, statuses, etc.)
             if (Array.isArray(rawValue)) {
                 rawValue.forEach((v) => {
                     const value = String(v);
@@ -202,7 +180,6 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                 return;
             }
 
-            // Handle single values
             const value = String(rawValue);
             const excluded = TRISTATE_PARAMS.has(key) && value.startsWith('-');
 
@@ -256,10 +233,29 @@ const ActiveFilters: FC<Props> = ({ className }) => {
         } as any);
     };
 
+    const handleClearAll = () => {
+        router.navigate({
+            to: '.',
+            search: (prev: Record<string, unknown>) => {
+                const next: Record<string, unknown> = {};
+                if (prev.search) next.search = prev.search;
+                if (prev.sort) next.sort = prev.sort;
+                if (prev.order) next.order = prev.order;
+                return next;
+            },
+            replace: true,
+        } as any);
+    };
+
     if (activeFilters.length === 0) return null;
 
     return (
-        <div className={cn('flex flex-wrap items-center gap-2', className)}>
+        <div
+            className={cn(
+                'flex flex-wrap items-center gap-2 border-l pl-4',
+                className,
+            )}
+        >
             {activeFilters.map((filter, idx) => {
                 const isTriState = TRISTATE_PARAMS.has(filter.param);
                 const variant = isTriState
@@ -272,12 +268,13 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                     <Badge
                         key={`${filter.param}-${filter.value}-${idx}`}
                         variant={variant}
-                        className="gap-1"
+                        className="group h-7 gap-1.5 pr-1.5 pl-2.5"
                     >
-                        {filter.label}
+                        <span className="truncate">{filter.label}</span>
                         <button
                             type="button"
-                            className="ml-1 inline-flex shrink-0"
+                            aria-label={`Видалити фільтр ${filter.label}`}
+                            className="hover:bg-foreground/10 -mr-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-full transition"
                             onClick={() => handleRemove(filter)}
                         >
                             <XIcon className="size-3" />
@@ -285,6 +282,16 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                     </Badge>
                 );
             })}
+            {activeFilters.length > 1 && (
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-foreground h-7 px-2"
+                    onClick={handleClearAll}
+                >
+                    Очистити все
+                </Button>
+            )}
         </div>
     );
 };

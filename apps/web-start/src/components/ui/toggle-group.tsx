@@ -24,7 +24,10 @@ const ToggleGroup = React.forwardRef<
         ref={ref}
         className={cn(
             'flex items-center',
-            'no-scrollbar bg-muted overflow-y-scroll rounded-md p-[3px]',
+            'no-scrollbar overflow-y-scroll rounded-md p-0.75',
+            variant === 'outline'
+                ? 'border border-border bg-secondary/20'
+                : 'bg-muted',
             className,
         )}
         {...props}
@@ -43,15 +46,18 @@ const ToggleGroupItem = React.forwardRef<
         VariantProps<typeof toggleVariants>
 >(({ className, children, variant, size, ...props }, ref) => {
     const context = React.useContext(ToggleGroupContext);
+    const resolvedVariant = context.variant || variant;
 
     return (
         <ToggleGroupPrimitive.Item
             ref={ref}
             className={cn(
                 toggleVariants({
-                    variant: context.variant || variant,
+                    variant: 'default',
                     size: context.size || size,
                 }),
+                resolvedVariant === 'outline' &&
+                    'data-[state=on]:bg-muted data-[state=on]:text-foreground',
                 className,
             )}
             {...props}

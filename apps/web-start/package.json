@@ -55,7 +55,7 @@
         "date-fns": "^4.1.0",
         "i18next": "^23.16.5",
         "lodash-es": "^4.17.21",
-        "lucide-react": "^0.469.0",
+        "lucide-react": "^1.8.0",
         "marked": "^12.0.1",
         "mdast-util-find-and-replace": "^3.0.2",
         "nitro": "npm:nitro-nightly@3.0.1-20260311-194443-0f366e59",

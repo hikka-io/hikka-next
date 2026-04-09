@@ -9,7 +9,7 @@ import { cn } from '@/utils/cn';
 import type { ImagePreset } from '@/utils/constants/image-presets';
 
 // Define more explicit and comprehensive types
-export type StackSize = 2 | 3 | 4 | 5 | 6 | 7 | 8;
+export type StackSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 interface StackProps extends ComponentPropsWithoutRef<'div'> {
     /**
@@ -45,6 +45,7 @@ interface StackProps extends ComponentPropsWithoutRef<'div'> {
 
 // Improved type-safe configuration objects
 const SIZES: Record<StackSize, string> = {
+    1: 'grid-cols-1',
     2: 'grid-cols-1 md:grid-cols-2',
     3: 'grid-cols-2 md:grid-cols-3',
     4: 'grid-cols-2 md:grid-cols-4',
@@ -55,6 +56,7 @@ const SIZES: Record<StackSize, string> = {
 };
 
 const EXTENDED_SIZES: Record<StackSize, string> = {
+    1: 'grid-cols-1',
     2: 'grid-cols-1 md:grid-cols-2',
     3: 'grid-cols-2 md:grid-cols-3',
     4: 'grid-cols-2 md:grid-cols-4',

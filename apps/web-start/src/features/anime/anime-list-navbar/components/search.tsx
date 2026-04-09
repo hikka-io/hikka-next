@@ -32,14 +32,13 @@ const Search = () => {
     };
 
     return (
-        <div className="flex flex-1 flex-col gap-4">
-            <Input
-                value={search || ''}
-                onChange={(event) => handleChangeSearch(event.target.value)}
-                type="text"
-                placeholder="Введіть назву аніме..."
-            />
-        </div>
+        <Input
+            className="w-full"
+            value={search || ''}
+            onChange={(event) => handleChangeSearch(event.target.value)}
+            type="text"
+            placeholder="Введіть назву аніме..."
+        />
     );
 };
 

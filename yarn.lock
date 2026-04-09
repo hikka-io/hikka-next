@@ -1720,7 +1720,7 @@ __metadata:
     date-fns: "npm:^4.1.0"
     i18next: "npm:^23.16.5"
     lodash-es: "npm:^4.17.21"
-    lucide-react: "npm:^0.469.0"
+    lucide-react: "npm:^1.8.0"
     marked: "npm:^12.0.1"
     mdast-util-find-and-replace: "npm:^3.0.2"
     nitro: "npm:nitro-nightly@3.0.1-20260311-194443-0f366e59"
@@ -11897,12 +11897,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.469.0":
-  version: 0.469.0
-  resolution: "lucide-react@npm:0.469.0"
+"lucide-react@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "lucide-react@npm:1.8.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/0ee78d110550579b848a01446a440f733fd17e1bf1850aa01551b61f415e03e5f5ab7f26b56f1c648edc93856177f5476ff9f8f6f5d80e8fe45913d208f49961
+  checksum: 10c0/f7398f89a0f5b2cbfd1b7a7f6b2f00b0abd05d4b21d948bbd281ab141c42cdff9f1d2aed4e32b78b4bbdfa78308b6577705698af8bf9945bad23ed7d56e255b4
   languageName: node
   linkType: hard
 
