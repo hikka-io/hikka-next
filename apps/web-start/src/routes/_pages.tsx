@@ -20,13 +20,13 @@ export const Route = createFileRoute('/_pages')({
             const session = await queryClient.ensureQueryData(
                 sessionOptions(hikkaClient),
             );
-            if (!session) throw redirect({ to: '/api/auth/logout' });
+            if (!session) throw redirect({ to: '/auth/logout' });
         } catch (error) {
             if (
                 error instanceof HikkaApiError &&
                 error.code === 'auth:invalid_token'
             ) {
-                throw redirect({ to: '/api/auth/logout' });
+                throw redirect({ to: '/auth/logout' });
             }
             throw error;
         }

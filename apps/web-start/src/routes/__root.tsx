@@ -55,7 +55,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
     loader: async ({ context }) => {
         // Rolling cookie: extend auth cookie lifetime on every SSR page request.
         // Must live here (not in createRouter) so it does NOT run for server routes
-        // like /api/auth/logout — otherwise the refresh re-sets the cookie the
+        // like /auth/logout — otherwise the refresh re-sets the cookie the
         // logout handler is trying to clear.
         // refreshAuthCookieFn is a createServerFn — it no-ops if no auth cookie exists
         // and only runs on the server (client calls become RPCs).

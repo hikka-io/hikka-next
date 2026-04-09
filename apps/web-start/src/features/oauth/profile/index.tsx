@@ -19,7 +19,7 @@ const Profle: FC<Props> = () => {
     const currentUrl = useCurrentUrl();
 
     const logout = () => {
-        window.location.href = `/api/auth/logout?callbackUrl=${encodeURIComponent(currentUrl)}`;
+        window.location.href = `/auth/logout?callbackUrl=${encodeURIComponent(currentUrl)}`;
     };
 
     if (!user) return <AuthNeeded />;
