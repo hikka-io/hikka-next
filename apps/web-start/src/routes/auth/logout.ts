@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { clearCookieHeader } from '@/utils/cookies/headers';
 
-export const Route = createFileRoute('/api/auth/logout')({
+export const Route = createFileRoute('/auth/logout')({
     server: {
         handlers: {
             GET: async ({ request }) => {

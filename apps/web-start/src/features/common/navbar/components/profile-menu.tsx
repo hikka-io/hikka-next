@@ -34,7 +34,7 @@ const ProfileMenu = () => {
     }
 
     const logout = () => {
-        window.location.href = `/api/auth/logout?callbackUrl=${encodeURIComponent(currentUrl)}`;
+        window.location.href = `/auth/logout?callbackUrl=${encodeURIComponent(currentUrl)}`;
     };
 
     return (
