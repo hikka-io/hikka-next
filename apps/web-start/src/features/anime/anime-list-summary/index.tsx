@@ -6,12 +6,12 @@ import { CatalogSummary } from '@/features/content';
 
 import { useAnimeSearchQuery } from '@/features/anime/anime-list/use-anime-search-query';
 
-/**
- * Thin anime-specific wrapper around the generic CatalogSummary.
- * Reads pagination from the shared anime search query.
- */
-const AnimeListSummary: FC = () => {
-    const { pagination, isLoading } = useAnimeSearchQuery();
+interface Props {
+    pageSize?: number;
+}
+
+const AnimeListSummary: FC<Props> = ({ pageSize }) => {
+    const { pagination, isLoading } = useAnimeSearchQuery(pageSize);
 
     return <CatalogSummary total={pagination?.total} isLoading={isLoading} />;
 };

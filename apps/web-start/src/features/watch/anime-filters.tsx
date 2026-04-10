@@ -27,7 +27,6 @@ import MediaType from '@/features/filters/media-type';
 import ReleaseStatus from '@/features/filters/release-status';
 import Score from '@/features/filters/score';
 import Season from '@/features/filters/season';
-import Sort from '@/features/filters/sort';
 import Studio from '@/features/filters/studio';
 import Year from '@/features/filters/year';
 
@@ -51,7 +50,6 @@ export const AnimeFiltersBody: FC<BodyProps> = ({
     return (
         <div className={cn('flex flex-col gap-8', className)}>
             <Genre />
-            <Sort sort_type={sort_type} />
             <Studio />
             <ReleaseStatus />
             <Season />

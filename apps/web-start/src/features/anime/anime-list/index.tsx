@@ -16,9 +16,10 @@ import { useAnimeSearchQuery } from './use-anime-search-query';
 
 interface Props {
     extendedSize?: StackSize;
+    pageSize?: number;
 }
 
-const AnimeList: FC<Props> = ({ extendedSize = 5 }) => {
+const AnimeList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
     const queryClient = useQueryClient();
     const router = useRouter();
 
@@ -32,7 +33,7 @@ const AnimeList: FC<Props> = ({ extendedSize = 5 }) => {
         pagination,
         args,
         paginationArgs,
-    } = useAnimeSearchQuery();
+    } = useAnimeSearchQuery(pageSize);
 
     const handlePageChange = (newPage: number) => {
         if (data && data?.pages.length > 1) {

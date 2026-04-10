@@ -33,6 +33,18 @@ export function buildAnimeSearchArgs(search: AnimeSearch) {
     const sort = search.sort?.length ? search.sort : ['score'];
     const order = search.order || 'desc';
 
+    const IMPLICIT_SECONDARY_SORTS: Record<string, string> = {
+        score: 'scored_by',
+        native_score: 'native_scored_by',
+    };
+
+    const expandedSort = sort.flatMap((field) => {
+        const secondary = IMPLICIT_SECONDARY_SORTS[field];
+        return secondary && !sort.includes(secondary)
+            ? [field, secondary]
+            : [field];
+    });
+
     const convertedYears =
         date_range && date_range.length === 2
             ? [
@@ -53,7 +65,9 @@ export function buildAnimeSearchArgs(search: AnimeSearch) {
             studios,
             score,
             only_translated: Boolean(only_translated),
-            sort: sort ? sort.map((item) => `${item}:${order}`) : undefined,
+            sort: expandedSort
+                ? expandedSort.map((item) => `${item}:${order}`)
+                : undefined,
         },
         page: search.page || 1,
     };
@@ -64,10 +78,10 @@ export function buildAnimeSearchArgs(search: AnimeSearch) {
  * call this with the same URL-derived args so the TanStack Query cache is
  * reused — no duplicate network requests.
  */
-export function useAnimeSearchQuery() {
+export function useAnimeSearchQuery(size?: number) {
     const search = useFilterSearch<AnimeSearch>();
     const { args, page } = buildAnimeSearchArgs(search);
-    const paginationArgs = { page };
+    const paginationArgs = { page, size };
 
     const queryResult = useSearchAnimes({
         args,

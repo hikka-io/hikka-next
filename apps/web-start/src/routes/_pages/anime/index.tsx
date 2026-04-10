@@ -33,6 +33,9 @@ function AnimeListPage() {
 
     const extendedSize: StackSize =
         view === 'list' ? 1 : sidebarVisible ? 5 : 7;
+    // Desktop cols × 4 rows; always even so mobile (grid-cols-2) fills
+    // without empty cells. List view uses the default API page size.
+    const pageSize = view === 'list' ? undefined : extendedSize * 4;
 
     return (
         <Block>
@@ -52,8 +55,8 @@ function AnimeListPage() {
             >
                 <div className="flex flex-col gap-4">
                     <AnimeListNavbar />
-                    <AnimeListSummary />
-                    <AnimeList extendedSize={extendedSize} />
+                    <AnimeListSummary pageSize={pageSize} />
+                    <AnimeList extendedSize={extendedSize} pageSize={pageSize} />
                 </div>
 
                 {sidebarVisible && (

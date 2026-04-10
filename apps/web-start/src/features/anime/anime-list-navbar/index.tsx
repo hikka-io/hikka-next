@@ -54,6 +54,7 @@ const AnimeListNavbar: FC = () => {
                         sort_type="anime"
                         compact
                         className="min-w-0 overflow-hidden"
+                        placeholder="Сортування"
                     />
 
                     <ToggleGroup
@@ -98,9 +99,7 @@ const AnimeListNavbar: FC = () => {
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Button
-                                variant={
-                                    sidebarVisible ? 'default' : 'outline'
-                                }
+                                variant={sidebarVisible ? 'default' : 'outline'}
                                 size="md"
                                 onClick={toggleSidebar}
                                 className="hidden shrink-0 lg:inline-flex"

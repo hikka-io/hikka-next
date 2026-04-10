@@ -34,8 +34,12 @@ export type SortType =
 
 export const SHARED_SORT = [
     {
-        label: 'Загальна оцінка',
+        label: 'Оцінка MAL',
         value: 'score',
+    },
+    {
+        label: 'Оцінка Hikka',
+        value: 'native_score',
     },
     {
         label: 'Тип',
@@ -145,9 +149,15 @@ interface Props {
     sort_type: SortType;
     /** Render as a compact inline control (no label header). */
     compact?: boolean;
+    placeholder?: string;
 }
 
-const Sort: FC<Props> = ({ sort_type, className, compact = false }) => {
+const Sort: FC<Props> = ({
+    sort_type,
+    className,
+    placeholder,
+    compact = false,
+}) => {
     const { order, sort = [] } = useFilterSearch<{
         order?: string;
         sort?: string[];
@@ -156,7 +166,9 @@ const Sort: FC<Props> = ({ sort_type, className, compact = false }) => {
     const handleChangeParam = useChangeParam();
 
     const control = (
-        <div className={cn('flex', compact ? cn('w-auto', className) : 'gap-2')}>
+        <div
+            className={cn('flex', compact ? cn('w-auto', className) : 'gap-2')}
+        >
             <Select
                 multiple
                 value={sort}
@@ -166,16 +178,14 @@ const Sort: FC<Props> = ({ sort_type, className, compact = false }) => {
                     size="md"
                     className={cn(
                         'min-w-0',
-                        compact
-                            ? 'w-40 rounded-r-none'
-                            : 'flex-1',
+                        compact ? 'w-40 rounded-r-none' : 'flex-1',
                     )}
                 >
                     <SelectValue
                         maxDisplay={1}
                         maxItemLength={compact ? 10 : undefined}
                         className={compact ? 'flex-nowrap!' : undefined}
-                        placeholder="Виберіть сортування..."
+                        placeholder={placeholder ?? 'Виберіть сортування...'}
                     />
                 </SelectTrigger>
                 <SelectContent>
