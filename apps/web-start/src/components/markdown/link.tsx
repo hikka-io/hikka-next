@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession } from '@hikka/react';
 import { FC, PropsWithChildren } from 'react';
 
 import {
@@ -32,9 +33,10 @@ interface Props {
     className?: string;
 }
 
+const AUTH_ONLY_HOSTS = ['toloka.to', 'anitube.in.ua'];
+
 const ALLOWED_HOSTS = [
-    'toloka.to',
-    'anitube.in.ua',
+    ...AUTH_ONLY_HOSTS,
     'watari-anime.com',
     'aniage.net',
     'myanimelist.net',
@@ -46,6 +48,19 @@ const LINK_CLASSNAME =
     'cursor-pointer text-primary-foreground hover:underline wrap-break-word whitespace-normal';
 
 const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
+    const { user } = useSession();
+
+    if (
+        !user &&
+        AUTH_ONLY_HOSTS.some((host) => href.includes(host))
+    ) {
+        return (
+            <span className={cn('text-muted-foreground', className)}>
+                {children}
+            </span>
+        );
+    }
+
     if (href.includes('hikka.io') || !href.includes('http')) {
         if (href.includes('/anime')) {
             const link = href.split('/anime/')[1]?.split('/')[0];
