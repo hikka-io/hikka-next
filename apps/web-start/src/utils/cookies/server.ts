@@ -64,3 +64,27 @@ export const refreshAuthCookieFn = createServerFn({ method: 'POST' }).handler(
         }
     },
 );
+
+export const getNsfwConsentFn = createServerFn({ method: 'GET' }).handler(
+    async () => {
+        const { getCookie } = await import('@tanstack/react-start/server');
+        return getCookie('nsfw_confirmed') ?? null;
+    },
+);
+
+export const setNsfwConsentFn = createServerFn({ method: 'POST' }).handler(
+    async () => {
+        const { setCookie } = await import('@tanstack/react-start/server');
+        const domain = import.meta.env.COOKIE_DOMAIN;
+        const secure = !!domain && domain !== 'localhost';
+
+        setCookie('nsfw_confirmed', '1', {
+            maxAge: 60 * 60 * 24, // 1 day
+            path: '/',
+            httpOnly: false,
+            secure,
+            sameSite: 'lax',
+            ...(domain ? { domain } : {}),
+        });
+    },
+);

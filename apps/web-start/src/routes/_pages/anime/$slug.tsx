@@ -16,6 +16,7 @@ import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import { ContentDetailLayout } from '@/features/content';
 
 import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
+import { getNsfwConsentFn } from '@/utils/cookies/server';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
@@ -27,6 +28,10 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
         );
 
         if (!anime) throw redirect({ to: '/' });
+
+        const nsfwConsented = anime.nsfw
+            ? !!(await getNsfwConsentFn())
+            : false;
 
         await Promise.allSettled([
             queryClient.ensureQueryData(
@@ -81,7 +86,7 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
             ),
         ]);
 
-        return { anime };
+        return { anime, nsfwConsented };
     },
     head: ({ loaderData }) => {
         const anime = loaderData?.anime;
@@ -117,7 +122,7 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
 });
 
 function AnimeDetailLayout() {
-    const { anime } = Route.useLoaderData();
+    const { anime, nsfwConsented } = Route.useLoaderData();
 
     return (
         <ContentDetailLayout
@@ -127,6 +132,8 @@ function AnimeDetailLayout() {
             urlPrefix="/anime"
             title={anime.title_ua || anime.title_en || anime.title_ja || ''}
             status={anime.status}
+            nsfw={anime.nsfw}
+            nsfwConsented={nsfwConsented}
         >
             <Outlet />
         </ContentDetailLayout>
