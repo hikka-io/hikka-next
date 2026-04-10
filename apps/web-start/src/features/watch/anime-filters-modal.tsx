@@ -39,6 +39,7 @@ const AnimeFiltersModal: FC<Props> = ({
             onOpenChange={onOpenChange}
         >
             <ResponsiveModalContent className="md:max-w-xl" title="Фільтри">
+                {/* -m-4 p-4 cancels parent padding so the scroll area fills edge-to-edge */}
                 <AnimeFiltersBody
                     className="-m-4 flex-1 overflow-hidden overflow-y-auto p-4"
                     content_type={content_type}

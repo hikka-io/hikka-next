@@ -1,5 +1,6 @@
 export { default as ContentActions } from './actions';
-export { default as ActiveFilters } from './active-filters';
+export { default as ActiveFilters, useActiveFilters } from './active-filters';
+export { default as CatalogSummary } from './catalog-summary';
 export { default as ContentArticles } from './articles';
 export { default as ContentCharacters } from './characters';
 export * from './collections';

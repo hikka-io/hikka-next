@@ -124,13 +124,11 @@ export const SORT_ARTICLELIST = [
 export const getSort = (sort_type: SortType) => {
     switch (sort_type) {
         case 'anime':
+        case 'manga':
+        case 'novel':
             return SORT_CONTENT;
         case 'watch':
             return SORT_WATCHLIST;
-        case 'manga':
-            return SORT_CONTENT;
-        case 'novel':
-            return SORT_CONTENT;
         case 'read':
             return SORT_READLIST;
         case 'edit':
@@ -158,7 +156,7 @@ const Sort: FC<Props> = ({ sort_type, className, compact = false }) => {
     const handleChangeParam = useChangeParam();
 
     const control = (
-        <div className={cn('flex', compact && 'w-auto')}>
+        <div className={cn('flex', compact ? cn('w-auto', className) : 'gap-2')}>
             <Select
                 multiple
                 value={sort}
@@ -167,12 +165,16 @@ const Sort: FC<Props> = ({ sort_type, className, compact = false }) => {
                 <SelectTrigger
                     size="md"
                     className={cn(
-                        'min-w-0 rounded-r-none',
-                        compact ? 'w-auto' : 'flex-1',
+                        'min-w-0',
+                        compact
+                            ? 'w-40 rounded-r-none'
+                            : 'flex-1',
                     )}
                 >
                     <SelectValue
                         maxDisplay={1}
+                        maxItemLength={compact ? 10 : undefined}
+                        className={compact ? 'flex-nowrap!' : undefined}
                         placeholder="Виберіть сортування..."
                     />
                 </SelectTrigger>
@@ -191,7 +193,10 @@ const Sort: FC<Props> = ({ sort_type, className, compact = false }) => {
             <Button
                 size="icon-md"
                 variant="outline"
-                className="shrink-0 rounded-l-none border-l-0"
+                className={cn(
+                    'shrink-0',
+                    compact && 'rounded-l-none border-l-0',
+                )}
                 onClick={() =>
                     handleChangeParam('order', order === 'asc' ? 'desc' : 'asc')
                 }
@@ -204,7 +209,7 @@ const Sort: FC<Props> = ({ sort_type, className, compact = false }) => {
     );
 
     if (compact) {
-        return <div className={className}>{control}</div>;
+        return control;
     }
 
     return (

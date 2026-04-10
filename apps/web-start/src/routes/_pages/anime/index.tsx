@@ -4,10 +4,10 @@ import { zodValidator } from '@tanstack/zod-adapter';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
-import { Separator } from '@/components/ui/separator';
+import type { StackSize } from '@/components/ui/stack';
 
 import { AnimeList, AnimeListNavbar, AnimeListSummary } from '@/features/anime';
-import { FilterPresetButton, FilterPresets } from '@/features/content';
+import { useCatalogView } from '@/features/anime/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { AnimeFilters } from '@/features/watch';
 
@@ -29,6 +29,10 @@ export const Route = createFileRoute('/_pages/anime/')({
 
 function AnimeListPage() {
     const { visible: sidebarVisible } = useFiltersSidebar();
+    const { view } = useCatalogView();
+
+    const extendedSize: StackSize =
+        view === 'list' ? 1 : sidebarVisible ? 5 : 7;
 
     return (
         <Block>
@@ -48,13 +52,8 @@ function AnimeListPage() {
             >
                 <div className="flex flex-col gap-4">
                     <AnimeListNavbar />
-                    <div className="flex items-center gap-4">
-                        <FilterPresets content_type={ContentTypeEnum.ANIME} />
-                        <Separator className="h-6" orientation="vertical" />
-                        <FilterPresetButton />
-                    </div>
                     <AnimeListSummary />
-                    <AnimeList />
+                    <AnimeList extendedSize={extendedSize} />
                 </div>
 
                 {sidebarVisible && (

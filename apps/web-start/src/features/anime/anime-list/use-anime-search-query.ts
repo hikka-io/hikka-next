@@ -14,14 +14,10 @@ import type { AnimeSearch } from '@/utils/search-schemas';
 import { getSeasonByOffset } from '@/utils/season';
 
 /**
- * Shared query for the /anime catalog. Both AnimeList and AnimeListNavbar
- * call this with the same URL-derived args so the TanStack Query cache is
- * reused — no duplicate network requests.
+ * Pure function: converts URL search params into the args shape expected
+ * by the Hikka anime search API. Unit-testable, reusable for SSR prefetch.
  */
-export function useAnimeSearchQuery() {
-    const search = useFilterSearch<AnimeSearch>();
-
-    const query = search.search;
+export function buildAnimeSearchArgs(search: AnimeSearch) {
     const media_type = (search.types ?? []) as AnimeMediaEnum[];
     const status = (search.statuses ?? []) as AnimeStatusEnum[];
     const season = (search.seasons ?? []) as SeasonEnum[];
@@ -36,33 +32,41 @@ export function useAnimeSearchQuery() {
     const only_translated = search.only_translated;
     const sort = search.sort?.length ? search.sort : ['score'];
     const order = search.order || 'desc';
-    const page = search.page || 1;
 
-    const convertYears = () => {
-        if (date_range && date_range.length === 2) {
-            return [
-                getSeasonByOffset(date_range[0]),
-                getSeasonByOffset(date_range[1]),
-            ];
-        }
+    const convertedYears =
+        date_range && date_range.length === 2
+            ? [
+                  getSeasonByOffset(date_range[0]),
+                  getSeasonByOffset(date_range[1]),
+              ]
+            : years;
 
-        return years;
+    return {
+        args: {
+            query: search.search || undefined,
+            media_type,
+            status,
+            season,
+            rating,
+            years: convertedYears,
+            genres,
+            studios,
+            score,
+            only_translated: Boolean(only_translated),
+            sort: sort ? sort.map((item) => `${item}:${order}`) : undefined,
+        },
+        page: search.page || 1,
     };
+}
 
-    const args = {
-        query: query || undefined,
-        media_type,
-        status,
-        season,
-        rating,
-        years: convertYears(),
-        genres,
-        studios,
-        score,
-        only_translated: Boolean(only_translated),
-        sort: sort ? sort.map((item) => `${item}:${order}`) : undefined,
-    };
-
+/**
+ * Shared query for the /anime catalog. Both AnimeList and AnimeListSummary
+ * call this with the same URL-derived args so the TanStack Query cache is
+ * reused — no duplicate network requests.
+ */
+export function useAnimeSearchQuery() {
+    const search = useFilterSearch<AnimeSearch>();
+    const { args, page } = buildAnimeSearchArgs(search);
     const paginationArgs = { page };
 
     const queryResult = useSearchAnimes({

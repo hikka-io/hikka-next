@@ -49,18 +49,19 @@ const COMBINED_PARAMS: Record<string, { label: string; related: string[] }> = {
 
 const TRISTATE_PARAMS = new Set(['genres']);
 
-interface ActiveFilter {
+export interface ActiveFilter {
     param: string;
     value: string;
     label: string;
     excluded?: boolean;
 }
 
-interface Props {
-    className?: string;
-}
-
-const ActiveFilters: FC<Props> = ({ className }) => {
+/**
+ * Reads URL search params + dynamic label maps and returns a list of
+ * human-readable active filter objects, their count, and a clearAll action.
+ * Used by both the ActiveFilters chip component and any badge/count display.
+ */
+export function useActiveFilters() {
     const router = useRouter();
     const search = useRouterState({
         select: (s) =>
@@ -121,8 +122,8 @@ const ActiveFilters: FC<Props> = ({ className }) => {
         return value;
     };
 
-    const activeFilters = useMemo(() => {
-        const filters: ActiveFilter[] = [];
+    const filters = useMemo(() => {
+        const result: ActiveFilter[] = [];
         const processedRanges = new Set<string>();
 
         Object.entries(search).forEach(([key, rawValue]) => {
@@ -130,7 +131,7 @@ const ActiveFilters: FC<Props> = ({ className }) => {
 
             if (key in COMBINED_PARAMS) {
                 if (rawValue === true || rawValue === 'true') {
-                    filters.push({
+                    result.push({
                         param: key,
                         value: 'true',
                         label: COMBINED_PARAMS[key].label,
@@ -147,7 +148,7 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                     ? rawValue.map(String)
                     : [String(rawValue)];
                 if (values.length === 2) {
-                    filters.push({
+                    result.push({
                         param: key,
                         value: values.join(','),
                         label: `${RANGE_PARAMS[key]}: ${values[0]}–${values[1]}`,
@@ -157,7 +158,7 @@ const ActiveFilters: FC<Props> = ({ className }) => {
             }
 
             if (key in BOOLEAN_PARAMS) {
-                filters.push({
+                result.push({
                     param: key,
                     value: String(rawValue),
                     label: BOOLEAN_PARAMS[key],
@@ -170,7 +171,7 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                     const value = String(v);
                     const excluded =
                         TRISTATE_PARAMS.has(key) && value.startsWith('-');
-                    filters.push({
+                    result.push({
                         param: key,
                         value,
                         label: resolveLabel(key, value),
@@ -183,7 +184,7 @@ const ActiveFilters: FC<Props> = ({ className }) => {
             const value = String(rawValue);
             const excluded = TRISTATE_PARAMS.has(key) && value.startsWith('-');
 
-            filters.push({
+            result.push({
                 param: key,
                 value,
                 label: resolveLabel(key, value),
@@ -191,10 +192,10 @@ const ActiveFilters: FC<Props> = ({ className }) => {
             });
         });
 
-        return filters;
+        return result;
     }, [search, dynamicLabelMaps]);
 
-    const handleRemove = (filter: ActiveFilter) => {
+    const removeFilter = (filter: ActiveFilter) => {
         router.navigate({
             to: '.',
             search: (prev: Record<string, unknown>) => {
@@ -226,14 +227,13 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                 }
 
                 delete next.page;
-
                 return next;
             },
             replace: true,
         } as any);
     };
 
-    const handleClearAll = () => {
+    const clearAll = () => {
         router.navigate({
             to: '.',
             search: (prev: Record<string, unknown>) => {
@@ -247,7 +247,17 @@ const ActiveFilters: FC<Props> = ({ className }) => {
         } as any);
     };
 
-    if (activeFilters.length === 0) return null;
+    return { filters, count: filters.length, removeFilter, clearAll };
+}
+
+interface Props {
+    className?: string;
+}
+
+const ActiveFilters: FC<Props> = ({ className }) => {
+    const { filters, clearAll, removeFilter } = useActiveFilters();
+
+    if (filters.length === 0) return null;
 
     return (
         <div
@@ -256,7 +266,7 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                 className,
             )}
         >
-            {activeFilters.map((filter, idx) => {
+            {filters.map((filter, idx) => {
                 const isTriState = TRISTATE_PARAMS.has(filter.param);
                 const variant = isTriState
                     ? filter.excluded
@@ -275,19 +285,19 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                             type="button"
                             aria-label={`Видалити фільтр ${filter.label}`}
                             className="hover:bg-foreground/10 -mr-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-full transition"
-                            onClick={() => handleRemove(filter)}
+                            onClick={() => removeFilter(filter)}
                         >
                             <XIcon className="size-3" />
                         </button>
                     </Badge>
                 );
             })}
-            {activeFilters.length > 1 && (
+            {filters.length > 1 && (
                 <Button
                     variant="ghost"
                     size="sm"
                     className="text-muted-foreground hover:text-foreground h-7 px-2"
-                    onClick={handleClearAll}
+                    onClick={clearAll}
                 >
                     Очистити все
                 </Button>

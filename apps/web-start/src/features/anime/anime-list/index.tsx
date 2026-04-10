@@ -7,24 +7,20 @@ import { FC } from 'react';
 import AnimeCard from '@/components/content-card/anime-card';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
-import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import Stack, { StackSize } from '@/components/ui/stack';
 
-import { useCatalogView } from '@/features/anime/hooks/use-catalog-view';
-import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
-
 import AnimeListSkeleton from './components/anime-list-skeleton';
 import { useAnimeSearchQuery } from './use-anime-search-query';
 
-interface Props {}
+interface Props {
+    extendedSize?: StackSize;
+}
 
-const AnimeList: FC<Props> = () => {
+const AnimeList: FC<Props> = ({ extendedSize = 5 }) => {
     const queryClient = useQueryClient();
     const router = useRouter();
-    const { visible: sidebarVisible } = useFiltersSidebar();
-    const { view } = useCatalogView();
 
     const {
         fetchNextPage,
@@ -54,24 +50,17 @@ const AnimeList: FC<Props> = () => {
         } as any);
     };
 
-    const handleLoadMore = async () => {
-        await fetchNextPage();
-    };
-
     if (isLoading && !isFetchingNextPage) {
-        return <AnimeListSkeleton />;
+        return <AnimeListSkeleton extendedSize={extendedSize} />;
     }
 
     if (list === undefined || list.length === 0) {
         return <FiltersNotFound />;
     }
 
-    const extendedSize: StackSize =
-        view === 'list' ? 1 : sidebarVisible ? 5 : 6;
-
     return (
-        <Block className="isolate">
-            <Stack extended={true} size={5} extendedSize={extendedSize}>
+        <div className="isolate flex flex-col gap-6">
+            <Stack extended size={5} extendedSize={extendedSize}>
                 {list.map((anime) => {
                     return <AnimeCard key={anime.slug} anime={anime} />;
                 })}
@@ -79,7 +68,7 @@ const AnimeList: FC<Props> = () => {
             {hasNextPage && (
                 <LoadMoreButton
                     isFetchingNextPage={isFetchingNextPage}
-                    fetchNextPage={handleLoadMore}
+                    fetchNextPage={fetchNextPage}
                 />
             )}
             {list && pagination && pagination.pages > 1 && (
@@ -93,7 +82,7 @@ const AnimeList: FC<Props> = () => {
                     </Card>
                 </div>
             )}
-        </Block>
+        </div>
     );
 };
 
