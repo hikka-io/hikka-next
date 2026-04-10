@@ -68,7 +68,7 @@ export const refreshAuthCookieFn = createServerFn({ method: 'POST' }).handler(
 export const getNsfwConsentFn = createServerFn({ method: 'GET' }).handler(
     async () => {
         const { getCookie } = await import('@tanstack/react-start/server');
-        return getCookie('nsfw_consent') ?? null;
+        return getCookie('nsfw_confirmed') ?? null;
     },
 );
 
@@ -78,8 +78,8 @@ export const setNsfwConsentFn = createServerFn({ method: 'POST' }).handler(
         const domain = import.meta.env.COOKIE_DOMAIN;
         const secure = !!domain && domain !== 'localhost';
 
-        setCookie('nsfw_consent', '1', {
-            maxAge: 60 * 60 * 24 * 365, // 1 year
+        setCookie('nsfw_confirmed', '1', {
+            maxAge: 60 * 60 * 24, // 1 day
             path: '/',
             httpOnly: false,
             secure,

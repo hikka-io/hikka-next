@@ -1,30 +1,41 @@
 import { FC, useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import Image from '@/components/ui/image';
 
 import { setNsfwConsentFn } from '@/utils/cookies/server';
 import { useRouter } from '@/utils/navigation';
 
+let sessionConsented = false;
+
 const NsfwOverlay: FC = () => {
     const router = useRouter();
-    const [confirmed, setConfirmed] = useState(false);
+    const [dismissed, setDismissed] = useState(() => {
+        if (sessionConsented) return true;
+        if (typeof document === 'undefined') return false;
+        return document.cookie.includes('nsfw_confirmed=');
+    });
+    const [remember, setRemember] = useState(false);
 
     useEffect(() => {
-        if (confirmed) return;
+        if (dismissed) return;
 
         document.body.style.overflow = 'hidden';
         return () => {
             document.body.style.overflow = '';
         };
-    }, [confirmed]);
+    }, [dismissed]);
 
-    const handleConfirm = () => {
-        setConfirmed(true);
-        setNsfwConsentFn();
+    const handleConfirm = async () => {
+        if (remember) {
+            await setNsfwConsentFn();
+        }
+        sessionConsented = true;
+        setDismissed(true);
     };
 
-    if (confirmed) return null;
+    if (dismissed) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden backdrop-blur-xl">
@@ -59,6 +70,18 @@ const NsfwOverlay: FC = () => {
                         ви підтверджуєте, що вам виповнилося 18 років.
                     </p>
                 </div>
+
+                <label className="flex cursor-pointer items-center gap-2">
+                    <Checkbox
+                        checked={remember}
+                        onCheckedChange={(checked) =>
+                            setRemember(checked === true)
+                        }
+                    />
+                    <span className="text-muted-foreground text-sm">
+                        Запам'ятати мій вибір
+                    </span>
+                </label>
 
                 <div className="flex w-full flex-col gap-3 sm:flex-row">
                     <Button
