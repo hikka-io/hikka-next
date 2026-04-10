@@ -1,6 +1,7 @@
 'use client';
 
 import { ContentTypeEnum, ExternalTypeEnum } from '@hikka/client';
+import { useSession } from '@hikka/react';
 import { FC, useState } from 'react';
 
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
@@ -33,6 +34,7 @@ const Links: FC<Props> = ({ content_type }) => {
     const [active, setActive] = useState<ExternalTypeEnum>(
         ExternalTypeEnum.GENERAL,
     );
+    const { user } = useSession();
     const params = useParams();
     const { data: content } = CONTENT_CONFIG[content_type].useInfo(
         String(params.slug),
@@ -46,11 +48,13 @@ const Links: FC<Props> = ({ content_type }) => {
         return null;
     }
 
-    const watchLinksData = content.external.filter(
-        (l) =>
-            l.type === ExternalTypeEnum.WATCH ||
-            l.type === ExternalTypeEnum.READ,
-    );
+    const watchLinksData = user
+        ? content.external.filter(
+              (l) =>
+                  l.type === ExternalTypeEnum.WATCH ||
+                  l.type === ExternalTypeEnum.READ,
+          )
+        : [];
     const generalLinksData = content.external.filter(
         (l) => l.type === ExternalTypeEnum.GENERAL,
     );
