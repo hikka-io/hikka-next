@@ -15,6 +15,7 @@ import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import { ContentDetailLayout } from '@/features/content';
 
 import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
+import { getNsfwConsentFn } from '@/utils/cookies/server';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
@@ -26,6 +27,10 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
         );
 
         if (!novel) throw redirect({ to: '/' });
+
+        const nsfwConsented = novel.nsfw
+            ? !!(await getNsfwConsentFn())
+            : false;
 
         await Promise.allSettled([
             queryClient.ensureInfiniteQueryData(
@@ -83,7 +88,7 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
             ),
         ]);
 
-        return { novel };
+        return { novel, nsfwConsented };
     },
     head: ({ loaderData }) => {
         const novel = loaderData?.novel;
@@ -119,7 +124,7 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
 });
 
 function NovelDetailLayout() {
-    const { novel } = Route.useLoaderData();
+    const { novel, nsfwConsented } = Route.useLoaderData();
 
     return (
         <ContentDetailLayout
@@ -131,6 +136,8 @@ function NovelDetailLayout() {
                 novel.title_ua || novel.title_en || novel.title_original || ''
             }
             status={novel.status}
+            nsfw={novel.nsfw}
+            nsfwConsented={nsfwConsented}
         >
             <Outlet />
         </ContentDetailLayout>

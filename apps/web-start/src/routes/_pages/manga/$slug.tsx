@@ -15,6 +15,7 @@ import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import { ContentDetailLayout } from '@/features/content';
 
 import { MANGA_NAV_ROUTES } from '@/utils/constants/navigation';
+import { getNsfwConsentFn } from '@/utils/cookies/server';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
@@ -26,6 +27,10 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
         );
 
         if (!manga) throw redirect({ to: '/' });
+
+        const nsfwConsented = manga.nsfw
+            ? !!(await getNsfwConsentFn())
+            : false;
 
         await Promise.allSettled([
             queryClient.ensureInfiniteQueryData(
@@ -83,7 +88,7 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
             ),
         ]);
 
-        return { manga };
+        return { manga, nsfwConsented };
     },
     head: ({ loaderData }) => {
         const manga = loaderData?.manga;
@@ -119,7 +124,7 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
 });
 
 function MangaDetailLayout() {
-    const { manga } = Route.useLoaderData();
+    const { manga, nsfwConsented } = Route.useLoaderData();
 
     return (
         <ContentDetailLayout
@@ -131,6 +136,8 @@ function MangaDetailLayout() {
                 manga.title_ua || manga.title_en || manga.title_original || ''
             }
             status={manga.status}
+            nsfw={manga.nsfw}
+            nsfwConsented={nsfwConsented}
         >
             <Outlet />
         </ContentDetailLayout>

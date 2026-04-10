@@ -8,6 +8,8 @@ import { ContentNavbar } from '@/features/content';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
+import NsfwOverlay from './nsfw-overlay';
+
 interface Props extends PropsWithChildren {
     slug: string;
     contentType:
@@ -20,6 +22,8 @@ interface Props extends PropsWithChildren {
     urlPrefix: string;
     title: string;
     status?: string | null;
+    nsfw?: boolean;
+    nsfwConsented?: boolean;
 }
 
 const ContentDetailLayout: FC<Props> = ({
@@ -29,6 +33,8 @@ const ContentDetailLayout: FC<Props> = ({
     urlPrefix,
     title,
     status,
+    nsfw,
+    nsfwConsented,
     children,
 }) => {
     return (
@@ -56,6 +62,7 @@ const ContentDetailLayout: FC<Props> = ({
                 />
             </Breadcrumbs>
 
+            {nsfw && !nsfwConsented && <NsfwOverlay />}
             {children}
 
             <ContentNavbar content_type={contentType} className="mt-12" />

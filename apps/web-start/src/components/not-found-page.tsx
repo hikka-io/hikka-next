@@ -21,7 +21,7 @@ const NotFoundPage = () => {
                 <div className="logo-full h-5 w-16" />
 
                 <Image
-                    src="/hikka.notfound.png"
+                    src="/stickers/woah.webp"
                     width={224}
                     height={224}
                     background="transparent"
