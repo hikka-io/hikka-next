@@ -48,7 +48,7 @@ function AnimeListPage() {
 
             <div
                 className={cn(
-                    'grid grid-cols-1 lg:items-start lg:gap-12',
+                    'grid grid-cols-1 lg:items-start lg:gap-8',
                     sidebarVisible &&
                         'lg:grid-cols-[1fr_30%] xl:grid-cols-[1fr_25%]',
                 )}
@@ -56,7 +56,10 @@ function AnimeListPage() {
                 <div className="flex flex-col gap-4">
                     <AnimeListNavbar />
                     <AnimeListSummary pageSize={pageSize} />
-                    <AnimeList extendedSize={extendedSize} pageSize={pageSize} />
+                    <AnimeList
+                        extendedSize={extendedSize}
+                        pageSize={pageSize}
+                    />
                 </div>
 
                 {sidebarVisible && (
