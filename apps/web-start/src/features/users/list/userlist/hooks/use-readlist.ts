@@ -10,6 +10,7 @@ import {
 import { useSearchUserReads } from '@hikka/react';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { expandSort } from '@/features/filters/sort';
 
 import { useParams } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
@@ -29,9 +30,6 @@ export const useReadList = (options?: { enabled?: boolean }) => {
     const genres = search.genres ?? [];
     const magazines = search.magazines ?? [];
 
-    const order = search.order || 'desc';
-    const sort = search.sort?.length ? search.sort : ['read_score'];
-
     return useSearchUserReads({
         contentType: params.content_type as ReadContentType,
         username: String(params.username),
@@ -42,10 +40,7 @@ export const useReadList = (options?: { enabled?: boolean }) => {
             years,
             genres,
             magazines,
-            sort:
-                sort && order
-                    ? sort.map((item) => `${item}:${order}`)
-                    : undefined,
+            sort: expandSort('read', search.sort, search.order),
         },
         options: { enabled: options?.enabled },
     });

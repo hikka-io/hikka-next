@@ -129,9 +129,21 @@ export const useSettingsStore = create<SettingsStore>()(
                 const persisted = persistedState as Partial<SettingsState> & {
                     collapsibles?: Record<string, boolean>;
                 };
+
+                // Migrate filter presets: sort was string[], now string
+                const filterPresets = (
+                    persisted?.filterPresets ?? currentState.filterPresets
+                ).map((preset) => ({
+                    ...preset,
+                    sort: Array.isArray(preset.sort)
+                        ? (preset.sort[0] as string | undefined)
+                        : preset.sort,
+                }));
+
                 return {
                     ...currentState,
                     ...persisted,
+                    filterPresets,
                     // Deep merge preferences to handle old localStorage structure
                     preferences: {
                         views: {

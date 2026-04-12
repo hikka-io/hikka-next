@@ -15,6 +15,7 @@ import {
     EditTopStats,
     EditFilters as Filters,
 } from '@/features/edit';
+import { expandSort } from '@/features/filters/sort';
 
 import { generateHeadMeta } from '@/utils/metadata';
 import { editSearchSchema } from '@/utils/search-schemas';
@@ -23,13 +24,7 @@ export const Route = createFileRoute('/_pages/edit/')({
     validateSearch: zodValidator(editSearchSchema),
     loaderDeps: ({ search }) => search,
     loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
-        const {
-            page,
-            content_type,
-            order = 'desc',
-            sort = 'edit_id',
-            edit_status,
-        } = deps;
+        const { page, content_type, edit_status } = deps;
 
         if (!page) {
             throw redirect({
@@ -45,7 +40,7 @@ export const Route = createFileRoute('/_pages/edit/')({
                     args: {
                         content_type:
                             (content_type as EditContentType) || undefined,
-                        sort: [`${sort}:${order}`],
+                        sort: expandSort('edit', deps.sort, deps.order),
                         status: edit_status
                             ? (edit_status as EditStatusEnum)
                             : undefined,

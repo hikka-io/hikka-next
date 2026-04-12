@@ -102,10 +102,7 @@ const FilterPresetModal: FC<Props> = ({
 
         const sortRaw = search.sort;
         if (sortRaw !== undefined && sortRaw !== null) {
-            const sort = Array.isArray(sortRaw)
-                ? sortRaw.map(String)
-                : [String(sortRaw)];
-            if (sort.length > 0) currentFilters.sort = sort;
+            currentFilters.sort = String(sortRaw);
         }
 
         const order = search.order;

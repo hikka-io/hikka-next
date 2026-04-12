@@ -9,6 +9,7 @@ import {
 import { useSearchAnimes } from '@hikka/react';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { expandSort } from '@/features/filters/sort';
 
 import type { AnimeSearch } from '@/utils/search-schemas';
 import { getSeasonByOffset } from '@/utils/season';
@@ -30,20 +31,6 @@ export function buildAnimeSearchArgs(search: AnimeSearch) {
         ? (search.score as [number, number])
         : undefined;
     const only_translated = search.only_translated;
-    const sort = search.sort?.length ? search.sort : ['score'];
-    const order = search.order || 'desc';
-
-    const IMPLICIT_SECONDARY_SORTS: Record<string, string> = {
-        score: 'scored_by',
-        native_score: 'native_scored_by',
-    };
-
-    const expandedSort = sort.flatMap((field) => {
-        const secondary = IMPLICIT_SECONDARY_SORTS[field];
-        return secondary && !sort.includes(secondary)
-            ? [field, secondary]
-            : [field];
-    });
 
     const convertedYears =
         date_range && date_range.length === 2
@@ -65,9 +52,7 @@ export function buildAnimeSearchArgs(search: AnimeSearch) {
             studios,
             score,
             only_translated: Boolean(only_translated),
-            sort: expandedSort
-                ? expandedSort.map((item) => `${item}:${order}`)
-                : undefined,
+            sort: expandSort('anime', search.sort, search.order),
         },
         page: search.page || 1,
     };

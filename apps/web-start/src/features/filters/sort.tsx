@@ -32,14 +32,29 @@ export type SortType =
     | 'edit'
     | 'article';
 
-export const SHARED_SORT = [
+export interface SortOption {
+    label: string;
+    value: string;
+    /** Hidden fields auto-appended after this field in API calls. */
+    secondaryFields?: string[];
+}
+
+export interface SortConfig {
+    options: SortOption[];
+    defaultSort: string;
+    defaultOrder: 'asc' | 'desc';
+}
+
+const SHARED_SORT: SortOption[] = [
     {
         label: 'Оцінка MAL',
         value: 'score',
+        secondaryFields: ['scored_by'],
     },
     {
         label: 'Оцінка Hikka',
         value: 'native_score',
+        secondaryFields: ['native_scored_by'],
     },
     {
         label: 'Тип',
@@ -47,7 +62,7 @@ export const SHARED_SORT = [
     },
 ];
 
-export const SORT_CONTENT = [
+const SORT_CONTENT: SortOption[] = [
     ...SHARED_SORT,
     {
         label: 'Дата релізу',
@@ -59,7 +74,7 @@ export const SORT_CONTENT = [
     },
 ];
 
-export const SORT_WATCHLIST = [
+const SORT_WATCHLIST: SortOption[] = [
     ...SHARED_SORT,
     {
         label: 'Дата релізу',
@@ -79,7 +94,7 @@ export const SORT_WATCHLIST = [
     },
 ];
 
-export const SORT_READLIST = [
+const SORT_READLIST: SortOption[] = [
     ...SHARED_SORT,
     {
         label: 'Дата релізу',
@@ -103,7 +118,7 @@ export const SORT_READLIST = [
     },
 ];
 
-export const SORT_EDITLIST = [
+const SORT_EDITLIST: SortOption[] = [
     {
         label: 'Номер правки',
         value: 'edit_id',
@@ -114,7 +129,7 @@ export const SORT_EDITLIST = [
     },
 ];
 
-export const SORT_ARTICLELIST = [
+const SORT_ARTICLELIST: SortOption[] = [
     {
         label: 'Дата створення',
         value: 'created',
@@ -125,24 +140,78 @@ export const SORT_ARTICLELIST = [
     },
 ];
 
-export const getSort = (sort_type: SortType) => {
-    switch (sort_type) {
-        case 'anime':
-        case 'manga':
-        case 'novel':
-            return SORT_CONTENT;
-        case 'watch':
-            return SORT_WATCHLIST;
-        case 'read':
-            return SORT_READLIST;
-        case 'edit':
-            return SORT_EDITLIST;
-        case 'article':
-            return SORT_ARTICLELIST;
-        default:
-            return SORT_CONTENT;
-    }
+const SORT_CONFIGS: Record<SortType, SortConfig> = {
+    anime: {
+        options: SORT_CONTENT,
+        defaultSort: 'score',
+        defaultOrder: 'desc',
+    },
+    manga: {
+        options: SORT_CONTENT,
+        defaultSort: 'score',
+        defaultOrder: 'desc',
+    },
+    novel: {
+        options: SORT_CONTENT,
+        defaultSort: 'score',
+        defaultOrder: 'desc',
+    },
+    watch: {
+        options: SORT_WATCHLIST,
+        defaultSort: 'watch_score',
+        defaultOrder: 'desc',
+    },
+    read: {
+        options: SORT_READLIST,
+        defaultSort: 'read_score',
+        defaultOrder: 'desc',
+    },
+    edit: {
+        options: SORT_EDITLIST,
+        defaultSort: 'edit_id',
+        defaultOrder: 'desc',
+    },
+    article: {
+        options: SORT_ARTICLELIST,
+        defaultSort: 'created',
+        defaultOrder: 'desc',
+    },
 };
+
+export function getSort(sort_type: SortType): SortOption[] {
+    return SORT_CONFIGS[sort_type].options;
+}
+
+export function expandSort(
+    sortType: SortType,
+    sort?: string,
+    order?: 'asc' | 'desc',
+): string[] {
+    const config = SORT_CONFIGS[sortType];
+    const field = sort || config.defaultSort;
+    const dir = order ?? config.defaultOrder;
+
+    const option = config.options.find((o) => o.value === field);
+
+    const expanded = option?.secondaryFields
+        ? [field, ...option.secondaryFields]
+        : [field];
+
+    return expanded.map((f) => `${f}:${dir}`);
+}
+
+const ONGOINGS_SORT_FIELDS = [
+    'score',
+    'scored_by',
+    'native_score',
+    'native_scored_by',
+] as const;
+
+const ONGOINGS_SORT: string[] = ONGOINGS_SORT_FIELDS.map((f) => `${f}:desc`);
+
+export function getOngoingsSort(): string[] {
+    return ONGOINGS_SORT;
+}
 
 interface Props {
     className?: string;
@@ -158,9 +227,9 @@ const Sort: FC<Props> = ({
     placeholder,
     compact = false,
 }) => {
-    const { order, sort = [] } = useFilterSearch<{
+    const { order, sort } = useFilterSearch<{
         order?: string;
-        sort?: string[];
+        sort?: string;
     }>();
 
     const handleChangeParam = useChangeParam();
@@ -170,9 +239,10 @@ const Sort: FC<Props> = ({
             className={cn('flex', compact ? cn('w-auto', className) : 'gap-2')}
         >
             <Select
-                multiple
-                value={sort}
-                onValueChange={(value) => handleChangeParam('sort', value)}
+                value={sort ? [sort] : []}
+                onValueChange={(value) =>
+                    handleChangeParam('sort', value[0] ?? '')
+                }
             >
                 <SelectTrigger
                     size="md"
@@ -182,9 +252,6 @@ const Sort: FC<Props> = ({
                     )}
                 >
                     <SelectValue
-                        maxDisplay={1}
-                        maxItemLength={compact ? 10 : undefined}
-                        className={compact ? 'flex-nowrap!' : undefined}
                         placeholder={placeholder ?? 'Виберіть сортування...'}
                     />
                 </SelectTrigger>
@@ -243,7 +310,6 @@ export const FormSort: FC<Props & Partial<FormSelectProps>> = (props) => {
                     name="sort"
                     className="flex-1"
                     placeholder="Виберіть сортування..."
-                    multiple
                 >
                     <SelectContent>
                         <SelectList>

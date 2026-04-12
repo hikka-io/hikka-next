@@ -15,6 +15,7 @@ import Pagination from '@/components/ui/pagination';
 import Stack from '@/components/ui/stack';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { expandSort } from '@/features/filters/sort';
 
 import type { MangaSearch } from '@/utils/search-schemas';
 
@@ -36,8 +37,6 @@ const MangaList: FC<Props> = () => {
         ? (search.score as [number, number])
         : undefined;
     const only_translated = search.only_translated;
-    const sort = search.sort?.length ? search.sort : ['score'];
-    const order = search.order || 'desc';
     const page = search.page || 1;
 
     const args = {
@@ -48,7 +47,7 @@ const MangaList: FC<Props> = () => {
         genres: genres,
         score: score,
         only_translated: Boolean(only_translated),
-        sort: sort ? sort.map((item) => `${item}:${order}`) : undefined,
+        sort: expandSort('manga', search.sort, search.order),
     };
 
     const paginationArgs = {

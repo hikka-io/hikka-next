@@ -22,6 +22,7 @@ import { zodValidator } from '@tanstack/zod-adapter';
 
 import Block from '@/components/ui/block';
 
+import { expandSort } from '@/features/filters/sort';
 import { ReadFilters } from '@/features/read';
 import {
     Userlist,
@@ -55,10 +56,11 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
             });
         }
 
-        const order = deps.order || 'desc';
-        const sort = sortParam.length
-            ? sortParam.map((item) => `${item}:${order}`)
-            : undefined;
+        const sort = expandSort(
+            isAnime ? 'watch' : 'read',
+            sortParam,
+            deps.order,
+        );
 
         if (isAnime) {
             const media_type = (deps.types ?? []) as AnimeMediaEnum[];

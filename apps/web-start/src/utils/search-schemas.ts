@@ -24,7 +24,7 @@ const paginationSearch = {
 };
 
 const sortOrderSearch = {
-    sort: stringArray.optional().catch(undefined),
+    sort: z.string().optional().catch(undefined),
     order: z.enum(['asc', 'desc']).optional().catch(undefined),
 };
 

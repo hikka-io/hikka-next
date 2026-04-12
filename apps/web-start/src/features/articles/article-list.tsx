@@ -16,6 +16,7 @@ import { ArticleFiltersModal } from '@/features/articles';
 import ArticleItem from '@/features/articles/article-item/article-item';
 import ArticleItemSkeleton from '@/features/articles/article-item/article-item-skeleton';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { expandSort } from '@/features/filters/sort';
 
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
@@ -30,8 +31,6 @@ const ArticleList: FC<Props> = () => {
     const search = useFilterSearch<ArticlesSearch>();
 
     const author = search.author || undefined;
-    const sort = search.sort?.length ? search.sort : ['created'];
-    const order = search.order || 'desc';
     const tags = search.tags || undefined;
     const draft = Boolean(search.draft) ?? false;
     const categories = (search.categories as ArticleCategoryEnum[]) || [];
@@ -50,7 +49,7 @@ const ArticleList: FC<Props> = () => {
         args: {
             categories,
             author,
-            sort: sort.map((item) => `${item}:${order}`),
+            sort: expandSort('article', search.sort, search.order),
             tags,
             draft,
         },

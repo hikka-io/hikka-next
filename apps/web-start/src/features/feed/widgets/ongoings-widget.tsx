@@ -24,6 +24,8 @@ import NotFound from '@/components/ui/not-found';
 import { Skeleton } from '@/components/ui/skeleton';
 import Stack from '@/components/ui/stack';
 
+import { getOngoingsSort } from '@/features/filters/sort';
+
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
@@ -63,12 +65,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
             years: [year, year],
             genres: ['-ecchi', '-hentai'],
             status: [AnimeStatusEnum.ONGOING],
-            sort: [
-                'scored_by:desc',
-                'score:desc',
-                'native_scored_by:desc',
-                'native_score:desc',
-            ],
+            sort: getOngoingsSort(),
         },
         paginationArgs: {
             size: isCenter ? CENTER_SIZE : SIDEBAR_SIZE,
@@ -80,7 +77,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
         types: ['tv'],
         seasons: [currentSeason],
         years: [year, year],
-        sort: ['scored_by', 'score', 'native_scored_by', 'native_score'],
+        sort: 'score',
         order: 'desc',
     };
 
