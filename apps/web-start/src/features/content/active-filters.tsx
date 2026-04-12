@@ -154,7 +154,8 @@ export function useActiveFilters() {
         Object.entries(search).forEach(([key, rawValue]) => {
             const def = FILTER_REGISTRY[key];
 
-            if (!def || def.kind === 'ignored' || def.kind === 'subordinate') return;
+            if (!def || def.kind === 'ignored' || def.kind === 'subordinate')
+                return;
 
             switch (def.kind) {
                 case 'combined': {
@@ -301,8 +302,7 @@ const ActiveFilters: FC<Props> = ({ className }) => {
         >
             {filters.map((filter, idx) => {
                 const def = FILTER_REGISTRY[filter.param];
-                const isTriState =
-                    def && 'tristate' in def && def.tristate;
+                const isTriState = def && 'tristate' in def && def.tristate;
                 const variant = isTriState
                     ? filter.excluded
                         ? 'destructive'
@@ -313,7 +313,7 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                     <Badge
                         key={`${filter.param}-${filter.value}-${idx}`}
                         variant={variant}
-                        className="group h-7 gap-1.5 pr-1.5 pl-2.5"
+                        className="group h-6 gap-1.5 pr-1.5 pl-2.5"
                     >
                         {filter.icon && (
                             <filter.icon className="size-3 shrink-0" />
@@ -333,8 +333,8 @@ const ActiveFilters: FC<Props> = ({ className }) => {
             {filters.length > 1 && (
                 <Button
                     variant="ghost"
-                    size="sm"
-                    className="text-muted-foreground hover:text-foreground h-7 px-2"
+                    size="xs"
+                    className="text-muted-foreground hover:text-foreground"
                     onClick={clearAll}
                 >
                     Очистити все

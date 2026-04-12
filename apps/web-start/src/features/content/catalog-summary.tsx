@@ -22,7 +22,7 @@ const CatalogSummary: FC<Props> = ({ total, isLoading, className }) => {
     return (
         <div
             className={cn(
-                'flex flex-wrap items-center gap-x-4 gap-y-2',
+                'flex min-h-6 flex-wrap items-center gap-x-4 gap-y-2',
                 className,
             )}
         >

@@ -18,6 +18,12 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+
 import { cn } from '@/utils/cn';
 
 import useChangeParam from './hooks/use-change-param';
@@ -267,21 +273,33 @@ const Sort: FC<Props> = ({
                     </SelectList>
                 </SelectContent>
             </Select>
-            <Button
-                size="icon-md"
-                variant="outline"
-                className={cn(
-                    'shrink-0',
-                    compact && 'rounded-l-none border-l-0',
-                )}
-                onClick={() =>
-                    handleChangeParam('order', order === 'asc' ? 'desc' : 'asc')
-                }
-            >
-                <MaterialSymbolsSortRounded
-                    className={cn(order === 'asc' && '-scale-y-100')}
-                />
-            </Button>
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <Button
+                        size="icon-md"
+                        variant="outline"
+                        className={cn(
+                            'shrink-0',
+                            compact && 'rounded-l-none border-l-0',
+                        )}
+                        onClick={() =>
+                            handleChangeParam(
+                                'order',
+                                order === 'asc' ? 'desc' : 'asc',
+                            )
+                        }
+                    >
+                        <MaterialSymbolsSortRounded
+                            className={cn(order === 'asc' && '-scale-y-100')}
+                        />
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <p className="text-sm">
+                        {order === 'asc' ? 'За зростанням' : 'За спаданням'}
+                    </p>
+                </TooltipContent>
+            </Tooltip>
         </div>
     );
 
