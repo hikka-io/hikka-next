@@ -247,8 +247,8 @@ const Sort: FC<Props> = ({
                 <SelectTrigger
                     size="md"
                     className={cn(
-                        'min-w-0',
-                        compact ? 'w-40 rounded-r-none' : 'flex-1',
+                        'min-w-0 flex-1',
+                        compact && 'rounded-r-none',
                     )}
                 >
                     <SelectValue

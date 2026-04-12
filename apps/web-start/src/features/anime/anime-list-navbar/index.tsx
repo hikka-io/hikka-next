@@ -4,20 +4,15 @@ import { ContentTypeEnum } from '@hikka/client';
 import { Funnel, PanelRightClose, PanelRightOpen } from 'lucide-react';
 import { FC, Suspense, useState } from 'react';
 
-import MaterialSymbolsEventListRounded from '@/components/icons/material-symbols/MaterialSymbolsEventListRounded';
-import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
     Tooltip,
     TooltipContent,
-    TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { useCatalogView } from '@/features/anime/hooks/use-catalog-view';
 import {
     FilterPresetButton,
     FilterPresets,
@@ -32,7 +27,6 @@ import Search from './components/search';
 const AnimeListNavbar: FC = () => {
     const { visible: sidebarVisible, toggle: toggleSidebar } =
         useFiltersSidebar();
-    const { view, setView } = useCatalogView();
     const { count: activeCount } = useActiveFilters();
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
@@ -44,35 +38,14 @@ const AnimeListNavbar: FC = () => {
                         <Search />
                     </Suspense>
                 </div>
-                <Separator
-                    orientation="vertical"
-                    className="hidden h-6 md:block"
-                />
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4">
                     <Sort
                         sort_type="anime"
                         compact
-                        className="min-w-0 overflow-hidden"
+                        className="min-w-0 flex-1 overflow-hidden md:w-46"
                         placeholder="Сортування"
                     />
-
-                    <ToggleGroup
-                        className="shrink-0"
-                        variant="outline"
-                        type="single"
-                        value={view}
-                        onValueChange={(value) => {
-                            if (value) setView(value as Hikka.View);
-                        }}
-                    >
-                        <ToggleGroupItem value="grid" aria-label="Сітка">
-                            <MaterialSymbolsGridViewRounded />
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="list" aria-label="Список">
-                            <MaterialSymbolsEventListRounded />
-                        </ToggleGroupItem>
-                    </ToggleGroup>
 
                     <Separator orientation="vertical" className="h-6" />
 
@@ -100,7 +73,7 @@ const AnimeListNavbar: FC = () => {
                         <TooltipTrigger asChild>
                             <Button
                                 variant={sidebarVisible ? 'default' : 'outline'}
-                                size="md"
+                                size="icon-md"
                                 onClick={toggleSidebar}
                                 className="hidden shrink-0 lg:inline-flex"
                                 aria-label={
@@ -116,23 +89,23 @@ const AnimeListNavbar: FC = () => {
                                 )}
                             </Button>
                         </TooltipTrigger>
-                        <TooltipPortal>
-                            <TooltipContent>
-                                <p className="text-sm">
-                                    {sidebarVisible
-                                        ? 'Приховати панель фільтрів'
-                                        : 'Показати панель фільтрів'}
-                                </p>
-                            </TooltipContent>
-                        </TooltipPortal>
+                        <TooltipContent>
+                            <p className="text-sm">
+                                {sidebarVisible
+                                    ? 'Приховати панель фільтрів'
+                                    : 'Показати панель фільтрів'}
+                            </p>
+                        </TooltipContent>
                     </Tooltip>
                 </div>
             </div>
 
             <div className="flex items-center gap-4">
                 <FilterPresets content_type={ContentTypeEnum.ANIME} />
-                <Separator className="h-6" orientation="vertical" />
-                <FilterPresetButton />
+                <Separator orientation="vertical" className="h-6" />
+                <div className="flex items-center gap-2">
+                    <FilterPresetButton />
+                </div>
             </div>
 
             <AnimeFiltersModal
