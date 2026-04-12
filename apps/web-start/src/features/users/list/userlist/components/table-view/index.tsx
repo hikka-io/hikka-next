@@ -2,8 +2,7 @@
 
 import { ContentTypeEnum, ReadResponse, WatchResponse } from '@hikka/client';
 import { useRouter } from '@tanstack/react-router';
-import { useWindowVirtualizer } from '@tanstack/react-virtual';
-import { FC, Fragment, useRef } from 'react';
+import { FC, Fragment } from 'react';
 
 import {
     Table,
@@ -33,23 +32,22 @@ interface Props {
         | ContentTypeEnum.NOVEL;
 }
 
-const ROW_HEIGHT_ESTIMATE = 53;
-
 const TableView: FC<Props> = ({ data, content_type }) => {
     const search = useFilterSearch<{
         order?: string;
         sort?: string | string[];
     }>();
     const router = useRouter();
-    const tableBodyRef = useRef<HTMLTableSectionElement>(null);
 
     const order = search.order || null;
     const sortRaw = search.sort;
+    const defaultSort =
+        content_type === ContentTypeEnum.ANIME ? 'watch_score' : 'read_score';
     const sort = sortRaw
         ? Array.isArray(sortRaw)
             ? sortRaw
             : [sortRaw]
-        : ['watch_score'];
+        : [defaultSort];
 
     const switchSort = (
         newSort:
@@ -77,26 +75,6 @@ const TableView: FC<Props> = ({ data, content_type }) => {
             replace: true,
         } as any);
     };
-
-    const rowVirtualizer = useWindowVirtualizer({
-        count: data.length,
-        estimateSize: () => ROW_HEIGHT_ESTIMATE,
-        overscan: 10,
-        scrollMargin: tableBodyRef.current?.offsetTop ?? 0,
-    });
-
-    const virtualRows = rowVirtualizer.getVirtualItems();
-    const colCount = content_type === ContentTypeEnum.ANIME ? 5 : 6;
-
-    const paddingTop =
-        virtualRows.length > 0
-            ? virtualRows[0].start - (rowVirtualizer.options.scrollMargin ?? 0)
-            : 0;
-    const paddingBottom =
-        virtualRows.length > 0
-            ? rowVirtualizer.getTotalSize() -
-              virtualRows[virtualRows.length - 1].end
-            : 0;
 
     return (
         <Table className="table">
@@ -178,109 +156,66 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                     )}
                 </TableRow>
             </TableHeader>
-            <TableBody ref={tableBodyRef}>
-                {paddingTop > 0 && (
-                    <tr>
-                        <td
-                            colSpan={colCount}
-                            style={{
-                                height: paddingTop,
-                                padding: 0,
-                                border: 'none',
-                            }}
-                        />
-                    </tr>
-                )}
-                {virtualRows.map((virtualRow) => {
-                    const res = data[virtualRow.index];
-                    const i = virtualRow.index;
+            <TableBody>
+                {data.map((res, i) => {
+                    const isAnime = content_type === ContentTypeEnum.ANIME;
+                    const content = isAnime
+                        ? (res as WatchResponse).anime
+                        : (res as ReadResponse).content;
+                    const repeats = isAnime
+                        ? (res as WatchResponse).rewatches
+                        : (res as ReadResponse).rereads;
 
                     return (
-                        <TableRow
-                            key={res.reference}
-                            ref={rowVirtualizer.measureElement}
-                            data-index={virtualRow.index}
-                            className="group"
-                        >
-                            <NumberCell
-                                record={res}
-                                content_type={content_type}
-                                content={
-                                    content_type === ContentTypeEnum.ANIME
-                                        ? (res as WatchResponse).anime
-                                        : (res as ReadResponse).content
-                                }
-                                number={i + 1}
-                            />
-                            <DetailsCell
-                                note={res.note || undefined}
-                                content_type={content_type}
-                                content={
-                                    content_type === ContentTypeEnum.ANIME
-                                        ? (res as WatchResponse).anime
-                                        : (res as ReadResponse).content
-                                }
-                                repeats={
-                                    content_type === ContentTypeEnum.ANIME
-                                        ? (res as WatchResponse).rewatches
-                                        : (res as ReadResponse).rereads
-                                }
-                            />
-                            <ScoreCell score={res.score} />
-                            {content_type !== ContentTypeEnum.ANIME && (
-                                <Fragment>
-                                    <ChaptersCell
-                                        chapters={
-                                            (res as ReadResponse).chapters
-                                        }
-                                        total={
-                                            (res as ReadResponse).content
-                                                .chapters
-                                        }
-                                    />
-                                    <VolumesCell
-                                        volumes={(res as ReadResponse).volumes}
-                                        total={
-                                            (res as ReadResponse).content
-                                                .volumes
-                                        }
-                                    />
-                                </Fragment>
-                            )}
-                            {content_type === ContentTypeEnum.ANIME && (
-                                <Fragment>
-                                    <EpisodesCell
-                                        episodes={
-                                            (res as WatchResponse).episodes
-                                        }
-                                        total={
-                                            (res as WatchResponse).anime
-                                                .episodes_total
-                                        }
-                                    />
-                                    <MediaCell
-                                        media_type={
-                                            (res as WatchResponse).anime
-                                                .media_type
-                                        }
-                                    />
-                                </Fragment>
-                            )}
-                        </TableRow>
+                    <TableRow key={res.reference} className="group">
+                        <NumberCell
+                            record={res}
+                            content_type={content_type}
+                            content={content}
+                            number={i + 1}
+                        />
+                        <DetailsCell
+                            note={res.note || undefined}
+                            content_type={content_type}
+                            content={content}
+                            repeats={repeats}
+                        />
+                        <ScoreCell score={res.score} />
+                        {content_type !== ContentTypeEnum.ANIME && (
+                            <Fragment>
+                                <ChaptersCell
+                                    chapters={(res as ReadResponse).chapters}
+                                    total={
+                                        (res as ReadResponse).content.chapters
+                                    }
+                                />
+                                <VolumesCell
+                                    volumes={(res as ReadResponse).volumes}
+                                    total={
+                                        (res as ReadResponse).content.volumes
+                                    }
+                                />
+                            </Fragment>
+                        )}
+                        {content_type === ContentTypeEnum.ANIME && (
+                            <Fragment>
+                                <EpisodesCell
+                                    episodes={(res as WatchResponse).episodes}
+                                    total={
+                                        (res as WatchResponse).anime
+                                            .episodes_total
+                                    }
+                                />
+                                <MediaCell
+                                    media_type={
+                                        (res as WatchResponse).anime.media_type
+                                    }
+                                />
+                            </Fragment>
+                        )}
+                    </TableRow>
                     );
                 })}
-                {paddingBottom > 0 && (
-                    <tr>
-                        <td
-                            colSpan={colCount}
-                            style={{
-                                height: paddingBottom,
-                                padding: 0,
-                                border: 'none',
-                            }}
-                        />
-                    </tr>
-                )}
             </TableBody>
         </Table>
     );
