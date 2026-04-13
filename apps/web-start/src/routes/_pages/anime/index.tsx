@@ -6,10 +6,11 @@ import Block from '@/components/ui/block';
 import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
 
-import { AnimeList, AnimeListNavbar, AnimeListSummary } from '@/features/anime';
-import { useCatalogView } from '@/features/anime/hooks/use-catalog-view';
+import { AnimeList, AnimeListSummary } from '@/features/anime';
+import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
+import { CatalogNavbar } from '@/features/content';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
-import { AnimeFilters } from '@/features/watch';
+import { AnimeFilters, AnimeFiltersModal } from '@/features/watch';
 
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
@@ -54,7 +55,18 @@ function AnimeListPage() {
                 )}
             >
                 <div className="flex flex-col gap-4">
-                    <AnimeListNavbar />
+                    <CatalogNavbar
+                        sort_type="anime"
+                        content_type={ContentTypeEnum.ANIME}
+                        searchPlaceholder="Введіть назву аніме..."
+                        renderFilterModal={({ open, onOpenChange }) => (
+                            <AnimeFiltersModal
+                                open={open}
+                                onOpenChange={onOpenChange}
+                                sort_type="anime"
+                            />
+                        )}
+                    />
                     <AnimeListSummary pageSize={pageSize} />
                     <AnimeList
                         extendedSize={extendedSize}

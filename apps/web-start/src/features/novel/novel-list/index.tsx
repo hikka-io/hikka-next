@@ -1,7 +1,5 @@
 'use client';
 
-import { ContentStatusEnum, NovelMediaEnum } from '@hikka/client';
-import { useSearchNovels } from '@hikka/react';
 import { queryKeys, useQueryClient } from '@hikka/react/core';
 import { useRouter } from '@tanstack/react-router';
 import { FC } from 'react';
@@ -9,50 +7,21 @@ import { FC } from 'react';
 import NovelCard from '@/components/content-card/novel-card';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
-import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
-import Stack from '@/components/ui/stack';
-
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-import { expandSort } from '@/features/filters/sort';
-
-import type { NovelSearch } from '@/utils/search-schemas';
+import Stack, { StackSize } from '@/components/ui/stack';
 
 import NovelListSkeleton from './components/novel-list-skeleton';
+import { useNovelSearchQuery } from './use-novel-search-query';
 
-interface Props {}
+interface Props {
+    extendedSize?: StackSize;
+    pageSize?: number;
+}
 
-const NovelList: FC<Props> = () => {
+const NovelList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
     const queryClient = useQueryClient();
-    const search = useFilterSearch<NovelSearch>();
     const router = useRouter();
-
-    const query = search.search;
-    const media_type = (search.types ?? []) as NovelMediaEnum[];
-    const status = (search.statuses ?? []) as ContentStatusEnum[];
-    const years = (search.years ?? []) as [number | null, number | null];
-    const genres = search.genres ?? [];
-    const score = search.score?.length
-        ? (search.score as [number, number])
-        : undefined;
-    const only_translated = search.only_translated;
-    const page = search.page || 1;
-
-    const args = {
-        query: query || undefined,
-        media_type: media_type,
-        status: status,
-        years: years,
-        genres: genres,
-        score: score,
-        only_translated: Boolean(only_translated),
-        sort: expandSort('novel', search.sort, search.order),
-    };
-
-    const paginationArgs = {
-        page: page,
-    };
 
     const {
         fetchNextPage,
@@ -62,13 +31,9 @@ const NovelList: FC<Props> = () => {
         data,
         list,
         pagination,
-    } = useSearchNovels({
         args,
         paginationArgs,
-        options: {
-            initialPageParam: page,
-        },
-    });
+    } = useNovelSearchQuery(pageSize);
 
     const handlePageChange = (newPage: number) => {
         if (data && data?.pages.length > 1) {
@@ -86,12 +51,8 @@ const NovelList: FC<Props> = () => {
         } as any);
     };
 
-    const handleLoadMore = async () => {
-        await fetchNextPage();
-    };
-
     if (isLoading && !isFetchingNextPage) {
-        return <NovelListSkeleton />;
+        return <NovelListSkeleton extendedSize={extendedSize} />;
     }
 
     if (list === undefined || list.length === 0) {
@@ -99,8 +60,8 @@ const NovelList: FC<Props> = () => {
     }
 
     return (
-        <Block className="isolate">
-            <Stack extended={true} size={5} extendedSize={5}>
+        <div className="isolate flex flex-col gap-6">
+            <Stack extended size={5} extendedSize={extendedSize}>
                 {list.map((novel) => {
                     return <NovelCard key={novel.slug} novel={novel} />;
                 })}
@@ -108,7 +69,7 @@ const NovelList: FC<Props> = () => {
             {hasNextPage && (
                 <LoadMoreButton
                     isFetchingNextPage={isFetchingNextPage}
-                    fetchNextPage={handleLoadMore}
+                    fetchNextPage={fetchNextPage}
                 />
             )}
             {list && pagination && pagination.pages > 1 && (
@@ -122,7 +83,7 @@ const NovelList: FC<Props> = () => {
                     </Card>
                 </div>
             )}
-        </Block>
+        </div>
     );
 };
 

@@ -36,6 +36,7 @@ interface Props {
 
 const ToolsCombobox = ({ content_type }: Props) => {
     const [animeFiltersOpen, setAnimeFiltersOpen] = useState(false);
+    const [readFiltersOpen, setReadFiltersOpen] = useState(false);
     const search = useFilterSearch<{ status?: string }>();
     const params = useParams();
     const router = useRouter();
@@ -91,17 +92,15 @@ const ToolsCombobox = ({ content_type }: Props) => {
                     </span>
                 </DropdownMenuItem>
                 {content_type !== ContentTypeEnum.ANIME && (
-                    <ReadFiltersModal
-                        sort_type="read"
-                        content_type={content_type}
+                    <DropdownMenuItem
+                        className="flex lg:hidden"
+                        onSelect={(e) => {
+                            e.preventDefault();
+                            setReadFiltersOpen(true);
+                        }}
                     >
-                        <DropdownMenuItem
-                            className="flex lg:hidden"
-                            onSelect={(e) => e.preventDefault()}
-                        >
-                            <AntDesignFilterFilled className="size-4" /> Фільтри
-                        </DropdownMenuItem>
-                    </ReadFiltersModal>
+                        <AntDesignFilterFilled className="size-4" /> Фільтри
+                    </DropdownMenuItem>
                 )}
                 {content_type === ContentTypeEnum.ANIME && (
                     <DropdownMenuItem
@@ -115,6 +114,14 @@ const ToolsCombobox = ({ content_type }: Props) => {
                     </DropdownMenuItem>
                 )}
             </DropdownMenuContent>
+            {content_type !== ContentTypeEnum.ANIME && (
+                <ReadFiltersModal
+                    open={readFiltersOpen}
+                    onOpenChange={setReadFiltersOpen}
+                    sort_type="read"
+                    content_type={content_type}
+                />
+            )}
             {content_type === ContentTypeEnum.ANIME && (
                 <AnimeFiltersModal
                     open={animeFiltersOpen}

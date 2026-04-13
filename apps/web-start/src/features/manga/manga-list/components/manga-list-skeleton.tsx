@@ -1,14 +1,20 @@
 import { range } from '@antfu/utils';
+import { FC } from 'react';
 
 import SkeletonCard from '@/components/content-card/content-card-skeleton';
+import Stack, { StackSize } from '@/components/ui/stack';
 
-const MangaListSkeleton = () => {
+interface Props {
+    extendedSize?: StackSize;
+}
+
+const MangaListSkeleton: FC<Props> = ({ extendedSize = 5 }) => {
     return (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
+        <Stack extended size={5} extendedSize={extendedSize}>
             {range(1, 20).map((v) => (
                 <SkeletonCard key={v} />
             ))}
-        </div>
+        </Stack>
     );
 };
 

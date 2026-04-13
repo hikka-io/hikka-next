@@ -138,7 +138,7 @@ export const AnimeFiltersFooter: FC<FooterProps> = ({ className }) => {
         }
 
         const sort = search.sort;
-        if (Array.isArray(sort) && sort.length > 0) next.sort = sort;
+        if (typeof sort === 'string' && sort) next.sort = sort;
 
         const order = search.order;
         if (order) next.order = order as string;

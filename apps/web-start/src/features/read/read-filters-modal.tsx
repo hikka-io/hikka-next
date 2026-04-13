@@ -1,46 +1,51 @@
+'use client';
+
 import { ReadContentType } from '@hikka/client';
-import { ReactNode } from 'react';
+import { FC } from 'react';
 
-import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
-import { Button } from '@/components/ui/button';
 import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from '@/components/ui/sheet';
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalFooter,
+} from '@/components/ui/responsive-modal';
 
-import { ReadFilters } from '@/features/read';
+import { ReadFiltersBody, ReadFiltersFooter } from '@/features/read/read-filters';
 
 interface Props {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
     content_type: ReadContentType;
     sort_type: 'manga' | 'novel' | 'read';
-    children?: ReactNode;
 }
 
-const ReadFiltersModal = ({ sort_type, content_type, children }: Props) => {
+/**
+ * Controlled modal wrapper for the read filters. Responsive: Dialog on
+ * desktop, Drawer on mobile (via ResponsiveModal).
+ */
+const ReadFiltersModal: FC<Props> = ({
+    open,
+    onOpenChange,
+    content_type,
+    sort_type,
+}) => {
     return (
-        <Sheet>
-            <SheetTrigger asChild>
-                {children || (
-                    <Button variant="outline" size="sm">
-                        <AntDesignFilterFilled />
-                        Фільтри
-                    </Button>
-                )}
-            </SheetTrigger>
-            <SheetContent>
-                <SheetHeader>
-                    <SheetTitle>Фільтри</SheetTitle>
-                </SheetHeader>
-                <ReadFilters
+        <ResponsiveModal
+            type="sheet"
+            forceDesktop
+            open={open}
+            onOpenChange={onOpenChange}
+        >
+            <ResponsiveModalContent className="md:max-w-xl" title="Фільтри">
+                <ReadFiltersBody
+                    className="-m-4 flex-1 overflow-hidden overflow-y-auto p-4"
                     content_type={content_type}
                     sort_type={sort_type}
-                    className="overflow-hidden"
                 />
-            </SheetContent>
-        </Sheet>
+                <ResponsiveModalFooter>
+                    <ReadFiltersFooter className="w-full" />
+                </ResponsiveModalFooter>
+            </ResponsiveModalContent>
+        </ResponsiveModal>
     );
 };
 
