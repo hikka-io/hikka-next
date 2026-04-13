@@ -329,6 +329,7 @@ const selectTriggerSizeClasses: Record<
     string
 > = {
     default: 'min-h-12',
+    xs: 'min-h-6',
     sm: 'min-h-8',
     md: 'min-h-10',
     lg: 'min-h-13',

@@ -2,7 +2,8 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { upsertLink } from '@platejs/link';
-import { type BaseRange, KEYS } from 'platejs';
+import { KEYS } from 'platejs';
+import type { BaseRange } from 'slate';
 import type { PlateEditor } from 'platejs/react';
 import { useEditorRef } from 'platejs/react';
 import React, {

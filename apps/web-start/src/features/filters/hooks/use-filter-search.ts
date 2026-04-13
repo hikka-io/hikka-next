@@ -10,9 +10,8 @@ export function useFilterSearch<
     T extends Record<string, unknown> = Record<string, unknown>,
 >(): T {
     return useRouterState({
-        select: (state) =>
-            (state.resolvedLocation ?? state.location).search as T,
-    });
+        select: (state) => (state.resolvedLocation ?? state.location).search,
+    }) as unknown as T;
 }
 
 export default useFilterSearch;
