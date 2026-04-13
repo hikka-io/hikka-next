@@ -71,7 +71,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [updatedRead, setUpdatedRead] = useState<ReadArgs | null>(null);
 
-    const { list } = useSearchUserReads({
+    const { list, ref, isFetchingNextPage } = useSearchUserReads({
         contentType,
         username: String(loggedUser?.username),
         args: {
@@ -211,6 +211,11 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             </TooltipContent>
                         </Tooltip>
                     ))}
+                    <div ref={ref} className="flex items-center justify-center">
+                        {isFetchingNextPage && (
+                            <span className="loading loading-spinner" />
+                        )}
+                    </div>
                 </Stack>
 
                 {selectedRead && (

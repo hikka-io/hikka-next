@@ -54,7 +54,7 @@ const WatchingTracker = () => {
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
 
-    const { list } = useSearchUserWatches({
+    const { list, ref, isFetchingNextPage } = useSearchUserWatches({
         username: String(loggedUser?.username),
         args: {
             watch_status: WatchStatusEnum.WATCHING,
@@ -193,6 +193,11 @@ const WatchingTracker = () => {
                             </TooltipContent>
                         </Tooltip>
                     ))}
+                    <div ref={ref} className="flex items-center justify-center">
+                        {isFetchingNextPage && (
+                            <span className="loading loading-spinner" />
+                        )}
+                    </div>
                 </Stack>
 
                 {selectedWatch && (
