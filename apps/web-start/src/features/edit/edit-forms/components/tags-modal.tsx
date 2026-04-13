@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { FC } from 'react';
-import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
@@ -13,12 +12,12 @@ import { Input } from '@/components/ui/input';
 import { useSettingsStore } from '@/services/stores/settings-store';
 
 interface Props {
-    setValue: UseFormSetValue<any>;
-    getValues: UseFormGetValues<any>;
+    setFieldValue: (name: string, value: string) => void;
+    getFieldValue: (name: string) => string;
     onClose?: () => void;
 }
 
-const TagsModal: FC<Props> = ({ setValue, getValues, onClose }) => {
+const TagsModal: FC<Props> = ({ setFieldValue, getFieldValue, onClose }) => {
     const [newTag, setNewTag] = React.useState('');
     const settings = useSettingsStore();
 
@@ -28,11 +27,12 @@ const TagsModal: FC<Props> = ({ setValue, getValues, onClose }) => {
     };
 
     const handleSetTag = (tag: string) => {
-        setValue(
+        const current = getFieldValue('description');
+        setFieldValue(
             'description',
-            getValues('description') === ''
+            current === ''
                 ? tag
-                : getValues('description') +
+                : current +
                       (tag.split(' ')[0] == '---' ? ' ' : ', ') +
                       tag.toLowerCase(),
         );

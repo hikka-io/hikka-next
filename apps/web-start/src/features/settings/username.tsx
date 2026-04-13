@@ -1,13 +1,10 @@
 'use client';
 
 import { useChangeUsername } from '@hikka/react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import FormInput from '@/components/form/form-input';
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 
 import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
@@ -19,51 +16,59 @@ const formSchema = z.object({
 const Component = () => {
     const router = useRouter();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-    });
-
     const mutationChangeUsername = useChangeUsername({
         options: {
             onSuccess: async () => {
-                router.push('/u/' + form.getValues().username);
+                router.push('/u/' + form.getFieldValue('username'));
                 toast.success('Ви успішно змінили імʼя користвача.');
             },
         },
     });
 
-    const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-        mutationChangeUsername.mutate({
-            username: data.username,
-        });
-    };
+    const form = useAppForm({
+        defaultValues: {
+            username: '',
+        },
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            mutationChangeUsername.mutate({
+                username: value.username,
+            });
+        },
+    });
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(handleFormSubmit)}
-                className="flex flex-col items-start gap-6"
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+            className="flex flex-col items-start gap-6"
+        >
+            <form.AppField
+                name="username"
+                children={(field) => (
+                    <field.TextField
+                        type="text"
+                        label="Нове ім'я користувача"
+                        placeholder="Введіть нове імʼя"
+                        className="w-full"
+                    />
+                )}
+            />
+            <Button
+                size="md"
+                disabled={mutationChangeUsername.isPending}
+                variant="default"
+                type="submit"
             >
-                <FormInput
-                    name="username"
-                    type="text"
-                    label="Нове ім’я користувача"
-                    placeholder="Введіть нове імʼя"
-                    className="w-full"
-                />
-                <Button
-                    size="md"
-                    disabled={mutationChangeUsername.isPending}
-                    variant="default"
-                    type="submit"
-                >
-                    {mutationChangeUsername.isPending && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Зберегти
-                </Button>
-            </form>
-        </Form>
+                {mutationChangeUsername.isPending && (
+                    <span className="loading loading-spinner"></span>
+                )}
+                Зберегти
+            </Button>
+        </form>
     );
 };
 

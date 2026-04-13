@@ -3,8 +3,8 @@
 import { useEdit, useUpdateEdit } from '@hikka/react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { FC, useRef } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
 
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 
 import { useRouter } from '@/utils/navigation';
@@ -18,11 +18,6 @@ import {
     getEditParams,
     getFilteredEditParams,
 } from './utils/edit-param-utils';
-
-type FormValues = Record<string, unknown> & {
-    description: string;
-    auto?: boolean;
-};
 
 interface Props {
     mode?: 'view' | 'edit' | 'update';
@@ -40,18 +35,6 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
     const groups = getEditGroups(edit!.content_type)!;
     const paramSlugs = getEditParamSlugs(params);
 
-    const form = useForm<FormValues>({
-        values: {
-            description: edit!.description || '',
-            ...edit!.after,
-            synonyms:
-                edit!.after?.synonyms?.map((v: string) => ({
-                    value: v,
-                })) || [],
-            auto: false,
-        },
-    });
-
     const onDismiss = async () => {
         form.reset();
 
@@ -64,24 +47,42 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
         },
     });
 
-    const onSubmit = async (data: FormValues) => {
-        mutationUpdateEdit.mutate({
-            editId: edit!.edit_id,
-            edit: {
-                after: {
-                    ...getFilteredEditParams(paramSlugs, data),
-                },
-                description: data.description,
+    const form = useAppForm({
+        defaultValues: {
+            description: edit!.description || '',
+            ...edit!.after,
+            synonyms:
+                edit!.after?.synonyms?.map((v: string) => ({
+                    value: v,
+                })) || [],
+            auto: false,
+        } as Record<string, unknown> & {
+            description: string;
+            auto: boolean;
+        },
+        onSubmit: async ({ value }) => {
+            mutationUpdateEdit.mutate({
+                editId: edit!.edit_id,
+                edit: {
+                    after: {
+                        ...getFilteredEditParams(paramSlugs, value),
+                    },
+                    description: (value as any).description,
 
-                auto: data.auto || false,
-            },
-        });
-    };
+                    auto: (value as any).auto || false,
+                },
+            });
+        },
+    });
 
     return (
-        <FormProvider {...form}>
+        <form.AppForm>
             <form
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    form.handleSubmit();
+                }}
                 className="flex flex-col gap-6"
             >
                 <div className="flex w-full flex-col gap-6">
@@ -106,7 +107,6 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
                             <div className="flex items-center gap-2">
                                 <Button
                                     disabled={mutationUpdateEdit.isPending}
-                                    onClick={form.handleSubmit(onSubmit)}
                                     type="submit"
                                     className="w-fit"
                                 >
@@ -115,15 +115,12 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
                                     )}
                                     Оновити
                                 </Button>
-                                <AutoButton
-                                    onSubmit={onSubmit}
-                                    handleSubmit={form.handleSubmit}
-                                />
+                                <AutoButton />
                             </div>
                         </div>
                     ))}
             </form>
-        </FormProvider>
+        </form.AppForm>
     );
 };
 

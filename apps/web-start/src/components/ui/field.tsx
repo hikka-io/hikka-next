@@ -53,7 +53,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 const fieldVariants = cva(
-    'group/field flex w-full gap-2 data-[invalid=true]:text-destructive',
+    'group/field flex w-full gap-2 data-[invalid=true]:text-destructive-foreground',
     {
         variants: {
             orientation: {
@@ -217,7 +217,10 @@ function FieldError({
         <div
             role="alert"
             data-slot="field-error"
-            className={cn('text-destructive text-sm font-normal', className)}
+            className={cn(
+                'text-destructive-foreground text-sm font-normal',
+                className,
+            )}
             {...props}
         >
             {content}

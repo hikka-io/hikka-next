@@ -3,9 +3,11 @@
 import { SunSnow } from 'lucide-react';
 import { FC } from 'react';
 
-import FormBadgeFilter, {
-    FormBadgeFilterProps,
+import {
+    BadgeFilterField,
+    BadgeFilterFieldProps,
 } from '@/components/form/form-badge-filter';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 
@@ -46,16 +48,21 @@ const Season: FC<Props> = () => {
     );
 };
 
-export const FormSeason: FC<Props & Partial<FormBadgeFilterProps>> = (
+export const FormSeason: FC<Props & Partial<BadgeFilterFieldProps>> = (
     props,
 ) => {
+    const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
-        <FormBadgeFilter
-            {...props}
-            name="seasons"
-            properties={SEASON}
-            property="seasons"
-            label="Сезон"
+        <form.AppField
+            name={"seasons" as never}
+            children={() => (
+                <BadgeFilterField
+                    {...props}
+                    properties={SEASON}
+                    property="seasons"
+                    label="Сезон"
+                />
+            )}
         />
     );
 };

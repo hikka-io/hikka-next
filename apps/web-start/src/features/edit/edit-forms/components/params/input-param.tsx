@@ -3,8 +3,8 @@
 import { useEdit } from '@hikka/react';
 import * as React from 'react';
 import { FC } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
 
+import { useFormContext } from '@/components/form/form-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,7 +17,8 @@ interface Props {
 }
 
 const InputParam: FC<Props> = ({ mode, param }) => {
-    const { control } = useFormContext();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const form = useFormContext() as any;
     const params = useParams();
     const [showDiff, setShowDiff] = React.useState(false);
     const { data: edit } = useEdit({
@@ -42,18 +43,17 @@ const InputParam: FC<Props> = ({ mode, param }) => {
                 )}
             </div>
 
-            <Controller
-                control={control}
+            <form.Field
                 name={param.slug}
-                render={({ field: { onChange, onBlur, ref, value } }) => (
+                children={(field: any) => (
                     <Input
                         disabled={mode === 'view'}
                         type="text"
                         placeholder={param.placeholder}
                         className="w-full disabled:cursor-text disabled:opacity-100"
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        value={value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        onBlur={field.handleBlur}
+                        value={field.state.value as string}
                     />
                 )}
             />

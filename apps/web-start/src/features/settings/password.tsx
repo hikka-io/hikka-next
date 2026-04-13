@@ -1,13 +1,10 @@
 'use client';
 
 import { useChangePassword } from '@hikka/react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import FormInput from '@/components/form/form-input';
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 
 import { z } from '@/utils/i18n/zod';
 
@@ -22,10 +19,6 @@ const formSchema = z
     });
 
 const Component = () => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-    });
-
     const mutationChangePassword = useChangePassword({
         options: {
             onSuccess: async () => {
@@ -34,45 +27,62 @@ const Component = () => {
         },
     });
 
-    const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-        mutationChangePassword.mutate({
-            password: data.password,
-        });
-    };
+    const form = useAppForm({
+        defaultValues: {
+            password: '',
+            passwordConfirmation: '',
+        },
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            mutationChangePassword.mutate({
+                password: value.password,
+            });
+        },
+    });
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(handleFormSubmit)}
-                className="flex flex-col items-start gap-6"
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+            className="flex flex-col items-start gap-6"
+        >
+            <form.AppField
+                name="password"
+                children={(field) => (
+                    <field.TextField
+                        type="password"
+                        placeholder="Введіть новий пароль"
+                        label="Новий пароль"
+                        className="w-full"
+                    />
+                )}
+            />
+            <form.AppField
+                name="passwordConfirmation"
+                children={(field) => (
+                    <field.TextField
+                        type="password"
+                        placeholder="Підтвердіть новий пароль"
+                        label="Підтвердити пароль"
+                        className="w-full"
+                    />
+                )}
+            />
+            <Button
+                size="md"
+                disabled={mutationChangePassword.isPending}
+                variant="default"
+                type="submit"
             >
-                <FormInput
-                    name="password"
-                    type="password"
-                    placeholder="Введіть новий пароль"
-                    label="Новий пароль"
-                    className="w-full"
-                />
-                <FormInput
-                    name="passwordConfirmation"
-                    type="password"
-                    placeholder="Підтвердіть новий пароль"
-                    label="Підтвердити пароль"
-                    className="w-full"
-                />
-                <Button
-                    size="md"
-                    disabled={mutationChangePassword.isPending}
-                    variant="default"
-                    type="submit"
-                >
-                    {mutationChangePassword.isPending && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Зберегти
-                </Button>
-            </form>
-        </Form>
+                {mutationChangePassword.isPending && (
+                    <span className="loading loading-spinner"></span>
+                )}
+                Зберегти
+            </Button>
+        </form>
     );
 };
 

@@ -1,6 +1,5 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { upsertLink } from '@platejs/link';
 import { KEYS } from 'platejs';
 import type { BaseRange } from 'slate';
@@ -14,11 +13,9 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import { useForm } from 'react-hook-form';
 
-import FormInput from '@/components/form/form-input';
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
@@ -143,23 +140,41 @@ const LinkDialogForm: FC<LinkDialogFormProps> = ({
     onSubmit,
     onClose,
 }) => {
-    const form = useForm<FormValues>({
-        resolver: zodResolver(formSchema),
+    const form = useAppForm({
         defaultValues,
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            onSubmit(value);
+        },
     });
 
     return (
-        <Form {...form}>
+        <form
+            className="contents"
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+        >
             <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-                <FormInput
+                <form.AppField
                     name="url"
-                    label="Посилання"
-                    placeholder="https://example.com"
+                    children={(field) => (
+                        <field.TextField
+                            label="Посилання"
+                            placeholder="https://example.com"
+                        />
+                    )}
                 />
-                <FormInput
+                <form.AppField
                     name="text"
-                    label="Текст відображення"
-                    placeholder="Введіть текст"
+                    children={(field) => (
+                        <field.TextField
+                            label="Текст відображення"
+                            placeholder="Введіть текст"
+                        />
+                    )}
                 />
             </div>
             <ResponsiveModalFooter>
@@ -171,15 +186,11 @@ const LinkDialogForm: FC<LinkDialogFormProps> = ({
                 >
                     Скасувати
                 </Button>
-                <Button
-                    onClick={form.handleSubmit(onSubmit)}
-                    type="submit"
-                    size="md"
-                >
+                <Button type="submit" size="md">
                     Прийняти
                 </Button>
             </ResponsiveModalFooter>
-        </Form>
+        </form>
     );
 };
 

@@ -1,9 +1,9 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useFormContext } from 'react-hook-form';
 
-import FormSelect from '@/components/form/form-select';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
+import { SelectField } from '@/components/form/form-select';
 import {
     SelectContent,
     SelectGroup,
@@ -26,52 +26,49 @@ const FILTER_PRESET_CONTENT_TYPES: FilterPresetContentType[] = [
 
 const ContentTypeSelect = ({
     disabled,
-    defaultValues,
 }: {
     disabled?: boolean;
-    defaultValues: Record<string, any>;
 }) => {
-    const { reset } = useFormContext();
+    const form = useTypedAppFormContext({ defaultValues: {} as never });
 
-    const handleResetForm = (value: string) => {
-        setTimeout(
-            () =>
-                reset((values) => ({
-                    ...defaultValues,
-                    content_types: values.content_types,
-                    name: values.name,
-                    description: values.description,
-                })),
-            0,
-        );
+    const handleResetForm = () => {
+        setTimeout(() => {
+            const contentTypes = form.getFieldValue('content_types' as never);
+            const name = form.getFieldValue('name' as never);
+            const description = form.getFieldValue('description' as never);
+            form.reset();
+            form.setFieldValue('content_types' as never, contentTypes as never);
+            form.setFieldValue('name' as never, name as never);
+            form.setFieldValue('description' as never, description as never);
+        }, 0);
     };
 
     return (
-        <FormSelect
-            name="content_types"
-            label="Тип контенту"
-            placeholder="Виберіть тип контенту"
-            multiple
-            disabled={disabled}
-            onDeselect={handleResetForm}
-            onSelect={handleResetForm}
-            options={FILTER_PRESET_CONTENT_TYPES.map((contentType) => ({
-                label: CONTENT_TYPES[contentType].title_ua,
-                value: contentType,
-            }))}
-        >
-            <SelectContent>
-                <SelectList>
-                    <SelectGroup>
-                        {FILTER_PRESET_CONTENT_TYPES.map((contentType) => (
-                            <SelectItem key={contentType} value={contentType}>
-                                {CONTENT_TYPES[contentType].title_ua}
-                            </SelectItem>
-                        ))}
-                    </SelectGroup>
-                </SelectList>
-            </SelectContent>
-        </FormSelect>
+        <form.AppField
+            name={"content_types" as never}
+            children={() => (
+                <SelectField
+                    label="Тип контенту"
+                    placeholder="Виберіть тип контенту"
+                    multiple
+                    disabled={disabled}
+                    onDeselect={handleResetForm}
+                    onSelect={handleResetForm}
+                >
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                {FILTER_PRESET_CONTENT_TYPES.map((contentType) => (
+                                    <SelectItem key={contentType} value={contentType}>
+                                        {CONTENT_TYPES[contentType].title_ua}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectList>
+                    </SelectContent>
+                </SelectField>
+            )}
+        />
     );
 };
 

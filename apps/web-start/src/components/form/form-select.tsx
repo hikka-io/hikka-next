@@ -1,12 +1,7 @@
+import { useStore } from '@tanstack/react-form';
 import { FC, ReactNode, memo, useMemo } from 'react';
 
-import {
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import {
     Select,
     SelectProps,
@@ -14,9 +9,11 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-export interface FormSelectProps
+import { useFieldContext } from './form-context';
+
+
+export interface SelectFieldProps
     extends Omit<SelectProps, 'value' | 'onValueChange'> {
-    name: string;
     label?: string;
     description?: string;
     placeholder?: string;
@@ -24,8 +21,7 @@ export interface FormSelectProps
     children?: ReactNode;
 }
 
-const FormSelect: FC<FormSelectProps> = ({
-    name,
+const SelectFieldInner: FC<SelectFieldProps> = ({
     label,
     description,
     placeholder,
@@ -34,54 +30,52 @@ const FormSelect: FC<FormSelectProps> = ({
     multiple,
     ...props
 }) => {
+    const field = useFieldContext<string | string[] | null>();
+    const errors = useStore(field.store, (state) => state.meta.errors);
+    const isInvalid = errors.length > 0;
+
+    const selectValue = useMemo(() => {
+        const fieldValue = field.state.value;
+        if (fieldValue === undefined || fieldValue === null) {
+            return [];
+        }
+        return Array.isArray(fieldValue)
+            ? fieldValue
+            : [fieldValue];
+    }, [field.state.value]);
+
+    const handleValueChange = (newValue: string[]) => {
+        field.handleChange(multiple ? newValue : (newValue[0] ?? null));
+    };
+
     return (
-        <FormField
-            name={name}
-            render={({ field }) => {
-                const { value: fieldValue, onChange } = field;
+        <Field data-invalid={isInvalid} className={className}>
+            {label && (
+                <div className="flex flex-nowrap items-center justify-between">
+                    <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+                </div>
+            )}
 
-                const selectValue = useMemo(() => {
-                    if (fieldValue === undefined || fieldValue === null) {
-                        return [];
-                    }
-                    return Array.isArray(fieldValue)
-                        ? fieldValue
-                        : [fieldValue];
-                }, [fieldValue]);
+            <Select
+                value={selectValue}
+                onValueChange={handleValueChange}
+                multiple={multiple}
+                {...props}
+            >
+                <SelectTrigger aria-invalid={isInvalid}>
+                    <SelectValue placeholder={placeholder} />
+                </SelectTrigger>
+                {children}
+            </Select>
 
-                const handleValueChange = (newValue: string[]) => {
-                    onChange(multiple ? newValue : (newValue[0] ?? null));
-                };
-
-                return (
-                    <FormItem className={className}>
-                        {label && (
-                            <div className="flex flex-nowrap items-center justify-between">
-                                <FormLabel>{label}</FormLabel>
-                            </div>
-                        )}
-
-                        <Select
-                            value={selectValue}
-                            onValueChange={handleValueChange}
-                            multiple={multiple}
-                            {...props}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder={placeholder} />
-                            </SelectTrigger>
-                            {children}
-                        </Select>
-
-                        {description && (
-                            <FormDescription>{description}</FormDescription>
-                        )}
-                        <FormMessage />
-                    </FormItem>
-                );
-            }}
-        />
+            {description && (
+                <FieldDescription>{description}</FieldDescription>
+            )}
+            <FieldError errors={errors} />
+        </Field>
     );
 };
 
-export default memo(FormSelect);
+export const SelectField = memo(SelectFieldInner);
+
+export default SelectField;

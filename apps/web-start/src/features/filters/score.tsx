@@ -3,7 +3,8 @@
 import { Star } from 'lucide-react';
 import { FC, useEffect, useState } from 'react';
 
-import FormSlider, { FormSliderProps } from '@/components/form/form-slider';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
+import { SliderFieldProps, SliderField } from '@/components/form/form-slider';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
@@ -67,10 +68,11 @@ const Score: FC<Props> = ({ score_type }) => {
     );
 };
 
-export const FormScore: FC<Props & Partial<FormSliderProps>> = ({
+export const FormScore: FC<Props & Partial<SliderFieldProps>> = ({
     score_type,
     ...props
 }) => {
+    const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
         <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
@@ -78,21 +80,25 @@ export const FormScore: FC<Props & Partial<FormSliderProps>> = ({
             </div>
 
             <div className="flex items-center gap-2">
-                <FormSlider
-                    {...props}
-                    name={score_type}
-                    min={DEFAULT_SCORE_MIN}
-                    max={DEFAULT_SCORE_MAX}
-                    step={1}
-                    showValue="always"
-                    formatValue={(value) => (
-                        <div className="flex items-center gap-1">
-                            {value}{' '}
-                            <MaterialSymbolsStarRounded className="size-3" />
-                        </div>
+                <form.AppField
+                    name={score_type as never}
+                    children={() => (
+                        <SliderField
+                            {...props}
+                            min={DEFAULT_SCORE_MIN}
+                            max={DEFAULT_SCORE_MAX}
+                            step={1}
+                            showValue="always"
+                            formatValue={(value) => (
+                                <div className="flex items-center gap-1">
+                                    {value}{' '}
+                                    <MaterialSymbolsStarRounded className="size-3" />
+                                </div>
+                            )}
+                            minStepsBetweenThumbs={0}
+                            className="flex-1"
+                        />
                     )}
-                    minStepsBetweenThumbs={0}
-                    className="flex-1"
                 />
             </div>
         </div>

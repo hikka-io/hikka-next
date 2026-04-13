@@ -1,21 +1,14 @@
 'use client';
 
 import { useCreateUser, useHikkaClient } from '@hikka/react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { Eye, EyeOff } from 'lucide-react';
 import { useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-} from '@/components/ui/form';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
 import { OAuthLogin } from '@/features/auth';
@@ -44,16 +37,6 @@ const SignupForm = () => {
     const [showPasswordConfirmation, setShowPasswordConfirmation] =
         useState(false);
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            email: '',
-            password: '',
-            username: '',
-            passwordConfirmation: '',
-        },
-    });
-
     const mutationSignup = useCreateUser({
         options: {
             onSuccess: async (data) => {
@@ -65,7 +48,7 @@ const SignupForm = () => {
                 toast.success(
                     <span>
                         <span className="font-bold">
-                            {form.getValues('username')}
+                            {form.getFieldValue('username')}
                         </span>
                         , Ви успішно зареєструвались.
                     </span>,
@@ -80,165 +63,188 @@ const SignupForm = () => {
         },
     });
 
-    const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-        mutationSignup.mutate({
-            args: {
-                email: data.email,
-                password: data.password,
-                username: data.username,
-            },
-            captcha: {
-                captcha: String(captchaRef.current?.getResponse()),
-            },
-        });
-    };
+    const form = useAppForm({
+        defaultValues: {
+            email: '',
+            password: '',
+            username: '',
+            passwordConfirmation: '',
+        },
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            mutationSignup.mutate({
+                args: {
+                    email: value.email,
+                    password: value.password,
+                    username: value.username,
+                },
+                captcha: {
+                    captcha: String(captchaRef.current?.getResponse()),
+                },
+            });
+        },
+    });
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(handleFormSubmit)}
-                className="space-y-4"
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+            className="space-y-4"
+        >
+            <form.Field
+                name="username"
+                children={(field) => (
+                    <Field>
+                        <FieldLabel htmlFor={field.name}>
+                            Ім&apos;я користувача (нікнейм)
+                        </FieldLabel>
+                        <Input
+                            id={field.name}
+                            type="text"
+                            placeholder="Введіть Ваше ім'я"
+                            value={field.state.value}
+                            onBlur={field.handleBlur}
+                            onChange={(e) =>
+                                field.handleChange(e.target.value)
+                            }
+                        />
+                        <FieldError errors={field.state.meta.errors} />
+                    </Field>
+                )}
+            />
+
+            <form.Field
+                name="email"
+                children={(field) => (
+                    <Field>
+                        <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                        <Input
+                            id={field.name}
+                            type="email"
+                            placeholder="Введіть ваш email"
+                            value={field.state.value}
+                            onBlur={field.handleBlur}
+                            onChange={(e) =>
+                                field.handleChange(e.target.value)
+                            }
+                        />
+                        <FieldError errors={field.state.meta.errors} />
+                    </Field>
+                )}
+            />
+
+            <form.Field
+                name="password"
+                children={(field) => (
+                    <Field>
+                        <FieldLabel htmlFor={field.name}>Пароль</FieldLabel>
+                        <div className="relative">
+                            <Input
+                                id={field.name}
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder="Введіть пароль"
+                                value={field.state.value}
+                                onBlur={field.handleBlur}
+                                onChange={(e) =>
+                                    field.handleChange(e.target.value)
+                                }
+                            />
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon-sm"
+                                className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
+                                onClick={() =>
+                                    setShowPassword(!showPassword)
+                                }
+                            >
+                                {showPassword ? (
+                                    <EyeOff className="size-4" />
+                                ) : (
+                                    <Eye className="size-4" />
+                                )}
+                            </Button>
+                        </div>
+                        <FieldError errors={field.state.meta.errors} />
+                    </Field>
+                )}
+            />
+
+            <form.Field
+                name="passwordConfirmation"
+                children={(field) => (
+                    <Field>
+                        <FieldLabel htmlFor={field.name}>
+                            Підтвердження паролю
+                        </FieldLabel>
+                        <div className="relative">
+                            <Input
+                                id={field.name}
+                                type={
+                                    showPasswordConfirmation
+                                        ? 'text'
+                                        : 'password'
+                                }
+                                placeholder="Повторіть пароль"
+                                value={field.state.value}
+                                onBlur={field.handleBlur}
+                                onChange={(e) =>
+                                    field.handleChange(e.target.value)
+                                }
+                            />
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon-sm"
+                                className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
+                                onClick={() =>
+                                    setShowPasswordConfirmation(
+                                        !showPasswordConfirmation,
+                                    )
+                                }
+                            >
+                                {showPasswordConfirmation ? (
+                                    <EyeOff className="size-4" />
+                                ) : (
+                                    <Eye className="size-4" />
+                                )}
+                            </Button>
+                        </div>
+                        <FieldError errors={field.state.meta.errors} />
+                    </Field>
+                )}
+            />
+
+            {/* Captcha */}
+            <Turnstile
+                ref={captchaRef}
+                siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
+            />
+
+            {/* Submit Button */}
+            <Button
+                type="submit"
+                className="w-full"
+                disabled={
+                    mutationSignup.isPending || mutationSignup.isSuccess
+                }
             >
-                <FormField
-                    control={form.control}
-                    name="username"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>
-                                Ім&apos;я користувача (нікнейм)
-                            </FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="text"
-                                    placeholder="Введіть Ваше ім'я"
-                                    {...field}
-                                />
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
+                {mutationSignup.isPending && (
+                    <span className="loading loading-spinner mr-2"></span>
+                )}
+                Зареєструватись
+            </Button>
 
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="email"
-                                    placeholder="Введіть ваш email"
-                                    {...field}
-                                />
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Пароль</FormLabel>
-                            <FormControl>
-                                <div className="relative">
-                                    <Input
-                                        type={
-                                            showPassword ? 'text' : 'password'
-                                        }
-                                        placeholder="Введіть пароль"
-                                        {...field}
-                                    />
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        size="icon-sm"
-                                        className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
-                                        onClick={() =>
-                                            setShowPassword(!showPassword)
-                                        }
-                                    >
-                                        {showPassword ? (
-                                            <EyeOff className="size-4" />
-                                        ) : (
-                                            <Eye className="size-4" />
-                                        )}
-                                    </Button>
-                                </div>
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="passwordConfirmation"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Підтвердження паролю</FormLabel>
-                            <FormControl>
-                                <div className="relative">
-                                    <Input
-                                        type={
-                                            showPasswordConfirmation
-                                                ? 'text'
-                                                : 'password'
-                                        }
-                                        placeholder="Повторіть пароль"
-                                        {...field}
-                                    />
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        size="icon-sm"
-                                        className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
-                                        onClick={() =>
-                                            setShowPasswordConfirmation(
-                                                !showPasswordConfirmation,
-                                            )
-                                        }
-                                    >
-                                        {showPasswordConfirmation ? (
-                                            <EyeOff className="size-4" />
-                                        ) : (
-                                            <Eye className="size-4" />
-                                        )}
-                                    </Button>
-                                </div>
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
-
-                {/* Captcha */}
-                <Turnstile
-                    ref={captchaRef}
-                    siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
-                />
-
-                {/* Submit Button */}
-                <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={
-                        mutationSignup.isPending || mutationSignup.isSuccess
-                    }
-                >
-                    {mutationSignup.isPending && (
-                        <span className="loading loading-spinner mr-2"></span>
-                    )}
-                    Зареєструватись
-                </Button>
-
-                <OAuthLogin
-                    disabled={
-                        mutationSignup.isPending || mutationSignup.isSuccess
-                    }
-                    buttonText="Зареєструватись з Google"
-                />
-            </form>
-        </Form>
+            <OAuthLogin
+                disabled={
+                    mutationSignup.isPending || mutationSignup.isSuccess
+                }
+                buttonText="Зареєструватись з Google"
+            />
+        </form>
     );
 };
 

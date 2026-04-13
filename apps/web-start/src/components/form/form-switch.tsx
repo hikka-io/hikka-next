@@ -1,53 +1,46 @@
+import { useStore } from '@tanstack/react-form';
 import { ComponentProps, FC } from 'react';
 
-import {
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Switch } from '@/components/ui/switch';
 
-export interface FormSwitchProps extends ComponentProps<typeof Switch> {
-    name: string;
+import { useFieldContext } from './form-context';
+
+
+export interface SwitchFieldProps extends Omit<ComponentProps<typeof Switch>, 'checked' | 'onCheckedChange'> {
     label?: string;
     description?: string;
 }
 
-const FormSwitch: FC<FormSwitchProps> = ({
-    name,
+export const SwitchField: FC<SwitchFieldProps> = ({
     label,
     description,
     className,
     ...props
 }) => {
+    const field = useFieldContext<boolean>();
+    const errors = useStore(field.store, (state) => state.meta.errors);
+    const isInvalid = errors.length > 0;
+
     return (
-        <FormField
-            name={name}
-            render={({ field }) => (
-                <FormItem className={className}>
-                    <div className="flex w-full flex-row items-center justify-between gap-2">
-                        <div>
-                            {label && <FormLabel>{label}</FormLabel>}
-                            {description && (
-                                <FormDescription>{description}</FormDescription>
-                            )}
-                        </div>
-                        <FormControl>
-                            <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                                {...props}
-                            />
-                        </FormControl>
-                    </div>
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
+        <Field data-invalid={isInvalid} className={className}>
+            <div className="flex w-full flex-row items-center justify-between gap-2">
+                <div>
+                    {label && <FieldLabel htmlFor={field.name}>{label}</FieldLabel>}
+                    {description && (
+                        <FieldDescription>{description}</FieldDescription>
+                    )}
+                </div>
+                <Switch
+                    id={field.name}
+                    checked={field.state.value}
+                    onCheckedChange={(checked) => field.handleChange(checked as boolean)}
+                    {...props}
+                />
+            </div>
+            <FieldError errors={errors} />
+        </Field>
     );
 };
 
-export default FormSwitch;
+export default SwitchField;

@@ -4,8 +4,8 @@ import { EditContentType, MainContent } from '@hikka/client';
 import { useCreateEdit } from '@hikka/react';
 import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
 import { FC, useRef } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
 
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 
 import { useRouter } from '@/utils/navigation';
@@ -19,11 +19,6 @@ import {
     getEditParams,
     getFilteredEditParams,
 } from './utils/edit-param-utils';
-
-type FormValues = Record<string, unknown> & {
-    description: string;
-    auto?: boolean;
-};
 
 interface Props {
     slug: string;
@@ -46,8 +41,19 @@ const EditForm: FC<Props> = ({
     const groups = getEditGroups(content_type)!;
     const paramSlugs = getEditParamSlugs(params);
 
-    const form = useForm<FormValues>({
-        values: {
+    const onDismiss = (editId: number) => {
+        form.reset();
+        router.push('/edit/' + editId);
+    };
+
+    const mutationAddEdit = useCreateEdit({
+        options: {
+            onSuccess: (data) => onDismiss(data.edit_id),
+        },
+    });
+
+    const form = useAppForm({
+        defaultValues: {
             description: '',
             ...content,
             synonyms:
@@ -58,36 +64,31 @@ const EditForm: FC<Props> = ({
                     }))) ||
                 [],
             auto: false,
+        } as Record<string, unknown> & {
+            description: string;
+            auto: boolean;
+        },
+        onSubmit: async ({ value }) => {
+            mutationAddEdit.mutate({
+                content_type: content_type,
+                slug: slug,
+                after: {
+                    ...getFilteredEditParams(paramSlugs, value),
+                },
+                auto: (value as any).auto || false,
+                description: (value as any).description,
+            });
         },
     });
-
-    const mutationAddEdit = useCreateEdit({
-        options: {
-            onSuccess: (data) => onDismiss(data.edit_id),
-        },
-    });
-
-    const onDismiss = (editId: number) => {
-        form.reset();
-        router.push('/edit/' + editId);
-    };
-
-    const onSubmit = async (data: FormValues) => {
-        mutationAddEdit.mutate({
-            content_type: content_type,
-            slug: slug,
-            after: {
-                ...getFilteredEditParams(paramSlugs, data),
-            },
-            auto: data.auto || false,
-            description: data.description,
-        });
-    };
 
     return (
-        <FormProvider {...form}>
+        <form.AppForm>
             <form
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    form.handleSubmit();
+                }}
                 className="flex flex-col gap-6"
             >
                 <div className="flex w-full flex-col gap-6">
@@ -114,7 +115,6 @@ const EditForm: FC<Props> = ({
                         <div className="flex items-center gap-2">
                             <Button
                                 disabled={mutationAddEdit.isPending}
-                                onClick={form.handleSubmit(onSubmit)}
                                 type="submit"
                                 className="w-fit"
                             >
@@ -123,15 +123,12 @@ const EditForm: FC<Props> = ({
                                 )}
                                 Створити
                             </Button>
-                            <AutoButton
-                                onSubmit={onSubmit}
-                                handleSubmit={form.handleSubmit}
-                            />
+                            <AutoButton />
                         </div>
                     </div>
                 )}
             </form>
-        </FormProvider>
+        </form.AppForm>
     );
 };
 

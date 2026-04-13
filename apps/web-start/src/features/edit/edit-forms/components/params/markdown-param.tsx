@@ -3,8 +3,8 @@
 import { useEdit } from '@hikka/react';
 import * as React from 'react';
 import { FC } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
 
+import { useFormContext } from '@/components/form/form-context';
 // import BasicEditor from '@/components/markdown/editor/basic-editor';
 // import PlateDiff from '@/components/markdown/plate-editor/plate-diff';
 import MDViewer from '@/components/markdown/viewer/MD-viewer';
@@ -21,7 +21,8 @@ interface Props {
 }
 
 const MarkdownParam: FC<Props> = ({ mode, param }) => {
-    const { control } = useFormContext();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const form = useFormContext() as any;
     const params = useParams();
     const [showDiff, setShowDiff] = React.useState(false);
     const { data: edit } = useEdit({
@@ -46,12 +47,11 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                         </Button>
                     )}
                 </div>
-                <Controller
-                    control={control}
+                <form.Field
                     name={param.slug}
-                    render={({ field: { value } }) => (
+                    children={(field: any) => (
                         <MDViewer className="markdown border-border bg-secondary/20 rounded-md border p-4 text-sm">
-                            {value}
+                            {field.state.value as string}
                         </MDViewer>
                     )}
                 />
@@ -72,14 +72,13 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
     return (
         <div className="flex w-full flex-col gap-4">
             <Label>{param.title}</Label>
-            <Controller
-                control={control}
+            <form.Field
                 name={param.slug}
-                render={({ field: { onChange, value } }) => (
+                children={(field: any) => (
                     <PlateMarkdownEditor
                         placeholder={param.placeholder}
-                        value={value || ''}
-                        onValueChange={onChange}
+                        value={(field.state.value as string) || ''}
+                        onValueChange={(val) => field.handleChange(val)}
                         modalTitle={param.title}
                         modalButtonTitle="Заповнити поле"
                         modalEditButtonTitle="Редагувати поле"

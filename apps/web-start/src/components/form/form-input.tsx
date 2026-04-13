@@ -1,28 +1,20 @@
+import { useStore } from '@tanstack/react-form';
 import { ComponentProps, FC } from 'react';
 
-import {
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
-import { cn } from '@/utils/cn';
+import { useFieldContext } from './form-context';
 
-interface Props extends ComponentProps<'input'> {
-    name: string;
+export interface Props extends Omit<ComponentProps<'input'>, 'value' | 'onChange' | 'onBlur'> {
     label?: string;
     description?: string;
-    valueRenderer?: (value: string | string[]) => void;
+    valueRenderer?: (value: string | string[]) => string;
     inputClassName?: string;
     onChangeValidator?: (value: string) => boolean;
 }
 
-const FormInput: FC<Props> = ({
-    name,
+export const TextField: FC<Props> = ({
     label,
     description,
     children,
@@ -32,44 +24,43 @@ const FormInput: FC<Props> = ({
     onChangeValidator,
     ...props
 }) => {
+    const field = useFieldContext<string>();
+    const errors = useStore(field.store, (state) => state.meta.errors);
+    const isInvalid = errors.length > 0;
+
     return (
-        <FormField
-            name={name}
-            render={({ field }) => (
-                <FormItem className={className}>
-                    <div className="flex flex-nowrap items-center justify-between">
-                        {label && <FormLabel>{label}</FormLabel>}
-                        {children}
-                    </div>
-                    <FormControl>
-                        <Input
-                            {...props}
-                            {...field}
-                            className={cn(inputClassName)}
-                            value={
-                                valueRenderer
-                                    ? valueRenderer(field.value)
-                                    : field.value
-                            }
-                            onChange={(e) => {
-                                if (onChangeValidator) {
-                                    if (onChangeValidator(e.target.value)) {
-                                        field.onChange(e);
-                                    }
-                                } else {
-                                    field.onChange(e);
-                                }
-                            }}
-                        />
-                    </FormControl>
-                    {description && (
-                        <FormDescription>{description}</FormDescription>
-                    )}
-                    <FormMessage />
-                </FormItem>
+        <Field data-invalid={isInvalid} className={className}>
+            <div className="flex flex-nowrap items-center justify-between">
+                {label && <FieldLabel htmlFor={field.name}>{label}</FieldLabel>}
+                {children}
+            </div>
+            <Input
+                id={field.name}
+                {...props}
+                className={inputClassName}
+                value={
+                    valueRenderer
+                        ? valueRenderer(field.state.value)
+                        : (field.state.value ?? '')
+                }
+                onBlur={field.handleBlur}
+                onChange={(e) => {
+                    if (onChangeValidator) {
+                        if (onChangeValidator(e.target.value)) {
+                            field.handleChange(e.target.value);
+                        }
+                    } else {
+                        field.handleChange(e.target.value);
+                    }
+                }}
+                aria-invalid={isInvalid}
+            />
+            {description && (
+                <FieldDescription>{description}</FieldDescription>
             )}
-        />
+            <FieldError errors={errors} />
+        </Field>
     );
 };
 
-export default FormInput;
+export default TextField;

@@ -1,58 +1,47 @@
+import { useStore } from '@tanstack/react-form';
 import { FC } from 'react';
 
 import {
     PlateMarkdownEditor,
     PlateMarkdownEditorProps,
 } from '@/components/plate/editor/plate-editor';
-import {
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 
-import { cn } from '@/utils/cn';
+import { useFieldContext } from './form-context';
 
-interface Props extends PlateMarkdownEditorProps {
-    name: string;
+export interface Props extends Omit<PlateMarkdownEditorProps, 'value' | 'onValueChange'> {
     label?: string;
     description?: string;
     className?: string;
 }
 
-const FormMarkdown: FC<Props> = ({
-    name,
+export const MarkdownField: FC<Props> = ({
     label,
     description,
     className,
     ...props
 }) => {
+    const field = useFieldContext<string>();
+    const errors = useStore(field.store, (state) => state.meta.errors);
+    const isInvalid = errors.length > 0;
+
     return (
-        <FormField
-            name={name}
-            render={({ field }) => (
-                <FormItem>
-                    {label && <FormLabel>{label}</FormLabel>}
-                    <FormControl>
-                        <PlateMarkdownEditor
-                            {...props}
-                            value={field.value || ''}
-                            onValueChange={field.onChange}
-                            className={cn(className)}
-                        />
-                    </FormControl>
-                    <div className="space-y-2 px-3">
-                        {description && (
-                            <FormDescription>{description}</FormDescription>
-                        )}
-                        <FormMessage />
-                    </div>
-                </FormItem>
-            )}
-        />
+        <Field data-invalid={isInvalid}>
+            {label && <FieldLabel htmlFor={field.name}>{label}</FieldLabel>}
+            <PlateMarkdownEditor
+                {...props}
+                value={field.state.value || ''}
+                onValueChange={(value) => field.handleChange(value)}
+                className={className}
+            />
+            <div className="space-y-2 px-3">
+                {description && (
+                    <FieldDescription>{description}</FieldDescription>
+                )}
+                <FieldError errors={errors} />
+            </div>
+        </Field>
     );
 };
 
-export default FormMarkdown;
+export default MarkdownField;

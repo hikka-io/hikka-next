@@ -1,12 +1,13 @@
 'use client';
 
+import { useStore } from '@tanstack/react-form';
 import { ArrowDownWideNarrow } from 'lucide-react';
 import { FC } from 'react';
 
-import FormSelect, { FormSelectProps } from '@/components/form/form-select';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
+import { SelectField, SelectFieldProps } from '@/components/form/form-select';
 import MaterialSymbolsSortRounded from '@/components/icons/material-symbols/MaterialSymbolsSortRounded';
 import { Button } from '@/components/ui/button';
-import { FormField, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -318,54 +319,54 @@ const Sort: FC<Props> = ({
     );
 };
 
-export const FormSort: FC<Props & Partial<FormSelectProps>> = (props) => {
+export const FormSort: FC<Props & Partial<SelectFieldProps>> = (props) => {
+    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const order = useStore(form.store, (s) => (s.values as any).order);
+
     return (
         <div className="flex flex-col gap-2">
             <Label>Сортування</Label>
             <div className="flex gap-2">
-                <FormSelect
-                    {...props}
-                    name="sort"
-                    className="flex-1"
-                    placeholder="Виберіть сортування..."
-                >
-                    <SelectContent>
-                        <SelectList>
-                            <SelectGroup>
-                                {getSort(props.sort_type).map((item) => (
-                                    <SelectItem
-                                        key={item.value}
-                                        value={item.value}
-                                    >
-                                        {item.label}
-                                    </SelectItem>
-                                ))}
-                            </SelectGroup>
-                        </SelectList>
-                    </SelectContent>
-                </FormSelect>
-                <FormField
-                    name="order"
-                    render={({ field }) => (
-                        <FormItem>
-                            <Button
-                                size="icon"
-                                variant="outline"
-                                onClick={() =>
-                                    field.onChange(
-                                        field.value === 'asc' ? 'desc' : 'asc',
-                                    )
-                                }
-                            >
-                                <MaterialSymbolsSortRounded
-                                    className={cn(
-                                        field.value === 'asc' && '-scale-y-100',
-                                    )}
-                                />
-                            </Button>
-                        </FormItem>
+                <form.AppField
+                    name={"sort" as never}
+                    children={() => (
+                        <SelectField
+                            className="flex-1"
+                            placeholder="Виберіть сортування..."
+                        >
+                            <SelectContent>
+                                <SelectList>
+                                    <SelectGroup>
+                                        {getSort(props.sort_type).map(
+                                            (item) => (
+                                                <SelectItem
+                                                    key={item.value}
+                                                    value={item.value}
+                                                >
+                                                    {item.label}
+                                                </SelectItem>
+                                            ),
+                                        )}
+                                    </SelectGroup>
+                                </SelectList>
+                            </SelectContent>
+                        </SelectField>
                     )}
                 />
+                <Button
+                    size="icon"
+                    variant="outline"
+                    onClick={() =>
+                        form.setFieldValue(
+                            'order' as never,
+                            (order === 'asc' ? 'desc' : 'asc') as never,
+                        )
+                    }
+                >
+                    <MaterialSymbolsSortRounded
+                        className={cn(order === 'asc' && '-scale-y-100')}
+                    />
+                </Button>
             </div>
         </div>
     );

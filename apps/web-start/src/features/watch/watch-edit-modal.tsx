@@ -7,18 +7,14 @@ import {
 } from '@hikka/client';
 import { useCreateWatch, useDeleteWatch, useWatchBySlug } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useStore } from '@tanstack/react-form';
 import { createElement, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import FormDatePicker from '@/components/form/form-date-picker';
-import FormInput from '@/components/form/form-input';
-import FormTextarea from '@/components/form/form-textarea';
+import { useAppForm } from '@/components/form/use-app-form';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import {
@@ -95,10 +91,28 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
         WatchStatusEnum | undefined
     >(watch?.status);
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: watch,
+    const form = useAppForm({
+        defaultValues: {
+            score: watch?.score ?? 0,
+            episodes: watch?.episodes ?? 0,
+            rewatches: watch?.rewatches ?? 0,
+            note: watch?.note ?? null,
+            start_date: (watch as any)?.start_date ?? null,
+            end_date: (watch as any)?.end_date ?? null,
+        },
+        validators: { onSubmit: formSchema as never },
+        onSubmit: async ({ value }) => {
+            createWatch({
+                slug,
+                args: {
+                    status: selectedStatus!,
+                    ...value,
+                },
+            });
+        },
     });
+
+    const startDate = useStore(form.store, (s) => s.values.start_date);
 
     useEffect(() => {
         if (watch?.status) {
@@ -109,7 +123,14 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
     if (!watch) return null;
 
     return (
-        <Form {...form}>
+        <form
+            className="contents"
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+        >
             <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
                 <div className="flex w-full flex-col gap-2">
                     <Label>Список</Label>
@@ -160,48 +181,72 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
                     </Select>
                 </div>
                 <div className="flex w-full gap-8">
-                    <FormInput
+                    <form.AppField
                         name="score"
-                        label="Оцінка"
-                        placeholder="Введіть оцінку"
-                        type="number"
-                        className="flex-1"
-                        min={0}
-                        max={10}
+                        children={(field) => (
+                            <field.TextField
+                                label="Оцінка"
+                                placeholder="Введіть оцінку"
+                                type="number"
+                                className="flex-1"
+                                min={0}
+                                max={10}
+                            />
+                        )}
                     />
-                    <FormInput
+                    <form.AppField
                         name="episodes"
-                        label="Епізоди"
-                        placeholder="Введіть к-сть переглянутих епізодів"
-                        type="number"
-                        className="flex-1"
-                        min={0}
+                        children={(field) => (
+                            <field.TextField
+                                label="Епізоди"
+                                placeholder="Введіть к-сть переглянутих епізодів"
+                                type="number"
+                                className="flex-1"
+                                min={0}
+                            />
+                        )}
                     />
                 </div>
-                <FormInput
+                <form.AppField
                     name="rewatches"
-                    label="Повторні перегляди"
-                    placeholder="Введіть к-сть повторних переглядів"
-                    type="number"
-                    min={0}
+                    children={(field) => (
+                        <field.TextField
+                            label="Повторні перегляди"
+                            placeholder="Введіть к-сть повторних переглядів"
+                            type="number"
+                            min={0}
+                        />
+                    )}
                 />
                 <div className="flex w-full gap-8">
-                    <FormDatePicker
-                        className="flex-1"
+                    <form.AppField
                         name="start_date"
-                        label="Дата початку"
+                        children={(field) => (
+                            <field.DatePickerField
+                                className="flex-1"
+                                label="Дата початку"
+                            />
+                        )}
                     />
-                    <FormDatePicker
-                        className="flex-1"
+                    <form.AppField
                         name="end_date"
-                        label="Дата завершення"
-                        minDate={form.watch('start_date') ?? undefined}
+                        children={(field) => (
+                            <field.DatePickerField
+                                className="flex-1"
+                                label="Дата завершення"
+                                minDate={startDate ?? undefined}
+                            />
+                        )}
                     />
                 </div>
-                <FormTextarea
+                <form.AppField
                     name="note"
-                    label="Нотатки"
-                    placeholder="Залиште нотатку"
+                    children={(field) => (
+                        <field.TextareaField
+                            label="Нотатки"
+                            placeholder="Залиште нотатку"
+                        />
+                    )}
                 />
             </div>
             <ResponsiveModalFooter>
@@ -221,15 +266,6 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
                 </Button>
                 <Button
                     size="md"
-                    onClick={form.handleSubmit((data) =>
-                        createWatch({
-                            slug,
-                            args: {
-                                status: selectedStatus!,
-                                ...data,
-                            },
-                        }),
-                    )}
                     type="submit"
                     disabled={addToListLoading || deleteFromListLoading}
                 >
@@ -241,7 +277,7 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
                     Зберегти
                 </Button>
             </ResponsiveModalFooter>
-        </Form>
+        </form>
     );
 };
 

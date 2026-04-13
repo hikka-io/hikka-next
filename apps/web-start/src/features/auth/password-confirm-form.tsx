@@ -1,20 +1,13 @@
 'use client';
 
 import { useConfirmPasswordReset, useHikkaClient } from '@hikka/react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-} from '@/components/ui/form';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
 import { setAuthCookieFn } from '@/utils/auth';
@@ -41,14 +34,6 @@ const PasswordConfirmForm = () => {
 
     const token = params.token as string;
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            password: '',
-            passwordConfirmation: '',
-        },
-    });
-
     const mutationConfirmPasswordReset = useConfirmPasswordReset({
         options: {
             onSuccess: async (data) => {
@@ -63,111 +48,126 @@ const PasswordConfirmForm = () => {
         },
     });
 
-    const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-        mutationConfirmPasswordReset.mutate({
-            password: data.password,
-            token,
-        });
-    };
+    const form = useAppForm({
+        defaultValues: {
+            password: '',
+            passwordConfirmation: '',
+        },
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            mutationConfirmPasswordReset.mutate({
+                password: value.password,
+                token,
+            });
+        },
+    });
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(handleFormSubmit)}
-                className="space-y-4"
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+            className="space-y-4"
+        >
+            <form.Field
+                name="password"
+                children={(field) => (
+                    <Field>
+                        <FieldLabel htmlFor={field.name}>Пароль</FieldLabel>
+                        <div className="relative">
+                            <Input
+                                id={field.name}
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder="Введіть пароль"
+                                value={field.state.value}
+                                onBlur={field.handleBlur}
+                                onChange={(e) =>
+                                    field.handleChange(e.target.value)
+                                }
+                            />
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon-sm"
+                                className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
+                                onClick={() =>
+                                    setShowPassword(!showPassword)
+                                }
+                            >
+                                {showPassword ? (
+                                    <EyeOff className="size-4" />
+                                ) : (
+                                    <Eye className="size-4" />
+                                )}
+                            </Button>
+                        </div>
+                        <FieldError errors={field.state.meta.errors} />
+                    </Field>
+                )}
+            />
+
+            <form.Field
+                name="passwordConfirmation"
+                children={(field) => (
+                    <Field>
+                        <FieldLabel htmlFor={field.name}>
+                            Підтвердження паролю
+                        </FieldLabel>
+                        <div className="relative">
+                            <Input
+                                id={field.name}
+                                type={
+                                    showPasswordConfirmation
+                                        ? 'text'
+                                        : 'password'
+                                }
+                                placeholder="Повторіть пароль"
+                                value={field.state.value}
+                                onBlur={field.handleBlur}
+                                onChange={(e) =>
+                                    field.handleChange(e.target.value)
+                                }
+                            />
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon-sm"
+                                className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
+                                onClick={() =>
+                                    setShowPasswordConfirmation(
+                                        !showPasswordConfirmation,
+                                    )
+                                }
+                            >
+                                {showPasswordConfirmation ? (
+                                    <EyeOff className="size-4" />
+                                ) : (
+                                    <Eye className="size-4" />
+                                )}
+                            </Button>
+                        </div>
+                        <FieldError errors={field.state.meta.errors} />
+                    </Field>
+                )}
+            />
+
+            {/* Submit Button */}
+            <Button
+                type="submit"
+                className="w-full"
+                disabled={
+                    mutationConfirmPasswordReset.isPending ||
+                    mutationConfirmPasswordReset.isSuccess
+                }
             >
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Пароль</FormLabel>
-                            <FormControl>
-                                <div className="relative">
-                                    <Input
-                                        type={
-                                            showPassword ? 'text' : 'password'
-                                        }
-                                        placeholder="Введіть пароль"
-                                        {...field}
-                                    />
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        size="icon-sm"
-                                        className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
-                                        onClick={() =>
-                                            setShowPassword(!showPassword)
-                                        }
-                                    >
-                                        {showPassword ? (
-                                            <EyeOff className="size-4" />
-                                        ) : (
-                                            <Eye className="size-4" />
-                                        )}
-                                    </Button>
-                                </div>
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="passwordConfirmation"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Підтвердження паролю</FormLabel>
-                            <FormControl>
-                                <div className="relative">
-                                    <Input
-                                        type={
-                                            showPasswordConfirmation
-                                                ? 'text'
-                                                : 'password'
-                                        }
-                                        placeholder="Повторіть пароль"
-                                        {...field}
-                                    />
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        size="icon-sm"
-                                        className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
-                                        onClick={() =>
-                                            setShowPasswordConfirmation(
-                                                !showPasswordConfirmation,
-                                            )
-                                        }
-                                    >
-                                        {showPasswordConfirmation ? (
-                                            <EyeOff className="size-4" />
-                                        ) : (
-                                            <Eye className="size-4" />
-                                        )}
-                                    </Button>
-                                </div>
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
-
-                {/* Submit Button */}
-                <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={
-                        mutationConfirmPasswordReset.isPending ||
-                        mutationConfirmPasswordReset.isSuccess
-                    }
-                >
-                    {mutationConfirmPasswordReset.isPending && (
-                        <span className="loading loading-spinner mr-2"></span>
-                    )}
-                    Відновити
-                </Button>
-            </form>
-        </Form>
+                {mutationConfirmPasswordReset.isPending && (
+                    <span className="loading loading-spinner mr-2"></span>
+                )}
+                Відновити
+            </Button>
+        </form>
     );
 };
 

@@ -1,14 +1,13 @@
 'use client';
 
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
+import { useStore } from '@tanstack/react-form';
 import { useRouter } from '@tanstack/react-router';
 import { CalendarRange } from 'lucide-react';
 import { FC, useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 
-import FormSlider, { FormSliderProps } from '@/components/form/form-slider';
-import FormSwitch from '@/components/form/form-switch';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
+import { SliderField, type SliderFieldProps } from '@/components/form/form-slider';
+import { SwitchField, type SwitchFieldProps } from '@/components/form/form-switch';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
@@ -144,16 +143,19 @@ const DateRange = (props: Props) => {
     );
 };
 
-export const FormDateRange: FC<Props & Partial<FormSliderProps>> = (props) => {
-    'use no memo';
-
-    const { watch } = useFormContext();
-    const dateRangeEnabled = watch('date_range_enabled');
-    const dateRange = watch('date_range');
+export const FormDateRange: FC<Props & Partial<SwitchFieldProps & SliderFieldProps>> = () => {
+    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const dateRangeEnabled = useStore(form.store, (s) => (s.values as any).date_range_enabled);
+    const dateRange = useStore(form.store, (s) => (s.values as any).date_range);
 
     return (
         <div className="flex flex-col gap-2">
-            <FormSwitch name="date_range_enabled" label="Часовий проміжок" />
+            <form.AppField
+                name={"date_range_enabled" as never}
+                children={() => (
+                    <SwitchField label="Часовий проміжок" />
+                )}
+            />
 
             {dateRangeEnabled && (
                 <div className="flex flex-col gap-2">
@@ -166,14 +168,17 @@ export const FormDateRange: FC<Props & Partial<FormSliderProps>> = (props) => {
                         </div>
                     )}
                     <div className="flex items-center gap-2">
-                        <FormSlider
-                            {...props}
-                            name="date_range"
-                            defaultValue={dateRange ?? DEFAULT_DATE_RANGE}
-                            min={Number(DEFAULT_DATE_RANGE[0])}
-                            max={Number(DEFAULT_DATE_RANGE[1])}
-                            minStepsBetweenThumbs={0}
-                            className="flex-1"
+                        <form.AppField
+                            name={"date_range" as never}
+                            children={() => (
+                                <SliderField
+                                    defaultValue={dateRange ?? DEFAULT_DATE_RANGE}
+                                    min={Number(DEFAULT_DATE_RANGE[0])}
+                                    max={Number(DEFAULT_DATE_RANGE[1])}
+                                    minStepsBetweenThumbs={0}
+                                    className="flex-1"
+                                />
+                            )}
                         />
                     </div>
                 </div>
