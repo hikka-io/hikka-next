@@ -1,13 +1,6 @@
 'use client';
 
-import {
-    ComponentPropsWithoutRef,
-    memo,
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from 'react';
+import { ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 
@@ -27,7 +20,7 @@ const TextExpand = ({
     children,
     expanded: _expanded,
     setExpanded: _setExpanded,
-    maxHeight = 208, // ~13rem in pixels (52 * 4)
+    maxHeight = 208,
     expandText = 'Показати більше...',
     collapseText = 'Згорнути...',
     showGradient = true,
@@ -35,7 +28,7 @@ const TextExpand = ({
     className,
     ...rest
 }: Props) => {
-    const ref = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
     const [isExpanded, setIsExpanded] = useState(false);
     const [needsExpansion, setNeedsExpansion] = useState(false);
 
@@ -46,27 +39,22 @@ const TextExpand = ({
           : isExpanded;
     const setExpanded = _setExpanded || setIsExpanded;
 
-    const measureContent = useCallback(() => {
-        if (ref.current) {
-            setNeedsExpansion(ref.current.scrollHeight > maxHeight);
-        }
-    }, [maxHeight]);
-
     useEffect(() => {
-        measureContent();
-
-        const el = ref.current;
+        const el = contentRef.current;
         if (!el) return;
 
-        const resizeObserver = new ResizeObserver(measureContent);
-        resizeObserver.observe(el);
+        const measure = () => {
+            const next = el.scrollHeight > maxHeight;
+            setNeedsExpansion((prev) => (prev === next ? prev : next));
+        };
 
-        return () => resizeObserver.disconnect();
-    }, [measureContent]);
+        measure();
 
-    const handleToggle = useCallback(() => {
-        setExpanded(!expanded);
-    }, [expanded, setExpanded]);
+        const ro = new ResizeObserver(measure);
+        ro.observe(el);
+
+        return () => ro.disconnect();
+    }, [maxHeight]);
 
     const shouldShowCollapsed =
         alwaysCollapsed || (!expanded && needsExpansion);
@@ -75,12 +63,10 @@ const TextExpand = ({
         shouldShowCollapsed && showGradient && needsExpansion;
 
     return (
-        <div className="relative" {...rest}>
+        <div {...rest} className="relative">
             <div
-                ref={ref}
                 className={cn(
-                    'relative transition-all duration-300 ease-in-out',
-                    shouldShowCollapsed && 'overflow-hidden',
+                    'relative overflow-hidden',
                     shouldShowCollapsed && className,
                     shouldShowGradient && 'gradient-mask-b-90',
                 )}
@@ -89,9 +75,8 @@ const TextExpand = ({
                         ? `${maxHeight}px`
                         : undefined,
                 }}
-                aria-expanded={expanded}
             >
-                {children}
+                <div ref={contentRef}>{children}</div>
             </div>
 
             {!alwaysCollapsed && needsExpansion && (
@@ -100,7 +85,8 @@ const TextExpand = ({
                         variant="link"
                         size="sm"
                         className="text-muted-foreground hover:text-foreground h-auto p-0 text-sm font-medium"
-                        onClick={handleToggle}
+                        onClick={() => setExpanded(!expanded)}
+                        aria-expanded={expanded}
                         aria-label={expanded ? collapseText : expandText}
                     >
                         {expanded ? collapseText : expandText}
@@ -111,4 +97,4 @@ const TextExpand = ({
     );
 };
 
-export default memo(TextExpand);
+export default TextExpand;
