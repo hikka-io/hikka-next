@@ -53,15 +53,17 @@ const EditList: FC<Props> = () => {
     }
 
     return (
-        <Block className="-mx-4 md:mx-0">
-            <Table className="table">
-                <EditHead />
-                <TableBody>
-                    {list.map((edit) => (
-                        <EditRow key={edit.edit_id} edit={edit} />
-                    ))}
-                </TableBody>
-            </Table>
+        <Block>
+            <div className="overflow-hidden rounded-lg border">
+                <Table>
+                    <EditHead />
+                    <TableBody>
+                        {list.map((edit) => (
+                            <EditRow key={edit.edit_id} edit={edit} />
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
             {pagination && <PagePagination pagination={pagination} />}
         </Block>
     );

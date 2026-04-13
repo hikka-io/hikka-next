@@ -77,9 +77,10 @@ const TableView: FC<Props> = ({ data, content_type }) => {
     };
 
     return (
-        <Table className="table">
-            <TableHeader className="bg-secondary/20 overflow-hidden rounded-lg backdrop-blur [&_tr]:border-b-0">
-                <TableRow>
+        <div className="overflow-hidden rounded-lg border">
+        <Table>
+            <TableHeader className="bg-secondary/20 [&_tr]:border-b">
+                <TableRow className="hover:bg-transparent">
                     <TableHead>#</TableHead>
                     <TableHead>Деталі</TableHead>
                     <TableHead
@@ -218,6 +219,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                 })}
             </TableBody>
         </Table>
+        </div>
     );
 };
 

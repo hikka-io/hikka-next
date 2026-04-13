@@ -2,8 +2,8 @@ import { TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 const EditHead = () => {
     return (
-        <TableHeader className="bg-secondary/20 overflow-hidden rounded-lg">
-            <TableRow>
+        <TableHeader className="bg-secondary/20 [&_tr]:border-b">
+            <TableRow className="hover:bg-transparent">
                 <TableHead className="hidden w-8 sm:table-cell">#</TableHead>
                 <TableHead>Автор</TableHead>
                 <TableHead align="left">Контент</TableHead>

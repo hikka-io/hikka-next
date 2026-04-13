@@ -15,11 +15,15 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { FilterPresetButton, FilterPresets, useActiveFilters } from '@/features/content';
+import {
+    FilterPresetButton,
+    FilterPresets,
+    useActiveFilters,
+} from '@/features/content';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
-import Sort from '@/features/filters/sort';
 import type { SortType } from '@/features/filters/sort';
+import Sort from '@/features/filters/sort';
 
 import useDebounce from '@/services/hooks/use-debounce';
 
@@ -86,6 +90,10 @@ const CatalogNavbar: FC<Props> = ({
                         <Search placeholder={searchPlaceholder} />
                     </Suspense>
                 </div>
+                <Separator
+                    orientation="vertical"
+                    className="h-6 hidden md:block"
+                />
 
                 <div className="flex items-center gap-4">
                     <Sort
