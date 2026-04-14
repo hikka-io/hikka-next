@@ -41,6 +41,7 @@ const ALLOWED_HOSTS = [
     'aniage.net',
     'myanimelist.net',
     'anilist.co',
+    'mikai.me',
 ];
 
 const LINK_EXTRA_CLASSNAME = 'break-all';
@@ -50,10 +51,7 @@ const LINK_CLASSNAME =
 const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     const { user } = useSession();
 
-    if (
-        !user &&
-        AUTH_ONLY_HOSTS.some((host) => href.includes(host))
-    ) {
+    if (!user && AUTH_ONLY_HOSTS.some((host) => href.includes(host))) {
         return (
             <span className={cn('text-muted-foreground', className)}>
                 {children}
@@ -168,7 +166,6 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
         return (
             <a
                 target="_blank"
-                rel="noopener noreferrer"
                 className={cn(LINK_CLASSNAME, LINK_EXTRA_CLASSNAME, className)}
                 href={href}
             >

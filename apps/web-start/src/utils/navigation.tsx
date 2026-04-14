@@ -1,13 +1,13 @@
+import type {
+    AnyRouter,
+    LinkComponentProps,
+    NavigateOptions,
+} from '@tanstack/react-router';
 import {
     Link as TanStackLink,
     useNavigate,
     useRouterState,
     useParams as useTanstackParams,
-} from '@tanstack/react-router';
-import type {
-    AnyRouter,
-    LinkComponentProps,
-    NavigateOptions,
 } from '@tanstack/react-router';
 import { forwardRef } from 'react';
 
@@ -47,7 +47,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
                 ref={ref}
                 href={to}
                 target={target ?? '_blank'}
-                rel={rel ?? 'noopener noreferrer'}
+                rel={rel}
                 className={className}
                 style={style}
                 onClick={onClick}
