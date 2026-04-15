@@ -2,6 +2,7 @@
 
 import { HikkaClient } from '@hikka/client';
 import {
+    InvalidateQueryFilters,
     QueryClient,
     UseMutationOptions,
     UseMutationResult,
@@ -59,7 +60,7 @@ export function createMutation<
         | readonly unknown[][]
         | ((args: TVariables) => readonly unknown[] | readonly unknown[][])
         | (() => readonly unknown[] | readonly unknown[][]);
-    invalidateRefetchType?: 'active' | 'inactive' | 'all' | 'none';
+    invalidateRefetchType?: InvalidateQueryFilters['refetchType'];
     cacheByQueryKey?: ({
         data,
         queryClient,

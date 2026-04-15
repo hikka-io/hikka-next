@@ -18,10 +18,16 @@ import HistoryItem from '@/features/users/user-history/components/history-item';
 import { WidgetProps } from '../constants';
 
 const HISTORY_SIZE = 3;
+const HISTORY_REFETCH_INTERVAL_MS = 30_000;
 
 const HistoryWidget: FC<WidgetProps> = () => {
     const { user } = useSession();
-    const { list } = useFollowingHistory();
+    const { list } = useFollowingHistory({
+        options: {
+            enabled: Boolean(user),
+            refetchInterval: HISTORY_REFETCH_INTERVAL_MS,
+        },
+    });
 
     const filteredHistory = list?.slice(0, HISTORY_SIZE);
 
