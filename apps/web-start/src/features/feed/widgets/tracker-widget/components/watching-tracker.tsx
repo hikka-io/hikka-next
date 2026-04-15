@@ -1,12 +1,14 @@
 'use client';
 
-import { WatchArgs, WatchStatusEnum } from '@hikka/client';
+import { WatchArgs, WatchResponse, WatchStatusEnum } from '@hikka/client';
 import {
     useCreateWatch,
     useHikkaClient,
+    useMutation,
     useSearchUserWatches,
     useSession,
 } from '@hikka/react';
+import { queryKeys, useQueryClient } from '@hikka/react/core';
 import { getTitle } from '@hikka/react/utils';
 import { useEffect, useState } from 'react';
 
@@ -49,12 +51,13 @@ const WatchingTracker = () => {
     const router = useRouter();
     const { user: loggedUser } = useSession();
     const { defaultOptions } = useHikkaClient();
+    const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
 
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
 
-    const { list } = useSearchUserWatches({
+    const { list, ref, isFetchingNextPage } = useSearchUserWatches({
         username: String(loggedUser?.username),
         args: {
             watch_status: WatchStatusEnum.WATCHING,
@@ -71,6 +74,24 @@ const WatchingTracker = () => {
     });
 
     const { mutate: mutateCreateWatch, reset } = useCreateWatch();
+
+    const { mutate: mutateCreateWatchSilent } = useMutation<
+        WatchResponse,
+        Error,
+        { slug: string; args: WatchArgs }
+    >({
+        mutationFn: (client, { slug, args }) =>
+            client.watch.createWatch(slug, args),
+        options: {
+            onSuccess: (data, { slug }) => {
+                queryClient.setQueryData(queryKeys.watch.entry(slug), data);
+                queryClient.invalidateQueries({
+                    queryKey: queryKeys.watch.lists(),
+                    refetchType: 'none',
+                });
+            },
+        },
+    });
 
     const handleSelect = (slug: string) => {
         if (slug === selectedWatch?.anime.slug) {
@@ -128,7 +149,16 @@ const WatchingTracker = () => {
 
     useEffect(() => {
         if (debouncedUpdatedWatch && selectedWatch) {
-            mutateCreateWatch({
+            const totalEpisodes = selectedWatch.anime.episodes_total;
+            const isLastEpisode =
+                totalEpisodes != null &&
+                debouncedUpdatedWatch.episodes === totalEpisodes;
+
+            const mutate = isLastEpisode
+                ? mutateCreateWatchSilent
+                : mutateCreateWatch;
+
+            mutate({
                 slug: selectedWatch.anime.slug,
                 args: {
                     note: debouncedUpdatedWatch.note,
@@ -139,7 +169,7 @@ const WatchingTracker = () => {
                 },
             });
         }
-    }, [mutateCreateWatch, debouncedUpdatedWatch]);
+    }, [mutateCreateWatch, mutateCreateWatchSilent, debouncedUpdatedWatch]);
 
     if (!list || list.length === 0) {
         return (
@@ -193,6 +223,11 @@ const WatchingTracker = () => {
                             </TooltipContent>
                         </Tooltip>
                     ))}
+                    <div ref={ref} className="flex items-center justify-center">
+                        {isFetchingNextPage && (
+                            <span className="loading loading-spinner" />
+                        )}
+                    </div>
                 </Stack>
 
                 {selectedWatch && (

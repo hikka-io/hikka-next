@@ -1,13 +1,10 @@
 'use client';
 
 import { useChangeDescription, useSession } from '@hikka/react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import FormTextarea from '@/components/form/form-textarea';
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 
 import { z } from '@/utils/i18n/zod';
 
@@ -17,13 +14,6 @@ const formSchema = z.object({
 
 const Component = () => {
     const { user: loggedUser } = useSession();
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            description: loggedUser?.description,
-        },
-    });
 
     const mutationChangeDescription = useChangeDescription({
         options: {
@@ -35,37 +25,49 @@ const Component = () => {
         },
     });
 
-    const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-        mutationChangeDescription.mutate({
-            description: data.description,
-        });
-    };
+    const form = useAppForm({
+        defaultValues: {
+            description: loggedUser?.description ?? null,
+        },
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            mutationChangeDescription.mutate({
+                description: value.description,
+            });
+        },
+    });
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(handleFormSubmit)}
-                className="flex flex-col items-start gap-6"
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+            className="flex flex-col items-start gap-6"
+        >
+            <form.AppField
+                name="description"
+                children={(field) => (
+                    <field.TextareaField
+                        placeholder="Введіть опис"
+                        label="Опис"
+                        className="w-full"
+                    />
+                )}
+            />
+            <Button
+                size="md"
+                disabled={mutationChangeDescription.isPending}
+                variant="default"
+                type="submit"
             >
-                <FormTextarea
-                    name="description"
-                    placeholder="Введіть опис"
-                    label="Опис"
-                    className="w-full"
-                />
-                <Button
-                    size="md"
-                    disabled={mutationChangeDescription.isPending}
-                    variant="default"
-                    type="submit"
-                >
-                    {mutationChangeDescription.isPending && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Зберегти
-                </Button>
-            </form>
-        </Form>
+                {mutationChangeDescription.isPending && (
+                    <span className="loading loading-spinner"></span>
+                )}
+                Зберегти
+            </Button>
+        </form>
     );
 };
 

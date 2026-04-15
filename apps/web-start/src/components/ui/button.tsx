@@ -27,6 +27,7 @@ const buttonVariants = cva(
             },
             size: {
                 default: 'h-12 px-4 py-2',
+                xs: 'h-6 px-2 py-1 text-xs',
                 sm: 'h-8 px-2 py-1',
                 md: 'h-10 rounded-md px-3 py-2',
                 lg: 'h-13 rounded-md px-8',
@@ -51,10 +52,11 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, size, asChild = false, ...props }, ref) => {
+    ({ className, variant, size, asChild = false, type = 'button', ...props }, ref) => {
         const Comp = asChild ? SlotPrimitive.Slot : 'button';
         return (
             <Comp
+                type={asChild ? undefined : type}
                 className={cn(buttonVariants({ variant, size, className }))}
                 ref={ref}
                 {...props}

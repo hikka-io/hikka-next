@@ -15,13 +15,11 @@ import {
     Select,
     SelectContent,
     SelectGroup,
-    SelectIcon,
     SelectItem,
     SelectList,
     SelectTrigger,
 } from '@/components/ui/select';
-
-import { cn } from '@/utils/cn';
+import Stack from '@/components/ui/stack';
 
 interface Props {
     extended?: boolean;
@@ -35,7 +33,7 @@ const OPTIONS = [
     },
 ];
 
-const ContentList: FC<Props> = ({ extended }) => {
+const ContentList: FC<Props> = () => {
     const { defaultOptions } = useHikkaClient();
     const [param, setParam] = useState('title_ua');
     const option = OPTIONS.find((o) => o.value === param);
@@ -53,15 +51,18 @@ const ContentList: FC<Props> = ({ extended }) => {
             todo_type: param as 'title_ua' | 'synopsis_ua',
             content_type: ContentTypeEnum.ANIME,
         },
+        paginationArgs: {
+            size: 21,
+        },
     });
 
     if (isLoading && !isFetchingNextPage) {
         return (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8">
-                {range(1, 20).map((v) => (
+            <Stack extended size={5} extendedSize={7}>
+                {range(1, 21).map((v) => (
                     <SkeletonCard key={v} />
                 ))}
-            </div>
+            </Stack>
         );
     }
 
@@ -85,7 +86,6 @@ const ContentList: FC<Props> = ({ extended }) => {
                                 </Label>
                             )}
                         </div>
-                        <SelectIcon />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectList>
@@ -100,12 +100,7 @@ const ContentList: FC<Props> = ({ extended }) => {
                     </SelectContent>
                 </Select>
             </div>
-            <div
-                className={cn(
-                    'grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8',
-                    extended && 'md:grid-cols-5',
-                )}
-            >
+            <Stack extended size={5} extendedSize={7}>
                 {list.map((anime) => (
                     <ContentCard
                         withContextMenu
@@ -117,10 +112,14 @@ const ContentList: FC<Props> = ({ extended }) => {
                         slug={anime.slug}
                         href={`/anime/${anime.slug}`}
                         image={anime.image}
-                        title={getTitle(anime as unknown as Record<string, unknown>, defaultOptions?.title, defaultOptions?.name)}
+                        title={getTitle(
+                            anime as unknown as Record<string, unknown>,
+                            defaultOptions?.title,
+                            defaultOptions?.name,
+                        )}
                     />
                 ))}
-            </div>
+            </Stack>
             {hasNextPage && (
                 <LoadMoreButton
                     isFetchingNextPage={isFetchingNextPage}

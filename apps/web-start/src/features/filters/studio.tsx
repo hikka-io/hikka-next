@@ -5,7 +5,8 @@ import { useSearchCompanies } from '@hikka/react';
 import { Building2 } from 'lucide-react';
 import { FC, useMemo, useState } from 'react';
 
-import FormSelect, { FormSelectProps } from '@/components/form/form-select';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
+import { SelectFieldProps, SelectField } from '@/components/form/form-select';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -100,7 +101,7 @@ const Studio: FC<Props> = () => {
     );
 };
 
-export const FormStudio: FC<Props & Partial<FormSelectProps>> = (props) => {
+export const FormStudio: FC<Props & Partial<SelectFieldProps>> = (props) => {
     const [studioSearch, setStudioSearch] = useState<string>();
     const { list, isFetching: isStudioListFetching } = useSearchCompanies({
         args: {
@@ -128,38 +129,43 @@ export const FormStudio: FC<Props & Partial<FormSelectProps>> = (props) => {
         setStudioSearch(keyword);
     };
 
+    const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
-        <FormSelect
-            {...props}
-            name="studios"
-            label="Студія"
-            placeholder="Виберіть студію..."
-            multiple
-            options={options}
-            onSearch={handleStudioSearch}
-        >
-            <SelectContent>
-                <SelectSearch placeholder="Назва студії..." />
-                <SelectList>
-                    <SelectGroup>
-                        {!isStudioListFetching &&
-                            list?.map((studio) => (
-                                <SelectItem
-                                    key={studio.slug}
-                                    value={studio.slug}
-                                >
-                                    {studio.name}
-                                </SelectItem>
-                            ))}
-                        <SelectEmpty>
-                            {isStudioListFetching
-                                ? 'Завантаження...'
-                                : 'Студій не знайдено'}
-                        </SelectEmpty>
-                    </SelectGroup>
-                </SelectList>
-            </SelectContent>
-        </FormSelect>
+        <form.AppField
+            name={"studios" as never}
+            children={() => (
+                <SelectField
+                    {...props}
+                    label="Студія"
+                    placeholder="Виберіть студію..."
+                    multiple
+                    options={options}
+                    onSearch={handleStudioSearch}
+                >
+                    <SelectContent>
+                        <SelectSearch placeholder="Назва студії..." />
+                        <SelectList>
+                            <SelectGroup>
+                                {!isStudioListFetching &&
+                                    list?.map((studio) => (
+                                        <SelectItem
+                                            key={studio.slug}
+                                            value={studio.slug}
+                                        >
+                                            {studio.name}
+                                        </SelectItem>
+                                    ))}
+                                <SelectEmpty>
+                                    {isStudioListFetching
+                                        ? 'Завантаження...'
+                                        : 'Студій не знайдено'}
+                                </SelectEmpty>
+                            </SelectGroup>
+                        </SelectList>
+                    </SelectContent>
+                </SelectField>
+            )}
+        />
     );
 };
 

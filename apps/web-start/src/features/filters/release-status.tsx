@@ -3,9 +3,11 @@
 import { Activity } from 'lucide-react';
 import { FC } from 'react';
 
-import FormBadgeFilter, {
-    FormBadgeFilterProps,
+import {
+    BadgeFilterField,
+    BadgeFilterFieldProps,
 } from '@/components/form/form-badge-filter';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 
@@ -39,16 +41,21 @@ const ReleaseStatus: FC<Props> = () => {
     );
 };
 
-export const FormReleaseStatus: FC<Props & Partial<FormBadgeFilterProps>> = (
+export const FormReleaseStatus: FC<Props & Partial<BadgeFilterFieldProps>> = (
     props,
 ) => {
+    const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
-        <FormBadgeFilter
-            {...props}
-            name="statuses"
-            properties={RELEASE_STATUS}
-            property="statuses"
-            label="Статус"
+        <form.AppField
+            name={"statuses" as never}
+            children={() => (
+                <BadgeFilterField
+                    {...props}
+                    properties={RELEASE_STATUS}
+                    property="statuses"
+                    label="Статус"
+                />
+            )}
         />
     );
 };

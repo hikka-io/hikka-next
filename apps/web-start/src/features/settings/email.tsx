@@ -1,13 +1,10 @@
 'use client';
 
 import { useChangeEmail } from '@hikka/react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import FormInput from '@/components/form/form-input';
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 
 import { z } from '@/utils/i18n/zod';
 
@@ -22,10 +19,6 @@ const formSchema = z
     });
 
 const Component = () => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-    });
-
     const mutationChangeEmail = useChangeEmail({
         options: {
             onSuccess: async () => {
@@ -34,45 +27,62 @@ const Component = () => {
         },
     });
 
-    const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-        mutationChangeEmail.mutate({
-            email: data.email,
-        });
-    };
+    const form = useAppForm({
+        defaultValues: {
+            email: '',
+            emailConfirmation: '',
+        },
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            mutationChangeEmail.mutate({
+                email: value.email,
+            });
+        },
+    });
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(handleFormSubmit)}
-                className="flex flex-col items-start gap-6"
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+            className="flex flex-col items-start gap-6"
+        >
+            <form.AppField
+                name="email"
+                children={(field) => (
+                    <field.TextField
+                        type="email"
+                        label="Новий email"
+                        placeholder="Введіть новий email"
+                        className="w-full"
+                    />
+                )}
+            />
+            <form.AppField
+                name="emailConfirmation"
+                children={(field) => (
+                    <field.TextField
+                        type="email"
+                        label="Підтвердити email"
+                        placeholder="Підтвердіть новий email"
+                        className="w-full"
+                    />
+                )}
+            />
+            <Button
+                size="md"
+                disabled={mutationChangeEmail.isPending}
+                variant="default"
+                type="submit"
             >
-                <FormInput
-                    name="email"
-                    type="email"
-                    label="Новий email"
-                    placeholder="Введіть новий email"
-                    className="w-full"
-                />
-                <FormInput
-                    name="emailConfirmation"
-                    type="email"
-                    label="Підтвердити email"
-                    placeholder="Підтвердіть новий email"
-                    className="w-full"
-                />
-                <Button
-                    size="md"
-                    disabled={mutationChangeEmail.isPending}
-                    variant="default"
-                    type="submit"
-                >
-                    {mutationChangeEmail.isPending && (
-                        <span className="loading loading-spinner"></span>
-                    )}
-                    Зберегти
-                </Button>
-            </form>
-        </Form>
+                {mutationChangeEmail.isPending && (
+                    <span className="loading loading-spinner"></span>
+                )}
+                Зберегти
+            </Button>
+        </form>
     );
 };
 

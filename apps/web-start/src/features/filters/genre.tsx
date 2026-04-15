@@ -4,7 +4,8 @@ import { useGenres } from '@hikka/react';
 import { Drama } from 'lucide-react';
 import { FC, useMemo } from 'react';
 
-import FormSelect, { FormSelectProps } from '@/components/form/form-select';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
+import { SelectFieldProps, SelectField } from '@/components/form/form-select';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -75,7 +76,7 @@ const Genre: FC<Props> = () => {
     );
 };
 
-export const FormGenre: FC<Props & Partial<FormSelectProps>> = (props) => {
+export const FormGenre: FC<Props & Partial<SelectFieldProps>> = (props) => {
     const { data: genreList } = useGenres({
         options: {
             select: (data) => {
@@ -92,24 +93,29 @@ export const FormGenre: FC<Props & Partial<FormSelectProps>> = (props) => {
         return genreList && renderSelectOptions(groupOptions(genreList));
     }, [genreList]);
 
+    const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
-        <FormSelect
-            {...props}
-            name="genres"
-            label="Жанри"
-            multiple
-            triState
-            placeholder="Виберіть жанр/жанри..."
-            options={genreList}
-        >
-            <SelectContent>
-                <SelectSearch placeholder="Назва жанру..." />
-                <SelectList>
-                    {options}
-                    <SelectEmpty>Жанрів не знайдено</SelectEmpty>
-                </SelectList>
-            </SelectContent>
-        </FormSelect>
+        <form.AppField
+            name={"genres" as never}
+            children={() => (
+                <SelectField
+                    {...props}
+                    label="Жанри"
+                    multiple
+                    triState
+                    placeholder="Виберіть жанр/жанри..."
+                    options={genreList}
+                >
+                    <SelectContent>
+                        <SelectSearch placeholder="Назва жанру..." />
+                        <SelectList>
+                            {options}
+                            <SelectEmpty>Жанрів не знайдено</SelectEmpty>
+                        </SelectList>
+                    </SelectContent>
+                </SelectField>
+            )}
+        />
     );
 };
 

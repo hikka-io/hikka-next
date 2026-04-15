@@ -9,15 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PagesRouteImport } from './routes/_pages'
 import { Route as PagesIndexRouteImport } from './routes/_pages/index'
+import { Route as NovelSitemapDotxmlRouteImport } from './routes/novel/sitemap[.]xml'
+import { Route as MangaSitemapDotxmlRouteImport } from './routes/manga/sitemap[.]xml'
 import { Route as AuthLogoutRouteImport } from './routes/auth/logout'
 import { Route as AuthGoogleRouteImport } from './routes/auth/google'
+import { Route as AnimeSitemapDotxmlRouteImport } from './routes/anime/sitemap[.]xml'
 import { Route as PagesSettingsRouteImport } from './routes/_pages/settings'
 import { Route as PagesScheduleRouteImport } from './routes/_pages/schedule'
 import { Route as PagesOauthRouteImport } from './routes/_pages/oauth'
 import { Route as PagesAuthRouteImport } from './routes/_pages/_auth'
-import { Route as ApiSitemapIndexRouteImport } from './routes/api/sitemap/index'
 import { Route as PagesSettingsIndexRouteImport } from './routes/_pages/settings/index'
 import { Route as PagesPeopleIndexRouteImport } from './routes/_pages/people/index'
 import { Route as PagesNovelIndexRouteImport } from './routes/_pages/novel/index'
@@ -29,9 +32,6 @@ import { Route as PagesArticlesIndexRouteImport } from './routes/_pages/articles
 import { Route as PagesAnimeIndexRouteImport } from './routes/_pages/anime/index'
 import { Route as AuthResetTokenRouteImport } from './routes/auth/reset.$token'
 import { Route as AuthActivateTokenRouteImport } from './routes/auth/activate.$token'
-import { Route as ApiSitemapNovelRouteImport } from './routes/api/sitemap/novel'
-import { Route as ApiSitemapMangaRouteImport } from './routes/api/sitemap/manga'
-import { Route as ApiSitemapAnimeRouteImport } from './routes/api/sitemap/anime'
 import { Route as ApiOgNovelRouteImport } from './routes/api/og/novel'
 import { Route as ApiOgMangaRouteImport } from './routes/api/og/manga'
 import { Route as ApiOgAnimeRouteImport } from './routes/api/og/anime'
@@ -97,6 +97,11 @@ import { Route as PagesCommentsContent_typeSlugIndexRouteImport } from './routes
 import { Route as PagesUUsernameListContent_typeRouteImport } from './routes/_pages/u/$username/list/$content_type'
 import { Route as PagesCommentsContent_typeSlugSplatRouteImport } from './routes/_pages/comments/$content_type/$slug/$'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PagesRoute = PagesRouteImport.update({
   id: '/_pages',
   getParentRoute: () => rootRouteImport,
@@ -106,6 +111,16 @@ const PagesIndexRoute = PagesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PagesRoute,
 } as any)
+const NovelSitemapDotxmlRoute = NovelSitemapDotxmlRouteImport.update({
+  id: '/novel/sitemap.xml',
+  path: '/novel/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MangaSitemapDotxmlRoute = MangaSitemapDotxmlRouteImport.update({
+  id: '/manga/sitemap.xml',
+  path: '/manga/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthLogoutRoute = AuthLogoutRouteImport.update({
   id: '/auth/logout',
   path: '/auth/logout',
@@ -114,6 +129,11 @@ const AuthLogoutRoute = AuthLogoutRouteImport.update({
 const AuthGoogleRoute = AuthGoogleRouteImport.update({
   id: '/auth/google',
   path: '/auth/google',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnimeSitemapDotxmlRoute = AnimeSitemapDotxmlRouteImport.update({
+  id: '/anime/sitemap.xml',
+  path: '/anime/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PagesSettingsRoute = PagesSettingsRouteImport.update({
@@ -134,11 +154,6 @@ const PagesOauthRoute = PagesOauthRouteImport.update({
 const PagesAuthRoute = PagesAuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => PagesRoute,
-} as any)
-const ApiSitemapIndexRoute = ApiSitemapIndexRouteImport.update({
-  id: '/api/sitemap/',
-  path: '/api/sitemap/',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const PagesSettingsIndexRoute = PagesSettingsIndexRouteImport.update({
   id: '/',
@@ -193,21 +208,6 @@ const AuthResetTokenRoute = AuthResetTokenRouteImport.update({
 const AuthActivateTokenRoute = AuthActivateTokenRouteImport.update({
   id: '/auth/activate/$token',
   path: '/auth/activate/$token',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiSitemapNovelRoute = ApiSitemapNovelRouteImport.update({
-  id: '/api/sitemap/novel',
-  path: '/api/sitemap/novel',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiSitemapMangaRoute = ApiSitemapMangaRouteImport.update({
-  id: '/api/sitemap/manga',
-  path: '/api/sitemap/manga',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiSitemapAnimeRoute = ApiSitemapAnimeRouteImport.update({
-  id: '/api/sitemap/anime',
-  path: '/api/sitemap/anime',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiOgNovelRoute = ApiOgNovelRouteImport.update({
@@ -551,11 +551,15 @@ const PagesCommentsContent_typeSlugSplatRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof PagesIndexRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/oauth': typeof PagesOauthRoute
   '/schedule': typeof PagesScheduleRoute
   '/settings': typeof PagesSettingsRouteWithChildren
+  '/anime/sitemap.xml': typeof AnimeSitemapDotxmlRoute
   '/auth/google': typeof AuthGoogleRoute
   '/auth/logout': typeof AuthLogoutRoute
+  '/manga/sitemap.xml': typeof MangaSitemapDotxmlRoute
+  '/novel/sitemap.xml': typeof NovelSitemapDotxmlRoute
   '/login': typeof PagesAuthLoginRoute
   '/reset': typeof PagesAuthResetRoute
   '/signup': typeof PagesAuthSignupRoute
@@ -582,9 +586,6 @@ export interface FileRoutesByFullPath {
   '/api/og/anime': typeof ApiOgAnimeRoute
   '/api/og/manga': typeof ApiOgMangaRoute
   '/api/og/novel': typeof ApiOgNovelRoute
-  '/api/sitemap/anime': typeof ApiSitemapAnimeRoute
-  '/api/sitemap/manga': typeof ApiSitemapMangaRoute
-  '/api/sitemap/novel': typeof ApiSitemapNovelRoute
   '/auth/activate/$token': typeof AuthActivateTokenRoute
   '/auth/reset/$token': typeof AuthResetTokenRoute
   '/anime/': typeof PagesAnimeIndexRoute
@@ -596,7 +597,6 @@ export interface FileRoutesByFullPath {
   '/novel/': typeof PagesNovelIndexRoute
   '/people/': typeof PagesPeopleIndexRoute
   '/settings/': typeof PagesSettingsIndexRoute
-  '/api/sitemap/': typeof ApiSitemapIndexRoute
   '/reset/$token': typeof PagesAuthResetTokenRoute
   '/anime/$slug/characters': typeof PagesAnimeSlugCharactersRoute
   '/anime/$slug/franchise': typeof PagesAnimeSlugFranchiseRoute
@@ -637,11 +637,15 @@ export interface FileRoutesByFullPath {
   '/u/$username/list/': typeof PagesUUsernameListIndexRoute
 }
 export interface FileRoutesByTo {
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/': typeof PagesIndexRoute
   '/oauth': typeof PagesOauthRoute
   '/schedule': typeof PagesScheduleRoute
+  '/anime/sitemap.xml': typeof AnimeSitemapDotxmlRoute
   '/auth/google': typeof AuthGoogleRoute
   '/auth/logout': typeof AuthLogoutRoute
+  '/manga/sitemap.xml': typeof MangaSitemapDotxmlRoute
+  '/novel/sitemap.xml': typeof NovelSitemapDotxmlRoute
   '/login': typeof PagesAuthLoginRoute
   '/reset': typeof PagesAuthResetRoute
   '/signup': typeof PagesAuthSignupRoute
@@ -659,9 +663,6 @@ export interface FileRoutesByTo {
   '/api/og/anime': typeof ApiOgAnimeRoute
   '/api/og/manga': typeof ApiOgMangaRoute
   '/api/og/novel': typeof ApiOgNovelRoute
-  '/api/sitemap/anime': typeof ApiSitemapAnimeRoute
-  '/api/sitemap/manga': typeof ApiSitemapMangaRoute
-  '/api/sitemap/novel': typeof ApiSitemapNovelRoute
   '/auth/activate/$token': typeof AuthActivateTokenRoute
   '/auth/reset/$token': typeof AuthResetTokenRoute
   '/anime': typeof PagesAnimeIndexRoute
@@ -673,7 +674,6 @@ export interface FileRoutesByTo {
   '/novel': typeof PagesNovelIndexRoute
   '/people': typeof PagesPeopleIndexRoute
   '/settings': typeof PagesSettingsIndexRoute
-  '/api/sitemap': typeof ApiSitemapIndexRoute
   '/reset/$token': typeof PagesAuthResetTokenRoute
   '/anime/$slug/characters': typeof PagesAnimeSlugCharactersRoute
   '/anime/$slug/franchise': typeof PagesAnimeSlugFranchiseRoute
@@ -715,12 +715,16 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_pages': typeof PagesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_pages/_auth': typeof PagesAuthRouteWithChildren
   '/_pages/oauth': typeof PagesOauthRoute
   '/_pages/schedule': typeof PagesScheduleRoute
   '/_pages/settings': typeof PagesSettingsRouteWithChildren
+  '/anime/sitemap.xml': typeof AnimeSitemapDotxmlRoute
   '/auth/google': typeof AuthGoogleRoute
   '/auth/logout': typeof AuthLogoutRoute
+  '/manga/sitemap.xml': typeof MangaSitemapDotxmlRoute
+  '/novel/sitemap.xml': typeof NovelSitemapDotxmlRoute
   '/_pages/': typeof PagesIndexRoute
   '/_pages/_auth/login': typeof PagesAuthLoginRoute
   '/_pages/_auth/reset': typeof PagesAuthResetRoute
@@ -748,9 +752,6 @@ export interface FileRoutesById {
   '/api/og/anime': typeof ApiOgAnimeRoute
   '/api/og/manga': typeof ApiOgMangaRoute
   '/api/og/novel': typeof ApiOgNovelRoute
-  '/api/sitemap/anime': typeof ApiSitemapAnimeRoute
-  '/api/sitemap/manga': typeof ApiSitemapMangaRoute
-  '/api/sitemap/novel': typeof ApiSitemapNovelRoute
   '/auth/activate/$token': typeof AuthActivateTokenRoute
   '/auth/reset/$token': typeof AuthResetTokenRoute
   '/_pages/anime/': typeof PagesAnimeIndexRoute
@@ -762,7 +763,6 @@ export interface FileRoutesById {
   '/_pages/novel/': typeof PagesNovelIndexRoute
   '/_pages/people/': typeof PagesPeopleIndexRoute
   '/_pages/settings/': typeof PagesSettingsIndexRoute
-  '/api/sitemap/': typeof ApiSitemapIndexRoute
   '/_pages/_auth/reset_/$token': typeof PagesAuthResetTokenRoute
   '/_pages/anime/$slug/characters': typeof PagesAnimeSlugCharactersRoute
   '/_pages/anime/$slug/franchise': typeof PagesAnimeSlugFranchiseRoute
@@ -806,11 +806,15 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/sitemap.xml'
     | '/oauth'
     | '/schedule'
     | '/settings'
+    | '/anime/sitemap.xml'
     | '/auth/google'
     | '/auth/logout'
+    | '/manga/sitemap.xml'
+    | '/novel/sitemap.xml'
     | '/login'
     | '/reset'
     | '/signup'
@@ -837,9 +841,6 @@ export interface FileRouteTypes {
     | '/api/og/anime'
     | '/api/og/manga'
     | '/api/og/novel'
-    | '/api/sitemap/anime'
-    | '/api/sitemap/manga'
-    | '/api/sitemap/novel'
     | '/auth/activate/$token'
     | '/auth/reset/$token'
     | '/anime/'
@@ -851,7 +852,6 @@ export interface FileRouteTypes {
     | '/novel/'
     | '/people/'
     | '/settings/'
-    | '/api/sitemap/'
     | '/reset/$token'
     | '/anime/$slug/characters'
     | '/anime/$slug/franchise'
@@ -892,11 +892,15 @@ export interface FileRouteTypes {
     | '/u/$username/list/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/sitemap.xml'
     | '/'
     | '/oauth'
     | '/schedule'
+    | '/anime/sitemap.xml'
     | '/auth/google'
     | '/auth/logout'
+    | '/manga/sitemap.xml'
+    | '/novel/sitemap.xml'
     | '/login'
     | '/reset'
     | '/signup'
@@ -914,9 +918,6 @@ export interface FileRouteTypes {
     | '/api/og/anime'
     | '/api/og/manga'
     | '/api/og/novel'
-    | '/api/sitemap/anime'
-    | '/api/sitemap/manga'
-    | '/api/sitemap/novel'
     | '/auth/activate/$token'
     | '/auth/reset/$token'
     | '/anime'
@@ -928,7 +929,6 @@ export interface FileRouteTypes {
     | '/novel'
     | '/people'
     | '/settings'
-    | '/api/sitemap'
     | '/reset/$token'
     | '/anime/$slug/characters'
     | '/anime/$slug/franchise'
@@ -969,12 +969,16 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_pages'
+    | '/sitemap.xml'
     | '/_pages/_auth'
     | '/_pages/oauth'
     | '/_pages/schedule'
     | '/_pages/settings'
+    | '/anime/sitemap.xml'
     | '/auth/google'
     | '/auth/logout'
+    | '/manga/sitemap.xml'
+    | '/novel/sitemap.xml'
     | '/_pages/'
     | '/_pages/_auth/login'
     | '/_pages/_auth/reset'
@@ -1002,9 +1006,6 @@ export interface FileRouteTypes {
     | '/api/og/anime'
     | '/api/og/manga'
     | '/api/og/novel'
-    | '/api/sitemap/anime'
-    | '/api/sitemap/manga'
-    | '/api/sitemap/novel'
     | '/auth/activate/$token'
     | '/auth/reset/$token'
     | '/_pages/anime/'
@@ -1016,7 +1017,6 @@ export interface FileRouteTypes {
     | '/_pages/novel/'
     | '/_pages/people/'
     | '/_pages/settings/'
-    | '/api/sitemap/'
     | '/_pages/_auth/reset_/$token'
     | '/_pages/anime/$slug/characters'
     | '/_pages/anime/$slug/franchise'
@@ -1059,21 +1059,28 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   PagesRoute: typeof PagesRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  AnimeSitemapDotxmlRoute: typeof AnimeSitemapDotxmlRoute
   AuthGoogleRoute: typeof AuthGoogleRoute
   AuthLogoutRoute: typeof AuthLogoutRoute
+  MangaSitemapDotxmlRoute: typeof MangaSitemapDotxmlRoute
+  NovelSitemapDotxmlRoute: typeof NovelSitemapDotxmlRoute
   ApiOgAnimeRoute: typeof ApiOgAnimeRoute
   ApiOgMangaRoute: typeof ApiOgMangaRoute
   ApiOgNovelRoute: typeof ApiOgNovelRoute
-  ApiSitemapAnimeRoute: typeof ApiSitemapAnimeRoute
-  ApiSitemapMangaRoute: typeof ApiSitemapMangaRoute
-  ApiSitemapNovelRoute: typeof ApiSitemapNovelRoute
   AuthActivateTokenRoute: typeof AuthActivateTokenRoute
   AuthResetTokenRoute: typeof AuthResetTokenRoute
-  ApiSitemapIndexRoute: typeof ApiSitemapIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_pages': {
       id: '/_pages'
       path: ''
@@ -1088,6 +1095,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesIndexRouteImport
       parentRoute: typeof PagesRoute
     }
+    '/novel/sitemap.xml': {
+      id: '/novel/sitemap.xml'
+      path: '/novel/sitemap.xml'
+      fullPath: '/novel/sitemap.xml'
+      preLoaderRoute: typeof NovelSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manga/sitemap.xml': {
+      id: '/manga/sitemap.xml'
+      path: '/manga/sitemap.xml'
+      fullPath: '/manga/sitemap.xml'
+      preLoaderRoute: typeof MangaSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/logout': {
       id: '/auth/logout'
       path: '/auth/logout'
@@ -1100,6 +1121,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/google'
       fullPath: '/auth/google'
       preLoaderRoute: typeof AuthGoogleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/anime/sitemap.xml': {
+      id: '/anime/sitemap.xml'
+      path: '/anime/sitemap.xml'
+      fullPath: '/anime/sitemap.xml'
+      preLoaderRoute: typeof AnimeSitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_pages/settings': {
@@ -1129,13 +1157,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof PagesAuthRouteImport
       parentRoute: typeof PagesRoute
-    }
-    '/api/sitemap/': {
-      id: '/api/sitemap/'
-      path: '/api/sitemap'
-      fullPath: '/api/sitemap/'
-      preLoaderRoute: typeof ApiSitemapIndexRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/_pages/settings/': {
       id: '/_pages/settings/'
@@ -1212,27 +1233,6 @@ declare module '@tanstack/react-router' {
       path: '/auth/activate/$token'
       fullPath: '/auth/activate/$token'
       preLoaderRoute: typeof AuthActivateTokenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/sitemap/novel': {
-      id: '/api/sitemap/novel'
-      path: '/api/sitemap/novel'
-      fullPath: '/api/sitemap/novel'
-      preLoaderRoute: typeof ApiSitemapNovelRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/sitemap/manga': {
-      id: '/api/sitemap/manga'
-      path: '/api/sitemap/manga'
-      fullPath: '/api/sitemap/manga'
-      preLoaderRoute: typeof ApiSitemapMangaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/sitemap/anime': {
-      id: '/api/sitemap/anime'
-      path: '/api/sitemap/anime'
-      fullPath: '/api/sitemap/anime'
-      preLoaderRoute: typeof ApiSitemapAnimeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/og/novel': {
@@ -1967,17 +1967,17 @@ const PagesRouteWithChildren = PagesRoute._addFileChildren(PagesRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   PagesRoute: PagesRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  AnimeSitemapDotxmlRoute: AnimeSitemapDotxmlRoute,
   AuthGoogleRoute: AuthGoogleRoute,
   AuthLogoutRoute: AuthLogoutRoute,
+  MangaSitemapDotxmlRoute: MangaSitemapDotxmlRoute,
+  NovelSitemapDotxmlRoute: NovelSitemapDotxmlRoute,
   ApiOgAnimeRoute: ApiOgAnimeRoute,
   ApiOgMangaRoute: ApiOgMangaRoute,
   ApiOgNovelRoute: ApiOgNovelRoute,
-  ApiSitemapAnimeRoute: ApiSitemapAnimeRoute,
-  ApiSitemapMangaRoute: ApiSitemapMangaRoute,
-  ApiSitemapNovelRoute: ApiSitemapNovelRoute,
   AuthActivateTokenRoute: AuthActivateTokenRoute,
   AuthResetTokenRoute: AuthResetTokenRoute,
-  ApiSitemapIndexRoute: ApiSitemapIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

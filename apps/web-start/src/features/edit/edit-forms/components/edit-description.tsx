@@ -1,8 +1,8 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
 
+import { useFormContext } from '@/components/form/form-context';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
@@ -21,7 +21,8 @@ interface Props {
 }
 
 const EditDescription: FC<Props> = ({ mode }) => {
-    const { control, setValue, getValues } = useFormContext();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const form = useFormContext() as any;
     const settings = useSettingsStore();
     const [open, setOpen] = useState(false);
 
@@ -30,7 +31,7 @@ const EditDescription: FC<Props> = ({ mode }) => {
             <div className="flex w-full flex-col gap-4">
                 <Label className="flex justify-between">
                     <span>Опис правки</span>
-                    <span className="text-muted-foreground">Необов’язково</span>
+                    <span className="text-muted-foreground">Необов'язково</span>
                 </Label>
                 {mode === 'edit' && (
                     <ScrollArea className="w-full whitespace-nowrap">
@@ -40,19 +41,23 @@ const EditDescription: FC<Props> = ({ mode }) => {
                                     size="badge"
                                     variant="outline"
                                     key={tag}
-                                    onClick={() =>
-                                        setValue(
+                                    onClick={() => {
+                                        const current =
+                                            form.getFieldValue(
+                                                'description',
+                                            ) as string;
+                                        form.setFieldValue(
                                             'description',
-                                            getValues('description') === ''
+                                            current === ''
                                                 ? tag
-                                                : getValues('description') +
-                                                      (tag.split(' ')[0] ==
+                                                : current +
+                                                      (tag.split(' ')[0] ===
                                                       '---'
                                                           ? ' '
                                                           : ', ') +
                                                       tag.toLowerCase(),
-                                        )
-                                    }
+                                        );
+                                    }}
                                 >
                                     {tag
                                         .slice(0, 20)
@@ -70,7 +75,11 @@ const EditDescription: FC<Props> = ({ mode }) => {
                             <Button
                                 size="badge"
                                 variant="secondary"
-                                onClick={() => setValue('description', '')}
+                                onClick={() =>
+                                    form.setFieldValue('description', '', {
+                                        touch: true,
+                                    })
+                                }
                             >
                                 Очистити поле
                             </Button>
@@ -78,19 +87,17 @@ const EditDescription: FC<Props> = ({ mode }) => {
                         <ScrollBar orientation="horizontal" />
                     </ScrollArea>
                 )}
-                <Controller
-                    control={control}
+                <form.Field
                     name="description"
-                    render={({ field: { onChange, onBlur, ref, value } }) => (
+                    children={(field: any) => (
                         <Textarea
                             placeholder="Введіть причину правки"
                             rows={3}
                             className="w-full disabled:cursor-text disabled:opacity-100"
                             disabled={mode === 'view'}
-                            value={value}
-                            onChange={onChange}
-                            onBlur={onBlur}
-                            ref={ref}
+                            value={field.state.value as string}
+                            onChange={(e) => field.handleChange(e.target.value)}
+                            onBlur={field.handleBlur}
                         />
                     )}
                 />
@@ -98,8 +105,12 @@ const EditDescription: FC<Props> = ({ mode }) => {
             <ResponsiveModal open={open} onOpenChange={setOpen}>
                 <ResponsiveModalContent title="Теги редагування">
                     <TagsModal
-                        setValue={setValue}
-                        getValues={getValues}
+                        setFieldValue={(name, value) =>
+                            form.setFieldValue(name, value)
+                        }
+                        getFieldValue={(name) =>
+                            form.getFieldValue(name) as string
+                        }
                         onClose={() => setOpen(false)}
                     />
                 </ResponsiveModalContent>

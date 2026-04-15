@@ -1,15 +1,12 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Film } from 'lucide-react';
 import { useEditorRef } from 'platejs/react';
 import { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
 
-import FormInput from '@/components/form/form-input';
+import { useAppForm } from '@/components/form/use-app-form';
 import { VideoPlugin } from '@/components/plate/editor/plugins/video-kit';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
@@ -49,56 +46,63 @@ type AddVideoModalProps = {
 };
 
 const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useAppForm({
+        defaultValues: {
+            url: '',
+        },
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            if (!value.url.trim()) return;
+
+            editor
+                .getTransforms(VideoPlugin)
+                .insert.video({ url: value.url.trim() });
+            editor.tf.focus();
+
+            onClose();
+        },
     });
 
-    const handleInsertVideo = (data: z.infer<typeof formSchema>) => {
-        if (!data.url.trim()) return;
-
-        editor
-            .getTransforms(VideoPlugin)
-            .insert.video({ url: data.url.trim() });
-        editor.tf.focus();
-
-        onClose();
-    };
-
     return (
-        <Form {...form}>
-            <form
-                onSubmit={(e) => e.preventDefault()}
-                className="flex flex-col gap-6"
-            >
-                <div className="flex w-full flex-col gap-6">
-                    <FormInput
-                        name="url"
-                        label="Посилання на відео"
-                        placeholder="Введіть посилання"
-                        className="flex-1"
-                        description="Підтримуються посилання на YouTube"
-                    />
-                </div>
-                <div className="flex w-full justify-end gap-2">
-                    <Button
-                        onClick={onClose}
-                        type="button"
-                        variant="outline"
-                        size="md"
-                    >
-                        Скасувати
-                    </Button>
-                    <Button
-                        onClick={form.handleSubmit(handleInsertVideo)}
-                        variant="secondary"
-                        type="submit"
-                        size="md"
-                    >
-                        Прийняти
-                    </Button>
-                </div>
-            </form>
-        </Form>
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+            className="flex flex-col gap-6"
+        >
+            <div className="flex w-full flex-col gap-6">
+                <form.AppField
+                    name="url"
+                    children={(field) => (
+                        <field.TextField
+                            label="Посилання на відео"
+                            placeholder="Введіть посилання"
+                            className="flex-1"
+                            description="Підтримуються посилання на YouTube"
+                        />
+                    )}
+                />
+            </div>
+            <div className="flex w-full justify-end gap-2">
+                <Button
+                    onClick={onClose}
+                    type="button"
+                    variant="outline"
+                    size="md"
+                >
+                    Скасувати
+                </Button>
+                <Button
+                    variant="secondary"
+                    type="submit"
+                    size="md"
+                >
+                    Прийняти
+                </Button>
+            </div>
+        </form>
     );
 };
 

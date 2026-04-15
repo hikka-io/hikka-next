@@ -1,18 +1,11 @@
 'use client';
 
 import { useCreatePasswordResetRequest } from '@hikka/react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-} from '@/components/ui/form';
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
 import { z } from '@/utils/i18n/zod';
@@ -23,13 +16,6 @@ const formSchema = z.object({
 });
 
 const ForgotPasswordForm = () => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            email: '',
-        },
-    });
-
     const mutationRequestPasswordReset = useCreatePasswordResetRequest({
         options: {
             onSuccess: (data) => {
@@ -46,56 +32,67 @@ const ForgotPasswordForm = () => {
         },
     });
 
-    const handleFormSubmit = (data: z.infer<typeof formSchema>) => {
-        mutationRequestPasswordReset.mutate(data);
-    };
+    const form = useAppForm({
+        defaultValues: {
+            email: '',
+        },
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            mutationRequestPasswordReset.mutate(value);
+        },
+    });
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(handleFormSubmit)}
-                className="space-y-4"
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+            className="space-y-4"
+        >
+            <form.Field
+                name="email"
+                children={(field) => (
+                    <Field>
+                        <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                        <Input
+                            id={field.name}
+                            type="email"
+                            placeholder="Введіть ваш email"
+                            value={field.state.value}
+                            onBlur={field.handleBlur}
+                            onChange={(e) =>
+                                field.handleChange(e.target.value)
+                            }
+                        />
+                        <FieldError errors={field.state.meta.errors} />
+                    </Field>
+                )}
+            />
+
+            {/* Submit Button */}
+            <Button
+                type="submit"
+                className="w-full"
+                disabled={mutationRequestPasswordReset.isPending}
             >
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="email"
-                                    placeholder="Введіть ваш email"
-                                    {...field}
-                                />
-                            </FormControl>
-                        </FormItem>
-                    )}
-                />
+                {mutationRequestPasswordReset.isPending && (
+                    <span className="loading loading-spinner mr-2"></span>
+                )}
+                Відновити
+            </Button>
 
-                {/* Submit Button */}
-                <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={mutationRequestPasswordReset.isPending}
-                >
-                    {mutationRequestPasswordReset.isPending && (
-                        <span className="loading loading-spinner mr-2"></span>
-                    )}
-                    Відновити
-                </Button>
-
-                {/* Back to Login */}
-                <Button
-                    variant="secondary"
-                    disabled={mutationRequestPasswordReset.isPending}
-                    className="w-full"
-                    asChild
-                >
-                    <Link to="/login">Повернутись до входу</Link>
-                </Button>
-            </form>
-        </Form>
+            {/* Back to Login */}
+            <Button
+                variant="secondary"
+                disabled={mutationRequestPasswordReset.isPending}
+                className="w-full"
+                asChild
+            >
+                <Link to="/login">Повернутись до входу</Link>
+            </Button>
+        </form>
     );
 };
 

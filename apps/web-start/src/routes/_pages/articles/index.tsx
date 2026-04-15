@@ -13,6 +13,7 @@ import {
     PopularAuthors,
     PopularTags,
 } from '@/features/articles';
+import { expandSort } from '@/features/filters/sort';
 
 import { generateHeadMeta } from '@/utils/metadata';
 import { articlesSearchSchema } from '@/utils/search-schemas';
@@ -23,8 +24,6 @@ export const Route = createFileRoute('/_pages/articles/')({
     loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
         const {
             author,
-            sort = 'created',
-            order = 'desc',
             tags = [],
             draft,
             categories = [],
@@ -36,7 +35,7 @@ export const Route = createFileRoute('/_pages/articles/')({
                 searchArticlesOptions(hikkaClient, {
                     args: {
                         author: author as string,
-                        sort: [`${sort}:${order}`],
+                        sort: expandSort('article', deps.sort, deps.order),
                         tags: tags as string[],
                         draft: Boolean(draft),
                         categories: categories as ArticleCategoryEnum[],

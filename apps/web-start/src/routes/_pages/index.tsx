@@ -25,6 +25,7 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import CoverImage from '@/components/cover-image';
 
 import { FeedLayout } from '@/features/feed';
+import { getOngoingsSort } from '@/features/filters/sort';
 
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
@@ -58,15 +59,15 @@ export const Route = createFileRoute('/_pages/')({
 
         if (loggedUser) {
             promises.push(
-                queryClient.ensureInfiniteQueryData(
-                    searchUserWatchesOptions(hikkaClient, {
+                queryClient.prefetchInfiniteQuery({
+                    ...searchUserWatchesOptions(hikkaClient, {
                         username: loggedUser.username,
                         args: {
                             watch_status: WatchStatusEnum.WATCHING,
                             sort: ['watch_updated:desc'],
                         },
                     }),
-                ),
+                }),
                 queryClient.ensureInfiniteQueryData(
                     followingHistoryOptions(hikkaClient),
                 ),
@@ -128,12 +129,7 @@ export const Route = createFileRoute('/_pages/')({
                         years: [year, year],
                         genres: ['-ecchi', '-hentai'],
                         status: [AnimeStatusEnum.ONGOING],
-                        sort: [
-                            'scored_by:desc',
-                            'score:desc',
-                            'native_scored_by:desc',
-                            'native_score:desc',
-                        ],
+                        sort: getOngoingsSort(),
                     },
                     paginationArgs: {
                         size: 5,

@@ -1,16 +1,11 @@
 'use client';
 
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
 import { ContentTypeEnum } from '@hikka/client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useStore } from '@tanstack/react-form';
 import { toast } from 'sonner';
 
-import FormInput from '@/components/form/form-input';
-import FormTextarea from '@/components/form/form-textarea';
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 
 import { FormAgeRating } from '@/features/filters/age-rating';
@@ -40,7 +35,7 @@ const formSchema = z.object({
     types: z.array(z.string()).optional(),
     genres: z.array(z.string()).optional(),
     only_translated: z.boolean().optional(),
-    sort: z.array(z.string()).optional(),
+    sort: z.string().nullable().optional(),
     order: z.string().nullable().optional(),
     ratings: z.array(z.string()).optional(),
     studios: z.array(z.string()).optional(),
@@ -61,7 +56,7 @@ const DEFAULT_VALUES = {
     types: [],
     genres: [],
     only_translated: false,
-    sort: [],
+    sort: undefined,
     order: null,
     ratings: [],
     studios: [],
@@ -80,95 +75,112 @@ interface Props {
 }
 
 const Component = ({ filterPreset, onClose, onBack }: Props) => {
-    'use no memo';
-
     const { filterPresets, setFilterPresets } = useSettingsStore();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useAppForm({
         defaultValues: {
             ...DEFAULT_VALUES,
             ...(filterPreset ?? {}),
+        } as z.infer<typeof formSchema>,
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            const filteredData = Object.fromEntries(
+                Object.entries(value).filter(
+                    ([key, val]) =>
+                        val !== false &&
+                        val !== undefined &&
+                        val !== null &&
+                        !(Array.isArray(val) && val.length === 0) &&
+                        !(
+                            key === 'years' &&
+                            arraysEqual(val as number[], YEARS)
+                        ) &&
+                        !(
+                            key === 'score' &&
+                            arraysEqual(val as number[], SCORE_RANGE)
+                        ) &&
+                        !(
+                            key === 'date_range' &&
+                            arraysEqual(val as number[], DATE_RANGE)
+                        ),
+                ),
+            );
+
+            const newFilterPreset: Hikka.FilterPreset = {
+                name: value.name,
+                description: value.description,
+                content_types: value.content_types,
+                ...filteredData,
+                id: filterPreset?.id || crypto.randomUUID(),
+                ...(value.date_range_enabled && {
+                    years: undefined,
+                    seasons: undefined,
+                }),
+                ...(!value.date_range_enabled && {
+                    date_range: undefined,
+                }),
+            };
+
+            if (filterPreset) {
+                setFilterPresets([
+                    newFilterPreset,
+                    ...filterPresets.filter(
+                        (preset) => preset.id !== filterPreset.id,
+                    ),
+                ]);
+            } else {
+                setFilterPresets([newFilterPreset, ...filterPresets]);
+            }
+
+            toast.success('Фільтр успішно збережено');
+            onClose?.();
         },
     });
 
-    const content_types = form.watch('content_types');
-    const date_range_enabled = form.watch('date_range_enabled');
-
-    const handleSubmit = (data: z.infer<typeof formSchema>) => {
-        const filteredData = Object.fromEntries(
-            Object.entries(data).filter(
-                ([key, value]) =>
-                    value !== false &&
-                    value !== undefined &&
-                    value !== null &&
-                    !(Array.isArray(value) && value.length === 0) &&
-                    !(
-                        key === 'years' && arraysEqual(value as number[], YEARS)
-                    ) &&
-                    !(
-                        key === 'score' &&
-                        arraysEqual(value as number[], SCORE_RANGE)
-                    ) &&
-                    !(
-                        key === 'date_range' &&
-                        arraysEqual(value as number[], DATE_RANGE)
-                    ),
-            ),
-        );
-
-        const newFilterPreset: Hikka.FilterPreset = {
-            name: data.name,
-            description: data.description,
-            content_types: data.content_types,
-            ...filteredData,
-            id: filterPreset?.id || crypto.randomUUID(),
-            ...(data.date_range_enabled && {
-                years: undefined,
-                seasons: undefined,
-            }),
-            ...(!data.date_range_enabled && {
-                date_range: undefined,
-            }),
-        };
-
-        if (filterPreset) {
-            setFilterPresets([
-                newFilterPreset,
-                ...filterPresets.filter(
-                    (preset) => preset.id !== filterPreset.id,
-                ),
-            ]);
-        } else {
-            setFilterPresets([newFilterPreset, ...filterPresets]);
-        }
-
-        toast.success('Фільтр успішно збережено');
-        onClose?.();
-    };
+    const content_types = useStore(
+        form.store,
+        (s) => s.values.content_types,
+    );
+    const date_range_enabled = useStore(
+        form.store,
+        (s) => s.values.date_range_enabled,
+    );
 
     const handleBack = () => {
         onBack?.();
     };
 
     return (
-        <Form {...form}>
+        <form.AppForm>
+            <form
+                className="contents"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    form.handleSubmit();
+                }}
+            >
             <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-                <FormInput
+                <form.AppField
                     name="name"
-                    label="Назва"
-                    placeholder="Назва"
-                    required
+                    children={(field) => (
+                        <field.TextField
+                            label="Назва"
+                            placeholder="Назва"
+                            required
+                        />
+                    )}
                 />
-                <FormTextarea
+                <form.AppField
                     name="description"
-                    label="Опис"
-                    placeholder="Опис"
+                    children={(field) => (
+                        <field.TextareaField
+                            label="Опис"
+                            placeholder="Опис"
+                        />
+                    )}
                 />
-                <ContentTypeSelect
-                    disabled={!!filterPreset}
-                    defaultValues={DEFAULT_VALUES}
-                />
+                <ContentTypeSelect disabled={!!filterPreset} />
                 <div
                     className={cn(
                         !content_types && 'pointer-events-none opacity-50',
@@ -192,7 +204,7 @@ const Component = ({ filterPreset, onClose, onBack }: Props) => {
                         <FormMediaType content_type={content_types[0]} />
                     )}
                     <FormLocalization />
-                    {content_types && (
+                    {content_types && content_types.length > 0 && (
                         <FormSort
                             sort_type={
                                 content_types.length > 1
@@ -216,12 +228,12 @@ const Component = ({ filterPreset, onClose, onBack }: Props) => {
                 <Button
                     size="md"
                     type="submit"
-                    onClick={form.handleSubmit(handleSubmit)}
                 >
                     Зберегти
                 </Button>
             </ResponsiveModalFooter>
-        </Form>
+            </form>
+        </form.AppForm>
     );
 };
 

@@ -10,6 +10,7 @@ import Block from '@/components/ui/block';
 import { Table, TableBody } from '@/components/ui/table';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { expandSort } from '@/features/filters/sort';
 
 import type { EditSearch } from '@/utils/search-schemas';
 
@@ -24,8 +25,6 @@ const EditList: FC<Props> = () => {
 
     const page = search.page || 1;
     const content_type = (search.content_type as EditContentType) || undefined;
-    const order = search.order || 'desc';
-    const sort = search.sort?.length ? search.sort : ['edit_id'];
     const edit_status = (search.edit_status as EditStatusEnum) || undefined;
     const author = search.author;
     const moderator = search.moderator;
@@ -33,7 +32,7 @@ const EditList: FC<Props> = () => {
     const { list, isLoading, pagination } = useEditList({
         args: {
             content_type,
-            sort: sort.map((item) => `${item}:${order}`),
+            sort: expandSort('edit', search.sort, search.order),
             status: edit_status,
             author,
             moderator,
@@ -54,15 +53,17 @@ const EditList: FC<Props> = () => {
     }
 
     return (
-        <Block className="-mx-4 md:mx-0">
-            <Table className="table">
-                <EditHead />
-                <TableBody>
-                    {list.map((edit) => (
-                        <EditRow key={edit.edit_id} edit={edit} />
-                    ))}
-                </TableBody>
-            </Table>
+        <Block>
+            <div className="overflow-hidden rounded-lg border">
+                <Table>
+                    <EditHead />
+                    <TableBody>
+                        {list.map((edit) => (
+                            <EditRow key={edit.edit_id} edit={edit} />
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
             {pagination && <PagePagination pagination={pagination} />}
         </Block>
     );

@@ -1,45 +1,55 @@
+'use client';
+
 import { ContentTypeEnum } from '@hikka/client';
-import { ReactNode } from 'react';
+import { FC } from 'react';
 
-import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
-import { Button } from '@/components/ui/button';
 import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from '@/components/ui/sheet';
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalFooter,
+} from '@/components/ui/responsive-modal';
 
-import { AnimeFilters } from '@/features/watch';
+import {
+    AnimeFiltersBody,
+    AnimeFiltersFooter,
+} from '@/features/watch/anime-filters';
 
 interface Props {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    content_type?: ContentTypeEnum;
     sort_type: 'anime' | 'watch';
-    children?: ReactNode;
 }
 
-const AnimeFiltersModal = ({ sort_type, children }: Props) => {
+/**
+ * Controlled modal wrapper for the anime filters. Responsive: Dialog on
+ * desktop, Drawer on mobile (via ResponsiveModal).
+ */
+const AnimeFiltersModal: FC<Props> = ({
+    open,
+    onOpenChange,
+    content_type = ContentTypeEnum.ANIME,
+    sort_type,
+}) => {
     return (
-        <Sheet>
-            <SheetTrigger asChild>
-                {children || (
-                    <Button variant="outline" size="sm">
-                        <AntDesignFilterFilled />
-                        Фільтри
-                    </Button>
-                )}
-            </SheetTrigger>
-            <SheetContent>
-                <SheetHeader>
-                    <SheetTitle>Фільтри</SheetTitle>
-                </SheetHeader>
-                <AnimeFilters
-                    content_type={ContentTypeEnum.ANIME}
-                    className="overflow-hidden"
+        <ResponsiveModal
+            type="sheet"
+            forceDesktop
+            open={open}
+            onOpenChange={onOpenChange}
+        >
+            <ResponsiveModalContent className="md:max-w-xl" title="Фільтри">
+                {/* -m-4 p-4 cancels parent padding so the scroll area fills edge-to-edge */}
+                <AnimeFiltersBody
+                    className="-m-4 flex-1 overflow-hidden overflow-y-auto p-4"
+                    content_type={content_type}
                     sort_type={sort_type}
                 />
-            </SheetContent>
-        </Sheet>
+                <ResponsiveModalFooter>
+                    <AnimeFiltersFooter className="w-full" />
+                </ResponsiveModalFooter>
+            </ResponsiveModalContent>
+        </ResponsiveModal>
     );
 };
 

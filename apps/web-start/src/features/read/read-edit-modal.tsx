@@ -7,18 +7,14 @@ import {
 } from '@hikka/client';
 import { useCreateRead, useDeleteRead, useReadBySlug } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useStore } from '@tanstack/react-form';
 import { createElement, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import FormDatePicker from '@/components/form/form-date-picker';
-import FormInput from '@/components/form/form-input';
-import FormTextarea from '@/components/form/form-textarea';
+import { useAppForm } from '@/components/form/use-app-form';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import {
@@ -98,10 +94,30 @@ const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
         ReadStatusEnum | undefined
     >(read?.status);
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: read,
+    const form = useAppForm({
+        defaultValues: {
+            score: read?.score ?? 0,
+            volumes: read?.volumes ?? 0,
+            chapters: read?.chapters ?? 0,
+            rereads: read?.rereads ?? 0,
+            note: read?.note ?? null,
+            start_date: (read as any)?.start_date ?? null,
+            end_date: (read as any)?.end_date ?? null,
+        },
+        validators: { onSubmit: formSchema as never },
+        onSubmit: async ({ value }) => {
+            createRead({
+                contentType: content_type,
+                slug,
+                args: {
+                    status: selectedStatus!,
+                    ...value,
+                },
+            });
+        },
     });
+
+    const startDate = useStore(form.store, (s) => s.values.start_date);
 
     useEffect(() => {
         if (read?.status) {
@@ -112,7 +128,14 @@ const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
     if (!read) return null;
 
     return (
-        <Form {...form}>
+        <form
+            className="contents"
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+        >
             <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
                 <div className="flex w-full flex-col gap-2">
                     <Label>Список</Label>
@@ -163,55 +186,83 @@ const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
                     </Select>
                 </div>
                 <div className="flex w-full gap-8">
-                    <FormInput
+                    <form.AppField
                         name="volumes"
-                        label="Томи"
-                        placeholder="Введіть к-сть прочитаних томів"
-                        type="number"
-                        className="flex-1"
+                        children={(field) => (
+                            <field.TextField
+                                label="Томи"
+                                placeholder="Введіть к-сть прочитаних томів"
+                                type="number"
+                                className="flex-1"
+                            />
+                        )}
                     />
-                    <FormInput
+                    <form.AppField
                         name="chapters"
-                        label="Розділи"
-                        placeholder="Введіть к-сть прочитаних розділів"
-                        type="number"
-                        className="flex-1"
+                        children={(field) => (
+                            <field.TextField
+                                label="Розділи"
+                                placeholder="Введіть к-сть прочитаних розділів"
+                                type="number"
+                                className="flex-1"
+                            />
+                        )}
                     />
                 </div>
                 <div className="flex w-full gap-8">
-                    <FormInput
+                    <form.AppField
                         name="score"
-                        label="Оцінка"
-                        placeholder="Введіть оцінку"
-                        type="number"
-                        className="flex-1"
+                        children={(field) => (
+                            <field.TextField
+                                label="Оцінка"
+                                placeholder="Введіть оцінку"
+                                type="number"
+                                className="flex-1"
+                            />
+                        )}
                     />
-                    <FormInput
+                    <form.AppField
                         name="rereads"
-                        label="Повторні читання"
-                        placeholder="Введіть к-сть повторних читань"
-                        type="number"
-                        className="flex-1"
+                        children={(field) => (
+                            <field.TextField
+                                label="Повторні читання"
+                                placeholder="Введіть к-сть повторних читань"
+                                type="number"
+                                className="flex-1"
+                            />
+                        )}
                     />
                 </div>
 
                 <div className="flex w-full gap-8">
-                    <FormDatePicker
-                        className="flex-1"
+                    <form.AppField
                         name="start_date"
-                        label="Дата початку"
+                        children={(field) => (
+                            <field.DatePickerField
+                                className="flex-1"
+                                label="Дата початку"
+                            />
+                        )}
                     />
-                    <FormDatePicker
-                        className="flex-1"
+                    <form.AppField
                         name="end_date"
-                        label="Дата завершення"
-                        minDate={form.watch('start_date') ?? undefined}
+                        children={(field) => (
+                            <field.DatePickerField
+                                className="flex-1"
+                                label="Дата завершення"
+                                minDate={startDate ?? undefined}
+                            />
+                        )}
                     />
                 </div>
-                <FormTextarea
+                <form.AppField
                     name="note"
-                    label="Нотатки"
-                    placeholder="Залиште нотатку"
+                    children={(field) => (
+                        <field.TextareaField
+                            label="Нотатки"
+                            placeholder="Залиште нотатку"
+                        />
+                    )}
                 />
             </div>
             <ResponsiveModalFooter>
@@ -236,16 +287,6 @@ const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
                 </Button>
                 <Button
                     size="md"
-                    onClick={form.handleSubmit((data) =>
-                        createRead({
-                            contentType: content_type,
-                            slug,
-                            args: {
-                                status: selectedStatus!,
-                                ...data,
-                            },
-                        }),
-                    )}
                     type="submit"
                     disabled={addToListLoading || deleteFromListLoading}
                 >
@@ -257,7 +298,7 @@ const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
                     Зберегти
                 </Button>
             </ResponsiveModalFooter>
-        </Form>
+        </form>
     );
 };
 

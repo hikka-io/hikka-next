@@ -6,17 +6,12 @@ import {
     useDeleteClient,
     useUpdateClient,
 } from '@hikka/react';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import FormInput from '@/components/form/form-input';
-import FormSwitch from '@/components/form/form-switch';
-import FormTextarea from '@/components/form/form-textarea';
+import { useAppForm } from '@/components/form/use-app-form';
 import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/MaterialSymbolsContentCopy';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 
@@ -57,19 +52,36 @@ const Component = ({ client, onClose }: Props) => {
         });
     const { data } = useClientFullDetails({ reference: client.reference });
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useAppForm({
         defaultValues: {
+            name: client.name,
+            description: client.description,
+            endpoint: '',
+            reference: client.reference,
+            secret: '',
             revoke_secret: false,
-            ...client,
+        },
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            const { reference, secret, ...rest } = value;
+            updateClient({
+                reference,
+                args: {
+                    ...rest,
+                },
+            });
         },
     });
 
     useEffect(() => {
         if (data) {
             form.reset({
+                name: data.name,
+                description: data.description,
+                endpoint: data.endpoint,
+                reference: data.reference,
+                secret: data.secret,
                 revoke_secret: false,
-                ...data,
             });
         }
     }, [data, form]);
@@ -78,58 +90,66 @@ const Component = ({ client, onClose }: Props) => {
         deleteClient(client.reference);
     };
 
-    const onUpdate = async (formData: z.infer<typeof formSchema>) => {
-        const { reference, secret, ...rest } = formData;
-        updateClient({
-            reference,
-            args: {
-                ...rest,
-            },
-        });
-    };
-
-    const onCopy = async (
-        formData: z.infer<typeof formSchema>,
-        field: 'reference' | 'secret',
-    ) => {
-        navigator.clipboard.writeText(formData[field]);
+    const onCopy = async (field: 'reference' | 'secret') => {
+        navigator.clipboard.writeText(form.getFieldValue(field));
         toast.success('Ви успішно скопіювали рядок.');
     };
 
     return (
-        <Form {...form}>
+        <form
+            className="contents"
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+        >
             <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-                <FormInput
+                <form.AppField
                     name="name"
-                    label="Назва застосунку"
-                    placeholder="Введіть назву застосунку"
-                    type="string"
+                    children={(field) => (
+                        <field.TextField
+                            label="Назва застосунку"
+                            placeholder="Введіть назву застосунку"
+                            type="string"
+                        />
+                    )}
                 />
-                <FormTextarea
+                <form.AppField
                     name="description"
-                    label="Опис"
-                    placeholder="Залиште опис до застосунку"
+                    children={(field) => (
+                        <field.TextareaField
+                            label="Опис"
+                            placeholder="Залиште опис до застосунку"
+                        />
+                    )}
                 />
-                <FormInput
+                <form.AppField
                     name="endpoint"
-                    label="Посилання переспрямування"
-                    placeholder="https://example.com/"
-                    type="string"
+                    children={(field) => (
+                        <field.TextField
+                            label="Посилання переспрямування"
+                            placeholder="https://example.com/"
+                            type="string"
+                        />
+                    )}
                 />
                 <div>
                     <Label>Референс</Label>
                     <div className="flex w-full items-end gap-2">
-                        <FormInput
+                        <form.AppField
                             name="reference"
-                            placeholder="123123-123123-123123-123123"
-                            disabled
-                            className="w-full"
+                            children={(field) => (
+                                <field.TextField
+                                    placeholder="123123-123123-123123-123123"
+                                    disabled
+                                    className="w-full"
+                                />
+                            )}
                         />
                         <Button
                             variant="outline"
-                            onClick={form.handleSubmit((data) =>
-                                onCopy(data, 'reference'),
-                            )}
+                            onClick={() => onCopy('reference')}
                         >
                             <MaterialSymbolsContentCopy />
                             Скопіювати
@@ -139,35 +159,40 @@ const Component = ({ client, onClose }: Props) => {
                 <div>
                     <Label>Ключ</Label>
                     <div className="flex w-full items-end gap-2">
-                        <FormInput
+                        <form.AppField
                             name="secret"
-                            placeholder="h1Kk@--H3l1o1tsl0rgoN- ..."
-                            disabled
-                            type="password"
-                            className="w-full"
+                            children={(field) => (
+                                <field.TextField
+                                    placeholder="h1Kk@--H3l1o1tsl0rgoN- ..."
+                                    disabled
+                                    type="password"
+                                    className="w-full"
+                                />
+                            )}
                         />
                         <Button
                             variant="outline"
-                            onClick={form.handleSubmit((data) =>
-                                onCopy(data, 'secret'),
-                            )}
+                            onClick={() => onCopy('secret')}
                         >
                             <MaterialSymbolsContentCopy />
                             Скопіювати
                         </Button>
                     </div>
                 </div>
-                <FormSwitch
+                <form.AppField
                     name="revoke_secret"
-                    label="Перестворити секрет"
-                    className="w-full"
+                    children={(field) => (
+                        <field.SwitchField
+                            label="Перестворити секрет"
+                            className="w-full"
+                        />
+                    )}
                 />
             </div>
             <ResponsiveModalFooter>
                 <Button
                     size="md"
                     variant="secondary"
-                    onClick={form.handleSubmit(onUpdate)}
                     type="submit"
                     disabled={deleteClientLoading || updateClientLoading}
                 >
@@ -189,7 +214,7 @@ const Component = ({ client, onClose }: Props) => {
                     Видалити
                 </Button>
             </ResponsiveModalFooter>
-        </Form>
+        </form>
     );
 };
 

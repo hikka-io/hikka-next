@@ -17,6 +17,8 @@ import {
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 
+import { getOngoingsSort } from '@/features/filters/sort';
+
 import { cn } from '@/utils/cn';
 import { getCurrentSeason } from '@/utils/season';
 
@@ -35,12 +37,7 @@ const Ongoings: FC<Props> = ({ className }) => {
             years: [year, year],
             genres: ['-ecchi', '-hentai'],
             status: [AnimeStatusEnum.ONGOING],
-            sort: [
-                'scored_by:desc',
-                'score:desc',
-                'native_scored_by:desc',
-                'native_score:desc',
-            ],
+            sort: getOngoingsSort(),
         },
         paginationArgs: {
             size: 8,

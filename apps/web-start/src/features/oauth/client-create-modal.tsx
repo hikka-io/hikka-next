@@ -1,14 +1,10 @@
 'use client';
 
 import { useCreateClient } from '@hikka/react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import FormInput from '@/components/form/form-input';
-import FormTextarea from '@/components/form/form-textarea';
+import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 
 import { z } from '@/utils/i18n/zod';
@@ -34,40 +30,62 @@ const Component = ({ onClose }: Props) => {
             },
         });
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useAppForm({
+        defaultValues: {
+            name: '',
+            description: '',
+            endpoint: '',
+        },
+        validators: { onSubmit: formSchema },
+        onSubmit: async ({ value }) => {
+            createClient({ ...value });
+        },
     });
 
-    const onCreate = async (formData: z.infer<typeof formSchema>) => {
-        createClient({ ...formData });
-    };
-
     return (
-        <Form {...form}>
+        <form
+            className="contents"
+            onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+            }}
+        >
             <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-                <FormInput
+                <form.AppField
                     name="name"
-                    label="Назва застосунку"
-                    placeholder="Введіть назву застосунку"
-                    type="string"
+                    children={(field) => (
+                        <field.TextField
+                            label="Назва застосунку"
+                            placeholder="Введіть назву застосунку"
+                            type="string"
+                        />
+                    )}
                 />
-                <FormTextarea
+                <form.AppField
                     name="description"
-                    label="Опис"
-                    placeholder="Залиште опис до застосунку"
+                    children={(field) => (
+                        <field.TextareaField
+                            label="Опис"
+                            placeholder="Залиште опис до застосунку"
+                        />
+                    )}
                 />
-                <FormInput
+                <form.AppField
                     name="endpoint"
-                    label="Посилання переспрямування"
-                    placeholder="https://example.com/"
-                    type="string"
+                    children={(field) => (
+                        <field.TextField
+                            label="Посилання переспрямування"
+                            placeholder="https://example.com/"
+                            type="string"
+                        />
+                    )}
                 />
             </div>
             <ResponsiveModalFooter>
                 <Button
                     variant="default"
                     size="md"
-                    onClick={form.handleSubmit(onCreate)}
                     type="submit"
                 >
                     {createClientLoading && (
@@ -76,7 +94,7 @@ const Component = ({ onClose }: Props) => {
                     Створити
                 </Button>
             </ResponsiveModalFooter>
-        </Form>
+        </form>
     );
 };
 

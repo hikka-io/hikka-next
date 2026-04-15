@@ -1,12 +1,11 @@
 'use client';
 
-// TODO: Remove "use no memo" once react-hook-form is compatible with React Compiler
-// See: https://github.com/react-hook-form/react-hook-form/issues/11910
+import { useStore } from '@tanstack/react-form';
 import { Calendar } from 'lucide-react';
 import { FC, useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
 
-import FormSlider, { FormSliderProps } from '@/components/form/form-slider';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
+import { SliderField, SliderFieldProps } from '@/components/form/form-slider';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
@@ -94,12 +93,9 @@ const Year: FC<Props> = () => {
     );
 };
 
-export const FormYear: FC<Props & Partial<FormSliderProps>> = (props) => {
-    'use no memo';
-
-    const { watch } = useFormContext();
-
-    const years = watch('years');
+export const FormYear: FC<Props & Partial<SliderFieldProps>> = () => {
+    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const years = useStore(form.store, (s) => (s.values as any).years);
 
     return (
         <div className="flex flex-col gap-2">
@@ -115,13 +111,16 @@ export const FormYear: FC<Props & Partial<FormSliderProps>> = (props) => {
             </div>
 
             <div className="flex items-center gap-2">
-                <FormSlider
-                    {...props}
-                    name="years"
-                    min={Number(DEFAULT_YEAR_START)}
-                    max={Number(DEFAULT_YEAR_END)}
-                    minStepsBetweenThumbs={0}
-                    className="flex-1"
+                <form.AppField
+                    name={"years" as never}
+                    children={() => (
+                        <SliderField
+                            min={Number(DEFAULT_YEAR_START)}
+                            max={Number(DEFAULT_YEAR_END)}
+                            minStepsBetweenThumbs={0}
+                            className="flex-1"
+                        />
+                    )}
                 />
             </div>
         </div>

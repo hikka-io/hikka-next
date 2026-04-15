@@ -3,9 +3,11 @@
 import { ShieldEllipsis } from 'lucide-react';
 import { FC } from 'react';
 
-import FormBadgeFilter, {
-    FormBadgeFilterProps,
+import {
+    BadgeFilterField,
+    BadgeFilterFieldProps,
 } from '@/components/form/form-badge-filter';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 
@@ -39,16 +41,21 @@ const AgeRating: FC<Props> = () => {
     );
 };
 
-export const FormAgeRating: FC<Props & Partial<FormBadgeFilterProps>> = (
+export const FormAgeRating: FC<Props & Partial<BadgeFilterFieldProps>> = (
     props,
 ) => {
+    const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
-        <FormBadgeFilter
-            {...props}
-            name="ratings"
-            properties={AGE_RATING}
-            property="ratings"
-            label="Віковий рейтинг"
+        <form.AppField
+            name={"ratings" as never}
+            children={() => (
+                <BadgeFilterField
+                    {...props}
+                    properties={AGE_RATING}
+                    property="ratings"
+                    label="Віковий рейтинг"
+                />
+            )}
         />
     );
 };

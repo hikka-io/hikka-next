@@ -53,7 +53,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<'div'>) {
 }
 
 const fieldVariants = cva(
-    'group/field flex w-full gap-2 data-[invalid=true]:text-destructive',
+    'group/field flex w-full gap-2 data-[invalid=true]:text-destructive-foreground',
     {
         variants: {
             orientation: {
@@ -107,7 +107,7 @@ function FieldLabel({
         <Label
             data-slot="field-label"
             className={cn(
-                'group/field-label peer/field-label bg-secondary/20 has-data-[state=checked]:border-primary-border has-data-[state=checked]:bg-primary dark:has-data-[state=checked]:border-primary-border dark:has-data-[state=checked]:bg-primary flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5',
+                'group/field-label peer/field-label has-data-[state=checked]:border-primary-border has-data-[state=checked]:bg-primary dark:has-data-[state=checked]:border-primary-border dark:has-data-[state=checked]:bg-primary flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5',
                 'has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col',
                 className,
             )}
@@ -217,7 +217,10 @@ function FieldError({
         <div
             role="alert"
             data-slot="field-error"
-            className={cn('text-destructive text-sm font-normal', className)}
+            className={cn(
+                'text-destructive-foreground text-sm font-normal',
+                className,
+            )}
             {...props}
         >
             {content}

@@ -3,29 +3,28 @@
 import { useSession } from '@hikka/react';
 import { FC } from 'react';
 
+import { useFormContext } from '@/components/form/form-context';
 import { Button } from '@/components/ui/button';
 
-interface Props {
-    onSubmit: (data: any) => Promise<void>;
-    handleSubmit: (onSubmit: (data: any) => Promise<void>) => () => void;
-}
-
-const AutoButton: FC<Props> = ({ onSubmit, handleSubmit }) => {
+const AutoButton: FC = () => {
     const { user: loggedUser } = useSession();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const form = useFormContext() as any;
 
     if (!loggedUser || loggedUser.role === 'user') {
         return null;
     }
 
-    const onAcceptSubmit = async (data: any) => {
-        return await onSubmit({ ...data, auto: true });
+    const handleAutoSubmit = () => {
+        form.setFieldValue('auto', true);
+        form.handleSubmit();
     };
 
     return (
         <Button
             className="w-fit"
             variant="outline"
-            onClick={handleSubmit(onAcceptSubmit)}
+            onClick={handleAutoSubmit}
         >
             Прийняти
         </Button>

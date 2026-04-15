@@ -4,9 +4,11 @@ import { ContentTypeEnum } from '@hikka/client';
 import { Play } from 'lucide-react';
 import { FC } from 'react';
 
-import FormBadgeFilter, {
-    FormBadgeFilterProps,
+import {
+    BadgeFilterField,
+    BadgeFilterFieldProps,
 } from '@/components/form/form-badge-filter';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 
@@ -58,17 +60,22 @@ const MediaType: FC<Props> = ({ content_type }) => {
     );
 };
 
-export const FormMediaType: FC<Props & Partial<FormBadgeFilterProps>> = ({
+export const FormMediaType: FC<Props & Partial<BadgeFilterFieldProps>> = ({
     content_type,
     ...props
 }) => {
+    const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
-        <FormBadgeFilter
-            {...props}
-            name="types"
-            properties={getMediaType(content_type)}
-            property="types"
-            label="Тип"
+        <form.AppField
+            name={"types" as never}
+            children={() => (
+                <BadgeFilterField
+                    {...props}
+                    properties={getMediaType(content_type)}
+                    property="types"
+                    label="Тип"
+                />
+            )}
         />
     );
 };

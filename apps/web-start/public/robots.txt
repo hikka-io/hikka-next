@@ -6,4 +6,4 @@ Disallow: /edit/new
 
 Host: https://hikka.io
 
-Sitemap: https://hikka.io/api/sitemap
+Sitemap: https://hikka.io/sitemap.xml

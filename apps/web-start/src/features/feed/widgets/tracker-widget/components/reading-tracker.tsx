@@ -1,12 +1,19 @@
 'use client';
 
-import { ContentTypeEnum, ReadArgs, ReadStatusEnum } from '@hikka/client';
+import {
+    ContentTypeEnum,
+    ReadArgs,
+    ReadResponse,
+    ReadStatusEnum,
+} from '@hikka/client';
 import {
     useCreateRead,
     useHikkaClient,
+    useMutation,
     useSearchUserReads,
     useSession,
 } from '@hikka/react';
+import { queryKeys, useQueryClient } from '@hikka/react/core';
 import { getTitle } from '@hikka/react/utils';
 import { useEffect, useState } from 'react';
 
@@ -66,12 +73,13 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const router = useRouter();
     const { user: loggedUser } = useSession();
     const { defaultOptions } = useHikkaClient();
+    const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
 
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [updatedRead, setUpdatedRead] = useState<ReadArgs | null>(null);
 
-    const { list } = useSearchUserReads({
+    const { list, ref, isFetchingNextPage } = useSearchUserReads({
         contentType,
         username: String(loggedUser?.username),
         args: {
@@ -89,6 +97,27 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     });
 
     const { mutate: mutateCreateRead, reset } = useCreateRead();
+
+    const { mutate: mutateCreateReadSilent } = useMutation<
+        ReadResponse,
+        Error,
+        { slug: string; args: ReadArgs }
+    >({
+        mutationFn: (client, { slug, args }) =>
+            client.read.createRead(contentType, slug, args),
+        options: {
+            onSuccess: (data, { slug }) => {
+                queryClient.setQueryData(
+                    queryKeys.read.entry(contentType, slug),
+                    data,
+                );
+                queryClient.invalidateQueries({
+                    queryKey: queryKeys.read.lists(contentType),
+                    refetchType: 'none',
+                });
+            },
+        },
+    });
 
     const config = CONTENT_TYPE_CONFIG[contentType];
 
@@ -148,20 +177,39 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
     useEffect(() => {
         if (debouncedUpdatedRead && selectedRead) {
-            mutateCreateRead({
-                contentType,
-                slug: selectedRead.content.slug,
-                args: {
-                    note: debouncedUpdatedRead.note,
-                    volumes: debouncedUpdatedRead.volumes,
-                    rereads: debouncedUpdatedRead.rereads,
-                    score: debouncedUpdatedRead.score,
-                    status: debouncedUpdatedRead.status,
-                    chapters: debouncedUpdatedRead.chapters,
-                },
-            });
+            const totalChapters = selectedRead.content.chapters;
+            const isLastChapter =
+                totalChapters != null &&
+                debouncedUpdatedRead.chapters === totalChapters;
+
+            const args = {
+                note: debouncedUpdatedRead.note,
+                volumes: debouncedUpdatedRead.volumes,
+                rereads: debouncedUpdatedRead.rereads,
+                score: debouncedUpdatedRead.score,
+                status: debouncedUpdatedRead.status,
+                chapters: debouncedUpdatedRead.chapters,
+            };
+
+            if (isLastChapter) {
+                mutateCreateReadSilent({
+                    slug: selectedRead.content.slug,
+                    args,
+                });
+            } else {
+                mutateCreateRead({
+                    contentType,
+                    slug: selectedRead.content.slug,
+                    args,
+                });
+            }
         }
-    }, [mutateCreateRead, debouncedUpdatedRead]);
+    }, [
+        mutateCreateRead,
+        mutateCreateReadSilent,
+        debouncedUpdatedRead,
+        contentType,
+    ]);
 
     if (!list || list.length === 0) {
         return (
@@ -211,6 +259,11 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             </TooltipContent>
                         </Tooltip>
                     ))}
+                    <div ref={ref} className="flex items-center justify-center">
+                        {isFetchingNextPage && (
+                            <span className="loading loading-spinner" />
+                        )}
+                    </div>
                 </Stack>
 
                 {selectedRead && (

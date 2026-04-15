@@ -1677,7 +1677,6 @@ __metadata:
     "@fontsource-variable/geist": "npm:^5.0.0"
     "@hikka/client": "workspace:*"
     "@hikka/react": "workspace:*"
-    "@hookform/resolvers": "npm:^3.9.1"
     "@marsidev/react-turnstile": "npm:1.1.0"
     "@platejs/autoformat": "npm:^52.3.10"
     "@platejs/basic-nodes": "npm:^52.3.10"
@@ -1697,6 +1696,7 @@ __metadata:
     "@tanem/react-nprogress": "npm:^6.0.3"
     "@tanstack/devtools-vite": "npm:^0.5.5"
     "@tanstack/react-devtools": "npm:^0.9.13"
+    "@tanstack/react-form": "npm:^1.29.0"
     "@tanstack/react-query": "npm:^5.90.21"
     "@tanstack/react-query-devtools": "npm:^5.91.3"
     "@tanstack/react-router": "npm:^1.166.6"
@@ -1719,7 +1719,7 @@ __metadata:
     date-fns: "npm:^4.1.0"
     i18next: "npm:^23.16.5"
     lodash-es: "npm:^4.17.21"
-    lucide-react: "npm:^0.469.0"
+    lucide-react: "npm:^1.8.0"
     marked: "npm:^12.0.1"
     mdast-util-find-and-replace: "npm:^3.0.2"
     nitro: "npm:nitro-nightly@3.0.1-20260311-194443-0f366e59"
@@ -1731,7 +1731,6 @@ __metadata:
     react-day-picker: "npm:9.14.0"
     react-dom: "npm:19.2.1"
     react-dropzone: "npm:^14.3.5"
-    react-hook-form: "npm:^7.71.1"
     react-intersection-observer: "npm:^9.13.1"
     react-lite-youtube-embed: "npm:^2.4.0"
     react-markdown: "npm:10.0.0"
@@ -1759,15 +1758,6 @@ __metadata:
     zustand: "npm:^5.0.3"
   languageName: unknown
   linkType: soft
-
-"@hookform/resolvers@npm:^3.9.1":
-  version: 3.10.0
-  resolution: "@hookform/resolvers@npm:3.10.0"
-  peerDependencies:
-    react-hook-form: ^7.0.0
-  checksum: 10c0/7ee44533b4cdc28c4fa2a94894c735411e5a1f830f4a617c580533321a9b901df0cc8c1e2fad81ad8d55154ebc5cb844cf9c116a3148ffae2bc48758c33cbb8e
-  languageName: node
-  linkType: hard
 
 "@humanwhocodes/config-array@npm:^0.13.0":
   version: 0.13.0
@@ -5122,10 +5112,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/form-core@npm:1.29.0":
+  version: 1.29.0
+  resolution: "@tanstack/form-core@npm:1.29.0"
+  dependencies:
+    "@tanstack/devtools-event-client": "npm:^0.4.1"
+    "@tanstack/pacer-lite": "npm:^0.1.1"
+    "@tanstack/store": "npm:^0.9.1"
+  checksum: 10c0/f57e81326df7cc1ee962370498573f45c938b69ca977b9deb3f25b4169f9c0bb455c6c1fad9d151acf79e41892b43e40ccba5929cd1ce7a59336cf955ddeb15b
+  languageName: node
+  linkType: hard
+
 "@tanstack/history@npm:1.161.4":
   version: 1.161.4
   resolution: "@tanstack/history@npm:1.161.4"
   checksum: 10c0/adfcaab72831dbecb35dbbcfaa75f032efb6e8b4ef7397f21bdccb08fa35234a44372b5f85e2f3c376e9370412e823f70ef94178f714cdabfb79d1f770eaa971
+  languageName: node
+  linkType: hard
+
+"@tanstack/pacer-lite@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@tanstack/pacer-lite@npm:0.1.1"
+  checksum: 10c0/c74c2e67dba3a14cd14134c27cff4856977c9019cf4dbe6a545a06960f4c9c8edad846e526595206aa01c42cc5cd5ee217761547ab6d2a3edec6fb3d69864686
   languageName: node
   linkType: hard
 
@@ -5154,6 +5162,21 @@ __metadata:
     react: ">=16.8"
     react-dom: ">=16.8"
   checksum: 10c0/27ba3dff635dafc83f909842b454d991aebcb5428077e36e698498191ca77a58795fdbc29cbe30c27608acb79b239af6f8ec8950f8b08d78556d0e3f16a4417f
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-form@npm:^1.29.0":
+  version: 1.29.0
+  resolution: "@tanstack/react-form@npm:1.29.0"
+  dependencies:
+    "@tanstack/form-core": "npm:1.29.0"
+    "@tanstack/react-store": "npm:^0.9.1"
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@tanstack/react-start":
+      optional: true
+  checksum: 10c0/1b191b72daafda36c7d751f2e0617445f53f6309c887ddd342a8d3413f077dd718085b00158ab454f0b4bdc5bb4d7057c0aaefa871dc839dc5b780ce92a42908
   languageName: node
   linkType: hard
 
@@ -11877,12 +11900,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.469.0":
-  version: 0.469.0
-  resolution: "lucide-react@npm:0.469.0"
+"lucide-react@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "lucide-react@npm:1.8.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/0ee78d110550579b848a01446a440f733fd17e1bf1850aa01551b61f415e03e5f5ab7f26b56f1c648edc93856177f5476ff9f8f6f5d80e8fe45913d208f49961
+  checksum: 10c0/f7398f89a0f5b2cbfd1b7a7f6b2f00b0abd05d4b21d948bbd281ab141c42cdff9f1d2aed4e32b78b4bbdfa78308b6577705698af8bf9945bad23ed7d56e255b4
   languageName: node
   linkType: hard
 
@@ -13765,15 +13788,6 @@ __metadata:
   version: 3.2.2
   resolution: "react-fast-compare@npm:3.2.2"
   checksum: 10c0/0bbd2f3eb41ab2ff7380daaa55105db698d965c396df73e6874831dbafec8c4b5b08ba36ff09df01526caa3c61595247e3269558c284e37646241cba2b90a367
-  languageName: node
-  linkType: hard
-
-"react-hook-form@npm:^7.71.1":
-  version: 7.71.1
-  resolution: "react-hook-form@npm:7.71.1"
-  peerDependencies:
-    react: ^16.8.0 || ^17 || ^18 || ^19
-  checksum: 10c0/6c8fc0fa740d299481de3ed32bae98f7c6331240822c602363e5cd221746d875dc3c5e65d0039902b7f7a44dc9ac9a4932e00e9ad9af3051bed1987858ce78c7
   languageName: node
   linkType: hard
 

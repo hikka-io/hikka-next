@@ -1,49 +1,48 @@
+import { useStore } from '@tanstack/react-form';
 import { ComponentProps, FC } from 'react';
 
-import {
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Textarea } from '@/components/ui/textarea';
 
-interface Props extends ComponentProps<'textarea'> {
-    name: string;
+import { useFieldContext } from './form-context';
+
+export interface Props extends Omit<ComponentProps<'textarea'>, 'value' | 'onChange' | 'onBlur'> {
     label?: string;
     description?: string;
 }
 
-const FormTextarea: FC<Props> = ({
-    name,
+export const TextareaField: FC<Props> = ({
     label,
     description,
     children,
     className,
     ...props
 }) => {
+    const field = useFieldContext<string>();
+    const errors = useStore(field.store, (state) => state.meta.errors);
+    const isInvalid = errors.length > 0;
+
     return (
-        <FormField
-            name={name}
-            render={({ field }) => (
-                <FormItem className={className}>
-                    <div className="flex flex-nowrap items-center justify-between">
-                        {label && <FormLabel>{label}</FormLabel>}
-                        {children}
-                    </div>
-                    <FormControl>
-                        <Textarea rows={4} {...props} {...field} />
-                    </FormControl>
-                    {description && (
-                        <FormDescription>{description}</FormDescription>
-                    )}
-                    <FormMessage />
-                </FormItem>
+        <Field data-invalid={isInvalid} className={className}>
+            <div className="flex flex-nowrap items-center justify-between">
+                {label && <FieldLabel htmlFor={field.name}>{label}</FieldLabel>}
+                {children}
+            </div>
+            <Textarea
+                id={field.name}
+                rows={4}
+                {...props}
+                value={field.state.value ?? ''}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                aria-invalid={isInvalid}
+            />
+            {description && (
+                <FieldDescription>{description}</FieldDescription>
             )}
-        />
+            <FieldError errors={errors} />
+        </Field>
     );
 };
 
-export default FormTextarea;
+export default TextareaField;

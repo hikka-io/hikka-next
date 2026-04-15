@@ -10,6 +10,7 @@ import {
 import { useSearchUserWatches } from '@hikka/react';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { expandSort } from '@/features/filters/sort';
 
 import { useParams } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
@@ -29,9 +30,6 @@ export const useWatchList = (options?: { enabled?: boolean }) => {
     const genres = search.genres ?? [];
     const studios = search.studios ?? [];
 
-    const order = search.order || 'desc';
-    const sort = search.sort?.length ? search.sort : ['watch_score'];
-
     return useSearchUserWatches({
         username: String(params.username),
         args: {
@@ -46,10 +44,7 @@ export const useWatchList = (options?: { enabled?: boolean }) => {
             years,
             genres,
             studios,
-            sort:
-                sort && order
-                    ? sort.map((item) => `${item}:${order}`)
-                    : undefined,
+            sort: expandSort('watch', search.sort, search.order),
         },
         options: { enabled: options?.enabled },
     });
