@@ -59,15 +59,15 @@ export const Route = createFileRoute('/_pages/')({
 
         if (loggedUser) {
             promises.push(
-                queryClient.ensureInfiniteQueryData(
-                    searchUserWatchesOptions(hikkaClient, {
+                queryClient.prefetchInfiniteQuery({
+                    ...searchUserWatchesOptions(hikkaClient, {
                         username: loggedUser.username,
                         args: {
                             watch_status: WatchStatusEnum.WATCHING,
                             sort: ['watch_updated:desc'],
                         },
                     }),
-                ),
+                }),
                 queryClient.ensureInfiniteQueryData(
                     followingHistoryOptions(hikkaClient),
                 ),

@@ -78,6 +78,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
             read_status: ReadStatusEnum.READING,
             sort: ['read_updated:desc'],
         },
+        options: { refetchOnMount: 'always' },
     });
 
     const selectedRead =

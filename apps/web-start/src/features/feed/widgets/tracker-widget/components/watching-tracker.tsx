@@ -60,6 +60,7 @@ const WatchingTracker = () => {
             watch_status: WatchStatusEnum.WATCHING,
             sort: ['watch_updated:desc'],
         },
+        options: { refetchOnMount: 'always' },
     });
 
     const selectedWatch =

@@ -50,6 +50,7 @@ export function createMutation<
 >({
     mutationFn,
     invalidateQueries,
+    invalidateRefetchType,
     cacheByQueryKey,
 }: {
     mutationFn: (client: HikkaClient, variables: TVariables) => Promise<TData>;
@@ -58,6 +59,7 @@ export function createMutation<
         | readonly unknown[][]
         | ((args: TVariables) => readonly unknown[] | readonly unknown[][])
         | (() => readonly unknown[] | readonly unknown[][]);
+    invalidateRefetchType?: 'active' | 'inactive' | 'all' | 'none';
     cacheByQueryKey?: ({
         data,
         queryClient,
@@ -115,6 +117,7 @@ export function createMutation<
                                 queryClient.invalidateQueries({
                                     queryKey,
                                     exact: false,
+                                    refetchType: invalidateRefetchType,
                                 });
                             },
                         );
@@ -123,6 +126,7 @@ export function createMutation<
                         queryClient.invalidateQueries({
                             queryKey: queriesToInvalidate as readonly unknown[],
                             exact: false,
+                            refetchType: invalidateRefetchType,
                         });
                     }
                 }

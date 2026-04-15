@@ -193,14 +193,14 @@ export const queryKeys = {
         all: ['watch'] as const,
         entry: (slug: string) =>
             [...queryKeys.watch.all, 'entry', slug] as const,
+        lists: () => [...queryKeys.watch.all, 'list'] as const,
         list: (
             username: string,
             args: unknown,
             paginationArgs?: PaginationArgs,
         ) =>
             [
-                ...queryKeys.watch.all,
-                'list',
+                ...queryKeys.watch.lists(),
                 username,
                 args,
                 paginationArgs,
@@ -223,6 +223,10 @@ export const queryKeys = {
         all: ['read'] as const,
         entry: (contentType: string, slug: string) =>
             [...queryKeys.read.all, 'entry', contentType, slug] as const,
+        lists: (contentType?: string) =>
+            contentType
+                ? ([...queryKeys.read.all, 'list', contentType] as const)
+                : ([...queryKeys.read.all, 'list'] as const),
         list: (
             contentType: string,
             username: string,

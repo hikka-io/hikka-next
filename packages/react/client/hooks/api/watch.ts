@@ -74,7 +74,9 @@ export const useCreateWatch = createMutation({
     invalidateQueries: () => [
         queryKeys.anime.search({}),
         queryKeys.collections.all,
+        queryKeys.watch.lists(),
     ],
+    invalidateRefetchType: 'all',
     cacheByQueryKey: ({ data, queryClient, args }) => {
         queryClient.setQueryData<WatchResponse>(
             queryKeys.watch.entry(args.slug),
@@ -93,7 +95,9 @@ export const useDeleteWatch = createMutation({
     invalidateQueries: () => [
         queryKeys.anime.search({}),
         queryKeys.collections.all,
+        queryKeys.watch.lists(),
     ],
+    invalidateRefetchType: 'all',
     cacheByQueryKey: ({ queryClient, args: slug }) => {
         queryClient.resetQueries({
             queryKey: queryKeys.watch.entry(slug),
