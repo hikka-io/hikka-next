@@ -142,13 +142,7 @@ const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
                     <Select
                         value={selectedStatus && [selectedStatus]}
                         onValueChange={(value) => {
-                            const newStatus = value[0] as ReadStatusEnum;
-                            setSelectedStatus(newStatus);
-                            createRead({
-                                contentType: content_type,
-                                slug,
-                                args: { status: newStatus },
-                            });
+                            setSelectedStatus(value[0] as ReadStatusEnum);
                         }}
                     >
                         <SelectTrigger size="md">

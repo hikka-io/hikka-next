@@ -137,12 +137,7 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
                     <Select
                         value={selectedStatus && [selectedStatus]}
                         onValueChange={(value) => {
-                            const newStatus = value[0] as WatchStatusEnum;
-                            setSelectedStatus(newStatus);
-                            createWatch({
-                                slug,
-                                args: { status: newStatus },
-                            });
+                            setSelectedStatus(value[0] as WatchStatusEnum);
                         }}
                     >
                         <SelectTrigger size="md">
