@@ -15,6 +15,7 @@ import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import { ContentDetailLayout } from '@/features/content';
 
 import { MANGA_NAV_ROUTES } from '@/utils/constants/navigation';
+import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
 import { getNsfwConsentFn } from '@/utils/cookies/server';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
@@ -22,11 +23,17 @@ import { truncateText } from '@/utils/text';
 
 export const Route = createFileRoute('/_pages/manga/$slug')({
     loader: async ({ params, context: { queryClient, hikkaClient } }) => {
-        const manga = await queryClient.ensureQueryData(
-            mangaBySlugOptions(hikkaClient, { slug: params.slug }),
-        );
+        const mangaOptions = mangaBySlugOptions(hikkaClient, {
+            slug: params.slug,
+        });
+        let manga = await queryClient.ensureQueryData(mangaOptions);
 
         if (!manga) throw redirect({ to: '/' });
+
+        if (!hikkaClient.getAuthToken()) {
+            manga = stripRestrictedExternal(manga);
+            queryClient.setQueryData(mangaOptions.queryKey, manga);
+        }
 
         const nsfwConsented = manga.nsfw
             ? !!(await getNsfwConsentFn())
