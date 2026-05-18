@@ -48,15 +48,20 @@ const Links: FC<Props> = ({ content_type }) => {
         return null;
     }
 
+    const dedupeByUrl = (links: typeof content.external) =>
+        Array.from(new Map(links.map((l) => [l.url, l])).values());
+
     const watchLinksData = user
-        ? content.external.filter(
-              (l) =>
-                  l.type === ExternalTypeEnum.WATCH ||
-                  l.type === ExternalTypeEnum.READ,
+        ? dedupeByUrl(
+              content.external.filter(
+                  (l) =>
+                      l.type === ExternalTypeEnum.WATCH ||
+                      l.type === ExternalTypeEnum.READ,
+              ),
           )
         : [];
-    const generalLinksData = content.external.filter(
-        (l) => l.type === ExternalTypeEnum.GENERAL,
+    const generalLinksData = dedupeByUrl(
+        content.external.filter((l) => l.type === ExternalTypeEnum.GENERAL),
     );
 
     const linksData =
