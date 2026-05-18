@@ -64,8 +64,10 @@ const Rating = ({
             const nearestNumber =
                 Math.round(numberInStars / precision) * precision;
 
+            const clamped = Math.min(Math.max(nearestNumber, 0), totalStars);
+
             return Number(
-                nearestNumber.toFixed(
+                clamped.toFixed(
                     precision.toString().split('.')[1]?.length || 0,
                 ),
             );
