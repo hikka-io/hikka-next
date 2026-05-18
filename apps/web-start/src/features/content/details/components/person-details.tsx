@@ -1,6 +1,7 @@
 import { PersonResponse } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 import { BookType, Languages } from 'lucide-react';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -8,6 +9,37 @@ import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
 
 import DetailItem from './detail-item';
+import SynonymsModal from './synonyms-modal';
+
+const SynonymsTrigger = ({
+    synonyms,
+    title,
+}: {
+    synonyms: string[];
+    title?: string;
+}) => {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <>
+            <DetailItem icon={<BookType className="size-4" />} title="Синоніми">
+                <button
+                    type="button"
+                    className="line-clamp-2 w-fit cursor-pointer text-right text-sm leading-tight font-medium hover:underline"
+                    onClick={() => setOpen(true)}
+                >
+                    {synonyms.slice(0, 3).join(', ')}
+                </button>
+            </DetailItem>
+            <SynonymsModal
+                description={title}
+                synonyms={synonyms}
+                open={open}
+                onOpenChange={setOpen}
+            />
+        </>
+    );
+};
 
 const PersonDetails = ({
     className,
@@ -16,6 +48,8 @@ const PersonDetails = ({
     className?: string;
     data: PersonResponse;
 }) => {
+    const title = useTitle(data);
+
     return (
         <Card
             className={cn('bg-secondary/20 px-0 backdrop-blur', className)}
@@ -38,10 +72,9 @@ const PersonDetails = ({
                 <Fragment>
                     <Separator />
                     <div className="flex flex-col gap-4 px-4">
-                        <DetailItem
-                            icon={<BookType className="size-4" />}
-                            title="Синоніми"
-                            value={data.synonyms}
+                        <SynonymsTrigger
+                            title={title}
+                            synonyms={data.synonyms}
                         />
                     </div>
                 </Fragment>
