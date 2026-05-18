@@ -43,17 +43,7 @@ const TextExpand = ({
         const el = contentRef.current;
         if (!el) return;
 
-        const measure = () => {
-            const next = el.scrollHeight > maxHeight;
-            setNeedsExpansion((prev) => (prev === next ? prev : next));
-        };
-
-        measure();
-
-        const ro = new ResizeObserver(measure);
-        ro.observe(el);
-
-        return () => ro.disconnect();
+        setNeedsExpansion(el.scrollHeight > maxHeight);
     }, [maxHeight]);
 
     const shouldShowCollapsed =
