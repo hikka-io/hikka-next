@@ -77,7 +77,7 @@ const Collections: FC<Props> = ({ extended }) => {
                             <span className="font-black">Колекції</span> пусто
                         </span>
                     }
-                    description="Цей список оновиться після того як сюди буде додано колекції"
+                    description="Цей список оновиться після того, як сюди буде додано колекції"
                 />
             )}
             {extended && hasNextPage && (

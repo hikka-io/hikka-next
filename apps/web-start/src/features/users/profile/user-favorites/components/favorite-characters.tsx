@@ -54,7 +54,11 @@ const Characters: FC<Props> = ({ extended }) => {
                     {filteredData.map((res) => (
                         <ContentCard
                             key={res.slug}
-                            title={getTitle(res, defaultOptions?.title, defaultOptions?.name)}
+                            title={getTitle(
+                                res,
+                                defaultOptions?.title,
+                                defaultOptions?.name,
+                            )}
                             image={res.image}
                             to={`/characters/${res.slug}`}
                             content_type={ContentTypeEnum.CHARACTER}
@@ -71,7 +75,7 @@ const Characters: FC<Props> = ({ extended }) => {
                             <span className="font-black">Персонажі</span> пусто
                         </span>
                     }
-                    description="Цей список оновиться після того як сюди буде додано персонажів"
+                    description="Цей список оновиться після того, як сюди буде додано персонажів"
                 />
             )}
             {extended && hasNextPage && (

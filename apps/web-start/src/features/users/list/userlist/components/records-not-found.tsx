@@ -42,7 +42,7 @@ const RecordsNotFound = ({ status, content_type }: Props) => {
                     <span>Список пустий</span>
                 )
             }
-            description={`Цей список оновиться після того як сюди буде додано ${CONTENT_TYPE_TITLE[content_type]}${statusTitle ? ' з цим статусом' : ''}`}
+            description={`Цей список оновиться після того, як сюди буде додано ${CONTENT_TYPE_TITLE[content_type]}${statusTitle ? ' з цим статусом' : ''}`}
         />
     );
 };

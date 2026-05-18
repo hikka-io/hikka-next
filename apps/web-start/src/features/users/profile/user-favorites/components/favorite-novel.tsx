@@ -66,7 +66,7 @@ const Novel: FC<Props> = ({ extended }) => {
                             пусто
                         </span>
                     }
-                    description="Цей список оновиться після того як сюди буде додано ранобе"
+                    description="Цей список оновиться після того, як сюди буде додано ранобе"
                 />
             )}
             {extended && hasNextPage && (
