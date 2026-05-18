@@ -1,7 +1,7 @@
 'use client';
 
 import { ContentTypeEnum } from '@hikka/client';
-import { useRouter } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import { Filter, PanelRightClose, PanelRightOpen } from 'lucide-react';
 import { FC, Suspense, useEffect, useState } from 'react';
 
@@ -38,18 +38,24 @@ interface Props {
 }
 
 const Search = ({ placeholder }: { placeholder: string }) => {
-    const router = useRouter();
+    const navigate = useNavigate();
     const { search: query } = useFilterSearch<{ search?: string }>();
 
     const [search, setSearch] = useState(query);
     const debouncedSearch = useDebounce({ value: search, delay: 300 });
 
     useEffect(() => {
-        router.navigate({
+        const desired = debouncedSearch || undefined;
+        // Skip when the debounced value already matches the URL — otherwise
+        // the mount-time fire would strip ?page from a deep link.
+        if (desired === (query || undefined)) return;
+
+        navigate({
+            to: '.',
             search: (prev: Record<string, unknown>) => {
                 const next = { ...prev };
-                if (debouncedSearch) {
-                    next.search = debouncedSearch;
+                if (desired) {
+                    next.search = desired;
                 } else {
                     delete next.search;
                 }
@@ -57,8 +63,8 @@ const Search = ({ placeholder }: { placeholder: string }) => {
                 return next;
             },
             replace: true,
-        } as any);
-    }, [debouncedSearch]);
+        });
+    }, [debouncedSearch, query, navigate]);
 
     return (
         <Input

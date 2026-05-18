@@ -1,7 +1,7 @@
 'use client';
 
 import { queryKeys, useQueryClient } from '@hikka/react/core';
-import { useRouter } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
@@ -21,7 +21,7 @@ interface Props {
 
 const AnimeList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
     const queryClient = useQueryClient();
-    const router = useRouter();
+    const navigate = useNavigate();
 
     const {
         fetchNextPage,
@@ -36,19 +36,16 @@ const AnimeList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
     } = useAnimeSearchQuery(pageSize);
 
     const handlePageChange = (newPage: number) => {
-        if (data && data?.pages.length > 1) {
+        if (data && data.pages.length > 1) {
             queryClient.removeQueries({
                 queryKey: queryKeys.anime.search({ args, paginationArgs }),
             });
         }
 
-        router.navigate({
-            search: (prev: Record<string, unknown>) => ({
-                ...prev,
-                page: newPage,
-            }),
-            replace: true,
-        } as any);
+        navigate({
+            to: '.',
+            search: (prev) => ({ ...prev, page: newPage }),
+        });
     };
 
     if (isLoading && !isFetchingNextPage) {

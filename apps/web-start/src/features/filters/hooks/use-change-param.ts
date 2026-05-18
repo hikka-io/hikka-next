@@ -1,15 +1,15 @@
 'use client';
 
-import { useRouter } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 
 const useChangeParam = () => {
-    const router = useRouter();
+    const navigate = useNavigate();
 
     const handleChangeParam = (
         name: string,
         value: string | string[] | number[] | boolean,
     ) => {
-        router.navigate({
+        navigate({
             to: '.',
             search: (prev: Record<string, unknown>) => {
                 const next: Record<string, unknown> = { ...prev };
@@ -33,7 +33,7 @@ const useChangeParam = () => {
             },
             replace: true,
             resetScroll: false,
-        } as any);
+        });
     };
 
     return handleChangeParam;
