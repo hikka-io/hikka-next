@@ -11,6 +11,7 @@ import {
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
 
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
 import { MaterialSymbolsEditRounded } from '../icons/material-symbols/MaterialSymbolsEditRounded';
@@ -62,7 +63,7 @@ const ContextMenuOverlay: FC<Props> = ({
                 <ContextMenuItem
                     onClick={() =>
                         navigator.clipboard.writeText(
-                            `${window.location.origin}/${content_type}/${slug}`,
+                            `${window.location.origin}${CONTENT_TYPE_LINKS[content_type]}/${slug}`,
                         )
                     }
                 >
