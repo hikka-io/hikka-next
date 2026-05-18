@@ -40,8 +40,8 @@ export const WIDGET_REGISTRY: Record<UIFeedWidgetSlug, WidgetMeta> = {
         defaultSide: 'right',
     },
     ongoings: {
-        title: 'Онґоінґи',
-        description: 'ТОП аніме онґоінґів сезону',
+        title: 'Онґоїнґи',
+        description: 'ТОП аніме онґоїнґів сезону',
         component: OngoingsWidget,
         authRequired: false,
         defaultSide: 'center',

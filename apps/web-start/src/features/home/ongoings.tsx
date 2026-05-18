@@ -48,7 +48,7 @@ const Ongoings: FC<Props> = ({ className }) => {
         <Block className={cn(className)}>
             <Header href="/anime?statuses=ongoing">
                 <HeaderContainer>
-                    <HeaderTitle variant="h2">Онґоінґи</HeaderTitle>
+                    <HeaderTitle variant="h2">Онґоїнґи</HeaderTitle>
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
@@ -65,7 +65,7 @@ const Ongoings: FC<Props> = ({ className }) => {
             )}
             {list && list.length === 0 && (
                 <NotFound
-                    title="Не знайдено сезонних онґоінґів"
+                    title="Не знайдено сезонних онґоїнґів"
                     description="Сезон ще не почався або поки немає достатньо оцінених тайтлів"
                 />
             )}

@@ -90,7 +90,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                 <Block className="w-full gap-4 py-4">
                     <Header href="/anime" search={search} className="px-4">
                         <HeaderContainer>
-                            <HeaderTitle variant="h4">Онґоінґи</HeaderTitle>
+                            <HeaderTitle variant="h4">Онґоїнґи</HeaderTitle>
                         </HeaderContainer>
                         <HeaderNavButton />
                     </Header>
@@ -113,7 +113,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                     )}
                     {list && list.length === 0 && (
                         <NotFound
-                            title="Не знайдено сезонних онґоінґів"
+                            title="Не знайдено сезонних онґоїнґів"
                             description="Сезон ще не почався або поки немає достатньо оцінених тайтлів"
                         />
                     )}
@@ -127,7 +127,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
             <Block className="w-full gap-4 py-4">
                 <Header href="/anime" search={search} className="px-4">
                     <HeaderContainer>
-                        <HeaderTitle variant="h4">Онґоінґи</HeaderTitle>
+                        <HeaderTitle variant="h4">Онґоїнґи</HeaderTitle>
                     </HeaderContainer>
                     <HeaderNavButton />
                 </Header>
@@ -208,7 +208,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
 
                     {!isLoading && (!list || list.length === 0) && (
                         <p className="text-muted-foreground py-4 text-center text-sm">
-                            Немає сезонних онґоінґів
+                            Немає сезонних онґоїнґів
                         </p>
                     )}
                 </div>

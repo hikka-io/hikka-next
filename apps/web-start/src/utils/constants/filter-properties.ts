@@ -62,7 +62,7 @@ export const RELEASE_STATUS: Hikka.FilterProperty<ContentStatusEnum> = {
         title_en: 'Discontinued',
     },
     [ContentStatusEnum.ONGOING]: {
-        title_ua: 'Онґоінґ',
+        title_ua: 'Онґоїнґ',
         title_en: 'Ongoing',
     },
     [ContentStatusEnum.FINISHED]: {
@@ -135,7 +135,7 @@ export const NOVEL_MEDIA_TYPE: Hikka.FilterProperty<NovelMediaEnum> = {
         title_en: 'Light Novel',
     },
     [NovelMediaEnum.NOVEL]: {
-        title_ua: 'Веб-новела',
+        title_ua: 'Вебновела',
         title_en: 'Novel',
     },
 };
