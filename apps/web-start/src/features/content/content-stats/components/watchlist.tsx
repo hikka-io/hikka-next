@@ -23,30 +23,25 @@ const Watchlist = () => {
         data.stats.planned +
         data.stats.watching;
 
-    const stats = Object.keys(data.stats).reduce(
-        (acc: Hikka.ListStat[], stat) => {
-            if (!stat.includes('score')) {
-                const status = WATCH_STATUS[stat as WatchStatusEnum];
-                const percentage =
-                    (100 * data.stats[stat as keyof AnimeStatsResponse]) /
-                    sumStats;
+    const stats: Hikka.ListStat[] = Object.keys(data.stats)
+        .filter((stat) => !stat.includes('score'))
+        .map((stat) => {
+            const status = WATCH_STATUS[stat as WatchStatusEnum];
+            const percentage =
+                (100 * data.stats[stat as keyof AnimeStatsResponse]) /
+                sumStats;
 
-                acc.push({
-                    percentage,
-                    value: data.stats[stat as keyof AnimeStatsResponse],
-                    icon:
-                        status.icon &&
-                        createElement(status.icon, {
-                            className: 'size-3!',
-                        }),
-                    name: stat,
-                });
-            }
-
-            return acc;
-        },
-        [],
-    );
+            return {
+                percentage,
+                value: data.stats[stat as keyof AnimeStatsResponse],
+                icon:
+                    status.icon &&
+                    createElement(status.icon, {
+                        className: 'size-3!',
+                    }),
+                name: stat,
+            };
+        });
 
     return <Stats stats={stats} />;
 };

@@ -19,10 +19,10 @@ const Stats: FC<Props> = ({ stats }) => {
     return (
         <div className="relative">
             <div className="flex flex-col justify-center gap-2">
-                {stats.map((stat) => {
+                {stats.map((stat, index) => {
                     return (
                         <Tooltip
-                            key={`${stat.value}-${stat.percentage}`}
+                            key={stat.name ?? `stat-${index}`}
                             delayDuration={0}
                         >
                             <TooltipTrigger asChild>

@@ -31,26 +31,20 @@ const Readlist = ({ content_type }: Props) => {
         data.stats.planned +
         data.stats.reading;
 
-    const stats = Object.keys(data.stats).reduce(
-        (acc: Hikka.ListStat[], stat) => {
-            if (!stat.includes('score')) {
-                const status = READ_STATUS[stat as ReadStatusEnum];
-                const percentage =
-                    (100 * data.stats[stat as keyof ReadStatsResponse]) /
-                    sumStats;
+    const stats: Hikka.ListStat[] = Object.keys(data.stats)
+        .filter((stat) => !stat.includes('score'))
+        .map((stat) => {
+            const status = READ_STATUS[stat as ReadStatusEnum];
+            const percentage =
+                (100 * data.stats[stat as keyof ReadStatsResponse]) / sumStats;
 
-                acc.push({
-                    percentage,
-                    value: data.stats[stat as keyof ReadStatsResponse],
-                    icon: status.icon && createElement(status.icon),
-                    name: stat,
-                });
-            }
-
-            return acc;
-        },
-        [],
-    );
+            return {
+                percentage,
+                value: data.stats[stat as keyof ReadStatsResponse],
+                icon: status.icon && createElement(status.icon),
+                name: stat,
+            };
+        });
 
     return <Stats stats={stats} />;
 };

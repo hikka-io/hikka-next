@@ -38,36 +38,32 @@ const Score = ({ content_type }: Props) => {
         data.stats.score_9 +
         data.stats.score_10;
 
-    const stats = Object.keys(data.stats)
-        .filter((stat) => stat.includes('score'))
-        .reverse()
-        .reduce((acc: Hikka.ListStat[], stat) => {
-            if (
+    const stats: Hikka.ListStat[] = Object.keys(data.stats)
+        .filter(
+            (stat) =>
+                stat.includes('score') &&
                 data.stats[
                     stat as keyof (AnimeStatsResponse | ReadStatsResponse)
-                ] > 0
-            ) {
-                const percentage =
-                    (100 *
-                        data.stats[
-                            stat as keyof (
-                                | AnimeStatsResponse
-                                | ReadStatsResponse
-                            )
-                        ]) /
-                    sumStats;
-
-                acc.push({
-                    icon: <small>{stat.split('score_')[1]}</small>,
-                    percentage,
-                    value: data.stats[
+                ] > 0,
+        )
+        .reverse()
+        .map((stat) => {
+            const percentage =
+                (100 *
+                    data.stats[
                         stat as keyof (AnimeStatsResponse | ReadStatsResponse)
-                    ],
-                });
-            }
+                    ]) /
+                sumStats;
 
-            return acc;
-        }, []);
+            return {
+                icon: <small>{stat.split('score_')[1]}</small>,
+                percentage,
+                value: data.stats[
+                    stat as keyof (AnimeStatsResponse | ReadStatsResponse)
+                ],
+                name: stat,
+            };
+        });
 
     return <Stats stats={stats} />;
 };
