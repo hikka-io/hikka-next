@@ -29,6 +29,9 @@ export const useWatchList = (options?: { enabled?: boolean }) => {
     const years = (search.years ?? []) as [number | null, number | null];
     const genres = search.genres ?? [];
     const studios = search.studios ?? [];
+    const score = search.score?.length
+        ? (search.score as [number, number])
+        : undefined;
 
     return useSearchUserWatches({
         username: String(params.username),
@@ -44,6 +47,7 @@ export const useWatchList = (options?: { enabled?: boolean }) => {
             years,
             genres,
             studios,
+            score,
             sort: expandSort('watch', search.sort, search.order),
         },
         options: { enabled: options?.enabled },

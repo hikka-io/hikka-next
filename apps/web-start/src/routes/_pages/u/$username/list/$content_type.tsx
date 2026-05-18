@@ -81,6 +81,9 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
             const years = (deps.years ?? []) as [number | null, number | null];
             const genres = deps.genres ?? [];
             const studios = deps.studios ?? [];
+            const score = deps.score?.length
+                ? (deps.score as [number, number])
+                : undefined;
 
             await prefetchInfiniteQuery(
                 queryClient,
@@ -98,6 +101,7 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                         years,
                         genres,
                         studios,
+                        score,
                         sort,
                     },
                 }),
@@ -112,6 +116,9 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
             const years = (deps.years ?? []) as [number | null, number | null];
             const genres = deps.genres ?? [];
             const magazines = deps.magazines ?? [];
+            const score = deps.score?.length
+                ? (deps.score as [number, number])
+                : undefined;
 
             await prefetchInfiniteQuery(
                 queryClient,
@@ -128,6 +135,7 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                         years,
                         genres,
                         magazines,
+                        score,
                         sort,
                     },
                 }),

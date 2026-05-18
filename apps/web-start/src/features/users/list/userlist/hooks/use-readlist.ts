@@ -29,6 +29,9 @@ export const useReadList = (options?: { enabled?: boolean }) => {
     const years = (search.years ?? []) as [number | null, number | null];
     const genres = search.genres ?? [];
     const magazines = search.magazines ?? [];
+    const score = search.score?.length
+        ? (search.score as [number, number])
+        : undefined;
 
     return useSearchUserReads({
         contentType: params.content_type as ReadContentType,
@@ -40,6 +43,7 @@ export const useReadList = (options?: { enabled?: boolean }) => {
             years,
             genres,
             magazines,
+            score,
             sort: expandSort('read', search.sort, search.order),
         },
         options: { enabled: options?.enabled },
