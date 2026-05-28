@@ -33,7 +33,9 @@ const Manga: FC<Props> = ({ extended }) => {
                 <MangaCard
                     key={ch.manga.slug}
                     manga={ch.manga}
-                    description={ch.roles[0] ? getTitle(ch.roles[0]) : undefined}
+                    description={
+                        ch.roles[0] ? getTitle(ch.roles[0]) : undefined
+                    }
                 />
             )}
         />

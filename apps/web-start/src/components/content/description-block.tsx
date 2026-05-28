@@ -29,7 +29,12 @@ interface Props {
  * toggle only appears when more than one language is available, and the whole
  * block renders nothing when there is no text at all.
  */
-const DescriptionBlock = ({ title = 'Опис', options, className, id }: Props) => {
+const DescriptionBlock = ({
+    title = 'Опис',
+    options,
+    className,
+    id,
+}: Props) => {
     const valid = options.filter((o) => o.text && o.text.trim() !== '');
     const [active, setActive] = useState(valid[0]?.value);
 

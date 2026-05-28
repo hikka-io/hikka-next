@@ -1,6 +1,7 @@
 import { ForwardedRef, forwardRef } from 'react';
 
 import { Button, ButtonProps } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
 
 import AntDesignArrowDownOutlined from './icons/ant-design/AntDesignArrowDownOutlined';
 
@@ -24,7 +25,7 @@ const LoadMoreButton = forwardRef(
                 {...props}
             >
                 {isFetchingNextPage ? (
-                    <span className="loading loading-spinner"></span>
+                    <Spinner />
                 ) : (
                     <AntDesignArrowDownOutlined />
                 )}

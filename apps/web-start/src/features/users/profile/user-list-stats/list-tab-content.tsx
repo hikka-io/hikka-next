@@ -95,7 +95,8 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
         ? Math.round((watchData!.duration || 0) / 60)
         : null;
 
-    const watchTotalDays = watchHours !== null ? Math.floor(watchHours / 24) : 0;
+    const watchTotalDays =
+        watchHours !== null ? Math.floor(watchHours / 24) : 0;
     const watchMonths = Math.floor(watchTotalDays / 30);
     const watchDays = watchTotalDays % 30;
 

@@ -54,7 +54,7 @@ export const FormSeason: FC<Props & Partial<BadgeFilterFieldProps>> = (
     const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
         <form.AppField
-            name={"seasons" as never}
+            name={'seasons' as never}
             children={() => (
                 <BadgeFilterField
                     {...props}

@@ -111,8 +111,14 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
         'mx-auto grid w-full grid-cols-1 gap-6',
         layout === 3 &&
             'lg:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]',
-        layout === 2 && !isLeftRightOnly && !isCenterRight && 'max-w-6xl lg:grid-cols-[28rem_1fr]',
-        layout === 2 && !isLeftRightOnly && isCenterRight && 'max-w-6xl lg:grid-cols-[1fr_28rem]',
+        layout === 2 &&
+            !isLeftRightOnly &&
+            !isCenterRight &&
+            'max-w-6xl lg:grid-cols-[28rem_1fr]',
+        layout === 2 &&
+            !isLeftRightOnly &&
+            isCenterRight &&
+            'max-w-6xl lg:grid-cols-[1fr_28rem]',
         layout === 2 && isLeftRightOnly && 'max-w-6xl lg:grid-cols-2',
         layout <= 1 && 'max-w-2xl',
     );
@@ -167,7 +173,10 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
             )}
 
             {layout === 3 && (
-                <aside id="feed-left" className="order-1 hidden h-fit min-w-0 flex-col gap-4 lg:order-2 lg:flex xl:hidden">
+                <aside
+                    id="feed-left"
+                    className="order-1 hidden h-fit min-w-0 flex-col gap-4 lg:order-2 lg:flex xl:hidden"
+                >
                     {settingsFullButton}
                     {sidebarWidgets.length > 0 && (
                         <WidgetColumn widgets={sidebarWidgets} />
@@ -176,20 +185,32 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
             )}
 
             {layout === 3 && (
-                <aside id="feed-left" className="hidden h-fit min-w-0 flex-col gap-4 xl:flex">
+                <aside
+                    id="feed-left"
+                    className="hidden h-fit min-w-0 flex-col gap-4 xl:flex"
+                >
                     {settingsFullButton}
                     {hasLeft && <WidgetColumn widgets={left} />}
                 </aside>
             )}
 
             {layout === 3 && (
-                <aside id="feed-right" className="hidden h-fit min-w-0 xl:order-2 xl:block">
+                <aside
+                    id="feed-right"
+                    className="hidden h-fit min-w-0 xl:order-2 xl:block"
+                >
                     {hasRight && <WidgetColumn widgets={right} />}
                 </aside>
             )}
 
             {layout === 2 && !isLeftRightOnly && sidebarWidgets.length > 0 && (
-                <aside id="feed-left" className={cn('hidden h-fit min-w-0 flex-col gap-4 lg:flex', isCenterRight && 'lg:order-2')}>
+                <aside
+                    id="feed-left"
+                    className={cn(
+                        'hidden h-fit min-w-0 flex-col gap-4 lg:flex',
+                        isCenterRight && 'lg:order-2',
+                    )}
+                >
                     {settingsFullButton}
                     <WidgetColumn widgets={sidebarWidgets} />
                 </aside>
@@ -197,11 +218,17 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
 
             {layout === 2 && isLeftRightOnly && (
                 <>
-                    <aside id="feed-left" className="hidden h-fit min-w-0 flex-col gap-4 lg:flex">
+                    <aside
+                        id="feed-left"
+                        className="hidden h-fit min-w-0 flex-col gap-4 lg:flex"
+                    >
                         {settingsFullButton}
                         <WidgetColumn widgets={left} />
                     </aside>
-                    <aside id="feed-right" className="hidden h-fit min-w-0 lg:block">
+                    <aside
+                        id="feed-right"
+                        className="hidden h-fit min-w-0 lg:block"
+                    >
                         <WidgetColumn widgets={right} />
                     </aside>
                 </>

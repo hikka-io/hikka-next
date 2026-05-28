@@ -21,7 +21,9 @@ interface Props {
 }
 
 const ArticleItem: FC<Props> = ({ article, className }) => {
-    const contentTitle = useTitle(article.content as unknown as Record<string, unknown> | undefined);
+    const contentTitle = useTitle(
+        article.content as unknown as Record<string, unknown> | undefined,
+    );
     const document = article.preview;
 
     return (

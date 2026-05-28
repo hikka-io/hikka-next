@@ -8,6 +8,7 @@ import { FC, createElement } from 'react';
 import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
+import Spinner from '@/components/ui/spinner';
 
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
@@ -61,7 +62,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                     )}
                 >
                     {isLoading ? (
-                        <span className="loading loading-spinner"></span>
+                        <Spinner />
                     ) : (
                         <div
                             className={cn(

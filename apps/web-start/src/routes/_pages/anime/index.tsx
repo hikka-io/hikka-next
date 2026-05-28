@@ -7,8 +7,8 @@ import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
 
 import { AnimeList, AnimeListSummary } from '@/features/anime';
-import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { CatalogNavbar } from '@/features/content';
+import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { AnimeFilters, AnimeFiltersModal } from '@/features/watch';
 

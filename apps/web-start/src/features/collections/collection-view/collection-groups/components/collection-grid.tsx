@@ -105,7 +105,14 @@ const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
                             content_type={content_type}
                             href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
                             image={item.content.image}
-                            title={getTitle(item.content as unknown as Record<string, unknown>, defaultOptions?.title, defaultOptions?.name)}
+                            title={getTitle(
+                                item.content as unknown as Record<
+                                    string,
+                                    unknown
+                                >,
+                                defaultOptions?.title,
+                                defaultOptions?.name,
+                            )}
                             watch={
                                 'watch' in item.content &&
                                 item.content.watch.length > 0

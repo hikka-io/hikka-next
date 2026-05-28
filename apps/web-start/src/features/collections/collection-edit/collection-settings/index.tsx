@@ -22,6 +22,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import Spinner from '@/components/ui/spinner';
 import { Switch } from '@/components/ui/switch';
 import {
     Tooltip,
@@ -245,7 +246,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         }
                     >
                         {isUpdatePending ? (
-                            <span className="loading loading-spinner"></span>
+                            <Spinner />
                         ) : (
                             <MaterialSymbolsRefreshRounded className="size-4" />
                         )}
@@ -268,7 +269,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         onClick={() => mutateCreateCollection(getApiData())}
                     >
                         {isCreatePending ? (
-                            <span className="loading loading-spinner"></span>
+                            <Spinner />
                         ) : (
                             <MaterialSymbolsAddRounded />
                         )}

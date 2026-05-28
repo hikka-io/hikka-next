@@ -22,7 +22,9 @@ interface Props {
 
 const EditRow: FC<Props> = ({ edit }) => {
     const router = useRouter();
-    const contentTitle = useTitle(edit.content as unknown as Record<string, unknown>);
+    const contentTitle = useTitle(
+        edit.content as unknown as Record<string, unknown>,
+    );
 
     const variant =
         edit.status === 'pending'

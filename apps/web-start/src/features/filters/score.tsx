@@ -3,8 +3,8 @@
 import { Star } from 'lucide-react';
 import { FC, useEffect, useState } from 'react';
 
+import { SliderField, SliderFieldProps } from '@/components/form/form-slider';
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
-import { SliderFieldProps, SliderField } from '@/components/form/form-slider';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';

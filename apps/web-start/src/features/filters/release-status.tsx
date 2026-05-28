@@ -47,7 +47,7 @@ export const FormReleaseStatus: FC<Props & Partial<BadgeFilterFieldProps>> = (
     const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
         <form.AppField
-            name={"statuses" as never}
+            name={'statuses' as never}
             children={() => (
                 <BadgeFilterField
                     {...props}

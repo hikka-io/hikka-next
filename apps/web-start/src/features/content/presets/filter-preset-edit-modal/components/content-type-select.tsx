@@ -2,8 +2,8 @@
 
 import { ContentTypeEnum } from '@hikka/client';
 
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { SelectField } from '@/components/form/form-select';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import {
     SelectContent,
     SelectGroup,
@@ -24,11 +24,7 @@ const FILTER_PRESET_CONTENT_TYPES: FilterPresetContentType[] = [
     ContentTypeEnum.NOVEL,
 ];
 
-const ContentTypeSelect = ({
-    disabled,
-}: {
-    disabled?: boolean;
-}) => {
+const ContentTypeSelect = ({ disabled }: { disabled?: boolean }) => {
     const form = useTypedAppFormContext({ defaultValues: {} as never });
 
     const handleResetForm = () => {
@@ -45,7 +41,7 @@ const ContentTypeSelect = ({
 
     return (
         <form.AppField
-            name={"content_types" as never}
+            name={'content_types' as never}
             children={() => (
                 <SelectField
                     label="Тип контенту"
@@ -58,11 +54,19 @@ const ContentTypeSelect = ({
                     <SelectContent>
                         <SelectList>
                             <SelectGroup>
-                                {FILTER_PRESET_CONTENT_TYPES.map((contentType) => (
-                                    <SelectItem key={contentType} value={contentType}>
-                                        {CONTENT_TYPES[contentType].title_ua}
-                                    </SelectItem>
-                                ))}
+                                {FILTER_PRESET_CONTENT_TYPES.map(
+                                    (contentType) => (
+                                        <SelectItem
+                                            key={contentType}
+                                            value={contentType}
+                                        >
+                                            {
+                                                CONTENT_TYPES[contentType]
+                                                    .title_ua
+                                            }
+                                        </SelectItem>
+                                    ),
+                                )}
                             </SelectGroup>
                         </SelectList>
                     </SelectContent>

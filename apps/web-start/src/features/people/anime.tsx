@@ -33,7 +33,9 @@ const Anime: FC<Props> = ({ extended }) => {
                 <AnimeCard
                     key={ch.anime.slug}
                     anime={ch.anime}
-                    description={ch.roles[0] ? getTitle(ch.roles[0]) : undefined}
+                    description={
+                        ch.roles[0] ? getTitle(ch.roles[0]) : undefined
+                    }
                 />
             )}
         />

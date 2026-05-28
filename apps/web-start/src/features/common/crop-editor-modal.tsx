@@ -10,6 +10,7 @@ import MaterialSymbolsZoomInRounded from '@/components/icons/material-symbols/Ma
 import MaterialSymbolsZoomOutRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomOutRounded';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import Spinner from '@/components/ui/spinner';
 
 import { cn } from '@/utils/cn';
 import { getImage } from '@/utils/image';
@@ -110,9 +111,7 @@ const Component = ({ file, type, onClose }: Props) => {
                         handleImage(editor.current!.getImageScaledToCanvas())
                     }
                 >
-                    {uploadImageMutation.isPending && (
-                        <span className="loading loading-spinner"></span>
-                    )}
+                    {uploadImageMutation.isPending && <Spinner />}
                     Зберегти
                 </Button>
             </div>

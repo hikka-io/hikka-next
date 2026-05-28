@@ -44,9 +44,7 @@ const Image = ({
     const resolvedClassName = cn(
         'text-transparent',
         !transitionDisabled &&
-            (loaded
-                ? 'animate-[fade-in_0.2s_ease-in-out]'
-                : 'opacity-0'),
+            (loaded ? 'animate-[fade-in_0.2s_ease-in-out]' : 'opacity-0'),
         className,
     );
 

@@ -9,6 +9,7 @@ import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import Spinner from '@/components/ui/spinner';
 
 import { OAuthLogin } from '@/features/auth';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
@@ -96,9 +97,7 @@ const LoginForm = () => {
                             placeholder="Введіть ваш юзернейм або пошту"
                             value={field.state.value}
                             onBlur={field.handleBlur}
-                            onChange={(e) =>
-                                field.handleChange(e.target.value)
-                            }
+                            onChange={(e) => field.handleChange(e.target.value)}
                         />
                         <FieldError errors={field.state.meta.errors} />
                     </Field>
@@ -110,9 +109,7 @@ const LoginForm = () => {
                 children={(field) => (
                     <Field>
                         <div className="flex items-center justify-between">
-                            <FieldLabel htmlFor={field.name}>
-                                Пароль
-                            </FieldLabel>
+                            <FieldLabel htmlFor={field.name}>Пароль</FieldLabel>
                             <Link
                                 to="/reset"
                                 className="text-primary-foreground text-sm hover:underline"
@@ -137,9 +134,7 @@ const LoginForm = () => {
                                 variant="ghost"
                                 size="icon-sm"
                                 className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
-                                onClick={() =>
-                                    setShowPassword(!showPassword)
-                                }
+                                onClick={() => setShowPassword(!showPassword)}
                             >
                                 {showPassword ? (
                                     <EyeOff className="size-4" />
@@ -153,28 +148,19 @@ const LoginForm = () => {
                 )}
             />
 
-            <Turnstile
-                ref={captchaRef}
-                siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
-            />
+            <Turnstile ref={captchaRef} siteKey="0x4AAAAAAANXs8kaCqjo_FLF" />
 
             <Button
                 type="submit"
                 className="w-full"
-                disabled={
-                    mutationLogin.isPending || mutationLogin.isSuccess
-                }
+                disabled={mutationLogin.isPending || mutationLogin.isSuccess}
             >
-                {mutationLogin.isPending && (
-                    <span className="loading loading-spinner mr-2"></span>
-                )}
+                {mutationLogin.isPending && <Spinner className="mr-2" />}
                 Увійти
             </Button>
 
             <OAuthLogin
-                disabled={
-                    mutationLogin.isPending || mutationLogin.isSuccess
-                }
+                disabled={mutationLogin.isPending || mutationLogin.isSuccess}
             />
         </form>
     );

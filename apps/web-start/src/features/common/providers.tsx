@@ -32,10 +32,7 @@ const Providers: FC<Props> = ({ children, client, serverTheme }) => {
     );
 
     return (
-        <HikkaContextProvider
-            client={client}
-            defaultOptions={defaultOptions}
-        >
+        <HikkaContextProvider client={client} defaultOptions={defaultOptions}>
             <ThemeProvider
                 attribute="class"
                 defaultTheme={serverTheme ?? 'dark'}

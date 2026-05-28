@@ -281,9 +281,7 @@ const ReadlistButton = ({
             >
                 <ResponsiveModalContent className="md:max-w-xl">
                     <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>
-                            {title}
-                        </ResponsiveModalTitle>
+                        <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
                     <ReadEditModal
                         slug={slug}

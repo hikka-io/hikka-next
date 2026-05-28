@@ -6,6 +6,7 @@ import { FC, useRef } from 'react';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
 
 import { useRouter } from '@/utils/navigation';
 
@@ -111,7 +112,7 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
                                     className="w-fit"
                                 >
                                     {mutationUpdateEdit.isPending && (
-                                        <span className="loading loading-spinner"></span>
+                                        <Spinner />
                                     )}
                                     Оновити
                                 </Button>

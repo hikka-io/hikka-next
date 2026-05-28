@@ -3,6 +3,8 @@
 import { PaginationArgs } from '@hikka/client';
 import { memo } from 'react';
 
+import Spinner from '@/components/ui/spinner';
+
 interface Props {
     data?:
         | {
@@ -21,7 +23,7 @@ const SearchPlaceholders = ({ data, isFetching, isRefetching }: Props) => {
     return (
         <div className="flex items-center justify-center py-6">
             {isFetching && !isRefetching ? (
-                <span className="loading loading-spinner size-5! text-center"></span>
+                <Spinner className="size-5! text-center" />
             ) : (
                 <p className="text-muted-foreground text-center text-sm">
                     {data &&

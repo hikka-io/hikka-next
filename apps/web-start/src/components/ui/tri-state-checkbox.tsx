@@ -8,11 +8,10 @@ import { cn } from '@/utils/cn';
 
 export type TriState = 'include' | 'exclude' | 'neutral';
 
-interface TriStateCheckboxProps
-    extends Omit<
-        React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>,
-        'checked' | 'onCheckedChange'
-    > {
+interface TriStateCheckboxProps extends Omit<
+    React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>,
+    'checked' | 'onCheckedChange'
+> {
     value?: TriState;
     onValueChange?: (value: TriState) => void;
 }

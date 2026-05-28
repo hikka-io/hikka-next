@@ -18,7 +18,9 @@ const ArticleTitle: FC<Props> = () => {
         slug: String(params.slug),
     });
 
-    const contentTitle = useTitle(article?.content as unknown as Record<string, unknown> | undefined);
+    const contentTitle = useTitle(
+        article?.content as unknown as Record<string, unknown> | undefined,
+    );
 
     return (
         <div className="flex flex-col gap-1">

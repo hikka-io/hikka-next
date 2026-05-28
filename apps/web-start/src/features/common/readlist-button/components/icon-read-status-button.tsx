@@ -11,6 +11,7 @@ import { useCreateRead } from '@hikka/react';
 import { FC, createElement } from 'react';
 
 import { Button, ButtonProps } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
 
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
@@ -85,11 +86,7 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
                 `bg-${read.status} text-${read.status}-foreground border-${read.status}-border`,
             )}
         >
-            {isLoading ? (
-                <span className="loading loading-spinner"></span>
-            ) : (
-                createElement(readStatus.icon!)
-            )}
+            {isLoading ? <Spinner /> : createElement(readStatus.icon!)}
         </Button>
     );
 };

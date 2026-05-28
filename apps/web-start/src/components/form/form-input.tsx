@@ -1,12 +1,20 @@
 import { useStore } from '@tanstack/react-form';
 import { ComponentProps, FC } from 'react';
 
-import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
+import {
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldLabel,
+} from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 
 import { useFieldContext } from './form-context';
 
-export interface Props extends Omit<ComponentProps<'input'>, 'value' | 'onChange' | 'onBlur'> {
+export interface Props extends Omit<
+    ComponentProps<'input'>,
+    'value' | 'onChange' | 'onBlur'
+> {
     label?: string;
     description?: string;
     valueRenderer?: (value: string | string[]) => string;
@@ -55,9 +63,7 @@ export const TextField: FC<Props> = ({
                 }}
                 aria-invalid={isInvalid}
             />
-            {description && (
-                <FieldDescription>{description}</FieldDescription>
-            )}
+            {description && <FieldDescription>{description}</FieldDescription>}
             <FieldError errors={errors} />
         </Field>
     );

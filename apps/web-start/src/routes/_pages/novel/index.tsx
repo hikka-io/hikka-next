@@ -6,8 +6,8 @@ import Block from '@/components/ui/block';
 import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
 
-import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { CatalogNavbar } from '@/features/content';
+import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { NovelList, NovelListSummary } from '@/features/novel';
 import { ReadFilters, ReadFiltersModal } from '@/features/read';

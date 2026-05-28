@@ -153,7 +153,9 @@ const createCommentNotification = (
 
     return {
         ...getBaseNotification(notification),
-        description: actor ? copy.withActor(actor.username!) : copy.withoutActor,
+        description: actor
+            ? copy.withActor(actor.username!)
+            : copy.withoutActor,
         href: getCommentLink(content_type, slug, base_comment_reference),
         actor,
         preview: comment_text || undefined,
@@ -173,7 +175,9 @@ const createVoteNotification = (
         ...getBaseNotification(notification),
         accent: scoreSign > 0 ? 'success' : 'destructive',
         typeIcon: getVoteIcon(user_score),
-        description: actor ? copy.withActor(actor.username!) : copy.withoutActor,
+        description: actor
+            ? copy.withActor(actor.username!)
+            : copy.withoutActor,
         href,
         actor,
         scoreSign,
@@ -254,7 +258,9 @@ const createEditActionNotification = (
 
     return {
         ...getBaseNotification(notification),
-        description: actor ? copy.withActor(actor.username!) : copy.withoutActor,
+        description: actor
+            ? copy.withActor(actor.username!)
+            : copy.withoutActor,
         href: `/edit/${edit_id}`,
         actor,
         preview: description || undefined,
@@ -297,7 +303,9 @@ const createFollowNotification = (
 
     return {
         ...getBaseNotification(notification),
-        description: actor ? FOLLOW_COPY.withActor(actor.username!) : FOLLOW_COPY.withoutActor,
+        description: actor
+            ? FOLLOW_COPY.withActor(actor.username!)
+            : FOLLOW_COPY.withoutActor,
         href: actor ? `/u/${actor.username}` : '#',
         actor,
     };

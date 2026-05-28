@@ -9,8 +9,9 @@ import { Badge } from './badge';
 
 type ShowValueMode = 'always' | 'on-interaction' | 'never';
 
-interface SliderProps
-    extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> {
+interface SliderProps extends React.ComponentPropsWithoutRef<
+    typeof SliderPrimitive.Root
+> {
     /**
      * Controls when to display value above thumb
      * - "always": Value is always visible above thumb

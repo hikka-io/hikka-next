@@ -50,7 +50,9 @@ const User: FC<Props> = memo(({ data }) => (
 
 const HistoryItem: FC<Props> = (props) => {
     const { data, withUser, className } = props;
-    const title = useTitle(data.content as unknown as Record<string, unknown> | undefined);
+    const title = useTitle(
+        data.content as unknown as Record<string, unknown> | undefined,
+    );
 
     let activity = convertActivity(data);
 

@@ -314,8 +314,9 @@ Select.displayName = 'Select';
 
 type SelectTriggerElement = React.ComponentRef<typeof Primitive.div>;
 
-interface SelectTriggerProps
-    extends PrimitivePropsWithRef<typeof Primitive.div> {
+interface SelectTriggerProps extends PrimitivePropsWithRef<
+    typeof Primitive.div
+> {
     size?: VariantProps<typeof buttonVariants>['size'];
 }
 
@@ -563,8 +564,9 @@ const SelectList = React.forwardRef<
 
 SelectList.displayName = 'SelectList';
 
-interface SelectContentProps
-    extends PrimitivePropsWithRef<typeof PopoverPrimitive.Content> {}
+interface SelectContentProps extends PrimitivePropsWithRef<
+    typeof PopoverPrimitive.Content
+> {}
 
 const SelectContent = React.forwardRef<
     React.ComponentRef<typeof PopoverPrimitive.Content>,
@@ -689,10 +691,10 @@ const SelectItem = React.forwardRef<
 
         const disabled = Boolean(
             disabledProp ||
-                (!triState &&
-                    !selected &&
-                    maxCount &&
-                    contextValue.length >= maxCount),
+            (!triState &&
+                !selected &&
+                maxCount &&
+                contextValue.length >= maxCount),
         );
 
         const handleNonTriStateClick = () => {

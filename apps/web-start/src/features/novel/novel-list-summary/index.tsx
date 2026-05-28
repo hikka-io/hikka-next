@@ -3,7 +3,6 @@
 import { FC } from 'react';
 
 import { CatalogSummary } from '@/features/content';
-
 import { useNovelSearchQuery } from '@/features/novel/novel-list/use-novel-search-query';
 
 interface Props {

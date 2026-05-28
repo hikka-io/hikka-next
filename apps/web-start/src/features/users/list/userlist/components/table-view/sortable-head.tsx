@@ -23,11 +23,7 @@ const SortableHead: FC<Props> = ({
         <TableHead
             align="center"
             aria-sort={
-                active
-                    ? order === 'asc'
-                        ? 'ascending'
-                        : 'descending'
-                    : 'none'
+                active ? (order === 'asc' ? 'ascending' : 'descending') : 'none'
             }
             className={cn(
                 'text-center select-none',

@@ -14,6 +14,7 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import Spinner from '@/components/ui/spinner';
 
 import { convertPngToJpeg } from '@/utils/image';
 
@@ -90,7 +91,7 @@ export const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
                 className="absolute top-0 left-0 size-full cursor-pointer opacity-0"
                 accept="image/*"
             />
-            {isPending && <span className="loading loading-spinner"></span>}
+            {isPending && <Spinner />}
             {!isPending && <Plus className="size-8!" />}
         </Button>
     );

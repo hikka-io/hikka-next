@@ -36,29 +36,29 @@ const ListParam: FC<Props> = ({ param, mode }) => {
                 mode="array"
                 children={(field: any) => (
                     <div className="flex flex-wrap gap-2">
-                        {(
-                            (field.state.value as { value: string }[]) || []
-                        ).map((item, index) => {
-                            return (
-                                <div
-                                    className="border-border bg-secondary/20 flex items-center gap-2 rounded-md border px-2 py-1 text-sm"
-                                    key={index}
-                                >
-                                    {item.value}
-                                    {mode === 'edit' && (
-                                        <Button
-                                            onClick={() =>
-                                                field.removeValue(index)
-                                            }
-                                            variant="ghost"
-                                            size="icon-xs"
-                                        >
-                                            <MaterialSymbolsCloseSmallRounded />
-                                        </Button>
-                                    )}
-                                </div>
-                            );
-                        })}
+                        {((field.state.value as { value: string }[]) || []).map(
+                            (item, index) => {
+                                return (
+                                    <div
+                                        className="border-border bg-secondary/20 flex items-center gap-2 rounded-md border px-2 py-1 text-sm"
+                                        key={index}
+                                    >
+                                        {item.value}
+                                        {mode === 'edit' && (
+                                            <Button
+                                                onClick={() =>
+                                                    field.removeValue(index)
+                                                }
+                                                variant="ghost"
+                                                size="icon-xs"
+                                            >
+                                                <MaterialSymbolsCloseSmallRounded />
+                                            </Button>
+                                        )}
+                                    </div>
+                                );
+                            },
+                        )}
                     </div>
                 )}
             />

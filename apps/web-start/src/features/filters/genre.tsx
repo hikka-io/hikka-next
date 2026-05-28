@@ -4,8 +4,8 @@ import { useGenres } from '@hikka/react';
 import { Drama } from 'lucide-react';
 import { FC, useMemo } from 'react';
 
+import { SelectField, SelectFieldProps } from '@/components/form/form-select';
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
-import { SelectFieldProps, SelectField } from '@/components/form/form-select';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -96,7 +96,7 @@ export const FormGenre: FC<Props & Partial<SelectFieldProps>> = (props) => {
     const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
         <form.AppField
-            name={"genres" as never}
+            name={'genres' as never}
             children={() => (
                 <SelectField
                     {...props}

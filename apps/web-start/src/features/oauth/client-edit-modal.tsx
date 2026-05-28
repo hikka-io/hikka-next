@@ -14,6 +14,7 @@ import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/Mate
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
+import Spinner from '@/components/ui/spinner';
 
 import { z } from '@/utils/i18n/zod';
 
@@ -196,9 +197,7 @@ const Component = ({ client, onClose }: Props) => {
                     type="submit"
                     disabled={deleteClientLoading || updateClientLoading}
                 >
-                    {updateClientLoading && (
-                        <span className="loading loading-spinner"></span>
-                    )}
+                    {updateClientLoading && <Spinner />}
                     Оновити
                 </Button>
                 <Button
@@ -208,9 +207,7 @@ const Component = ({ client, onClose }: Props) => {
                     onClick={onDelete}
                     disabled={deleteClientLoading || updateClientLoading}
                 >
-                    {deleteClientLoading && (
-                        <span className="loading loading-spinner"></span>
-                    )}
+                    {deleteClientLoading && <Spinner />}
                     Видалити
                 </Button>
             </ResponsiveModalFooter>

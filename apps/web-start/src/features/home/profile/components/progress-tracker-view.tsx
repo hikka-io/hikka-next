@@ -169,7 +169,8 @@ const ProgressTrackerView = ({
                                     <span className="text-foreground font-bold">
                                         {selected.current}
                                     </span>
-                                    /{selected.total ?? '?'} {selected.unitLabel}
+                                    /{selected.total ?? '?'}{' '}
+                                    {selected.unitLabel}
                                 </p>
 
                                 <Progress

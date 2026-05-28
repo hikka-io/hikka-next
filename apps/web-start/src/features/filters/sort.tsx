@@ -4,8 +4,8 @@ import { useStore } from '@tanstack/react-form';
 import { ArrowDownWideNarrow } from 'lucide-react';
 import { FC } from 'react';
 
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { SelectField, SelectFieldProps } from '@/components/form/form-select';
+import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import MaterialSymbolsSortRounded from '@/components/icons/material-symbols/MaterialSymbolsSortRounded';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -18,7 +18,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-
 import {
     Tooltip,
     TooltipContent,
@@ -328,7 +327,7 @@ export const FormSort: FC<Props & Partial<SelectFieldProps>> = (props) => {
             <Label>Сортування</Label>
             <div className="flex gap-2">
                 <form.AppField
-                    name={"sort" as never}
+                    name={'sort' as never}
                     children={() => (
                         <SelectField
                             className="flex-1"

@@ -11,7 +11,10 @@ export default function remarkMentions(
         findAndReplace(tree, [[mentionRegex, replaceMention]]);
     };
 
-    function replaceMention(value: string, username: string): PhrasingContent[] {
+    function replaceMention(
+        value: string,
+        username: string,
+    ): PhrasingContent[] {
         const whitespace: PhrasingContent[] = [];
 
         if (value.indexOf('@') > 0) {

@@ -7,6 +7,7 @@ import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import Spinner from '@/components/ui/spinner';
 
 import { z } from '@/utils/i18n/zod';
 import { Link } from '@/utils/navigation';
@@ -62,9 +63,7 @@ const ForgotPasswordForm = () => {
                             placeholder="Введіть ваш email"
                             value={field.state.value}
                             onBlur={field.handleBlur}
-                            onChange={(e) =>
-                                field.handleChange(e.target.value)
-                            }
+                            onChange={(e) => field.handleChange(e.target.value)}
                         />
                         <FieldError errors={field.state.meta.errors} />
                     </Field>
@@ -78,7 +77,7 @@ const ForgotPasswordForm = () => {
                 disabled={mutationRequestPasswordReset.isPending}
             >
                 {mutationRequestPasswordReset.isPending && (
-                    <span className="loading loading-spinner mr-2"></span>
+                    <Spinner className="mr-2" />
                 )}
                 Відновити
             </Button>

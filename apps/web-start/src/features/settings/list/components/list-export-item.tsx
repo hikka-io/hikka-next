@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import Spinner from '@/components/ui/spinner';
 
 interface Props {
     title: string;
@@ -21,9 +22,7 @@ const ListExportItem = ({
             <Label>{title}</Label>
             <p className="text-muted-foreground text-sm">{description}</p>
             <Button onClick={onExport} disabled={isExporting} size="md">
-                {isExporting && (
-                    <span className="loading loading-spinner"></span>
-                )}
+                {isExporting && <Spinner />}
                 Експортувати
             </Button>
         </div>

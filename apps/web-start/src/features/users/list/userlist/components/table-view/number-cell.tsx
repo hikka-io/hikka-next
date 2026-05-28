@@ -67,9 +67,7 @@ const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
                 <ResponsiveModalContent className="md:max-w-xl">
                     <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>
-                            {title}
-                        </ResponsiveModalTitle>
+                        <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
                     {content_type === ContentTypeEnum.ANIME ? (
                         <WatchEditModal

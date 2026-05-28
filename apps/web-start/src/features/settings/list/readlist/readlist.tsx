@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import Spinner from '@/components/ui/spinner';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -93,7 +94,7 @@ const Component = () => {
                 disabled={readList.length === 0}
                 type="submit"
             >
-                {importing && <span className="loading loading-spinner"></span>}
+                {importing && <Spinner />}
                 Імпортувати
             </Button>
         </div>

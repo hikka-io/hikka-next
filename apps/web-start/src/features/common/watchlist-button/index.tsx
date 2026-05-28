@@ -239,9 +239,7 @@ const WatchlistButton = ({
             >
                 <ResponsiveModalContent className="md:max-w-xl">
                     <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>
-                            {title}
-                        </ResponsiveModalTitle>
+                        <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
                     <WatchEditModal
                         slug={slug}

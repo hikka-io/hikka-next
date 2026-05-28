@@ -3,7 +3,6 @@
 import { FC } from 'react';
 
 import { CatalogSummary } from '@/features/content';
-
 import { useMangaSearchQuery } from '@/features/manga/manga-list/use-manga-search-query';
 
 interface Props {

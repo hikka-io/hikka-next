@@ -5,8 +5,8 @@ import { useSearchCompanies } from '@hikka/react';
 import { Building2 } from 'lucide-react';
 import { FC, useMemo, useState } from 'react';
 
+import { SelectField, SelectFieldProps } from '@/components/form/form-select';
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
-import { SelectFieldProps, SelectField } from '@/components/form/form-select';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -132,7 +132,7 @@ export const FormStudio: FC<Props & Partial<SelectFieldProps>> = (props) => {
     const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
         <form.AppField
-            name={"studios" as never}
+            name={'studios' as never}
             children={() => (
                 <SelectField
                     {...props}

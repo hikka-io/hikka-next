@@ -6,6 +6,7 @@ import { FC, createElement } from 'react';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
+import Spinner from '@/components/ui/spinner';
 
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
@@ -40,7 +41,7 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                     )}
                 >
                     {isLoading ? (
-                        <span className="loading loading-spinner"></span>
+                        <Spinner />
                     ) : (
                         <div
                             className={cn(
