@@ -36,10 +36,10 @@ const UserTitle = () => {
                         <TooltipTrigger>
                             <div className="border-border bg-secondary/20 rounded-sm border p-1 text-xs font-bold backdrop-blur">
                                 {user.role === 'admin' && (
-                                    <MaterialSymbolsSecurity className="text-[#d0bfff]" />
+                                    <MaterialSymbolsSecurity className="text-role-admin" />
                                 )}
                                 {user.role === 'moderator' && (
-                                    <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
+                                    <MaterialSymbolsShieldPerson className="text-role-moderator" />
                                 )}
                             </div>
                         </TooltipTrigger>

@@ -121,6 +121,16 @@
     --color-watching-foreground: var(--watching-foreground);
     --color-watching-border: var(--watching-border);
 
+    /* user roles */
+    --color-role-admin: var(--role-admin);
+    --color-role-moderator: var(--role-moderator);
+
+    /* feed entry types */
+    --color-feed-history: var(--feed-history);
+    --color-feed-article: var(--feed-article);
+    --color-feed-collection: var(--feed-collection);
+    --color-feed-comment: var(--feed-comment);
+
     /* radius */
     --base-radius: 0.625rem;
     --radius-lg: var(--radius);
@@ -813,6 +823,14 @@
     --watching-background: var(--ongoing-background);
     --watching-border: var(--ongoing-border);
     --watching-foreground: var(--ongoing-foreground);
+
+    --role-admin: #d0bfff;
+    --role-moderator: #ffc9c9;
+
+    --feed-history: #e891c0;
+    --feed-article: #78c98d;
+    --feed-collection: #6fa8dc;
+    --feed-comment: #e8a87c;
 }
 
 .dark {
@@ -911,6 +929,14 @@
     --watching-background: var(--ongoing-background);
     --watching-border: var(--ongoing-border);
     --watching-foreground: var(--ongoing-foreground);
+
+    --role-admin: #d0bfff;
+    --role-moderator: #ffc9c9;
+
+    --feed-history: #e891c0;
+    --feed-article: #78c98d;
+    --feed-collection: #6fa8dc;
+    --feed-comment: #e8a87c;
 }
 
 @keyframes fade-in {

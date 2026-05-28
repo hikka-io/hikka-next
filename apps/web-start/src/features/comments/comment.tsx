@@ -136,11 +136,11 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                                         <div className="text-xs font-bold">
                                             {comment.author.role ===
                                                 'admin' && (
-                                                <MaterialSymbolsSecurity className="text-[#d0bfff]" />
+                                                <MaterialSymbolsSecurity className="text-role-admin" />
                                             )}
                                             {comment.author.role ===
                                                 'moderator' && (
-                                                <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
+                                                <MaterialSymbolsShieldPerson className="text-role-moderator" />
                                             )}
                                         </div>
                                     </TooltipTrigger>

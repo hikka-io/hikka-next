@@ -1,61 +1,32 @@
 'use client';
 
 import { useCharacterBySlug } from '@hikka/react';
-import { useState } from 'react';
 
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
-import TextExpand from '@/components/text-expand';
-import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import DescriptionBlock from '@/components/content/description-block';
 
 import { useParams } from '@/utils/navigation';
 
 const Description = () => {
-    const [active, setActive] = useState<'description_ua'>('description_ua');
     const params = useParams();
     const { data: character } = useCharacterBySlug({
         slug: String(params.slug),
     });
 
-    if (!character || !character.description_ua) {
-        return null;
-    }
-
-    const description = character[active] ?? character.description_ua;
-
-    if (!description || description.trim() === '') {
+    if (!character) {
         return null;
     }
 
     return (
-        <Block>
-            <Header>
-                <HeaderContainer>
-                    <HeaderTitle>Опис</HeaderTitle>
-                    <ToggleGroup
-                        type="single"
-                        value={active}
-                        onValueChange={(value: 'description_ua') =>
-                            value && setActive(value)
-                        }
-                        size="badge"
-                    >
-                        {character.description_ua && (
-                            <ToggleGroupItem
-                                value="description_ua"
-                                aria-label="Назва українскою"
-                            >
-                                UA
-                            </ToggleGroupItem>
-                        )}
-                    </ToggleGroup>
-                </HeaderContainer>
-            </Header>
-            <TextExpand>
-                <MDViewer>{description}</MDViewer>
-            </TextExpand>
-        </Block>
+        <DescriptionBlock
+            options={[
+                {
+                    value: 'description_ua',
+                    label: 'UA',
+                    ariaLabel: 'Опис українською',
+                    text: character.description_ua,
+                },
+            ]}
+        />
     );
 };
 

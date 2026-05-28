@@ -17,10 +17,10 @@ import { FollowButton } from '@/features/common';
 import { cn } from '@/utils/cn';
 
 const TYPE_BADGE_STYLES: Partial<Record<ContentTypeEnum, string>> = {
-    [ContentTypeEnum.HISTORY]: 'text-[#e891c0]',
-    [ContentTypeEnum.ARTICLE]: 'text-[#78c98d]',
-    [ContentTypeEnum.COLLECTION]: 'text-[#6fa8dc]',
-    [ContentTypeEnum.COMMENT]: 'text-[#e8a87c]',
+    [ContentTypeEnum.HISTORY]: 'text-feed-history',
+    [ContentTypeEnum.ARTICLE]: 'text-feed-article',
+    [ContentTypeEnum.COLLECTION]: 'text-feed-collection',
+    [ContentTypeEnum.COMMENT]: 'text-feed-comment',
 };
 
 const TYPE_LABELS: Partial<Record<ContentTypeEnum, string>> = {

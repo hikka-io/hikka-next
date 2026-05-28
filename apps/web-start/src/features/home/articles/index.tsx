@@ -1,5 +1,6 @@
 'use client';
 
+import { range } from '@antfu/utils';
 import { useSearchArticles, useSession } from '@hikka/react';
 import { FC } from 'react';
 
@@ -14,6 +15,8 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
+import ArticleItemSkeleton from '@/features/articles/article-item/article-item-skeleton';
+
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -26,7 +29,7 @@ interface Props {
 const Articles: FC<Props> = ({ className }) => {
     const { user: loggedUser } = useSession();
 
-    const { list } = useSearchArticles({
+    const { list, isLoading } = useSearchArticles({
         args: {
             sort: ['created:desc'],
         },
@@ -51,6 +54,8 @@ const Articles: FC<Props> = ({ className }) => {
                 <HeaderNavButton />
             </Header>
             <Stack size={3} className="grid-min-20">
+                {isLoading &&
+                    range(0, 3).map((v) => <ArticleItemSkeleton key={v} />)}
                 {list?.map((item) => (
                     <ArticleCard key={item.slug} article={item} />
                 ))}
