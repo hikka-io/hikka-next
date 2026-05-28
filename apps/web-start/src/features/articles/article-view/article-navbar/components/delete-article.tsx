@@ -56,10 +56,10 @@ const DeleteArticle: FC<Props> = ({ article }) => {
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>
-                        Ви впевнені, що хочете видалити коментар?
+                        Ви впевнені, що хочете видалити статтю?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                        Після цієї операції, Ви вже не зможете його відновити.
+                        Після цієї операції, Ви вже не зможете її відновити.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
