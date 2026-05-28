@@ -10,34 +10,23 @@ import {
 import { getTitle } from '@hikka/react/utils';
 import React, { useEffect, useState } from 'react';
 
-import ContentCard from '@/components/content-card/content-card';
-import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
-import { MaterialSymbolsRemoveRounded } from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
-import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import NotFound from '@/components/ui/not-found';
-import { Progress } from '@/components/ui/progress';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
-import Stack from '@/components/ui/stack';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 import { WatchEditModal } from '@/features/watch';
 
 import useDebounce from '@/services/hooks/use-debounce';
-import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
-import { Link, useRouter } from '@/utils/navigation';
+import { useRouter } from '@/utils/navigation';
+
+import ProgressTrackerView, {
+    ProgressTrackerMeta,
+} from './progress-tracker-view';
 
 const EPISODES_DECLENSION: [string, string, string] = [
     'епізод',
@@ -48,18 +37,14 @@ const EPISODES_DECLENSION: [string, string, string] = [
 interface AnimeWatchlistProps {}
 
 const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
-    // Hooks and Context
     const router = useRouter();
     const { user: loggedUser } = useSession();
     const { defaultOptions } = useHikkaClient();
     const [open, setOpen] = useState(false);
-
-    // State Management
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
 
-    // Fetch Watchlist
-    const { list } = useSearchUserWatches({
+    const { list, isLoading } = useSearchUserWatches({
         username: String(loggedUser?.username),
         args: {
             watch_status: WatchStatusEnum.WATCHING,
@@ -67,18 +52,17 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
         },
     });
 
-    // Derived State
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
 
-    // Hooks
+    // Anime keeps its own debounced optimistic-update strategy: episode +/-
+    // mutate local state immediately and the API call is debounced.
     const deboucedUpdatedWatch = useDebounce({
         value: updatedWatch,
         delay: 500,
     });
     const { mutate: mutateCreateWatch, reset } = useCreateWatch();
 
-    // Event Handlers
     const handleSelect = (slug: string) => {
         if (slug === selectedWatch?.anime.slug) {
             router.push(`/anime/${slug}`);
@@ -89,18 +73,11 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
         setUpdatedWatch(null);
     };
 
-    const openWatchEditModal = () => {
-        if (selectedWatch) {
-            setOpen(true);
-        }
-    };
-
     const handleAddEpisode = () => {
         if (!selectedWatch) return;
 
         const episodes = (updatedWatch?.episodes ?? selectedWatch.episodes) + 1;
 
-        // Prevent exceeding total episodes
         if (
             selectedWatch.anime.episodes_total &&
             episodes > selectedWatch.anime.episodes_total
@@ -130,7 +107,6 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
         });
     };
 
-    // Side Effects
     useEffect(() => {
         reset();
     }, [selectedSlug]);
@@ -154,181 +130,94 @@ const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
         }
     }, [mutateCreateWatch, deboucedUpdatedWatch]);
 
-    // Rendering Helper: Anime Details
-    const renderAnimeDetails = () => {
-        if (!selectedWatch) return null;
+    const selectedTitle = selectedWatch
+        ? getTitle(
+              selectedWatch.anime,
+              defaultOptions?.title,
+              defaultOptions?.name,
+          )
+        : '';
 
-        return (
-            <div className="mt-1 flex cursor-pointer items-center gap-2">
-                {selectedWatch.anime.year && (
-                    <Label className="text-muted-foreground cursor-pointer text-xs">
-                        {selectedWatch.anime.year}
-                    </Label>
-                )}
-                {selectedWatch.anime.media_type && (
-                    <>
-                        <div className="bg-muted-foreground size-1 rounded-full" />
-                        <Label className="text-muted-foreground cursor-pointer text-xs">
-                            {
-                                ANIME_MEDIA_TYPE[selectedWatch.anime.media_type]
-                                    .title_ua
-                            }
-                        </Label>
-                    </>
-                )}
-                {selectedWatch.anime.episodes_total && (
-                    <>
-                        <div className="bg-muted-foreground size-1 rounded-full" />
-                        <Label className="text-muted-foreground cursor-pointer text-xs">
-                            {selectedWatch.anime.episodes_total}{' '}
-                            {getDeclensionWord(
-                                selectedWatch.anime.episodes_total,
-                                EPISODES_DECLENSION,
-                            )}
-                        </Label>
-                    </>
-                )}
-            </div>
-        );
-    };
-
-    // Rendering Helper: Buttons
-    const renderActionButtons = () => (
-        <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" size="md" onClick={openWatchEditModal}>
-                <MaterialSymbolsSettingsOutlineRounded />
-                Налаштування
-            </Button>
-            <div className="flex">
-                <Button
-                    className="flex-1 rounded-r-none"
-                    onClick={handleAddEpisode}
-                    variant="secondary"
-                    size="md"
-                >
-                    <MaterialSymbolsAddRounded />
-                    <div className="flex gap-1">
-                        <span className="hidden sm:block">Додати</span>
-                        <span className="capitalize sm:normal-case">
-                            епізод
-                        </span>
-                    </div>
-                </Button>
-                <Button
-                    className="rounded-l-none"
-                    onClick={handleRemoveEpisode}
-                    variant="secondary"
-                    size="icon-md"
-                >
-                    <MaterialSymbolsRemoveRounded />
-                </Button>
-            </div>
-        </div>
-    );
-
-    // Main Render
     return (
-        <>
-            {list?.length === 0 && (
-                <NotFound
-                    title={
-                        <span>
-                            Список{' '}
-                            <span className="font-extrabold">Дивлюсь</span>{' '}
-                            порожній
-                        </span>
-                    }
-                    description="Додайте аніме у список Дивлюсь, щоб відстежувати їх прогрес"
-                />
-            )}
-            {list && list.length > 0 && (
-                <div className="flex h-full flex-col gap-4">
-                    <Stack
-                        className="grid-min-3 grid-max-3 grid gap-4 lg:gap-4"
-                        imagePreset="cardXs"
-                    >
-                        {list.map((item) => (
-                            <Tooltip key={item.anime.slug}>
-                                <TooltipTrigger asChild>
-                                    <ContentCard
-                                        onClick={() =>
-                                            handleSelect(item.anime.slug)
-                                        }
-                                        image={item.anime.image}
-                                        className={cn(
-                                            'transition-opacity',
-                                            selectedWatch?.anime.slug !==
-                                                item.anime.slug &&
-                                                'opacity-30 hover:opacity-60',
-                                        )}
-                                    />
-                                </TooltipTrigger>
-                                <TooltipContent className="max-w-48 truncate">
-                                    {getTitle(item.anime, defaultOptions?.title, defaultOptions?.name)}
-                                </TooltipContent>
-                            </Tooltip>
-                        ))}
-                    </Stack>
-
-                    {selectedWatch && (
-                        <>
-                            <Link
-                                className="w-fit flex-1"
-                                to={`/anime/${selectedWatch.anime.slug}`}
-                            >
-                                <h5>{getTitle(selectedWatch.anime, defaultOptions?.title, defaultOptions?.name)}</h5>
-                                {renderAnimeDetails()}
-                            </Link>
-
-                            <div className="flex w-full flex-col gap-2">
-                                <p className="text-muted-foreground text-sm">
-                                    <span className="text-foreground font-bold">
-                                        {updatedWatch?.episodes ??
-                                            selectedWatch.episodes}
-                                    </span>
-                                    /{selectedWatch.anime.episodes_total ?? '?'}{' '}
-                                    епізодів
-                                </p>
-
-                                <Progress
-                                    className="h-2"
-                                    value={
-                                        updatedWatch?.episodes ??
-                                        selectedWatch.episodes
-                                    }
-                                    max={
-                                        selectedWatch.anime.episodes_total ??
-                                        selectedWatch.episodes
-                                    }
-                                />
-                            </div>
-
-                            {renderActionButtons()}
-                        </>
-                    )}
-                </div>
-            )}
-            {selectedWatch && (
-                <ResponsiveModal
-                    open={open}
-                    onOpenChange={setOpen}
-                    forceDesktop
-                >
-                    <ResponsiveModalContent className="md:max-w-xl">
-                        <ResponsiveModalHeader>
-                            <ResponsiveModalTitle>
-                                {getTitle(selectedWatch.anime, defaultOptions?.title, defaultOptions?.name)}
-                            </ResponsiveModalTitle>
-                        </ResponsiveModalHeader>
-                        <WatchEditModal
-                            watch={selectedWatch}
-                            slug={selectedWatch.anime.slug}
-                            onClose={() => setOpen(false)}
+        <ProgressTrackerView
+            isLoading={isLoading}
+            isEmpty={list?.length === 0}
+            emptyTitle={
+                <span>
+                    Список <span className="font-extrabold">Дивлюсь</span>{' '}
+                    порожній
+                </span>
+            }
+            emptyDescription="Додайте аніме у список Дивлюсь, щоб відстежувати їх прогрес"
+            items={(list ?? []).map((item) => ({
+                slug: item.anime.slug,
+                image: item.anime.image,
+                title: getTitle(
+                    item.anime,
+                    defaultOptions?.title,
+                    defaultOptions?.name,
+                ),
+            }))}
+            selected={
+                selectedWatch && {
+                    slug: selectedWatch.anime.slug,
+                    href: `/anime/${selectedWatch.anime.slug}`,
+                    title: selectedTitle,
+                    details: (
+                        <ProgressTrackerMeta
+                            year={selectedWatch.anime.year}
+                            mediaTypeLabel={
+                                selectedWatch.anime.media_type
+                                    ? ANIME_MEDIA_TYPE[
+                                          selectedWatch.anime.media_type
+                                      ].title_ua
+                                    : undefined
+                            }
+                            total={selectedWatch.anime.episodes_total}
+                            totalWord={
+                                selectedWatch.anime.episodes_total
+                                    ? getDeclensionWord(
+                                          selectedWatch.anime.episodes_total,
+                                          EPISODES_DECLENSION,
+                                      )
+                                    : undefined
+                            }
                         />
-                    </ResponsiveModalContent>
-                </ResponsiveModal>
-            )}
-        </>
+                    ),
+                    current:
+                        updatedWatch?.episodes ?? selectedWatch.episodes ?? 0,
+                    total: selectedWatch.anime.episodes_total ?? undefined,
+                    unitLabel: 'епізодів',
+                    actionUnit: 'епізод',
+                }
+            }
+            onSelect={handleSelect}
+            onAdd={handleAddEpisode}
+            onRemove={handleRemoveEpisode}
+            onOpenSettings={() => selectedWatch && setOpen(true)}
+            modal={
+                selectedWatch && (
+                    <ResponsiveModal
+                        open={open}
+                        onOpenChange={setOpen}
+                        forceDesktop
+                    >
+                        <ResponsiveModalContent className="md:max-w-xl">
+                            <ResponsiveModalHeader>
+                                <ResponsiveModalTitle>
+                                    {selectedTitle}
+                                </ResponsiveModalTitle>
+                            </ResponsiveModalHeader>
+                            <WatchEditModal
+                                watch={selectedWatch}
+                                slug={selectedWatch.anime.slug}
+                                onClose={() => setOpen(false)}
+                            />
+                        </ResponsiveModalContent>
+                    </ResponsiveModal>
+                )
+            }
+        />
     );
 };
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
 
 import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
@@ -16,8 +17,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import AnimeWatchlist from './components/anime-watchlist';
-import MangaReadlist from './components/manga-readlist';
-import NovelReadlist from './components/novel-readlist';
+import ReadlistWidget from './components/readlist-widget';
 
 const Profile = () => {
     const { user: loggedUser } = useSession();
@@ -49,10 +49,10 @@ const Profile = () => {
                         <AnimeWatchlist />
                     </TabsContent>
                     <TabsContent value="manga" className="flex-1">
-                        <MangaReadlist />
+                        <ReadlistWidget contentType={ContentTypeEnum.MANGA} />
                     </TabsContent>
                     <TabsContent value="novel" className="flex-1">
-                        <NovelReadlist />
+                        <ReadlistWidget contentType={ContentTypeEnum.NOVEL} />
                     </TabsContent>
                 </Tabs>
             </Block>
