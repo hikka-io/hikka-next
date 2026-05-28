@@ -13,8 +13,6 @@ import {
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import { useParams } from '@/utils/navigation';
-import { DEFAULT_USER_UI } from '@/utils/ui';
-import { mergeUserUI } from '@/utils/ui/merge';
 
 import Anime from './components/favorite-anime';
 import Character from './components/favorite-characters';
@@ -31,25 +29,6 @@ const Favorites: FC<Props> = ({ extended }) => {
         ContentTypeEnum.ANIME,
     );
     const params = useParams();
-
-    console.log(
-        mergeUserUI(DEFAULT_USER_UI, {
-            preferences: {
-                ...DEFAULT_USER_UI.preferences,
-                overlay: true,
-            },
-            styles: {
-                dark: {
-                    colors: {},
-                    body: {},
-                },
-                light: {
-                    colors: {},
-                },
-                typography: {},
-            },
-        }),
-    );
 
     const getComponent = () => {
         switch (content) {

@@ -76,7 +76,7 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
             disabled={disabled}
             onClick={openWatchEditModal}
             className={cn(
-                `bg-${watch.status} text-${watch.status}-foreground border- border${watch.status}-border`,
+                `bg-${watch.status} text-${watch.status}-foreground border-${watch.status}-border`,
             )}
             {...props}
         >

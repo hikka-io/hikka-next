@@ -8,7 +8,7 @@ interface Props {
     extendedSize?: StackSize;
 }
 
-const NovelListSkeleton: FC<Props> = ({ extendedSize = 5 }) => {
+const CatalogListSkeleton: FC<Props> = ({ extendedSize = 5 }) => {
     return (
         <Stack extended size={5} extendedSize={extendedSize}>
             {range(1, 20).map((v) => (
@@ -18,4 +18,4 @@ const NovelListSkeleton: FC<Props> = ({ extendedSize = 5 }) => {
     );
 };
 
-export default NovelListSkeleton;
+export default CatalogListSkeleton;

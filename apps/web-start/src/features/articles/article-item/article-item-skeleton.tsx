@@ -7,9 +7,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 
-interface Props {}
-
-const ArticleItemSkeleton = ({}: Props) => {
+const ArticleItemSkeleton = () => {
     return (
         <Card className="-mx-4 animate-pulse overflow-hidden md:mx-0">
             <HorizontalCard>
@@ -57,18 +55,6 @@ const ArticleItemSkeleton = ({}: Props) => {
                 </div>
             </div>
         </Card>
-    );
-
-    return (
-        <div className="flex animate-pulse flex-col gap-2">
-            <div className="relative w-full overflow-hidden rounded-lg bg-inherit pt-[140%]">
-                <div className="bg-secondary/20 absolute top-0 left-0 size-full" />
-            </div>
-            <div className="flex flex-col gap-2 py-3">
-                <div className="bg-secondary/20 h-2 w-full rounded-lg" />
-                <div className="bg-secondary/20 h-2 w-1/3 rounded-lg" />
-            </div>
-        </div>
     );
 };
 

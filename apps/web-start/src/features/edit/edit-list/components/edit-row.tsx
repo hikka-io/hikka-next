@@ -52,7 +52,9 @@ const EditRow: FC<Props> = ({ edit }) => {
             onAuxClick={handleRowClick}
         >
             <TableCell className="hidden w-8 sm:table-cell">
-                <Label>{edit.edit_id}</Label>
+                <Link to={`/edit/${edit.edit_id}`} className="hover:underline">
+                    <Label className="cursor-pointer">{edit.edit_id}</Label>
+                </Link>
             </TableCell>
             <TableCell className="w-40">
                 <div className="flex gap-4">

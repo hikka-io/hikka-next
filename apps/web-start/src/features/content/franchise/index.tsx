@@ -48,12 +48,9 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
         contentType: content_type,
         slug: String(params.slug),
         options: {
-            select: (data) => {
-                console.log('data', data);
-                return {
-                    list: [...data.anime, ...data.manga, ...data.novel],
-                };
-            },
+            select: (data) => ({
+                list: [...data.anime, ...data.manga, ...data.novel],
+            }),
         },
     });
 

@@ -14,14 +14,13 @@ import {
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
-import { cn } from '@/utils/cn';
-
 import ChaptersCell from './chapters-cell';
 import DetailsCell from './details-cell';
 import EpisodesCell from './episodes-cell';
 import MediaCell from './media-cell';
 import NumberCell from './number-cell';
 import ScoreCell from './score-cell';
+import SortableHead from './sortable-head';
 import VolumesCell from './volumes-cell';
 
 interface Props {
@@ -39,15 +38,15 @@ const TableView: FC<Props> = ({ data, content_type }) => {
     }>();
     const router = useRouter();
 
-    const order = search.order || null;
+    const order = (search.order as 'asc' | 'desc' | null) || null;
     const sortRaw = search.sort;
-    const defaultSort =
+    const scoreSort =
         content_type === ContentTypeEnum.ANIME ? 'watch_score' : 'read_score';
     const sort = sortRaw
         ? Array.isArray(sortRaw)
             ? sortRaw
             : [sortRaw]
-        : [defaultSort];
+        : [scoreSort];
 
     const switchSort = (
         newSort:
@@ -83,76 +82,49 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                 <TableRow className="hover:bg-transparent">
                     <TableHead>#</TableHead>
                     <TableHead>Деталі</TableHead>
-                    <TableHead
-                        className={cn(
-                            'w-4 cursor-pointer text-center select-none hover:underline',
-                            sort.includes(
-                                content_type === ContentTypeEnum.ANIME
-                                    ? 'watch_score'
-                                    : 'read_score',
-                            ) && 'text-primary-foreground',
-                        )}
-                        align="center"
-                        onClick={() =>
-                            switchSort(
-                                content_type === ContentTypeEnum.ANIME
-                                    ? 'watch_score'
-                                    : 'read_score',
-                            )
-                        }
+                    <SortableHead
+                        className="w-4"
+                        active={sort.includes(scoreSort)}
+                        order={order}
+                        onSort={() => switchSort(scoreSort)}
                     >
                         Оцінка
-                    </TableHead>
+                    </SortableHead>
                     {content_type !== ContentTypeEnum.ANIME && (
                         <Fragment>
-                            <TableHead
-                                className={cn(
-                                    'cursor-pointer text-center select-none hover:underline',
-                                    sort.includes('read_chapters') &&
-                                        'text-primary-foreground',
-                                )}
-                                align="center"
-                                onClick={() => switchSort('read_chapters')}
+                            <SortableHead
+                                active={sort.includes('read_chapters')}
+                                order={order}
+                                onSort={() => switchSort('read_chapters')}
                             >
                                 Розділи
-                            </TableHead>
-                            <TableHead
-                                className={cn(
-                                    'cursor-pointer text-center select-none hover:underline',
-                                    sort.includes('read_volumes') &&
-                                        'text-primary-foreground',
-                                )}
-                                align="center"
-                                onClick={() => switchSort('read_volumes')}
+                            </SortableHead>
+                            <SortableHead
+                                active={sort.includes('read_volumes')}
+                                order={order}
+                                onSort={() => switchSort('read_volumes')}
                             >
                                 Томи
-                            </TableHead>
+                            </SortableHead>
                         </Fragment>
                     )}
                     {content_type === ContentTypeEnum.ANIME && (
                         <Fragment>
-                            <TableHead
-                                className={cn(
-                                    'cursor-pointer text-center select-none hover:underline',
-                                    sort.includes('watch_episodes') &&
-                                        'text-primary-foreground',
-                                )}
-                                align="center"
-                                onClick={() => switchSort('watch_episodes')}
+                            <SortableHead
+                                active={sort.includes('watch_episodes')}
+                                order={order}
+                                onSort={() => switchSort('watch_episodes')}
                             >
                                 Епізоди
-                            </TableHead>
-                            <TableHead
-                                className={cn(
-                                    'hidden w-20 cursor-pointer text-center select-none hover:underline lg:table-cell',
-                                    sort.includes('media_type') &&
-                                        'text-primary-foreground',
-                                )}
-                                align="center"
-                                onClick={() => switchSort('media_type')}
+                            </SortableHead>
+                            <SortableHead
+                                className="hidden w-20 lg:table-cell"
+                                active={sort.includes('media_type')}
+                                order={order}
+                                onSort={() => switchSort('media_type')}
                             >
                                 Тип
-                            </TableHead>
+                            </SortableHead>
                         </Fragment>
                     )}
                 </TableRow>
