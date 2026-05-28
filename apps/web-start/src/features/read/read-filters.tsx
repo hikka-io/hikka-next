@@ -42,12 +42,6 @@ export const ReadFiltersBody: FC<BodyProps> = ({
     );
 };
 
-/**
- * @deprecated Use the shared {@link FiltersFooter} from `@/features/filters`.
- * Kept as an alias for backward compatibility.
- */
-export const ReadFiltersFooter = FiltersFooter;
-
 interface Props {
     className?: string;
     content_type: ReadContentType;

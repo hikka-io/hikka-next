@@ -9,10 +9,8 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 
-import {
-    AnimeFiltersBody,
-    AnimeFiltersFooter,
-} from '@/features/watch/anime-filters';
+import FiltersFooter from '@/features/filters/filters-footer';
+import { AnimeFiltersBody } from '@/features/watch/anime-filters';
 
 interface Props {
     open: boolean;
@@ -46,7 +44,7 @@ const AnimeFiltersModal: FC<Props> = ({
                     sort_type={sort_type}
                 />
                 <ResponsiveModalFooter>
-                    <AnimeFiltersFooter className="w-full" />
+                    <FiltersFooter className="w-full" />
                 </ResponsiveModalFooter>
             </ResponsiveModalContent>
         </ResponsiveModal>
