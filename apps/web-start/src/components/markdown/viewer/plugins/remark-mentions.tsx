@@ -21,12 +21,16 @@ export default function remarkMentions(
             });
         }
 
-        const link: Link = {
+        const mention: Link = {
             type: 'link',
             url: opts.usernameLink(username),
             children: [{ type: 'text', value: value.trim() }],
+            data: {
+                hName: 'mention',
+                hProperties: { username },
+            },
         };
 
-        return [...whitespace, link];
+        return [...whitespace, mention];
     }
 }
