@@ -48,10 +48,28 @@ const LINK_EXTRA_CLASSNAME = 'break-all';
 const LINK_CLASSNAME =
     'cursor-pointer text-primary-foreground hover:underline wrap-break-word whitespace-normal';
 
+const getHostname = (href: string): string | null => {
+    try {
+        return new URL(href, 'https://hikka.io').hostname.toLowerCase();
+    } catch {
+        return null;
+    }
+};
+
+const hostMatches = (hostname: string | null, hosts: string[]) =>
+    !!hostname &&
+    hosts.some((host) => hostname === host || hostname.endsWith('.' + host));
+
 const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     const { user } = useSession();
 
-    if (!user && AUTH_ONLY_HOSTS.some((host) => href.includes(host))) {
+    const hostname = getHostname(href);
+    const isInternal =
+        hostname === 'hikka.io' ||
+        !!hostname?.endsWith('.hikka.io') ||
+        !/^https?:\/\//i.test(href);
+
+    if (!user && hostMatches(hostname, AUTH_ONLY_HOSTS)) {
         return (
             <span className={cn('text-muted-foreground', className)}>
                 {children}
@@ -59,9 +77,11 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
         );
     }
 
-    if (href.includes('hikka.io') || !href.includes('http')) {
-        if (href.includes('/anime')) {
-            const link = href.split('/anime/')[1]?.split('/')[0];
+    if (isInternal) {
+        const path = href.replace(/^https?:\/\/[^/]+/i, '');
+
+        if (path.match(/^\/anime\//)) {
+            const link = path.match(/^\/anime\/([^/?#]+)/)?.[1];
 
             if (link) {
                 return (
@@ -75,8 +95,8 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     </AnimeTooltip>
                 );
             }
-        } else if (href.includes('/characters')) {
-            const link = href.split('/characters/')[1]?.split('/')[0];
+        } else if (path.match(/^\/characters\//)) {
+            const link = path.match(/^\/characters\/([^/?#]+)/)?.[1];
 
             if (link) {
                 return (
@@ -90,8 +110,8 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     </CharacterTooltip>
                 );
             }
-        } else if (href.includes('/manga')) {
-            const link = href.split('/manga/')[1]?.split('/')[0];
+        } else if (path.match(/^\/manga\//)) {
+            const link = path.match(/^\/manga\/([^/?#]+)/)?.[1];
 
             if (link) {
                 return (
@@ -105,8 +125,8 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     </MangaTooltip>
                 );
             }
-        } else if (href.includes('/novel')) {
-            const link = href.split('/novel/')[1]?.split('/')[0];
+        } else if (path.match(/^\/novel\//)) {
+            const link = path.match(/^\/novel\/([^/?#]+)/)?.[1];
 
             if (link) {
                 return (
@@ -120,8 +140,8 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     </NovelTooltip>
                 );
             }
-        } else if (href.includes('/people')) {
-            const link = href.split('/people/')[1]?.split('/')[0];
+        } else if (path.match(/^\/people\//)) {
+            const link = path.match(/^\/people\/([^/?#]+)/)?.[1];
 
             if (link) {
                 return (
@@ -135,8 +155,8 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                     </PersonTooltip>
                 );
             }
-        } else if (href.includes('/u')) {
-            const link = href.split('/u/')[1]?.split('/')[0];
+        } else if (path.match(/^\/u\//)) {
+            const link = path.match(/^\/u\/([^/?#]+)/)?.[1];
 
             if (link) {
                 return (
@@ -162,10 +182,11 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
         );
     }
 
-    if (ALLOWED_HOSTS.some((host) => href.includes(host))) {
+    if (hostMatches(hostname, ALLOWED_HOSTS)) {
         return (
             <a
                 target="_blank"
+                rel="noopener noreferrer"
                 className={cn(LINK_CLASSNAME, LINK_EXTRA_CLASSNAME, className)}
                 href={href}
             >
@@ -209,7 +230,9 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                 <AlertDialogFooter>
                     <AlertDialogCancel>Відмінити</AlertDialogCancel>
                     <AlertDialogAction
-                        onClick={() => window.open(href, '_blank')}
+                        onClick={() =>
+                            window.open(href, '_blank', 'noopener,noreferrer')
+                        }
                     >
                         Продовжити
                     </AlertDialogAction>
