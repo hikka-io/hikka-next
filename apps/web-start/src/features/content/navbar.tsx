@@ -67,10 +67,7 @@ const Navbar: FC<Props> = ({ className, content_type }) => {
                 className,
             )}
         >
-            <Card
-                className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl"
-                id="navbar-card"
-            >
+            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl" id="navbar-card">
                 <UserlistButton content_type={content_type} />
                 {content_type !== ContentTypeEnum.PERSON && (
                     <FavoriteButton

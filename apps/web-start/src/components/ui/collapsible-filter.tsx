@@ -12,9 +12,8 @@ import { Label } from '@/components/ui/label';
 
 import { cn } from '@/utils/cn';
 
-export interface CollapsibleFilterProps extends React.ComponentProps<
-    typeof Collapsible
-> {
+export interface CollapsibleFilterProps
+    extends React.ComponentProps<typeof Collapsible> {
     active?: boolean;
     icon?: ReactNode;
 }

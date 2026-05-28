@@ -3,8 +3,8 @@
 import { Languages } from 'lucide-react';
 import { FC } from 'react';
 
-import { SwitchField, SwitchFieldProps } from '@/components/form/form-switch';
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
+import { SwitchFieldProps, SwitchField } from '@/components/form/form-switch';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
@@ -48,9 +48,12 @@ export const FormLocalization: FC<Props & Partial<SwitchFieldProps>> = (
     const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
         <form.AppField
-            name={'only_translated' as never}
+            name={"only_translated" as never}
             children={() => (
-                <SwitchField {...props} label="Перекладено українською" />
+                <SwitchField
+                    {...props}
+                    label="Перекладено українською"
+                />
             )}
         />
     );

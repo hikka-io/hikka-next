@@ -28,7 +28,8 @@ const Watchlist = () => {
         .map((stat) => {
             const status = WATCH_STATUS[stat as WatchStatusEnum];
             const percentage =
-                (100 * data.stats[stat as keyof AnimeStatsResponse]) / sumStats;
+                (100 * data.stats[stat as keyof AnimeStatsResponse]) /
+                sumStats;
 
             return {
                 percentage,

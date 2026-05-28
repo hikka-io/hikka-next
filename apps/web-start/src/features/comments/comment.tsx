@@ -10,7 +10,7 @@ import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material
 import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import {

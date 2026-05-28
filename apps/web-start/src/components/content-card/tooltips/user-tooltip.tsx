@@ -24,7 +24,7 @@ import MaterialSymbolsMenuBookRounded from '../../icons/material-symbols/Materia
 import MaterialSymbolsPalette from '../../icons/material-symbols/MaterialSymbolsPalette';
 import MaterialSymbolsSecurity from '../../icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '../../icons/material-symbols/MaterialSymbolsShieldPerson';
-import MDViewer from '../../markdown/viewer/MD-viewer';
+import MDViewer from '../../markdown/viewer/md-viewer';
 import HoverCardWrapper from './hover-card-wrapper';
 import { UserTooltipSkeleton } from './tooltip-skeleton';
 

@@ -309,15 +309,17 @@ function EmojiPickerContent({
                             {i18n.searchResult}
                         </div>
                         <div className="relative flex flex-wrap">
-                            {searchResult.map((emoji: Emoji, index: number) => (
-                                <EmojiButton
-                                    key={emoji.id}
-                                    onMouseOver={onMouseOver}
-                                    onSelect={onSelectEmoji}
-                                    emoji={emojiLibrary.getEmoji(emoji.id)}
-                                    index={index}
-                                />
-                            ))}
+                            {searchResult.map(
+                                (emoji: Emoji, index: number) => (
+                                    <EmojiButton
+                                        key={emoji.id}
+                                        onMouseOver={onMouseOver}
+                                        onSelect={onSelectEmoji}
+                                        emoji={emojiLibrary.getEmoji(emoji.id)}
+                                        index={index}
+                                    />
+                                ),
+                            )}
                         </div>
                     </div>
                 ) : (

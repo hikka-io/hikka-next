@@ -2,6 +2,7 @@
 
 import { upsertLink } from '@platejs/link';
 import { KEYS } from 'platejs';
+import type { BaseRange } from 'slate';
 import type { PlateEditor } from 'platejs/react';
 import { useEditorRef } from 'platejs/react';
 import React, {
@@ -12,7 +13,6 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import type { BaseRange } from 'slate';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';

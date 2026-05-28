@@ -51,9 +51,7 @@ export function usePlateMarkdownSetup(options: UsePlateMarkdownSetupOptions) {
     const editor = usePlateEditor({
         plugins: MarkdownEditorKit,
         value: (editor) =>
-            editor
-                .getApi(MarkdownPlugin)
-                .markdown.deserialize(options.value ?? ''),
+            editor.getApi(MarkdownPlugin).markdown.deserialize(options.value ?? ''),
     });
 
     const [isModalOpen, setIsModalOpen] = useState(

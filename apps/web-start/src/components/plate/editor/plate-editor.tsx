@@ -6,7 +6,7 @@ import { Value } from 'platejs';
 import { Plate, PlateEditor, usePlateEditor } from 'platejs/react';
 import { useEffect, useState } from 'react';
 
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { Editor, EditorContainer } from '@/components/plate/ui/editor';
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
 import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';

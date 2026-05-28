@@ -4,8 +4,8 @@ import { useStore } from '@tanstack/react-form';
 import { Calendar } from 'lucide-react';
 import { FC, useEffect, useState } from 'react';
 
-import { SliderField, SliderFieldProps } from '@/components/form/form-slider';
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
+import { SliderField, SliderFieldProps } from '@/components/form/form-slider';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
@@ -112,7 +112,7 @@ export const FormYear: FC<Props & Partial<SliderFieldProps>> = () => {
 
             <div className="flex items-center gap-2">
                 <form.AppField
-                    name={'years' as never}
+                    name={"years" as never}
                     children={() => (
                         <SliderField
                             min={Number(DEFAULT_YEAR_START)}

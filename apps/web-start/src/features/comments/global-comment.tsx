@@ -3,7 +3,7 @@ import { formatDistance } from 'date-fns';
 import { ArrowBigUp } from 'lucide-react';
 import { FC } from 'react';
 
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,

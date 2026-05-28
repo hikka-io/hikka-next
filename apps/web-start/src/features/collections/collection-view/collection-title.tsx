@@ -2,7 +2,7 @@
 
 import { useCollectionByReference } from '@hikka/react';
 
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';

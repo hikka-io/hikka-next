@@ -85,6 +85,10 @@ export const getScheduleDuration = (
     unixTimestamp: number,
     timeLeft?: number,
 ): string => {
+    if (timeLeft !== undefined && timeLeft <= 0) {
+        return 'Вийшло';
+    }
+
     const targetDateMs = unixTimestamp * 1000;
     const now = Date.now();
 

@@ -22,7 +22,12 @@ export const Route = createFileRoute('/_pages/articles/')({
     validateSearch: zodValidator(articlesSearchSchema),
     loaderDeps: ({ search }) => search,
     loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
-        const { author, tags = [], draft, categories = [] } = deps;
+        const {
+            author,
+            tags = [],
+            draft,
+            categories = [],
+        } = deps;
 
         await Promise.allSettled([
             prefetchInfiniteQuery(

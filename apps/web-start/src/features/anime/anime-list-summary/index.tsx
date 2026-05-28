@@ -2,8 +2,9 @@
 
 import { FC } from 'react';
 
-import { useAnimeSearchQuery } from '@/features/anime/anime-list/use-anime-search-query';
 import { CatalogSummary } from '@/features/content';
+
+import { useAnimeSearchQuery } from '@/features/anime/anime-list/use-anime-search-query';
 
 interface Props {
     pageSize?: number;

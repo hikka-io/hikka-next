@@ -1,7 +1,4 @@
-import {
-    ErrorComponent,
-    type ErrorComponentProps,
-} from '@tanstack/react-router';
+import { ErrorComponent, type ErrorComponentProps } from '@tanstack/react-router';
 
 const ErrorPage: React.FC<ErrorComponentProps> = (props) => {
     return (

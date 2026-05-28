@@ -4,7 +4,7 @@ import { useUserByUsername } from '@hikka/react';
 
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import {
     Tooltip,
     TooltipContent,

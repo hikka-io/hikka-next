@@ -94,7 +94,11 @@ const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
                 >
                     Скасувати
                 </Button>
-                <Button variant="secondary" type="submit" size="md">
+                <Button
+                    variant="secondary"
+                    type="submit"
+                    size="md"
+                >
                     Прийняти
                 </Button>
             </div>

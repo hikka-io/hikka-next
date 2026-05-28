@@ -7,7 +7,7 @@ import { FC } from 'react';
 import { useFormContext } from '@/components/form/form-context';
 // import BasicEditor from '@/components/markdown/editor/basic-editor';
 // import PlateDiff from '@/components/markdown/plate-editor/plate-diff';
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { DiffViewer } from '@/components/plate/editor/diff-viewer';
 import { PlateMarkdownEditor } from '@/components/plate/editor/plate-editor';
 import { Button } from '@/components/ui/button';

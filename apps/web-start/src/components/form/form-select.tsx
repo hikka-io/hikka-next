@@ -1,12 +1,7 @@
 import { useStore } from '@tanstack/react-form';
 import { FC, ReactNode, memo, useMemo } from 'react';
 
-import {
-    Field,
-    FieldDescription,
-    FieldError,
-    FieldLabel,
-} from '@/components/ui/field';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import {
     Select,
     SelectProps,
@@ -16,10 +11,9 @@ import {
 
 import { useFieldContext } from './form-context';
 
-export interface SelectFieldProps extends Omit<
-    SelectProps,
-    'value' | 'onValueChange'
-> {
+
+export interface SelectFieldProps
+    extends Omit<SelectProps, 'value' | 'onValueChange'> {
     label?: string;
     description?: string;
     placeholder?: string;
@@ -45,7 +39,9 @@ const SelectFieldInner: FC<SelectFieldProps> = ({
         if (fieldValue === undefined || fieldValue === null) {
             return [];
         }
-        return Array.isArray(fieldValue) ? fieldValue : [fieldValue];
+        return Array.isArray(fieldValue)
+            ? fieldValue
+            : [fieldValue];
     }, [field.state.value]);
 
     const handleValueChange = (newValue: string[]) => {
@@ -72,7 +68,9 @@ const SelectFieldInner: FC<SelectFieldProps> = ({
                 {children}
             </Select>
 
-            {description && <FieldDescription>{description}</FieldDescription>}
+            {description && (
+                <FieldDescription>{description}</FieldDescription>
+            )}
             <FieldError errors={errors} />
         </Field>
     );

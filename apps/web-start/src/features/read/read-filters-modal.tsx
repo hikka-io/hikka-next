@@ -9,10 +9,7 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 
-import {
-    ReadFiltersBody,
-    ReadFiltersFooter,
-} from '@/features/read/read-filters';
+import { ReadFiltersBody, ReadFiltersFooter } from '@/features/read/read-filters';
 
 interface Props {
     open: boolean;

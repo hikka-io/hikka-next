@@ -67,7 +67,7 @@ export const FormMediaType: FC<Props & Partial<BadgeFilterFieldProps>> = ({
     const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
         <form.AppField
-            name={'types' as never}
+            name={"types" as never}
             children={() => (
                 <BadgeFilterField
                     {...props}

@@ -1,20 +1,13 @@
 import { useStore } from '@tanstack/react-form';
 import { ComponentProps, FC } from 'react';
 
-import {
-    Field,
-    FieldDescription,
-    FieldError,
-    FieldLabel,
-} from '@/components/ui/field';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { Switch } from '@/components/ui/switch';
 
 import { useFieldContext } from './form-context';
 
-export interface SwitchFieldProps extends Omit<
-    ComponentProps<typeof Switch>,
-    'checked' | 'onCheckedChange'
-> {
+
+export interface SwitchFieldProps extends Omit<ComponentProps<typeof Switch>, 'checked' | 'onCheckedChange'> {
     label?: string;
     description?: string;
 }
@@ -33,9 +26,7 @@ export const SwitchField: FC<SwitchFieldProps> = ({
         <Field data-invalid={isInvalid} className={className}>
             <div className="flex w-full flex-row items-center justify-between gap-2">
                 <div>
-                    {label && (
-                        <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-                    )}
+                    {label && <FieldLabel htmlFor={field.name}>{label}</FieldLabel>}
                     {description && (
                         <FieldDescription>{description}</FieldDescription>
                     )}
@@ -43,9 +34,7 @@ export const SwitchField: FC<SwitchFieldProps> = ({
                 <Switch
                     id={field.name}
                     checked={field.state.value}
-                    onCheckedChange={(checked) =>
-                        field.handleChange(checked as boolean)
-                    }
+                    onCheckedChange={(checked) => field.handleChange(checked as boolean)}
                     {...props}
                 />
             </div>

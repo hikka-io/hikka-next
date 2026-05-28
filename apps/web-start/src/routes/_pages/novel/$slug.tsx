@@ -35,7 +35,9 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
             queryClient.setQueryData(novelOptions.queryKey, novel);
         }
 
-        const nsfwConsented = novel.nsfw ? !!(await getNsfwConsentFn()) : false;
+        const nsfwConsented = novel.nsfw
+            ? !!(await getNsfwConsentFn())
+            : false;
 
         await Promise.allSettled([
             queryClient.ensureInfiniteQueryData(

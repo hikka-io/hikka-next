@@ -60,9 +60,8 @@ const contentCardVariants = cva('group relative flex w-full flex-col gap-2', {
     },
 });
 
-export interface ContentCardProps extends VariantProps<
-    typeof contentCardVariants
-> {
+export interface ContentCardProps
+    extends VariantProps<typeof contentCardVariants> {
     target?: string;
     title?: string | null;
     description?: string | null;

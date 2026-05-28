@@ -5,15 +5,9 @@ import { useRouter } from '@tanstack/react-router';
 import { CalendarRange } from 'lucide-react';
 import { FC, useEffect, useState } from 'react';
 
-import {
-    SliderField,
-    type SliderFieldProps,
-} from '@/components/form/form-slider';
-import {
-    SwitchField,
-    type SwitchFieldProps,
-} from '@/components/form/form-switch';
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
+import { SliderField, type SliderFieldProps } from '@/components/form/form-slider';
+import { SwitchField, type SwitchFieldProps } from '@/components/form/form-switch';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
@@ -149,21 +143,18 @@ const DateRange = (props: Props) => {
     );
 };
 
-export const FormDateRange: FC<
-    Props & Partial<SwitchFieldProps & SliderFieldProps>
-> = () => {
+export const FormDateRange: FC<Props & Partial<SwitchFieldProps & SliderFieldProps>> = () => {
     const form = useTypedAppFormContext({ defaultValues: {} as never });
-    const dateRangeEnabled = useStore(
-        form.store,
-        (s) => (s.values as any).date_range_enabled,
-    );
+    const dateRangeEnabled = useStore(form.store, (s) => (s.values as any).date_range_enabled);
     const dateRange = useStore(form.store, (s) => (s.values as any).date_range);
 
     return (
         <div className="flex flex-col gap-2">
             <form.AppField
-                name={'date_range_enabled' as never}
-                children={() => <SwitchField label="Часовий проміжок" />}
+                name={"date_range_enabled" as never}
+                children={() => (
+                    <SwitchField label="Часовий проміжок" />
+                )}
             />
 
             {dateRangeEnabled && (
@@ -178,12 +169,10 @@ export const FormDateRange: FC<
                     )}
                     <div className="flex items-center gap-2">
                         <form.AppField
-                            name={'date_range' as never}
+                            name={"date_range" as never}
                             children={() => (
                                 <SliderField
-                                    defaultValue={
-                                        dateRange ?? DEFAULT_DATE_RANGE
-                                    }
+                                    defaultValue={dateRange ?? DEFAULT_DATE_RANGE}
                                     min={Number(DEFAULT_DATE_RANGE[0])}
                                     max={Number(DEFAULT_DATE_RANGE[1])}
                                     minStepsBetweenThumbs={0}

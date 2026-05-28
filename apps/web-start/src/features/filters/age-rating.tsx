@@ -47,7 +47,7 @@ export const FormAgeRating: FC<Props & Partial<BadgeFilterFieldProps>> = (
     const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
         <form.AppField
-            name={'ratings' as never}
+            name={"ratings" as never}
             children={() => (
                 <BadgeFilterField
                     {...props}

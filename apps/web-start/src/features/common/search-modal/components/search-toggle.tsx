@@ -12,7 +12,6 @@ import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/
 import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
 import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
 import { buttonVariants } from '@/components/ui/button';
-import { PortalContainerProvider } from '@/components/ui/portal-container-context';
 import {
     Select,
     SelectContent,
@@ -24,6 +23,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
+import { PortalContainerProvider } from '@/components/ui/portal-container-context';
 import { cn } from '@/utils/cn';
 
 import { SEARCH_TYPE_ALL, SearchTypeValue } from '../types';
@@ -132,35 +132,33 @@ const SearchToggle: FC<Props> = ({
                 </SelectTrigger>
                 <SelectContent>
                     <SelectList>
-                        {Object.entries(GROUP_LABELS).map(
-                            ([group, label], index) => {
-                                const items = filteredTypes.filter(
-                                    (t) => t.group === group,
-                                );
-                                if (items.length === 0) return null;
-                                return (
-                                    <Fragment key={group}>
-                                        {index > 0 && <SelectSeparator />}
-                                        <SelectGroup heading={label}>
-                                            {items.map((type) => (
-                                                <SelectItem
-                                                    key={type.slug}
-                                                    value={type.slug}
-                                                >
-                                                    <div className="flex items-center gap-2">
-                                                        {type.icon}
-                                                        <span>
-                                                            {type.title_ua}
-                                                        </span>
-                                                    </div>
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </Fragment>
-                                );
-                            },
-                        )}
-                    </SelectList>
+                    {Object.entries(GROUP_LABELS).map(
+                        ([group, label], index) => {
+                            const items = filteredTypes.filter(
+                                (t) => t.group === group,
+                            );
+                            if (items.length === 0) return null;
+                            return (
+                                <Fragment key={group}>
+                                    {index > 0 && <SelectSeparator />}
+                                    <SelectGroup heading={label}>
+                                        {items.map((type) => (
+                                            <SelectItem
+                                                key={type.slug}
+                                                value={type.slug}
+                                            >
+                                                <div className="flex items-center gap-2">
+                                                    {type.icon}
+                                                    <span>{type.title_ua}</span>
+                                                </div>
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </Fragment>
+                            );
+                        },
+                    )}
+                </SelectList>
                 </SelectContent>
             </Select>
         </PortalContainerProvider>

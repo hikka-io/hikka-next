@@ -21,7 +21,11 @@ const AutoButton: FC = () => {
     };
 
     return (
-        <Button className="w-fit" variant="outline" onClick={handleAutoSubmit}>
+        <Button
+            className="w-fit"
+            variant="outline"
+            onClick={handleAutoSubmit}
+        >
             Прийняти
         </Button>
     );

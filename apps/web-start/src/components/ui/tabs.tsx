@@ -46,8 +46,7 @@ const tabsTriggerVariants = cva(
 );
 
 interface TabsListProps
-    extends
-        React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>,
+    extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>,
         VariantProps<typeof tabsListVariants> {}
 
 const TabsList = React.forwardRef<

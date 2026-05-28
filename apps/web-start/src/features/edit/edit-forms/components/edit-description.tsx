@@ -42,9 +42,10 @@ const EditDescription: FC<Props> = ({ mode }) => {
                                     variant="outline"
                                     key={tag}
                                     onClick={() => {
-                                        const current = form.getFieldValue(
-                                            'description',
-                                        ) as string;
+                                        const current =
+                                            form.getFieldValue(
+                                                'description',
+                                            ) as string;
                                         form.setFieldValue(
                                             'description',
                                             current === ''

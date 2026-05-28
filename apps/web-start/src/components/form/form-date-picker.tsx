@@ -6,12 +6,7 @@ import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import {
-    Field,
-    FieldDescription,
-    FieldError,
-    FieldLabel,
-} from '@/components/ui/field';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import {
     Popover,
     PopoverContent,
@@ -69,7 +64,8 @@ export const DatePickerField: FC<Props> = ({
                         variant="outline"
                         className={cn(
                             'w-full pl-3 text-left font-normal',
-                            !field.state.value && 'text-muted-foreground',
+                            !field.state.value &&
+                                'text-muted-foreground',
                         )}
                     >
                         {dateValue ? (
@@ -82,7 +78,10 @@ export const DatePickerField: FC<Props> = ({
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent
+                    className="w-auto p-0"
+                    align="start"
+                >
                     <Calendar
                         locale={uk}
                         mode="single"
@@ -90,20 +89,26 @@ export const DatePickerField: FC<Props> = ({
                         captionLayout="dropdown"
                         onSelect={(date) => {
                             field.handleChange(
-                                date ? localDateToUtcUnix(date) : null,
+                                date
+                                    ? localDateToUtcUnix(date)
+                                    : null,
                             );
                         }}
                         disabled={(date) =>
                             date > new Date() ||
                             date < new Date('1900-01-01') ||
-                            (minDate ? date < utcToLocalDate(minDate) : false)
+                            (minDate
+                                ? date < utcToLocalDate(minDate)
+                                : false)
                         }
                         initialFocus
                     />
                 </PopoverContent>
             </Popover>
 
-            {description && <FieldDescription>{description}</FieldDescription>}
+            {description && (
+                <FieldDescription>{description}</FieldDescription>
+            )}
             <FieldError errors={errors} />
         </Field>
     );

@@ -6,7 +6,7 @@ import { cn } from '@/utils/cn';
 import { RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
-import MDViewer from '../../markdown/viewer/MD-viewer';
+import MDViewer from '../../markdown/viewer/md-viewer';
 
 interface GenreItem {
     slug: string;

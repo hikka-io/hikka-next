@@ -3,9 +3,10 @@
 import { AnimeScheduleResponse, ContentStatusEnum } from '@hikka/client';
 import { useHikkaClient, useSearchAnimeSchedule } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
+import { FC } from 'react';
+
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
-import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
