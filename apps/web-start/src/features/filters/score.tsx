@@ -48,7 +48,10 @@ const Score: FC<Props> = ({ score_type }) => {
             <Slider
                 className="flex-1"
                 onValueCommit={(value) =>
-                    handleChangeParam('score', (value as number[]).map(String))
+                    handleChangeParam(
+                        score_type,
+                        (value as number[]).map(String),
+                    )
                 }
                 onValueChange={(value) => setSelectingScores(value as number[])}
                 showValue="always"
