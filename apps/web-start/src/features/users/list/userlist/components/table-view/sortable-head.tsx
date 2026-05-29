@@ -34,7 +34,7 @@ const SortableHead: FC<Props> = ({
             <button
                 type="button"
                 onClick={onSort}
-                className="mx-auto flex cursor-pointer items-center gap-1 font-bold hover:underline"
+                className="flex w-full cursor-pointer items-center justify-center gap-1 hover:underline"
             >
                 {children}
             </button>

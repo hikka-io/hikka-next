@@ -16,18 +16,7 @@ const Description = () => {
         return null;
     }
 
-    return (
-        <DescriptionBlock
-            options={[
-                {
-                    value: 'description_ua',
-                    label: 'UA',
-                    ariaLabel: 'Опис українською',
-                    text: character.description_ua,
-                },
-            ]}
-        />
-    );
+    return <DescriptionBlock options={[{ text: character.description_ua }]} />;
 };
 
 export default Description;

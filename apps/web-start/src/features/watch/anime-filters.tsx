@@ -66,7 +66,12 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 content_type={content_type}
                 sort_type={sort_type}
             />
-            <FiltersFooter className="bg-secondary/20 shrink-0 border-t p-4" />
+            <FiltersFooter
+                className="bg-secondary/20 shrink-0 border-t p-4"
+                contentType={
+                    sort_type === 'anime' ? ContentTypeEnum.ANIME : undefined
+                }
+            />
         </div>
     );
 };

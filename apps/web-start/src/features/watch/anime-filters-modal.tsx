@@ -44,7 +44,14 @@ const AnimeFiltersModal: FC<Props> = ({
                     sort_type={sort_type}
                 />
                 <ResponsiveModalFooter>
-                    <FiltersFooter className="w-full" />
+                    <FiltersFooter
+                        className="w-full"
+                        contentType={
+                            sort_type === 'anime'
+                                ? ContentTypeEnum.ANIME
+                                : undefined
+                        }
+                    />
                 </ResponsiveModalFooter>
             </ResponsiveModalContent>
         </ResponsiveModal>

@@ -824,6 +824,8 @@
     --watching-border: var(--ongoing-border);
     --watching-foreground: var(--ongoing-foreground);
 
+    /* Role/feed accents are theme-independent — defined once here and inherited
+       by .dark (no per-theme override). */
     --role-admin: #d0bfff;
     --role-moderator: #ffc9c9;
 
@@ -929,14 +931,6 @@
     --watching-background: var(--ongoing-background);
     --watching-border: var(--ongoing-border);
     --watching-foreground: var(--ongoing-foreground);
-
-    --role-admin: #d0bfff;
-    --role-moderator: #ffc9c9;
-
-    --feed-history: #e891c0;
-    --feed-article: #78c98d;
-    --feed-collection: #6fa8dc;
-    --feed-comment: #e8a87c;
 }
 
 @keyframes fade-in {

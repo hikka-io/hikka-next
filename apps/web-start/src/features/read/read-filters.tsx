@@ -1,6 +1,6 @@
 'use client';
 
-import { ReadContentType } from '@hikka/client';
+import { ContentTypeEnum, ReadContentType } from '@hikka/client';
 import { FC } from 'react';
 
 import FiltersFooter from '@/features/filters/filters-footer';
@@ -18,6 +18,18 @@ interface BodyProps {
     content_type: ReadContentType;
     sort_type: 'manga' | 'novel' | 'read';
 }
+
+/**
+ * Maps the read sort context to the preset content type. The user's read list
+ * (`read`) returns undefined so the footer hides the catalog-only preset action.
+ */
+export const readPresetContentType = (
+    sort_type: 'manga' | 'novel' | 'read',
+): ContentTypeEnum | undefined => {
+    if (sort_type === 'manga') return ContentTypeEnum.MANGA;
+    if (sort_type === 'novel') return ContentTypeEnum.NOVEL;
+    return undefined;
+};
 
 /**
  * Filter fields only — no footer, no outer padding/margin hacks.
@@ -60,7 +72,10 @@ const ReadFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 content_type={content_type}
                 sort_type={sort_type}
             />
-            <FiltersFooter className="bg-secondary/20 shrink-0 border-t p-4" />
+            <FiltersFooter
+                className="bg-secondary/20 shrink-0 border-t p-4"
+                contentType={readPresetContentType(sort_type)}
+            />
         </div>
     );
 };

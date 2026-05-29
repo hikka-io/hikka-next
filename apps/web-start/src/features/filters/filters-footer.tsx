@@ -18,22 +18,30 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { FilterPresetEditModal } from '@/features/content';
+// Deep import (not the @/features/content barrel) keeps the filters → content
+// import edge narrow, avoiding the module-init cycle that previously broke
+// hydration.
+import FilterPresetEditModal from '@/features/content/presets/filter-preset-edit-modal';
 
 import { cn } from '@/utils/cn';
 
 export interface FiltersFooterProps {
     className?: string;
+    /**
+     * Enables the "save as preset" action and tags the created preset with
+     * this content type. Presets are a catalog-only feature, so the user's
+     * own watch/read lists omit this prop and only get the clear-filters
+     * button.
+     */
+    contentType?: ContentTypeEnum;
 }
 
 /**
- * Clear filters + save-as-preset actions, shared by the anime and read
- * filter panels. Implements the superset of both: the `date_range_enabled`
- * coercion and `/anime` content-type inference are inert on routes where
- * they don't apply, so the behaviour is identical to the previous
- * per-domain footers.
+ * Clear filters + (catalog-only) save-as-preset actions, shared by the anime
+ * and read filter panels. The preset action only renders when `contentType`
+ * is supplied.
  */
-const FiltersFooter: FC<FiltersFooterProps> = ({ className }) => {
+const FiltersFooter: FC<FiltersFooterProps> = ({ className, contentType }) => {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [currentFilters, setCurrentFilters] =
@@ -41,9 +49,6 @@ const FiltersFooter: FC<FiltersFooterProps> = ({ className }) => {
     const search = useRouterState({
         select: (s) => (s.resolvedLocation ?? s.location).search,
     }) as Record<string, unknown>;
-    const pathname = useRouterState({
-        select: (s) => (s.resolvedLocation ?? s.location).pathname,
-    });
 
     const clearFilters = () => {
         router.navigate({ search: {}, replace: true } as any);
@@ -105,14 +110,8 @@ const FiltersFooter: FC<FiltersFooterProps> = ({ className }) => {
         const order = search.order;
         if (order) next.order = order as string;
 
-        if (!next.content_types) {
-            if (pathname.includes('/anime')) {
-                next.content_types = [ContentTypeEnum.ANIME];
-            } else if (pathname.includes('/manga')) {
-                next.content_types = [ContentTypeEnum.MANGA];
-            } else if (pathname.includes('/novel')) {
-                next.content_types = [ContentTypeEnum.NOVEL];
-            }
+        if (!next.content_types && contentType) {
+            next.content_types = [contentType];
         }
 
         setCurrentFilters(next);
@@ -130,38 +129,48 @@ const FiltersFooter: FC<FiltersFooterProps> = ({ className }) => {
                 >
                     <AntDesignClearOutlined /> Очистити
                 </Button>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button
-                            size="icon-md"
-                            variant="secondary"
-                            onClick={handleCreateFromCurrent}
-                        >
-                            <CustomCopyAddRounded />
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipPortal>
-                        <TooltipContent>
-                            <p className="text-sm">
-                                Створити пресет з поточних фільтрів
-                            </p>
-                        </TooltipContent>
-                    </TooltipPortal>
-                </Tooltip>
+                {contentType && (
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                size="icon-md"
+                                variant="secondary"
+                                onClick={handleCreateFromCurrent}
+                            >
+                                <CustomCopyAddRounded />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipPortal>
+                            <TooltipContent>
+                                <p className="text-sm">
+                                    Створити пресет з поточних фільтрів
+                                </p>
+                            </TooltipContent>
+                        </TooltipPortal>
+                    </Tooltip>
+                )}
             </div>
-            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent
-                    className="md:max-w-xl"
-                    title="Створити пресет з поточних"
+            {contentType && (
+                <ResponsiveModal
+                    open={open}
+                    onOpenChange={setOpen}
+                    forceDesktop
                 >
-                    {currentFilters && (
-                        <FilterPresetEditModal
-                            filterPreset={currentFilters as Hikka.FilterPreset}
-                            onClose={() => setOpen(false)}
-                        />
-                    )}
-                </ResponsiveModalContent>
-            </ResponsiveModal>
+                    <ResponsiveModalContent
+                        className="md:max-w-xl"
+                        title="Створити пресет з поточних"
+                    >
+                        {currentFilters && (
+                            <FilterPresetEditModal
+                                filterPreset={
+                                    currentFilters as Hikka.FilterPreset
+                                }
+                                onClose={() => setOpen(false)}
+                            />
+                        )}
+                    </ResponsiveModalContent>
+                </ResponsiveModal>
+            )}
         </>
     );
 };

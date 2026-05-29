@@ -9,11 +9,15 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 export interface DescriptionOption {
-    value: string;
-    /** Toggle label, e.g. "UA" / "EN". */
-    label: string;
-    ariaLabel: string;
     text?: string | null;
+    /**
+     * Toggle metadata — only needed when more than one option is supplied
+     * (single-language blocks omit these since no toggle is rendered).
+     */
+    value?: string;
+    /** Toggle label, e.g. "UA" / "EN". */
+    label?: string;
+    ariaLabel?: string;
 }
 
 interface Props {
@@ -35,18 +39,19 @@ const DescriptionBlock = ({
     className,
     id,
 }: Props) => {
-    const valid = options.filter((o) => o.text && o.text.trim() !== '');
-    const [active, setActive] = useState(valid[0]?.value);
+    const valid = options
+        .filter((o) => o.text && o.text.trim() !== '')
+        .map((o, i) => ({ ...o, key: o.value ?? String(i) }));
+    const [active, setActive] = useState<string | undefined>(undefined);
 
     if (valid.length === 0) {
         return null;
     }
 
-    const activeValue = valid.some((o) => o.value === active)
-        ? active
-        : valid[0].value;
+    const activeValue =
+        active && valid.some((o) => o.key === active) ? active : valid[0].key;
     const description =
-        valid.find((o) => o.value === activeValue)?.text ?? valid[0].text;
+        valid.find((o) => o.key === activeValue)?.text ?? valid[0].text;
 
     return (
         <Block className={className} id={id}>
@@ -62,8 +67,8 @@ const DescriptionBlock = ({
                         >
                             {valid.map((option) => (
                                 <ToggleGroupItem
-                                    key={option.value}
-                                    value={option.value}
+                                    key={option.key}
+                                    value={option.key}
                                     aria-label={option.ariaLabel}
                                 >
                                     {option.label}
