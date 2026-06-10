@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from '@hikka/react';
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 
 import {
     AnimeTooltip,
@@ -48,6 +48,40 @@ const LINK_EXTRA_CLASSNAME = 'break-all';
 const LINK_CLASSNAME =
     'cursor-pointer text-primary-foreground hover:underline wrap-break-word whitespace-normal';
 
+const INTERNAL_TOOLTIPS: {
+    pattern: RegExp;
+    wrap: (slug: string, link: ReactNode) => ReactElement;
+}[] = [
+    {
+        pattern: /^\/anime\/([^/?#]+)/,
+        wrap: (slug, link) => <AnimeTooltip slug={slug}>{link}</AnimeTooltip>,
+    },
+    {
+        pattern: /^\/characters\/([^/?#]+)/,
+        wrap: (slug, link) => (
+            <CharacterTooltip slug={slug}>{link}</CharacterTooltip>
+        ),
+    },
+    {
+        pattern: /^\/manga\/([^/?#]+)/,
+        wrap: (slug, link) => <MangaTooltip slug={slug}>{link}</MangaTooltip>,
+    },
+    {
+        pattern: /^\/novel\/([^/?#]+)/,
+        wrap: (slug, link) => <NovelTooltip slug={slug}>{link}</NovelTooltip>,
+    },
+    {
+        pattern: /^\/people\/([^/?#]+)/,
+        wrap: (slug, link) => <PersonTooltip slug={slug}>{link}</PersonTooltip>,
+    },
+    {
+        pattern: /^\/u\/([^/?#]+)/,
+        wrap: (username, link) => (
+            <UserTooltip username={username}>{link}</UserTooltip>
+        ),
+    },
+];
+
 const getHostname = (href: string): string | null => {
     try {
         return new URL(href, 'https://hikka.io').hostname.toLowerCase();
@@ -80,94 +114,18 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     if (isInternal) {
         const path = href.replace(/^https?:\/\/[^/]+/i, '');
 
-        if (path.match(/^\/anime\//)) {
-            const link = path.match(/^\/anime\/([^/?#]+)/)?.[1];
+        for (const { pattern, wrap } of INTERNAL_TOOLTIPS) {
+            const slug = path.match(pattern)?.[1];
 
-            if (link) {
-                return (
-                    <AnimeTooltip slug={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </AnimeTooltip>
-                );
-            }
-        } else if (path.match(/^\/characters\//)) {
-            const link = path.match(/^\/characters\/([^/?#]+)/)?.[1];
-
-            if (link) {
-                return (
-                    <CharacterTooltip slug={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </CharacterTooltip>
-                );
-            }
-        } else if (path.match(/^\/manga\//)) {
-            const link = path.match(/^\/manga\/([^/?#]+)/)?.[1];
-
-            if (link) {
-                return (
-                    <MangaTooltip slug={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </MangaTooltip>
-                );
-            }
-        } else if (path.match(/^\/novel\//)) {
-            const link = path.match(/^\/novel\/([^/?#]+)/)?.[1];
-
-            if (link) {
-                return (
-                    <NovelTooltip slug={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </NovelTooltip>
-                );
-            }
-        } else if (path.match(/^\/people\//)) {
-            const link = path.match(/^\/people\/([^/?#]+)/)?.[1];
-
-            if (link) {
-                return (
-                    <PersonTooltip slug={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </PersonTooltip>
-                );
-            }
-        } else if (path.match(/^\/u\//)) {
-            const link = path.match(/^\/u\/([^/?#]+)/)?.[1];
-
-            if (link) {
-                return (
-                    <UserTooltip username={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </UserTooltip>
+            if (slug) {
+                return wrap(
+                    slug,
+                    <TanstackLink
+                        className={cn(LINK_CLASSNAME, className)}
+                        to={href}
+                    >
+                        {children}
+                    </TanstackLink>,
                 );
             }
         }
