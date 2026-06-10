@@ -2,7 +2,10 @@
 
 import { LinkPlugin } from '@platejs/link/react';
 
-import { LinkDialogProvider } from '@/components/plate/ui/link-dialog';
+import {
+    LinkDialogProvider,
+    getLinkDialog,
+} from '@/components/plate/ui/link-dialog';
 import { LinkElement } from '@/components/plate/ui/link-node';
 import { LinkFloatingToolbar } from '@/components/plate/ui/link-toolbar';
 
@@ -17,7 +20,9 @@ function LinkAfterEditable() {
 export const LinkKit = [
     LinkPlugin.configure({
         options: {
-            triggerFloatingLinkHotkeys: false as unknown as string,
+            // Disable the built-in floating-link hotkeys — the custom
+            // dialog below owns meta+k/ctrl+k.
+            triggerFloatingLinkHotkeys: '',
         },
         render: {
             node: LinkElement,
@@ -27,9 +32,8 @@ export const LinkKit = [
             openLinkDialog: {
                 keys: ['meta+k', 'ctrl+k'],
                 handler: ({ editor }) => {
-                    (editor as any)._linkDialog?.openInsert();
+                    getLinkDialog(editor)?.openInsert();
                 },
-                preventDefault: true,
             },
         },
     }),

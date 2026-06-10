@@ -9,9 +9,10 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 import { extractYouTubeVideoId, getYouTubeThumbnail } from '@/utils/youtube';
 
-export interface VideoElementProps extends PlateElementProps {
+import type { TVideoElement } from '../editor/plugins/video-kit';
+
+export interface VideoElementProps extends PlateElementProps<TVideoElement> {
     className?: string;
-    url?: string;
 }
 
 interface VideoInfo {
@@ -20,16 +21,9 @@ interface VideoInfo {
 }
 
 function getVideoInfo(url: string): VideoInfo {
-    // Handle YouTube URLs
-    if (url.includes('youtube.com/watch?v=')) {
-        const videoId = extractYouTubeVideoId(url);
-        return {
-            embedUrl: `https://www.youtube.com/embed/${videoId}`,
-            thumbnailUrl: getYouTubeThumbnail(videoId),
-        };
-    }
-    if (url.includes('youtu.be/')) {
-        const videoId = extractYouTubeVideoId(url);
+    const videoId = extractYouTubeVideoId(url);
+
+    if (videoId) {
         return {
             embedUrl: `https://www.youtube.com/embed/${videoId}`,
             thumbnailUrl: getYouTubeThumbnail(videoId),
@@ -45,7 +39,7 @@ function getVideoInfo(url: string): VideoInfo {
 
 export function VideoElement({ className, ...props }: VideoElementProps) {
     const { children, element, editor } = props;
-    const url = (element as any)?.url || props.url || '';
+    const url = element.url ?? '';
 
     const handleDeleteMediaItem = () => {
         editor.tf.removeNodes({

@@ -1,30 +1,47 @@
 'use client';
 
-import { ElementApi } from 'platejs';
-import { createPlatePlugin } from 'platejs/react';
+import {
+    ElementApi,
+    type Path,
+    type PluginConfig,
+    type TElement,
+} from 'platejs';
+import { createTPlatePlugin } from 'platejs/react';
+import { toast } from 'sonner';
 
 import { ImageGroupElement } from '@/components/plate/ui/image-group-node';
 
-import { ELEMENT_IMAGE, ImageKit, ImagePlugin } from './image-kit';
+import {
+    ELEMENT_IMAGE,
+    ImageKit,
+    ImagePlugin,
+    type TImageElement,
+} from './image-kit';
 
 export const ELEMENT_IMAGE_GROUP = 'image_group';
 
-export interface ImageGroupElementProps {
-    uploadImage?: (file: File) => Promise<{ url: string } | undefined>;
-    children: Array<any>;
+export const MAX_IMAGE_COUNT = 4;
+
+export type UploadImageFn = (
+    file: File,
+) => Promise<{ url: string } | undefined>;
+
+export interface TImageGroupElement extends TElement {
     type: typeof ELEMENT_IMAGE_GROUP;
+    children: TImageElement[];
 }
 
-export const ImageGroupPlugin = createPlatePlugin({
+type ImageGroupConfig = PluginConfig<
+    'image_group',
+    { uploadImage?: UploadImageFn }
+>;
+
+export const ImageGroupPlugin = createTPlatePlugin<ImageGroupConfig>({
     key: ELEMENT_IMAGE_GROUP,
     node: {
         isElement: true,
     },
-    options: {
-        uploadImage: undefined as
-            | ((file: File) => Promise<{ url: string } | undefined>)
-            | undefined,
-    },
+    options: {},
     plugins: [ImagePlugin],
 })
     .overrideEditor(({ editor, tf: { normalizeNode, insertData } }) => {
@@ -54,8 +71,9 @@ export const ImageGroupPlugin = createPlatePlugin({
                 insertData(data: DataTransfer) {
                     const text = data.getData('text/plain');
                     const { files } = data;
+                    const { uploadImage } = editor.getOptions(ImageGroupPlugin);
 
-                    if (!text && files && files.length > 0) {
+                    if (!text && files && files.length > 0 && uploadImage) {
                         // Handle file drop - insert image group
                         editor
                             .getTransforms(ImageGroupPlugin)
@@ -71,53 +89,61 @@ export const ImageGroupPlugin = createPlatePlugin({
         insert: {
             imageGroupFromFiles: async (options: {
                 files: FileList | File[];
-                element?: any;
-                uploadImage?: (
-                    file: File,
-                ) => Promise<{ url: string } | undefined>;
+                element?: TImageGroupElement;
+                uploadImage?: UploadImageFn;
             }) => {
-                const {
-                    files,
-                    element,
-                    uploadImage: customUploadImage,
-                } = options;
-                const uploadedImages: string[] = [];
+                const { files, element } = options;
+                const uploadImage =
+                    options.uploadImage ??
+                    editor.getOptions(ImageGroupPlugin).uploadImage;
 
-                for (let file of files) {
-                    const [mime, format] = file.type.split('/');
+                if (!uploadImage) return;
 
-                    if (mime === 'image') {
-                        // Convert PNG to JPEG if needed (simplified version)
-                        let processedFile = file;
-                        if (format === 'png') {
-                            // In a real implementation, you might want to convert PNG to JPEG
-                            // For now, we'll just use the original file
-                            processedFile = file;
-                        }
+                // Only upload what still fits into the group
+                const capacity = element
+                    ? MAX_IMAGE_COUNT - element.children.length
+                    : MAX_IMAGE_COUNT;
 
-                        const uploadImage =
-                            customUploadImage ??
-                            editor.getOptions(ImageGroupPlugin).uploadImage;
-                        const uploaded =
-                            uploadImage && (await uploadImage(processedFile));
+                const imageFiles = Array.from(files)
+                    .filter((file) => file.type.startsWith('image/'))
+                    .slice(0, Math.max(capacity, 0));
 
-                        if (!uploaded) {
-                            continue;
-                        }
+                if (imageFiles.length === 0) return;
 
-                        uploadedImages.push(uploaded.url);
-                    }
+                const results = await Promise.allSettled(
+                    imageFiles.map((file) => uploadImage(file)),
+                );
+
+                const urls = results
+                    .map((result) =>
+                        result.status === 'fulfilled'
+                            ? result.value?.url
+                            : undefined,
+                    )
+                    .filter((url): url is string => Boolean(url));
+
+                const failedCount = imageFiles.length - urls.length;
+                if (failedCount > 0) {
+                    toast.error(
+                        failedCount === 1
+                            ? 'Не вдалося завантажити зображення'
+                            : `Не вдалося завантажити зображення (${failedCount})`,
+                    );
                 }
+
+                if (urls.length === 0) return;
 
                 editor
                     .getTransforms(ImageGroupPlugin)
-                    .insert.images({ urls: uploadedImages, element });
+                    .insert.images({ urls, element });
             },
 
-            images: (options: { urls: string[]; element?: any }) => {
+            images: (options: {
+                urls: string[];
+                element?: TImageGroupElement;
+            }) => {
                 const { urls, element } = options;
                 const text = { text: '' };
-                const MAX_IMAGE_COUNT = 4;
 
                 const maxImages = element
                     ? MAX_IMAGE_COUNT - element.children.length
@@ -134,7 +160,7 @@ export const ImageGroupPlugin = createPlatePlugin({
                     if (!path) return;
 
                     editor.tf.insertNodes(images, {
-                        at: [...path, element.children.length],
+                        at: [...path, element.children.length] as Path,
                     });
                     return;
                 }

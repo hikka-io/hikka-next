@@ -1,6 +1,5 @@
 'use client';
 
-import { UploadTypeEnum } from '@hikka/client';
 import { useMutation } from '@hikka/react';
 import { Plus } from 'lucide-react';
 import type { PlateEditor } from 'platejs/react';
@@ -16,12 +15,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
 
-import { convertPngToJpeg } from '@/utils/image';
-
-import { ImageGroupPlugin } from '../editor/plugins/image-group-kit';
+import {
+    ImageGroupPlugin,
+    type TImageGroupElement,
+} from '../editor/plugins/image-group-kit';
+import { uploadAttachmentImage } from '../editor/upload-image';
 
 interface ImageGroupAddImageProps {
-    element?: any;
+    element?: TImageGroupElement;
     editor: PlateEditor;
     children?: ReactElement<React.InputHTMLAttributes<HTMLInputElement>>;
 }
@@ -36,24 +37,7 @@ export const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
             editor.getTransforms(ImageGroupPlugin).insert.imageGroupFromFiles({
                 files,
                 element,
-                uploadImage: (file) => {
-                    if (file.type.includes('png')) {
-                        return convertPngToJpeg({
-                            file,
-                            outputFormat: 'blob',
-                        }).then((result) => {
-                            return client.upload.createImageUpload(
-                                UploadTypeEnum.ATTACHMENT,
-                                result.blob!,
-                            );
-                        });
-                    }
-
-                    return client.upload.createImageUpload(
-                        UploadTypeEnum.ATTACHMENT,
-                        file,
-                    );
-                },
+                uploadImage: (file) => uploadAttachmentImage(client, file),
             }),
     });
 

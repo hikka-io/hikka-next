@@ -1,5 +1,6 @@
 'use client';
 
+import { useHikkaClient } from '@hikka/react';
 import { MarkdownPlugin } from '@platejs/markdown';
 import { MessageCircleMore, MessageCirclePlus } from 'lucide-react';
 import { Value } from 'platejs';
@@ -26,6 +27,8 @@ import { cn } from '@/utils/cn';
 
 import { ArticleKit } from './article-kit';
 import { usePlateMarkdownSetup } from './markdown-editor-kit';
+import { ImageGroupPlugin } from './plugins/image-group-kit';
+import { uploadAttachmentImage } from './upload-image';
 
 export function EditorPreview({
     editor,
@@ -192,12 +195,20 @@ export function ArticlePlateEditor({
     placeholder = 'Напишіть зміст статті...',
     onValueChange,
 }: ArticlePlateEditorProps) {
+    const { client } = useHikkaClient();
     const editor = usePlateEditor({
         plugins: ArticleKit,
         value,
         nodeId: false,
         shouldNormalizeEditor: true,
     });
+
+    // Enables drag-and-drop image upload (see image-group-kit insertData)
+    useEffect(() => {
+        editor.setOption(ImageGroupPlugin, 'uploadImage', (file: File) =>
+            uploadAttachmentImage(client, file),
+        );
+    }, [editor, client]);
 
     return (
         <Plate

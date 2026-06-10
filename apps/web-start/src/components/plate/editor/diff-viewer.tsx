@@ -12,32 +12,18 @@ import { type Value, createSlatePlugin } from 'platejs';
 import {
     Plate,
     PlateContent,
-    PlateElement,
-    type PlateElementProps,
     PlateLeaf,
     type PlateLeafProps,
     type PlateProps,
     createPlateEditor,
-    createPlatePlugin,
     toPlatePlugin,
     usePlateEditor,
-    useSelected,
 } from 'platejs/react';
 import * as React from 'react';
 
 import { cn } from '@/utils/cn';
 
 import { StaticKit } from './static-kit';
-
-const InlinePlugin = createPlatePlugin({
-    key: 'inline',
-    node: { isElement: true, isInline: true },
-});
-
-const InlineVoidPlugin = createPlatePlugin({
-    key: 'inline-void',
-    node: { isElement: true, isInline: true, isVoid: true },
-});
 
 const diffOperationColors: Record<DiffOperation['type'], string> = {
     delete: 'bg-destructive text-destructive-foreground',
@@ -85,37 +71,6 @@ const describeUpdate = ({ newProperties, properties }: DiffUpdate) => {
     }
 
     return descriptionParts.join('\n');
-};
-
-const InlineElement = ({ children, ...props }: PlateElementProps) => {
-    return (
-        <PlateElement
-            {...props}
-            as="span"
-            className="rounded-sm bg-slate-200/50 p-1"
-        >
-            {children}
-        </PlateElement>
-    );
-};
-
-const InlineVoidElement = ({ children, ...props }: PlateElementProps) => {
-    const selected = useSelected();
-
-    return (
-        <PlateElement {...props} as="span">
-            <span
-                className={cn(
-                    'rounded-sm bg-slate-200/50 p-1',
-                    selected && 'bg-blue-500 text-white',
-                )}
-                contentEditable={false}
-            >
-                Inline void
-            </span>
-            {children}
-        </PlateElement>
-    );
 };
 
 const DiffPlugin = toPlatePlugin(
@@ -167,18 +122,9 @@ const DiffPlugin = toPlatePlugin(
 function DiffLeaf({ children, ...props }: PlateLeafProps) {
     const diffOperation = props.leaf.diffOperation as DiffOperation;
 
-    const Component = (
-        {
-            delete: 'del',
-            insert: 'ins',
-            update: 'span',
-        } as any
-    )[diffOperation.type];
-
     return (
         <PlateLeaf
             {...props}
-            // as={Component}
             className={diffOperationColors[diffOperation.type]}
             attributes={{
                 ...props.attributes,
@@ -193,12 +139,7 @@ function DiffLeaf({ children, ...props }: PlateLeafProps) {
     );
 }
 
-const plugins = [
-    ...StaticKit,
-    InlinePlugin.withComponent(InlineElement),
-    InlineVoidPlugin.withComponent(InlineVoidElement),
-    DiffPlugin,
-];
+const plugins = [...StaticKit, DiffPlugin];
 
 function VersionHistoryPlate({
     className,
@@ -225,6 +166,7 @@ interface DiffProps {
 export function DiffViewer({ current, previous, className }: DiffProps) {
     const diffValue = React.useMemo(() => {
         const editor = createPlateEditor({
+            nodeId: false,
             plugins,
         });
 
@@ -241,8 +183,11 @@ export function DiffViewer({ current, previous, className }: DiffProps) {
         }) as Value;
     }, [previous, current]);
 
+    const diffKey = React.useMemo(() => JSON.stringify(diffValue), [diffValue]);
+
     const editor = usePlateEditor(
         {
+            nodeId: false,
             plugins,
             value: diffValue,
         },
@@ -252,7 +197,7 @@ export function DiffViewer({ current, previous, className }: DiffProps) {
     return (
         <VersionHistoryPlate
             className={className}
-            key={JSON.stringify(diffValue)}
+            key={diffKey}
             readOnly
             editor={editor}
         />

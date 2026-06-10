@@ -1,5 +1,6 @@
 'use client';
 
+import { HeadingRules } from '@platejs/basic-nodes';
 import { H3Plugin, H4Plugin, H5Plugin } from '@platejs/basic-nodes/react';
 
 import {
@@ -10,6 +11,7 @@ import {
 
 export const HeadingsKit = [
     H3Plugin.configure({
+        inputRules: [HeadingRules.markdown()],
         node: {
             component: H3Element,
         },

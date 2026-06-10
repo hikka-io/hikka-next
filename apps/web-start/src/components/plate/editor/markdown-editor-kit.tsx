@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { useIsMobile } from '@/services/hooks/use-mobile';
 import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
 
-import { AutoformatCommentKit } from './plugins/autoformat-kit';
 import { BasicBlocksKit } from './plugins/basic-blocks-kit';
 import { BasicMarksKit } from './plugins/basic-marks-kit';
 import { EmojiKit } from './plugins/emoji-kit';
@@ -17,6 +16,7 @@ import { LinkKit } from './plugins/link-kit';
 import { ListKit } from './plugins/list-classic-kit';
 import { MarkdownKit } from './plugins/markdown-kit';
 import { SpoilerKit } from './plugins/spoiler-kit';
+import { TextSubstitutionsKit } from './plugins/text-substitutions-kit';
 
 export const MarkdownEditorKit = [
     // Elements
@@ -31,7 +31,7 @@ export const MarkdownEditorKit = [
     ...EmojiKit,
     TrailingBlockPlugin.configure({ options: { type: ParagraphPlugin.key } }),
     ...ExitBreakKit,
-    ...AutoformatCommentKit,
+    ...TextSubstitutionsKit,
 
     // Block Style
     ...ListKit,
@@ -51,7 +51,9 @@ export function usePlateMarkdownSetup(options: UsePlateMarkdownSetupOptions) {
     const editor = usePlateEditor({
         plugins: MarkdownEditorKit,
         value: (editor) =>
-            editor.getApi(MarkdownPlugin).markdown.deserialize(options.value ?? ''),
+            editor
+                .getApi(MarkdownPlugin)
+                .markdown.deserialize(options.value ?? ''),
     });
 
     const [isModalOpen, setIsModalOpen] = useState(

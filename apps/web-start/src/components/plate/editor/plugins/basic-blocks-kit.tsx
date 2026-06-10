@@ -1,5 +1,6 @@
 'use client';
 
+import { BlockquoteRules } from '@platejs/basic-nodes';
 import { BlockquotePlugin } from '@platejs/basic-nodes/react';
 import { KEYS } from 'platejs';
 import { ParagraphPlugin } from 'platejs/react';
@@ -10,6 +11,7 @@ import { ParagraphElement } from '@/components/plate/ui/paragraph-node';
 export const BasicBlocksKit = [
     ParagraphPlugin.withComponent(ParagraphElement),
     BlockquotePlugin.configure({
+        inputRules: [BlockquoteRules.markdown()],
         node: { component: BlockquoteElement },
         shortcuts: { toggle: { keys: 'mod+shift+period' } },
     }).overrideEditor(({ editor, tf: { resetBlock } }) => ({

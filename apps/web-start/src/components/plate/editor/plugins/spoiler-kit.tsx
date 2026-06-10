@@ -19,7 +19,6 @@ export const SpoilerPlugin = createPlatePlugin({
             handler: ({ editor }) => {
                 editor.tf.toggleBlock(ELEMENT_SPOILER);
             },
-            preventDefault: true,
         },
     },
     rules: {
@@ -78,11 +77,11 @@ export const SpoilerPlugin = createPlatePlugin({
 
                     // Ensure spoiler has children
                     if (!children || children.length === 0) {
-                        editor.tf.insertNodes(
+                        editor.tf.insertNodes<TElement>(
                             {
                                 type: KEYS.p,
                                 children: [{ text: '' }],
-                            } as TElement,
+                            },
                             { at: [...path, 0] },
                         );
                         return;
@@ -92,11 +91,11 @@ export const SpoilerPlugin = createPlatePlugin({
                     for (let i = 0; i < children.length; i++) {
                         const child = children[i];
                         if (editor.api.isText(child)) {
-                            editor.tf.replaceNodes(
+                            editor.tf.replaceNodes<TElement>(
                                 {
                                     type: KEYS.p,
                                     children: [child],
-                                } as TElement,
+                                },
                                 { at: [...path, i] },
                             );
                             return;
@@ -109,11 +108,11 @@ export const SpoilerPlugin = createPlatePlugin({
                         ElementApi.isElement(lastChild) &&
                         lastChild.type === ELEMENT_SPOILER
                     ) {
-                        editor.tf.insertNodes(
+                        editor.tf.insertNodes<TElement>(
                             {
                                 type: KEYS.p,
                                 children: [{ text: '' }],
-                            } as TElement,
+                            },
                             { at: [...path, children.length] },
                         );
                         return;
