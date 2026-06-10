@@ -84,3 +84,5 @@ devenv.local.nix
 .output
 .vinxi
 dist
+# Superpowers (Claude Code plugin artifacts)
+docs/superpowers/
