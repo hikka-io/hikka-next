@@ -41,7 +41,7 @@ export const ImageGroupPlugin = createTPlatePlugin<ImageGroupConfig>({
     node: {
         isElement: true,
     },
-    options: {},
+    options: { uploadImage: undefined },
     plugins: [ImagePlugin],
 })
     .overrideEditor(({ editor, tf: { normalizeNode, insertData } }) => {

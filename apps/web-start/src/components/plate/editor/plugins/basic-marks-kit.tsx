@@ -6,8 +6,8 @@ import { BoldPlugin, ItalicPlugin } from '@platejs/basic-nodes/react';
 export const BasicMarksKit = [
     BoldPlugin.configure({
         inputRules: [
-            MarkComboRules.markdown({ variant: 'boldItalic' }),
             BoldRules.markdown({ variant: '*' }),
+            MarkComboRules.markdown({ variant: 'boldItalic' }),
         ],
     }),
     ItalicPlugin.configure({
