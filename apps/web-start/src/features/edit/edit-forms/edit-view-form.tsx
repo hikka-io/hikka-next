@@ -1,13 +1,10 @@
-import { type FC, useRef } from 'react';
-
-import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import type { FC } from 'react';
 
 import { useEdit, useUpdateEdit } from '@hikka/react';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-import { TURNSTILE_SITE_KEY } from '@/utils/constants/edit';
 import { useRouter } from '@/utils/navigation';
 
 import AutoButton from './components/auto-button';
@@ -27,7 +24,6 @@ type Props = {
 
 const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
     const { data: edit } = useEdit({ editId: Number(editId) });
-    const captchaRef = useRef<TurnstileInstance>(null);
 
     const router = useRouter();
 
@@ -101,10 +97,6 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
                 {mode === 'edit' ||
                     (mode === 'update' && (
                         <div className="flex w-full flex-col gap-4">
-                            <Turnstile
-                                ref={captchaRef}
-                                siteKey={TURNSTILE_SITE_KEY}
-                            />
                             <div className="flex items-center gap-2">
                                 <Button
                                     disabled={mutationUpdateEdit.isPending}
