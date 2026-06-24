@@ -27,7 +27,7 @@ const OAuthLogin = ({
                     getSiteUrl(),
                 ).toString();
                 return {
-                    url: data.url + `&state=${encodeURIComponent(state)}`,
+                    url: `${data.url}&state=${encodeURIComponent(state)}`,
                 };
             },
         },

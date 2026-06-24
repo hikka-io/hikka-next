@@ -26,13 +26,9 @@ const CollectionsModal: FC<Props> = ({ content_type }) => {
 
     return (
         <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-            {list &&
-                list.map((collection) => (
-                    <CollectionItem
-                        data={collection}
-                        key={collection.reference}
-                    />
-                ))}
+            {list?.map((collection) => (
+                <CollectionItem data={collection} key={collection.reference} />
+            ))}
             {hasNextPage && (
                 <LoadMoreButton
                     isFetchingNextPage={isFetchingNextPage}

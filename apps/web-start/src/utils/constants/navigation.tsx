@@ -405,7 +405,7 @@ export const APP_SIDEBAR: { title_ua: string; items: Hikka.NavRoute[] }[] = [
 
 export function isNavActive(pathname: string, url: string): boolean {
     if (url === '/') return pathname === '/';
-    return pathname === url || pathname.startsWith(url + '/');
+    return pathname === url || pathname.startsWith(`${url}/`);
 }
 
 export function findActiveRoute(pathname: string): Hikka.NavRoute | undefined {

@@ -91,5 +91,5 @@ export const useUpdateCollection = createMutation({
 export const useDeleteCollection = createMutation({
     mutationFn: (client, reference: string) =>
         client.collections.deleteCollection(reference),
-    invalidateQueries: (reference: string) => [queryKeys.collections.all],
+    invalidateQueries: (_reference: string) => [queryKeys.collections.all],
 });

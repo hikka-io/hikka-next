@@ -27,7 +27,7 @@ const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
             onDismiss(character);
 
             if (type !== 'button') {
-                router.push('/characters/' + character.slug);
+                router.push(`/characters/${character.slug}`);
             }
         },
         [onDismiss, router, type],

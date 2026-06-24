@@ -240,6 +240,9 @@ export function ToolbarSplitButtonSecondary({
 }: React.ComponentPropsWithoutRef<'span'> &
     VariantProps<typeof dropdownArrowVariants>) {
     return (
+        // biome-ignore lint/a11y/useKeyWithClickEvents: decorative dropdown-arrow inside a toolbar button; the parent button handles interaction.
+        // biome-ignore lint/a11y/useFocusableInteractive: decorative dropdown-arrow inside a toolbar button; the parent button handles interaction.
+        // biome-ignore lint/a11y/useSemanticElements: decorative dropdown-arrow inside a toolbar button; the parent button handles interaction.
         <span
             className={cn(
                 dropdownArrowVariants({

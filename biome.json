@@ -43,6 +43,13 @@
         "enabled": true,
         "rules": {
             "recommended": true,
+            "correctness": {
+                "noChildrenProp": "off",
+                "useExhaustiveDependencies": "warn"
+            },
+            "suspicious": {
+                "noArrayIndexKey": "warn"
+            },
             "nursery": {
                 "useSortedClasses": {
                     "level": "warn",
@@ -53,6 +60,19 @@
             }
         }
     },
+    "overrides": [
+        {
+            "includes": ["**/components/icons/**", "**/utils/og/**"],
+            "linter": {
+                "rules": {
+                    "a11y": {
+                        "noSvgWithoutTitle": "off",
+                        "useAltText": "off"
+                    }
+                }
+            }
+        }
+    ],
     "assist": {
         "enabled": true,
         "actions": {

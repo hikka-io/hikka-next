@@ -79,6 +79,7 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
 
     return (
         <style
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: chart theme CSS is generated from internal config, not user input.
             dangerouslySetInnerHTML={{
                 __html: Object.entries(THEMES)
                     .map(

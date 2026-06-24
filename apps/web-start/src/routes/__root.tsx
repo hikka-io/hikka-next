@@ -85,6 +85,7 @@ function RootLayout() {
         <html lang="uk" suppressHydrationWarning>
             <head>
                 <script
+                    // biome-ignore lint/security/noDangerouslySetInnerHtml: static inline theme script to prevent FOUC; contains no user input.
                     dangerouslySetInnerHTML={{
                         __html: `(function(){try{var c=document.cookie.match(/(?:^|;\\s*)theme=([^;]*)/);var t=c?decodeURIComponent(c[1]):'dark';if(t==='system'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.classList.add(t);document.documentElement.style.colorScheme=t;}catch(e){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}})();`,
                     }}
@@ -92,6 +93,7 @@ function RootLayout() {
                 <HeadContent />
                 <script
                     type="application/ld+json"
+                    // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD structured data, no user input.
                     dangerouslySetInnerHTML={{
                         __html: JSON.stringify({
                             '@context': 'https://schema.org',
@@ -122,6 +124,7 @@ function RootLayout() {
                 {userStylesCSS && (
                     <style
                         id={STYLE_ELEMENT_ID}
+                        // biome-ignore lint/security/noDangerouslySetInnerHtml: user's own saved custom CSS theme, applied intentionally.
                         dangerouslySetInnerHTML={{ __html: userStylesCSS }}
                     />
                 )}

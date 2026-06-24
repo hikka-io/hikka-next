@@ -32,7 +32,7 @@ const TagsModal: FC<Props> = ({ setFieldValue, getFieldValue, onClose }) => {
             current === ''
                 ? tag
                 : current +
-                      (tag.split(' ')[0] == '---' ? ' ' : ', ') +
+                      (tag.split(' ')[0] === '---' ? ' ' : ', ') +
                       tag.toLowerCase(),
         );
         onClose?.();

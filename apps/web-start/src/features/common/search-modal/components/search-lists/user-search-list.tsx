@@ -26,7 +26,7 @@ const UserSearchList = ({ onDismiss, type, value }: Props) => {
             onDismiss(user);
 
             if (type !== 'button') {
-                router.push('/u/' + user.username);
+                router.push(`/u/${user.username}`);
             }
         },
         [onDismiss, router, type],

@@ -44,13 +44,10 @@ const Studio: FC<Props> = () => {
     });
 
     const options = useMemo(() => {
-        return (
-            list &&
-            list.map((studio) => ({
-                value: studio.slug,
-                label: studio.name,
-            }))
-        );
+        return list?.map((studio) => ({
+            value: studio.slug,
+            label: studio.name,
+        }));
     }, [list]);
 
     const handleChangeParam = useChangeParam();
@@ -116,13 +113,10 @@ export const FormStudio: FC<Props & Partial<SelectFieldProps>> = (props) => {
     });
 
     const options = useMemo(() => {
-        return (
-            list &&
-            list.map((studio) => ({
-                value: studio.slug,
-                label: studio.name,
-            }))
-        );
+        return list?.map((studio) => ({
+            value: studio.slug,
+            label: studio.name,
+        }));
     }, [list]);
 
     const handleStudioSearch = (keyword: string) => {

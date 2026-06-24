@@ -66,7 +66,7 @@ const CollectionMenu: FC<Props> = ({ collection }) => {
             <DropdownMenuContent align="start">
                 <DropdownMenuItem asChild>
                     <Link
-                        to={`${CONTENT_TYPE_LINKS['collection']}/${collection.reference}/update`}
+                        to={`${CONTENT_TYPE_LINKS.collection}/${collection.reference}/update`}
                     >
                         <MaterialSymbolsEditRounded className="mr-2" />
                         Редагувати

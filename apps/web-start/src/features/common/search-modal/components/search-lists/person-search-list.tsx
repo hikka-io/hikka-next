@@ -27,7 +27,7 @@ const PersonSearchList = ({ onDismiss, type, value }: Props) => {
             onDismiss(person);
 
             if (type !== 'button') {
-                router.push('/people/' + person.slug);
+                router.push(`/people/${person.slug}`);
             }
         },
         [onDismiss, router, type],

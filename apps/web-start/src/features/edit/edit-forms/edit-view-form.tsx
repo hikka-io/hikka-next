@@ -40,7 +40,7 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
     const onDismiss = async () => {
         form.reset();
 
-        router.push('/edit/' + editId);
+        router.push(`/edit/${editId}`);
     };
 
     const mutationUpdateEdit = useUpdateEdit({

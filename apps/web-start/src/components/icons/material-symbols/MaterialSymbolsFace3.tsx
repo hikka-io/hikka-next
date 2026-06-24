@@ -1,4 +1,4 @@
-import React, { type SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 export function MaterialSymbolsFace3(props: SVGProps<SVGSVGElement>) {
     return (

@@ -1,4 +1,4 @@
-import React, { type SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 export function MaterialSymbolsZoomOutRounded(props: SVGProps<SVGSVGElement>) {
     return (

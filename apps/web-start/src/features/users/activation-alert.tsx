@@ -51,8 +51,7 @@ const ActivationAlert = () => {
     });
 
     if (
-        !loggedUser ||
-        loggedUser.role !== 'not_activated' ||
+        loggedUser?.role !== 'not_activated' ||
         user?.username !== loggedUser.username
     ) {
         return null;

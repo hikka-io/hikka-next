@@ -29,7 +29,7 @@ function CollectionPage() {
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link
-                        to={'/collections/' + reference}
+                        to={`/collections/${reference}`}
                         className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
                     >
                         {collection?.title}

@@ -82,7 +82,7 @@ const PaginationInput: FC<PaginationInputProps> = ({
 
         if (!digitsOnlyRegex.test(value)) return setPageToMove('');
 
-        if (parseInt(value) > pages) return;
+        if (parseInt(value, 10) > pages) return;
 
         setPageToMove(value);
     };
@@ -101,7 +101,7 @@ const PaginationInput: FC<PaginationInputProps> = ({
 
                 if (e.key === 'Enter') {
                     e.preventDefault();
-                    setPage(parseInt(pageToMove));
+                    setPage(parseInt(pageToMove, 10));
                     setPageToMove('');
                 }
             }}

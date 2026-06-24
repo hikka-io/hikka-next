@@ -20,7 +20,7 @@ const Component = () => {
     const mutationChangeUsername = useChangeUsername({
         options: {
             onSuccess: async () => {
-                router.push('/u/' + form.getFieldValue('username'));
+                router.push(`/u/${form.getFieldValue('username')}`);
                 toast.success('Ви успішно змінили імʼя користвача.');
             },
         },

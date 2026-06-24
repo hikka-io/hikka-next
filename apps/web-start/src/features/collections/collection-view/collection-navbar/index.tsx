@@ -47,11 +47,7 @@ const CollectionNavbar: FC<Props> = () => {
                 )}
 
                 <Button asChild size="md" variant="ghost">
-                    <Link
-                        to={
-                            '/comments' + '/collection' + '/' + params.reference
-                        }
-                    >
+                    <Link to={`/comments/collection/${params.reference}`}>
                         <MessageCircle />
                         <span>
                             {collection?.comments_count}{' '}

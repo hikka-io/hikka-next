@@ -11,6 +11,7 @@ import { cn } from '@/utils/cn';
 
 function InputGroup({ className, ...props }: React.ComponentProps<'div'>) {
     return (
+        // biome-ignore lint/a11y/useSemanticElements: role="group" is the correct grouping semantic for this container.
         <div
             data-slot="input-group"
             role="group"
@@ -50,6 +51,8 @@ function InputGroupAddon({
     ...props
 }: React.ComponentProps<'div'> & VariantProps<typeof inputGroupAddonVariants>) {
     return (
+        // biome-ignore lint/a11y/useSemanticElements: role="group" is the correct grouping semantic for this container.
+        // biome-ignore lint/a11y/useKeyWithClickEvents: click only focuses the sibling input as a convenience; the input is keyboard-accessible.
         <div
             role="group"
             data-slot="input-group-addon"

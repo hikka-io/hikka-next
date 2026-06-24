@@ -2,7 +2,7 @@ import type { Link, PhrasingContent, Root } from 'mdast';
 import { findAndReplace } from 'mdast-util-find-and-replace';
 
 const userGroup = '[\\da-z][-\\da-z_]{0,38}';
-const mentionRegex = new RegExp('(?:^|\\s)@(' + userGroup + ')', 'gi');
+const mentionRegex = new RegExp(`(?:^|\\s)@(${userGroup})`, 'gi');
 
 export default function remarkMentions(
     opts = { usernameLink: (username: string) => `/${username}` },

@@ -233,7 +233,9 @@ export function useActiveFilters() {
                 switch (def?.kind) {
                     case 'combined':
                         delete next[filter.param];
-                        def.related.forEach((p) => delete next[p]);
+                        def.related.forEach((p) => {
+                            delete next[p];
+                        });
                         break;
 
                     // Range and boolean always map to a single chip — delete the whole param

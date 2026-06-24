@@ -311,6 +311,7 @@ const InlineComboboxItem = ({
     const store = useComboboxContext()!;
 
     // Optimization: Do not subscribe to value if filter is false
+    // biome-ignore lint/correctness/useHookAtTopLevel: deliberate ariakit subscription optimization; the store reference is stable.
     const search = filter && store.useState('value');
 
     const visible = React.useMemo(

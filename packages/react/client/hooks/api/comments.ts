@@ -131,5 +131,5 @@ export const useUpdateComment = createMutation({
 export const useDeleteComment = createMutation({
     mutationFn: (client, commentReference: string) =>
         client.comments.deleteComment(commentReference),
-    invalidateQueries: (commentReference) => [queryKeys.comments.all],
+    invalidateQueries: (_commentReference) => [queryKeys.comments.all],
 });

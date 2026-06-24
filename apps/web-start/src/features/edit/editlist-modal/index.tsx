@@ -37,7 +37,7 @@ const Component = ({ content_type, slug }: Props) => {
                 <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
                     {list!.map((edit) => (
                         <EditCard
-                            to={`/edit/` + edit.edit_id}
+                            to={`/edit/${edit.edit_id}`}
                             key={edit.edit_id}
                             edit={edit}
                         />

@@ -25,7 +25,7 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
 
     return (
         <Comp
-            to={'/novel/' + novel.slug}
+            to={`/novel/${novel.slug}`}
             onClick={onClick}
             className="flex w-full items-center gap-4 text-left"
         >

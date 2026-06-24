@@ -395,6 +395,7 @@ function EmojiPickerSearchBar({
                     aria-label="Search"
                     autoComplete="off"
                     type="text"
+                    // biome-ignore lint/a11y/noAutofocus: focusing the search field on open is intended UX for the emoji picker.
                     autoFocus
                 />
                 {children}
@@ -567,6 +568,7 @@ const emojiCategoryIcons: Record<
         outline: (
             <svg
                 className="size-full"
+                aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
                 strokeLinecap="round"
@@ -584,6 +586,7 @@ const emojiCategoryIcons: Record<
         solid: (
             <svg
                 className="size-full"
+                aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
                 strokeLinecap="round"

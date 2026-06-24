@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export function BxBxlMastadon(props: SVGProps<SVGSVGElement>) {
+export function BxBxlMastadon(_props: SVGProps<SVGSVGElement>) {
     return (
         <svg
             width="1rem"

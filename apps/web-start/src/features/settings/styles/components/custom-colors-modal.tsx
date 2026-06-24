@@ -1,13 +1,6 @@
 'use client';
 
-import {
-    createContext,
-    Fragment,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 import { Moon, Redo2, Sun, Undo2 } from 'lucide-react';
 import { Popover as PopoverPrimitive } from 'radix-ui';
@@ -168,194 +161,188 @@ const CustomColorsModal = ({ onClose }: Props) => {
 
     return (
         <StylesEditorContext.Provider value={storeRef.current}>
-            <Fragment>
-                <div className="-m-4 grid flex-1 grid-cols-1 gap-4 overflow-hidden overflow-y-scroll p-4 md:grid-cols-2">
-                    <Tabs
-                        defaultValue={resolvedTheme ?? 'dark'}
-                        onValueChange={(v) =>
-                            setActiveTheme(v as 'light' | 'dark')
-                        }
-                    >
-                        <TabsList className="w-full">
-                            <TabsTrigger value="light">
-                                <Sun className="size-4" /> Світла тема
-                            </TabsTrigger>
-                            <TabsTrigger value="dark">
-                                <Moon className="size-4" /> Темна тема
-                            </TabsTrigger>
-                        </TabsList>
+            <div className="-m-4 grid flex-1 grid-cols-1 gap-4 overflow-hidden overflow-y-scroll p-4 md:grid-cols-2">
+                <Tabs
+                    defaultValue={resolvedTheme ?? 'dark'}
+                    onValueChange={(v) => setActiveTheme(v as 'light' | 'dark')}
+                >
+                    <TabsList className="w-full">
+                        <TabsTrigger value="light">
+                            <Sun className="size-4" /> Світла тема
+                        </TabsTrigger>
+                        <TabsTrigger value="dark">
+                            <Moon className="size-4" /> Темна тема
+                        </TabsTrigger>
+                    </TabsList>
 
-                        <TabsContent value="light">
-                            <ThemeTabContent theme="light" />
-                        </TabsContent>
-                        <TabsContent value="dark">
-                            <ThemeTabContent theme="dark" />
-                        </TabsContent>
-                    </Tabs>
+                    <TabsContent value="light">
+                        <ThemeTabContent theme="light" />
+                    </TabsContent>
+                    <TabsContent value="dark">
+                        <ThemeTabContent theme="dark" />
+                    </TabsContent>
+                </Tabs>
 
-                    <Card
+                <Card
+                    style={{
+                        ...(activeTheme === 'light' ? root : dark),
+                    }}
+                    className="sticky top-4 h-fit gap-0 overflow-hidden bg-background p-0"
+                >
+                    <div className="flex w-full gap-4 border-border border-b bg-muted/30 p-3">
+                        <div className="flex items-center gap-1.5">
+                            <div className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                            <div className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+                            <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                        </div>
+                        <span className="text-muted-foreground text-xs">
+                            Попередній перегляд
+                        </span>
+                    </div>
+                    <div
+                        className="flex flex-col gap-4 p-4"
                         style={{
-                            ...(activeTheme === 'light' ? root : dark),
+                            backgroundImage:
+                                editorStyles?.[activeTheme]?.body
+                                    ?.background_image,
                         }}
-                        className="sticky top-4 h-fit gap-0 overflow-hidden bg-background p-0"
                     >
-                        <div className="flex w-full gap-4 border-border border-b bg-muted/30 p-3">
-                            <div className="flex items-center gap-1.5">
-                                <div className="h-2.5 w-2.5 rounded-full bg-red-400" />
-                                <div className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
-                                <div className="h-2.5 w-2.5 rounded-full bg-green-400" />
-                            </div>
-                            <span className="text-muted-foreground text-xs">
-                                Попередній перегляд
+                        <div className="flex flex-wrap items-start gap-2">
+                            <Button variant="default" size="md">
+                                Основна
+                            </Button>
+                            <Button variant="outline" size="md">
+                                Контурна
+                            </Button>
+                            <Button variant="secondary" size="md">
+                                Вторинна
+                            </Button>
+                            <Button
+                                variant="default"
+                                size="badge"
+                                className="shrink-0"
+                            >
+                                Бейдж
+                            </Button>
+                        </div>
+                        <Input placeholder="Введіть текст..." />
+                        {/* Portal-less popover so it inherits the Card's inline CSS vars */}
+                        <PopoverPrimitive.Root>
+                            <PopoverPrimitive.Trigger asChild>
+                                <Button variant="outline" className="">
+                                    Натисніть для спливаючого вікна
+                                </Button>
+                            </PopoverPrimitive.Trigger>
+                            <PopoverPrimitive.Content
+                                sideOffset={4}
+                                className="z-50 flex w-64 flex-col gap-2.5 rounded-lg bg-popover p-3 text-popover-foreground text-sm shadow-md ring-1 ring-foreground/10"
+                            >
+                                <div className="flex flex-col gap-2">
+                                    <span className="font-medium text-popover-foreground text-sm">
+                                        Спливаюче вікно
+                                    </span>
+                                    <span className="text-muted-foreground text-sm">
+                                        Приклад тексту у спливаючому вікні
+                                    </span>
+                                </div>
+                            </PopoverPrimitive.Content>
+                        </PopoverPrimitive.Root>
+                        <div className="rounded-md border border-border bg-muted p-2">
+                            <span className="text-muted-foreground text-sm">
+                                Приглушений блок з текстом
                             </span>
                         </div>
-                        <div
-                            className="flex flex-col gap-4 p-4"
-                            style={{
-                                backgroundImage:
-                                    editorStyles?.[activeTheme]?.body
-                                        ?.background_image,
-                            }}
-                        >
-                            <div className="flex flex-wrap items-start gap-2">
-                                <Button variant="default" size="md">
-                                    Основна
-                                </Button>
-                                <Button variant="outline" size="md">
-                                    Контурна
-                                </Button>
-                                <Button variant="secondary" size="md">
-                                    Вторинна
-                                </Button>
-                                <Button
-                                    variant="default"
-                                    size="badge"
-                                    className="shrink-0"
-                                >
-                                    Бейдж
-                                </Button>
-                            </div>
-                            <Input placeholder="Введіть текст..." />
-                            {/* Portal-less popover so it inherits the Card's inline CSS vars */}
-                            <PopoverPrimitive.Root>
-                                <PopoverPrimitive.Trigger asChild>
-                                    <Button variant="outline" className="">
-                                        Натисніть для спливаючого вікна
-                                    </Button>
-                                </PopoverPrimitive.Trigger>
-                                <PopoverPrimitive.Content
-                                    sideOffset={4}
-                                    className="z-50 flex w-64 flex-col gap-2.5 rounded-lg bg-popover p-3 text-popover-foreground text-sm shadow-md ring-1 ring-foreground/10"
-                                >
-                                    <div className="flex flex-col gap-2">
-                                        <span className="font-medium text-popover-foreground text-sm">
-                                            Спливаюче вікно
-                                        </span>
-                                        <span className="text-muted-foreground text-sm">
-                                            Приклад тексту у спливаючому вікні
-                                        </span>
-                                    </div>
-                                </PopoverPrimitive.Content>
-                            </PopoverPrimitive.Root>
-                            <div className="rounded-md border border-border bg-muted p-2">
-                                <span className="text-muted-foreground text-sm">
-                                    Приглушений блок з текстом
-                                </span>
-                            </div>
-                            <p className="text-foreground text-sm leading-relaxed">
-                                Талановиті брати{' '}
-                                <span className="font-medium text-primary-foreground hover:cursor-pointer hover:underline">
-                                    Елріки
-                                </span>{' '}
-                                порушили головну заборону алхімії.{' '}
-                                <span className="text-muted-foreground">
-                                    Це приглушений текст для прикладу.
-                                </span>
-                            </p>
-                            <div className="flex items-center gap-2 border-border border-t pt-4">
-                                <div className="h-2 flex-1 rounded-full bg-primary" />
-                                <div className="h-2 flex-1 rounded-full bg-secondary" />
-                                <div className="h-2 flex-1 rounded-full bg-muted" />
-                            </div>
+                        <p className="text-foreground text-sm leading-relaxed">
+                            Талановиті брати{' '}
+                            <span className="font-medium text-primary-foreground hover:cursor-pointer hover:underline">
+                                Елріки
+                            </span>{' '}
+                            порушили головну заборону алхімії.{' '}
+                            <span className="text-muted-foreground">
+                                Це приглушений текст для прикладу.
+                            </span>
+                        </p>
+                        <div className="flex items-center gap-2 border-border border-t pt-4">
+                            <div className="h-2 flex-1 rounded-full bg-primary" />
+                            <div className="h-2 flex-1 rounded-full bg-secondary" />
+                            <div className="h-2 flex-1 rounded-full bg-muted" />
                         </div>
-                    </Card>
-                </div>
+                    </div>
+                </Card>
+            </div>
 
-                <ResponsiveModalFooter>
-                    <div className="flex w-full items-center gap-2 md:w-auto">
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    size="icon-md"
-                                    onClick={() => history.undo()}
-                                    disabled={!history.canUndo}
-                                >
-                                    <Undo2 className="size-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Скасувати</TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    size="icon-md"
-                                    onClick={() => history.redo()}
-                                    disabled={!history.canRedo}
-                                >
-                                    <Redo2 className="size-4" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Повторити</TooltipContent>
-                        </Tooltip>
-                        <Button
-                            variant="destructive"
-                            className="flex-1"
-                            size="md"
-                            onClick={handleResetToDefault}
-                        >
-                            Скинути зміни
-                        </Button>
-                    </div>
-                    <div className="flex w-full items-center justify-end gap-2">
-                        <Button
-                            variant="ghost"
-                            onClick={closeAndDiscardChanges}
-                            size="md"
-                        >
-                            Скасувати
-                        </Button>
-                        <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                                <Button variant="default" size="md">
+            <ResponsiveModalFooter>
+                <div className="flex w-full items-center gap-2 md:w-auto">
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="icon-md"
+                                onClick={() => history.undo()}
+                                disabled={!history.canUndo}
+                            >
+                                <Undo2 className="size-4" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Скасувати</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="icon-md"
+                                onClick={() => history.redo()}
+                                disabled={!history.canRedo}
+                            >
+                                <Redo2 className="size-4" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>Повторити</TooltipContent>
+                    </Tooltip>
+                    <Button
+                        variant="destructive"
+                        className="flex-1"
+                        size="md"
+                        onClick={handleResetToDefault}
+                    >
+                        Скинути зміни
+                    </Button>
+                </div>
+                <div className="flex w-full items-center justify-end gap-2">
+                    <Button
+                        variant="ghost"
+                        onClick={closeAndDiscardChanges}
+                        size="md"
+                    >
+                        Скасувати
+                    </Button>
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="default" size="md">
+                                Зберегти
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                    Зберегти зміни?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    Ви впевнені, що хочете зберегти зміни
+                                    кольорової палітри? Нові налаштування будуть
+                                    застосовані до вашого профілю.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Скасувати</AlertDialogCancel>
+                                <AlertDialogAction onClick={saveChanges}>
                                     Зберегти
-                                </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>
-                                        Зберегти зміни?
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        Ви впевнені, що хочете зберегти зміни
-                                        кольорової палітри? Нові налаштування
-                                        будуть застосовані до вашого профілю.
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>
-                                        Скасувати
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction onClick={saveChanges}>
-                                        Зберегти
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
-                    </div>
-                </ResponsiveModalFooter>
-            </Fragment>
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </div>
+            </ResponsiveModalFooter>
         </StylesEditorContext.Provider>
     );
 };

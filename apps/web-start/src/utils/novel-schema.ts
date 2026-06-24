@@ -21,8 +21,8 @@ const novelJsonSchema = ({ novel }: { novel: NovelInfoResponse }) => ({
                 '@type': 'ListItem',
                 position: 2,
                 item: {
-                    '@id': 'https://hikka.io/novel/' + novel.slug,
-                    url: 'https://hikka.io/novel/' + novel.slug,
+                    '@id': `https://hikka.io/novel/${novel.slug}`,
+                    url: `https://hikka.io/novel/${novel.slug}`,
                     name:
                         novel.title_ua ||
                         novel.title_en ||

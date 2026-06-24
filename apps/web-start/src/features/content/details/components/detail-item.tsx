@@ -17,10 +17,6 @@ type Props = {
 };
 
 const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
-    if ((!value && !children) || (Array.isArray(value) && value.length === 0)) {
-        return null;
-    }
-
     const renderValue = useCallback(() => {
         if (children) {
             return children;
@@ -64,6 +60,10 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
             </p>
         );
     }, [value, children]);
+
+    if ((!value && !children) || (Array.isArray(value) && value.length === 0)) {
+        return null;
+    }
 
     return (
         <div

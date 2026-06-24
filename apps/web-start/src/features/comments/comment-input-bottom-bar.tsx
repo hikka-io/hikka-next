@@ -108,7 +108,7 @@ const CommentInputBottomBar: FC<Props> = ({
                     parent: comment?.depth
                         ? comment?.depth < MAX_COMMENT_DEPTH
                             ? comment?.reference
-                            : comment?.parent!
+                            : comment.parent!
                         : undefined,
                     text:
                         comment?.depth && comment?.depth >= MAX_COMMENT_DEPTH

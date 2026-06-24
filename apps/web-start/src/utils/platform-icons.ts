@@ -29,7 +29,7 @@ export function getPlatformIcon(url: string): string | null {
         const { hostname } = new URL(url);
 
         for (const domain in PLATFORM_ICONS) {
-            if (hostname === domain || hostname.endsWith('.' + domain)) {
+            if (hostname === domain || hostname.endsWith(`.${domain}`)) {
                 return PLATFORM_ICONS[domain];
             }
         }

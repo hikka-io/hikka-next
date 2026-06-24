@@ -37,7 +37,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                 className="w-20"
                 image={data.image}
                 containerRatio={0.7}
-                href={'/characters/' + data.slug}
+                href={`/characters/${data.slug}`}
             />
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
@@ -60,7 +60,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
                         containerClassName="rounded-(--base-radius)"
                         image={characterAnime.anime.image}
                         containerRatio={0.7}
-                        href={'/anime/' + characterAnime.anime.slug}
+                        href={`/anime/${characterAnime.anime.slug}`}
                     />
                 </div>
             )}

@@ -55,7 +55,6 @@ const mapAnimeStatusToMal = (status: string): string => {
             return 'On-Hold';
         case 'dropped':
             return 'Dropped';
-        case 'planned':
         default:
             return 'Plan to Watch';
     }
@@ -71,7 +70,6 @@ const mapMangaStatusToMal = (status: string): string => {
             return 'On-Hold';
         case 'dropped':
             return 'Dropped';
-        case 'planned':
         default:
             return 'Plan to Read';
     }

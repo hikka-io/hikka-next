@@ -21,8 +21,8 @@ const mangaJsonSchema = ({ manga }: { manga: MangaInfoResponse }) => ({
                 '@type': 'ListItem',
                 position: 2,
                 item: {
-                    '@id': 'https://hikka.io/manga/' + manga.slug,
-                    url: 'https://hikka.io/manga/' + manga.slug,
+                    '@id': `https://hikka.io/manga/${manga.slug}`,
+                    url: `https://hikka.io/manga/${manga.slug}`,
                     name:
                         manga.title_ua ||
                         manga.title_en ||

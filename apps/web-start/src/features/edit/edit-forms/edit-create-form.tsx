@@ -45,7 +45,7 @@ const EditForm: FC<Props> = ({
 
     const onDismiss = (editId: number) => {
         form.reset();
-        router.push('/edit/' + editId);
+        router.push(`/edit/${editId}`);
     };
 
     const mutationAddEdit = useCreateEdit({
@@ -61,7 +61,7 @@ const EditForm: FC<Props> = ({
             synonyms:
                 (content &&
                     'synonyms' in content &&
-                    content?.synonyms!.map((v: string) => ({
+                    content.synonyms!.map((v: string) => ({
                         value: v,
                     }))) ||
                 [],

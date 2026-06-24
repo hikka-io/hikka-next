@@ -92,7 +92,7 @@ const getHostname = (href: string): string | null => {
 
 const hostMatches = (hostname: string | null, hosts: string[]) =>
     !!hostname &&
-    hosts.some((host) => hostname === host || hostname.endsWith('.' + host));
+    hosts.some((host) => hostname === host || hostname.endsWith(`.${host}`));
 
 const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     const { user } = useSession();

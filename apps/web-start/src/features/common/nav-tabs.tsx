@@ -17,7 +17,7 @@ const Component = ({ routes, urlPrefix }: Props) => {
     return (
         <Tabs
             value={
-                routes.some((r) => pathname == urlPrefix + r.url)
+                routes.some((r) => pathname === urlPrefix + r.url)
                     ? pathname
                     : urlPrefix + routes[0].url
             }

@@ -82,7 +82,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                 toast.success('Ви успішно створили колекцію.');
 
                 router.push(
-                    `${CONTENT_TYPE_LINKS['collection']}/${data.reference}/update`,
+                    `${CONTENT_TYPE_LINKS.collection}/${data.reference}/update`,
                 );
             },
         },
@@ -91,7 +91,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const { mutate: mutateUpdateCollection, isPending: isUpdatePending } =
         useUpdateCollection({
             options: {
-                onSuccess: (data) => {
+                onSuccess: (_data) => {
                     toast.success('Ви успішно оновили колекцію.');
                 },
             },
@@ -286,7 +286,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                             <Button asChild size="icon-md" variant="secondary">
                                 <Link
                                     target="_blank"
-                                    to={`${CONTENT_TYPE_LINKS['collection']}/${params.reference}`}
+                                    to={`${CONTENT_TYPE_LINKS.collection}/${params.reference}`}
                                 >
                                     <MaterialSymbolsVisibilityOutlineRounded className="size-4" />
                                 </Link>

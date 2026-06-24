@@ -28,25 +28,23 @@ export const Route = createFileRoute('/_pages/collections/new')({
 function CollectionNewPage() {
     return (
         <CollectionProvider>
-            <>
-                <Breadcrumbs>
-                    <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                        <Label>Нова колекція</Label>
-                    </div>
-                </Breadcrumbs>
-                <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
-                    <Block>
-                        <CollectionTitle />
-                        <Card className="block bg-secondary/20 p-0 backdrop-blur lg:hidden">
-                            <CollectionSettings />
-                        </Card>
-                        <CollectionGroups />
-                    </Block>
-                    <Card className="sticky top-20 order-1 hidden w-full bg-secondary/20 p-0 backdrop-blur lg:order-2 lg:block">
+            <Breadcrumbs>
+                <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
+                    <Label>Нова колекція</Label>
+                </div>
+            </Breadcrumbs>
+            <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
+                <Block>
+                    <CollectionTitle />
+                    <Card className="block bg-secondary/20 p-0 backdrop-blur lg:hidden">
                         <CollectionSettings />
                     </Card>
-                </div>
-            </>
+                    <CollectionGroups />
+                </Block>
+                <Card className="sticky top-20 order-1 hidden w-full bg-secondary/20 p-0 backdrop-blur lg:order-2 lg:block">
+                    <CollectionSettings />
+                </Card>
+            </div>
         </CollectionProvider>
     );
 }

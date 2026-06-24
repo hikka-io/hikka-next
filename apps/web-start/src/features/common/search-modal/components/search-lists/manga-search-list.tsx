@@ -27,7 +27,7 @@ const MangaSearchList = ({ onDismiss, type, value }: Props) => {
             onDismiss(manga);
 
             if (type !== 'button') {
-                router.push('/manga/' + manga.slug);
+                router.push(`/manga/${manga.slug}`);
             }
         },
         [onDismiss, router, type],

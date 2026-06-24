@@ -36,7 +36,7 @@ const Navbar = () => {
                     <Link
                         className="logo h-6 w-6 shrink-0 md:w-20"
                         to="/"
-                        onClick={(e) => {
+                        onClick={(_e) => {
                             if (window.location.pathname === '/') {
                                 window.scrollTo({ top: 0, behavior: 'smooth' });
                             }

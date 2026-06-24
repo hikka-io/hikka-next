@@ -300,6 +300,7 @@ const SortableWidgetItem: FC<{
                 {meta?.title ?? widget.slug}
             </span>
             <button
+                type="button"
                 className="flex size-6 shrink-0 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground"
                 onPointerDown={(e) => e.stopPropagation()}
                 onClick={() => onRemove(widget.slug)}

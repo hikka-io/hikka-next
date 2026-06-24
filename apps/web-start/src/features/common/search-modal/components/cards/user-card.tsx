@@ -23,7 +23,7 @@ const UserCard = ({ user, onClick, type }: Props) => {
 
     return (
         <Comp
-            to={'/u/' + user.username}
+            to={`/u/${user.username}`}
             onClick={onClick}
             className="flex w-full items-center gap-4 text-left"
         >

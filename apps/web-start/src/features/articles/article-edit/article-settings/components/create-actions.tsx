@@ -39,7 +39,7 @@ const CreateActions: FC<Props> = () => {
                 toast.success('Ви успішно створили статтю.');
 
                 router.push(
-                    `${CONTENT_TYPE_LINKS['article']}/${data.slug}/update`,
+                    `${CONTENT_TYPE_LINKS.article}/${data.slug}/update`,
                 );
             },
         },

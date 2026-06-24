@@ -81,6 +81,7 @@ const ProfileWidget: FC<WidgetProps> = () => {
                 </div>
                 <div className="flex h-full w-full items-center gap-4">
                     <button
+                        type="button"
                         onClick={() => {
                             setFollowType('followers');
                             setOpen(true);
@@ -93,6 +94,7 @@ const ProfileWidget: FC<WidgetProps> = () => {
                         <span className="text-muted-foreground">стежать</span>
                     </button>
                     <button
+                        type="button"
                         onClick={() => {
                             setFollowType('followings');
                             setOpen(true);

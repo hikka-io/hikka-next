@@ -21,7 +21,6 @@ const CoverImage: FC<Props> = ({ cover, position = 'center' }) => {
                 return 'object-top';
             case 'bottom':
                 return 'object-bottom';
-            case 'center':
             default:
                 return 'object-center';
         }

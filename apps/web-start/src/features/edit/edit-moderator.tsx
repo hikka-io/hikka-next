@@ -22,7 +22,7 @@ type Props = {
 const EditModerator: FC<Props> = ({ editId }) => {
     const { data: edit } = useEdit({ editId: Number(editId) });
 
-    if (!edit || !edit.moderator) {
+    if (!edit?.moderator) {
         return null;
     }
 

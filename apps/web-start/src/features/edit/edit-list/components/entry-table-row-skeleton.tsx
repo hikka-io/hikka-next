@@ -1,9 +1,7 @@
 import { Avatar, AvatarFallback } from '../../../../components/ui/avatar';
 import { TableCell, TableRow } from '../../../../components/ui/table';
 
-type Props = {};
-
-const Component = ({}: Props) => {
+const Component = () => {
     return (
         <TableRow className="animate-pulse">
             <TableCell className="w-8">

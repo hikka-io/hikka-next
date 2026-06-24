@@ -147,7 +147,7 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
         (item: MainContent, contentType: ContentTypeEnum) => {
             onDismiss(item);
             if (type !== 'button') {
-                router.push(CONTENT_TYPE_LINKS[contentType] + '/' + item.slug);
+                router.push(`${CONTENT_TYPE_LINKS[contentType]}/${item.slug}`);
             }
         },
         [onDismiss, router, type],

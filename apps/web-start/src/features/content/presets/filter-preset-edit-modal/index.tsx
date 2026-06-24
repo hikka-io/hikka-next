@@ -211,10 +211,9 @@ const Component = ({ filterPreset, onClose, onBack }: Props) => {
                         )}
                         <FormAgeRating />
                         <FormScore score_type="score" />
-                        {content_types &&
-                            content_types.includes(ContentTypeEnum.ANIME) && (
-                                <FormStudio />
-                            )}
+                        {content_types?.includes(ContentTypeEnum.ANIME) && (
+                            <FormStudio />
+                        )}
                     </div>
                 </div>
                 <ResponsiveModalFooter>

@@ -130,6 +130,8 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                                 <NovelCard key={content.slug} novel={content} />
                             );
                         }
+
+                        return null;
                     })}
             </Stack>
         </Block>

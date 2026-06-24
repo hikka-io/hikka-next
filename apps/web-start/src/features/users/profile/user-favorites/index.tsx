@@ -50,11 +50,7 @@ const Favorites: FC<Props> = ({ extended }) => {
     return (
         <Block id="user-favorites">
             <Header
-                to={
-                    !extended
-                        ? '/u/' + params.username + '/favorites'
-                        : undefined
-                }
+                to={!extended ? `/u/${params.username}/favorites` : undefined}
             >
                 <HeaderContainer className="overflow-hidden">
                     <HeaderTitle variant={extended ? 'h2' : 'h3'}>

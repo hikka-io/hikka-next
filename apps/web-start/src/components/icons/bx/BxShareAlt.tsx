@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export function BxShareAlt(props: SVGProps<SVGSVGElement>) {
+export function BxShareAlt(_props: SVGProps<SVGSVGElement>) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

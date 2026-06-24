@@ -124,6 +124,9 @@ function LinkOpenButton() {
     );
 
     return (
+        // biome-ignore lint/a11y/noStaticElementInteractions: Plate-provided link preview; attributes and handlers come from the editor.
+        // biome-ignore lint/a11y/useKeyWithMouseEvents: Plate-provided link preview; attributes and handlers come from the editor.
+        // biome-ignore lint/a11y/useAriaPropsSupportedByRole: aria attributes are spread from Plate's getLinkAttributes.
         <a
             {...attributes}
             className={buttonVariants({

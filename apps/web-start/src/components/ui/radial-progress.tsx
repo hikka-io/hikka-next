@@ -23,7 +23,7 @@ const Component = ({
 }: Props) => {
     return (
         <div className={cn('relative size-24', containerClassName)} role={role}>
-            <svg className="size-full" viewBox="0 0 100 100">
+            <svg className="size-full" viewBox="0 0 100 100" aria-hidden="true">
                 <circle
                     className="stroke-current text-secondary"
                     strokeWidth={thickness || 10}

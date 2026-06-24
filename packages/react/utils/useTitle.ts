@@ -49,11 +49,11 @@ export function getTitle(
 
         // name_native and name_ja are interchangeable
         if (key === 'name_native' && !value) {
-            const ja = record['name_ja'];
+            const ja = record.name_ja;
             if (ja && typeof ja === 'string') return ja;
         }
         if (key === 'name_ja' && !value) {
-            const native = record['name_native'];
+            const native = record.name_native;
             if (native && typeof native === 'string') return native;
         }
     }

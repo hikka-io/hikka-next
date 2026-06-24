@@ -21,8 +21,8 @@ const animeJsonSchema = ({ anime }: { anime: AnimeInfoResponse }) => ({
                 '@type': 'ListItem',
                 position: 2,
                 item: {
-                    '@id': 'https://hikka.io/anime/' + anime.slug,
-                    url: 'https://hikka.io/anime/' + anime.slug,
+                    '@id': `https://hikka.io/anime/${anime.slug}`,
+                    url: `https://hikka.io/anime/${anime.slug}`,
                     name: anime.title_ua || anime.title_en || anime.title_ja,
                     image: anime.image,
                 },

@@ -205,6 +205,8 @@ const Content = memo(
                     watch={watch}
                     read={read}
                 >
+                    {/* biome-ignore lint/a11y/noStaticElementInteractions: click is a supplementary shortcut; primary navigation is the inner link. */}
+                    {/* biome-ignore lint/a11y/useKeyWithClickEvents: click is a supplementary shortcut; primary navigation is the inner link. */}
                     <div
                         ref={ref}
                         className={cn(

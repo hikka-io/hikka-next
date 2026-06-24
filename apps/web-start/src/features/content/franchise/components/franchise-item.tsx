@@ -56,7 +56,7 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                 <WatchlistButton
                     slug={content.slug}
                     anime={content}
-                    watch={(content.watch && content.watch[0]) ?? null}
+                    watch={content.watch?.[0] ?? null}
                     size="md"
                     disabled={!user}
                 />
@@ -66,7 +66,7 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                     content_type={content.data_type}
                     slug={content.slug}
                     content={content}
-                    read={(content.read && content.read[0]) ?? null}
+                    read={content.read?.[0] ?? null}
                     size="md"
                     disabled={!user}
                 />

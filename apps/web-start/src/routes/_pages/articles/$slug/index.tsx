@@ -52,6 +52,7 @@ function ArticlePage() {
             {jsonLd && (
                 <script
                     type="application/ld+json"
+                    // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD structured data, no user input.
                     dangerouslySetInnerHTML={{
                         __html: JSON.stringify(jsonLd),
                     }}
@@ -60,7 +61,7 @@ function ArticlePage() {
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link
-                        to={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
+                        to={`${CONTENT_TYPE_LINKS.article}/${slug}`}
                         className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
                     >
                         {article?.title}

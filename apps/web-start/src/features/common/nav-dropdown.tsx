@@ -32,7 +32,7 @@ const NavDropdown: FC<Props> = ({
     const current =
         routes.find((r) =>
             isEqualPath
-                ? pathname == urlPrefix + r.url
+                ? pathname === urlPrefix + r.url
                 : pathname.startsWith(urlPrefix + r.url),
         ) || routes[0];
 

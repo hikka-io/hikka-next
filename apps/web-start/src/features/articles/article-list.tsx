@@ -66,7 +66,7 @@ const ArticleList: FC<Props> = () => {
                     </HeaderTitle>
                     {user && (
                         <Button asChild size="icon-sm" variant="outline">
-                            <Link to={`${CONTENT_TYPE_LINKS['article']}/new`}>
+                            <Link to={`${CONTENT_TYPE_LINKS.article}/new`}>
                                 <MaterialSymbolsAddRounded className="size-4" />
                             </Link>
                         </Button>

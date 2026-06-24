@@ -25,7 +25,7 @@ const MangaCard = ({ manga, onClick, type }: Props) => {
 
     return (
         <Comp
-            to={'/manga/' + manga.slug}
+            to={`/manga/${manga.slug}`}
             onClick={onClick}
             className="flex w-full items-center gap-4 text-left"
         >

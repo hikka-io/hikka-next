@@ -93,9 +93,8 @@ export function useInfiniteQuery<
             : options?.enabled,
     });
 
-    const list = query.data && query.data?.pages.flatMap((data) => data.list);
+    const list = query.data?.pages.flatMap((data) => data.list);
     const pagination =
-        query.data &&
         query.data?.pages[query.data?.pages.length - 1]?.pagination;
 
     React.useEffect(() => {

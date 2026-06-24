@@ -85,7 +85,10 @@ export const convertVolumes = (before: number | null, after: number | null) => {
     }
 };
 
-export const convertRereads = (before: number | null, after: number | null) => {
+export const convertRereads = (
+    _before: number | null,
+    after: number | null,
+) => {
     if (after !== null) {
         return `Повторно прочитано **${after}** ${getDeclensionWord(after, TIMES_DECLENSION)}`;
     }

@@ -25,7 +25,7 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
 
     return (
         <Comp
-            to={'/anime/' + anime.slug}
+            to={`/anime/${anime.slug}`}
             onClick={onClick}
             className="flex w-full items-center gap-4 text-left"
         >

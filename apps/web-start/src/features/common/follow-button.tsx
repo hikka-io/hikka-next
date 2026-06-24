@@ -52,10 +52,12 @@ const FollowButton: FC<Props> = ({
         useDeleteFollow();
 
     const handleFollowToggle = () => {
-        if (user?.is_followed) {
-            mutateUnfollow(user?.username!);
+        if (!user) return;
+
+        if (user.is_followed) {
+            mutateUnfollow(user.username);
         } else {
-            mutateFollow(user?.username!);
+            mutateFollow(user.username);
         }
     };
 

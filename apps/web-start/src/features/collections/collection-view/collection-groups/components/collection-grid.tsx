@@ -52,7 +52,10 @@ const CommentButton: FC<{ comment: string }> = ({ comment }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
     const trigger = (
-        <button className="flex size-7 items-center justify-center rounded-md bg-secondary/80 backdrop-blur transition-colors hover:bg-secondary">
+        <button
+            type="button"
+            className="flex size-7 items-center justify-center rounded-md bg-secondary/80 backdrop-blur transition-colors hover:bg-secondary"
+        >
             <Info className="size-4" />
         </button>
     );

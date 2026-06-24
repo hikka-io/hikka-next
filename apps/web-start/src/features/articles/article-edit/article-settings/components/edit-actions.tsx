@@ -89,7 +89,7 @@ const EditActions: FC<Props> = () => {
                     <Button asChild variant="secondary" size="icon-md">
                         <Link
                             target="_blank"
-                            to={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
+                            to={`${CONTENT_TYPE_LINKS.article}/${slug}`}
                         >
                             <MaterialSymbolsVisibilityOutlineRounded className="size-4" />
                         </Link>

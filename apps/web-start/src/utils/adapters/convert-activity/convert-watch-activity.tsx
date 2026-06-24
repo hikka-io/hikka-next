@@ -67,7 +67,7 @@ export const convertEpisodes = (
 };
 
 export const convertRewatches = (
-    before: number | null,
+    _before: number | null,
     after: number | null,
 ) => {
     if (after !== null) {

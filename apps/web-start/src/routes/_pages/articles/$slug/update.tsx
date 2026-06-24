@@ -58,7 +58,7 @@ function ArticleUpdatePage() {
                         )}
                     />
                     <Link
-                        to={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
+                        to={`${CONTENT_TYPE_LINKS.article}/${slug}`}
                         className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
                     >
                         {article?.title}

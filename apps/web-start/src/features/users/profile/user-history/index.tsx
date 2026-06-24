@@ -66,10 +66,9 @@ const History: FC<Props> = ({ className }) => {
                         <HeaderNavButton />
                     </Header>
                     <div className="flex flex-col gap-6">
-                        {filteredActivity &&
-                            filteredActivity.map((item) => (
-                                <HistoryItem data={item} key={item.reference} />
-                            ))}
+                        {filteredActivity?.map((item) => (
+                            <HistoryItem data={item} key={item.reference} />
+                        ))}
                         {activity && activity?.length === 0 && (
                             <NotFound
                                 title={'Історія відсутня'}

@@ -53,7 +53,7 @@ const DATE_RANGES: Record<DateRangeEnum, string> = {
     [DateRangeEnum.NEXT_4_SEASONS]: 'Наступні 4 сезони',
 };
 
-const DateRange = (props: Props) => {
+const DateRange = (_props: Props) => {
     const router = useRouter();
     const { date_range_enabled, date_range = [] } = useFilterSearch<{
         date_range_enabled?: boolean;

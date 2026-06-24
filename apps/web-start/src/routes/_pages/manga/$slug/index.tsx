@@ -22,6 +22,7 @@ function MangaDetailPage() {
                 manga ? (
                     <script
                         type="application/ld+json"
+                        // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD structured data, no user input.
                         dangerouslySetInnerHTML={{
                             __html: JSON.stringify(mangaJsonSchema({ manga })),
                         }}

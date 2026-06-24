@@ -91,7 +91,7 @@ export const useDeleteWatchList = createMutation({
 export const useDeleteReadList = createMutation({
     mutationFn: (client, { contentType }: UseDeleteReadListParams) =>
         client.settings.deleteReadList(contentType),
-    invalidateQueries: (args) => [queryKeys.read.all],
+    invalidateQueries: (_args) => [queryKeys.read.all],
 });
 
 /**

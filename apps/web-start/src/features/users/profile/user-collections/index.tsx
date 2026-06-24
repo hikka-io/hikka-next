@@ -87,13 +87,9 @@ const UserCollections: FC<Props> = ({ className }) => {
                     </Header>
 
                     <div className="flex flex-col gap-6">
-                        {filteredCollections &&
-                            filteredCollections.map((item) => (
-                                <CollectionItem
-                                    data={item}
-                                    key={item.reference}
-                                />
-                            ))}
+                        {filteredCollections?.map((item) => (
+                            <CollectionItem data={item} key={item.reference} />
+                        ))}
                         {collections && collections?.length === 0 && (
                             <NotFound
                                 title={'Колекції відсутні'}

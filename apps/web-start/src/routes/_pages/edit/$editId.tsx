@@ -56,7 +56,7 @@ function EditLayout() {
         <>
             <Breadcrumbs>
                 <Link
-                    to={'/edit/' + edit.edit_id}
+                    to={`/edit/${edit.edit_id}`}
                     className="font-bold text-sm hover:underline"
                 >
                     Правка #{edit.edit_id}

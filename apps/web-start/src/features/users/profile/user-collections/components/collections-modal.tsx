@@ -32,10 +32,9 @@ const CollectionModal: FC<Props> = ({ className }) => {
 
     return (
         <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-            {collections &&
-                collections.map((item) => (
-                    <CollectionItem data={item} key={item.reference} />
-                ))}
+            {collections?.map((item) => (
+                <CollectionItem data={item} key={item.reference} />
+            ))}
             {hasNextPage && (
                 <LoadMoreButton
                     isFetchingNextPage={isFetchingNextPage}

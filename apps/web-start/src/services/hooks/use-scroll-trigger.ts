@@ -54,10 +54,9 @@ export default function useScrollTrigger(
         };
 
         handleScroll(); // Re-evaluate trigger when dependencies change
-        target &&
-            target.addEventListener('scroll', handleScroll, { passive: true });
+        target?.addEventListener('scroll', handleScroll, { passive: true });
         return () => {
-            target && target.removeEventListener('scroll', handleScroll);
+            target?.removeEventListener('scroll', handleScroll);
         };
     }, [pathname, target, getTrigger, JSON.stringify(other)]);
 

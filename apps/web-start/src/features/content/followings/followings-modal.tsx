@@ -33,17 +33,16 @@ const FollowingsModal: FC<Props> = ({ content_type }) => {
 
     return (
         <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-            {list &&
-                list.map((item) => (
-                    <FollowingItem
-                        data={{
-                            type: 'watch' in item ? 'watch' : 'read',
-                            content: 'watch' in item ? item.watch : item.read,
-                            ...item,
-                        }}
-                        key={item.reference}
-                    />
-                ))}
+            {list?.map((item) => (
+                <FollowingItem
+                    data={{
+                        type: 'watch' in item ? 'watch' : 'read',
+                        content: 'watch' in item ? item.watch : item.read,
+                        ...item,
+                    }}
+                    key={item.reference}
+                />
+            ))}
             {hasNextPage && (
                 <LoadMoreButton
                     isFetchingNextPage={isFetchingNextPage}

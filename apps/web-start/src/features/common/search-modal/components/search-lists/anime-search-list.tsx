@@ -27,7 +27,7 @@ const AnimeSearchList = ({ onDismiss, type, value }: Props) => {
             onDismiss(anime);
 
             if (type !== 'button') {
-                router.push('/anime/' + anime.slug);
+                router.push(`/anime/${anime.slug}`);
             }
         },
         [onDismiss, router, type],

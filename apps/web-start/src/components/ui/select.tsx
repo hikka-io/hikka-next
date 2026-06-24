@@ -241,7 +241,7 @@ const Select: React.FC<SelectProps> = ({
             }
 
             setValue((prev) => {
-                if (!prev || !prev.includes(value)) {
+                if (!prev?.includes(value)) {
                     return prev;
                 }
 
@@ -351,6 +351,8 @@ const SelectTrigger = React.forwardRef<
 
         return (
             <PopoverPrimitive.Trigger ref={forwardedRef as any} asChild>
+                {/* biome-ignore lint/a11y/noStaticElementInteractions: Radix Popover.Trigger (asChild) provides button semantics and keyboard handling. */}
+                {/* biome-ignore lint/a11y/useKeyWithClickEvents: Radix Popover.Trigger (asChild) provides button semantics and keyboard handling. */}
                 <div
                     aria-disabled={disabled}
                     data-disabled={disabled}
@@ -750,22 +752,19 @@ const SelectItem = React.forwardRef<
                 }
                 ref={forwardedRef}
             >
-                {!disableCheckbox && (
-                    <>
-                        {triState ? (
-                            <TriStateCheckbox
-                                value={triStateValue}
-                                onValueChange={handleTriStateChangeFromCheckbox}
-                                disabled={disabled}
-                            />
-                        ) : (
-                            <Checkbox
-                                className="border-border"
-                                checked={selected}
-                            />
-                        )}
-                    </>
-                )}
+                {!disableCheckbox &&
+                    (triState ? (
+                        <TriStateCheckbox
+                            value={triStateValue}
+                            onValueChange={handleTriStateChangeFromCheckbox}
+                            disabled={disabled}
+                        />
+                    ) : (
+                        <Checkbox
+                            className="border-border"
+                            checked={selected}
+                        />
+                    ))}
 
                 <span className="truncate">{children || label || value}</span>
             </CommandItem>

@@ -51,7 +51,7 @@ export const useCreateArticle = createMutation({
 export const useUpdateArticle = createMutation({
     mutationFn: (client, args: { slug: string; article: ArticleArgs }) =>
         client.articles.updateArticle(args.slug, args.article),
-    invalidateQueries: (args) => [queryKeys.articles.all],
+    invalidateQueries: (_args) => [queryKeys.articles.all],
 });
 
 /**
@@ -59,7 +59,7 @@ export const useUpdateArticle = createMutation({
  */
 export const useDeleteArticle = createMutation({
     mutationFn: (client, slug: string) => client.articles.deleteArticle(slug),
-    invalidateQueries: (slug: string) => [queryKeys.articles.all],
+    invalidateQueries: (_slug: string) => [queryKeys.articles.all],
 });
 
 /**

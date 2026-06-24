@@ -28,7 +28,7 @@ export class UploadModule extends BaseModule {
         const headers: Record<string, string> = {};
         const authToken = this.client.getAuthToken();
         if (authToken) {
-            headers['auth'] = authToken;
+            headers.auth = authToken;
         }
 
         if (options?.onUploadProgress) {

@@ -25,7 +25,7 @@ const CollectionList: FC<Props> = ({ page, sort }) => {
 
     return (
         <div className="grid grid-cols-1 gap-x-16 gap-y-8">
-            {list?.map((collection, index) => (
+            {list?.map((collection, _index) => (
                 <CollectionCard
                     maxPreviewItems={6}
                     collection={collection}

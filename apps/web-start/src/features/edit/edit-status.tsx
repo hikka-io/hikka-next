@@ -14,7 +14,7 @@ type Props = {
 const EditStatus: FC<Props> = ({ editId }) => {
     const { data: edit } = useEdit({ editId: Number(editId) });
 
-    if (!edit || !edit.status) {
+    if (!edit?.status) {
         return null;
     }
 

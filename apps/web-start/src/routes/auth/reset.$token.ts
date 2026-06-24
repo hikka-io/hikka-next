@@ -8,7 +8,7 @@ export const Route = createFileRoute('/auth/reset/$token')({
             GET: async ({ params }) => {
                 return new Response(null, {
                     status: 302,
-                    headers: { Location: '/reset/' + params.token },
+                    headers: { Location: `/reset/${params.token}` },
                 });
             },
         },

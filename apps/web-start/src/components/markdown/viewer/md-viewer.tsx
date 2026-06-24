@@ -69,7 +69,7 @@ const MDViewer = ({ children, className, preview, ...props }: Props) => {
                         remarkMentions,
                         {
                             usernameLink: (username: string) =>
-                                '/u/' + username,
+                                `/u/${username}`,
                         },
                     ],
                 ]}

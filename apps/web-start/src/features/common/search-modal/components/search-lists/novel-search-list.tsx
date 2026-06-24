@@ -27,7 +27,7 @@ const NovelSearchList = ({ onDismiss, type, value }: Props) => {
             onDismiss(novel);
 
             if (type !== 'button') {
-                router.push('/novel/' + novel.slug);
+                router.push(`/novel/${novel.slug}`);
             }
         },
         [onDismiss, router, type],

@@ -62,7 +62,7 @@ const SearchModal: FC<Props> = ({
             setSearchValue('');
             setOpen(false);
 
-            onClick && onClick(content);
+            onClick?.(content);
         },
         [onClick],
     );

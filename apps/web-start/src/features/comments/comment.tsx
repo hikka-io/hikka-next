@@ -229,6 +229,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                 <div className="flex w-full">
                     {expand && (
                         <button
+                            type="button"
                             className="group relative pr-6"
                             onClick={() => setExpand(false)}
                         >

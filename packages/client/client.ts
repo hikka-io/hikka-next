@@ -229,7 +229,7 @@ export class HikkaClient {
 
         // Add auth token if available
         if (this.authToken) {
-            headers['auth'] = this.authToken;
+            headers.auth = this.authToken;
         }
 
         // Apply cache control headers for GET requests
@@ -288,15 +288,13 @@ export class HikkaClient {
      * Determine if a path should use no-cache
      */
     private shouldUseNoCache(path: string): boolean {
-        if (!this.cacheControl || !this.cacheControl.noCache) {
+        if (!this.cacheControl?.noCache) {
             return false;
         }
 
         return this.cacheControl.noCache.some((pattern) => {
             if (pattern.includes('*')) {
-                const regex = new RegExp(
-                    '^' + pattern.replace(/\*/g, '.*') + '$',
-                );
+                const regex = new RegExp(`^${pattern.replace(/\*/g, '.*')}$`);
                 return regex.test(path);
             }
             return path === pattern;
@@ -330,7 +328,7 @@ export class HikkaClient {
             )) {
                 if (pattern.includes('*')) {
                     const regex = new RegExp(
-                        '^' + pattern.replace(/\*/g, '.*') + '$',
+                        `^${pattern.replace(/\*/g, '.*')}$`,
                     );
                     if (regex.test(path)) {
                         maxAge = age;
