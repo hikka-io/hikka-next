@@ -1,7 +1,12 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
+        "composite": true,
+        "declaration": true,
+        "sourceMap": true,
         "jsx": "react-jsx",
+        "outDir": "./dist",
+        "rootDir": ".",
         "paths": {
             "@hikka/client": ["../client/index.ts"],
             "@/client/*": ["./client/*"],
@@ -15,10 +20,7 @@
             "@/utils": ["./utils/index.ts"],
             "@/options/*": ["./options/*"],
             "@/options": ["./options/index.ts"]
-        },
-        "outDir": "./dist",
-        "rootDir": ".",
-        "composite": true
+        }
     },
     "include": [
         "*.ts",

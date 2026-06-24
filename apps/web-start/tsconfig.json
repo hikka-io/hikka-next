@@ -1,14 +1,10 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "baseUrl": ".",
         "noEmit": true,
-        "jsx": "react-jsx",
-        "allowSyntheticDefaultImports": true,
-        "allowJs": true,
         "incremental": true,
-        "module": "esnext",
-        "moduleResolution": "bundler",
+        "jsx": "react-jsx",
+        "allowJs": true,
         "paths": {
             "@/features/*": ["./src/features/*"],
             "@/components/*": ["./src/components/*"],
@@ -20,11 +16,7 @@
     "include": ["src", "vite.config.ts"],
     "exclude": ["node_modules", ".output", "dist"],
     "references": [
-        {
-            "path": "../../packages/client"
-        },
-        {
-            "path": "../../packages/react"
-        }
+        { "path": "../../packages/client" },
+        { "path": "../../packages/react" }
     ]
 }
