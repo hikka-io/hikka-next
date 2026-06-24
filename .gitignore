@@ -86,3 +86,4 @@ devenv.local.nix
 dist
 # Superpowers (Claude Code plugin artifacts)
 docs/superpowers/
+docs
