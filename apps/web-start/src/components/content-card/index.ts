@@ -16,3 +16,5 @@ export {
     UserTooltip,
 } from './tooltips';
 export { default as VoiceCard } from './voice-card';
+export { default as CollectionItem } from './collection-item';
+export { default as HistoryItem } from './history-item';

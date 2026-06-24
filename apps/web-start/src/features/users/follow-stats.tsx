@@ -9,7 +9,7 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { Separator } from '@/components/ui/separator';
-import FollowButton from '@/features/common/follow-button';
+import FollowButton from '@/components/action-buttons/follow-button';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';

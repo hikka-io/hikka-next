@@ -12,7 +12,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import FavoriteButton from '@/features/common/favorite-button';
+import FavoriteButton from '@/components/action-buttons/favorite-button';
 import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link, useParams } from '@/utils/navigation';

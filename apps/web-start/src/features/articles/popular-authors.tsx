@@ -12,7 +12,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import FollowButton from '@/features/common/follow-button';
+import FollowButton from '@/components/action-buttons/follow-button';
 
 type Props = {};
 

@@ -8,7 +8,7 @@ import {
 
 import { buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import VoteButton from '@/features/common/vote-button';
+import VoteButton from '@/components/action-buttons/vote-button';
 
 type Props = {
     collection: CollectionResponse<CollectionContent>;

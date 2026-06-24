@@ -8,7 +8,7 @@ import { useSession } from '@hikka/react';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import EditButton from '@/features/common/edit-button';
-import FavoriteButton from '@/features/common/favorite-button';
+import FavoriteButton from '@/components/action-buttons/favorite-button';
 import ReadlistButton from '@/features/common/readlist-button';
 import WatchlistButton from '@/features/common/watchlist-button';
 import { cn } from '@/utils/cn';

@@ -12,7 +12,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import Link from '@/components/ui/link';
-import { FollowButton } from '@/features/common';
+import { FollowButton } from '@/components/action-buttons';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';

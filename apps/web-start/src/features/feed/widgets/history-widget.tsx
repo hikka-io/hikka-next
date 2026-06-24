@@ -11,7 +11,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-import HistoryItem from '@/features/users/user-history/components/history-item';
+import { HistoryItem } from '@/components/content-card';
 
 import type { WidgetProps } from '../constants';
 

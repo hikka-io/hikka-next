@@ -11,7 +11,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import { FollowButton } from '@/features/common';
+import { FollowButton } from '@/components/action-buttons';
 import { cn } from '@/utils/cn';
 
 const TYPE_BADGE_STYLES: Partial<Record<ContentTypeEnum, string>> = {

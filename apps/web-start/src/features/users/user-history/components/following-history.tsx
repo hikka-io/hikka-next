@@ -8,7 +8,7 @@ import Card from '@/components/ui/card';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 
-import HistoryItem from './history-item';
+import { HistoryItem } from '@/components/content-card';
 
 type Props = {
     className?: string;

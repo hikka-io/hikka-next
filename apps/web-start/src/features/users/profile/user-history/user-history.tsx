@@ -17,7 +17,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import HistoryItem from '@/features/users/user-history/components/history-item';
+import { HistoryItem } from '@/components/content-card';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';

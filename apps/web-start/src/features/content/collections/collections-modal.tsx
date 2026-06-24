@@ -4,7 +4,7 @@ import type { CollectionContentType } from '@hikka/client';
 import { useSearchCollections } from '@hikka/react';
 
 import LoadMoreButton from '@/components/load-more-button';
-import CollectionItem from '@/features/users/profile/user-collections/components/collection-item';
+import { CollectionItem } from '@/components/content-card';
 import { useParams } from '@/utils/navigation';
 
 type Props = {

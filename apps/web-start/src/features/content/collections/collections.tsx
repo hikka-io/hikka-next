@@ -15,7 +15,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import CollectionItem from '@/features/users/profile/user-collections/components/collection-item';
+import { CollectionItem } from '@/components/content-card';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useParams } from '@/utils/navigation';
 

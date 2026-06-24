@@ -1,7 +1,7 @@
 import { useUserHistory } from '@hikka/react';
 
 import LoadMoreButton from '@/components/load-more-button';
-import HistoryItem from '@/features/users/user-history/components/history-item';
+import { HistoryItem } from '@/components/content-card';
 import { useParams } from '@/utils/navigation';
 
 type Props = {

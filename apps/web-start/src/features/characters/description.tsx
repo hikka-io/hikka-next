@@ -1,6 +1,6 @@
 import { useCharacterBySlug } from '@hikka/react';
 
-import DescriptionBlock from '@/components/content/description-block';
+import DescriptionBlock from '@/components/description-block';
 import { useParams } from '@/utils/navigation';
 
 const Description = () => {

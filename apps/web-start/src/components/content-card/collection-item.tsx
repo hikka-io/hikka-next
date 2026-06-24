@@ -21,7 +21,7 @@ type Props = {
 
 const CollectionItem: FC<Props> = ({ data, className }) => {
     const image = (content: CollectionContent) =>
-        content.data_type === 'anime' ? content.image : content.image;
+        content.image;
 
     return (
         <HorizontalCard className={className}>

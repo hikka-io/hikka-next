@@ -21,7 +21,7 @@ import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 import Stack, { type StackSize } from '@/components/ui/stack';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-import FollowButton from '@/features/common/follow-button';
+import FollowButton from '@/components/action-buttons/follow-button';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
