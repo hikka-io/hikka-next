@@ -37,7 +37,7 @@ export default function ArticleProvider({
 
 export function useArticleContext<T>(selector: (state: ArticleStore) => T): T {
     const store = useContext(ArticleContext);
-    const articleQuery = useArticleBySlug({
+    const _articleQuery = useArticleBySlug({
         slug: String(store?.getState().slug),
         options: {
             enabled: false,

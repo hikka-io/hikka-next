@@ -43,7 +43,7 @@ const ReadlistSettings = () => {
                     overwrite: rewrite,
                     content: readList,
                 });
-            } catch (e) {}
+            } catch (_e) {}
         }
 
         setImporting(false);

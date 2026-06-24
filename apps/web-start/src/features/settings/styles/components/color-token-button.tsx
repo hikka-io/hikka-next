@@ -76,7 +76,7 @@ const ColorTokenButton = ({
 
     const handleHslChange = (key: 'h' | 's' | 'l', value: string) => {
         const num = parseInt(value, 10);
-        if (isNaN(num)) return;
+        if (Number.isNaN(num)) return;
 
         const max = key === 'h' ? 360 : 100;
         const clamped = Math.max(0, Math.min(max, num));

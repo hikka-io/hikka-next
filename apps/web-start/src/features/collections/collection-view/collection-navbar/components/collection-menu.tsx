@@ -47,7 +47,7 @@ const CollectionMenu: FC<Props> = ({ collection }) => {
     const handleDeleteCollection = async () => {
         try {
             deleteCollectionMutation.mutate(collection.reference);
-        } catch (e) {
+        } catch (_e) {
             toast.error(
                 'Виникла помилка при видаленні колекції. Спробуйте, будь ласка, ще раз',
             );

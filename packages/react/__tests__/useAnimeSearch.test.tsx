@@ -126,7 +126,7 @@ describe('prefetchAnimeSearch', () => {
         const searchArgs = {
             query: 'naruto',
         };
-        const queryClient = getQueryClient();
+        const _queryClient = getQueryClient();
 
         await expect(
             prefetchSearchAnimes({
@@ -138,7 +138,7 @@ describe('prefetchAnimeSearch', () => {
 
     it('should handle empty search args', async () => {
         const searchArgs = {};
-        const queryClient = getQueryClient();
+        const _queryClient = getQueryClient();
 
         await expect(
             prefetchSearchAnimes({

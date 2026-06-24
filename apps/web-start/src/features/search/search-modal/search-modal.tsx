@@ -65,7 +65,7 @@ const SearchModal: FC<Props> = ({
         [onClick],
     );
 
-    const handleClose = useCallback(() => {
+    const _handleClose = useCallback(() => {
         if (searchValue && searchValue.length > 0) {
             setSearchValue('');
             inputRef.current?.focus();

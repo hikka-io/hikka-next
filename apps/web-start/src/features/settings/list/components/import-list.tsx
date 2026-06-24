@@ -28,7 +28,7 @@ const ImportList = ({ list, setList, content_type }: Props) => {
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         const nativeType = (value: string) => {
             const nValue = Number(value);
-            if (!isNaN(nValue)) {
+            if (!Number.isNaN(nValue)) {
                 return nValue;
             }
             const bValue = value.toLowerCase();
@@ -53,7 +53,7 @@ const ImportList = ({ list, setList, content_type }: Props) => {
                 } else {
                     parentElement._parent[keyName] = nativeType(value);
                 }
-            } catch (e) {}
+            } catch (_e) {}
         };
 
         if (acceptedFiles && acceptedFiles.length > 0) {
