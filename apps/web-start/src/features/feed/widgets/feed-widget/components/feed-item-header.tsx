@@ -30,14 +30,14 @@ const TYPE_LABELS: Partial<Record<ContentTypeEnum, string>> = {
     [ContentTypeEnum.COMMENT]: 'Коментар',
 };
 
-interface Props {
+type Props = {
     author: UserResponse;
     dataType: ContentTypeEnum;
     created: number;
     extraInfo?: string;
     className?: string;
     showTypeLabel?: boolean;
-}
+};
 
 const FeedItemHeader: FC<Props> = ({
     author,

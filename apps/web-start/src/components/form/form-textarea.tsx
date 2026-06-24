@@ -12,11 +12,13 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { useFieldContext } from './form-context';
 
-export interface Props
-    extends Omit<ComponentProps<'textarea'>, 'value' | 'onChange' | 'onBlur'> {
+export type Props = Omit<
+    ComponentProps<'textarea'>,
+    'value' | 'onChange' | 'onBlur'
+> & {
     label?: string;
     description?: string;
-}
+};
 
 export const TextareaField: FC<Props> = ({
     label,

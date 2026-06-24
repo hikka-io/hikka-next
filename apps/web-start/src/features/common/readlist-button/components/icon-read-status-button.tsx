@@ -16,7 +16,7 @@ import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
-interface IconReadStatusButtonProps extends Omit<ButtonProps, 'content'> {
+type IconReadStatusButtonProps = Omit<ButtonProps, 'content'> & {
     read?: ReadResponseBase;
     disabled?: boolean;
     size?: 'icon-sm' | 'icon-md';
@@ -25,7 +25,7 @@ interface IconReadStatusButtonProps extends Omit<ButtonProps, 'content'> {
     content?: MangaResponse | NovelResponse;
     isLoading?: boolean;
     onOpenModal?: () => void;
-}
+};
 
 const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
     read,

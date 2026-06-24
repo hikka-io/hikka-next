@@ -9,10 +9,10 @@ import { FEED_FILTER_OPTIONS } from '@/utils/constants/feed';
 
 import type { FeedFilterEnum } from '../../../types';
 
-interface Props {
+type Props = {
     value: FeedFilterEnum;
     onChange: (value: FeedFilterEnum) => void;
-}
+};
 
 const FeedTabs: FC<Props> = ({ value, onChange }) => {
     const scrollRef = useRef<HTMLDivElement>(null);

@@ -15,10 +15,10 @@ import ThemeProvider from '@/services/providers/theme-provider';
 
 setDefaultOptions({ locale: uk });
 
-interface Props extends PropsWithChildren {
+type Props = PropsWithChildren & {
     client: HikkaClient;
     serverTheme?: 'light' | 'dark' | 'system' | null;
-}
+};
 
 const Providers: FC<Props> = ({ children, client, serverTheme }) => {
     const { preferences } = useSessionUI();

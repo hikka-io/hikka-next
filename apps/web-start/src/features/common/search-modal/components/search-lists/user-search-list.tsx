@@ -12,11 +12,11 @@ import UserCard from '../cards/user-card';
 import SearchPlaceholders from '../search-placeholders';
 import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
-interface Props {
+type Props = {
     onDismiss: (user: UserResponse) => void;
     type?: 'link' | 'button';
     value?: string;
-}
+};
 
 const UserSearchList = ({ onDismiss, type, value }: Props) => {
     const router = useRouter();

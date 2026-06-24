@@ -13,11 +13,11 @@ import Score from '@/features/filters/score';
 import Year from '@/features/filters/year';
 import { cn } from '@/utils/cn';
 
-interface BodyProps {
+type BodyProps = {
     className?: string;
     content_type: ReadContentType;
     sort_type: 'manga' | 'novel' | 'read';
-}
+};
 
 /**
  * Maps the read sort context to the preset content type. The user's read list
@@ -54,11 +54,11 @@ export const ReadFiltersBody: FC<BodyProps> = ({
     );
 };
 
-interface Props {
+type Props = {
     className?: string;
     content_type: ReadContentType;
     sort_type: 'manga' | 'novel' | 'read';
-}
+};
 
 /**
  * Default side-panel composition: scrollable filter body + sticky footer.

@@ -5,9 +5,9 @@ import type { FC } from 'react';
 import { CatalogSummary } from '@/features/content';
 import { useNovelSearchQuery } from '@/features/novel/novel-list/use-novel-search-query';
 
-interface Props {
+type Props = {
     pageSize?: number;
-}
+};
 
 const NovelListSummary: FC<Props> = ({ pageSize }) => {
     const { pagination, isLoading } = useNovelSearchQuery(pageSize);

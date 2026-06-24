@@ -10,10 +10,10 @@ interface Segment {
     label?: string;
 }
 
-interface Props {
+type Props = {
     segments: Segment[];
     hoveredStatus?: string | null;
-}
+};
 
 const StatusProgressBar: FC<Props> = ({ segments, hoveredStatus }) => {
     const total = segments.reduce((acc, s) => acc + s.count, 0);

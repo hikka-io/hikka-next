@@ -16,9 +16,9 @@ import { useParams } from '@/utils/navigation';
 import Ost from './components/ost';
 import Video from './components/video';
 
-interface Props {
+type Props = {
     extended?: boolean;
-}
+};
 
 const Media: FC<Props> = ({ extended }) => {
     const params = useParams();

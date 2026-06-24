@@ -10,9 +10,9 @@ import { extractYouTubeVideoId, getYouTubeThumbnail } from '@/utils/youtube';
 
 import type { TVideoElement } from '../editor/plugins/video-kit';
 
-export interface VideoElementProps extends PlateElementProps<TVideoElement> {
+export type VideoElementProps = PlateElementProps<TVideoElement> & {
     className?: string;
-}
+};
 
 interface VideoInfo {
     embedUrl: string;

@@ -27,10 +27,10 @@ import { useParams } from '@/utils/navigation';
 import FranchiseFilters from './components/franchise-filters';
 import FranchiseItem from './components/franchise-item';
 
-interface Props {
+type Props = {
     extended?: boolean;
     content_type: RelatedContentType;
-}
+};
 
 const Franchise: FC<Props> = ({ extended, content_type }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');

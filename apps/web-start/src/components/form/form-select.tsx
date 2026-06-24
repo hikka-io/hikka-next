@@ -17,14 +17,13 @@ import {
 
 import { useFieldContext } from './form-context';
 
-export interface SelectFieldProps
-    extends Omit<SelectProps, 'value' | 'onValueChange'> {
+export type SelectFieldProps = Omit<SelectProps, 'value' | 'onValueChange'> & {
     label?: string;
     description?: string;
     placeholder?: string;
     className?: string;
     children?: ReactNode;
-}
+};
 
 const SelectFieldInner: FC<SelectFieldProps> = ({
     label,

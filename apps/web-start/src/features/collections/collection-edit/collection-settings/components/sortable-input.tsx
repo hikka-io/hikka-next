@@ -11,11 +11,11 @@ import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/Ma
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+type Props = React.InputHTMLAttributes<HTMLInputElement> & {
     id: string;
     value: string;
     onRemove: () => void;
-}
+};
 
 const SortableInput: FC<Props> = ({ id, value, onRemove, ...props }) => {
     const { attributes, listeners, setNodeRef, transform, transition } =

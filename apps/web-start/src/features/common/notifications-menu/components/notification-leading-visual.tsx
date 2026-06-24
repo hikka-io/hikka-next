@@ -7,12 +7,12 @@ import { cn } from '@/utils/cn';
 
 import { accentBadgeClasses } from '../utils/notification-accents';
 
-interface Props {
+type Props = {
     actor?: Hikka.NotificationActor;
     contentImage?: string;
     typeIcon: ReactNode;
     accent: Hikka.NotificationAccent;
-}
+};
 
 const NotificationLeadingVisual: FC<Props> = ({
     actor,

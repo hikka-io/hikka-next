@@ -14,9 +14,9 @@ const StaticViewer = lazy(() =>
     })),
 );
 
-interface Props {
+type Props = {
     data: ArticlePreviewResponse;
-}
+};
 
 const FeedItemArticle: FC<Props> = ({ data }) => {
     return (

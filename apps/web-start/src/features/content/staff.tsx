@@ -19,13 +19,13 @@ import { useParams } from '@/utils/navigation';
 
 import { useStaff } from './hooks/use-staff';
 
-interface Props {
+type Props = {
     extended?: boolean;
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const Staff: FC<Props> = ({ extended, content_type }) => {
     const params = useParams();

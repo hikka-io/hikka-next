@@ -16,9 +16,9 @@ import { SEASON } from '@/utils/constants/common';
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const Season: FC<Props> = () => {
     const { seasons = [], date_range_enabled } = useFilterSearch<{

@@ -10,10 +10,10 @@ import CatalogListView from '@/features/content/catalog-list-view';
 
 import { useAnimeSearchQuery } from './use-anime-search-query';
 
-interface Props {
+type Props = {
     extendedSize?: StackSize;
     pageSize?: number;
-}
+};
 
 const AnimeList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
     const {

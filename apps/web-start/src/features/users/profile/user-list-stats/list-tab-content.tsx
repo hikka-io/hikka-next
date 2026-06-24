@@ -26,11 +26,11 @@ import { Link } from '@/utils/navigation';
 
 import StatusProgressBar from './components/status-progress-bar';
 
-interface Props {
+type Props = {
     type: CommonContentType;
     username: string;
     className?: string;
-}
+};
 
 const WATCH_ORDER: WatchStatusEnum[] = [
     WatchStatusEnum.COMPLETED,

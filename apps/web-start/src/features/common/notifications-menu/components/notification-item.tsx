@@ -14,10 +14,10 @@ import { Link } from '@/utils/navigation';
 import { accentBadgeClasses } from '../utils/notification-accents';
 import NotificationLeadingVisual from './notification-leading-visual';
 
-interface Props {
+type Props = {
     data: Hikka.Notification;
     onNavigate?: () => void;
-}
+};
 
 const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
     const { mutate: markSeen } = useUpdateNotificationSeen();

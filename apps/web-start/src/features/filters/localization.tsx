@@ -15,9 +15,9 @@ import { Switch } from '@/components/ui/switch';
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const Genre: FC<Props> = () => {
     const { only_translated } = useFilterSearch<{

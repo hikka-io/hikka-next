@@ -19,10 +19,10 @@ import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     comment: CommentResponse;
     href: string;
-}
+};
 
 const GlobalComment: FC<Props> = ({ comment, href }) => {
     return (

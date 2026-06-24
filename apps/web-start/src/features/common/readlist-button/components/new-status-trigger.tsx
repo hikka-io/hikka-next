@@ -13,13 +13,13 @@ import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
-interface NewStatusTriggerProps {
+type NewStatusTriggerProps = {
     disabled?: boolean;
     slug: string;
     content_type: ReadContentType;
     size?: 'sm' | 'md';
     isLoading?: boolean;
-}
+};
 
 const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     disabled,

@@ -21,10 +21,10 @@ import {
     getFilteredEditParams,
 } from './utils/edit-param-utils';
 
-interface Props {
+type Props = {
     mode?: 'view' | 'edit' | 'update';
     editId: string;
-}
+};
 
 const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
     const { data: edit } = useEdit({ editId: Number(editId) });

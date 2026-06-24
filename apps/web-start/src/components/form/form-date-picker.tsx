@@ -31,13 +31,13 @@ const localDateToUtcUnix = (date: Date): number => {
     return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 1000;
 };
 
-export interface Props {
+export type Props = {
     label?: string;
     description?: string;
     minDate?: number;
     className?: string;
     children?: React.ReactNode;
-}
+};
 
 export const DatePickerField: FC<Props> = ({
     label,

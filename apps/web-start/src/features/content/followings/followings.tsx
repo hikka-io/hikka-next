@@ -23,9 +23,9 @@ import { useParams } from '@/utils/navigation';
 import FollowingItem from './components/following-item';
 import FollowingsModal from './followings-modal';
 
-interface Props {
+type Props = {
     content_type: ContentTypeEnum;
-}
+};
 
 const Followings: FC<Props> = ({ content_type }) => {
     const params = useParams();

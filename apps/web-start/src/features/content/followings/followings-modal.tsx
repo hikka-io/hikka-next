@@ -10,9 +10,9 @@ import { useParams } from '@/utils/navigation';
 
 import FollowingItem from './components/following-item';
 
-interface Props {
+type Props = {
     content_type: ContentTypeEnum;
-}
+};
 
 const FollowingsModal: FC<Props> = ({ content_type }) => {
     const params = useParams();

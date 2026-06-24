@@ -10,10 +10,10 @@ import CatalogListView from '@/features/content/catalog-list-view';
 
 import { useMangaSearchQuery } from './use-manga-search-query';
 
-interface Props {
+type Props = {
     extendedSize?: StackSize;
     pageSize?: number;
-}
+};
 
 const MangaList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
     const {

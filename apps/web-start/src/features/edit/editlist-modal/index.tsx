@@ -13,10 +13,10 @@ import { Link } from '@/utils/navigation';
 
 import EditCard from './components/edit-card';
 
-interface Props {
+type Props = {
     content_type: EditContentType;
     slug: string;
-}
+};
 
 const Component = ({ content_type, slug }: Props) => {
     const { ref, list, fetchNextPage, hasNextPage, isFetchingNextPage } =

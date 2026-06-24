@@ -23,9 +23,9 @@ import { useParams } from '@/utils/navigation';
 
 import CollectionsModal from './collections-modal';
 
-interface Props {
+type Props = {
     content_type: CollectionContentType;
-}
+};
 
 const Collections: FC<Props> = ({ content_type }) => {
     const params = useParams();

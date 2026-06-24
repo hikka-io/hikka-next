@@ -15,9 +15,9 @@ import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     extended?: boolean;
-}
+};
 
 const Characters: FC<Props> = ({ extended }) => {
     const params = useParams();

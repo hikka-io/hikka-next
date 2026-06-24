@@ -10,9 +10,9 @@ import Stack, { type StackSize } from '@/components/ui/stack';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-interface Props {
+type Props = {
     data: CollectionResponse<CollectionContent>;
-}
+};
 
 const MAX_PREVIEW = 3;
 

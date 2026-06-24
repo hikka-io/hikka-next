@@ -26,9 +26,9 @@ import { getOngoingsSort } from '@/features/filters/sort';
 import { cn } from '@/utils/cn';
 import { getCurrentSeason } from '@/utils/season';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const Ongoings: FC<Props> = ({ className }) => {
     const currentSeason = getCurrentSeason() as SeasonEnum;

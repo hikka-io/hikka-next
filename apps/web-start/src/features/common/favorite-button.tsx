@@ -16,11 +16,11 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-interface Props extends ButtonProps {
+type Props = ButtonProps & {
     slug: string;
     disabled?: boolean;
     content_type: FavouriteContentType;
-}
+};
 
 const Component = ({
     slug,

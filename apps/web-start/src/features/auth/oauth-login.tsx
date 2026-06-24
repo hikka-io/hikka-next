@@ -7,10 +7,10 @@ import { Button } from '@/components/ui/button';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { getSiteUrl } from '@/utils/url';
 
-interface Props {
+type Props = {
     disabled?: boolean;
     buttonText?: string;
-}
+};
 
 const OAuthLogin = ({
     disabled = false,

@@ -42,7 +42,7 @@ import IconReadStatusButton from './components/icon-read-status-button';
 import NewStatusTrigger from './components/new-status-trigger';
 import ReadStatusTrigger from './components/read-status-trigger';
 
-interface Props {
+type Props = {
     slug: string;
     additional?: boolean;
     disabled?: boolean;
@@ -51,7 +51,7 @@ interface Props {
     content?: MangaResponse | NovelResponse;
     size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
     buttonProps?: ButtonProps;
-}
+};
 
 // Move constants outside component to prevent recreation on each render
 const SETTINGS_BUTTON = {

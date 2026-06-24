@@ -29,13 +29,13 @@ import SearchToggle from './components/search-toggle';
 import useSearchModal from './hooks/use-search-modal';
 import { SEARCH_TYPE_ALL, type SearchTypeValue } from './types';
 
-interface Props {
+type Props = {
     onClick?: (content: MainContent | UserResponse) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
     content_type?: ContentTypeEnum;
     allowedTypes?: ContentTypeEnum[];
-}
+};
 
 const SearchModal: FC<Props> = ({
     onClick,

@@ -6,7 +6,7 @@ import type { PaginationArgs } from '@hikka/client';
 
 import Spinner from '@/components/ui/spinner';
 
-interface Props {
+type Props = {
     data?:
         | {
               list: unknown[];
@@ -15,7 +15,7 @@ interface Props {
         | Array<unknown>;
     isFetching: boolean;
     isRefetching: boolean;
-}
+};
 
 const SearchPlaceholders = ({ data, isFetching, isRefetching }: Props) => {
     if (data && (Array.isArray(data) ? data.length > 0 : data.list.length > 0))

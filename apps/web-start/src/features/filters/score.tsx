@@ -20,10 +20,10 @@ const SCORE_RANGE: [number, number] = [1, 10];
 const DEFAULT_SCORE_MIN = SCORE_RANGE[0];
 const DEFAULT_SCORE_MAX = SCORE_RANGE[1];
 
-interface Props {
+type Props = {
     className?: string;
     score_type: 'score' | 'native_score';
-}
+};
 
 const Score: FC<Props> = ({ score_type }) => {
     const search = useFilterSearch<Record<string, unknown>>();

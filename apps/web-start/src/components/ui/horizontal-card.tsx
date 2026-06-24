@@ -16,13 +16,13 @@ import MDViewer from '../markdown/viewer/md-viewer';
 import { Label } from './label';
 import Link from './link';
 
-interface HorizontalCardTitleProps extends ComponentPropsWithoutRef<'div'> {
+type HorizontalCardTitleProps = ComponentPropsWithoutRef<'div'> & {
     className?: string;
     href?: string;
     to?: string;
     target?: HTMLAttributeAnchorTarget;
     titleMeta?: ReactNode;
-}
+};
 
 const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
     children,
@@ -51,9 +51,9 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
     );
 };
 
-interface HorizontalCardDescriptionProps {
+type HorizontalCardDescriptionProps = {
     className?: string;
-}
+};
 
 const HorizontalCardDescription: FC<
     PropsWithChildren<HorizontalCardDescriptionProps>
@@ -84,9 +84,9 @@ const HorizontalCardDescription: FC<
     );
 };
 
-interface HorizontalCardContainerProps {
+type HorizontalCardContainerProps = {
     className?: string;
-}
+};
 
 const HorizontalCardContainer: FC<
     PropsWithChildren<HorizontalCardContainerProps>
@@ -98,14 +98,14 @@ const HorizontalCardContainer: FC<
     );
 };
 
-interface HorizontalCardImageProps {
+type HorizontalCardImageProps = {
     className?: string;
     imageClassName?: string;
     imageRatio?: number;
     image: string | ReactNode;
     href?: string;
     to?: string;
-}
+};
 
 const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
     children,
@@ -133,7 +133,7 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
     );
 };
 
-interface Props extends ComponentProps<'div'> {}
+type Props = ComponentProps<'div'>;
 
 const HorizontalCard: FC<Props> = ({ className, children, ...props }) => {
     return (

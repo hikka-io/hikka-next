@@ -19,10 +19,10 @@ import ReadlistButton from '@/features/common/readlist-button';
 import WatchlistButton from '@/features/common/watchlist-button';
 import { MEDIA_TYPE } from '@/utils/constants/common';
 
-interface Props {
+type Props = {
     content: AnimeResponse | MangaResponse | NovelResponse;
     preview?: boolean;
-}
+};
 
 const FranchiseItem: FC<Props> = ({ content, preview }) => {
     const { user } = useSession();

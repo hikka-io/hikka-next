@@ -7,9 +7,9 @@ import { useEdit } from '@hikka/react';
 import { Badge } from '@/components/ui/badge';
 import { EDIT_STATUS } from '@/utils/constants/edit';
 
-interface Props {
+type Props = {
     editId: string;
-}
+};
 
 const EditStatus: FC<Props> = ({ editId }) => {
     const { data: edit } = useEdit({ editId: Number(editId) });

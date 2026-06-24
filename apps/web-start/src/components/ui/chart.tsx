@@ -112,7 +112,7 @@ type TooltipPayloadItem = {
     fill?: string;
 };
 
-interface ChartTooltipContentProps extends React.ComponentProps<'div'> {
+type ChartTooltipContentProps = React.ComponentProps<'div'> & {
     active?: boolean;
     payload?: TooltipPayloadItem[];
     label?: string;
@@ -134,7 +134,7 @@ interface ChartTooltipContentProps extends React.ComponentProps<'div'> {
     labelKey?: string;
     labelClassName?: string;
     color?: string;
-}
+};
 
 const ChartTooltipContent = React.forwardRef<
     HTMLDivElement,
@@ -324,12 +324,12 @@ type LegendPayloadItem = {
     color?: string;
 };
 
-interface ChartLegendContentProps extends React.ComponentProps<'div'> {
+type ChartLegendContentProps = React.ComponentProps<'div'> & {
     payload?: LegendPayloadItem[];
     verticalAlign?: 'top' | 'bottom';
     hideIcon?: boolean;
     nameKey?: string;
-}
+};
 
 const ChartLegendContent = React.forwardRef<
     HTMLDivElement,

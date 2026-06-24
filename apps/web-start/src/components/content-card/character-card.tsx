@@ -5,9 +5,9 @@ import { useTitle } from '@hikka/react';
 
 import ContentCard, { type ContentCardProps } from './content-card';
 
-interface Props extends ContentCardProps {
+type Props = ContentCardProps & {
     character: CharacterResponse;
-}
+};
 
 const CharacterCard: FC<Props> = ({ character, ...props }) => {
     const title = useTitle(character);

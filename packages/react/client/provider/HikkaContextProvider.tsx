@@ -9,12 +9,12 @@ import { getHikkaClient } from '@/core';
 import { HikkaContext } from './context';
 import type { DefaultOptions } from './HikkaProvider';
 
-export interface HikkaContextProviderProps {
+export type HikkaContextProviderProps = {
     children: ReactNode;
     clientConfig?: HikkaClientConfig;
     client?: HikkaClient;
     defaultOptions?: DefaultOptions;
-}
+};
 
 /**
  * Lightweight provider that only provides HikkaContext (client + options).

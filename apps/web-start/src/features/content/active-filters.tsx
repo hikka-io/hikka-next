@@ -285,9 +285,9 @@ export function useActiveFilters() {
     return { filters, count: filters.length, removeFilter, clearAll };
 }
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const ActiveFilters: FC<Props> = ({ className }) => {
     const { filters, clearAll, removeFilter } = useActiveFilters();

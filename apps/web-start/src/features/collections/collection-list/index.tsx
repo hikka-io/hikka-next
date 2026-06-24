@@ -6,10 +6,10 @@ import { useSearchCollections } from '@hikka/react';
 
 import CollectionCard from './components/collection-card';
 
-interface Props {
+type Props = {
     page: number;
     sort: 'system_ranking' | 'created';
-}
+};
 
 const CollectionList: FC<Props> = ({ page, sort }) => {
     const { list } = useSearchCollections({

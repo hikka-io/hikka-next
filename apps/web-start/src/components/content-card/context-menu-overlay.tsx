@@ -19,13 +19,13 @@ import { MaterialSymbolsEditRounded } from '../icons/material-symbols/MaterialSy
 import MaterialSymbolsImageOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageOutlineRounded';
 import MaterialSymbolsOpenInNewRounded from '../icons/material-symbols/MaterialSymbolsOpenInNewRounded';
 
-interface Props {
+type Props = {
     children: ReactNode;
     slug: string;
     content_type: ContentTypeEnum;
     href?: string;
     image?: string | ReactNode;
-}
+};
 
 const ContextMenuOverlay: FC<Props> = ({
     children,

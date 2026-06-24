@@ -42,11 +42,11 @@ const formSchema = z.object({
     end_date: z.coerce.number().nullable().optional(),
 });
 
-interface Props {
+type Props = {
     slug: string;
     watch?: WatchResponse | WatchResponseBase;
     onClose?: () => void;
-}
+};
 
 const Component = ({ slug, watch: watchProp, onClose }: Props) => {
     const { data: watchQuery } = useWatchBySlug({

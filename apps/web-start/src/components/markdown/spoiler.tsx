@@ -10,10 +10,10 @@ import {
 } from '@/components/ui/collapsible';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     children: ReactNode;
     className?: string;
-}
+};
 
 const Spoiler: FC<Props> = ({ children, className }) => {
     return (

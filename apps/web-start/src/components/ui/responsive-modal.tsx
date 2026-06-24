@@ -55,7 +55,7 @@ function useResponsiveModalContext() {
 
 // --- Root ---
 
-interface ResponsiveModalProps {
+type ResponsiveModalProps = {
     children: React.ReactNode;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
@@ -64,7 +64,7 @@ interface ResponsiveModalProps {
     // Drawer-specific
     shouldScaleBackground?: boolean;
     preventScrollRestoration?: boolean;
-}
+};
 
 function ResponsiveModal({
     children,
@@ -133,7 +133,7 @@ function ResponsiveModalTrigger({
 
 type DialogContentProps = React.ComponentProps<typeof DialogContent>;
 
-interface ResponsiveModalContentProps {
+type ResponsiveModalContentProps = {
     children: React.ReactNode;
     className?: string;
     side?: 'left' | 'right' | 'top' | 'bottom';
@@ -143,7 +143,7 @@ interface ResponsiveModalContentProps {
     onPointerDownOutside?: DialogContentProps['onPointerDownOutside'];
     onEscapeKeyDown?: DialogContentProps['onEscapeKeyDown'];
     onInteractOutside?: DialogContentProps['onInteractOutside'];
-}
+};
 
 function ResponsiveModalContent({
     children,

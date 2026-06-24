@@ -18,7 +18,7 @@ import { COMMENT_DECLENSIONS, CONTENT_CONFIG } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link, useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     className?: string;
     content_type:
         | ContentTypeEnum.ANIME
@@ -26,7 +26,7 @@ interface Props {
         | ContentTypeEnum.NOVEL
         | ContentTypeEnum.CHARACTER
         | ContentTypeEnum.PERSON;
-}
+};
 
 const UserlistButton = ({ content_type }: Props) => {
     const params = useParams();

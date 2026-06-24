@@ -19,7 +19,7 @@ import ContentScores from './scores';
 import ContentStaff from './staff';
 import ContentTitle from './title';
 
-interface Props {
+type Props = {
     contentType:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
@@ -28,7 +28,7 @@ interface Props {
     afterDescription?: ReactNode;
     afterFranchise?: ReactNode;
     jsonLd?: ReactNode;
-}
+};
 
 const ContentDetailPage: FC<Props> = ({
     contentType,

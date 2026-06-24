@@ -7,13 +7,13 @@ import {
 import NotFound from '@/components/ui/not-found';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
-interface Props {
+type Props = {
     status: ReadStatusEnum | WatchStatusEnum | 'all';
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const CONTENT_TYPE_TITLE = {
     [ContentTypeEnum.MANGA]: 'манґу',

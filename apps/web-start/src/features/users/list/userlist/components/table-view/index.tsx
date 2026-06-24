@@ -28,13 +28,13 @@ import ScoreCell from './score-cell';
 import SortableHead from './sortable-head';
 import VolumesCell from './volumes-cell';
 
-interface Props {
+type Props = {
     data: ReadResponse[] | WatchResponse[];
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const TableView: FC<Props> = ({ data, content_type }) => {
     const search = useFilterSearch<{

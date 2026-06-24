@@ -80,11 +80,11 @@ const CommentButton: FC<{ comment: string }> = ({ comment }) => {
     );
 };
 
-interface Props {
+type Props = {
     group?: string;
     items: CollectionContentResponse<CollectionContent>[];
     content_type: ContentTypeEnum;
-}
+};
 
 const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
     const { defaultOptions } = useHikkaClient();

@@ -39,9 +39,9 @@ const spinnerVariants = cva(
     },
 );
 
-interface SpinnerProps extends VariantProps<typeof spinnerVariants> {
+type SpinnerProps = VariantProps<typeof spinnerVariants> & {
     className?: string;
-}
+};
 
 const Spinner: FC<SpinnerProps> = ({ size, className }) => {
     return (

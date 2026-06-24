@@ -25,7 +25,7 @@ import {
 import FilterPresetEditModal from '@/features/content/presets/filter-preset-edit-modal';
 import { cn } from '@/utils/cn';
 
-export interface FiltersFooterProps {
+export type FiltersFooterProps = {
     className?: string;
     /**
      * Enables the "save as preset" action and tags the created preset with
@@ -34,7 +34,7 @@ export interface FiltersFooterProps {
      * button.
      */
     contentType?: ContentTypeEnum;
-}
+};
 
 /**
  * Clear filters + (catalog-only) save-as-preset actions, shared by the anime

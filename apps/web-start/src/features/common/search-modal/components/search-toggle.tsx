@@ -28,13 +28,13 @@ import { cn } from '@/utils/cn';
 
 import { SEARCH_TYPE_ALL, type SearchTypeValue } from '../types';
 
-interface Props {
+type Props = {
     type?: SearchTypeValue;
     setType: (type: SearchTypeValue) => void;
     disabled?: boolean;
     inputRef: React.RefObject<HTMLInputElement | null>;
     allowedTypes?: ContentTypeEnum[];
-}
+};
 
 type SearchType = {
     slug: SearchTypeValue;

@@ -16,9 +16,9 @@ import { useParams } from '@/utils/navigation';
 import FollowingHistory from './components/following-history';
 import History from './components/history';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const UserHistory: FC<Props> = ({ className }) => {
     const params = useParams();

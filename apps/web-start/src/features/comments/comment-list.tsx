@@ -23,13 +23,13 @@ import CommentsProvider from '@/services/providers/comments-provider';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     slug: string;
     content_type: CommentsContentType;
     comment_reference?: string;
     preview?: boolean;
     className?: string;
-}
+};
 
 const CommentList: FC<Props> = ({
     slug,

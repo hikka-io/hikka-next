@@ -14,13 +14,13 @@ import { useVote } from './use-vote';
 
 export { useVote } from './use-vote';
 
-interface Props {
+type Props = {
     contentType: VoteContentType;
     slug: string;
     myScore: number;
     voteScore: number;
     size?: 'icon-xs' | 'icon-sm' | 'icon-md';
-}
+};
 
 const VoteButton: FC<Props> = ({
     contentType,

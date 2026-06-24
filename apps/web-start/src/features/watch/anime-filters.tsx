@@ -17,11 +17,11 @@ import Studio from '@/features/filters/studio';
 import Year from '@/features/filters/year';
 import { cn } from '@/utils/cn';
 
-interface BodyProps {
+type BodyProps = {
     className?: string;
     content_type: ContentTypeEnum;
     sort_type: 'anime' | 'watch';
-}
+};
 
 /**
  * Filter fields only — no footer, no outer padding/margin hacks.
@@ -48,11 +48,11 @@ export const AnimeFiltersBody: FC<BodyProps> = ({
     );
 };
 
-interface Props {
+type Props = {
     className?: string;
     content_type: ContentTypeEnum;
     sort_type: 'anime' | 'watch';
-}
+};
 
 /**
  * Default side-panel composition: scrollable filter body + sticky footer.

@@ -23,9 +23,9 @@ import { Switch } from '@/components/ui/switch';
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const DEFAULT_DATE_RANGE: [number, number] = [-4, 4];
 
@@ -52,10 +52,6 @@ const DATE_RANGES: Record<DateRangeEnum, string> = {
     [DateRangeEnum.NEXT_3_SEASONS]: 'Наступні 3 сезони',
     [DateRangeEnum.NEXT_4_SEASONS]: 'Наступні 4 сезони',
 };
-
-interface Props {
-    className?: string;
-}
 
 const DateRange = (props: Props) => {
     const router = useRouter();

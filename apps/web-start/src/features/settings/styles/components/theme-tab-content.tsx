@@ -19,9 +19,9 @@ import { useStylesEditor } from './custom-colors-modal';
 import PresetButtons from './preset-buttons';
 import TokenGroup from './token-group';
 
-interface ThemeTabContentProps {
+type ThemeTabContentProps = {
     theme: 'light' | 'dark';
-}
+};
 
 const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
     const styles = useStylesEditor((state) => state.styles);

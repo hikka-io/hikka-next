@@ -12,9 +12,9 @@ import Stack from '@/components/ui/stack';
 import HistoryItem from '@/features/users/user-history/components/history-item';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const History: FC<Props> = ({ className }) => {
     const params = useParams();

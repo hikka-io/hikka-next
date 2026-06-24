@@ -14,9 +14,9 @@ import Sort from '@/features/filters/sort';
 import User from '@/features/filters/user';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const EditFilters: FC<Props> = ({ className }) => {
     const router = useRouter();

@@ -44,9 +44,9 @@ import { Link, useParams, useRouter } from '@/utils/navigation';
 
 import GroupInputs from './components/group-inputs';
 
-interface Props {
+type Props = {
     mode?: 'create' | 'edit';
-}
+};
 
 const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const router = useRouter();

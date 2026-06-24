@@ -11,11 +11,11 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     date: Date;
     actions: number;
     level: 0 | 1 | 2 | 3 | 4;
-}
+};
 
 const LEVEL_CLASSES: Record<number, string> = {
     0: 'bg-secondary',

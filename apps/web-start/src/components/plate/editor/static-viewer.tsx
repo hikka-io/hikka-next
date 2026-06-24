@@ -9,10 +9,10 @@ import { EditorStatic } from '@/components/plate/ui/editor-static';
 
 import { StaticKit } from './static-kit';
 
-interface StaticEditorProps {
+type StaticEditorProps = {
     value?: string | Value;
     className?: string;
-}
+};
 
 export function StaticViewer({ value, className }: StaticEditorProps) {
     const editor = useMemo(() => {

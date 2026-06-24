@@ -28,10 +28,10 @@ import { Link as TanstackLink } from '@/utils/navigation';
 
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
 
-interface Props {
+type Props = {
     href: string;
     className?: string;
-}
+};
 
 const AUTH_ONLY_HOSTS = ['toloka.to', 'anitube.in.ua'];
 

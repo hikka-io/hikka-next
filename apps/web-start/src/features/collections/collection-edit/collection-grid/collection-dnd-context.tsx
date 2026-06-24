@@ -22,9 +22,9 @@ import ContentCard from '@/components/content-card/content-card';
 import { useCollectionStore } from '@/services/providers/collection-provider';
 import type { Group, Item } from '@/services/stores/collection-store';
 
-interface Props {
+type Props = {
     children: ReactNode;
-}
+};
 
 function findGroupContainingItem(
     groups: Group[],

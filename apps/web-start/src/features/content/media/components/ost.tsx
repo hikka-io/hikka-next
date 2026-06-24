@@ -7,10 +7,10 @@ import MaterialSymbolsLibraryMusicRounded from '@/components/icons/material-symb
 import Stack from '@/components/ui/stack';
 import { OST } from '@/utils/constants/common';
 
-interface Props {
+type Props = {
     extended?: boolean;
     ost: AnimeOSTResponse[];
-}
+};
 
 const Ost: FC<Props> = ({ extended, ost }) => {
     if (!ost) {

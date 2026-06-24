@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
-interface Props<T> {
+type Props<T> = {
     title: string;
     /** Link target for the section header in collapsed mode. */
     href?: string;
@@ -25,7 +25,7 @@ interface Props<T> {
     renderItem: (item: T) => ReactNode;
     /** Override the Stack grid (only people→characters needs this). */
     stackClassName?: string;
-}
+};
 
 /**
  * Shared "appearances" section used on character and person pages: a titled

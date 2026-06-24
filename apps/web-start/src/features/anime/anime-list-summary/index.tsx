@@ -5,9 +5,9 @@ import type { FC } from 'react';
 import { useAnimeSearchQuery } from '@/features/anime/anime-list/use-anime-search-query';
 import { CatalogSummary } from '@/features/content';
 
-interface Props {
+type Props = {
     pageSize?: number;
-}
+};
 
 const AnimeListSummary: FC<Props> = ({ pageSize }) => {
     const { pagination, isLoading } = useAnimeSearchQuery(pageSize);

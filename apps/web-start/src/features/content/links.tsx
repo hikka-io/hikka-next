@@ -22,12 +22,12 @@ import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 import { getPlatformIcon } from '@/utils/platform-icons';
 
-interface Props {
+type Props = {
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const Links: FC<Props> = ({ content_type }) => {
     const [isExpanded, setIsExpanded] = useState(false);

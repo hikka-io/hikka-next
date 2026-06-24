@@ -5,10 +5,10 @@ import Spinner from '@/components/ui/spinner';
 
 import AntDesignArrowDownOutlined from './icons/ant-design/AntDesignArrowDownOutlined';
 
-interface Props extends ButtonProps {
+type Props = ButtonProps & {
     fetchNextPage: () => void;
     isFetchingNextPage: boolean;
-}
+};
 
 const LoadMoreButton = forwardRef(
     (

@@ -58,12 +58,12 @@ import { useParams } from '@/utils/navigation';
 
 const STATUSES = { ...WATCH_STATUS, ...READ_STATUS };
 
-interface Props {
+type Props = {
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const UserlistNavbar: FC<Props> = ({ content_type }) => {
     const isAnime = content_type === ContentTypeEnum.ANIME;

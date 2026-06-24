@@ -12,11 +12,13 @@ import { Slider } from '@/components/ui/slider';
 
 import { useFieldContext } from './form-context';
 
-export interface SliderFieldProps
-    extends Omit<ComponentProps<typeof Slider>, 'value' | 'onValueChange'> {
+export type SliderFieldProps = Omit<
+    ComponentProps<typeof Slider>,
+    'value' | 'onValueChange'
+> & {
     label?: string;
     description?: string;
-}
+};
 
 export const SliderField: FC<SliderFieldProps> = ({
     label,

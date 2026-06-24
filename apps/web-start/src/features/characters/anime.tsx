@@ -8,9 +8,9 @@ import AnimeCard from '@/components/content-card/anime-card';
 import AppearanceGrid from '@/features/common/appearance-grid';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     extended?: boolean;
-}
+};
 
 const Anime: FC<Props> = ({ extended }) => {
     const params = useParams();

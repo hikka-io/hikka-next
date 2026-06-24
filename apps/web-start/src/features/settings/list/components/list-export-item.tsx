@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
 
-interface Props {
+type Props = {
     title: string;
     description: string;
     onExport: () => void;
     isExporting: boolean;
-}
+};
 
 const ListExportItem = ({
     title,

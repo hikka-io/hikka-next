@@ -5,9 +5,9 @@ import type { FC } from 'react';
 import { CatalogSummary } from '@/features/content';
 import { useMangaSearchQuery } from '@/features/manga/manga-list/use-manga-search-query';
 
-interface Props {
+type Props = {
     pageSize?: number;
-}
+};
 
 const MangaListSummary: FC<Props> = ({ pageSize }) => {
     const { pagination, isLoading } = useMangaSearchQuery(pageSize);

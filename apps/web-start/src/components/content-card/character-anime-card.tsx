@@ -11,10 +11,10 @@ import { useTitle } from '@hikka/react';
 import CardOverlay from './card-overlay';
 import ContentCard, { type ContentCardProps } from './content-card';
 
-interface Props extends ContentCardProps {
+type Props = ContentCardProps & {
     character: CharacterResponse;
     anime: AnimeResponse | AnimeInfoResponse;
-}
+};
 
 const CharacterAnimeCard: FC<Props> = ({ character, anime, ...props }) => {
     const characterTitle = useTitle(character);

@@ -18,11 +18,10 @@ const statItemVariants = cva('inline-flex items-center text-muted-foreground', {
     },
 });
 
-export interface StatItemProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-        VariantProps<typeof statItemVariants> {
-    asChild?: boolean;
-}
+export type StatItemProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+    VariantProps<typeof statItemVariants> & {
+        asChild?: boolean;
+    };
 
 const StatItem = React.forwardRef<HTMLButtonElement, StatItemProps>(
     ({ className, size, asChild = false, ...props }, ref) => {
@@ -50,9 +49,8 @@ const statItemGroupVariants = cva('flex items-center', {
     },
 });
 
-export interface StatItemGroupProps
-    extends React.HTMLAttributes<HTMLDivElement>,
-        VariantProps<typeof statItemGroupVariants> {}
+export type StatItemGroupProps = React.HTMLAttributes<HTMLDivElement> &
+    VariantProps<typeof statItemGroupVariants>;
 
 const StatItemGroup = React.forwardRef<HTMLDivElement, StatItemGroupProps>(
     ({ className, size, ...props }, ref) => (

@@ -9,9 +9,9 @@ import NovelCard from '@/components/content-card/novel-card';
 import AppearanceGrid from '@/features/common/appearance-grid';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     extended?: boolean;
-}
+};
 
 const Novel: FC<Props> = ({ extended }) => {
     const params = useParams();

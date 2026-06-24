@@ -11,13 +11,13 @@ import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
-interface ReadStatusTriggerProps {
+type ReadStatusTriggerProps = {
     read: ReadResponseBase;
     disabled?: boolean;
     size?: 'sm' | 'md';
     isLoading?: boolean;
     onOpenModal?: () => void;
-}
+};
 
 const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
     read,

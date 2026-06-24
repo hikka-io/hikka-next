@@ -28,14 +28,14 @@ import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
 const ALL_SEARCH_SIZE = 3;
 
-interface SearchResultGroupProps {
+type SearchResultGroupProps = {
     list: Array<{ slug: string }> | undefined;
     heading: string;
     contentType: ContentTypeEnum;
     renderCard: (item: any) => ReactNode;
     onSelect: (item: any) => void;
     onNavigate: () => void;
-}
+};
 
 const SearchResultGroup = ({
     list,
@@ -70,12 +70,12 @@ const SearchResultGroup = ({
     );
 };
 
-interface Props {
+type Props = {
     onDismiss: (content: MainContent) => void;
     onClose: () => void;
     type?: 'link' | 'button';
     value?: string;
-}
+};
 
 const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
     const router = useRouter();

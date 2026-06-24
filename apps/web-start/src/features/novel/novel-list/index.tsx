@@ -10,10 +10,10 @@ import CatalogListView from '@/features/content/catalog-list-view';
 
 import { useNovelSearchQuery } from './use-novel-search-query';
 
-interface Props {
+type Props = {
     extendedSize?: StackSize;
     pageSize?: number;
-}
+};
 
 const NovelList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
     const {

@@ -27,7 +27,7 @@ import type { SortType } from '@/features/filters/sort';
 import Sort from '@/features/filters/sort';
 import useDebounce from '@/services/hooks/use-debounce';
 
-interface Props {
+type Props = {
     sort_type: SortType;
     content_type: ContentTypeEnum;
     searchPlaceholder: string;
@@ -35,7 +35,7 @@ interface Props {
         open: boolean;
         onOpenChange: (open: boolean) => void;
     }) => React.ReactNode;
-}
+};
 
 const Search = ({ placeholder }: { placeholder: string }) => {
     const navigate = useNavigate();

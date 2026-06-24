@@ -23,11 +23,11 @@ import { convertActivity } from '@/utils/adapters/convert-activity';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     data: HistoryResponse;
     className?: string;
     withUser?: boolean;
-}
+};
 
 const User: FC<Props> = memo(({ data }) => (
     <Tooltip>

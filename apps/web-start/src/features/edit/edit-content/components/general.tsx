@@ -19,11 +19,11 @@ import {
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-interface Props extends PropsWithChildren {
+type Props = PropsWithChildren & {
     content: MainContent;
     content_type: EditContentType;
     slug: string;
-}
+};
 
 const General: FC<Props> = ({ content, content_type, slug }) => {
     const image =

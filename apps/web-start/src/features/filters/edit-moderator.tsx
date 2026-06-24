@@ -22,9 +22,9 @@ import {
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const EditModerator: FC<Props> = () => {
     const { moderator } = useFilterSearch<{ moderator?: string }>();

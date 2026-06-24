@@ -14,10 +14,10 @@ import {
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     data: CollectionResponse<CollectionContent>;
     className?: string;
-}
+};
 
 const CollectionItem: FC<Props> = ({ data, className }) => {
     const image = (content: CollectionContent) =>

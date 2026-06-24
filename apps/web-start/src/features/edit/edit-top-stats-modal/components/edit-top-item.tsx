@@ -12,13 +12,13 @@ import {
 } from '@/components/ui/horizontal-card';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     user: UserResponse;
     rank: number;
     accepted: number;
     closed: number;
     denied: number;
-}
+};
 
 const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
     return (

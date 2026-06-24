@@ -12,11 +12,11 @@ import { Label } from '@/components/ui/label';
 import { USER_ROLE } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     user: UserResponse;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
-}
+};
 
 const UserCard = ({ user, onClick, type }: Props) => {
     const Comp = type === 'button' ? 'button' : Link;

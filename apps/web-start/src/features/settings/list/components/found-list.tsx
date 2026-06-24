@@ -1,9 +1,9 @@
 import { ContentTypeEnum, type ReadContentType } from '@hikka/client';
 
-interface Props {
+type Props = {
     list: Record<string, any>[];
     type: ReadContentType | ContentTypeEnum.ANIME;
-}
+};
 
 const Component = ({ list, type }: Props) => {
     const typeName =

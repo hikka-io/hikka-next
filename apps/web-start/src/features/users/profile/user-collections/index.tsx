@@ -26,9 +26,9 @@ import { Link, useParams } from '@/utils/navigation';
 import CollectionItem from './components/collection-item';
 import CollectionsModal from './components/collections-modal';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const UserCollections: FC<Props> = ({ className }) => {
     const params = useParams();

@@ -7,10 +7,9 @@ import { extractYouTubeVideoId } from '@/utils/youtube';
 
 import type { TVideoElement } from '../editor/plugins/video-kit';
 
-export interface VideoElementStaticProps
-    extends SlateElementProps<TVideoElement> {
+export type VideoElementStaticProps = SlateElementProps<TVideoElement> & {
     className?: string;
-}
+};
 
 export function VideoElementStatic({
     className,

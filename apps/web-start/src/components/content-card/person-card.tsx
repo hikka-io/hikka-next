@@ -10,10 +10,10 @@ import { getTitle } from '@hikka/react/utils';
 
 import ContentCard, { type ContentCardProps } from './content-card';
 
-interface Props extends ContentCardProps {
+type Props = ContentCardProps & {
     person: PersonResponse;
     roles: RoleResponse[];
-}
+};
 
 const PersonCard: FC<Props> = ({ person, roles, ...props }) => {
     const title = useTitle(person);

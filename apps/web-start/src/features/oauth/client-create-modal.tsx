@@ -16,9 +16,9 @@ const formSchema = z.object({
     endpoint: z.coerce.string().min(3).max(128),
 });
 
-interface Props {
+type Props = {
     onClose?: () => void;
-}
+};
 
 const Component = ({ onClose }: Props) => {
     const { mutate: createClient, isPending: createClientLoading } =

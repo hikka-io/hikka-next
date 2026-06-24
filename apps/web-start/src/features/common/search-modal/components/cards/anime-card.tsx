@@ -13,11 +13,11 @@ import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     anime: AnimeResponse;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
-}
+};
 
 const AnimeCard = ({ anime, onClick, type }: Props) => {
     const Comp = type === 'button' ? 'button' : Link;

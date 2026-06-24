@@ -4,11 +4,11 @@ import type { CommentResponse, CommentsContentType } from '@hikka/client';
 
 import Comment from './comment';
 
-interface Props {
+type Props = {
     comments: CommentResponse[];
     slug: string;
     content_type: CommentsContentType;
-}
+};
 
 const Comments: FC<Props> = ({ comments, slug, content_type }) => {
     return (

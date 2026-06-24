@@ -11,12 +11,12 @@ import { useParams } from '@/utils/navigation';
 
 import Stats from './stats';
 
-interface Props {
+type Props = {
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const Score = ({ content_type }: Props) => {
     const params = useParams();

@@ -8,13 +8,13 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     title: string;
     value?: string | number | string[] | null;
     children?: ReactNode;
     icon?: ReactNode;
     className?: string;
-}
+};
 
 const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
     if ((!value && !children) || (Array.isArray(value) && value.length === 0)) {

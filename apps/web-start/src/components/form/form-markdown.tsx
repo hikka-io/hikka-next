@@ -15,12 +15,14 @@ import {
 
 import { useFieldContext } from './form-context';
 
-export interface Props
-    extends Omit<PlateMarkdownEditorProps, 'value' | 'onValueChange'> {
+export type Props = Omit<
+    PlateMarkdownEditorProps,
+    'value' | 'onValueChange'
+> & {
     label?: string;
     description?: string;
     className?: string;
-}
+};
 
 export const MarkdownField: FC<Props> = ({
     label,

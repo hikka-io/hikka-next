@@ -16,11 +16,11 @@ const COMMENT_DECLENSIONS: [string, string, string] = [
     'коментарів',
 ];
 
-interface Props {
+type Props = {
     comments_count?: number;
     content_type: CommentsContentType;
     slug: string;
-}
+};
 
 const CommentsButton: FC<Props> = ({ comments_count, content_type, slug }) => {
     return (

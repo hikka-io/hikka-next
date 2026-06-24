@@ -14,9 +14,9 @@ import {
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-interface Props {
+type Props = {
     article: ArticleBaseResponse;
-}
+};
 
 const ArticleItem: FC<Props> = ({ article }) => {
     return (

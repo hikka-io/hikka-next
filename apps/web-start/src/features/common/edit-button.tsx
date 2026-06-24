@@ -17,11 +17,11 @@ import { EditListModal } from '@/features/edit';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
 
-interface Props extends ButtonProps {
+type Props = ButtonProps & {
     slug: string;
     content_type: EditContentType;
     className?: string;
-}
+};
 
 const EditButton: FC<Props> = ({ className, slug, content_type, ...props }) => {
     const [open, setOpen] = useState(false);

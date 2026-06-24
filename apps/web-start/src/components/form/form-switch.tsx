@@ -12,11 +12,13 @@ import { Switch } from '@/components/ui/switch';
 
 import { useFieldContext } from './form-context';
 
-export interface SwitchFieldProps
-    extends Omit<ComponentProps<typeof Switch>, 'checked' | 'onCheckedChange'> {
+export type SwitchFieldProps = Omit<
+    ComponentProps<typeof Switch>,
+    'checked' | 'onCheckedChange'
+> & {
     label?: string;
     description?: string;
-}
+};
 
 export const SwitchField: FC<SwitchFieldProps> = ({
     label,

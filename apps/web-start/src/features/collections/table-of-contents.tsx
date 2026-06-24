@@ -10,9 +10,9 @@ import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 function TableOfContents({ className }: Props) {
     const params = useParams();

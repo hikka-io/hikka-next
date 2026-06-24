@@ -15,9 +15,9 @@ import Tag from '@/features/filters/tag';
 import User from '@/features/filters/user';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const ArticleFilters: FC<Props> = ({ className }) => {
     const { user } = useSession();

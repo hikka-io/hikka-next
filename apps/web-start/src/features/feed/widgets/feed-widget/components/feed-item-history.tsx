@@ -13,9 +13,9 @@ import {
 import { convertActivity } from '@/utils/adapters/convert-activity';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-interface Props {
+type Props = {
     data: HistoryResponse;
-}
+};
 
 const FeedItemHistory: FC<Props> = ({ data }) => {
     const activity = convertActivity(data);

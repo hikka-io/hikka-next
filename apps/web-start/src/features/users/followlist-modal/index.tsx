@@ -7,10 +7,10 @@ import { useParams } from '@/utils/navigation';
 
 import FollowUserItem from './components/follow-user-item';
 
-interface Props {
+type Props = {
     type: 'followers' | 'followings';
     username?: string;
-}
+};
 
 const FollowlistModal = ({ type, username }: Props) => {
     const params = useParams();

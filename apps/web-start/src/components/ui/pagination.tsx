@@ -18,11 +18,11 @@ import AntDesignArrowRightOutlined from '../icons/ant-design/AntDesignArrowRight
 import { Button } from './button';
 import { Input } from './input';
 
-interface Props {
+type Props = {
     page: number;
     pages: number;
     setPage: (page: number) => void;
-}
+};
 
 type PaginationType = number | 'empty' | 'input';
 
@@ -39,11 +39,11 @@ const PaginationEmpty: FC = () => {
     );
 };
 
-interface PaginationButtonProps {
+type PaginationButtonProps = {
     value: number;
     page: number;
     setPage: (page: number) => void;
-}
+};
 
 const PaginationButton: FC<PaginationButtonProps> = ({
     value,
@@ -63,11 +63,11 @@ const PaginationButton: FC<PaginationButtonProps> = ({
     );
 };
 
-interface PaginationInputProps {
+type PaginationInputProps = {
     pages: number;
     page: number;
     setPage: (page: number) => void;
-}
+};
 
 const PaginationInput: FC<PaginationInputProps> = ({
     page,

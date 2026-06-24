@@ -222,13 +222,13 @@ export function getOngoingsSort(): string[] {
     return ONGOINGS_SORT;
 }
 
-interface Props {
+type Props = {
     className?: string;
     sort_type: SortType;
     /** Render as a compact inline control (no label header). */
     compact?: boolean;
     placeholder?: string;
-}
+};
 
 const Sort: FC<Props> = ({
     sort_type,

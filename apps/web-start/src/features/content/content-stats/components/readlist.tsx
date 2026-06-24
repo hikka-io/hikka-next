@@ -13,9 +13,9 @@ import { useParams } from '@/utils/navigation';
 
 import Stats from './stats';
 
-interface Props {
+type Props = {
     content_type: ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL;
-}
+};
 
 const Readlist = ({ content_type }: Props) => {
     const params = useParams();

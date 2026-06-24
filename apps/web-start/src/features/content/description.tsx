@@ -6,13 +6,13 @@ import DescriptionBlock from '@/components/content/description-block';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     className?: string;
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const Description = ({ className, content_type }: Props) => {
     const params = useParams();

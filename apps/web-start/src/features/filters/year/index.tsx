@@ -27,9 +27,9 @@ enum RANGE {
     MAX = 'max',
 }
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const Year: FC<Props> = () => {
     const { years: yearsParam = [], date_range_enabled } = useFilterSearch<{

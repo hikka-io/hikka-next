@@ -8,9 +8,9 @@ import { Link } from '@/utils/navigation';
 
 import FeedItemContentPreview from './feed-item-content-preview';
 
-interface Props {
+type Props = {
     data: CommentResponse;
-}
+};
 
 const FeedItemComment: FC<Props> = ({ data }) => {
     return (

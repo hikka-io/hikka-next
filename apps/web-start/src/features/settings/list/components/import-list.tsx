@@ -18,13 +18,13 @@ import { Link } from '@/utils/navigation';
 
 import FoundList from './found-list';
 
-interface Props {
+type Props = {
     content_type: ReadContentType | ContentTypeEnum.ANIME;
     list: ImportReadArgs[] | ImportWatchArgs[];
     setList:
         | Dispatch<SetStateAction<ImportReadArgs[]>>
         | Dispatch<SetStateAction<ImportWatchArgs[]>>;
-}
+};
 
 const Component = ({ list, setList, content_type }: Props) => {
     const onDrop = useCallback(async (acceptedFiles: File[]) => {

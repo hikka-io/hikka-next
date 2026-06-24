@@ -17,13 +17,13 @@ import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     extended?: boolean;
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const MainCharacters: FC<Props> = ({ extended, content_type }) => {
     const params = useParams();

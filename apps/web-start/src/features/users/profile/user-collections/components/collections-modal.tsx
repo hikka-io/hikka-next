@@ -9,9 +9,9 @@ import { useParams } from '@/utils/navigation';
 
 import CollectionItem from './collection-item';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const CollectionModal: FC<Props> = ({ className }) => {
     const params = useParams();

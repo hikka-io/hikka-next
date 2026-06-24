@@ -7,13 +7,13 @@ import ContentCard from '../content-card/content-card';
 import MDViewer from '../markdown/viewer/md-viewer';
 import { Label } from './label';
 
-export interface Props extends ComponentPropsWithoutRef<'div'> {
+export type Props = ComponentPropsWithoutRef<'div'> & {
     title: string;
     href: string;
     image?: string;
     description?: string;
     size?: 'sm' | 'md';
-}
+};
 
 const HorizontalContentCard = forwardRef<HTMLDivElement, Props>(
     (

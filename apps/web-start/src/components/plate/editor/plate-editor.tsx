@@ -75,7 +75,7 @@ export function EditorPreview({
     );
 }
 
-export interface PlateMarkdownEditorProps {
+export type PlateMarkdownEditorProps = {
     value?: string;
     children?: React.ReactNode;
     className?: string;
@@ -86,7 +86,7 @@ export interface PlateMarkdownEditorProps {
     modalButtonTitle?: string;
     modalEditButtonTitle?: string;
     onValueChange?: (value: string) => void;
-}
+};
 
 export function PlateMarkdownEditor({
     value,
@@ -181,13 +181,13 @@ export function PlateMarkdownEditor({
     );
 }
 
-export interface ArticlePlateEditorProps {
+export type ArticlePlateEditorProps = {
     value?: Value;
     children?: React.ReactNode;
     className?: string;
     placeholder?: string;
     onValueChange?: (value: Value) => void;
-}
+};
 
 export function ArticlePlateEditor({
     value,

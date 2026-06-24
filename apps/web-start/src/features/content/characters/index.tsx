@@ -11,13 +11,13 @@ import { useParams } from '@/utils/navigation';
 import MainCharacters from './components/main-characters';
 import OtherCharacters from './components/other-characters';
 
-interface Props {
+type Props = {
     extended?: boolean;
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const Characters: FC<Props> = ({ extended, content_type }) => {
     const params = useParams();

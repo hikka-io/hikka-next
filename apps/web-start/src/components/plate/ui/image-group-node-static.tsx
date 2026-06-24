@@ -7,9 +7,9 @@ import 'react-photo-view/dist/react-photo-view.css';
 
 import { cn } from '@/utils/cn';
 
-export interface ImageGroupElementStaticProps extends SlateElementProps {
+export type ImageGroupElementStaticProps = SlateElementProps & {
     className?: string;
-}
+};
 
 export function ImageGroupElementStatic({
     children,

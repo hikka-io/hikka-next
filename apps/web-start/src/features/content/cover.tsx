@@ -6,12 +6,12 @@ import ContentCard from '@/components/content-card/content-card';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const Cover = ({ content_type }: Props) => {
     const params = useParams();

@@ -17,9 +17,9 @@ import { cn } from '@/utils/cn';
 
 import SortableCard from './components/sortable-card';
 
-interface Props {
+type Props = {
     group: Group;
-}
+};
 
 const CollectionGrid: FC<Props> = ({ group }) => {
     // Subscribe to only this group's items — Zustand skips re-render

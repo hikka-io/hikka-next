@@ -134,12 +134,12 @@ function hasActiveFilters(value: FeedSubTypeFilters): boolean {
     );
 }
 
-interface SwitchRowProps {
+type SwitchRowProps = {
     label: string;
     checked: boolean;
     onCheckedChange: (checked: boolean) => void;
     disabled?: boolean;
-}
+};
 
 const SwitchRow: FC<SwitchRowProps> = ({
     label,
@@ -164,12 +164,12 @@ const SwitchRow: FC<SwitchRowProps> = ({
     );
 };
 
-interface SectionProps {
+type SectionProps = {
     title: string;
     enabled: boolean;
     onToggle: (enabled: boolean) => void;
     children: React.ReactNode;
-}
+};
 
 const Section: FC<SectionProps> = ({ title, enabled, onToggle, children }) => {
     const id = useId();
@@ -194,10 +194,10 @@ const Section: FC<SectionProps> = ({ title, enabled, onToggle, children }) => {
     );
 };
 
-interface SubSectionProps {
+type SubSectionProps = {
     title: string;
     children: React.ReactNode;
-}
+};
 
 const SubSection: FC<SubSectionProps> = ({ title, children }) => (
     <div className="flex flex-col gap-4">

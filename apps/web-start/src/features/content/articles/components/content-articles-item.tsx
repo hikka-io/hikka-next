@@ -14,10 +14,10 @@ import {
 } from '@/components/ui/horizontal-card';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
-interface Props {
+type Props = {
     article: ArticleBaseResponse;
     className?: string;
-}
+};
 
 const ContentArticlesItem: FC<Props> = ({ article, className }) => {
     return (

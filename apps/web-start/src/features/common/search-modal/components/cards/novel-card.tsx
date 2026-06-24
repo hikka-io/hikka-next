@@ -13,11 +13,11 @@ import { cn } from '@/utils/cn';
 import { NOVEL_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     novel: NovelResponse;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
-}
+};
 
 const NovelCard = ({ novel, onClick, type }: Props) => {
     const Comp = type === 'button' ? 'button' : Link;

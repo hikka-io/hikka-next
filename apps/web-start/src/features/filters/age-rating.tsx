@@ -16,9 +16,9 @@ import { AGE_RATING } from '@/utils/constants/common';
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const AgeRating: FC<Props> = () => {
     const { ratings = [] } = useFilterSearch<{ ratings?: string[] }>();

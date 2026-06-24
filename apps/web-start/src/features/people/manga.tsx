@@ -9,9 +9,9 @@ import MangaCard from '@/components/content-card/manga-card';
 import AppearanceGrid from '@/features/common/appearance-grid';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     extended?: boolean;
-}
+};
 
 const Manga: FC<Props> = ({ extended }) => {
     const params = useParams();

@@ -5,9 +5,9 @@ import type { MainContent } from '@hikka/client';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
-interface Props {
+type Props = {
     content: MainContent;
-}
+};
 
 const Details: FC<Props> = ({ content }) => {
     const title_ua = 'title_ua' in content ? content.title_ua : content.name_ua;

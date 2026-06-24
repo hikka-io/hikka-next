@@ -4,9 +4,9 @@ import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/Mate
 import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 
-interface Props {
+type Props = {
     score: number;
-}
+};
 
 const ScoreCell: FC<Props> = ({ score }) => (
     <TableCell className="w-4 text-center" align="right">

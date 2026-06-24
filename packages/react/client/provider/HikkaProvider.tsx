@@ -21,14 +21,14 @@ export type DefaultOptions = {
     name?: NameLanguage;
 };
 
-export interface HikkaProviderProps {
+export type HikkaProviderProps = {
     children: ReactNode;
     clientConfig?: HikkaClientConfig;
     client?: HikkaClient;
     queryClient?: QueryClient;
     queryClientConfig?: QueryClientConfig;
     defaultOptions?: DefaultOptions;
-}
+};
 
 export interface HikkaProviderValue {
     defaultOptions?: DefaultOptions;

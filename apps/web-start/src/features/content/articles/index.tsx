@@ -23,9 +23,9 @@ import { useParams } from '@/utils/navigation';
 import ContentNewsItem from './components/content-articles-item';
 import ContentNewsModal from './components/content-articles-modal';
 
-interface Props {
+type Props = {
     content_type: ArticleContentType;
-}
+};
 
 const ContentArticles: FC<Props> = ({ content_type }) => {
     const params = useParams();

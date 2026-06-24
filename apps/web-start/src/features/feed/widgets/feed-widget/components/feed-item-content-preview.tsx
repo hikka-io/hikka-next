@@ -7,11 +7,11 @@ import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     contentType?: ContentTypeEnum;
     slug?: string;
     title?: string;
-}
+};
 
 const FeedItemContentPreview: FC<Props> = ({ contentType, slug, title }) => {
     if (!contentType || !slug) return null;

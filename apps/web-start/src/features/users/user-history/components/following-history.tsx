@@ -12,9 +12,9 @@ import Stack from '@/components/ui/stack';
 
 import HistoryItem from './history-item';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const FollowingHistory: FC<Props> = ({ className }) => {
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =

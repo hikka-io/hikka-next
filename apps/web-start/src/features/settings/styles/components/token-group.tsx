@@ -6,13 +6,13 @@ import { Label } from '@/components/ui/label';
 
 import ColorTokenButton from './color-token-button';
 
-interface TokenGroupProps {
+type TokenGroupProps = {
     title: string;
     tokens: (keyof UIColorTokens)[];
     keyPrefix: string;
     getColor: (token: keyof UIColorTokens) => HSLColor | undefined;
     onColorChange: (token: keyof UIColorTokens, color: HSLColor) => void;
-}
+};
 
 const TokenGroup = ({
     title,

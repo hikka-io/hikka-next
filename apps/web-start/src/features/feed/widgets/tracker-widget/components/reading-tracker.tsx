@@ -65,9 +65,9 @@ const CONTENT_TYPE_CONFIG = {
     },
 } as const;
 
-interface ReadingTrackerProps {
+type ReadingTrackerProps = {
     contentType: ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL;
-}
+};
 
 const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const router = useRouter();

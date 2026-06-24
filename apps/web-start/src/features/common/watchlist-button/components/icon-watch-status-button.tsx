@@ -15,7 +15,7 @@ import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
-interface IconWatchStatusButtonProps extends ButtonProps {
+type IconWatchStatusButtonProps = ButtonProps & {
     watch?: WatchResponse | WatchResponseBase;
     disabled?: boolean;
     size?: 'icon-sm' | 'icon-md';
@@ -23,7 +23,7 @@ interface IconWatchStatusButtonProps extends ButtonProps {
     anime?: AnimeResponse;
     isLoading?: boolean;
     onOpenModal?: () => void;
-}
+};
 
 const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
     watch,

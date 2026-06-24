@@ -13,12 +13,12 @@ import {
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { Link, usePathname } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     routes: Hikka.NavRoute[];
     urlPrefix: string;
     showOnMobile?: boolean;
     isEqualPath?: boolean;
-}
+};
 
 const NavDropdown: FC<Props> = ({
     routes,

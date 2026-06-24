@@ -16,9 +16,9 @@ import { cn } from '@/utils/cn';
 import FilterPresetEditModal from './filter-preset-edit-modal';
 import FilterPresetModal from './filter-preset-edit-modal/filter-preset-modal';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const FilterPresetButton: FC<Props> = ({ className }) => {
     const [presetsOpen, setPresetsOpen] = useState(false);

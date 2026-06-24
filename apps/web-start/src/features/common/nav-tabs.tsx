@@ -6,10 +6,10 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link, usePathname } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     routes: Hikka.NavRoute[];
     urlPrefix: string;
-}
+};
 
 const Component = ({ routes, urlPrefix }: Props) => {
     const pathname = usePathname();

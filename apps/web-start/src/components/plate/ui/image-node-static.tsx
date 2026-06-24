@@ -7,10 +7,9 @@ import { cn } from '@/utils/cn';
 
 import type { TImageElement } from '../editor/plugins/image-kit';
 
-export interface ImageElementStaticProps
-    extends SlateElementProps<TImageElement> {
+export type ImageElementStaticProps = SlateElementProps<TImageElement> & {
     className?: string;
-}
+};
 
 export function ImageElementStatic({
     className,

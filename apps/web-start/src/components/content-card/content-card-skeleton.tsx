@@ -3,9 +3,9 @@ import type { FC } from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Skeleton } from '@/components/ui/skeleton';
 
-interface Props {
+type Props = {
     hasTitle?: boolean;
-}
+};
 
 const ContentCardSkeleton: FC<Props> = ({ hasTitle = true }) => {
     return (

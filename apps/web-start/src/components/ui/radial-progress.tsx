@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     className?: string;
     thickness?: number;
     radius?: number;
@@ -9,7 +9,7 @@ interface Props {
     style?: React.CSSProperties;
     role?: string;
     containerClassName?: string;
-}
+};
 
 const Component = ({
     className,

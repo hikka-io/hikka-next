@@ -14,7 +14,7 @@ const YEARS: [number, number] = [1965, new Date().getFullYear()];
 const DEFAULT_YEAR_START = YEARS[0].toString();
 const DEFAULT_YEAR_END = YEARS[1].toString();
 
-interface YearFilterInputProps {
+type YearFilterInputProps = {
     years: string[];
     setSelectingYears: (years: string[]) => void;
     handleChangeParam: (
@@ -22,7 +22,7 @@ interface YearFilterInputProps {
         value: string | string[] | boolean,
     ) => void;
     range: RANGE;
-}
+};
 
 const YearFilterInput: FC<YearFilterInputProps> = ({
     years,

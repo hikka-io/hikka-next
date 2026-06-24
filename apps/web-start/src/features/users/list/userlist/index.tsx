@@ -20,13 +20,13 @@ import TableView from './components/table-view';
 import { useReadList } from './hooks/use-readlist';
 import { useWatchList } from './hooks/use-watchlist';
 
-interface Props {
+type Props = {
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
     extendedSize?: StackSize;
-}
+};
 
 const List: FC<Props> = ({ content_type, extendedSize }) => {
     const search = useFilterSearch<{ status?: string }>();

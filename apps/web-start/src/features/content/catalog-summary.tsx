@@ -6,11 +6,11 @@ import { cn } from '@/utils/cn';
 
 import ActiveFilters, { useActiveFilters } from './active-filters';
 
-interface Props {
+type Props = {
     total?: number;
     isLoading: boolean;
     className?: string;
-}
+};
 
 /**
  * Generic catalog summary: "Знайдено N результатів" + optional active filter chips.

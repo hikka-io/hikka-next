@@ -38,7 +38,7 @@ import IconWatchStatusButton from './components/icon-watch-status-button';
 import NewStatusTrigger from './components/new-status-trigger';
 import WatchStatusTrigger from './components/watch-status-trigger';
 
-interface Props {
+type Props = {
     slug: string;
     additional?: boolean;
     disabled?: boolean;
@@ -46,7 +46,7 @@ interface Props {
     anime?: AnimeResponse;
     size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
     buttonProps?: ButtonProps;
-}
+};
 
 const SETTINGS_BUTTON = {
     label: (

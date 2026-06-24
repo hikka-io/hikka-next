@@ -66,9 +66,9 @@ const READLIST_CONFIG: Record<
     },
 };
 
-interface Props {
+type Props = {
     contentType: ReadContentType;
-}
+};
 
 const ReadlistWidget: React.FC<Props> = ({ contentType }) => {
     const config = READLIST_CONFIG[contentType];

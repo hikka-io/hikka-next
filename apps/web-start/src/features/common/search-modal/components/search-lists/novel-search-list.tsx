@@ -13,11 +13,11 @@ import NovelCard from '../cards/novel-card';
 import SearchPlaceholders from '../search-placeholders';
 import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
-interface Props {
+type Props = {
     onDismiss: (novel: NovelResponse) => void;
     type?: 'link' | 'button';
     value?: string;
-}
+};
 
 const NovelSearchList = ({ onDismiss, type, value }: Props) => {
     const router = useRouter();

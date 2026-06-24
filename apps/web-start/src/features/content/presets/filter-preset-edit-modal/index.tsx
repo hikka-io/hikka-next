@@ -67,11 +67,11 @@ const DEFAULT_VALUES = {
 const arraysEqual = (a: unknown[] | undefined, b: unknown[] | undefined) =>
     JSON.stringify(a) === JSON.stringify(b);
 
-interface Props {
+type Props = {
     filterPreset?: Hikka.FilterPreset;
     onClose?: () => void;
     onBack?: () => void;
-}
+};
 
 const Component = ({ filterPreset, onClose, onBack }: Props) => {
     const { filterPresets, setFilterPresets } = useSettingsStore();

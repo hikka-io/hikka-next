@@ -23,9 +23,9 @@ import {
 } from '@/components/ui/select';
 import Stack from '@/components/ui/stack';
 
-interface Props {
+type Props = {
     extended?: boolean;
-}
+};
 
 const OPTIONS = [
     { value: 'title_ua', label: 'Аніме без назв' },

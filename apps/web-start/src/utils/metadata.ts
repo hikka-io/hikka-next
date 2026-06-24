@@ -37,7 +37,7 @@ type TemplateString = {
 /**
  * Extended metadata properties interface
  */
-interface MetadataProps {
+type MetadataProps = {
     title?: string | TemplateString | null;
     description?: string | null;
     images?: OGImage | OGImage[];
@@ -46,7 +46,7 @@ interface MetadataProps {
     openGraph?: Record<string, any>;
     twitter?: Record<string, any>;
     [key: string]: any;
-}
+};
 
 type Metadata = Record<string, any>;
 
@@ -97,7 +97,7 @@ const generateMetadata = ({
     };
 };
 
-interface HeadMetaProps {
+type HeadMetaProps = {
     title: string | TemplateString;
     description?: string | null;
     image?: string | null;
@@ -110,7 +110,7 @@ interface HeadMetaProps {
     openGraph?: { type?: string; authors?: string[] };
     canonical?: string;
     keywords?: string;
-}
+};
 
 function resolveTitle(title: string | TemplateString): string {
     const base = typeof title === 'string' ? title : title.default;

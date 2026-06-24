@@ -27,7 +27,7 @@ import { WatchEditModal } from '@/features/watch';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     number: number;
     content: MangaResponse | NovelResponse | AnimeResponse;
     content_type:
@@ -35,7 +35,7 @@ interface Props {
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
     record?: ReadResponseBase | WatchResponseBase;
-}
+};
 
 const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
     const params = useParams();

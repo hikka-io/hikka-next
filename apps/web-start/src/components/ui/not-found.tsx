@@ -4,10 +4,10 @@ import type { PropsWithChildren, ReactNode } from 'react';
 
 import MaterialSymbolsFeatureSearch from '../icons/material-symbols/MaterialSymbolsFeatureSearch';
 
-interface Props extends PropsWithChildren {
+type Props = PropsWithChildren & {
     title: string | ReactNode;
     description?: string | ReactNode;
-}
+};
 
 const Component = ({ title, description, children }: Props) => {
     return (

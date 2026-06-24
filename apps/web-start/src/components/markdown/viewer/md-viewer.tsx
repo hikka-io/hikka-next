@@ -13,10 +13,10 @@ import NoSpoiler from './components/no-spoiler';
 import remarkDisableTokenizer from './plugins/remark-disable-tokenizer';
 import remarkMentions from './plugins/remark-mentions';
 
-interface Props extends Options {
+type Props = Options & {
     preview?: boolean;
     className?: string;
-}
+};
 
 type CustomComponents = Components & {
     spoiler: React.ComponentType<any>;

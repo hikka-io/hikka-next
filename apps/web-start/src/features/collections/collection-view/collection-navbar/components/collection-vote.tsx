@@ -12,9 +12,9 @@ import { buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import VoteButton from '@/features/common/vote-button';
 
-interface Props {
+type Props = {
     collection: CollectionResponse<CollectionContent>;
-}
+};
 
 const CollectionVote: FC<Props> = ({ collection }) => {
     return (

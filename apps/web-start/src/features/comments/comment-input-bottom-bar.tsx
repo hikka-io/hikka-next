@@ -17,14 +17,14 @@ import { useCommentsContext } from '@/services/providers/comments-provider';
 import { MAX_COMMENT_DEPTH } from '@/utils/constants/common';
 import { removeEmptyTextNodes } from '@/utils/plate';
 
-interface Props {
+type Props = {
     slug: string;
     content_type: CommentsContentType;
     comment?: CommentResponse;
     className?: string;
     isEdit?: boolean;
     onClose?: () => void;
-}
+};
 
 const CommentInputBottomBar: FC<Props> = ({
     comment,

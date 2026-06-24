@@ -158,11 +158,11 @@ function VersionHistoryPlate({
     );
 }
 
-interface DiffProps {
+type DiffProps = {
     current: string;
     previous: string;
     className?: string;
-}
+};
 
 export function DiffViewer({ current, previous, className }: DiffProps) {
     const diffValue = React.useMemo(() => {

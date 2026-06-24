@@ -116,9 +116,9 @@ export function useStylesEditorHistory() {
     return useTemporalHistory(store);
 }
 
-interface Props {
+type Props = {
     onClose?: () => void;
-}
+};
 
 const CustomColorsModal = ({ onClose }: Props) => {
     const { resolvedTheme } = useTheme();

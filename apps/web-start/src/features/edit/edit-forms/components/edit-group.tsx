@@ -13,11 +13,11 @@ import {
 } from '@/components/ui/collapsible';
 import { getEditParamComponent } from '@/features/edit/edit-forms/utils/edit-param-utils';
 
-interface Props {
+type Props = {
     title: string;
     params: Hikka.EditParam[];
     mode: 'view' | 'edit' | 'update';
-}
+};
 
 const EditGroup: FC<Props> = ({ title, params, mode }) => {
     const [selected, setSelected] = React.useState<string[]>([]);

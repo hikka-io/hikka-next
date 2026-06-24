@@ -60,10 +60,10 @@ function getExtraInfo(item: FeedItemResponse): string | undefined {
     return undefined;
 }
 
-interface Props {
+type Props = {
     item: FeedItemResponse;
     showTypeLabel?: boolean;
-}
+};
 
 const FeedItem: FC<Props> = ({ item, showTypeLabel }) => {
     const stats = getStats(item);

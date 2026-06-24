@@ -9,13 +9,13 @@ import ContentCard from '../content-card';
 import HoverCardWrapper from './hover-card-wrapper';
 import { CharacterTooltipSkeleton } from './tooltip-skeleton';
 
-interface TooltipDataProps {
+type TooltipDataProps = {
     slug: string;
-}
+};
 
-interface Props extends PropsWithChildren {
+type Props = PropsWithChildren & {
     slug?: string;
-}
+};
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     const { data } = useCharacterBySlug({ slug });

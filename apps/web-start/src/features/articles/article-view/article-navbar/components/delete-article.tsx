@@ -22,9 +22,9 @@ import {
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { useRouter } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     article: ArticleBaseResponse;
-}
+};
 
 const DeleteArticle: FC<Props> = ({ article }) => {
     const router = useRouter();

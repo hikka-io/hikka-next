@@ -14,9 +14,9 @@ import Author from '@/features/articles/article-item/article-author';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     article: ArticlePreviewResponse;
-}
+};
 
 const ArticleCard: FC<Props> = ({ article }) => {
     const document = article.preview;

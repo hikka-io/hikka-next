@@ -17,7 +17,7 @@ import PersonDetails from './components/person-details';
 import ReadDetails from './components/read-details';
 import WatchDetails from './components/watch-details';
 
-interface Props {
+type Props = {
     className?: string;
     content_type:
         | ContentTypeEnum.ANIME
@@ -25,7 +25,7 @@ interface Props {
         | ContentTypeEnum.NOVEL
         | ContentTypeEnum.CHARACTER
         | ContentTypeEnum.PERSON;
-}
+};
 
 const Details = ({ className, content_type }: Props) => {
     const params = useParams();

@@ -3,13 +3,13 @@ import type { FC, ReactNode } from 'react';
 import { TableHead } from '@/components/ui/table';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     children: ReactNode;
     active: boolean;
     order: 'asc' | 'desc' | null;
     onSort: () => void;
     className?: string;
-}
+};
 
 const SortableHead: FC<Props> = ({
     children,

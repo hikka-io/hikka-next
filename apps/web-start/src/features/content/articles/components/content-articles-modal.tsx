@@ -10,9 +10,9 @@ import { useParams } from '@/utils/navigation';
 
 import ContentArticlesItem from './content-articles-item';
 
-interface Props {
+type Props = {
     content_type: ArticleContentType;
-}
+};
 
 const ContentArticlesModal: FC<Props> = ({ content_type }) => {
     const params = useParams();

@@ -12,7 +12,7 @@ import {
 import MaterialSymbolsStarOutlineRounded from '../icons/material-symbols/MaterialSymbolsStarOutlineRounded';
 import MaterialSymbolsStarRounded from '../icons/material-symbols/MaterialSymbolsStarRounded';
 
-interface Props {
+type Props = {
     value: number;
     onChange?: (value: number) => void;
     precision?: number;
@@ -22,7 +22,7 @@ interface Props {
     disabled?: boolean;
     ariaLabel?: string;
     preview?: boolean;
-}
+};
 
 const Rating = ({
     onChange,

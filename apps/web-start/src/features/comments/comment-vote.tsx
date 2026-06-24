@@ -6,9 +6,9 @@ import { type CommentResponse, ContentTypeEnum } from '@hikka/client';
 
 import VoteButton from '@/features/common/vote-button';
 
-interface Props {
+type Props = {
     comment: CommentResponse;
-}
+};
 
 const CommentVote: FC<Props> = ({ comment }) => {
     return (

@@ -20,11 +20,11 @@ import {
     type TImageGroupElement,
 } from '../editor/plugins/image-group-kit';
 
-interface ImageGroupAddImageProps {
+type ImageGroupAddImageProps = {
     element?: TImageGroupElement;
     editor: PlateEditor;
     children?: ReactElement<React.InputHTMLAttributes<HTMLInputElement>>;
-}
+};
 
 export const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
     element,

@@ -314,10 +314,9 @@ Select.displayName = 'Select';
 
 type SelectTriggerElement = React.ComponentRef<typeof Primitive.div>;
 
-interface SelectTriggerProps
-    extends PrimitivePropsWithRef<typeof Primitive.div> {
+type SelectTriggerProps = PrimitivePropsWithRef<typeof Primitive.div> & {
     size?: VariantProps<typeof buttonVariants>['size'];
-}
+};
 
 const PreventClick = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
@@ -392,11 +391,11 @@ const SelectIcon: FC<PrimitivePropsWithRef<'svg'>> = ({
 
 SelectIcon.displayName = 'SelectIcon';
 
-interface SelectValueProps extends PrimitivePropsWithRef<typeof Primitive.div> {
+type SelectValueProps = PrimitivePropsWithRef<typeof Primitive.div> & {
     placeholder?: string;
     maxDisplay?: number;
     maxItemLength?: number;
-}
+};
 
 const SelectValue = React.forwardRef<
     React.ComponentRef<typeof Primitive.div>,
@@ -563,8 +562,9 @@ const SelectList = React.forwardRef<
 
 SelectList.displayName = 'SelectList';
 
-interface SelectContentProps
-    extends PrimitivePropsWithRef<typeof PopoverPrimitive.Content> {}
+type SelectContentProps = PrimitivePropsWithRef<
+    typeof PopoverPrimitive.Content
+>;
 
 const SelectContent = React.forwardRef<
     React.ComponentRef<typeof PopoverPrimitive.Content>,

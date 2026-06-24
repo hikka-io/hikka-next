@@ -11,13 +11,13 @@ import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
-interface WatchStatusTriggerProps {
+type WatchStatusTriggerProps = {
     watch: WatchResponse | WatchResponseBase;
     disabled?: boolean;
     size?: 'sm' | 'md';
     isLoading?: boolean;
     onOpenModal?: () => void;
-}
+};
 
 const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
     watch,

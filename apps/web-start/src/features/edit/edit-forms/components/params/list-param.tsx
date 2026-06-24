@@ -9,10 +9,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-interface Props {
+type Props = {
     param: Hikka.EditParam;
     mode: 'edit' | 'view';
-}
+};
 
 const ListParam: FC<Props> = ({ param, mode }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

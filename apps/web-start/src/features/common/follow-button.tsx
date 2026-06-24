@@ -19,13 +19,13 @@ import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     className?: string;
     username?: string;
     user?: UserResponse;
     iconOnly?: boolean;
     size?: VariantProps<typeof buttonVariants>['size'];
-}
+};
 
 const FollowButton: FC<Props> = ({
     className,

@@ -15,11 +15,11 @@ import Spinner from '@/components/ui/spinner';
 
 import FoundList from '../components/found-list';
 
-interface Props {
+type Props = {
     readList: ImportReadArgs[];
     setReadList: Dispatch<SetStateAction<ImportReadArgs[]>>;
     importing: boolean;
-}
+};
 
 const Component = ({ readList, setReadList, importing }: Props) => {
     const [aniListUsername, setAniListUsername] = useState('');

@@ -11,12 +11,12 @@ import { useParams } from '@/utils/navigation';
 
 import UserContentStats from './components/user-content-stats';
 
-interface Props {
+type Props = {
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const Actions: FC<Props> = ({ content_type }) => {
     const params = useParams();

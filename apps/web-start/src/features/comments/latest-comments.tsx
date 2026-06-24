@@ -14,9 +14,9 @@ import Stack from '@/components/ui/stack';
 import GlobalComment from '@/features/comments/global-comment';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const Comments: FC<Props> = ({ className }) => {
     const { list, hasNextPage, ref, isFetchingNextPage, fetchNextPage } =

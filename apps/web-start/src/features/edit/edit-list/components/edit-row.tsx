@@ -17,9 +17,9 @@ import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useRouter } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     edit: EditResponse;
-}
+};
 
 const EditRow: FC<Props> = ({ edit }) => {
     const router = useRouter();

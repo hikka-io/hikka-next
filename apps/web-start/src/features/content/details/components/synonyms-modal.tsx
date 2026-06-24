@@ -7,12 +7,12 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 
-interface Props {
+type Props = {
     synonyms: string[];
     open: boolean;
     onOpenChange: (open: boolean) => void;
     description?: string;
-}
+};
 
 const SynonymsModal: FC<Props> = ({
     synonyms,

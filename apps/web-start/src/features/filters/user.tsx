@@ -22,11 +22,11 @@ import {
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
     paramKey: string;
     title: string;
-}
+};
 
 const User: FC<Props> = ({ paramKey, title }) => {
     const search = useFilterSearch();

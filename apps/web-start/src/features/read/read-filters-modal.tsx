@@ -15,12 +15,12 @@ import {
     readPresetContentType,
 } from '@/features/read/read-filters';
 
-interface Props {
+type Props = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     content_type: ReadContentType;
     sort_type: 'manga' | 'novel' | 'read';
-}
+};
 
 /**
  * Controlled modal wrapper for the read filters. Responsive: Dialog on

@@ -15,9 +15,9 @@ import { useSettingsStore } from '@/services/stores/settings-store';
 
 import TagsModal from './tags-modal';
 
-interface Props {
+type Props = {
     mode: 'edit' | 'view';
-}
+};
 
 const EditDescription: FC<Props> = ({ mode }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

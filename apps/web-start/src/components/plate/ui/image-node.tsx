@@ -9,9 +9,9 @@ import { cn } from '@/utils/cn';
 
 import type { TImageElement } from '../editor/plugins/image-kit';
 
-export interface ImageElementProps extends PlateElementProps<TImageElement> {
+export type ImageElementProps = PlateElementProps<TImageElement> & {
     className?: string;
-}
+};
 
 export function ImageElement({ className, ...props }: ImageElementProps) {
     const { children, element, editor } = props;

@@ -27,9 +27,9 @@ import { getCurrentSeason } from '@/utils/season';
 
 const YEARS = range(2023, new Date().getFullYear() + 1).reverse();
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 interface ScheduleSearch extends Record<string, unknown> {
     only_watch?: boolean | string;

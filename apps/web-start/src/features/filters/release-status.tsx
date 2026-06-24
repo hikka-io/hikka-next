@@ -16,9 +16,9 @@ import { RELEASE_STATUS } from '@/utils/constants/common';
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const ReleaseStatus: FC<Props> = () => {
     const { statuses = [] } = useFilterSearch<{ statuses?: string[] }>();

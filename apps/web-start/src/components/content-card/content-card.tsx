@@ -40,14 +40,14 @@ import {
 } from './tooltips';
 
 // Types
-interface ImageProps {
+type ImageProps = {
     priority?: boolean;
     loading?: 'lazy' | 'eager';
     alt?: string;
     width?: number;
     height?: number;
     sizes?: string;
-}
+};
 
 const contentCardVariants = cva('group relative flex w-full flex-col gap-2', {
     variants: {
@@ -61,8 +61,7 @@ const contentCardVariants = cva('group relative flex w-full flex-col gap-2', {
     },
 });
 
-export interface ContentCardProps
-    extends VariantProps<typeof contentCardVariants> {
+export type ContentCardProps = VariantProps<typeof contentCardVariants> & {
     target?: string;
     title?: string | null;
     description?: string | null;
@@ -88,15 +87,15 @@ export interface ContentCardProps
     imagePreset?: ImagePreset;
     linkProps?: Record<string, any>;
     statusSize?: 'default' | 'sm';
-}
+};
 
-export interface TooltipProps {
+export type TooltipProps = {
     children: ReactNode;
     content_type?: ContentTypeEnum;
     slug?: string;
     watch?: WatchResponseBase;
     read?: ReadResponseBase;
-}
+};
 
 // Constants
 export const DEFAULT_CONTAINER_RATIO = 0.7;

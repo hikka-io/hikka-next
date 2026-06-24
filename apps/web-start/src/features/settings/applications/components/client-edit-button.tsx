@@ -15,9 +15,9 @@ import {
 } from '@/components/ui/responsive-modal';
 import { ClientEditModal } from '@/features/oauth';
 
-interface Props {
+type Props = {
     client: ClientResponse;
-}
+};
 
 const ClientEditButton: FC<Props> = ({ client }) => {
     const { user: loggedUser } = useSession();

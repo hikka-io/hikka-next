@@ -26,9 +26,9 @@ import { Link, useParams } from '@/utils/navigation';
 
 import ActivityModal from './components/history-modal';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const History: FC<Props> = ({ className }) => {
     const params = useParams();

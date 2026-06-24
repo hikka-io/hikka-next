@@ -9,14 +9,14 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-export interface BadgeFilterProps {
+export type BadgeFilterProps = {
     property: string;
     title?: string;
     properties: Hikka.FilterProperty<string> | string[];
     selected: string[];
     disabled?: boolean;
     onParamChange: (key: string, value: string | string[]) => void;
-}
+};
 
 export const BadgeFilter: FC<BadgeFilterProps> = ({
     title,

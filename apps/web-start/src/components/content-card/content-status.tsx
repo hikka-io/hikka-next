@@ -2,11 +2,11 @@ import { type ComponentType, createElement, type FC } from 'react';
 
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     status: string;
     icon: ComponentType;
     size?: 'default' | 'sm';
-}
+};
 
 const ContentStatus: FC<Props> = ({ status, icon, size = 'default' }) => (
     <div className="absolute top-0 left-0 isolate w-full">

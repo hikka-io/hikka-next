@@ -10,7 +10,7 @@ import { Link } from '@/utils/navigation';
 
 import NsfwOverlay from './nsfw-overlay';
 
-interface Props extends PropsWithChildren {
+type Props = PropsWithChildren & {
     slug: string;
     contentType:
         | ContentTypeEnum.ANIME
@@ -24,7 +24,7 @@ interface Props extends PropsWithChildren {
     status?: string | null;
     nsfw?: boolean;
     nsfwConsented?: boolean;
-}
+};
 
 const ContentDetailLayout: FC<Props> = ({
     slug,

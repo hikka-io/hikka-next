@@ -16,9 +16,9 @@ import { Link } from '@/utils/navigation';
 
 import DeleteArticle from './delete-article';
 
-interface Props {
+type Props = {
     article: ArticleBaseResponse;
-}
+};
 
 const ArticleMenu: FC<Props> = ({ article }) => {
     return (

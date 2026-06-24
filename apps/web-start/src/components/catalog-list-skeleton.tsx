@@ -5,9 +5,9 @@ import { range } from '@antfu/utils';
 import SkeletonCard from '@/components/content-card/content-card-skeleton';
 import Stack, { type StackSize } from '@/components/ui/stack';
 
-interface Props {
+type Props = {
     extendedSize?: StackSize;
-}
+};
 
 const CatalogListSkeleton: FC<Props> = ({ extendedSize = 5 }) => {
     return (

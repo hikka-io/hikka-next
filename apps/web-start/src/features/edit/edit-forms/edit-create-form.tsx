@@ -22,12 +22,12 @@ import {
     getFilteredEditParams,
 } from './utils/edit-param-utils';
 
-interface Props {
+type Props = {
     slug: string;
     content_type: EditContentType;
     mode?: 'view' | 'edit';
     content: MainContent;
-}
+};
 
 const EditForm: FC<Props> = ({
     slug,

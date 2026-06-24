@@ -17,11 +17,11 @@ import { cn } from '@/utils/cn';
 import { getImage } from '@/utils/image';
 import { useRouter } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     file?: File;
     type: ImageType;
     onClose?: () => void;
-}
+};
 
 const CROP_PARAMS = {
     cover: {

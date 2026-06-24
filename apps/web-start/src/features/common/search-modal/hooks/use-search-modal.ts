@@ -7,13 +7,13 @@ import { usePathname } from '@/utils/navigation';
 
 import type { SearchTypeValue } from '../types';
 
-interface Props {
+type Props = {
     open: boolean;
     onClick?: (anime: AnimeResponse) => void;
     setOpen: Dispatch<SetStateAction<boolean>>;
     setSearchType?: Dispatch<SetStateAction<SearchTypeValue>>;
     content_type?: ContentTypeEnum;
-}
+};
 
 const ALLOWED_SEARCH_TYPES: ContentTypeEnum[] = [
     ContentTypeEnum.ANIME,

@@ -15,12 +15,14 @@ import {
 
 import { useFieldContext } from './form-context';
 
-export interface BadgeFilterFieldProps
-    extends Omit<BadgeFilterProps, 'onParamChange' | 'selected'> {
+export type BadgeFilterFieldProps = Omit<
+    BadgeFilterProps,
+    'onParamChange' | 'selected'
+> & {
     label?: string;
     description?: string;
     className?: string;
-}
+};
 
 export const BadgeFilterField: FC<BadgeFilterFieldProps> = ({
     label,

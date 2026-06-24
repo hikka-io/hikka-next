@@ -2,9 +2,9 @@ import type { FC } from 'react';
 
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     scope: Hikka.Scope;
-}
+};
 
 const Scope: FC<Props> = ({ scope }) => {
     if (!scope) return null;

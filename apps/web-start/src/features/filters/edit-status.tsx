@@ -21,9 +21,9 @@ import { EDIT_STATUS } from '@/utils/constants/edit';
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const EditStatus: FC<Props> = () => {
     const { edit_status } = useFilterSearch<{ edit_status?: string }>();

@@ -16,9 +16,9 @@ import NotFound from '@/components/ui/not-found';
 import HistoryItem from '@/features/users/user-history/components/history-item';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const History: FC<Props> = ({ className }) => {
     const { user } = useSession();

@@ -16,12 +16,12 @@ import Link from '@/components/ui/link';
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 
-interface Props {
+type Props = {
     onClose?: () => void;
     onCreatePreset?: () => void;
     onEditPreset?: (preset: Hikka.FilterPreset) => void;
     onCreateFromCurrent?: (filters: Partial<Hikka.FilterPreset>) => void;
-}
+};
 
 const FilterPresetModal: FC<Props> = ({
     onClose,

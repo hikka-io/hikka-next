@@ -13,14 +13,14 @@ import MangaCard from '@/components/content-card/manga-card';
 import NovelCard from '@/components/content-card/novel-card';
 import Stack, { type StackSize } from '@/components/ui/stack';
 
-interface Props {
+type Props = {
     data: ReadResponse[] | WatchResponse[];
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
     extendedSize?: StackSize;
-}
+};
 
 const GridView: FC<Props> = ({ data, content_type, extendedSize = 5 }) => {
     return (

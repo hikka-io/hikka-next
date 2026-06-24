@@ -19,13 +19,13 @@ import {
 } from '@/components/ui/horizontal-card';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
-interface Props {
+type Props = {
     data: {
         type: 'read' | 'watch';
         content: ReadResponseBase[] | WatchResponseBase[];
     } & UserResponse;
     className?: string;
-}
+};
 
 const FollowingItem: FC<Props> = ({ data, className }) => {
     const status =

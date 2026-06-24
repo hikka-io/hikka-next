@@ -2,13 +2,13 @@ import { ContentTypeEnum } from '@hikka/client';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 
-interface StaffProps {
+type StaffProps = {
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
     slug: string;
-}
+};
 
 export const useStaff = ({ content_type, slug }: StaffProps) => {
     if (content_type === ContentTypeEnum.ANIME) {

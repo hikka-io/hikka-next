@@ -79,7 +79,7 @@ interface SelectedState {
     actionUnit: string;
 }
 
-interface Props {
+type Props = {
     isLoading: boolean;
     isEmpty: boolean;
     emptyTitle: ReactNode;
@@ -92,7 +92,7 @@ interface Props {
     onOpenSettings: () => void;
     /** The content-type-specific edit modal, rendered as-is. */
     modal?: ReactNode;
-}
+};
 
 /**
  * Shared presentational shell for the home "in progress" widgets

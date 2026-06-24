@@ -16,10 +16,10 @@ import { Link } from '@/utils/navigation';
 
 import Author from './article-author';
 
-interface Props {
+type Props = {
     article: ArticlePreviewResponse;
     className?: string;
-}
+};
 
 const ArticleItem: FC<Props> = ({ article, className }) => {
     const contentTitle = useTitle(

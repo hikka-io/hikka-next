@@ -8,13 +8,13 @@ import { Link } from '@/utils/navigation';
 import { MaterialSymbolsArrowRightAltRounded } from '../icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import { Button } from './button';
 
-interface HorizontalCardContextProps {
+type HorizontalCardContextProps = {
     href?: string;
     to?: string;
     search?: Record<string, unknown>;
     onClick?: () => void;
     linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
-}
+};
 
 const HeaderContext = React.createContext<
     HorizontalCardContextProps | undefined
@@ -30,7 +30,7 @@ const useHeader = () => {
     return context;
 };
 
-interface HeaderProps {
+type HeaderProps = {
     className?: string;
     href?: string;
     to?: string;
@@ -38,7 +38,7 @@ interface HeaderProps {
     linkProps?: Partial<React.AnchorHTMLAttributes<HTMLAnchorElement>>;
     onClick?: () => void;
     id?: string;
-}
+};
 
 const Header: FC<PropsWithChildren<HeaderProps>> = ({
     className,
@@ -75,9 +75,9 @@ const Header: FC<PropsWithChildren<HeaderProps>> = ({
     );
 };
 
-interface HeaderContainerProps {
+type HeaderContainerProps = {
     className?: string;
-}
+};
 
 const HeaderContainer: FC<PropsWithChildren<HeaderContainerProps>> = ({
     className,
@@ -90,12 +90,12 @@ const HeaderContainer: FC<PropsWithChildren<HeaderContainerProps>> = ({
     );
 };
 
-interface HeaderTitleProps {
+type HeaderTitleProps = {
     className?: string;
     variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
     href?: string;
     to?: string;
-}
+};
 
 const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     className,
@@ -132,11 +132,11 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     );
 };
 
-interface HeaderDescriptionProps {
+type HeaderDescriptionProps = {
     className?: string;
     variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
     href?: string;
-}
+};
 
 const HeaderDescription: FC<PropsWithChildren<HeaderDescriptionProps>> = ({
     className,

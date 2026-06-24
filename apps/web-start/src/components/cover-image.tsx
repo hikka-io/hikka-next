@@ -5,10 +5,10 @@ import type { FC } from 'react';
 import Image from '@/components/ui/image';
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 
-interface Props {
+type Props = {
     cover?: string | null;
     position?: 'top' | 'center' | 'bottom';
-}
+};
 
 const CoverImage: FC<Props> = ({ cover, position = 'center' }) => {
     const { preferences } = useSessionUI();

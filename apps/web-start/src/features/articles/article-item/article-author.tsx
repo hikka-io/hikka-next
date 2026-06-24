@@ -17,11 +17,11 @@ import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
-interface Props {
+type Props = {
     article: ArticleBaseResponse;
     preview?: boolean;
     className?: string;
-}
+};
 
 const Author: FC<Props> = ({ article, preview, className }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');

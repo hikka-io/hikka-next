@@ -20,9 +20,9 @@ import Collections from './components/favorite-collections';
 import Manga from './components/favorite-manga';
 import Novel from './components/favorite-novel';
 
-interface Props {
+type Props = {
     extended?: boolean;
-}
+};
 
 const Favorites: FC<Props> = ({ extended }) => {
     const [content, setContent] = useState<FavouriteContentType>(

@@ -18,9 +18,9 @@ import { CollectionCard } from '@/features/collections';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const Collections: FC<Props> = ({ className }) => {
     const { user: loggedUser } = useSession();

@@ -18,9 +18,9 @@ import { MarkToolbarButton } from './mark-toolbar-button';
 import { ToolbarGroup } from './toolbar';
 import { VideoToolbarButton } from './video-toolbar-button';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 export function FixedMarkdownToolbarButtons({ className }: Props) {
     const readOnly = useEditorReadOnly();

@@ -11,9 +11,9 @@ import {
 } from '@/components/ui/sheet';
 import { ArticleFilters } from '@/features/articles';
 
-interface Props {
+type Props = {
     children?: ReactNode;
-}
+};
 
 const ArticleFiltersModal = ({ children }: Props) => {
     return (

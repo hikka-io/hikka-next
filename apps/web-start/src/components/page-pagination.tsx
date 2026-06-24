@@ -6,9 +6,9 @@ import type { PaginationResponse } from '@hikka/client';
 
 import Pagination from '@/components/ui/pagination';
 
-interface Props {
+type Props = {
     pagination: PaginationResponse;
-}
+};
 
 const Component = ({ pagination }: Props) => {
     const router = useRouter();

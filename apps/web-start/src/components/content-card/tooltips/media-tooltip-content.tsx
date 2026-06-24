@@ -12,7 +12,7 @@ interface GenreItem {
     name_ua: string | null;
 }
 
-interface Props {
+type Props = {
     title?: string;
     score: number;
     synopsis_ua?: string | null;
@@ -24,7 +24,7 @@ interface Props {
     genreBasePath: string;
     progressContent?: ReactNode;
     actionButton?: ReactNode;
-}
+};
 
 const MediaTooltipContent: FC<Props> = ({
     title,

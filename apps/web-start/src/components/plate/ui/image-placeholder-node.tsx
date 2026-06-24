@@ -15,10 +15,10 @@ import {
     type TImagePlaceholderElement,
 } from '../editor/plugins/image-placeholder-kit';
 
-export interface ImagePlaceholderElementProps
-    extends PlateElementProps<TImagePlaceholderElement> {
-    className?: string;
-}
+export type ImagePlaceholderElementProps =
+    PlateElementProps<TImagePlaceholderElement> & {
+        className?: string;
+    };
 
 export function ImagePlaceholderElement({
     className,

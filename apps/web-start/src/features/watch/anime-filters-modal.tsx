@@ -12,12 +12,12 @@ import {
 import FiltersFooter from '@/features/filters/filters-footer';
 import { AnimeFiltersBody } from '@/features/watch/anime-filters';
 
-interface Props {
+type Props = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     content_type?: ContentTypeEnum;
     sort_type: 'anime' | 'watch';
-}
+};
 
 /**
  * Controlled modal wrapper for the anime filters. Responsive: Dialog on

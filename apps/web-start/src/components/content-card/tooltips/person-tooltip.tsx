@@ -19,13 +19,13 @@ import ContentCard from '../content-card';
 import HoverCardWrapper from './hover-card-wrapper';
 import { PersonTooltipSkeleton } from './tooltip-skeleton';
 
-interface TooltipDataProps {
+type TooltipDataProps = {
     slug: string;
-}
+};
 
-interface Props extends PropsWithChildren {
+type Props = PropsWithChildren & {
     slug?: string;
-}
+};
 
 const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
     list,

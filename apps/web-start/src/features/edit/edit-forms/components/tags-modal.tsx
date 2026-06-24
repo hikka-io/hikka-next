@@ -10,11 +10,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useSettingsStore } from '@/services/stores/settings-store';
 
-interface Props {
+type Props = {
     setFieldValue: (name: string, value: string) => void;
     getFieldValue: (name: string) => string;
     onClose?: () => void;
-}
+};
 
 const TagsModal: FC<Props> = ({ setFieldValue, getFieldValue, onClose }) => {
     const [newTag, setNewTag] = React.useState('');

@@ -15,9 +15,9 @@ import {
 
 import ClientEditButton from './client-edit-button';
 
-interface Props {
+type Props = {
     client: ClientResponse;
-}
+};
 
 const ApplicationItem: FC<Props> = ({ client }) => {
     return (

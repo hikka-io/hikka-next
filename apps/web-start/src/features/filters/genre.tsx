@@ -28,9 +28,9 @@ import { GENRE_TYPES } from '@/utils/constants/common';
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const Genre: FC<Props> = () => {
     const { genres = [] } = useFilterSearch<{ genres?: string[] }>();

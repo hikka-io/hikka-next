@@ -12,15 +12,15 @@ import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent from './media-tooltip-content';
 import { MediaTooltipSkeleton } from './tooltip-skeleton';
 
-interface TooltipDataProps {
+type TooltipDataProps = {
     slug: string;
     watch?: WatchResponseBase;
-}
+};
 
-interface Props extends PropsWithChildren {
+type Props = PropsWithChildren & {
     slug?: string;
     watch?: WatchResponseBase;
-}
+};
 
 const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
     const { user: loggedUser } = useSession();

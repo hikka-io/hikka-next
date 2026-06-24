@@ -22,7 +22,7 @@ const REPEAT_DECLENSIONS: [string, string, string] = [
     'переглядів',
 ];
 
-interface Props {
+type Props = {
     content: MangaResponse | NovelResponse | AnimeResponse;
     content_type:
         | ContentTypeEnum.ANIME
@@ -30,7 +30,7 @@ interface Props {
         | ContentTypeEnum.NOVEL;
     repeats: number;
     note?: string;
-}
+};
 
 const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
     const title = useTitle(content as unknown as Record<string, unknown>);

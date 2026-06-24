@@ -15,9 +15,9 @@ import {
 } from '@/components/ui/horizontal-card';
 import { getScheduleDuration } from '@/utils/i18n';
 
-interface Props {
+type Props = {
     item: AnimeScheduleResponse;
-}
+};
 
 const ScheduleItem: FC<Props> = ({ item }) => {
     const title = useTitle(item.anime);

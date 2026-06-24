@@ -8,9 +8,9 @@ import VoiceCard from '@/components/content-card/voice-card';
 import AppearanceGrid from '@/features/common/appearance-grid';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     extended?: boolean;
-}
+};
 
 const Voices: FC<Props> = ({ extended }) => {
     const params = useParams();

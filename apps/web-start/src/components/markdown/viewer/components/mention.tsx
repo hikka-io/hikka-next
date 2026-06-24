@@ -5,9 +5,9 @@ import { useUserByUsername } from '@hikka/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Link as TanstackLink } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     node?: { properties?: { username?: string } };
-}
+};
 
 const MENTION_CLASSNAME =
     'inline-flex items-baseline gap-1 text-primary-foreground hover:underline';

@@ -18,9 +18,9 @@ import { useParams } from '@/utils/navigation';
 
 import FollowListModal from './followlist-modal';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const FollowStats: FC<Props> = ({ className }) => {
     const [open, setOpen] = useState(false);

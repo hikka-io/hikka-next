@@ -13,11 +13,11 @@ import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     manga: MangaResponse;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
-}
+};
 
 const MangaCard = ({ manga, onClick, type }: Props) => {
     const Comp = type === 'button' ? 'button' : Link;

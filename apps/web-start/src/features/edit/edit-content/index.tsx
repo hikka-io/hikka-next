@@ -13,11 +13,11 @@ import { Link } from '@/utils/navigation';
 import Details from './components/details';
 import General from './components/general';
 
-interface Props {
+type Props = {
     slug: string;
     content_type: EditContentType;
     content?: MainContent;
-}
+};
 
 const EditContent: FC<Props> = ({ slug, content_type, content }) => {
     if (!content) {

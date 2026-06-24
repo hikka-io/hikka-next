@@ -9,7 +9,7 @@ import NotFoundNotifications from './not-found-notifications';
 import NotificationItem from './notification-item';
 import NotificationItemSkeleton from './notification-item-skeleton';
 
-interface Props {
+type Props = {
     normalized: Hikka.Notification[] | undefined;
     grouped: GroupedNotifications;
     hasNextPage: boolean | undefined;
@@ -17,7 +17,7 @@ interface Props {
     fetchNextPage: () => void;
     loadMoreRef: Ref<HTMLButtonElement>;
     onNavigate?: () => void;
-}
+};
 
 const SECTION_LABELS: Record<keyof GroupedNotifications, string> = {
     today: 'Сьогодні',

@@ -10,13 +10,13 @@ import { cn } from '@/utils/cn';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
-interface ScoresProps {
+type ScoresProps = {
     className?: string;
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const Scores = ({ className, content_type }: ScoresProps) => {
     const params = useParams();

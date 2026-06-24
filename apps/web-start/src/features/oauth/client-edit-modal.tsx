@@ -28,10 +28,10 @@ const formSchema = z.object({
     secret: z.coerce.string().min(128).max(128),
 });
 
-interface Props {
+type Props = {
     client: ClientResponse;
     onClose?: () => void;
-}
+};
 
 const Component = ({ client, onClose }: Props) => {
     const { mutate: updateClient, isPending: updateClientLoading } =

@@ -36,11 +36,11 @@ import CommentMenu from './comment-menu';
 import CommentVote from './comment-vote';
 import Comments from './comments';
 
-interface Props {
+type Props = {
     comment: CommentResponse;
     slug: string;
     content_type: CommentsContentType;
-}
+};
 
 const Comment: FC<Props> = ({ comment, slug, content_type }) => {
     const { active, setReply, pendingReplies } = useCommentsContext();

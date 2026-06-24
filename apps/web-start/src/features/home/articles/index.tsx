@@ -22,9 +22,9 @@ import { Link } from '@/utils/navigation';
 
 import ArticleCard from './components/article-card';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const Articles: FC<Props> = ({ className }) => {
     const { user: loggedUser } = useSession();

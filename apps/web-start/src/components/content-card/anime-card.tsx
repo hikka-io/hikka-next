@@ -12,9 +12,9 @@ import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import ContentCard, { type ContentCardProps } from './content-card';
 import { getMediaCardProps } from './utils';
 
-interface Props extends ContentCardProps {
+type Props = ContentCardProps & {
     anime: AnimeInfoResponse | AnimeResponse;
-}
+};
 
 const AnimeCard: FC<Props> = ({ anime, ...props }) => {
     const title = useTitle(anime);

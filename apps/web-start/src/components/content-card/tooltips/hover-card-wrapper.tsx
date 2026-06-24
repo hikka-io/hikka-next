@@ -9,10 +9,10 @@ import {
 } from '@/components/ui/hover-card';
 import { cn } from '@/utils/cn';
 
-interface Props extends PropsWithChildren {
+type Props = PropsWithChildren & {
     content: ReactNode;
     size?: 'md' | 'auto';
-}
+};
 
 const HoverCardWrapper: FC<Props> = ({ children, content, size = 'md' }) => (
     <HoverCard openDelay={500} closeDelay={100}>

@@ -10,9 +10,9 @@ import { useParams } from '@/utils/navigation';
 import CollectionGrid from './collection-grid';
 import CollectionDndContext from './collection-grid/collection-dnd-context';
 
-interface Props {
+type Props = {
     mode?: 'create' | 'edit';
-}
+};
 
 const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
     const params = useParams();

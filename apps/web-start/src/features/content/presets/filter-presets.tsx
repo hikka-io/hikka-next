@@ -16,10 +16,10 @@ import {
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     className?: string;
     content_type: ContentTypeEnum;
-}
+};
 
 const FilterPresets: FC<Props> = ({ className, content_type }) => {
     const { filterPresets, _hasHydrated } = useSettingsStore();

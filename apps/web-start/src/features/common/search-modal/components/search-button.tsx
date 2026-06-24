@@ -7,10 +7,10 @@ import MaterialSymbolsSearchRounded from '@/components/icons/material-symbols/Ma
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     setOpen: (open: boolean) => void;
     children?: ReactNode;
-}
+};
 
 const Component = ({ setOpen, children }: Props) => {
     return children ? (

@@ -11,9 +11,9 @@ import {
 } from '@/components/ui/sheet';
 import { EditFilters } from '@/features/edit';
 
-interface Props {
+type Props = {
     children?: ReactNode;
-}
+};
 
 const EditFiltersModal = ({ children }: Props) => {
     return (

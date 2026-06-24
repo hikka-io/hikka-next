@@ -12,9 +12,9 @@ import WatchlistButton from '@/features/common/watchlist-button';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
 
-interface Props extends Omit<HorizontalContentCardProps, 'title' | 'href'> {
+type Props = Omit<HorizontalContentCardProps, 'title' | 'href'> & {
     item: AnimeScheduleResponse;
-}
+};
 
 const ScheduleItem: FC<Props> = ({ item, ...props }) => {
     const title = useTitle(item.anime);

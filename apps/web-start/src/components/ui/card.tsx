@@ -2,7 +2,7 @@ import { type ComponentPropsWithoutRef, memo } from 'react';
 
 import { cn } from '@/utils/cn';
 
-interface Props extends ComponentPropsWithoutRef<'div'> {}
+type Props = ComponentPropsWithoutRef<'div'>;
 
 const Card = ({ children, className, ...props }: Props) => {
     return (

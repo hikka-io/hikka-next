@@ -9,9 +9,9 @@ import LoadMoreButton from '@/components/load-more-button';
 import CollectionItem from '@/features/users/profile/user-collections/components/collection-item';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     content_type: CollectionContentType;
-}
+};
 
 const CollectionsModal: FC<Props> = ({ content_type }) => {
     const params = useParams();

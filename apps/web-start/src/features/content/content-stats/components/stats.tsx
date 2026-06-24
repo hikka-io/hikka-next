@@ -11,9 +11,9 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     stats: Hikka.ListStat[];
-}
+};
 
 const Stats: FC<Props> = ({ stats }) => {
     return (

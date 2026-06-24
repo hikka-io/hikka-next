@@ -11,9 +11,9 @@ import {
 } from '@/components/ui/sheet';
 import { ScheduleFilters as Filters } from '@/features/schedule';
 
-interface Props {
+type Props = {
     children?: ReactNode;
-}
+};
 
 const Component = ({ children }: Props) => {
     return (

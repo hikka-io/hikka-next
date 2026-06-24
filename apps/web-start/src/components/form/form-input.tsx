@@ -12,14 +12,16 @@ import { Input } from '@/components/ui/input';
 
 import { useFieldContext } from './form-context';
 
-export interface Props
-    extends Omit<ComponentProps<'input'>, 'value' | 'onChange' | 'onBlur'> {
+export type Props = Omit<
+    ComponentProps<'input'>,
+    'value' | 'onChange' | 'onBlur'
+> & {
     label?: string;
     description?: string;
     valueRenderer?: (value: string | string[]) => string;
     inputClassName?: string;
     onChangeValidator?: (value: string) => boolean;
-}
+};
 
 export const TextField: FC<Props> = ({
     label,

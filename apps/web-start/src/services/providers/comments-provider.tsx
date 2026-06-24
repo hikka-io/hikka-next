@@ -42,9 +42,9 @@ const CommentsContext = createContext<CommentsContextValue>({
     updatePendingReply: () => {},
 });
 
-interface Props {
+type Props = {
     children: ReactNode;
-}
+};
 
 export const useCommentsContext = () => {
     return useContext(CommentsContext);

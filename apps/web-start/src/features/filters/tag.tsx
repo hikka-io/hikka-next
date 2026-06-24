@@ -10,9 +10,9 @@ import { Label } from '@/components/ui/label';
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const Tag: FC<Props> = () => {
     const { tags = [] } = useFilterSearch<{ tags?: string[] }>();

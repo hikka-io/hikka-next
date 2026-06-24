@@ -10,7 +10,7 @@ import type { ImagePreset } from '@/utils/constants/image-presets';
 // Define more explicit and comprehensive types
 export type StackSize = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
-interface StackProps extends ComponentPropsWithoutRef<'div'> {
+type StackProps = ComponentPropsWithoutRef<'div'> & {
     /**
      * Determines if the stack should use extended layout
      */
@@ -40,7 +40,7 @@ interface StackProps extends ComponentPropsWithoutRef<'div'> {
      * Scrollbar visability
      */
     visibleScrollbar?: boolean;
-}
+};
 
 // Improved type-safe configuration objects
 const SIZES: Record<StackSize, string> = {

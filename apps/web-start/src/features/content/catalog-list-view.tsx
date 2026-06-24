@@ -14,7 +14,7 @@ import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import Stack, { type StackSize } from '@/components/ui/stack';
 
-interface Props<T> {
+type Props<T> = {
     list: T[] | undefined;
     isLoading: boolean;
     isFetchingNextPage: boolean;
@@ -26,7 +26,7 @@ interface Props<T> {
     removeQueryKey: QueryKey;
     renderItem: (item: T) => ReactNode;
     extendedSize?: StackSize;
-}
+};
 
 /**
  * Shared presentational shell for the /anime, /manga and /novel catalogs.

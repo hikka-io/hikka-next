@@ -8,9 +8,9 @@ import { buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import VoteButton from '@/features/common/vote-button';
 
-interface Props {
+type Props = {
     article: ArticleBaseResponse;
-}
+};
 
 const ArticleVote: FC<Props> = ({ article }) => {
     return (

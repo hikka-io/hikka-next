@@ -13,11 +13,11 @@ import AnimeCard from '../cards/anime-card';
 import SearchPlaceholders from '../search-placeholders';
 import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
-interface Props {
+type Props = {
     onDismiss: (anime: AnimeResponse) => void;
     type?: 'link' | 'button';
     value?: string;
-}
+};
 
 const AnimeSearchList = ({ onDismiss, type, value }: Props) => {
     const router = useRouter();

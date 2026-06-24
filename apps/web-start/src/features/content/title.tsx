@@ -6,13 +6,13 @@ import { useTitle } from '@hikka/react';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { Link, useParams } from '@/utils/navigation';
 
-interface TitleProps {
+type TitleProps = {
     className?: string;
     content_type:
         | ContentTypeEnum.ANIME
         | ContentTypeEnum.MANGA
         | ContentTypeEnum.NOVEL;
-}
+};
 
 const Title = ({ className, content_type }: TitleProps) => {
     const params = useParams();

@@ -28,13 +28,13 @@ import MDViewer from '../../markdown/viewer/md-viewer';
 import HoverCardWrapper from './hover-card-wrapper';
 import { UserTooltipSkeleton } from './tooltip-skeleton';
 
-interface TooltipDataProps {
+type TooltipDataProps = {
     username: string;
-}
+};
 
-interface Props extends PropsWithChildren {
+type Props = PropsWithChildren & {
     username?: string;
-}
+};
 
 const TooltipData: FC<TooltipDataProps> = ({ username }) => {
     const { data: user } = useUserByUsername({ username });

@@ -13,11 +13,11 @@ import MangaCard from '../cards/manga-card';
 import SearchPlaceholders from '../search-placeholders';
 import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
-interface Props {
+type Props = {
     onDismiss: (manga: MangaResponse) => void;
     type?: 'link' | 'button';
     value?: string;
-}
+};
 
 const MangaSearchList = ({ onDismiss, type, value }: Props) => {
     const router = useRouter();

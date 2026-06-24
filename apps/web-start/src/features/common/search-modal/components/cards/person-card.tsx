@@ -9,11 +9,11 @@ import ContentCard from '@/components/content-card/content-card';
 import { Label } from '@/components/ui/label';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     person: PersonResponse;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
-}
+};
 
 const PersonCard = ({ person, onClick, type }: Props) => {
     const Comp = type === 'button' ? 'button' : Link;

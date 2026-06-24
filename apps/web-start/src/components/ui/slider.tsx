@@ -10,8 +10,9 @@ import { Badge } from './badge';
 
 type ShowValueMode = 'always' | 'on-interaction' | 'never';
 
-interface SliderProps
-    extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> {
+type SliderProps = React.ComponentPropsWithoutRef<
+    typeof SliderPrimitive.Root
+> & {
     /**
      * Controls when to display value above thumb
      * - "always": Value is always visible above thumb
@@ -25,16 +26,16 @@ interface SliderProps
      * @returns Formatted string or ReactNode to display
      */
     formatValue?: (value: number) => React.ReactNode;
-}
+};
 
-interface ThumbWithValueProps {
+type ThumbWithValueProps = {
     value: number;
     showValue: ShowValueMode;
     formatValue?: (value: number) => React.ReactNode;
     isInteracting: boolean;
     onInteractionStart: () => void;
     onInteractionEnd: () => void;
-}
+};
 
 const ThumbWithValue = React.forwardRef<HTMLSpanElement, ThumbWithValueProps>(
     (

@@ -12,10 +12,10 @@ import {
     TrackerWidget,
 } from './widgets';
 
-export interface WidgetProps {
+export type WidgetProps = {
     side: UIFeedWidgetSide;
     isLast?: boolean;
-}
+};
 
 export interface WidgetMeta {
     title: string;

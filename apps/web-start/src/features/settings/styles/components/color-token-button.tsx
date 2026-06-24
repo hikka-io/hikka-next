@@ -24,11 +24,11 @@ import {
     toReactColorful,
 } from '@/utils/ui/color';
 
-interface ColorTokenButtonProps {
+type ColorTokenButtonProps = {
     token: keyof typeof COLOR_TOKEN_LABELS;
     color: HSLColor | undefined;
     onColorChange: (color: HSLColor) => void;
-}
+};
 
 const ColorTokenButton = ({
     token,

@@ -6,12 +6,12 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     unseenCount: number;
     isBulkMarking: boolean;
     onMarkAllSeen: () => void;
     className?: string;
-}
+};
 
 const NotificationsHeader: FC<Props> = ({
     unseenCount,

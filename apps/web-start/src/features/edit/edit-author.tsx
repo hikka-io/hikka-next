@@ -15,9 +15,9 @@ import {
 } from '@/components/ui/horizontal-card';
 import { Label } from '@/components/ui/label';
 
-interface Props {
+type Props = {
     editId: string;
-}
+};
 
 const EditAuthor: FC<Props> = ({ editId }) => {
     const { data: edit } = useEdit({ editId: Number(editId) });

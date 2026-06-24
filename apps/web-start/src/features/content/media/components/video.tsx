@@ -7,10 +7,10 @@ import Stack from '@/components/ui/stack';
 import { VIDEO } from '@/utils/constants/common';
 import parseYouTubeThumbnail from '@/utils/youtube';
 
-interface Props {
+type Props = {
     extended?: boolean;
     videos: AnimeVideoResponse[];
-}
+};
 
 const Video: FC<Props> = ({ extended, videos }) => {
     if (!videos) {

@@ -18,11 +18,11 @@ import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     slug: string;
     content_type: CommentsContentType;
     disableBreadcrumbs?: boolean;
-}
+};
 
 const ContentHeader: FC<Props> = ({
     slug,

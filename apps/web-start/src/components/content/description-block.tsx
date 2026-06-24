@@ -20,12 +20,12 @@ export interface DescriptionOption {
     ariaLabel?: string;
 }
 
-interface Props {
+type Props = {
     title?: string;
     options: DescriptionOption[];
     className?: string;
     id?: string;
-}
+};
 
 /**
  * Shared "Опис" block used by content and character pages: renders a markdown

@@ -10,7 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 
-interface Props extends ComponentPropsWithoutRef<'div'> {
+type Props = ComponentPropsWithoutRef<'div'> & {
     expanded?: boolean;
     setExpanded?: (expanded: boolean) => void;
     maxHeight?: number;
@@ -18,7 +18,7 @@ interface Props extends ComponentPropsWithoutRef<'div'> {
     collapseText?: string;
     showGradient?: boolean;
     alwaysCollapsed?: boolean;
-}
+};
 
 const TextExpand = ({
     children,

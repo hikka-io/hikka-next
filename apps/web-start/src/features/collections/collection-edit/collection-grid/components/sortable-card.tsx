@@ -27,7 +27,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/utils/cn';
 
-interface Props {
+type Props = {
     id: string;
     groupId: string;
     content: CollectionContent & { title?: string };
@@ -38,7 +38,7 @@ interface Props {
         itemId: string | number,
         comment: string,
     ) => void;
-}
+};
 
 const ASPECT_RATIO = String(DEFAULT_CONTAINER_RATIO);
 

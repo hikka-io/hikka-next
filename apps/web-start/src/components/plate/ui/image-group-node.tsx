@@ -11,10 +11,9 @@ import {
 } from '../editor/plugins/image-group-kit';
 import { ImageGroupAddImage } from './image-group-add-image';
 
-export interface ImageGroupElementProps
-    extends PlateElementProps<TImageGroupElement> {
+export type ImageGroupElementProps = PlateElementProps<TImageGroupElement> & {
     className?: string;
-}
+};
 
 export function ImageGroupElement({
     children,

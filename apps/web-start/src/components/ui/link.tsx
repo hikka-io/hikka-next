@@ -3,13 +3,13 @@ import type { ComponentPropsWithRef, FC } from 'react';
 import { cn } from '@/utils/cn';
 import { Link as TanstackLink } from '@/utils/navigation';
 
-interface Props extends Omit<ComponentPropsWithRef<'a'>, 'href'> {
+type Props = Omit<ComponentPropsWithRef<'a'>, 'href'> & {
     href?: string;
     to?: string;
     search?: Record<string, unknown>;
     className?: string;
     children?: React.ReactNode;
-}
+};
 
 const Link: FC<Props> = ({
     href,

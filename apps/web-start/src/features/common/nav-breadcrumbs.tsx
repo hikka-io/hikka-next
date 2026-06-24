@@ -13,7 +13,7 @@ import IconamoonSignDivisionSlashThin from '@/components/icons/iconamoon/Iconamo
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 
-interface NavBreadcrumbsProps extends PropsWithChildren {}
+type NavBreadcrumbsProps = PropsWithChildren;
 
 const NavBreadcrumbs = ({ children }: NavBreadcrumbsProps) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');

@@ -28,9 +28,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 
-interface Props {
+type Props = {
     comment: CommentResponse;
-}
+};
 
 const CommentMenu: FC<Props> = ({ comment }) => {
     const { setEdit, removePendingReply } = useCommentsContext();

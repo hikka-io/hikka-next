@@ -15,10 +15,10 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useParams } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     param: Hikka.EditParam;
     mode: 'view' | 'edit';
-}
+};
 
 const MarkdownParam: FC<Props> = ({ mode, param }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

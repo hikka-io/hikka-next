@@ -21,13 +21,13 @@ import { cn } from '@/utils/cn';
 
 import CommentInputBottomBar from './comment-input-bottom-bar';
 
-interface Props {
+type Props = {
     slug: string;
     content_type: CommentsContentType;
     comment?: CommentResponse;
     className?: string;
     isEdit?: boolean;
-}
+};
 
 const CommentInput: FC<Props> = ({ className, comment, isEdit, ...props }) => {
     const { editor, isMobile, isModalOpen, setIsModalOpen, handleChange } =

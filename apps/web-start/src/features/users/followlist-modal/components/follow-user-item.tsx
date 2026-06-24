@@ -13,9 +13,9 @@ import {
 } from '@/components/ui/horizontal-card';
 import FollowButton from '@/features/common/follow-button';
 
-interface Props {
+type Props = {
     user: UserResponse;
-}
+};
 
 const FollowUserItem: FC<Props> = ({ user }) => {
     return (

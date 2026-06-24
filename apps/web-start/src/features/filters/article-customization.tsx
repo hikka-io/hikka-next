@@ -10,9 +10,9 @@ import { Switch } from '@/components/ui/switch';
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
-}
+};
 
 const ArticleCustomization: FC<Props> = () => {
     const { draft } = useFilterSearch<{ draft?: boolean }>();

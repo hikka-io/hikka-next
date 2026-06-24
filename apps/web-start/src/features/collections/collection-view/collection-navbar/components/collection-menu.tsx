@@ -31,9 +31,9 @@ import {
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useRouter } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     collection: CollectionResponse<CollectionContent>;
-}
+};
 
 const CollectionMenu: FC<Props> = ({ collection }) => {
     const router = useRouter();

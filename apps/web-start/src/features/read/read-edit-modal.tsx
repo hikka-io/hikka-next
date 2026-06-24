@@ -43,12 +43,12 @@ const formSchema = z.object({
     end_date: z.coerce.number().nullable().optional(),
 });
 
-interface Props {
+type Props = {
     slug: string;
     content_type: ReadContentType;
     read?: ReadResponseBase;
     onClose?: () => void;
-}
+};
 
 const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
     const { data: readQuery } = useReadBySlug({

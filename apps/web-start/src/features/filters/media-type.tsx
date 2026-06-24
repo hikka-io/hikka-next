@@ -22,10 +22,10 @@ import {
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
     content_type: ContentTypeEnum;
-}
+};
 
 const getMediaType = (content_type: ContentTypeEnum) => {
     switch (content_type) {

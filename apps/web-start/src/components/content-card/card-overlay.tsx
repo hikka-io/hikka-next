@@ -2,10 +2,10 @@ import type { FC, ReactNode } from 'react';
 
 import ContentCard from './content-card';
 
-interface Props {
+type Props = {
     href: string;
     image: string | ReactNode;
-}
+};
 
 const CardOverlay: FC<Props> = ({ href, image }) => (
     <>

@@ -22,12 +22,12 @@ import { cn } from '@/utils/cn';
 import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     edit: EditResponse;
     className?: string;
     href?: string;
     to?: string;
-}
+};
 
 const Component = ({ edit, href, to, className, ...props }: Props) => {
     const resolvedHref = to ?? href ?? '';

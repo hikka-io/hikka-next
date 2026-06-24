@@ -29,7 +29,7 @@ import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     collection: CollectionResponse<CollectionContent>;
     className?: string;
     maxPreviewItems: number;
@@ -38,7 +38,7 @@ interface Props {
      * `compact` — denser card used in the home sidebar widget.
      */
     variant?: 'default' | 'compact';
-}
+};
 
 const CollectionCard: FC<Props> = ({
     collection,

@@ -64,7 +64,7 @@ const defaultFilter: FilterFn = (
     );
 };
 
-interface InlineComboboxProps {
+type InlineComboboxProps = {
     children: React.ReactNode;
     element: TElement;
     trigger: string;
@@ -73,7 +73,7 @@ interface InlineComboboxProps {
     showTrigger?: boolean;
     value?: string;
     setValue?: (value: string) => void;
-}
+};
 
 const InlineCombobox = ({
     children,

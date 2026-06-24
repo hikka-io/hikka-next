@@ -10,14 +10,14 @@ import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import VoteButton from '@/features/common/vote-button';
 import { Link } from '@/utils/navigation';
 
-interface Props {
+type Props = {
     commentsCount: number;
     voteScore: number;
     commentsHref?: string;
     contentType?: VoteContentType;
     slug?: string;
     myScore?: number;
-}
+};
 
 const FeedItemFooter: FC<Props> = ({
     commentsCount,

@@ -13,12 +13,12 @@ import {
 
 type Theme = 'light' | 'dark' | 'system';
 
-interface ThemeProviderProps extends PropsWithChildren {
+type ThemeProviderProps = PropsWithChildren & {
     attribute?: string;
     defaultTheme?: Theme;
     enableSystem?: boolean;
     disableTransitionOnChange?: boolean;
-}
+};
 
 interface ThemeContextValue {
     theme: Theme;

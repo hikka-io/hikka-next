@@ -21,10 +21,10 @@ import { CONTENT_TYPES } from '@/utils/constants/common';
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
 
-interface Props {
+type Props = {
     className?: string;
     contentTypes: ContentTypeEnum[];
-}
+};
 
 const ContentType: FC<Props> = ({ contentTypes }) => {
     const { content_type } = useFilterSearch<{ content_type?: string }>();

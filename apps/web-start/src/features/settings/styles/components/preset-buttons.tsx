@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button';
 import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import { COLOR_PRESETS, type ColorPreset } from '@/utils/constants/styles';
 
-interface PresetButtonsProps {
+type PresetButtonsProps = {
     onPresetSelect: (preset: ColorPreset) => void;
     selectedPresetName: string | null;
-}
+};
 
 const PresetButtons = ({
     onPresetSelect,
