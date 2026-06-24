@@ -17,7 +17,11 @@ import {
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
-import { removeEmptyTextNodes } from '@/utils/plate';
+import {
+    hasPendingUploads,
+    removeEmptyTextNodes,
+    stripUploadPlaceholders,
+} from '@/utils/plate';
 
 interface Props {}
 
@@ -49,6 +53,12 @@ const EditActions: FC<Props> = () => {
                 return;
             }
 
+            if (hasPendingUploads(document)) {
+                toast.error('Зачекайте завершення завантаження зображень.');
+                return;
+            }
+
+            document = stripUploadPlaceholders(document);
             document = removeEmptyTextNodes(document);
 
             mutateUpdateArticle({
