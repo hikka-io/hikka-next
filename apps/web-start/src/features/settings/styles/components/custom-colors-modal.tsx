@@ -1,15 +1,16 @@
 'use client';
 
-import { Moon, Redo2, Sun, Undo2 } from 'lucide-react';
-import { Popover as PopoverPrimitive } from 'radix-ui';
 import {
-    Fragment,
     createContext,
+    Fragment,
     useContext,
     useEffect,
     useRef,
     useState,
 } from 'react';
+
+import { Moon, Redo2, Sun, Undo2 } from 'lucide-react';
+import { Popover as PopoverPrimitive } from 'radix-ui';
 import { useStore } from 'zustand';
 import { useStoreWithEqualityFn } from 'zustand/traditional';
 
@@ -34,17 +35,16 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 import { useTheme } from '@/services/providers/theme-provider';
 import { stylesToReactStyles } from '@/utils/ui/inject-styles';
 
 import {
-    StylesEditorStore,
-    StylesEditorStoreWithTemporal,
-    StylesEditorTemporalState,
     createStylesEditorStore,
+    type StylesEditorStore,
+    type StylesEditorStoreWithTemporal,
+    type StylesEditorTemporalState,
 } from '../stores/styles-editor-store';
 import ThemeTabContent from './theme-tab-content';
 
@@ -197,9 +197,9 @@ const CustomColorsModal = ({ onClose }: Props) => {
                         style={{
                             ...(activeTheme === 'light' ? root : dark),
                         }}
-                        className="bg-background sticky top-4 h-fit gap-0 overflow-hidden p-0"
+                        className="sticky top-4 h-fit gap-0 overflow-hidden bg-background p-0"
                     >
-                        <div className="bg-muted/30 border-border flex w-full gap-4 border-b p-3">
+                        <div className="flex w-full gap-4 border-border border-b bg-muted/30 p-3">
                             <div className="flex items-center gap-1.5">
                                 <div className="h-2.5 w-2.5 rounded-full bg-red-400" />
                                 <div className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
@@ -245,10 +245,10 @@ const CustomColorsModal = ({ onClose }: Props) => {
                                 </PopoverPrimitive.Trigger>
                                 <PopoverPrimitive.Content
                                     sideOffset={4}
-                                    className="bg-popover text-popover-foreground ring-foreground/10 z-50 flex w-64 flex-col gap-2.5 rounded-lg p-3 text-sm shadow-md ring-1"
+                                    className="z-50 flex w-64 flex-col gap-2.5 rounded-lg bg-popover p-3 text-popover-foreground text-sm shadow-md ring-1 ring-foreground/10"
                                 >
                                     <div className="flex flex-col gap-2">
-                                        <span className="text-popover-foreground text-sm font-medium">
+                                        <span className="font-medium text-popover-foreground text-sm">
                                             Спливаюче вікно
                                         </span>
                                         <span className="text-muted-foreground text-sm">
@@ -257,14 +257,14 @@ const CustomColorsModal = ({ onClose }: Props) => {
                                     </div>
                                 </PopoverPrimitive.Content>
                             </PopoverPrimitive.Root>
-                            <div className="border-border bg-muted rounded-md border p-2">
+                            <div className="rounded-md border border-border bg-muted p-2">
                                 <span className="text-muted-foreground text-sm">
                                     Приглушений блок з текстом
                                 </span>
                             </div>
                             <p className="text-foreground text-sm leading-relaxed">
                                 Талановиті брати{' '}
-                                <span className="text-primary-foreground font-medium hover:cursor-pointer hover:underline">
+                                <span className="font-medium text-primary-foreground hover:cursor-pointer hover:underline">
                                     Елріки
                                 </span>{' '}
                                 порушили головну заборону алхімії.{' '}
@@ -272,10 +272,10 @@ const CustomColorsModal = ({ onClose }: Props) => {
                                     Це приглушений текст для прикладу.
                                 </span>
                             </p>
-                            <div className="border-border flex items-center gap-2 border-t pt-4">
-                                <div className="bg-primary h-2 flex-1 rounded-full" />
-                                <div className="bg-secondary h-2 flex-1 rounded-full" />
-                                <div className="bg-muted h-2 flex-1 rounded-full" />
+                            <div className="flex items-center gap-2 border-border border-t pt-4">
+                                <div className="h-2 flex-1 rounded-full bg-primary" />
+                                <div className="h-2 flex-1 rounded-full bg-secondary" />
+                                <div className="h-2 flex-1 rounded-full bg-muted" />
                             </div>
                         </div>
                     </Card>

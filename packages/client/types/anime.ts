@@ -1,5 +1,5 @@
-import { CharacterResponse } from './characters';
-import {
+import type { CharacterResponse } from './characters';
+import type {
     ContentTypeEnum,
     ExternalResponse,
     GenreResponse,
@@ -8,9 +8,9 @@ import {
     SeasonEnum,
     SourceEnum,
 } from './common';
-import { CompanyTypeEnum } from './companies';
-import { PersonResponse } from './people';
-import { WatchResponseBase } from './watch';
+import type { CompanyTypeEnum } from './companies';
+import type { PersonResponse } from './people';
+import type { WatchResponseBase } from './watch';
 
 /**
  * Anime media types

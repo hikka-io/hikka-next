@@ -1,9 +1,9 @@
+import type { UseAnimeScheduleParams } from '@/types/schedule';
 import { searchAnimeScheduleOptions } from '@/options/api/schedule';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { UseAnimeScheduleParams } from '@/types/schedule';
 
 /**
  * Prefetches anime schedule for server-side rendering

@@ -1,9 +1,8 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import Image from '@/components/ui/image';
-
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 
 interface Props {

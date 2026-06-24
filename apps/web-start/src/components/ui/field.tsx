@@ -1,11 +1,11 @@
 'use client';
 
-import { type VariantProps, cva } from 'class-variance-authority';
 import { useMemo } from 'react';
+
+import { cva, type VariantProps } from 'class-variance-authority';
 
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-
 import { cn } from '@/utils/cn';
 
 function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
@@ -107,7 +107,7 @@ function FieldLabel({
         <Label
             data-slot="field-label"
             className={cn(
-                'group/field-label peer/field-label has-data-[state=checked]:border-primary-border has-data-[state=checked]:bg-primary dark:has-data-[state=checked]:border-primary-border dark:has-data-[state=checked]:bg-primary flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5',
+                'group/field-label peer/field-label flex w-fit gap-2 leading-snug has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border has-data-[state=checked]:border-primary-border has-data-[state=checked]:bg-primary *:data-[slot=field]:p-2.5 group-data-[disabled=true]/field:opacity-50 dark:has-data-[state=checked]:border-primary-border dark:has-data-[state=checked]:bg-primary',
                 'has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col',
                 className,
             )}
@@ -121,7 +121,7 @@ function FieldTitle({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="field-label"
             className={cn(
-                'flex w-fit items-center gap-2 text-sm leading-snug font-medium group-data-[disabled=true]/field:opacity-50',
+                'flex w-fit items-center gap-2 font-medium text-sm leading-snug group-data-[disabled=true]/field:opacity-50',
                 className,
             )}
             {...props}
@@ -134,8 +134,8 @@ function FieldDescription({ className, ...props }: React.ComponentProps<'p'>) {
         <p
             data-slot="field-description"
             className={cn(
-                'text-muted-foreground text-left text-sm leading-normal font-normal group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5',
-                'last:mt-0 nth-last-2:-mt-1',
+                'text-left font-normal text-muted-foreground text-sm leading-normal group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5',
+                'nth-last-2:-mt-1 last:mt-0',
                 '[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',
                 className,
             )}
@@ -164,7 +164,7 @@ function FieldSeparator({
             <Separator className="absolute inset-0 top-1/2" />
             {children && (
                 <span
-                    className="bg-background text-muted-foreground relative mx-auto block w-fit px-2"
+                    className="relative mx-auto block w-fit bg-background px-2 text-muted-foreground"
                     data-slot="field-separator-content"
                 >
                     {children}
@@ -218,7 +218,7 @@ function FieldError({
             role="alert"
             data-slot="field-error"
             className={cn(
-                'text-destructive-foreground text-sm font-normal',
+                'font-normal text-destructive-foreground text-sm',
                 className,
             )}
             {...props}

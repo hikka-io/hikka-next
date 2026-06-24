@@ -3,7 +3,6 @@
 import { useRouter } from '@tanstack/react-router';
 
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 const CollectionSort = () => {

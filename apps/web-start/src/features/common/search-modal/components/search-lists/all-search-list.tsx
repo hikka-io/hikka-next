@@ -1,6 +1,10 @@
 'use client';
 
-import { ContentTypeEnum, MainContent } from '@hikka/client';
+import { type ReactNode, useCallback } from 'react';
+
+import { Ellipsis } from 'lucide-react';
+
+import { ContentTypeEnum, type MainContent } from '@hikka/client';
 import {
     useSearchAnimes,
     useSearchCharacters,
@@ -8,11 +12,8 @@ import {
     useSearchNovels,
     useSearchPeople,
 } from '@hikka/react';
-import { Ellipsis } from 'lucide-react';
-import { ReactNode, useCallback } from 'react';
 
 import { CommandItem } from '@/components/ui/command';
-
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useRouter } from '@/utils/navigation';
@@ -60,7 +61,7 @@ const SearchResultGroup = ({
             <CommandItem
                 value={`view-all-${contentType}`}
                 onSelect={onNavigate}
-                className="text-muted-foreground justify-center rounded-none border-y"
+                className="justify-center rounded-none border-y text-muted-foreground"
             >
                 <Ellipsis />
                 Показати всі результати

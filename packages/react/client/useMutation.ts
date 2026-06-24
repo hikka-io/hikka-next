@@ -1,14 +1,15 @@
 'use client';
 
-import { HikkaClient } from '@hikka/client';
 import {
-    InvalidateQueryFilters,
-    QueryClient,
-    UseMutationOptions,
-    UseMutationResult,
+    type InvalidateQueryFilters,
+    type QueryClient,
+    type UseMutationOptions,
+    type UseMutationResult,
     useQueryClient,
     useMutation as useTanstackMutation,
 } from '@tanstack/react-query';
+
+import type { HikkaClient } from '@hikka/client';
 
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 

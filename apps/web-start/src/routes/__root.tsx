@@ -1,28 +1,28 @@
 import '@fontsource-variable/geist';
-import { UserUI } from '@hikka/client';
-import { queryKeys } from '@hikka/react/core';
+
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 import {
+    createRootRouteWithContext,
     HeadContent,
     Outlet,
     Scripts,
-    createRootRouteWithContext,
     useRouter,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
+import type { UserUI } from '@hikka/client';
+import { queryKeys } from '@hikka/react/core';
+
 import NotFoundPage from '@/components/not-found-page';
 import RouterProgressBar from '@/components/router-progress-bar';
-
 import { Providers } from '@/features/common';
-
 import { getThemeCookieFn, refreshAuthCookieFn } from '@/utils/cookies';
 import { DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getUserStylesCSS } from '@/utils/ui/server';
 
 import '../globals.css';
-import { RouterContext } from '../router';
+import type { RouterContext } from '../router';
 
 export const Route = createRootRouteWithContext<RouterContext>()({
     head: () => ({

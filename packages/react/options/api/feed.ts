@@ -1,8 +1,9 @@
-import { HikkaClient } from '@hikka/client';
 import { infiniteQueryOptions } from '@tanstack/react-query';
 
+import type { HikkaClient } from '@hikka/client';
+
+import type { UseFeedParams } from '@/types/feed';
 import { queryKeys } from '@/core';
-import { UseFeedParams } from '@/types/feed';
 
 export function feedOptions(client: HikkaClient, { args }: UseFeedParams = {}) {
     return infiniteQueryOptions({

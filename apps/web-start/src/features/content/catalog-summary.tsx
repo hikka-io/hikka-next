@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { cn } from '@/utils/cn';
 
@@ -26,13 +26,13 @@ const CatalogSummary: FC<Props> = ({ total, isLoading, className }) => {
                 className,
             )}
         >
-            <div className="text-muted-foreground shrink-0 text-sm">
+            <div className="shrink-0 text-muted-foreground text-sm">
                 {isLoading || total == null ? (
-                    <span className="bg-secondary/40 inline-block h-4 w-40 animate-pulse rounded" />
+                    <span className="inline-block h-4 w-40 animate-pulse rounded bg-secondary/40" />
                 ) : (
                     <>
                         Знайдено{' '}
-                        <span className="text-foreground font-semibold">
+                        <span className="font-semibold text-foreground">
                             {total.toLocaleString('uk-UA')}
                         </span>{' '}
                         результатів

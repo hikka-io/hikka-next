@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 export function BxBxlMastadon(props: SVGProps<SVGSVGElement>) {
     return (

@@ -1,11 +1,4 @@
-export * from './createHikkaClient';
-export * from './createQueryClient';
-export * from './queryClientHelpers';
-export * from './queryKeys';
-
-// Hikka client exports
-export * as HikkaClient from '@hikka/client';
-
+export type { QueryClientConfig } from '@tanstack/react-query';
 // TanStack Query exports
 export {
     dehydrate,
@@ -18,4 +11,10 @@ export {
     useSuspenseQuery,
 } from '@tanstack/react-query';
 
-export type { QueryClientConfig } from '@tanstack/react-query';
+// Hikka client exports
+export * as HikkaClient from '@hikka/client';
+
+export * from './createHikkaClient';
+export * from './createQueryClient';
+export * from './queryClientHelpers';
+export * from './queryKeys';

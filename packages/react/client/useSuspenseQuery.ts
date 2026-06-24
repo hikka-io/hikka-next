@@ -1,11 +1,10 @@
 'use client';
 
 import {
-    UseSuspenseQueryOptions,
-    UseSuspenseQueryResult,
+    type UseSuspenseQueryOptions,
+    type UseSuspenseQueryResult,
     useSuspenseQuery as useTanstackSuspenseQuery,
 } from '@tanstack/react-query';
-
 
 /**
  * Hook for creating suspense queries with the Hikka client.

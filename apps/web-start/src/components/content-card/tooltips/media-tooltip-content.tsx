@@ -1,7 +1,6 @@
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import { Badge } from '@/components/ui/badge';
-
 import { cn } from '@/utils/cn';
 import { RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
@@ -47,25 +46,25 @@ const MediaTooltipContent: FC<Props> = ({
                 <div className="flex justify-between gap-2">
                     <h5>{title}</h5>
                     {score > 0 ? (
-                        <div className="bg-secondary/20 size-fit rounded-md border px-2 text-sm backdrop-blur">
+                        <div className="size-fit rounded-md border bg-secondary/20 px-2 text-sm backdrop-blur">
                             {score}
                         </div>
                     ) : null}
                 </div>
                 {synopsis && (
-                    <MDViewer className="text-muted-foreground mb-2 line-clamp-4 text-sm">
+                    <MDViewer className="mb-2 line-clamp-4 text-muted-foreground text-sm">
                         {synopsis}
                     </MDViewer>
                 )}
                 <div className="flex items-center">
                     <div className="w-1/4">
-                        <span className="text-muted-foreground text-sm leading-tight font-medium">
+                        <span className="font-medium text-muted-foreground text-sm leading-tight">
                             Тип:
                         </span>
                     </div>
                     <div className="flex flex-1 flex-wrap items-center gap-2">
                         {media_type_label && (
-                            <span className="text-sm leading-tight font-medium">
+                            <span className="font-medium text-sm leading-tight">
                                 {media_type_label}
                             </span>
                         )}
@@ -88,7 +87,7 @@ const MediaTooltipContent: FC<Props> = ({
                 {progressContent}
                 <div className="flex">
                     <div className="w-1/4">
-                        <span className="text-muted-foreground text-sm leading-tight font-medium">
+                        <span className="font-medium text-muted-foreground text-sm leading-tight">
                             Жанри:
                         </span>
                     </div>
@@ -96,7 +95,7 @@ const MediaTooltipContent: FC<Props> = ({
                         {genres.map((genre, i) => (
                             <span key={genre.slug}>
                                 <Link
-                                    className="decoration-primary-foreground hover:bg-primary-border hover:text-primary-foreground text-sm underline decoration-dashed transition-colors duration-100"
+                                    className="text-sm underline decoration-primary-foreground decoration-dashed transition-colors duration-100 hover:bg-primary-border hover:text-primary-foreground"
                                     to={genreBasePath}
                                     search={{ genres: [genre.slug] }}
                                 >

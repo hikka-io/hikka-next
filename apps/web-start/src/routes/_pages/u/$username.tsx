@@ -1,3 +1,5 @@
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+
 import { ContentTypeEnum } from '@hikka/client';
 import {
     readStatsOptions,
@@ -5,11 +7,9 @@ import {
     userFollowStatsOptions,
     userWatchStatsOptions,
 } from '@hikka/react/options';
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import CoverImage from '@/components/cover-image';
 import Link from '@/components/ui/link';
-
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import NavMenu from '@/features/common/nav-dropdown';
 import {
@@ -18,7 +18,6 @@ import {
     UserInfo,
     UserTitle,
 } from '@/features/users';
-
 import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 
@@ -80,7 +79,7 @@ function UserLayout() {
             <Breadcrumbs>
                 <Link
                     to={`/u/${username}`}
-                    className="line-clamp-1 text-sm font-bold break-all hover:underline"
+                    className="line-clamp-1 break-all font-bold text-sm hover:underline"
                 >
                     {username}
                 </Link>

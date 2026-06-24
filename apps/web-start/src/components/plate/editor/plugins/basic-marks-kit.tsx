@@ -2,7 +2,7 @@
 
 import { BoldRules, ItalicRules } from '@platejs/basic-nodes';
 import { BoldPlugin, ItalicPlugin } from '@platejs/basic-nodes/react';
-import { KEYS, createMarkInputRule } from 'platejs';
+import { createMarkInputRule, KEYS } from 'platejs';
 
 export const BasicMarksKit = [
     BoldPlugin.configure({

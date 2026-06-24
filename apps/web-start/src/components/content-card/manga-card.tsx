@@ -1,14 +1,15 @@
+import type { FC } from 'react';
+
 import {
     ContentTypeEnum,
-    MangaInfoResponse,
-    MangaResponse,
+    type MangaInfoResponse,
+    type MangaResponse,
 } from '@hikka/client';
 import { useTitle } from '@hikka/react';
-import { FC } from 'react';
 
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 
-import ContentCard, { ContentCardProps } from './content-card';
+import ContentCard, { type ContentCardProps } from './content-card';
 import { getMediaCardProps } from './utils';
 
 interface Props extends ContentCardProps {

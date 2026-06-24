@@ -1,13 +1,14 @@
 'use client';
 
-import {
-    ArticleAnimeContentResponse,
-    ArticleCategoryEnum,
-    ArticleDocumentResponse,
-    ArticleMangaNovelContentResponse,
-} from '@hikka/client';
-import { Value } from 'platejs';
+import type { Value } from 'platejs';
 import { createStore } from 'zustand';
+
+import {
+    type ArticleAnimeContentResponse,
+    ArticleCategoryEnum,
+    type ArticleDocumentResponse,
+    type ArticleMangaNovelContentResponse,
+} from '@hikka/client';
 
 export type ArticleState = {
     slug?: string;

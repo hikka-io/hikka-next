@@ -1,21 +1,20 @@
 'use client';
 
-import {
+import { getUnixTime, startOfDay } from 'date-fns';
+import { format } from 'date-fns/format';
+
+import type {
     AnimeScheduleResponse,
     ContentStatusEnum,
     SeasonEnum,
 } from '@hikka/client';
 import { useSearchAnimeSchedule } from '@hikka/react';
-import { getUnixTime, startOfDay } from 'date-fns';
-import { format } from 'date-fns/format';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-
 import type { ScheduleSearch } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
 
@@ -74,7 +73,7 @@ const ScheduleList = () => {
                                 <HeaderContainer>
                                     <HeaderTitle>
                                         {formattedDay[0]}
-                                        <span className="border-primary-border bg-primary text-primary-foreground rounded-sm border p-1 px-2">
+                                        <span className="rounded-sm border border-primary-border bg-primary p-1 px-2 text-primary-foreground">
                                             {formattedDay[1]}
                                         </span>
                                     </HeaderTitle>

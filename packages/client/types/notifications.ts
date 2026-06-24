@@ -1,10 +1,10 @@
-import {
+import type {
     ContentStatusEnum,
     ContentTypeEnum,
     PaginatedResponse,
     PaginationResponse,
 } from './common';
-import { UserResponse } from './user';
+import type { UserResponse } from './user';
 
 /**
  * Notification response

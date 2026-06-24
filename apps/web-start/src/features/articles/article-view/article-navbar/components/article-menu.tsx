@@ -1,5 +1,6 @@
-import { ArticleBaseResponse } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { ArticleBaseResponse } from '@hikka/client';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
@@ -10,7 +11,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 

@@ -1,11 +1,12 @@
 'use client';
 
 import { createContext, useContext, useRef } from 'react';
+
 import { useStore } from 'zustand';
 
 import {
-    CollectionState,
-    CollectionStore,
+    type CollectionState,
+    type CollectionStore,
     createCollectionStore,
 } from '../stores/collection-store';
 

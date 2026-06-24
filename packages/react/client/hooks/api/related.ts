@@ -1,11 +1,11 @@
 'use client';
 
-import { FranchiseResponse } from '@hikka/client';
+import type { FranchiseResponse } from '@hikka/client';
 
+import type { UseFranchiseParams } from '@/types/related';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import { franchiseOptions } from '@/options/api/related';
-import { UseFranchiseParams } from '@/types/related';
 
 /**
  * Hook for retrieving franchise data for anime, manga, or novel

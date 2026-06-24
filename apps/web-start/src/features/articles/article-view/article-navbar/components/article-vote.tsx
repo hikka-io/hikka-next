@@ -1,11 +1,11 @@
 'use client';
 
-import { ArticleBaseResponse, ContentTypeEnum } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import { type ArticleBaseResponse, ContentTypeEnum } from '@hikka/client';
 
 import { buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-
 import VoteButton from '@/features/common/vote-button';
 
 interface Props {
@@ -18,7 +18,7 @@ const ArticleVote: FC<Props> = ({ article }) => {
             className={buttonVariants({
                 variant: 'secondary',
                 size: 'md',
-                className: 'flex-row p-0 overflow-hidden border-none gap-0',
+                className: 'flex-row gap-0 overflow-hidden border-none p-0',
             })}
         >
             <VoteButton

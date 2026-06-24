@@ -1,5 +1,5 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import {
+import type {
     AnimeEpisodesListResponse,
     AnimeInfoResponse,
     AnimePaginationResponse,

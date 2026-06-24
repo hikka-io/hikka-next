@@ -1,8 +1,9 @@
 'use client';
 
-import { AnimeScheduleResponse } from '@hikka/client';
+import { type FC, memo } from 'react';
+
+import type { AnimeScheduleResponse } from '@hikka/client';
 import { useTitle } from '@hikka/react';
-import { FC, memo } from 'react';
 
 import Card from '@/components/ui/card';
 import {
@@ -12,7 +13,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-
 import { getScheduleDuration } from '@/utils/i18n';
 
 interface Props {

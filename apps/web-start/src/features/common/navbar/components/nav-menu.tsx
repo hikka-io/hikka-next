@@ -9,7 +9,6 @@ import {
     NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { Separator } from '@/components/ui/separator';
-
 import { cn } from '@/utils/cn';
 import {
     APP_NAV_CONTENT,
@@ -33,7 +32,7 @@ function navItemClassName(active: boolean) {
 const triggerClassName = cn(
     navItemSize,
     'border border-transparent',
-    'text-foreground/70! bg-transparent!',
+    'bg-transparent! text-foreground/70!',
     'hover:bg-secondary/60! hover:text-foreground!',
     'focus:bg-transparent!',
     'data-[state=open]:bg-secondary/60! data-[state=open]:text-foreground!',
@@ -117,7 +116,7 @@ function NavMenu() {
                                         {index > 0 && (
                                             <Separator className="my-1" />
                                         )}
-                                        <span className="text-muted-foreground/70 px-2 py-1.5 text-xs font-medium">
+                                        <span className="px-2 py-1.5 font-medium text-muted-foreground/70 text-xs">
                                             {group.title_ua}
                                         </span>
                                         <ul className="grid gap-1">

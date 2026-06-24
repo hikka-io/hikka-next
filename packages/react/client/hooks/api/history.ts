@@ -1,17 +1,17 @@
 'use client';
 
-import { HistoryPaginationResponse } from '@hikka/client';
+import type { HistoryPaginationResponse } from '@hikka/client';
 
+import type { UseUserHistoryParams } from '@/types/history';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import {
     followingHistoryOptions,
     userHistoryOptions,
 } from '@/options/api/history';
-import { UseUserHistoryParams } from '@/types/history';
 
 /**
  * Hook for retrieving history of users that the current user follows

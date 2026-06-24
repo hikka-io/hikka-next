@@ -14,7 +14,9 @@
         "test": "jest",
         "test:watch": "jest --watch",
         "test:coverage": "jest --coverage",
-        "lint": "eslint \"**/*.ts\" --fix"
+        "lint": "biome lint .",
+        "format": "biome format --write .",
+        "typecheck": "tsc --noEmit --composite false"
     },
     "exports": {
         ".": {

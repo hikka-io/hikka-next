@@ -1,5 +1,6 @@
-import type { UserRoleEnum } from '@hikka/client';
 import { ReactElement, ReactNode, SVGProps } from 'react';
+
+import type { UserRoleEnum } from '@hikka/client';
 
 declare global {
     namespace Hikka {

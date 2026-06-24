@@ -1,10 +1,12 @@
 'use client';
 
-import { UIEffect, UIStyles, UserUI } from '@hikka/client';
-import { sessionUserUIOptions } from '@hikka/react/options';
+import { useMemo } from 'react';
+
 import { useQuery } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
-import { useMemo } from 'react';
+
+import type { UIEffect, UIStyles, UserUI } from '@hikka/client';
+import { sessionUserUIOptions } from '@hikka/react/options';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import { DEFAULT_USER_UI, mergeEffects, mergeStyles } from '@/utils/ui';

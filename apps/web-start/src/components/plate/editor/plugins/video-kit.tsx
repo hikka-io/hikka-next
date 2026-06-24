@@ -4,7 +4,6 @@ import type { Path, TElement } from 'platejs';
 import { createPlatePlugin } from 'platejs/react';
 
 import { VideoElement } from '@/components/plate/ui/video-node';
-
 import { extractYouTubeVideoId } from '@/utils/youtube';
 
 export const ELEMENT_VIDEO = 'video';

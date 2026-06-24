@@ -1,10 +1,10 @@
-import {
+import type {
     ContentTypeEnum,
     ReadResponseBase,
     WatchResponseBase,
 } from '@hikka/client';
 
-import { ContentCardProps } from './content-card';
+import type { ContentCardProps } from './content-card';
 
 interface MediaEntity {
     slug: string;

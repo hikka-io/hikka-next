@@ -1,5 +1,7 @@
 'use client';
 
+import * as React from 'react';
+
 import {
     Combobox,
     ComboboxGroup,
@@ -22,7 +24,6 @@ import {
 import { cva } from 'class-variance-authority';
 import type { Point, TElement } from 'platejs';
 import { useComposedRef, useEditorRef } from 'platejs/react';
-import * as React from 'react';
 
 import { cn } from '@/utils/cn';
 
@@ -264,7 +265,7 @@ const InlineComboboxContent: typeof ComboboxPopover = ({
         <Portal>
             <ComboboxPopover
                 className={cn(
-                    'bg-secondary/20 z-100 max-h-[288px] w-[300px] overflow-y-auto rounded-md border backdrop-blur-xs',
+                    'z-100 max-h-[288px] w-[300px] overflow-y-auto rounded-md border bg-secondary/20 backdrop-blur-xs',
                     className,
                 )}
                 {...props}
@@ -373,7 +374,7 @@ function InlineComboboxGroup({
         <ComboboxGroup
             {...props}
             className={cn(
-                'hidden py-1.5 not-last:border-b [&:has([role=option])]:block',
+                'hidden not-last:border-b py-1.5 [&:has([role=option])]:block',
                 className,
             )}
         />
@@ -388,7 +389,7 @@ function InlineComboboxGroupLabel({
         <ComboboxGroupLabel
             {...props}
             className={cn(
-                'text-muted-foreground mt-1.5 mb-2 px-3 text-xs font-medium',
+                'mt-1.5 mb-2 px-3 font-medium text-muted-foreground text-xs',
                 className,
             )}
         />

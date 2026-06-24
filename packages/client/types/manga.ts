@@ -1,4 +1,4 @@
-import {
+import type {
     ContentStatusEnum,
     ContentTypeEnum,
     ExternalResponse,
@@ -6,8 +6,8 @@ import {
     PaginatedResponse,
     RoleResponse,
 } from './common';
-import { PersonResponse } from './people';
-import { ReadResponseBase, ReadStatsResponse } from './read';
+import type { PersonResponse } from './people';
+import type { ReadResponseBase, ReadStatsResponse } from './read';
 
 /**
  * Manga media types

@@ -15,7 +15,7 @@ export const useStaff = ({ content_type, slug }: StaffProps) => {
         return CONTENT_CONFIG.anime.useStaff(slug);
     }
 
-    let query = CONTENT_CONFIG[content_type].useInfo(slug);
+    const query = CONTENT_CONFIG[content_type].useInfo(slug);
 
     return {
         list: query.data?.authors,

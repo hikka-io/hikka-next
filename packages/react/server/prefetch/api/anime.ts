@@ -1,3 +1,12 @@
+import type {
+    UseAnimeCharactersParams,
+    UseAnimeEpisodesParams,
+    UseAnimeFranchiseParams,
+    UseAnimeInfoParams,
+    UseAnimeRecommendationsParams,
+    UseAnimeSearchParams,
+    UseAnimeStaffParams,
+} from '@/types/anime';
 import {
     animeBySlugOptions,
     animeCharactersOptions,
@@ -8,19 +17,13 @@ import {
     searchAnimesOptions,
 } from '@/options/api/anime';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseAnimeCharactersParams,
-    UseAnimeEpisodesParams,
-    UseAnimeFranchiseParams,
-    UseAnimeInfoParams,
-    UseAnimeRecommendationsParams,
-    UseAnimeSearchParams,
-    UseAnimeStaffParams,
-} from '@/types/anime';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches anime details for server-side rendering

@@ -1,15 +1,15 @@
 'use client';
 
 import {
+    closestCenter,
     DndContext,
-    DragEndEvent,
+    type DragEndEvent,
     MouseSensor,
     TouchSensor,
-    closestCenter,
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
-import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
+import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
 

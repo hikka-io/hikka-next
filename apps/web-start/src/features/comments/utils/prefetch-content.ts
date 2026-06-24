@@ -1,5 +1,5 @@
-import { ContentTypeEnum, HikkaClient } from '@hikka/client';
-import { QueryClient } from '@hikka/react/core';
+import { ContentTypeEnum, type HikkaClient } from '@hikka/client';
+import type { QueryClient } from '@hikka/react/core';
 import {
     animeBySlugOptions,
     articleBySlugOptions,

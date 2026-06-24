@@ -1,8 +1,9 @@
 'use client';
 
-import { MarkdownPlugin } from '@platejs/markdown';
-import { Value, createSlateEditor } from 'platejs';
 import { useMemo } from 'react';
+
+import { MarkdownPlugin } from '@platejs/markdown';
+import { createSlateEditor, type Value } from 'platejs';
 
 import { EditorStatic } from '@/components/plate/ui/editor-static';
 

@@ -3,7 +3,10 @@ import {
     artifactPrivacyOptions,
     userArtifactPrivacyOptions,
 } from '@/options/api/artifacts';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
+import {
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches an artifact by username and name for server-side rendering

@@ -1,7 +1,8 @@
 'use client';
 
-import { CommentsContentType } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { CommentsContentType } from '@hikka/client';
 
 import ContentCard from '@/components/content-card/content-card';
 import Card from '@/components/ui/card';
@@ -11,10 +12,8 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-
 import { useContent } from '@/features/comments';
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
-
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
@@ -44,7 +43,7 @@ const ContentHeader: FC<Props> = ({
                     <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                         <Link
                             to={link}
-                            className="flex-1 overflow-hidden text-sm font-bold text-ellipsis hover:underline"
+                            className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
                         >
                             {data?.title}
                         </Link>

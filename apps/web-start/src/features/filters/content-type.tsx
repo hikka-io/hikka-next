@@ -1,8 +1,10 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
+import type { FC } from 'react';
+
 import { Play } from 'lucide-react';
-import { FC } from 'react';
+
+import type { ContentTypeEnum } from '@hikka/client';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -14,7 +16,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-
 import { CONTENT_TYPES } from '@/utils/constants/common';
 
 import useChangeParam from './hooks/use-change-param';
@@ -32,7 +33,7 @@ const ContentType: FC<Props> = ({ contentTypes }) => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="text-muted-foreground flex items-center gap-2">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <Play className="size-4 shrink-0" />
                 <Label>Тип контенту</Label>
             </div>

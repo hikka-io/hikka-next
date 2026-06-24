@@ -1,9 +1,10 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { MarkdownPlugin } from '@platejs/markdown';
 import { TrailingBlockPlugin } from 'platejs';
 import { ParagraphPlugin, useEditorRef, usePlateEditor } from 'platejs/react';
-import { useEffect, useState } from 'react';
 
 import { useIsMobile } from '@/services/hooks/use-mobile';
 import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';

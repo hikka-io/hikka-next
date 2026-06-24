@@ -1,10 +1,18 @@
 'use client';
 
-import { ActivityResponse, UserResponse, UserUI } from '@hikka/client';
 import React from 'react';
 
+import type { ActivityResponse, UserResponse, UserUI } from '@hikka/client';
+
+import type {
+    UseSessionParams,
+    UseUserActivityParams,
+    UseUserByUsernameParams,
+    UseUserSearchParams,
+    UseUserUIParams,
+} from '@/types/user';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import {
     searchUsersOptions,
     sessionOptions,
@@ -13,13 +21,6 @@ import {
     userByUsernameOptions,
     userUIOptions,
 } from '@/options/api/user';
-import {
-    UseSessionParams,
-    UseUserActivityParams,
-    UseUserByUsernameParams,
-    UseUserSearchParams,
-    UseUserUIParams,
-} from '@/types/user';
 
 /**
  * Hook for searching users

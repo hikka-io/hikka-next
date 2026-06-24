@@ -1,12 +1,20 @@
 'use client';
 
-import { ContentTypeEnum, MainContent, UserResponse } from '@hikka/client';
+import {
+    type FC,
+    Fragment,
+    type ReactNode,
+    useCallback,
+    useRef,
+    useState,
+} from 'react';
+
 import { CircleX } from 'lucide-react';
-import { FC, Fragment, ReactNode, useCallback, useRef, useState } from 'react';
+
+import type { ContentTypeEnum, MainContent, UserResponse } from '@hikka/client';
 
 import { Button } from '@/components/ui/button';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
-
 import useDebounce from '@/services/hooks/use-debounce';
 
 import SearchButton from './components/search-button';
@@ -19,7 +27,7 @@ import PersonSearchList from './components/search-lists/person-search-list';
 import UserSearchList from './components/search-lists/user-search-list';
 import SearchToggle from './components/search-toggle';
 import useSearchModal from './hooks/use-search-modal';
-import { SEARCH_TYPE_ALL, SearchTypeValue } from './types';
+import { SEARCH_TYPE_ALL, type SearchTypeValue } from './types';
 
 interface Props {
     onClick?: (content: MainContent | UserResponse) => void;
@@ -111,7 +119,7 @@ const SearchModal: FC<Props> = ({
                         size="icon-sm"
                         variant="ghost"
                         disabled={!searchValue || searchValue?.length === 0}
-                        className="text-muted-foreground shrink-0"
+                        className="shrink-0 text-muted-foreground"
                     >
                         <CircleX />
                     </Button>

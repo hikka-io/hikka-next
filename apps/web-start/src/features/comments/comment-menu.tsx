@@ -1,7 +1,9 @@
-import { CommentResponse } from '@hikka/client';
-import { useDeleteComment, useSession } from '@hikka/react';
-import { FC } from 'react';
+import type { FC } from 'react';
+
 import { toast } from 'sonner';
+
+import type { CommentResponse } from '@hikka/client';
+import { useDeleteComment, useSession } from '@hikka/react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -24,7 +26,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
 import { useCommentsContext } from '@/services/providers/comments-provider';
 
 interface Props {

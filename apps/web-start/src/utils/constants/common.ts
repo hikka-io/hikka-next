@@ -1,4 +1,14 @@
 // Filter properties
+
+// Collection options
+export {
+    COLLECTION_CONTENT_TYPE_OPTIONS,
+    COLLECTION_VISIBILITY_OPTIONS,
+} from './collection-options';
+// Content configuration
+export { CONTENT_CONFIG, CONTENT_TYPES } from './content-config';
+// Errors
+export { ERRORS } from './errors';
 export {
     AGE_RATING,
     ANIME_MEDIA_TYPE,
@@ -17,19 +27,6 @@ export {
     VIDEO,
     WATCH_STATUS,
 } from './filter-properties';
-
-// Errors
-export { ERRORS } from './errors';
-
-// Content configuration
-export { CONTENT_CONFIG, CONTENT_TYPES } from './content-config';
-
-// Collection options
-export {
-    COLLECTION_CONTENT_TYPE_OPTIONS,
-    COLLECTION_VISIBILITY_OPTIONS,
-} from './collection-options';
-
 // User roles
 export { USER_ROLE } from './user-role';
 

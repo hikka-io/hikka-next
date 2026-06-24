@@ -1,5 +1,6 @@
-import { HSLColor, UIColorTokens, UIStyles } from '@hikka/client';
 import type { CSSProperties } from 'react';
+
+import type { HSLColor, UIColorTokens, UIStyles } from '@hikka/client';
 
 export const STYLE_ELEMENT_ID = 'user-styles';
 

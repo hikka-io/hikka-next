@@ -1,5 +1,8 @@
 import { genresOptions } from '@/options/api/genres';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
+import {
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches all genres for server-side rendering

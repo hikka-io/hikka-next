@@ -1,13 +1,17 @@
 'use client';
 
-import { PersonAnimeResponse, PersonCharactersResponse } from '@hikka/client';
+import { type FC, memo, type PropsWithChildren } from 'react';
+
+import type {
+    PersonAnimeResponse,
+    PersonCharactersResponse,
+} from '@hikka/client';
 import {
     usePersonAnime,
     usePersonBySlug,
     usePersonCharacters,
     useTitle,
 } from '@hikka/react';
-import { FC, PropsWithChildren, memo } from 'react';
 
 import MaterialSymbolsMoreHoriz from '../../icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MDViewer from '../../markdown/viewer/md-viewer';
@@ -31,7 +35,7 @@ const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
 
     return (
         <div className="flex flex-col gap-2">
-            <span className="text-muted-foreground text-sm leading-tight font-medium">
+            <span className="font-medium text-muted-foreground text-sm leading-tight">
                 Роботи
             </span>
             <div className="flex gap-2">
@@ -53,7 +57,7 @@ const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
                         className="w-10"
                         href={`/people/${slug}`}
                         image={
-                            <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
+                            <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
                         }
                         containerRatio={0.7}
                     />
@@ -71,7 +75,7 @@ const PersonCharactersList: FC<{
 
     return (
         <div className="flex flex-col gap-2">
-            <span className="text-muted-foreground text-sm leading-tight font-medium">
+            <span className="font-medium text-muted-foreground text-sm leading-tight">
                 Ролі
             </span>
             <div className="flex gap-2">
@@ -91,7 +95,7 @@ const PersonCharactersList: FC<{
                         className="w-10"
                         href={`/people/${slug}`}
                         image={
-                            <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
+                            <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
                         }
                         containerRatio={0.7}
                     />
@@ -133,12 +137,12 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
             />
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
-                    <span className="line-clamp-2 text-sm leading-tight font-bold">
+                    <span className="line-clamp-2 font-bold text-sm leading-tight">
                         {name}
                     </span>
                 </div>
                 <div className="flex flex-col gap-2">
-                    <MDViewer className="text-muted-foreground text-sm break-normal whitespace-normal md:line-clamp-3">
+                    <MDViewer className="whitespace-normal break-normal text-muted-foreground text-sm md:line-clamp-3">
                         {data.description_ua}
                     </MDViewer>
                     {data.characters_count === 0 && (

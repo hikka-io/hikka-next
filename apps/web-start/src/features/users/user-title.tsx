@@ -10,7 +10,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { Link, useParams } from '@/utils/navigation';
 
 const UserTitle = () => {
@@ -34,7 +33,7 @@ const UserTitle = () => {
                 {(user.role === 'admin' || user.role === 'moderator') && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>
-                            <div className="border-border bg-secondary/20 rounded-sm border p-1 text-xs font-bold backdrop-blur">
+                            <div className="rounded-sm border border-border bg-secondary/20 p-1 font-bold text-xs backdrop-blur">
                                 {user.role === 'admin' && (
                                     <MaterialSymbolsSecurity className="text-role-admin" />
                                 )}
@@ -54,7 +53,7 @@ const UserTitle = () => {
                 )}
             </div>
             {user.description && (
-                <MDViewer className="text-muted-foreground line-clamp-3 text-sm leading-5">
+                <MDViewer className="line-clamp-3 text-muted-foreground text-sm leading-5">
                     {user.description}
                 </MDViewer>
             )}

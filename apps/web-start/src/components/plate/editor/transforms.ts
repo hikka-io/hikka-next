@@ -21,9 +21,7 @@ const createBlockNode = (editor: PlateEditor, type: string): TElement => {
     if (CONTAINER_TYPES.has(type)) {
         return {
             type,
-            children: [
-                { type: KEYS.p, children: [{ text: '' }] } as TElement,
-            ],
+            children: [{ type: KEYS.p, children: [{ text: '' }] } as TElement],
         };
     }
 
@@ -96,17 +94,15 @@ export const insertBlock = (editor: PlateEditor, type: string) => {
     });
 };
 
-const setBlockMap: Record<
-    string,
-    (editor: PlateEditor, type: string) => void
-> = {
-    [KEYS.olClassic]: (editor) =>
-        toggleList(editor, { type: editor.getType(KEYS.olClassic) }),
-    [KEYS.taskList]: (editor) =>
-        toggleList(editor, { type: editor.getType(KEYS.taskList) }),
-    [KEYS.ulClassic]: (editor) =>
-        toggleList(editor, { type: editor.getType(KEYS.ulClassic) }),
-};
+const setBlockMap: Record<string, (editor: PlateEditor, type: string) => void> =
+    {
+        [KEYS.olClassic]: (editor) =>
+            toggleList(editor, { type: editor.getType(KEYS.olClassic) }),
+        [KEYS.taskList]: (editor) =>
+            toggleList(editor, { type: editor.getType(KEYS.taskList) }),
+        [KEYS.ulClassic]: (editor) =>
+            toggleList(editor, { type: editor.getType(KEYS.ulClassic) }),
+    };
 
 export const setBlockType = (
     editor: PlateEditor,

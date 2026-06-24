@@ -1,15 +1,18 @@
 'use client';
 
-import { ContentTypeEnum, FavouriteCharacterResponse } from '@hikka/client';
+import type { FC } from 'react';
+
+import {
+    ContentTypeEnum,
+    type FavouriteCharacterResponse,
+} from '@hikka/client';
 import { useHikkaClient, useUserFavourites } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
-import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
-
 import { useParams } from '@/utils/navigation';
 
 interface Props {

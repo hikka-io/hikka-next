@@ -1,11 +1,12 @@
 'use client';
 
+import { useCallback, useState } from 'react';
+
 import type { Operations } from '@unpic/core/base';
 import {
     Image as UnpicImage,
     type ImageProps as UnpicImageProps,
 } from '@unpic/react/base';
-import { useCallback, useState } from 'react';
 
 import { cn } from '@/utils/cn';
 import { imgproxyTransformer } from '@/utils/imgproxy';
@@ -44,9 +45,7 @@ const Image = ({
     const resolvedClassName = cn(
         'text-transparent',
         !transitionDisabled &&
-            (loaded
-                ? 'animate-[fade-in_0.2s_ease-in-out]'
-                : 'opacity-0'),
+            (loaded ? 'animate-[fade-in_0.2s_ease-in-out]' : 'opacity-0'),
         className,
     );
 

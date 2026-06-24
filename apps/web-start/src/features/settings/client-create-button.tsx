@@ -1,7 +1,8 @@
 'use client';
 
+import { type FC, Fragment, memo, useState } from 'react';
+
 import { useSession } from '@hikka/react';
-import { FC, Fragment, memo, useState } from 'react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-
 import { ClientCreateModal } from '@/features/oauth';
 
 const ClientCreateButton: FC = () => {

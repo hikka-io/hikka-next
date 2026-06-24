@@ -1,9 +1,15 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { range } from '@antfu/utils';
-import { AnimeMediaEnum, AnimeStatusEnum, SeasonEnum } from '@hikka/client';
+
+import {
+    AnimeMediaEnum,
+    AnimeStatusEnum,
+    type SeasonEnum,
+} from '@hikka/client';
 import { useSearchAnimes } from '@hikka/react';
-import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import SkeletonCard from '@/components/content-card/content-card-skeleton';
@@ -16,9 +22,7 @@ import {
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
-
 import { getOngoingsSort } from '@/features/filters/sort';
-
 import { cn } from '@/utils/cn';
 import { getCurrentSeason } from '@/utils/season';
 

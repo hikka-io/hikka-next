@@ -1,5 +1,5 @@
-import { BaseRequestOptionsArgs } from '../types/common';
-import { FeedArgs, FeedItemResponse } from '../types/feed';
+import type { BaseRequestOptionsArgs } from '../types/common';
+import type { FeedArgs, FeedItemResponse } from '../types/feed';
 import { BaseModule } from './base';
 
 /**

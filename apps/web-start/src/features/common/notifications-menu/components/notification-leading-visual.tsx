@@ -1,9 +1,8 @@
 'use client';
 
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
 import { cn } from '@/utils/cn';
 
 import { accentBadgeClasses } from '../utils/notification-accents';
@@ -35,7 +34,7 @@ const NotificationLeadingVisual: FC<Props> = ({
                     <AvatarFallback>{typeIcon}</AvatarFallback>
                 </Avatar>
             ) : (
-                <div className="border-border bg-secondary/40 flex size-10 items-center justify-center rounded-md border [&_svg]:size-5">
+                <div className="flex size-10 items-center justify-center rounded-md border border-border bg-secondary/40 [&_svg]:size-5">
                     {typeIcon}
                 </div>
             )}

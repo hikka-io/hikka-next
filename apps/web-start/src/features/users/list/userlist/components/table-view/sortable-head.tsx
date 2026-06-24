@@ -1,7 +1,6 @@
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import { TableHead } from '@/components/ui/table';
-
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -26,7 +25,7 @@ const SortableHead: FC<Props> = ({
                 active ? (order === 'asc' ? 'ascending' : 'descending') : 'none'
             }
             className={cn(
-                'text-center select-none',
+                'select-none text-center',
                 active && 'text-primary-foreground',
                 className,
             )}

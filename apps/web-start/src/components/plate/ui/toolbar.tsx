@@ -1,20 +1,20 @@
 'use client';
 
+import * as React from 'react';
+
 import * as ToolbarPrimitive from '@radix-ui/react-toolbar';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
-import { type VariantProps, cva } from 'class-variance-authority';
+import { cva, type VariantProps } from 'class-variance-authority';
 import { ChevronDown } from 'lucide-react';
-import * as React from 'react';
 
 import {
     DropdownMenuGroup,
     DropdownMenuLabel,
-    DropdownMenuRadioGroup,
+    type DropdownMenuRadioGroup,
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import { Tooltip, TooltipTrigger } from '@/components/ui/tooltip';
-
 import { cn } from '@/utils/cn';
 
 export function Toolbar({
@@ -23,7 +23,7 @@ export function Toolbar({
 }: React.ComponentProps<typeof ToolbarPrimitive.Root>) {
     return (
         <ToolbarPrimitive.Root
-            className={cn('relative flex items-center select-none', className)}
+            className={cn('relative flex select-none items-center', className)}
             {...props}
         />
     );
@@ -62,7 +62,7 @@ export function ToolbarSeparator({
 }: React.ComponentProps<typeof ToolbarPrimitive.Separator>) {
     return (
         <ToolbarPrimitive.Separator
-            className={cn('bg-border mx-2 my-1 w-px shrink-0', className)}
+            className={cn('mx-2 my-1 w-px shrink-0 bg-border', className)}
             {...props}
         />
     );
@@ -93,7 +93,7 @@ const toolbarButtonVariants = cva(
 
 const dropdownArrowVariants = cva(
     cn(
-        'text-foreground inline-flex items-center justify-center rounded-r-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50',
+        'inline-flex items-center justify-center rounded-r-md font-medium text-foreground text-sm transition-colors disabled:pointer-events-none disabled:opacity-50',
     ),
     {
         defaultVariants: {
@@ -159,7 +159,7 @@ export const ToolbarButton = withTooltip(function ToolbarButton({
                         </div>
                         <div>
                             <ChevronDown
-                                className="text-muted-foreground size-4"
+                                className="size-4 text-muted-foreground"
                                 data-icon
                             />
                         </div>
@@ -253,7 +253,7 @@ export function ToolbarSplitButtonSecondary({
             role="button"
             {...props}
         >
-            <ChevronDown className="text-muted-foreground size-3.5" data-icon />
+            <ChevronDown className="size-3.5 text-muted-foreground" data-icon />
         </span>
     );
 }
@@ -287,7 +287,7 @@ export function ToolbarGroup({
         >
             <div className="flex items-center">{children}</div>
 
-            <div className="mx-1.5 py-0.5 group-last/toolbar-group:hidden!">
+            <div className="group-last/toolbar-group:hidden! mx-1.5 py-0.5">
                 <Separator orientation="vertical" />
             </div>
         </div>
@@ -352,7 +352,7 @@ function TooltipContent({
         <TooltipPrimitive.Portal>
             <TooltipPrimitive.Content
                 className={cn(
-                    'bg-primary text-foreground z-50 hidden w-fit origin-(--radix-tooltip-content-transform-origin) rounded-md px-3 py-1.5 text-xs text-balance md:flex',
+                    'z-50 hidden w-fit origin-(--radix-tooltip-content-transform-origin) text-balance rounded-md bg-primary px-3 py-1.5 text-foreground text-xs md:flex',
                     className,
                 )}
                 data-slot="tooltip-content"
@@ -386,7 +386,7 @@ export function ToolbarMenuGroup({
                 {...props}
                 className={cn(
                     'hidden',
-                    'peer/menu-group group/menu-group  has-[[role=menuitem]]:block has-[[role=menuitemradio]]:block has-[[role=option]]:block',
+                    'peer/menu-group group/menu-group has-[[role=menuitem]]:block has-[[role=menuitemradio]]:block has-[[role=option]]:block',
                     className,
                 )}
             >

@@ -1,4 +1,4 @@
-import { ClientArgs, PaginationArgs } from '@hikka/client';
+import type { ClientArgs, PaginationArgs } from '@hikka/client';
 
 export interface UseClientByReferenceParams {
     reference: string;

@@ -1,8 +1,10 @@
 'use client';
 
-import { useEdit } from '@hikka/react';
+import type { FC } from 'react';
+
 import { format } from 'date-fns';
-import { FC } from 'react';
+
+import { useEdit } from '@hikka/react';
 
 import {
     HorizontalCard,

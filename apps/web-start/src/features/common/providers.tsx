@@ -1,15 +1,15 @@
-import { HikkaClient } from '@hikka/client';
-import { HikkaContextProvider } from '@hikka/react';
+import { type FC, type PropsWithChildren, useMemo } from 'react';
+
 import { uk } from 'date-fns/locale';
 import { setDefaultOptions } from 'date-fns/setDefaultOptions';
-import { FC, PropsWithChildren, useMemo } from 'react';
+
+import type { HikkaClient } from '@hikka/client';
+import { HikkaContextProvider } from '@hikka/react';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
-
 import EffectsManager from '@/features/common/effects-manager';
 import UIStylesSyncer from '@/features/common/ui-styles-syncer';
 import VisualViewportSyncer from '@/features/common/visual-viewport-syncer';
-
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import ThemeProvider from '@/services/providers/theme-provider';
 
@@ -32,10 +32,7 @@ const Providers: FC<Props> = ({ children, client, serverTheme }) => {
     );
 
     return (
-        <HikkaContextProvider
-            client={client}
-            defaultOptions={defaultOptions}
-        >
+        <HikkaContextProvider client={client} defaultOptions={defaultOptions}>
             <ThemeProvider
                 attribute="class"
                 defaultTheme={serverTheme ?? 'dark'}

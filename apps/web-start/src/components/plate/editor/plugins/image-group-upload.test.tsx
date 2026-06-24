@@ -9,15 +9,13 @@ import { toast } from 'sonner';
 
 import { ImageGroupKit, ImageGroupPlugin } from './image-group-kit';
 
-const jpeg = (name = 'a.jpg') =>
-    new File(['x'], name, { type: 'image/jpeg' });
+const jpeg = (name = 'a.jpg') => new File(['x'], name, { type: 'image/jpeg' });
 
-const nodesOfType = (editor: any, type: string) =>
-    [...editor.api.nodes({ at: [], match: (n: any) => n.type === type })];
+const nodesOfType = (editor: any, type: string) => [
+    ...editor.api.nodes({ at: [], match: (n: any) => n.type === type }),
+];
 
-function makeEditor(
-    uploadImage: (file: File) => Promise<{ url: string }>,
-) {
+function makeEditor(uploadImage: (file: File) => Promise<{ url: string }>) {
     const editor = createPlateEditor({
         plugins: ImageGroupKit,
         value: [{ type: 'p', children: [{ text: '' }] }],
@@ -95,13 +93,7 @@ describe('image group upload pipeline (headless)', () => {
         }));
 
         await editor.getTransforms(ImageGroupPlugin).imageGroup.upload({
-            files: [
-                jpeg('1'),
-                jpeg('2'),
-                jpeg('3'),
-                jpeg('4'),
-                jpeg('5'),
-            ],
+            files: [jpeg('1'), jpeg('2'), jpeg('3'), jpeg('4'), jpeg('5')],
         });
 
         expect(nodesOfType(editor, 'image')).toHaveLength(4);

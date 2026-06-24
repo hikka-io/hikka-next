@@ -1,8 +1,10 @@
 'use client';
 
-import { useUserActivity } from '@hikka/react';
+import { type FC, useEffect, useMemo, useRef, useState } from 'react';
+
 import { format } from 'date-fns';
-import { FC, useEffect, useMemo, useRef, useState } from 'react';
+
+import { useUserActivity } from '@hikka/react';
 
 import { useParams } from '@/utils/navigation';
 
@@ -137,21 +139,21 @@ const ActivityHeatmap: FC = () => {
                     ))}
                 </div>
             </div>
-            <div className="text-muted-foreground flex items-center gap-1 text-xs">
+            <div className="flex items-center gap-1 text-muted-foreground text-xs">
                 <span>Менше</span>
                 {[0, 1, 2, 3, 4].map((level) => (
                     <div
                         key={level}
                         className={
                             level === 0
-                                ? 'bg-secondary size-2.5 rounded-xs'
+                                ? 'size-2.5 rounded-xs bg-secondary'
                                 : level === 1
-                                  ? 'bg-primary-foreground/20 size-2.5 rounded-xs'
+                                  ? 'size-2.5 rounded-xs bg-primary-foreground/20'
                                   : level === 2
-                                    ? 'bg-primary-foreground/40 size-2.5 rounded-xs'
+                                    ? 'size-2.5 rounded-xs bg-primary-foreground/40'
                                     : level === 3
-                                      ? 'bg-primary-foreground/70 size-2.5 rounded-xs'
-                                      : 'bg-primary-foreground size-2.5 rounded-xs'
+                                      ? 'size-2.5 rounded-xs bg-primary-foreground/70'
+                                      : 'size-2.5 rounded-xs bg-primary-foreground'
                         }
                     />
                 ))}

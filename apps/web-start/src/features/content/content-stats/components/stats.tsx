@@ -1,6 +1,7 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
+
 import { NumericFormat } from 'react-number-format';
 
 import {
@@ -8,7 +9,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -29,14 +29,14 @@ const Stats: FC<Props> = ({ stats }) => {
                                 <div className="flex items-center justify-between gap-2">
                                     <div className="flex w-full flex-1 items-center gap-2">
                                         {stat.icon && (
-                                            <div className="bg-secondary/20 flex size-6 items-center justify-center rounded-md">
+                                            <div className="flex size-6 items-center justify-center rounded-md bg-secondary/20">
                                                 {stat.icon}
                                             </div>
                                         )}
                                         <div className="relative h-2 w-full flex-1 overflow-hidden rounded-md">
                                             <div
                                                 className={cn(
-                                                    'bg-secondary/60 absolute bottom-0 left-0 size-full',
+                                                    'absolute bottom-0 left-0 size-full bg-secondary/60',
                                                 )}
                                             />
                                             <div
@@ -44,14 +44,14 @@ const Stats: FC<Props> = ({ stats }) => {
                                                     width: `${stat.percentage}%`,
                                                 }}
                                                 className={cn(
-                                                    'bg-primary-foreground absolute bottom-0 left-0 flex h-2 w-full items-end justify-center',
+                                                    'absolute bottom-0 left-0 flex h-2 w-full items-end justify-center bg-primary-foreground',
                                                     !!stat.name &&
                                                         `bg-${stat.name}-foreground`,
                                                 )}
                                             ></div>
                                         </div>
                                     </div>
-                                    <small className="text-muted-foreground w-14 text-right">
+                                    <small className="w-14 text-right text-muted-foreground">
                                         <NumericFormat
                                             thousandSeparator
                                             displayType="text"

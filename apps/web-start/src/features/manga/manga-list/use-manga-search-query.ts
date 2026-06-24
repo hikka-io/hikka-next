@@ -1,11 +1,10 @@
 'use client';
 
-import { ContentStatusEnum, MangaMediaEnum } from '@hikka/client';
+import type { ContentStatusEnum, MangaMediaEnum } from '@hikka/client';
 import { useSearchMangas } from '@hikka/react';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
-
 import type { MangaSearch } from '@/utils/search-schemas';
 
 /**

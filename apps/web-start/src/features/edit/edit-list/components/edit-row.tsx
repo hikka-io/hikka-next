@@ -1,15 +1,16 @@
 'use client';
 
-import { EditResponse } from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import type { FC, MouseEvent } from 'react';
+
 import { format } from 'date-fns';
-import { FC, MouseEvent } from 'react';
+
+import type { EditResponse } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { TableCell, TableRow } from '@/components/ui/table';
-
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';

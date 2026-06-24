@@ -1,18 +1,21 @@
+import type {
+    UseMangaCharactersParams,
+    UseMangaInfoParams,
+    UseSearchMangasParams,
+} from '@/types/manga';
 import {
     mangaBySlugOptions,
     mangaCharactersOptions,
     searchMangasOptions,
 } from '@/options/api/manga';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseMangaCharactersParams,
-    UseMangaInfoParams,
-    UseSearchMangasParams,
-} from '@/types/manga';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches manga details for server-side rendering

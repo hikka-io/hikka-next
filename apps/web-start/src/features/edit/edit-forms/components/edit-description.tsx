@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { useFormContext } from '@/components/form/form-context';
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/responsive-modal';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
-
 import { useSettingsStore } from '@/services/stores/settings-store';
 
 import TagsModal from './tags-modal';
@@ -42,10 +41,9 @@ const EditDescription: FC<Props> = ({ mode }) => {
                                     variant="outline"
                                     key={tag}
                                     onClick={() => {
-                                        const current =
-                                            form.getFieldValue(
-                                                'description',
-                                            ) as string;
+                                        const current = form.getFieldValue(
+                                            'description',
+                                        ) as string;
                                         form.setFieldValue(
                                             'description',
                                             current === ''

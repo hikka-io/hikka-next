@@ -5,7 +5,6 @@ import { PlateElement } from 'platejs/react';
 
 import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
 import { Button } from '@/components/ui/button';
-
 import { cn } from '@/utils/cn';
 
 import type { TImageElement } from '../editor/plugins/image-kit';
@@ -29,7 +28,7 @@ export function ImageElement({ className, ...props }: ImageElementProps) {
             {...props}
             className={cn(
                 className,
-                'relative size-28 cursor-pointer rounded-md bg-cover bg-center',
+                'relative size-28 cursor-pointer rounded-md bg-center bg-cover',
             )}
             style={{
                 backgroundImage: `url(${url})`,

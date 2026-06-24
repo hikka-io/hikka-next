@@ -112,7 +112,7 @@ const Rating = ({
 
         switch (e.key) {
             case 'ArrowRight':
-            case 'ArrowUp':
+            case 'ArrowUp': {
                 e.preventDefault();
                 const nextValue = Math.min(
                     currentValue + precision,
@@ -121,13 +121,15 @@ const Rating = ({
                 setSelected(nextValue);
                 onChange?.(nextValue);
                 break;
+            }
             case 'ArrowLeft':
-            case 'ArrowDown':
+            case 'ArrowDown': {
                 e.preventDefault();
                 const prevValue = Math.max(currentValue - precision, 0);
                 setSelected(prevValue);
                 onChange?.(prevValue);
                 break;
+            }
             case 'Home':
                 e.preventDefault();
                 setSelected(0);

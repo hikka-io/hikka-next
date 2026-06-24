@@ -1,18 +1,18 @@
-import {
+import type { FC } from 'react';
+
+import type {
     AnimeResponse,
     ContentTypeEnum,
     MangaResponse,
     NovelResponse,
 } from '@hikka/client';
 import { useTitle } from '@hikka/react';
-import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
-
 import { getDeclensionWord } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
 

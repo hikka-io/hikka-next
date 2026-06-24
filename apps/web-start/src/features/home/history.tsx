@@ -1,7 +1,8 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useFollowingHistory, useSession } from '@hikka/react';
-import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -12,9 +13,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-
 import HistoryItem from '@/features/users/user-history/components/history-item';
-
 import { cn } from '@/utils/cn';
 
 interface Props {

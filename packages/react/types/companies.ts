@@ -1,4 +1,4 @@
-import { CompaniesSearchArgs } from '@hikka/client';
+import type { CompaniesSearchArgs } from '@hikka/client';
 
 export interface UseCompaniesSearchParams {
     args?: CompaniesSearchArgs;

@@ -1,4 +1,4 @@
-import { VoteContentType } from '@hikka/client';
+import type { VoteContentType } from '@hikka/client';
 
 export interface UseVoteStatusParams {
     contentType: VoteContentType;

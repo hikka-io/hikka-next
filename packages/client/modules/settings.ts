@@ -1,4 +1,4 @@
-import {
+import type {
     BaseRequestOptionsArgs,
     ContentTypeEnum,
     DescriptionArgs,
@@ -11,9 +11,9 @@ import {
     PasswordArgs,
     SuccessResponse,
     UserExportResponse,
+    UsernameArgs,
     UserResponse,
     UserUI,
-    UsernameArgs,
 } from '../types';
 import { BaseModule } from './base';
 

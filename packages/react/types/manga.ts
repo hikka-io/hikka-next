@@ -1,4 +1,4 @@
-import { MangaSearchArgs } from '@hikka/client';
+import type { MangaSearchArgs } from '@hikka/client';
 
 export interface UseMangaInfoParams {
     slug: string;

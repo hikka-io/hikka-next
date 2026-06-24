@@ -1,18 +1,21 @@
-import { FavouriteItem } from '@hikka/client';
+import type { FavouriteItem } from '@hikka/client';
 
+import type {
+    UseFavouriteListParams,
+    UseFavouriteStatusParams,
+} from '@/types/favourite';
 import {
     favouriteStatusOptions,
     userFavouritesOptions,
 } from '@/options/api/favourite';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseFavouriteListParams,
-    UseFavouriteStatusParams,
-} from '@/types/favourite';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches favourite status for server-side rendering

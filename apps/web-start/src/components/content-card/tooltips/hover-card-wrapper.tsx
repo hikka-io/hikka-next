@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, ReactNode } from 'react';
+import type { FC, PropsWithChildren, ReactNode } from 'react';
 
 import {
     HoverCard,
@@ -7,7 +7,6 @@ import {
     HoverCardPortal,
     HoverCardTrigger,
 } from '@/components/ui/hover-card';
-
 import { cn } from '@/utils/cn';
 
 interface Props extends PropsWithChildren {

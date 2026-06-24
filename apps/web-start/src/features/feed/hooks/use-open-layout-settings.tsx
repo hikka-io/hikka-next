@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useCallback, useState } from 'react';
+import { type ReactNode, useCallback, useState } from 'react';
 
 import {
     ResponsiveModal,

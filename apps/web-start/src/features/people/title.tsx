@@ -1,7 +1,8 @@
 'use client';
 
-import { usePersonBySlug, useTitle } from '@hikka/react';
 import { useRef } from 'react';
+
+import { usePersonBySlug, useTitle } from '@hikka/react';
 
 import { useParams } from '@/utils/navigation';
 

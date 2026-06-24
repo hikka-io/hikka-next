@@ -1,9 +1,11 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import {
     ContentTypeEnum,
-    ReadArgs,
-    ReadResponse,
+    type ReadArgs,
+    type ReadResponse,
     ReadStatusEnum,
 } from '@hikka/client';
 import {
@@ -15,7 +17,6 @@ import {
 } from '@hikka/react';
 import { queryKeys, useQueryClient } from '@hikka/react/core';
 import { getTitle } from '@hikka/react/utils';
-import { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -38,9 +39,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { ReadEditModal } from '@/features/read';
-
 import useDebounce from '@/services/hooks/use-debounce';
 import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
@@ -284,14 +283,14 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             </h5>
                             <div className="mt-1 flex cursor-pointer items-center gap-2">
                                 {selectedRead.content.year && (
-                                    <Label className="text-muted-foreground cursor-pointer text-xs">
+                                    <Label className="cursor-pointer text-muted-foreground text-xs">
                                         {selectedRead.content.year}
                                     </Label>
                                 )}
                                 {selectedRead.content.media_type && (
                                     <>
-                                        <div className="bg-muted-foreground size-1 rounded-full" />
-                                        <Label className="text-muted-foreground cursor-pointer text-xs">
+                                        <div className="size-1 rounded-full bg-muted-foreground" />
+                                        <Label className="cursor-pointer text-muted-foreground text-xs">
                                             {
                                                 (
                                                     config.mediaTypeMap as Record<
@@ -308,8 +307,8 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                                 )}
                                 {totalChapters && (
                                     <>
-                                        <div className="bg-muted-foreground size-1 rounded-full" />
-                                        <Label className="text-muted-foreground cursor-pointer text-xs">
+                                        <div className="size-1 rounded-full bg-muted-foreground" />
+                                        <Label className="cursor-pointer text-muted-foreground text-xs">
                                             {totalChapters}{' '}
                                             {getDeclensionWord(
                                                 totalChapters,
@@ -323,7 +322,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
                         <div className="flex w-full flex-col gap-2">
                             <p className="text-muted-foreground text-sm">
-                                <span className="text-foreground font-bold">
+                                <span className="font-bold text-foreground">
                                     {currentChapters}
                                 </span>
                                 /{totalChapters ?? '?'} розділів

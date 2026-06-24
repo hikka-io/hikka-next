@@ -1,7 +1,8 @@
 'use client';
 
-import { UIEffect } from '@hikka/client';
-import { Suspense, lazy } from 'react';
+import { lazy, Suspense } from 'react';
+
+import type { UIEffect } from '@hikka/client';
 
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 

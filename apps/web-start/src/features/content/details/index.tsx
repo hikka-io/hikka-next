@@ -1,12 +1,12 @@
 'use client';
 
 import {
-    AnimeInfoResponse,
-    CharacterResponse,
+    type AnimeInfoResponse,
+    type CharacterResponse,
     ContentTypeEnum,
-    MangaInfoResponse,
-    NovelInfoResponse,
-    PersonResponse,
+    type MangaInfoResponse,
+    type NovelInfoResponse,
+    type PersonResponse,
 } from '@hikka/client';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';

@@ -1,9 +1,9 @@
+import type { UseCompaniesSearchParams } from '@/types/companies';
 import { searchCompaniesOptions } from '@/options/api/companies';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { UseCompaniesSearchParams } from '@/types/companies';
 
 /**
  * Prefetches companies search for server-side rendering

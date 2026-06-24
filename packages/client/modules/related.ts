@@ -1,5 +1,5 @@
-import { BaseRequestOptionsArgs } from '../types';
-import { FranchiseResponse, RelatedContentType } from '../types/related';
+import type { BaseRequestOptionsArgs } from '../types';
+import type { FranchiseResponse, RelatedContentType } from '../types/related';
 import { BaseModule } from './base';
 
 /**

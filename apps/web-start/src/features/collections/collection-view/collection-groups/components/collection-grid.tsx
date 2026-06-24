@@ -1,14 +1,16 @@
 'use client';
 
-import {
+import { type FC, memo, useRef } from 'react';
+
+import { Info } from 'lucide-react';
+
+import type {
     CollectionContent,
     CollectionContentResponse,
     ContentTypeEnum,
 } from '@hikka/client';
 import { useHikkaClient } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
-import { Info } from 'lucide-react';
-import { FC, memo, useRef } from 'react';
 
 import ContentCard, {
     DEFAULT_CONTAINER_RATIO,
@@ -26,7 +28,6 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -51,7 +52,7 @@ const CommentButton: FC<{ comment: string }> = ({ comment }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
     const trigger = (
-        <button className="bg-secondary/80 hover:bg-secondary flex size-7 items-center justify-center rounded-md backdrop-blur transition-colors">
+        <button className="flex size-7 items-center justify-center rounded-md bg-secondary/80 backdrop-blur transition-colors hover:bg-secondary">
             <Info className="size-4" />
         </button>
     );
@@ -105,7 +106,14 @@ const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
                             content_type={content_type}
                             href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
                             image={item.content.image}
-                            title={getTitle(item.content as unknown as Record<string, unknown>, defaultOptions?.title, defaultOptions?.name)}
+                            title={getTitle(
+                                item.content as unknown as Record<
+                                    string,
+                                    unknown
+                                >,
+                                defaultOptions?.title,
+                                defaultOptions?.name,
+                            )}
                             watch={
                                 'watch' in item.content &&
                                 item.content.watch.length > 0
@@ -127,7 +135,7 @@ const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
                                 <div className="pointer-events-auto absolute right-2 bottom-2 z-1">
                                     <CommentButton comment={item.comment} />
                                 </div>
-                                <div className="from-background/60 pointer-events-none absolute bottom-0 left-0 z-0 h-12 w-full rounded-b-md bg-linear-to-t to-transparent" />
+                                <div className="pointer-events-none absolute bottom-0 left-0 z-0 h-12 w-full rounded-b-md bg-linear-to-t from-background/60 to-transparent" />
                             </div>
                         )}
                     </div>

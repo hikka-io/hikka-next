@@ -1,5 +1,6 @@
-import { HikkaClient } from '@hikka/client';
 import { queryOptions } from '@tanstack/react-query';
+
+import type { HikkaClient } from '@hikka/client';
 
 import { queryKeys } from '@/core';
 

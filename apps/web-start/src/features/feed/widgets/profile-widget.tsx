@@ -1,8 +1,10 @@
 'use client';
 
-import { useSession, useUserFollowStats } from '@hikka/react';
+import { type FC, useState } from 'react';
+
 import { Settings } from 'lucide-react';
-import { FC, useState } from 'react';
+
+import { useSession, useUserFollowStats } from '@hikka/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -11,14 +13,12 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-
 import { LoginButton } from '@/features/common';
 import FollowListModal from '@/features/users/followlist-modal';
-
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { Link } from '@/utils/navigation';
 
-import { WidgetProps } from '../constants';
+import type { WidgetProps } from '../constants';
 
 const ProfileWidget: FC<WidgetProps> = () => {
     const [open, setOpen] = useState(false);
@@ -33,9 +33,9 @@ const ProfileWidget: FC<WidgetProps> = () => {
 
     if (!user || !followStats) {
         return (
-            <Card className="bg-secondary/20 items-center" id="sidebar-profile">
+            <Card className="items-center bg-secondary/20" id="sidebar-profile">
                 <div className="flex w-full flex-col gap-2">
-                    <p className="text-sm font-bold">Приєднуйся до hikka</p>
+                    <p className="font-bold text-sm">Приєднуйся до hikka</p>
                     <p className="text-muted-foreground text-xs">
                         Відслідковуй свій прогрес, створюй власні колекції та
                         веди обговорення зі спільнотою
@@ -49,7 +49,7 @@ const ProfileWidget: FC<WidgetProps> = () => {
     return (
         <>
             <Card
-                className="bg-secondary/20 items-center backdrop-blur-xl"
+                className="items-center bg-secondary/20 backdrop-blur-xl"
                 id="sidebar-profile"
             >
                 <div className="flex w-full items-center justify-between gap-2">
@@ -65,7 +65,7 @@ const ProfileWidget: FC<WidgetProps> = () => {
                         <div className="flex flex-col gap-2">
                             <Link
                                 to={`/u/${user.username}`}
-                                className="text-sm font-bold hover:underline"
+                                className="font-bold text-sm hover:underline"
                             >
                                 {user.username}
                             </Link>

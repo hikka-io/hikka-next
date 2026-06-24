@@ -1,16 +1,18 @@
 'use client';
 
-import { useQueryClient } from '@hikka/react/core';
-import { QueryKey } from '@tanstack/react-query';
+import type { ReactNode } from 'react';
+
+import type { QueryKey } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
-import { ReactNode } from 'react';
+
+import { useQueryClient } from '@hikka/react/core';
 
 import CatalogListSkeleton from '@/components/catalog-list-skeleton';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import Card from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
-import Stack, { StackSize } from '@/components/ui/stack';
+import Stack, { type StackSize } from '@/components/ui/stack';
 
 interface Props<T> {
     list: T[] | undefined;
@@ -78,7 +80,7 @@ function CatalogListView<T>({
             )}
             {pagination && pagination.pages > 1 && (
                 <div className="sticky bottom-4 z-10 mx-auto flex w-fit items-center">
-                    <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
+                    <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
                         <Pagination
                             page={pagination.page}
                             pages={pagination.pages}

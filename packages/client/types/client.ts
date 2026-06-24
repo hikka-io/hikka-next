@@ -1,5 +1,5 @@
-import { PaginatedResponse, SuccessResponse } from './common';
-import { UserResponse } from './user';
+import type { PaginatedResponse, SuccessResponse } from './common';
+import type { UserResponse } from './user';
 
 /**
  * Client response

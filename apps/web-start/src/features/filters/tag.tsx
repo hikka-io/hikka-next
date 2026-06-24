@@ -1,7 +1,8 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { Tag as TagIcon } from 'lucide-react';
-import { FC } from 'react';
 
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
@@ -20,7 +21,7 @@ const Tag: FC<Props> = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="text-muted-foreground flex items-center gap-2">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <TagIcon className="size-4 shrink-0" />
                 <Label>Теги</Label>
             </div>

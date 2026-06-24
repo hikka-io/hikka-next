@@ -40,7 +40,7 @@ const Title = ({ className, content_type }: TitleProps) => {
                         {data.genres.map((genre) => (
                             <span key={genre.slug} className="text-sm">
                                 <Link
-                                    className="decoration-primary-foreground hover:bg-primary-border hover:text-primary-foreground rounded px-1 underline decoration-dashed transition-colors duration-100"
+                                    className="rounded px-1 underline decoration-primary-foreground decoration-dashed transition-colors duration-100 hover:bg-primary-border hover:text-primary-foreground"
                                     to={`/${content_type}`}
                                     search={{ genres: [genre.slug] }}
                                 >

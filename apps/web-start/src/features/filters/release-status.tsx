@@ -1,16 +1,16 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { Activity } from 'lucide-react';
-import { FC } from 'react';
 
 import {
     BadgeFilterField,
-    BadgeFilterFieldProps,
+    type BadgeFilterFieldProps,
 } from '@/components/form/form-badge-filter';
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-
 import { RELEASE_STATUS } from '@/utils/constants/common';
 
 import useChangeParam from './hooks/use-change-param';
@@ -27,7 +27,7 @@ const ReleaseStatus: FC<Props> = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="text-muted-foreground flex items-center gap-2">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <Activity className="size-4 shrink-0" />
                 <Label>Статус</Label>
             </div>
@@ -47,7 +47,7 @@ export const FormReleaseStatus: FC<Props & Partial<BadgeFilterFieldProps>> = (
     const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
         <form.AppField
-            name={"statuses" as never}
+            name={'statuses' as never}
             children={() => (
                 <BadgeFilterField
                     {...props}

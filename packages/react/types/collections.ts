@@ -1,4 +1,4 @@
-import { CollectionsListArgs } from '@hikka/client';
+import type { CollectionsListArgs } from '@hikka/client';
 
 export interface UseCollectionParams {
     reference: string;

@@ -1,15 +1,15 @@
 'use client';
 
+import type { FC } from 'react';
+
 import {
     ContentTypeEnum,
-    ReadStatusEnum,
-    WatchStatusEnum,
+    type ReadStatusEnum,
+    type WatchStatusEnum,
 } from '@hikka/client';
-import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import type { StackSize } from '@/components/ui/stack';
-
 import { CatalogSummary } from '@/features/content';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';

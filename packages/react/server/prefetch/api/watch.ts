@@ -1,3 +1,9 @@
+import type {
+    UseFollowingWatchersParams,
+    UseWatchEntryParams,
+    UseWatchListParams,
+    UseWatchStatsParams,
+} from '@/types/watch';
 import {
     searchUserWatchesOptions,
     userWatchStatsOptions,
@@ -5,16 +11,13 @@ import {
     watchingUsersOptions,
 } from '@/options/api/watch';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseFollowingWatchersParams,
-    UseWatchEntryParams,
-    UseWatchListParams,
-    UseWatchStatsParams,
-} from '@/types/watch';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches a user's watch list for server-side rendering

@@ -1,9 +1,9 @@
-import {
+import type {
     ContentTypeEnum,
     PaginatedResponse,
     PaginationResponse,
 } from './common';
-import { UserResponse } from './user';
+import type { UserResponse } from './user';
 
 /**
  * Comments content type

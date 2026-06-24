@@ -1,4 +1,4 @@
-import { ReadContentType, ReadSearchArgs } from '@hikka/client';
+import type { ReadContentType, ReadSearchArgs } from '@hikka/client';
 
 export interface UseReadEntryParams {
     contentType: ReadContentType;

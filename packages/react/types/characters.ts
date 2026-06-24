@@ -1,4 +1,4 @@
-import { PaginationArgs, QuerySearchArgs } from '@hikka/client';
+import type { PaginationArgs, QuerySearchArgs } from '@hikka/client';
 
 export interface UseCharacterInfoParams {
     slug: string;

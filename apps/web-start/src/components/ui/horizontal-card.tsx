@@ -1,6 +1,6 @@
 'use client';
 
-import {
+import type {
     ComponentProps,
     ComponentPropsWithoutRef,
     FC,
@@ -62,7 +62,7 @@ const HorizontalCardDescription: FC<
         return (
             <MDViewer
                 className={cn(
-                    'text-muted-foreground line-clamp-1 text-xs!',
+                    'line-clamp-1 text-muted-foreground text-xs!',
                     className,
                 )}
                 preview
@@ -75,7 +75,7 @@ const HorizontalCardDescription: FC<
     return (
         <div
             className={cn(
-                'text-muted-foreground inline-flex items-center gap-2 text-xs',
+                'inline-flex items-center gap-2 text-muted-foreground text-xs',
                 className,
             )}
         >

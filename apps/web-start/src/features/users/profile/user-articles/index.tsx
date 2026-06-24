@@ -1,7 +1,8 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useSearchArticles, useSession } from '@hikka/react';
-import { FC } from 'react';
 
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import Block from '@/components/ui/block';
@@ -17,13 +18,12 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useParams } from '@/utils/navigation';
 
 import ArticleItem from './components/article-item';
 
-interface Props {}
+type Props = {};
 
 const UserArticles: FC<Props> = () => {
     const { user } = useSession();

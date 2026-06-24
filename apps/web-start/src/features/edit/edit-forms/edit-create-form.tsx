@@ -1,14 +1,15 @@
 'use client';
 
-import { EditContentType, MainContent } from '@hikka/client';
+import { type FC, useRef } from 'react';
+
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+
+import type { EditContentType, MainContent } from '@hikka/client';
 import { useCreateEdit } from '@hikka/react';
-import { Turnstile, TurnstileInstance } from '@marsidev/react-turnstile';
-import { FC, useRef } from 'react';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-
 import { useRouter } from '@/utils/navigation';
 
 import AutoButton from './components/auto-button';

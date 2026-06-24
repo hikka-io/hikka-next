@@ -1,13 +1,13 @@
 'use client';
 
-import { WatchResponse, WatchResponseBase } from '@hikka/client';
-import { FC, createElement } from 'react';
+import { createElement, type FC } from 'react';
+
+import type { WatchResponse, WatchResponseBase } from '@hikka/client';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
@@ -72,7 +72,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                     disabled={disabled}
                     className={cn(
                         'rounded-l-none border border-l-0',
-                        `bg-${watch.status} text-${watch.status}-foreground  border-${watch.status}-border`,
+                        `bg-${watch.status} text-${watch.status}-foreground border-${watch.status}-border`,
                     )}
                 >
                     <MaterialSymbolsSettingsOutlineRounded />

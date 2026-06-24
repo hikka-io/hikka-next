@@ -3,12 +3,12 @@ import { SlateElement } from 'platejs/static';
 import { PhotoView } from 'react-photo-view';
 
 import Image from '@/components/ui/image';
-
 import { cn } from '@/utils/cn';
 
 import type { TImageElement } from '../editor/plugins/image-kit';
 
-export interface ImageElementStaticProps extends SlateElementProps<TImageElement> {
+export interface ImageElementStaticProps
+    extends SlateElementProps<TImageElement> {
     className?: string;
 }
 

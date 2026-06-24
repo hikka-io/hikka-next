@@ -3,7 +3,6 @@
 import { useCharacterBySlug } from '@hikka/react';
 
 import ContentCard from '@/components/content-card/content-card';
-
 import { useParams } from '@/utils/navigation';
 
 const Cover = () => {

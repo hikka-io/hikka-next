@@ -1,8 +1,10 @@
 'use client';
 
-import { useUpdateArticle } from '@hikka/react';
-import { FC, useCallback } from 'react';
+import { type FC, useCallback } from 'react';
+
 import { toast } from 'sonner';
+
+import { useUpdateArticle } from '@hikka/react';
 
 import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -13,7 +15,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
@@ -23,7 +24,7 @@ import {
     stripUploadPlaceholders,
 } from '@/utils/plate';
 
-interface Props {}
+type Props = {};
 
 const EditActions: FC<Props> = () => {
     const slug = useArticleContext((state) => state.slug);

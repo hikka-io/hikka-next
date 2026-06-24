@@ -1,6 +1,12 @@
 'use client';
 
-import { WatchArgs, WatchResponse, WatchStatusEnum } from '@hikka/client';
+import { useEffect, useState } from 'react';
+
+import {
+    type WatchArgs,
+    type WatchResponse,
+    WatchStatusEnum,
+} from '@hikka/client';
 import {
     useCreateWatch,
     useHikkaClient,
@@ -10,7 +16,6 @@ import {
 } from '@hikka/react';
 import { queryKeys, useQueryClient } from '@hikka/react/core';
 import { getTitle } from '@hikka/react/utils';
-import { useEffect, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -33,9 +38,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { WatchEditModal } from '@/features/watch';
-
 import useDebounce from '@/services/hooks/use-debounce';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
@@ -244,14 +247,14 @@ const WatchingTracker = () => {
                             </h5>
                             <div className="mt-1 flex cursor-pointer items-center gap-2">
                                 {selectedWatch.anime.year && (
-                                    <Label className="text-muted-foreground cursor-pointer text-xs">
+                                    <Label className="cursor-pointer text-muted-foreground text-xs">
                                         {selectedWatch.anime.year}
                                     </Label>
                                 )}
                                 {selectedWatch.anime.media_type && (
                                     <>
-                                        <div className="bg-muted-foreground size-1 rounded-full" />
-                                        <Label className="text-muted-foreground cursor-pointer text-xs">
+                                        <div className="size-1 rounded-full bg-muted-foreground" />
+                                        <Label className="cursor-pointer text-muted-foreground text-xs">
                                             {
                                                 ANIME_MEDIA_TYPE[
                                                     selectedWatch.anime
@@ -263,8 +266,8 @@ const WatchingTracker = () => {
                                 )}
                                 {totalEpisodes && (
                                     <>
-                                        <div className="bg-muted-foreground size-1 rounded-full" />
-                                        <Label className="text-muted-foreground cursor-pointer text-xs">
+                                        <div className="size-1 rounded-full bg-muted-foreground" />
+                                        <Label className="cursor-pointer text-muted-foreground text-xs">
                                             {totalEpisodes}{' '}
                                             {getDeclensionWord(
                                                 totalEpisodes,
@@ -278,7 +281,7 @@ const WatchingTracker = () => {
 
                         <div className="flex w-full flex-col gap-2">
                             <p className="text-muted-foreground text-sm">
-                                <span className="text-foreground font-bold">
+                                <span className="font-bold text-foreground">
                                     {currentEpisodes}
                                 </span>
                                 /{totalEpisodes ?? '?'} епізодів

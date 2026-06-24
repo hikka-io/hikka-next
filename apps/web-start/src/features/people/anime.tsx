@@ -1,13 +1,12 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { usePersonAnime } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
-import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
-
 import AppearanceGrid from '@/features/common/appearance-grid';
-
 import { useParams } from '@/utils/navigation';
 
 interface Props {

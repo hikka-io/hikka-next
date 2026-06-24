@@ -1,8 +1,9 @@
+import type { FC } from 'react';
+
 import { range } from '@antfu/utils';
-import { FC } from 'react';
 
 import SkeletonCard from '@/components/content-card/content-card-skeleton';
-import Stack, { StackSize } from '@/components/ui/stack';
+import Stack, { type StackSize } from '@/components/ui/stack';
 
 interface Props {
     extendedSize?: StackSize;

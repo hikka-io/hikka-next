@@ -1,8 +1,10 @@
 'use client';
 
-import { EditStatusEnum } from '@hikka/client';
+import type { FC } from 'react';
+
 import { Activity } from 'lucide-react';
-import { FC } from 'react';
+
+import type { EditStatusEnum } from '@hikka/client';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -14,7 +16,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-
 import { EDIT_STATUS } from '@/utils/constants/edit';
 
 import useChangeParam from './hooks/use-change-param';
@@ -31,7 +32,7 @@ const EditStatus: FC<Props> = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="text-muted-foreground flex items-center gap-2">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <Activity className="size-4 shrink-0" />
                 <Label>Статус</Label>
             </div>

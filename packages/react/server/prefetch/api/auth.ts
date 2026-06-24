@@ -1,17 +1,20 @@
+import type {
+    UseOAuthProviderUrlParams,
+    UseThirdPartyTokenListParams,
+} from '@/types/auth';
 import {
     authTokenDetailsOptions,
     oAuthProviderUrlOptions,
     thirdPartyTokenListOptions,
 } from '@/options/api/auth';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseOAuthProviderUrlParams,
-    UseThirdPartyTokenListParams,
-} from '@/types/auth';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches auth token info for server-side rendering

@@ -1,5 +1,9 @@
-import { AnimeInfoResponse } from './anime';
-import { ContentStatusEnum, PaginationResponse, SeasonEnum } from './common';
+import type { AnimeInfoResponse } from './anime';
+import type {
+    ContentStatusEnum,
+    PaginationResponse,
+    SeasonEnum,
+} from './common';
 
 /**
  * Anime schedule arguments

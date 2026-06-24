@@ -1,4 +1,4 @@
-import { ContentTypeEnum, ReadContentType } from '@hikka/client';
+import { ContentTypeEnum, type ReadContentType } from '@hikka/client';
 
 interface Props {
     list: Record<string, any>[];
@@ -13,7 +13,7 @@ const Component = ({ list, type }: Props) => {
         <div>
             <p>
                 У вашому списку знайдено{' '}
-                <span className="border-primary-border bg-primary text-primary-foreground rounded-sm border px-1">
+                <span className="rounded-sm border border-primary-border bg-primary px-1 text-primary-foreground">
                     {list.length}
                 </span>{' '}
                 {typeName}, що готові до імпорту

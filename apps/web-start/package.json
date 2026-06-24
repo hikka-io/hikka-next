@@ -14,7 +14,9 @@
         "start": "node .output/server/index.mjs",
         "test": "vitest run",
         "test:watch": "vitest",
-        "lint": "tsc --noEmit",
+        "lint": "biome lint .",
+        "format": "biome format --write .",
+        "typecheck": "tsc --noEmit",
         "clean": "rimraf .output dist"
     },
     "dependencies": {

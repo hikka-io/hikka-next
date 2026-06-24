@@ -1,7 +1,8 @@
 'use client';
 
+import { type FC, useState } from 'react';
+
 import { ListFilter } from 'lucide-react';
-import { FC, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -10,7 +11,6 @@ import {
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
-
 import { cn } from '@/utils/cn';
 
 import FilterPresetEditModal from './filter-preset-edit-modal';

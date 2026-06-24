@@ -1,17 +1,18 @@
 'use client';
 
-import { CommentResponse, CommentsContentType } from '@hikka/client';
-import { useCreateComment, useUpdateComment } from '@hikka/react';
+import type { FC } from 'react';
+
 import { MarkdownPlugin } from '@platejs/markdown';
 import { Minimize2, Send } from 'lucide-react';
-import { FC } from 'react';
+
+import type { CommentResponse, CommentsContentType } from '@hikka/client';
+import { useCreateComment, useUpdateComment } from '@hikka/react';
 
 import { useMarkdownEditor } from '@/components/plate/editor/markdown-editor-kit';
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
 import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { MAX_COMMENT_DEPTH } from '@/utils/constants/common';
 import { removeEmptyTextNodes } from '@/utils/plate';

@@ -1,13 +1,14 @@
 'use client';
 
-import { useCreateArticle } from '@hikka/react';
-import { FC, useCallback } from 'react';
+import { type FC, useCallback } from 'react';
+
 import { toast } from 'sonner';
+
+import { useCreateArticle } from '@hikka/react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import { Button } from '@/components/ui/button';
-
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useRouter } from '@/utils/navigation';
@@ -17,7 +18,7 @@ import {
     stripUploadPlaceholders,
 } from '@/utils/plate';
 
-interface Props {}
+type Props = {};
 
 const CreateActions: FC<Props> = () => {
     const router = useRouter();

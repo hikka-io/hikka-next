@@ -1,5 +1,6 @@
-import { ContentTypeEnum, EditContentType } from '@hikka/client';
-import { ComponentType } from 'react';
+import type { ComponentType } from 'react';
+
+import { ContentTypeEnum, type EditContentType } from '@hikka/client';
 
 import {
     ANIME_EDIT_GROUPS,

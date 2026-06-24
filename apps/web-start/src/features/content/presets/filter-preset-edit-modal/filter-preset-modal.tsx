@@ -1,8 +1,10 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
+import type { FC } from 'react';
+
 import { useRouterState } from '@tanstack/react-router';
-import { FC } from 'react';
+
+import { ContentTypeEnum } from '@hikka/client';
 
 import CustomCopyAddRounded from '@/components/icons/custom/CustomCopyAddRounded';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -11,7 +13,6 @@ import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/Mate
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from '@/components/ui/link';
-
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 
@@ -167,11 +168,11 @@ const FilterPresetModal: FC<Props> = ({
                 <div className="flex items-center justify-between gap-2">
                     <div className="flex-1 space-y-1">
                         <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium">
+                            <span className="font-medium text-sm">
                                 Поточні фільтри
                             </span>
                         </div>
-                        <p className="text-muted-foreground line-clamp-2 text-xs">
+                        <p className="line-clamp-2 text-muted-foreground text-xs">
                             Створити пресет із поточних фільтрів
                         </p>
                     </div>
@@ -187,20 +188,20 @@ const FilterPresetModal: FC<Props> = ({
                 </div>
             </div>
 
-            <hr className="bg-border -mx-6 h-px w-auto" />
+            <hr className="-mx-6 h-px w-auto bg-border" />
 
             <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
                 {filterPresets?.map((preset) => (
                     <div
                         key={preset.id}
-                        className="border-border flex items-center justify-between gap-2 px-6 py-3 last:border-b-0"
+                        className="flex items-center justify-between gap-2 border-border px-6 py-3 last:border-b-0"
                     >
                         <div className="flex-1 space-y-1">
                             <div className="flex items-center gap-2">
                                 <Link
                                     onClick={() => onClose?.()}
                                     to={buildFilterPresetLink(preset)}
-                                    className="text-sm font-medium"
+                                    className="font-medium text-sm"
                                 >
                                     {preset.name}
                                 </Link>
@@ -221,7 +222,7 @@ const FilterPresetModal: FC<Props> = ({
                                 </div>
                             </div>
                             {preset.description && (
-                                <p className="text-muted-foreground line-clamp-2 text-xs">
+                                <p className="line-clamp-2 text-muted-foreground text-xs">
                                     {preset.description}
                                 </p>
                             )}
@@ -247,7 +248,7 @@ const FilterPresetModal: FC<Props> = ({
 
                 {filterPresets?.length === 0 && (
                     <div className="px-6 py-8">
-                        <p className="text-muted-foreground text-center text-sm">
+                        <p className="text-center text-muted-foreground text-sm">
                             Не знайдено збережених пресетів фільтрів
                         </p>
                     </div>

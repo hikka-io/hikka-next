@@ -1,5 +1,6 @@
-import { HikkaApiError } from '@hikka/client';
 import { createFileRoute } from '@tanstack/react-router';
+
+import { HikkaApiError } from '@hikka/client';
 
 import {
     appendUsernameCookie,

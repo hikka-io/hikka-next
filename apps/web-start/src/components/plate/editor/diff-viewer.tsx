@@ -1,25 +1,26 @@
 'use client';
 
+import * as React from 'react';
+
 import {
+    computeDiff,
     type DiffOperation,
     type DiffUpdate,
-    computeDiff,
     withGetFragmentExcludeDiff,
 } from '@platejs/diff';
 import { MarkdownPlugin } from '@platejs/markdown';
 import { cloneDeep } from 'lodash-es';
-import { type Value, createSlatePlugin } from 'platejs';
+import { createSlatePlugin, type Value } from 'platejs';
 import {
+    createPlateEditor,
     Plate,
     PlateContent,
     PlateLeaf,
     type PlateLeafProps,
     type PlateProps,
-    createPlateEditor,
     toPlatePlugin,
     usePlateEditor,
 } from 'platejs/react';
-import * as React from 'react';
 
 import { cn } from '@/utils/cn';
 
@@ -149,7 +150,7 @@ function VersionHistoryPlate({
         <Plate {...props}>
             <PlateContent
                 className={cn(
-                    'border-border bg-secondary/20 rounded-md border p-4 text-sm',
+                    'rounded-md border border-border bg-secondary/20 p-4 text-sm',
                     className,
                 )}
             />

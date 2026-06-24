@@ -1,15 +1,22 @@
+import type { FC } from 'react';
+
 import { useStore } from '@tanstack/react-form';
-import { FC } from 'react';
 
 import {
     PlateMarkdownEditor,
-    PlateMarkdownEditorProps,
+    type PlateMarkdownEditorProps,
 } from '@/components/plate/editor/plate-editor';
-import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
+import {
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldLabel,
+} from '@/components/ui/field';
 
 import { useFieldContext } from './form-context';
 
-export interface Props extends Omit<PlateMarkdownEditorProps, 'value' | 'onValueChange'> {
+export interface Props
+    extends Omit<PlateMarkdownEditorProps, 'value' | 'onValueChange'> {
     label?: string;
     description?: string;
     className?: string;

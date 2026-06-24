@@ -1,10 +1,11 @@
 'use client';
 
+import * as React from 'react';
+
 import type { VariantProps } from 'class-variance-authority';
 import { cva } from 'class-variance-authority';
 import type { PlateContentProps } from 'platejs/react';
 import { PlateContainer, PlateContent } from 'platejs/react';
-import * as React from 'react';
 
 import { cn } from '@/utils/cn';
 
@@ -18,8 +19,8 @@ const editorContainerVariants = cva(
             variant: {
                 default: cn(
                     'flex flex-col justify-between gap-1 text-sm',
-                    'border-border bg-secondary/20 rounded-lg border',
-                    'has-[[data-slate-editor]:focus]:border-primary-foreground/50 has-[[data-slate-editor]:focus]:ring-primary-foreground/30 has-[[data-slate-editor]:focus]:ring-2',
+                    'rounded-lg border border-border bg-secondary/20',
+                    'has-[[data-slate-editor]:focus]:border-primary-foreground/50 has-[[data-slate-editor]:focus]:ring-2 has-[[data-slate-editor]:focus]:ring-primary-foreground/30',
                     'has-aria-disabled:border-border has-aria-disabled:bg-muted',
                 ),
                 drawer: cn('flex flex-1 flex-col overflow-hidden'),
@@ -48,9 +49,9 @@ export function EditorContainer({
 const editorVariants = cva(
     cn(
         'group/editor prose',
-        'relative w-full cursor-text overflow-x-hidden wrap-break-word whitespace-pre-wrap select-text',
-        'ring-offset-background rounded-md focus-visible:outline-hidden',
-        '**:data-slate-placeholder:text-muted-foreground/80 placeholder:text-muted-foreground/80 **:data-slate-placeholder:opacity-100!',
+        'wrap-break-word relative w-full cursor-text select-text overflow-x-hidden whitespace-pre-wrap',
+        'rounded-md ring-offset-background focus-visible:outline-hidden',
+        'placeholder:text-muted-foreground/80 **:data-slate-placeholder:text-muted-foreground/80 **:data-slate-placeholder:opacity-100!',
         '[&_strong]:font-bold',
     ),
     {

@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import MaterialSymbolsKeyboardArrowUpRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowUpRounded';
@@ -9,7 +9,6 @@ import {
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 import { Label } from '@/components/ui/label';
-
 import { cn } from '@/utils/cn';
 
 export interface CollapsibleFilterProps
@@ -30,7 +29,7 @@ export const CollapsibleFilter: FC<CollapsibleFilterProps> = ({
         <Collapsible
             defaultOpen={active}
             className={cn(
-                'group border-border bg-secondary/20 border py-2 duration-200 data-[state=open]:mb-4 data-[state=open]:rounded-lg data-[state=open]:py-4',
+                'group border border-border bg-secondary/20 py-2 duration-200 data-[state=open]:mb-4 data-[state=open]:rounded-lg data-[state=open]:py-4',
                 'data-[state=open]:[&+div]:data-[state=closed]:rounded-t-lg',
                 'data-[state=closed]:border-b-0 data-[state=closed]:has-[+div[data-state=open]]:mb-4 data-[state=closed]:has-[+div[data-state=open]]:rounded-b-lg data-[state=closed]:has-[+div[data-state=open]]:border-b',
                 'first:rounded-t-lg last:rounded-b-lg last:border-b!',
@@ -45,7 +44,7 @@ export const CollapsibleFilter: FC<CollapsibleFilterProps> = ({
                             {title}
                         </Label>
                         {active && (
-                            <div className="bg-success-foreground size-2 rounded-full" />
+                            <div className="size-2 rounded-full bg-success-foreground" />
                         )}
                     </div>
                     <Button id="title-collapse" variant="ghost" size="icon-sm">
@@ -57,7 +56,7 @@ export const CollapsibleFilter: FC<CollapsibleFilterProps> = ({
 
             <CollapsibleContent
                 className={cn(
-                    'data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down w-full overflow-hidden px-4',
+                    'w-full overflow-hidden px-4 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down',
                     className,
                 )}
             >

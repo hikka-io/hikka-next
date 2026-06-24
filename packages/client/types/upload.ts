@@ -2,7 +2,7 @@
  * Upload related types
  */
 
-import { BaseRequestOptionsArgs } from './common';
+import type { BaseRequestOptionsArgs } from './common';
 
 /**
  * Upload type enum

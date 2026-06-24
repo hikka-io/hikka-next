@@ -1,13 +1,12 @@
 'use client';
 
-import { type Path, type TElement } from 'platejs';
+import type { Path, TElement } from 'platejs';
 import { createPlatePlugin } from 'platejs/react';
 
 import { ImagePlaceholderElement } from '@/components/plate/ui/image-placeholder-node';
 
-import { ELEMENT_IMAGE, type TImageElement } from './image-kit';
-
 import { deleteUpload, getUpload, setUpload } from '../upload-store';
+import { ELEMENT_IMAGE, type TImageElement } from './image-kit';
 
 // Keep in sync with the literal in utils/plate/strip-upload-placeholders.ts
 export const ELEMENT_IMAGE_PLACEHOLDER = 'image_placeholder';

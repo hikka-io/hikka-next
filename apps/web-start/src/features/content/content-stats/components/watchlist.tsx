@@ -1,7 +1,8 @@
 'use client';
 
-import { AnimeStatsResponse, WatchStatusEnum } from '@hikka/client';
 import { createElement } from 'react';
+
+import type { AnimeStatsResponse, WatchStatusEnum } from '@hikka/client';
 
 import { CONTENT_CONFIG, WATCH_STATUS } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
@@ -28,8 +29,7 @@ const Watchlist = () => {
         .map((stat) => {
             const status = WATCH_STATUS[stat as WatchStatusEnum];
             const percentage =
-                (100 * data.stats[stat as keyof AnimeStatsResponse]) /
-                sumStats;
+                (100 * data.stats[stat as keyof AnimeStatsResponse]) / sumStats;
 
             return {
                 percentage,

@@ -1,9 +1,14 @@
 'use client';
 
-import { CollectionContentType, CollectionVisibilityEnum } from '@hikka/client';
-import { useCreateCollection, useUpdateCollection } from '@hikka/react';
-import { FC } from 'react';
+import type { FC } from 'react';
+
 import { toast } from 'sonner';
+
+import type {
+    CollectionContentType,
+    CollectionVisibilityEnum,
+} from '@hikka/client';
+import { useCreateCollection, useUpdateCollection } from '@hikka/react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -29,7 +34,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { useCollectionContext } from '@/services/providers/collection-provider';
 import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
@@ -225,7 +229,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     />
                 </div>
             </div>
-            <div className="bg-secondary/20 flex gap-2 border-t p-4">
+            <div className="flex gap-2 border-t bg-secondary/20 p-4">
                 {mode === 'edit' && (
                     <Button
                         size="md"

@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 export function MAL(props: SVGProps<SVGSVGElement>) {
     return (

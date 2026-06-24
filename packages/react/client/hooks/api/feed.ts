@@ -1,12 +1,13 @@
 'use client';
 
-import { useInfiniteQuery as useTanstackInfiniteQuery } from '@tanstack/react-query';
 import React from 'react';
+
+import { useInfiniteQuery as useTanstackInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 
+import type { UseFeedParams } from '@/types/feed';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { feedOptions } from '@/options/api/feed';
-import { UseFeedParams } from '@/types/feed';
 
 /**
  * Hook for retrieving the feed with cursor-based infinite scrolling

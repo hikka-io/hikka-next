@@ -1,14 +1,13 @@
 'use client';
 
-import { FC, useRef } from 'react';
+import { type FC, useRef } from 'react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { FEED_FILTER_OPTIONS } from '@/utils/constants/feed';
 
-import { FeedFilterEnum } from '../../../types';
+import type { FeedFilterEnum } from '../../../types';
 
 interface Props {
     value: FeedFilterEnum;

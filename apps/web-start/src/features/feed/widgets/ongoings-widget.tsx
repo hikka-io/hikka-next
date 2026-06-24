@@ -1,10 +1,16 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { range } from '@antfu/utils';
-import { AnimeMediaEnum, AnimeStatusEnum, SeasonEnum } from '@hikka/client';
+
+import {
+    AnimeMediaEnum,
+    AnimeStatusEnum,
+    type SeasonEnum,
+} from '@hikka/client';
 import { useHikkaClient, useSearchAnimes } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
-import { FC } from 'react';
 
 import { AnimeTooltip } from '@/components/content-card';
 import AnimeCard from '@/components/content-card/anime-card';
@@ -23,15 +29,13 @@ import {
 import NotFound from '@/components/ui/not-found';
 import { Skeleton } from '@/components/ui/skeleton';
 import Stack from '@/components/ui/stack';
-
 import { getOngoingsSort } from '@/features/filters/sort';
-
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 
-import { WidgetProps } from '../constants';
+import type { WidgetProps } from '../constants';
 
 const SIDEBAR_SIZE = 5;
 const CENTER_SIZE = 5;
@@ -154,7 +158,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                                         to={`/anime/${anime.slug}`}
                                         className={cn(
                                             'group flex items-center gap-4 rounded-sm px-2 py-2',
-                                            'hover:bg-secondary/60 transition-colors',
+                                            'transition-colors hover:bg-secondary/60',
                                         )}
                                     >
                                         <ContentCard
@@ -165,8 +169,8 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                                         />
 
                                         <div className="flex min-w-0 flex-1 flex-col gap-2">
-                                            <p className="group-hover:text-foreground line-clamp-2 text-xs font-medium">
-                                                <span className="text-muted-foreground font-bold">
+                                            <p className="line-clamp-2 font-medium text-xs group-hover:text-foreground">
+                                                <span className="font-bold text-muted-foreground">
                                                     #{index + 1}
                                                     {' / '}
                                                 </span>
@@ -207,7 +211,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                         })}
 
                     {!isLoading && (!list || list.length === 0) && (
-                        <p className="text-muted-foreground py-4 text-center text-sm">
+                        <p className="py-4 text-center text-muted-foreground text-sm">
                             Немає сезонних онґоїнґів
                         </p>
                     )}

@@ -4,7 +4,6 @@ import { memo } from 'react';
 
 import { ArticlePlateEditor } from '@/components/plate/editor/plate-editor';
 import { Label } from '@/components/ui/label';
-
 import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-close';
 import { useArticleContext } from '@/services/providers/article-provider';
 import { hasPlateContent } from '@/utils/plate';

@@ -1,12 +1,12 @@
-import { CollectionContent, CollectionResponse } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { CollectionContent, CollectionResponse } from '@hikka/client';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Image from '@/components/ui/image';
-import Stack, { StackSize } from '@/components/ui/stack';
-
+import Stack, { type StackSize } from '@/components/ui/stack';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
@@ -89,7 +89,7 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                                         alt="Third element"
                                     />
                                 )}
-                                <span className="text-2xl font-bold text-white drop-shadow-lg">
+                                <span className="font-bold text-2xl text-white drop-shadow-lg">
                                     +{remainingCount}
                                 </span>
                             </div>

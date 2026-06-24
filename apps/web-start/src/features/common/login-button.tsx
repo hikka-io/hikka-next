@@ -2,8 +2,7 @@
 
 import { useRouterState } from '@tanstack/react-router';
 
-import { Button, ButtonProps } from '@/components/ui/button';
-
+import { Button, type ButtonProps } from '@/components/ui/button';
 import { Link } from '@/utils/navigation';
 
 const LoginButton = (props: ButtonProps) => {

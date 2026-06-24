@@ -1,6 +1,6 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import { BaseRequestOptionsArgs, PaginationArgs } from '../types';
-import { EditsTopPaginationResponse } from '../types/stats';
+import type { BaseRequestOptionsArgs, PaginationArgs } from '../types';
+import type { EditsTopPaginationResponse } from '../types/stats';
 import { BaseModule } from './base';
 
 /**

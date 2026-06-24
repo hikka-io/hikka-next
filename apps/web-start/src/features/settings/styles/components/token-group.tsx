@@ -1,6 +1,6 @@
 'use client';
 
-import { HSLColor, UIColorTokens } from '@hikka/client';
+import type { HSLColor, UIColorTokens } from '@hikka/client';
 
 import { Label } from '@/components/ui/label';
 

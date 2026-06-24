@@ -1,25 +1,26 @@
 'use client';
 
+import { type FC, memo, type ReactNode, useRef, useState } from 'react';
+
 import {
     DndContext,
-    DragEndEvent,
-    DragOverEvent,
+    type DragEndEvent,
+    type DragOverEvent,
     DragOverlay,
-    DragStartEvent,
+    type DragStartEvent,
     MouseSensor,
-    TouchSensor,
-    UniqueIdentifier,
     pointerWithin,
+    TouchSensor,
+    type UniqueIdentifier,
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
+
 import { useTitle } from '@hikka/react';
-import { FC, ReactNode, memo, useRef, useState } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
-
 import { useCollectionStore } from '@/services/providers/collection-provider';
-import { Group, Item } from '@/services/stores/collection-store';
+import type { Group, Item } from '@/services/stores/collection-store';
 
 interface Props {
     children: ReactNode;

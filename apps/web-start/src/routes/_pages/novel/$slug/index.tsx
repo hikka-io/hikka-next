@@ -1,9 +1,9 @@
-import { ContentTypeEnum } from '@hikka/client';
-import { useNovelBySlug } from '@hikka/react';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentDetailPage } from '@/features/content';
+import { ContentTypeEnum } from '@hikka/client';
+import { useNovelBySlug } from '@hikka/react';
 
+import { ContentDetailPage } from '@/features/content';
 import novelJsonSchema from '@/utils/novel-schema';
 
 export const Route = createFileRoute('/_pages/novel/$slug/')({

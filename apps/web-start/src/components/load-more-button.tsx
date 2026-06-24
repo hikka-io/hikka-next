@@ -1,6 +1,6 @@
-import { ForwardedRef, forwardRef } from 'react';
+import { type ForwardedRef, forwardRef } from 'react';
 
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 
 import AntDesignArrowDownOutlined from './icons/ant-design/AntDesignArrowDownOutlined';

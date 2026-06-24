@@ -1,10 +1,11 @@
-import { XIcon } from 'lucide-react';
 import { forwardRef, useState } from 'react';
+
+import { XIcon } from 'lucide-react';
 
 import MaterialSymbolsAddRounded from '../icons/material-symbols/MaterialSymbolsAddRounded';
 import { Badge } from './badge';
 import { Button } from './button';
-import { Input, InputProps } from './input';
+import { Input, type InputProps } from './input';
 
 type InputTagsProps = InputProps & {
     value: string[];

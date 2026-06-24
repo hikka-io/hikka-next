@@ -1,9 +1,11 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { type FC, Suspense, useEffect, useState } from 'react';
+
 import { useNavigate } from '@tanstack/react-router';
 import { Filter, PanelRightClose, PanelRightOpen } from 'lucide-react';
-import { FC, Suspense, useEffect, useState } from 'react';
+
+import type { ContentTypeEnum } from '@hikka/client';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -14,7 +16,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import {
     FilterPresetButton,
     FilterPresets,
@@ -24,7 +25,6 @@ import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import type { SortType } from '@/features/filters/sort';
 import Sort from '@/features/filters/sort';
-
 import useDebounce from '@/services/hooks/use-debounce';
 
 interface Props {
@@ -90,7 +90,7 @@ const CatalogNavbar: FC<Props> = ({
 
     return (
         <>
-            <div className="bg-secondary/20 flex flex-col gap-4 rounded-md border p-4 md:flex-row md:items-center">
+            <div className="flex flex-col gap-4 rounded-md border bg-secondary/20 p-4 md:flex-row md:items-center">
                 <div className="min-w-0 flex-1">
                     <Suspense>
                         <Search placeholder={searchPlaceholder} />
@@ -98,7 +98,7 @@ const CatalogNavbar: FC<Props> = ({
                 </div>
                 <Separator
                     orientation="vertical"
-                    className="h-6 hidden md:block"
+                    className="hidden h-6 md:block"
                 />
 
                 <div className="flex items-center gap-4">

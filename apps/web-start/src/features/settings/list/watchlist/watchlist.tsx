@@ -1,9 +1,11 @@
 'use client';
 
-import { ContentTypeEnum, ImportWatchArgs } from '@hikka/client';
-import { useImportWatchList } from '@hikka/react';
 import { useEffect, useState } from 'react';
+
 import { toast } from 'sonner';
+
+import { ContentTypeEnum, type ImportWatchArgs } from '@hikka/client';
+import { useImportWatchList } from '@hikka/react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';

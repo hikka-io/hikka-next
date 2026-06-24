@@ -1,4 +1,4 @@
-import { PaginationResponse } from './common';
+import type { PaginationResponse } from './common';
 
 /**
  * Company response

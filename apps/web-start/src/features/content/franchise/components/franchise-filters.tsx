@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import MaterialSymbolsEventList from '@/components/icons/material-symbols/MaterialSymbolsEventList';
 import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
@@ -14,7 +14,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-
 import {
     DEFAULT_PREFERENCES,
     useSettingsStore,

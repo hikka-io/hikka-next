@@ -1,16 +1,16 @@
 'use client';
 
-import { CommonContentType, ContentTypeEnum } from '@hikka/client';
+import { type FC, useState } from 'react';
+
+import { type CommonContentType, ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { FC, useState } from 'react';
 
 import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-
 import { ListTabContent } from '@/features/users/profile/user-list-stats';
 
-import { WidgetProps } from '../constants';
+import type { WidgetProps } from '../constants';
 
 const ListWidget: FC<WidgetProps> = () => {
     const { user } = useSession();

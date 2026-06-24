@@ -1,12 +1,11 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useCharacterVoices } from '@hikka/react';
-import { FC } from 'react';
 
 import VoiceCard from '@/components/content-card/voice-card';
-
 import AppearanceGrid from '@/features/common/appearance-grid';
-
 import { useParams } from '@/utils/navigation';
 
 interface Props {

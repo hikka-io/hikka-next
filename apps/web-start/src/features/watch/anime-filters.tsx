@@ -1,7 +1,8 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { ContentTypeEnum } from '@hikka/client';
-import { FC } from 'react';
 
 import AgeRating from '@/features/filters/age-rating';
 import DateRange from '@/features/filters/date-range';
@@ -14,7 +15,6 @@ import Score from '@/features/filters/score';
 import Season from '@/features/filters/season';
 import Studio from '@/features/filters/studio';
 import Year from '@/features/filters/year';
-
 import { cn } from '@/utils/cn';
 
 interface BodyProps {
@@ -60,14 +60,14 @@ interface Props {
  */
 const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
     return (
-        <div className={cn('flex flex-col ', className)}>
+        <div className={cn('flex flex-col', className)}>
             <AnimeFiltersBody
                 className="flex-1 overflow-y-auto p-4 py-8"
                 content_type={content_type}
                 sort_type={sort_type}
             />
             <FiltersFooter
-                className="bg-secondary/20 shrink-0 border-t p-4"
+                className="shrink-0 border-t bg-secondary/20 p-4"
                 contentType={
                     sort_type === 'anime' ? ContentTypeEnum.ANIME : undefined
                 }

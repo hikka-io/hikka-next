@@ -1,4 +1,11 @@
-import { ContentTypeEnum, EditContentType, MainContent } from '@hikka/client';
+import { createFileRoute, redirect } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+
+import {
+    ContentTypeEnum,
+    type EditContentType,
+    type MainContent,
+} from '@hikka/client';
 import {
     useAnimeBySlug,
     useCharacterBySlug,
@@ -13,18 +20,14 @@ import {
     novelBySlugOptions,
     personBySlugOptions,
 } from '@hikka/react/options';
-import { createFileRoute, redirect } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import {
     EditContent as Content,
     EditCreateForm as EditForm,
     EditRulesAlert as RulesAlert,
 } from '@/features/edit';
-
 import { generateHeadMeta } from '@/utils/metadata';
 import { editNewSearchSchema } from '@/utils/search-schemas';
 

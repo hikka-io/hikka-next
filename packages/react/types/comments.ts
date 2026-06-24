@@ -1,4 +1,4 @@
-import { CommentsContentType, PaginationArgs } from '@hikka/client';
+import type { CommentsContentType, PaginationArgs } from '@hikka/client';
 
 export interface UseCommentThreadParams {
     commentReference: string;

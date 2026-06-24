@@ -1,6 +1,6 @@
 'use client';
 
-import { ForwardedRef, ReactNode } from 'react';
+import type { ForwardedRef, ReactNode } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';

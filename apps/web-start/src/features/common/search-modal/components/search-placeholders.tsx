@@ -1,7 +1,8 @@
 'use client';
 
-import { PaginationArgs } from '@hikka/client';
 import { memo } from 'react';
+
+import type { PaginationArgs } from '@hikka/client';
 
 import Spinner from '@/components/ui/spinner';
 
@@ -25,7 +26,7 @@ const SearchPlaceholders = ({ data, isFetching, isRefetching }: Props) => {
             {isFetching && !isRefetching ? (
                 <Spinner className="size-5! text-center" />
             ) : (
-                <p className="text-muted-foreground text-center text-sm">
+                <p className="text-center text-muted-foreground text-sm">
                     {data &&
                         (Array.isArray(data)
                             ? data.length === 0

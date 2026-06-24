@@ -1,19 +1,18 @@
-import { ArticleDocumentResponse } from '@hikka/client';
+import { createFileRoute } from '@tanstack/react-router';
+
+import type { ArticleDocumentResponse } from '@hikka/client';
 import { useArticleBySlug } from '@hikka/react';
 import { queryKeys } from '@hikka/react/core';
-import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Link from '@/components/ui/link';
-
 import {
     ArticleEditDocument as ArticleDocument,
     ArticleSettings,
     ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
-
 import ArticleProvider from '@/services/providers/article-provider';
 import { requireOwner } from '@/utils/auth';
 import { cn } from '@/utils/cn';
@@ -60,7 +59,7 @@ function ArticleUpdatePage() {
                     />
                     <Link
                         to={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
-                        className="flex-1 overflow-hidden text-sm font-bold text-ellipsis hover:underline"
+                        className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
                     >
                         {article?.title}
                     </Link>
@@ -76,12 +75,12 @@ function ArticleUpdatePage() {
                 <div className="grid grid-cols-1 justify-center md:grid-cols-[1fr_30%] md:items-start md:justify-between md:gap-12 lg:grid-cols-[1fr_25%]">
                     <Block>
                         <ArticleTitle />
-                        <Card className="bg-secondary/20 flex w-full p-0 backdrop-blur md:hidden">
+                        <Card className="flex w-full bg-secondary/20 p-0 backdrop-blur md:hidden">
                             <ArticleSettings />
                         </Card>
                         <ArticleDocument />
                     </Block>
-                    <Card className="bg-secondary/20 sticky top-20 order-1 hidden w-full self-start p-0 backdrop-blur md:flex">
+                    <Card className="sticky top-20 order-1 hidden w-full self-start bg-secondary/20 p-0 backdrop-blur md:flex">
                         <ArticleSettings />
                     </Card>
                 </div>

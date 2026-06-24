@@ -1,13 +1,13 @@
 'use client';
 
-import { VoteResponse } from '@hikka/client';
+import type { VoteResponse } from '@hikka/client';
 
+import type { UseVoteMutationParams, UseVoteStatusParams } from '@/types/vote';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { createMutation } from '@/client/useMutation';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
 import { contentVoteOptions } from '@/options/api/vote';
-import { UseVoteMutationParams, UseVoteStatusParams } from '@/types/vote';
 
 /**
  * Hook for getting vote status for content

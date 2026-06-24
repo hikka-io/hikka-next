@@ -1,8 +1,10 @@
 'use client';
 
-import { useEdit } from '@hikka/react';
+import type { FC } from 'react';
+
 import { format } from 'date-fns';
-import { FC } from 'react';
+
+import { useEdit } from '@hikka/react';
 
 import {
     HorizontalCard,
@@ -26,7 +28,7 @@ const EditModerator: FC<Props> = ({ editId }) => {
 
     return (
         <>
-            <hr className="text-muted-foreground my-4 h-px w-full" />
+            <hr className="my-4 h-px w-full text-muted-foreground" />
             <div className="flex flex-col gap-4">
                 <Label className="text-muted-foreground">Модератор</Label>
                 <HorizontalCard>

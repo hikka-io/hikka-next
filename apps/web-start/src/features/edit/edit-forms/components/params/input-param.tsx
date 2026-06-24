@@ -1,14 +1,14 @@
 'use client';
 
-import { useEdit } from '@hikka/react';
+import type { FC } from 'react';
 import * as React from 'react';
-import { FC } from 'react';
+
+import { useEdit } from '@hikka/react';
 
 import { useFormContext } from '@/components/form/form-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
 import { useParams } from '@/utils/navigation';
 
 interface Props {

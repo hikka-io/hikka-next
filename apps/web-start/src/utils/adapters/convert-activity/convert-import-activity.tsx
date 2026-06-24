@@ -1,7 +1,7 @@
 import {
-    HistoryReadImportData,
+    type HistoryReadImportData,
     HistoryTypeEnum,
-    HistoryWatchImportData,
+    type HistoryWatchImportData,
 } from '@hikka/client';
 
 export const convertImportWatch = (data: HistoryWatchImportData) => {

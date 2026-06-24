@@ -1,9 +1,9 @@
-import { EditResponse } from '@hikka/client';
-import { queryKeys } from '@hikka/react/core';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { EditViewForm as EditView } from '@/features/edit';
+import type { EditResponse } from '@hikka/client';
+import { queryKeys } from '@hikka/react/core';
 
+import { EditViewForm as EditView } from '@/features/edit';
 import { requireOwner } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 

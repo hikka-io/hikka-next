@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, PropsWithChildren } from 'react';
+import React, { type FC, type PropsWithChildren } from 'react';
 
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
@@ -162,7 +162,7 @@ const HeaderNavButton: FC = () => {
                 <Link
                     to={href}
                     search={search}
-                    className="text-muted-foreground flex items-center gap-2"
+                    className="flex items-center gap-2 text-muted-foreground"
                     {...linkProps}
                 >
                     <MaterialSymbolsArrowRightAltRounded className="text-lg" />
@@ -175,7 +175,7 @@ const HeaderNavButton: FC = () => {
         <Button
             onClick={onClick}
             size="icon-sm"
-            className="text-muted-foreground flex items-center gap-2"
+            className="flex items-center gap-2 text-muted-foreground"
             variant="ghost"
         >
             <MaterialSymbolsArrowRightAltRounded className="text-lg" />

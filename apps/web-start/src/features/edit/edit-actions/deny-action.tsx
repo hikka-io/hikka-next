@@ -1,7 +1,8 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useDenyEdit } from '@hikka/react';
-import { FC } from 'react';
 
 import {
     AlertDialog,
@@ -14,10 +15,9 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-
 import { useParams } from '@/utils/navigation';
 
-interface Props {}
+type Props = {};
 
 const DenyAction: FC<Props> = () => {
     const params = useParams();

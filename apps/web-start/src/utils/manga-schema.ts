@@ -1,4 +1,4 @@
-import { MangaInfoResponse } from '@hikka/client';
+import type { MangaInfoResponse } from '@hikka/client';
 
 import { parseTextFromMarkDown } from '@/utils/markdown';
 

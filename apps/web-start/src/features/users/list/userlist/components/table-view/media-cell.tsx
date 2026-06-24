@@ -1,8 +1,8 @@
-import { AnimeMediaEnum } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { AnimeMediaEnum } from '@hikka/client';
 
 import { TableCell } from '@/components/ui/table';
-
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props {

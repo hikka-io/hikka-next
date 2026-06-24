@@ -1,9 +1,14 @@
-import { ContentTypeEnum, PersonResponse, RoleResponse } from '@hikka/client';
+import type { FC } from 'react';
+
+import {
+    ContentTypeEnum,
+    type PersonResponse,
+    type RoleResponse,
+} from '@hikka/client';
 import { useTitle } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
-import { FC } from 'react';
 
-import ContentCard, { ContentCardProps } from './content-card';
+import ContentCard, { type ContentCardProps } from './content-card';
 
 interface Props extends ContentCardProps {
     person: PersonResponse;

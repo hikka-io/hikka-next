@@ -1,13 +1,15 @@
 'use client';
 
-import { ClientResponse } from '@hikka/client';
+import { useEffect } from 'react';
+
+import { toast } from 'sonner';
+
+import type { ClientResponse } from '@hikka/client';
 import {
     useClientFullDetails,
     useDeleteClient,
     useUpdateClient,
 } from '@hikka/react';
-import { useEffect } from 'react';
-import { toast } from 'sonner';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/MaterialSymbolsContentCopy';
@@ -15,7 +17,6 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
-
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({

@@ -1,3 +1,5 @@
+import { createFileRoute } from '@tanstack/react-router';
+
 import { ContentTypeEnum } from '@hikka/client';
 import {
     searchArticlesOptions,
@@ -6,7 +8,6 @@ import {
     userFavouritesOptions,
     userHistoryOptions,
 } from '@hikka/react/options';
-import { createFileRoute } from '@tanstack/react-router';
 
 import {
     UserCollections as Collections,

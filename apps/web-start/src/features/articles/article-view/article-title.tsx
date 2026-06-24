@@ -1,15 +1,14 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useArticleBySlug, useTitle } from '@hikka/react';
-import { FC } from 'react';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
+import { Link, useParams } from '@/utils/navigation';
 
-interface Props {}
+type Props = {};
 
 const ArticleTitle: FC<Props> = () => {
     const params = useParams();
@@ -18,14 +17,16 @@ const ArticleTitle: FC<Props> = () => {
         slug: String(params.slug),
     });
 
-    const contentTitle = useTitle(article?.content as unknown as Record<string, unknown> | undefined);
+    const contentTitle = useTitle(
+        article?.content as unknown as Record<string, unknown> | undefined,
+    );
 
     return (
         <div className="flex flex-col gap-1">
             {article?.content && (
                 <Link
                     to={`${CONTENT_TYPE_LINKS[article.content.data_type]}/${article.content.slug}`}
-                    className="text-muted-foreground w-fit text-sm hover:underline"
+                    className="w-fit text-muted-foreground text-sm hover:underline"
                 >
                     {contentTitle}
                 </Link>

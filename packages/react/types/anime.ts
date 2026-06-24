@@ -1,4 +1,4 @@
-import { AnimeSearchArgs } from '@hikka/client';
+import type { AnimeSearchArgs } from '@hikka/client';
 
 export interface UseAnimeInfoParams {
     slug: string;

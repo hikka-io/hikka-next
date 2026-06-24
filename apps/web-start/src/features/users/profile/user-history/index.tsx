@@ -1,7 +1,8 @@
 'use client';
 
+import { type FC, useState } from 'react';
+
 import { useUserHistory } from '@hikka/react';
-import { FC, useState } from 'react';
 
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import Block from '@/components/ui/block';
@@ -18,9 +19,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-
 import HistoryItem from '@/features/users/user-history/components/history-item';
-
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';

@@ -1,17 +1,18 @@
 'use client';
 
-import { ImageType, UploadTypeEnum } from '@hikka/client';
-import { useCreateImageUpload } from '@hikka/react';
 import { useRef, useState } from 'react';
+
 import AvatarEditor from 'react-avatar-editor';
 import { toast } from 'sonner';
+
+import { type ImageType, UploadTypeEnum } from '@hikka/client';
+import { useCreateImageUpload } from '@hikka/react';
 
 import MaterialSymbolsZoomInRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomInRounded';
 import MaterialSymbolsZoomOutRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomOutRounded';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import Spinner from '@/components/ui/spinner';
-
 import { cn } from '@/utils/cn';
 import { getImage } from '@/utils/image';
 import { useRouter } from '@/utils/navigation';

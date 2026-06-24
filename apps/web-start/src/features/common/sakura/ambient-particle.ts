@@ -1,10 +1,7 @@
 import { AMBIENT_COLORS } from './config';
-import { SpriteCache, random, randomItem } from './utils';
+import { random, randomItem, type SpriteCache } from './utils';
 
-function renderGlowCanvas(
-    radius: number,
-    color: string,
-): HTMLCanvasElement {
+function renderGlowCanvas(radius: number, color: string): HTMLCanvasElement {
     const logicalSize = Math.ceil(radius * 2 + 2);
     const c = document.createElement('canvas');
     c.width = logicalSize;
@@ -92,8 +89,8 @@ class AmbientParticle {
 
         const spanX = W + 20;
         const spanY = H + 20;
-        this.x = (((this.x + 10) % spanX) + spanX) % spanX - 10;
-        this.y = (((this.y + 10) % spanY) + spanY) % spanY - 10;
+        this.x = ((((this.x + 10) % spanX) + spanX) % spanX) - 10;
+        this.y = ((((this.y + 10) % spanY) + spanY) % spanY) - 10;
     }
 
     draw(ctx: CanvasRenderingContext2D) {

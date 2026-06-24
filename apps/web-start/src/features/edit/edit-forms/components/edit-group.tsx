@@ -1,8 +1,9 @@
 'use client';
 
-import { LucideChevronsUpDown } from 'lucide-react';
+import type { FC } from 'react';
 import * as React from 'react';
-import { FC } from 'react';
+
+import { LucideChevronsUpDown } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -10,7 +11,6 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-
 import { getEditParamComponent } from '@/features/edit/edit-forms/utils/edit-param-utils';
 
 interface Props {

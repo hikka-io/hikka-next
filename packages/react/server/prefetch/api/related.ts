@@ -1,6 +1,9 @@
+import type { UseFranchiseParams } from '@/types/related';
 import { franchiseOptions } from '@/options/api/related';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
-import { UseFranchiseParams } from '@/types/related';
+import {
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches franchise information for server-side rendering

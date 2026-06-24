@@ -1,14 +1,14 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { format } from 'date-fns';
-import { FC } from 'react';
 
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { cn } from '@/utils/cn';
 
 interface Props {

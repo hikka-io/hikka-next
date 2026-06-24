@@ -1,11 +1,13 @@
 'use client';
 
-import { useHikkaClient } from '@hikka/react';
+import { useEffect, useState } from 'react';
+
 import { MarkdownPlugin } from '@platejs/markdown';
 import { MessageCircleMore, MessageCirclePlus } from 'lucide-react';
-import { Value } from 'platejs';
-import { Plate, PlateEditor, usePlateEditor } from 'platejs/react';
-import { useEffect, useState } from 'react';
+import type { Value } from 'platejs';
+import { Plate, type PlateEditor, usePlateEditor } from 'platejs/react';
+
+import { useHikkaClient } from '@hikka/react';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { Editor, EditorContainer } from '@/components/plate/ui/editor';
@@ -21,7 +23,6 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-
 import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
 import { cn } from '@/utils/cn';
 

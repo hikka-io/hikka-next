@@ -1,4 +1,4 @@
-import { PaginationArgs } from './types';
+import type { PaginationArgs } from './types';
 
 export const DEFAULT_PAGINATION: PaginationArgs = { page: 1, size: 15 };
 

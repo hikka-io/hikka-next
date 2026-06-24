@@ -1,8 +1,8 @@
-import { ContentTypeEnum } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { ContentTypeEnum } from '@hikka/client';
 
 import { Badge } from '@/components/ui/badge';
-
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
@@ -23,7 +23,7 @@ const FeedItemContentPreview: FC<Props> = ({ contentType, slug, title }) => {
             </Badge>
             <Link
                 to={`${CONTENT_TYPE_LINKS[contentType]}/${slug}`}
-                className="text-primary-foreground flex items-center gap-1 hover:underline"
+                className="flex items-center gap-1 text-primary-foreground hover:underline"
             >
                 <small className="line-clamp-1">
                     {contentType === 'edit' ? `#${slug}` : title}

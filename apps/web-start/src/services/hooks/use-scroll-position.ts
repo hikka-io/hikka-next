@@ -1,5 +1,5 @@
 import {
-    RefObject,
+    type RefObject,
     useCallback,
     useEffect,
     useLayoutEffect,

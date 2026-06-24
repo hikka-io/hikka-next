@@ -1,7 +1,8 @@
 'use client';
 
-import { UserResponse } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { UserResponse } from '@hikka/client';
 
 import {
     HorizontalCard,
@@ -10,7 +11,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-
 import FollowButton from '@/features/common/follow-button';
 
 interface Props {

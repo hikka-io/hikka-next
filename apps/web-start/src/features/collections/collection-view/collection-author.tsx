@@ -1,7 +1,8 @@
 'use client';
 
-import { useCollectionByReference } from '@hikka/react';
 import { formatDistance } from 'date-fns';
+
+import { useCollectionByReference } from '@hikka/react';
 
 import Card from '@/components/ui/card';
 import {
@@ -11,9 +12,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-
 import FollowButton from '@/features/common/follow-button';
-
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { useParams } from '@/utils/navigation';
 

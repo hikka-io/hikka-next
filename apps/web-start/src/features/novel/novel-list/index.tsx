@@ -1,11 +1,11 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { queryKeys } from '@hikka/react/core';
-import { FC } from 'react';
 
 import NovelCard from '@/components/content-card/novel-card';
-import { StackSize } from '@/components/ui/stack';
-
+import type { StackSize } from '@/components/ui/stack';
 import CatalogListView from '@/features/content/catalog-list-view';
 
 import { useNovelSearchQuery } from './use-novel-search-query';

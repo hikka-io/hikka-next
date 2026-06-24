@@ -1,9 +1,9 @@
-import { prefetchInfiniteQuery } from '@hikka/react/core';
-import { clientListOptions } from '@hikka/react/options';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { prefetchInfiniteQuery } from '@hikka/react/core';
+import { clientListOptions } from '@hikka/react/options';
 
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ApplicationsSettings, ClientCreateButton } from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/applications')({

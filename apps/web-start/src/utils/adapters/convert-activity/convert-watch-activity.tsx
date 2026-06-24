@@ -1,7 +1,7 @@
 import {
     HistoryTypeEnum,
-    HistoryWatchData,
-    WatchStatusEnum,
+    type HistoryWatchData,
+    type WatchStatusEnum,
 } from '@hikka/client';
 
 import { WATCH_STATUS } from '@/utils/constants/common';

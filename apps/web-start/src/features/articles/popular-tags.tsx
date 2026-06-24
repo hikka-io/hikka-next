@@ -1,17 +1,17 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useArticleStats } from '@hikka/react';
-import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import useChangeParam from '@/features/filters/hooks/use-change-param';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
-interface Props {}
+type Props = {};
 
 const PopularTags: FC<Props> = () => {
     const { data: articleTop } = useArticleStats();

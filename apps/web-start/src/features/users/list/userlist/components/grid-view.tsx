@@ -1,12 +1,17 @@
 'use client';
 
-import { ContentTypeEnum, ReadResponse, WatchResponse } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import {
+    ContentTypeEnum,
+    type ReadResponse,
+    type WatchResponse,
+} from '@hikka/client';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import MangaCard from '@/components/content-card/manga-card';
 import NovelCard from '@/components/content-card/novel-card';
-import Stack, { StackSize } from '@/components/ui/stack';
+import Stack, { type StackSize } from '@/components/ui/stack';
 
 interface Props {
     data: ReadResponse[] | WatchResponse[];

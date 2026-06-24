@@ -1,13 +1,15 @@
 'use client';
 
-import { useCreateThirdPartyTokenRequest, useSession } from '@hikka/react';
+import type { FC } from 'react';
+
 import { getRouteApi } from '@tanstack/react-router';
-import { FC } from 'react';
+
+import { useCreateThirdPartyTokenRequest, useSession } from '@hikka/react';
 
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 
-interface Props {}
+type Props = {};
 
 const routeApi = getRouteApi('/_pages/oauth');
 

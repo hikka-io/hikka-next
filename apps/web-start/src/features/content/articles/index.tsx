@@ -1,8 +1,9 @@
 'use client';
 
-import { ArticleContentType } from '@hikka/client';
+import { type FC, useState } from 'react';
+
+import type { ArticleContentType } from '@hikka/client';
 import { useSearchArticles } from '@hikka/react';
-import { FC, useState } from 'react';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -16,7 +17,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useParams } from '@/utils/navigation';
 

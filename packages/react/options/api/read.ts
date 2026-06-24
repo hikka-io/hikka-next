@@ -1,13 +1,14 @@
-import { HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
-import { queryKeys } from '@/core';
-import {
+import type { HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type {
     UseReadEntryParams,
+    UseReadingUsersParams,
     UseReadListParams,
     UseReadStatsParams,
-    UseReadingUsersParams,
 } from '@/types/read';
+import { queryKeys } from '@/core';
 
 export function readBySlugOptions(
     client: HikkaClient,

@@ -1,9 +1,9 @@
 'use client';
 
 import {
-    FC,
-    PropsWithChildren,
     createContext,
+    type FC,
+    type PropsWithChildren,
     useCallback,
     useContext,
     useEffect,

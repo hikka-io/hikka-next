@@ -1,10 +1,10 @@
 'use client';
 
-import { FC, Fragment, Ref } from 'react';
+import { type FC, Fragment, type Ref } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 
-import { GroupedNotifications } from '../utils/group-notifications-by-day';
+import type { GroupedNotifications } from '../utils/group-notifications-by-day';
 import NotFoundNotifications from './not-found-notifications';
 import NotificationItem from './notification-item';
 import NotificationItemSkeleton from './notification-item-skeleton';
@@ -56,7 +56,7 @@ const NotificationsContent: FC<Props> = ({
                     if (items.length === 0) return null;
                     return (
                         <Fragment key={sectionKey}>
-                            <div className="text-muted-foreground bg-secondary/20 border-border border-b px-3 py-1.5 text-xs font-medium">
+                            <div className="border-border border-b bg-secondary/20 px-3 py-1.5 font-medium text-muted-foreground text-xs">
                                 {SECTION_LABELS[sectionKey]}
                             </div>
                             {items.map((item) => (

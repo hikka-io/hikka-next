@@ -1,17 +1,16 @@
-import { ContentTypeEnum } from '@hikka/client';
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
+
+import { ContentTypeEnum } from '@hikka/client';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
-
-import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { CatalogNavbar } from '@/features/content';
+import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { MangaList, MangaListSummary } from '@/features/manga';
 import { ReadFilters, ReadFiltersModal } from '@/features/read';
-
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { mangaSearchSchema } from '@/utils/search-schemas';
@@ -73,7 +72,7 @@ function MangaListPage() {
                 </div>
 
                 {sidebarVisible && (
-                    <div className="border-border bg-secondary/20 sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border backdrop-blur-xl lg:order-2 lg:flex">
+                    <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border bg-secondary/20 backdrop-blur-xl lg:order-2 lg:flex">
                         <ReadFilters
                             content_type={ContentTypeEnum.MANGA}
                             sort_type="manga"

@@ -1,8 +1,9 @@
 'use client';
 
+import { type FC, useState } from 'react';
+
 import { Film } from 'lucide-react';
 import { useEditorRef } from 'platejs/react';
-import { FC, useState } from 'react';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { VideoPlugin } from '@/components/plate/editor/plugins/video-kit';
@@ -11,7 +12,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-
 import { z } from '@/utils/i18n/zod';
 
 import { ToolbarButton } from './toolbar';
@@ -94,11 +94,7 @@ const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
                 >
                     Скасувати
                 </Button>
-                <Button
-                    variant="secondary"
-                    type="submit"
-                    size="md"
-                >
+                <Button variant="secondary" type="submit" size="md">
                     Прийняти
                 </Button>
             </div>

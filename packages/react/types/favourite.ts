@@ -1,4 +1,4 @@
-import { FavouriteContentType } from '@hikka/client';
+import type { FavouriteContentType } from '@hikka/client';
 
 export interface UseFavouriteStatusParams {
     contentType: FavouriteContentType;

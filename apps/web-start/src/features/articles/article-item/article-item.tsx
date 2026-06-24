@@ -1,14 +1,15 @@
-import { ArticlePreviewResponse } from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import type { FC } from 'react';
+
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
-import { FC } from 'react';
+
+import type { ArticlePreviewResponse } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
@@ -21,7 +22,9 @@ interface Props {
 }
 
 const ArticleItem: FC<Props> = ({ article, className }) => {
-    const contentTitle = useTitle(article.content as unknown as Record<string, unknown> | undefined);
+    const contentTitle = useTitle(
+        article.content as unknown as Record<string, unknown> | undefined,
+    );
     const document = article.preview;
 
     return (

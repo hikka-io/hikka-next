@@ -1,8 +1,10 @@
 'use client';
 
-import { useSearchUsers } from '@hikka/react';
+import { type FC, useState } from 'react';
+
 import { User as UserIcon } from 'lucide-react';
-import { FC, useState } from 'react';
+
+import { useSearchUsers } from '@hikka/react';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -49,7 +51,7 @@ const EditModerator: FC<Props> = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="text-muted-foreground flex items-center gap-2">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <UserIcon className="size-4 shrink-0" />
                 <Label>Модератор</Label>
             </div>

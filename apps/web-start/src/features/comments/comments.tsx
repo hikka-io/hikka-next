@@ -1,5 +1,6 @@
-import { CommentResponse, CommentsContentType } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { CommentResponse, CommentsContentType } from '@hikka/client';
 
 import Comment from './comment';
 

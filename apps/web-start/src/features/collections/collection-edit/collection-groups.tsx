@@ -1,7 +1,8 @@
 'use client';
 
+import { type FC, useEffect } from 'react';
+
 import { useCollectionByReference } from '@hikka/react';
-import { FC, useEffect } from 'react';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
 import { useParams } from '@/utils/navigation';

@@ -1,9 +1,11 @@
 'use client';
 
-import { useArticleBySlug, useSession } from '@hikka/react';
+import { type FC, Fragment, useCallback } from 'react';
+
 import { MessageCircle } from 'lucide-react';
-import { FC, Fragment, useCallback } from 'react';
 import { toast } from 'sonner';
+
+import { useArticleBySlug, useSession } from '@hikka/react';
 
 import { MaterialSymbolsLinkRounded } from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import { Button } from '@/components/ui/button';
@@ -13,16 +15,14 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
+import { Link, useParams } from '@/utils/navigation';
 
 import ArticleMenu from './components/article-menu';
 import ArticleVote from './components/article-vote';
 
-interface Props {}
+type Props = {};
 
 const ArticleNavbar: FC<Props> = () => {
     const params = useParams();
@@ -45,7 +45,7 @@ const ArticleNavbar: FC<Props> = () => {
 
     return (
         <div className="sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4">
-            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
+            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
                 {article?.category !== 'system' && (
                     <Fragment>
                         <ArticleVote article={article!} />
@@ -63,7 +63,7 @@ const ArticleNavbar: FC<Props> = () => {
                                 </span>
                             </Link>
                         </Button>
-                        <div className="bg-secondary h-full w-px" />
+                        <div className="h-full w-px bg-secondary" />
                     </Fragment>
                 )}
 

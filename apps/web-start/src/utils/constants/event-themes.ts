@@ -1,4 +1,4 @@
-import { UIEffect } from '@hikka/client';
+import type { UIEffect } from '@hikka/client';
 
 /**
  * Event themes that can be activated based on date ranges.

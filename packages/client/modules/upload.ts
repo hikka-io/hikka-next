@@ -1,5 +1,5 @@
 import { HikkaApiError } from '../errors';
-import {
+import type {
     CreateImageUploadOptions,
     ImageResponse,
     UploadTypeEnum,

@@ -1,27 +1,13 @@
 'use client';
 
-import {
+import type {
     UserWatchPaginationResponse,
     WatchPaginationResponse,
     WatchResponse,
     WatchStatsResponse,
 } from '@hikka/client';
 
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
-import {
-    InfiniteQueryParams,
-    useInfiniteQuery,
-} from '@/client/useInfiniteQuery';
-import { createMutation } from '@/client/useMutation';
-import { QueryParams, useQuery } from '@/client/useQuery';
-import { queryKeys } from '@/core';
-import {
-    searchUserWatchesOptions,
-    userWatchStatsOptions,
-    watchBySlugOptions,
-    watchingUsersOptions,
-} from '@/options/api/watch';
-import {
+import type {
     RandomAnimeVariables,
     UseCreateWatchParams,
     UseFollowingWatchersParams,
@@ -29,6 +15,20 @@ import {
     UseWatchListParams,
     UseWatchStatsParams,
 } from '@/types/watch';
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import {
+    type InfiniteQueryParams,
+    useInfiniteQuery,
+} from '@/client/useInfiniteQuery';
+import { createMutation } from '@/client/useMutation';
+import { type QueryParams, useQuery } from '@/client/useQuery';
+import { queryKeys } from '@/core';
+import {
+    searchUserWatchesOptions,
+    userWatchStatsOptions,
+    watchBySlugOptions,
+    watchingUsersOptions,
+} from '@/options/api/watch';
 
 /**
  * Hook for retrieving a user's watch list

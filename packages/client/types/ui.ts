@@ -2,9 +2,9 @@
  * UI and customization types.
  */
 
-import { CollectionContentType } from './collections';
-import { CommentsContentType } from './comments';
-import {
+import type { CollectionContentType } from './collections';
+import type { CommentsContentType } from './comments';
+import type {
     FeedArticleCategory,
     FeedArticleContentType,
     FeedContentType,

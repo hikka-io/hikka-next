@@ -1,13 +1,13 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useAcceptEdit } from '@hikka/react';
-import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
-
 import { useParams } from '@/utils/navigation';
 
-interface Props {}
+type Props = {};
 
 const AcceptAction: FC<Props> = () => {
     const params = useParams();

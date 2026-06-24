@@ -1,13 +1,14 @@
 'use client';
 
+import { type FC, useState } from 'react';
+
 import {
-    CommonContentType,
+    type CommonContentType,
     ContentTypeEnum,
     ReadStatusEnum,
     WatchStatusEnum,
 } from '@hikka/client';
 import { useReadStats, useUserWatchStats } from '@hikka/react';
-import { FC, useState } from 'react';
 
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
 import { Label } from '@/components/ui/label';
@@ -18,7 +19,6 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -95,7 +95,8 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
         ? Math.round((watchData!.duration || 0) / 60)
         : null;
 
-    const watchTotalDays = watchHours !== null ? Math.floor(watchHours / 24) : 0;
+    const watchTotalDays =
+        watchHours !== null ? Math.floor(watchHours / 24) : 0;
     const watchMonths = Math.floor(watchTotalDays / 30);
     const watchDays = watchTotalDays % 30;
 
@@ -121,7 +122,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                     to={`/u/${username}/list/${type}`}
                     search={{ status: 'all' }}
                     className={cn(
-                        'hover:bg-secondary flex flex-1 items-center justify-between gap-2 rounded-sm p-2 md:flex-0',
+                        'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-secondary md:flex-0',
                         total === 0 && 'opacity-50',
                     )}
                 >
@@ -132,7 +133,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                                 `bg-foreground`,
                             )}
                         />
-                        <Label className="text-muted-foreground cursor-pointer truncate">
+                        <Label className="cursor-pointer truncate text-muted-foreground">
                             Всього
                         </Label>
                     </div>
@@ -159,7 +160,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                                     }
                                     onMouseLeave={() => setHoveredStatus(null)}
                                     className={cn(
-                                        'hover:bg-secondary flex flex-1 items-center justify-between gap-2 rounded-sm p-2  md:flex-0',
+                                        'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-secondary md:flex-0',
                                         count === 0 && 'opacity-50',
                                     )}
                                 >
@@ -170,7 +171,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                                                 `bg-${status}-foreground`,
                                             )}
                                         />
-                                        <Label className="text-muted-foreground cursor-pointer truncate">
+                                        <Label className="cursor-pointer truncate text-muted-foreground">
                                             {info.title_ua || info.title_en}
                                         </Label>
                                     </div>
@@ -192,7 +193,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                 <div className="flex flex-col gap-4">
                     <Separator />
                     <div className="flex items-center justify-between gap-2 px-4">
-                        <div className="text-muted-foreground flex items-center gap-2">
+                        <div className="flex items-center gap-2 text-muted-foreground">
                             <MaterialSymbolsClockLoader10 className="size-4" />
                             <Label>Час перегляду</Label>
                         </div>

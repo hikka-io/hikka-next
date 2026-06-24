@@ -1,11 +1,13 @@
 'use client';
 
+import { type FC, memo, useState } from 'react';
+
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { CollectionContent } from '@hikka/client';
-import { useTitle } from '@hikka/react';
 import { Check, Trash2, X } from 'lucide-react';
-import { FC, memo, useState } from 'react';
+
+import type { CollectionContent } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 
 import ContentCard, {
     DEFAULT_CONTAINER_RATIO,
@@ -23,7 +25,6 @@ import {
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { Textarea } from '@/components/ui/textarea';
-
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -88,7 +89,7 @@ const SortableCardContent = memo<{
                         onClick={handleOpen}
                         className={cn(
                             comment &&
-                                'text-primary-foreground bg-primary border-primary-border',
+                                'border-primary-border bg-primary text-primary-foreground',
                         )}
                     >
                         <MaterialSymbolsAddCommentRounded />
@@ -103,7 +104,7 @@ const SortableCardContent = memo<{
                     {/* Spacer for drag handle (rendered in parent wrapper) */}
                     <div className="h-8 w-8" />
                 </div>
-                <div className="from-background pointer-events-none absolute bottom-0 left-0 z-0 h-16 w-full rounded-b-md bg-linear-to-t to-transparent" />
+                <div className="pointer-events-none absolute bottom-0 left-0 z-0 h-16 w-full rounded-b-md bg-linear-to-t from-background to-transparent" />
             </div>
 
             {commentOpen && (

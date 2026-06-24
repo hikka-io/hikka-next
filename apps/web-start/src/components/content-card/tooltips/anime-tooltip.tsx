@@ -1,11 +1,11 @@
 'use client';
 
-import { WatchResponseBase } from '@hikka/client';
+import { type FC, memo, type PropsWithChildren } from 'react';
+
+import type { WatchResponseBase } from '@hikka/client';
 import { useAnimeBySlug, useSession, useTitle } from '@hikka/react';
-import { FC, PropsWithChildren, memo } from 'react';
 
 import { WatchlistButton } from '@/features/common';
-
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 
 import HoverCardWrapper from './hover-card-wrapper';
@@ -51,12 +51,12 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
                 data.episodes_released !== null ? (
                     <div className="flex">
                         <div className="w-1/4">
-                            <span className="text-muted-foreground text-sm leading-tight font-medium">
+                            <span className="font-medium text-muted-foreground text-sm leading-tight">
                                 Епізоди:
                             </span>
                         </div>
                         <div className="flex-1">
-                            <span className="text-sm leading-tight font-medium">
+                            <span className="font-medium text-sm leading-tight">
                                 {data.status === 'finished'
                                     ? data.episodes_total
                                     : `${data.episodes_released} / ${data.episodes_total}`}

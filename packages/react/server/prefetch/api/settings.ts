@@ -1,5 +1,8 @@
 import { ignoredNotificationsOptions } from '@/options/api/settings';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
+import {
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Function for prefetching ignored notification types

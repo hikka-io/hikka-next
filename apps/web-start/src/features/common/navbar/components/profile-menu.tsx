@@ -1,7 +1,8 @@
 'use client';
 
-import { useSession } from '@hikka/react';
 import { useRouterState } from '@tanstack/react-router';
+
+import { useSession } from '@hikka/react';
 
 import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -15,7 +16,6 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
-
 import { USER_ROLE } from '@/utils/constants/common';
 import { PROFILE_MENU } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
@@ -58,7 +58,7 @@ const ProfileMenu = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-60 p-0">
-                <div className="bg-secondary/20 m-2 flex items-center gap-2 rounded-md border p-2">
+                <div className="m-2 flex items-center gap-2 rounded-md border bg-secondary/20 p-2">
                     <Avatar className="size-10 rounded-md">
                         <AvatarImage src={loggedUser.avatar} alt="pfp" />
                     </Avatar>
@@ -66,7 +66,7 @@ const ProfileMenu = () => {
                         <Label className="truncate">
                             {loggedUser.username}
                         </Label>
-                        <p className="text-muted-foreground truncate text-xs">
+                        <p className="truncate text-muted-foreground text-xs">
                             {USER_ROLE[loggedUser.role].label}
                         </p>
                     </div>

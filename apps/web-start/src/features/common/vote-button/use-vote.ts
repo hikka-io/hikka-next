@@ -1,6 +1,6 @@
 'use client';
 
-import { VoteContentType } from '@hikka/client';
+import type { VoteContentType } from '@hikka/client';
 import { useCreateVote, useSession } from '@hikka/react';
 
 import { useRouter } from '@/utils/navigation';

@@ -1,6 +1,7 @@
-import { HikkaClient } from '@hikka/client';
 import { QueryClient } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
+
+import { HikkaClient } from '@hikka/client';
 
 import { HikkaProvider, useAnimeBySlug } from '../index';
 

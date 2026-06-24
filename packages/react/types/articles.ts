@@ -1,4 +1,4 @@
-import { ArticlesListArgs } from '@hikka/client';
+import type { ArticlesListArgs } from '@hikka/client';
 
 export interface UseArticleParams {
     slug: string;

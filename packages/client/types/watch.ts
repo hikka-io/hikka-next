@@ -1,11 +1,11 @@
-import {
+import type {
     AnimeAgeRatingEnum,
     AnimeMediaEnum,
     AnimeResponse,
     AnimeStatusEnum,
 } from './anime';
-import { PaginationResponse, SeasonEnum, SourceEnum } from './common';
-import { UserResponse } from './user';
+import type { PaginationResponse, SeasonEnum, SourceEnum } from './common';
+import type { UserResponse } from './user';
 
 /**
  * Watch status enum

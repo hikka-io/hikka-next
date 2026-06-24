@@ -1,4 +1,4 @@
-import { NovelSearchArgs } from '@hikka/client';
+import type { NovelSearchArgs } from '@hikka/client';
 
 export interface UseNovelInfoParams {
     slug: string;

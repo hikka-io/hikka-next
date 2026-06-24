@@ -1,10 +1,8 @@
-import { Outlet, createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import { SettingsMenu } from '@/features/settings';
-
 import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 

@@ -1,9 +1,14 @@
-import { HikkaClient, HikkaClientConfig, PaginationArgs } from '@hikka/client';
-import {
+import type {
     InfiniteData,
     QueryClient,
     QueryClientConfig,
 } from '@tanstack/query-core';
+
+import type {
+    HikkaClient,
+    HikkaClientConfig,
+    PaginationArgs,
+} from '@hikka/client';
 
 import { getHikkaClient, getQueryClient } from '@/core';
 

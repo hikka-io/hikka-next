@@ -1,5 +1,6 @@
-import { type VariantProps, cva } from 'class-variance-authority';
-import { CSSProperties, FC } from 'react';
+import type { CSSProperties, FC } from 'react';
+
+import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/utils/cn';
 

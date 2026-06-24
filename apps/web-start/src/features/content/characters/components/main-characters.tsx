@@ -1,7 +1,8 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { ContentTypeEnum } from '@hikka/client';
 
 import CharacterCard from '@/components/content-card/character-card';
 import Block from '@/components/ui/block';
@@ -12,7 +13,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useParams } from '@/utils/navigation';

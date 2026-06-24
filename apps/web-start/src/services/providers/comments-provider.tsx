@@ -1,7 +1,14 @@
 'use client';
 
-import { CommentResponse } from '@hikka/client';
-import { ReactNode, createContext, useCallback, useContext, useState } from 'react';
+import {
+    createContext,
+    type ReactNode,
+    useCallback,
+    useContext,
+    useState,
+} from 'react';
+
+import type { CommentResponse } from '@hikka/client';
 
 interface ActiveEditor {
     type: 'reply' | 'edit';

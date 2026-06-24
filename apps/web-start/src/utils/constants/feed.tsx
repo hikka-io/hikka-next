@@ -1,10 +1,11 @@
-import { ContentTypeEnum, FeedContentType } from '@hikka/client';
+import type { ReactElement } from 'react';
+
 import { MessageCircle, Sparkles } from 'lucide-react';
-import { ReactElement } from 'react';
+
+import { ContentTypeEnum, type FeedContentType } from '@hikka/client';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
-
 import { FeedFilterEnum } from '@/features/feed/types';
 
 export const FEED_FILTER_OPTIONS: Record<

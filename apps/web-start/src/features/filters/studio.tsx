@@ -1,12 +1,17 @@
 'use client';
 
+import { type FC, useMemo, useState } from 'react';
+
+import { Building2 } from 'lucide-react';
+
 import { CompanyTypeEnum } from '@hikka/client';
 import { useSearchCompanies } from '@hikka/react';
-import { Building2 } from 'lucide-react';
-import { FC, useMemo, useState } from 'react';
 
+import {
+    SelectField,
+    type SelectFieldProps,
+} from '@/components/form/form-select';
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
-import { SelectFieldProps, SelectField } from '@/components/form/form-select';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -61,7 +66,7 @@ const Studio: FC<Props> = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="text-muted-foreground flex items-center gap-2">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <Building2 className="size-4 shrink-0" />
                 <Label>Студія</Label>
             </div>
@@ -132,7 +137,7 @@ export const FormStudio: FC<Props & Partial<SelectFieldProps>> = (props) => {
     const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
         <form.AppField
-            name={"studios" as never}
+            name={'studios' as never}
             children={() => (
                 <SelectField
                     {...props}

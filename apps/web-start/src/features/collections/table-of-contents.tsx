@@ -1,11 +1,11 @@
 'use client';
 
-import { useCollectionByReference } from '@hikka/react';
 import { useEffect, useRef, useState } from 'react';
+
+import { useCollectionByReference } from '@hikka/react';
 
 import Card from '@/components/ui/card';
 import Link from '@/components/ui/link';
-
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
@@ -98,9 +98,9 @@ function TableOfContents({ className }: Props) {
                             <Link
                                 to={`#${label}`}
                                 className={cn(
-                                    'text-muted-foreground line-clamp-2',
+                                    'line-clamp-2 text-muted-foreground',
                                     activeId === label &&
-                                        'text-foreground font-medium',
+                                        'font-medium text-foreground',
                                 )}
                             >
                                 {label}

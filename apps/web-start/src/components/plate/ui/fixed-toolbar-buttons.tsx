@@ -1,9 +1,10 @@
 'use client';
 
+import { useRef } from 'react';
+
 import { BoldIcon, ItalicIcon } from 'lucide-react';
 import { KEYS } from 'platejs';
 import { useEditorReadOnly } from 'platejs/react';
-import { useRef } from 'react';
 
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';

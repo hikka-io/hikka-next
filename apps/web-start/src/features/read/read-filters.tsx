@@ -1,7 +1,8 @@
 'use client';
 
-import { ContentTypeEnum, ReadContentType } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import { ContentTypeEnum, type ReadContentType } from '@hikka/client';
 
 import FiltersFooter from '@/features/filters/filters-footer';
 import Genre from '@/features/filters/genre';
@@ -10,7 +11,6 @@ import MediaType from '@/features/filters/media-type';
 import ReleaseStatus from '@/features/filters/release-status';
 import Score from '@/features/filters/score';
 import Year from '@/features/filters/year';
-
 import { cn } from '@/utils/cn';
 
 interface BodyProps {
@@ -73,7 +73,7 @@ const ReadFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 sort_type={sort_type}
             />
             <FiltersFooter
-                className="bg-secondary/20 shrink-0 border-t p-4"
+                className="shrink-0 border-t bg-secondary/20 p-4"
                 contentType={readPresetContentType(sort_type)}
             />
         </div>

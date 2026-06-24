@@ -1,15 +1,14 @@
 'use client';
 
-import { AnimeScheduleResponse } from '@hikka/client';
+import { type FC, memo } from 'react';
+
+import type { AnimeScheduleResponse } from '@hikka/client';
 import { useTitle } from '@hikka/react';
-import { FC, memo } from 'react';
 
 import HorizontalContentCard, {
-    Props as HorizontalContentCardProps,
+    type Props as HorizontalContentCardProps,
 } from '@/components/ui/horizontal-content-card';
-
 import WatchlistButton from '@/features/common/watchlist-button';
-
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
 
@@ -33,7 +32,7 @@ const ScheduleItem: FC<Props> = ({ item, ...props }) => {
             <div className="flex w-full items-end gap-4">
                 <div className="flex flex-1 flex-col justify-between gap-2">
                     <p className="text-muted-foreground text-sm">
-                        <span className="text-foreground font-bold">
+                        <span className="font-bold text-foreground">
                             {item.episode}
                         </span>
                         /{item.anime.episodes_total || '?'}

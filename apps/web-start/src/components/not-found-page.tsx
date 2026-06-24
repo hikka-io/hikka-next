@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import Image from '@/components/ui/image';
-
 import { Link, useRouter } from '@/utils/navigation';
 
 const NotFoundPage = () => {
@@ -10,9 +9,9 @@ const NotFoundPage = () => {
         <div className="relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
             <div
                 aria-hidden
-                className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center select-none"
+                className="pointer-events-none absolute inset-0 -z-10 flex select-none items-center justify-center"
             >
-                <span className="text-foreground/5 text-[18rem] leading-none font-black md:text-[24rem]">
+                <span className="font-black text-[18rem] text-foreground/5 leading-none md:text-[24rem]">
                     404
                 </span>
             </div>
@@ -30,10 +29,10 @@ const NotFoundPage = () => {
                 />
 
                 <div className="flex flex-col gap-2">
-                    <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+                    <p className="font-medium text-muted-foreground text-xs uppercase tracking-widest">
                         Помилка 404
                     </p>
-                    <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
+                    <h1 className="font-bold text-3xl tracking-tight md:text-4xl">
                         Сторінку не знайдено
                     </h1>
                     <p className="text-muted-foreground">

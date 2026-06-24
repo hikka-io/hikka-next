@@ -1,13 +1,14 @@
-import { HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
-import { queryKeys } from '@/core';
-import {
-    UseFollowStatsParams,
-    UseFollowStatusParams,
+import type { HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type {
     UseFollowersParams,
     UseFollowingsParams,
+    UseFollowStatsParams,
+    UseFollowStatusParams,
 } from '@/types/follow';
+import { queryKeys } from '@/core';
 
 export function followStatusOptions(
     client: HikkaClient,

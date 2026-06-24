@@ -1,8 +1,9 @@
 'use client';
 
-import { ClientResponse } from '@hikka/client';
+import { type FC, Fragment, memo, useState } from 'react';
+
+import type { ClientResponse } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { FC, Fragment, memo, useState } from 'react';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import { Button } from '@/components/ui/button';
@@ -12,7 +13,6 @@ import {
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
-
 import { ClientEditModal } from '@/features/oauth';
 
 interface Props {

@@ -1,18 +1,19 @@
 'use client';
 
-import { NotificationTypeEnum } from '@hikka/client';
+import { useMemo } from 'react';
+
+import { toast } from 'sonner';
+
+import type { NotificationTypeEnum } from '@hikka/client';
 import {
     useIgnoredNotifications,
     useUpdateIgnoredNotifications,
 } from '@hikka/react';
-import { useMemo } from 'react';
-import { toast } from 'sonner';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Spinner from '@/components/ui/spinner';
-
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({

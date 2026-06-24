@@ -1,9 +1,9 @@
-import { ArticlePreviewResponse } from '@hikka/client';
-import { FC, Suspense, lazy } from 'react';
+import { type FC, lazy, Suspense } from 'react';
+
+import type { ArticlePreviewResponse } from '@hikka/client';
 
 import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import { Link } from '@/utils/navigation';
 
 import FeedItemContentPreview from './feed-item-content-preview';
@@ -56,7 +56,7 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                     {data.preview && data.preview.length > 0 && (
                         <Suspense
                             fallback={
-                                <div className="bg-muted h-20 animate-pulse rounded" />
+                                <div className="h-20 animate-pulse rounded bg-muted" />
                             }
                         >
                             <StaticViewer value={data.preview} />

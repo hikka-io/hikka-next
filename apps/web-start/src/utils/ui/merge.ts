@@ -1,7 +1,7 @@
 /**
  * Utilities for merging UI styles and effects.
  */
-import {
+import type {
     HSLColor,
     UIColorTokens,
     UIEffect,

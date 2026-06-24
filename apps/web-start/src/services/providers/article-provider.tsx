@@ -1,12 +1,14 @@
 'use client';
 
-import { useArticleBySlug } from '@hikka/react';
 import { createContext, useContext, useRef } from 'react';
+
 import { useStore } from 'zustand';
 
+import { useArticleBySlug } from '@hikka/react';
+
 import {
-    ArticleState,
-    ArticleStore,
+    type ArticleState,
+    type ArticleStore,
     createArticleStore,
 } from '../stores/article-store';
 

@@ -1,12 +1,11 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useCharacterManga } from '@hikka/react';
-import { FC } from 'react';
 
 import MangaCard from '@/components/content-card/manga-card';
-
 import AppearanceGrid from '@/features/common/appearance-grid';
-
 import { useParams } from '@/utils/navigation';
 
 interface Props {

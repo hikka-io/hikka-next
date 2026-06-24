@@ -1,7 +1,9 @@
-import { ArticleBaseResponse } from '@hikka/client';
+import type { FC } from 'react';
+
 import { formatDistance } from 'date-fns/formatDistance';
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
-import { FC } from 'react';
+
+import type { ArticleBaseResponse } from '@hikka/client';
 
 import Card from '@/components/ui/card';
 import {
@@ -10,7 +12,6 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {

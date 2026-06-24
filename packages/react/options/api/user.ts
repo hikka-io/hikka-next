@@ -1,13 +1,14 @@
-import { HikkaClient } from '@hikka/client';
 import { queryOptions } from '@tanstack/react-query';
 
-import { queryKeys } from '@/core';
-import {
+import type { HikkaClient } from '@hikka/client';
+
+import type {
     UseUserActivityParams,
     UseUserByUsernameParams,
     UseUserSearchParams,
     UseUserUIParams,
 } from '@/types/user';
+import { queryKeys } from '@/core';
 
 export function searchUsersOptions(
     client: HikkaClient,

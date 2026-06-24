@@ -1,11 +1,11 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import {
+import type {
     BaseRequestOptionsArgs,
     CommentArgs,
     CommentListResponse,
     CommentResponse,
-    CommentTextArgs,
     CommentsContentType,
+    CommentTextArgs,
     PaginationArgs,
     SuccessResponse,
 } from '../types';

@@ -1,9 +1,11 @@
 'use client';
 
-import { ContentTypeEnum, ImportReadArgs } from '@hikka/client';
-import { AnilistTypeEnum, useAnilist } from '@hikka/react';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { type Dispatch, type SetStateAction, useState } from 'react';
+
 import { toast } from 'sonner';
+
+import { ContentTypeEnum, type ImportReadArgs } from '@hikka/client';
+import { AnilistTypeEnum, useAnilist } from '@hikka/react';
 
 import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
 import { Button } from '@/components/ui/button';

@@ -1,4 +1,4 @@
-import { SVGProps, useId } from 'react';
+import { type SVGProps, useId } from 'react';
 
 export function Hikka(props: SVGProps<SVGSVGElement>) {
     const gradientId = useId();

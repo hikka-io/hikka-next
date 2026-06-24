@@ -1,15 +1,15 @@
 'use client';
 
-import { ReadContentType, ReadStatusEnum } from '@hikka/client';
+import type * as React from 'react';
+import { createElement, type FC } from 'react';
+
+import { type ReadContentType, ReadStatusEnum } from '@hikka/client';
 import { useCreateRead } from '@hikka/react';
-import * as React from 'react';
-import { FC, createElement } from 'react';
 
 import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
@@ -66,7 +66,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                     ) : (
                         <div
                             className={cn(
-                                'border-secondary-foreground/20 rounded-sm border p-1',
+                                'rounded-sm border border-secondary-foreground/20 p-1',
                             )}
                         >
                             {createElement(READ_STATUS.planned.icon!, {

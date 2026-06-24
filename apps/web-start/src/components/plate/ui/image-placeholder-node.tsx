@@ -7,7 +7,6 @@ import { PlateElement } from 'platejs/react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import Spinner from '@/components/ui/spinner';
-
 import { cn } from '@/utils/cn';
 
 import { ImageGroupPlugin } from '../editor/plugins/image-group-kit';
@@ -39,7 +38,7 @@ export function ImagePlaceholderElement({
             {...props}
             className={cn(
                 className,
-                'relative size-28 overflow-hidden rounded-md bg-cover bg-center',
+                'relative size-28 overflow-hidden rounded-md bg-center bg-cover',
             )}
             style={{ backgroundImage: `url(${previewUrl})` }}
         >
@@ -61,8 +60,8 @@ export function ImagePlaceholderElement({
 
                 {status === 'error' && (
                     <>
-                        <TriangleAlert className="text-destructive size-5" />
-                        <p className="text-background line-clamp-2 text-xs">
+                        <TriangleAlert className="size-5 text-destructive" />
+                        <p className="line-clamp-2 text-background text-xs">
                             {error?.message ?? 'Помилка завантаження'}
                         </p>
                         <div className="flex gap-1">

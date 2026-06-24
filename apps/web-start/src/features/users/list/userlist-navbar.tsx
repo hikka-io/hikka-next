@@ -1,11 +1,16 @@
 'use client';
 
+import { createElement, type FC, useState } from 'react';
+
+import { useRouter } from '@tanstack/react-router';
+import { Filter, PanelRightClose, PanelRightOpen } from 'lucide-react';
+
 import {
     ContentTypeEnum,
-    ReadStatsResponse,
-    ReadStatusEnum,
-    WatchStatsResponse,
-    WatchStatusEnum,
+    type ReadStatsResponse,
+    type ReadStatusEnum,
+    type WatchStatsResponse,
+    type WatchStatusEnum,
 } from '@hikka/client';
 import {
     useRandomReadByStatus,
@@ -13,9 +18,6 @@ import {
     useReadStats,
     useUserWatchStats,
 } from '@hikka/react';
-import { useRouter } from '@tanstack/react-router';
-import { Filter, PanelRightClose, PanelRightOpen } from 'lucide-react';
-import { FC, createElement, useState } from 'react';
 
 import FeRandom from '@/components/icons/fe/FeRandom';
 import MaterialSymbolsEventList from '@/components/icons/material-symbols/MaterialSymbolsEventList';
@@ -38,7 +40,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { useActiveFilters } from '@/features/content';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import useChangeParam from '@/features/filters/hooks/use-change-param';
@@ -47,7 +48,6 @@ import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar'
 import Sort from '@/features/filters/sort';
 import { ReadFiltersModal } from '@/features/read';
 import { AnimeFiltersModal } from '@/features/watch';
-
 import { cn } from '@/utils/cn';
 import {
     CONTENT_TYPES,
@@ -149,15 +149,15 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
 
     return (
         <>
-            <div className="bg-secondary/20 flex flex-col gap-4 rounded-md border p-4 md:flex-row md:items-center">
-                <div className="flex flex-1 gap-4 items-center">
+            <div className="flex flex-col gap-4 rounded-md border bg-secondary/20 p-4 md:flex-row md:items-center">
+                <div className="flex flex-1 items-center gap-4">
                     <Select
                         value={[status]}
                         onValueChange={(value) =>
                             handleChangeParam('status', value[0])
                         }
                     >
-                        <SelectTrigger size="md" className=" flex-1">
+                        <SelectTrigger size="md" className="flex-1">
                             <SelectValue placeholder="Статус" />
                         </SelectTrigger>
                         <SelectContent>
@@ -221,7 +221,7 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                     </Select>
                     <Separator
                         orientation="vertical"
-                        className="h-6 hidden md:block"
+                        className="hidden h-6 md:block"
                     />
                     <ToggleGroup
                         variant="outline"
@@ -239,11 +239,11 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <div className="gap-4 items-center flex flex-1">
+                    <div className="flex flex-1 items-center gap-4">
                         <Sort
                             sort_type={isAnime ? 'watch' : 'read'}
                             compact
-                            className="min-w-0 flex-1 overflow-hidden md:flex-none md:w-50"
+                            className="min-w-0 flex-1 overflow-hidden md:w-50 md:flex-none"
                             placeholder="Сортування"
                         />
 

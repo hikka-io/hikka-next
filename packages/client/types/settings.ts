@@ -1,4 +1,4 @@
-import { UploadTypeEnum } from './upload';
+import type { UploadTypeEnum } from './upload';
 
 /**
  * Description arguments

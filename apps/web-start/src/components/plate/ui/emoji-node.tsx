@@ -1,10 +1,11 @@
 'use client';
 
+import * as React from 'react';
+
 import { EmojiInlineIndexSearch, insertEmoji } from '@platejs/emoji';
 import { EmojiPlugin } from '@platejs/emoji/react';
 import type { PlateElementProps } from 'platejs/react';
 import { PlateElement, usePluginOption } from 'platejs/react';
-import * as React from 'react';
 
 import useDebounce from '@/services/hooks/use-debounce';
 

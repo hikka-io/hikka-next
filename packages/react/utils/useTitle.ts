@@ -1,4 +1,4 @@
-import { NameLanguage, TitleLanguage } from './titleUtils';
+import type { NameLanguage, TitleLanguage } from './titleUtils';
 
 const TITLE_PRIORITY: TitleLanguage[] = [
     'title_ua',

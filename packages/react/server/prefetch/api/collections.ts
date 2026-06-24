@@ -1,16 +1,19 @@
+import type {
+    UseCollectionParams,
+    UseCollectionsListParams,
+} from '@/types/collections';
 import {
     collectionByReferenceOptions,
     searchCollectionsOptions,
 } from '@/options/api/collections';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseCollectionParams,
-    UseCollectionsListParams,
-} from '@/types/collections';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches a collection by reference for server-side rendering

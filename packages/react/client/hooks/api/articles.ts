@@ -1,26 +1,26 @@
 'use client';
 
-import {
+import type {
     ArticleArgs,
     ArticleDocumentResponse,
     ArticlesListResponse,
     ArticlesTopResponse,
 } from '@hikka/client';
 
+import type { UseArticleParams, UseArticlesListParams } from '@/types/articles';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { createMutation } from '@/client/useMutation';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
 import {
     articleBySlugOptions,
     articleStatsOptions,
     searchArticlesOptions,
 } from '@/options/api/articles';
-import { UseArticleParams, UseArticlesListParams } from '@/types/articles';
 
 /**
  * Hook for getting article details

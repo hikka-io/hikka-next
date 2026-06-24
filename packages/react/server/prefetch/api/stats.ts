@@ -1,6 +1,6 @@
 import { topEditorsListOptions } from '@/options/api/stats';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
 

@@ -1,9 +1,10 @@
 'use client';
 
-import { UIFeedSettings, UserUI } from '@hikka/client';
+import { useQueryClient } from '@tanstack/react-query';
+
+import type { UIFeedSettings, UserUI } from '@hikka/client';
 import { useUpdateUserUI } from '@hikka/react';
 import { queryKeys } from '@hikka/react/core';
-import { useQueryClient } from '@tanstack/react-query';
 
 import { DEFAULT_USER_UI, diffStyles } from '@/utils/ui';
 

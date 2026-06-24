@@ -1,14 +1,14 @@
 'use client';
 
-import { MangaResponse } from '@hikka/client';
+import type * as React from 'react';
+
+import type { MangaResponse } from '@hikka/client';
 import { useTitle } from '@hikka/react';
-import * as React from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-
 import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
@@ -53,7 +53,7 @@ const MangaCard = ({ manga, onClick, type }: Props) => {
                                 <Label className="text-muted-foreground text-xs">
                                     {manga.year}
                                 </Label>
-                                <div className="bg-muted-foreground size-1 rounded-full" />
+                                <div className="size-1 rounded-full bg-muted-foreground" />
                             </>
                         )}
 
@@ -65,7 +65,7 @@ const MangaCard = ({ manga, onClick, type }: Props) => {
                                             .title_ua
                                     }
                                 </Label>
-                                <div className="bg-muted-foreground size-1 rounded-full" />
+                                <div className="size-1 rounded-full bg-muted-foreground" />
                             </>
                         )}
 

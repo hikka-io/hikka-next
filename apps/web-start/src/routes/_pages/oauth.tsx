@@ -1,6 +1,7 @@
-import { clientByReferenceOptions } from '@hikka/react/options';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
+
+import { clientByReferenceOptions } from '@hikka/react/options';
 
 import {
     OAuthClient as Client,
@@ -8,7 +9,6 @@ import {
     OAuthHeader as Header,
     OAuthProfile as Profile,
 } from '@/features/oauth';
-
 import { generateHeadMeta } from '@/utils/metadata';
 import { oauthSearchSchema } from '@/utils/search-schemas';
 

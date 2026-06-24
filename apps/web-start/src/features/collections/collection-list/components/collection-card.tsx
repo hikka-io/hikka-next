@@ -1,11 +1,13 @@
 'use client';
 
-import { CollectionContent, CollectionResponse } from '@hikka/client';
-import { useHikkaClient } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import type { FC } from 'react';
+
 import { formatDistance } from 'date-fns/formatDistance';
 import { ArrowBigUp, MessageCircle } from 'lucide-react';
-import { FC } from 'react';
+
+import type { CollectionContent, CollectionResponse } from '@hikka/client';
+import { useHikkaClient } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Badge } from '@/components/ui/badge';
@@ -19,11 +21,9 @@ import {
 } from '@/components/ui/horizontal-card';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
-import Stack, { StackSize } from '@/components/ui/stack';
+import Stack, { type StackSize } from '@/components/ui/stack';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-
 import FollowButton from '@/features/common/follow-button';
-
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -202,7 +202,7 @@ const CollectionCard: FC<Props> = ({
                                     />
                                 )}
 
-                                <span className="text-2xl font-bold text-white drop-shadow-lg">
+                                <span className="font-bold text-2xl text-white drop-shadow-lg">
                                     +{remainingCount}
                                 </span>
                             </div>

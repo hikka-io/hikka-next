@@ -1,36 +1,35 @@
+import { createFileRoute, redirect } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+
 import {
-    AnimeAgeRatingEnum,
-    AnimeMediaEnum,
-    AnimeStatusEnum,
-    CommonContentType,
-    ContentStatusEnum,
+    type AnimeAgeRatingEnum,
+    type AnimeMediaEnum,
+    type AnimeStatusEnum,
+    type CommonContentType,
+    type ContentStatusEnum,
     ContentTypeEnum,
-    MangaMediaEnum,
-    NovelMediaEnum,
-    ReadContentType,
-    ReadStatusEnum,
-    SeasonEnum,
-    WatchStatusEnum,
+    type MangaMediaEnum,
+    type NovelMediaEnum,
+    type ReadContentType,
+    type ReadStatusEnum,
+    type SeasonEnum,
+    type WatchStatusEnum,
 } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
 import {
     searchUserReadsOptions,
     searchUserWatchesOptions,
 } from '@hikka/react/options';
-import { createFileRoute, redirect } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
-
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { expandSort } from '@/features/filters/sort';
 import { ReadFilters } from '@/features/read';
 import { Userlist, UserlistNavbar } from '@/features/users';
 import { AnimeFilters } from '@/features/watch';
-
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { userlistSearchSchema } from '@/utils/search-schemas';
@@ -187,7 +186,7 @@ function ListPage() {
                 </div>
 
                 {sidebarVisible && (
-                    <div className="border-border bg-secondary/20 sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border backdrop-blur-xl lg:order-2 lg:flex">
+                    <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border bg-secondary/20 backdrop-blur-xl lg:order-2 lg:flex">
                         {isAnime ? (
                             <AnimeFilters
                                 sort_type="watch"

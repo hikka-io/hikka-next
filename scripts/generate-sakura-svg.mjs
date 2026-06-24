@@ -89,12 +89,14 @@ class SvgContext {
     }
 
     translate(x, y) {
-        this.current.transform = `${this.current.transform} translate(${fmt(x)} ${fmt(y)})`.trim();
+        this.current.transform =
+            `${this.current.transform} translate(${fmt(x)} ${fmt(y)})`.trim();
     }
 
     rotate(angle) {
         const deg = (angle * 180) / Math.PI;
-        this.current.transform = `${this.current.transform} rotate(${fmt(deg)})`.trim();
+        this.current.transform =
+            `${this.current.transform} rotate(${fmt(deg)})`.trim();
     }
 
     beginPath() {
@@ -134,9 +136,7 @@ class SvgContext {
             __id: id,
             __finalized: false,
             addColorStop(offset, color) {
-                stops.push(
-                    `<stop offset="${offset}" stop-color="${color}"/>`,
-                );
+                stops.push(`<stop offset="${offset}" stop-color="${color}"/>`);
             },
             __finalize() {
                 if (this.__finalized) return;
@@ -188,7 +188,9 @@ class SvgContext {
     }
 
     toSVG(viewBox) {
-        const defs = this.defs.length ? `<defs>${this.defs.join('')}</defs>` : '';
+        const defs = this.defs.length
+            ? `<defs>${this.defs.join('')}</defs>`
+            : '';
         return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}">${defs}${this.body.join('')}</svg>`;
     }
 }
@@ -393,7 +395,15 @@ function drawTwig(ctx, startX, startY, len, angle, thickness, depth, isNarrow) {
     }
 }
 
-function drawMainBranch(ctx, startX, startY, totalLen, baseAngle, thickness, isNarrow) {
+function drawMainBranch(
+    ctx,
+    startX,
+    startY,
+    totalLen,
+    baseAngle,
+    thickness,
+    isNarrow,
+) {
     const segmentCount = isNarrow ? 4 : 5;
     const segLen = totalLen / segmentCount;
 
@@ -434,7 +444,9 @@ function drawMainBranch(ctx, startX, startY, totalLen, baseAngle, thickness, isN
     const termSpread = random(0.4, 0.7);
     for (let i = 0; i < 2; i++) {
         const tAngle =
-            curAngle + (i === 0 ? -termSpread : termSpread) + random(-0.08, 0.08);
+            curAngle +
+            (i === 0 ? -termSpread : termSpread) +
+            random(-0.08, 0.08);
         drawTwig(
             ctx,
             curX,
@@ -510,8 +522,8 @@ function generateBranch(isNarrow, seed) {
 }
 
 const VARIANT_COUNT = 5;
-let desktopManifest = [];
-let mobileManifest = [];
+const desktopManifest = [];
+const mobileManifest = [];
 for (let i = 0; i < VARIANT_COUNT; i++) {
     const dName = `branch-desktop-${i}.svg`;
     const mName = `branch-mobile-${i}.svg`;

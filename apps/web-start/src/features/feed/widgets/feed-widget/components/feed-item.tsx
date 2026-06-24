@@ -1,9 +1,10 @@
+import type { FC } from 'react';
+
 import {
     ContentTypeEnum,
-    FeedItemResponse,
-    VoteContentType,
+    type FeedItemResponse,
+    type VoteContentType,
 } from '@hikka/client';
-import { FC } from 'react';
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 

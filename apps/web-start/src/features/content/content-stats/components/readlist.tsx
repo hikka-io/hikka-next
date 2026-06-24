@@ -1,11 +1,12 @@
 'use client';
 
-import {
+import { createElement } from 'react';
+
+import type {
     ContentTypeEnum,
     ReadStatsResponse,
     ReadStatusEnum,
 } from '@hikka/client';
-import { createElement } from 'react';
 
 import { CONTENT_CONFIG, READ_STATUS } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';

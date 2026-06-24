@@ -1,5 +1,6 @@
-import { ContentTypeEnum } from '@hikka/client';
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
+
+import type { ContentTypeEnum } from '@hikka/client';
 
 import { CommentList as Comments } from '@/features/comments';
 

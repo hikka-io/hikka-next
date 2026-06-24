@@ -1,10 +1,10 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import {
+import type {
     BaseRequestOptionsArgs,
     PaginationArgs,
     SuccessResponse,
 } from '../types';
-import {
+import type {
     ClientArgs,
     ClientInfoResponse,
     ClientPaginationResponse,

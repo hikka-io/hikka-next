@@ -1,8 +1,9 @@
-import { HikkaClient } from '@hikka/client';
 import { queryOptions } from '@tanstack/react-query';
 
+import type { HikkaClient } from '@hikka/client';
+
+import type { UseVoteStatusParams } from '@/types/vote';
 import { queryKeys } from '@/core';
-import { UseVoteStatusParams } from '@/types/vote';
 
 export function contentVoteOptions(
     client: HikkaClient,

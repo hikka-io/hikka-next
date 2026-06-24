@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import Block from '@/components/ui/block';
 import {
@@ -10,7 +10,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 

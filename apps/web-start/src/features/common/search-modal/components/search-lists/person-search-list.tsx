@@ -1,11 +1,11 @@
 'use client';
 
-import { PersonResponse } from '@hikka/client';
-import { useSearchPeople } from '@hikka/react';
 import { useCallback } from 'react';
 
-import LoadMoreButton from '@/components/load-more-button';
+import type { PersonResponse } from '@hikka/client';
+import { useSearchPeople } from '@hikka/react';
 
+import LoadMoreButton from '@/components/load-more-button';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 

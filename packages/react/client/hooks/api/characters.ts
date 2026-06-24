@@ -1,20 +1,25 @@
 'use client';
 
-import {
+import type {
     CharacterAnimePaginationResponse,
     CharacterMangaPaginationResponse,
     CharacterNovelPaginationResponse,
     CharacterResponse,
-    CharacterVoicesPaginationResponse,
     CharactersSearchPaginationResponse,
+    CharacterVoicesPaginationResponse,
 } from '@hikka/client';
 
+import type {
+    UseCharacterContentParams,
+    UseCharacterInfoParams,
+    UseCharactersSearchParams,
+} from '@/types/characters';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import {
     characterAnimeOptions,
     characterBySlugOptions,
@@ -23,11 +28,6 @@ import {
     characterVoicesOptions,
     searchCharactersOptions,
 } from '@/options/api/characters';
-import {
-    UseCharacterContentParams,
-    UseCharacterInfoParams,
-    UseCharactersSearchParams,
-} from '@/types/characters';
 
 /**
  * Hook for getting character details by slug

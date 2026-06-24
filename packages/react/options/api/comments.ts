@@ -1,12 +1,13 @@
-import { HikkaClient } from '@hikka/client';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
-import { queryKeys } from '@/core';
-import {
+import type { HikkaClient } from '@hikka/client';
+
+import type {
     UseCommentListParams,
     UseCommentThreadParams,
     UseContentCommentsParams,
 } from '@/types/comments';
+import { queryKeys } from '@/core';
 
 export function commentListOptions(
     client: HikkaClient,

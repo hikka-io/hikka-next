@@ -1,6 +1,6 @@
 'use client';
 
-import {
+import type {
     AuthTokenInfoPaginationResponse,
     AuthTokenInfoResponse,
     CaptchaArgs,
@@ -16,23 +16,23 @@ import {
     UsernameLoginArgs,
 } from '@hikka/client';
 
+import type {
+    UseOAuthProviderUrlParams,
+    UseThirdPartyTokenListParams,
+} from '@/types/auth';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { createMutation } from '@/client/useMutation';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
 import {
     authTokenDetailsOptions,
     oAuthProviderUrlOptions,
     thirdPartyTokenListOptions,
 } from '@/options/api/auth';
-import {
-    UseOAuthProviderUrlParams,
-    UseThirdPartyTokenListParams,
-} from '@/types/auth';
 
 /**
  * Hook for retrieving current auth token info

@@ -1,20 +1,23 @@
-import {
-    followStatusOptions,
-    userFollowStatsOptions,
-    userFollowersOptions,
-    userFollowingsOptions,
-} from '@/options/api/follow';
-import {
-    PrefetchInfiniteQueryParams,
-    prefetchInfiniteQuery,
-} from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
-import {
-    UseFollowStatsParams,
-    UseFollowStatusParams,
+import type {
     UseFollowersParams,
     UseFollowingsParams,
+    UseFollowStatsParams,
+    UseFollowStatusParams,
 } from '@/types/follow';
+import {
+    followStatusOptions,
+    userFollowersOptions,
+    userFollowingsOptions,
+    userFollowStatsOptions,
+} from '@/options/api/follow';
+import {
+    type PrefetchInfiniteQueryParams,
+    prefetchInfiniteQuery,
+} from '@/server/prefetchInfiniteQuery';
+import {
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches follow status for server-side rendering

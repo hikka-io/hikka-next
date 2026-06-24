@@ -1,18 +1,21 @@
+import type {
+    UseNovelCharactersParams,
+    UseNovelInfoParams,
+    UseSearchNovelsParams,
+} from '@/types/novel';
 import {
     novelBySlugOptions,
     novelCharactersOptions,
     searchNovelsOptions,
 } from '@/options/api/novel';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseNovelCharactersParams,
-    UseNovelInfoParams,
-    UseSearchNovelsParams,
-} from '@/types/novel';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches novel details for server-side rendering

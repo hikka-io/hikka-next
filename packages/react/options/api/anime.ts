@@ -1,8 +1,8 @@
-import { HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
-import { queryKeys } from '@/core';
-import {
+import type { HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type {
     UseAnimeCharactersParams,
     UseAnimeEpisodesParams,
     UseAnimeFranchiseParams,
@@ -11,6 +11,7 @@ import {
     UseAnimeSearchParams,
     UseAnimeStaffParams,
 } from '@/types/anime';
+import { queryKeys } from '@/core';
 
 export function animeBySlugOptions(
     client: HikkaClient,

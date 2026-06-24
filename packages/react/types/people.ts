@@ -1,4 +1,4 @@
-import { QuerySearchArgs } from '@hikka/client';
+import type { QuerySearchArgs } from '@hikka/client';
 
 export interface UsePersonInfoParams {
     slug: string;

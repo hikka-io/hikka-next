@@ -1,4 +1,4 @@
-import { EditStatusEnum } from '@hikka/client';
+import type { EditStatusEnum } from '@hikka/client';
 
 export const ANIME_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
     title: [

@@ -3,7 +3,6 @@
 import { useUserFollowers, useUserFollowings } from '@hikka/react';
 
 import LoadMoreButton from '@/components/load-more-button';
-
 import { useParams } from '@/utils/navigation';
 
 import FollowUserItem from './components/follow-user-item';

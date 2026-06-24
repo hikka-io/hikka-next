@@ -1,11 +1,13 @@
 'use client';
 
+import { createElement, useCallback, useMemo, useState } from 'react';
+
 import {
     ContentTypeEnum,
-    MangaResponse,
-    NovelResponse,
-    ReadContentType,
-    ReadResponseBase,
+    type MangaResponse,
+    type NovelResponse,
+    type ReadContentType,
+    type ReadResponseBase,
     ReadStatusEnum,
 } from '@hikka/client';
 import {
@@ -15,10 +17,9 @@ import {
     useReadBySlug,
     useTitle,
 } from '@hikka/react';
-import { createElement, useCallback, useMemo, useState } from 'react';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
-import { ButtonProps } from '@/components/ui/button';
+import type { ButtonProps } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
@@ -33,9 +34,7 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
-
 import { ReadEditModal } from '@/features/read';
-
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
@@ -281,9 +280,7 @@ const ReadlistButton = ({
             >
                 <ResponsiveModalContent className="md:max-w-xl">
                     <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>
-                            {title}
-                        </ResponsiveModalTitle>
+                        <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
                     <ReadEditModal
                         slug={slug}

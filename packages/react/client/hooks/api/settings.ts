@@ -1,17 +1,12 @@
 'use client';
 
-import {
+import type {
     IgnoredNotificationsResponse,
     SuccessResponse,
     UserUI,
 } from '@hikka/client';
 
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
-import { createMutation } from '@/client/useMutation';
-import { QueryParams, useQuery } from '@/client/useQuery';
-import { queryKeys } from '@/core';
-import { ignoredNotificationsOptions } from '@/options/api/settings';
-import {
+import type {
     UseChangeDescriptionParams,
     UseChangeEmailParams,
     UseChangePasswordParams,
@@ -25,6 +20,11 @@ import {
     UseImportWatchListParams,
     UseUpdateIgnoredNotificationsParams,
 } from '@/types/settings';
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import { createMutation } from '@/client/useMutation';
+import { type QueryParams, useQuery } from '@/client/useQuery';
+import { queryKeys } from '@/core';
+import { ignoredNotificationsOptions } from '@/options/api/settings';
 
 /**
  * Hook for getting ignored notification types

@@ -1,18 +1,18 @@
 'use client';
 
-import {
-    Primitive,
-    type PrimitivePropsWithRef,
-} from '@radix-ui/react-primitive';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { type VariantProps } from 'class-variance-authority';
-import { ChevronsUpDown, X } from 'lucide-react';
-import { Popover as PopoverPrimitive } from 'radix-ui';
-import React, { FC, Fragment, ReactNode } from 'react';
+import React, { type FC, Fragment, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
-import { usePortalContainer } from '@/components/ui/portal-container-context';
+import type {
+    Primitive,
+    PrimitivePropsWithRef,
+} from '@radix-ui/react-primitive';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import type { VariantProps } from 'class-variance-authority';
+import { ChevronsUpDown, X } from 'lucide-react';
+import { Popover as PopoverPrimitive } from 'radix-ui';
 
+import { usePortalContainer } from '@/components/ui/portal-container-context';
 import { cn } from '@/utils/cn';
 
 import { Badge } from './badge';
@@ -427,7 +427,7 @@ const SelectValue = React.forwardRef<
         if (!displayValue.length || !firstRendered) {
             return (
                 <Fragment>
-                    <p className="text-muted-foreground pointer-events-none min-w-0 flex-1 truncate">
+                    <p className="pointer-events-none min-w-0 flex-1 truncate text-muted-foreground">
                         {placeholder}
                     </p>
                     <SelectIcon className="size-4!" />
@@ -599,7 +599,7 @@ const SelectContent = React.forwardRef<
                 sideOffset={4}
                 collisionPadding={10}
                 className={cn(
-                    'bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-full rounded-md border shadow-md outline-hidden',
+                    'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-hidden data-[state=closed]:animate-out data-[state=open]:animate-in',
                 )}
                 style={
                     {
@@ -735,7 +735,7 @@ const SelectItem = React.forwardRef<
                 {...props}
                 value={value}
                 className={cn(
-                    disabled && 'text-muted-foreground cursor-not-allowed',
+                    disabled && 'cursor-not-allowed text-muted-foreground',
                     'gap-2',
                     className,
                 )}
@@ -800,7 +800,7 @@ const SelectEmpty = React.forwardRef<
             {...props}
             className={cn(
                 className,
-                'text-muted-foreground py-4 text-center text-sm',
+                'py-4 text-center text-muted-foreground text-sm',
             )}
             ref={forwardRef}
         >

@@ -1,3 +1,5 @@
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+
 import { ContentTypeEnum } from '@hikka/client';
 import {
     contentCommentsOptions,
@@ -10,10 +12,8 @@ import {
     searchArticlesOptions,
     searchCollectionsOptions,
 } from '@hikka/react/options';
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { ContentDetailLayout } from '@/features/content';
-
 import { MANGA_NAV_ROUTES } from '@/utils/constants/navigation';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
 import { getNsfwConsentFn } from '@/utils/cookies/server';
@@ -35,9 +35,7 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
             queryClient.setQueryData(mangaOptions.queryKey, manga);
         }
 
-        const nsfwConsented = manga.nsfw
-            ? !!(await getNsfwConsentFn())
-            : false;
+        const nsfwConsented = manga.nsfw ? !!(await getNsfwConsentFn()) : false;
 
         await Promise.allSettled([
             queryClient.ensureInfiniteQueryData(

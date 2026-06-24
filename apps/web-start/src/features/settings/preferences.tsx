@@ -14,7 +14,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 import { useTheme } from '@/services/providers/theme-provider';

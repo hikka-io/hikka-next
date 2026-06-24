@@ -1,13 +1,14 @@
 'use client';
 
-import { UserResponse } from '@hikka/client';
+import type * as React from 'react';
+
 import { format } from 'date-fns/format';
-import * as React from 'react';
+
+import type { UserResponse } from '@hikka/client';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-
 import { USER_ROLE } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
@@ -36,7 +37,7 @@ const UserCard = ({ user, onClick, type }: Props) => {
                     </Label>
 
                     {user.active && (
-                        <div className="border-success bg-success-foreground -right-2 -bottom-2 z-1 size-2 rounded-full border" />
+                        <div className="-right-2 -bottom-2 z-1 size-2 rounded-full border border-success bg-success-foreground" />
                     )}
 
                     {(user.role === 'admin' || user.role === 'moderator') && (

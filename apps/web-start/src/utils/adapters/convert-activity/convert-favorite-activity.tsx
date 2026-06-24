@@ -1,4 +1,4 @@
-import { HistoryTypeEnum } from '@hikka/client';
+import type { HistoryTypeEnum } from '@hikka/client';
 
 export const convertDeleteFavorite = () => {
     return 'Видалено з улюблених';

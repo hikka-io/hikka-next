@@ -1,5 +1,6 @@
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+
 import { articleBySlugOptions } from '@hikka/react/options';
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { generateHeadMeta } from '@/utils/metadata';

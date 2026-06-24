@@ -1,11 +1,11 @@
 import {
-    HistoryFavouriteData,
-    HistoryReadData,
-    HistoryReadImportData,
-    HistoryResponse,
+    type HistoryFavouriteData,
+    type HistoryReadData,
+    type HistoryReadImportData,
+    type HistoryResponse,
     HistoryTypeEnum,
-    HistoryWatchData,
-    HistoryWatchImportData,
+    type HistoryWatchData,
+    type HistoryWatchImportData,
 } from '@hikka/client';
 
 import { createFavoriteEvents } from './convert-favorite-activity';

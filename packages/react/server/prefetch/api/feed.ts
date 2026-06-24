@@ -1,9 +1,10 @@
-import { HikkaClientConfig } from '@hikka/client';
-import { QueryClient, QueryClientConfig } from '@tanstack/query-core';
+import type { QueryClient, QueryClientConfig } from '@tanstack/query-core';
 
+import type { HikkaClientConfig } from '@hikka/client';
+
+import type { UseFeedParams } from '@/types/feed';
 import { getHikkaClient, getQueryClient } from '@/core';
 import { feedOptions } from '@/options/api/feed';
-import { UseFeedParams } from '@/types/feed';
 
 export interface PrefetchFeedParams {
     clientConfig?: HikkaClientConfig;

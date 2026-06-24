@@ -1,10 +1,9 @@
 'use client';
 
-import { UIEffect } from '@hikka/client';
+import type { UIEffect } from '@hikka/client';
 
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 

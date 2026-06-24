@@ -1,7 +1,8 @@
 'use client';
 
-import { CommentResponse, ContentTypeEnum } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import { type CommentResponse, ContentTypeEnum } from '@hikka/client';
 
 import VoteButton from '@/features/common/vote-button';
 

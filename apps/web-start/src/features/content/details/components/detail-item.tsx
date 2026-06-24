@@ -1,4 +1,4 @@
-import { FC, ReactNode, useCallback } from 'react';
+import { type FC, type ReactNode, useCallback } from 'react';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -6,7 +6,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -32,7 +31,7 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
 
             if (value.length < 2) {
                 return (
-                    <p className="line-clamp-2 cursor-text text-sm leading-tight font-medium select-auto">
+                    <p className="line-clamp-2 cursor-text select-auto font-medium text-sm leading-tight">
                         {formattedValue}
                     </p>
                 );
@@ -41,7 +40,7 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
             return (
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <span className="line-clamp-2 cursor-text text-sm leading-tight font-medium">
+                        <span className="line-clamp-2 cursor-text font-medium text-sm leading-tight">
                             {formattedValue}
                         </span>
                     </TooltipTrigger>
@@ -60,7 +59,7 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
         }
 
         return (
-            <p className="line-clamp-2 cursor-text text-sm leading-tight font-medium select-auto">
+            <p className="line-clamp-2 cursor-text select-auto font-medium text-sm leading-tight">
                 {value}
             </p>
         );
@@ -73,7 +72,7 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
                 className,
             )}
         >
-            <div className="text-muted-foreground flex items-center gap-3">
+            <div className="flex items-center gap-3 text-muted-foreground">
                 {icon}
                 <Label className="line-clamp-2 flex-1">{title}</Label>
             </div>

@@ -1,11 +1,11 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { queryKeys } from '@hikka/react/core';
-import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
-import { StackSize } from '@/components/ui/stack';
-
+import type { StackSize } from '@/components/ui/stack';
 import CatalogListView from '@/features/content/catalog-list-view';
 
 import { useAnimeSearchQuery } from './use-anime-search-query';

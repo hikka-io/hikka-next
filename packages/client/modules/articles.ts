@@ -1,12 +1,12 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import {
+import type {
     ArticleArgs,
     ArticleDocumentResponse,
     ArticlesListArgs,
     ArticlesListResponse,
     ArticlesTopResponse,
 } from '../types/articles';
-import { BaseRequestOptionsArgs, PaginationArgs } from '../types/common';
+import type { BaseRequestOptionsArgs, PaginationArgs } from '../types/common';
 import { BaseModule } from './base';
 
 /**

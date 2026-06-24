@@ -1,11 +1,7 @@
 'use client';
 
-import {
-    ContentTypeEnum,
-    MangaInfoResponse,
-    NovelInfoResponse,
-} from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import { Fragment, useState } from 'react';
+
 import {
     BookType,
     Building2,
@@ -14,12 +10,17 @@ import {
     Hash,
     Play,
 } from 'lucide-react';
-import { Fragment, useState } from 'react';
+
+import {
+    ContentTypeEnum,
+    type MangaInfoResponse,
+    type NovelInfoResponse,
+} from '@hikka/client';
+import { useTitle } from '@hikka/react';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-
 import { cn } from '@/utils/cn';
 import {
     MANGA_MEDIA_TYPE,
@@ -56,7 +57,7 @@ const SynonymsTrigger = ({
             <DetailItem icon={<BookType className="size-4" />} title="Синоніми">
                 <button
                     type="button"
-                    className="line-clamp-2 w-fit cursor-pointer text-right text-sm leading-tight font-medium hover:underline"
+                    className="line-clamp-2 w-fit cursor-pointer text-right font-medium text-sm leading-tight hover:underline"
                     onClick={() => setOpen(true)}
                 >
                     {synonyms.slice(0, 3).join(', ')}
@@ -113,7 +114,7 @@ const ReadDetails = ({
                         icon={<Calendar className="size-4" />}
                     >
                         <Link
-                            className="line-clamp-1 text-sm font-medium hover:underline"
+                            className="line-clamp-1 font-medium text-sm hover:underline"
                             to={`/${data.data_type}`}
                             search={{
                                 years: [data.year, data.year],

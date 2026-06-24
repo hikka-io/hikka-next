@@ -1,3 +1,5 @@
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+
 import { ContentTypeEnum } from '@hikka/client';
 import {
     animeBySlugOptions,
@@ -11,10 +13,8 @@ import {
     watchBySlugOptions,
     watchingUsersOptions,
 } from '@hikka/react/options';
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { ContentDetailLayout } from '@/features/content';
-
 import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
 import { getNsfwConsentFn } from '@/utils/cookies/server';
@@ -36,9 +36,7 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
             queryClient.setQueryData(animeOptions.queryKey, anime);
         }
 
-        const nsfwConsented = anime.nsfw
-            ? !!(await getNsfwConsentFn())
-            : false;
+        const nsfwConsented = anime.nsfw ? !!(await getNsfwConsentFn()) : false;
 
         await Promise.allSettled([
             queryClient.ensureQueryData(

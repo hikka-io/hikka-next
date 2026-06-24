@@ -1,13 +1,14 @@
-import {
+import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
+
+import type {
     AuthTokenInfoResponse,
     HikkaClient,
     PaginationArgs,
     ProviderUrlResponse,
 } from '@hikka/client';
-import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
+import type { UseOAuthProviderUrlParams } from '@/types/auth';
 import { queryKeys } from '@/core';
-import { UseOAuthProviderUrlParams } from '@/types/auth';
 
 export function authTokenDetailsOptions(client: HikkaClient) {
     return queryOptions<AuthTokenInfoResponse>({

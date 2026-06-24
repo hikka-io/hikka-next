@@ -1,7 +1,8 @@
 'use client';
 
+import { type FC, useState } from 'react';
+
 import { useSearchCollections, useSession } from '@hikka/react';
-import { FC, useState } from 'react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Block from '@/components/ui/block';
@@ -18,7 +19,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';

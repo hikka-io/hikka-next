@@ -1,8 +1,10 @@
 'use client';
 
-import { HSLColor } from '@hikka/client';
 import { useEffect, useState } from 'react';
-import { HslColor, HslColorPicker } from 'react-colorful';
+
+import { type HslColor, HslColorPicker } from 'react-colorful';
+
+import type { HSLColor } from '@hikka/client';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,14 +14,13 @@ import {
     PopoverPortal,
     PopoverTrigger,
 } from '@/components/ui/popover';
-
 import { COLOR_TOKEN_LABELS } from '@/utils/constants/styles';
 import {
     formatHSL,
     hexToHsl,
     hslToHex,
-    toHSLString,
     toHikkaColor,
+    toHSLString,
     toReactColorful,
 } from '@/utils/ui/color';
 
@@ -149,7 +150,7 @@ const ColorTokenButton = ({
                                             handleHslChange('h', e.target.value)
                                         }
                                         placeholder="H"
-                                        className="h-10 text-center font-mono "
+                                        className="h-10 text-center font-mono"
                                         type="number"
                                         min={0}
                                         max={360}
@@ -171,7 +172,7 @@ const ColorTokenButton = ({
                                             handleHslChange('l', e.target.value)
                                         }
                                         placeholder="L"
-                                        className="h-10 text-center font-mono "
+                                        className="h-10 text-center font-mono"
                                         type="number"
                                         min={0}
                                         max={100}

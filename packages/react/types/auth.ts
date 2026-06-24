@@ -1,4 +1,4 @@
-import { PaginationArgs } from '@hikka/client';
+import type { PaginationArgs } from '@hikka/client';
 
 export interface UseOAuthProviderUrlParams {
     provider: string;

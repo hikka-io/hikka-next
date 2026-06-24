@@ -1,15 +1,16 @@
 'use client';
 
+import { type FC, useState } from 'react';
+
 import {
-    AnimeResponse,
+    type AnimeResponse,
     ContentTypeEnum,
-    MangaResponse,
-    NovelResponse,
-    ReadResponseBase,
-    WatchResponseBase,
+    type MangaResponse,
+    type NovelResponse,
+    type ReadResponseBase,
+    type WatchResponseBase,
 } from '@hikka/client';
 import { useSession, useTitle } from '@hikka/react';
-import { FC, useState } from 'react';
 
 import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
 import { Button } from '@/components/ui/button';
@@ -21,10 +22,8 @@ import {
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { TableCell } from '@/components/ui/table';
-
 import { ReadEditModal } from '@/features/read';
 import { WatchEditModal } from '@/features/watch';
-
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
@@ -67,9 +66,7 @@ const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
                 <ResponsiveModalContent className="md:max-w-xl">
                     <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>
-                            {title}
-                        </ResponsiveModalTitle>
+                        <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
                     {content_type === ContentTypeEnum.ANIME ? (
                         <WatchEditModal

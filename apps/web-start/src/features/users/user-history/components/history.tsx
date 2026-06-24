@@ -1,16 +1,15 @@
 'use client';
 
+import { type FC, Fragment } from 'react';
+
 import { useUserHistory } from '@hikka/react';
-import { FC, Fragment } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
-
 import HistoryItem from '@/features/users/user-history/components/history-item';
-
 import { useParams } from '@/utils/navigation';
 
 interface Props {

@@ -1,24 +1,23 @@
 'use client';
 
-import { EditContentType, EditStatusEnum } from '@hikka/client';
+import type { FC } from 'react';
+
+import type { EditContentType, EditStatusEnum } from '@hikka/client';
 import { useEditList } from '@hikka/react';
-import { FC } from 'react';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Table, TableBody } from '@/components/ui/table';
-
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
-
 import type { EditSearch } from '@/utils/search-schemas';
 
 import EditHead from './components/edit-head';
 import EditRow from './components/edit-row';
 import EditSkeleton from './components/edit-skeleton';
 
-interface Props {}
+type Props = {};
 
 const EditList: FC<Props> = () => {
     const search = useFilterSearch<EditSearch>();

@@ -1,27 +1,27 @@
 'use client';
 
-import {
+import type {
     ContentCharacterPaginationResponse,
     MangaInfoResponse,
     MangaPaginationResponse,
 } from '@hikka/client';
 
+import type {
+    UseMangaCharactersParams,
+    UseMangaInfoParams,
+    UseSearchMangasParams,
+} from '@/types/manga';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import {
     mangaBySlugOptions,
     mangaCharactersOptions,
     searchMangasOptions,
 } from '@/options/api/manga';
-import {
-    UseMangaCharactersParams,
-    UseMangaInfoParams,
-    UseSearchMangasParams,
-} from '@/types/manga';
 
 /**
  * Hook for retrieving manga details by slug

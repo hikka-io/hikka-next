@@ -1,9 +1,9 @@
-import { ContentTypeEnum } from '@hikka/client';
-import { useMangaBySlug } from '@hikka/react';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentDetailPage } from '@/features/content';
+import { ContentTypeEnum } from '@hikka/client';
+import { useMangaBySlug } from '@hikka/react';
 
+import { ContentDetailPage } from '@/features/content';
 import mangaJsonSchema from '@/utils/manga-schema';
 
 export const Route = createFileRoute('/_pages/manga/$slug/')({

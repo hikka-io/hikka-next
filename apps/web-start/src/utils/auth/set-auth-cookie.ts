@@ -1,5 +1,6 @@
-import { HikkaClient } from '@hikka/client';
 import { createServerFn } from '@tanstack/react-start';
+
+import { HikkaClient } from '@hikka/client';
 
 /**
  * Server function that sets HttpOnly auth and username cookies.

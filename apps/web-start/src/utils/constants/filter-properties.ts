@@ -9,7 +9,7 @@ import {
     MangaMediaEnum,
     NovelMediaEnum,
     ReadStatusEnum,
-    SeasonEnum,
+    type SeasonEnum,
     SourceEnum,
     WatchStatusEnum,
 } from '@hikka/client';

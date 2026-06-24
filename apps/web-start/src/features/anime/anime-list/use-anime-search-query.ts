@@ -1,6 +1,6 @@
 'use client';
 
-import {
+import type {
     AnimeAgeRatingEnum,
     AnimeMediaEnum,
     AnimeStatusEnum,
@@ -10,7 +10,6 @@ import { useSearchAnimes } from '@hikka/react';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
-
 import type { AnimeSearch } from '@/utils/search-schemas';
 import { getSeasonByOffset } from '@/utils/season';
 

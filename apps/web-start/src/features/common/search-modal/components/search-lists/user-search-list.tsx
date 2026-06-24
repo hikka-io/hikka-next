@@ -1,8 +1,9 @@
 'use client';
 
-import { UserResponse } from '@hikka/client';
-import { useSearchUsers } from '@hikka/react';
 import { useCallback } from 'react';
+
+import type { UserResponse } from '@hikka/client';
+import { useSearchUsers } from '@hikka/react';
 
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';

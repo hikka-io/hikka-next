@@ -1,10 +1,10 @@
-import { AnimeResponse } from './anime';
-import { PaginatedResponse } from './common';
-import { MangaResponse } from './manga';
-import { NovelResponse } from './novel';
-import { ReadStatusEnum } from './read';
-import { UserResponse } from './user';
-import { WatchStatusEnum } from './watch';
+import type { AnimeResponse } from './anime';
+import type { PaginatedResponse } from './common';
+import type { MangaResponse } from './manga';
+import type { NovelResponse } from './novel';
+import type { ReadStatusEnum } from './read';
+import type { UserResponse } from './user';
+import type { WatchStatusEnum } from './watch';
 
 /**
  * History response
@@ -60,7 +60,7 @@ export interface HistoryWatchData {
     new_watch: boolean;
 }
 
-export interface HistoryFavouriteData {}
+export type HistoryFavouriteData = {};
 
 export interface HistoryWatchImportData {
     imported: number;

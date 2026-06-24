@@ -1,7 +1,8 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 import { range } from '@antfu/utils';
-import { ReactNode } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import SkeletonCard from '@/components/content-card/content-card-skeleton';
@@ -18,7 +19,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -42,22 +42,22 @@ export const ProgressTrackerMeta = ({
 }) => (
     <div className="mt-1 flex cursor-pointer items-center gap-2">
         {year && (
-            <Label className="text-muted-foreground cursor-pointer text-xs">
+            <Label className="cursor-pointer text-muted-foreground text-xs">
                 {year}
             </Label>
         )}
         {mediaTypeLabel && (
             <>
-                <div className="bg-muted-foreground size-1 rounded-full" />
-                <Label className="text-muted-foreground cursor-pointer text-xs">
+                <div className="size-1 rounded-full bg-muted-foreground" />
+                <Label className="cursor-pointer text-muted-foreground text-xs">
                     {mediaTypeLabel}
                 </Label>
             </>
         )}
         {total && (
             <>
-                <div className="bg-muted-foreground size-1 rounded-full" />
-                <Label className="text-muted-foreground cursor-pointer text-xs">
+                <div className="size-1 rounded-full bg-muted-foreground" />
+                <Label className="cursor-pointer text-muted-foreground text-xs">
                     {total} {totalWord}
                 </Label>
             </>
@@ -166,7 +166,7 @@ const ProgressTrackerView = ({
 
                             <div className="flex w-full flex-col gap-2">
                                 <p className="text-muted-foreground text-sm">
-                                    <span className="text-foreground font-bold">
+                                    <span className="font-bold text-foreground">
                                         {selected.current}
                                     </span>
                                     /{selected.total ?? '?'}{' '}

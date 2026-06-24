@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, Fragment } from 'react';
+import { type FC, Fragment } from 'react';
 
 import { useArticleContext } from '@/services/providers/article-provider';
 
@@ -11,7 +11,7 @@ import EditActions from './components/edit-actions';
 import TagsInput from './components/tags-input';
 import TitleInput from './components/title-input';
 
-interface Props {}
+type Props = {};
 
 const ArticleSettings: FC<Props> = () => {
     const slug = useArticleContext((state) => state.slug);
@@ -24,7 +24,7 @@ const ArticleSettings: FC<Props> = () => {
                 <TagsInput />
                 <CategorySelect />
             </div>
-            <div className="bg-secondary/20 border-t p-4">
+            <div className="border-t bg-secondary/20 p-4">
                 {!slug && <CreateActions />}
                 {slug && <EditActions />}
             </div>

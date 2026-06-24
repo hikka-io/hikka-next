@@ -1,12 +1,12 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import {
+import type {
     BaseRequestOptionsArgs,
     CharacterAnimePaginationResponse,
     CharacterCountResponse,
     CharacterMangaPaginationResponse,
     CharacterNovelPaginationResponse,
-    CharacterVoicesPaginationResponse,
     CharactersSearchPaginationResponse,
+    CharacterVoicesPaginationResponse,
     PaginationArgs,
     QuerySearchArgs,
 } from '../types';

@@ -1,4 +1,4 @@
-import { GetEditListArgs, TodoEditArgs } from '@hikka/client';
+import type { GetEditListArgs, TodoEditArgs } from '@hikka/client';
 
 export interface UseEditParams {
     editId: number | string;

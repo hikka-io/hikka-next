@@ -5,7 +5,6 @@ import { PlateElement } from 'platejs/react';
 
 import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
 import { Button } from '@/components/ui/button';
-
 import { cn } from '@/utils/cn';
 import { extractYouTubeVideoId, getYouTubeThumbnail } from '@/utils/youtube';
 
@@ -54,7 +53,7 @@ export function VideoElement({ className, ...props }: VideoElementProps) {
             {...props}
             className={cn(
                 className,
-                'video-embed relative h-28 w-44 cursor-pointer rounded-md bg-cover bg-center',
+                'video-embed relative h-28 w-44 cursor-pointer rounded-md bg-center bg-cover',
             )}
             style={{
                 backgroundImage: `url(${videoInfo.thumbnailUrl})`,

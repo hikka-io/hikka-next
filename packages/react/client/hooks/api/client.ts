@@ -1,32 +1,32 @@
 'use client';
 
-import {
+import type {
     ClientArgs,
     ClientInfoResponse,
     ClientPaginationResponse,
     ClientResponse,
 } from '@hikka/client';
 
-import { useHikkaClient } from '@/client/provider/useHikkaClient';
-import {
-    InfiniteQueryParams,
-    useInfiniteQuery,
-} from '@/client/useInfiniteQuery';
-import { createMutation } from '@/client/useMutation';
-import { QueryParams, useQuery } from '@/client/useQuery';
-import { queryKeys } from '@/core';
-import {
-    clientByReferenceOptions,
-    clientFullDetailsOptions,
-    clientListOptions,
-} from '@/options/api/client';
-import {
+import type {
     UseClientByReferenceParams,
     UseClientListParams,
     UseFullClientInfoParams,
     UseUpdateClientParams,
     UseVerifyClientParams,
 } from '@/types/client';
+import { useHikkaClient } from '@/client/provider/useHikkaClient';
+import {
+    type InfiniteQueryParams,
+    useInfiniteQuery,
+} from '@/client/useInfiniteQuery';
+import { createMutation } from '@/client/useMutation';
+import { type QueryParams, useQuery } from '@/client/useQuery';
+import { queryKeys } from '@/core';
+import {
+    clientByReferenceOptions,
+    clientFullDetailsOptions,
+    clientListOptions,
+} from '@/options/api/client';
 
 /**
  * Hook for getting client by reference

@@ -1,5 +1,5 @@
-import { PETAL_PALETTES, PetalPalette } from './config';
-import { SpriteCache, random } from './utils';
+import { PETAL_PALETTES, type PetalPalette } from './config';
+import { random, type SpriteCache } from './utils';
 
 function renderPetalCanvas(
     size: number,

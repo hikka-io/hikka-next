@@ -1,11 +1,11 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { SquareLibrary } from 'lucide-react';
-import { FC } from 'react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
 import useChangeParam from './hooks/use-change-param';
@@ -22,7 +22,7 @@ const ArticleCategory: FC<Props> = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="text-muted-foreground flex items-center gap-2">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <SquareLibrary className="size-4 shrink-0" />
                 <Label>Категорія</Label>
             </div>

@@ -1,8 +1,9 @@
-import { HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions } from '@tanstack/react-query';
 
+import type { HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type { UseCompaniesSearchParams } from '@/types/companies';
 import { queryKeys } from '@/core';
-import { UseCompaniesSearchParams } from '@/types/companies';
 
 export function searchCompaniesOptions(
     client: HikkaClient,

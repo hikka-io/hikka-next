@@ -1,0 +1,91 @@
+{
+    "$schema": "https://biomejs.dev/schemas/2.5.1/schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "files": {
+        "ignoreUnknown": true,
+        "includes": [
+            "**",
+            "!**/dist",
+            "!**/.output",
+            "!**/.nitro",
+            "!**/.vinxi",
+            "!**/.turbo",
+            "!**/coverage",
+            "!**/public",
+            "!**/routeTree.gen.ts"
+        ]
+    },
+    "formatter": {
+        "enabled": true,
+        "indentStyle": "space",
+        "indentWidth": 4,
+        "lineWidth": 80
+    },
+    "css": {
+        "parser": {
+            "tailwindDirectives": true
+        }
+    },
+    "javascript": {
+        "formatter": {
+            "quoteStyle": "single",
+            "jsxQuoteStyle": "double",
+            "semicolons": "always",
+            "trailingCommas": "all",
+            "arrowParentheses": "always"
+        }
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "nursery": {
+                "useSortedClasses": {
+                    "level": "warn",
+                    "options": {
+                        "functions": ["cn"]
+                    }
+                }
+            }
+        }
+    },
+    "assist": {
+        "enabled": true,
+        "actions": {
+            "source": {
+                "organizeImports": {
+                    "level": "on",
+                    "options": {
+                        "groups": [
+                            ["react", "react/**", "react-dom", "react-dom/**"],
+                            ":BLANK_LINE:",
+                            [
+                                ":NODE:",
+                                ":BUN:",
+                                ":PACKAGE_WITH_PROTOCOL:",
+                                ":URL:",
+                                ":PACKAGE:",
+                                "!@hikka/**"
+                            ],
+                            ":BLANK_LINE:",
+                            ["@hikka/**"],
+                            ":BLANK_LINE:",
+                            ["@/components/**"],
+                            ["@/features/**"],
+                            ["@/services/**"],
+                            ["@/utils/**"],
+                            ["@/types/**"],
+                            [":ALIAS:"],
+                            ":BLANK_LINE:",
+                            [":PATH:"]
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,11 +1,11 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { queryKeys } from '@hikka/react/core';
-import { FC } from 'react';
 
 import MangaCard from '@/components/content-card/manga-card';
-import { StackSize } from '@/components/ui/stack';
-
+import type { StackSize } from '@/components/ui/stack';
 import CatalogListView from '@/features/content/catalog-list-view';
 
 import { useMangaSearchQuery } from './use-manga-search-query';

@@ -1,4 +1,4 @@
-import { ElementApi, TElement, TextApi } from 'platejs';
+import { ElementApi, type TElement, TextApi } from 'platejs';
 
 /**
  * Removes empty text nodes from the beginning and end of a Plate.js document

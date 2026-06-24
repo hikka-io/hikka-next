@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import type { SVGProps } from 'react';
 
 export function MaterialSymbolsFileCopyRounded(props: SVGProps<SVGSVGElement>) {
     return (

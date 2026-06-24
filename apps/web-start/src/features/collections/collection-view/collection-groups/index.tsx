@@ -1,6 +1,9 @@
 'use client';
 
-import { CollectionContent, CollectionContentResponse } from '@hikka/client';
+import type {
+    CollectionContent,
+    CollectionContentResponse,
+} from '@hikka/client';
 import { useCollectionByReference } from '@hikka/react';
 
 import { useParams } from '@/utils/navigation';

@@ -1,7 +1,8 @@
 'use client';
 
+import { type FC, memo, type PropsWithChildren } from 'react';
+
 import { useCharacterAnime, useCharacterBySlug, useTitle } from '@hikka/react';
-import { FC, PropsWithChildren, memo } from 'react';
 
 import MDViewer from '../../markdown/viewer/md-viewer';
 import ContentCard from '../content-card';
@@ -40,13 +41,13 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
             />
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
-                    <span className="line-clamp-2 text-sm leading-tight font-bold">
+                    <span className="line-clamp-2 font-bold text-sm leading-tight">
                         {name}
                     </span>
                 </div>
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-2">
-                        <MDViewer className="text-muted-foreground text-sm break-normal whitespace-normal md:line-clamp-3">
+                        <MDViewer className="whitespace-normal break-normal text-muted-foreground text-sm md:line-clamp-3">
                             {data.description_ua}
                         </MDViewer>
                     </div>

@@ -1,20 +1,23 @@
+import type {
+    UseReadEntryParams,
+    UseReadingUsersParams,
+    UseReadListParams,
+    UseReadStatsParams,
+} from '@/types/read';
 import {
     readBySlugOptions,
-    readStatsOptions,
     readingUsersOptions,
+    readStatsOptions,
     searchUserReadsOptions,
 } from '@/options/api/read';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseReadEntryParams,
-    UseReadListParams,
-    UseReadStatsParams,
-    UseReadingUsersParams,
-} from '@/types/read';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches a read entry for server-side rendering

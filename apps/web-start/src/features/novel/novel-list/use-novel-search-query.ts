@@ -1,11 +1,10 @@
 'use client';
 
-import { ContentStatusEnum, NovelMediaEnum } from '@hikka/client';
+import type { ContentStatusEnum, NovelMediaEnum } from '@hikka/client';
 import { useSearchNovels } from '@hikka/react';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
-
 import type { NovelSearch } from '@/utils/search-schemas';
 
 /**

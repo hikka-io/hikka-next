@@ -1,14 +1,14 @@
-import { EditContentType, EditStatusEnum } from '@hikka/client';
-import { prefetchInfiniteQuery } from '@hikka/react/core';
-import { editListOptions, topEditorsListOptions } from '@hikka/react/options';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
+
+import type { EditContentType, EditStatusEnum } from '@hikka/client';
+import { prefetchInfiniteQuery } from '@hikka/react/core';
+import { editListOptions, topEditorsListOptions } from '@hikka/react/options';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import {
     EditFiltersModal,
     EditList,
@@ -16,7 +16,6 @@ import {
     EditFilters as Filters,
 } from '@/features/edit';
 import { expandSort } from '@/features/filters/sort';
-
 import { generateHeadMeta } from '@/utils/metadata';
 import { editSearchSchema } from '@/utils/search-schemas';
 
@@ -91,7 +90,7 @@ function EditListPage() {
                         <EditList />
                     </Block>
                 </div>
-                <div className="border-border bg-secondary/20 sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border backdrop-blur-xl lg:order-2 lg:flex">
+                <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border bg-secondary/20 backdrop-blur-xl lg:order-2 lg:flex">
                     <Filters />
                 </div>
             </div>

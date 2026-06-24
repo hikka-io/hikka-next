@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/query-core';
-import { QueryClientConfig } from '@tanstack/react-query';
+import type { QueryClientConfig } from '@tanstack/react-query';
 
 export function createQueryClient(config?: QueryClientConfig) {
     return new QueryClient({

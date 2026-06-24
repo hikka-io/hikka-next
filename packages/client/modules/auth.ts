@@ -1,5 +1,5 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import {
+import type {
     AuthTokenInfoPaginationResponse,
     AuthTokenInfoResponse,
     BaseRequestOptionsArgs,
@@ -16,8 +16,8 @@ import {
     TokenRequestArgs,
     TokenRequestResponse,
     TokenResponse,
-    UserResponse,
     UsernameLoginArgs,
+    UserResponse,
 } from '../types';
 import { BaseModule } from './base';
 

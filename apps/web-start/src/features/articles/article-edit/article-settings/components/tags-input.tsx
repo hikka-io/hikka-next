@@ -1,13 +1,12 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
-
 import { useArticleContext } from '@/services/providers/article-provider';
 
-interface Props {}
+type Props = {};
 
 const TagsInput: FC<Props> = () => {
     const tags = useArticleContext((state) => state.tags);

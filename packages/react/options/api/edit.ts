@@ -1,12 +1,13 @@
-import { HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
-import { queryKeys } from '@/core';
-import {
+import type { HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type {
     UseEditListParams,
     UseEditParams,
     UseTodoEditListParams,
 } from '@/types/edit';
+import { queryKeys } from '@/core';
 
 export function editOptions(client: HikkaClient, { editId }: UseEditParams) {
     return queryOptions({

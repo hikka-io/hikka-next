@@ -1,23 +1,24 @@
 import {
+    type ComponentType,
+    type FC,
+    Fragment,
+    forwardRef,
+    type MouseEventHandler,
+    memo,
+    type ReactNode,
+} from 'react';
+
+import { cva, type VariantProps } from 'class-variance-authority';
+
+import type {
     ContentTypeEnum,
     ReadResponseBase,
     ReadStatusEnum,
     WatchResponseBase,
 } from '@hikka/client';
-import { type VariantProps, cva } from 'class-variance-authority';
-import {
-    ComponentType,
-    FC,
-    Fragment,
-    MouseEventHandler,
-    ReactNode,
-    forwardRef,
-    memo,
-} from 'react';
 
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import Image from '@/components/ui/image';
-
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 import {
@@ -219,7 +220,7 @@ const Content = memo(
                         <AspectRatio
                             ratio={containerRatio}
                             className={cn(
-                                'bg-muted relative w-full overflow-hidden rounded-md',
+                                'relative w-full overflow-hidden rounded-md bg-muted',
                                 containerClassName,
                             )}
                         >
@@ -227,7 +228,7 @@ const Content = memo(
                                 to={resolvedHref}
                                 target={target}
                                 linkProps={linkProps}
-                                className="bg-secondary/20 absolute top-0 left-0 flex size-full items-center justify-center"
+                                className="absolute top-0 left-0 flex size-full items-center justify-center bg-secondary/20"
                             >
                                 {renderImage(
                                     image,
@@ -294,7 +295,7 @@ const renderImage = (
 ) => {
     if (!image) {
         return (
-            <MaterialSymbolsImageNotSupportedOutlineRounded className="text-muted-foreground text-4xl" />
+            <MaterialSymbolsImageNotSupportedOutlineRounded className="text-4xl text-muted-foreground" />
         );
     }
 
@@ -312,7 +313,7 @@ const renderImage = (
                 height={resolvedHeight}
                 sizes={sizes ?? DEFAULT_PRESET.sizes}
                 src={image}
-                className={cn('max-h-full! max-w-full! ', imageClassName)}
+                className={cn('max-h-full! max-w-full!', imageClassName)}
                 alt="Poster"
                 {...(Object.keys(restImageProps).length > 0
                     ? restImageProps
@@ -327,7 +328,7 @@ const renderImage = (
 const renderDescription = (description?: string | null) => {
     if (!description) return null;
     return (
-        <p className="text-muted-foreground mb-1 truncate text-xs">
+        <p className="mb-1 truncate text-muted-foreground text-xs">
             {description}
         </p>
     );
@@ -342,7 +343,7 @@ const renderTitle = (
     return (
         <span
             className={cn(
-                'text-sm leading-5 font-medium',
+                'font-medium text-sm leading-5',
                 !hasSubtitles && 'line-clamp-2',
                 titleClassName,
             )}
@@ -360,15 +361,15 @@ const renderSubtitles = (
     return (
         <div className="mt-1 flex items-center gap-2">
             {leftSubtitle && (
-                <span className="text-muted-foreground text-xs leading-tight font-medium">
+                <span className="font-medium text-muted-foreground text-xs leading-tight">
                     {leftSubtitle}
                 </span>
             )}
             {leftSubtitle && rightSubtitle && (
-                <div className="bg-muted-foreground size-1 rounded-full" />
+                <div className="size-1 rounded-full bg-muted-foreground" />
             )}
             {rightSubtitle && (
-                <span className="text-muted-foreground text-xs leading-tight font-medium">
+                <span className="font-medium text-muted-foreground text-xs leading-tight">
                     {rightSubtitle}
                 </span>
             )}

@@ -1,12 +1,12 @@
 'use client';
 
-import { CharacterResponse } from '@hikka/client';
+import type * as React from 'react';
+
+import type { CharacterResponse } from '@hikka/client';
 import { useTitle } from '@hikka/react';
-import * as React from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Label } from '@/components/ui/label';
-
 import { Link } from '@/utils/navigation';
 
 interface Props {

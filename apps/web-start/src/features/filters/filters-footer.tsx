@@ -1,8 +1,10 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { type FC, useState } from 'react';
+
 import { useRouter, useRouterState } from '@tanstack/react-router';
-import { FC, useState } from 'react';
+
+import type { ContentTypeEnum } from '@hikka/client';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { CustomCopyAddRounded } from '@/components/icons/custom/CustomCopyAddRounded';
@@ -17,12 +19,10 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 // Deep import (not the @/features/content barrel) keeps the filters → content
 // import edge narrow, avoiding the module-init cycle that previously broke
 // hydration.
 import FilterPresetEditModal from '@/features/content/presets/filter-preset-edit-modal';
-
 import { cn } from '@/utils/cn';
 
 export interface FiltersFooterProps {

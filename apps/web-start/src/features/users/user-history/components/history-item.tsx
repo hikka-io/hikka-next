@@ -1,7 +1,9 @@
-import { HistoryResponse } from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import { type FC, memo } from 'react';
+
 import { formatDistance } from 'date-fns/formatDistance';
-import { FC, memo } from 'react';
+
+import type { HistoryResponse } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -17,7 +19,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { convertActivity } from '@/utils/adapters/convert-activity';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
@@ -50,9 +51,11 @@ const User: FC<Props> = memo(({ data }) => (
 
 const HistoryItem: FC<Props> = (props) => {
     const { data, withUser, className } = props;
-    const title = useTitle(data.content as unknown as Record<string, unknown> | undefined);
+    const title = useTitle(
+        data.content as unknown as Record<string, unknown> | undefined,
+    );
 
-    let activity = convertActivity(data);
+    const activity = convertActivity(data);
 
     return (
         <HorizontalCard className={className}>
@@ -61,7 +64,7 @@ const HistoryItem: FC<Props> = (props) => {
                     data.content?.data_type === 'anime'
                         ? data.content?.image
                         : data.content?.image || (
-                              <MaterialSymbolsInfoRounded className="text-muted-foreground flex-1 text-xl" />
+                              <MaterialSymbolsInfoRounded className="flex-1 text-muted-foreground text-xl" />
                           )
                 }
                 to={

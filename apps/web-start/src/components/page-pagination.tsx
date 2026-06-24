@@ -1,7 +1,8 @@
 'use client';
 
-import { PaginationResponse } from '@hikka/client';
 import { useRouter } from '@tanstack/react-router';
+
+import type { PaginationResponse } from '@hikka/client';
 
 import Pagination from '@/components/ui/pagination';
 

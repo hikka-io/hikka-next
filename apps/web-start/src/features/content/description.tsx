@@ -1,9 +1,8 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
+import type { ContentTypeEnum } from '@hikka/client';
 
 import DescriptionBlock from '@/components/content/description-block';
-
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 

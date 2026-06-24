@@ -1,7 +1,7 @@
 import { marked } from 'marked';
 
 const htmlEscapeToText = (text: string) => {
-    return text.replace(/\&\#[0-9]*;|&amp;/g, (escapeCode: string) => {
+    return text.replace(/&#[0-9]*;|&amp;/g, (escapeCode: string) => {
         if (escapeCode.match(/amp/)) {
             return '&';
         }
@@ -11,39 +11,25 @@ const htmlEscapeToText = (text: string) => {
 };
 
 const renderPlain = () => {
-    let render = new marked.Renderer({ breaks: true });
+    const render = new marked.Renderer({ breaks: true });
 
     // render just the text of a link
-    render.link = function (href, title, text) {
-        return text;
-    };
+    render.link = (href, title, text) => text;
 
     // render just the text of a paragraph
-    render.paragraph = function (text) {
-        return htmlEscapeToText(text) + '\r\n';
-    };
+    render.paragraph = (text) => htmlEscapeToText(text) + '\r\n';
 
     // render just the text of a heading element, but indecate level
-    render.heading = function (text, level) {
-        return level + ' ) ' + text;
-    };
+    render.heading = (text, level) => level + ' ) ' + text;
 
     // render nothing for images
-    render.image = function (href, title, text) {
-        return '';
-    };
+    render.image = (href, title, text) => '';
 
-    render.em = function (text) {
-        return text;
-    };
+    render.em = (text) => text;
 
-    render.strong = function (text) {
-        return text;
-    };
+    render.strong = (text) => text;
 
-    render.blockquote = function (text) {
-        return text;
-    };
+    render.blockquote = (text) => text;
 
     return render;
 };

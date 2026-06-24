@@ -1,14 +1,14 @@
 'use client';
 
-import { CompaniesPaginationResponse } from '@hikka/client';
+import type { CompaniesPaginationResponse } from '@hikka/client';
 
+import type { UseCompaniesSearchParams } from '@/types/companies';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { searchCompaniesOptions } from '@/options/api/companies';
-import { UseCompaniesSearchParams } from '@/types/companies';
 
 /**
  * Hook for searching companies

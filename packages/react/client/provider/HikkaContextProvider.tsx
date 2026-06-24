@@ -1,12 +1,13 @@
 'use client';
 
-import { HikkaClient, HikkaClientConfig } from '@hikka/client';
-import { ReactNode, useMemo } from 'react';
+import { type ReactNode, useMemo } from 'react';
+
+import type { HikkaClient, HikkaClientConfig } from '@hikka/client';
 
 import { getHikkaClient } from '@/core';
 
-import { DefaultOptions } from './HikkaProvider';
 import { HikkaContext } from './context';
+import type { DefaultOptions } from './HikkaProvider';
 
 export interface HikkaContextProviderProps {
     children: ReactNode;

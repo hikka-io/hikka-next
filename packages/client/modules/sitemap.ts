@@ -1,4 +1,4 @@
-import { BaseRequestOptionsArgs, SitemapResponse } from '../types';
+import type { BaseRequestOptionsArgs, SitemapResponse } from '../types';
 import { BaseModule } from './base';
 
 export class SitemapModule extends BaseModule {

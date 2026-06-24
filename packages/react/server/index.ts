@@ -1,6 +1,3 @@
-export * from './prefetchInfiniteQuery';
-export * from './prefetchQuery';
-
 export * from './prefetch/api/anime';
 export * from './prefetch/api/articles';
 export * from './prefetch/api/artifacts';
@@ -28,3 +25,5 @@ export * from './prefetch/api/stats';
 export * from './prefetch/api/user';
 export * from './prefetch/api/vote';
 export * from './prefetch/api/watch';
+export * from './prefetchInfiniteQuery';
+export * from './prefetchQuery';

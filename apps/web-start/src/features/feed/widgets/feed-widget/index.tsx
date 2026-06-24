@@ -1,16 +1,17 @@
 'use client';
 
+import { type FC, useMemo, useState } from 'react';
+
 import {
-    CollectionContentType,
-    CommentsContentType,
+    type CollectionContentType,
+    type CommentsContentType,
     ContentTypeEnum,
-    FeedArgs,
-    FeedArticleCategory,
-    FeedArticleContentType,
-    FeedItemResponse,
+    type FeedArgs,
+    type FeedArticleCategory,
+    type FeedArticleContentType,
+    type FeedItemResponse,
 } from '@hikka/client';
 import { useFeed, useSession } from '@hikka/react';
-import { FC, useMemo, useState } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -22,15 +23,14 @@ import {
 } from '@/components/ui/field';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 
-import { WidgetProps } from '../../constants';
+import type { WidgetProps } from '../../constants';
 import FeedItem from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
 import FeedSubTypeSelect, {
-    FeedSubTypeFilters,
+    type FeedSubTypeFilters,
 } from './components/feed-sub-type-select';
 
 function getFeedItemKey(item: FeedItemResponse): string {

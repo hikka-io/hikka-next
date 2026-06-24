@@ -1,11 +1,11 @@
+import { createFileRoute } from '@tanstack/react-router';
+
 import { ContentTypeEnum } from '@hikka/client';
 import { useArticleBySlug } from '@hikka/react';
-import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Link from '@/components/ui/link';
-
 import {
     ArticleAuthor,
     ArticleDocument,
@@ -15,7 +15,6 @@ import {
 } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
-
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 export const Route = createFileRoute('/_pages/articles/$slug/')({
@@ -62,7 +61,7 @@ function ArticlePage() {
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link
                         to={`${CONTENT_TYPE_LINKS['article']}/${slug}`}
-                        className="flex-1 overflow-hidden text-sm font-bold text-ellipsis hover:underline"
+                        className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
                     >
                         {article?.title}
                     </Link>

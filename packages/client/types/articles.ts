@@ -1,9 +1,9 @@
-import {
+import type {
     CommonContentType,
     ContentTypeEnum,
     PaginatedResponse,
 } from './common';
-import { UserResponse } from './user';
+import type { UserResponse } from './user';
 
 /**
  * Tag response

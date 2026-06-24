@@ -1,4 +1,4 @@
-import { HikkaClient, SitemapResponse } from '@hikka/client';
+import type { HikkaClient, SitemapResponse } from '@hikka/client';
 
 import { createServerHikkaClient } from './cookies/headers';
 import { getSiteUrl } from './url';
@@ -79,7 +79,9 @@ export async function handleTypeSitemapRequest(
 export function buildSitemapIndexXml(sitemaps: SitemapIndexEntry[]): string {
     const entries = sitemaps
         .map(({ loc, lastmod }) => {
-            const lastmodTag = lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : '';
+            const lastmodTag = lastmod
+                ? `\n    <lastmod>${lastmod}</lastmod>`
+                : '';
             return `  <sitemap>
     <loc>${loc}</loc>${lastmodTag}
   </sitemap>`;

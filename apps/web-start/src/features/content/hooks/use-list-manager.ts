@@ -1,12 +1,13 @@
+import { useEffect, useState } from 'react';
+
 import {
     ContentTypeEnum,
-    ReadResponse,
+    type ReadResponse,
     ReadStatusEnum,
-    WatchResponse,
+    type WatchResponse,
     WatchStatusEnum,
 } from '@hikka/client';
 import { useCreateRead, useCreateWatch } from '@hikka/react';
-import { useEffect, useState } from 'react';
 
 import useDebounce from '@/services/hooks/use-debounce';
 

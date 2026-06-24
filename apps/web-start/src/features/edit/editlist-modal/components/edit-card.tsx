@@ -1,7 +1,8 @@
 'use client';
 
-import { EditResponse, EditStatusEnum } from '@hikka/client';
 import { format } from 'date-fns';
+
+import { type EditResponse, EditStatusEnum } from '@hikka/client';
 
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
@@ -17,7 +18,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-
 import { cn } from '@/utils/cn';
 import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
 import { Link } from '@/utils/navigation';

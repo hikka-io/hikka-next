@@ -1,11 +1,12 @@
-import {
+import { type TemporalState, temporal } from 'zundo';
+import { createStore, type StoreApi } from 'zustand/vanilla';
+
+import type {
     HSLColor,
     UIColorTokens,
     UIStyles,
     UIThemeStyles,
 } from '@hikka/client';
-import { type TemporalState, temporal } from 'zundo';
-import { type StoreApi, createStore } from 'zustand/vanilla';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import { DEFAULT_STYLES, mergeStyles } from '@/utils/ui';

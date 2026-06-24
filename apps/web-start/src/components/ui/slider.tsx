@@ -1,7 +1,8 @@
 'use client';
 
-import { Slider as SliderPrimitive } from 'radix-ui';
 import * as React from 'react';
+
+import { Slider as SliderPrimitive } from 'radix-ui';
 
 import { cn } from '@/utils/cn';
 
@@ -58,7 +59,7 @@ const ThumbWithValue = React.forwardRef<HTMLSpanElement, ThumbWithValueProps>(
         return (
             <SliderPrimitive.Thumb
                 ref={ref}
-                className="group border-primary-foreground bg-primary ring-offset-primary focus-visible:ring-ring relative block size-5 rounded-full border-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50"
+                className="group relative block size-5 rounded-full border-2 border-primary-foreground bg-primary ring-offset-primary transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onPointerDown={onInteractionStart}
@@ -106,15 +107,15 @@ const Slider = React.forwardRef<
         <SliderPrimitive.Root
             ref={ref}
             className={cn(
-                'relative flex w-full touch-none items-center select-none',
+                'relative flex w-full touch-none select-none items-center',
                 showValue === 'always' && 'pt-6',
                 className,
             )}
             value={value}
             {...props}
         >
-            <SliderPrimitive.Track className="bg-primary-foreground/20 relative my-2 h-2 w-full grow overflow-hidden rounded-full">
-                <SliderPrimitive.Range className="bg-primary-foreground absolute h-full" />
+            <SliderPrimitive.Track className="relative my-2 h-2 w-full grow overflow-hidden rounded-full bg-primary-foreground/20">
+                <SliderPrimitive.Range className="absolute h-full bg-primary-foreground" />
             </SliderPrimitive.Track>
             {Array.from({ length: thumbCount }).map((_, index) => (
                 <ThumbWithValue
@@ -133,5 +134,5 @@ const Slider = React.forwardRef<
 
 Slider.displayName = SliderPrimitive.Root.displayName;
 
-export { Slider };
 export type { ShowValueMode, SliderProps };
+export { Slider };

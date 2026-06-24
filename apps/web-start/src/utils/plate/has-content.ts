@@ -1,4 +1,4 @@
-import { ElementApi, TElement, TextApi, Value } from 'platejs';
+import { ElementApi, type TElement, TextApi, type Value } from 'platejs';
 
 /**
  * Checks if a Plate Value (document) has actual content with non-empty text

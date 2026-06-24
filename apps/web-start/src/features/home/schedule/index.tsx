@@ -1,6 +1,6 @@
 'use client';
 
-import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
+import type { ContentStatusEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimeSchedule } from '@hikka/react';
 
 import Block from '@/components/ui/block';
@@ -11,9 +11,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-
 import { getCurrentSeason } from '@/utils/season';
 
 import ScheduleItem from './components/schedule-item';

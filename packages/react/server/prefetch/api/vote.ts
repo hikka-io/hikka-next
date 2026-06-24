@@ -1,6 +1,9 @@
+import type { UseVoteStatusParams } from '@/types/vote';
 import { contentVoteOptions } from '@/options/api/vote';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
-import { UseVoteStatusParams } from '@/types/vote';
+import {
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Hook for prefetching vote status

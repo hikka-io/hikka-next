@@ -1,9 +1,12 @@
 'use client';
 
+import type React from 'react';
+import { useEffect, useState } from 'react';
+
 import {
     ContentTypeEnum,
-    MangaMediaEnum,
-    NovelMediaEnum,
+    type MangaMediaEnum,
+    type NovelMediaEnum,
     ReadStatusEnum,
 } from '@hikka/client';
 import {
@@ -13,7 +16,6 @@ import {
     useSession,
 } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
-import React, { useEffect, useState } from 'react';
 
 import {
     ResponsiveModal,
@@ -21,9 +23,7 @@ import {
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
-
 import { ReadEditModal } from '@/features/read';
-
 import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { useRouter } from '@/utils/navigation';

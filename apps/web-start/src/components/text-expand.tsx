@@ -1,9 +1,13 @@
 'use client';
 
-import { ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react';
+import {
+    type ComponentPropsWithoutRef,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 
 import { Button } from '@/components/ui/button';
-
 import { cn } from '@/utils/cn';
 
 interface Props extends ComponentPropsWithoutRef<'div'> {
@@ -74,7 +78,7 @@ const TextExpand = ({
                     <Button
                         variant="link"
                         size="sm"
-                        className="text-muted-foreground hover:text-foreground h-auto p-0 text-sm font-medium"
+                        className="h-auto p-0 font-medium text-muted-foreground text-sm hover:text-foreground"
                         onClick={() => setExpanded(!expanded)}
                         aria-expanded={expanded}
                         aria-label={expanded ? collapseText : expandText}

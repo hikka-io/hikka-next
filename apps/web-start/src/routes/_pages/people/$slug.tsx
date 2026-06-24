@@ -1,3 +1,5 @@
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+
 import { ContentTypeEnum } from '@hikka/client';
 import { useTitle } from '@hikka/react';
 import {
@@ -8,10 +10,8 @@ import {
     personNovelOptions,
 } from '@hikka/react/options';
 import { getTitle } from '@hikka/react/utils';
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { ContentDetailLayout } from '@/features/content';
-
 import { PERSON_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 

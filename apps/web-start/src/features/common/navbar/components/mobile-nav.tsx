@@ -1,7 +1,8 @@
 'use client';
 
-import { ChevronRight } from 'lucide-react';
 import { useState } from 'react';
+
+import { ChevronRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -10,7 +11,6 @@ import {
     SheetContent,
     SheetTitle,
 } from '@/components/ui/sheet';
-
 import { cn } from '@/utils/cn';
 import {
     APP_SIDEBAR,
@@ -23,8 +23,8 @@ const navItemClassName = cn(
     'flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors',
     'text-muted-foreground',
     'hover:bg-secondary/60 hover:text-foreground',
-    'data-[active=true]:bg-secondary/60 data-[active=true]:text-foreground data-[active=true]:font-medium',
-    '[&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4',
+    'data-[active=true]:bg-secondary/60 data-[active=true]:font-medium data-[active=true]:text-foreground',
+    '[&_svg:not([class*=size-])]:size-4 [&_svg]:shrink-0',
 );
 
 function MobileNav() {
@@ -38,7 +38,7 @@ function MobileNav() {
             <Button size="md" variant="outline" onClick={() => setOpen(true)}>
                 {activeRoute?.icon && <activeRoute.icon />}
                 <span>{activeRoute?.title_ua ?? 'Навігація'}</span>
-                <ChevronRight className="text-muted-foreground/50 size-3" />
+                <ChevronRight className="size-3 text-muted-foreground/50" />
             </Button>
 
             <SheetContent
@@ -58,7 +58,7 @@ function MobileNav() {
                             key={group.title_ua}
                             className="flex flex-col gap-0.5"
                         >
-                            <span className="text-muted-foreground/70 px-2 py-1.5 text-xs font-medium">
+                            <span className="px-2 py-1.5 font-medium text-muted-foreground/70 text-xs">
                                 {group.title_ua}
                             </span>
                             {group.items
@@ -80,7 +80,7 @@ function MobileNav() {
                                             </Link>
                                         </SheetClose>
                                         {item.items && (
-                                            <div className="border-border ml-4 flex flex-col gap-0.5 border-l pl-2">
+                                            <div className="ml-4 flex flex-col gap-0.5 border-border border-l pl-2">
                                                 {item.items
                                                     .filter(
                                                         (sub) => sub.visible,

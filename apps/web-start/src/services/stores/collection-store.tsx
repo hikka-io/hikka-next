@@ -1,15 +1,16 @@
 'use client';
 
 import { arrayMove } from '@dnd-kit/sortable';
+import { createStore } from 'zustand';
+
 import {
-    CollectionArgs,
-    CollectionContent,
-    CollectionContentType,
-    CollectionResponse,
+    type CollectionArgs,
+    type CollectionContent,
+    type CollectionContentType,
+    type CollectionResponse,
     CollectionVisibilityEnum,
     ContentTypeEnum,
 } from '@hikka/client';
-import { createStore } from 'zustand';
 
 export type Item = {
     id: string | number;

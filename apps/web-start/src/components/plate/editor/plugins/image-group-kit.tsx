@@ -1,10 +1,6 @@
 'use client';
 
-import {
-    ElementApi,
-    type PluginConfig,
-    type TElement,
-} from 'platejs';
+import { ElementApi, type PluginConfig, type TElement } from 'platejs';
 import { createTPlatePlugin } from 'platejs/react';
 import { toast } from 'sonner';
 
@@ -12,14 +8,13 @@ import { classifyAttachmentType } from '@hikka/client';
 
 import { ImageGroupElement } from '@/components/plate/ui/image-group-node';
 
+import { UPLOAD_VALIDATION_MESSAGES } from '../upload-image';
+import { getUpload } from '../upload-store';
 import { ImageKit, ImagePlugin, type TImageElement } from './image-kit';
 import {
     ImagePlaceholderKit,
     ImagePlaceholderPlugin,
 } from './image-placeholder-kit';
-
-import { UPLOAD_VALIDATION_MESSAGES } from '../upload-image';
-import { getUpload } from '../upload-store';
 
 export const ELEMENT_IMAGE_GROUP = 'image_group';
 
@@ -158,19 +153,15 @@ export const ImageGroupPlugin = createTPlatePlugin<ImageGroupConfig>({
                     }
 
                     // Pre-insert type gate (size is checked later, post-convert).
-                    const accepted = files
-                        .slice(0, capacity)
-                        .filter((file) => {
-                            if (classifyAttachmentType(file.type) === 'reject') {
-                                toast.error(
-                                    UPLOAD_VALIDATION_MESSAGES[
-                                        'unsupported-type'
-                                    ],
-                                );
-                                return false;
-                            }
-                            return true;
-                        });
+                    const accepted = files.slice(0, capacity).filter((file) => {
+                        if (classifyAttachmentType(file.type) === 'reject') {
+                            toast.error(
+                                UPLOAD_VALIDATION_MESSAGES['unsupported-type'],
+                            );
+                            return false;
+                        }
+                        return true;
+                    });
 
                     if (accepted.length === 0) return;
 

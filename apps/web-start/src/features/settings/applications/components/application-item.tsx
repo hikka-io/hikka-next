@@ -1,6 +1,8 @@
-import { ClientResponse } from '@hikka/client';
+import type { FC } from 'react';
+
 import { format } from 'date-fns/format';
-import { FC } from 'react';
+
+import type { ClientResponse } from '@hikka/client';
 
 import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
 import Card from '@/components/ui/card';
@@ -26,7 +28,7 @@ const ApplicationItem: FC<Props> = ({ client }) => {
                     {client.verified && (
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="border-border bg-secondary/20 rounded-sm border p-1 text-xs font-bold backdrop-blur">
+                                <div className="rounded-sm border border-border bg-secondary/20 p-1 font-bold text-xs backdrop-blur">
                                     <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
                                 </div>
                             </TooltipTrigger>
@@ -37,7 +39,7 @@ const ApplicationItem: FC<Props> = ({ client }) => {
                     )}
                 </div>
                 {client.description && (
-                    <p className="text-muted-foreground line-clamp-6 text-sm">
+                    <p className="line-clamp-6 text-muted-foreground text-sm">
                         {client.description}
                     </p>
                 )}

@@ -1,14 +1,13 @@
 'use client';
 
+import type { FC } from 'react';
 import * as React from 'react';
-import { FC } from 'react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-
 import { useSettingsStore } from '@/services/stores/settings-store';
 
 interface Props {
@@ -63,7 +62,7 @@ const TagsModal: FC<Props> = ({ setFieldValue, getFieldValue, onClose }) => {
                 </div>
             </div>
 
-            <hr className="bg-border -mx-6 h-px w-auto" />
+            <hr className="-mx-6 h-px w-auto bg-border" />
 
             <div className="-mx-6 h-full w-auto flex-1 overflow-y-scroll">
                 {settings.editTags?.map((tag, index) => (
@@ -93,7 +92,7 @@ const TagsModal: FC<Props> = ({ setFieldValue, getFieldValue, onClose }) => {
 
                 {settings.editTags?.length === 0 && (
                     <div className="px-6">
-                        <p className="text-muted-foreground text-center text-sm">
+                        <p className="text-center text-muted-foreground text-sm">
                             Не знайдено збережених тегів редагування
                         </p>
                     </div>

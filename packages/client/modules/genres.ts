@@ -1,4 +1,4 @@
-import { BaseRequestOptionsArgs, GenreListResponse } from '../types';
+import type { BaseRequestOptionsArgs, GenreListResponse } from '../types';
 import { BaseModule } from './base';
 
 /**

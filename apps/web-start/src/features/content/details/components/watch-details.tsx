@@ -1,7 +1,7 @@
 'use client';
 
-import { AnimeInfoResponse, AnimeStatusEnum } from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import { Fragment, useState } from 'react';
+
 import { format, formatDuration, intervalToDuration } from 'date-fns';
 import {
     BookType,
@@ -14,7 +14,9 @@ import {
     Play,
     ShieldEllipsis,
 } from 'lucide-react';
-import { Fragment, useState } from 'react';
+
+import { type AnimeInfoResponse, AnimeStatusEnum } from '@hikka/client';
+import { useTitle } from '@hikka/react';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
@@ -24,7 +26,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { cn } from '@/utils/cn';
 import {
     AGE_RATING,
@@ -73,7 +74,7 @@ const NextEpisodeDetail = ({
     >
         <Tooltip>
             <TooltipTrigger asChild>
-                <span className="line-clamp-2 cursor-text text-sm leading-tight font-medium select-auto">
+                <span className="line-clamp-2 cursor-text select-auto font-medium text-sm leading-tight">
                     {formatNextEpisodeDate(schedule.airing_at)}
                 </span>
             </TooltipTrigger>
@@ -95,7 +96,7 @@ const StudioDetail = ({
         className="grid-cols-[1fr_60%]"
     >
         <div className="flex flex-1 items-start gap-2">
-            <p className="line-clamp-2 flex-1 text-sm leading-tight font-medium hover:underline">
+            <p className="line-clamp-2 flex-1 font-medium text-sm leading-tight hover:underline">
                 <Link to="/anime" search={{ studios: studio.company.slug }}>
                     {studio.company.name}
                 </Link>
@@ -141,7 +142,7 @@ const SynonymsTrigger = ({
             <DetailItem icon={<BookType className="size-4" />} title="Синоніми">
                 <button
                     type="button"
-                    className="line-clamp-2 w-fit cursor-pointer text-right text-sm leading-tight font-medium hover:underline"
+                    className="line-clamp-2 w-fit cursor-pointer text-right font-medium text-sm leading-tight hover:underline"
                     onClick={() => setOpen(true)}
                 >
                     {synonyms.slice(0, 3).join(', ')}
@@ -205,7 +206,7 @@ const WatchDetails = ({
                         icon={<Calendar className="size-4" />}
                     >
                         <Link
-                            className="line-clamp-1 text-sm font-medium hover:underline"
+                            className="line-clamp-1 font-medium text-sm hover:underline"
                             to="/anime"
                             search={{
                                 seasons: [data.season],

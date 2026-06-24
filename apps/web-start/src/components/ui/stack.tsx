@@ -1,9 +1,8 @@
 'use client';
 
-import { ComponentPropsWithoutRef, FC, useRef } from 'react';
+import { type ComponentPropsWithoutRef, type FC, useRef } from 'react';
 
 import { ImagePresetContext } from '@/components/content-card/image-preset-context';
-
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import type { ImagePreset } from '@/utils/constants/image-presets';
@@ -108,7 +107,7 @@ const Stack: FC<StackProps> = ({
                     ? extendedSize
                         ? EXTENDED_SIZES[extendedSize]
                         : 'grid-cols-2 md:grid-cols-6'
-                    : `auto-cols-scroll grid-cols-scroll md:gradient-mask-none -mx-4 grid-flow-col overflow-x-scroll px-4 ${gradientClassName}`,
+                    : `md:gradient-mask-none -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-scroll px-4 ${gradientClassName}`,
 
                 // Allow additional className overrides
                 className,

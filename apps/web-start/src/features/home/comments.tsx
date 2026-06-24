@@ -1,7 +1,8 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useLatestComments } from '@hikka/react';
-import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -12,9 +13,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-
 import GlobalComment from '@/features/comments/global-comment';
-
 import { cn } from '@/utils/cn';
 
 interface Props {

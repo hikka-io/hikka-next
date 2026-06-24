@@ -1,20 +1,21 @@
 'use client';
 
-import { UserResponse } from '@hikka/client';
+import type { FC } from 'react';
+
+import type { VariantProps } from 'class-variance-authority';
+
+import type { UserResponse } from '@hikka/client';
 import {
     useCreateFollow,
     useDeleteFollow,
     useSession,
     useUserByUsername,
 } from '@hikka/react';
-import { VariantProps } from 'class-variance-authority';
-import { FC } from 'react';
 
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 import MaterialSymbolsPersonRemoveOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonRemoveOutlineRounded';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button, type buttonVariants } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 

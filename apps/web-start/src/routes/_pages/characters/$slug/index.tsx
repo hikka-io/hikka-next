@@ -1,5 +1,6 @@
-import { ContentTypeEnum } from '@hikka/client';
 import { createFileRoute } from '@tanstack/react-router';
+
+import { ContentTypeEnum } from '@hikka/client';
 
 import {
     CharacterAnime as Anime,

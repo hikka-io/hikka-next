@@ -1,16 +1,17 @@
 'use client';
 
-import { useConfirmPasswordReset, useHikkaClient } from '@hikka/react';
-import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+
+import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
+
+import { useConfirmPasswordReset, useHikkaClient } from '@hikka/react';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
-
 import { setAuthCookieFn } from '@/utils/auth';
 import { z } from '@/utils/i18n/zod';
 import { useParams, useRouter } from '@/utils/navigation';

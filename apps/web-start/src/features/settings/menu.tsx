@@ -1,16 +1,14 @@
 'use client';
 
-import { FC, useRef } from 'react';
+import { type FC, useRef } from 'react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { SETTINGS_MENU } from '@/utils/constants/navigation';
-import { Link } from '@/utils/navigation';
-import { usePathname } from '@/utils/navigation';
+import { Link, usePathname } from '@/utils/navigation';
 
-interface Props {}
+type Props = {};
 
 const Menu: FC<Props> = () => {
     const pathname = usePathname();

@@ -1,13 +1,15 @@
 'use client';
 
-import { PaginatedResponse, PaginationArgs } from '@hikka/client';
+import React from 'react';
+
 import {
-    InfiniteData,
-    UseInfiniteQueryOptions,
+    type InfiniteData,
+    type UseInfiniteQueryOptions,
     useInfiniteQuery as useTanstackInfiniteQuery,
 } from '@tanstack/react-query';
-import React from 'react';
 import { useInView } from 'react-intersection-observer';
+
+import type { PaginatedResponse, PaginationArgs } from '@hikka/client';
 
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 
@@ -91,8 +93,7 @@ export function useInfiniteQuery<
             : options?.enabled,
     });
 
-    const list =
-        query.data && query.data?.pages.map((data) => data.list).flat(1);
+    const list = query.data && query.data?.pages.flatMap((data) => data.list);
     const pagination =
         query.data &&
         query.data?.pages[query.data?.pages.length - 1]?.pagination;

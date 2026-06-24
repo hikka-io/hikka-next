@@ -1,13 +1,13 @@
 'use client';
 
-import { ContentTypeEnum, FavouriteMangaResponse } from '@hikka/client';
+import type { FC } from 'react';
+
+import { ContentTypeEnum, type FavouriteMangaResponse } from '@hikka/client';
 import { useUserFavourites } from '@hikka/react';
-import { FC } from 'react';
 
 import MangaCard from '@/components/content-card/manga-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
-
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
@@ -49,7 +49,7 @@ const Manga: FC<Props> = ({ extended }) => {
                     className={cn(
                         'grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8',
                         !extended &&
-                            'grid-min-10 no-scrollbar auto-cols-scroll grid-cols-scroll -mx-4 grid-flow-col overflow-x-auto px-4',
+                            'grid-min-10 no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-auto px-4',
                     )}
                 >
                     {filteredData.map((res) => (

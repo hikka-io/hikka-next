@@ -1,6 +1,9 @@
 'use client';
 
-import { WatchArgs, WatchStatusEnum } from '@hikka/client';
+import type React from 'react';
+import { useEffect, useState } from 'react';
+
+import { type WatchArgs, WatchStatusEnum } from '@hikka/client';
 import {
     useCreateWatch,
     useHikkaClient,
@@ -8,7 +11,6 @@ import {
     useSession,
 } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
-import React, { useEffect, useState } from 'react';
 
 import {
     ResponsiveModal,
@@ -16,9 +18,7 @@ import {
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
-
 import { WatchEditModal } from '@/features/watch';
-
 import useDebounce from '@/services/hooks/use-debounce';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -34,7 +34,7 @@ const EPISODES_DECLENSION: [string, string, string] = [
     'епізодів',
 ];
 
-interface AnimeWatchlistProps {}
+type AnimeWatchlistProps = {};
 
 const AnimeWatchlist: React.FC<AnimeWatchlistProps> = () => {
     const router = useRouter();

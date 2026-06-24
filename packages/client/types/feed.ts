@@ -1,12 +1,12 @@
-import { ArticleCategoryEnum, ArticlePreviewResponse } from './articles';
-import {
+import type { ArticleCategoryEnum, ArticlePreviewResponse } from './articles';
+import type {
     CollectionContent,
     CollectionContentType,
     CollectionResponse,
 } from './collections';
-import { CommentResponse, CommentsContentType } from './comments';
-import { ContentTypeEnum } from './common';
-import { UserResponse } from './user';
+import type { CommentResponse, CommentsContentType } from './comments';
+import type { ContentTypeEnum } from './common';
+import type { UserResponse } from './user';
 
 /**
  * Feed content type filter

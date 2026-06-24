@@ -1,6 +1,8 @@
-import { ArticleBaseResponse } from '@hikka/client';
+import type { FC } from 'react';
+
 import { formatDistance } from 'date-fns';
-import { FC } from 'react';
+
+import type { ArticleBaseResponse } from '@hikka/client';
 
 import {
     HorizontalCard,
@@ -10,9 +12,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import Link from '@/components/ui/link';
-
 import { FollowButton } from '@/features/common';
-
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
@@ -52,7 +52,7 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                             }
                         </Link>
                     </HorizontalCardDescription>
-                    <div className="bg-muted-foreground size-1 rounded-full" />
+                    <div className="size-1 rounded-full bg-muted-foreground" />
                     <HorizontalCardDescription>
                         {article.draft
                             ? 'Чернетка'

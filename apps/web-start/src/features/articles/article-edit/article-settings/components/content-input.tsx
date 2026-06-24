@@ -1,8 +1,9 @@
 'use client';
 
-import { ArticleContent, ContentTypeEnum } from '@hikka/client';
+import type { FC } from 'react';
+
+import { type ArticleContent, ContentTypeEnum } from '@hikka/client';
 import { useTitle } from '@hikka/react';
-import { FC } from 'react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Button } from '@/components/ui/button';
@@ -14,13 +15,11 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { Label } from '@/components/ui/label';
-
 import { SearchModal } from '@/features/common';
-
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 
-interface Props {}
+type Props = {};
 
 const ContentInput: FC<Props> = () => {
     const content = useArticleContext((state) => state.content);

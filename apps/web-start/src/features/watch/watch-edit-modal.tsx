@@ -1,15 +1,17 @@
 'use client';
 
-import {
+import { createElement, useEffect, useState } from 'react';
+
+import { useStore } from '@tanstack/react-form';
+import { toast } from 'sonner';
+
+import type {
     WatchResponse,
     WatchResponseBase,
     WatchStatusEnum,
 } from '@hikka/client';
 import { useCreateWatch, useDeleteWatch, useWatchBySlug } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
-import { useStore } from '@tanstack/react-form';
-import { createElement, useEffect, useState } from 'react';
-import { toast } from 'sonner';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
@@ -27,7 +29,6 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/i18n/zod';

@@ -1,4 +1,4 @@
-import { Options, defineConfig } from 'tsup';
+import { defineConfig, type Options } from 'tsup';
 
 const commonConfig: Options = {
     format: ['esm', 'cjs'],

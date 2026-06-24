@@ -1,9 +1,11 @@
 'use client';
 
+import { type FC, Fragment } from 'react';
+
+import { MessageCircle, TableOfContents } from 'lucide-react';
+
 import { ContentTypeEnum } from '@hikka/client';
 import { useCollectionByReference, useSession } from '@hikka/react';
-import { MessageCircle, TableOfContents } from 'lucide-react';
-import { FC, Fragment } from 'react';
 
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -12,19 +14,16 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-
 import FavoriteButton from '@/features/common/favorite-button';
-
 import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
+import { Link, useParams } from '@/utils/navigation';
 
 import TableOfContentsComponent from '../../table-of-contents';
 import CollectionMenu from './components/collection-menu';
 import CollectionVote from './components/collection-vote';
 
-interface Props {}
+type Props = {};
 
 const CollectionNavbar: FC<Props> = () => {
     const { user: loggedUser, isAdmin, isModerator } = useSession();
@@ -36,7 +35,7 @@ const CollectionNavbar: FC<Props> = () => {
 
     return (
         <div className="sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4">
-            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
+            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
                 <CollectionVote collection={collection!} />
                 {collection && (
                     <FavoriteButton
@@ -92,7 +91,7 @@ const CollectionNavbar: FC<Props> = () => {
                     isAdmin() ||
                     isModerator()) && (
                     <Fragment>
-                        <div className="bg-secondary h-full w-px" />
+                        <div className="h-full w-px bg-secondary" />
                         <CollectionMenu collection={collection!} />
                     </Fragment>
                 )}

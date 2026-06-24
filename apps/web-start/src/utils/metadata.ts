@@ -197,4 +197,4 @@ function generateHeadMeta(props: HeadMetaProps) {
     return { meta, links };
 }
 
-export { generateMetadata, generateHeadMeta };
+export { generateHeadMeta, generateMetadata };

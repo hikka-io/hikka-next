@@ -1,10 +1,11 @@
 'use client';
 
+import React, { type FC, useCallback, useRef, useState } from 'react';
+
 import { upsertLink } from '@platejs/link';
 import { KEYS } from 'platejs';
 import type { PlateEditor } from 'platejs/react';
 import { useEditorRef } from 'platejs/react';
-import React, { FC, useCallback, useRef, useState } from 'react';
 import type { BaseRange } from 'slate';
 
 import { useAppForm } from '@/components/form/use-app-form';
@@ -14,7 +15,6 @@ import {
     ResponsiveModalContent,
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
-
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({

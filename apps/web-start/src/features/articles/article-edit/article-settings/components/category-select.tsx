@@ -1,8 +1,9 @@
 'use client';
 
-import { ArticleCategoryEnum } from '@hikka/client';
+import type { FC } from 'react';
+
+import type { ArticleCategoryEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -14,11 +15,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-
 import { useArticleContext } from '@/services/providers/article-provider';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
-interface Props {}
+type Props = {};
 
 const CategorySelect: FC<Props> = () => {
     const { isAdmin, isModerator } = useSession();

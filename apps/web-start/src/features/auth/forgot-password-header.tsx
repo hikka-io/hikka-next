@@ -3,12 +3,12 @@ import { Link } from '@/utils/navigation';
 const ForgotPasswordHeader = () => {
     return (
         <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold">🔐 Відновити пароль</h1>
+            <h1 className="font-bold text-3xl">🔐 Відновити пароль</h1>
             <small className="text-muted-foreground">
                 Будь ласка, введіть дані для отримання листа відновлення.{' '}
                 <Link
                     to="/login"
-                    className="text-primary-foreground font-medium hover:underline"
+                    className="font-medium text-primary-foreground hover:underline"
                 >
                     Повернутись до входу
                 </Link>

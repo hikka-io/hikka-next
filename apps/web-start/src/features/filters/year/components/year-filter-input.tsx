@@ -1,9 +1,8 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
-
 import { cn } from '@/utils/cn';
 
 enum RANGE {

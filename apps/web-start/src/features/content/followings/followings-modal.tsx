@@ -1,11 +1,11 @@
 'use client';
 
-import { ContentTypeEnum, ReadContentType } from '@hikka/client';
+import type { FC } from 'react';
+
+import { ContentTypeEnum, type ReadContentType } from '@hikka/client';
 import { useReadingUsers, useWatchingUsers } from '@hikka/react';
-import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
-
 import { useParams } from '@/utils/navigation';
 
 import FollowingItem from './components/following-item';

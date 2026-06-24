@@ -1,10 +1,10 @@
 'use client';
 
 import * as React from 'react';
+
 import { Drawer as DrawerPrimitive } from 'vaul';
 
 import { PortalContainerProvider } from '@/components/ui/portal-container-context';
-
 import { cn } from '@/utils/cn';
 
 function Drawer({
@@ -46,7 +46,7 @@ function DrawerOverlay({
         <DrawerPrimitive.Overlay
             data-slot="drawer-overlay"
             className={cn(
-                'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/30 backdrop-blur-xs',
+                'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/30 backdrop-blur-xs data-[state=closed]:animate-out data-[state=open]:animate-in',
                 className,
             )}
             {...props}
@@ -68,7 +68,7 @@ function DrawerContent({
                 ref={setContainer}
                 data-slot="drawer-content"
                 className={cn(
-                    'group/drawer-content bg-background fixed z-50 flex h-auto flex-col gap-4 p-4',
+                    'group/drawer-content fixed z-50 flex h-auto flex-col gap-4 bg-background p-4',
                     'data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-[10px] data-[vaul-drawer-direction=top]:border-b',
                     'data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=bottom]:rounded-t-[10px] data-[vaul-drawer-direction=bottom]:border-t',
                     'data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-sm',
@@ -79,7 +79,7 @@ function DrawerContent({
             >
                 <PortalContainerProvider value={container}>
                     <div className="absolute top-2 left-0 flex w-full items-center justify-center">
-                        <div className="bg-muted mx-auto hidden h-1 w-10 shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
+                        <div className="mx-auto hidden h-1 w-10 shrink-0 rounded-full bg-muted group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
                     </div>
                     {children}
                 </PortalContainerProvider>
@@ -93,7 +93,7 @@ function DrawerHeader({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="drawer-header"
             className={cn(
-                'bg-secondary/20 -mx-4 -mt-4 grid gap-1.5 border-b p-4 pt-6 text-center group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center sm:text-left',
+                '-mx-4 -mt-4 grid gap-1.5 border-b bg-secondary/20 p-4 pt-6 text-center group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center sm:text-left',
                 className,
             )}
             {...props}
@@ -106,7 +106,7 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="drawer-footer"
             className={cn(
-                'bg-secondary/20 -mx-4 -mb-4 flex flex-col gap-2 border-t p-4',
+                '-mx-4 -mb-4 flex flex-col gap-2 border-t bg-secondary/20 p-4',
                 className,
             )}
             {...props}
@@ -122,7 +122,7 @@ function DrawerTitle({
         <DrawerPrimitive.Title
             data-slot="drawer-title"
             className={cn(
-                'text-base leading-none font-semibold tracking-tight',
+                'font-semibold text-base leading-none tracking-tight',
                 className,
             )}
             {...props}

@@ -1,4 +1,4 @@
-import { ClientResponse } from './client';
+import type { ClientResponse } from './client';
 
 /**
  * Login request parameters for email-based

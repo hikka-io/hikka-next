@@ -1,13 +1,13 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
 import { useStore } from '@tanstack/react-form';
 import { toast } from 'sonner';
+
+import { ContentTypeEnum } from '@hikka/client';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
-
 import { FormAgeRating } from '@/features/filters/age-rating';
 import { FormDateRange } from '@/features/filters/date-range';
 import { FormGenre } from '@/features/filters/genre';
@@ -16,10 +16,9 @@ import { FormMediaType } from '@/features/filters/media-type';
 import { FormReleaseStatus } from '@/features/filters/release-status';
 import { FormScore } from '@/features/filters/score';
 import { FormSeason } from '@/features/filters/season';
-import { FormSort, SortType } from '@/features/filters/sort';
+import { FormSort, type SortType } from '@/features/filters/sort';
 import { FormStudio } from '@/features/filters/studio';
 import { FormYear } from '@/features/filters/year';
-
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
 import { z } from '@/utils/i18n/zod';
@@ -137,10 +136,7 @@ const Component = ({ filterPreset, onClose, onBack }: Props) => {
         },
     });
 
-    const content_types = useStore(
-        form.store,
-        (s) => s.values.content_types,
-    );
+    const content_types = useStore(form.store, (s) => s.values.content_types);
     const date_range_enabled = useStore(
         form.store,
         (s) => s.values.date_range_enabled,
@@ -160,78 +156,75 @@ const Component = ({ filterPreset, onClose, onBack }: Props) => {
                     form.handleSubmit();
                 }}
             >
-            <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-                <form.AppField
-                    name="name"
-                    children={(field) => (
-                        <field.TextField
-                            label="Назва"
-                            placeholder="Назва"
-                            required
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="description"
-                    children={(field) => (
-                        <field.TextareaField
-                            label="Опис"
-                            placeholder="Опис"
-                        />
-                    )}
-                />
-                <ContentTypeSelect disabled={!!filterPreset} />
-                <div
-                    className={cn(
-                        !content_types && 'pointer-events-none opacity-50',
-                        'flex w-full flex-col gap-6',
-                    )}
-                >
-                    <FormReleaseStatus />
-                    {!date_range_enabled &&
-                        content_types &&
-                        content_types.includes(ContentTypeEnum.ANIME) && (
-                            <FormSeason />
+                <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
+                    <form.AppField
+                        name="name"
+                        children={(field) => (
+                            <field.TextField
+                                label="Назва"
+                                placeholder="Назва"
+                                required
+                            />
                         )}
-                    {!date_range_enabled && <FormYear />}
-                    {content_types &&
-                        content_types.length === 1 &&
-                        content_types.includes(ContentTypeEnum.ANIME) && (
-                            <FormDateRange />
+                    />
+                    <form.AppField
+                        name="description"
+                        children={(field) => (
+                            <field.TextareaField
+                                label="Опис"
+                                placeholder="Опис"
+                            />
                         )}
-                    <FormGenre />
-                    {content_types && content_types.length === 1 && (
-                        <FormMediaType content_type={content_types[0]} />
-                    )}
-                    <FormLocalization />
-                    {content_types && content_types.length > 0 && (
-                        <FormSort
-                            sort_type={
-                                content_types.length > 1
-                                    ? 'anime'
-                                    : (content_types[0] as SortType)
-                            }
-                        />
-                    )}
-                    <FormAgeRating />
-                    <FormScore score_type="score" />
-                    {content_types &&
-                        content_types.includes(ContentTypeEnum.ANIME) && (
-                            <FormStudio />
+                    />
+                    <ContentTypeSelect disabled={!!filterPreset} />
+                    <div
+                        className={cn(
+                            !content_types && 'pointer-events-none opacity-50',
+                            'flex w-full flex-col gap-6',
                         )}
+                    >
+                        <FormReleaseStatus />
+                        {!date_range_enabled &&
+                            content_types &&
+                            content_types.includes(ContentTypeEnum.ANIME) && (
+                                <FormSeason />
+                            )}
+                        {!date_range_enabled && <FormYear />}
+                        {content_types &&
+                            content_types.length === 1 &&
+                            content_types.includes(ContentTypeEnum.ANIME) && (
+                                <FormDateRange />
+                            )}
+                        <FormGenre />
+                        {content_types && content_types.length === 1 && (
+                            <FormMediaType content_type={content_types[0]} />
+                        )}
+                        <FormLocalization />
+                        {content_types && content_types.length > 0 && (
+                            <FormSort
+                                sort_type={
+                                    content_types.length > 1
+                                        ? 'anime'
+                                        : (content_types[0] as SortType)
+                                }
+                            />
+                        )}
+                        <FormAgeRating />
+                        <FormScore score_type="score" />
+                        {content_types &&
+                            content_types.includes(ContentTypeEnum.ANIME) && (
+                                <FormStudio />
+                            )}
+                    </div>
                 </div>
-            </div>
-            <ResponsiveModalFooter>
-                <Button size="md" variant="outline" onClick={handleBack}>
-                    Скасувати
-                </Button>
-                <Button
-                    size="md"
-                    type="submit"
-                >
-                    Зберегти
-                </Button>
-            </ResponsiveModalFooter>
+                <ResponsiveModalFooter>
+                    <Button size="md" variant="outline" onClick={handleBack}>
+                        Скасувати
+                    </Button>
+                    <Button size="md" type="submit">
+                        Зберегти
+                    </Button>
+                </ResponsiveModalFooter>
             </form>
         </form.AppForm>
     );

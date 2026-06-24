@@ -1,17 +1,17 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
+import type { FC } from 'react';
+
 import { useRouter } from '@tanstack/react-router';
-import { FC } from 'react';
+
+import { ContentTypeEnum } from '@hikka/client';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
-
 import ContentType from '@/features/filters/content-type';
 import EditStatus from '@/features/filters/edit-status';
 import Sort from '@/features/filters/sort';
 import User from '@/features/filters/user';
-
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -47,7 +47,7 @@ const EditFilters: FC<Props> = ({ className }) => {
                 <User title="Автор" paramKey="author" />
                 <User title="Модератор" paramKey="moderator" />
             </div>
-            <div className="bg-secondary/20 flex shrink-0 gap-2 border-t p-4">
+            <div className="flex shrink-0 gap-2 border-t bg-secondary/20 p-4">
                 <Button
                     size="md"
                     className="w-full"

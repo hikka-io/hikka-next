@@ -1,33 +1,34 @@
 'use client';
 
-import {
-    AddEditArgs,
-    ContentTypeEnum,
-    EditPaginationResponse,
-    EditResponse,
-    TodoEditResponse,
-    UpdateEditArgs,
-} from '@hikka/client';
-import { QueryClient } from '@tanstack/react-query';
+import type { QueryClient } from '@tanstack/react-query';
 
+import {
+    type AddEditArgs,
+    ContentTypeEnum,
+    type EditPaginationResponse,
+    type EditResponse,
+    type TodoEditResponse,
+    type UpdateEditArgs,
+} from '@hikka/client';
+
+import type {
+    UseEditListParams,
+    UseEditParams,
+    UseTodoEditListParams,
+} from '@/types/edit';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { createMutation } from '@/client/useMutation';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
 import {
     editListOptions,
     editOptions,
     todoEditListOptions,
 } from '@/options/api/edit';
-import {
-    UseEditListParams,
-    UseEditParams,
-    UseTodoEditListParams,
-} from '@/types/edit';
 
 /**
  * Hook for getting edit by ID
@@ -93,15 +94,14 @@ function invalidateContentQueries({
     const slug = data.content?.slug;
     if (!slug) return;
 
-    const contentKeyMap: Partial<
-        Record<ContentTypeEnum, readonly unknown[]>
-    > = {
-        [ContentTypeEnum.ANIME]: queryKeys.anime.details(slug),
-        [ContentTypeEnum.MANGA]: queryKeys.manga.details(slug),
-        [ContentTypeEnum.NOVEL]: queryKeys.novel.details(slug),
-        [ContentTypeEnum.CHARACTER]: queryKeys.characters.bySlug(slug),
-        [ContentTypeEnum.PERSON]: queryKeys.people.bySlug(slug),
-    };
+    const contentKeyMap: Partial<Record<ContentTypeEnum, readonly unknown[]>> =
+        {
+            [ContentTypeEnum.ANIME]: queryKeys.anime.details(slug),
+            [ContentTypeEnum.MANGA]: queryKeys.manga.details(slug),
+            [ContentTypeEnum.NOVEL]: queryKeys.novel.details(slug),
+            [ContentTypeEnum.CHARACTER]: queryKeys.characters.bySlug(slug),
+            [ContentTypeEnum.PERSON]: queryKeys.people.bySlug(slug),
+        };
 
     const queryKey = contentKeyMap[data.content_type];
     if (queryKey) {

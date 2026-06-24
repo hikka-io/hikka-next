@@ -1,13 +1,20 @@
 'use client';
 
-import { useGenres } from '@hikka/react';
-import { Drama } from 'lucide-react';
-import { FC, useMemo } from 'react';
+import { type FC, useMemo } from 'react';
 
+import { Drama } from 'lucide-react';
+
+import { useGenres } from '@hikka/react';
+
+import {
+    SelectField,
+    type SelectFieldProps,
+} from '@/components/form/form-select';
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
-import { SelectFieldProps, SelectField } from '@/components/form/form-select';
 import { Label } from '@/components/ui/label';
 import {
+    groupOptions,
+    renderSelectOptions,
     Select,
     SelectContent,
     SelectEmpty,
@@ -15,10 +22,7 @@ import {
     SelectSearch,
     SelectTrigger,
     SelectValue,
-    groupOptions,
-    renderSelectOptions,
 } from '@/components/ui/select';
-
 import { GENRE_TYPES } from '@/utils/constants/common';
 
 import useChangeParam from './hooks/use-change-param';
@@ -50,7 +54,7 @@ const Genre: FC<Props> = () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="text-muted-foreground flex items-center gap-2">
+            <div className="flex items-center gap-2 text-muted-foreground">
                 <Drama className="size-4 shrink-0" />
                 <Label>Жанри</Label>
             </div>
@@ -96,7 +100,7 @@ export const FormGenre: FC<Props & Partial<SelectFieldProps>> = (props) => {
     const form = useTypedAppFormContext({ defaultValues: {} as never });
     return (
         <form.AppField
-            name={"genres" as never}
+            name={'genres' as never}
             children={() => (
                 <SelectField
                     {...props}

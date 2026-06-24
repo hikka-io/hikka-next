@@ -1,19 +1,19 @@
 'use client';
 
-import { useAnimeBySlug, useSession } from '@hikka/react';
+import type { FC } from 'react';
+
 import { MessageCirclePlus, Popcorn } from 'lucide-react';
-import { FC } from 'react';
+
+import { useAnimeBySlug, useSession } from '@hikka/react';
 
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-
 import { MOVIE_BANNERS } from '@/utils/constants/banners';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
+import { Link, useParams } from '@/utils/navigation';
 import { usePlausible } from '@/utils/plausible';
 
-interface Props {}
+type Props = {};
 
 const MovieBanner: FC<Props> = () => {
     const { user } = useSession();

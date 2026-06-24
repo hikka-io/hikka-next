@@ -1,18 +1,18 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useDroppable } from '@dnd-kit/core';
-import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
-import { CollectionContent } from '@hikka/client';
-import { FC } from 'react';
+import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
+
+import type { CollectionContent } from '@hikka/client';
 
 import ContentCard from '@/components/content-card/content-card';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import { SearchModal } from '@/features/common';
-
 import { useCollectionContext } from '@/services/providers/collection-provider';
-import { Group } from '@/services/stores/collection-store';
+import type { Group } from '@/services/stores/collection-store';
 import { cn } from '@/utils/cn';
 
 import SortableCard from './components/sortable-card';
@@ -57,7 +57,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
                     ref={setNodeRef}
                     className={cn(
                         'grid grid-cols-2 gap-4 rounded-lg transition-colors md:grid-cols-5 lg:gap-8',
-                        isOver && 'ring-primary/30 bg-primary/5 ring-2',
+                        isOver && 'bg-primary/5 ring-2 ring-primary/30',
                     )}
                 >
                     {items.map((item) => (
@@ -86,7 +86,7 @@ const CollectionGrid: FC<Props> = ({ group }) => {
                     >
                         <ContentCard
                             image={
-                                <MaterialSymbolsAddRounded className="text-muted-foreground text-4xl" />
+                                <MaterialSymbolsAddRounded className="text-4xl text-muted-foreground" />
                             }
                         />
                     </SearchModal>

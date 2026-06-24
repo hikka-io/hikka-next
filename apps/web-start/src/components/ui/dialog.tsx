@@ -1,12 +1,12 @@
 'use client';
 
+import * as React from 'react';
+
 import { XIcon } from 'lucide-react';
 import { Dialog as DialogPrimitive } from 'radix-ui';
-import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 import { PortalContainerProvider } from '@/components/ui/portal-container-context';
-
 import { cn } from '@/utils/cn';
 
 function Dialog({
@@ -41,7 +41,7 @@ function DialogOverlay({
         <DialogPrimitive.Overlay
             data-slot="dialog-overlay"
             className={cn(
-                'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs',
+                'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 isolate z-50 bg-black/10 duration-100 data-[state=closed]:animate-out data-[state=open]:animate-in supports-backdrop-filter:backdrop-blur-xs',
                 className,
             )}
             {...props}
@@ -66,7 +66,7 @@ function DialogContent({
                 ref={setContainer}
                 data-slot="dialog-content"
                 className={cn(
-                    'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 ring-foreground/10 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(var(--visual-viewport-height,100dvh)-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-xl p-4 text-sm ring-1 duration-200 outline-none md:max-w-sm',
+                    'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(var(--visual-viewport-height,100dvh)-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-xl bg-background p-4 text-sm outline-none ring-1 ring-foreground/10 duration-200 data-[state=closed]:animate-out data-[state=open]:animate-in md:max-w-sm',
                     className,
                 )}
                 {...props}
@@ -96,7 +96,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="dialog-header"
             className={cn(
-                'bg-secondary/20 -mx-4 -mt-4 flex flex-col gap-2 border-b p-4 pr-12',
+                '-mx-4 -mt-4 flex flex-col gap-2 border-b bg-secondary/20 p-4 pr-12',
                 className,
             )}
             {...props}
@@ -116,7 +116,7 @@ function DialogFooter({
         <div
             data-slot="dialog-footer"
             className={cn(
-                'bg-secondary/20 -mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t p-4 md:flex-row md:justify-end',
+                '-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-secondary/20 p-4 md:flex-row md:justify-end',
                 className,
             )}
             {...props}
@@ -139,7 +139,7 @@ function DialogTitle({
         <DialogPrimitive.Title
             data-slot="dialog-title"
             className={cn(
-                'truncate text-base leading-none font-medium',
+                'truncate font-medium text-base leading-none',
                 className,
             )}
             {...props}
@@ -155,7 +155,7 @@ function DialogDescription({
         <DialogPrimitive.Description
             data-slot="dialog-description"
             className={cn(
-                'text-muted-foreground *:[a]:hover:text-foreground text-sm *:[a]:underline *:[a]:underline-offset-3',
+                'text-muted-foreground text-sm *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground',
                 className,
             )}
             {...props}

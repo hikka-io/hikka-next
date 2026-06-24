@@ -1,5 +1,5 @@
 import { ChevronsUpDown } from 'lucide-react';
-import { SlateElement, SlateElementProps } from 'platejs/static';
+import { SlateElement, type SlateElementProps } from 'platejs/static';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -7,7 +7,6 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-
 import { cn } from '@/utils/cn';
 
 export function SpoilerElementStatic(props: SlateElementProps) {
@@ -22,7 +21,7 @@ export function SpoilerElementStatic(props: SlateElementProps) {
                     Спойлер <ChevronsUpDown className="size-3" />
                 </Button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="border-border bg-secondary/20 rounded-md border p-2">
+            <CollapsibleContent className="rounded-md border border-border bg-secondary/20 p-2">
                 {props.children}
             </CollapsibleContent>
         </SlateElement>

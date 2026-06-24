@@ -1,7 +1,7 @@
 /**
  * Vote related types
  */
-import { ContentTypeEnum } from './common';
+import type { ContentTypeEnum } from './common';
 
 /**
  * Content type for votable content

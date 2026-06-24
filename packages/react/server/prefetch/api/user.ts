@@ -1,3 +1,9 @@
+import type {
+    UseUserActivityParams,
+    UseUserByUsernameParams,
+    UseUserSearchParams,
+    UseUserUIParams,
+} from '@/types/user';
 import {
     searchUsersOptions,
     sessionOptions,
@@ -6,13 +12,10 @@ import {
     userByUsernameOptions,
     userUIOptions,
 } from '@/options/api/user';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseUserActivityParams,
-    UseUserByUsernameParams,
-    UseUserSearchParams,
-    UseUserUIParams,
-} from '@/types/user';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches user search results for server-side rendering

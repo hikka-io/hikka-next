@@ -1,4 +1,4 @@
-import { UserUI } from '@hikka/client';
+import type { UserUI } from '@hikka/client';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 

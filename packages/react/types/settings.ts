@@ -1,4 +1,4 @@
-import {
+import type {
     ContentTypeEnum,
     DescriptionArgs,
     EmailArgs,
@@ -11,7 +11,7 @@ import {
 } from '@hikka/client';
 
 // IgnoredNotifications doesn't require any parameters
-export interface UseIgnoredNotificationsParams {}
+export type UseIgnoredNotificationsParams = {};
 
 // Profile settings mutation parameters
 export interface UseChangeDescriptionParams extends DescriptionArgs {}
@@ -25,8 +25,8 @@ export interface UseDeleteImageParams {
 // List settings mutation parameters
 export interface UseImportWatchListParams extends ImportWatchListArgs {}
 export interface UseImportReadListParams extends ImportReadListArgs {}
-export interface UseExportListsParams {}
-export interface UseDeleteWatchListParams {}
+export type UseExportListsParams = {};
+export type UseDeleteWatchListParams = {};
 export interface UseDeleteReadListParams {
     contentType: ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL;
 }

@@ -1,11 +1,12 @@
-import { HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
-import { queryKeys } from '@/core';
-import {
+import type { HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type {
     UseClientByReferenceParams,
     UseFullClientInfoParams,
 } from '@/types/client';
+import { queryKeys } from '@/core';
 
 export function clientByReferenceOptions(
     client: HikkaClient,

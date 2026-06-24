@@ -1,6 +1,8 @@
-import { ArticleBaseResponse } from '@hikka/client';
+import type { FC } from 'react';
+
 import { formatDistance } from 'date-fns/formatDistance';
-import { FC } from 'react';
+
+import type { ArticleBaseResponse } from '@hikka/client';
 
 import MaterialSymbolsDriveFileRenameOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
 import {
@@ -10,7 +12,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 interface Props {
@@ -32,7 +33,7 @@ const ContentArticlesItem: FC<Props> = ({ article, className }) => {
                 >
                     {article.title}
                 </HorizontalCardTitle>
-                <HorizontalCardDescription className="text-muted-foreground flex-row text-xs">
+                <HorizontalCardDescription className="flex-row text-muted-foreground text-xs">
                     <div className="flex items-center gap-1">
                         <MaterialSymbolsDriveFileRenameOutlineRounded />
                         <small>

@@ -1,14 +1,14 @@
 'use client';
 
-import { AnimeScheduleResponsePaginationResponse } from '@hikka/client';
+import type { AnimeScheduleResponsePaginationResponse } from '@hikka/client';
 
+import type { UseAnimeScheduleParams } from '@/types/schedule';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { searchAnimeScheduleOptions } from '@/options/api/schedule';
-import { UseAnimeScheduleParams } from '@/types/schedule';
 
 /**
  * Hook for retrieving anime schedule

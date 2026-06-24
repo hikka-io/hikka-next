@@ -1,10 +1,10 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useEdit } from '@hikka/react';
-import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
-
 import { EDIT_STATUS } from '@/utils/constants/edit';
 
 interface Props {

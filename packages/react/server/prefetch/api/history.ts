@@ -1,12 +1,12 @@
+import type { UseUserHistoryParams } from '@/types/history';
 import {
     followingHistoryOptions,
     userHistoryOptions,
 } from '@/options/api/history';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { UseUserHistoryParams } from '@/types/history';
 
 /**
  * Prefetches history of users that the current user follows for server-side rendering

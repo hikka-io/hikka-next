@@ -1,8 +1,9 @@
 'use client';
 
-import { ContentTypeEnum, ExternalTypeEnum } from '@hikka/client';
+import { type FC, useState } from 'react';
+
+import { type ContentTypeEnum, ExternalTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { FC, useState } from 'react';
 
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
 import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
@@ -17,7 +18,6 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 import { getPlatformIcon } from '@/utils/platform-icons';

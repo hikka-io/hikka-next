@@ -1,4 +1,4 @@
-import { AnimeInfoResponse } from '@hikka/client';
+import type { AnimeInfoResponse } from '@hikka/client';
 
 import { parseTextFromMarkDown } from '@/utils/markdown';
 

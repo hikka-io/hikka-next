@@ -1,10 +1,10 @@
+import { createFileRoute } from '@tanstack/react-router';
+
 import { ContentTypeEnum } from '@hikka/client';
 import { useAnimeBySlug } from '@hikka/react';
-import { createFileRoute } from '@tanstack/react-router';
 
 import { MovieBanner } from '@/features/anime';
 import { ContentDetailPage, ContentMedia as Media } from '@/features/content';
-
 import animeJsonSchema from '@/utils/anime-schema';
 
 export const Route = createFileRoute('/_pages/anime/$slug/')({

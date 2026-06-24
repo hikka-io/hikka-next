@@ -3,9 +3,7 @@
 import { useSession } from '@hikka/react';
 
 import { Button } from '@/components/ui/button';
-
 import { LoginButton, SearchModal } from '@/features/common';
-
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
 import { cn } from '@/utils/cn';
@@ -30,7 +28,7 @@ const Navbar = () => {
         <header
             className={cn(
                 'sticky top-0 z-10 w-full bg-transparent backdrop-blur transition-[background-color,border-color]',
-                trigger && 'border-b-border bg-background! border-b',
+                trigger && 'border-b border-b-border bg-background!',
             )}
         >
             <nav className="relative mx-auto flex min-h-16 w-full max-w-350 items-center gap-4 px-4 md:gap-8">

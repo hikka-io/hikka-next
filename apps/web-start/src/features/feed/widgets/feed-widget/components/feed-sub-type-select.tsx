@@ -1,15 +1,16 @@
 'use client';
 
+import { type FC, useId, useState } from 'react';
+
 import {
     ArticleCategoryEnum,
-    CollectionContentType,
-    CommentsContentType,
+    type CollectionContentType,
+    type CommentsContentType,
     ContentTypeEnum,
-    FeedArticleCategory,
-    FeedArticleContentType,
-    FeedContentType,
+    type FeedArticleCategory,
+    type FeedArticleContentType,
+    type FeedContentType,
 } from '@hikka/client';
-import { FC, useId, useState } from 'react';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { Button } from '@/components/ui/button';
@@ -19,7 +20,6 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { Switch } from '@/components/ui/switch';
-
 import { cn } from '@/utils/cn';
 import {
     ARTICLE_CATEGORY_OPTIONS,
@@ -175,7 +175,7 @@ const Section: FC<SectionProps> = ({ title, enabled, onToggle, children }) => {
     const id = useId();
 
     return (
-        <div className="bg-secondary/20 flex flex-col gap-6 rounded-md border p-4">
+        <div className="flex flex-col gap-6 rounded-md border bg-secondary/20 p-4">
             <div className="flex items-center justify-between gap-4">
                 <Label htmlFor={id} className="flex-1 text-base">
                     {title}
@@ -246,7 +246,7 @@ const FeedSubTypeSelect: FC<{
             >
                 <AntDesignFilterFilled />
                 {hasActiveFilters(value) && (
-                    <span className="bg-primary-foreground absolute -top-1 -right-1 size-2.5 rounded-full" />
+                    <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-primary-foreground" />
                 )}
             </Button>
 

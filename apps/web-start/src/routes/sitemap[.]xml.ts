@@ -1,14 +1,15 @@
-import { HikkaClient, SitemapResponse } from '@hikka/client';
 import { createFileRoute } from '@tanstack/react-router';
+
+import type { HikkaClient, SitemapResponse } from '@hikka/client';
 
 import { createServerHikkaClient } from '@/utils/cookies/headers';
 import {
-    SITEMAP_RESPONSE_HEADERS,
-    SitemapIndexEntry,
     buildSitemapIndexXml,
     getSitemapPageCount,
     getSlicedLastmod,
     paginateSitemap,
+    SITEMAP_RESPONSE_HEADERS,
+    type SitemapIndexEntry,
 } from '@/utils/sitemap';
 import { getSiteUrl } from '@/utils/url';
 

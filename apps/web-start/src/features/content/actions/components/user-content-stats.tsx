@@ -1,7 +1,8 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
 import { Hash, Star } from 'lucide-react';
+
+import { ContentTypeEnum } from '@hikka/client';
 
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
@@ -9,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
-
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
@@ -58,7 +58,7 @@ const UserContentStats = ({
                         value={score ? score / 2 : 0}
                     />
                     <p className="text-muted-foreground text-sm">
-                        <span className="text-foreground font-bold">
+                        <span className="font-bold text-foreground">
                             {score}
                         </span>
                         /10
@@ -80,7 +80,7 @@ const UserContentStats = ({
             >
                 <div className="flex w-full flex-col gap-2">
                     <p className="text-muted-foreground text-sm">
-                        <span className="text-foreground font-bold">
+                        <span className="font-bold text-foreground">
                             {progress}
                         </span>
                         /{total ?? '?'}{' '}

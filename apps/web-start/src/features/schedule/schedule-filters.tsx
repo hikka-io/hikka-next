@@ -1,9 +1,11 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { range } from '@antfu/utils';
-import { useSession } from '@hikka/react';
 import { useRouter } from '@tanstack/react-router';
-import { FC } from 'react';
+
+import { useSession } from '@hikka/react';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
@@ -18,9 +20,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-
 import { cn } from '@/utils/cn';
 import { RELEASE_STATUS, SEASON } from '@/utils/constants/common';
 import { getCurrentSeason } from '@/utils/season';
@@ -184,10 +184,10 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
                     </Select>
                 </div>
                 {loggedUser && (
-                    <div className="bg-secondary/20 flex h-10 items-center justify-between gap-2 rounded-md border p-4 py-2">
+                    <div className="flex h-10 items-center justify-between gap-2 rounded-md border bg-secondary/20 p-4 py-2">
                         <Label
                             htmlFor="only_watch"
-                            className="text-muted-foreground line-clamp-1 min-w-0 truncate"
+                            className="line-clamp-1 min-w-0 truncate text-muted-foreground"
                         >
                             Аніме у списку
                         </Label>

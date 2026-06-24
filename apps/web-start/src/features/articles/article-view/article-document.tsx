@@ -1,13 +1,13 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useArticleBySlug } from '@hikka/react';
-import { FC } from 'react';
 
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
-
 import { useParams } from '@/utils/navigation';
 
-interface Props {}
+type Props = {};
 
 const ArticleDocument: FC<Props> = () => {
     const params = useParams();

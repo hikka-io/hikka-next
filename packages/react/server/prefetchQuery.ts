@@ -1,5 +1,6 @@
-import { HikkaClient, HikkaClientConfig } from '@hikka/client';
-import { QueryClient, QueryClientConfig } from '@tanstack/query-core';
+import type { QueryClient, QueryClientConfig } from '@tanstack/query-core';
+
+import type { HikkaClient, HikkaClientConfig } from '@hikka/client';
 
 import { getHikkaClient, getQueryClient } from '@/core';
 

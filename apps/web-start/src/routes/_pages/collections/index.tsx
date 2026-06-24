@@ -1,6 +1,7 @@
-import { searchCollectionsOptions } from '@hikka/react/options';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
+
+import { searchCollectionsOptions } from '@hikka/react/options';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import PagePagination from '@/components/page-pagination';
@@ -8,9 +9,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Link from '@/components/ui/link';
-
 import { CollectionList, CollectionSort } from '@/features/collections';
-
 import { generateHeadMeta } from '@/utils/metadata';
 import { collectionsSearchSchema } from '@/utils/search-schemas';
 

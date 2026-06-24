@@ -1,11 +1,10 @@
 import {
     ContentTypeEnum,
-    ReadStatusEnum,
-    WatchStatusEnum,
+    type ReadStatusEnum,
+    type WatchStatusEnum,
 } from '@hikka/client';
 
 import NotFound from '@/components/ui/not-found';
-
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
 interface Props {

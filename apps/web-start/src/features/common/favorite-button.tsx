@@ -1,6 +1,6 @@
 'use client';
 
-import { FavouriteContentType } from '@hikka/client';
+import type { FavouriteContentType } from '@hikka/client';
 import {
     useCreateFavourite,
     useDeleteFavourite,
@@ -9,7 +9,7 @@ import {
 
 import { MaterialSymbolsFavoriteOutlineRounded } from '@/components/icons/material-symbols/MaterialSymbolsFavoriteOutlineRounded';
 import { MaterialSymbolsFavoriteRounded } from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 import {
     Tooltip,
     TooltipContent,
@@ -60,7 +60,7 @@ const Component = ({
                     {favorite && !favoriteError ? (
                         <MaterialSymbolsFavoriteRounded className="size-5! text-red-500" />
                     ) : (
-                        <MaterialSymbolsFavoriteOutlineRounded className="text-foreground size-5!" />
+                        <MaterialSymbolsFavoriteOutlineRounded className="size-5! text-foreground" />
                     )}
                     {children}
                 </Button>

@@ -1,8 +1,9 @@
-import { CharacterResponse, ContentTypeEnum } from '@hikka/client';
-import { useTitle } from '@hikka/react';
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import ContentCard, { ContentCardProps } from './content-card';
+import { type CharacterResponse, ContentTypeEnum } from '@hikka/client';
+import { useTitle } from '@hikka/react';
+
+import ContentCard, { type ContentCardProps } from './content-card';
 
 interface Props extends ContentCardProps {
     character: CharacterResponse;

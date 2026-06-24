@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, forwardRef, memo } from 'react';
+import { type ComponentPropsWithoutRef, forwardRef, memo } from 'react';
 
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
@@ -35,7 +35,7 @@ const HorizontalContentCard = forwardRef<HTMLDivElement, Props>(
             <div
                 ref={ref}
                 className={cn(
-                    'border-border bg-secondary/20 flex rounded-md border',
+                    'flex rounded-md border border-border bg-secondary/20',
                     className,
                 )}
                 {...props}
@@ -60,7 +60,7 @@ const HorizontalContentCard = forwardRef<HTMLDivElement, Props>(
                             <Link to={href}>{title}</Link>
                         </Title>
                         {description && (
-                            <MDViewer className="text-muted-foreground line-clamp-2 text-xs lg:line-clamp-3">
+                            <MDViewer className="line-clamp-2 text-muted-foreground text-xs lg:line-clamp-3">
                                 {description}
                             </MDViewer>
                         )}

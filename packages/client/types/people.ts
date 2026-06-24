@@ -1,13 +1,13 @@
-import { AnimeResponse } from './anime';
-import { CharacterResponse } from './characters';
-import {
+import type { AnimeResponse } from './anime';
+import type { CharacterResponse } from './characters';
+import type {
     ContentTypeEnum,
     PaginatedResponse,
     PaginationResponse,
     RoleResponse,
 } from './common';
-import { MangaResponse } from './manga';
-import { NovelResponse } from './novel';
+import type { MangaResponse } from './manga';
+import type { NovelResponse } from './novel';
 
 /**
  * Person response

@@ -1,13 +1,14 @@
 'use client';
 
+import { type FC, useState } from 'react';
+
 import {
-    CommonContentType,
+    type CommonContentType,
     ContentTypeEnum,
     ReadStatusEnum,
     WatchStatusEnum,
 } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { FC, useState } from 'react';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -19,7 +20,7 @@ import {
 } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-import { WidgetProps } from '../../constants';
+import type { WidgetProps } from '../../constants';
 import ReadingTracker from './components/reading-tracker';
 import WatchingTracker from './components/watching-tracker';
 

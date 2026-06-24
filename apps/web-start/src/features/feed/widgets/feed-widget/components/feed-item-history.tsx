@@ -1,5 +1,6 @@
-import { HistoryResponse } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { HistoryResponse } from '@hikka/client';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import {
@@ -9,7 +10,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-
 import { convertActivity } from '@/utils/adapters/convert-activity';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
@@ -29,7 +29,7 @@ const FeedItemHistory: FC<Props> = ({ data }) => {
             <HorizontalCardImage
                 image={
                     data.content?.image || (
-                        <MaterialSymbolsInfoRounded className="text-muted-foreground flex-1 text-xl" />
+                        <MaterialSymbolsInfoRounded className="flex-1 text-muted-foreground text-xl" />
                     )
                 }
                 to={contentHref}

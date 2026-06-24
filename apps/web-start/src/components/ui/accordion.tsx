@@ -1,10 +1,14 @@
 'use client';
 
+import {
+    type ComponentPropsWithoutRef,
+    type ElementRef,
+    forwardRef,
+} from 'react';
+
 import { Accordion as AccordionPrimitive } from 'radix-ui';
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
-
 import { cn } from '@/utils/cn';
 
 const Accordion = AccordionPrimitive.Root;
@@ -29,13 +33,13 @@ const AccordionTrigger = forwardRef<
         <AccordionPrimitive.Trigger
             ref={ref}
             className={cn(
-                'flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all [&[data-state=open]>svg]:rotate-180',
+                'flex flex-1 items-center justify-between py-4 font-medium text-sm transition-all [&[data-state=open]>svg]:rotate-180',
                 className,
             )}
             {...props}
         >
             {children}
-            <MaterialSymbolsKeyboardArrowDownRounded className="text-muted-foreground size-4 shrink-0 transition-transform duration-200" />
+            <MaterialSymbolsKeyboardArrowDownRounded className="size-4 shrink-0 text-muted-foreground transition-transform duration-200" />
         </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
 ));
@@ -47,7 +51,7 @@ const AccordionContent = forwardRef<
 >(({ className, children, ...props }, ref) => (
     <AccordionPrimitive.Content
         ref={ref}
-        className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
+        className="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
         {...props}
     >
         <div className={cn('pt-0 pb-4', className)}>{children}</div>

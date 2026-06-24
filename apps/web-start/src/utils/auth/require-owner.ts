@@ -1,7 +1,8 @@
-import { UserResponse, UserRoleEnum } from '@hikka/client';
-import { queryKeys } from '@hikka/react/core';
-import { QueryClient } from '@tanstack/react-query';
+import type { QueryClient } from '@tanstack/react-query';
 import { redirect } from '@tanstack/react-router';
+
+import { type UserResponse, UserRoleEnum } from '@hikka/client';
+import { queryKeys } from '@hikka/react/core';
 
 /**
  * Call in beforeLoad to require the current user to be the content author,

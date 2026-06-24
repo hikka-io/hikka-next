@@ -1,5 +1,5 @@
 import {
-    FormatDistanceToken,
+    type FormatDistanceToken,
     formatDuration,
     intervalToDuration,
 } from 'date-fns';

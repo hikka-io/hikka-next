@@ -1,14 +1,14 @@
 'use client';
 
-import { useCreatePasswordResetRequest } from '@hikka/react';
 import { toast } from 'sonner';
+
+import { useCreatePasswordResetRequest } from '@hikka/react';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
-
 import { z } from '@/utils/i18n/zod';
 import { Link } from '@/utils/navigation';
 

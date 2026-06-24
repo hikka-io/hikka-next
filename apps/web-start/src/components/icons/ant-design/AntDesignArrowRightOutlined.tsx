@@ -1,4 +1,4 @@
-import React, { SVGProps } from 'react';
+import React, { type SVGProps } from 'react';
 
 export function AntDesignArrowRightOutlined(props: SVGProps<SVGSVGElement>) {
     return (

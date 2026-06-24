@@ -8,7 +8,11 @@ const doc = (): Value => [
     {
         type: 'image_group',
         children: [
-            { type: 'image', url: 'https://cdn/a.jpg', children: [{ text: '' }] },
+            {
+                type: 'image',
+                url: 'https://cdn/a.jpg',
+                children: [{ text: '' }],
+            },
             {
                 type: 'image_placeholder',
                 id: '1',

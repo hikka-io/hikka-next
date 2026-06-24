@@ -1,18 +1,21 @@
+import type {
+    UseClientByReferenceParams,
+    UseClientListParams,
+    UseFullClientInfoParams,
+} from '@/types/client';
 import {
     clientByReferenceOptions,
     clientFullDetailsOptions,
     clientListOptions,
 } from '@/options/api/client';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseClientByReferenceParams,
-    UseClientListParams,
-    UseFullClientInfoParams,
-} from '@/types/client';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches client by reference for server-side rendering

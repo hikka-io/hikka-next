@@ -1,19 +1,20 @@
 'use client';
 
-import { useClientByReference } from '@hikka/react';
+import type { FC } from 'react';
+
 import { getRouteApi } from '@tanstack/react-router';
-import { FC } from 'react';
+
+import { useClientByReference } from '@hikka/react';
 
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-
 import { cn } from '@/utils/cn';
-import { SCOPES, SCOPE_GROUPS } from '@/utils/constants/oauth';
+import { SCOPE_GROUPS, SCOPES } from '@/utils/constants/oauth';
 
 import Scope from './components/scope';
 
-interface Props {}
+type Props = {};
 
 const routeApi = getRouteApi('/_pages/oauth');
 

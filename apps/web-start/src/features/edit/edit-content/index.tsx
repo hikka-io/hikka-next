@@ -1,12 +1,12 @@
 'use client';
 
-import { EditContentType, MainContent } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { EditContentType, MainContent } from '@hikka/client';
 
 import MaterialSymbolsArrowRightAltRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 

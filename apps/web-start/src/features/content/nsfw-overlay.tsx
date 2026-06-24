@@ -1,9 +1,8 @@
-import { FC, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from '@/components/ui/image';
-
 import { setNsfwConsentFn } from '@/utils/cookies/server';
 import { useRouter } from '@/utils/navigation';
 
@@ -41,7 +40,7 @@ const NsfwOverlay: FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden backdrop-blur-xl">
             <div
                 aria-hidden
-                className="bg-background/80 pointer-events-none absolute inset-0"
+                className="pointer-events-none absolute inset-0 bg-background/80"
             />
             <div
                 aria-hidden
@@ -59,10 +58,10 @@ const NsfwOverlay: FC = () => {
                 />
 
                 <div className="flex flex-col gap-2">
-                    <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+                    <p className="font-medium text-muted-foreground text-xs uppercase tracking-widest">
                         Контент 18+
                     </p>
-                    <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
+                    <h1 className="font-bold text-3xl tracking-tight md:text-4xl">
                         Відвертий контент
                     </h1>
                     <p className="text-muted-foreground">

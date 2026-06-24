@@ -1,9 +1,9 @@
-import { CommentResponse } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { CommentResponse } from '@hikka/client';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
-
 import { Link } from '@/utils/navigation';
 
 import FeedItemContentPreview from './feed-item-content-preview';

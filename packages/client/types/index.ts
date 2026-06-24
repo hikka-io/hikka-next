@@ -1,89 +1,61 @@
 // Anime related types
 export * from './anime';
-
-// Artifacts related types
-export * from './artifacts';
-
-// Manga related types
-export * from './manga';
-
-// Novel related types
-export * from './novel';
-
-// User related types
-export * from './user';
-
-// UI related types
-export * from './ui';
-
-// Auth related types
-export * from './auth';
-
-// Common types
-export * from './common';
-
-// Character related types
-export * from './characters';
-
-// People related types
-export * from './people';
-
-// Collection related types
-export * from './collections';
-
-// Comment related types
-export * from './comments';
-
-// Favourite related types
-export * from './favourite';
-
-// Feed related types
-export * from './feed';
-
-// History related types
-export * from './history';
-
 // Article related types
 export * from './articles';
-
-// Schedule related types
-export * from './schedule';
-
-// Settings related types
-export * from './settings';
-
-// Stats related types
-export * from './stats';
-
-// Upload related types
-export * from './upload';
-
-// Vote related types
-export * from './vote';
-
-// Follow related types
-export * from './follow';
-
-// Companies related types
-// Re-export specific types to avoid naming conflicts
-export * from './companies';
-
-// Related content types
-export * from './related';
-
+// Artifacts related types
+export * from './artifacts';
+// Auth related types
+export * from './auth';
+// Character related types
+export * from './characters';
 // Client related types
 // Re-export specific types to avoid naming conflicts
 export * from './client';
-
+// Collection related types
+export * from './collections';
+// Comment related types
+export * from './comments';
+// Common types
+export * from './common';
+// Companies related types
+// Re-export specific types to avoid naming conflicts
+export * from './companies';
 // Edit related types
 // Re-export with type alias to avoid naming conflicts
 export * from './edit';
-
-// Watch related types
-export * from './watch';
-
-// Read related types
-export * from './read';
-
+// Favourite related types
+export * from './favourite';
+// Feed related types
+export * from './feed';
+// Follow related types
+export * from './follow';
+// History related types
+export * from './history';
+// Manga related types
+export * from './manga';
 // Notification related types
 export * from './notifications';
+// Novel related types
+export * from './novel';
+// People related types
+export * from './people';
+// Read related types
+export * from './read';
+// Related content types
+export * from './related';
+// Schedule related types
+export * from './schedule';
+// Settings related types
+export * from './settings';
+// Stats related types
+export * from './stats';
+// UI related types
+export * from './ui';
+// Upload related types
+export * from './upload';
+// User related types
+export * from './user';
+// Vote related types
+export * from './vote';
+// Watch related types
+export * from './watch';

@@ -1,4 +1,4 @@
-import { ExternalResponse, ExternalTypeEnum } from '@hikka/client';
+import { type ExternalResponse, ExternalTypeEnum } from '@hikka/client';
 
 /**
  * Removes watch/read URLs from a content response so they never end up in the

@@ -1,7 +1,7 @@
 import {
-    CommentsContentType,
+    type CommentsContentType,
     ContentTypeEnum,
-    EditContentType,
+    type EditContentType,
 } from '@hikka/client';
 import {
     useAnimeBySlug,

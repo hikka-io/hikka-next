@@ -1,5 +1,5 @@
-import { BaseRequestOptionsArgs } from '../types';
-import { VoteArgs, VoteContentType, VoteResponse } from '../types/vote';
+import type { BaseRequestOptionsArgs } from '../types';
+import type { VoteArgs, VoteContentType, VoteResponse } from '../types/vote';
 import { BaseModule } from './base';
 
 /**

@@ -1,11 +1,12 @@
-import { FavouriteItem, HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
-import { queryKeys } from '@/core';
-import {
+import type { FavouriteItem, HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type {
     UseFavouriteListParams,
     UseFavouriteStatusParams,
 } from '@/types/favourite';
+import { queryKeys } from '@/core';
 
 export function favouriteStatusOptions(
     client: HikkaClient,

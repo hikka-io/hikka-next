@@ -1,10 +1,9 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -25,7 +24,7 @@ const NotificationsHeader: FC<Props> = ({
             className={cn('flex items-center justify-between gap-2', className)}
         >
             <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold">Сповіщення</span>
+                <span className="font-semibold text-sm">Сповіщення</span>
                 {unseenCount > 0 && (
                     <Badge variant="warning">{unseenCount}</Badge>
                 )}

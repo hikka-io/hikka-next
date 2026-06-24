@@ -1,6 +1,7 @@
+import type * as React from 'react';
+
 import type { SlateElementProps } from 'platejs/static';
 import { SlateElement } from 'platejs/static';
-import * as React from 'react';
 
 type HeadingVariant = 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
 

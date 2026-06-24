@@ -1,10 +1,10 @@
-import { AnimeInfoResponse, AnimeResponse } from './anime';
-import { ArticleBaseResponse } from './articles';
-import { CharacterResponse } from './characters';
-import { CollectionContent, CollectionResponse } from './collections';
-import { MangaInfoResponse, MangaResponse } from './manga';
-import { NovelInfoResponse, NovelResponse } from './novel';
-import { PersonResponse } from './people';
+import type { AnimeInfoResponse, AnimeResponse } from './anime';
+import type { ArticleBaseResponse } from './articles';
+import type { CharacterResponse } from './characters';
+import type { CollectionContent, CollectionResponse } from './collections';
+import type { MangaInfoResponse, MangaResponse } from './manga';
+import type { NovelInfoResponse, NovelResponse } from './novel';
+import type { PersonResponse } from './people';
 
 /**
  * Standard pagination metadata

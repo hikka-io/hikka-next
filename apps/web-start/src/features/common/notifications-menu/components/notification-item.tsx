@@ -1,12 +1,13 @@
 'use client';
 
-import { useUpdateNotificationSeen } from '@hikka/react';
+import type { FC } from 'react';
+
 import { formatDistance } from 'date-fns/formatDistance';
-import { FC } from 'react';
+
+import { useUpdateNotificationSeen } from '@hikka/react';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { HorizontalCardDescription } from '@/components/ui/horizontal-card';
-
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -38,7 +39,7 @@ const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
     return (
         <div
             className={cn(
-                'group/item border-border flex gap-3 border-t border-l-4 px-3 py-2.5 transition-colors first:border-t-0',
+                'group/item flex gap-3 border-border border-t border-l-4 px-3 py-2.5 transition-colors first:border-t-0',
                 data.seen
                     ? 'border-l-transparent'
                     : 'border-l-primary-foreground/60 bg-primary-foreground/10',
@@ -66,13 +67,13 @@ const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
                     className="absolute inset-0 z-10"
                 />
                 <div className="flex items-center justify-between gap-2">
-                    <span className="truncate text-sm leading-tight font-medium">
+                    <span className="truncate font-medium text-sm leading-tight">
                         {data.title}
                     </span>
                     {data.scoreSign && (
                         <span
                             className={cn(
-                                'shrink-0 rounded-sm border px-1 text-xs font-bold',
+                                'shrink-0 rounded-sm border px-1 font-bold text-xs',
                                 data.scoreSign > 0
                                     ? accentBadgeClasses.success
                                     : accentBadgeClasses.destructive,
@@ -82,11 +83,11 @@ const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
                         </span>
                     )}
                 </div>
-                <HorizontalCardDescription className="group-hover/item:text-foreground line-clamp-2">
+                <HorizontalCardDescription className="line-clamp-2 group-hover/item:text-foreground">
                     {data.description}
                 </HorizontalCardDescription>
                 {data.preview && (
-                    <blockquote className="border-muted-foreground/20 mt-0.5 line-clamp-1 border-l-2 pl-2">
+                    <blockquote className="mt-0.5 line-clamp-1 border-muted-foreground/20 border-l-2 pl-2">
                         <MDViewer
                             preview
                             className="text-muted-foreground text-xs!"

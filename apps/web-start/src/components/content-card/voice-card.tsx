@@ -1,14 +1,15 @@
+import type { FC } from 'react';
+
 import {
-    AnimeInfoResponse,
-    AnimeResponse,
+    type AnimeInfoResponse,
+    type AnimeResponse,
     ContentTypeEnum,
-    PersonResponse,
+    type PersonResponse,
 } from '@hikka/client';
 import { useTitle } from '@hikka/react';
-import { FC } from 'react';
 
 import CardOverlay from './card-overlay';
-import ContentCard, { ContentCardProps } from './content-card';
+import ContentCard, { type ContentCardProps } from './content-card';
 
 interface Props extends ContentCardProps {
     person: PersonResponse;

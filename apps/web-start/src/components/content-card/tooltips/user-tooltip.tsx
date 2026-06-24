@@ -1,5 +1,7 @@
 'use client';
 
+import { type FC, memo, type PropsWithChildren } from 'react';
+
 import { ContentTypeEnum } from '@hikka/client';
 import {
     useReadStats,
@@ -7,7 +9,6 @@ import {
     useUserFollowStats,
     useUserWatchStats,
 } from '@hikka/react';
-import { FC, PropsWithChildren, memo } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
@@ -16,7 +17,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { FollowButton } from '@/features/common';
 
 import MaterialSymbolsAnimatedImages from '../../icons/material-symbols/MaterialSymbolsAnimatedImages';
@@ -69,18 +69,18 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                 </AvatarFallback>
                             </Avatar>
                             {user?.active && (
-                                <div className="border-border bg-success-foreground absolute -right-1 -bottom-1 z-1 size-3 rounded-full border" />
+                                <div className="absolute -right-1 -bottom-1 z-1 size-3 rounded-full border border-border bg-success-foreground" />
                             )}
                         </div>
                         <div className="flex flex-row items-center gap-2">
-                            <h4 className="text-sm font-semibold">
+                            <h4 className="font-semibold text-sm">
                                 {username}
                             </h4>
                             {(user?.role === 'admin' ||
                                 user?.role === 'moderator') && (
                                 <Tooltip delayDuration={0}>
                                     <TooltipTrigger>
-                                        <div className="border-border bg-secondary/20 rounded-sm border p-1 text-xs font-bold backdrop-blur">
+                                        <div className="rounded-sm border border-border bg-secondary/20 p-1 font-bold text-xs backdrop-blur">
                                             {user.role === 'admin' && (
                                                 <MaterialSymbolsSecurity className="text-role-admin" />
                                             )}
@@ -105,7 +105,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                 {user?.description && (
                     <MDViewer
                         preview
-                        className="text-muted-foreground line-clamp-1 text-xs"
+                        className="line-clamp-1 text-muted-foreground text-xs"
                     >
                         {user.description}
                     </MDViewer>
@@ -114,21 +114,21 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
             <div className="flex gap-4 text-xs">
                 <span className="font-bold">
                     {followStats ? followStats.followers : 0}
-                    <span className="text-muted-foreground text-xs leading-tight font-medium">
+                    <span className="font-medium text-muted-foreground text-xs leading-tight">
                         {' '}
                         стежать
                     </span>
                 </span>
                 <span className="font-bold">
                     {followStats ? followStats.following : 0}
-                    <span className="text-muted-foreground text-xs leading-tight font-medium">
+                    <span className="font-medium text-muted-foreground text-xs leading-tight">
                         {' '}
                         відстежується
                     </span>
                 </span>
             </div>
             <Separator className="-mx-4 w-auto" />
-            <div className="flex justify-between text-sm font-semibold">
+            <div className="flex justify-between font-semibold text-sm">
                 <div className="flex flex-1 items-center gap-2">
                     <MaterialSymbolsAnimatedImages className="text-muted-foreground" />
                     {watchStats?.completed}

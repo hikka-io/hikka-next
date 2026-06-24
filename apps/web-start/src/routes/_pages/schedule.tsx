@@ -1,21 +1,20 @@
-import { ContentStatusEnum, SeasonEnum } from '@hikka/client';
-import { prefetchInfiniteQuery } from '@hikka/react/core';
-import { searchAnimeScheduleOptions } from '@hikka/react/options';
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
+
+import { ContentStatusEnum, type SeasonEnum } from '@hikka/client';
+import { prefetchInfiniteQuery } from '@hikka/react/core';
+import { searchAnimeScheduleOptions } from '@hikka/react/options';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import {
     ScheduleFilters,
     ScheduleFiltersModal,
     ScheduleList,
 } from '@/features/schedule';
-
 import { generateHeadMeta } from '@/utils/metadata';
 import { scheduleSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
@@ -73,7 +72,7 @@ function ScheduleListPage() {
                         </Button>
                     </ScheduleFiltersModal>
                 </div>
-                <Card className="bg-secondary/20 hidden w-full backdrop-blur-xl lg:block">
+                <Card className="hidden w-full bg-secondary/20 backdrop-blur-xl lg:block">
                     <ScheduleFilters />
                 </Card>
             </Block>

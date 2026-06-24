@@ -2,9 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
-
-import { Link } from '@/utils/navigation';
-import { usePathname } from '@/utils/navigation';
+import { Link, usePathname } from '@/utils/navigation';
 
 import AntDesignClearOutlined from './icons/ant-design/AntDesignClearOutlined';
 

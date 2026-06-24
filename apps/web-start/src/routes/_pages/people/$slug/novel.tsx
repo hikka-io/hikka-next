@@ -1,9 +1,9 @@
-import { ContentTypeEnum } from '@hikka/client';
 import { createFileRoute } from '@tanstack/react-router';
+
+import { ContentTypeEnum } from '@hikka/client';
 
 import ContentHeader from '@/features/comments/content-header';
 import { PersonNovel as Novel } from '@/features/people';
-
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/people/$slug/novel')({

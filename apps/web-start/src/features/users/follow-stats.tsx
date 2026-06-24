@@ -1,7 +1,8 @@
 'use client';
 
+import { type FC, useState } from 'react';
+
 import { useSession, useUserFollowStats } from '@hikka/react';
-import { FC, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -10,9 +11,7 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { Separator } from '@/components/ui/separator';
-
 import FollowButton from '@/features/common/follow-button';
-
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
@@ -44,7 +43,7 @@ const FollowStats: FC<Props> = ({ className }) => {
         <>
             <Card
                 className={cn(
-                    'bg-secondary/20 w-full flex-col items-center gap-2 p-2 backdrop-blur md:w-auto lg:flex-row',
+                    'w-full flex-col items-center gap-2 bg-secondary/20 p-2 backdrop-blur md:w-auto lg:flex-row',
                     className,
                 )}
             >
@@ -55,7 +54,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                             setOpen(true);
                         }}
                         variant="ghost"
-                        className="text-foreground flex h-auto w-auto flex-1 flex-col gap-0 p-2"
+                        className="flex h-auto w-auto flex-1 flex-col gap-0 p-2 text-foreground"
                     >
                         <span className="font-bold">
                             {followStats.followers}
@@ -69,7 +68,7 @@ const FollowStats: FC<Props> = ({ className }) => {
                             setFollowType('followings');
                             setOpen(true);
                         }}
-                        className="text-foreground flex h-auto w-auto flex-1 flex-col gap-0 p-2"
+                        className="flex h-auto w-auto flex-1 flex-col gap-0 p-2 text-foreground"
                     >
                         <span className="font-bold">
                             {followStats.following}

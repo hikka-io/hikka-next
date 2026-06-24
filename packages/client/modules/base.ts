@@ -1,4 +1,4 @@
-import { HikkaClient } from '../client';
+import type { HikkaClient } from '../client';
 
 /**
  * Base class for all API modules

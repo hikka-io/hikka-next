@@ -1,3 +1,8 @@
+import type {
+    UseCharacterContentParams,
+    UseCharacterInfoParams,
+    UseCharactersSearchParams,
+} from '@/types/characters';
 import {
     characterAnimeOptions,
     characterBySlugOptions,
@@ -7,15 +12,13 @@ import {
     searchCharactersOptions,
 } from '@/options/api/characters';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseCharacterContentParams,
-    UseCharacterInfoParams,
-    UseCharactersSearchParams,
-} from '@/types/characters';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Function for prefetching character details

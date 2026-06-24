@@ -1,7 +1,9 @@
-import { CommentResponse } from '@hikka/client';
+import type { FC } from 'react';
+
 import { formatDistance } from 'date-fns';
 import { ArrowBigUp } from 'lucide-react';
-import { FC } from 'react';
+
+import type { CommentResponse } from '@hikka/client';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { Badge } from '@/components/ui/badge';
@@ -13,7 +15,6 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { StatItem } from '@/components/ui/stat-item';
-
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
@@ -46,7 +47,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 {comment.vote_score > 0 && (
                     <div className="flex flex-1 justify-end self-start">
                         <StatItem size="sm" className="text-success-foreground">
-                            <ArrowBigUp className="fill-success-foreground size-5!" />
+                            <ArrowBigUp className="size-5! fill-success-foreground" />
                             {comment.vote_score}
                         </StatItem>
                     </div>
@@ -55,19 +56,19 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
 
             <Link to={href} className="w-full flex-1 hover:underline">
                 <MDViewer
-                    className="line-clamp-2 text-sm wrap-break-word"
+                    className="wrap-break-word line-clamp-2 text-sm"
                     preview
                 >
                     {comment.text}
                 </MDViewer>
             </Link>
-            <div className="flex w-full  items-center gap-2">
+            <div className="flex w-full items-center gap-2">
                 <Badge variant="secondary" className="shrink-0">
                     {CONTENT_TYPES[comment.content_type].title_ua}
                 </Badge>
                 <Link
                     to={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
-                    className="text-primary-foreground flex items-center gap-1 hover:underline"
+                    className="flex items-center gap-1 text-primary-foreground hover:underline"
                 >
                     <small className="line-clamp-1">
                         {comment.content_type === 'edit'

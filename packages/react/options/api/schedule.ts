@@ -1,8 +1,9 @@
-import { HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions } from '@tanstack/react-query';
 
+import type { HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type { UseAnimeScheduleParams } from '@/types/schedule';
 import { queryKeys } from '@/core';
-import { UseAnimeScheduleParams } from '@/types/schedule';
 
 export function searchAnimeScheduleOptions(
     client: HikkaClient,

@@ -1,12 +1,12 @@
-import { CommentsContentType } from '@hikka/client';
+import { createFileRoute, redirect } from '@tanstack/react-router';
+
+import type { CommentsContentType } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
 import { contentCommentsOptions } from '@hikka/react/options';
 import { getTitle } from '@hikka/react/utils';
-import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import { CommentList as Comments, prefetchContent } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
-
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({

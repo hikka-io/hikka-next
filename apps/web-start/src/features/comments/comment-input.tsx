@@ -1,8 +1,10 @@
 'use client';
 
-import { CommentResponse, CommentsContentType } from '@hikka/client';
+import { type FC, useEffect } from 'react';
+
 import { Plate } from 'platejs/react';
-import { FC, useEffect } from 'react';
+
+import type { CommentResponse, CommentsContentType } from '@hikka/client';
 
 import { usePlateMarkdownSetup } from '@/components/plate/editor/markdown-editor-kit';
 import { EditorPreview } from '@/components/plate/editor/plate-editor';
@@ -14,7 +16,6 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-
 import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
 import { cn } from '@/utils/cn';
 

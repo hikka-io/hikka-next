@@ -1,7 +1,8 @@
 'use client';
 
-import { useTopEditorsList } from '@hikka/react';
 import { useState } from 'react';
+
+import { useTopEditorsList } from '@hikka/react';
 
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import { Button } from '@/components/ui/button';
@@ -10,9 +11,7 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-
 import { EditTopStatsModal } from '@/features/edit';
-
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 
 import EditTopItem from './components/edit-top-item';
@@ -45,7 +44,7 @@ function EditTopStats() {
                         variant="outline"
                         className="h-auto flex-1"
                     >
-                        <MaterialSymbolsMoreHoriz className="text-muted-foreground text-4xl" />
+                        <MaterialSymbolsMoreHoriz className="text-4xl text-muted-foreground" />
                     </Button>
                 </div>
                 <ScrollBar orientation="horizontal" />

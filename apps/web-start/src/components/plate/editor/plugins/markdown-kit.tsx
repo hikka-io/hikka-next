@@ -1,9 +1,9 @@
 import {
-    DeserializeMdOptions,
-    MarkdownPlugin,
-    SerializeMdOptions,
     convertChildrenDeserialize,
     convertNodesSerialize,
+    type DeserializeMdOptions,
+    MarkdownPlugin,
+    type SerializeMdOptions,
 } from '@platejs/markdown';
 import type { ContainerDirective } from 'mdast-util-directive';
 import { KEYS, type TElement } from 'platejs';

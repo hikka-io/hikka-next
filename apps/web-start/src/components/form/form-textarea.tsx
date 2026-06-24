@@ -1,12 +1,19 @@
-import { useStore } from '@tanstack/react-form';
-import { ComponentProps, FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
-import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
+import { useStore } from '@tanstack/react-form';
+
+import {
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldLabel,
+} from '@/components/ui/field';
 import { Textarea } from '@/components/ui/textarea';
 
 import { useFieldContext } from './form-context';
 
-export interface Props extends Omit<ComponentProps<'textarea'>, 'value' | 'onChange' | 'onBlur'> {
+export interface Props
+    extends Omit<ComponentProps<'textarea'>, 'value' | 'onChange' | 'onBlur'> {
     label?: string;
     description?: string;
 }
@@ -37,9 +44,7 @@ export const TextareaField: FC<Props> = ({
                 onChange={(e) => field.handleChange(e.target.value)}
                 aria-invalid={isInvalid}
             />
-            {description && (
-                <FieldDescription>{description}</FieldDescription>
-            )}
+            {description && <FieldDescription>{description}</FieldDescription>}
             <FieldError errors={errors} />
         </Field>
     );

@@ -1,11 +1,11 @@
 'use client';
 
-import { ArticleContentType } from '@hikka/client';
+import type { FC } from 'react';
+
+import type { ArticleContentType } from '@hikka/client';
 import { useSearchArticles } from '@hikka/react';
-import { FC } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
-
 import { useParams } from '@/utils/navigation';
 
 import ContentArticlesItem from './content-articles-item';

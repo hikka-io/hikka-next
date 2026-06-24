@@ -1,10 +1,12 @@
 'use client';
 
-import { CommentResponse, CommentsContentType } from '@hikka/client';
-import { useSession } from '@hikka/react';
+import { type FC, useMemo, useState } from 'react';
+
 import { formatDistance } from 'date-fns';
 import { uk } from 'date-fns/locale/uk';
-import { FC, useMemo, useState } from 'react';
+
+import type { CommentResponse, CommentsContentType } from '@hikka/client';
+import { useSession } from '@hikka/react';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
@@ -25,7 +27,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link } from '@/utils/navigation';
@@ -133,7 +134,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                                 comment.author.role === 'moderator') && (
                                 <Tooltip delayDuration={0}>
                                     <TooltipTrigger>
-                                        <div className="text-xs font-bold">
+                                        <div className="font-bold text-xs">
                                             {comment.author.role ===
                                                 'admin' && (
                                                 <MaterialSymbolsSecurity className="text-role-admin" />
@@ -181,7 +182,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         </TextExpand>
                     )
                 ) : (
-                    <p className="text-muted-foreground text-[0.9375rem]">
+                    <p className="text-[0.9375rem] text-muted-foreground">
                         Коментар видалено
                     </p>
                 )}
@@ -190,7 +191,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                 <Button
                     disabled={!loggedUser}
                     variant="link"
-                    className="text-muted-foreground hover:text-primary-foreground h-auto p-0 hover:no-underline"
+                    className="h-auto p-0 text-muted-foreground hover:text-primary-foreground hover:no-underline"
                     size="md"
                     onClick={addReplyInput}
                 >
@@ -231,7 +232,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             className="group relative pr-6"
                             onClick={() => setExpand(false)}
                         >
-                            <div className="bg-border group-hover:bg-primary-foreground h-full w-px transition-colors duration-100" />
+                            <div className="h-full w-px bg-border transition-colors duration-100 group-hover:bg-primary-foreground" />
                         </button>
                     )}
                     {!expand && (

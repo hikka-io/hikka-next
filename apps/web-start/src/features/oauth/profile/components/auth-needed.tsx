@@ -1,15 +1,14 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import { Link, useCurrentUrl } from '@/utils/navigation';
 
-interface Props {}
+type Props = {};
 
 const AuthNeeded: FC<Props> = () => {
     const currentUrl = useCurrentUrl();
@@ -17,7 +16,7 @@ const AuthNeeded: FC<Props> = () => {
     return (
         <Card className="w-full flex-row items-center justify-between">
             <div className="flex items-center gap-4">
-                <MaterialSymbolsLoginRounded className="text-muted-foreground text-3xl" />
+                <MaterialSymbolsLoginRounded className="text-3xl text-muted-foreground" />
                 <div className="flex flex-1 flex-col">
                     <Header>
                         <HeaderContainer>
@@ -26,7 +25,7 @@ const AuthNeeded: FC<Props> = () => {
                             </HeaderTitle>
                         </HeaderContainer>
                     </Header>
-                    <p className="text-muted-foreground line-clamp-2 text-sm">
+                    <p className="line-clamp-2 text-muted-foreground text-sm">
                         Вам необіхдно авторизуватись, перш ніж надати доступ
                     </p>
                 </div>

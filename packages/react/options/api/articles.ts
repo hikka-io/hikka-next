@@ -1,8 +1,9 @@
-import { HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
+import type { HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type { UseArticleParams, UseArticlesListParams } from '@/types/articles';
 import { queryKeys } from '@/core';
-import { UseArticleParams, UseArticlesListParams } from '@/types/articles';
 
 export function articleBySlugOptions(
     client: HikkaClient,

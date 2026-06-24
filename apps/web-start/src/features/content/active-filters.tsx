@@ -1,15 +1,16 @@
 'use client';
 
-import { CompanyTypeEnum } from '@hikka/client';
-import { useGenres, useSearchCompanies } from '@hikka/react';
+import { type FC, type ReactElement, type SVGProps, useMemo } from 'react';
+
 import { useRouter, useRouterState } from '@tanstack/react-router';
 import { XIcon } from 'lucide-react';
-import { FC, ReactElement, SVGProps, useMemo } from 'react';
+
+import { CompanyTypeEnum } from '@hikka/client';
+import { useGenres, useSearchCompanies } from '@hikka/react';
 
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-
 import { cn } from '@/utils/cn';
 import {
     AGE_RATING,
@@ -322,7 +323,7 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                         <button
                             type="button"
                             aria-label={`Видалити фільтр ${filter.label}`}
-                            className="hover:bg-foreground/10 -mr-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-full transition"
+                            className="-mr-0.5 inline-flex size-4 shrink-0 items-center justify-center rounded-full transition hover:bg-foreground/10"
                             onClick={() => removeFilter(filter)}
                         >
                             <XIcon className="size-3" />

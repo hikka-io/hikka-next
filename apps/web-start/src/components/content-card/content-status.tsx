@@ -1,4 +1,4 @@
-import { ComponentType, FC, createElement } from 'react';
+import { type ComponentType, createElement, type FC } from 'react';
 
 import { cn } from '@/utils/cn';
 

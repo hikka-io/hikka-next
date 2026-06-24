@@ -1,9 +1,11 @@
 'use client';
 
-import { ArticleBaseResponse } from '@hikka/client';
-import { useDeleteArticle } from '@hikka/react';
-import { FC } from 'react';
+import type { FC } from 'react';
+
 import { toast } from 'sonner';
+
+import type { ArticleBaseResponse } from '@hikka/client';
+import { useDeleteArticle } from '@hikka/react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import {
@@ -18,7 +20,6 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-
 import { useRouter } from '@/utils/navigation';
 
 interface Props {

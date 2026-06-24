@@ -1,4 +1,4 @@
-import { SlateElement, SlateElementProps } from 'platejs/static';
+import { SlateElement, type SlateElementProps } from 'platejs/static';
 
 export function ListElementStatic({
     variant,

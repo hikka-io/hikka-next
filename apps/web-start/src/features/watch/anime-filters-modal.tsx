@@ -1,14 +1,14 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { ContentTypeEnum } from '@hikka/client';
-import { FC } from 'react';
 
 import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
-
 import FiltersFooter from '@/features/filters/filters-footer';
 import { AnimeFiltersBody } from '@/features/watch/anime-filters';
 

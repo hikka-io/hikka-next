@@ -1,14 +1,14 @@
 'use client';
 
-import { EditsTopPaginationResponse } from '@hikka/client';
+import type { EditsTopPaginationResponse } from '@hikka/client';
 
+import type { UseTopEditorsListParams } from '@/types/stats';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { topEditorsListOptions } from '@/options/api/stats';
-import { UseTopEditorsListParams } from '@/types/stats';
 
 /**
  * Hook for retrieving top editors

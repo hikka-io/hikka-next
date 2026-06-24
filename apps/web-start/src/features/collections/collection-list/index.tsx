@@ -1,7 +1,8 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useSearchCollections } from '@hikka/react';
-import { FC } from 'react';
 
 import CollectionCard from './components/collection-card';
 

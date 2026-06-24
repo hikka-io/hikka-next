@@ -1,3 +1,5 @@
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+
 import { HikkaApiError } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
 import {
@@ -5,10 +7,8 @@ import {
     sessionOptions,
     unseenNotificationsCountOptions,
 } from '@hikka/react/options';
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { Toaster } from '@/components/ui/sonner';
-
 import { Footer, Navbar } from '@/features/common';
 
 export const Route = createFileRoute('/_pages')({

@@ -1,12 +1,12 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { FC } from 'react';
 
 import ReadListButton from '@/features/common/readlist-button';
 import WatchlistButton from '@/features/common/watchlist-button';
-
 import { useParams } from '@/utils/navigation';
 
 import UserContentStats from './components/user-content-stats';

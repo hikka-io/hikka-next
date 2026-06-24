@@ -1,4 +1,4 @@
-import { UserRoleEnum } from '@hikka/client';
+import type { UserRoleEnum } from '@hikka/client';
 
 export const USER_ROLE: Record<UserRoleEnum, { label: string; color: string }> =
     {

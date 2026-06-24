@@ -1,5 +1,6 @@
-import { ContentTypeEnum } from '@hikka/client';
 import { createFileRoute } from '@tanstack/react-router';
+
+import { ContentTypeEnum } from '@hikka/client';
 
 import { CommentList as Comments } from '@/features/comments';
 import { ContentDetails as Details } from '@/features/content';

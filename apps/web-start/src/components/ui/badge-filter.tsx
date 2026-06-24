@@ -1,4 +1,4 @@
-import { FC, createElement } from 'react';
+import { createElement, type FC } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';

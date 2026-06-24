@@ -1,11 +1,11 @@
-import {
+import type {
     ContentStatusEnum,
     ContentTypeEnum,
     PaginatedResponse,
 } from './common';
-import { MangaMediaEnum, MangaResponse } from './manga';
-import { NovelMediaEnum, NovelResponse } from './novel';
-import { UserResponse } from './user';
+import type { MangaMediaEnum, MangaResponse } from './manga';
+import type { NovelMediaEnum, NovelResponse } from './novel';
+import type { UserResponse } from './user';
 
 /**
  * Read content type enum

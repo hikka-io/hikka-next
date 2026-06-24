@@ -1,6 +1,6 @@
 'use client';
 
-import {
+import type {
     ArtifactPrivacyArgs,
     ArtifactPrivacyResponse,
     ArtifactResponse,
@@ -8,7 +8,7 @@ import {
 
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { createMutation } from '@/client/useMutation';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
 import {
     artifactOptions,

@@ -1,31 +1,31 @@
 'use client';
 
-import {
+import type {
     FollowListResponse,
     FollowResponse,
     FollowStatsResponse,
 } from '@hikka/client';
 
+import type {
+    UseFollowersParams,
+    UseFollowingsParams,
+    UseFollowStatsParams,
+    UseFollowStatusParams,
+} from '@/types/follow';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { createMutation } from '@/client/useMutation';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
 import {
     followStatusOptions,
-    userFollowStatsOptions,
     userFollowersOptions,
     userFollowingsOptions,
+    userFollowStatsOptions,
 } from '@/options/api/follow';
-import {
-    UseFollowStatsParams,
-    UseFollowStatusParams,
-    UseFollowersParams,
-    UseFollowingsParams,
-} from '@/types/follow';
 
 /**
  * Hook for checking if a user is followed

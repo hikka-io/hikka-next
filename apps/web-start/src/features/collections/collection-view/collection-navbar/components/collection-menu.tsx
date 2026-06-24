@@ -1,9 +1,11 @@
 'use client';
 
-import { CollectionContent, CollectionResponse } from '@hikka/client';
-import { useDeleteCollection } from '@hikka/react';
-import { FC } from 'react';
+import type { FC } from 'react';
+
 import { toast } from 'sonner';
+
+import type { CollectionContent, CollectionResponse } from '@hikka/client';
+import { useDeleteCollection } from '@hikka/react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -26,10 +28,8 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import { Link } from '@/utils/navigation';
-import { useRouter } from '@/utils/navigation';
+import { Link, useRouter } from '@/utils/navigation';
 
 interface Props {
     collection: CollectionResponse<CollectionContent>;

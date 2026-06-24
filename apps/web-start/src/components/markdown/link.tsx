@@ -1,7 +1,8 @@
 'use client';
 
+import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
+
 import { useSession } from '@hikka/react';
-import { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 
 import {
     AnimeTooltip,
@@ -22,7 +23,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-
 import { cn } from '@/utils/cn';
 import { Link as TanstackLink } from '@/utils/navigation';
 

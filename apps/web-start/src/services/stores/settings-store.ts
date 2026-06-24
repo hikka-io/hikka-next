@@ -1,8 +1,9 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
+import { ContentTypeEnum } from '@hikka/client';
 
 /**
  * Preferences for persisting user UI choices across sessions.

@@ -1,4 +1,4 @@
-import React, { SVGProps } from 'react';
+import React, { type SVGProps } from 'react';
 
 export function BxDownvote(props: SVGProps<SVGSVGElement>) {
     return (

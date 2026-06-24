@@ -1,10 +1,11 @@
-import { AnimeResponse, ContentTypeEnum } from '@hikka/client';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { type Dispatch, type SetStateAction, useEffect } from 'react';
+
+import { type AnimeResponse, ContentTypeEnum } from '@hikka/client';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { usePathname } from '@/utils/navigation';
 
-import { SearchTypeValue } from '../types';
+import type { SearchTypeValue } from '../types';
 
 interface Props {
     open: boolean;

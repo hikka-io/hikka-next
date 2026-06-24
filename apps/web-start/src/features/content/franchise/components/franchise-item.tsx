@@ -1,6 +1,11 @@
-import { AnimeResponse, MangaResponse, NovelResponse } from '@hikka/client';
+import type { FC } from 'react';
+
+import type {
+    AnimeResponse,
+    MangaResponse,
+    NovelResponse,
+} from '@hikka/client';
 import { useSession, useTitle } from '@hikka/react';
-import { FC } from 'react';
 
 import Card from '@/components/ui/card';
 import {
@@ -10,10 +15,8 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-
 import ReadlistButton from '@/features/common/readlist-button';
 import WatchlistButton from '@/features/common/watchlist-button';
-
 import { MEDIA_TYPE } from '@/utils/constants/common';
 
 interface Props {
@@ -41,7 +44,7 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                     <HorizontalCardDescription>
                         {content.year && <p>{content.year}</p>}
                         {content.year && content.media_type && (
-                            <div className="bg-muted-foreground size-1 rounded-full" />
+                            <div className="size-1 rounded-full bg-muted-foreground" />
                         )}
                         {content.media_type && (
                             <p>{MEDIA_TYPE[content.media_type].title_ua}</p>

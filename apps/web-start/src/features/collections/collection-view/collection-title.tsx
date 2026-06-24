@@ -6,7 +6,6 @@ import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import { useParams } from '@/utils/navigation';
 
 const CollectionTitle = () => {

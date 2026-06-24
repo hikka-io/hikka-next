@@ -1,17 +1,17 @@
 'use client';
 
+import { createElement, type FC } from 'react';
+
 import {
-    AnimeResponse,
-    WatchResponse,
-    WatchResponseBase,
+    type AnimeResponse,
+    type WatchResponse,
+    type WatchResponseBase,
     WatchStatusEnum,
 } from '@hikka/client';
 import { useCreateWatch } from '@hikka/react';
-import { FC, createElement } from 'react';
 
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 

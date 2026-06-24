@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+
 import type {
     AnyRouter,
     LinkComponentProps,
@@ -9,7 +11,6 @@ import {
     useRouterState,
     useParams as useTanstackParams,
 } from '@tanstack/react-router';
-import { forwardRef } from 'react';
 
 /**
  * Link props derived from TanStack Router's native LinkComponentProps

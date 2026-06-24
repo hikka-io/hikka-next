@@ -1,8 +1,9 @@
-import { EditContentType } from '@hikka/client';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
+
+import type { EditContentType } from '@hikka/client';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button, type ButtonProps } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
@@ -12,9 +13,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { EditListModal } from '@/features/edit';
-
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
 

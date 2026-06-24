@@ -1,7 +1,8 @@
 'use client';
 
-import { ContentTypeEnum, FavouriteContentType } from '@hikka/client';
-import { FC, useState } from 'react';
+import { type FC, useState } from 'react';
+
+import { ContentTypeEnum, type FavouriteContentType } from '@hikka/client';
 
 import Block from '@/components/ui/block';
 import {
@@ -11,7 +12,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-
 import { useParams } from '@/utils/navigation';
 
 import Anime from './components/favorite-anime';

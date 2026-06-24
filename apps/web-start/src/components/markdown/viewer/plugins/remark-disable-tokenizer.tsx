@@ -1,7 +1,6 @@
 export default function remarkDisableTokenizer() {
-    // @ts-expect-error: TS is wrong about `this`.
-    const self = /** @type {Processor} */ this;
-    const data = self.data();
+    // @ts-expect-error: `this` is the unified Processor at runtime.
+    const data = this.data();
 
     const micromarkExtensions =
         data.micromarkExtensions || (data.micromarkExtensions = []);

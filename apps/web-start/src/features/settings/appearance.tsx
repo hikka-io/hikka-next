@@ -1,8 +1,9 @@
 'use client';
 
+import { type ChangeEvent, useRef, useState } from 'react';
+
 import { UploadTypeEnum } from '@hikka/client';
 import { useDeleteImage, useSession } from '@hikka/react';
-import { ChangeEvent, useRef, useState } from 'react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -16,7 +17,6 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
-
 import { CropEditorModal } from '@/features/common';
 
 const Appearance = () => {
@@ -87,7 +87,7 @@ const Appearance = () => {
                             )}
                         </Button>
                     )}
-                    <Card className="bg-secondary/20 flex-1 overflow-hidden p-0 transition-opacity hover:opacity-60">
+                    <Card className="flex-1 overflow-hidden bg-secondary/20 p-0 transition-opacity hover:opacity-60">
                         {loggedUser?.cover ? (
                             <Image
                                 alt="cover"
@@ -134,7 +134,7 @@ const Appearance = () => {
                             ref={uploadAvatarRef}
                             multiple={false}
                             // eslint-disable-next-line tailwindcss/classnames-order
-                            className="absolute left-0 top-0 size-full opacity-0 cursor-pointer"
+                            className="absolute top-0 left-0 size-full cursor-pointer opacity-0"
                             accept="image/*"
                         />
                     </Avatar>

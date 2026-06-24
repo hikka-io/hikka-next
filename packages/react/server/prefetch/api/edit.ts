@@ -1,18 +1,21 @@
+import type {
+    UseEditListParams,
+    UseEditParams,
+    UseTodoEditListParams,
+} from '@/types/edit';
 import {
     editListOptions,
     editOptions,
     todoEditListOptions,
 } from '@/options/api/edit';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseEditListParams,
-    UseEditParams,
-    UseTodoEditListParams,
-} from '@/types/edit';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Function for prefetching edit by ID

@@ -1,3 +1,9 @@
+import type {
+    UseCommentListParams,
+    UseCommentThreadParams,
+    UseContentCommentsParams,
+    UseLatestCommentsParams,
+} from '@/types/comments';
 import {
     commentListOptions,
     commentThreadOptions,
@@ -5,16 +11,13 @@ import {
     latestCommentsOptions,
 } from '@/options/api/comments';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UseCommentListParams,
-    UseCommentThreadParams,
-    UseContentCommentsParams,
-    UseLatestCommentsParams,
-} from '@/types/comments';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches a user's comments list for server-side rendering

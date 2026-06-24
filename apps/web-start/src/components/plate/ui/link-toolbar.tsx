@@ -1,9 +1,12 @@
 'use client';
 
+import * as React from 'react';
+import { createPortal } from 'react-dom';
+
 import {
-    type UseVirtualFloatingOptions,
     flip,
     offset,
+    type UseVirtualFloatingOptions,
 } from '@platejs/floating';
 import { getLinkAttributes } from '@platejs/link';
 import {
@@ -19,8 +22,6 @@ import {
     useEditorSelection,
     usePluginOption,
 } from 'platejs/react';
-import * as React from 'react';
-import { createPortal } from 'react-dom';
 
 import { buttonVariants } from '@/components/ui/button';
 import { usePortalContainer } from '@/components/ui/portal-container-context';

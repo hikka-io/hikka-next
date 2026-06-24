@@ -1,6 +1,6 @@
 'use client';
 
-import {
+import type {
     AnimeEpisodesListResponse,
     AnimeInfoResponse,
     AnimePaginationResponse,
@@ -8,12 +8,21 @@ import {
     ContentCharacterPaginationResponse,
 } from '@hikka/client';
 
+import type {
+    UseAnimeCharactersParams,
+    UseAnimeEpisodesParams,
+    UseAnimeFranchiseParams,
+    UseAnimeInfoParams,
+    UseAnimeRecommendationsParams,
+    UseAnimeSearchParams,
+    UseAnimeStaffParams,
+} from '@/types/anime';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import {
     animeBySlugOptions,
     animeCharactersOptions,
@@ -23,15 +32,6 @@ import {
     animeStaffOptions,
     searchAnimesOptions,
 } from '@/options/api/anime';
-import {
-    UseAnimeCharactersParams,
-    UseAnimeEpisodesParams,
-    UseAnimeFranchiseParams,
-    UseAnimeInfoParams,
-    UseAnimeRecommendationsParams,
-    UseAnimeSearchParams,
-    UseAnimeStaffParams,
-} from '@/types/anime';
 
 export function useAnimeBySlug<TResult = AnimeInfoResponse>({
     slug,

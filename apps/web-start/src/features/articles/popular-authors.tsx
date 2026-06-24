@@ -1,7 +1,8 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useArticleStats } from '@hikka/react';
-import { FC } from 'react';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -13,10 +14,9 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-
 import FollowButton from '@/features/common/follow-button';
 
-interface Props {}
+type Props = {};
 
 const PopularAuthors: FC<Props> = () => {
     const { data: articleTop } = useArticleStats();

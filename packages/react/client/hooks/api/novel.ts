@@ -1,27 +1,27 @@
 'use client';
 
-import {
+import type {
     ContentCharacterPaginationResponse,
     NovelInfoResponse,
     NovelPaginationResponse,
 } from '@hikka/client';
 
+import type {
+    UseNovelCharactersParams,
+    UseNovelInfoParams,
+    UseSearchNovelsParams,
+} from '@/types/novel';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import {
     novelBySlugOptions,
     novelCharactersOptions,
     searchNovelsOptions,
 } from '@/options/api/novel';
-import {
-    UseNovelCharactersParams,
-    UseNovelInfoParams,
-    UseSearchNovelsParams,
-} from '@/types/novel';
 
 /**
  * Hook for retrieving novel details by slug

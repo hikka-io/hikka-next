@@ -1,8 +1,8 @@
+import type { FC } from 'react';
+
 import { useUserByUsername } from '@hikka/react';
-import { FC } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
 import { Link as TanstackLink } from '@/utils/navigation';
 
 interface Props {

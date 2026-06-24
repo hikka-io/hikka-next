@@ -1,8 +1,9 @@
-import { HikkaClient } from '@hikka/client';
 import { queryOptions } from '@tanstack/react-query';
 
+import type { HikkaClient } from '@hikka/client';
+
+import type { UseFranchiseParams } from '@/types/related';
 import { queryKeys } from '@/core';
-import { UseFranchiseParams } from '@/types/related';
 
 export function franchiseOptions(
     client: HikkaClient,

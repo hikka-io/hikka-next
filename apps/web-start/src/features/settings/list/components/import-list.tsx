@@ -1,17 +1,18 @@
 'use client';
 
-import {
-    ContentTypeEnum,
-    ImportReadArgs,
-    ImportWatchArgs,
-    ReadContentType,
-} from '@hikka/client';
-import { Dispatch, SetStateAction, useCallback } from 'react';
+import { type Dispatch, type SetStateAction, useCallback } from 'react';
+
 import { useDropzone } from 'react-dropzone';
 import { xml2json } from 'xml-js';
 
-import { Label } from '@/components/ui/label';
+import {
+    ContentTypeEnum,
+    type ImportReadArgs,
+    type ImportWatchArgs,
+    type ReadContentType,
+} from '@hikka/client';
 
+import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -28,11 +29,11 @@ interface Props {
 const Component = ({ list, setList, content_type }: Props) => {
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         const nativeType = (value: string) => {
-            let nValue = Number(value);
+            const nValue = Number(value);
             if (!isNaN(nValue)) {
                 return nValue;
             }
-            let bValue = value.toLowerCase();
+            const bValue = value.toLowerCase();
             if (bValue === 'true') {
                 return true;
             } else if (bValue === 'false') {
@@ -46,8 +47,8 @@ const Component = ({ list, setList, content_type }: Props) => {
             parentElement: Record<string, any>,
         ) => {
             try {
-                let keyNo = Object.keys(parentElement._parent).length;
-                let keyName = Object.keys(parentElement._parent)[keyNo - 1];
+                const keyNo = Object.keys(parentElement._parent).length;
+                const keyName = Object.keys(parentElement._parent)[keyNo - 1];
 
                 if (keyName === 'my_comments') {
                     parentElement._parent[keyName] = String(value);
@@ -104,7 +105,7 @@ const Component = ({ list, setList, content_type }: Props) => {
                     className: cn(
                         'h-28 w-full p-4',
                         'flex items-center justify-center',
-                        'bg-secondary/20 cursor-pointer rounded-lg border text-center',
+                        'cursor-pointer rounded-lg border bg-secondary/20 text-center',
                         'transition duration-100',
                         'hover:bg-secondary/20/90',
                         isDragActive && 'bg-secondary/20/90',

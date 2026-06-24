@@ -1,11 +1,12 @@
-import {
+import type { FC } from 'react';
+
+import type {
     ReadResponseBase,
     ReadStatusEnum,
     UserResponse,
     WatchResponseBase,
     WatchStatusEnum,
 } from '@hikka/client';
-import { FC } from 'react';
 
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
@@ -16,7 +17,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
 interface Props {

@@ -1,7 +1,8 @@
 'use client';
 
-import { CommonContentType, ContentTypeEnum } from '@hikka/client';
 import { useState } from 'react';
+
+import { type CommonContentType, ContentTypeEnum } from '@hikka/client';
 
 import Card from '@/components/ui/card';
 import {
@@ -11,7 +12,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-
 import { useParams } from '@/utils/navigation';
 
 import ListTabContent from './list-tab-content';

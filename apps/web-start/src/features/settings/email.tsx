@@ -1,12 +1,12 @@
 'use client';
 
-import { useChangeEmail } from '@hikka/react';
 import { toast } from 'sonner';
+
+import { useChangeEmail } from '@hikka/react';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z

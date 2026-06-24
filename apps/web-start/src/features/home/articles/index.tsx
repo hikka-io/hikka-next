@@ -1,8 +1,10 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { range } from '@antfu/utils';
+
 import { useSearchArticles, useSession } from '@hikka/react';
-import { FC } from 'react';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Block from '@/components/ui/block';
@@ -14,9 +16,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-
 import ArticleItemSkeleton from '@/features/articles/article-item/article-item-skeleton';
-
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 

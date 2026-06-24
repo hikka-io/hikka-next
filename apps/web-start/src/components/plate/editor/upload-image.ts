@@ -1,8 +1,8 @@
 import {
-    HikkaClient,
-    UploadTypeEnum,
     classifyAttachmentType,
+    type HikkaClient,
     isWithinAttachmentSize,
+    UploadTypeEnum,
 } from '@hikka/client';
 
 import { convertPngToJpeg } from '@/utils/image';

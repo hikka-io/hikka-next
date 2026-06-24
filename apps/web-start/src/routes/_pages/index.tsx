@@ -1,10 +1,13 @@
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+
 import {
     AnimeMediaEnum,
     AnimeStatusEnum,
     ContentStatusEnum,
     ContentTypeEnum,
-    FeedContentType,
-    UserResponse,
+    type FeedContentType,
+    type UserResponse,
     WatchStatusEnum,
 } from '@hikka/client';
 import { useSession } from '@hikka/react';
@@ -19,14 +22,10 @@ import {
     userFollowStatsOptions,
     userWatchStatsOptions,
 } from '@hikka/react/options';
-import { createFileRoute } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
 
 import CoverImage from '@/components/cover-image';
-
 import { FeedLayout } from '@/features/feed';
 import { getOngoingsSort } from '@/features/filters/sort';
-
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';

@@ -1,8 +1,10 @@
 'use client';
 
+import { createElement, useCallback, useMemo, useState } from 'react';
+
 import {
-    AnimeResponse,
-    WatchResponseBase,
+    type AnimeResponse,
+    type WatchResponseBase,
     WatchStatusEnum,
 } from '@hikka/client';
 import {
@@ -11,10 +13,9 @@ import {
     useTitle,
     useWatchBySlug,
 } from '@hikka/react';
-import { createElement, useCallback, useMemo, useState } from 'react';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
-import { ButtonProps } from '@/components/ui/button';
+import type { ButtonProps } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
@@ -29,9 +30,7 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
-
 import { WatchEditModal } from '@/features/watch';
-
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
@@ -239,9 +238,7 @@ const WatchlistButton = ({
             >
                 <ResponsiveModalContent className="md:max-w-xl">
                     <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>
-                            {title}
-                        </ResponsiveModalTitle>
+                        <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
                     <WatchEditModal
                         slug={slug}

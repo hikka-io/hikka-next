@@ -1,18 +1,18 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useSession } from '@hikka/react';
-import { FC } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import { useCurrentUrl } from '@/utils/navigation';
 
 import AuthNeeded from './components/auth-needed';
 
-interface Props {}
+type Props = {};
 
 const Profle: FC<Props> = () => {
     const { user } = useSession();

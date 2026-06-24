@@ -1,8 +1,9 @@
 'use client';
 
-import { useEdit } from '@hikka/react';
+import type { FC } from 'react';
 import * as React from 'react';
-import { FC } from 'react';
+
+import { useEdit } from '@hikka/react';
 
 import { useFormContext } from '@/components/form/form-context';
 // import BasicEditor from '@/components/markdown/editor/basic-editor';
@@ -12,7 +13,6 @@ import { DiffViewer } from '@/components/plate/editor/diff-viewer';
 import { PlateMarkdownEditor } from '@/components/plate/editor/plate-editor';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-
 import { useParams } from '@/utils/navigation';
 
 interface Props {
@@ -50,7 +50,7 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                 <form.Field
                     name={param.slug}
                     children={(field: any) => (
-                        <MDViewer className="markdown border-border bg-secondary/20 rounded-md border p-4 text-sm">
+                        <MDViewer className="markdown rounded-md border border-border bg-secondary/20 p-4 text-sm">
                             {field.state.value as string}
                         </MDViewer>
                     )}

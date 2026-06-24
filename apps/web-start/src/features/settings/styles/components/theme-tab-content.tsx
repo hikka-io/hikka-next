@@ -1,14 +1,14 @@
 'use client';
 
-import { HSLColor, UIColorTokens } from '@hikka/client';
 import { useRef } from 'react';
+
+import type { HSLColor, UIColorTokens } from '@hikka/client';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
 import {
     COLOR_PRESETS,
-    ColorPreset,
+    type ColorPreset,
     PRIMARY_TOKENS,
     SURFACE_TOKENS,
     UI_TOKENS,

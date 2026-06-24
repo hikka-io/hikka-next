@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,6 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-
 import { ScheduleFilters as Filters } from '@/features/schedule';
 
 interface Props {

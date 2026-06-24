@@ -1,8 +1,8 @@
-import { HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
-import { queryKeys } from '@/core';
-import {
+import type { HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type {
     UsePeopleSearchParams,
     UsePersonAnimeParams,
     UsePersonCharactersParams,
@@ -10,6 +10,7 @@ import {
     UsePersonMangaParams,
     UsePersonNovelParams,
 } from '@/types/people';
+import { queryKeys } from '@/core';
 
 export function personBySlugOptions(
     client: HikkaClient,

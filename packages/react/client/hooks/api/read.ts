@@ -1,6 +1,6 @@
 'use client';
 
-import {
+import type {
     ReadArgs,
     ReadContentType,
     ReadPaginationResponse,
@@ -10,26 +10,26 @@ import {
     UserReadPaginationResponse,
 } from '@hikka/client';
 
+import type {
+    UseReadEntryParams,
+    UseReadingUsersParams,
+    UseReadListParams,
+    UseReadStatsParams,
+} from '@/types/read';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { createMutation } from '@/client/useMutation';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
 import {
     readBySlugOptions,
-    readStatsOptions,
     readingUsersOptions,
+    readStatsOptions,
     searchUserReadsOptions,
 } from '@/options/api/read';
-import {
-    UseReadEntryParams,
-    UseReadListParams,
-    UseReadStatsParams,
-    UseReadingUsersParams,
-} from '@/types/read';
 
 /**
  * Hook for retrieving a read entry for manga or novel

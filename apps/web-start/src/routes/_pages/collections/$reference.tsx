@@ -1,5 +1,6 @@
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+
 import { collectionByReferenceOptions } from '@hikka/react/options';
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';

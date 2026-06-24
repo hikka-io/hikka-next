@@ -9,7 +9,6 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-
 import {
     DONATION_LINKS,
     FOOTER_LINKS,
@@ -19,7 +18,7 @@ import { Link } from '@/utils/navigation';
 
 const Footer = () => {
     return (
-        <footer className="border-t-border w-full border-t md:mt-12">
+        <footer className="w-full border-t border-t-border md:mt-12">
             <div className="mx-auto w-full max-w-350 p-4">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 lg:justify-start">
@@ -78,7 +77,7 @@ const Footer = () => {
                             orientation="vertical"
                             className="mx-2 block h-6"
                         />
-                        <p className="text-muted-foreground text-sm whitespace-nowrap">
+                        <p className="whitespace-nowrap text-muted-foreground text-sm">
                             © {new Date().getFullYear()} Hikka
                         </p>
                     </div>

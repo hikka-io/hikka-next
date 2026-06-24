@@ -1,12 +1,11 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useCharacterNovel } from '@hikka/react';
-import { FC } from 'react';
 
 import NovelCard from '@/components/content-card/novel-card';
-
 import AppearanceGrid from '@/features/common/appearance-grid';
-
 import { useParams } from '@/utils/navigation';
 
 interface Props {

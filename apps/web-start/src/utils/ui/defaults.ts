@@ -1,7 +1,7 @@
 /**
  * Default UI styles and UI settings.
  */
-import { HomeWidgetsEnum, UIStyles, UserUI } from '@hikka/client';
+import { HomeWidgetsEnum, type UIStyles, type UserUI } from '@hikka/client';
 
 /**
  * Default UI styles for light and dark themes.

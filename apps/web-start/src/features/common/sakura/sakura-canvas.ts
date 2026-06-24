@@ -8,7 +8,7 @@ import {
     TARGET_FRAME_TIME,
 } from './config';
 import Petal from './petal';
-import { SpriteCache } from './utils';
+import type { SpriteCache } from './utils';
 
 export interface SakuraCanvasConfig {
     isNarrow: boolean;

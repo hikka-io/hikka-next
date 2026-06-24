@@ -1,8 +1,9 @@
 'use client';
 
-import { RelatedContentType } from '@hikka/client';
+import type { FC } from 'react';
+
+import type { RelatedContentType } from '@hikka/client';
 import { useFranchise } from '@hikka/react';
-import { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import MangaCard from '@/components/content-card/manga-card';
@@ -15,7 +16,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import {
     DEFAULT_PREFERENCES,

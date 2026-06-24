@@ -1,8 +1,9 @@
 'use client';
 
-import { ImageType, UploadTypeEnum } from '@hikka/client';
+import { type ChangeEvent, useRef, useState } from 'react';
+
+import { type ImageType, UploadTypeEnum } from '@hikka/client';
 import { useSession, useUserByUsername } from '@hikka/react';
-import { ChangeEvent, useRef, useState } from 'react';
 
 import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
 import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
@@ -20,9 +21,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-
 import { CropEditorModal } from '@/features/common';
-
 import { Link, useParams } from '@/utils/navigation';
 
 const UserInfo = () => {
@@ -142,7 +141,7 @@ const UserInfo = () => {
                 )}
             </div>
             {user.active && (
-                <div className="border-success bg-success-foreground absolute -right-2 -bottom-2 z-1 size-6 rounded-full border-4" />
+                <div className="absolute -right-2 -bottom-2 z-1 size-6 rounded-full border-4 border-success bg-success-foreground" />
             )}
             <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
                 <ResponsiveModalContent

@@ -1,10 +1,9 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import { Link } from '@/utils/navigation';
 
-interface Props {}
+type Props = {};
 
 const OAuthHeader: FC<Props> = () => {
     return (

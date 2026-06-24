@@ -1,12 +1,13 @@
-import { HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions, queryOptions } from '@tanstack/react-query';
 
-import { queryKeys } from '@/core';
-import {
+import type { HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type {
     UseCharacterContentParams,
     UseCharacterInfoParams,
     UseCharactersSearchParams,
 } from '@/types/characters';
+import { queryKeys } from '@/core';
 
 export function characterBySlugOptions(
     client: HikkaClient,

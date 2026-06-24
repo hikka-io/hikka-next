@@ -1,20 +1,26 @@
 'use client';
 
-import {
+import type {
     CommentArgs,
     CommentListResponse,
     CommentResponse,
-    CommentTextArgs,
     CommentsContentType,
+    CommentTextArgs,
 } from '@hikka/client';
 
+import type {
+    UseCommentListParams,
+    UseCommentThreadParams,
+    UseContentCommentsParams,
+    UseLatestCommentsParams,
+} from '@/types/comments';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
 import { createMutation } from '@/client/useMutation';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import { queryKeys } from '@/core';
 import {
     commentListOptions,
@@ -22,12 +28,6 @@ import {
     contentCommentsOptions,
     latestCommentsOptions,
 } from '@/options/api/comments';
-import {
-    UseCommentListParams,
-    UseCommentThreadParams,
-    UseContentCommentsParams,
-    UseLatestCommentsParams,
-} from '@/types/comments';
 
 /**
  * Hook for retrieving a user's comments list

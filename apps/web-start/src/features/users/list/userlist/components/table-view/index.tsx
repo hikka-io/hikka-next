@@ -1,8 +1,14 @@
 'use client';
 
-import { ContentTypeEnum, ReadResponse, WatchResponse } from '@hikka/client';
+import { type FC, Fragment } from 'react';
+
 import { useRouter } from '@tanstack/react-router';
-import { FC, Fragment } from 'react';
+
+import {
+    ContentTypeEnum,
+    type ReadResponse,
+    type WatchResponse,
+} from '@hikka/client';
 
 import {
     Table,
@@ -11,7 +17,6 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
 import ChaptersCell from './chapters-cell';

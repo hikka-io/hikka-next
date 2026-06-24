@@ -1,7 +1,8 @@
 'use client';
 
-import { Palette } from 'lucide-react';
 import { useState } from 'react';
+
+import { Palette } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -9,7 +10,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 import { useTheme } from '@/services/providers/theme-provider';

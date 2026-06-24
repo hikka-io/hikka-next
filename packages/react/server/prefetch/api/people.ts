@@ -1,3 +1,11 @@
+import type {
+    UsePeopleSearchParams,
+    UsePersonAnimeParams,
+    UsePersonCharactersParams,
+    UsePersonInfoParams,
+    UsePersonMangaParams,
+    UsePersonNovelParams,
+} from '@/types/people';
 import {
     personAnimeOptions,
     personBySlugOptions,
@@ -7,18 +15,13 @@ import {
     searchPeopleOptions,
 } from '@/options/api/people';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
 import {
-    UsePeopleSearchParams,
-    UsePersonAnimeParams,
-    UsePersonCharactersParams,
-    UsePersonInfoParams,
-    UsePersonMangaParams,
-    UsePersonNovelParams,
-} from '@/types/people';
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Prefetches person details for server-side rendering

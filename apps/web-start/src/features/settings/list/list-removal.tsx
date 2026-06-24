@@ -1,8 +1,9 @@
 'use client';
 
+import { toast } from 'sonner';
+
 import { ContentTypeEnum } from '@hikka/client';
 import { useDeleteReadList, useDeleteWatchList } from '@hikka/react';
-import { toast } from 'sonner';
 
 import ListRemovalItem from './components/list-removal-item';
 

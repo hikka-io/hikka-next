@@ -2,7 +2,7 @@
  * Query key factory functions for efficient caching with TanStack Query.
  * Each module has its own namespace to avoid key collisions.
  */
-import { PaginationArgs } from '@hikka/client';
+import type { PaginationArgs } from '@hikka/client';
 
 export const queryKeys = {
     // Anime module keys

@@ -1,13 +1,12 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
 import { useArticleContext } from '@/services/providers/article-provider';
 
-interface Props {}
+type Props = {};
 
 const TitleInput: FC<Props> = () => {
     const title = useArticleContext((state) => state.title);

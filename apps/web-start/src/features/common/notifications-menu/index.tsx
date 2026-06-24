@@ -1,11 +1,12 @@
 'use client';
 
+import { type FC, useMemo, useState } from 'react';
+
 import {
     useNotificationList,
     useUnseenNotificationsCount,
     useUpdateNotificationSeen,
 } from '@hikka/react';
-import { FC, useMemo, useState } from 'react';
 
 import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
 import { Button } from '@/components/ui/button';
@@ -22,7 +23,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { convertNotification } from '@/utils/adapters/convert-notification';
 
@@ -72,7 +72,7 @@ const NotificationsMenu: FC = () => {
         <Button variant="outline" size="icon-md" className="relative">
             <MaterialSymbolsNotificationsRounded />
             {unseenCount > 0 && (
-                <div className="border-warning-border bg-warning text-warning-foreground absolute -right-0.5 -bottom-0.5 rounded-full border p-0.5 px-1 text-[0.6rem] leading-none font-bold">
+                <div className="absolute -right-0.5 -bottom-0.5 rounded-full border border-warning-border bg-warning p-0.5 px-1 font-bold text-[0.6rem] text-warning-foreground leading-none">
                     {unseenCount < 100 ? unseenCount : '99+'}
                 </div>
             )}

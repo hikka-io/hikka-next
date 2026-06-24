@@ -1,7 +1,7 @@
-import { AnimeResponse } from './anime';
-import { ContentTypeEnum } from './common';
-import { MangaResponse } from './manga';
-import { NovelResponse } from './novel';
+import type { AnimeResponse } from './anime';
+import type { ContentTypeEnum } from './common';
+import type { MangaResponse } from './manga';
+import type { NovelResponse } from './novel';
 
 /**
  * Related content types

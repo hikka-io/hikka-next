@@ -1,16 +1,18 @@
 'use client';
 
-import { HikkaClient, HikkaClientConfig } from '@hikka/client';
+import { type ReactNode, useMemo } from 'react';
+
 import {
-    QueryClient,
-    QueryClientConfig,
+    type QueryClient,
+    type QueryClientConfig,
     QueryClientProvider,
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { ReactNode, useMemo } from 'react';
+
+import type { HikkaClient, HikkaClientConfig } from '@hikka/client';
 
 import { getHikkaClient, getQueryClient } from '@/core';
-import { NameLanguage, TitleLanguage } from '@/utils';
+import type { NameLanguage, TitleLanguage } from '@/utils';
 
 import { HikkaContext } from './context';
 

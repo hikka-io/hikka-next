@@ -1,14 +1,14 @@
 'use client';
 
-import { ReadContentType } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { ReadContentType } from '@hikka/client';
 
 import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
-
 import FiltersFooter from '@/features/filters/filters-footer';
 import {
     ReadFiltersBody,

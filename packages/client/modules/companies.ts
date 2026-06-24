@@ -1,6 +1,6 @@
 import { DEFAULT_PAGINATION } from '../constants';
-import { BaseRequestOptionsArgs, PaginationArgs } from '../types';
-import {
+import type { BaseRequestOptionsArgs, PaginationArgs } from '../types';
+import type {
     CompaniesPaginationResponse,
     CompaniesSearchArgs,
 } from '../types/companies';

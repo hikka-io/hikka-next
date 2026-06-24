@@ -1,8 +1,9 @@
 'use client';
 
-import { ArticleCategoryEnum } from '@hikka/client';
+import type { FC } from 'react';
+
+import type { ArticleCategoryEnum } from '@hikka/client';
 import { useSearchArticles, useSession } from '@hikka/react';
-import { FC } from 'react';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -11,20 +12,18 @@ import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-
 import { ArticleFiltersModal } from '@/features/articles';
 import ArticleItem from '@/features/articles/article-item/article-item';
 import ArticleItemSkeleton from '@/features/articles/article-item/article-item-skeleton';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
-
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 import type { ArticlesSearch } from '@/utils/search-schemas';
 
-interface Props {}
+type Props = {};
 
 const ArticleList: FC<Props> = () => {
     const { user } = useSession();

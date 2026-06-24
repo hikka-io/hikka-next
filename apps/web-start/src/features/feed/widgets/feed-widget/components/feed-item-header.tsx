@@ -1,8 +1,10 @@
 'use client';
 
-import { ContentTypeEnum, UserResponse } from '@hikka/client';
+import type { FC } from 'react';
+
 import { formatDistance } from 'date-fns';
-import { FC } from 'react';
+
+import { ContentTypeEnum, type UserResponse } from '@hikka/client';
 
 import {
     HorizontalCard,
@@ -11,9 +13,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-
 import { FollowButton } from '@/features/common';
-
 import { cn } from '@/utils/cn';
 
 const TYPE_BADGE_STYLES: Partial<Record<ContentTypeEnum, string>> = {
@@ -64,13 +64,13 @@ const FeedItemHeader: FC<Props> = ({
                         <>
                             <span
                                 className={cn(
-                                    'text-xs font-medium',
+                                    'font-medium text-xs',
                                     TYPE_BADGE_STYLES[dataType],
                                 )}
                             >
                                 {TYPE_LABELS[dataType]}
                             </span>
-                            <div className="bg-muted-foreground size-1 rounded-full" />
+                            <div className="size-1 rounded-full bg-muted-foreground" />
                         </>
                     )}
                     {extraInfo && (
@@ -78,7 +78,7 @@ const FeedItemHeader: FC<Props> = ({
                             <HorizontalCardDescription>
                                 {extraInfo}
                             </HorizontalCardDescription>
-                            <div className="bg-muted-foreground size-1 rounded-full" />
+                            <div className="size-1 rounded-full bg-muted-foreground" />
                         </>
                     )}
                     <HorizontalCardDescription>

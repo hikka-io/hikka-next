@@ -1,7 +1,8 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useSession } from '@hikka/react';
-import { FC } from 'react';
 
 import { useFormContext } from '@/components/form/form-context';
 import { Button } from '@/components/ui/button';
@@ -21,11 +22,7 @@ const AutoButton: FC = () => {
     };
 
     return (
-        <Button
-            className="w-fit"
-            variant="outline"
-            onClick={handleAutoSubmit}
-        >
+        <Button className="w-fit" variant="outline" onClick={handleAutoSubmit}>
             Прийняти
         </Button>
     );

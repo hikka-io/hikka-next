@@ -1,12 +1,13 @@
 'use client';
 
-import { AnimeScheduleResponse, ContentStatusEnum } from '@hikka/client';
-import { useHikkaClient, useSearchAnimeSchedule } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
-import { FC } from 'react';
+import type { FC } from 'react';
 
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
+
+import { type AnimeScheduleResponse, ContentStatusEnum } from '@hikka/client';
+import { useHikkaClient, useSearchAnimeSchedule } from '@hikka/react';
+import { getTitle } from '@hikka/react/utils';
 
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
@@ -17,12 +18,11 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 
-import { WidgetProps } from '../constants';
+import type { WidgetProps } from '../constants';
 
 const ScheduleWidget: FC<WidgetProps> = () => {
     const { defaultOptions } = useHikkaClient();
@@ -78,16 +78,16 @@ const ScheduleWidget: FC<WidgetProps> = () => {
                                 key={`${item.anime.slug}-${item.episode}`}
                                 to={`/anime/${item.anime.slug}`}
                                 className={cn(
-                                    'hover:bg-secondary flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors',
+                                    'flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors hover:bg-secondary',
                                     isAiringNow &&
-                                        'bg-primary border-primary-border border',
+                                        'border border-primary-border bg-primary',
                                 )}
                             >
                                 <span
                                     className={cn(
                                         'w-12 shrink-0 text-left font-mono text-xs',
                                         isAiringNow
-                                            ? 'text-primary-foreground font-bold'
+                                            ? 'font-bold text-primary-foreground'
                                             : 'text-muted-foreground',
                                         isPrev && 'text-muted-foreground',
                                     )}
@@ -98,7 +98,7 @@ const ScheduleWidget: FC<WidgetProps> = () => {
                                     className={cn(
                                         'min-w-0 flex-1 truncate',
                                         isAiringNow &&
-                                            'text-primary-foreground text-sm font-medium',
+                                            'font-medium text-primary-foreground text-sm',
                                         isPrev && 'text-muted-foreground',
                                     )}
                                 >
@@ -110,7 +110,7 @@ const ScheduleWidget: FC<WidgetProps> = () => {
                                 </span>
                                 <span
                                     className={cn(
-                                        'text-muted-foreground shrink-0 text-xs',
+                                        'shrink-0 text-muted-foreground text-xs',
                                         isAiringNow &&
                                             'text-primary-foreground',
                                         isPrev && 'text-muted-foreground',
@@ -122,7 +122,7 @@ const ScheduleWidget: FC<WidgetProps> = () => {
                         );
                     })}
                     {(!todayItems || todayItems.length === 0) && (
-                        <p className="text-muted-foreground py-4 text-center text-sm">
+                        <p className="py-4 text-center text-muted-foreground text-sm">
                             Немає запланованих епізодів
                         </p>
                     )}

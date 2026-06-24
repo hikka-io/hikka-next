@@ -1,6 +1,7 @@
-import { CommentsContentType } from '@hikka/client';
-import { commentThreadOptions } from '@hikka/react/options';
 import { createFileRoute, redirect } from '@tanstack/react-router';
+
+import type { CommentsContentType } from '@hikka/client';
+import { commentThreadOptions } from '@hikka/react/options';
 
 import { CommentList as Comments, prefetchContent } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';

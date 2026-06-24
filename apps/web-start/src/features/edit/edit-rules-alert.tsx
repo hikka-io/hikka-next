@@ -23,7 +23,7 @@ const EditRulesAlert = () => {
 
     return (
         <div>
-            <div className="border-border bg-secondary/20 flex items-center gap-4 rounded-md border p-4">
+            <div className="flex items-center gap-4 rounded-md border border-border bg-secondary/20 p-4">
                 <MaterialSymbolsInfoRounded className="text-xl" />
                 <span className="flex-1 text-sm">
                     Перш ніж почати редагування контенту, рекомендуємо
@@ -31,7 +31,7 @@ const EditRulesAlert = () => {
                     <Button
                         onClick={() => setOpen(true)}
                         variant="link"
-                        className="text-primary-foreground h-auto p-0 hover:underline"
+                        className="h-auto p-0 text-primary-foreground hover:underline"
                     >
                         нашими правилами
                     </Button>{' '}

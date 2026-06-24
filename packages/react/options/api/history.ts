@@ -1,8 +1,9 @@
-import { HikkaClient, PaginationArgs } from '@hikka/client';
 import { infiniteQueryOptions } from '@tanstack/react-query';
 
+import type { HikkaClient, PaginationArgs } from '@hikka/client';
+
+import type { UseUserHistoryParams } from '@/types/history';
 import { queryKeys } from '@/core';
-import { UseUserHistoryParams } from '@/types/history';
 
 export function followingHistoryOptions(
     client: HikkaClient,

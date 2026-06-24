@@ -1,14 +1,15 @@
 'use client';
 
-import { PaginatedResponse } from '@hikka/client';
+import React from 'react';
+
 import {
-    InfiniteData,
-    UseSuspenseInfiniteQueryOptions,
+    type InfiniteData,
+    type UseSuspenseInfiniteQueryOptions,
     useSuspenseInfiniteQuery as useTanstackSuspenseInfiniteQuery,
 } from '@tanstack/react-query';
-import React from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import type { PaginatedResponse } from '@hikka/client';
 
 /**
  * Hook for creating suspense infinite queries with the Hikka client.
@@ -65,7 +66,7 @@ export function useSuspenseInfiniteQuery<
         ...options,
     });
 
-    const list = query.data.pages.map((data) => data.list).flat(1);
+    const list = query.data.pages.flatMap((data) => data.list);
     const pagination =
         query.data.pages[query.data.pages.length - 1]?.pagination;
 

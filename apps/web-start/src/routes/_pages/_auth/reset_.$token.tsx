@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { PasswordConfirmForm, PasswordConfirmHeader } from '@/features/auth';
-
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/_auth/reset_/$token')({

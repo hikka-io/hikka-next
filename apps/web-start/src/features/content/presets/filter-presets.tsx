@@ -1,8 +1,10 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
+import type { FC } from 'react';
+
 import { useRouter } from '@tanstack/react-router';
-import { FC } from 'react';
+
+import type { ContentTypeEnum } from '@hikka/client';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';
@@ -11,7 +13,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
 

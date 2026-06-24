@@ -1,6 +1,8 @@
-import { CollectionContent, CollectionResponse } from '@hikka/client';
+import { type FC, memo } from 'react';
+
 import { ArrowBigUp, Layers, MessageCircle } from 'lucide-react';
-import { FC, memo } from 'react';
+
+import type { CollectionContent, CollectionResponse } from '@hikka/client';
 
 import {
     HorizontalCard,
@@ -10,7 +12,6 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-
 import { cn } from '@/utils/cn';
 
 interface Props {
@@ -38,10 +39,10 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                         {data.title}
                     </HorizontalCardTitle>
                     {data.spoiler && (
-                        <div className="bg-warning-foreground size-2 rounded-full" />
+                        <div className="size-2 rounded-full bg-warning-foreground" />
                     )}
                     {data.nsfw && (
-                        <div className="bg-destructive-foreground size-2 rounded-full" />
+                        <div className="size-2 rounded-full bg-destructive-foreground" />
                     )}
                 </div>
                 <HorizontalCardDescription

@@ -4,9 +4,7 @@ import { useOAuthProviderUrl } from '@hikka/react';
 
 import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';
 import { Button } from '@/components/ui/button';
-
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-
 import { getSiteUrl } from '@/utils/url';
 
 interface Props {
@@ -40,10 +38,10 @@ const OAuthLogin = ({
             {/* OR Divider */}
             <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                    <div className="border-border w-full border-t"></div>
+                    <div className="w-full border-border border-t"></div>
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background text-muted-foreground px-2">
+                    <span className="bg-background px-2 text-muted-foreground">
                         АБО
                     </span>
                 </div>

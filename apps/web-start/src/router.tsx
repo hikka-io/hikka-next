@@ -1,14 +1,15 @@
-import { HikkaClient } from '@hikka/client';
-import {
-    MutationCache,
-    QueryClient,
-    createHikkaClient,
-    createQueryClient,
-} from '@hikka/react/core';
-import { sessionOptions, sessionUserUIOptions } from '@hikka/react/options';
 import { createRouter as createTanStackRouter } from '@tanstack/react-router';
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query';
 import { toast } from 'sonner';
+
+import type { HikkaClient } from '@hikka/client';
+import {
+    createHikkaClient,
+    createQueryClient,
+    MutationCache,
+    type QueryClient,
+} from '@hikka/react/core';
+import { sessionOptions, sessionUserUIOptions } from '@hikka/react/options';
 
 import ErrorPage from '@/components/error-page';
 

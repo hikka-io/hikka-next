@@ -1,5 +1,5 @@
-import { PaginationResponse } from './common';
-import { UserResponse } from './user';
+import type { PaginationResponse } from './common';
+import type { UserResponse } from './user';
 
 /**
  * Edits top response

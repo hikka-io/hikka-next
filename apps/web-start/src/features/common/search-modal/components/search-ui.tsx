@@ -3,7 +3,6 @@ import {
     CommandItem,
     CommandList,
 } from '@/components/ui/command';
-
 import { cn } from '@/utils/cn';
 
 type CommandListProps = React.ComponentProps<typeof CommandList>;

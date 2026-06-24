@@ -1,6 +1,6 @@
 'use client';
 
-import {
+import type {
     PersonAnimePaginationResponse,
     PersonCharactersPaginationResponse,
     PersonCountResponse,
@@ -9,12 +9,20 @@ import {
     PersonSearchPaginationResponse,
 } from '@hikka/client';
 
+import type {
+    UsePeopleSearchParams,
+    UsePersonAnimeParams,
+    UsePersonCharactersParams,
+    UsePersonInfoParams,
+    UsePersonMangaParams,
+    UsePersonNovelParams,
+} from '@/types/people';
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import {
-    InfiniteQueryParams,
+    type InfiniteQueryParams,
     useInfiniteQuery,
 } from '@/client/useInfiniteQuery';
-import { QueryParams, useQuery } from '@/client/useQuery';
+import { type QueryParams, useQuery } from '@/client/useQuery';
 import {
     personAnimeOptions,
     personBySlugOptions,
@@ -23,14 +31,6 @@ import {
     personNovelOptions,
     searchPeopleOptions,
 } from '@/options/api/people';
-import {
-    UsePeopleSearchParams,
-    UsePersonAnimeParams,
-    UsePersonCharactersParams,
-    UsePersonInfoParams,
-    UsePersonMangaParams,
-    UsePersonNovelParams,
-} from '@/types/people';
 
 /**
  * Hook for retrieving person details by slug

@@ -1,11 +1,12 @@
-import { ArticleCategoryEnum } from '@hikka/client';
+import { createFileRoute } from '@tanstack/react-router';
+import { zodValidator } from '@tanstack/zod-adapter';
+
+import type { ArticleCategoryEnum } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
 import {
     articleStatsOptions,
     searchArticlesOptions,
 } from '@hikka/react/options';
-import { createFileRoute } from '@tanstack/react-router';
-import { zodValidator } from '@tanstack/zod-adapter';
 
 import {
     ArticleFilters,
@@ -14,7 +15,6 @@ import {
     PopularTags,
 } from '@/features/articles';
 import { expandSort } from '@/features/filters/sort';
-
 import { generateHeadMeta } from '@/utils/metadata';
 import { articlesSearchSchema } from '@/utils/search-schemas';
 
@@ -22,12 +22,7 @@ export const Route = createFileRoute('/_pages/articles/')({
     validateSearch: zodValidator(articlesSearchSchema),
     loaderDeps: ({ search }) => search,
     loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
-        const {
-            author,
-            tags = [],
-            draft,
-            categories = [],
-        } = deps;
+        const { author, tags = [], draft, categories = [] } = deps;
 
         await Promise.allSettled([
             prefetchInfiniteQuery(
@@ -62,7 +57,7 @@ function ArticlesPage() {
                 <PopularTags />
             </div>
             <ArticleList />
-            <div className="border-border bg-secondary/20 sticky top-20 hidden max-h-[calc(100vh-9rem)] w-full self-start overflow-hidden rounded-lg border backdrop-blur-xl sm:flex">
+            <div className="sticky top-20 hidden max-h-[calc(100vh-9rem)] w-full self-start overflow-hidden rounded-lg border border-border bg-secondary/20 backdrop-blur-xl sm:flex">
                 <ArticleFilters />
             </div>
         </div>

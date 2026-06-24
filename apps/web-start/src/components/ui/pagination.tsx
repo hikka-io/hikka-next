@@ -1,7 +1,14 @@
 'use client';
 
+import {
+    type ChangeEvent,
+    type FC,
+    useCallback,
+    useEffect,
+    useState,
+} from 'react';
+
 import { range } from '@antfu/utils';
-import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
@@ -99,8 +106,8 @@ const PaginationInput: FC<PaginationInputProps> = ({
                 }
             }}
             className={cn(
-                'bg-secondary/60 size-9 border-none text-center sm:size-10',
-                pageToMove && ' w-16 sm:w-16',
+                'size-9 border-none bg-secondary/60 text-center sm:size-10',
+                pageToMove && 'w-16 sm:w-16',
             )}
         />
     );

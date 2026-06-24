@@ -1,13 +1,13 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useArticleBySlug } from '@hikka/react';
-import { FC } from 'react';
 
 import Author from '@/features/articles/article-item/article-author';
-
 import { useParams } from '@/utils/navigation';
 
-interface Props {}
+type Props = {};
 
 const ArticleAuthor: FC<Props> = () => {
     const params = useParams();

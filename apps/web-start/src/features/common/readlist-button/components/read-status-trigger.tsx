@@ -1,13 +1,13 @@
 'use client';
 
-import { ReadResponseBase } from '@hikka/client';
-import { FC, createElement } from 'react';
+import { createElement, type FC } from 'react';
+
+import type { ReadResponseBase } from '@hikka/client';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 

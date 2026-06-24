@@ -1,10 +1,10 @@
 'use client';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { FC } from 'react';
+import type { FC } from 'react';
+
+import type { ContentTypeEnum } from '@hikka/client';
 
 import LoadMoreButton from '@/components/load-more-button';
-
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 

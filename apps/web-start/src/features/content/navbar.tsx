@@ -1,23 +1,22 @@
 'use client';
 
+import type { FC } from 'react';
+
+import { MessageCircle } from 'lucide-react';
+
 import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
-import { MessageCircle } from 'lucide-react';
-import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-
 import EditButton from '@/features/common/edit-button';
 import FavoriteButton from '@/features/common/favorite-button';
 import ReadlistButton from '@/features/common/readlist-button';
 import WatchlistButton from '@/features/common/watchlist-button';
-
 import { cn } from '@/utils/cn';
 import { COMMENT_DECLENSIONS, CONTENT_CONFIG } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
-import { Link } from '@/utils/navigation';
-import { useParams } from '@/utils/navigation';
+import { Link, useParams } from '@/utils/navigation';
 
 interface Props {
     className?: string;
@@ -67,7 +66,10 @@ const Navbar: FC<Props> = ({ className, content_type }) => {
                 className,
             )}
         >
-            <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl" id="navbar-card">
+            <Card
+                className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl"
+                id="navbar-card"
+            >
                 <UserlistButton content_type={content_type} />
                 {content_type !== ContentTypeEnum.PERSON && (
                     <FavoriteButton
@@ -102,7 +104,7 @@ const Navbar: FC<Props> = ({ className, content_type }) => {
 
                 {loggedUser && (
                     <>
-                        <div className="bg-secondary h-full w-px" />
+                        <div className="h-full w-px bg-secondary" />
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}

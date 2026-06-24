@@ -1,14 +1,17 @@
+import type { UseArticleParams, UseArticlesListParams } from '@/types/articles';
 import {
     articleBySlugOptions,
     articleStatsOptions,
     searchArticlesOptions,
 } from '@/options/api/articles';
 import {
-    PrefetchInfiniteQueryParams,
+    type PrefetchInfiniteQueryParams,
     prefetchInfiniteQuery,
 } from '@/server/prefetchInfiniteQuery';
-import { PrefetchQueryParams, prefetchQuery } from '@/server/prefetchQuery';
-import { UseArticleParams, UseArticlesListParams } from '@/types/articles';
+import {
+    type PrefetchQueryParams,
+    prefetchQuery,
+} from '@/server/prefetchQuery';
 
 /**
  * Function for prefetching article details

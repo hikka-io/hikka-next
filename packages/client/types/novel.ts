@@ -1,12 +1,12 @@
-import {
+import type {
     ContentStatusEnum,
     ContentTypeEnum,
     ExternalResponse,
     GenreResponse,
     PaginatedResponse,
 } from './common';
-import { ContentAuthorResponse, MagazineResponse } from './manga';
-import { ReadResponseBase, ReadStatsResponse } from './read';
+import type { ContentAuthorResponse, MagazineResponse } from './manga';
+import type { ReadResponseBase, ReadStatsResponse } from './read';
 
 /**
  * Novel media types

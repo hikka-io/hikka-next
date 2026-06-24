@@ -1,9 +1,9 @@
-import { AnimeResponse } from './anime';
-import { CharacterResponse } from './characters';
-import { ContentTypeEnum, PaginatedResponse } from './common';
-import { MangaResponse } from './manga';
-import { PersonResponse } from './people';
-import { UserResponse } from './user';
+import type { AnimeResponse } from './anime';
+import type { CharacterResponse } from './characters';
+import type { ContentTypeEnum, PaginatedResponse } from './common';
+import type { MangaResponse } from './manga';
+import type { PersonResponse } from './people';
+import type { UserResponse } from './user';
 
 /**
  * Collection content type

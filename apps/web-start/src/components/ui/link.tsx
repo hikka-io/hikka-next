@@ -1,4 +1,4 @@
-import { ComponentPropsWithRef, FC } from 'react';
+import type { ComponentPropsWithRef, FC } from 'react';
 
 import { cn } from '@/utils/cn';
 import { Link as TanstackLink } from '@/utils/navigation';

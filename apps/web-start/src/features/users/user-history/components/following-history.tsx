@@ -1,7 +1,8 @@
 'use client';
 
+import { type FC, Fragment } from 'react';
+
 import { useFollowingHistory } from '@hikka/react';
-import { FC, Fragment } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';

@@ -1,6 +1,7 @@
-import { type VariantProps, cva } from 'class-variance-authority';
-import { Slot as SlotPrimitive } from 'radix-ui';
 import * as React from 'react';
+
+import { cva, type VariantProps } from 'class-variance-authority';
+import { Slot as SlotPrimitive } from 'radix-ui';
 
 import { cn } from '@/utils/cn';
 
@@ -64,4 +65,4 @@ const StatItemGroup = React.forwardRef<HTMLDivElement, StatItemGroupProps>(
 );
 StatItemGroup.displayName = 'StatItemGroup';
 
-export { StatItem, statItemVariants, StatItemGroup, statItemGroupVariants };
+export { StatItem, StatItemGroup, statItemGroupVariants, statItemVariants };

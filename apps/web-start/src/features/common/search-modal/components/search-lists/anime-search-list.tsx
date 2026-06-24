@@ -1,11 +1,11 @@
 'use client';
 
-import { AnimeResponse } from '@hikka/client';
-import { useSearchAnimes } from '@hikka/react';
 import { useCallback } from 'react';
 
-import LoadMoreButton from '@/components/load-more-button';
+import type { AnimeResponse } from '@hikka/client';
+import { useSearchAnimes } from '@hikka/react';
 
+import LoadMoreButton from '@/components/load-more-button';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 

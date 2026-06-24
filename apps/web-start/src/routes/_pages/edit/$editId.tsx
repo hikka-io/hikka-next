@@ -1,13 +1,13 @@
-import { ContentTypeEnum, EditContentType } from '@hikka/client';
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+
+import { ContentTypeEnum, type EditContentType } from '@hikka/client';
 import { prefetchInfiniteQuery } from '@hikka/react/core';
 import { contentCommentsOptions, editOptions } from '@hikka/react/options';
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Link from '@/components/ui/link';
-
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import {
     EditAuthor as Author,
@@ -57,7 +57,7 @@ function EditLayout() {
             <Breadcrumbs>
                 <Link
                     to={'/edit/' + edit.edit_id}
-                    className="text-sm font-bold hover:underline"
+                    className="font-bold text-sm hover:underline"
                 >
                     Правка #{edit.edit_id}
                 </Link>

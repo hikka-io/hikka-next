@@ -1,11 +1,11 @@
 'use client';
 
-import { ContentTypeEnum, ReadResponseBase } from '@hikka/client';
+import { type FC, memo, type PropsWithChildren } from 'react';
+
+import { ContentTypeEnum, type ReadResponseBase } from '@hikka/client';
 import { useMangaBySlug, useSession, useTitle } from '@hikka/react';
-import { FC, PropsWithChildren, memo } from 'react';
 
 import { ReadlistButton } from '@/features/common';
-
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 
 import HoverCardWrapper from './hover-card-wrapper';
@@ -50,12 +50,12 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                     {data.volumes && (
                         <div className="flex">
                             <div className="w-1/4">
-                                <span className="text-muted-foreground text-sm leading-tight font-medium">
+                                <span className="font-medium text-muted-foreground text-sm leading-tight">
                                     Томи:
                                 </span>
                             </div>
                             <div className="flex-1">
-                                <span className="text-sm leading-tight font-medium">
+                                <span className="font-medium text-sm leading-tight">
                                     {data.volumes}
                                 </span>
                             </div>
@@ -64,12 +64,12 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                     {data.chapters && (
                         <div className="flex">
                             <div className="w-1/4">
-                                <span className="text-muted-foreground text-sm leading-tight font-medium">
+                                <span className="font-medium text-muted-foreground text-sm leading-tight">
                                     Розділи:
                                 </span>
                             </div>
                             <div className="flex-1">
-                                <span className="text-sm leading-tight font-medium">
+                                <span className="font-medium text-sm leading-tight">
                                     {data.chapters}
                                 </span>
                             </div>

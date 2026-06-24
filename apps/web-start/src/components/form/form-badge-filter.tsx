@@ -1,11 +1,19 @@
-import { useStore } from '@tanstack/react-form';
-import { FC } from 'react';
+import type { FC } from 'react';
 
-import { BadgeFilter, BadgeFilterProps } from '@/components/ui/badge-filter';
-import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
+import { useStore } from '@tanstack/react-form';
+
+import {
+    BadgeFilter,
+    type BadgeFilterProps,
+} from '@/components/ui/badge-filter';
+import {
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldLabel,
+} from '@/components/ui/field';
 
 import { useFieldContext } from './form-context';
-
 
 export interface BadgeFilterFieldProps
     extends Omit<BadgeFilterProps, 'onParamChange' | 'selected'> {
@@ -40,9 +48,7 @@ export const BadgeFilterField: FC<BadgeFilterFieldProps> = ({
                 }}
                 {...props}
             />
-            {description && (
-                <FieldDescription>{description}</FieldDescription>
-            )}
+            {description && <FieldDescription>{description}</FieldDescription>}
             <FieldError errors={errors} />
         </Field>
     );

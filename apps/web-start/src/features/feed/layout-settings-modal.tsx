@@ -1,32 +1,34 @@
 'use client';
 
+import { type FC, useRef, useState } from 'react';
+
 import {
-    CollisionDetection,
-    DndContext,
-    DragOverEvent,
-    DragStartEvent,
-    MouseSensor,
-    TouchSensor,
+    type CollisionDetection,
     closestCenter,
+    DndContext,
+    type DragOverEvent,
+    type DragStartEvent,
+    MouseSensor,
     pointerWithin,
+    TouchSensor,
     useDroppable,
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
 import {
-    SortableContext,
     arrayMove,
+    SortableContext,
     useSortable,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import {
+import { GripVertical, Plus, Smartphone, X } from 'lucide-react';
+
+import type {
     UIFeedWidget,
     UIFeedWidgetSide,
     UIFeedWidgetSlug,
 } from '@hikka/client';
-import { GripVertical, Plus, Smartphone, X } from 'lucide-react';
-import { FC, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
@@ -39,7 +41,6 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 import { cn } from '@/utils/cn';
@@ -229,7 +230,7 @@ const LayoutPresetSelector: FC<{
             {PRESET_META.map((preset) => (
                 <FieldLabel
                     key={preset.id}
-                    className="hover:bg-secondary/60 transition-colors"
+                    className="transition-colors hover:bg-secondary/60"
                 >
                     <Field>
                         <RadioGroupItem
@@ -244,7 +245,7 @@ const LayoutPresetSelector: FC<{
                             />
                             <span
                                 className={cn(
-                                    'text-xs leading-tight font-medium',
+                                    'font-medium text-xs leading-tight',
                                     value === preset.id
                                         ? 'text-primary-foreground'
                                         : 'text-muted-foreground',
@@ -288,18 +289,18 @@ const SortableWidgetItem: FC<{
             ref={setNodeRef}
             style={style}
             className={cn(
-                'bg-secondary/20 flex touch-none items-center gap-2 rounded-lg border p-2',
+                'flex touch-none items-center gap-2 rounded-lg border bg-secondary/20 p-2',
                 isDragging ? 'cursor-grabbing' : 'cursor-grab',
             )}
             {...attributes}
             {...listeners}
         >
-            <GripVertical className="text-muted-foreground size-4 shrink-0" />
-            <span className="flex-1 text-xs font-medium">
+            <GripVertical className="size-4 shrink-0 text-muted-foreground" />
+            <span className="flex-1 font-medium text-xs">
                 {meta?.title ?? widget.slug}
             </span>
             <button
-                className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center rounded-sm"
+                className="flex size-6 shrink-0 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground"
                 onPointerDown={(e) => e.stopPropagation()}
                 onClick={() => onRemove(widget.slug)}
                 aria-label={`Видалити ${meta?.title ?? widget.slug}`}
@@ -337,7 +338,7 @@ const DroppableColumn: FC<{
                 {showTabHint && (
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Smartphone className="text-muted-foreground size-4" />
+                            <Smartphone className="size-4 text-muted-foreground" />
                         </TooltipTrigger>
                         <TooltipPortal>
                             <TooltipContent>
@@ -353,7 +354,7 @@ const DroppableColumn: FC<{
             >
                 <div
                     ref={setNodeRef}
-                    className="bg-secondary/20 flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed p-2 transition-colors"
+                    className="flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed bg-secondary/20 p-2 transition-colors"
                 >
                     {widgets.map((widget) => (
                         <SortableWidgetItem
@@ -363,7 +364,7 @@ const DroppableColumn: FC<{
                         />
                     ))}
                     {widgets.length === 0 && (
-                        <p className="text-muted-foreground flex flex-1 items-center justify-center text-xs">
+                        <p className="flex flex-1 items-center justify-center text-muted-foreground text-xs">
                             Перетягніть сюди
                         </p>
                     )}
@@ -528,7 +529,7 @@ const LayoutSettingsContent = () => {
 
                     {hiddenSlugs.length > 0 && (
                         <div className="flex flex-col gap-2">
-                            <Label className="text-muted-foreground text-xs font-medium">
+                            <Label className="font-medium text-muted-foreground text-xs">
                                 Приховані
                             </Label>
                             <div className="flex flex-wrap gap-2">

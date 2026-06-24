@@ -1,5 +1,6 @@
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+
 import { queryKeys } from '@hikka/react/core';
-import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 import CoverImage from '@/components/cover-image';
 

@@ -1,12 +1,13 @@
 'use client';
 
-import { VoteContentType } from '@hikka/client';
+import type { FC } from 'react';
+
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
-import { FC } from 'react';
+
+import type { VoteContentType } from '@hikka/client';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-
 import { cn } from '@/utils/cn';
 
 import { useVote } from './use-vote';

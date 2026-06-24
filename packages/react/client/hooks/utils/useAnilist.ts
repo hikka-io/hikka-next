@@ -1,12 +1,13 @@
 'use client';
 
+import { type UseMutationResult, useMutation } from '@tanstack/react-query';
+
 import {
-    ImportReadArgs,
+    type ImportReadArgs,
     ImportReadStatusEnum,
-    ImportWatchArgs,
+    type ImportWatchArgs,
     ImportWatchStatusEnum,
 } from '@hikka/client';
-import { UseMutationResult, useMutation } from '@tanstack/react-query';
 
 export interface Response {
     data: {

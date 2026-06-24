@@ -1,13 +1,13 @@
 'use client';
 
+import type { FC } from 'react';
+
 import { useArticleBySlug } from '@hikka/react';
-import { FC } from 'react';
 
 import { Badge } from '@/components/ui/badge';
-
 import { useParams } from '@/utils/navigation';
 
-interface Props {}
+type Props = {};
 
 const ArticleTags: FC<Props> = () => {
     const params = useParams();

@@ -1,15 +1,16 @@
 'use client';
 
-import { Plus } from 'lucide-react';
-import type { PlateEditor } from 'platejs/react';
 import {
-    FC,
-    ReactElement,
     cloneElement,
+    type FC,
     isValidElement,
+    type ReactElement,
     useCallback,
     useId,
 } from 'react';
+
+import { Plus } from 'lucide-react';
+import type { PlateEditor } from 'platejs/react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -58,7 +59,7 @@ export const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
     return (
         <Button
             variant="secondary"
-            className="text-muted-foreground relative size-28"
+            className="relative size-28 text-muted-foreground"
         >
             <Input
                 type="file"

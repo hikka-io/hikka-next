@@ -1,10 +1,10 @@
-import { ContentTypeEnum } from '@hikka/client';
-import { FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
+
+import type { ContentTypeEnum } from '@hikka/client';
 
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import NavMenu from '@/features/common/nav-dropdown';
 import { ContentNavbar } from '@/features/content';
-
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -51,7 +51,7 @@ const ContentDetailLayout: FC<Props> = ({
                     )}
                     <Link
                         to={`${urlPrefix}/${slug}`}
-                        className="flex-1 overflow-hidden text-sm font-bold text-ellipsis hover:underline"
+                        className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
                     >
                         {title}
                     </Link>
