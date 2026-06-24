@@ -51,13 +51,11 @@ const Component = ({ file, type, onClose }: Props) => {
 
                 toast.success(successMessage);
             },
-            onError: () => {
-                const errorMessage =
-                    type === UploadTypeEnum.AVATAR
-                        ? 'Щось пішло не так. Перевірте файл та спробуйте завантажити аватар ще раз.'
-                        : 'Щось пішло не так. Перевірте файл та спробуйте завантажити обкладинку ще раз.';
-
-                toast.error(errorMessage);
+            onError: (error) => {
+                toast.error(
+                    (error as Error)?.message ??
+                        'Не вдалося завантажити зображення. Спробуйте ще раз.',
+                );
             },
             onSettled: () => {
                 router.refresh();
