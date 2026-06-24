@@ -26,10 +26,7 @@ type Props = PropsWithChildren & {
 };
 
 const General: FC<Props> = ({ content, content_type, slug }) => {
-    const image =
-        content.data_type === ContentTypeEnum.ANIME
-            ? content.image
-            : content.image;
+    const image = content.image;
     const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
 
     return (

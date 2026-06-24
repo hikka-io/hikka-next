@@ -93,11 +93,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
             select: (data) => ({
                 content_type: ContentTypeEnum.COLLECTION,
                 title: data.title,
-                image:
-                    data.collection[0].content.data_type ===
-                    ContentTypeEnum.ANIME
-                        ? data.collection[0].content.image
-                        : data.collection[0].content.image,
+                image: data.collection[0].content.image,
             }),
         },
     });
@@ -109,10 +105,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
             select: (data) => ({
                 content_type: ContentTypeEnum.EDIT,
                 title: `Правка #${data.edit_id}`,
-                image:
-                    data.content.data_type === 'anime'
-                        ? data.content.image
-                        : data.content.image,
+                image: data.content.image,
             }),
         },
     });

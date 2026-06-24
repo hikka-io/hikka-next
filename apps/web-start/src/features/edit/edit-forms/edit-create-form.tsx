@@ -8,6 +8,7 @@ import { useCreateEdit } from '@hikka/react';
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { TURNSTILE_SITE_KEY } from '@/utils/constants/edit';
 import { useRouter } from '@/utils/navigation';
 
 import AutoButton from './components/auto-button';
@@ -110,7 +111,7 @@ const EditForm: FC<Props> = ({
                                 refreshExpired: 'manual',
                             }}
                             ref={captchaRef}
-                            siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
+                            siteKey={TURNSTILE_SITE_KEY}
                         />
                         <div className="flex items-center gap-2">
                             <Button

@@ -12,7 +12,7 @@ import AuthNeeded from './components/auth-needed';
 
 type Props = {};
 
-const Profle: FC<Props> = () => {
+const Profile: FC<Props> = () => {
     const { user } = useSession();
     const currentUrl = useCurrentUrl();
 
@@ -51,4 +51,4 @@ const Profle: FC<Props> = () => {
     );
 };
 
-export default Profle;
+export default Profile;

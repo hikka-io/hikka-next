@@ -5,7 +5,7 @@ import type { UIEffect } from '@hikka/client';
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 
 const SnowfallEffect = lazy(() => import('./snowfall-effect'));
-const SakuraEffect = lazy(() => import('./sakura-effect'));
+const SakuraEffect = lazy(() => import('./sakura'));
 
 const EFFECT_COMPONENTS: Record<UIEffect, React.ComponentType> = {
     snowfall: SnowfallEffect,
