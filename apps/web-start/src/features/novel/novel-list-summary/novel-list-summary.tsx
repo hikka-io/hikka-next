@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { CatalogSummary } from '@/features/content';
+import { CatalogSummary } from '@/features/catalog';
 import { useNovelSearchQuery } from '../novel-list/use-novel-search-query';
 
 type Props = {

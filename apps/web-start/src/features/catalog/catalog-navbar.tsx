@@ -18,7 +18,7 @@ import {
     FilterPresetButton,
     FilterPresets,
     useActiveFilters,
-} from '@/features/content';
+} from '@/features/filters';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import type { SortType } from '@/features/filters/sort';

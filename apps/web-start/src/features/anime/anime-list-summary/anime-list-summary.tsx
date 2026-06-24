@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { useAnimeSearchQuery } from '../anime-list/use-anime-search-query';
-import { CatalogSummary } from '@/features/content';
+import { CatalogSummary } from '@/features/catalog';
 
 type Props = {
     pageSize?: number;

@@ -4,7 +4,7 @@ import { queryKeys } from '@hikka/react/core';
 
 import NovelCard from '@/components/content-card/novel-card';
 import type { StackSize } from '@/components/ui/stack';
-import CatalogListView from '@/features/content/catalog-list-view';
+import CatalogListView from '@/features/catalog/catalog-list-view';
 
 import { useNovelSearchQuery } from './use-novel-search-query';
 

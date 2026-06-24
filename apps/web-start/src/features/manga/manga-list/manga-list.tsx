@@ -4,7 +4,7 @@ import { queryKeys } from '@hikka/react/core';
 
 import MangaCard from '@/components/content-card/manga-card';
 import type { StackSize } from '@/components/ui/stack';
-import CatalogListView from '@/features/content/catalog-list-view';
+import CatalogListView from '@/features/catalog/catalog-list-view';
 
 import { useMangaSearchQuery } from './use-manga-search-query';
 

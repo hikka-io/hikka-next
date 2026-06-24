@@ -8,7 +8,7 @@ import {
 
 import LoadMoreButton from '@/components/load-more-button';
 import type { StackSize } from '@/components/ui/stack';
-import { CatalogSummary } from '@/features/content';
+import { CatalogSummary } from '@/features/catalog';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 
