@@ -118,6 +118,10 @@ export const ImageGroupPlugin = createTPlatePlugin<ImageGroupConfig>({
                     .placeholder.resolve({ id, url });
             } catch (error) {
                 if (entry?.abort.signal.aborted) return; // user cancelled
+
+                const message =
+                    (error as Error)?.message ?? 'Помилка завантаження';
+
                 editor
                     .getTransforms(ImagePlaceholderPlugin)
                     .placeholder.update({
@@ -127,12 +131,14 @@ export const ImageGroupPlugin = createTPlatePlugin<ImageGroupConfig>({
                             progress: 0,
                             error: {
                                 code: (error as { code?: string })?.code,
-                                message:
-                                    (error as Error)?.message ??
-                                    'Помилка завантаження',
+                                message,
                             },
                         },
                     });
+
+                // Surface the backend reason as a toast too. Dedupe by message
+                // so a failed batch of identical errors shows a single toast.
+                toast.error(message, { id: `upload-error:${message}` });
             }
         };
 

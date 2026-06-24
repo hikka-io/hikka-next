@@ -68,6 +68,12 @@ describe('image group upload pipeline (headless)', () => {
             'Завеликий розмір зображення',
         );
         expect(nodesOfType(editor, 'image')).toHaveLength(0);
+
+        // The backend reason is also surfaced as a toast.
+        expect(toast.error).toHaveBeenCalledTimes(1);
+        expect(vi.mocked(toast.error).mock.lastCall?.[0]).toBe(
+            'Завеликий розмір зображення',
+        );
     });
 
     it('rejects svg before inserting any placeholder', async () => {
