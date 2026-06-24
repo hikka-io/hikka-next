@@ -1,5 +1,3 @@
-'use client';
-
 import { UploadTypeEnum } from '@hikka/client';
 
 import { createMutation } from '@/client/useMutation';

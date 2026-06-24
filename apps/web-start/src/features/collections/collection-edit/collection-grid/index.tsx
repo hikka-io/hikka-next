@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC } from 'react';
 
 import { useDroppable } from '@dnd-kit/core';

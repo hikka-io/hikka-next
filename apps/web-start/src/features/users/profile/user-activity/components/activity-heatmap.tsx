@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, useEffect, useMemo, useRef, useState } from 'react';
 
 import { format } from 'date-fns';

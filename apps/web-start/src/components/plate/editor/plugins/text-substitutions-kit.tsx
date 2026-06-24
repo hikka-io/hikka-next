@@ -1,5 +1,3 @@
-'use client';
-
 import { createSlatePlugin, createTextSubstitutionInputRule } from 'platejs';
 
 // Text substitutions previously provided by the deprecated @platejs/autoformat

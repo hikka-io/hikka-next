@@ -1,5 +1,3 @@
-'use client';
-
 import { useUserByUsername } from '@hikka/react';
 
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';

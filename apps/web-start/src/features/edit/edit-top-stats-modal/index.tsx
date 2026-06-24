@@ -1,5 +1,3 @@
-'use client';
-
 import { useTopEditorsList } from '@hikka/react';
 
 import LoadMoreButton from '@/components/load-more-button';

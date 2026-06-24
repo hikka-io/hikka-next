@@ -1,5 +1,3 @@
-'use client';
-
 import * as React from 'react';
 
 import { EmojiInlineIndexSearch, insertEmoji } from '@platejs/emoji';

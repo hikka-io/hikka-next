@@ -1,5 +1,3 @@
-'use client';
-
 import type * as React from 'react';
 import { createElement, type FC } from 'react';
 

@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, Fragment, memo, useState } from 'react';
 
 import { useSession } from '@hikka/react';

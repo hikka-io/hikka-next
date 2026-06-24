@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC } from 'react';
 
 import { ContentTypeEnum, type FavouriteMangaResponse } from '@hikka/client';

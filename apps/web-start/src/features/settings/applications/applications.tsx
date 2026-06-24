@@ -1,5 +1,3 @@
-'use client';
-
 import { useClientList } from '@hikka/react';
 
 import NotFound from '@/components/ui/not-found';

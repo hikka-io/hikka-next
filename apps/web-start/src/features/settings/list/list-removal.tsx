@@ -1,5 +1,3 @@
-'use client';
-
 import { toast } from 'sonner';
 
 import { ContentTypeEnum } from '@hikka/client';

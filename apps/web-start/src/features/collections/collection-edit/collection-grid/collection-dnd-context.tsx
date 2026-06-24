@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, memo, type ReactNode, useRef, useState } from 'react';
 
 import {

@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, useMemo, useState } from 'react';
 
 import { Building2 } from 'lucide-react';

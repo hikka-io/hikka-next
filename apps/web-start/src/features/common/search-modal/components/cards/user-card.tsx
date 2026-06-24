@@ -1,5 +1,3 @@
-'use client';
-
 import type * as React from 'react';
 
 import { format } from 'date-fns/format';

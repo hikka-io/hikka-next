@@ -1,5 +1,3 @@
-'use client';
-
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 import { Moon, Redo2, Sun, Undo2 } from 'lucide-react';

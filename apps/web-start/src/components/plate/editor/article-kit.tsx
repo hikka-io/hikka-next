@@ -1,5 +1,3 @@
-'use client';
-
 import { TrailingBlockPlugin } from 'platejs';
 import { ParagraphPlugin } from 'platejs/react';
 

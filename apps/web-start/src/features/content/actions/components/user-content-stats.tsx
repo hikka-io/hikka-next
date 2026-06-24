@@ -1,5 +1,3 @@
-'use client';
-
 import { Hash, Star } from 'lucide-react';
 
 import { ContentTypeEnum } from '@hikka/client';

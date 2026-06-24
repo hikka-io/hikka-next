@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC } from 'react';
 
 import { type CommentResponse, ContentTypeEnum } from '@hikka/client';

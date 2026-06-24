@@ -1,5 +1,3 @@
-'use client';
-
 import { ContentTypeEnum } from '@hikka/client';
 import { useTitle } from '@hikka/react';
 

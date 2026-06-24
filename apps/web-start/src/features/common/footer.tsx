@@ -1,5 +1,3 @@
-'use client';
-
 import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import { Button } from '@/components/ui/button';
 import {

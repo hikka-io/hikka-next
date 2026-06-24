@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC } from 'react';
 
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';

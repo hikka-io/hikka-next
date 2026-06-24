@@ -1,5 +1,3 @@
-'use client';
-
 import { useCharacterBySlug } from '@hikka/react';
 
 import DescriptionBlock from '@/components/content/description-block';

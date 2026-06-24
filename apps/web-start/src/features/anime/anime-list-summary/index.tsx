@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC } from 'react';
 
 import { useAnimeSearchQuery } from '@/features/anime/anime-list/use-anime-search-query';

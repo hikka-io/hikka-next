@@ -1,5 +1,3 @@
-'use client';
-
 import { type ReactNode, useCallback } from 'react';
 
 import { Ellipsis } from 'lucide-react';

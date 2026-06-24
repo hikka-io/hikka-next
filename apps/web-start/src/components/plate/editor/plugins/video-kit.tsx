@@ -1,5 +1,3 @@
-'use client';
-
 import type { Path, TElement } from 'platejs';
 import { createPlatePlugin } from 'platejs/react';
 

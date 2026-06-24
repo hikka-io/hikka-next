@@ -1,5 +1,3 @@
-'use client';
-
 import { useVisualViewport } from '@/services/hooks/use-visual-viewport';
 
 /**

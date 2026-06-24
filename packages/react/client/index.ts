@@ -1,5 +1,3 @@
-'use client';
-
 export * from './hooks/api/anime';
 export * from './hooks/api/articles';
 export * from './hooks/api/artifacts';

@@ -1,5 +1,3 @@
-'use client';
-
 import { BlockquoteRules } from '@platejs/basic-nodes';
 import { BlockquotePlugin } from '@platejs/basic-nodes/react';
 import { KEYS } from 'platejs';

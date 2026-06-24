@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, useId, useState } from 'react';
 
 import {

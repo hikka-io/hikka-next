@@ -1,5 +1,3 @@
-'use client';
-
 import { createElement, type FC, useState } from 'react';
 
 import { useRouter } from '@tanstack/react-router';

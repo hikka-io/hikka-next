@@ -1,5 +1,3 @@
-'use client';
-
 import { useSettingsStore } from '@/services/stores/settings-store';
 
 const DEFAULT_KEY = 'catalog_filters_sidebar';

@@ -1,5 +1,3 @@
-'use client';
-
 import { memo } from 'react';
 
 import { ArticlePlateEditor } from '@/components/plate/editor/plate-editor';

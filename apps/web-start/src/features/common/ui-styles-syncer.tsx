@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect } from 'react';
 
 import { useSessionUI } from '@/services/hooks/use-session-ui';

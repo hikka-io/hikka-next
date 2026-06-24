@@ -1,5 +1,3 @@
-'use client';
-
 import { useMemo } from 'react';
 
 import type { UIFeedWidget, UIFeedWidgetSlug } from '@hikka/client';

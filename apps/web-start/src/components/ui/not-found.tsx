@@ -1,5 +1,3 @@
-'use client';
-
 import type { PropsWithChildren, ReactNode } from 'react';
 
 import MaterialSymbolsFeatureSearch from '../icons/material-symbols/MaterialSymbolsFeatureSearch';

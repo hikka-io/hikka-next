@@ -1,5 +1,3 @@
-'use client';
-
 import { useRouter } from '@tanstack/react-router';
 
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';

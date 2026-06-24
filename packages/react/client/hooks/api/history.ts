@@ -1,5 +1,3 @@
-'use client';
-
 import type { HistoryPaginationResponse } from '@hikka/client';
 
 import type { UseUserHistoryParams } from '@/types/history';

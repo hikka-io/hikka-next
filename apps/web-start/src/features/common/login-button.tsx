@@ -1,5 +1,3 @@
-'use client';
-
 import { useRouterState } from '@tanstack/react-router';
 
 import { Button, type ButtonProps } from '@/components/ui/button';

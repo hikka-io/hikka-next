@@ -1,5 +1,3 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
 import NotFound from '@/components/ui/not-found';
 import { Link, usePathname } from '@/utils/navigation';

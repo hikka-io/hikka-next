@@ -1,5 +1,3 @@
-'use client';
-
 import type { VoteContentType } from '@hikka/client';
 import { useCreateVote, useSession } from '@hikka/react';
 

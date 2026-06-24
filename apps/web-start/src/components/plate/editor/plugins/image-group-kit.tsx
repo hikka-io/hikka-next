@@ -1,5 +1,3 @@
-'use client';
-
 import { ElementApi, type PluginConfig, type TElement } from 'platejs';
 import { createTPlatePlugin } from 'platejs/react';
 import { toast } from 'sonner';

@@ -1,5 +1,3 @@
-'use client';
-
 import { getLinkAttributes } from '@platejs/link';
 import type { TLinkElement } from 'platejs';
 import type { PlateElementProps } from 'platejs/react';

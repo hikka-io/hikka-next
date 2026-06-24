@@ -1,5 +1,3 @@
-'use client';
-
 import { type Dispatch, type SetStateAction, useState } from 'react';
 
 import { toast } from 'sonner';

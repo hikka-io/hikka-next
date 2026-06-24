@@ -1,5 +1,3 @@
-'use client';
-
 import { type ComponentPropsWithoutRef, type FC, useRef } from 'react';
 
 import { ImagePresetContext } from '@/components/content-card/image-preset-context';

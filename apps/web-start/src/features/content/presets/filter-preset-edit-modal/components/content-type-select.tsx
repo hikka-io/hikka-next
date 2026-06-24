@@ -1,5 +1,3 @@
-'use client';
-
 import { ContentTypeEnum } from '@hikka/client';
 
 import { SelectField } from '@/components/form/form-select';

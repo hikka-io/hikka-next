@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, memo, type PropsWithChildren } from 'react';
 
 import { ContentTypeEnum, type ReadResponseBase } from '@hikka/client';

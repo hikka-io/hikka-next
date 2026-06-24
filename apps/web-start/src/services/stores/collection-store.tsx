@@ -1,5 +1,3 @@
-'use client';
-
 import { arrayMove } from '@dnd-kit/sortable';
 import { createStore } from 'zustand';
 

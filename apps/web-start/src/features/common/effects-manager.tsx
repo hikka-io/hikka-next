@@ -1,5 +1,3 @@
-'use client';
-
 import { lazy, Suspense } from 'react';
 
 import type { UIEffect } from '@hikka/client';

@@ -1,5 +1,3 @@
-'use client';
-
 import { useMemo } from 'react';
 
 import { MarkdownPlugin } from '@platejs/markdown';

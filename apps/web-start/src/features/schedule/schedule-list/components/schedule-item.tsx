@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, memo } from 'react';
 
 import type { AnimeScheduleResponse } from '@hikka/client';

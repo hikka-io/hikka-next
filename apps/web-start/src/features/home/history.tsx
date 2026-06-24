@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC } from 'react';
 
 import { useFollowingHistory, useSession } from '@hikka/react';

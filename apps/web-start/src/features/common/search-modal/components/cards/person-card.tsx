@@ -1,5 +1,3 @@
-'use client';
-
 import type * as React from 'react';
 
 import type { PersonResponse } from '@hikka/client';

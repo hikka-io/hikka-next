@@ -1,5 +1,3 @@
-'use client';
-
 import type { VoteResponse } from '@hikka/client';
 
 import type { UseVoteMutationParams, UseVoteStatusParams } from '@/types/vote';

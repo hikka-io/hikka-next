@@ -1,5 +1,3 @@
-'use client';
-
 import { useCharacterBySlug, useTitle } from '@hikka/react';
 
 import { useParams } from '@/utils/navigation';

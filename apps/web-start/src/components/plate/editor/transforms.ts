@@ -1,5 +1,3 @@
-'use client';
-
 import { toggleList } from '@platejs/list-classic';
 import {
     KEYS,

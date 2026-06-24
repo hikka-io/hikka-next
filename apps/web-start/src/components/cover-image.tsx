@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC } from 'react';
 
 import Image from '@/components/ui/image';

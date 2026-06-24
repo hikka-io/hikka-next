@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, useEffect } from 'react';
 
 import { useCollectionByReference } from '@hikka/react';

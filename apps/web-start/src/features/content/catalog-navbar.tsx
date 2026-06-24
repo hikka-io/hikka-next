@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, Suspense, useEffect, useState } from 'react';
 
 import { useNavigate } from '@tanstack/react-router';

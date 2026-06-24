@@ -1,5 +1,3 @@
-'use client';
-
 import { HeadingRules } from '@platejs/basic-nodes';
 import { H3Plugin, H4Plugin, H5Plugin } from '@platejs/basic-nodes/react';
 

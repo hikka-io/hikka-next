@@ -1,5 +1,3 @@
-'use client';
-
 import type * as React from 'react';
 
 import { Redo2Icon, Undo2Icon } from 'lucide-react';

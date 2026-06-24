@@ -1,5 +1,3 @@
-'use client';
-
 import type { ContentTypeEnum } from '@hikka/client';
 
 import ContentCard from '@/components/content-card/content-card';

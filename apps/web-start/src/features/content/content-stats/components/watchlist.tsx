@@ -1,5 +1,3 @@
-'use client';
-
 import { createElement } from 'react';
 
 import type { AnimeStatsResponse, WatchStatusEnum } from '@hikka/client';

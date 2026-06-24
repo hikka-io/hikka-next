@@ -1,5 +1,3 @@
-'use client';
-
 import { useUserHistory } from '@hikka/react';
 
 import LoadMoreButton from '@/components/load-more-button';

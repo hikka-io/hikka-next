@@ -1,5 +1,3 @@
-'use client';
-
 import { ElementApi, KEYS, type TElement } from 'platejs';
 import { createPlatePlugin } from 'platejs/react';
 

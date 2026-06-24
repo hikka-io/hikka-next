@@ -1,5 +1,3 @@
-'use client';
-
 import Markdown, { type Components, type Options } from 'react-markdown';
 import remarkDirective from 'remark-directive';
 import remarkDirectiveRehype from 'remark-directive-rehype';

@@ -1,5 +1,3 @@
-'use client';
-
 import type { ContentStatusEnum, SeasonEnum } from '@hikka/client';
 import { useSearchAnimeSchedule } from '@hikka/react';
 

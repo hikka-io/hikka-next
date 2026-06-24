@@ -1,5 +1,3 @@
-'use client';
-
 import type { ContentStatusEnum, MangaMediaEnum } from '@hikka/client';
 import { useSearchMangas } from '@hikka/react';
 

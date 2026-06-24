@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, memo, useRef } from 'react';
 
 import { Info } from 'lucide-react';

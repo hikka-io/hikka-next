@@ -1,5 +1,3 @@
-'use client';
-
 import { useHikkaClient } from '@/client/provider/useHikkaClient';
 import { getTitle } from '@/utils';
 

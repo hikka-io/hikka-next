@@ -1,5 +1,3 @@
-'use client';
-
 import { createPlatePlugin } from 'platejs/react';
 
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';

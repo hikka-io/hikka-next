@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, useRef } from 'react';
 
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';

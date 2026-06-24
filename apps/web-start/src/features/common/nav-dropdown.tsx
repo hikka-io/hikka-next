@@ -1,5 +1,3 @@
-'use client';
-
 import { createElement, type FC, memo } from 'react';
 
 import {

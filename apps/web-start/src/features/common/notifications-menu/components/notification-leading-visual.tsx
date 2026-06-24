@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC, ReactNode } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';

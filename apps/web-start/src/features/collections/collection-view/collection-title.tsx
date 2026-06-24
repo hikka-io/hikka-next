@@ -1,5 +1,3 @@
-'use client';
-
 import { useCollectionByReference } from '@hikka/react';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';

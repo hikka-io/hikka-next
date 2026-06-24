@@ -1,5 +1,3 @@
-'use client';
-
 import { type Dispatch, type SetStateAction, useCallback } from 'react';
 
 import { useDropzone } from 'react-dropzone';

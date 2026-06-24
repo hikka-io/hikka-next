@@ -1,5 +1,3 @@
-'use client';
-
 import { type ChangeEvent, useRef, useState } from 'react';
 
 import { type ImageType, UploadTypeEnum } from '@hikka/client';

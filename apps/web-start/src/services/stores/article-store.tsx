@@ -1,5 +1,3 @@
-'use client';
-
 import type { Value } from 'platejs';
 import { createStore } from 'zustand';
 

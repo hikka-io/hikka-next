@@ -1,5 +1,3 @@
-'use client';
-
 import { useUserFollowers, useUserFollowings } from '@hikka/react';
 
 import LoadMoreButton from '@/components/load-more-button';

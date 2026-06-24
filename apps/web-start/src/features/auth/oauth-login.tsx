@@ -1,5 +1,3 @@
-'use client';
-
 import { useOAuthProviderUrl } from '@hikka/react';
 
 import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';

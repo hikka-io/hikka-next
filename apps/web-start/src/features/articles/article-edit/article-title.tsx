@@ -1,5 +1,3 @@
-'use client';
-
 import { memo } from 'react';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';

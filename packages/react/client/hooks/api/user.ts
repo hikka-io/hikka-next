@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 
 import type { ActivityResponse, UserResponse, UserUI } from '@hikka/client';

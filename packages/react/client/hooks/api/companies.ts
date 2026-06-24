@@ -1,5 +1,3 @@
-'use client';
-
 import type { CompaniesPaginationResponse } from '@hikka/client';
 
 import type { UseCompaniesSearchParams } from '@/types/companies';

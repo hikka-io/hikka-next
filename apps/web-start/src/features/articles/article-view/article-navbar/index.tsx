@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, Fragment, useCallback } from 'react';
 
 import { MessageCircle } from 'lucide-react';

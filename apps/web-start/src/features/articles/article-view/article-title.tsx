@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC } from 'react';
 
 import { useArticleBySlug, useTitle } from '@hikka/react';

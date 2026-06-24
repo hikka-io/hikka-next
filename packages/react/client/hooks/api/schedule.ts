@@ -1,5 +1,3 @@
-'use client';
-
 import type { AnimeScheduleResponsePaginationResponse } from '@hikka/client';
 
 import type { UseAnimeScheduleParams } from '@/types/schedule';

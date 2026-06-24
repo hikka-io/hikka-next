@@ -1,5 +1,3 @@
-'use client';
-
 import type { FranchiseResponse } from '@hikka/client';
 
 import type { UseFranchiseParams } from '@/types/related';

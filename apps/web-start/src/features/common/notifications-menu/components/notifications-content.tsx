@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, Fragment, type Ref } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';

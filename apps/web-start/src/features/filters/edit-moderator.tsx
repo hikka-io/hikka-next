@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, useState } from 'react';
 
 import { User as UserIcon } from 'lucide-react';

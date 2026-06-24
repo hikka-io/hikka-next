@@ -1,5 +1,3 @@
-'use client';
-
 import { formatDistance } from 'date-fns';
 
 import { useCollectionByReference } from '@hikka/react';

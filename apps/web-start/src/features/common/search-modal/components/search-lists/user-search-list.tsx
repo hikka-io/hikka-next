@@ -1,5 +1,3 @@
-'use client';
-
 import { useCallback } from 'react';
 
 import type { UserResponse } from '@hikka/client';

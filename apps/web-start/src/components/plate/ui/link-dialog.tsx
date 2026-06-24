@@ -1,5 +1,3 @@
-'use client';
-
 import React, { type FC, useCallback, useRef, useState } from 'react';
 
 import { upsertLink } from '@platejs/link';

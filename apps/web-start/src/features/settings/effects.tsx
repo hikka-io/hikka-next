@@ -1,5 +1,3 @@
-'use client';
-
 import type { UIEffect } from '@hikka/client';
 
 import { Label } from '@/components/ui/label';

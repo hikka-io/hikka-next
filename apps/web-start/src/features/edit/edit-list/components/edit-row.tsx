@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC, MouseEvent } from 'react';
 
 import { format } from 'date-fns';

@@ -1,5 +1,3 @@
-'use client';
-
 import { useRef } from 'react';
 
 import type { HSLColor, UIColorTokens } from '@hikka/client';

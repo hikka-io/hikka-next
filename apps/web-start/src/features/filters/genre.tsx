@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, useMemo } from 'react';
 
 import { Drama } from 'lucide-react';

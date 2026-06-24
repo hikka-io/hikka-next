@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, memo, useState } from 'react';
 
 import { useSortable } from '@dnd-kit/sortable';

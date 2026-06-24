@@ -1,5 +1,3 @@
-'use client';
-
 import { useRouterState } from '@tanstack/react-router';
 
 import { useSession } from '@hikka/react';

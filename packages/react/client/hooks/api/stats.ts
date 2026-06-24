@@ -1,5 +1,3 @@
-'use client';
-
 import type { EditsTopPaginationResponse } from '@hikka/client';
 
 import type { UseTopEditorsListParams } from '@/types/stats';

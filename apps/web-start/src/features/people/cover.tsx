@@ -1,5 +1,3 @@
-'use client';
-
 import { usePersonBySlug } from '@hikka/react';
 
 import ContentCard from '@/components/content-card/content-card';

@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, useMemo, useRef, useState } from 'react';
 
 import { Settings2 } from 'lucide-react';

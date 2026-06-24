@@ -1,5 +1,3 @@
-'use client';
-
 import type { GenreListResponse } from '@hikka/client';
 
 import { useHikkaClient } from '@/client/provider/useHikkaClient';

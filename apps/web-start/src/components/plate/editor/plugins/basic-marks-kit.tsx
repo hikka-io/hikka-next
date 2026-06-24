@@ -1,5 +1,3 @@
-'use client';
-
 import { BoldRules, ItalicRules } from '@platejs/basic-nodes';
 import { BoldPlugin, ItalicPlugin } from '@platejs/basic-nodes/react';
 import { createMarkInputRule, KEYS } from 'platejs';

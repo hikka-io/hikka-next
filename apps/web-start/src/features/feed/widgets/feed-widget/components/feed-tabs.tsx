@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, useRef } from 'react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';

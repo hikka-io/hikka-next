@@ -1,5 +1,3 @@
-'use client';
-
 import type { FC } from 'react';
 
 import { useRouterState } from '@tanstack/react-router';

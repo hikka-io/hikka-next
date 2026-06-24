@@ -1,5 +1,3 @@
-'use client';
-
 import type { ForwardedRef, ReactNode } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';

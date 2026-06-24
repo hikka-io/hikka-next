@@ -1,5 +1,3 @@
-'use client';
-
 import { RotateCw, TriangleAlert, X } from 'lucide-react';
 import type { PlateElementProps } from 'platejs/react';
 import { PlateElement } from 'platejs/react';

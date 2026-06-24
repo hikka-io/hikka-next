@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, useState } from 'react';
 
 import { useFormContext } from '@/components/form/form-context';

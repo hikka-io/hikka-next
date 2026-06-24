@@ -1,5 +1,3 @@
-'use client';
-
 import { type ReactNode, useMemo } from 'react';
 
 import type { HikkaClient, HikkaClientConfig } from '@hikka/client';

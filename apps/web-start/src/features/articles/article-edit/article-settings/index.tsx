@@ -1,5 +1,3 @@
-'use client';
-
 import { type FC, Fragment } from 'react';
 
 import { useArticleContext } from '@/services/providers/article-provider';
