@@ -13,7 +13,7 @@ import {
     TableOfContents,
 } from '@/features/collections';
 import { CommentList as Comments } from '@/features/comments';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import CollectionProvider from '@/services/providers/collection-provider';
 
 export const Route = createFileRoute('/_pages/collections/$reference/')({

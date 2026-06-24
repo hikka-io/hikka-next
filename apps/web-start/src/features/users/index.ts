@@ -8,3 +8,4 @@ export * from './profile';
 export { default as UserHistory } from './user-history';
 export { default as UserInfo } from './user-info';
 export { default as UserTitle } from './user-title';
+export { default as CropEditorModal } from './crop-editor-modal';

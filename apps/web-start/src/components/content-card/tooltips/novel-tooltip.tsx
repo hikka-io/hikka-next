@@ -3,7 +3,7 @@ import { type FC, memo, type PropsWithChildren } from 'react';
 import { ContentTypeEnum, type ReadResponseBase } from '@hikka/client';
 import { useNovelBySlug, useSession, useTitle } from '@hikka/react';
 
-import { ReadlistButton } from '@/features/common';
+import { ReadlistButton } from '@/components/action-buttons';
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 
 import HoverCardWrapper from './hover-card-wrapper';

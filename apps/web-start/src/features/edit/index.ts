@@ -23,3 +23,4 @@ export { default as EditStatusBadge } from './edit-status';
 // Edit Stats Components
 export { default as EditTopStats } from './edit-top-stats';
 export { default as EditTopStatsModal } from './edit-top-stats-modal';
+export { default as EditButton } from './edit-button';

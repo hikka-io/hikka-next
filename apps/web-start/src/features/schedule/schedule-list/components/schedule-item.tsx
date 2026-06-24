@@ -6,7 +6,7 @@ import { useTitle } from '@hikka/react';
 import HorizontalContentCard, {
     type Props as HorizontalContentCardProps,
 } from '@/components/ui/horizontal-content-card';
-import WatchlistButton from '@/features/common/watchlist-button';
+import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
 

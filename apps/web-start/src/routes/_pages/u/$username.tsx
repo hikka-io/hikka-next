@@ -10,8 +10,8 @@ import {
 
 import CoverImage from '@/components/cover-image';
 import Link from '@/components/ui/link';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
-import NavMenu from '@/features/common/nav-dropdown';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
+import NavMenu from '@/features/app-shell/nav-dropdown';
 import {
     ActivationAlert,
     FollowStats,

@@ -19,7 +19,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { CropEditorModal } from '@/features/common';
+import CropEditorModal from './crop-editor-modal';
 import { Link, useParams } from '@/utils/navigation';
 
 const UserInfo = () => {

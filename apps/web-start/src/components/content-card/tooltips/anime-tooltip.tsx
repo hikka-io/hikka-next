@@ -3,7 +3,7 @@ import { type FC, memo, type PropsWithChildren } from 'react';
 import type { WatchResponseBase } from '@hikka/client';
 import { useAnimeBySlug, useSession, useTitle } from '@hikka/react';
 
-import { WatchlistButton } from '@/features/common';
+import { WatchlistButton } from '@/components/action-buttons';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 
 import HoverCardWrapper from './hover-card-wrapper';

@@ -16,7 +16,7 @@ import { queryKeys } from '@hikka/react/core';
 
 import NotFoundPage from '@/components/not-found-page';
 import RouterProgressBar from '@/components/router-progress-bar';
-import { Providers } from '@/features/common';
+import { Providers } from '@/features/app-shell';
 import { getThemeCookieFn, refreshAuthCookieFn } from '@/utils/cookies';
 import { DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getUserStylesCSS } from '@/utils/ui/server';

@@ -12,7 +12,7 @@ import {
     ArticleSettings,
     ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import ArticleProvider from '@/services/providers/article-provider';
 import { requireOwner } from '@/utils/auth';
 import { cn } from '@/utils/cn';

@@ -8,7 +8,7 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Link from '@/components/ui/link';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import {
     EditAuthor as Author,
     EditContent as Content,

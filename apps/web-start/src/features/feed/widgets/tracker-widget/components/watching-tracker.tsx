@@ -36,7 +36,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { WatchEditModal } from '@/features/watch';
+import { WatchEditModal } from '@/components/action-buttons';
 import useDebounce from '@/services/hooks/use-debounce';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';

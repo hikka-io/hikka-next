@@ -7,10 +7,10 @@ import { useSession } from '@hikka/react';
 
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import EditButton from '@/features/common/edit-button';
+import EditButton from '@/features/edit/edit-button';
 import FavoriteButton from '@/components/action-buttons/favorite-button';
-import ReadlistButton from '@/features/common/readlist-button';
-import WatchlistButton from '@/features/common/watchlist-button';
+import ReadlistButton from '@/components/action-buttons/readlist-button';
+import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import { cn } from '@/utils/cn';
 import { COMMENT_DECLENSIONS, CONTENT_CONFIG } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';

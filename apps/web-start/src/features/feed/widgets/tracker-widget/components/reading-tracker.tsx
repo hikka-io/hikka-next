@@ -37,7 +37,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { ReadEditModal } from '@/features/read';
+import { ReadEditModal } from '@/components/action-buttons';
 import useDebounce from '@/services/hooks/use-debounce';
 import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';

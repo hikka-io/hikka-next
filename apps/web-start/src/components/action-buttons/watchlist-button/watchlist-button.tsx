@@ -1,19 +1,15 @@
 import { createElement, useCallback, useMemo, useState } from 'react';
 
 import {
-    ContentTypeEnum,
-    type MangaResponse,
-    type NovelResponse,
-    type ReadContentType,
-    type ReadResponseBase,
-    ReadStatusEnum,
+    type AnimeResponse,
+    type WatchResponseBase,
+    WatchStatusEnum,
 } from '@hikka/client';
 import {
-    useCreateRead,
-    useMangaBySlug,
-    useNovelBySlug,
-    useReadBySlug,
+    useAnimeBySlug,
+    useCreateWatch,
     useTitle,
+    useWatchBySlug,
 } from '@hikka/react';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
@@ -32,26 +28,24 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
-import { ReadEditModal } from '@/features/read';
+import WatchEditModal from '../watch-edit-modal';
 import { cn } from '@/utils/cn';
-import { READ_STATUS } from '@/utils/constants/common';
+import { WATCH_STATUS } from '@/utils/constants/common';
 
-import IconReadStatusButton from './components/icon-read-status-button';
+import IconWatchStatusButton from './components/icon-watch-status-button';
 import NewStatusTrigger from './components/new-status-trigger';
-import ReadStatusTrigger from './components/read-status-trigger';
+import WatchStatusTrigger from './components/watch-status-trigger';
 
 type Props = {
     slug: string;
     additional?: boolean;
     disabled?: boolean;
-    content_type: ReadContentType;
-    read?: ReadResponseBase | null;
-    content?: MangaResponse | NovelResponse;
+    watch?: WatchResponseBase | null;
+    anime?: AnimeResponse;
     size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
     buttonProps?: ButtonProps;
 };
 
-// Move constants outside component to prevent recreation on each render
 const SETTINGS_BUTTON = {
     label: (
         <div className="flex items-center gap-2">
@@ -64,9 +58,9 @@ const SETTINGS_BUTTON = {
     title: 'Налаштування',
 };
 
-const STATUS_OPTIONS = Object.keys(READ_STATUS).map((status) => ({
+const STATUS_OPTIONS = Object.keys(WATCH_STATUS).map((status) => ({
     value: status,
-    title: READ_STATUS[status as ReadStatusEnum].title_ua,
+    title: WATCH_STATUS[status as WatchStatusEnum].title_ua,
     label: (
         <div className="flex items-center gap-2">
             <div
@@ -75,146 +69,111 @@ const STATUS_OPTIONS = Object.keys(READ_STATUS).map((status) => ({
                     `bg-${status} text-${status}-foreground border-${status}-border`,
                 )}
             >
-                {createElement(READ_STATUS[status as ReadStatusEnum].icon!, {
+                {createElement(WATCH_STATUS[status as WatchStatusEnum].icon!, {
                     className: 'size-3!',
                 })}
             </div>
-            {READ_STATUS[status as ReadStatusEnum].title_ua}
+            {WATCH_STATUS[status as WatchStatusEnum].title_ua}
         </div>
     ),
 }));
 
-const ReadlistButton = ({
+const WatchlistButton = ({
     slug,
-    content_type,
     disabled,
-    read: readProp,
-    content: contentProp,
+    watch: watchProp,
+    anime: animeProp,
     size,
     buttonProps,
 }: Props) => {
     const [editOpen, setEditOpen] = useState(false);
 
-    const { data: readQuery, isError: readError } = useReadBySlug({
-        contentType: content_type,
+    const { data: watchQuery, isError: watchError } = useWatchBySlug({
         slug,
         options: {
-            enabled: !disabled && !readProp && readProp !== null,
+            enabled: !disabled && !watchProp && watchProp !== null,
         },
     });
 
-    const { data: manga } = useMangaBySlug({
+    const { data: animeQuery } = useAnimeBySlug({
         slug,
         options: {
-            enabled: !disabled && content_type === 'manga' && !contentProp,
+            enabled: !disabled && !animeProp,
         },
     });
 
-    const { data: novel } = useNovelBySlug({
-        slug,
-        options: {
-            enabled: !disabled && content_type === 'novel' && !contentProp,
-        },
-    });
+    const { mutate: addWatch, isPending: isChangingStatus } = useCreateWatch();
 
-    const { mutate: createRead, isPending: isChangingStatus } = useCreateRead();
-
-    // Memoize derived values to prevent unnecessary recalculations
-    const read = useMemo(
-        () => readProp || (readQuery && !readError ? readQuery : undefined),
-        [readProp, readQuery, readError],
+    const watch = useMemo(
+        () => watchProp || (watchQuery && !watchError ? watchQuery : undefined),
+        [watchProp, watchQuery, watchError],
     );
 
-    const content = useMemo(
-        () => contentProp || manga || novel,
-        [contentProp, manga, novel],
+    const anime = useMemo(
+        () => animeProp || animeQuery,
+        [animeProp, animeQuery],
     );
 
-    const title = useTitle(content);
+    const title = useTitle(anime);
 
-    const openReadEditModal = useCallback(() => {
-        if (content) {
+    const openWatchEditModal = useCallback(() => {
+        if (anime) {
             setEditOpen(true);
         }
-    }, [content]);
+    }, [anime]);
 
     const handleChangeStatus = useCallback(
         (options: string[]) => {
             const selectedOption = options[0];
 
             if (selectedOption === 'settings') {
-                openReadEditModal();
+                openWatchEditModal();
                 return;
             }
 
-            // Extract current read parameters
-            const currentReadParams =
-                read && !readError
-                    ? {
-                          chapters: read.chapters || undefined,
-                          volumes: read.volumes || undefined,
-                          score: read.score || undefined,
-                          note: read.note || undefined,
-                          rereads: read.rereads || undefined,
-                      }
-                    : {};
+            // Extract current watch parameters
+            const currentWatchParams = watch
+                ? {
+                      episodes: watch.episodes || undefined,
+                      score: watch.score || undefined,
+                      note: watch.note || undefined,
+                      rewatches: watch.rewatches || undefined,
+                  }
+                : {};
 
-            // Handle completed status specially to set volumes and chapters for manga/novel
-            const readArgs =
+            // Handle completed status specially to set episodes to total
+            const watchArgs =
                 selectedOption === 'completed'
                     ? {
-                          status: ReadStatusEnum.COMPLETED,
-                          ...currentReadParams,
-                          volumes:
-                              (content_type === ContentTypeEnum.MANGA
-                                  ? manga?.volumes
-                                  : novel?.volumes) ||
-                              read?.volumes ||
-                              undefined,
-                          chapters:
-                              (content_type === ContentTypeEnum.MANGA
-                                  ? manga?.chapters
-                                  : novel?.chapters) ||
-                              read?.chapters ||
-                              undefined,
+                          status: WatchStatusEnum.COMPLETED,
+                          ...currentWatchParams,
+                          episodes: anime?.episodes_total || undefined,
                       }
                     : {
-                          status: selectedOption as ReadStatusEnum,
-                          ...currentReadParams,
+                          status: selectedOption as WatchStatusEnum,
+                          ...currentWatchParams,
                       };
 
-            createRead({
-                contentType: content_type,
+            addWatch({
                 slug,
-                args: readArgs,
+                args: watchArgs,
             });
         },
-        [
-            read,
-            readError,
-            manga,
-            novel,
-            content_type,
-            slug,
-            createRead,
-            openReadEditModal,
-        ],
+        [watch, anime, slug, addWatch, openWatchEditModal],
     );
 
-    const hasValidRead = read && !readError;
-    const currentStatus = hasValidRead ? [read.status] : [];
+    const currentStatus = watch ? [watch.status] : [];
 
     return (
         <>
             {size?.includes('icon') ? (
-                <IconReadStatusButton
+                <IconWatchStatusButton
                     {...buttonProps}
-                    read={read}
+                    watch={watch}
                     disabled={disabled}
                     size={size as 'icon-sm' | 'icon-md'}
                     slug={slug}
-                    content_type={content_type}
-                    content={content}
+                    anime={anime}
                     isLoading={isChangingStatus}
                     onOpenModal={() => setEditOpen(true)}
                 />
@@ -224,9 +183,9 @@ const ReadlistButton = ({
                     value={currentStatus}
                     onValueChange={handleChangeStatus}
                 >
-                    {hasValidRead ? (
-                        <ReadStatusTrigger
-                            read={read}
+                    {watch ? (
+                        <WatchStatusTrigger
+                            watch={watch}
                             disabled={disabled}
                             size={size as 'sm' | 'md'}
                             isLoading={isChangingStatus}
@@ -234,10 +193,9 @@ const ReadlistButton = ({
                         />
                     ) : (
                         <NewStatusTrigger
-                            content_type={content_type}
+                            size={size as 'sm' | 'md'}
                             slug={slug}
                             disabled={disabled}
-                            size={size as 'sm' | 'md'}
                             isLoading={isChangingStatus}
                         />
                     )}
@@ -254,7 +212,7 @@ const ReadlistButton = ({
                                     </SelectItem>
                                 ))}
                             </SelectGroup>
-                            {hasValidRead && (
+                            {watch && (
                                 <>
                                     <SelectSeparator />
                                     <SelectGroup>
@@ -280,10 +238,9 @@ const ReadlistButton = ({
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    <ReadEditModal
+                    <WatchEditModal
                         slug={slug}
-                        content_type={content_type}
-                        read={read}
+                        watch={watch}
                         onClose={() => setEditOpen(false)}
                     />
                 </ResponsiveModalContent>
@@ -292,4 +249,4 @@ const ReadlistButton = ({
     );
 };
 
-export default ReadlistButton;
+export default WatchlistButton;

@@ -20,8 +20,8 @@ import {
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { TableCell } from '@/components/ui/table';
-import { ReadEditModal } from '@/features/read';
-import { WatchEditModal } from '@/features/watch';
+import { ReadEditModal } from '@/components/action-buttons';
+import { WatchEditModal } from '@/components/action-buttons';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 

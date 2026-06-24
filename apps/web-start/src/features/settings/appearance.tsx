@@ -15,7 +15,7 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
-import { CropEditorModal } from '@/features/common';
+import { CropEditorModal } from '@/features/users';
 
 const Appearance = () => {
     const uploadAvatarRef = useRef<HTMLInputElement>(null);

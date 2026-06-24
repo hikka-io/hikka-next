@@ -1,13 +1,14 @@
 import { useSession } from '@hikka/react';
 
 import { Button } from '@/components/ui/button';
-import { LoginButton, SearchModal } from '@/features/common';
+import { SearchModal } from '@/features/search';
+import LoginButton from '../login-button';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-import NotificationsMenu from '../notifications-menu';
+import { NotificationsMenu } from '@/features/notifications';
 import MobileNav from './components/mobile-nav';
 import NavMenu from './components/nav-menu';
 import ProfileMenu from './components/profile-menu';

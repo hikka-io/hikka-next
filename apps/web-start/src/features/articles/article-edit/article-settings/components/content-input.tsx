@@ -13,7 +13,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { Label } from '@/components/ui/label';
-import { SearchModal } from '@/features/common';
+import { SearchModal } from '@/features/search';
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 

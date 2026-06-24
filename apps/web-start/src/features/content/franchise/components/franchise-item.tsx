@@ -15,8 +15,8 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import ReadlistButton from '@/features/common/readlist-button';
-import WatchlistButton from '@/features/common/watchlist-button';
+import ReadlistButton from '@/components/action-buttons/readlist-button';
+import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import { MEDIA_TYPE } from '@/utils/constants/common';
 
 type Props = {

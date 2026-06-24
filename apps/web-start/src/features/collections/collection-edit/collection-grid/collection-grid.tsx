@@ -8,7 +8,7 @@ import type { CollectionContent } from '@hikka/client';
 import ContentCard from '@/components/content-card/content-card';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { SearchModal } from '@/features/common';
+import { SearchModal } from '@/features/search';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 import type { Group } from '@/services/stores/collection-store';
 import { cn } from '@/utils/cn';

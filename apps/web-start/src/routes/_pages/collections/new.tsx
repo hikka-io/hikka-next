@@ -8,7 +8,7 @@ import {
     CollectionEditSettings as CollectionSettings,
     CollectionEditTitle as CollectionTitle,
 } from '@/features/collections';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import CollectionProvider from '@/services/providers/collection-provider';
 import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';

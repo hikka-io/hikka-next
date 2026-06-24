@@ -3,8 +3,8 @@ import type { FC } from 'react';
 import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
 
-import ReadListButton from '@/features/common/readlist-button';
-import WatchlistButton from '@/features/common/watchlist-button';
+import ReadListButton from '@/components/action-buttons/readlist-button';
+import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import { useParams } from '@/utils/navigation';
 
 import UserContentStats from './components/user-content-stats';

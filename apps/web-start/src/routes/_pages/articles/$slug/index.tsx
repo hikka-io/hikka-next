@@ -14,7 +14,7 @@ import {
     ArticleTitle,
 } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 export const Route = createFileRoute('/_pages/articles/$slug/')({

@@ -9,7 +9,7 @@ import {
 } from '@hikka/react/options';
 
 import { Toaster } from '@/components/ui/sonner';
-import { Footer, Navbar } from '@/features/common';
+import { Footer, Navbar } from '@/features/app-shell';
 
 export const Route = createFileRoute('/_pages')({
     beforeLoad: async ({ context: { queryClient, hikkaClient } }) => {
