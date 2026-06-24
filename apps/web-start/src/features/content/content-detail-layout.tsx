@@ -4,7 +4,7 @@ import type { ContentTypeEnum } from '@hikka/client';
 
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import NavMenu from '@/features/common/nav-dropdown';
-import { ContentActionBar } from '@/features/content';
+import ContentActionBar from './content-action-bar';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 

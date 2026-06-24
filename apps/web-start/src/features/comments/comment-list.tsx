@@ -14,8 +14,8 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-import CommentInput from '@/features/comments/comment-input';
-import Comments from '@/features/comments/comments';
+import CommentInput from './comment-input';
+import Comments from './comments';
 import { LoginButton } from '@/features/common';
 import CommentsProvider from '@/services/providers/comments-provider';
 import { cn } from '@/utils/cn';

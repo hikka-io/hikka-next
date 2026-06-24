@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { CatalogSummary } from '@/features/content';
-import { useMangaSearchQuery } from '@/features/manga/manga-list/use-manga-search-query';
+import { useMangaSearchQuery } from '../manga-list/use-manga-search-query';
 
 type Props = {
     pageSize?: number;

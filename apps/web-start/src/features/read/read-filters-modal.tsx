@@ -11,7 +11,7 @@ import FiltersFooter from '@/features/filters/filters-footer';
 import {
     ReadFiltersBody,
     readPresetContentType,
-} from '@/features/read/read-filters';
+} from './read-filters';
 
 type Props = {
     open: boolean;

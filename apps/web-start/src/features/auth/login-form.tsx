@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
-import { OAuthLogin } from '@/features/auth';
+import OAuthLogin from './oauth-login';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { setAuthCookieFn } from '@/utils/auth';
 import { z } from '@/utils/i18n/zod';

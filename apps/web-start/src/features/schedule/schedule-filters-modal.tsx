@@ -9,7 +9,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-import { ScheduleFilters as Filters } from '@/features/schedule';
+import Filters from './schedule-filters';
 
 type Props = {
     children?: ReactNode;

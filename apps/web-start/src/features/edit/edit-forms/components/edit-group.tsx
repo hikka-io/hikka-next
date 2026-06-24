@@ -9,7 +9,7 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { getEditParamComponent } from '@/features/edit/edit-forms/utils/edit-param-utils';
+import { getEditParamComponent } from '../utils/edit-param-utils';
 
 type Props = {
     title: string;

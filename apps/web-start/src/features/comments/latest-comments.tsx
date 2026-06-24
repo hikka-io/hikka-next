@@ -9,7 +9,7 @@ import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
-import GlobalComment from '@/features/comments/global-comment';
+import GlobalComment from './global-comment';
 import { cn } from '@/utils/cn';
 
 type Props = {

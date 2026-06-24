@@ -9,7 +9,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-import { EditFilters } from '@/features/edit';
+import EditFilters from './edit-filters';
 
 type Props = {
     children?: ReactNode;
