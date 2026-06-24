@@ -26,6 +26,7 @@ import {
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
+import Spinner from '@/components/ui/spinner';
 import Stack from '@/components/ui/stack';
 import {
     Tooltip,
@@ -224,9 +225,7 @@ const WatchingTracker = () => {
                         </Tooltip>
                     ))}
                     <div ref={ref} className="flex items-center justify-center">
-                        {isFetchingNextPage && (
-                            <span className="loading loading-spinner" />
-                        )}
+                        {isFetchingNextPage && <Spinner />}
                     </div>
                 </Stack>
 

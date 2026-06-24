@@ -9,7 +9,11 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 
-import { ReadFiltersBody, ReadFiltersFooter } from '@/features/read/read-filters';
+import FiltersFooter from '@/features/filters/filters-footer';
+import {
+    ReadFiltersBody,
+    readPresetContentType,
+} from '@/features/read/read-filters';
 
 interface Props {
     open: boolean;
@@ -42,7 +46,10 @@ const ReadFiltersModal: FC<Props> = ({
                     sort_type={sort_type}
                 />
                 <ResponsiveModalFooter>
-                    <ReadFiltersFooter className="w-full" />
+                    <FiltersFooter
+                        className="w-full"
+                        contentType={readPresetContentType(sort_type)}
+                    />
                 </ResponsiveModalFooter>
             </ResponsiveModalContent>
         </ResponsiveModal>

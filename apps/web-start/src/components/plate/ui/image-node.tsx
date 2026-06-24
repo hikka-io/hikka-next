@@ -8,14 +8,15 @@ import { Button } from '@/components/ui/button';
 
 import { cn } from '@/utils/cn';
 
-export interface ImageElementProps extends PlateElementProps {
+import type { TImageElement } from '../editor/plugins/image-kit';
+
+export interface ImageElementProps extends PlateElementProps<TImageElement> {
     className?: string;
-    url?: string;
 }
 
 export function ImageElement({ className, ...props }: ImageElementProps) {
     const { children, element, editor } = props;
-    const url = (element as any)?.url || props.url || '';
+    const url = element.url ?? '';
 
     const handleDeleteMediaItem = () => {
         editor.tf.removeNodes({

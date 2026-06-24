@@ -12,7 +12,7 @@ import {
 import { cn } from '@/utils/cn';
 
 import ContentCard from '../content-card/content-card';
-import MDViewer from '../markdown/viewer/MD-viewer';
+import MDViewer from '../markdown/viewer/md-viewer';
 import { Label } from './label';
 import Link from './link';
 

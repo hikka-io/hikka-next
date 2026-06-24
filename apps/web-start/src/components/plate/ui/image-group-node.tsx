@@ -5,9 +5,14 @@ import { PlateElement } from 'platejs/react';
 
 import { cn } from '@/utils/cn';
 
+import {
+    MAX_IMAGE_COUNT,
+    type TImageGroupElement,
+} from '../editor/plugins/image-group-kit';
 import { ImageGroupAddImage } from './image-group-add-image';
 
-export interface ImageGroupElementProps extends PlateElementProps {
+export interface ImageGroupElementProps
+    extends PlateElementProps<TImageGroupElement> {
     className?: string;
 }
 
@@ -18,10 +23,11 @@ export function ImageGroupElement({
     editor,
     ...props
 }: ImageGroupElementProps) {
+    const firstChild = element.children[0];
     const isOnlyText =
         element.children.length === 1 &&
-        editor.api.isText(element.children[0]) &&
-        element.children[0].text === '';
+        editor.api.isText(firstChild) &&
+        firstChild.text === '';
 
     return (
         <PlateElement
@@ -32,7 +38,7 @@ export function ImageGroupElement({
             {...props}
         >
             {!isOnlyText && children}
-            {children.length < 4 && (
+            {element.children.length < MAX_IMAGE_COUNT && (
                 <ImageGroupAddImage editor={editor} element={element} />
             )}
         </PlateElement>

@@ -26,14 +26,15 @@ import { buttonVariants } from '@/components/ui/button';
 import { usePortalContainer } from '@/components/ui/portal-container-context';
 import { Separator } from '@/components/ui/separator';
 
-import { useLinkDialogContext } from './link-dialog';
+import { getLinkDialog } from './link-dialog';
 
 const popoverVariants = cva(
     'bg-popover text-popover-foreground ring-foreground/10 z-50 w-auto rounded-lg p-1 shadow-md ring-1 outline-hidden',
 );
 
 export function LinkFloatingToolbar() {
-    const { openEdit } = useLinkDialogContext();
+    const editor = useEditorRef();
+    const openEdit = () => getLinkDialog(editor)?.openEdit();
     const portalContainer = usePortalContainer();
 
     const activeCommentId = usePluginOption({ key: KEYS.comment }, 'activeId');

@@ -10,7 +10,7 @@ import {
 import { FC, PropsWithChildren, memo } from 'react';
 
 import MaterialSymbolsMoreHoriz from '../../icons/material-symbols/MaterialSymbolsMoreHoriz';
-import MDViewer from '../../markdown/viewer/MD-viewer';
+import MDViewer from '../../markdown/viewer/md-viewer';
 import ContentCard from '../content-card';
 import HoverCardWrapper from './hover-card-wrapper';
 import { PersonTooltipSkeleton } from './tooltip-skeleton';

@@ -16,8 +16,6 @@ export function ImageGroupToolbarButton() {
             <ImageGroupAddImage editor={editor}>
                 <Input
                     type="file"
-                    id="image-group-input"
-                    max={4}
                     multiple
                     className="absolute top-0 left-0 size-full cursor-pointer opacity-0"
                     accept="image/*"

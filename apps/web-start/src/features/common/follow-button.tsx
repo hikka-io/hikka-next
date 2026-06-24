@@ -13,6 +13,7 @@ import { FC } from 'react';
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 import MaterialSymbolsPersonRemoveOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonRemoveOutlineRounded';
 import { Button, buttonVariants } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
 
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
@@ -90,7 +91,7 @@ const FollowButton: FC<Props> = ({
             className={cn(className)}
         >
             {followLoading || unfollowLoading ? (
-                <span className="loading loading-spinner"></span>
+                <Spinner />
             ) : user.is_followed ? (
                 <MaterialSymbolsPersonRemoveOutlineRounded />
             ) : (

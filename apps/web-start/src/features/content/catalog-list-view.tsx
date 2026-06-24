@@ -1,0 +1,94 @@
+'use client';
+
+import { useQueryClient } from '@hikka/react/core';
+import { QueryKey } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
+import { ReactNode } from 'react';
+
+import CatalogListSkeleton from '@/components/catalog-list-skeleton';
+import FiltersNotFound from '@/components/filters-not-found';
+import LoadMoreButton from '@/components/load-more-button';
+import Card from '@/components/ui/card';
+import Pagination from '@/components/ui/pagination';
+import Stack, { StackSize } from '@/components/ui/stack';
+
+interface Props<T> {
+    list: T[] | undefined;
+    isLoading: boolean;
+    isFetchingNextPage: boolean;
+    hasNextPage: boolean;
+    fetchNextPage: () => void;
+    hasMultiplePages: boolean;
+    pagination?: { page: number; pages: number };
+    /** Exact query key to drop from cache when jumping pages. */
+    removeQueryKey: QueryKey;
+    renderItem: (item: T) => ReactNode;
+    extendedSize?: StackSize;
+}
+
+/**
+ * Shared presentational shell for the /anime, /manga and /novel catalogs.
+ * Each per-type list stays a thin wrapper that calls its own search hook
+ * (so hook rules hold) and supplies the card renderer + cache key here.
+ */
+function CatalogListView<T>({
+    list,
+    isLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+    hasMultiplePages,
+    pagination,
+    removeQueryKey,
+    renderItem,
+    extendedSize = 5,
+}: Props<T>) {
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
+
+    const handlePageChange = (newPage: number) => {
+        if (hasMultiplePages) {
+            queryClient.removeQueries({ queryKey: removeQueryKey });
+        }
+
+        navigate({
+            to: '.',
+            search: (prev) => ({ ...prev, page: newPage }),
+        });
+    };
+
+    if (isLoading && !isFetchingNextPage) {
+        return <CatalogListSkeleton extendedSize={extendedSize} />;
+    }
+
+    if (list === undefined || list.length === 0) {
+        return <FiltersNotFound />;
+    }
+
+    return (
+        <div className="isolate flex flex-col gap-6">
+            <Stack extended size={5} extendedSize={extendedSize}>
+                {list.map(renderItem)}
+            </Stack>
+            {hasNextPage && (
+                <LoadMoreButton
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
+                />
+            )}
+            {pagination && pagination.pages > 1 && (
+                <div className="sticky bottom-4 z-10 mx-auto flex w-fit items-center">
+                    <Card className="bg-secondary/60 flex-row gap-2 border-none px-3 py-2 backdrop-blur-xl">
+                        <Pagination
+                            page={pagination.page}
+                            pages={pagination.pages}
+                            setPage={handlePageChange}
+                        />
+                    </Card>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default CatalogListView;

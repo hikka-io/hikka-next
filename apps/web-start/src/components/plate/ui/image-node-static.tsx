@@ -6,9 +6,10 @@ import Image from '@/components/ui/image';
 
 import { cn } from '@/utils/cn';
 
-export interface ImageElementStaticProps extends SlateElementProps {
+import type { TImageElement } from '../editor/plugins/image-kit';
+
+export interface ImageElementStaticProps extends SlateElementProps<TImageElement> {
     className?: string;
-    url?: string;
 }
 
 export function ImageElementStatic({
@@ -16,7 +17,7 @@ export function ImageElementStatic({
     element,
     ...props
 }: ImageElementStaticProps) {
-    const url = (element as any)?.url || '';
+    const url = element.url ?? '';
 
     return (
         <SlateElement

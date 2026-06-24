@@ -4,7 +4,7 @@ import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
 import ContentCard from '../content-card/content-card';
-import MDViewer from '../markdown/viewer/MD-viewer';
+import MDViewer from '../markdown/viewer/md-viewer';
 import { Label } from './label';
 
 export interface Props extends ComponentPropsWithoutRef<'div'> {

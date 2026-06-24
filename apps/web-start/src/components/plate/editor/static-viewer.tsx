@@ -16,6 +16,7 @@ interface StaticEditorProps {
 export function StaticViewer({ value, className }: StaticEditorProps) {
     const editor = useMemo(() => {
         return createSlateEditor({
+            nodeId: false,
             plugins: StaticKit,
         });
     }, []);

@@ -14,10 +14,10 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 
+import { CollectionCard } from '@/features/collections';
+
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
-
-import CollectionCard from './components/collection-card';
 
 interface Props {
     className?: string;
@@ -53,6 +53,7 @@ const Collections: FC<Props> = ({ className }) => {
             <Stack size={3} className="grid-min-20">
                 {list?.map((item) => (
                     <CollectionCard
+                        variant="compact"
                         maxPreviewItems={2}
                         key={item.reference}
                         collection={item}

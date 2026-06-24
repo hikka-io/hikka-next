@@ -3,6 +3,7 @@ export { default as ArticleCategoryFilter } from './article-category';
 export { default as ArticleCustomizationFilter } from './article-customization';
 export { default as ContentTypeFilter } from './content-type';
 export { default as DateRangeFilter } from './date-range';
+export { default as FiltersFooter } from './filters-footer';
 export { default as EditModeratorFilter } from './edit-moderator';
 export { default as EditStatusFilter } from './edit-status';
 export { default as GenreFilter, FormGenre } from './genre';

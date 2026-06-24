@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from '@hikka/react';
-import { FC, PropsWithChildren } from 'react';
+import { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 
 import {
     AnimeTooltip,
@@ -48,10 +48,62 @@ const LINK_EXTRA_CLASSNAME = 'break-all';
 const LINK_CLASSNAME =
     'cursor-pointer text-primary-foreground hover:underline wrap-break-word whitespace-normal';
 
+const INTERNAL_TOOLTIPS: {
+    pattern: RegExp;
+    wrap: (slug: string, link: ReactNode) => ReactElement;
+}[] = [
+    {
+        pattern: /^\/anime\/([^/?#]+)/,
+        wrap: (slug, link) => <AnimeTooltip slug={slug}>{link}</AnimeTooltip>,
+    },
+    {
+        pattern: /^\/characters\/([^/?#]+)/,
+        wrap: (slug, link) => (
+            <CharacterTooltip slug={slug}>{link}</CharacterTooltip>
+        ),
+    },
+    {
+        pattern: /^\/manga\/([^/?#]+)/,
+        wrap: (slug, link) => <MangaTooltip slug={slug}>{link}</MangaTooltip>,
+    },
+    {
+        pattern: /^\/novel\/([^/?#]+)/,
+        wrap: (slug, link) => <NovelTooltip slug={slug}>{link}</NovelTooltip>,
+    },
+    {
+        pattern: /^\/people\/([^/?#]+)/,
+        wrap: (slug, link) => <PersonTooltip slug={slug}>{link}</PersonTooltip>,
+    },
+    {
+        pattern: /^\/u\/([^/?#]+)/,
+        wrap: (username, link) => (
+            <UserTooltip username={username}>{link}</UserTooltip>
+        ),
+    },
+];
+
+const getHostname = (href: string): string | null => {
+    try {
+        return new URL(href, 'https://hikka.io').hostname.toLowerCase();
+    } catch {
+        return null;
+    }
+};
+
+const hostMatches = (hostname: string | null, hosts: string[]) =>
+    !!hostname &&
+    hosts.some((host) => hostname === host || hostname.endsWith('.' + host));
+
 const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     const { user } = useSession();
 
-    if (!user && AUTH_ONLY_HOSTS.some((host) => href.includes(host))) {
+    const hostname = getHostname(href);
+    const isInternal =
+        hostname === 'hikka.io' ||
+        !!hostname?.endsWith('.hikka.io') ||
+        !/^https?:\/\//i.test(href);
+
+    if (!user && hostMatches(hostname, AUTH_ONLY_HOSTS)) {
         return (
             <span className={cn('text-muted-foreground', className)}>
                 {children}
@@ -59,95 +111,21 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
         );
     }
 
-    if (href.includes('hikka.io') || !href.includes('http')) {
-        if (href.includes('/anime')) {
-            const link = href.split('/anime/')[1]?.split('/')[0];
+    if (isInternal) {
+        const path = href.replace(/^https?:\/\/[^/]+/i, '');
 
-            if (link) {
-                return (
-                    <AnimeTooltip slug={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </AnimeTooltip>
-                );
-            }
-        } else if (href.includes('/characters')) {
-            const link = href.split('/characters/')[1]?.split('/')[0];
+        for (const { pattern, wrap } of INTERNAL_TOOLTIPS) {
+            const slug = path.match(pattern)?.[1];
 
-            if (link) {
-                return (
-                    <CharacterTooltip slug={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </CharacterTooltip>
-                );
-            }
-        } else if (href.includes('/manga')) {
-            const link = href.split('/manga/')[1]?.split('/')[0];
-
-            if (link) {
-                return (
-                    <MangaTooltip slug={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </MangaTooltip>
-                );
-            }
-        } else if (href.includes('/novel')) {
-            const link = href.split('/novel/')[1]?.split('/')[0];
-
-            if (link) {
-                return (
-                    <NovelTooltip slug={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </NovelTooltip>
-                );
-            }
-        } else if (href.includes('/people')) {
-            const link = href.split('/people/')[1]?.split('/')[0];
-
-            if (link) {
-                return (
-                    <PersonTooltip slug={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </PersonTooltip>
-                );
-            }
-        } else if (href.includes('/u')) {
-            const link = href.split('/u/')[1]?.split('/')[0];
-
-            if (link) {
-                return (
-                    <UserTooltip username={link}>
-                        <TanstackLink
-                            className={cn(LINK_CLASSNAME, className)}
-                            to={href}
-                        >
-                            {children}
-                        </TanstackLink>
-                    </UserTooltip>
+            if (slug) {
+                return wrap(
+                    slug,
+                    <TanstackLink
+                        className={cn(LINK_CLASSNAME, className)}
+                        to={href}
+                    >
+                        {children}
+                    </TanstackLink>,
                 );
             }
         }
@@ -162,10 +140,11 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
         );
     }
 
-    if (ALLOWED_HOSTS.some((host) => href.includes(host))) {
+    if (hostMatches(hostname, ALLOWED_HOSTS)) {
         return (
             <a
                 target="_blank"
+                rel="noopener noreferrer"
                 className={cn(LINK_CLASSNAME, LINK_EXTRA_CLASSNAME, className)}
                 href={href}
             >
@@ -209,7 +188,9 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
                 <AlertDialogFooter>
                     <AlertDialogCancel>Відмінити</AlertDialogCancel>
                     <AlertDialogAction
-                        onClick={() => window.open(href, '_blank')}
+                        onClick={() =>
+                            window.open(href, '_blank', 'noopener,noreferrer')
+                        }
                     >
                         Продовжити
                     </AlertDialogAction>

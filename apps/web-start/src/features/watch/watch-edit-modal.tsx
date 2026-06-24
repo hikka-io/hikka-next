@@ -26,6 +26,7 @@ import {
     SelectList,
     SelectTrigger,
 } from '@/components/ui/select';
+import Spinner from '@/components/ui/spinner';
 
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
@@ -258,7 +259,7 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
                     disabled={addToListLoading || deleteFromListLoading}
                 >
                     {deleteFromListLoading ? (
-                        <span className="loading loading-spinner"></span>
+                        <Spinner />
                     ) : (
                         <MaterialSymbolsDeleteForeverRounded className="size-4" />
                     )}
@@ -270,7 +271,7 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
                     disabled={addToListLoading || deleteFromListLoading}
                 >
                     {addToListLoading ? (
-                        <span className="loading loading-spinner"></span>
+                        <Spinner />
                     ) : (
                         <MaterialSymbolsCheckRounded className="size-4" />
                     )}

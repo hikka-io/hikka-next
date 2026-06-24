@@ -4,7 +4,7 @@ import { useUpdateNotificationSeen } from '@hikka/react';
 import { formatDistance } from 'date-fns/formatDistance';
 import { FC } from 'react';
 
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { HorizontalCardDescription } from '@/components/ui/horizontal-card';
 
 import { cn } from '@/utils/cn';

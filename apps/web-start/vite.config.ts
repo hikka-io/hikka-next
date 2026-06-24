@@ -13,7 +13,9 @@ export default defineConfig({
         tanstackStart(),
         nitro(),
         react({
-            exclude: [/utils\/og\//],
+            // plugin-react v5 no longer auto-excludes node_modules when a custom
+            // `exclude` is provided (it replaces the default), so keep it explicit.
+            exclude: [/utils\/og\//, /\/node_modules\//],
             babel: {
                 plugins: [['babel-plugin-react-compiler', {}]],
             },

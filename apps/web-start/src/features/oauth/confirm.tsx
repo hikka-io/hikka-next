@@ -5,6 +5,7 @@ import { getRouteApi } from '@tanstack/react-router';
 import { FC } from 'react';
 
 import { Button } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
 
 interface Props {}
 
@@ -40,7 +41,7 @@ const Confirm: FC<Props> = () => {
             disabled={!user || isPending}
             onClick={handleConfirm}
         >
-            {isPending && <span className="loading loading-spinner"></span>}
+            {isPending && <Spinner />}
             Продовжити
         </Button>
     );

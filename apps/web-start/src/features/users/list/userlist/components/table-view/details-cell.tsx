@@ -8,7 +8,7 @@ import { useTitle } from '@hikka/react';
 import { FC } from 'react';
 
 import ContentCard from '@/components/content-card/content-card';
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';

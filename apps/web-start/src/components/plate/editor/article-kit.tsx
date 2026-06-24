@@ -1,9 +1,8 @@
 'use client';
 
 import { TrailingBlockPlugin } from 'platejs';
-import { ParagraphPlugin, useEditorRef } from 'platejs/react';
+import { ParagraphPlugin } from 'platejs/react';
 
-import { AutoformatArticleKit } from './plugins/autoformat-kit';
 import { BasicBlocksKit } from './plugins/basic-blocks-kit';
 import { BasicMarksKit } from './plugins/basic-marks-kit';
 import { EmojiKit } from './plugins/emoji-kit';
@@ -15,6 +14,7 @@ import { LinkKit } from './plugins/link-kit';
 import { ListKit } from './plugins/list-classic-kit';
 import { MarkdownKit } from './plugins/markdown-kit';
 import { SpoilerKit } from './plugins/spoiler-kit';
+import { TextSubstitutionsKit } from './plugins/text-substitutions-kit';
 import { VideoKit } from './plugins/video-kit';
 
 export const ArticleKit = [
@@ -33,7 +33,7 @@ export const ArticleKit = [
     ...EmojiKit,
     TrailingBlockPlugin.configure({ options: { type: ParagraphPlugin.key } }),
     ...ExitBreakKit,
-    ...AutoformatArticleKit,
+    ...TextSubstitutionsKit,
 
     // Block Style
     ...ListKit,
@@ -44,5 +44,3 @@ export const ArticleKit = [
     // UI
     ...FixedArticleToolbarKit,
 ];
-
-export const useArticleEditor = () => useEditorRef();

@@ -20,14 +20,6 @@ interface Props extends Omit<HorizontalContentCardProps, 'title' | 'href'> {
 const ScheduleItem: FC<Props> = ({ item, ...props }) => {
     const title = useTitle(item.anime);
 
-    const getDuration = () => {
-        if (item.time_left <= 0) {
-            return 'Вийшло';
-        }
-
-        return getScheduleDuration(item.airing_at, item.time_left);
-    };
-
     return (
         <HorizontalContentCard
             title={title}
@@ -51,7 +43,7 @@ const ScheduleItem: FC<Props> = ({ item, ...props }) => {
                             item.time_left <= 0 && 'text-muted-foreground',
                         )}
                     >
-                        {getDuration()}
+                        {getScheduleDuration(item.airing_at, item.time_left)}
                     </h5>
                 </div>
 

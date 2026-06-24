@@ -4,15 +4,8 @@ import { usePersonCharacters } from '@hikka/react';
 import { FC } from 'react';
 
 import CharacterAnimeCard from '@/components/content-card/character-anime-card';
-import LoadMoreButton from '@/components/load-more-button';
-import Block from '@/components/ui/block';
-import {
-    Header,
-    HeaderContainer,
-    HeaderNavButton,
-    HeaderTitle,
-} from '@/components/ui/header';
-import Stack from '@/components/ui/stack';
+
+import AppearanceGrid from '@/features/common/appearance-grid';
 
 import { useParams } from '@/utils/navigation';
 
@@ -25,44 +18,25 @@ const Characters: FC<Props> = ({ extended }) => {
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         usePersonCharacters({ slug: String(params.slug) });
 
-    if (!list || list.length === 0) {
-        return null;
-    }
-
     return (
-        <Block>
-            <Header
-                href={
-                    !extended ? `/people/${params.slug}/characters` : undefined
-                }
-            >
-                <HeaderContainer>
-                    <HeaderTitle>Персонажі</HeaderTitle>
-                </HeaderContainer>
-                <HeaderNavButton />
-            </Header>
-            <Stack
-                size={4}
-                className="grid-cols-3 sm:grid-cols-4"
-                extended={extended}
-                extendedSize={5}
-            >
-                {(extended ? list : list.slice(0, 4)).map((ch) => (
-                    <CharacterAnimeCard
-                        anime={ch.anime}
-                        character={ch.character}
-                        key={ch.character.slug + ch.anime.slug}
-                    />
-                ))}
-            </Stack>
-            {extended && hasNextPage && (
-                <LoadMoreButton
-                    isFetchingNextPage={isFetchingNextPage}
-                    fetchNextPage={fetchNextPage}
-                    ref={ref}
+        <AppearanceGrid
+            title="Персонажі"
+            href={`/people/${params.slug}/characters`}
+            extended={extended}
+            stackClassName="grid-cols-3 sm:grid-cols-4"
+            list={list}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            ref={ref}
+            renderItem={(ch) => (
+                <CharacterAnimeCard
+                    anime={ch.anime}
+                    character={ch.character}
+                    key={ch.character.slug + ch.anime.slug}
                 />
             )}
-        </Block>
+        />
     );
 };
 

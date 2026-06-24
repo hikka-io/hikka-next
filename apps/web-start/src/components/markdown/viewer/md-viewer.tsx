@@ -8,6 +8,7 @@ import { cn } from '@/utils/cn';
 
 import Link from '../link';
 import Spoiler from '../spoiler';
+import Mention from './components/mention';
 import NoSpoiler from './components/no-spoiler';
 import remarkDisableTokenizer from './plugins/remark-disable-tokenizer';
 import remarkMentions from './plugins/remark-mentions';
@@ -19,10 +20,16 @@ interface Props extends Options {
 
 type CustomComponents = Components & {
     spoiler: React.ComponentType<any>;
+    mention: React.ComponentType<any>;
 };
 
-const previewComponents: CustomComponents = {
+const previewComponents: Partial<CustomComponents> = {
     spoiler: NoSpoiler,
+    mention: ({ node }: any) => (
+        <span className="text-primary-foreground">
+            @{node?.properties?.username ?? ''}
+        </span>
+    ),
     a: ({ children, className }) => (
         <span
             className={cn('text-primary-foreground hover:underline', className)}
@@ -39,6 +46,7 @@ const headingComponent: React.FC<
 const components = (preview?: boolean): CustomComponents =>
     ({
         spoiler: Spoiler,
+        mention: Mention,
         a: Link,
         h1: headingComponent,
         h2: headingComponent,

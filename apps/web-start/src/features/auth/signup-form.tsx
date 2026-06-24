@@ -10,6 +10,7 @@ import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import Spinner from '@/components/ui/spinner';
 
 import { OAuthLogin } from '@/features/auth';
 
@@ -107,9 +108,7 @@ const SignupForm = () => {
                             placeholder="Введіть Ваше ім'я"
                             value={field.state.value}
                             onBlur={field.handleBlur}
-                            onChange={(e) =>
-                                field.handleChange(e.target.value)
-                            }
+                            onChange={(e) => field.handleChange(e.target.value)}
                         />
                         <FieldError errors={field.state.meta.errors} />
                     </Field>
@@ -127,9 +126,7 @@ const SignupForm = () => {
                             placeholder="Введіть ваш email"
                             value={field.state.value}
                             onBlur={field.handleBlur}
-                            onChange={(e) =>
-                                field.handleChange(e.target.value)
-                            }
+                            onChange={(e) => field.handleChange(e.target.value)}
                         />
                         <FieldError errors={field.state.meta.errors} />
                     </Field>
@@ -157,9 +154,7 @@ const SignupForm = () => {
                                 variant="ghost"
                                 size="icon-sm"
                                 className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
-                                onClick={() =>
-                                    setShowPassword(!showPassword)
-                                }
+                                onClick={() => setShowPassword(!showPassword)}
                             >
                                 {showPassword ? (
                                     <EyeOff className="size-4" />
@@ -219,29 +214,20 @@ const SignupForm = () => {
             />
 
             {/* Captcha */}
-            <Turnstile
-                ref={captchaRef}
-                siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
-            />
+            <Turnstile ref={captchaRef} siteKey="0x4AAAAAAANXs8kaCqjo_FLF" />
 
             {/* Submit Button */}
             <Button
                 type="submit"
                 className="w-full"
-                disabled={
-                    mutationSignup.isPending || mutationSignup.isSuccess
-                }
+                disabled={mutationSignup.isPending || mutationSignup.isSuccess}
             >
-                {mutationSignup.isPending && (
-                    <span className="loading loading-spinner mr-2"></span>
-                )}
+                {mutationSignup.isPending && <Spinner className="mr-2" />}
                 Зареєструватись
             </Button>
 
             <OAuthLogin
-                disabled={
-                    mutationSignup.isPending || mutationSignup.isSuccess
-                }
+                disabled={mutationSignup.isPending || mutationSignup.isSuccess}
                 buttonText="Зареєструватись з Google"
             />
         </form>

@@ -24,7 +24,7 @@ import MaterialSymbolsMenuBookRounded from '../../icons/material-symbols/Materia
 import MaterialSymbolsPalette from '../../icons/material-symbols/MaterialSymbolsPalette';
 import MaterialSymbolsSecurity from '../../icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '../../icons/material-symbols/MaterialSymbolsShieldPerson';
-import MDViewer from '../../markdown/viewer/MD-viewer';
+import MDViewer from '../../markdown/viewer/md-viewer';
 import HoverCardWrapper from './hover-card-wrapper';
 import { UserTooltipSkeleton } from './tooltip-skeleton';
 
@@ -82,10 +82,10 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                                     <TooltipTrigger>
                                         <div className="border-border bg-secondary/20 rounded-sm border p-1 text-xs font-bold backdrop-blur">
                                             {user.role === 'admin' && (
-                                                <MaterialSymbolsSecurity className="text-[#d0bfff]" />
+                                                <MaterialSymbolsSecurity className="text-role-admin" />
                                             )}
                                             {user.role === 'moderator' && (
-                                                <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
+                                                <MaterialSymbolsShieldPerson className="text-role-moderator" />
                                             )}
                                         </div>
                                     </TooltipTrigger>

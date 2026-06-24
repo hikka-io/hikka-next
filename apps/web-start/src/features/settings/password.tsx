@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
 
 import { z } from '@/utils/i18n/zod';
 
@@ -77,9 +78,7 @@ const Component = () => {
                 variant="default"
                 type="submit"
             >
-                {mutationChangePassword.isPending && (
-                    <span className="loading loading-spinner"></span>
-                )}
+                {mutationChangePassword.isPending && <Spinner />}
                 Зберегти
             </Button>
         </form>

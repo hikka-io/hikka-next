@@ -5,28 +5,28 @@ import {
     convertChildrenDeserialize,
     convertNodesSerialize,
 } from '@platejs/markdown';
-import { KEYS } from 'platejs';
+import type { ContainerDirective } from 'mdast-util-directive';
+import { KEYS, type TElement } from 'platejs';
 import remarkDirective from 'remark-directive';
 
 import { ELEMENT_SPOILER } from './spoiler-kit';
 
-// Configuration for different container directive types
+// Configuration for different container directive types (:::name blocks)
 interface DirectiveConfig {
     deserialize: (
-        mdastNode: any,
-        deco: any,
+        mdastNode: ContainerDirective,
+        deco: Parameters<typeof convertChildrenDeserialize>[1],
         options: DeserializeMdOptions,
-    ) => any;
-    serialize: (plateNode: any, options: SerializeMdOptions) => any;
+    ) => TElement;
+    serialize: (
+        plateNode: TElement,
+        options: SerializeMdOptions,
+    ) => ContainerDirective;
 }
 
 const directiveConfigs: Record<string, DirectiveConfig> = {
-    spoiler: {
-        deserialize: (
-            mdastNode: any,
-            deco: any,
-            options: DeserializeMdOptions,
-        ) => ({
+    [ELEMENT_SPOILER]: {
+        deserialize: (mdastNode, deco, options) => ({
             type: ELEMENT_SPOILER,
             children: convertChildrenDeserialize(
                 mdastNode.children,
@@ -34,56 +34,16 @@ const directiveConfigs: Record<string, DirectiveConfig> = {
                 options,
             ),
         }),
-        serialize: (plateNode: any, options: SerializeMdOptions) => {
-            return {
-                type: 'containerDirective',
-                name: ELEMENT_SPOILER,
-                children: convertNodesSerialize(plateNode.children, options),
-            };
-        },
+        serialize: (plateNode, options) => ({
+            type: 'containerDirective',
+            name: ELEMENT_SPOILER,
+            children: convertNodesSerialize(
+                plateNode.children,
+                options,
+            ) as ContainerDirective['children'],
+        }),
     },
-    // Add more directive types here as needed
-    // Example for future expansion:
-    // callout: {
-    //     deserialize: (mdastNode: any) => ({
-    //         type: 'callout',
-    //         children: convertMdastChildren(mdastNode.children),
-    //     }),
-    //     serialize: (plateNode: any) => `:::callout\n${plateNode.children}\n:::\n`,
-    // },
-};
-
-// General container directive deserialize function
-const deserializeContainerDirective = (
-    mdastNode: any,
-    deco: any,
-    options: DeserializeMdOptions,
-) => {
-    const config = directiveConfigs[mdastNode.name];
-
-    if (!config) {
-        // Return undefined for non-defined directives to let other handlers process them
-        return undefined;
-    }
-
-    return config.deserialize(mdastNode, deco, options);
-};
-
-// General container directive serialize function
-const serializeContainerDirective = (
-    plateNode: any,
-    options: SerializeMdOptions,
-) => {
-    const config = directiveConfigs[plateNode.type];
-
-    if (!config) {
-        console.warn(
-            `No serialize config found for directive type: ${plateNode.type}`,
-        );
-        return '';
-    }
-
-    return config.serialize(plateNode, options);
+    // Add more directive types here as needed (e.g. callout)
 };
 
 export const MarkdownKit = [
@@ -91,16 +51,29 @@ export const MarkdownKit = [
         options: {
             disallowedNodes: [KEYS.suggestion, KEYS.codeBlock, KEYS.code],
             remarkPlugins: [remarkDirective],
+            // Keep [text](url) form for links whose text equals the URL —
+            // the read-side renderer (MDViewer, no GFM) cannot autolink
+            // bare URLs, so v53's default bare-autolink output would
+            // produce dead links in comments.
+            remarkStringifyOptions: { resourceLink: true },
 
             rules: {
-                // Rule for handling containerDirective - this matches mdast node type
+                // Markdown -> Plate: one entry point for all container directives
                 containerDirective: {
-                    deserialize: deserializeContainerDirective,
+                    deserialize: (mdastNode, deco, options) =>
+                        directiveConfigs[mdastNode.name]?.deserialize(
+                            mdastNode,
+                            deco,
+                            options,
+                        ),
                 },
-                // Rule for serializing spoiler elements back to markdown
-                [ELEMENT_SPOILER]: {
-                    serialize: serializeContainerDirective,
-                },
+                // Plate -> Markdown: one rule per registered directive type
+                ...Object.fromEntries(
+                    Object.entries(directiveConfigs).map(([name, config]) => [
+                        name,
+                        { serialize: config.serialize },
+                    ]),
+                ),
             },
         },
     }),

@@ -31,6 +31,7 @@ import {
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
+import Spinner from '@/components/ui/spinner';
 import Stack from '@/components/ui/stack';
 import {
     Tooltip,
@@ -255,14 +256,16 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                                 />
                             </TooltipTrigger>
                             <TooltipContent className="max-w-48 truncate">
-                                {getTitle(item.content, defaultOptions?.title, defaultOptions?.name)}
+                                {getTitle(
+                                    item.content,
+                                    defaultOptions?.title,
+                                    defaultOptions?.name,
+                                )}
                             </TooltipContent>
                         </Tooltip>
                     ))}
                     <div ref={ref} className="flex items-center justify-center">
-                        {isFetchingNextPage && (
-                            <span className="loading loading-spinner" />
-                        )}
+                        {isFetchingNextPage && <Spinner />}
                     </div>
                 </Stack>
 
@@ -272,7 +275,13 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             className="w-fit flex-1"
                             to={`${config.route}/${selectedRead.content.slug}`}
                         >
-                            <h5>{getTitle(selectedRead.content, defaultOptions?.title, defaultOptions?.name)}</h5>
+                            <h5>
+                                {getTitle(
+                                    selectedRead.content,
+                                    defaultOptions?.title,
+                                    defaultOptions?.name,
+                                )}
+                            </h5>
                             <div className="mt-1 flex cursor-pointer items-center gap-2">
                                 {selectedRead.content.year && (
                                     <Label className="text-muted-foreground cursor-pointer text-xs">
@@ -374,7 +383,11 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                     <ResponsiveModalContent className="md:max-w-xl">
                         <ResponsiveModalHeader>
                             <ResponsiveModalTitle>
-                                {getTitle(selectedRead.content, defaultOptions?.title, defaultOptions?.name)}
+                                {getTitle(
+                                    selectedRead.content,
+                                    defaultOptions?.title,
+                                    defaultOptions?.name,
+                                )}
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <ReadEditModal

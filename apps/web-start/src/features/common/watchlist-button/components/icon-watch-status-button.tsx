@@ -10,6 +10,7 @@ import { useCreateWatch } from '@hikka/react';
 import { FC, createElement } from 'react';
 
 import { Button, ButtonProps } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
 
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
@@ -76,15 +77,11 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
             disabled={disabled}
             onClick={openWatchEditModal}
             className={cn(
-                `bg-${watch.status} text-${watch.status}-foreground border- border${watch.status}-border`,
+                `bg-${watch.status} text-${watch.status}-foreground border-${watch.status}-border`,
             )}
             {...props}
         >
-            {isLoading ? (
-                <span className="loading loading-spinner"></span>
-            ) : (
-                createElement(watchStatus.icon!)
-            )}
+            {isLoading ? <Spinner /> : createElement(watchStatus.icon!)}
         </Button>
     );
 };

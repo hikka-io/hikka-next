@@ -3,7 +3,7 @@
 import { useCharacterAnime, useCharacterBySlug, useTitle } from '@hikka/react';
 import { FC, PropsWithChildren, memo } from 'react';
 
-import MDViewer from '../../markdown/viewer/MD-viewer';
+import MDViewer from '../../markdown/viewer/md-viewer';
 import ContentCard from '../content-card';
 import HoverCardWrapper from './hover-card-wrapper';
 import { CharacterTooltipSkeleton } from './tooltip-skeleton';

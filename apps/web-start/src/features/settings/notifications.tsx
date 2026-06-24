@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import Spinner from '@/components/ui/spinner';
 
 import { z } from '@/utils/i18n/zod';
 
@@ -64,8 +65,7 @@ const Component = () => {
         onSubmit: async ({ value }) => {
             changeIgnoredNotifications({
                 ignored_notifications: Object.keys(value).filter(
-                    (key) =>
-                        !value[key as keyof z.infer<typeof formSchema>],
+                    (key) => !value[key as keyof z.infer<typeof formSchema>],
                 ) as NotificationTypeEnum[],
             });
         },
@@ -258,9 +258,7 @@ const Component = () => {
                 variant="default"
                 type="submit"
             >
-                {isPending && (
-                    <span className="loading loading-spinner"></span>
-                )}
+                {isPending && <Spinner />}
                 Зберегти
             </Button>
         </form>

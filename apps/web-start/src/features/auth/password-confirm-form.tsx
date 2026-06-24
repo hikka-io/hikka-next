@@ -9,6 +9,7 @@ import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import Spinner from '@/components/ui/spinner';
 
 import { setAuthCookieFn } from '@/utils/auth';
 import { z } from '@/utils/i18n/zod';
@@ -92,9 +93,7 @@ const PasswordConfirmForm = () => {
                                 variant="ghost"
                                 size="icon-sm"
                                 className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
-                                onClick={() =>
-                                    setShowPassword(!showPassword)
-                                }
+                                onClick={() => setShowPassword(!showPassword)}
                             >
                                 {showPassword ? (
                                     <EyeOff className="size-4" />
@@ -163,7 +162,7 @@ const PasswordConfirmForm = () => {
                 }
             >
                 {mutationConfirmPasswordReset.isPending && (
-                    <span className="loading loading-spinner mr-2"></span>
+                    <Spinner className="mr-2" />
                 )}
                 Відновити
             </Button>

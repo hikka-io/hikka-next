@@ -7,7 +7,7 @@ import { createServerFn } from '@tanstack/react-start';
  * Returns the auth token so the client can set it on HikkaClient in memory.
  */
 export const setAuthCookieFn = createServerFn({ method: 'POST' })
-    .inputValidator((data: { secret: string }) => data)
+    .validator((data: { secret: string }) => data)
     .handler(async ({ data: { secret } }) => {
         const { setCookie } = await import('@tanstack/react-start/server');
 

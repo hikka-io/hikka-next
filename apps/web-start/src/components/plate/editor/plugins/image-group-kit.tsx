@@ -1,153 +1,220 @@
 'use client';
 
-import { ElementApi } from 'platejs';
-import { createPlatePlugin } from 'platejs/react';
+import {
+    ElementApi,
+    type PluginConfig,
+    type TElement,
+} from 'platejs';
+import { createTPlatePlugin } from 'platejs/react';
+import { toast } from 'sonner';
+
+import { classifyAttachmentType } from '@hikka/client';
 
 import { ImageGroupElement } from '@/components/plate/ui/image-group-node';
 
-import { ELEMENT_IMAGE, ImageKit, ImagePlugin } from './image-kit';
+import { ImageKit, ImagePlugin, type TImageElement } from './image-kit';
+import {
+    ImagePlaceholderKit,
+    ImagePlaceholderPlugin,
+} from './image-placeholder-kit';
+
+import { UPLOAD_VALIDATION_MESSAGES } from '../upload-image';
+import { getUpload } from '../upload-store';
 
 export const ELEMENT_IMAGE_GROUP = 'image_group';
 
-export interface ImageGroupElementProps {
-    uploadImage?: (file: File) => Promise<{ url: string } | undefined>;
-    children: Array<any>;
+export const MAX_IMAGE_COUNT = 4;
+
+export type UploadImageFn = (
+    file: File,
+    options?: {
+        onProgress?: (percent: number) => void;
+        signal?: AbortSignal;
+    },
+) => Promise<{ url: string }>;
+
+export interface TImageGroupElement extends TElement {
     type: typeof ELEMENT_IMAGE_GROUP;
+    children: (TImageElement | TElement)[];
 }
 
-export const ImageGroupPlugin = createPlatePlugin({
-    key: ELEMENT_IMAGE_GROUP,
-    node: {
-        isElement: true,
-    },
-    options: {
-        uploadImage: undefined as
-            | ((file: File) => Promise<{ url: string } | undefined>)
-            | undefined,
-    },
-    plugins: [ImagePlugin],
-})
-    .overrideEditor(({ editor, tf: { normalizeNode, insertData } }) => {
-        return {
-            transforms: {
-                normalizeNode([node, path]) {
-                    if (
-                        ElementApi.isElement(node) &&
-                        node.type === ELEMENT_IMAGE_GROUP
-                    ) {
-                        const { children } = node;
+type ImageGroupConfig = PluginConfig<
+    'image_group',
+    { uploadImage?: UploadImageFn }
+>;
 
-                        // Remove image group if it only contains a single empty text node
-                        if (
-                            children.length === 1 &&
-                            editor.api.isText(children[0]) &&
-                            children[0].text === ''
-                        ) {
-                            editor.tf.removeNodes({ at: path });
-                            return;
-                        }
+export const ImageGroupPlugin = createTPlatePlugin<ImageGroupConfig>({
+    key: ELEMENT_IMAGE_GROUP,
+    node: { isElement: true },
+    options: { uploadImage: undefined },
+    plugins: [ImagePlugin, ImagePlaceholderPlugin],
+})
+    .overrideEditor(({ editor, tf: { normalizeNode, insertData } }) => ({
+        transforms: {
+            normalizeNode([node, path]) {
+                if (
+                    ElementApi.isElement(node) &&
+                    node.type === ELEMENT_IMAGE_GROUP
+                ) {
+                    const { children } = node;
+                    // Drop a group that has collapsed to a single empty text node.
+                    if (
+                        children.length === 1 &&
+                        editor.api.isText(children[0]) &&
+                        (children[0] as { text: string }).text === ''
+                    ) {
+                        editor.tf.removeNodes({ at: path });
+                        return;
+                    }
+                }
+                normalizeNode([node, path]);
+            },
+
+            insertData(data: DataTransfer) {
+                const text = data.getData('text/plain');
+                const { files } = data;
+                const { uploadImage } = editor.getOptions(ImageGroupPlugin);
+
+                if (!text && files && files.length > 0 && uploadImage) {
+                    // Append to the group under the cursor if there is one with
+                    // capacity, otherwise a fresh group is created downstream.
+                    const groupEntry = editor.api.node<TImageGroupElement>({
+                        match: (n) =>
+                            (n as TElement).type === ELEMENT_IMAGE_GROUP,
+                        mode: 'lowest',
+                    });
+                    const group =
+                        groupEntry &&
+                        groupEntry[0].children.length < MAX_IMAGE_COUNT
+                            ? groupEntry[0]
+                            : undefined;
+
+                    editor
+                        .getTransforms(ImageGroupPlugin)
+                        .imageGroup.upload({ files: Array.from(files), group });
+                } else {
+                    insertData(data);
+                }
+            },
+        },
+    }))
+    .extendEditorTransforms(({ editor }) => {
+        const runUpload = async (id: string, file: File) => {
+            const uploadImage = editor.getOptions(ImageGroupPlugin).uploadImage;
+            if (!uploadImage) return;
+
+            const entry = getUpload(editor, id);
+
+            try {
+                const { url } = await uploadImage(file, {
+                    onProgress: (progress) =>
+                        editor
+                            .getTransforms(ImagePlaceholderPlugin)
+                            .placeholder.update({ id, patch: { progress } }),
+                    signal: entry?.abort.signal,
+                });
+                editor
+                    .getTransforms(ImagePlaceholderPlugin)
+                    .placeholder.resolve({ id, url });
+            } catch (error) {
+                if (entry?.abort.signal.aborted) return; // user cancelled
+
+                const message =
+                    (error as Error)?.message ?? 'Помилка завантаження';
+
+                editor
+                    .getTransforms(ImagePlaceholderPlugin)
+                    .placeholder.update({
+                        id,
+                        patch: {
+                            status: 'error',
+                            progress: 0,
+                            error: {
+                                code: (error as { code?: string })?.code,
+                                message,
+                            },
+                        },
+                    });
+
+                // Surface the backend reason as a toast too. Dedupe by message
+                // so a failed batch of identical errors shows a single toast.
+                toast.error(message, { id: `upload-error:${message}` });
+            }
+        };
+
+        return {
+            imageGroup: {
+                /** Validate, insert placeholders, and upload a batch of files. */
+                upload: async (options: {
+                    files: File[];
+                    group?: TImageGroupElement;
+                }) => {
+                    const { files, group } = options;
+                    const existing = group ? group.children.length : 0;
+                    const capacity = Math.max(MAX_IMAGE_COUNT - existing, 0);
+
+                    if (files.length > capacity) {
+                        toast.error(`Максимум ${MAX_IMAGE_COUNT} зображення.`);
                     }
 
-                    normalizeNode([node, path]);
+                    // Pre-insert type gate (size is checked later, post-convert).
+                    const accepted = files
+                        .slice(0, capacity)
+                        .filter((file) => {
+                            if (classifyAttachmentType(file.type) === 'reject') {
+                                toast.error(
+                                    UPLOAD_VALIDATION_MESSAGES[
+                                        'unsupported-type'
+                                    ],
+                                );
+                                return false;
+                            }
+                            return true;
+                        });
+
+                    if (accepted.length === 0) return;
+
+                    const ids = editor
+                        .getTransforms(ImagePlaceholderPlugin)
+                        .placeholder.insert({ files: accepted, group });
+
+                    await Promise.all(
+                        accepted.map((file, index) =>
+                            runUpload(ids[index], file),
+                        ),
+                    );
                 },
 
-                insertData(data: DataTransfer) {
-                    const text = data.getData('text/plain');
-                    const { files } = data;
-
-                    if (!text && files && files.length > 0) {
-                        // Handle file drop - insert image group
+                /** Retry a single errored placeholder using its stored file. */
+                retry: async (options: { id: string }) => {
+                    const stored = getUpload(editor, options.id);
+                    if (!stored) {
+                        // File is gone (e.g. reloaded doc); just clear the node.
                         editor
-                            .getTransforms(ImageGroupPlugin)
-                            .insert.imageGroupFromFiles({ files });
-                    } else {
-                        return insertData(data);
+                            .getTransforms(ImagePlaceholderPlugin)
+                            .placeholder.remove({ id: options.id });
+                        return;
                     }
+                    // Fresh AbortController for the retried attempt.
+                    stored.abort = new AbortController();
+                    editor
+                        .getTransforms(ImagePlaceholderPlugin)
+                        .placeholder.update({
+                            id: options.id,
+                            patch: {
+                                status: 'uploading',
+                                progress: 0,
+                                error: undefined,
+                            },
+                        });
+                    await runUpload(options.id, stored.file);
                 },
             },
         };
-    })
-    .extendEditorTransforms(({ editor }) => ({
-        insert: {
-            imageGroupFromFiles: async (options: {
-                files: FileList | File[];
-                element?: any;
-                uploadImage?: (
-                    file: File,
-                ) => Promise<{ url: string } | undefined>;
-            }) => {
-                const {
-                    files,
-                    element,
-                    uploadImage: customUploadImage,
-                } = options;
-                const uploadedImages: string[] = [];
-
-                for (let file of files) {
-                    const [mime, format] = file.type.split('/');
-
-                    if (mime === 'image') {
-                        // Convert PNG to JPEG if needed (simplified version)
-                        let processedFile = file;
-                        if (format === 'png') {
-                            // In a real implementation, you might want to convert PNG to JPEG
-                            // For now, we'll just use the original file
-                            processedFile = file;
-                        }
-
-                        const uploadImage =
-                            customUploadImage ??
-                            editor.getOptions(ImageGroupPlugin).uploadImage;
-                        const uploaded =
-                            uploadImage && (await uploadImage(processedFile));
-
-                        if (!uploaded) {
-                            continue;
-                        }
-
-                        uploadedImages.push(uploaded.url);
-                    }
-                }
-
-                editor
-                    .getTransforms(ImageGroupPlugin)
-                    .insert.images({ urls: uploadedImages, element });
-            },
-
-            images: (options: { urls: string[]; element?: any }) => {
-                const { urls, element } = options;
-                const text = { text: '' };
-                const MAX_IMAGE_COUNT = 4;
-
-                const maxImages = element
-                    ? MAX_IMAGE_COUNT - element.children.length
-                    : MAX_IMAGE_COUNT;
-
-                const images = urls.slice(0, maxImages).map((url) => ({
-                    children: [text],
-                    type: ELEMENT_IMAGE,
-                    url: url,
-                }));
-
-                if (element) {
-                    const path = editor.api.findPath(element);
-                    if (!path) return;
-
-                    editor.tf.insertNodes(images, {
-                        at: [...path, element.children.length],
-                    });
-                    return;
-                }
-
-                editor.tf.insertNodes({
-                    type: ELEMENT_IMAGE_GROUP,
-                    children: images,
-                });
-            },
-        },
-    }));
+    });
 
 export const ImageGroupKit = [
     ...ImageKit,
+    ...ImagePlaceholderKit,
     ImageGroupPlugin.withComponent(ImageGroupElement),
 ];

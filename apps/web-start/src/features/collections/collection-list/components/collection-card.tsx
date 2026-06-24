@@ -18,6 +18,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import Image from '@/components/ui/image';
+import { Label } from '@/components/ui/label';
 import Stack, { StackSize } from '@/components/ui/stack';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 
@@ -32,13 +33,20 @@ interface Props {
     collection: CollectionResponse<CollectionContent>;
     className?: string;
     maxPreviewItems: number;
+    /**
+     * `default` — full-width card used on the collections catalog.
+     * `compact` — denser card used in the home sidebar widget.
+     */
+    variant?: 'default' | 'compact';
 }
 
 const CollectionCard: FC<Props> = ({
     collection,
     className,
     maxPreviewItems = 6,
+    variant = 'default',
 }) => {
+    const isCompact = variant === 'compact';
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const { defaultOptions } = useHikkaClient();
     const previewItems = collection.collection.slice(0, maxPreviewItems);
@@ -51,7 +59,8 @@ const CollectionCard: FC<Props> = ({
     return (
         <Card
             className={cn(
-                'isolate -mx-4 overflow-hidden rounded-none border-x-0 md:mx-0 md:rounded-lg md:border-x',
+                !isCompact &&
+                    'isolate -mx-4 overflow-hidden rounded-none border-x-0 md:mx-0 md:rounded-lg md:border-x',
                 className,
             )}
         >
@@ -59,7 +68,7 @@ const CollectionCard: FC<Props> = ({
 
             <HorizontalCard>
                 <HorizontalCardImage
-                    className="w-12"
+                    className={isCompact ? 'w-10' : 'w-12'}
                     image={collection.author.avatar}
                     imageRatio={1}
                     to={`/u/${collection.author.username}`}
@@ -83,15 +92,19 @@ const CollectionCard: FC<Props> = ({
                     </HorizontalCardContainer>
                 </HorizontalCardContainer>
                 <FollowButton
-                    iconOnly={!isDesktop}
-                    size={!isDesktop ? 'icon-md' : 'md'}
+                    iconOnly={isCompact || !isDesktop}
+                    size={isCompact || !isDesktop ? 'icon-md' : 'md'}
                     user={collection.author}
                 />
             </HorizontalCard>
 
             {/* Collection Title */}
             <Link to={`/collections/${collection.reference}`} className="block">
-                <h3>{collection.title}</h3>
+                {isCompact ? (
+                    <Label>{collection.title}</Label>
+                ) : (
+                    <h3>{collection.title}</h3>
+                )}
             </Link>
 
             {/* Tags */}
@@ -106,17 +119,23 @@ const CollectionCard: FC<Props> = ({
                     {collection.tags.length > 0 && (
                         <Badge variant="secondary">{collection.tags[0]}</Badge>
                     )}
-                    {collection.tags.slice(1).map((tag) => (
+                    {(isCompact
+                        ? collection.tags.slice(1, 2)
+                        : collection.tags.slice(1)
+                    ).map((tag) => (
                         <Badge
                             key={tag}
-                            className="hidden md:block"
+                            className={cn(!isCompact && 'hidden md:block')}
                             variant="secondary"
                         >
                             {tag}
                         </Badge>
                     ))}
                     {collection.tags.length > 2 && (
-                        <Badge variant="outline" className="block md:hidden">
+                        <Badge
+                            variant="outline"
+                            className={cn(!isCompact && 'block md:hidden')}
+                        >
                             +{collection.tags.length - 1}
                         </Badge>
                     )}
@@ -126,14 +145,26 @@ const CollectionCard: FC<Props> = ({
             {/* Preview Items Grid */}
             <Stack
                 size={(maxPreviewItems + 1) as StackSize}
-                gap="md"
+                gap={isCompact ? 'sm' : 'md'}
+                className={cn(isCompact && 'grid-min-5')}
                 imagePreset="cardSm"
             >
                 {previewItems.map((item) => (
                     <ContentCard
                         key={item.content.slug}
                         image={item.content.image}
-                        title={getTitle(item.content as unknown as Record<string, unknown>, defaultOptions?.title, defaultOptions?.name)}
+                        title={
+                            isCompact
+                                ? undefined
+                                : getTitle(
+                                      item.content as unknown as Record<
+                                          string,
+                                          unknown
+                                      >,
+                                      defaultOptions?.title,
+                                      defaultOptions?.name,
+                                  )
+                        }
                         to={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
                         className={cn(collection.spoiler && 'spoiler-blur-md')}
                         titleClassName={cn(

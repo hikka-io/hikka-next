@@ -22,7 +22,9 @@ interface Props {
 
 const EditRow: FC<Props> = ({ edit }) => {
     const router = useRouter();
-    const contentTitle = useTitle(edit.content as unknown as Record<string, unknown>);
+    const contentTitle = useTitle(
+        edit.content as unknown as Record<string, unknown>,
+    );
 
     const variant =
         edit.status === 'pending'
@@ -52,7 +54,9 @@ const EditRow: FC<Props> = ({ edit }) => {
             onAuxClick={handleRowClick}
         >
             <TableCell className="hidden w-8 sm:table-cell">
-                <Label>{edit.edit_id}</Label>
+                <Link to={`/edit/${edit.edit_id}`} className="hover:underline">
+                    <Label className="cursor-pointer">{edit.edit_id}</Label>
+                </Link>
             </TableCell>
             <TableCell className="w-40">
                 <div className="flex gap-4">

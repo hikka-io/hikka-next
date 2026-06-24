@@ -15,6 +15,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
+import Spinner from '@/components/ui/spinner';
 
 import { CropEditorModal } from '@/features/common';
 
@@ -80,7 +81,7 @@ const Appearance = () => {
                             disabled={isDeletingImage}
                         >
                             {isDeletingImage ? (
-                                <span className="loading loading-spinner"></span>
+                                <Spinner />
                             ) : (
                                 <MaterialSymbolsDeleteForeverRounded className="size-4" />
                             )}

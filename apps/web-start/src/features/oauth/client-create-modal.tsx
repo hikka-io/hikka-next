@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
+import Spinner from '@/components/ui/spinner';
 
 import { z } from '@/utils/i18n/zod';
 
@@ -83,14 +84,8 @@ const Component = ({ onClose }: Props) => {
                 />
             </div>
             <ResponsiveModalFooter>
-                <Button
-                    variant="default"
-                    size="md"
-                    type="submit"
-                >
-                    {createClientLoading && (
-                        <span className="loading loading-spinner"></span>
-                    )}
+                <Button variant="default" size="md" type="submit">
+                    {createClientLoading && <Spinner />}
                     Створити
                 </Button>
             </ResponsiveModalFooter>

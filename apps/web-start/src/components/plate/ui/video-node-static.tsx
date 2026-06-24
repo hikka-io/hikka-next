@@ -5,9 +5,10 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import { cn } from '@/utils/cn';
 import { extractYouTubeVideoId } from '@/utils/youtube';
 
-export interface VideoElementStaticProps extends SlateElementProps {
+import type { TVideoElement } from '../editor/plugins/video-kit';
+
+export interface VideoElementStaticProps extends SlateElementProps<TVideoElement> {
     className?: string;
-    url?: string;
 }
 
 export function VideoElementStatic({
@@ -15,7 +16,7 @@ export function VideoElementStatic({
     element,
     ...props
 }: VideoElementStaticProps) {
-    const url = (element as any)?.url || '';
+    const url = element.url ?? '';
     const videoId = extractYouTubeVideoId(url);
 
     if (!videoId) {

@@ -2,17 +2,10 @@
 
 import { upsertLink } from '@platejs/link';
 import { KEYS } from 'platejs';
-import type { BaseRange } from 'slate';
 import type { PlateEditor } from 'platejs/react';
 import { useEditorRef } from 'platejs/react';
-import React, {
-    FC,
-    createContext,
-    useCallback,
-    useContext,
-    useRef,
-    useState,
-} from 'react';
+import React, { FC, useCallback, useRef, useState } from 'react';
+import type { BaseRange } from 'slate';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -223,26 +216,20 @@ export function LinkDialog({
     );
 }
 
-// --- Context ---
+// --- Per-editor dialog registry ---
 
-interface LinkDialogContextValue {
+export interface LinkDialogApi {
     openInsert: () => void;
     openEdit: () => void;
 }
 
-const LinkDialogContext = createContext<LinkDialogContextValue | null>(null);
+const linkDialogRegistry = new WeakMap<object, LinkDialogApi>();
 
-export function useLinkDialogContext() {
-    const ctx = useContext(LinkDialogContext);
-    if (!ctx) {
-        throw new Error(
-            'useLinkDialogContext must be used within LinkDialogProvider',
-        );
-    }
-    return ctx;
+export function getLinkDialog(editor: object): LinkDialogApi | undefined {
+    return linkDialogRegistry.get(editor);
 }
 
-// --- Provider (renders dialog + provides context) ---
+// --- Provider (renders dialog + registers the per-editor dialog api) ---
 
 export function LinkDialogProvider({
     children,
@@ -253,16 +240,18 @@ export function LinkDialogProvider({
     const dialog = useLinkDialog(editor);
 
     React.useEffect(() => {
-        (editor as any)._linkDialog = {
+        linkDialogRegistry.set(editor, {
             openInsert: dialog.openInsert,
             openEdit: dialog.openEdit,
+        });
+
+        return () => {
+            linkDialogRegistry.delete(editor);
         };
     }, [editor, dialog.openInsert, dialog.openEdit]);
 
     return (
-        <LinkDialogContext.Provider
-            value={{ openInsert: dialog.openInsert, openEdit: dialog.openEdit }}
-        >
+        <>
             {children}
             <LinkDialog
                 open={dialog.open}
@@ -270,6 +259,6 @@ export function LinkDialogProvider({
                 defaultValues={dialog.defaultValues}
                 onSubmit={dialog.onSubmit}
             />
-        </LinkDialogContext.Provider>
+        </>
     );
 }

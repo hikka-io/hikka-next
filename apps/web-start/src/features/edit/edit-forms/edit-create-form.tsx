@@ -7,6 +7,7 @@ import { FC, useRef } from 'react';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
 
 import { useRouter } from '@/utils/navigation';
 
@@ -118,9 +119,7 @@ const EditForm: FC<Props> = ({
                                 type="submit"
                                 className="w-fit"
                             >
-                                {mutationAddEdit.isPending && (
-                                    <span className="loading loading-spinner"></span>
-                                )}
+                                {mutationAddEdit.isPending && <Spinner />}
                                 Створити
                             </Button>
                             <AutoButton />

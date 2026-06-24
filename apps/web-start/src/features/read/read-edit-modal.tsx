@@ -26,6 +26,7 @@ import {
     SelectList,
     SelectTrigger,
 } from '@/components/ui/select';
+import Spinner from '@/components/ui/spinner';
 
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
@@ -279,7 +280,7 @@ const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
                     disabled={addToListLoading || deleteFromListLoading}
                 >
                     {deleteFromListLoading ? (
-                        <span className="loading loading-spinner"></span>
+                        <Spinner />
                     ) : (
                         <MaterialSymbolsDeleteForeverRounded className="size-4" />
                     )}
@@ -291,7 +292,7 @@ const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
                     disabled={addToListLoading || deleteFromListLoading}
                 >
                     {addToListLoading ? (
-                        <span className="loading loading-spinner"></span>
+                        <Spinner />
                     ) : (
                         <MaterialSymbolsCheckRounded className="size-4" />
                     )}

@@ -1,7 +1,7 @@
 import { CommentResponse } from '@hikka/client';
 import { FC } from 'react';
 
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 
 import { Link } from '@/utils/navigation';

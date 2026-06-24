@@ -18,7 +18,7 @@ import NovelSearchList from './components/search-lists/novel-search-list';
 import PersonSearchList from './components/search-lists/person-search-list';
 import UserSearchList from './components/search-lists/user-search-list';
 import SearchToggle from './components/search-toggle';
-import useSearchModal from './hooks/useSearchModal';
+import useSearchModal from './hooks/use-search-modal';
 import { SEARCH_TYPE_ALL, SearchTypeValue } from './types';
 
 interface Props {

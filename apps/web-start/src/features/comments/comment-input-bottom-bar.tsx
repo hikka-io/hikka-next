@@ -10,6 +10,7 @@ import { useMarkdownEditor } from '@/components/plate/editor/markdown-editor-kit
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
 import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';
 import { Button } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
 
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { MAX_COMMENT_DEPTH } from '@/utils/constants/common';
@@ -139,11 +140,7 @@ const CommentInputBottomBar: FC<Props> = ({
                         size="sm"
                         type="submit"
                     >
-                        {isAddPending || isEditPending ? (
-                            <span className="loading loading-spinner"></span>
-                        ) : (
-                            <Send />
-                        )}
+                        {isAddPending || isEditPending ? <Spinner /> : <Send />}
                         <span className="hidden md:inline">
                             {isEdit ? 'Зберегти' : 'Відправити'}
                         </span>

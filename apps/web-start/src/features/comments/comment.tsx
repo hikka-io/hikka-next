@@ -10,7 +10,7 @@ import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material
 import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
-import MDViewer from '@/components/markdown/viewer/MD-viewer';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import {
@@ -136,11 +136,11 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                                         <div className="text-xs font-bold">
                                             {comment.author.role ===
                                                 'admin' && (
-                                                <MaterialSymbolsSecurity className="text-[#d0bfff]" />
+                                                <MaterialSymbolsSecurity className="text-role-admin" />
                                             )}
                                             {comment.author.role ===
                                                 'moderator' && (
-                                                <MaterialSymbolsShieldPerson className="text-[#ffc9c9]" />
+                                                <MaterialSymbolsShieldPerson className="text-role-moderator" />
                                             )}
                                         </div>
                                     </TooltipTrigger>
