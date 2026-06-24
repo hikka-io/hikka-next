@@ -59,7 +59,6 @@ const Score = ({ content_type }: Props) => {
                 value: data.stats[
                     stat as keyof (AnimeStatsResponse | ReadStatsResponse)
                 ],
-                name: stat,
             };
         });
 
