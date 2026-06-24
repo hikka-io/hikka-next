@@ -20,8 +20,7 @@ type Props = {
 };
 
 const CollectionItem: FC<Props> = ({ data, className }) => {
-    const image = (content: CollectionContent) =>
-        content.image;
+    const image = (content: CollectionContent) => content.image;
 
     return (
         <HorizontalCard className={className}>
