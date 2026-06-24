@@ -19,7 +19,7 @@ type Props = {
     importing: boolean;
 };
 
-const Component = ({ watchList, setWatchList, importing }: Props) => {
+const AnilistWatchlist = ({ watchList, setWatchList, importing }: Props) => {
     const [aniListUsername, setAniListUsername] = useState('');
     const { mutate: fetchAnilist, isPending: aniListLoading } = useAnilist({
         options: {
@@ -75,4 +75,4 @@ const Component = ({ watchList, setWatchList, importing }: Props) => {
     );
 };
 
-export default Component;
+export default AnilistWatchlist;

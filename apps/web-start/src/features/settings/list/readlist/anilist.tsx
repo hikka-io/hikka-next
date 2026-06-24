@@ -19,7 +19,7 @@ type Props = {
     importing: boolean;
 };
 
-const Component = ({ readList, setReadList, importing }: Props) => {
+const AnilistReadlist = ({ readList, setReadList, importing }: Props) => {
     const [aniListUsername, setAniListUsername] = useState('');
     const { mutate: fetchAnilist, isPending: aniListLoading } = useAnilist({
         options: {
@@ -75,4 +75,4 @@ const Component = ({ readList, setReadList, importing }: Props) => {
     );
 };
 
-export default Component;
+export default AnilistReadlist;

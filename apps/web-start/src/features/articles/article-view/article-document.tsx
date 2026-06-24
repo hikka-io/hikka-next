@@ -7,7 +7,7 @@ import { useParams } from '@/utils/navigation';
 
 type Props = {};
 
-const ArticleDocument: FC<Props> = () => {
+const ArticleDocumentView: FC<Props> = () => {
     const params = useParams();
 
     const { data: article } = useArticleBySlug({
@@ -26,4 +26,4 @@ const ArticleDocument: FC<Props> = () => {
     return <StaticViewer value={document} />;
 };
 
-export default ArticleDocument;
+export default ArticleDocumentView;

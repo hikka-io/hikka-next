@@ -46,7 +46,7 @@ type Props = {
     onClose?: () => void;
 };
 
-const Component = ({ slug, watch: watchProp, onClose }: Props) => {
+const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
     const { data: watchQuery } = useWatchBySlug({
         slug,
         options: { enabled: !watchProp },
@@ -281,4 +281,4 @@ const Component = ({ slug, watch: watchProp, onClose }: Props) => {
     );
 };
 
-export default Component;
+export default WatchEditModal;

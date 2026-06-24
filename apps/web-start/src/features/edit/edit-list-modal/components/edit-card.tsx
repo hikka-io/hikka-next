@@ -27,7 +27,7 @@ type Props = {
     to?: string;
 };
 
-const Component = ({ edit, href, to, className, ...props }: Props) => {
+const EditCard = ({ edit, href, to, className, ...props }: Props) => {
     const resolvedHref = to ?? href ?? '';
     return (
         <div className={cn('flex flex-col gap-4', className)}>
@@ -92,4 +92,4 @@ const Component = ({ edit, href, to, className, ...props }: Props) => {
     );
 };
 
-export default Component;
+export default EditCard;

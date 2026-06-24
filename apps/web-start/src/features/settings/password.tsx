@@ -17,7 +17,7 @@ const formSchema = z
         path: ['passwordConfirmation'],
     });
 
-const Component = () => {
+const PasswordSettings = () => {
     const mutationChangePassword = useChangePassword({
         options: {
             onSuccess: async () => {
@@ -83,4 +83,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default PasswordSettings;

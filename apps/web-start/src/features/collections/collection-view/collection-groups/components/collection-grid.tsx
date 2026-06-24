@@ -87,7 +87,7 @@ type Props = {
     content_type: ContentTypeEnum;
 };
 
-const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
+const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
     const { defaultOptions } = useHikkaClient();
 
     return (
@@ -146,4 +146,4 @@ const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
     );
 };
 
-export default memo(CollectionGrid);
+export default memo(CollectionDisplayGrid);

@@ -19,7 +19,7 @@ type Props = {
     group: Group;
 };
 
-const CollectionGrid: FC<Props> = ({ group }) => {
+const CollectionEditGrid: FC<Props> = ({ group }) => {
     // Subscribe to only this group's items — Zustand skips re-render
     // when the reference hasn't changed (unmodified groups keep same ref)
     const items =
@@ -94,4 +94,4 @@ const CollectionGrid: FC<Props> = ({ group }) => {
     );
 };
 
-export default CollectionGrid;
+export default CollectionEditGrid;

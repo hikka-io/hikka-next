@@ -23,7 +23,7 @@ type Props = {
     className?: string;
 };
 
-const EditStatus: FC<Props> = () => {
+const EditStatusFilter: FC<Props> = () => {
     const { edit_status } = useFilterSearch<{ edit_status?: string }>();
 
     const handleChangeParam = useChangeParam();
@@ -61,4 +61,4 @@ const EditStatus: FC<Props> = () => {
     );
 };
 
-export default EditStatus;
+export default EditStatusFilter;

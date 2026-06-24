@@ -9,7 +9,7 @@ type Props = {
     editId: string;
 };
 
-const EditStatus: FC<Props> = ({ editId }) => {
+const EditStatusBadge: FC<Props> = ({ editId }) => {
     const { data: edit } = useEdit({ editId: Number(editId) });
 
     if (!edit?.status) {
@@ -28,4 +28,4 @@ const EditStatus: FC<Props> = ({ editId }) => {
     return <Badge variant={variant}>{EDIT_STATUS[edit.status].title_ua}</Badge>;
 };
 
-export default EditStatus;
+export default EditStatusBadge;

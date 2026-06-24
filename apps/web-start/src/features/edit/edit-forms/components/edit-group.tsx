@@ -76,10 +76,10 @@ const EditGroup: FC<Props> = ({ title, params, mode }) => {
                     )
                         return null;
 
-                    const Component = getEditParamComponent(param.type);
+                    const ParamComponent = getEditParamComponent(param.type);
 
                     return (
-                        <Component
+                        <ParamComponent
                             key={param.slug}
                             param={param}
                             mode={mode === 'update' ? 'edit' : mode}

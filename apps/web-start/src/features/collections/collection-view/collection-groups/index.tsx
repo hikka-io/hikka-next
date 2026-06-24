@@ -6,7 +6,7 @@ import { useCollectionByReference } from '@hikka/react';
 
 import { useParams } from '@/utils/navigation';
 
-import CollectionGrid from './components/collection-grid';
+import CollectionDisplayGrid from './components/collection-grid';
 
 const CollectionGroups = () => {
     const params = useParams();
@@ -47,7 +47,7 @@ const CollectionGroups = () => {
 
     if (!groups) {
         return (
-            <CollectionGrid
+            <CollectionDisplayGrid
                 content_type={collection.content_type}
                 items={collection?.collection}
             />
@@ -60,7 +60,7 @@ const CollectionGroups = () => {
     ];
 
     return orderedKeys.map((group, i) => (
-        <CollectionGrid
+        <CollectionDisplayGrid
             key={`${group}_${i + 1}`}
             group={group === 'default' ? undefined : group}
             items={groups[group]}

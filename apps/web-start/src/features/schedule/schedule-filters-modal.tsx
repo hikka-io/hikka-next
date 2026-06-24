@@ -15,7 +15,7 @@ type Props = {
     children?: ReactNode;
 };
 
-const Component = ({ children }: Props) => {
+const ScheduleFiltersModal = ({ children }: Props) => {
     return (
         <Sheet>
             <SheetTrigger asChild>
@@ -35,4 +35,4 @@ const Component = ({ children }: Props) => {
     );
 };
 
-export default Component;
+export default ScheduleFiltersModal;

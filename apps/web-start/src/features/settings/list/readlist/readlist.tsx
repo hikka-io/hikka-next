@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import General from '../components/import-list';
 import Anilist from './anilist';
 
-const Component = () => {
+const ReadlistSettings = () => {
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
     const [rewrite, setRewrite] = useState(true);
     const [readList, setReadList] = useState<ImportReadArgs[]>([]);
@@ -101,4 +101,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ReadlistSettings;

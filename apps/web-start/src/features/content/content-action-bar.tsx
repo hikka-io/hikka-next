@@ -51,7 +51,7 @@ const UserlistButton = ({ content_type }: Props) => {
     }
 };
 
-const Navbar: FC<Props> = ({ className, content_type }) => {
+const ContentActionBar: FC<Props> = ({ className, content_type }) => {
     const params = useParams();
     const { user: loggedUser } = useSession();
 
@@ -117,4 +117,4 @@ const Navbar: FC<Props> = ({ className, content_type }) => {
     );
 };
 
-export default Navbar;
+export default ContentActionBar;

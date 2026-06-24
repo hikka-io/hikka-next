@@ -4,7 +4,7 @@ import NotFound from '@/components/ui/not-found';
 
 import ApplicationItem from './components/application-item';
 
-const Component = () => {
+const ApplicationsSettings = () => {
     const { list } = useClientList();
 
     return (
@@ -25,4 +25,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ApplicationsSettings;

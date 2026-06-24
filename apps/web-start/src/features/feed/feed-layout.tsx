@@ -20,8 +20,8 @@ const WidgetRenderer: FC<{ widget: UIFeedWidget; isLast?: boolean }> = ({
 }) => {
     const meta = WIDGET_REGISTRY[widget.slug as UIFeedWidgetSlug];
     if (!meta) return null;
-    const Component = meta.component;
-    return <Component side={widget.side} isLast={isLast} />;
+    const WidgetComponent = meta.component;
+    return <WidgetComponent side={widget.side} isLast={isLast} />;
 };
 
 const WidgetColumn: FC<{ widgets: UIFeedWidget[]; className?: string }> = ({

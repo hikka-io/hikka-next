@@ -8,7 +8,7 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Link from '@/components/ui/link';
 import {
-    ArticleEditDocument as ArticleDocument,
+    ArticleDocumentEditor as ArticleDocument,
     ArticleSettings,
     ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';

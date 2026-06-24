@@ -4,7 +4,7 @@ import type { ContentTypeEnum } from '@hikka/client';
 
 import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import NavMenu from '@/features/common/nav-dropdown';
-import { ContentNavbar } from '@/features/content';
+import { ContentActionBar } from '@/features/content';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -65,7 +65,7 @@ const ContentDetailLayout: FC<Props> = ({
             {nsfw && !nsfwConsented && <NsfwOverlay />}
             {children}
 
-            <ContentNavbar content_type={contentType} className="mt-12" />
+            <ContentActionBar content_type={contentType} className="mt-12" />
         </>
     );
 };

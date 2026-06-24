@@ -10,7 +10,7 @@ type Props = {
     children?: ReactNode;
 };
 
-const Component = ({ setOpen, children }: Props) => {
+const SearchButton = ({ setOpen, children }: Props) => {
     return children ? (
         cloneElement(children as React.ReactElement, {
             //@ts-expect-error
@@ -41,4 +41,4 @@ const Component = ({ setOpen, children }: Props) => {
     );
 };
 
-export default Component;
+export default SearchButton;

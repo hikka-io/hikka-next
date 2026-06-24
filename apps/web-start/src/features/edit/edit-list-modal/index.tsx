@@ -16,7 +16,7 @@ type Props = {
     slug: string;
 };
 
-const Component = ({ content_type, slug }: Props) => {
+const EditListModal = ({ content_type, slug }: Props) => {
     const { ref, list, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useEditList({
             args: {
@@ -66,4 +66,4 @@ const Component = ({ content_type, slug }: Props) => {
     );
 };
 
-export default Component;
+export default EditListModal;

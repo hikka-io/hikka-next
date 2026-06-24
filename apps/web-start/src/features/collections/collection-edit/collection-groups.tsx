@@ -5,7 +5,7 @@ import { useCollectionByReference } from '@hikka/react';
 import { useCollectionContext } from '@/services/providers/collection-provider';
 import { useParams } from '@/utils/navigation';
 
-import CollectionGrid from './collection-grid';
+import CollectionEditGrid from './collection-grid';
 import CollectionDndContext from './collection-grid/collection-dnd-context';
 
 type Props = {
@@ -36,7 +36,7 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
     return (
         <CollectionDndContext>
             {groups.map((group) => (
-                <CollectionGrid key={group.id} group={group} />
+                <CollectionEditGrid key={group.id} group={group} />
             ))}
         </CollectionDndContext>
     );

@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import General from '../components/import-list';
 import Anilist from './anilist';
 
-const Component = () => {
+const WatchlistSettings = () => {
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
     const [rewrite, setRewrite] = useState(true);
     const [watchList, setWatchList] = useState<ImportWatchArgs[]>([]);
@@ -103,4 +103,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default WatchlistSettings;

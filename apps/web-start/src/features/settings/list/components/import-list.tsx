@@ -24,7 +24,7 @@ type Props = {
         | Dispatch<SetStateAction<ImportWatchArgs[]>>;
 };
 
-const Component = ({ list, setList, content_type }: Props) => {
+const ImportList = ({ list, setList, content_type }: Props) => {
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         const nativeType = (value: string) => {
             const nValue = Number(value);
@@ -142,4 +142,4 @@ const Component = ({ list, setList, content_type }: Props) => {
     );
 };
 
-export default Component;
+export default ImportList;

@@ -8,7 +8,7 @@ import Card from '@/components/ui/card';
 import Link from '@/components/ui/link';
 import {
     ArticleAuthor,
-    ArticleDocument,
+    ArticleDocumentView,
     ArticleNavbar,
     ArticleTags,
     ArticleTitle,
@@ -76,7 +76,7 @@ function ArticlePage() {
                 )}
                 <Block className="isolate">
                     <ArticleTitle />
-                    <ArticleDocument />
+                    <ArticleDocumentView />
                     <ArticleTags />
                     <Comments
                         preview

@@ -4,7 +4,7 @@ import LoadMoreButton from '@/components/load-more-button';
 
 import EditTopItem from './components/edit-top-item';
 
-const Component = () => {
+const EditTopStatsModal = () => {
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
         useTopEditorsList();
 
@@ -37,4 +37,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default EditTopStatsModal;

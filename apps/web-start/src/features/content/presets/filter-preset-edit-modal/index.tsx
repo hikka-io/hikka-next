@@ -71,7 +71,7 @@ type Props = {
     onBack?: () => void;
 };
 
-const Component = ({ filterPreset, onClose, onBack }: Props) => {
+const FilterPresetEditModal = ({ filterPreset, onClose, onBack }: Props) => {
     const { filterPresets, setFilterPresets } = useSettingsStore();
 
     const form = useAppForm({
@@ -227,4 +227,4 @@ const Component = ({ filterPreset, onClose, onBack }: Props) => {
     );
 };
 
-export default Component;
+export default FilterPresetEditModal;

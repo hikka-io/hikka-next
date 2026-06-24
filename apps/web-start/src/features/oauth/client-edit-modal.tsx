@@ -31,7 +31,7 @@ type Props = {
     onClose?: () => void;
 };
 
-const Component = ({ client, onClose }: Props) => {
+const ClientEditModal = ({ client, onClose }: Props) => {
     const { mutate: updateClient, isPending: updateClientLoading } =
         useUpdateClient({
             options: {
@@ -214,4 +214,4 @@ const Component = ({ client, onClose }: Props) => {
     );
 };
 
-export default Component;
+export default ClientEditModal;

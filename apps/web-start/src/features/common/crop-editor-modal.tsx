@@ -34,7 +34,7 @@ const CROP_PARAMS = {
     },
 };
 
-const Component = ({ file, type, onClose }: Props) => {
+const CropEditorModal = ({ file, type, onClose }: Props) => {
     const router = useRouter();
 
     const editor = useRef<AvatarEditor>(null);
@@ -116,4 +116,4 @@ const Component = ({ file, type, onClose }: Props) => {
     );
 };
 
-export default Component;
+export default CropEditorModal;

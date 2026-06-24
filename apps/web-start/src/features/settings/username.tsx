@@ -12,7 +12,7 @@ const formSchema = z.object({
     username: z.string().min(2).max(50),
 });
 
-const Component = () => {
+const ProfileUsername = () => {
     const router = useRouter();
 
     const mutationChangeUsername = useChangeUsername({
@@ -69,4 +69,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ProfileUsername;

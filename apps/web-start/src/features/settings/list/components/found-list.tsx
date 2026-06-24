@@ -5,7 +5,7 @@ type Props = {
     type: ReadContentType | ContentTypeEnum.ANIME;
 };
 
-const Component = ({ list, type }: Props) => {
+const FoundList = ({ list, type }: Props) => {
     const typeName =
         type === ContentTypeEnum.ANIME ? 'аніме' : 'манґи та ранобе';
 
@@ -22,4 +22,4 @@ const Component = ({ list, type }: Props) => {
     );
 };
 
-export default Component;
+export default FoundList;

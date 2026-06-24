@@ -9,7 +9,7 @@ type Props = {
     urlPrefix: string;
 };
 
-const Component = ({ routes, urlPrefix }: Props) => {
+const NavTabs = ({ routes, urlPrefix }: Props) => {
     const pathname = usePathname();
 
     return (
@@ -49,4 +49,4 @@ const Component = ({ routes, urlPrefix }: Props) => {
     );
 };
 
-export default Component;
+export default NavTabs;

@@ -20,7 +20,7 @@ type Props = ButtonProps & {
     content_type: FavouriteContentType;
 };
 
-const Component = ({
+const FavoriteButton = ({
     slug,
     content_type,
     disabled,
@@ -68,4 +68,4 @@ const Component = ({
     );
 };
 
-export default Component;
+export default FavoriteButton;

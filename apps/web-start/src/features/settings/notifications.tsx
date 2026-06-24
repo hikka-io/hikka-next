@@ -32,7 +32,7 @@ const formSchema = z.object({
     thirdparty_login: z.boolean().optional().nullable().default(true),
 });
 
-const Component = () => {
+const NotificationsSettings = () => {
     const { data } = useIgnoredNotifications();
 
     const formValues = useMemo(() => {
@@ -264,4 +264,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default NotificationsSettings;

@@ -11,7 +11,7 @@ const formSchema = z.object({
     description: z.string().max(140).nullable(),
 });
 
-const Component = () => {
+const ProfileDescription = () => {
     const { user: loggedUser } = useSession();
 
     const mutationChangeDescription = useChangeDescription({
@@ -68,4 +68,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ProfileDescription;

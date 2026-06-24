@@ -8,7 +8,7 @@ type Props = {
     className?: string;
 };
 
-const Component = ({ className }: Props) => {
+const HistoryModal = ({ className }: Props) => {
     const params = useParams();
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
@@ -32,4 +32,4 @@ const Component = ({ className }: Props) => {
     );
 };
 
-export default Component;
+export default HistoryModal;

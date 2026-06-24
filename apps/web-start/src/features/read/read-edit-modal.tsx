@@ -48,7 +48,12 @@ type Props = {
     onClose?: () => void;
 };
 
-const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
+const ReadEditModal = ({
+    slug,
+    content_type,
+    read: readProp,
+    onClose,
+}: Props) => {
     const { data: readQuery } = useReadBySlug({
         contentType: content_type,
         slug,
@@ -302,4 +307,4 @@ const Component = ({ slug, content_type, read: readProp, onClose }: Props) => {
     );
 };
 
-export default Component;
+export default ReadEditModal;

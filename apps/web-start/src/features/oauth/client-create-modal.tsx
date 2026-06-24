@@ -18,7 +18,7 @@ type Props = {
     onClose?: () => void;
 };
 
-const Component = ({ onClose }: Props) => {
+const ClientCreateModal = ({ onClose }: Props) => {
     const { mutate: createClient, isPending: createClientLoading } =
         useCreateClient({
             options: {
@@ -91,4 +91,4 @@ const Component = ({ onClose }: Props) => {
     );
 };
 
-export default Component;
+export default ClientCreateModal;

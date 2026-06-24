@@ -17,7 +17,7 @@ const formSchema = z
         path: ['emailConfirmation'],
     });
 
-const Component = () => {
+const EmailSettings = () => {
     const mutationChangeEmail = useChangeEmail({
         options: {
             onSuccess: async () => {
@@ -83,4 +83,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default EmailSettings;

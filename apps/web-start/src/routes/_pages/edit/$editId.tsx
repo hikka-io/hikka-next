@@ -12,7 +12,7 @@ import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import {
     EditAuthor as Author,
     EditContent as Content,
-    EditStatus,
+    EditStatusBadge,
     EditModerator as Moderator,
 } from '@/features/edit';
 
@@ -74,7 +74,7 @@ function EditLayout() {
                                     Деталі
                                 </HeaderTitle>
                             </HeaderContainer>
-                            <EditStatus editId={editId} />
+                            <EditStatusBadge editId={editId} />
                         </Header>
                         <Card className="justify-between">
                             {edit.author && <Author editId={editId} />}
