@@ -1,24 +1,24 @@
 import type { FC } from 'react';
 
-import { useCharacterManga } from '@hikka/react';
+import { useCharacterNovel } from '@hikka/react';
 
-import MangaCard from '@/components/content-card/manga-card';
-import AppearanceGrid from '@/features/common/appearance-grid';
+import NovelCard from '@/components/content-card/novel-card';
+import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
     extended?: boolean;
 };
 
-const Manga: FC<Props> = ({ extended }) => {
+const Novel: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useCharacterManga({ slug: String(params.slug) });
+        useCharacterNovel({ slug: String(params.slug) });
 
     return (
         <AppearanceGrid
-            title="Манґа"
-            href={`/characters/${params.slug}/manga`}
+            title="Ранобе"
+            href={`/characters/${params.slug}/novel`}
             extended={extended}
             list={list}
             fetchNextPage={fetchNextPage}
@@ -26,10 +26,10 @@ const Manga: FC<Props> = ({ extended }) => {
             isFetchingNextPage={isFetchingNextPage}
             ref={ref}
             renderItem={(ch) => (
-                <MangaCard key={ch.manga.slug} manga={ch.manga} />
+                <NovelCard key={ch.novel.slug} novel={ch.novel} />
             )}
         />
     );
 };
 
-export default Manga;
+export default Novel;

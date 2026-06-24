@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useCharacterVoices } from '@hikka/react';
 
 import VoiceCard from '@/components/content-card/voice-card';
-import AppearanceGrid from '@/features/common/appearance-grid';
+import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useParams } from '@/utils/navigation';
 
 type Props = {

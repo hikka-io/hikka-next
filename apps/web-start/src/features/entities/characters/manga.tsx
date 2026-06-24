@@ -1,24 +1,24 @@
 import type { FC } from 'react';
 
-import { useCharacterAnime } from '@hikka/react';
+import { useCharacterManga } from '@hikka/react';
 
-import AnimeCard from '@/components/content-card/anime-card';
-import AppearanceGrid from '@/features/common/appearance-grid';
+import MangaCard from '@/components/content-card/manga-card';
+import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
     extended?: boolean;
 };
 
-const Anime: FC<Props> = ({ extended }) => {
+const Manga: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useCharacterAnime({ slug: String(params.slug) });
+        useCharacterManga({ slug: String(params.slug) });
 
     return (
         <AppearanceGrid
-            title="Аніме"
-            href={`/characters/${params.slug}/anime`}
+            title="Манґа"
+            href={`/characters/${params.slug}/manga`}
             extended={extended}
             list={list}
             fetchNextPage={fetchNextPage}
@@ -26,10 +26,10 @@ const Anime: FC<Props> = ({ extended }) => {
             isFetchingNextPage={isFetchingNextPage}
             ref={ref}
             renderItem={(ch) => (
-                <AnimeCard key={ch.anime.slug} anime={ch.anime} />
+                <MangaCard key={ch.manga.slug} manga={ch.manga} />
             )}
         />
     );
 };
 
-export default Anime;
+export default Manga;

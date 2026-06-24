@@ -8,7 +8,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { ClientCreateModal } from '@/features/oauth';
+import ClientCreateModal from './applications/client-create-modal';
 
 const ClientCreateButton: FC = () => {
     const { user: loggedUser } = useSession();

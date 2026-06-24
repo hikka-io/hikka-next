@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { ContentTypeEnum } from '@hikka/client';
 
 import ContentHeader from '@/features/comments/content-header';
-import { PersonManga as Manga } from '@/features/people';
+import { PersonManga as Manga } from '@/features/entities';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/people/$slug/manga')({

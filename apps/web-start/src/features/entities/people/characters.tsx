@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { usePersonCharacters } from '@hikka/react';
 
 import CharacterAnimeCard from '@/components/content-card/character-anime-card';
-import AppearanceGrid from '@/features/common/appearance-grid';
+import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useParams } from '@/utils/navigation';
 
 type Props = {

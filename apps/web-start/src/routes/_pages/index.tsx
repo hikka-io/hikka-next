@@ -24,7 +24,7 @@ import {
 } from '@hikka/react/options';
 
 import CoverImage from '@/components/cover-image';
-import { FeedLayout } from '@/features/feed';
+import { FeedLayout } from '@/features/home';
 import { getOngoingsSort } from '@/features/filters/sort';
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';

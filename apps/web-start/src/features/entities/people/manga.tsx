@@ -1,25 +1,25 @@
 import type { FC } from 'react';
 
-import { usePersonNovel } from '@hikka/react';
+import { usePersonManga } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
-import NovelCard from '@/components/content-card/novel-card';
-import AppearanceGrid from '@/features/common/appearance-grid';
+import MangaCard from '@/components/content-card/manga-card';
+import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
     extended?: boolean;
 };
 
-const Novel: FC<Props> = ({ extended }) => {
+const Manga: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        usePersonNovel({ slug: String(params.slug) });
+        usePersonManga({ slug: String(params.slug) });
 
     return (
         <AppearanceGrid
-            title="Ранобе"
-            href={`/people/${params.slug}/novel`}
+            title="Манґа"
+            href={`/people/${params.slug}/manga`}
             extended={extended}
             list={list}
             fetchNextPage={fetchNextPage}
@@ -27,9 +27,9 @@ const Novel: FC<Props> = ({ extended }) => {
             isFetchingNextPage={isFetchingNextPage}
             ref={ref}
             renderItem={(ch) => (
-                <NovelCard
-                    key={ch.novel.slug}
-                    novel={ch.novel}
+                <MangaCard
+                    key={ch.manga.slug}
+                    manga={ch.manga}
                     description={
                         ch.roles[0] ? getTitle(ch.roles[0]) : undefined
                     }
@@ -39,4 +39,4 @@ const Novel: FC<Props> = ({ extended }) => {
     );
 };
 
-export default Novel;
+export default Manga;

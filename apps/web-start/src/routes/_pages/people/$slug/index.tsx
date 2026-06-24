@@ -11,7 +11,7 @@ import {
     PersonManga as Manga,
     PersonNovel as Novel,
     PersonTitle as Title,
-} from '@/features/people';
+} from '@/features/entities';
 
 export const Route = createFileRoute('/_pages/people/$slug/')({
     component: PersonDetailPage,

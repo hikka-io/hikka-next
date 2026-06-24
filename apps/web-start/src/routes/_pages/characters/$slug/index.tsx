@@ -10,7 +10,7 @@ import {
     CharacterNovel as Novel,
     CharacterTitle as Title,
     CharacterVoices as Voices,
-} from '@/features/characters';
+} from '@/features/entities';
 import { CommentList as Comments } from '@/features/comments';
 import { ContentDetails as Details } from '@/features/content';
 

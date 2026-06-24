@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/client';
 
-import { CharacterAnime as Anime } from '@/features/characters';
+import { CharacterAnime as Anime } from '@/features/entities';
 import ContentHeader from '@/features/comments/content-header';
 import { generateHeadMeta } from '@/utils/metadata';
 
