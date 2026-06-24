@@ -14,18 +14,18 @@
 
   # https://devenv.sh/scripts/
   scripts = {
-    install-deps.exec = "yarn install";
-    dev.exec = "yarn dev";
+    install-deps.exec = "pnpm install";
+    dev.exec = "pnpm dev";
   };
 
   # https://devenv.sh/processes/
   processes = {
-    dev-server.exec = "yarn dev";
+    dev-server.exec = "pnpm dev";
   };
 
   enterShell = ''
     echo "Node version: $(node --version)"
-    echo "Yarn version: $(yarn --version)"
+    echo "pnpm version: $(pnpm --version)"
   '';
 
   # hehe

@@ -6,14 +6,17 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+# Non-interactive pnpm (no purge/build-script prompts)
+ENV CI=true
+
 # Install dependencies
-COPY package.json yarn.lock .yarnrc.yml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY turbo.json ./
 COPY tsconfig.base.json ./
 COPY packages/client/package.json ./packages/client/
 COPY packages/react/package.json ./packages/react/
 COPY apps/web-start/package.json ./apps/web-start/
-RUN corepack enable yarn && yarn install
+RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM deps AS builder
@@ -24,7 +27,11 @@ COPY . .
 ENV NODE_OPTIONS=--max-old-space-size=4096
 
 # Build using Turbo (builds all dependencies in correct order)
-RUN yarn turbo run build --filter=@hikka/web-start
+RUN pnpm turbo run build --filter=@hikka/web-start
+
+# Materialize the @takumi-rs closure: pnpm only symlinks it into the virtual
+# store, so dereference it into real files for the runtime image.
+RUN cp -RL node_modules/@takumi-rs /app/takumi-rs
 
 # Production image, copy all the files and run the server
 FROM base AS runner
@@ -38,8 +45,8 @@ RUN adduser --system --uid 1001 appuser
 # Copy Nitro build output (self-contained: server + public assets)
 COPY --from=builder --chown=appuser:nodejs /app/apps/web-start/.output ./
 
-# Copy @takumi-rs native bindings for OG image generation
-COPY --from=builder --chown=appuser:nodejs /app/node_modules/@takumi-rs/ ./node_modules/@takumi-rs/
+# Copy @takumi-rs native bindings for OG image generation (dereferenced above)
+COPY --from=builder --chown=appuser:nodejs /app/takumi-rs/ ./node_modules/@takumi-rs/
 
 USER appuser
 

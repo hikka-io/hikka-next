@@ -39,7 +39,7 @@ packages/client/      → TypeScript API client (@hikka/client)
 packages/react/       → React hooks & query options (@hikka/react)
 ```
 
-**Package manager**: Yarn 4.5.3  
+**Package manager**: pnpm 10.33.4  
 **Build orchestration**: Turborepo  
 **Library builds**: tsup
 
@@ -58,22 +58,22 @@ packages/react/       → React hooks & query options (@hikka/react)
   git clone https://github.com/hikka-io/hikka-next.git
 ```
 
-2. Enable Corepack and activate Yarn
+2. Enable Corepack and activate pnpm
 
 ```sh
-  corepack enable yarn
+  corepack enable pnpm
 ```
 
 3. Install dependencies
 
 ```sh
-  yarn install
+  pnpm install
 ```
 
 4. Start the development server
 
 ```sh
-  yarn dev
+  pnpm dev
 ```
 
 This starts all packages in dev/watch mode. The web app will be available at `http://localhost:3000`.
@@ -82,21 +82,21 @@ This starts all packages in dev/watch mode. The web app will be available at `ht
 
 ```bash
 # Development
-yarn dev              # Start all packages in dev mode
-yarn dev:web-start    # Start TanStack Start dev server
-yarn dev:client       # Watch-build @hikka/client
-yarn dev:react        # Watch-build @hikka/react
+pnpm dev              # Start all packages in dev mode
+pnpm dev:web-start    # Start TanStack Start dev server
+pnpm dev:client       # Watch-build @hikka/client
+pnpm dev:react        # Watch-build @hikka/react
 
 # Building
-yarn build            # Build everything
-yarn build:web-start  # Build web app
-yarn start:web-start  # Run production build
+pnpm build            # Build everything
+pnpm build:web-start  # Build web app
+pnpm start:web-start  # Run production build
 
 # Code Quality
-yarn lint             # ESLint across all packages
-yarn lint:fix         # ESLint with auto-fix
-yarn format           # Prettier format all files
-yarn format:check     # Check formatting without writing
+pnpm lint             # Biome lint across all packages
+pnpm lint:fix         # Biome lint with auto-fix
+pnpm format           # Biome format all files
+pnpm format:check     # Check formatting without writing
 ```
 
 ## Contributing

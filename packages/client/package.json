@@ -9,7 +9,7 @@
         "build": "tsup --tsconfig tsconfig.build.json",
         "build:watch": "tsup --watch",
         "build:clean": "rimraf dist",
-        "prebuild": "yarn build:clean",
+        "prebuild": "pnpm build:clean",
         "dev": "tsup --watch",
         "test": "jest",
         "test:watch": "jest --watch",
@@ -61,6 +61,5 @@
             "!**/*.test.ts",
             "!**/*.spec.ts"
         ]
-    },
-    "packageManager": "yarn@4.5.3"
+    }
 }

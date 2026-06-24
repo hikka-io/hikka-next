@@ -1,10 +1,6 @@
 {
     "name": "hikka-monorepo",
     "private": true,
-    "workspaces": [
-        "packages/*",
-        "apps/*"
-    ],
     "scripts": {
         "format": "biome format --write .",
         "format:check": "biome format .",
@@ -24,16 +20,22 @@
         "dev:react": "turbo run dev --filter=@hikka/react",
         "build:react": "turbo run build --filter=@hikka/react"
     },
-    "packageManager": "yarn@4.5.3",
+    "packageManager": "pnpm@10.33.4",
     "syncpack": {
         "filter": "^(?!@hikka).*",
         "semverRange": ""
     },
-    "resolutions": {
-        "@types/react": "19.2.7",
-        "@types/react-dom": "19.2.3",
-        "react": "19.2.1",
-        "react-dom": "19.2.1"
+    "pnpm": {
+        "overrides": {
+            "@types/react": "19.2.7",
+            "@types/react-dom": "19.2.3",
+            "react": "19.2.1",
+            "react-dom": "19.2.1"
+        },
+        "onlyBuiltDependencies": [
+            "@swc/core",
+            "esbuild"
+        ]
     },
     "devDependencies": {
         "@biomejs/biome": "2.5.1",
