@@ -3,6 +3,7 @@
     "compilerOptions": {
         "jsx": "react-jsx",
         "paths": {
+            "@hikka/client": ["../client/index.ts"],
             "@/client/*": ["./client/*"],
             "@/server/*": ["./server/*"],
             "@/core/*": ["./core/*"],
