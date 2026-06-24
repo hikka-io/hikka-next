@@ -94,24 +94,21 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
 
                     <EditDescription mode={mode === 'update' ? 'edit' : mode} />
                 </div>
-                {mode === 'edit' ||
-                    (mode === 'update' && (
-                        <div className="flex w-full flex-col gap-4">
-                            <div className="flex items-center gap-2">
-                                <Button
-                                    disabled={mutationUpdateEdit.isPending}
-                                    type="submit"
-                                    className="w-fit"
-                                >
-                                    {mutationUpdateEdit.isPending && (
-                                        <Spinner />
-                                    )}
-                                    Оновити
-                                </Button>
-                                <AutoButton />
-                            </div>
+                {(mode === 'edit' || mode === 'update') && (
+                    <div className="flex w-full flex-col gap-4">
+                        <div className="flex items-center gap-2">
+                            <Button
+                                disabled={mutationUpdateEdit.isPending}
+                                type="submit"
+                                className="w-fit"
+                            >
+                                {mutationUpdateEdit.isPending && <Spinner />}
+                                Оновити
+                            </Button>
+                            <AutoButton />
                         </div>
-                    ))}
+                    </div>
+                )}
             </form>
         </form.AppForm>
     );
