@@ -1,6 +1,5 @@
 'use client';
 
-import { useMutation } from '@hikka/react';
 import { Plus } from 'lucide-react';
 import type { PlateEditor } from 'platejs/react';
 import {
@@ -9,17 +8,16 @@ import {
     cloneElement,
     isValidElement,
     useCallback,
+    useId,
 } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import Spinner from '@/components/ui/spinner';
 
 import {
     ImageGroupPlugin,
     type TImageGroupElement,
 } from '../editor/plugins/image-group-kit';
-import { uploadAttachmentImage } from '../editor/upload-image';
 
 interface ImageGroupAddImageProps {
     element?: TImageGroupElement;
@@ -32,22 +30,17 @@ export const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
     editor,
     children,
 }) => {
-    const { mutate: uploadImages, isPending } = useMutation({
-        mutationFn: (client, files: FileList) =>
-            editor.getTransforms(ImageGroupPlugin).insert.imageGroupFromFiles({
-                files,
-                element,
-                uploadImage: (file) => uploadAttachmentImage(client, file),
-            }),
-    });
+    const inputId = useId();
 
     const insertImage = useCallback(
-        ({ files }: { files: FileList | null }) => {
-            if (!files) return;
-
-            uploadImages(files);
+        (files: FileList | null) => {
+            if (!files || files.length === 0) return;
+            editor.getTransforms(ImageGroupPlugin).imageGroup.upload({
+                files: Array.from(files),
+                group: element,
+            });
         },
-        [uploadImages],
+        [editor, element],
     );
 
     if (isValidElement(children)) {
@@ -56,27 +49,26 @@ export const ImageGroupAddImage: FC<ImageGroupAddImageProps> = ({
                 React.InputHTMLAttributes<HTMLInputElement>
             >,
             {
-                onChange: (e) => insertImage({ files: e.target.files }),
+                onChange: (e) =>
+                    insertImage((e.target as HTMLInputElement).files),
             },
         );
     }
 
     return (
         <Button
-            disabled={isPending}
             variant="secondary"
             className="text-muted-foreground relative size-28"
         >
             <Input
                 type="file"
-                id="image-group-input"
-                onChange={(e) => insertImage({ files: e.target.files })}
+                id={inputId}
+                onChange={(e) => insertImage(e.target.files)}
                 multiple={false}
                 className="absolute top-0 left-0 size-full cursor-pointer opacity-0"
                 accept="image/*"
             />
-            {isPending && <Spinner />}
-            {!isPending && <Plus className="size-8!" />}
+            <Plus className="size-8!" />
         </Button>
     );
 };

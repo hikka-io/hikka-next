@@ -11,7 +11,8 @@ import {
 } from '../editor/plugins/image-group-kit';
 import { ImageGroupAddImage } from './image-group-add-image';
 
-export interface ImageGroupElementProps extends PlateElementProps<TImageGroupElement> {
+export interface ImageGroupElementProps
+    extends PlateElementProps<TImageGroupElement> {
     className?: string;
 }
 
@@ -22,10 +23,11 @@ export function ImageGroupElement({
     editor,
     ...props
 }: ImageGroupElementProps) {
+    const firstChild = element.children[0];
     const isOnlyText =
         element.children.length === 1 &&
-        editor.api.isText(element.children[0]) &&
-        element.children[0].text === '';
+        editor.api.isText(firstChild) &&
+        firstChild.text === '';
 
     return (
         <PlateElement
@@ -36,7 +38,7 @@ export function ImageGroupElement({
             {...props}
         >
             {!isOnlyText && children}
-            {children.length < MAX_IMAGE_COUNT && (
+            {element.children.length < MAX_IMAGE_COUNT && (
                 <ImageGroupAddImage editor={editor} element={element} />
             )}
         </PlateElement>

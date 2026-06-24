@@ -205,8 +205,11 @@ export function ArticlePlateEditor({
 
     // Enables drag-and-drop image upload (see image-group-kit insertData)
     useEffect(() => {
-        editor.setOption(ImageGroupPlugin, 'uploadImage', (file: File) =>
-            uploadAttachmentImage(client, file),
+        editor.setOption(
+            ImageGroupPlugin,
+            'uploadImage',
+            (file: File, options) =>
+                uploadAttachmentImage(client, file, options),
         );
     }, [editor, client]);
 
