@@ -4,7 +4,7 @@
     "tasks": {
         "build": {
             "dependsOn": ["^build"],
-            "outputs": ["dist/**", ".next/**", "build/**", ".output/**"]
+            "outputs": ["dist/**", ".output/**"]
         },
         "lint": {
             "outputs": []
@@ -17,13 +17,8 @@
             "cache": false
         },
         "test": {
-            "dependsOn": ["build"],
-            "inputs": [
-                "src/**/*.tsx",
-                "src/**/*.ts",
-                "test/**/*.ts",
-                "test/**/*.tsx"
-            ]
+            "dependsOn": ["^build"],
+            "inputs": ["src/**", "vitest.config.ts", "vitest.setup.ts"]
         },
         "start": {
             "cache": false,
