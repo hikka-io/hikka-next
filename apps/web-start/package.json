@@ -12,6 +12,8 @@
         "build": "vite build",
         "preview": "vite preview --port 3000",
         "start": "node .output/server/index.mjs",
+        "test": "vitest run",
+        "test:watch": "vitest",
         "lint": "tsc --noEmit",
         "clean": "rimraf .output dist"
     },
@@ -99,11 +101,13 @@
         "@vitejs/plugin-react": "^4.0.0",
         "@vitejs/plugin-react-swc": "^4.3.0",
         "babel-plugin-react-compiler": "^1.0.0",
+        "jsdom": "^29.1.1",
         "rimraf": "^5.0.1",
         "rollup-plugin-visualizer": "^7.0.1",
         "tailwindcss": "^4",
         "typescript": "5.7.2",
         "vite": "^7.0.0",
-        "vite-tsconfig-paths": "^5.0.0"
+        "vite-tsconfig-paths": "^5.0.0",
+        "vitest": "^4.1.9"
     }
 }
