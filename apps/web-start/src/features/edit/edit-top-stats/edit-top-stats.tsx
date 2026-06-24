@@ -9,9 +9,9 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import EditTopStatsModal from '../edit-top-stats-modal';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 
+import EditTopStatsModal from '../edit-top-stats-modal';
 import EditTopItem from './components/edit-top-item';
 
 function EditTopStats() {

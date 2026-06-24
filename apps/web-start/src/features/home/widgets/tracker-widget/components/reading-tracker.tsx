@@ -16,6 +16,7 @@ import {
 import { queryKeys, useQueryClient } from '@hikka/react/core';
 import { getTitle } from '@hikka/react/utils';
 
+import { ReadEditModal } from '@/components/action-buttons';
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
@@ -37,7 +38,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { ReadEditModal } from '@/components/action-buttons';
 import useDebounce from '@/services/hooks/use-debounce';
 import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';

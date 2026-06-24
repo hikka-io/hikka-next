@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import { CatalogSummary } from '@/features/catalog';
+
 import { useMangaSearchQuery } from '../manga-list/use-manga-search-query';
 
 type Props = {

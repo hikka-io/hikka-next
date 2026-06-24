@@ -2,8 +2,9 @@ import type { FC } from 'react';
 
 import { useArticleBySlug } from '@hikka/react';
 
-import Author from '../article-item/article-author';
 import { useParams } from '@/utils/navigation';
+
+import Author from '../article-item/article-author';
 
 type Props = {};
 

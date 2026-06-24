@@ -6,9 +6,9 @@ import {
     ContentTypeEnum,
 } from '@hikka/client';
 
+import VoteButton from '@/components/action-buttons/vote-button';
 import { buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import VoteButton from '@/components/action-buttons/vote-button';
 
 type Props = {
     collection: CollectionResponse<CollectionContent>;

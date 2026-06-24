@@ -19,8 +19,9 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import CropEditorModal from './crop-editor-modal';
 import { Link, useParams } from '@/utils/navigation';
+
+import CropEditorModal from './crop-editor-modal';
 
 const UserInfo = () => {
     const uploadAvatarRef = useRef<HTMLInputElement>(null);

@@ -5,6 +5,7 @@ import { useCollectionByReference } from '@hikka/react';
 
 import Block from '@/components/ui/block';
 import Link from '@/components/ui/link';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import {
     CollectionViewAuthor as CollectionAuthor,
     CollectionViewGroups as CollectionGroups,
@@ -13,7 +14,6 @@ import {
     TableOfContents,
 } from '@/features/collections';
 import { CommentList as Comments } from '@/features/comments';
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import CollectionProvider from '@/services/providers/collection-provider';
 
 export const Route = createFileRoute('/_pages/collections/$reference/')({

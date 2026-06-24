@@ -10,11 +10,12 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { useContent } from './hooks/use-content';
 import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
+
+import { useContent } from './hooks/use-content';
 
 type Props = {
     slug: string;

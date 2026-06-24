@@ -2,6 +2,8 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/client';
 
+import { CommentList as Comments } from '@/features/comments';
+import { ContentDetails as Details } from '@/features/content';
 import {
     CharacterAnime as Anime,
     CharacterCover as Cover,
@@ -11,8 +13,6 @@ import {
     CharacterTitle as Title,
     CharacterVoices as Voices,
 } from '@/features/entities';
-import { CommentList as Comments } from '@/features/comments';
-import { ContentDetails as Details } from '@/features/content';
 
 export const Route = createFileRoute('/_pages/characters/$slug/')({
     component: CharacterDetailPage,

@@ -2,6 +2,7 @@ import { type FC, useState } from 'react';
 
 import { useSession, useUserFollowStats } from '@hikka/react';
 
+import FollowButton from '@/components/action-buttons/follow-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {
@@ -9,7 +10,6 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { Separator } from '@/components/ui/separator';
-import FollowButton from '@/components/action-buttons/follow-button';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';

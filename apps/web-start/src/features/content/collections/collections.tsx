@@ -3,6 +3,7 @@ import { type FC, useState } from 'react';
 import type { CollectionContentType } from '@hikka/client';
 import { useSearchCollections } from '@hikka/react';
 
+import { CollectionItem } from '@/components/content-card';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
@@ -15,7 +16,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { CollectionItem } from '@/components/content-card';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useParams } from '@/utils/navigation';
 

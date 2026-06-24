@@ -3,12 +3,12 @@ import { createFileRoute } from '@tanstack/react-router';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import {
     CollectionEditGroups as CollectionGroups,
     CollectionEditSettings as CollectionSettings,
     CollectionEditTitle as CollectionTitle,
 } from '@/features/collections';
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import CollectionProvider from '@/services/providers/collection-provider';
 import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';

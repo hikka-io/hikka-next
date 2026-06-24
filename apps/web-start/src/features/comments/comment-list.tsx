@@ -14,12 +14,13 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-import CommentInput from './comment-input';
-import Comments from './comments';
 import { LoginButton } from '@/features/app-shell';
 import CommentsProvider from '@/services/providers/comments-provider';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
+
+import CommentInput from './comment-input';
+import Comments from './comments';
 
 type Props = {
     slug: string;

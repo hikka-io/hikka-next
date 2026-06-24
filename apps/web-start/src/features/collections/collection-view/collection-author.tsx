@@ -2,6 +2,7 @@ import { formatDistance } from 'date-fns';
 
 import { useCollectionByReference } from '@hikka/react';
 
+import FollowButton from '@/components/action-buttons/follow-button';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -10,7 +11,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import FollowButton from '@/components/action-buttons/follow-button';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { useParams } from '@/utils/navigation';
 

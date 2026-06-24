@@ -4,8 +4,8 @@ import { MessageCircle } from 'lucide-react';
 
 import type { VoteContentType } from '@hikka/client';
 
-import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import VoteButton from '@/components/action-buttons/vote-button';
+import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { Link } from '@/utils/navigation';
 
 type Props = {

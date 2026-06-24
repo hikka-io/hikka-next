@@ -11,6 +11,7 @@ import {
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
+
 import ClientEditModal from '../client-edit-modal';
 
 type Props = {

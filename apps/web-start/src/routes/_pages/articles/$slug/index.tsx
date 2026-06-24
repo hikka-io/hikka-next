@@ -6,6 +6,7 @@ import { useArticleBySlug } from '@hikka/react';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Link from '@/components/ui/link';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import {
     ArticleAuthor,
     ArticleDocumentView,
@@ -14,7 +15,6 @@ import {
     ArticleTitle,
 } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 export const Route = createFileRoute('/_pages/articles/$slug/')({

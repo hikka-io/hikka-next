@@ -13,9 +13,10 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import EditListModal from './edit-list-modal';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
+
+import EditListModal from './edit-list-modal';
 
 type Props = ButtonProps & {
     slug: string;

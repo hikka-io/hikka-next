@@ -7,12 +7,12 @@ import { queryKeys } from '@hikka/react/core';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Link from '@/components/ui/link';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import {
     ArticleDocumentEditor as ArticleDocument,
     ArticleSettings,
     ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import ArticleProvider from '@/services/providers/article-provider';
 import { requireOwner } from '@/utils/auth';
 import { cn } from '@/utils/cn';

@@ -2,13 +2,12 @@ import { type FC, Fragment } from 'react';
 
 import { useFollowingHistory } from '@hikka/react';
 
+import { HistoryItem } from '@/components/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
-
-import { HistoryItem } from '@/components/content-card';
 
 type Props = {
     className?: string;

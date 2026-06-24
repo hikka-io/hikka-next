@@ -4,10 +4,10 @@ import type { ContentTypeEnum } from '@hikka/client';
 
 import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import NavMenu from '@/features/app-shell/nav-dropdown';
-import ContentActionBar from './content-action-bar';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
+import ContentActionBar from './content-action-bar';
 import NsfwOverlay from './nsfw-overlay';
 
 type Props = PropsWithChildren & {

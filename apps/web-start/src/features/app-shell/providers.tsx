@@ -8,10 +8,11 @@ import { HikkaContextProvider } from '@hikka/react';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
 import EffectsManager from '@/features/effects/effects-manager';
-import UIStylesSyncer from './ui-styles-syncer';
-import VisualViewportSyncer from './visual-viewport-syncer';
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import ThemeProvider from '@/services/providers/theme-provider';
+
+import UIStylesSyncer from './ui-styles-syncer';
+import VisualViewportSyncer from './visual-viewport-syncer';
 
 setDefaultOptions({ locale: uk });
 

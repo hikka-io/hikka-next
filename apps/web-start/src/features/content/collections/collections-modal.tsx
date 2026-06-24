@@ -3,8 +3,8 @@ import type { FC } from 'react';
 import type { CollectionContentType } from '@hikka/client';
 import { useSearchCollections } from '@hikka/react';
 
-import LoadMoreButton from '@/components/load-more-button';
 import { CollectionItem } from '@/components/content-card';
+import LoadMoreButton from '@/components/load-more-button';
 import { useParams } from '@/utils/navigation';
 
 type Props = {

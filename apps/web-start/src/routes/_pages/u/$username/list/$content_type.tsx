@@ -24,12 +24,11 @@ import {
 import Block from '@/components/ui/block';
 import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
+import { AnimeFilters, ReadFilters } from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { expandSort } from '@/features/filters/sort';
-import { ReadFilters } from '@/features/filters';
 import { Userlist, UserlistNavbar } from '@/features/users';
-import { AnimeFilters } from '@/features/filters';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { userlistSearchSchema } from '@/utils/search-schemas';

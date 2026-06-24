@@ -32,10 +32,10 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
-import ReadEditModal from '../read-edit-modal';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
+import ReadEditModal from '../read-edit-modal';
 import IconReadStatusButton from './components/icon-read-status-button';
 import NewStatusTrigger from './components/new-status-trigger';
 import ReadStatusTrigger from './components/read-status-trigger';

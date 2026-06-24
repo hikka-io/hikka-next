@@ -38,14 +38,16 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useActiveFilters } from '@/features/filters';
+import {
+    AnimeFiltersModal,
+    ReadFiltersModal,
+    useActiveFilters,
+} from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import useChangeParam from '@/features/filters/hooks/use-change-param';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import Sort from '@/features/filters/sort';
-import { ReadFiltersModal } from '@/features/filters';
-import { AnimeFiltersModal } from '@/features/filters';
 import { cn } from '@/utils/cn';
 import {
     CONTENT_TYPES,

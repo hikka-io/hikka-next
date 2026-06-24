@@ -8,6 +8,7 @@ import {
     useUserWatchStats,
 } from '@hikka/react';
 
+import { FollowButton } from '@/components/action-buttons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -15,7 +16,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { FollowButton } from '@/components/action-buttons';
 
 import MaterialSymbolsAnimatedImages from '../../icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsMenuBookRounded from '../../icons/material-symbols/MaterialSymbolsMenuBookRounded';

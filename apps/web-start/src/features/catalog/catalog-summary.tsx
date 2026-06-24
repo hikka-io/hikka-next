@@ -1,8 +1,7 @@
 import type { FC } from 'react';
 
-import { cn } from '@/utils/cn';
-
 import { ActiveFilters, useActiveFilters } from '@/features/filters';
+import { cn } from '@/utils/cn';
 
 type Props = {
     total?: number;

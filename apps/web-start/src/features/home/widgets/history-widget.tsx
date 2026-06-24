@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { useFollowingHistory, useSession } from '@hikka/react';
 
+import { HistoryItem } from '@/components/content-card';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
@@ -11,7 +12,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-import { HistoryItem } from '@/components/content-card';
 
 import type { WidgetProps } from '../constants';
 

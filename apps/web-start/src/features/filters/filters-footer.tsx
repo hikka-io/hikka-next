@@ -17,11 +17,12 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { cn } from '@/utils/cn';
+
 // Deep import (not the @/features/content barrel) keeps the filters → content
 // import edge narrow, avoiding the module-init cycle that previously broke
 // hydration.
 import FilterPresetEditModal from './presets/filter-preset-edit-modal';
-import { cn } from '@/utils/cn';
 
 export type FiltersFooterProps = {
     className?: string;

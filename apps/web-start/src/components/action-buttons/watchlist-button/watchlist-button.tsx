@@ -28,10 +28,10 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
-import WatchEditModal from '../watch-edit-modal';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
+import WatchEditModal from '../watch-edit-modal';
 import IconWatchStatusButton from './components/icon-watch-status-button';
 import NewStatusTrigger from './components/new-status-trigger';
 import WatchStatusTrigger from './components/watch-status-trigger';

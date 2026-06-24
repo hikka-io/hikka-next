@@ -6,6 +6,7 @@ export { default as CloseAction } from './edit-actions/close-action';
 export { default as DenyAction } from './edit-actions/deny-action';
 export { default as EditActions } from './edit-actions/edit-actions';
 export { default as EditAuthor } from './edit-author';
+export { default as EditButton } from './edit-button';
 // Edit Content Components
 export { default as EditContent } from './edit-content';
 export { default as EditContentList } from './edit-content-list';
@@ -23,4 +24,3 @@ export { default as EditStatusBadge } from './edit-status';
 // Edit Stats Components
 export { default as EditTopStats } from './edit-top-stats';
 export { default as EditTopStatsModal } from './edit-top-stats-modal';
-export { default as EditButton } from './edit-button';

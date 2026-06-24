@@ -4,6 +4,7 @@ import { formatDistance } from 'date-fns';
 
 import type { ArticleBaseResponse } from '@hikka/client';
 
+import { FollowButton } from '@/components/action-buttons';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -12,7 +13,6 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import Link from '@/components/ui/link';
-import { FollowButton } from '@/components/action-buttons';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';

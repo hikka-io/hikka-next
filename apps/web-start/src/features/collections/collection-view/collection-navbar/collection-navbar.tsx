@@ -5,6 +5,7 @@ import { MessageCircle, TableOfContents } from 'lucide-react';
 import { ContentTypeEnum } from '@hikka/client';
 import { useCollectionByReference, useSession } from '@hikka/react';
 
+import FavoriteButton from '@/components/action-buttons/favorite-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {
@@ -12,7 +13,6 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import FavoriteButton from '@/components/action-buttons/favorite-button';
 import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link, useParams } from '@/utils/navigation';

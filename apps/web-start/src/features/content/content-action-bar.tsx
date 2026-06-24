@@ -5,12 +5,12 @@ import { MessageCircle } from 'lucide-react';
 import { ContentTypeEnum } from '@hikka/client';
 import { useSession } from '@hikka/react';
 
-import { Button } from '@/components/ui/button';
-import Card from '@/components/ui/card';
-import EditButton from '@/features/edit/edit-button';
 import FavoriteButton from '@/components/action-buttons/favorite-button';
 import ReadlistButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import EditButton from '@/features/edit/edit-button';
 import { cn } from '@/utils/cn';
 import { COMMENT_DECLENSIONS, CONTENT_CONFIG } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';

@@ -3,10 +3,10 @@ import { type FC, memo } from 'react';
 import type { AnimeScheduleResponse } from '@hikka/client';
 import { useTitle } from '@hikka/react';
 
+import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import HorizontalContentCard, {
     type Props as HorizontalContentCardProps,
 } from '@/components/ui/horizontal-content-card';
-import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
 

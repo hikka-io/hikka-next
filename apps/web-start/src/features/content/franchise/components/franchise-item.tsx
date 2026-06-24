@@ -7,6 +7,8 @@ import type {
 } from '@hikka/client';
 import { useSession, useTitle } from '@hikka/react';
 
+import ReadlistButton from '@/components/action-buttons/readlist-button';
+import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -15,8 +17,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import ReadlistButton from '@/components/action-buttons/readlist-button';
-import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import { MEDIA_TYPE } from '@/utils/constants/common';
 
 type Props = {

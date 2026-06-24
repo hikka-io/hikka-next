@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { useArticleStats } from '@hikka/react';
 
+import FollowButton from '@/components/action-buttons/follow-button';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -12,7 +13,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import FollowButton from '@/components/action-buttons/follow-button';
 
 type Props = {};
 

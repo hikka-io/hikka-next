@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import type { UserResponse } from '@hikka/client';
 
+import FollowButton from '@/components/action-buttons/follow-button';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -9,7 +10,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import FollowButton from '@/components/action-buttons/follow-button';
 
 type Props = {
     user: UserResponse;

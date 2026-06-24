@@ -7,6 +7,7 @@ import type { CollectionContent, CollectionResponse } from '@hikka/client';
 import { useHikkaClient } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
+import FollowButton from '@/components/action-buttons/follow-button';
 import ContentCard from '@/components/content-card/content-card';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
@@ -21,7 +22,6 @@ import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 import Stack, { type StackSize } from '@/components/ui/stack';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-import FollowButton from '@/components/action-buttons/follow-button';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';

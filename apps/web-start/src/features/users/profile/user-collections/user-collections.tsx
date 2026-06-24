@@ -2,6 +2,7 @@ import { type FC, useState } from 'react';
 
 import { useSearchCollections, useSession } from '@hikka/react';
 
+import { CollectionItem } from '@/components/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
@@ -21,7 +22,6 @@ import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-chang
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';
 
-import { CollectionItem } from '@/components/content-card';
 import CollectionsModal from './components/collections-modal';
 
 type Props = {
