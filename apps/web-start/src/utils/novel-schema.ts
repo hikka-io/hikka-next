@@ -1,4 +1,4 @@
-import type { NovelInfoResponse } from '@hikka/client';
+import type { NovelInfoResponse } from '@hikka/api';
 
 import { parseTextFromMarkDown } from '@/utils/markdown';
 

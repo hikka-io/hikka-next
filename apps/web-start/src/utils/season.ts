@@ -1,4 +1,4 @@
-import { SeasonEnum } from '@hikka/client';
+import { SeasonEnum } from '@hikka/api';
 
 import { SEASON } from './constants/common';
 

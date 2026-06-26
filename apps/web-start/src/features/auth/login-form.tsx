@@ -3,7 +3,10 @@ import { useRef, useState } from 'react';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { Eye, EyeOff } from 'lucide-react';
 
-import { useCreateUserSession, useHikkaClient } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { loginMutation, setAuthToken } from '@hikka/api';
+import { useHikkaClient } from '@hikka/react';
+import { queryKeys } from '@hikka/react/core';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -26,6 +29,7 @@ const formSchema = z.object({
 
 const LoginForm = () => {
     const { client } = useHikkaClient();
+    const queryClient = useQueryClient();
     const { callbackUrl: callbackUrlParam } = useFilterSearch<{
         callbackUrl?: string;
     }>();
@@ -35,19 +39,27 @@ const LoginForm = () => {
 
     const callbackUrl = callbackUrlParam ?? '/';
 
-    const mutationLogin = useCreateUserSession({
-        options: {
-            onSuccess: async (data) => {
-                await setAuthCookieFn({
-                    data: { secret: data.secret },
-                });
-                client.setAuthToken(data.secret);
-                form.reset();
-                router.push(validateRedirectUrl(callbackUrl));
-            },
-            onError: () => {
-                captchaRef.current?.reset();
-            },
+    const mutationLogin = useMutation({
+        ...loginMutation(),
+        onSuccess: async (data) => {
+            await setAuthCookieFn({
+                data: { secret: data.secret },
+            });
+            setAuthToken(data.secret);
+            client.setAuthToken(data.secret);
+            await Promise.all([
+                queryClient.invalidateQueries({
+                    queryKey: queryKeys.user.me(),
+                }),
+                queryClient.invalidateQueries({
+                    queryKey: queryKeys.auth.tokenInfo(),
+                }),
+            ]);
+            form.reset();
+            router.push(validateRedirectUrl(callbackUrl));
+        },
+        onError: () => {
+            captchaRef.current?.reset();
         },
     });
 
@@ -61,13 +73,13 @@ const LoginForm = () => {
         onSubmit: async ({ value }) => {
             const isEmail = value.identifier.includes('@');
 
-            const args = isEmail
+            const body = isEmail
                 ? { email: value.identifier, password: value.password }
                 : { username: value.identifier, password: value.password };
 
             mutationLogin.mutate({
-                args,
-                captcha: {
+                body,
+                headers: {
                     captcha: String(captchaRef.current?.getResponse()),
                 },
             });

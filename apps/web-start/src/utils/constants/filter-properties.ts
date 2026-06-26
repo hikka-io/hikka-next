@@ -12,7 +12,7 @@ import {
     type SeasonEnum,
     SourceEnum,
     WatchStatusEnum,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import MaterialSymbolsBookmarkFlagOutlineRounded from '../../components/icons/material-symbols/MaterialSymbolsBookmarkFlagOutlineRounded';
 import MaterialSymbolsBookmarkOutline from '../../components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
@@ -216,7 +216,7 @@ export const SOURCE: Hikka.FilterProperty<SourceEnum> = {
         title_ua: 'Візуальна Новала',
         title_en: 'Visual Novel',
     },
-    [SourceEnum.KOMA_MANGA]: {
+    [SourceEnum['4_KOMA_MANGA']]: {
         title_ua: 'Чотирьохпанельна Манґа',
         title_en: 'Yonkoma manga',
     },

@@ -2,7 +2,8 @@ import type { FC } from 'react';
 
 import { formatDistance } from 'date-fns/formatDistance';
 
-import { useUpdateNotificationSeen } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { notificationSeenMutation } from '@hikka/api';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { HorizontalCardDescription } from '@/components/ui/horizontal-card';
@@ -18,10 +19,27 @@ type Props = {
 };
 
 const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
-    const { mutate: markSeen } = useUpdateNotificationSeen();
+    const queryClient = useQueryClient();
+    const { mutate: markSeen } = useMutation({
+        ...notificationSeenMutation(),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                predicate: (query) => {
+                    const id = (
+                        query.queryKey[0] as { _id?: string } | undefined
+                    )?._id;
+                    return (
+                        id === 'notifications' ||
+                        id === 'unseenNotificationsCount'
+                    );
+                },
+            });
+        },
+    });
 
     const handleNotificationClick = () => {
-        if (!data.seen) markSeen(data.reference);
+        if (!data.seen)
+            markSeen({ path: { notification_reference: data.reference } });
         onNavigate?.();
     };
 

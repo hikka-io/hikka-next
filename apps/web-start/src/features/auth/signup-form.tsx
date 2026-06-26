@@ -4,7 +4,10 @@ import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { useCreateUser, useHikkaClient } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { setAuthToken, signupMutation } from '@hikka/api';
+import { useHikkaClient } from '@hikka/react';
+import { queryKeys } from '@hikka/react/core';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -31,35 +34,44 @@ const formSchema = z
 
 const SignupForm = () => {
     const { client } = useHikkaClient();
+    const queryClient = useQueryClient();
     const captchaRef = useRef<TurnstileInstance>(undefined);
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] =
         useState(false);
 
-    const mutationSignup = useCreateUser({
-        options: {
-            onSuccess: async (data) => {
-                await setAuthCookieFn({
-                    data: { secret: data.secret },
-                });
-                client.setAuthToken(data.secret);
+    const mutationSignup = useMutation({
+        ...signupMutation(),
+        onSuccess: async (data) => {
+            await setAuthCookieFn({
+                data: { secret: data.secret },
+            });
+            setAuthToken(data.secret);
+            client.setAuthToken(data.secret);
+            await Promise.all([
+                queryClient.invalidateQueries({
+                    queryKey: queryKeys.user.me(),
+                }),
+                queryClient.invalidateQueries({
+                    queryKey: queryKeys.auth.tokenInfo(),
+                }),
+            ]);
 
-                toast.success(
-                    <span>
-                        <span className="font-bold">
-                            {form.getFieldValue('username')}
-                        </span>
-                        , Ви успішно зареєструвались.
-                    </span>,
-                );
+            toast.success(
+                <span>
+                    <span className="font-bold">
+                        {form.getFieldValue('username')}
+                    </span>
+                    , Ви успішно зареєструвались.
+                </span>,
+            );
 
-                form.reset();
-                router.push('/');
-            },
-            onError: () => {
-                captchaRef.current?.reset();
-            },
+            form.reset();
+            router.push('/');
+        },
+        onError: () => {
+            captchaRef.current?.reset();
         },
     });
 
@@ -73,12 +85,12 @@ const SignupForm = () => {
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
             mutationSignup.mutate({
-                args: {
+                body: {
                     email: value.email,
                     password: value.password,
                     username: value.username,
                 },
-                captcha: {
+                headers: {
                     captcha: String(captchaRef.current?.getResponse()),
                 },
             });

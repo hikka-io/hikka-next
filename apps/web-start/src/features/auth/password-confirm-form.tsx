@@ -3,7 +3,10 @@ import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { useConfirmPasswordReset, useHikkaClient } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { passwordResetMutation, setAuthToken } from '@hikka/api';
+import { useHikkaClient } from '@hikka/react';
+import { queryKeys } from '@hikka/react/core';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -26,6 +29,7 @@ const formSchema = z
 
 const PasswordConfirmForm = () => {
     const { client } = useHikkaClient();
+    const queryClient = useQueryClient();
     const params = useParams();
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
@@ -34,17 +38,25 @@ const PasswordConfirmForm = () => {
 
     const token = params.token as string;
 
-    const mutationConfirmPasswordReset = useConfirmPasswordReset({
-        options: {
-            onSuccess: async (data) => {
-                await setAuthCookieFn({
-                    data: { secret: data.secret },
-                });
-                client.setAuthToken(data.secret);
-                form.reset();
-                router.push('/');
-                toast.success('Ви успішно змінили Ваш пароль.');
-            },
+    const mutationConfirmPasswordReset = useMutation({
+        ...passwordResetMutation(),
+        onSuccess: async (data) => {
+            await setAuthCookieFn({
+                data: { secret: data.secret },
+            });
+            setAuthToken(data.secret);
+            client.setAuthToken(data.secret);
+            await Promise.all([
+                queryClient.invalidateQueries({
+                    queryKey: queryKeys.user.me(),
+                }),
+                queryClient.invalidateQueries({
+                    queryKey: queryKeys.auth.tokenInfo(),
+                }),
+            ]);
+            form.reset();
+            router.push('/');
+            toast.success('Ви успішно змінили Ваш пароль.');
         },
     });
 
@@ -56,8 +68,10 @@ const PasswordConfirmForm = () => {
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
             mutationConfirmPasswordReset.mutate({
-                password: value.password,
-                token,
+                body: {
+                    password: value.password,
+                    token,
+                },
             });
         },
     });

@@ -1,4 +1,5 @@
-import { useOAuthProviderUrl } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+import { providerUrlOptions } from '@hikka/api';
 
 import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';
 import { Button } from '@/components/ui/button';
@@ -16,18 +17,13 @@ const OAuthLogin = ({
 }: Props) => {
     const { callbackUrl } = useFilterSearch<{ callbackUrl?: string }>();
 
-    const { data: oauthUrl } = useOAuthProviderUrl({
-        provider: 'google',
-        options: {
-            select: (data) => {
-                const state = new URL(
-                    callbackUrl ?? '/',
-                    getSiteUrl(),
-                ).toString();
-                return {
-                    url: `${data.url}&state=${encodeURIComponent(state)}`,
-                };
-            },
+    const { data: oauthUrl } = useQuery({
+        ...providerUrlOptions({ path: { provider: 'google' } }),
+        select: (data) => {
+            const state = new URL(callbackUrl ?? '/', getSiteUrl()).toString();
+            return {
+                url: `${data.url}&state=${encodeURIComponent(state)}`,
+            };
         },
     });
 

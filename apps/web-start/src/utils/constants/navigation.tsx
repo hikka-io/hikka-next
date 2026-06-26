@@ -1,6 +1,6 @@
 import { ChartLine, FilePenLine, MessageCircle, UsersIcon } from 'lucide-react';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
 import BxBxlMastadon from '@/components/icons/bx/BxBxlMastadon';

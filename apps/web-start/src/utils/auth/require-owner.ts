@@ -1,7 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query';
 import { redirect } from '@tanstack/react-router';
 
-import { type UserResponse, UserRoleEnum } from '@hikka/client';
+import { type UserResponse, UserRoleEnum } from '@hikka/api';
 import { queryKeys } from '@hikka/react/core';
 
 /**

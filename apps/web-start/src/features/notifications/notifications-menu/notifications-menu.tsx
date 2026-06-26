@@ -1,10 +1,16 @@
 import { type FC, useMemo, useState } from 'react';
 
 import {
-    useNotificationList,
-    useUnseenNotificationsCount,
-    useUpdateNotificationSeen,
-} from '@hikka/react';
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from '@tanstack/react-query';
+import {
+    type NotificationResponse,
+    notificationSeenMutation,
+    notificationsInfiniteOptions,
+    unseenNotificationsCountOptions,
+} from '@hikka/api';
 
 import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
 import { Button } from '@/components/ui/button';
@@ -23,6 +29,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { convertNotification } from '@/utils/adapters/convert-notification';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import NotificationsContent from './components/notifications-content';
 import NotificationsHeader from './components/notifications-header';
@@ -33,18 +40,39 @@ const NotificationsMenu: FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isBulkMarking, setIsBulkMarking] = useState(false);
 
-    const { data: countData } = useUnseenNotificationsCount();
+    const queryClient = useQueryClient();
+
+    const { data: countData } = useQuery(unseenNotificationsCountOptions());
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
-        useNotificationList({
-            options: { enabled: isOpen },
-        });
+        useInfiniteList(notificationsInfiniteOptions(), { enabled: isOpen });
 
-    const { mutateAsync: markSeen } = useUpdateNotificationSeen();
+    const { mutateAsync: markSeen } = useMutation({
+        ...notificationSeenMutation(),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                predicate: (query) => {
+                    const id = (
+                        query.queryKey[0] as { _id?: string } | undefined
+                    )?._id;
+                    return (
+                        id === 'notifications' ||
+                        id === 'unseenNotificationsCount'
+                    );
+                },
+            });
+        },
+    });
 
     const { normalized, grouped } = useMemo(() => {
-        const items = list
-            ?.map(convertNotification)
+        const items = (list as NotificationResponse[] | undefined)
+            // TODO(phase2): drop cast once convert-notification reads @hikka/api
+            // NotificationResponse (per-type data unions absent in @hikka/api).
+            ?.map((n) =>
+                convertNotification(
+                    n as unknown as Parameters<typeof convertNotification>[0],
+                ),
+            )
             .filter((n): n is Hikka.Notification => n !== null);
         return {
             normalized: items,
@@ -60,7 +88,13 @@ const NotificationsMenu: FC = () => {
         if (unseen.length === 0) return;
         setIsBulkMarking(true);
         try {
-            await Promise.allSettled(unseen.map((n) => markSeen(n.reference)));
+            await Promise.allSettled(
+                unseen.map((n) =>
+                    markSeen({
+                        path: { notification_reference: n.reference },
+                    }),
+                ),
+            );
         } finally {
             setIsBulkMarking(false);
         }

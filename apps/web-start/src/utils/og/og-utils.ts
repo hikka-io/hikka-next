@@ -1,4 +1,4 @@
-import type { GenreResponse } from '@hikka/client';
+import type { GenreResponse } from '@hikka/api';
 
 export interface OgContentCardData {
     title: string;

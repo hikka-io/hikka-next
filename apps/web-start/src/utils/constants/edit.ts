@@ -1,4 +1,4 @@
-import type { EditStatusEnum } from '@hikka/client';
+import type { EditStatusEnum } from '@hikka/api';
 
 // Public Cloudflare Turnstile site key used by the edit create/update captcha.
 export const TURNSTILE_SITE_KEY = '0x4AAAAAAANXs8kaCqjo_FLF';

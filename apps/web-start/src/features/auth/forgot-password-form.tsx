@@ -1,6 +1,7 @@
 import { toast } from 'sonner';
 
-import { useCreatePasswordResetRequest } from '@hikka/react';
+import { useMutation } from '@tanstack/react-query';
+import { resetPasswordMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -15,19 +16,18 @@ const formSchema = z.object({
 });
 
 const ForgotPasswordForm = () => {
-    const mutationRequestPasswordReset = useCreatePasswordResetRequest({
-        options: {
-            onSuccess: (data) => {
-                toast.info(
-                    <span>
-                        <span className="font-bold">{data.username}</span>, ми
-                        успішно надіслали Вам лист для відновлення паролю на
-                        вашу поштову адресу.
-                    </span>,
-                );
+    const mutationRequestPasswordReset = useMutation({
+        ...resetPasswordMutation(),
+        onSuccess: (data) => {
+            toast.info(
+                <span>
+                    <span className="font-bold">{data.username}</span>, ми
+                    успішно надіслали Вам лист для відновлення паролю на вашу
+                    поштову адресу.
+                </span>,
+            );
 
-                form.reset();
-            },
+            form.reset();
         },
     });
 
@@ -37,7 +37,7 @@ const ForgotPasswordForm = () => {
         },
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
-            mutationRequestPasswordReset.mutate(value);
+            mutationRequestPasswordReset.mutate({ body: value });
         },
     });
 
