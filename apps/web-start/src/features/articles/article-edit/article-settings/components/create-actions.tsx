@@ -2,7 +2,12 @@ import { type FC, useCallback } from 'react';
 
 import { toast } from 'sonner';
 
-import { useCreateArticle } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import {
+    type ArticleContentEnum,
+    createArticleMutation,
+} from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
@@ -20,6 +25,7 @@ type Props = {};
 
 const CreateActions: FC<Props> = () => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const title = useArticleContext((state) => state.title);
     const tags = useArticleContext((state) => state.tags);
@@ -31,15 +37,18 @@ const CreateActions: FC<Props> = () => {
         mutate: mutateCreateArticle,
         isPending,
         isSuccess,
-    } = useCreateArticle({
-        options: {
-            onSuccess: (data) => {
-                toast.success('Ви успішно створили статтю.');
+    } = useMutation({
+        ...createArticleMutation(),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                predicate: (query) =>
+                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                    'getArticles',
+            });
 
-                router.push(
-                    `${CONTENT_TYPE_LINKS.article}/${data.slug}/update`,
-                );
-            },
+            toast.success('Ви успішно створили статтю.');
+
+            router.push(`${CONTENT_TYPE_LINKS.article}/${data.slug}/update`);
         },
     });
 
@@ -60,17 +69,20 @@ const CreateActions: FC<Props> = () => {
             document = removeEmptyTextNodes(document);
 
             mutateCreateArticle({
-                document: document,
-                title: title || '',
-                tags,
-                draft,
-                content: content
-                    ? {
-                          slug: content.slug,
-                          content_type: content.data_type,
-                      }
-                    : undefined,
-                category: category!,
+                body: {
+                    document: document,
+                    title: title || '',
+                    tags,
+                    draft,
+                    content: content
+                        ? {
+                              slug: content.slug,
+                              content_type:
+                                  content.data_type as ArticleContentEnum,
+                          }
+                        : undefined,
+                    category: category!,
+                },
             });
         },
         [getDocument, title, tags, category, content, mutateCreateArticle],

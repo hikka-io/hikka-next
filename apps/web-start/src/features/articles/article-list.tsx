@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
-import type { ArticleCategoryEnum } from '@hikka/client';
-import { useSearchArticles, useSession } from '@hikka/react';
+import { type ArticleCategoryEnum, getArticlesInfiniteOptions } from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -43,15 +44,17 @@ const ArticleList: FC<Props> = () => {
         isFetchingNextPage,
         isPending,
         hasNextPage,
-    } = useSearchArticles({
-        args: {
-            categories,
-            author,
-            sort: expandSort('article', search.sort, search.order),
-            tags,
-            draft,
-        },
-    });
+    } = useInfiniteList(
+        getArticlesInfiniteOptions({
+            body: {
+                categories,
+                author,
+                sort: expandSort('article', search.sort, search.order),
+                tags,
+                draft,
+            },
+        }),
+    );
 
     return (
         <Block>

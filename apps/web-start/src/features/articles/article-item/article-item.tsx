@@ -1,8 +1,8 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
 
-import type { ArticlePreviewResponse } from '@hikka/client';
+import type { ArticlePreviewResponse } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
@@ -68,7 +68,14 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                         )}
                     </div>
                 )}
-                <StaticViewer value={document} />
+                {/* TODO(phase2): drop cast once StaticViewer accepts @hikka/api document arrays */}
+                <StaticViewer
+                    value={
+                        document as unknown as ComponentProps<
+                            typeof StaticViewer
+                        >['value']
+                    }
+                />
             </div>
             <div className="flex items-center justify-between p-4">
                 <StatItemGroup>

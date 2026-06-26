@@ -2,8 +2,9 @@ import type { FC } from 'react';
 
 import { toast } from 'sonner';
 
-import type { ArticleBaseResponse } from '@hikka/client';
-import { useDeleteArticle } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { type ArticleDocumentResponse, deleteArticleMutation } from '@hikka/api';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import {
@@ -21,24 +22,33 @@ import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { useRouter } from '@/utils/navigation';
 
 type Props = {
-    article: ArticleBaseResponse;
+    article: ArticleDocumentResponse;
 };
 
 const DeleteArticle: FC<Props> = ({ article }) => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
-    const deleteArticleMutation = useDeleteArticle({
-        options: {
-            onSuccess: () => {
-                toast.success('Статтю успішно видалено.');
+    const { mutate: mutateDeleteArticle } = useMutation({
+        ...deleteArticleMutation(),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                predicate: (query) => {
+                    const id = (
+                        query.queryKey[0] as { _id?: string } | undefined
+                    )?._id;
+                    return id === 'getArticles' || id === 'getArticle';
+                },
+            });
 
-                router.push('/articles');
-            },
+            toast.success('Статтю успішно видалено.');
+
+            router.push('/articles');
         },
     });
 
     const handleDeleteArticle = async () => {
-        deleteArticleMutation.mutate(article.slug);
+        mutateDeleteArticle({ path: { slug: article.slug } });
     };
 
     return (

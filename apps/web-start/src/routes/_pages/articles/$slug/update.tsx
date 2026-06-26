@@ -1,8 +1,14 @@
+import type { ComponentProps } from 'react';
+
 import { createFileRoute } from '@tanstack/react-router';
 
-import type { ArticleDocumentResponse } from '@hikka/client';
-import { useArticleBySlug } from '@hikka/react';
-import { queryKeys } from '@hikka/react/core';
+import { useQuery } from '@tanstack/react-query';
+
+import {
+    type ArticleDocumentResponse,
+    getArticleOptions,
+    getArticleQueryKey,
+} from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -22,7 +28,7 @@ import { generateHeadMeta } from '@/utils/metadata';
 export const Route = createFileRoute('/_pages/articles/$slug/update')({
     beforeLoad: async ({ params, context: { queryClient } }) => {
         const article = queryClient.getQueryData<ArticleDocumentResponse>(
-            queryKeys.articles.bySlug(params.slug),
+            getArticleQueryKey({ path: { slug: params.slug } }),
         );
 
         requireOwner(
@@ -41,7 +47,7 @@ export const Route = createFileRoute('/_pages/articles/$slug/update')({
 
 function ArticleUpdatePage() {
     const { slug } = Route.useParams();
-    const { data: article } = useArticleBySlug({ slug });
+    const { data: article } = useQuery(getArticleOptions({ path: { slug } }));
 
     if (!article) return null;
 
@@ -66,11 +72,18 @@ function ArticleUpdatePage() {
                 </div>
             </Breadcrumbs>
             <ArticleProvider
-                initialState={{
-                    ...article,
-                    document: article.document,
-                    tags: article.tags.map((tag: { name: string }) => tag.name),
-                }}
+                // TODO(phase2): drop cast once the article store uses @hikka/api types
+                initialState={
+                    {
+                        ...article,
+                        document: article.document,
+                        tags: article.tags.map(
+                            (tag: { name: string }) => tag.name,
+                        ),
+                    } as unknown as ComponentProps<
+                        typeof ArticleProvider
+                    >['initialState']
+                }
             >
                 <div className="grid grid-cols-1 justify-center md:grid-cols-[1fr_30%] md:items-start md:justify-between md:gap-12 lg:grid-cols-[1fr_25%]">
                     <Block>

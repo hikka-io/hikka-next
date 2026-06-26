@@ -1,6 +1,8 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
-import { useArticleBySlug } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getArticleOptions } from '@hikka/api';
 
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { useParams } from '@/utils/navigation';
@@ -10,20 +12,33 @@ type Props = {};
 const ArticleDocumentView: FC<Props> = () => {
     const params = useParams();
 
-    const { data: article } = useArticleBySlug({
-        slug: String(params.slug),
-    });
+    const { data: article } = useQuery(
+        getArticleOptions({ path: { slug: String(params.slug) } }),
+    );
 
     if (!article) {
         return null;
     }
 
+    const firstNode = article.document[0] as {
+        type?: string;
+        children?: unknown[];
+    };
     const document =
-        article.document[0].type === 'preview'
-            ? [...article.document[0].children, ...article.document.slice(1)]
+        firstNode.type === 'preview'
+            ? [...(firstNode.children ?? []), ...article.document.slice(1)]
             : article.document;
 
-    return <StaticViewer value={document} />;
+    // TODO(phase2): drop cast once StaticViewer accepts @hikka/api document arrays
+    return (
+        <StaticViewer
+            value={
+                document as unknown as ComponentProps<
+                    typeof StaticViewer
+                >['value']
+            }
+        />
+    );
 };
 
 export default ArticleDocumentView;

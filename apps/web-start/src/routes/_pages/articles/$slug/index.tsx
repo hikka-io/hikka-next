@@ -1,7 +1,10 @@
+import type { ComponentProps } from 'react';
+
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useArticleBySlug } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getArticleOptions } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -23,7 +26,7 @@ export const Route = createFileRoute('/_pages/articles/$slug/')({
 
 function ArticlePage() {
     const { slug } = Route.useParams();
-    const { data: article } = useArticleBySlug({ slug });
+    const { data: article } = useQuery(getArticleOptions({ path: { slug } }));
 
     const jsonLd = article
         ? {
@@ -78,10 +81,15 @@ function ArticlePage() {
                     <ArticleTitle />
                     <ArticleDocumentView />
                     <ArticleTags />
+                    {/* TODO(phase2): drop cast once CommentList is migrated to @hikka/api types */}
                     <Comments
                         preview
                         slug={slug}
-                        content_type={ContentTypeEnum.ARTICLE}
+                        content_type={
+                            'article' as ComponentProps<
+                                typeof Comments
+                            >['content_type']
+                        }
                     />
                 </Block>
                 <ArticleNavbar />

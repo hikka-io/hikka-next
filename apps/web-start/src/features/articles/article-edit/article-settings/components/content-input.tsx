@@ -1,6 +1,6 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
-import { type ArticleContent, ContentTypeEnum } from '@hikka/client';
+import { ArticleContentEnum } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
@@ -56,17 +56,22 @@ const ContentInput: FC<Props> = () => {
                 </HorizontalCard>
             )}
             {!content && (
+                /* TODO(phase2): drop casts once SearchModal + article store use @hikka/api types */
                 <SearchModal
-                    allowedTypes={[
-                        ContentTypeEnum.ANIME,
-                        ContentTypeEnum.MANGA,
-                        ContentTypeEnum.NOVEL,
-                    ]}
+                    allowedTypes={
+                        [
+                            ArticleContentEnum.ANIME,
+                            ArticleContentEnum.MANGA,
+                            ArticleContentEnum.NOVEL,
+                        ] as unknown as ComponentProps<
+                            typeof SearchModal
+                        >['allowedTypes']
+                    }
                     onClick={(value) =>
                         setContent(
-                            value as ArticleContent & {
-                                title?: string;
-                            },
+                            value as unknown as Parameters<
+                                typeof setContent
+                            >[0],
                         )
                     }
                     type="button"

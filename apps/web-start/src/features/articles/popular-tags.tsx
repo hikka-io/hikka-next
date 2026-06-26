@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 
-import { useArticleStats } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getArticleTopOptions } from '@hikka/api';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import Block from '@/components/ui/block';
@@ -12,7 +14,7 @@ import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 type Props = {};
 
 const PopularTags: FC<Props> = () => {
-    const { data: articleTop } = useArticleStats();
+    const { data: articleTop } = useQuery(getArticleTopOptions());
     const search = useFilterSearch<{ tags?: string | string[] }>();
     const tags = search.tags
         ? Array.isArray(search.tags)

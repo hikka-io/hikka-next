@@ -3,7 +3,10 @@ import { type FC, Fragment, useCallback } from 'react';
 import { MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { useArticleBySlug, useSession } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getArticleOptions } from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import { MaterialSymbolsLinkRounded } from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import { Button } from '@/components/ui/button';
@@ -26,9 +29,9 @@ const ArticleNavbar: FC<Props> = () => {
     const params = useParams();
     const { user: loggedUser, isAdmin, isModerator } = useSession();
 
-    const { data: article } = useArticleBySlug({
-        slug: String(params.slug),
-    });
+    const { data: article } = useQuery(
+        getArticleOptions({ path: { slug: String(params.slug) } }),
+    );
 
     const handleCopyLink = useCallback(() => {
         navigator.clipboard.writeText(window.location.href);

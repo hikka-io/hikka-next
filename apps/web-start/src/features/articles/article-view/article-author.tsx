@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 
-import { useArticleBySlug } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getArticleOptions } from '@hikka/api';
 
 import { useParams } from '@/utils/navigation';
 
@@ -11,9 +13,9 @@ type Props = {};
 const ArticleAuthor: FC<Props> = () => {
     const params = useParams();
 
-    const { data: article } = useArticleBySlug({
-        slug: String(params.slug),
-    });
+    const { data: article } = useQuery(
+        getArticleOptions({ path: { slug: String(params.slug) } }),
+    );
 
     return (
         <Author
