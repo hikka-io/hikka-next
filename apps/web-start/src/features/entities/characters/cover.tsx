@@ -1,4 +1,6 @@
-import { useCharacterBySlug } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { characterInfoOptions } from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import { useParams } from '@/utils/navigation';
@@ -6,9 +8,9 @@ import { useParams } from '@/utils/navigation';
 const Cover = () => {
     const params = useParams();
 
-    const { data: character } = useCharacterBySlug({
-        slug: String(params.slug),
-    });
+    const { data: character } = useQuery(
+        characterInfoOptions({ path: { slug: String(params.slug) } }),
+    );
 
     if (!character) {
         return null;

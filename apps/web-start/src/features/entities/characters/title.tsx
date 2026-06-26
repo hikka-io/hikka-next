@@ -1,12 +1,15 @@
-import { useCharacterBySlug, useTitle } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { characterInfoOptions } from '@hikka/api';
+import { useTitle } from '@hikka/react';
 
 import { useParams } from '@/utils/navigation';
 
 const Title = () => {
     const params = useParams();
-    const { data: character } = useCharacterBySlug({
-        slug: String(params.slug),
-    });
+    const { data: character } = useQuery(
+        characterInfoOptions({ path: { slug: String(params.slug) } }),
+    );
     const title = useTitle(character);
 
     if (!character) {

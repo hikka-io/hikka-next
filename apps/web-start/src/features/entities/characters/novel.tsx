@@ -1,9 +1,10 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
-import { useCharacterNovel } from '@hikka/react';
+import { characterNovelInfiniteOptions } from '@hikka/api';
 
 import NovelCard from '@/components/content-card/novel-card';
 import AppearanceGrid from '@/features/entities/appearance-grid';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
@@ -13,7 +14,11 @@ type Props = {
 const Novel: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useCharacterNovel({ slug: String(params.slug) });
+        useInfiniteList(
+            characterNovelInfiniteOptions({
+                path: { slug: String(params.slug) },
+            }),
+        );
 
     return (
         <AppearanceGrid
@@ -26,7 +31,15 @@ const Novel: FC<Props> = ({ extended }) => {
             isFetchingNextPage={isFetchingNextPage}
             ref={ref}
             renderItem={(ch) => (
-                <NovelCard key={ch.novel.slug} novel={ch.novel} />
+                <NovelCard
+                    key={ch.novel.slug}
+                    // TODO(phase2): drop cast
+                    novel={
+                        ch.novel as unknown as ComponentProps<
+                            typeof NovelCard
+                        >['novel']
+                    }
+                />
             )}
         />
     );

@@ -1,14 +1,17 @@
+import type { ComponentProps } from 'react';
+
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useTitle } from '@hikka/react';
 import {
-    personAnimeOptions,
-    personBySlugOptions,
-    personCharactersOptions,
-    personMangaOptions,
-    personNovelOptions,
-} from '@hikka/react/options';
+    ContentTypeEnum,
+    paginationPageParam,
+    personAnimeInfiniteOptions,
+    personInfoOptions,
+    personMangaInfiniteOptions,
+    personNovelInfiniteOptions,
+    personVoicesInfiniteOptions,
+} from '@hikka/api';
+import { useTitle } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
 import { ContentDetailLayout } from '@/features/content';
@@ -16,26 +19,45 @@ import { PERSON_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/people/$slug')({
-    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
         const person = await queryClient.ensureQueryData(
-            personBySlugOptions(hikkaClient, { slug: params.slug }),
+            personInfoOptions({
+                path: { slug: params.slug },
+                client: apiClient,
+            }),
         );
 
         if (!person) throw redirect({ to: '/' });
 
         await Promise.allSettled([
-            queryClient.ensureInfiniteQueryData(
-                personAnimeOptions(hikkaClient, { slug: params.slug }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                personMangaOptions(hikkaClient, { slug: params.slug }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                personNovelOptions(hikkaClient, { slug: params.slug }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                personCharactersOptions(hikkaClient, { slug: params.slug }),
-            ),
+            queryClient.ensureInfiniteQueryData({
+                ...personAnimeInfiniteOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...personMangaInfiniteOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...personNovelInfiniteOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...personVoicesInfiniteOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
         ]);
 
         return { person };
@@ -63,7 +85,12 @@ function PersonDetailLayout() {
     return (
         <ContentDetailLayout
             slug={person.slug}
-            contentType={ContentTypeEnum.PERSON}
+            // TODO(phase2): drop cast
+            contentType={
+                ContentTypeEnum.PERSON as ComponentProps<
+                    typeof ContentDetailLayout
+                >['contentType']
+            }
             navRoutes={PERSON_NAV_ROUTES}
             urlPrefix="/people"
             title={title}

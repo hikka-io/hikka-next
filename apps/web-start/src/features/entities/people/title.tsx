@@ -1,13 +1,18 @@
 import { useRef } from 'react';
 
-import { usePersonBySlug, useTitle } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { personInfoOptions } from '@hikka/api';
+import { useTitle } from '@hikka/react';
 
 import { useParams } from '@/utils/navigation';
 
 const Title = () => {
     const divRef = useRef<HTMLDivElement>(null);
     const params = useParams();
-    const { data: person } = usePersonBySlug({ slug: String(params.slug) });
+    const { data: person } = useQuery(
+        personInfoOptions({ path: { slug: String(params.slug) } }),
+    );
     const title = useTitle(person);
 
     if (!person) {

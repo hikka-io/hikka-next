@@ -1,10 +1,11 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
-import { usePersonAnime } from '@hikka/react';
+import { personAnimeInfiniteOptions } from '@hikka/api';
 import { getTitle } from '@hikka/react/utils';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import AppearanceGrid from '@/features/entities/appearance-grid';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
@@ -14,7 +15,11 @@ type Props = {
 const Anime: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        usePersonAnime({ slug: String(params.slug) });
+        useInfiniteList(
+            personAnimeInfiniteOptions({
+                path: { slug: String(params.slug) },
+            }),
+        );
 
     return (
         <AppearanceGrid
@@ -29,7 +34,12 @@ const Anime: FC<Props> = ({ extended }) => {
             renderItem={(ch) => (
                 <AnimeCard
                     key={ch.anime.slug}
-                    anime={ch.anime}
+                    // TODO(phase2): drop cast
+                    anime={
+                        ch.anime as unknown as ComponentProps<
+                            typeof AnimeCard
+                        >['anime']
+                    }
                     description={
                         ch.roles[0] ? getTitle(ch.roles[0]) : undefined
                     }
