@@ -84,6 +84,9 @@ importers:
       '@fontsource-variable/geist':
         specifier: ^5.0.0
         version: 5.2.9
+      '@hikka/api':
+        specifier: workspace:*
+        version: link:../../packages/api
       '@hikka/client':
         specifier: workspace:*
         version: link:../../packages/client
