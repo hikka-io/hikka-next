@@ -2,13 +2,19 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { createStore } from 'zustand';
 
 import {
+    type AppCollectionsSchemasContentTypeEnum,
     type CollectionArgs,
-    type CollectionContent,
-    type CollectionContentType,
+    type CollectionContentResponse,
     type CollectionResponse,
     CollectionVisibilityEnum,
     ContentTypeEnum,
-} from '@hikka/client';
+} from '@hikka/api';
+
+// `@hikka/api` has no single `CollectionContent` alias; the per-item content
+// union (with `slug`/`title`) lives on `CollectionContentResponse['content']`.
+type CollectionContent = CollectionContentResponse['content'];
+// Old `CollectionContentType` mapped to the collection content-type enum.
+type CollectionContentType = AppCollectionsSchemasContentTypeEnum;
 
 export type Item = {
     id: string | number;
@@ -75,7 +81,7 @@ export type CollectionActions = {
     ) => void;
 
     // API serialization
-    setApiData: (data: CollectionResponse<CollectionContent>) => void;
+    setApiData: (data: CollectionResponse) => void;
     getApiData: () => CollectionArgs;
 };
 
@@ -265,7 +271,9 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
             set({
                 title: data.title,
                 description: data.description,
-                content_type: data.content_type,
+                // Generated response widens content_type to `string`; the store
+                // models the narrower collection content-type enum.
+                content_type: data.content_type as CollectionContentType,
                 groups,
                 nsfw: data.nsfw,
                 spoiler: data.spoiler,
