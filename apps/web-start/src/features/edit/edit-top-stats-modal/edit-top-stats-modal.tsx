@@ -1,12 +1,13 @@
-import { useTopEditorsList } from '@hikka/react';
+import { editsTopInfiniteOptions } from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import EditTopItem from './components/edit-top-item';
 
 const EditTopStatsModal = () => {
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
-        useTopEditorsList();
+        useInfiniteList(editsTopInfiniteOptions());
 
     if (!list) {
         return null;

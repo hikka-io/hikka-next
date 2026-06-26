@@ -1,29 +1,31 @@
 import { Fragment } from 'react';
 
-import type { EditContentType } from '@hikka/client';
-import { useEditList } from '@hikka/react';
+import { type EditContentTypeEnum, getEditsInfiniteOptions } from '@hikka/api';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link } from '@/utils/navigation';
 
 import EditCard from './components/edit-card';
 
 type Props = {
-    content_type: EditContentType;
+    content_type: EditContentTypeEnum;
     slug: string;
 };
 
 const EditListModal = ({ content_type, slug }: Props) => {
     const { ref, list, fetchNextPage, hasNextPage, isFetchingNextPage } =
-        useEditList({
-            args: {
-                slug: slug,
-                content_type: content_type,
-            },
-        });
+        useInfiniteList(
+            getEditsInfiniteOptions({
+                body: {
+                    slug: slug,
+                    content_type: content_type,
+                },
+            }),
+        );
 
     if (!list) {
         return null;

@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-import { type EditResponse, EditStatusEnum } from '@hikka/client';
+import { type EditSimpleResponse, EditStatusEnum } from '@hikka/api';
 
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
@@ -21,7 +21,7 @@ import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
 import { Link } from '@/utils/navigation';
 
 type Props = {
-    edit: EditResponse;
+    edit: EditSimpleResponse;
     className?: string;
     href?: string;
     to?: string;

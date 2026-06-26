@@ -2,7 +2,7 @@ import type { FC, MouseEvent } from 'react';
 
 import { format } from 'date-fns';
 
-import type { EditResponse } from '@hikka/client';
+import type { EditSimpleResponse } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
@@ -16,14 +16,12 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useRouter } from '@/utils/navigation';
 
 type Props = {
-    edit: EditResponse;
+    edit: EditSimpleResponse;
 };
 
 const EditRow: FC<Props> = ({ edit }) => {
     const router = useRouter();
-    const contentTitle = useTitle(
-        edit.content as unknown as Record<string, unknown>,
-    );
+    const contentTitle = useTitle(edit.content);
 
     const variant =
         edit.status === 'pending'

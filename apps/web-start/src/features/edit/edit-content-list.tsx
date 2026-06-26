@@ -1,9 +1,15 @@
-import { type FC, useState } from 'react';
+import { type ComponentProps, type FC, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useHikkaClient, useTodoEditList } from '@hikka/react';
+import {
+    type AnimeResponseWithWatch,
+    type ContentToDoEnum,
+    ContentTypeEnum,
+    EditContentToDoEnum,
+    getContentEditTodoInfiniteOptions,
+} from '@hikka/api';
+import { useHikkaClient } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -20,6 +26,7 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Stack from '@/components/ui/stack';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 type Props = {
     extended?: boolean;
@@ -46,15 +53,17 @@ const ContentList: FC<Props> = () => {
         isFetchingNextPage,
         isLoading,
         ref,
-    } = useTodoEditList({
-        args: {
-            todo_type: param as 'title_ua' | 'synopsis_ua',
-            content_type: ContentTypeEnum.ANIME,
-        },
-        paginationArgs: {
-            size: 21,
-        },
-    });
+    } = useInfiniteList(
+        getContentEditTodoInfiniteOptions({
+            path: {
+                content_type: EditContentToDoEnum.ANIME,
+                todo_type: param as ContentToDoEnum,
+            },
+            query: {
+                size: 21,
+            },
+        }),
+    );
 
     if (isLoading && !isFetchingNextPage) {
         return (
@@ -101,13 +110,22 @@ const ContentList: FC<Props> = () => {
                 </Select>
             </div>
             <Stack extended size={5} extendedSize={7}>
-                {list.map((anime) => (
+                {(list as AnimeResponseWithWatch[]).map((anime) => (
+                    // TODO(phase2): drop the content_type/watch casts once ContentCard migrates to @hikka/api types
                     <ContentCard
                         withContextMenu
-                        content_type={ContentTypeEnum.ANIME}
+                        content_type={
+                            ContentTypeEnum.ANIME as unknown as ComponentProps<
+                                typeof ContentCard
+                            >['content_type']
+                        }
                         key={anime.slug}
                         watch={
-                            anime.watch.length > 0 ? anime.watch[0] : undefined
+                            anime.watch.length > 0
+                                ? (anime.watch[0] as unknown as ComponentProps<
+                                      typeof ContentCard
+                                  >['watch'])
+                                : undefined
                         }
                         slug={anime.slug}
                         href={`/anime/${anime.slug}`}

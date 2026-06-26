@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { EditContentType, MainContent } from '@hikka/client';
+import type { EditContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsArrowRightAltRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import Block from '@/components/ui/block';
@@ -8,13 +8,14 @@ import { Button } from '@/components/ui/button';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
+import type { EditMainContent } from '../types';
 import Details from './components/details';
 import General from './components/general';
 
 type Props = {
     slug: string;
-    content_type: EditContentType;
-    content?: MainContent;
+    content_type: EditContentTypeEnum;
+    content?: EditMainContent;
 };
 
 const EditContent: FC<Props> = ({ slug, content_type, content }) => {

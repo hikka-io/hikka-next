@@ -1,9 +1,13 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import type { EditContentType, EditStatusEnum } from '@hikka/client';
-import { prefetchInfiniteQuery } from '@hikka/react/core';
-import { editListOptions, topEditorsListOptions } from '@hikka/react/options';
+import {
+    type EditContentTypeEnum,
+    type EditStatusEnum,
+    editsTopInfiniteOptions,
+    getEditsInfiniteOptions,
+    paginationPageParam,
+} from '@hikka/api';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Block from '@/components/ui/block';
@@ -22,7 +26,7 @@ import { editSearchSchema } from '@/utils/search-schemas';
 export const Route = createFileRoute('/_pages/edit/')({
     validateSearch: zodValidator(editSearchSchema),
     loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
+    loader: async ({ context: { queryClient, apiClient }, deps }) => {
         const { page, content_type, edit_status } = deps;
 
         if (!page) {
@@ -33,24 +37,24 @@ export const Route = createFileRoute('/_pages/edit/')({
         }
 
         await Promise.allSettled([
-            prefetchInfiniteQuery(
-                queryClient,
-                editListOptions(hikkaClient, {
-                    args: {
+            queryClient.ensureInfiniteQueryData({
+                ...getEditsInfiniteOptions({
+                    body: {
                         content_type:
-                            (content_type as EditContentType) || undefined,
+                            (content_type as EditContentTypeEnum) || undefined,
                         sort: expandSort('edit', deps.sort, deps.order),
                         status: edit_status
                             ? (edit_status as EditStatusEnum)
                             : undefined,
                     },
-                    paginationArgs: { page: Number(page) },
+                    client: apiClient,
                 }),
-            ),
-            prefetchInfiniteQuery(
-                queryClient,
-                topEditorsListOptions(hikkaClient),
-            ),
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...editsTopInfiniteOptions({ client: apiClient }),
+                ...paginationPageParam(),
+            }),
         ]);
     },
     head: () =>

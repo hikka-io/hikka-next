@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 
-import { ContentTypeEnum, type EditContentType } from '@hikka/client';
+import { type EditContentTypeEnum, ContentTypeEnum } from '@hikka/api';
 
 import {
     ANIME_EDIT_GROUPS,
@@ -32,7 +32,7 @@ export const getEditParamComponent = (
 };
 
 export const getEditParams = (
-    content_type: EditContentType,
+    content_type: EditContentTypeEnum,
     filter?: string[],
 ) => {
     let params: Record<string, Hikka.EditParam[]> = {};
@@ -69,7 +69,7 @@ export const getEditParams = (
     return params;
 };
 
-export const getEditGroups = (content_type: EditContentType) => {
+export const getEditGroups = (content_type: EditContentTypeEnum) => {
     switch (content_type) {
         case ContentTypeEnum.ANIME:
             return ANIME_EDIT_GROUPS;

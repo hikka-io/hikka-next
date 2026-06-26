@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { UserResponse } from '@hikka/client';
+import type { UserResponse } from '@hikka/api';
 
 import MaterialSymbolsKidStar from '@/components/icons/material-symbols/MaterialSymbolsKidStar';
 import Card from '@/components/ui/card';

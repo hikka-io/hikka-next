@@ -1,25 +1,17 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
+import { useQuery } from '@tanstack/react-query';
+
 import {
+    type EditContentTypeEnum,
     ContentTypeEnum,
-    type EditContentType,
-    type MainContent,
-} from '@hikka/client';
-import {
-    useAnimeBySlug,
-    useCharacterBySlug,
-    useMangaBySlug,
-    useNovelBySlug,
-    usePersonBySlug,
-} from '@hikka/react';
-import {
-    animeBySlugOptions,
-    characterBySlugOptions,
-    mangaBySlugOptions,
-    novelBySlugOptions,
-    personBySlugOptions,
-} from '@hikka/react/options';
+    animeSlugOptions,
+    characterInfoOptions,
+    mangaInfoOptions,
+    novelInfoOptions,
+    personInfoOptions,
+} from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -28,52 +20,56 @@ import {
     EditCreateForm as EditForm,
     EditRulesAlert as RulesAlert,
 } from '@/features/edit';
+import type { EditMainContent } from '@/features/edit/types';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editNewSearchSchema } from '@/utils/search-schemas';
 
 function useContentBySlug(
-    contentType: EditContentType,
+    contentType: EditContentTypeEnum,
     slug: string,
-): MainContent | undefined {
-    const anime = useAnimeBySlug({
-        slug,
-        options: { enabled: contentType === ContentTypeEnum.ANIME },
+): EditMainContent | undefined {
+    const anime = useQuery({
+        ...animeSlugOptions({ path: { slug } }),
+        enabled: contentType === ContentTypeEnum.ANIME,
     });
-    const manga = useMangaBySlug({
-        slug,
-        options: { enabled: contentType === ContentTypeEnum.MANGA },
+    const manga = useQuery({
+        ...mangaInfoOptions({ path: { slug } }),
+        enabled: contentType === ContentTypeEnum.MANGA,
     });
-    const novel = useNovelBySlug({
-        slug,
-        options: { enabled: contentType === ContentTypeEnum.NOVEL },
+    const novel = useQuery({
+        ...novelInfoOptions({ path: { slug } }),
+        enabled: contentType === ContentTypeEnum.NOVEL,
     });
-    const character = useCharacterBySlug({
-        slug,
-        options: { enabled: contentType === ContentTypeEnum.CHARACTER },
+    const character = useQuery({
+        ...characterInfoOptions({ path: { slug } }),
+        enabled: contentType === ContentTypeEnum.CHARACTER,
     });
-    const person = usePersonBySlug({
-        slug,
-        options: { enabled: contentType === ContentTypeEnum.PERSON },
+    const person = useQuery({
+        ...personInfoOptions({ path: { slug } }),
+        enabled: contentType === ContentTypeEnum.PERSON,
     });
 
+    // The detail endpoints return richer *InfoResponse/*SlugResponse supersets
+    // of the base entity responses that make up EditMainContent (the edit UI
+    // only reads the shared subset). Narrow them down to the shared union.
     switch (contentType) {
         case ContentTypeEnum.ANIME:
-            return anime.data;
+            return anime.data as EditMainContent | undefined;
         case ContentTypeEnum.MANGA:
-            return manga.data;
+            return manga.data as EditMainContent | undefined;
         case ContentTypeEnum.NOVEL:
-            return novel.data;
+            return novel.data as EditMainContent | undefined;
         case ContentTypeEnum.CHARACTER:
-            return character.data;
+            return character.data as EditMainContent | undefined;
         case ContentTypeEnum.PERSON:
-            return person.data;
+            return person.data as EditMainContent | undefined;
     }
 }
 
 export const Route = createFileRoute('/_pages/edit/new')({
     validateSearch: zodValidator(editNewSearchSchema),
     loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
+    loader: async ({ context: { queryClient, apiClient }, deps }) => {
         const { content_type, slug } = deps;
 
         if (!content_type || !slug) {
@@ -82,27 +78,42 @@ export const Route = createFileRoute('/_pages/edit/new')({
 
         if (content_type === ContentTypeEnum.ANIME) {
             await queryClient.ensureQueryData(
-                animeBySlugOptions(hikkaClient, { slug: String(slug) }),
+                animeSlugOptions({
+                    path: { slug: String(slug) },
+                    client: apiClient,
+                }),
             );
         } else if (content_type === ContentTypeEnum.MANGA) {
             await queryClient.ensureQueryData(
-                mangaBySlugOptions(hikkaClient, { slug: String(slug) }),
+                mangaInfoOptions({
+                    path: { slug: String(slug) },
+                    client: apiClient,
+                }),
             );
         } else if (content_type === ContentTypeEnum.NOVEL) {
             await queryClient.ensureQueryData(
-                novelBySlugOptions(hikkaClient, { slug: String(slug) }),
+                novelInfoOptions({
+                    path: { slug: String(slug) },
+                    client: apiClient,
+                }),
             );
         } else if (content_type === ContentTypeEnum.CHARACTER) {
             await queryClient.ensureQueryData(
-                characterBySlugOptions(hikkaClient, { slug: String(slug) }),
+                characterInfoOptions({
+                    path: { slug: String(slug) },
+                    client: apiClient,
+                }),
             );
         } else if (content_type === ContentTypeEnum.PERSON) {
             await queryClient.ensureQueryData(
-                personBySlugOptions(hikkaClient, { slug: String(slug) }),
+                personInfoOptions({
+                    path: { slug: String(slug) },
+                    client: apiClient,
+                }),
             );
         }
 
-        return { content_type: content_type as EditContentType, slug };
+        return { content_type: content_type as EditContentTypeEnum, slug };
     },
     head: () =>
         generateHeadMeta({

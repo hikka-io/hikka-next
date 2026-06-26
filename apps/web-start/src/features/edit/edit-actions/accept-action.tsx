@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 
-import { useAcceptEdit } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { acceptEditMutation, getEditQueryKey } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { useParams } from '@/utils/navigation';
@@ -9,17 +11,27 @@ type Props = {};
 
 const AcceptAction: FC<Props> = () => {
     const params = useParams();
-    const acceptEditMutation = useAcceptEdit();
+    const queryClient = useQueryClient();
+    const acceptEdit = useMutation({
+        ...acceptEditMutation(),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: getEditQueryKey({
+                    path: { edit_id: Number(params.editId) },
+                }),
+            });
+        },
+    });
 
     const handleClick = () => {
-        acceptEditMutation.mutate(Number(params.editId));
+        acceptEdit.mutate({ path: { edit_id: Number(params.editId) } });
     };
 
     return (
         <Button
             variant="success"
             size="md"
-            disabled={acceptEditMutation.isPending}
+            disabled={acceptEdit.isPending}
             onClick={handleClick}
         >
             Прийняти

@@ -2,7 +2,9 @@ import type { FC } from 'react';
 
 import { format } from 'date-fns';
 
-import { useEdit } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getEditOptions } from '@hikka/api';
 
 import {
     HorizontalCard,
@@ -18,7 +20,9 @@ type Props = {
 };
 
 const EditModerator: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ editId: Number(editId) });
+    const { data: edit } = useQuery(
+        getEditOptions({ path: { edit_id: Number(editId) } }),
+    );
 
     if (!edit?.moderator) {
         return null;

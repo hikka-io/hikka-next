@@ -1,6 +1,9 @@
 import type { FC } from 'react';
 
-import { useEdit, useSession } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getEditOptions } from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import { Button } from '@/components/ui/button';
 import { Link, useParams } from '@/utils/navigation';
@@ -14,7 +17,9 @@ type Props = {
 };
 
 const EditActions: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ editId: Number(editId) });
+    const { data: edit } = useQuery(
+        getEditOptions({ path: { edit_id: Number(editId) } }),
+    );
     const params = useParams();
 
     const { user: loggedUser } = useSession();

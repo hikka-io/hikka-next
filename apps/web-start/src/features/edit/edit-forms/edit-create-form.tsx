@@ -2,8 +2,9 @@ import { type FC, useRef } from 'react';
 
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
-import type { EditContentType, MainContent } from '@hikka/client';
-import { useCreateEdit } from '@hikka/react';
+import { useMutation } from '@tanstack/react-query';
+
+import { type EditContentTypeEnum, createEditMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -14,6 +15,7 @@ import { useRouter } from '@/utils/navigation';
 import AutoButton from './components/auto-button';
 import EditDescription from './components/edit-description';
 import EditGroup from './components/edit-group';
+import type { EditMainContent } from '../types';
 import {
     getEditGroups,
     getEditParamSlugs,
@@ -23,9 +25,9 @@ import {
 
 type Props = {
     slug: string;
-    content_type: EditContentType;
+    content_type: EditContentTypeEnum;
     mode?: 'view' | 'edit';
-    content: MainContent;
+    content: EditMainContent;
 };
 
 const EditForm: FC<Props> = ({
@@ -47,10 +49,9 @@ const EditForm: FC<Props> = ({
         router.push(`/edit/${editId}`);
     };
 
-    const mutationAddEdit = useCreateEdit({
-        options: {
-            onSuccess: (data) => onDismiss(data.edit_id),
-        },
+    const mutationAddEdit = useMutation({
+        ...createEditMutation(),
+        onSuccess: (data) => onDismiss(data.edit_id),
     });
 
     const form = useAppForm({
@@ -71,13 +72,17 @@ const EditForm: FC<Props> = ({
         },
         onSubmit: async ({ value }) => {
             mutationAddEdit.mutate({
-                content_type: content_type,
-                slug: slug,
-                after: {
-                    ...getFilteredEditParams(paramSlugs, value),
+                path: {
+                    content_type: content_type,
+                    slug: slug,
                 },
-                auto: (value as any).auto || false,
-                description: (value as any).description,
+                body: {
+                    after: {
+                        ...getFilteredEditParams(paramSlugs, value),
+                    },
+                    auto: (value as any).auto || false,
+                    description: (value as any).description,
+                },
             });
         },
     });

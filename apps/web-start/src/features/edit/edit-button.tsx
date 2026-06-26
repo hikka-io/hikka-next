@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import type { EditContentType } from '@hikka/client';
+import type { EditContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import { Button, type ButtonProps } from '@/components/ui/button';
@@ -20,7 +20,7 @@ import EditListModal from './edit-list-modal';
 
 type Props = ButtonProps & {
     slug: string;
-    content_type: EditContentType;
+    content_type: EditContentTypeEnum;
     className?: string;
 };
 

@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 
-import { useEdit, useUpdateEdit } from '@hikka/react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import { getEditOptions, getEditQueryKey, updateEditMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -23,9 +25,12 @@ type Props = {
 };
 
 const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
-    const { data: edit } = useEdit({ editId: Number(editId) });
+    const { data: edit } = useQuery(
+        getEditOptions({ path: { edit_id: Number(editId) } }),
+    );
 
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const params = getEditParams(edit!.content_type, Object.keys(edit!.after))!;
 
@@ -38,9 +43,15 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
         router.push(`/edit/${editId}`);
     };
 
-    const mutationUpdateEdit = useUpdateEdit({
-        options: {
-            onSuccess: onDismiss,
+    const mutationUpdateEdit = useMutation({
+        ...updateEditMutation(),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: getEditQueryKey({
+                    path: { edit_id: Number(editId) },
+                }),
+            });
+            onDismiss();
         },
     });
 
@@ -49,7 +60,7 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
             description: edit!.description || '',
             ...edit!.after,
             synonyms:
-                edit!.after?.synonyms?.map((v: string) => ({
+                (edit!.after?.synonyms as string[] | undefined)?.map((v) => ({
                     value: v,
                 })) || [],
             auto: false,
@@ -59,8 +70,8 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
         },
         onSubmit: async ({ value }) => {
             mutationUpdateEdit.mutate({
-                editId: edit!.edit_id,
-                edit: {
+                path: { edit_id: edit!.edit_id },
+                body: {
                     after: {
                         ...getFilteredEditParams(paramSlugs, value),
                     },
