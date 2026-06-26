@@ -25,7 +25,11 @@ export function transformSpec<T extends OpenApiSpec>(spec: T): T {
     for (const [path, methods] of Object.entries(spec.paths)) {
         for (const [method, op] of Object.entries(methods)) {
             if (op && typeof op === 'object' && op.operationId) {
-                op.operationId = recoverOperationId(op.operationId, path, method);
+                op.operationId = recoverOperationId(
+                    op.operationId,
+                    path,
+                    method,
+                );
             }
         }
     }

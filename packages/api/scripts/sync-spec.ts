@@ -1,10 +1,11 @@
 import { writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { transformSpec } from './transform-spec';
 
 const SPEC_URL =
     process.env.HIKKA_OPENAPI_URL ?? 'https://api.hikka.io/openapi.json';
-const OUT = join(import.meta.dirname, '..', 'openapi.json');
+const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'openapi.json');
 
 async function main() {
     const res = await fetch(SPEC_URL, {
