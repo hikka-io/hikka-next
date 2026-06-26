@@ -1,6 +1,7 @@
+import type { ComponentProps } from 'react';
 import type * as React from 'react';
 
-import type { AnimeResponse } from '@hikka/client';
+import type { AnimeResponseWithWatch } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -12,7 +13,7 @@ import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
 type Props = {
-    anime: AnimeResponse;
+    anime: AnimeResponseWithWatch;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
 };
@@ -31,7 +32,12 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                 <ContentCard
                     containerClassName="rounded-(--base-radius)"
                     image={anime.image}
-                    watch={anime.watch ? anime.watch[0] : undefined}
+                    // TODO(phase2): drop cast once ContentCard is migrated to @hikka/api types
+                    watch={
+                        (anime.watch ? anime.watch[0] : undefined) as ComponentProps<
+                            typeof ContentCard
+                        >['watch']
+                    }
                     statusSize="sm"
                 />
             </div>
@@ -59,8 +65,9 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                             <>
                                 <Label className="text-muted-foreground text-xs">
                                     {
-                                        ANIME_MEDIA_TYPE[anime.media_type]
-                                            .title_ua
+                                        ANIME_MEDIA_TYPE[
+                                            anime.media_type as keyof typeof ANIME_MEDIA_TYPE
+                                        ].title_ua
                                     }
                                 </Label>
                                 <div className="size-1 rounded-full bg-muted-foreground" />
@@ -74,7 +81,11 @@ const AnimeCard = ({ anime, onClick, type }: Props) => {
                                     `bg-${anime.status} text-${anime.status}-foreground border-${anime.status}-border`,
                                 )}
                             >
-                                {RELEASE_STATUS[anime.status].title_ua}
+                                {
+                                    RELEASE_STATUS[
+                                        anime.status as keyof typeof RELEASE_STATUS
+                                    ].title_ua
+                                }
                             </Badge>
                         )}
                     </div>

@@ -1,6 +1,6 @@
 import type * as React from 'react';
 
-import type { CharacterResponse } from '@hikka/client';
+import type { CharacterResponse } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import ContentCard from '@/components/content-card/content-card';

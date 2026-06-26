@@ -1,6 +1,7 @@
+import type { ComponentProps } from 'react';
 import type * as React from 'react';
 
-import type { NovelResponse } from '@hikka/client';
+import type { NovelResponseWithRead } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -12,7 +13,7 @@ import { NOVEL_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
 type Props = {
-    novel: NovelResponse;
+    novel: NovelResponseWithRead;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
 };
@@ -31,7 +32,12 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
                 <ContentCard
                     containerClassName="rounded-(--base-radius)"
                     image={novel.image}
-                    read={novel.read ? novel.read[0] : undefined}
+                    // TODO(phase2): drop cast once ContentCard is migrated to @hikka/api types
+                    read={
+                        (novel.read ? novel.read[0] : undefined) as ComponentProps<
+                            typeof ContentCard
+                        >['read']
+                    }
                     statusSize="sm"
                 />
             </div>
@@ -59,8 +65,9 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
                             <>
                                 <Label className="text-muted-foreground text-xs">
                                     {
-                                        NOVEL_MEDIA_TYPE[novel.media_type]
-                                            .title_ua
+                                        NOVEL_MEDIA_TYPE[
+                                            novel.media_type as keyof typeof NOVEL_MEDIA_TYPE
+                                        ].title_ua
                                     }
                                 </Label>
                                 <div className="size-1 rounded-full bg-muted-foreground" />
@@ -74,7 +81,11 @@ const NovelCard = ({ novel, onClick, type }: Props) => {
                                     `bg-${novel.status} text-${novel.status}-foreground border-${novel.status}-border`,
                                 )}
                             >
-                                {RELEASE_STATUS[novel.status].title_ua}
+                                {
+                                    RELEASE_STATUS[
+                                        novel.status as keyof typeof RELEASE_STATUS
+                                    ].title_ua
+                                }
                             </Badge>
                         )}
                     </div>

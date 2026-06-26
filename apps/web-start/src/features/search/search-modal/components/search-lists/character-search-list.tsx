@@ -1,9 +1,12 @@
 import { useCallback } from 'react';
 
-import type { CharacterResponse } from '@hikka/client';
-import { useSearchCharacters } from '@hikka/react';
+import {
+    type CharacterResponse,
+    searchCharactersInfiniteOptions,
+} from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 
@@ -38,14 +41,15 @@ const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
         fetchNextPage,
         isFetchingNextPage,
         hasNextPage,
-    } = useSearchCharacters({
-        args: { query: value },
-        paginationArgs: { size: 30 },
-        queryKey: ['character-search-list', value],
-        options: {
+    } = useInfiniteList(
+        searchCharactersInfiniteOptions({
+            body: { query: value },
+            query: { size: 30 },
+        }),
+        {
             enabled: value !== undefined && value.length >= MIN_SEARCH_LENGTH,
         },
-    });
+    );
 
     return (
         <SearchList>

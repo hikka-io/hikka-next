@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
-import type { UserResponse } from '@hikka/client';
-import { useSearchUsers } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+import { type UserResponse, searchUsersOptions } from '@hikka/api';
 
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
@@ -29,12 +29,9 @@ const UserSearchList = ({ onDismiss, type, value }: Props) => {
         },
         [onDismiss, router, type],
     );
-    const { data, isFetching, isRefetching } = useSearchUsers({
-        args: { query: value || '' },
-        queryKey: ['user-search-list', value],
-        options: {
-            enabled: value !== undefined && value.length >= MIN_SEARCH_LENGTH,
-        },
+    const { data, isFetching, isRefetching } = useQuery({
+        ...searchUsersOptions({ body: { query: value || '' } }),
+        enabled: value !== undefined && value.length >= MIN_SEARCH_LENGTH,
     });
 
     return (

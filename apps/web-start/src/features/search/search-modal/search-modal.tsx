@@ -9,7 +9,7 @@ import {
 
 import { CircleX } from 'lucide-react';
 
-import type { ContentTypeEnum, MainContent, UserResponse } from '@hikka/client';
+import type { ContentTypeEnum, UserResponse } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
@@ -25,10 +25,14 @@ import PersonSearchList from './components/search-lists/person-search-list';
 import UserSearchList from './components/search-lists/user-search-list';
 import SearchToggle from './components/search-toggle';
 import useSearchModal from './hooks/use-search-modal';
-import { SEARCH_TYPE_ALL, type SearchTypeValue } from './types';
+import {
+    SEARCH_TYPE_ALL,
+    type SearchContent,
+    type SearchTypeValue,
+} from './types';
 
 type Props = {
-    onClick?: (content: MainContent | UserResponse) => void;
+    onClick?: (content: SearchContent | UserResponse) => void;
     type?: 'link' | 'button';
     children?: ReactNode;
     content_type?: ContentTypeEnum;
@@ -56,7 +60,7 @@ const SearchModal: FC<Props> = ({
     });
 
     const onDismiss = useCallback(
-        (content: MainContent | UserResponse) => {
+        (content: SearchContent | UserResponse) => {
             setSearchValue('');
             setOpen(false);
 

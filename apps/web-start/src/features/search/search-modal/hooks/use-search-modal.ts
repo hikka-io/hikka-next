@@ -1,6 +1,6 @@
 import { type Dispatch, type SetStateAction, useEffect } from 'react';
 
-import { type AnimeResponse, ContentTypeEnum } from '@hikka/client';
+import { type AnimeResponse, ContentTypeEnum } from '@hikka/api';
 
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { usePathname } from '@/utils/navigation';

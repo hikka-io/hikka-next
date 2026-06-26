@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 
-import type { AnimeResponse } from '@hikka/client';
-import { useSearchAnimes } from '@hikka/react';
+import { type AnimeResponse, searchAnimeInfiniteOptions } from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 
@@ -38,14 +38,15 @@ const AnimeSearchList = ({ onDismiss, type, value }: Props) => {
         fetchNextPage,
         isFetchingNextPage,
         hasNextPage,
-    } = useSearchAnimes({
-        args: { query: value },
-        paginationArgs: { size: 30 },
-        queryKey: ['anime-search-list', value],
-        options: {
+    } = useInfiniteList(
+        searchAnimeInfiniteOptions({
+            body: { query: value },
+            query: { size: 30 },
+        }),
+        {
             enabled: value !== undefined && value.length >= MIN_SEARCH_LENGTH,
         },
-    });
+    );
 
     return (
         <SearchList>

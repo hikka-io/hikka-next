@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 
-import type { NovelResponse } from '@hikka/client';
-import { useSearchNovels } from '@hikka/react';
+import { type NovelResponse, searchNovelInfiniteOptions } from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 
@@ -38,14 +38,15 @@ const NovelSearchList = ({ onDismiss, type, value }: Props) => {
         fetchNextPage,
         isFetchingNextPage,
         hasNextPage,
-    } = useSearchNovels({
-        args: { query: value },
-        paginationArgs: { size: 30 },
-        queryKey: ['novel-search-list', value],
-        options: {
+    } = useInfiniteList(
+        searchNovelInfiniteOptions({
+            body: { query: value },
+            query: { size: 30 },
+        }),
+        {
             enabled: value !== undefined && value.length >= MIN_SEARCH_LENGTH,
         },
-    });
+    );
 
     return (
         <SearchList>

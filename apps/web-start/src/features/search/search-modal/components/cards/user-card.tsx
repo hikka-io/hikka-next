@@ -2,7 +2,7 @@ import type * as React from 'react';
 
 import { format } from 'date-fns/format';
 
-import type { UserResponse } from '@hikka/client';
+import type { UserResponse } from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Badge } from '@/components/ui/badge';

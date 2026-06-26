@@ -1,6 +1,7 @@
+import type { ComponentProps } from 'react';
 import type * as React from 'react';
 
-import type { MangaResponse } from '@hikka/client';
+import type { MangaResponseWithRead } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -12,7 +13,7 @@ import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
 type Props = {
-    manga: MangaResponse;
+    manga: MangaResponseWithRead;
     onClick?: React.MouseEventHandler<HTMLAnchorElement | HTMLButtonElement>;
     type?: 'link' | 'button';
 };
@@ -31,7 +32,12 @@ const MangaCard = ({ manga, onClick, type }: Props) => {
                 <ContentCard
                     containerClassName="rounded-(--base-radius)"
                     image={manga.image}
-                    read={manga.read ? manga.read[0] : undefined}
+                    // TODO(phase2): drop cast once ContentCard is migrated to @hikka/api types
+                    read={
+                        (manga.read ? manga.read[0] : undefined) as ComponentProps<
+                            typeof ContentCard
+                        >['read']
+                    }
                     statusSize="sm"
                 />
             </div>
@@ -59,8 +65,9 @@ const MangaCard = ({ manga, onClick, type }: Props) => {
                             <>
                                 <Label className="text-muted-foreground text-xs">
                                     {
-                                        MANGA_MEDIA_TYPE[manga.media_type]
-                                            .title_ua
+                                        MANGA_MEDIA_TYPE[
+                                            manga.media_type as keyof typeof MANGA_MEDIA_TYPE
+                                        ].title_ua
                                     }
                                 </Label>
                                 <div className="size-1 rounded-full bg-muted-foreground" />
@@ -74,7 +81,11 @@ const MangaCard = ({ manga, onClick, type }: Props) => {
                                     `bg-${manga.status} text-${manga.status}-foreground border-${manga.status}-border`,
                                 )}
                             >
-                                {RELEASE_STATUS[manga.status].title_ua}
+                                {
+                                    RELEASE_STATUS[
+                                        manga.status as keyof typeof RELEASE_STATUS
+                                    ].title_ua
+                                }
                             </Badge>
                         )}
                     </div>

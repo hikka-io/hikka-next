@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import type { PaginationArgs } from '@hikka/client';
+import type { PaginationResponse } from '@hikka/api';
 
 import Spinner from '@/components/ui/spinner';
 
@@ -8,7 +8,7 @@ type Props = {
     data?:
         | {
               list: unknown[];
-              pagination: PaginationArgs;
+              pagination: PaginationResponse;
           }
         | Array<unknown>;
     isFetching: boolean;

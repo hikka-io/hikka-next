@@ -2,20 +2,22 @@ import { type ReactNode, useCallback } from 'react';
 
 import { Ellipsis } from 'lucide-react';
 
-import { ContentTypeEnum, type MainContent } from '@hikka/client';
 import {
-    useSearchAnimes,
-    useSearchCharacters,
-    useSearchMangas,
-    useSearchNovels,
-    useSearchPeople,
-} from '@hikka/react';
+    ContentTypeEnum,
+    searchAnimeInfiniteOptions,
+    searchCharactersInfiniteOptions,
+    searchMangaInfiniteOptions,
+    searchNovelInfiniteOptions,
+    searchPeopleInfiniteOptions,
+} from '@hikka/api';
 
 import { CommandItem } from '@/components/ui/command';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useRouter } from '@/utils/navigation';
 
+import type { SearchContent } from '../../types';
 import AnimeCard from '../cards/anime-card';
 import CharacterCard from '../cards/character-card';
 import MangaCard from '../cards/manga-card';
@@ -69,7 +71,7 @@ const SearchResultGroup = ({
 };
 
 type Props = {
-    onDismiss: (content: MainContent) => void;
+    onDismiss: (content: SearchContent) => void;
     onClose: () => void;
     type?: 'link' | 'button';
     value?: string;
@@ -79,40 +81,45 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
     const router = useRouter();
     const enabled = value !== undefined && value.length >= MIN_SEARCH_LENGTH;
 
-    const anime = useSearchAnimes({
-        args: { query: value },
-        paginationArgs: { size: ALL_SEARCH_SIZE },
-        queryKey: ['all-search-anime', value],
-        options: { enabled },
-    });
+    const anime = useInfiniteList(
+        searchAnimeInfiniteOptions({
+            body: { query: value },
+            query: { size: ALL_SEARCH_SIZE },
+        }),
+        { enabled },
+    );
 
-    const manga = useSearchMangas({
-        args: { query: value },
-        paginationArgs: { size: ALL_SEARCH_SIZE },
-        queryKey: ['all-search-manga', value],
-        options: { enabled },
-    });
+    const manga = useInfiniteList(
+        searchMangaInfiniteOptions({
+            body: { query: value },
+            query: { size: ALL_SEARCH_SIZE },
+        }),
+        { enabled },
+    );
 
-    const novel = useSearchNovels({
-        args: { query: value },
-        paginationArgs: { size: ALL_SEARCH_SIZE },
-        queryKey: ['all-search-novel', value],
-        options: { enabled },
-    });
+    const novel = useInfiniteList(
+        searchNovelInfiniteOptions({
+            body: { query: value },
+            query: { size: ALL_SEARCH_SIZE },
+        }),
+        { enabled },
+    );
 
-    const characters = useSearchCharacters({
-        args: { query: value },
-        paginationArgs: { size: ALL_SEARCH_SIZE },
-        queryKey: ['all-search-characters', value],
-        options: { enabled },
-    });
+    const characters = useInfiniteList(
+        searchCharactersInfiniteOptions({
+            body: { query: value },
+            query: { size: ALL_SEARCH_SIZE },
+        }),
+        { enabled },
+    );
 
-    const people = useSearchPeople({
-        args: { query: value },
-        paginationArgs: { size: ALL_SEARCH_SIZE },
-        queryKey: ['all-search-people', value],
-        options: { enabled },
-    });
+    const people = useInfiniteList(
+        searchPeopleInfiniteOptions({
+            body: { query: value },
+            query: { size: ALL_SEARCH_SIZE },
+        }),
+        { enabled },
+    );
 
     const anyFetching =
         anime.isFetching ||
@@ -142,7 +149,7 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
     const placeholderData = !hasAnyData ? undefined : allEmpty ? [] : [1];
 
     const handleSelect = useCallback(
-        (item: MainContent, contentType: ContentTypeEnum) => {
+        (item: SearchContent, contentType: ContentTypeEnum) => {
             onDismiss(item);
             if (type !== 'button') {
                 router.push(`${CONTENT_TYPE_LINKS[contentType]}/${item.slug}`);
