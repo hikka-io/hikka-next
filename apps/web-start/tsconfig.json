@@ -15,8 +15,5 @@
     },
     "include": ["src", "vite.config.ts"],
     "exclude": ["node_modules", ".output", "dist"],
-    "references": [
-        { "path": "../../packages/client" },
-        { "path": "../../packages/react" }
-    ]
+    "references": [{ "path": "../../packages/api" }]
 }
