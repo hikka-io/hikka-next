@@ -34,9 +34,11 @@ export function useInfiniteList<TPage extends PaginatedPage>(
         // biome-ignore lint/suspicious/noExplicitAny: page-param is `number | object` in generated options
         any
     >,
-    extra?: { enabled?: boolean },
+    extra?: { enabled?: boolean; initialPageParam?: number },
 ) {
     const { ref, inView } = useInView();
+
+    const pageParam = paginationPageParam<TPage>();
 
     const query = useInfiniteQuery<
         TPage,
@@ -48,14 +50,17 @@ export function useInfiniteList<TPage extends PaginatedPage>(
     >({
         // biome-ignore lint/suspicious/noExplicitAny: bridging generated options into the strict overload
         ...(infiniteOptions as any),
-        ...paginationPageParam<TPage>(),
-        ...extra,
+        ...pageParam,
+        initialPageParam: extra?.initialPageParam ?? pageParam.initialPageParam,
+        enabled: extra?.enabled,
     });
 
     const list = query.data?.pages.flatMap((page) => page.list) as
         | TPage['list']
         | undefined;
-    const pagination = query.data?.pages.at(-1)?.pagination;
+    const pagination = query.data?.pages.at(-1)?.pagination as
+        | TPage['pagination']
+        | undefined;
 
     useEffect(() => {
         if (inView && query.hasNextPage && !query.isFetchingNextPage) {

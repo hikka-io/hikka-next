@@ -1,6 +1,4 @@
-import type { FC } from 'react';
-
-import { queryKeys } from '@hikka/react/core';
+import type { ComponentProps, FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import type { StackSize } from '@/components/ui/stack';
@@ -22,8 +20,7 @@ const AnimeList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
         data,
         list,
         pagination,
-        args,
-        paginationArgs,
+        queryKey,
     } = useAnimeSearchQuery(pageSize);
 
     return (
@@ -35,9 +32,18 @@ const AnimeList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
             fetchNextPage={fetchNextPage}
             hasMultiplePages={Boolean(data && data.pages.length > 1)}
             pagination={pagination}
-            removeQueryKey={queryKeys.anime.search({ args, paginationArgs })}
+            removeQueryKey={queryKey}
             extendedSize={extendedSize}
-            renderItem={(anime) => <AnimeCard key={anime.slug} anime={anime} />}
+            renderItem={(anime) => (
+                <AnimeCard
+                    key={anime.slug}
+                    anime={
+                        anime as unknown as ComponentProps<
+                            typeof AnimeCard
+                        >['anime']
+                    }
+                />
+            )}
         />
     );
 };

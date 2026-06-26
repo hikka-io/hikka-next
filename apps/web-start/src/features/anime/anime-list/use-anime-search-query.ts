@@ -1,12 +1,13 @@
-import type {
-    AnimeAgeRatingEnum,
-    AnimeMediaEnum,
-    AnimeStatusEnum,
-    SeasonEnum,
-} from '@hikka/client';
-import { useSearchAnimes } from '@hikka/react';
+import {
+    type AnimeAgeRatingEnum,
+    type AnimeMediaEnum,
+    type AnimeStatusEnum,
+    type SeasonEnum,
+    searchAnimeInfiniteOptions,
+} from '@hikka/api';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { expandSort } from '@/features/filters/sort';
 import type { AnimeSearch } from '@/utils/search-schemas';
 import { getSeasonByOffset } from '@/utils/season';
@@ -63,15 +64,9 @@ export function buildAnimeSearchArgs(search: AnimeSearch) {
 export function useAnimeSearchQuery(size?: number) {
     const search = useFilterSearch<AnimeSearch>();
     const { args, page } = buildAnimeSearchArgs(search);
-    const paginationArgs = { page, size };
 
-    const queryResult = useSearchAnimes({
-        args,
-        paginationArgs,
-        options: {
-            initialPageParam: page,
-        },
-    });
+    const options = searchAnimeInfiniteOptions({ body: args, query: { size } });
+    const queryResult = useInfiniteList(options, { initialPageParam: page });
 
-    return { ...queryResult, args, paginationArgs, search };
+    return { ...queryResult, queryKey: options.queryKey, args, search };
 }

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import type { QueryKey } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
-import { useQueryClient } from '@hikka/react/core';
+import { useQueryClient } from '@tanstack/react-query';
 
 import CatalogListSkeleton from '@/components/catalog-list-skeleton';
 import FiltersNotFound from '@/components/filters-not-found';

@@ -1,6 +1,4 @@
-import type { FC } from 'react';
-
-import { queryKeys } from '@hikka/react/core';
+import type { ComponentProps, FC } from 'react';
 
 import NovelCard from '@/components/content-card/novel-card';
 import type { StackSize } from '@/components/ui/stack';
@@ -22,8 +20,7 @@ const NovelList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
         data,
         list,
         pagination,
-        args,
-        paginationArgs,
+        queryKey,
     } = useNovelSearchQuery(pageSize);
 
     return (
@@ -35,9 +32,18 @@ const NovelList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
             fetchNextPage={fetchNextPage}
             hasMultiplePages={Boolean(data && data.pages.length > 1)}
             pagination={pagination}
-            removeQueryKey={queryKeys.novel.search({ args, paginationArgs })}
+            removeQueryKey={queryKey}
             extendedSize={extendedSize}
-            renderItem={(novel) => <NovelCard key={novel.slug} novel={novel} />}
+            renderItem={(novel) => (
+                <NovelCard
+                    key={novel.slug}
+                    novel={
+                        novel as unknown as ComponentProps<
+                            typeof NovelCard
+                        >['novel']
+                    }
+                />
+            )}
         />
     );
 };
