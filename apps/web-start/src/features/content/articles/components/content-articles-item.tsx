@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { formatDistance } from 'date-fns/formatDistance';
 
-import type { ArticleBaseResponse } from '@hikka/client';
+import type { ArticlePreviewResponse } from '@hikka/api';
 
 import MaterialSymbolsDriveFileRenameOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsDriveFileRenameOutlineRounded';
 import {
@@ -15,7 +15,7 @@ import {
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 type Props = {
-    article: ArticleBaseResponse;
+    article: ArticlePreviewResponse;
     className?: string;
 };
 

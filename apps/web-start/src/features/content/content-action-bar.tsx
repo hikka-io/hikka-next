@@ -1,8 +1,8 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
 import { MessageCircle } from 'lucide-react';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 import { useSession } from '@hikka/react';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
@@ -18,12 +18,7 @@ import { Link, useParams } from '@/utils/navigation';
 
 type Props = {
     className?: string;
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL
-        | ContentTypeEnum.CHARACTER
-        | ContentTypeEnum.PERSON;
+    content_type: 'anime' | 'manga' | 'novel' | 'character' | 'person';
 };
 
 const UserlistButton = ({ content_type }: Props) => {
@@ -40,7 +35,12 @@ const UserlistButton = ({ content_type }: Props) => {
                 <ReadlistButton
                     slug={String(params.slug)}
                     size="icon-md"
-                    content_type={content_type}
+                    // TODO(phase2): drop cast once readlist-button reads @hikka/api enum
+                    content_type={
+                        content_type as ComponentProps<
+                            typeof ReadlistButton
+                        >['content_type']
+                    }
                 />
             );
         case ContentTypeEnum.PERSON:
@@ -56,6 +56,11 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
     const { user: loggedUser } = useSession();
 
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
+    // data_type is the not-yet-migrated @hikka/client enum; compare as string
+    const dataType = data?.data_type as string | undefined;
+    // comments_count is absent on character/person responses in the union
+    const commentsCount = (data as { comments_count?: number } | undefined)
+        ?.comments_count;
 
     return (
         <div
@@ -72,7 +77,12 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
                 {content_type !== ContentTypeEnum.PERSON && (
                     <FavoriteButton
                         slug={String(params.slug)}
-                        content_type={content_type}
+                        // TODO(phase2): drop cast once favorite-button reads @hikka/api enum
+                        content_type={
+                            content_type as ComponentProps<
+                                typeof FavoriteButton
+                            >['content_type']
+                        }
                         size="icon-md"
                         variant="ghost"
                     />
@@ -81,20 +91,20 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
                 <Button asChild size="md" variant="ghost">
                     <Link to={`/comments/${content_type}/${params.slug}`}>
                         <MessageCircle />
-                        {data?.data_type !== ContentTypeEnum.CHARACTER &&
-                            data?.data_type !== ContentTypeEnum.PERSON && (
+                        {dataType !== ContentTypeEnum.CHARACTER &&
+                            dataType !== ContentTypeEnum.PERSON && (
                                 <span>
-                                    {data?.comments_count}{' '}
+                                    {commentsCount}{' '}
                                     <span className="hidden sm:inline">
                                         {getDeclensionWord(
-                                            data?.comments_count ?? 0,
+                                            commentsCount ?? 0,
                                             COMMENT_DECLENSIONS,
                                         )}
                                     </span>
                                 </span>
                             )}
-                        {(data?.data_type === ContentTypeEnum.CHARACTER ||
-                            data?.data_type === ContentTypeEnum.PERSON) && (
+                        {(dataType === ContentTypeEnum.CHARACTER ||
+                            dataType === ContentTypeEnum.PERSON) && (
                             <span className="hidden sm:inline">Коментарі</span>
                         )}
                     </Link>

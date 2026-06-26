@@ -13,7 +13,7 @@ import {
     ShieldEllipsis,
 } from 'lucide-react';
 
-import { type AnimeInfoResponse, AnimeStatusEnum } from '@hikka/client';
+import { type AnimeInfoResponse, AnimeStatusEnum } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import { Badge } from '@/components/ui/badge';
@@ -165,7 +165,10 @@ const WatchDetails = ({
 }) => {
     const title = useTitle(data);
 
-    const nextEpisodeSchedule = data.schedule.find(
+    // TODO(phase2): drop cast — generated AnimeInfoResponse.schedule is an
+    // open `{ [key: string]: unknown }` record; the items carry `airing_at`.
+    const schedule = data.schedule as Array<{ airing_at: number }>;
+    const nextEpisodeSchedule = schedule.find(
         (s) => s.airing_at * 1000 > Date.now(),
     );
     const studio = data.companies.find((c) => c.type === 'studio');
@@ -186,7 +189,9 @@ const WatchDetails = ({
                     title="Тип"
                     value={
                         data.media_type
-                            ? ANIME_MEDIA_TYPE[data.media_type].title_ua
+                            ? ANIME_MEDIA_TYPE[
+                                  data.media_type as keyof typeof ANIME_MEDIA_TYPE
+                              ].title_ua
                             : undefined
                     }
                 />
@@ -267,7 +272,8 @@ const WatchDetails = ({
                     title="Рейтинг"
                     value={
                         data.rating
-                            ? AGE_RATING[data.rating].title_ua
+                            ? AGE_RATING[data.rating as keyof typeof AGE_RATING]
+                                  .title_ua
                             : undefined
                     }
                 />

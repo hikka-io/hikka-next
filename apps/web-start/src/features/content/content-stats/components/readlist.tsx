@@ -1,10 +1,9 @@
 import { createElement } from 'react';
 
 import type {
-    ContentTypeEnum,
-    ReadStatsResponse,
+    AppSchemasReadStatsResponse as ReadStatsResponse,
     ReadStatusEnum,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import { CONTENT_CONFIG, READ_STATUS } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
@@ -12,7 +11,7 @@ import { useParams } from '@/utils/navigation';
 import Stats from './stats';
 
 type Props = {
-    content_type: ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL;
+    content_type: 'manga' | 'novel';
 };
 
 const Readlist = ({ content_type }: Props) => {

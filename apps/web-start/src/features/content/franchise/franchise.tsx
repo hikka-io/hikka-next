@@ -1,7 +1,11 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
-import type { RelatedContentType } from '@hikka/client';
-import { useFranchise } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import {
+    contentFranchiseOptions,
+    type RelatedContentTypeEnum,
+} from '@hikka/api';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import MangaCard from '@/components/content-card/manga-card';
@@ -27,7 +31,7 @@ import FranchiseItem from './components/franchise-item';
 
 type Props = {
     extended?: boolean;
-    content_type: RelatedContentType;
+    content_type: RelatedContentTypeEnum;
 };
 
 const Franchise: FC<Props> = ({ extended, content_type }) => {
@@ -42,14 +46,13 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
           DEFAULT_PREFERENCES.filters.franchiseContentTypes
         : DEFAULT_PREFERENCES.filters.franchiseContentTypes;
 
-    const { data: franchise, error } = useFranchise({
-        contentType: content_type,
-        slug: String(params.slug),
-        options: {
-            select: (data) => ({
-                list: [...data.anime, ...data.manga, ...data.novel],
-            }),
-        },
+    const { data: franchise, error } = useQuery({
+        ...contentFranchiseOptions({
+            path: { content_type, slug: String(params.slug) },
+        }),
+        select: (data) => ({
+            list: [...data.anime, ...data.manga, ...data.novel],
+        }),
     });
 
     if (!franchise) {
@@ -113,19 +116,43 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                     filteredData.map((content) => {
                         if (content.data_type === 'anime') {
                             return (
-                                <AnimeCard key={content.slug} anime={content} />
+                                <AnimeCard
+                                    key={content.slug}
+                                    // TODO(phase2): drop cast
+                                    anime={
+                                        content as unknown as ComponentProps<
+                                            typeof AnimeCard
+                                        >['anime']
+                                    }
+                                />
                             );
                         }
 
                         if (content.data_type === 'manga') {
                             return (
-                                <MangaCard key={content.slug} manga={content} />
+                                <MangaCard
+                                    key={content.slug}
+                                    // TODO(phase2): drop cast
+                                    manga={
+                                        content as unknown as ComponentProps<
+                                            typeof MangaCard
+                                        >['manga']
+                                    }
+                                />
                             );
                         }
 
                         if (content.data_type === 'novel') {
                             return (
-                                <NovelCard key={content.slug} novel={content} />
+                                <NovelCard
+                                    key={content.slug}
+                                    // TODO(phase2): drop cast
+                                    novel={
+                                        content as unknown as ComponentProps<
+                                            typeof NovelCard
+                                        >['novel']
+                                    }
+                                />
                             );
                         }
 

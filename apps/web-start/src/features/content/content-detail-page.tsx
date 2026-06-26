@@ -1,7 +1,5 @@
 import type { FC, ReactNode } from 'react';
 
-import type { ContentTypeEnum } from '@hikka/client';
-
 import { CommentList as Comments } from '@/features/comments';
 
 import ContentActions from './actions';
@@ -20,10 +18,7 @@ import ContentStaff from './staff';
 import ContentTitle from './title';
 
 type Props = {
-    contentType:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    contentType: 'anime' | 'manga' | 'novel';
     slug: string;
     afterDescription?: ReactNode;
     afterFranchise?: ReactNode;

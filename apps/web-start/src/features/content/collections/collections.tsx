@@ -1,7 +1,6 @@
-import { type FC, useState } from 'react';
+import { type ComponentProps, type FC, useState } from 'react';
 
-import type { CollectionContentType } from '@hikka/client';
-import { useSearchCollections } from '@hikka/react';
+import { getCollectionsInfiniteOptions } from '@hikka/api';
 
 import { CollectionItem } from '@/components/content-card';
 import Block from '@/components/ui/block';
@@ -17,12 +16,13 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 import CollectionsModal from './collections-modal';
 
 type Props = {
-    content_type: CollectionContentType;
+    content_type: 'anime' | 'manga' | 'novel';
 };
 
 const Collections: FC<Props> = ({ content_type }) => {
@@ -30,12 +30,14 @@ const Collections: FC<Props> = ({ content_type }) => {
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
 
-    const { list } = useSearchCollections({
-        args: {
-            content_type: content_type,
-            content: [String(params.slug)],
-        },
-    });
+    const { list } = useInfiniteList(
+        getCollectionsInfiniteOptions({
+            body: {
+                content_type,
+                content: [String(params.slug)],
+            },
+        }),
+    );
 
     if (!list || list.length === 0) return null;
 
@@ -55,7 +57,12 @@ const Collections: FC<Props> = ({ content_type }) => {
                         {filteredCollections.map((collection) => (
                             <CollectionItem
                                 key={collection.reference}
-                                data={collection}
+                                // TODO(phase2): drop cast
+                                data={
+                                    collection as unknown as ComponentProps<
+                                        typeof CollectionItem
+                                    >['data']
+                                }
                             />
                         ))}
                     </div>

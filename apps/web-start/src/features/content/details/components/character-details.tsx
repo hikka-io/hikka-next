@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react';
 
 import { BookType, Languages } from 'lucide-react';
 
-import type { CharacterResponse } from '@hikka/client';
+import type { CharacterResponse } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import Card from '@/components/ui/card';

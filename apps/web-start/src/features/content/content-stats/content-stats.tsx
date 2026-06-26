@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -17,10 +17,7 @@ import Score from './components/score';
 import Watchlist from './components/watchlist';
 
 type Props = {
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: 'anime' | 'manga' | 'novel';
 };
 
 const ContentStats = ({ content_type }: Props) => {
@@ -57,11 +54,7 @@ const ContentStats = ({ content_type }: Props) => {
                 </ToggleGroup>
                 {stat === 'readlist' && (
                     <Readlist
-                        content_type={
-                            content_type as
-                                | ContentTypeEnum.MANGA
-                                | ContentTypeEnum.NOVEL
-                        }
+                        content_type={content_type as 'manga' | 'novel'}
                     />
                 )}
                 {stat === 'watchlist' && <Watchlist />}

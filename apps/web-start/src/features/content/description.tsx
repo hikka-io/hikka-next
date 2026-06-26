@@ -1,15 +1,10 @@
-import type { ContentTypeEnum } from '@hikka/client';
-
 import DescriptionBlock from '@/components/description-block';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
     className?: string;
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: 'anime' | 'manga' | 'novel';
 };
 
 const Description = ({ className, content_type }: Props) => {

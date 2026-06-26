@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { AnimeVideoResponse } from '@hikka/client';
+import type { AnimeVideoResponse } from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import Stack from '@/components/ui/stack';
@@ -36,8 +36,9 @@ const Video: FC<Props> = ({ extended, videos }) => {
                     image={parseYouTubeThumbnail(video.url)}
                     containerRatio={1.7}
                     description={
-                        VIDEO[video.video_type].title_ua ||
-                        VIDEO[video.video_type].title_en
+                        // TODO(phase2): drop cast — video_type is plain string in @hikka/api, VIDEO keyed by old enum
+                        VIDEO[video.video_type as keyof typeof VIDEO].title_ua ||
+                        VIDEO[video.video_type as keyof typeof VIDEO].title_en
                     }
                 />
             ))}

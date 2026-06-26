@@ -1,5 +1,3 @@
-import type { ContentTypeEnum } from '@hikka/client';
-
 import Hikka from '@/components/icons/custom/Hikka';
 import MAL from '@/components/icons/custom/MAL';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
@@ -10,10 +8,7 @@ import { useParams } from '@/utils/navigation';
 
 type ScoresProps = {
     className?: string;
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: 'anime' | 'manga' | 'novel';
 };
 
 const Scores = ({ className, content_type }: ScoresProps) => {

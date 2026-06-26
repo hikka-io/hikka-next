@@ -1,20 +1,24 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
 import {
-    contentCommentsOptions,
-    favouriteStatusOptions,
-    franchiseOptions,
-    novelBySlugOptions,
-    novelCharactersOptions,
-    readBySlugOptions,
-    readingUsersOptions,
-    searchArticlesOptions,
-    searchCollectionsOptions,
-} from '@hikka/react/options';
+    ContentTypeEnum,
+    contentFranchiseOptions,
+    getArticlesInfiniteOptions,
+    getContentsListInfiniteOptions,
+    getCollectionsInfiniteOptions,
+    getFavouriteOptions,
+    getReadFollowingInfiniteOptions,
+    novelCharactersInfiniteOptions,
+    novelInfoOptions,
+    paginationPageParam,
+    ReadContentTypeEnum,
+    readGetOptions,
+    RelatedContentTypeEnum,
+} from '@hikka/api';
 
 import { ContentDetailLayout } from '@/features/content';
 import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
+import { getAuthTokenFn } from '@/utils/cookies';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
 import { getNsfwConsentFn } from '@/utils/cookies/server';
 import { parseTextFromMarkDown } from '@/utils/markdown';
@@ -22,75 +26,104 @@ import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
 
 export const Route = createFileRoute('/_pages/novel/$slug')({
-    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
-        const novelOptions = novelBySlugOptions(hikkaClient, {
-            slug: params.slug,
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
+        const novelOptions = novelInfoOptions({
+            path: { slug: params.slug },
+            client: apiClient,
         });
         let novel = await queryClient.ensureQueryData(novelOptions);
 
         if (!novel) throw redirect({ to: '/' });
 
-        if (!hikkaClient.getAuthToken()) {
-            novel = stripRestrictedExternal(novel);
+        if (!(await getAuthTokenFn())) {
+            // TODO(phase2): drop cast once stripRestrictedExternal reads @hikka/api types
+            novel = stripRestrictedExternal(
+                novel as unknown as Parameters<
+                    typeof stripRestrictedExternal
+                >[0],
+            ) as unknown as typeof novel;
             queryClient.setQueryData(novelOptions.queryKey, novel);
         }
 
         const nsfwConsented = novel.nsfw ? !!(await getNsfwConsentFn()) : false;
 
         await Promise.allSettled([
-            queryClient.ensureInfiniteQueryData(
-                novelCharactersOptions(hikkaClient, {
-                    slug: params.slug,
-                    paginationArgs: { size: 20, page: 1 },
+            queryClient.ensureInfiniteQueryData({
+                ...novelCharactersInfiniteOptions({
+                    path: { slug: params.slug },
+                    query: { size: 20, page: 1 },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureQueryData(
+                contentFranchiseOptions({
+                    path: {
+                        slug: params.slug,
+                        content_type: RelatedContentTypeEnum.NOVEL,
+                    },
+                    client: apiClient,
                 }),
             ),
             queryClient.ensureQueryData(
-                franchiseOptions(hikkaClient, {
-                    slug: params.slug,
-                    contentType: ContentTypeEnum.NOVEL,
+                readGetOptions({
+                    path: {
+                        slug: params.slug,
+                        content_type: ReadContentTypeEnum.NOVEL,
+                    },
+                    client: apiClient,
                 }),
             ),
+            queryClient.ensureInfiniteQueryData({
+                ...getReadFollowingInfiniteOptions({
+                    path: {
+                        slug: params.slug,
+                        content_type: ReadContentTypeEnum.NOVEL,
+                    },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
             queryClient.ensureQueryData(
-                readBySlugOptions(hikkaClient, {
-                    slug: params.slug,
-                    contentType: ContentTypeEnum.NOVEL,
+                getFavouriteOptions({
+                    path: {
+                        slug: params.slug,
+                        content_type: ContentTypeEnum.NOVEL,
+                    },
+                    client: apiClient,
                 }),
             ),
-            queryClient.ensureInfiniteQueryData(
-                readingUsersOptions(hikkaClient, {
-                    slug: params.slug,
-                    contentType: ContentTypeEnum.NOVEL,
-                }),
-            ),
-            queryClient.ensureQueryData(
-                favouriteStatusOptions(hikkaClient, {
-                    slug: params.slug,
-                    contentType: ContentTypeEnum.NOVEL,
-                }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                searchArticlesOptions(hikkaClient, {
-                    args: {
+            queryClient.ensureInfiniteQueryData({
+                ...getArticlesInfiniteOptions({
+                    body: {
                         content_slug: params.slug,
                         content_type: ContentTypeEnum.NOVEL,
                     },
+                    client: apiClient,
                 }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                contentCommentsOptions(hikkaClient, {
-                    contentType: ContentTypeEnum.NOVEL,
-                    slug: params.slug,
-                    paginationArgs: { size: 3 },
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...getContentsListInfiniteOptions({
+                    path: {
+                        content_type: ContentTypeEnum.NOVEL,
+                        slug: params.slug,
+                    },
+                    query: { size: 3 },
+                    client: apiClient,
                 }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                searchCollectionsOptions(hikkaClient, {
-                    args: {
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...getCollectionsInfiniteOptions({
+                    body: {
                         content: [params.slug],
                         content_type: ContentTypeEnum.NOVEL,
                     },
+                    client: apiClient,
                 }),
-            ),
+                ...paginationPageParam(),
+            }),
         ]);
 
         return { novel, nsfwConsented };

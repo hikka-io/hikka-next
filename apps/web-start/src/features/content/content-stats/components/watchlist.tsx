@@ -1,6 +1,6 @@
 import { createElement } from 'react';
 
-import type { AnimeStatsResponse, WatchStatusEnum } from '@hikka/client';
+import type { AnimeStatsResponse, WatchStatusEnum } from '@hikka/api';
 
 import { CONTENT_CONFIG, WATCH_STATUS } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';

@@ -5,7 +5,7 @@ import {
     type MangaInfoResponse,
     type NovelInfoResponse,
     type PersonResponse,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
@@ -17,12 +17,7 @@ import WatchDetails from './components/watch-details';
 
 type Props = {
     className?: string;
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL
-        | ContentTypeEnum.CHARACTER
-        | ContentTypeEnum.PERSON;
+    content_type: 'anime' | 'manga' | 'novel' | 'character' | 'person';
 };
 
 const Details = ({ className, content_type }: Props) => {
@@ -34,40 +29,46 @@ const Details = ({ className, content_type }: Props) => {
         return null;
     }
 
+    // TODO(phase2): drop casts — `data` comes from CONTENT_CONFIG (still
+    // @hikka/client-typed); cast across to the @hikka/api component prop types.
     switch (content_type) {
         case ContentTypeEnum.ANIME:
             return (
                 <WatchDetails
                     className={className}
-                    data={data as AnimeInfoResponse}
+                    data={data as unknown as AnimeInfoResponse}
                 />
             );
         case ContentTypeEnum.MANGA:
             return (
                 <ReadDetails
                     className={className}
-                    data={data as MangaInfoResponse | NovelInfoResponse}
+                    data={
+                        data as unknown as
+                            | MangaInfoResponse
+                            | NovelInfoResponse
+                    }
                 />
             );
         case ContentTypeEnum.NOVEL:
             return (
                 <ReadDetails
                     className={className}
-                    data={data as NovelInfoResponse}
+                    data={data as unknown as NovelInfoResponse}
                 />
             );
         case ContentTypeEnum.CHARACTER:
             return (
                 <CharacterDetails
                     className={className}
-                    data={data as CharacterResponse}
+                    data={data as unknown as CharacterResponse}
                 />
             );
         case ContentTypeEnum.PERSON:
             return (
                 <PersonDetails
                     className={className}
-                    data={data as PersonResponse}
+                    data={data as unknown as PersonResponse}
                 />
             );
     }

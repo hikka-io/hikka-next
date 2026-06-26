@@ -13,7 +13,7 @@ import {
     ContentTypeEnum,
     type MangaInfoResponse,
     type NovelInfoResponse,
-} from '@hikka/client';
+} from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import { Badge } from '@/components/ui/badge';
@@ -93,8 +93,12 @@ const ReadDetails = ({
                     value={
                         data.media_type
                             ? data.data_type === ContentTypeEnum.MANGA
-                                ? MANGA_MEDIA_TYPE[data.media_type].title_ua
-                                : NOVEL_MEDIA_TYPE[data.media_type].title_ua
+                                ? MANGA_MEDIA_TYPE[
+                                      data.media_type as keyof typeof MANGA_MEDIA_TYPE
+                                  ].title_ua
+                                : NOVEL_MEDIA_TYPE[
+                                      data.media_type as keyof typeof NOVEL_MEDIA_TYPE
+                                  ].title_ua
                             : undefined
                     }
                 />

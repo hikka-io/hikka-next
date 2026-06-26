@@ -1,6 +1,6 @@
 import { Hash, Star } from 'lucide-react';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
@@ -17,10 +17,7 @@ import { useUserlistManager } from '../../hooks/use-list-manager';
 const UserContentStats = ({
     content_type,
 }: {
-    content_type:
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL
-        | ContentTypeEnum.ANIME;
+    content_type: 'anime' | 'manga' | 'novel';
 }) => {
     const { preferences, setCollapsible } = useSettingsStore();
     const params = useParams();
@@ -31,7 +28,10 @@ const UserContentStats = ({
 
     const { addProgress, removeProgress, setScore, score, progress, total } =
         useUserlistManager({
-            listItem: userlist,
+            // TODO(phase2): drop cast once CONTENT_CONFIG returns @hikka/api types
+            listItem: userlist as unknown as Parameters<
+                typeof useUserlistManager
+            >[0]['listItem'],
             content_type,
         });
 

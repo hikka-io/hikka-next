@@ -1,4 +1,4 @@
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
@@ -6,10 +6,7 @@ import { Link, useParams } from '@/utils/navigation';
 
 type TitleProps = {
     className?: string;
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: 'anime' | 'manga' | 'novel';
 };
 
 const Title = ({ className, content_type }: TitleProps) => {

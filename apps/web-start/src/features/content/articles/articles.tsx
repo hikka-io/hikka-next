@@ -1,7 +1,6 @@
 import { type FC, useState } from 'react';
 
-import type { ArticleContentType } from '@hikka/client';
-import { useSearchArticles } from '@hikka/react';
+import { getArticlesInfiniteOptions } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -16,13 +15,14 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 import ContentNewsItem from './components/content-articles-item';
 import ContentNewsModal from './components/content-articles-modal';
 
 type Props = {
-    content_type: ArticleContentType;
+    content_type: 'anime' | 'manga' | 'novel';
 };
 
 const ContentArticles: FC<Props> = ({ content_type }) => {
@@ -30,12 +30,14 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
 
-    const { list } = useSearchArticles({
-        args: {
-            content_type: content_type,
-            content_slug: String(params.slug),
-        },
-    });
+    const { list } = useInfiniteList(
+        getArticlesInfiniteOptions({
+            body: {
+                content_type,
+                content_slug: String(params.slug),
+            },
+        }),
+    );
 
     if (!list || list.length === 0) return null;
 

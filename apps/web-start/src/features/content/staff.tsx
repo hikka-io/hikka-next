@@ -1,7 +1,5 @@
 import type { FC } from 'react';
 
-import type { ContentTypeEnum } from '@hikka/client';
-
 import PersonCard from '@/components/content-card/person-card';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
@@ -19,10 +17,7 @@ import { useStaff } from './hooks/use-staff';
 
 type Props = {
     extended?: boolean;
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: 'anime' | 'manga' | 'novel';
 };
 
 const Staff: FC<Props> = ({ extended, content_type }) => {

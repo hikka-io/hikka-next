@@ -1,10 +1,10 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
 import type {
-    AnimeResponse,
-    MangaResponse,
-    NovelResponse,
-} from '@hikka/client';
+    AnimeResponseWithWatch,
+    MangaResponseWithRead,
+    NovelResponseWithRead,
+} from '@hikka/api';
 import { useSession, useTitle } from '@hikka/react';
 
 import ReadlistButton from '@/components/action-buttons/readlist-button';
@@ -20,7 +20,10 @@ import {
 import { MEDIA_TYPE } from '@/utils/constants/common';
 
 type Props = {
-    content: AnimeResponse | MangaResponse | NovelResponse;
+    content:
+        | AnimeResponseWithWatch
+        | MangaResponseWithRead
+        | NovelResponseWithRead;
     preview?: boolean;
 };
 
@@ -47,7 +50,13 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                             <div className="size-1 rounded-full bg-muted-foreground" />
                         )}
                         {content.media_type && (
-                            <p>{MEDIA_TYPE[content.media_type].title_ua}</p>
+                            <p>
+                                {
+                                    MEDIA_TYPE[
+                                        content.media_type as keyof typeof MEDIA_TYPE
+                                    ].title_ua
+                                }
+                            </p>
                         )}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
@@ -55,18 +64,48 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
             {content.data_type === 'anime' && !preview && (
                 <WatchlistButton
                     slug={content.slug}
-                    anime={content}
-                    watch={content.watch?.[0] ?? null}
+                    // TODO(phase2): drop cast
+                    anime={
+                        content as unknown as ComponentProps<
+                            typeof WatchlistButton
+                        >['anime']
+                    }
+                    // TODO(phase2): drop cast
+                    watch={
+                        ((content as AnimeResponseWithWatch).watch?.[0] ??
+                            null) as ComponentProps<
+                            typeof WatchlistButton
+                        >['watch']
+                    }
                     size="md"
                     disabled={!user}
                 />
             )}
             {content.data_type !== 'anime' && !preview && (
                 <ReadlistButton
-                    content_type={content.data_type}
+                    // TODO(phase2): drop cast
+                    content_type={
+                        content.data_type as ComponentProps<
+                            typeof ReadlistButton
+                        >['content_type']
+                    }
                     slug={content.slug}
-                    content={content}
-                    read={content.read?.[0] ?? null}
+                    // TODO(phase2): drop cast
+                    content={
+                        content as unknown as ComponentProps<
+                            typeof ReadlistButton
+                        >['content']
+                    }
+                    // TODO(phase2): drop cast
+                    read={
+                        ((
+                            content as
+                                | MangaResponseWithRead
+                                | NovelResponseWithRead
+                        ).read?.[0] ?? null) as ComponentProps<
+                            typeof ReadlistButton
+                        >['read']
+                    }
                     size="md"
                     disabled={!user}
                 />

@@ -1,7 +1,9 @@
+import type { ComponentProps } from 'react';
+
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
@@ -56,7 +58,12 @@ function AnimeListPage() {
                 <div className="flex flex-col gap-4">
                     <CatalogNavbar
                         sort_type="anime"
-                        content_type={ContentTypeEnum.ANIME}
+                        // TODO(phase2): drop cast once catalog reads @hikka/api enum
+                        content_type={
+                            ContentTypeEnum.ANIME as ComponentProps<
+                                typeof CatalogNavbar
+                            >['content_type']
+                        }
                         searchPlaceholder="Введіть назву аніме..."
                         renderFilterModal={({ open, onOpenChange }) => (
                             <AnimeFiltersModal

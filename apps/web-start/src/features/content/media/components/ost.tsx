@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { AnimeOSTResponse } from '@hikka/client';
+import type { AnimeOstResponse } from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsLibraryMusicRounded from '@/components/icons/material-symbols/MaterialSymbolsLibraryMusicRounded';
@@ -9,7 +9,7 @@ import { OST } from '@/utils/constants/common';
 
 type Props = {
     extended?: boolean;
-    ost: AnimeOSTResponse[];
+    ost: AnimeOstResponse[];
 };
 
 const Ost: FC<Props> = ({ extended, ost }) => {
@@ -29,7 +29,9 @@ const Ost: FC<Props> = ({ extended, ost }) => {
                     title={ost.title}
                     containerRatio={1}
                     description={
-                        OST[ost.ost_type].title_ua || OST[ost.ost_type].title_en
+                        // TODO(phase2): drop cast — ost_type is plain string in @hikka/api, OST keyed by old enum
+                        OST[ost.ost_type as keyof typeof OST].title_ua ||
+                        OST[ost.ost_type as keyof typeof OST].title_en
                     }
                     image={
                         <MaterialSymbolsLibraryMusicRounded className="text-4xl text-muted-foreground" />

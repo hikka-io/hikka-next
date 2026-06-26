@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 
+import { useMutation } from '@tanstack/react-query';
 import {
     ContentTypeEnum,
+    type ReadContentTypeEnum,
     type ReadResponse,
     ReadStatusEnum,
+    readAddMutation,
     type WatchResponse,
     WatchStatusEnum,
-} from '@hikka/client';
-import { useCreateRead, useCreateWatch } from '@hikka/react';
+    watchAddMutation,
+} from '@hikka/api';
 
 import useDebounce from '@/services/hooks/use-debounce';
 
@@ -30,7 +33,7 @@ const mapListItem = ({
                 progress: (listItem as WatchResponse)?.episodes,
                 total: (listItem as WatchResponse)?.anime.episodes_total,
                 score: listItem?.score,
-                status: listItem?.status,
+                status: (listItem as WatchResponse)?.status as WatchStatusEnum,
                 slug: (listItem as WatchResponse)?.anime.slug,
                 extraArgs: {
                     note: listItem?.note,
@@ -42,7 +45,7 @@ const mapListItem = ({
             return {
                 progress: (listItem as ReadResponse)?.chapters,
                 total: (listItem as ReadResponse)?.content.chapters,
-                status: listItem?.status,
+                status: (listItem as ReadResponse)?.status as ReadStatusEnum,
                 score: listItem?.score,
                 slug: (listItem as ReadResponse)?.content.slug,
                 extraArgs: {
@@ -88,10 +91,7 @@ const statuses = {
 
 type ListManagerProps = {
     listItem?: ReadResponse | WatchResponse;
-    content_type:
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL
-        | ContentTypeEnum.ANIME;
+    content_type: 'anime' | 'manga' | 'novel';
 };
 
 export const useUserlistManager = ({
@@ -107,8 +107,8 @@ export const useUserlistManager = ({
         delay: 500,
     });
 
-    const { mutate: mutateCreateWatch } = useCreateWatch();
-    const { mutate: mutateCreateRead } = useCreateRead();
+    const { mutate: mutateCreateWatch } = useMutation(watchAddMutation());
+    const { mutate: mutateCreateRead } = useMutation(readAddMutation());
 
     const mappedListItem = mapListItem({ listItem, content_type });
 
@@ -182,8 +182,8 @@ export const useUserlistManager = ({
         switch (content_type) {
             case ContentTypeEnum.ANIME:
                 mutateCreateWatch({
-                    slug: debouncedUpdate.slug,
-                    args: {
+                    path: { slug: debouncedUpdate.slug },
+                    body: {
                         note: debouncedUpdate.extraArgs.note,
                         rewatches: debouncedUpdate.extraArgs.rewatches,
                         score: debouncedUpdate.score,
@@ -195,9 +195,12 @@ export const useUserlistManager = ({
             case ContentTypeEnum.MANGA:
             case ContentTypeEnum.NOVEL:
                 mutateCreateRead({
-                    contentType: content_type,
-                    slug: debouncedUpdate.slug,
-                    args: {
+                    path: {
+                        content_type:
+                            content_type as ReadContentTypeEnum,
+                        slug: debouncedUpdate.slug,
+                    },
+                    body: {
                         note: debouncedUpdate.extraArgs.note,
                         rereads: debouncedUpdate.extraArgs.rereads,
                         score: debouncedUpdate.score,
