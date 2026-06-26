@@ -1,14 +1,15 @@
-import type {
-    AnimeAgeRatingEnum,
-    AnimeMediaEnum,
-    AnimeStatusEnum,
-    SeasonEnum,
-    WatchStatusEnum,
-} from '@hikka/client';
-import { useSearchUserWatches } from '@hikka/react';
+import {
+    type AnimeAgeRatingEnum,
+    type AnimeMediaEnum,
+    type AnimeStatusEnum,
+    type SeasonEnum,
+    userWatchListInfiniteOptions,
+    type WatchStatusEnum,
+} from '@hikka/api';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
 
@@ -30,23 +31,25 @@ export const useWatchList = (options?: { enabled?: boolean }) => {
         ? (search.score as [number, number])
         : undefined;
 
-    return useSearchUserWatches({
-        username: String(params.username),
-        args: {
-            watch_status:
-                watchStatus !== 'all'
-                    ? (String(watchStatus) as WatchStatusEnum)
-                    : undefined,
-            media_type,
-            status,
-            season,
-            rating,
-            years,
-            genres,
-            studios,
-            score,
-            sort: expandSort('watch', search.sort, search.order),
-        },
-        options: { enabled: options?.enabled },
-    });
+    return useInfiniteList(
+        userWatchListInfiniteOptions({
+            path: { username: String(params.username) },
+            body: {
+                watch_status:
+                    watchStatus !== 'all'
+                        ? (String(watchStatus) as WatchStatusEnum)
+                        : undefined,
+                media_type,
+                status,
+                season,
+                rating,
+                years,
+                genres,
+                studios,
+                score,
+                sort: expandSort('watch', search.sort, search.order),
+            },
+        }),
+        { enabled: options?.enabled },
+    );
 };

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { type CommonContentType, ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 import Card from '@/components/ui/card';
 import {
@@ -16,8 +16,10 @@ import ListTabContent from './list-tab-content';
 
 export { ListTabContent };
 
+type ListContentType = 'anime' | 'manga' | 'novel';
+
 const TAB_LIST_CONFIG: Record<
-    CommonContentType,
+    ListContentType,
     { path: string; search: Record<string, string> }
 > = {
     [ContentTypeEnum.ANIME]: {
@@ -37,7 +39,7 @@ const TAB_LIST_CONFIG: Record<
 const UserListStats = () => {
     const params = useParams();
     const username = String(params.username);
-    const [activeTab, setActiveTab] = useState<CommonContentType>(
+    const [activeTab, setActiveTab] = useState<ListContentType>(
         ContentTypeEnum.ANIME,
     );
     const tabConfig = TAB_LIST_CONFIG[activeTab];
@@ -55,7 +57,7 @@ const UserListStats = () => {
                         type="single"
                         value={activeTab}
                         onValueChange={(value: string) =>
-                            value && setActiveTab(value as CommonContentType)
+                            value && setActiveTab(value as ListContentType)
                         }
                         size="badge"
                     >

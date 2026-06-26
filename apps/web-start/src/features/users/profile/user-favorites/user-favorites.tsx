@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import { ContentTypeEnum, type FavouriteContentType } from '@hikka/client';
+import { ContentTypeEnum, type FavouriteContentTypeEnum } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import {
@@ -23,7 +23,7 @@ type Props = {
 };
 
 const Favorites: FC<Props> = ({ extended }) => {
-    const [content, setContent] = useState<FavouriteContentType>(
+    const [content, setContent] = useState<FavouriteContentTypeEnum>(
         ContentTypeEnum.ANIME,
     );
     const params = useParams();
@@ -57,7 +57,7 @@ const Favorites: FC<Props> = ({ extended }) => {
                     <ToggleGroup
                         type="single"
                         value={content}
-                        onValueChange={(value: FavouriteContentType) =>
+                        onValueChange={(value: FavouriteContentTypeEnum) =>
                             value && setContent(value)
                         }
                         size="badge"

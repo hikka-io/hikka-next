@@ -1,6 +1,6 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
-import type { UserResponse } from '@hikka/client';
+import type { FollowUserResponse } from '@hikka/api';
 
 import FollowButton from '@/components/action-buttons/follow-button';
 import {
@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/horizontal-card';
 
 type Props = {
-    user: UserResponse;
+    user: FollowUserResponse;
 };
 
 const FollowUserItem: FC<Props> = ({ user }) => {
@@ -31,7 +31,13 @@ const FollowUserItem: FC<Props> = ({ user }) => {
                     {user.description}
                 </HorizontalCardDescription>
             </HorizontalCardContainer>
-            <FollowButton size="md" user={user} />
+            <FollowButton
+                size="md"
+                user={
+                    // TODO(phase2): drop cast once action-buttons is on @hikka/api
+                    user as unknown as ComponentProps<typeof FollowButton>['user']
+                }
+            />
         </HorizontalCard>
     );
 };

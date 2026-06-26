@@ -1,6 +1,9 @@
 import { type FC, useState } from 'react';
 
-import { useSession, useUserFollowStats } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { followStatsOptions } from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import FollowButton from '@/components/action-buttons/follow-button';
 import { Button } from '@/components/ui/button';
@@ -29,9 +32,11 @@ const FollowStats: FC<Props> = ({ className }) => {
     const params = useParams();
     const { user: loggedUser } = useSession();
 
-    const { data: followStats } = useUserFollowStats({
-        username: String(params.username),
-    });
+    const { data: followStats } = useQuery(
+        followStatsOptions({
+            path: { username: String(params.username) },
+        }),
+    );
 
     if (!followStats) {
         return null;

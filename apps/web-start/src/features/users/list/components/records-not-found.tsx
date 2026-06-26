@@ -2,17 +2,14 @@ import {
     ContentTypeEnum,
     type ReadStatusEnum,
     type WatchStatusEnum,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import NotFound from '@/components/ui/not-found';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
 type Props = {
     status: ReadStatusEnum | WatchStatusEnum | 'all';
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: 'anime' | 'manga' | 'novel';
 };
 
 const CONTENT_TYPE_TITLE = {

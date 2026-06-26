@@ -1,11 +1,6 @@
 import type { FC } from 'react';
 
-import type {
-    AnimeResponse,
-    ContentTypeEnum,
-    MangaResponse,
-    NovelResponse,
-} from '@hikka/client';
+import type { AnimeResponse, MangaResponse, NovelResponse } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import ContentCard from '@/components/content-card/content-card';
@@ -24,10 +19,7 @@ const REPEAT_DECLENSIONS: [string, string, string] = [
 
 type Props = {
     content: MangaResponse | NovelResponse | AnimeResponse;
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: 'anime' | 'manga' | 'novel';
     repeats: number;
     note?: string;
 };

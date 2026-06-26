@@ -3,8 +3,12 @@ import { useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import { toast } from 'sonner';
 
-import { type ImageType, UploadTypeEnum } from '@hikka/client';
-import { useCreateImageUpload } from '@hikka/react';
+import { useMutation } from '@tanstack/react-query';
+
+import {
+    UploadTypeEnum,
+    uploadImageMutation as uploadImageMutation_,
+} from '@hikka/api';
 
 import MaterialSymbolsZoomInRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomInRounded';
 import MaterialSymbolsZoomOutRounded from '@/components/icons/material-symbols/MaterialSymbolsZoomOutRounded';
@@ -17,7 +21,7 @@ import { useRouter } from '@/utils/navigation';
 
 type Props = {
     file?: File;
-    type: ImageType;
+    type: UploadTypeEnum;
     onClose?: () => void;
 };
 
@@ -40,26 +44,25 @@ const CropEditorModal = ({ file, type, onClose }: Props) => {
     const editor = useRef<AvatarEditor>(null);
     const [scale, setScale] = useState<number>(100);
 
-    const uploadImageMutation = useCreateImageUpload({
-        options: {
-            onSuccess: () => {
-                const successMessage =
-                    type === UploadTypeEnum.AVATAR
-                        ? 'Ви успішно оновили свій аватар.'
-                        : 'Ви успішно оновили свою обкладинку.';
+    const uploadImageMutation = useMutation({
+        ...uploadImageMutation_(),
+        onSuccess: () => {
+            const successMessage =
+                type === UploadTypeEnum.AVATAR
+                    ? 'Ви успішно оновили свій аватар.'
+                    : 'Ви успішно оновили свою обкладинку.';
 
-                toast.success(successMessage);
-            },
-            onError: (error) => {
-                toast.error(
-                    (error as Error)?.message ??
-                        'Не вдалося завантажити зображення. Спробуйте ще раз.',
-                );
-            },
-            onSettled: () => {
-                router.refresh();
-                onClose?.();
-            },
+            toast.success(successMessage);
+        },
+        onError: (error) => {
+            toast.error(
+                (error as unknown as Error)?.message ??
+                    'Не вдалося завантажити зображення. Спробуйте ще раз.',
+            );
+        },
+        onSettled: () => {
+            router.refresh();
+            onClose?.();
         },
     });
 
@@ -67,8 +70,8 @@ const CropEditorModal = ({ file, type, onClose }: Props) => {
         const file = await getImage({ canvas });
 
         uploadImageMutation.mutate({
-            uploadType: type,
-            file,
+            path: { upload_type: type },
+            body: { file },
         });
     };
 
@@ -83,7 +86,7 @@ const CropEditorModal = ({ file, type, onClose }: Props) => {
                         uploadImageMutation.isPending && 'pointer-events-none',
                     )}
                     image={file!}
-                    {...CROP_PARAMS[type]}
+                    {...CROP_PARAMS[type as 'avatar' | 'cover']}
                     color={[0, 0, 0, 0.7]}
                     scale={scale / 100}
                     rotate={0}

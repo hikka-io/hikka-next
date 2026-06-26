@@ -1,6 +1,6 @@
-import { type FC, Fragment } from 'react';
+import { type ComponentProps, type FC, Fragment } from 'react';
 
-import { useFollowingHistory } from '@hikka/react';
+import { followingHistoryInfiniteOptions } from '@hikka/api';
 
 import { HistoryItem } from '@/components/content-card';
 import LoadMoreButton from '@/components/load-more-button';
@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 type Props = {
     className?: string;
@@ -15,7 +16,7 @@ type Props = {
 
 const FollowingHistory: FC<Props> = ({ className }) => {
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
-        useFollowingHistory();
+        useInfiniteList(followingHistoryInfiniteOptions());
 
     return (
         <Fragment>
@@ -33,7 +34,16 @@ const FollowingHistory: FC<Props> = ({ className }) => {
                         >
                             #{index + 1}
                         </Badge>
-                        <HistoryItem data={item} withUser className="flex-1" />
+                        <HistoryItem
+                            data={
+                                // TODO(phase2): drop cast once content-card is on @hikka/api
+                                item as unknown as ComponentProps<
+                                    typeof HistoryItem
+                                >['data']
+                            }
+                            withUser
+                            className="flex-1"
+                        />
                     </Card>
                 ))}
                 {list?.length === 0 && (

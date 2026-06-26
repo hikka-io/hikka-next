@@ -4,7 +4,7 @@ import {
     ContentTypeEnum,
     type ReadStatusEnum,
     type WatchStatusEnum,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
 import type { StackSize } from '@/components/ui/stack';
@@ -19,10 +19,7 @@ import { useReadList } from './hooks/use-readlist';
 import { useWatchList } from './hooks/use-watchlist';
 
 type Props = {
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: 'anime' | 'manga' | 'novel';
     extendedSize?: StackSize;
 };
 

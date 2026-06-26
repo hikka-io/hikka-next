@@ -3,10 +3,11 @@ import { type FC, Fragment } from 'react';
 import { useRouter } from '@tanstack/react-router';
 
 import {
+    type AnimeMediaEnum,
     ContentTypeEnum,
     type ReadResponse,
     type WatchResponse,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import {
     Table,
@@ -28,10 +29,7 @@ import VolumesCell from './volumes-cell';
 
 type Props = {
     data: ReadResponse[] | WatchResponse[];
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: 'anime' | 'manga' | 'novel';
 };
 
 const TableView: FC<Props> = ({ data, content_type }) => {
@@ -193,7 +191,9 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                                         <MediaCell
                                             media_type={
                                                 (res as WatchResponse).anime
-                                                    .media_type
+                                                    .media_type as
+                                                    | AnimeMediaEnum
+                                                    | null
                                             }
                                         />
                                     </Fragment>

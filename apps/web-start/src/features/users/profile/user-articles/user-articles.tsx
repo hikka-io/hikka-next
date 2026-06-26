@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
-import { useSearchArticles, useSession } from '@hikka/react';
+import { getArticlesInfiniteOptions } from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import Block from '@/components/ui/block';
@@ -16,6 +17,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useParams } from '@/utils/navigation';
 
@@ -26,14 +28,12 @@ type Props = {};
 const UserArticles: FC<Props> = () => {
     const { user } = useSession();
     const params = useParams();
-    const { list: availableArticles } = useSearchArticles({
-        args: {
-            author: String(params.username),
-        },
-        paginationArgs: {
-            size: 3,
-        },
-    });
+    const { list: availableArticles } = useInfiniteList(
+        getArticlesInfiniteOptions({
+            body: { author: String(params.username) },
+            query: { size: 3 },
+        }),
+    );
 
     if (!availableArticles || availableArticles.length === 0) return null;
 

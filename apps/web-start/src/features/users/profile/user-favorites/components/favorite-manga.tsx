@@ -1,11 +1,15 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
-import { ContentTypeEnum, type FavouriteMangaResponse } from '@hikka/client';
-import { useUserFavourites } from '@hikka/react';
+import {
+    ContentTypeEnum,
+    type FavouriteMangaResponse,
+    favouriteListInfiniteOptions,
+} from '@hikka/api';
 
 import MangaCard from '@/components/content-card/manga-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
@@ -16,19 +20,23 @@ type Props = {
 const Manga: FC<Props> = ({ extended }) => {
     const params = useParams();
     const {
-        list,
+        list: rawList,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         isPending,
         ref,
-    } = useUserFavourites<FavouriteMangaResponse>({
-        contentType: ContentTypeEnum.MANGA,
-        username: String(params.username),
-        options: {
-            enabled: !!params.username,
-        },
-    });
+    } = useInfiniteList(
+        favouriteListInfiniteOptions({
+            path: {
+                content_type: ContentTypeEnum.MANGA,
+                username: String(params.username),
+            },
+        }),
+        { enabled: !!params.username },
+    );
+
+    const list = rawList as FavouriteMangaResponse[] | undefined;
 
     if (isPending) {
         return null;
@@ -53,7 +61,12 @@ const Manga: FC<Props> = ({ extended }) => {
                     {filteredData.map((res) => (
                         <MangaCard
                             key={res.slug}
-                            manga={res}
+                            manga={
+                                // TODO(phase2): drop cast once content-card is on @hikka/api
+                                res as unknown as ComponentProps<
+                                    typeof MangaCard
+                                >['manga']
+                            }
                             imagePreset="cardSm"
                         />
                     ))}

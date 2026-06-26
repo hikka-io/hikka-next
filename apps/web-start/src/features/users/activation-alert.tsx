@@ -1,10 +1,9 @@
 import { toast } from 'sonner';
 
-import {
-    useCreateActivationRequest,
-    useSession,
-    useUserByUsername,
-} from '@hikka/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+
+import { activationResendMutation, userReferenceOptions } from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';
@@ -13,38 +12,37 @@ import { useParams } from '@/utils/navigation';
 const ActivationAlert = () => {
     const params = useParams();
 
-    const { data: user } = useUserByUsername({
-        username: String(params.username),
-    });
+    const { data: user } = useQuery(
+        userReferenceOptions({
+            path: { reference: String(params.username) },
+        }),
+    );
     const { user: loggedUser } = useSession();
 
-    const { mutate: resendActivation } = useCreateActivationRequest({
-        options: {
-            onSuccess: (user) => {
-                toast.success(
-                    <span>
-                        <span className="font-bold">{user.username}</span>, ми
-                        успішно надіслали Вам лист для підтвердження поштової
-                        адреси.
-                    </span>,
-                );
-            },
-            onError: (error) => {
-                if ('code' in (error as any)) {
-                    if ((error as any).code === 'auth-modal:activation_valid') {
-                        toast.error(
-                            <span>
-                                <span className="font-bold">
-                                    {loggedUser?.username}
-                                </span>
-                                , Ваше посилання досі активне. Перегляньте, будь
-                                ласка, вашу поштову скриньку для активації
-                                акаунту.
-                            </span>,
-                        );
-                    }
+    const { mutate: resendActivation } = useMutation({
+        ...activationResendMutation(),
+        onSuccess: (user) => {
+            toast.success(
+                <span>
+                    <span className="font-bold">{user.username}</span>, ми
+                    успішно надіслали Вам лист для підтвердження поштової адреси.
+                </span>,
+            );
+        },
+        onError: (error) => {
+            if ('code' in (error as any)) {
+                if ((error as any).code === 'auth-modal:activation_valid') {
+                    toast.error(
+                        <span>
+                            <span className="font-bold">
+                                {loggedUser?.username}
+                            </span>
+                            , Ваше посилання досі активне. Перегляньте, будь
+                            ласка, вашу поштову скриньку для активації акаунту.
+                        </span>,
+                    );
                 }
-            },
+            }
         },
     });
 
@@ -63,7 +61,7 @@ const ActivationAlert = () => {
                 перейдіть за посилання у листі. Якщо Ваш лист не прийшов, будь
                 ласка,{' '}
                 <Button
-                    onClick={() => resendActivation()}
+                    onClick={() => resendActivation({})}
                     variant="link"
                     className="h-auto p-0 text-primary-foreground hover:underline"
                 >

@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type ComponentProps, type FC, useState } from 'react';
 
 import {
     type AnimeResponse,
@@ -7,7 +7,7 @@ import {
     type NovelResponse,
     type ReadResponseBase,
     type WatchResponseBase,
-} from '@hikka/client';
+} from '@hikka/api';
 import { useSession, useTitle } from '@hikka/react';
 
 import { ReadEditModal, WatchEditModal } from '@/components/action-buttons';
@@ -27,10 +27,7 @@ import { useParams } from '@/utils/navigation';
 type Props = {
     number: number;
     content: MangaResponse | NovelResponse | AnimeResponse;
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: 'anime' | 'manga' | 'novel';
     record?: ReadResponseBase | WatchResponseBase;
 };
 
@@ -67,14 +64,28 @@ const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
                     </ResponsiveModalHeader>
                     {content_type === ContentTypeEnum.ANIME ? (
                         <WatchEditModal
-                            watch={record as WatchResponseBase}
+                            watch={
+                                // TODO(phase2): drop cast once action-buttons is on @hikka/api
+                                record as unknown as ComponentProps<
+                                    typeof WatchEditModal
+                                >['watch']
+                            }
                             slug={content.slug}
                             onClose={() => setOpen(false)}
                         />
                     ) : (
                         <ReadEditModal
-                            read={record as ReadResponseBase}
-                            content_type={content_type}
+                            read={
+                                // TODO(phase2): drop cast once action-buttons is on @hikka/api
+                                record as unknown as ComponentProps<
+                                    typeof ReadEditModal
+                                >['read']
+                            }
+                            content_type={
+                                content_type as ComponentProps<
+                                    typeof ReadEditModal
+                                >['content_type']
+                            }
                             slug={content.slug}
                             onClose={() => setOpen(false)}
                         />

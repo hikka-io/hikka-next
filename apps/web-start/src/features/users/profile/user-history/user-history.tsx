@@ -1,6 +1,6 @@
-import { type FC, useState } from 'react';
+import { type ComponentProps, type FC, useState } from 'react';
 
-import { useUserHistory } from '@hikka/react';
+import { userHistoryInfiniteOptions } from '@hikka/api';
 
 import { HistoryItem } from '@/components/content-card';
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
@@ -19,6 +19,7 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';
 
@@ -33,9 +34,11 @@ const History: FC<Props> = ({ className }) => {
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
 
-    const { list: activity } = useUserHistory({
-        username: String(params.username),
-    });
+    const { list: activity } = useInfiniteList(
+        userHistoryInfiniteOptions({
+            path: { username: String(params.username) },
+        }),
+    );
 
     const filteredActivity = activity?.slice(0, 3);
 
@@ -65,7 +68,15 @@ const History: FC<Props> = ({ className }) => {
                     </Header>
                     <div className="flex flex-col gap-6">
                         {filteredActivity?.map((item) => (
-                            <HistoryItem data={item} key={item.reference} />
+                            <HistoryItem
+                                data={
+                                    // TODO(phase2): drop cast once content-card is on @hikka/api
+                                    item as unknown as ComponentProps<
+                                        typeof HistoryItem
+                                    >['data']
+                                }
+                                key={item.reference}
+                            />
                         ))}
                         {activity && activity?.length === 0 && (
                             <NotFound

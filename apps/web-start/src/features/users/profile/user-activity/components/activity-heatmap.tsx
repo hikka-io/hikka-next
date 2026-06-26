@@ -2,7 +2,9 @@ import { type FC, useEffect, useMemo, useRef, useState } from 'react';
 
 import { format } from 'date-fns';
 
-import { useUserActivity } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { serviceUserActivityOptions } from '@hikka/api';
 
 import { useParams } from '@/utils/navigation';
 
@@ -29,11 +31,11 @@ const ActivityHeatmap: FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [visibleWeeks, setVisibleWeeks] = useState<number>(0);
 
-    const { data } = useUserActivity({
-        username: String(params.username),
-        options: {
-            enabled: !!params.username,
-        },
+    const { data } = useQuery({
+        ...serviceUserActivityOptions({
+            path: { username: String(params.username) },
+        }),
+        enabled: !!params.username,
     });
 
     useEffect(() => {

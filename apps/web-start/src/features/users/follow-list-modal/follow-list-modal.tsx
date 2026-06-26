@@ -1,6 +1,10 @@
-import { useUserFollowers, useUserFollowings } from '@hikka/react';
+import {
+    followersListInfiniteOptions,
+    followingListInfiniteOptions,
+} from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 import FollowUserItem from './components/follow-user-item';
@@ -14,19 +18,19 @@ const FollowlistModal = ({ type, username }: Props) => {
     const params = useParams();
     const resolvedUsername = username ?? String(params.username);
 
-    const followersQuery = useUserFollowers({
-        username: resolvedUsername,
-        options: {
-            enabled: type === 'followers',
-        },
-    });
+    const followersQuery = useInfiniteList(
+        followersListInfiniteOptions({
+            path: { username: resolvedUsername },
+        }),
+        { enabled: type === 'followers' },
+    );
 
-    const followingsQuery = useUserFollowings({
-        username: resolvedUsername,
-        options: {
-            enabled: type === 'followings',
-        },
-    });
+    const followingsQuery = useInfiniteList(
+        followingListInfiniteOptions({
+            path: { username: resolvedUsername },
+        }),
+        { enabled: type === 'followings' },
+    );
 
     if (!followersQuery.data && !followingsQuery.data) {
         return null;

@@ -1,13 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
 import {
-    searchArticlesOptions,
-    searchCollectionsOptions,
-    userActivityOptions,
-    userFavouritesOptions,
-    userHistoryOptions,
-} from '@hikka/react/options';
+    ContentTypeEnum,
+    favouriteListInfiniteOptions,
+    getArticlesInfiniteOptions,
+    getCollectionsInfiniteOptions,
+    paginationPageParam,
+    serviceUserActivityOptions,
+    userHistoryInfiniteOptions,
+} from '@hikka/api';
 
 import {
     UserCollections as Collections,
@@ -19,37 +20,52 @@ import {
 } from '@/features/users';
 
 export const Route = createFileRoute('/_pages/u/$username/')({
-    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { username } = params;
 
         await Promise.allSettled([
-            queryClient.prefetchInfiniteQuery(
-                userFavouritesOptions(hikkaClient, {
-                    username,
-                    contentType: ContentTypeEnum.ANIME,
+            queryClient.ensureInfiniteQueryData({
+                ...favouriteListInfiniteOptions({
+                    path: {
+                        username,
+                        content_type: ContentTypeEnum.ANIME,
+                    },
+                    client: apiClient,
                 }),
-            ),
-            queryClient.prefetchInfiniteQuery(
-                userHistoryOptions(hikkaClient, { username }),
-            ),
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...userHistoryInfiniteOptions({
+                    path: { username },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
             queryClient.prefetchQuery(
-                userActivityOptions(hikkaClient, { username }),
-            ),
-            queryClient.prefetchInfiniteQuery(
-                searchArticlesOptions(hikkaClient, {
-                    args: { author: username },
-                    paginationArgs: { size: 3 },
+                serviceUserActivityOptions({
+                    path: { username },
+                    client: apiClient,
                 }),
             ),
-            queryClient.prefetchInfiniteQuery(
-                searchCollectionsOptions(hikkaClient, {
-                    args: {
+            queryClient.ensureInfiniteQueryData({
+                ...getArticlesInfiniteOptions({
+                    body: { author: username },
+                    query: { size: 3 },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...getCollectionsInfiniteOptions({
+                    body: {
                         author: username,
                         sort: ['created:desc'],
                         only_public: false,
                     },
+                    client: apiClient,
                 }),
-            ),
+                ...paginationPageParam(),
+            }),
         ]);
     },
     component: UserPage,

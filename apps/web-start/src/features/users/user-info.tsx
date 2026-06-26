@@ -1,7 +1,9 @@
 import { type ChangeEvent, useRef, useState } from 'react';
 
-import { type ImageType, UploadTypeEnum } from '@hikka/client';
-import { useSession, useUserByUsername } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { UploadTypeEnum, userReferenceOptions } from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
 import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
@@ -28,22 +30,22 @@ const UserInfo = () => {
     const uploadCoverRef = useRef<HTMLInputElement>(null);
     const [open, setOpen] = useState(false);
     const [uploadFile, setUploadFile] = useState<File | null>(null);
-    const [uploadType, setUploadType] = useState<ImageType>(
+    const [uploadType, setUploadType] = useState<UploadTypeEnum>(
         UploadTypeEnum.AVATAR,
     );
     const params = useParams();
 
-    const { data: user } = useUserByUsername({
-        username: String(params.username),
-        options: {
-            enabled: !!params.username,
-        },
+    const { data: user } = useQuery({
+        ...userReferenceOptions({
+            path: { reference: String(params.username) },
+        }),
+        enabled: !!params.username,
     });
     const { user: loggedUser } = useSession();
 
     const handleUploadImageSelected = (
         e: ChangeEvent<HTMLInputElement>,
-        type: ImageType,
+        type: UploadTypeEnum,
     ) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = Array.from(e.target.files)[0];

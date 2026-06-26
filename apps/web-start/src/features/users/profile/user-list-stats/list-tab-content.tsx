@@ -1,12 +1,15 @@
 import { type FC, useState } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
+
 import {
-    type CommonContentType,
     ContentTypeEnum,
+    type ReadContentTypeEnum,
     ReadStatusEnum,
+    userReadStatsOptions,
+    userWatchStatsOptions,
     WatchStatusEnum,
-} from '@hikka/client';
-import { useReadStats, useUserWatchStats } from '@hikka/react';
+} from '@hikka/api';
 
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
 import { Label } from '@/components/ui/label';
@@ -25,7 +28,7 @@ import { Link } from '@/utils/navigation';
 import StatusProgressBar from './components/status-progress-bar';
 
 type Props = {
-    type: CommonContentType;
+    type: 'anime' | 'manga' | 'novel';
     username: string;
     className?: string;
 };
@@ -51,18 +54,21 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
     const isAnime = type === ContentTypeEnum.ANIME;
     const sortParam = isAnime ? 'watch_score' : 'read_score';
 
-    const { data: watchData } = useUserWatchStats({
-        username,
-        options: { enabled: isAnime },
+    const { data: watchData } = useQuery({
+        ...userWatchStatsOptions({ path: { username } }),
+        enabled: isAnime,
     });
 
-    const { data: readData } = useReadStats({
-        username,
-        contentType:
-            type === ContentTypeEnum.MANGA
-                ? ContentTypeEnum.MANGA
-                : ContentTypeEnum.NOVEL,
-        options: { enabled: !isAnime },
+    const { data: readData } = useQuery({
+        ...userReadStatsOptions({
+            path: {
+                username,
+                content_type: (type === ContentTypeEnum.MANGA
+                    ? ContentTypeEnum.MANGA
+                    : ContentTypeEnum.NOVEL) as ReadContentTypeEnum,
+            },
+        }),
+        enabled: !isAnime,
     });
 
     if (isAnime && !watchData) return null;
