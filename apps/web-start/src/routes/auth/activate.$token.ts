@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { activation } from '@hikka/api';
+
 import {
     appendUsernameCookie,
     createServerHikkaClient,
@@ -12,8 +14,10 @@ export const Route = createFileRoute('/auth/activate/$token')({
             GET: async ({ params }) => {
                 try {
                     const client = createServerHikkaClient();
-                    const res = await client.auth.activateUser({
-                        token: params.token,
+                    const { data: res } = await activation({
+                        client,
+                        body: { token: params.token },
+                        throwOnError: true,
                     });
 
                     const headers = new Headers({ Location: '/' });
@@ -21,7 +25,7 @@ export const Route = createFileRoute('/auth/activate/$token')({
                         'Set-Cookie',
                         makeCookieHeader('auth', res.secret),
                     );
-                    await appendUsernameCookie(headers, client, res.secret);
+                    await appendUsernameCookie(headers, res.secret);
 
                     return new Response(null, { status: 302, headers });
                 } catch {

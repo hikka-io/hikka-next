@@ -1,6 +1,8 @@
 import { ImageResponse } from '@takumi-rs/image-response';
 import { createFileRoute } from '@tanstack/react-router';
 
+import { mangaInfo } from '@hikka/api';
+
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/filter-properties';
 import { createServerHikkaClient } from '@/utils/cookies/headers';
 import { renderOgCard } from '@/utils/og/og-image';
@@ -26,7 +28,11 @@ export const Route = createFileRoute('/api/og/manga')({
 
                 try {
                     const client = createServerHikkaClient();
-                    const manga = await client.manga.getMangaBySlug(slug);
+                    const { data: manga } = await mangaInfo({
+                        client,
+                        path: { slug },
+                        throwOnError: true,
+                    });
 
                     const { title, subtitle } = resolveTitle(
                         manga.title_ua,

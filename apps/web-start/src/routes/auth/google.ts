@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { HikkaApiError } from '@hikka/client';
+import { HikkaApiError, oauthToken } from '@hikka/api';
 
 import {
     appendUsernameCookie,
@@ -30,8 +30,11 @@ export const Route = createFileRoute('/auth/google')({
 
                 try {
                     const client = createServerHikkaClient();
-                    const res = await client.auth.createOAuthToken('google', {
-                        code: String(code),
+                    const { data: res } = await oauthToken({
+                        client,
+                        path: { provider: 'google' },
+                        body: { code: String(code) },
+                        throwOnError: true,
                     });
 
                     const location = new URL(redirectBase);
@@ -45,7 +48,7 @@ export const Route = createFileRoute('/auth/google')({
                         'Set-Cookie',
                         makeCookieHeader('auth', res.secret),
                     );
-                    await appendUsernameCookie(headers, client, res.secret);
+                    await appendUsernameCookie(headers, res.secret);
 
                     return new Response(null, { status: 302, headers });
                 } catch (e) {

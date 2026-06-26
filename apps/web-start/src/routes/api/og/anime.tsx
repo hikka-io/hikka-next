@@ -1,7 +1,7 @@
 import { ImageResponse } from '@takumi-rs/image-response';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { CompanyTypeEnum } from '@hikka/client';
+import { animeSlug, CompanyTypeEnum } from '@hikka/api';
 
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/filter-properties';
 import { createServerHikkaClient } from '@/utils/cookies/headers';
@@ -28,7 +28,11 @@ export const Route = createFileRoute('/api/og/anime')({
 
                 try {
                     const client = createServerHikkaClient();
-                    const anime = await client.anime.getAnimeBySlug(slug);
+                    const { data: anime } = await animeSlug({
+                        client,
+                        path: { slug },
+                        throwOnError: true,
+                    });
 
                     const { title, subtitle } = resolveTitle(
                         anime.title_ua,

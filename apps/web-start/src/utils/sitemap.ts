@@ -1,12 +1,36 @@
-import type { HikkaClient, SitemapResponse } from '@hikka/client';
+import type { Client } from '@hikka/api';
 
 import { createServerHikkaClient } from './cookies/headers';
 import { getSiteUrl } from './url';
+
+/**
+ * Sitemap entries are served from static JSON files under `/sitemap/*.json`
+ * that are not part of the OpenAPI spec, so no generated SDK type exists.
+ */
+export interface SitemapResponse {
+    updated_at: number;
+    slug: string;
+}
 
 export const SITEMAP_RESPONSE_HEADERS = {
     'Content-Type': 'application/xml',
     'Cache-Control': 'public, max-age=3600, s-maxage=3600',
 };
+
+/**
+ * Fetch the static sitemap JSON for a content type via the generated client's
+ * low-level request (these endpoints are not part of the OpenAPI spec).
+ */
+export async function fetchSitemapEntries(
+    client: Client,
+    type: 'anime' | 'manga' | 'novel',
+): Promise<SitemapResponse[]> {
+    const { data } = await client.get<SitemapResponse[], unknown, true>({
+        url: `/sitemap/sitemap_${type}.json`,
+        throwOnError: true,
+    });
+    return data;
+}
 
 export const URLS_PER_SITEMAP = 10_000;
 
@@ -57,7 +81,7 @@ ${urls}
 export async function handleTypeSitemapRequest(
     request: Request,
     type: 'anime' | 'manga' | 'novel',
-    fetchEntries: (client: HikkaClient) => Promise<SitemapResponse[]>,
+    fetchEntries: (client: Client) => Promise<SitemapResponse[]>,
 ): Promise<Response> {
     const url = new URL(request.url);
     const pageParam = url.searchParams.get('page');
