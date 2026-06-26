@@ -1,18 +1,19 @@
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
 
-import type {
-    AnimeScheduleResponse,
-    ContentStatusEnum,
-    SeasonEnum,
-} from '@hikka/client';
-import { useSearchAnimeSchedule } from '@hikka/react';
+import {
+    type AnimeScheduleResponse,
+    animeScheduleInfiniteOptions,
+    type AnimeStatusEnum,
+    type SeasonEnum,
+} from '@hikka/api';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import type { ScheduleSearch } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
 
@@ -26,7 +27,7 @@ const ScheduleList = () => {
     const year = Number(search.year) || new Date().getFullYear();
     const status = (
         search.status?.length ? search.status : ['ongoing', 'announced']
-    ) as ContentStatusEnum[];
+    ) as AnimeStatusEnum[];
 
     const {
         list,
@@ -35,13 +36,15 @@ const ScheduleList = () => {
         fetchNextPage,
         isLoading,
         ref,
-    } = useSearchAnimeSchedule({
-        args: {
-            airing_season: [season, year],
-            status,
-            only_watch,
-        },
-    });
+    } = useInfiniteList(
+        animeScheduleInfiniteOptions({
+            body: {
+                airing_season: [season, year],
+                status,
+                only_watch,
+            },
+        }),
+    );
 
     const sortedList = list?.reduce(
         (acc: Record<string, AnimeScheduleResponse[]>, item) => {
