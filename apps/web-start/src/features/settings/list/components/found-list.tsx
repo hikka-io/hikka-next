@@ -1,8 +1,8 @@
-import { ContentTypeEnum, type ReadContentType } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 type Props = {
     list: Record<string, any>[];
-    type: ReadContentType | ContentTypeEnum.ANIME;
+    type: ContentTypeEnum;
 };
 
 const FoundList = ({ list, type }: Props) => {

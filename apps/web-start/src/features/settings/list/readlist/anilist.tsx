@@ -2,7 +2,7 @@ import { type Dispatch, type SetStateAction, useState } from 'react';
 
 import { toast } from 'sonner';
 
-import { ContentTypeEnum, type ImportReadArgs } from '@hikka/client';
+import { ContentTypeEnum, type ImportReadArgs } from '@hikka/api';
 import { AnilistTypeEnum, useAnilist } from '@hikka/react';
 
 import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
@@ -24,7 +24,8 @@ const AnilistReadlist = ({ readList, setReadList, importing }: Props) => {
     const { mutate: fetchAnilist, isPending: aniListLoading } = useAnilist({
         options: {
             onSuccess: (data) => {
-                setReadList(data as ImportReadArgs[]);
+                // TODO(phase2): useAnilist still returns @hikka/client types
+                setReadList(data as unknown as ImportReadArgs[]);
             },
             onError: (error: Error) => {
                 toast.error(error.message);

@@ -1,6 +1,7 @@
 import { toast } from 'sonner';
 
-import { useChangeUsername } from '@hikka/react';
+import { useMutation } from '@tanstack/react-query';
+import { changeUsernameMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -15,12 +16,11 @@ const formSchema = z.object({
 const ProfileUsername = () => {
     const router = useRouter();
 
-    const mutationChangeUsername = useChangeUsername({
-        options: {
-            onSuccess: async () => {
-                router.push(`/u/${form.getFieldValue('username')}`);
-                toast.success('Ви успішно змінили імʼя користвача.');
-            },
+    const mutationChangeUsername = useMutation({
+        ...changeUsernameMutation(),
+        onSuccess: async () => {
+            router.push(`/u/${form.getFieldValue('username')}`);
+            toast.success('Ви успішно змінили імʼя користвача.');
         },
     });
 
@@ -31,7 +31,7 @@ const ProfileUsername = () => {
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
             mutationChangeUsername.mutate({
-                username: value.username,
+                body: { username: value.username },
             });
         },
     });

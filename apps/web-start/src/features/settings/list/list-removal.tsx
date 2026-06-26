@@ -1,23 +1,37 @@
 import { toast } from 'sonner';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useDeleteReadList, useDeleteWatchList } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+    ContentTypeEnum,
+    deleteUserReadMutation,
+    deleteUserWatchMutation,
+} from '@hikka/api';
 
 import ListRemovalItem from './components/list-removal-item';
 
 const ListRemoval = () => {
-    const { mutate: deleteWatchList } = useDeleteWatchList({
-        options: {
-            onSuccess: () => {
-                toast.success('Список аніме успішно видалено.');
-            },
+    const queryClient = useQueryClient();
+
+    const { mutate: deleteWatchList } = useMutation({
+        ...deleteUserWatchMutation(),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                predicate: (query) =>
+                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                    'userWatchList',
+            });
+            toast.success('Список аніме успішно видалено.');
         },
     });
-    const { mutate: deleteReadList } = useDeleteReadList({
-        options: {
-            onSuccess: () => {
-                toast.success('Список успішно видалено.');
-            },
+    const { mutate: deleteReadList } = useMutation({
+        ...deleteUserReadMutation(),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                predicate: (query) =>
+                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                    'userReadList',
+            });
+            toast.success('Список успішно видалено.');
         },
     });
 
@@ -28,7 +42,7 @@ const ListRemoval = () => {
                 return;
             case ContentTypeEnum.MANGA:
             case ContentTypeEnum.NOVEL:
-                deleteReadList({ contentType: content_type });
+                deleteReadList({ path: { content_type } });
                 return;
         }
     };

@@ -7,8 +7,7 @@ import {
     ContentTypeEnum,
     type ImportReadArgs,
     type ImportWatchArgs,
-    type ReadContentType,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
@@ -17,7 +16,7 @@ import { Link } from '@/utils/navigation';
 import FoundList from './found-list';
 
 type Props = {
-    content_type: ReadContentType | ContentTypeEnum.ANIME;
+    content_type: ContentTypeEnum;
     list: ImportReadArgs[] | ImportWatchArgs[];
     setList:
         | Dispatch<SetStateAction<ImportReadArgs[]>>

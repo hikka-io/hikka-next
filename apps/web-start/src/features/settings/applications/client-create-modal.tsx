@@ -1,6 +1,7 @@
 import { toast } from 'sonner';
 
-import { useCreateClient } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createUserClientMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -19,13 +20,19 @@ type Props = {
 };
 
 const ClientCreateModal = ({ onClose }: Props) => {
+    const queryClient = useQueryClient();
+
     const { mutate: createClient, isPending: createClientLoading } =
-        useCreateClient({
-            options: {
-                onSuccess: () => {
-                    toast.success('Застосунок успішно створено.');
-                    onClose?.();
-                },
+        useMutation({
+            ...createUserClientMutation(),
+            onSuccess: () => {
+                queryClient.invalidateQueries({
+                    predicate: (query) =>
+                        (query.queryKey[0] as { _id?: string } | undefined)
+                            ?._id === 'listUserClients',
+                });
+                toast.success('Застосунок успішно створено.');
+                onClose?.();
             },
         });
 
@@ -37,7 +44,7 @@ const ClientCreateModal = ({ onClose }: Props) => {
         },
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
-            createClient({ ...value });
+            createClient({ body: value });
         },
     });
 

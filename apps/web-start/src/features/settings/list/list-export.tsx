@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 import { toast } from 'sonner';
 
-import { useExportLists } from '@hikka/react';
+import { useMutation } from '@tanstack/react-query';
+import { exportListMutation } from '@hikka/api';
 
 import ListExportItem from './components/list-export-item';
 
@@ -165,27 +166,26 @@ const downloadXml = (xml: string, filename: string) => {
 export const ExportAnime = () => {
     const [isExporting, setIsExporting] = useState(false);
 
-    const { mutate: exportLists } = useExportLists({
-        options: {
-            onSuccess: (data) => {
-                const anime = data.anime || [];
-                if (!anime.length) {
-                    toast.error('Немає аніме для експорту.');
-                    setIsExporting(false);
-                    return;
-                }
-                const xml = buildAnimeXml(anime);
-                downloadXml(xml, 'hikka-anime-export.xml');
-                toast.success('XML файл з аніме списком успішно згенеровано.');
+    const { mutate: exportLists } = useMutation({
+        ...exportListMutation(),
+        onSuccess: (data) => {
+            const anime = data.anime || [];
+            if (!anime.length) {
+                toast.error('Немає аніме для експорту.');
                 setIsExporting(false);
-            },
-            onError: (error) => {
-                toast.error(
-                    'Не вдалося експортувати список аніме. Спробуйте ще раз.',
-                );
-                console.error(error);
-                setIsExporting(false);
-            },
+                return;
+            }
+            const xml = buildAnimeXml(anime);
+            downloadXml(xml, 'hikka-anime-export.xml');
+            toast.success('XML файл з аніме списком успішно згенеровано.');
+            setIsExporting(false);
+        },
+        onError: (error) => {
+            toast.error(
+                'Не вдалося експортувати список аніме. Спробуйте ще раз.',
+            );
+            console.error(error);
+            setIsExporting(false);
         },
     });
 
@@ -207,29 +207,26 @@ export const ExportAnime = () => {
 export const ExportManga = () => {
     const [isExporting, setIsExporting] = useState(false);
 
-    const { mutate: exportLists } = useExportLists({
-        options: {
-            onSuccess: (data) => {
-                const manga = [...(data.manga || []), ...(data.novel || [])];
-                if (!manga.length) {
-                    toast.error('Немає манґи чи ранобе для експорту.');
-                    setIsExporting(false);
-                    return;
-                }
-                const xml = buildMangaXml(manga);
-                downloadXml(xml, 'hikka-manga-export.xml');
-                toast.success(
-                    'XML файл з манґою та ранобе успішно згенеровано.',
-                );
+    const { mutate: exportLists } = useMutation({
+        ...exportListMutation(),
+        onSuccess: (data) => {
+            const manga = [...(data.manga || []), ...(data.novel || [])];
+            if (!manga.length) {
+                toast.error('Немає манґи чи ранобе для експорту.');
                 setIsExporting(false);
-            },
-            onError: (error) => {
-                toast.error(
-                    'Не вдалося експортувати список манґи/ранобе. Спробуйте ще раз.',
-                );
-                console.error(error);
-                setIsExporting(false);
-            },
+                return;
+            }
+            const xml = buildMangaXml(manga);
+            downloadXml(xml, 'hikka-manga-export.xml');
+            toast.success('XML файл з манґою та ранобе успішно згенеровано.');
+            setIsExporting(false);
+        },
+        onError: (error) => {
+            toast.error(
+                'Не вдалося експортувати список манґи/ранобе. Спробуйте ще раз.',
+            );
+            console.error(error);
+            setIsExporting(false);
         },
     });
 

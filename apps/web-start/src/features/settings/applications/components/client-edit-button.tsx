@@ -1,6 +1,6 @@
 import { type FC, Fragment, memo, useState } from 'react';
 
-import type { ClientResponse } from '@hikka/client';
+import { type ClientResponse } from '@hikka/api';
 import { useSession } from '@hikka/react';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';

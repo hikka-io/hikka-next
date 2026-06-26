@@ -1,14 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ignoredNotificationsOptions } from '@hikka/react/options';
+import { getIgnoredNotificationsOptions } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { NotificationsSettings } from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/notifications')({
-    loader: async ({ context: { queryClient, hikkaClient } }) => {
-        await queryClient.prefetchQuery(
-            ignoredNotificationsOptions(hikkaClient),
+    loader: async ({ context: { queryClient, apiClient } }) => {
+        await queryClient.ensureQueryData(
+            getIgnoredNotificationsOptions({ client: apiClient }),
         );
     },
     head: () => ({

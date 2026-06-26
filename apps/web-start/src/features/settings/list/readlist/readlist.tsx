@@ -2,8 +2,12 @@ import { useState } from 'react';
 
 import { toast } from 'sonner';
 
-import { ContentTypeEnum, type ImportReadArgs } from '@hikka/client';
-import { useImportReadList } from '@hikka/react';
+import { useMutation } from '@tanstack/react-query';
+import {
+    ContentTypeEnum,
+    type ImportReadArgs,
+    importReadMutation,
+} from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -20,17 +24,16 @@ const ReadlistSettings = () => {
     const [readList, setReadList] = useState<ImportReadArgs[]>([]);
     const [importing, setImporting] = useState<boolean>(false);
 
-    const mutationImportReadList = useImportReadList({
-        options: {
-            onSuccess: () => {
-                toast.success(
-                    <span>
-                        Ви успішно імпортували{' '}
-                        <span className="font-bold">{readList.length}</span>{' '}
-                        манґи та ранобе до Вашого списку.
-                    </span>,
-                );
-            },
+    const mutationImportReadList = useMutation({
+        ...importReadMutation(),
+        onSuccess: () => {
+            toast.success(
+                <span>
+                    Ви успішно імпортували{' '}
+                    <span className="font-bold">{readList.length}</span> манґи та
+                    ранобе до Вашого списку.
+                </span>,
+            );
         },
     });
 
@@ -40,8 +43,10 @@ const ReadlistSettings = () => {
         if (readList && readList.length > 0) {
             try {
                 mutationImportReadList.mutate({
-                    overwrite: rewrite,
-                    content: readList,
+                    body: {
+                        overwrite: rewrite,
+                        content: readList,
+                    },
                 });
             } catch (_e) {}
         }

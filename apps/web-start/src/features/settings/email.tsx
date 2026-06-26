@@ -1,6 +1,7 @@
 import { toast } from 'sonner';
 
-import { useChangeEmail } from '@hikka/react';
+import { useMutation } from '@tanstack/react-query';
+import { changeEmailMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -18,11 +19,10 @@ const formSchema = z
     });
 
 const EmailSettings = () => {
-    const mutationChangeEmail = useChangeEmail({
-        options: {
-            onSuccess: async () => {
-                toast.success('Ви успішно змінили поштову адресу.');
-            },
+    const mutationChangeEmail = useMutation({
+        ...changeEmailMutation(),
+        onSuccess: async () => {
+            toast.success('Ви успішно змінили поштову адресу.');
         },
     });
 
@@ -34,7 +34,7 @@ const EmailSettings = () => {
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
             mutationChangeEmail.mutate({
-                email: value.email,
+                body: { email: value.email },
             });
         },
     });

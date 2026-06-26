@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 
 import { toast } from 'sonner';
 
-import type { NotificationTypeEnum } from '@hikka/client';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import {
-    useIgnoredNotifications,
-    useUpdateIgnoredNotifications,
-} from '@hikka/react';
+    changeIgnoredNotificationsMutation,
+    getIgnoredNotificationsOptions,
+} from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -33,7 +33,7 @@ const formSchema = z.object({
 });
 
 const NotificationsSettings = () => {
-    const { data } = useIgnoredNotifications();
+    const { data } = useQuery(getIgnoredNotificationsOptions());
 
     const formValues = useMemo(() => {
         const defaults = formSchema.parse({});
@@ -49,23 +49,24 @@ const NotificationsSettings = () => {
         );
     }, [data?.ignored_notifications]);
 
-    const { mutate: changeIgnoredNotifications, isPending } =
-        useUpdateIgnoredNotifications({
-            options: {
-                onSuccess: async () => {
-                    toast.success('Ви успішно змінили налаштування сповіщень.');
-                },
-            },
-        });
+    const { mutate: changeIgnoredNotifications, isPending } = useMutation({
+        ...changeIgnoredNotificationsMutation(),
+        onSuccess: async () => {
+            toast.success('Ви успішно змінили налаштування сповіщень.');
+        },
+    });
 
     const form = useAppForm({
         defaultValues: formValues,
         validators: { onSubmit: formSchema as never },
         onSubmit: async ({ value }) => {
             changeIgnoredNotifications({
-                ignored_notifications: Object.keys(value).filter(
-                    (key) => !value[key as keyof z.infer<typeof formSchema>],
-                ) as NotificationTypeEnum[],
+                body: {
+                    ignored_notifications: Object.keys(value).filter(
+                        (key) =>
+                            !value[key as keyof z.infer<typeof formSchema>],
+                    ),
+                },
             });
         },
     });

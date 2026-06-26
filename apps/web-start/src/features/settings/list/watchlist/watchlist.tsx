@@ -2,8 +2,12 @@ import { useEffect, useState } from 'react';
 
 import { toast } from 'sonner';
 
-import { ContentTypeEnum, type ImportWatchArgs } from '@hikka/client';
-import { useImportWatchList } from '@hikka/react';
+import { useMutation } from '@tanstack/react-query';
+import {
+    ContentTypeEnum,
+    type ImportWatchArgs,
+    importWatchMutation,
+} from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -20,17 +24,16 @@ const WatchlistSettings = () => {
     const [watchList, setWatchList] = useState<ImportWatchArgs[]>([]);
     const [importing, setImporting] = useState<boolean>(false);
 
-    const mutationImportWatchList = useImportWatchList({
-        options: {
-            onSuccess: () => {
-                toast.success(
-                    <span>
-                        Ви успішно імпортували{' '}
-                        <span className="font-bold">{watchList.length}</span>{' '}
-                        аніме до Вашого списку.
-                    </span>,
-                );
-            },
+    const mutationImportWatchList = useMutation({
+        ...importWatchMutation(),
+        onSuccess: () => {
+            toast.success(
+                <span>
+                    Ви успішно імпортували{' '}
+                    <span className="font-bold">{watchList.length}</span> аніме
+                    до Вашого списку.
+                </span>,
+            );
         },
     });
 
@@ -39,8 +42,10 @@ const WatchlistSettings = () => {
 
         if (watchList && watchList.length > 0) {
             mutationImportWatchList.mutate({
-                overwrite: rewrite,
-                anime: watchList,
+                body: {
+                    overwrite: rewrite,
+                    anime: watchList,
+                },
             });
         }
 

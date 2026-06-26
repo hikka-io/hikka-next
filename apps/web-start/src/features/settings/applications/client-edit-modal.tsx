@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 
 import { toast } from 'sonner';
 
-import type { ClientResponse } from '@hikka/client';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-    useClientFullDetails,
-    useDeleteClient,
-    useUpdateClient,
-} from '@hikka/react';
+    type ClientResponse,
+    deleteUserClientMutation,
+    getUserClientOptions,
+    updateUserClientMutation,
+} from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/MaterialSymbolsContentCopy';
@@ -32,25 +33,38 @@ type Props = {
 };
 
 const ClientEditModal = ({ client, onClose }: Props) => {
+    const queryClient = useQueryClient();
+
+    const invalidateClientList = () =>
+        queryClient.invalidateQueries({
+            predicate: (query) =>
+                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                'listUserClients',
+        });
+
     const { mutate: updateClient, isPending: updateClientLoading } =
-        useUpdateClient({
-            options: {
-                onSuccess: () => {
-                    toast.success('Застосунок успішно оновлено');
-                    onClose?.();
-                },
+        useMutation({
+            ...updateUserClientMutation(),
+            onSuccess: () => {
+                invalidateClientList();
+                toast.success('Застосунок успішно оновлено');
+                onClose?.();
             },
         });
     const { mutate: deleteClient, isPending: deleteClientLoading } =
-        useDeleteClient({
-            options: {
-                onSuccess: () => {
-                    toast.success('Застосунок успішно видалено');
-                    onClose?.();
-                },
+        useMutation({
+            ...deleteUserClientMutation(),
+            onSuccess: () => {
+                invalidateClientList();
+                toast.success('Застосунок успішно видалено');
+                onClose?.();
             },
         });
-    const { data } = useClientFullDetails({ reference: client.reference });
+    const { data } = useQuery(
+        getUserClientOptions({
+            path: { client_reference: client.reference },
+        }),
+    );
 
     const form = useAppForm({
         defaultValues: {
@@ -65,8 +79,8 @@ const ClientEditModal = ({ client, onClose }: Props) => {
         onSubmit: async ({ value }) => {
             const { reference, secret, ...rest } = value;
             updateClient({
-                reference,
-                args: {
+                path: { client_reference: reference },
+                body: {
                     ...rest,
                 },
             });
@@ -87,7 +101,7 @@ const ClientEditModal = ({ client, onClose }: Props) => {
     }, [data, form]);
 
     const onDelete = async () => {
-        deleteClient(client.reference);
+        deleteClient({ path: { client_reference: client.reference } });
     };
 
     const onCopy = async (field: 'reference' | 'secret') => {

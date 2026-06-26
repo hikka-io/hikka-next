@@ -1,6 +1,8 @@
 import { toast } from 'sonner';
 
-import { useChangeDescription, useSession } from '@hikka/react';
+import { useMutation } from '@tanstack/react-query';
+import { changeDescriptionMutation } from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -14,13 +16,10 @@ const formSchema = z.object({
 const ProfileDescription = () => {
     const { user: loggedUser } = useSession();
 
-    const mutationChangeDescription = useChangeDescription({
-        options: {
-            onSuccess: async () => {
-                toast.success(
-                    'Ви успішно змінили загальні налаштування профілю.',
-                );
-            },
+    const mutationChangeDescription = useMutation({
+        ...changeDescriptionMutation(),
+        onSuccess: async () => {
+            toast.success('Ви успішно змінили загальні налаштування профілю.');
         },
     });
 
@@ -31,7 +30,7 @@ const ProfileDescription = () => {
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
             mutationChangeDescription.mutate({
-                description: value.description,
+                body: { description: value.description },
             });
         },
     });
