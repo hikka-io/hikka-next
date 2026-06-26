@@ -1,6 +1,7 @@
 import { type FC, useEffect } from 'react';
 
-import { useCollectionByReference } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+import { getCollectionOptions } from '@hikka/api';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
 import { useParams } from '@/utils/navigation';
@@ -18,14 +19,17 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
     const groups = useCollectionContext((state) => state.groups);
     const setApiData = useCollectionContext((state) => state.setApiData);
 
-    const { data } = useCollectionByReference({
-        reference: String(params.reference),
-        options: { enabled: mode === 'edit' },
+    const { data } = useQuery({
+        ...getCollectionOptions({
+            path: { reference: String(params.reference) },
+        }),
+        enabled: mode === 'edit',
     });
 
     useEffect(() => {
         if (data) {
-            setApiData(data);
+            // TODO(phase2): drop cast once the collection store uses @hikka/api types
+            setApiData(data as Parameters<typeof setApiData>[0]);
         }
     }, [data]);
 

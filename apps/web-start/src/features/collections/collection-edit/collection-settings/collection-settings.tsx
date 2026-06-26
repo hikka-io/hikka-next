@@ -2,11 +2,14 @@ import type { FC } from 'react';
 
 import { toast } from 'sonner';
 
-import type {
-    CollectionContentType,
-    CollectionVisibilityEnum,
-} from '@hikka/client';
-import { useCreateCollection, useUpdateCollection } from '@hikka/react';
+import type { CollectionArgs } from '@hikka/api';
+import {
+    createCollectionMutation,
+    getCollectionQueryKey,
+    getCollectionsQueryKey,
+    updateCollectionMutation,
+} from '@hikka/api';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -49,6 +52,7 @@ type Props = {
 const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     const router = useRouter();
     const params = useParams();
+    const queryClient = useQueryClient();
 
     const groups = useCollectionContext((state) => state.groups);
     const title = useCollectionContext((state) => state.title);
@@ -74,24 +78,30 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
         mutate: mutateCreateCollection,
         isPending: isCreatePending,
         isSuccess,
-    } = useCreateCollection({
-        options: {
-            onSuccess: (data) => {
-                toast.success('Ви успішно створили колекцію.');
+    } = useMutation({
+        ...createCollectionMutation(),
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({
+                queryKey: getCollectionsQueryKey({ body: {} }),
+            });
+            toast.success('Ви успішно створили колекцію.');
 
-                router.push(
-                    `${CONTENT_TYPE_LINKS.collection}/${data.reference}/update`,
-                );
-            },
+            router.push(
+                `${CONTENT_TYPE_LINKS.collection}/${data.reference}/update`,
+            );
         },
     });
 
     const { mutate: mutateUpdateCollection, isPending: isUpdatePending } =
-        useUpdateCollection({
-            options: {
-                onSuccess: (_data) => {
-                    toast.success('Ви успішно оновили колекцію.');
-                },
+        useMutation({
+            ...updateCollectionMutation(),
+            onSuccess: (_data) => {
+                queryClient.invalidateQueries({
+                    queryKey: getCollectionQueryKey({
+                        path: { reference: String(params.reference) },
+                    }),
+                });
+                toast.success('Ви успішно оновили колекцію.');
             },
         });
 
@@ -145,7 +155,9 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                             value={[content_type]}
                             onValueChange={(value) =>
                                 setContentType(
-                                    value[0] as CollectionContentType,
+                                    value[0] as Parameters<
+                                        typeof setContentType
+                                    >[0],
                                 )
                             }
                         >
@@ -180,7 +192,11 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     <Select
                         value={[visibility]}
                         onValueChange={(value) =>
-                            setVisibility(value[0] as CollectionVisibilityEnum)
+                            setVisibility(
+                                value[0] as Parameters<
+                                    typeof setVisibility
+                                >[0],
+                            )
                         }
                     >
                         <SelectTrigger size="md">
@@ -242,8 +258,9 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         variant="default"
                         onClick={() =>
                             mutateUpdateCollection({
-                                args: getApiData(),
-                                reference: String(params.reference),
+                                path: { reference: String(params.reference) },
+                                // TODO(phase2): drop cast once the collection store emits @hikka/api CollectionArgs
+                                body: getApiData() as CollectionArgs,
                             })
                         }
                     >
@@ -268,7 +285,12 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         }
                         size="md"
                         variant="default"
-                        onClick={() => mutateCreateCollection(getApiData())}
+                        onClick={() =>
+                            mutateCreateCollection({
+                                // TODO(phase2): drop cast once the collection store emits @hikka/api CollectionArgs
+                                body: getApiData() as CollectionArgs,
+                            })
+                        }
                     >
                         {isCreatePending ? (
                             <Spinner />

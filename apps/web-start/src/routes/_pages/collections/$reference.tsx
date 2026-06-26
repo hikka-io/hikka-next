@@ -1,16 +1,16 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
-import { collectionByReferenceOptions } from '@hikka/react/options';
+import { getCollectionOptions } from '@hikka/api';
 
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
 
 export const Route = createFileRoute('/_pages/collections/$reference')({
-    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { reference } = params;
 
         const collection = await queryClient.ensureQueryData(
-            collectionByReferenceOptions(hikkaClient, { reference }),
+            getCollectionOptions({ path: { reference }, client: apiClient }),
         );
 
         if (!collection) throw redirect({ to: '/collections' });

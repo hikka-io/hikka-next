@@ -1,12 +1,8 @@
-import { type FC, memo, useRef } from 'react';
+import { type ComponentProps, type FC, memo, useRef } from 'react';
 
 import { Info } from 'lucide-react';
 
-import type {
-    CollectionContent,
-    CollectionContentResponse,
-    ContentTypeEnum,
-} from '@hikka/client';
+import type { CollectionContentResponse } from '@hikka/api';
 import { useHikkaClient } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
@@ -83,12 +79,17 @@ const CommentButton: FC<{ comment: string }> = ({ comment }) => {
 
 type Props = {
     group?: string;
-    items: CollectionContentResponse<CollectionContent>[];
-    content_type: ContentTypeEnum;
+    items: CollectionContentResponse[];
+    content_type: string;
 };
 
 const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
     const { defaultOptions } = useHikkaClient();
+
+    // TODO(phase2): drop cast once ContentCard + CONTENT_TYPE_LINKS use @hikka/api types
+    const contentType = content_type as NonNullable<
+        ComponentProps<typeof ContentCard>['content_type']
+    >;
 
     return (
         <div className="flex scroll-mt-20 flex-col gap-4" id={group}>
@@ -104,8 +105,8 @@ const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
                     <div key={item.content.slug} className="relative">
                         <ContentCard
                             slug={item.content.slug}
-                            content_type={content_type}
-                            href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
+                            content_type={contentType}
+                            href={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
                             image={item.content.image}
                             title={getTitle(
                                 item.content as unknown as Record<
@@ -118,13 +119,17 @@ const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
                             watch={
                                 'watch' in item.content &&
                                 item.content.watch.length > 0
-                                    ? item.content.watch[0]
+                                    ? (item.content.watch[0] as ComponentProps<
+                                          typeof ContentCard
+                                      >['watch'])
                                     : undefined
                             }
                             read={
                                 'read' in item.content &&
                                 item.content.read.length > 0
-                                    ? item.content.read[0]
+                                    ? (item.content.read[0] as ComponentProps<
+                                          typeof ContentCard
+                                      >['read'])
                                     : undefined
                             }
                         />

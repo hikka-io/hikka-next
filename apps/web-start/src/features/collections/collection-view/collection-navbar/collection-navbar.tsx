@@ -1,9 +1,10 @@
-import { type FC, Fragment } from 'react';
+import { type ComponentProps, type FC, Fragment } from 'react';
 
 import { MessageCircle, TableOfContents } from 'lucide-react';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useCollectionByReference, useSession } from '@hikka/react';
+import { ContentTypeEnum, getCollectionOptions } from '@hikka/api';
+import { useQuery } from '@tanstack/react-query';
+import { useSession } from '@hikka/react';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
 import { Button } from '@/components/ui/button';
@@ -27,9 +28,9 @@ const CollectionNavbar: FC<Props> = () => {
     const { user: loggedUser, isAdmin, isModerator } = useSession();
     const params = useParams();
 
-    const { data: collection } = useCollectionByReference({
-        reference: String(params.reference),
-    });
+    const { data: collection } = useQuery(
+        getCollectionOptions({ path: { reference: String(params.reference) } }),
+    );
 
     return (
         <div className="sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4">
@@ -39,7 +40,12 @@ const CollectionNavbar: FC<Props> = () => {
                     <FavoriteButton
                         size="icon-md"
                         variant="ghost"
-                        content_type={ContentTypeEnum.COLLECTION}
+                        // TODO(phase2): drop cast once FavoriteButton is migrated to @hikka/api types
+                        content_type={
+                            ContentTypeEnum.COLLECTION as ComponentProps<
+                                typeof FavoriteButton
+                            >['content_type']
+                        }
                         slug={collection?.reference}
                     />
                 )}

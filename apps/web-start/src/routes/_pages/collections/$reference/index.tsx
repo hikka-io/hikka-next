@@ -1,7 +1,9 @@
+import type { ComponentProps } from 'react';
+
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useCollectionByReference } from '@hikka/react';
+import { ContentTypeEnum, getCollectionOptions } from '@hikka/api';
+import { useQuery } from '@tanstack/react-query';
 
 import Block from '@/components/ui/block';
 import Link from '@/components/ui/link';
@@ -22,10 +24,19 @@ export const Route = createFileRoute('/_pages/collections/$reference/')({
 
 function CollectionPage() {
     const { reference } = Route.useParams();
-    const { data: collection } = useCollectionByReference({ reference });
+    const { data: collection } = useQuery(
+        getCollectionOptions({ path: { reference } }),
+    );
 
     return (
-        <CollectionProvider initialState={collection}>
+        // TODO(phase2): drop cast once the collection store/provider uses @hikka/api types
+        <CollectionProvider
+            initialState={
+                collection as unknown as ComponentProps<
+                    typeof CollectionProvider
+                >['initialState']
+            }
+        >
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link

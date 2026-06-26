@@ -1,8 +1,6 @@
-import type {
-    CollectionContent,
-    CollectionContentResponse,
-} from '@hikka/client';
-import { useCollectionByReference } from '@hikka/react';
+import type { CollectionContentResponse } from '@hikka/api';
+import { getCollectionOptions } from '@hikka/api';
+import { useQuery } from '@tanstack/react-query';
 
 import { useParams } from '@/utils/navigation';
 
@@ -11,9 +9,9 @@ import CollectionDisplayGrid from './components/collection-grid';
 const CollectionGroups = () => {
     const params = useParams();
 
-    const { data: collection } = useCollectionByReference({
-        reference: String(params.reference),
-    });
+    const { data: collection } = useQuery(
+        getCollectionOptions({ path: { reference: String(params.reference) } }),
+    );
 
     if (!collection) {
         return null;
@@ -22,13 +20,7 @@ const CollectionGroups = () => {
     const groups =
         collection?.labels_order.length !== 0 &&
         collection?.collection.reduce(
-            (
-                acc: Record<
-                    string,
-                    CollectionContentResponse<CollectionContent>[]
-                >,
-                item,
-            ) => {
+            (acc: Record<string, CollectionContentResponse[]>, item) => {
                 if (item.label) {
                     acc[item.label] = acc[item.label] || [];
                     acc[item.label].push(item);
@@ -39,10 +31,7 @@ const CollectionGroups = () => {
 
                 return acc;
             },
-            {} as Record<
-                string,
-                CollectionContentResponse<CollectionContent>[]
-            >,
+            {} as Record<string, CollectionContentResponse[]>,
         );
 
     if (!groups) {

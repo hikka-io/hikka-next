@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useCollectionByReference } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+import { getCollectionOptions } from '@hikka/api';
 
 import Card from '@/components/ui/card';
 import Link from '@/components/ui/link';
@@ -14,9 +15,9 @@ type Props = {
 
 function TableOfContents({ className }: Props) {
     const params = useParams();
-    const { data: collection } = useCollectionByReference({
-        reference: String(params.reference),
-    });
+    const { data: collection } = useQuery(
+        getCollectionOptions({ path: { reference: String(params.reference) } }),
+    );
     const scrollRef = useRef(0);
     const tocScrollRef = useRef<HTMLUListElement>(null);
     const [activeId, setActiveId] = useState<string | null>(null);

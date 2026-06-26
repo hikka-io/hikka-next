@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 
-import { useSearchCollections } from '@hikka/react';
+import { getCollectionsInfiniteOptions } from '@hikka/api';
+
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import CollectionCard from './components/collection-card';
 
@@ -10,12 +12,12 @@ type Props = {
 };
 
 const CollectionList: FC<Props> = ({ page, sort }) => {
-    const { list } = useSearchCollections({
-        args: { sort: [`${sort}:desc`] },
-        paginationArgs: {
-            page,
-        },
-    });
+    const { list } = useInfiniteList(
+        getCollectionsInfiniteOptions({
+            body: { sort: [`${sort}:desc`] },
+        }),
+        { initialPageParam: page },
+    );
 
     if (!list) {
         return null;

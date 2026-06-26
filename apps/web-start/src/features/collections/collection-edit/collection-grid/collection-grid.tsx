@@ -3,14 +3,12 @@ import type { FC } from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 
-import type { CollectionContent } from '@hikka/client';
-
 import ContentCard from '@/components/content-card/content-card';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { SearchModal } from '@/features/search';
 import { useCollectionContext } from '@/services/providers/collection-provider';
-import type { Group } from '@/services/stores/collection-store';
+import type { Group, Item } from '@/services/stores/collection-store';
 import { cn } from '@/utils/cn';
 
 import SortableCard from './components/sortable-card';
@@ -73,12 +71,7 @@ const CollectionEditGrid: FC<Props> = ({ group }) => {
                     <SearchModal
                         content_type={content_type}
                         onClick={(value) =>
-                            addItem(
-                                group.id,
-                                value as CollectionContent & {
-                                    title?: string;
-                                },
-                            )
+                            addItem(group.id, value as Item['content'])
                         }
                         type="button"
                     >
