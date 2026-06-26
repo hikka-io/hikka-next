@@ -3,7 +3,10 @@ import { type FC, useMemo, useState } from 'react';
 import { formatDistance } from 'date-fns';
 import { uk } from 'date-fns/locale/uk';
 
-import type { CommentResponse, CommentsContentType } from '@hikka/client';
+import type {
+    AppCommentsSchemasContentTypeEnum as CommentsContentType,
+    CommentResponse,
+} from '@hikka/api';
 import { useSession } from '@hikka/react';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
@@ -56,19 +59,23 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
         setExpand(true);
     };
 
-    const allReplies = useMemo(() => {
-        if (pendingReplies.length === 0) return comment.replies;
+    const allReplies = useMemo<CommentResponse[]>(() => {
+        const serverRepliesAll = comment.replies ?? [];
+        if (pendingReplies.length === 0) return serverRepliesAll;
 
-        const prepend = pendingReplies.filter(
-            (r) => r.comment.parent === comment.reference && !r.insertAfter,
+        const relevant = pendingReplies.filter(
+            (r) => r.comment.parent === comment.reference,
         );
-        const insertAfters = pendingReplies.filter(
-            (r) => r.comment.parent === comment.reference && r.insertAfter,
-        );
-        const pendingRefs = new Set(
-            [...prepend, ...insertAfters].map((r) => r.comment.reference),
-        );
-        const serverReplies = comment.replies.filter(
+        // TODO(phase2): drop cast once comments-provider is migrated to @hikka/api types
+        const prepend = relevant
+            .filter((r) => !r.insertAfter)
+            .map((r) => r.comment as unknown as CommentResponse);
+        const insertAfters = relevant.filter((r) => r.insertAfter);
+        const pendingRefs = new Set([
+            ...prepend.map((c) => c.reference),
+            ...insertAfters.map((r) => r.comment.reference),
+        ]);
+        const serverReplies = serverRepliesAll.filter(
             (r) => !pendingRefs.has(r.reference),
         );
 
@@ -76,11 +83,12 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
         for (const entry of insertAfters) {
             const key = entry.insertAfter!;
             const list = insertAfterMap.get(key) ?? [];
-            list.push(entry.comment);
+            // TODO(phase2): drop cast once comments-provider is migrated to @hikka/api types
+            list.push(entry.comment as unknown as CommentResponse);
             insertAfterMap.set(key, list);
         }
 
-        const merged = [...prepend.map((r) => r.comment), ...serverReplies];
+        const merged = [...prepend, ...serverReplies];
         if (insertAfterMap.size === 0) return merged;
 
         return merged.flatMap((r) => {
@@ -95,7 +103,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
         );
         const repliesCount = hasPendingForThis
             ? allReplies.length
-            : comment.total_replies;
+            : (comment.total_replies ?? 0);
 
         return (
             repliesCount +

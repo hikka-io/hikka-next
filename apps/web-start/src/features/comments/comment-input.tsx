@@ -2,7 +2,10 @@ import { type FC, useEffect } from 'react';
 
 import { Plate } from 'platejs/react';
 
-import type { CommentResponse, CommentsContentType } from '@hikka/client';
+import type {
+    AppCommentsSchemasContentTypeEnum as CommentsContentType,
+    CommentResponse,
+} from '@hikka/api';
 
 import { usePlateMarkdownSetup } from '@/components/plate/editor/markdown-editor-kit';
 import { EditorPreview } from '@/components/plate/editor/plate-editor';

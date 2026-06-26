@@ -1,28 +1,31 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import type { CommentsContentType } from '@hikka/client';
-import { commentThreadOptions } from '@hikka/react/options';
+import {
+    type AppCommentsSchemasContentTypeEnum as CommentsContentType,
+    threadOptions,
+} from '@hikka/api';
 
 import { CommentList as Comments, prefetchContent } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
-    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { content_type, slug, _splat: commentReference } = params;
 
         const content = await prefetchContent({
             content_type: content_type as CommentsContentType,
             slug,
             queryClient,
-            hikkaClient,
+            apiClient,
         });
 
         if (!content) throw redirect({ to: '/' });
 
         if (commentReference) {
             await queryClient.prefetchQuery(
-                commentThreadOptions(hikkaClient, {
-                    commentReference,
+                threadOptions({
+                    path: { comment_reference: commentReference },
+                    client: apiClient,
                 }),
             );
         }

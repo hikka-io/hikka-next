@@ -1,17 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { prefetchInfiniteQuery } from '@hikka/react/core';
-import { commentListOptions } from '@hikka/react/options';
+import { commentsListInfiniteOptions, paginationPageParam } from '@hikka/api';
 
 import { LatestComments } from '@/features/comments';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/comments/latest')({
-    loader: async ({ context: { queryClient, hikkaClient } }) => {
-        await prefetchInfiniteQuery(
-            queryClient,
-            commentListOptions(hikkaClient),
-        );
+    loader: async ({ context: { queryClient, apiClient } }) => {
+        await queryClient.ensureInfiniteQueryData({
+            ...commentsListInfiniteOptions({ client: apiClient }),
+            ...paginationPageParam(),
+        });
     },
     head: () =>
         generateHeadMeta({

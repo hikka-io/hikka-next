@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import type { CommentResponse } from '@hikka/client';
-import { useDeleteComment, useSession } from '@hikka/react';
+import { type CommentResponse, hideCommentMutation } from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -37,18 +38,19 @@ const CommentMenu: FC<Props> = ({ comment }) => {
 
     const { user: loggedUser } = useSession();
 
-    const deleteCommentMutation = useDeleteComment({
-        options: {
-            onSuccess: () => removePendingReply(comment.reference),
-            onError: () =>
-                toast.error(
-                    'Виникла помилка при видаленні повідомлення. Спробуйте, будь ласка, ще раз',
-                ),
-        },
+    const deleteCommentMutation = useMutation({
+        ...hideCommentMutation(),
+        onSuccess: () => removePendingReply(comment.reference),
+        onError: () =>
+            toast.error(
+                'Виникла помилка при видаленні повідомлення. Спробуйте, будь ласка, ще раз',
+            ),
     });
 
     const handleDeleteComment = () => {
-        deleteCommentMutation.mutate(comment.reference);
+        deleteCommentMutation.mutate({
+            path: { comment_reference: comment.reference },
+        });
     };
 
     return (

@@ -1,63 +1,69 @@
-import { ContentTypeEnum, type HikkaClient } from '@hikka/client';
-import type { QueryClient } from '@hikka/react/core';
+import type { QueryClient } from '@tanstack/react-query';
+
 import {
-    animeBySlugOptions,
-    articleBySlugOptions,
-    characterBySlugOptions,
-    collectionByReferenceOptions,
-    editOptions,
-    mangaBySlugOptions,
-    novelBySlugOptions,
-    personBySlugOptions,
-} from '@hikka/react/options';
+    animeSlugOptions,
+    characterInfoOptions,
+    type Client,
+    ContentTypeEnum,
+    getArticleOptions,
+    getCollectionOptions,
+    getEditOptions,
+    mangaInfoOptions,
+    novelInfoOptions,
+    personInfoOptions,
+} from '@hikka/api';
 
 interface PrefetchContentParams {
     slug: string;
     content_type: ContentTypeEnum;
     queryClient: QueryClient;
-    hikkaClient: HikkaClient;
+    apiClient: Client;
 }
 
 export default async function prefetchContent({
     slug,
     content_type,
     queryClient,
-    hikkaClient,
+    apiClient,
 }: PrefetchContentParams) {
     switch (content_type) {
         case ContentTypeEnum.ANIME:
             return await queryClient.ensureQueryData(
-                animeBySlugOptions(hikkaClient, { slug }),
+                animeSlugOptions({ path: { slug }, client: apiClient }),
             );
         case ContentTypeEnum.MANGA:
             return await queryClient.ensureQueryData(
-                mangaBySlugOptions(hikkaClient, { slug }),
+                mangaInfoOptions({ path: { slug }, client: apiClient }),
             );
         case ContentTypeEnum.NOVEL:
             return await queryClient.ensureQueryData(
-                novelBySlugOptions(hikkaClient, { slug }),
+                novelInfoOptions({ path: { slug }, client: apiClient }),
             );
         case ContentTypeEnum.CHARACTER:
             return await queryClient.ensureQueryData(
-                characterBySlugOptions(hikkaClient, { slug }),
+                characterInfoOptions({ path: { slug }, client: apiClient }),
             );
         case ContentTypeEnum.PERSON:
             return await queryClient.ensureQueryData(
-                personBySlugOptions(hikkaClient, { slug }),
+                personInfoOptions({ path: { slug }, client: apiClient }),
             );
         case ContentTypeEnum.COLLECTION:
             return await queryClient.ensureQueryData(
-                collectionByReferenceOptions(hikkaClient, {
-                    reference: slug,
+                getCollectionOptions({
+                    path: { reference: slug },
+                    client: apiClient,
                 }),
             );
         case ContentTypeEnum.EDIT:
             return await queryClient.ensureQueryData(
-                editOptions(hikkaClient, { editId: slug }),
+                getEditOptions({
+                    path: { edit_id: Number(slug) },
+                    client: apiClient,
+                }),
             );
         case ContentTypeEnum.ARTICLE:
             return await queryClient.ensureQueryData(
-                articleBySlugOptions(hikkaClient, { slug }),
+                getArticleOptions({ path: { slug }, client: apiClient }),
             );
         default:
             return null;

@@ -1,6 +1,9 @@
 import type { FC } from 'react';
 
-import type { CommentResponse, CommentsContentType } from '@hikka/client';
+import type {
+    AppCommentsSchemasContentTypeEnum as CommentsContentType,
+    CommentResponse,
+} from '@hikka/api';
 
 import Comment from './comment';
 

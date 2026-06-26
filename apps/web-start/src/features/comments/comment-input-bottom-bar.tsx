@@ -1,17 +1,25 @@
 import type { FC } from 'react';
 
 import { MarkdownPlugin } from '@platejs/markdown';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Minimize2, Send } from 'lucide-react';
 
-import type { CommentResponse, CommentsContentType } from '@hikka/client';
-import { useCreateComment, useUpdateComment } from '@hikka/react';
+import {
+    type AppCommentsSchemasContentTypeEnum as CommentsContentType,
+    type CommentResponse,
+    editCommentMutation,
+    writeCommentMutation,
+} from '@hikka/api';
 
 import { useMarkdownEditor } from '@/components/plate/editor/markdown-editor-kit';
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
 import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-import { useCommentsContext } from '@/services/providers/comments-provider';
+import {
+    type PendingReply,
+    useCommentsContext,
+} from '@/services/providers/comments-provider';
 import { MAX_COMMENT_DEPTH } from '@/utils/constants/common';
 import { removeEmptyTextNodes } from '@/utils/plate';
 
@@ -34,11 +42,31 @@ const CommentInputBottomBar: FC<Props> = ({
 }) => {
     const { clearActive, addPendingReply, updatePendingReply } =
         useCommentsContext();
+    const queryClient = useQueryClient();
     const editor = useMarkdownEditor();
+
+    const invalidateComments = () =>
+        queryClient.invalidateQueries({
+            predicate: (query) => {
+                const id = (query.queryKey[0] as { _id?: string } | undefined)
+                    ?._id;
+                return (
+                    id === 'commentsList' ||
+                    id === 'getContentsList' ||
+                    id === 'thread' ||
+                    id === 'latestComments'
+                );
+            },
+        });
 
     const onEditSuccess = async (data: CommentResponse) => {
         editor.tf.reset();
-        updatePendingReply(data.reference, data);
+        // TODO(phase2): drop cast once comments-provider is migrated to @hikka/api types
+        updatePendingReply(
+            data.reference,
+            data as unknown as PendingReply['comment'],
+        );
+        invalidateComments();
 
         if (comment) {
             clearActive();
@@ -47,33 +75,33 @@ const CommentInputBottomBar: FC<Props> = ({
 
     const onCreateSuccess = async (data: CommentResponse) => {
         editor.tf.reset();
+        invalidateComments();
+
+        // TODO(phase2): drop cast once comments-provider is migrated to @hikka/api types
+        const pendingComment = data as unknown as PendingReply['comment'];
 
         if (comment) {
             if (comment.depth >= MAX_COMMENT_DEPTH) {
                 addPendingReply({
-                    comment: data,
+                    comment: pendingComment,
                     insertAfter: comment.reference,
                 });
             } else {
-                addPendingReply({ comment: data });
+                addPendingReply({ comment: pendingComment });
             }
             clearActive();
         }
     };
 
-    const { mutate: mutateEditComment, isPending: isEditPending } =
-        useUpdateComment({
-            options: {
-                onSuccess: onEditSuccess,
-            },
-        });
+    const { mutate: mutateEditComment, isPending: isEditPending } = useMutation({
+        ...editCommentMutation(),
+        onSuccess: onEditSuccess,
+    });
 
-    const { mutate: mutateWriteComment, isPending: isAddPending } =
-        useCreateComment({
-            options: {
-                onSuccess: onCreateSuccess,
-            },
-        });
+    const { mutate: mutateWriteComment, isPending: isAddPending } = useMutation({
+        ...writeCommentMutation(),
+        onSuccess: onCreateSuccess,
+    });
 
     const handleCancel = () => {
         clearActive();
@@ -93,16 +121,20 @@ const CommentInputBottomBar: FC<Props> = ({
 
         if (isEdit) {
             mutateEditComment({
-                commentReference: comment!.reference,
-                args: {
+                path: {
+                    comment_reference: comment!.reference,
+                },
+                body: {
                     text,
                 },
             });
         } else {
             mutateWriteComment({
-                contentType: content_type,
-                slug: slug,
-                args: {
+                path: {
+                    content_type,
+                    slug,
+                },
+                body: {
                     parent: comment?.depth
                         ? comment?.depth < MAX_COMMENT_DEPTH
                             ? comment?.reference
