@@ -860,6 +860,83 @@ export const malContentListMutation = (
     return mutationOptions;
 };
 
+export const getCollectionsQueryKey = (options: Options<GetCollectionsData>) =>
+    createQueryKey('getCollections', options);
+
+/**
+ * Get Collections
+ */
+export const getCollectionsOptions = (options: Options<GetCollectionsData>) =>
+    queryOptions<
+        GetCollectionsResponse,
+        GetCollectionsError,
+        GetCollectionsResponse,
+        ReturnType<typeof getCollectionsQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getCollections({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getCollectionsQueryKey(options),
+    });
+
+export const getCollectionsInfiniteQueryKey = (
+    options: Options<GetCollectionsData>,
+): QueryKey<Options<GetCollectionsData>> =>
+    createQueryKey('getCollections', options, true);
+
+/**
+ * Get Collections
+ */
+export const getCollectionsInfiniteOptions = (
+    options: Options<GetCollectionsData>,
+) => {
+    const opts = infiniteQueryOptions<
+        GetCollectionsResponse,
+        GetCollectionsError,
+        InfiniteData<GetCollectionsResponse>,
+        QueryKey<Options<GetCollectionsData>>,
+        | number
+        | Pick<
+              QueryKey<Options<GetCollectionsData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetCollectionsData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getCollections({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getCollectionsInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
 /**
  * Get Collections
  */
@@ -1017,6 +1094,86 @@ export const characterInfoOptions = (options: Options<CharacterInfoData>) =>
         },
         queryKey: characterInfoQueryKey(options),
     });
+
+export const searchCharactersQueryKey = (
+    options: Options<SearchCharactersData>,
+) => createQueryKey('searchCharacters', options);
+
+/**
+ * Search Characters
+ */
+export const searchCharactersOptions = (
+    options: Options<SearchCharactersData>,
+) =>
+    queryOptions<
+        SearchCharactersResponse,
+        SearchCharactersError,
+        SearchCharactersResponse,
+        ReturnType<typeof searchCharactersQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await searchCharacters({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: searchCharactersQueryKey(options),
+    });
+
+export const searchCharactersInfiniteQueryKey = (
+    options: Options<SearchCharactersData>,
+): QueryKey<Options<SearchCharactersData>> =>
+    createQueryKey('searchCharacters', options, true);
+
+/**
+ * Search Characters
+ */
+export const searchCharactersInfiniteOptions = (
+    options: Options<SearchCharactersData>,
+) => {
+    const opts = infiniteQueryOptions<
+        SearchCharactersResponse,
+        SearchCharactersError,
+        InfiniteData<SearchCharactersResponse>,
+        QueryKey<Options<SearchCharactersData>>,
+        | number
+        | Pick<
+              QueryKey<Options<SearchCharactersData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<SearchCharactersData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await searchCharacters({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: searchCharactersInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
 
 /**
  * Search Characters
@@ -1379,6 +1536,84 @@ export const companyInfoOptions = (options: Options<CompanyInfoData>) =>
         queryKey: companyInfoQueryKey(options),
     });
 
+export const searchCompaniesQueryKey = (
+    options: Options<SearchCompaniesData>,
+) => createQueryKey('searchCompanies', options);
+
+/**
+ * Search Companies
+ */
+export const searchCompaniesOptions = (options: Options<SearchCompaniesData>) =>
+    queryOptions<
+        SearchCompaniesResponse,
+        SearchCompaniesError,
+        SearchCompaniesResponse,
+        ReturnType<typeof searchCompaniesQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await searchCompanies({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: searchCompaniesQueryKey(options),
+    });
+
+export const searchCompaniesInfiniteQueryKey = (
+    options: Options<SearchCompaniesData>,
+): QueryKey<Options<SearchCompaniesData>> =>
+    createQueryKey('searchCompanies', options, true);
+
+/**
+ * Search Companies
+ */
+export const searchCompaniesInfiniteOptions = (
+    options: Options<SearchCompaniesData>,
+) => {
+    const opts = infiniteQueryOptions<
+        SearchCompaniesResponse,
+        SearchCompaniesError,
+        InfiniteData<SearchCompaniesResponse>,
+        QueryKey<Options<SearchCompaniesData>>,
+        | number
+        | Pick<
+              QueryKey<Options<SearchCompaniesData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<SearchCompaniesData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await searchCompanies({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: searchCompaniesInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
 /**
  * Search Companies
  */
@@ -1560,6 +1795,83 @@ export const favouriteAddMutation = (
         },
     };
     return mutationOptions;
+};
+
+export const favouriteListQueryKey = (options: Options<FavouriteListData>) =>
+    createQueryKey('favouriteList', options);
+
+/**
+ * Favourite List
+ */
+export const favouriteListOptions = (options: Options<FavouriteListData>) =>
+    queryOptions<
+        FavouriteListResponse,
+        FavouriteListError,
+        FavouriteListResponse,
+        ReturnType<typeof favouriteListQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await favouriteList({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: favouriteListQueryKey(options),
+    });
+
+export const favouriteListInfiniteQueryKey = (
+    options: Options<FavouriteListData>,
+): QueryKey<Options<FavouriteListData>> =>
+    createQueryKey('favouriteList', options, true);
+
+/**
+ * Favourite List
+ */
+export const favouriteListInfiniteOptions = (
+    options: Options<FavouriteListData>,
+) => {
+    const opts = infiniteQueryOptions<
+        FavouriteListResponse,
+        FavouriteListError,
+        InfiniteData<FavouriteListResponse>,
+        QueryKey<Options<FavouriteListData>>,
+        | number
+        | Pick<
+              QueryKey<Options<FavouriteListData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<FavouriteListData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await favouriteList({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: favouriteListInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
 };
 
 /**
@@ -2335,6 +2647,83 @@ export const threadOptions = (options: Options<ThreadData>) =>
         queryKey: threadQueryKey(options),
     });
 
+export const animeScheduleQueryKey = (options: Options<AnimeScheduleData>) =>
+    createQueryKey('animeSchedule', options);
+
+/**
+ * Anime Schedule
+ */
+export const animeScheduleOptions = (options: Options<AnimeScheduleData>) =>
+    queryOptions<
+        AnimeScheduleResponse2,
+        AnimeScheduleError,
+        AnimeScheduleResponse2,
+        ReturnType<typeof animeScheduleQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await animeSchedule({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: animeScheduleQueryKey(options),
+    });
+
+export const animeScheduleInfiniteQueryKey = (
+    options: Options<AnimeScheduleData>,
+): QueryKey<Options<AnimeScheduleData>> =>
+    createQueryKey('animeSchedule', options, true);
+
+/**
+ * Anime Schedule
+ */
+export const animeScheduleInfiniteOptions = (
+    options: Options<AnimeScheduleData>,
+) => {
+    const opts = infiniteQueryOptions<
+        AnimeScheduleResponse2,
+        AnimeScheduleError,
+        InfiniteData<AnimeScheduleResponse2>,
+        QueryKey<Options<AnimeScheduleData>>,
+        | number
+        | Pick<
+              QueryKey<Options<AnimeScheduleData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<AnimeScheduleData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await animeSchedule({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: animeScheduleInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
 /**
  * Anime Schedule
  */
@@ -2492,6 +2881,83 @@ export const getArticleTopOptions = (options?: Options<GetArticleTopData>) =>
         },
         queryKey: getArticleTopQueryKey(options),
     });
+
+export const getArticlesQueryKey = (options: Options<GetArticlesData>) =>
+    createQueryKey('getArticles', options);
+
+/**
+ * Get Articles
+ */
+export const getArticlesOptions = (options: Options<GetArticlesData>) =>
+    queryOptions<
+        GetArticlesResponse,
+        GetArticlesError,
+        GetArticlesResponse,
+        ReturnType<typeof getArticlesQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getArticles({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getArticlesQueryKey(options),
+    });
+
+export const getArticlesInfiniteQueryKey = (
+    options: Options<GetArticlesData>,
+): QueryKey<Options<GetArticlesData>> =>
+    createQueryKey('getArticles', options, true);
+
+/**
+ * Get Articles
+ */
+export const getArticlesInfiniteOptions = (
+    options: Options<GetArticlesData>,
+) => {
+    const opts = infiniteQueryOptions<
+        GetArticlesResponse,
+        GetArticlesError,
+        InfiniteData<GetArticlesResponse>,
+        QueryKey<Options<GetArticlesData>>,
+        | number
+        | Pick<
+              QueryKey<Options<GetArticlesData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetArticlesData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getArticles({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getArticlesInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
 
 /**
  * Get Articles
@@ -2781,6 +3247,83 @@ export const personInfoOptions = (options: Options<PersonInfoData>) =>
         },
         queryKey: personInfoQueryKey(options),
     });
+
+export const searchPeopleQueryKey = (options: Options<SearchPeopleData>) =>
+    createQueryKey('searchPeople', options);
+
+/**
+ * Search People
+ */
+export const searchPeopleOptions = (options: Options<SearchPeopleData>) =>
+    queryOptions<
+        SearchPeopleResponse,
+        SearchPeopleError,
+        SearchPeopleResponse,
+        ReturnType<typeof searchPeopleQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await searchPeople({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: searchPeopleQueryKey(options),
+    });
+
+export const searchPeopleInfiniteQueryKey = (
+    options: Options<SearchPeopleData>,
+): QueryKey<Options<SearchPeopleData>> =>
+    createQueryKey('searchPeople', options, true);
+
+/**
+ * Search People
+ */
+export const searchPeopleInfiniteOptions = (
+    options: Options<SearchPeopleData>,
+) => {
+    const opts = infiniteQueryOptions<
+        SearchPeopleResponse,
+        SearchPeopleError,
+        InfiniteData<SearchPeopleResponse>,
+        QueryKey<Options<SearchPeopleData>>,
+        | number
+        | Pick<
+              QueryKey<Options<SearchPeopleData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<SearchPeopleData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await searchPeople({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: searchPeopleInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
 
 /**
  * Search People
@@ -3478,6 +4021,83 @@ export const createUserClientMutation = (
     return mutationOptions;
 };
 
+export const listAllClientsQueryKey = (options: Options<ListAllClientsData>) =>
+    createQueryKey('listAllClients', options);
+
+/**
+ * List all clients
+ */
+export const listAllClientsOptions = (options: Options<ListAllClientsData>) =>
+    queryOptions<
+        ListAllClientsResponse,
+        ListAllClientsError,
+        ListAllClientsResponse,
+        ReturnType<typeof listAllClientsQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await listAllClients({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: listAllClientsQueryKey(options),
+    });
+
+export const listAllClientsInfiniteQueryKey = (
+    options: Options<ListAllClientsData>,
+): QueryKey<Options<ListAllClientsData>> =>
+    createQueryKey('listAllClients', options, true);
+
+/**
+ * List all clients
+ */
+export const listAllClientsInfiniteOptions = (
+    options: Options<ListAllClientsData>,
+) => {
+    const opts = infiniteQueryOptions<
+        ListAllClientsResponse,
+        ListAllClientsError,
+        InfiniteData<ListAllClientsResponse>,
+        QueryKey<Options<ListAllClientsData>>,
+        | number
+        | Pick<
+              QueryKey<Options<ListAllClientsData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<ListAllClientsData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await listAllClients({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: listAllClientsInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
 /**
  * List all clients
  */
@@ -3664,6 +4284,83 @@ export const adminUpdateUserMutation = (
         },
     };
     return mutationOptions;
+};
+
+export const searchAnimeQueryKey = (options: Options<SearchAnimeData>) =>
+    createQueryKey('searchAnime', options);
+
+/**
+ * Anime catalog
+ */
+export const searchAnimeOptions = (options: Options<SearchAnimeData>) =>
+    queryOptions<
+        SearchAnimeResponse,
+        SearchAnimeError,
+        SearchAnimeResponse,
+        ReturnType<typeof searchAnimeQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await searchAnime({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: searchAnimeQueryKey(options),
+    });
+
+export const searchAnimeInfiniteQueryKey = (
+    options: Options<SearchAnimeData>,
+): QueryKey<Options<SearchAnimeData>> =>
+    createQueryKey('searchAnime', options, true);
+
+/**
+ * Anime catalog
+ */
+export const searchAnimeInfiniteOptions = (
+    options: Options<SearchAnimeData>,
+) => {
+    const opts = infiniteQueryOptions<
+        SearchAnimeResponse,
+        SearchAnimeError,
+        InfiniteData<SearchAnimeResponse>,
+        QueryKey<Options<SearchAnimeData>>,
+        | number
+        | Pick<
+              QueryKey<Options<SearchAnimeData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<SearchAnimeData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await searchAnime({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: searchAnimeInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
 };
 
 /**
@@ -4105,6 +4802,83 @@ export const animeFranchiseInfiniteOptions = (
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
+export const searchMangaQueryKey = (options: Options<SearchMangaData>) =>
+    createQueryKey('searchManga', options);
+
+/**
+ * Manga catalog
+ */
+export const searchMangaOptions = (options: Options<SearchMangaData>) =>
+    queryOptions<
+        SearchMangaResponse,
+        SearchMangaError,
+        SearchMangaResponse,
+        ReturnType<typeof searchMangaQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await searchManga({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: searchMangaQueryKey(options),
+    });
+
+export const searchMangaInfiniteQueryKey = (
+    options: Options<SearchMangaData>,
+): QueryKey<Options<SearchMangaData>> =>
+    createQueryKey('searchManga', options, true);
+
+/**
+ * Manga catalog
+ */
+export const searchMangaInfiniteOptions = (
+    options: Options<SearchMangaData>,
+) => {
+    const opts = infiniteQueryOptions<
+        SearchMangaResponse,
+        SearchMangaError,
+        InfiniteData<SearchMangaResponse>,
+        QueryKey<Options<SearchMangaData>>,
+        | number
+        | Pick<
+              QueryKey<Options<SearchMangaData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<SearchMangaData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await searchManga({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: searchMangaInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
 /**
  * Manga catalog
  */
@@ -4230,6 +5004,83 @@ export const mangaCharactersInfiniteOptions = (
                 return data;
             },
             queryKey: mangaCharactersInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const searchNovelQueryKey = (options: Options<SearchNovelData>) =>
+    createQueryKey('searchNovel', options);
+
+/**
+ * Novel catalog
+ */
+export const searchNovelOptions = (options: Options<SearchNovelData>) =>
+    queryOptions<
+        SearchNovelResponse,
+        SearchNovelError,
+        SearchNovelResponse,
+        ReturnType<typeof searchNovelQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await searchNovel({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: searchNovelQueryKey(options),
+    });
+
+export const searchNovelInfiniteQueryKey = (
+    options: Options<SearchNovelData>,
+): QueryKey<Options<SearchNovelData>> =>
+    createQueryKey('searchNovel', options, true);
+
+/**
+ * Novel catalog
+ */
+export const searchNovelInfiniteOptions = (
+    options: Options<SearchNovelData>,
+) => {
+    const opts = infiniteQueryOptions<
+        SearchNovelResponse,
+        SearchNovelError,
+        InfiniteData<SearchNovelResponse>,
+        QueryKey<Options<SearchNovelData>>,
+        | number
+        | Pick<
+              QueryKey<Options<SearchNovelData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<SearchNovelData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await searchNovel({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: searchNovelInfiniteQueryKey(options),
         },
     );
     return opts as Omit<typeof opts, 'initialData'>;
@@ -4577,6 +5428,83 @@ export const randomWatchEntryOptions = (
         queryKey: randomWatchEntryQueryKey(options),
     });
 
+export const userWatchListQueryKey = (options: Options<UserWatchListData>) =>
+    createQueryKey('userWatchList', options);
+
+/**
+ * User Watch List
+ */
+export const userWatchListOptions = (options: Options<UserWatchListData>) =>
+    queryOptions<
+        UserWatchListResponse,
+        UserWatchListError,
+        UserWatchListResponse,
+        ReturnType<typeof userWatchListQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await userWatchList({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: userWatchListQueryKey(options),
+    });
+
+export const userWatchListInfiniteQueryKey = (
+    options: Options<UserWatchListData>,
+): QueryKey<Options<UserWatchListData>> =>
+    createQueryKey('userWatchList', options, true);
+
+/**
+ * User Watch List
+ */
+export const userWatchListInfiniteOptions = (
+    options: Options<UserWatchListData>,
+) => {
+    const opts = infiniteQueryOptions<
+        UserWatchListResponse,
+        UserWatchListError,
+        InfiniteData<UserWatchListResponse>,
+        QueryKey<Options<UserWatchListData>>,
+        | number
+        | Pick<
+              QueryKey<Options<UserWatchListData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<UserWatchListData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await userWatchList({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: userWatchListInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
 /**
  * User Watch List
  */
@@ -4884,6 +5812,83 @@ export const randomReadNovelOptions = (options: Options<RandomReadNovelData>) =>
         queryKey: randomReadNovelQueryKey(options),
     });
 
+export const userReadListQueryKey = (options: Options<UserReadListData>) =>
+    createQueryKey('userReadList', options);
+
+/**
+ * User Read List
+ */
+export const userReadListOptions = (options: Options<UserReadListData>) =>
+    queryOptions<
+        UserReadListResponse,
+        UserReadListError,
+        UserReadListResponse,
+        ReturnType<typeof userReadListQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await userReadList({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: userReadListQueryKey(options),
+    });
+
+export const userReadListInfiniteQueryKey = (
+    options: Options<UserReadListData>,
+): QueryKey<Options<UserReadListData>> =>
+    createQueryKey('userReadList', options, true);
+
+/**
+ * User Read List
+ */
+export const userReadListInfiniteOptions = (
+    options: Options<UserReadListData>,
+) => {
+    const opts = infiniteQueryOptions<
+        UserReadListResponse,
+        UserReadListError,
+        InfiniteData<UserReadListResponse>,
+        QueryKey<Options<UserReadListData>>,
+        | number
+        | Pick<
+              QueryKey<Options<UserReadListData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<UserReadListData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await userReadList({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: userReadListInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
 /**
  * User Read List
  */
@@ -5062,6 +6067,31 @@ export const userUiOptions = (options: Options<UserUiData>) =>
             return data;
         },
         queryKey: userUiQueryKey(options),
+    });
+
+export const searchUsersQueryKey = (options: Options<SearchUsersData>) =>
+    createQueryKey('searchUsers', options);
+
+/**
+ * Search Users
+ */
+export const searchUsersOptions = (options: Options<SearchUsersData>) =>
+    queryOptions<
+        SearchUsersResponse,
+        SearchUsersError,
+        SearchUsersResponse,
+        ReturnType<typeof searchUsersQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await searchUsers({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: searchUsersQueryKey(options),
     });
 
 /**
@@ -5481,6 +6511,80 @@ export const revokeTokenMutation = (
         },
     };
     return mutationOptions;
+};
+
+export const getEditsQueryKey = (options: Options<GetEditsData>) =>
+    createQueryKey('getEdits', options);
+
+/**
+ * Get Edits
+ */
+export const getEditsOptions = (options: Options<GetEditsData>) =>
+    queryOptions<
+        GetEditsResponse,
+        GetEditsError,
+        GetEditsResponse,
+        ReturnType<typeof getEditsQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getEdits({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getEditsQueryKey(options),
+    });
+
+export const getEditsInfiniteQueryKey = (
+    options: Options<GetEditsData>,
+): QueryKey<Options<GetEditsData>> => createQueryKey('getEdits', options, true);
+
+/**
+ * Get Edits
+ */
+export const getEditsInfiniteOptions = (options: Options<GetEditsData>) => {
+    const opts = infiniteQueryOptions<
+        GetEditsResponse,
+        GetEditsError,
+        InfiniteData<GetEditsResponse>,
+        QueryKey<Options<GetEditsData>>,
+        | number
+        | Pick<
+              QueryKey<Options<GetEditsData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetEditsData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getEdits({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getEditsInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
 };
 
 /**
