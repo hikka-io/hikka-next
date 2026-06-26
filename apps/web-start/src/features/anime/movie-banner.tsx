@@ -2,11 +2,14 @@ import type { FC } from 'react';
 
 import { MessageCirclePlus, Popcorn } from 'lucide-react';
 
-import { useAnimeBySlug, useSession } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { animeSlugOptions } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { MOVIE_BANNERS } from '@/utils/constants/banners';
 import { Link, useParams } from '@/utils/navigation';
 import { usePlausible } from '@/utils/plausible';
@@ -17,7 +20,9 @@ const MovieBanner: FC<Props> = () => {
     const { user } = useSession();
     const plausible = usePlausible<Hikka.PlausibleEvents>();
     const params = useParams();
-    const { data: anime } = useAnimeBySlug({ slug: String(params.slug) });
+    const { data: anime } = useQuery(
+        animeSlugOptions({ path: { slug: String(params.slug) } }),
+    );
     const currentTimestamp = Math.floor(Date.now() / 1000);
 
     const banner = MOVIE_BANNERS.find(

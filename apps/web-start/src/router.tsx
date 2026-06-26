@@ -1,3 +1,4 @@
+import { MutationCache, QueryClient } from '@tanstack/react-query';
 import { createRouter as createTanStackRouter } from '@tanstack/react-router';
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query';
 import { toast } from 'sonner';
@@ -6,15 +7,9 @@ import {
     type Client as ApiClient,
     configureBrowserClient,
     createRequestClient,
+    profileOptions,
+    profileUiOptions,
 } from '@hikka/api';
-import type { HikkaClient } from '@hikka/client';
-import {
-    createHikkaClient,
-    createQueryClient,
-    MutationCache,
-    type QueryClient,
-} from '@hikka/react/core';
-import { sessionOptions, sessionUserUIOptions } from '@hikka/react/options';
 
 import ErrorPage from '@/components/error-page';
 
@@ -23,29 +18,30 @@ import { getAuthTokenFn } from './utils/cookies';
 
 export interface RouterContext {
     queryClient: QueryClient;
-    hikkaClient: HikkaClient; // TODO(phase2): remove once all loaders use apiClient
     apiClient: ApiClient;
 }
 
 const isServer = typeof window === 'undefined';
 
 export async function createRouter() {
-    const queryClient = createQueryClient({
+    const queryClient = new QueryClient({
         mutationCache: new MutationCache({
             onError: (error) => {
                 toast.error(error.message);
             },
         }),
+        defaultOptions: {
+            queries: {
+                staleTime: 60 * 1000,
+                gcTime: Infinity,
+                retry: false,
+            },
+        },
     });
 
     const authToken = await getAuthTokenFn();
 
     const baseUrl = import.meta.env.API_URL ?? 'https://api.hikka.io';
-
-    const hikkaClient = createHikkaClient({
-        baseUrl,
-        authToken: authToken ?? undefined,
-    });
 
     // @hikka/api: per-request client for SSR loaders; configure the browser
     // singleton with baseUrl always (so loader/component query keys match) and
@@ -61,7 +57,7 @@ export async function createRouter() {
 
     const router = createTanStackRouter({
         routeTree,
-        context: { queryClient, hikkaClient, apiClient },
+        context: { queryClient, apiClient },
         defaultPreload: false,
         defaultErrorComponent: ErrorPage,
         scrollRestoration: true,
@@ -74,10 +70,10 @@ export async function createRouter() {
         wrapQueryClient: true,
     });
 
-    if (isServer) {
+    if (isServer && authToken) {
         await Promise.all([
-            queryClient.prefetchQuery(sessionOptions(hikkaClient)),
-            queryClient.prefetchQuery(sessionUserUIOptions(hikkaClient)),
+            queryClient.prefetchQuery(profileOptions({ client: apiClient })),
+            queryClient.prefetchQuery(profileUiOptions({ client: apiClient })),
         ]);
     }
 

@@ -3,7 +3,6 @@ import { type ChangeEvent, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { UploadTypeEnum, userReferenceOptions } from '@hikka/api';
-import { useSession } from '@hikka/react';
 
 import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
 import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
@@ -21,6 +20,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { Link, useParams } from '@/utils/navigation';
 
 import CropEditorModal from './crop-editor-modal';

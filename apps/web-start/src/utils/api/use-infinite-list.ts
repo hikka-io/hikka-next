@@ -17,7 +17,7 @@ interface PaginatedPage {
  * Wraps a generated `xxxInfiniteOptions(...)` result with Hikka's page/pages
  * pagination strategy, flattens pages into `list`, and exposes an
  * intersection-observer `ref` that auto-loads the next page when scrolled into
- * view. Mirrors the ergonomics of the old `@hikka/react` infinite hooks.
+ * view. Mirrors the ergonomics of the old `the legacy react package` infinite hooks.
  *
  * The error / query-key / page-param type arguments are loosened to `any` so
  * any per-operation generated options object is accepted; the page type `TPage`

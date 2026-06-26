@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { range } from '@antfu/utils';
 import { useRouter } from '@tanstack/react-router';
 
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';

@@ -3,7 +3,7 @@ import { type FC, memo } from 'react';
 import { formatDistance } from 'date-fns/formatDistance';
 
 import type { HistoryResponse } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';

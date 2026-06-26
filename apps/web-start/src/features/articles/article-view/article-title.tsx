@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getArticleOptions } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';

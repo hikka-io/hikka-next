@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { ContentTypeEnum, type NovelResponseWithRead } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 

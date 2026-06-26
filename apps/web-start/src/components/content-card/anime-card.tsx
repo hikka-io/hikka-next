@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { type AnimeResponseWithWatch, ContentTypeEnum } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 

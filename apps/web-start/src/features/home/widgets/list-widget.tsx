@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
@@ -10,7 +10,7 @@ import { ListTabContent } from '@/features/users/profile/user-list-stats';
 
 import type { WidgetProps } from '../constants';
 
-// @hikka/api has no `CommonContentType`; mirror the @hikka/client union.
+// @hikka/api has no `CommonContentType`; mirror the the legacy client union.
 type CommonContentType =
     | typeof ContentTypeEnum.ANIME
     | typeof ContentTypeEnum.MANGA

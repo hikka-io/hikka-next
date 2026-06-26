@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 
-import { useUserByUsername } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { userReferenceOptions } from '@hikka/api';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Link as TanstackLink } from '@/utils/navigation';
@@ -15,9 +17,9 @@ const MENTION_CLASSNAME =
 const Mention: FC<Props> = ({ node }) => {
     const username = node?.properties?.username ?? '';
 
-    const { data: user } = useUserByUsername({
-        username,
-        options: { enabled: !!username },
+    const { data: user } = useQuery({
+        ...userReferenceOptions({ path: { reference: username } }),
+        enabled: !!username,
     });
 
     if (!username) return null;

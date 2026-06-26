@@ -12,8 +12,8 @@ import {
     getFavouriteOptions,
     paginationPageParam,
 } from '@hikka/api';
-import { useTitle } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import { useTitle } from '@/utils/title/use-title';
+import { getTitle } from '@/utils/title/get-title';
 
 import { ContentDetailLayout } from '@/features/content';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants/navigation';

@@ -5,8 +5,8 @@ import {
     type FavouriteCharacterResponse,
     favouriteListInfiniteOptions,
 } from '@hikka/api';
-import { useHikkaClient } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { getTitle } from '@/utils/title/get-title';
 
 import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
@@ -21,7 +21,7 @@ type Props = {
 
 const Characters: FC<Props> = ({ extended }) => {
     const params = useParams();
-    const { defaultOptions } = useHikkaClient();
+    const { preferences } = useSessionUI();
     const {
         list: rawList,
         isPending,
@@ -65,8 +65,8 @@ const Characters: FC<Props> = ({ extended }) => {
                             key={res.slug}
                             title={getTitle(
                                 res,
-                                defaultOptions?.title,
-                                defaultOptions?.name,
+                                preferences.title_language,
+                                preferences.name_language,
                             )}
                             image={res.image}
                             to={`/characters/${res.slug}`}

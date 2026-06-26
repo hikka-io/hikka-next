@@ -1,7 +1,7 @@
 import type { ComponentProps, FC } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import ReadListButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';

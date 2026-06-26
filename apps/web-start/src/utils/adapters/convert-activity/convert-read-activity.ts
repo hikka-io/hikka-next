@@ -3,7 +3,7 @@ import type { HistoryTypeEnum, ReadStatusEnum } from '@hikka/api';
 import { READ_STATUS } from '@/utils/constants/common';
 
 // Local narrowing for the loose `HistoryResponse.data` (`{ [key]: unknown }`)
-// in @hikka/api. Field shapes copied from @hikka/client `types/history.ts`.
+// in @hikka/api. Field shapes copied from the legacy client `types/history.ts`.
 type HistoryReadData = {
     after: {
         score: number | null;

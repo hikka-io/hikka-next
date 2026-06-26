@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import type { AnimeResponse, MangaResponse, NovelResponse } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import ContentCard from '@/components/content-card/content-card';
 import MDViewer from '@/components/markdown/viewer/md-viewer';

@@ -2,7 +2,7 @@ import { type FC, useMemo, useRef, useState } from 'react';
 
 import { Settings2 } from 'lucide-react';
 
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

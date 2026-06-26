@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { activationResendMutation, userReferenceOptions } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';

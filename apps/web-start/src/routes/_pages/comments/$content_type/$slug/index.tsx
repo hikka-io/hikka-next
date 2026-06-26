@@ -5,7 +5,7 @@ import {
     getContentsListInfiniteOptions,
     paginationPageParam,
 } from '@hikka/api';
-import { getTitle } from '@hikka/react/utils';
+import { getTitle } from '@/utils/title/get-title';
 
 import { CommentList as Comments, prefetchContent } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';

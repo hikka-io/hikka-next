@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 
 import { ContentTypeEnum, ReadStatusEnum, WatchStatusEnum } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -17,7 +17,7 @@ import type { WidgetProps } from '../../constants';
 import ReadingTracker from './components/reading-tracker';
 import WatchingTracker from './components/watching-tracker';
 
-// @hikka/api has no `CommonContentType`; mirror the @hikka/client union.
+// @hikka/api has no `CommonContentType`; mirror the the legacy client union.
 type CommonContentType =
     | typeof ContentTypeEnum.ANIME
     | typeof ContentTypeEnum.MANGA

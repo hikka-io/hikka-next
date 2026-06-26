@@ -4,7 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 
 import { ContentTypeEnum, type FeedArgs } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import LoadMoreButton from '@/components/load-more-button';
 import { Checkbox } from '@/components/ui/checkbox';

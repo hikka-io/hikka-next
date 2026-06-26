@@ -5,9 +5,12 @@ import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { setAuthToken, signupMutation } from '@hikka/api';
-import { useHikkaClient } from '@hikka/react';
-import { queryKeys } from '@hikka/react/core';
+import {
+    authInfoQueryKey,
+    profileQueryKey,
+    setAuthToken,
+    signupMutation,
+} from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -33,7 +36,6 @@ const formSchema = z
     });
 
 const SignupForm = () => {
-    const { client } = useHikkaClient();
     const queryClient = useQueryClient();
     const captchaRef = useRef<TurnstileInstance>(undefined);
     const router = useRouter();
@@ -48,13 +50,12 @@ const SignupForm = () => {
                 data: { secret: data.secret },
             });
             setAuthToken(data.secret);
-            client.setAuthToken(data.secret);
             await Promise.all([
                 queryClient.invalidateQueries({
-                    queryKey: queryKeys.user.me(),
+                    queryKey: profileQueryKey(),
                 }),
                 queryClient.invalidateQueries({
-                    queryKey: queryKeys.auth.tokenInfo(),
+                    queryKey: authInfoQueryKey(),
                 }),
             ]);
 

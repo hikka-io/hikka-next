@@ -66,9 +66,7 @@ const FilterPresetModal: FC<Props> = ({
                     ? rawValue.map(String)
                     : [String(rawValue)];
                 if (values.length > 0) {
-                    currentFilters[key] = values as unknown as NonNullable<
-                        Hikka.FilterPreset[typeof key]
-                    >;
+                    (currentFilters as Record<string, unknown>)[key] = values;
                 }
             }
         });

@@ -1,8 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query';
 import { redirect } from '@tanstack/react-router';
 
-import { type UserResponse, UserRoleEnum } from '@hikka/api';
-import { queryKeys } from '@hikka/react/core';
+import { profileQueryKey, type UserResponse, UserRoleEnum } from '@hikka/api';
 
 /**
  * Call in beforeLoad to require the current user to be the content author,
@@ -17,7 +16,7 @@ export function requireOwner(
     authorUsername: string,
     redirectTo = '/',
 ) {
-    const session = queryClient.getQueryData<UserResponse>(queryKeys.user.me());
+    const session = queryClient.getQueryData<UserResponse>(profileQueryKey());
 
     if (!session) {
         throw redirect({ to: '/login' });

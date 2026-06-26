@@ -1,6 +1,8 @@
 import { ReactElement, ReactNode, SVGProps } from 'react';
 
-import type { UserRoleEnum } from '@hikka/client';
+import type { ContentTypeEnum, UserRoleEnum } from '@hikka/api';
+
+import type { UIEffect, UIStyles } from '@/types/ui';
 
 declare global {
     namespace Hikka {
@@ -107,7 +109,7 @@ declare global {
 
         type Notification = {
             reference: string;
-            type: import('@hikka/client').NotificationTypeEnum;
+            type: import('@hikka/api').NotificationTypeEnum;
             created: number;
             seen: boolean;
 

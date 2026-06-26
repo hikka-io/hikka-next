@@ -5,7 +5,7 @@ import {
     type CharacterResponse,
     ContentTypeEnum,
 } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import CardOverlay from './card-overlay';
 import ContentCard, { type ContentCardProps } from './content-card';

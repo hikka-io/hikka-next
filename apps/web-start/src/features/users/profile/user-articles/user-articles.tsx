@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { getArticlesInfiniteOptions } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import Block from '@/components/ui/block';

@@ -9,8 +9,8 @@ import {
     EditContentToDoEnum,
     getContentEditTodoInfiniteOptions,
 } from '@hikka/api';
-import { useHikkaClient } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { getTitle } from '@/utils/title/get-title';
 
 import ContentCard from '@/components/content-card/content-card';
 import SkeletonCard from '@/components/content-card/content-card-skeleton';
@@ -41,7 +41,7 @@ const OPTIONS = [
 ];
 
 const ContentList: FC<Props> = () => {
-    const { defaultOptions } = useHikkaClient();
+    const { preferences } = useSessionUI();
     const [param, setParam] = useState('title_ua');
     const option = OPTIONS.find((o) => o.value === param);
 
@@ -132,8 +132,8 @@ const ContentList: FC<Props> = () => {
                         image={anime.image}
                         title={getTitle(
                             anime as unknown as Record<string, unknown>,
-                            defaultOptions?.title,
-                            defaultOptions?.name,
+                            preferences.title_language,
+                            preferences.name_language,
                         )}
                     />
                 ))}

@@ -14,7 +14,7 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import ContentCard from '@/components/content-card/content-card';
 import { useCollectionStore } from '@/services/providers/collection-provider';

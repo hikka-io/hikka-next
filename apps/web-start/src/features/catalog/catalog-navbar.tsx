@@ -3,7 +3,7 @@ import { type FC, Suspense, useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { Filter, PanelRightClose, PanelRightOpen } from 'lucide-react';
 
-import type { ContentTypeEnum } from '@hikka/client';
+import type { ContentTypeEnum } from '@hikka/api';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

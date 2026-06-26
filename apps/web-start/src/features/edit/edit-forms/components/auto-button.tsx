@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import { useFormContext } from '@/components/form/form-context';
 import { Button } from '@/components/ui/button';

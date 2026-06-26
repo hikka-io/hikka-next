@@ -10,17 +10,17 @@ import {
     followingHistoryInfiniteOptions,
     followStatsOptions,
     paginationPageParam,
+    profileQueryKey,
     searchAnimeInfiniteOptions,
+    type UserResponse,
     userReadStatsOptions,
     userWatchListInfiniteOptions,
     userWatchStatsOptions,
     WatchStatusEnum,
 } from '@hikka/api';
-import type { UserResponse } from '@hikka/client';
-import { useSession } from '@hikka/react';
-import { queryKeys } from '@hikka/react/core';
 
 import CoverImage from '@/components/cover-image';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { getOngoingsSort } from '@/features/filters/sort';
 import { FeedLayout } from '@/features/home';
 import { feedInfiniteOptions } from '@/features/home/widgets/feed-widget/feed-infinite-options';
@@ -48,9 +48,9 @@ export const Route = createFileRoute('/_pages/')({
         const season = getCurrentSeason()!;
         const year = Number(new Date().getFullYear());
 
-        const loggedUser: UserResponse | undefined = queryClient.getQueryData(
-            queryKeys.user.me(),
-        );
+        const loggedUser = queryClient.getQueryData(profileQueryKey()) as
+            | (UserResponse & { username: string })
+            | undefined;
 
         const promises: Promise<unknown>[] = [];
 

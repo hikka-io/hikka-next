@@ -3,7 +3,7 @@ import { Fragment, useState } from 'react';
 import { BookType, Languages } from 'lucide-react';
 
 import type { PersonResponse } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';

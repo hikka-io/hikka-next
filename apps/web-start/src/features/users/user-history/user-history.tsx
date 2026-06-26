@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { useRouter } from '@tanstack/react-router';
 
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';

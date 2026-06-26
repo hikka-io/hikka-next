@@ -1,6 +1,6 @@
 import { type ComponentProps, type FC, memo } from 'react';
 
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import type { AnimeScheduleResponse } from '@hikka/api';
 

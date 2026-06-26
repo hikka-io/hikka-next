@@ -11,8 +11,8 @@ import {
     personNovelInfiniteOptions,
     personVoicesInfiniteOptions,
 } from '@hikka/api';
-import { useTitle } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import { useTitle } from '@/utils/title/use-title';
+import { getTitle } from '@/utils/title/get-title';
 
 import { ContentDetailLayout } from '@/features/content';
 import { PERSON_NAV_ROUTES } from '@/utils/constants/navigation';

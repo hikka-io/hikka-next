@@ -19,7 +19,7 @@ type Props = {
 };
 
 // @hikka/api types the article `content` union with `data_type: string` and no
-// derived `title`; mirror the old @hikka/client `ArticleContent` preview fields.
+// derived `title`; mirror the old the legacy client `ArticleContent` preview fields.
 type ArticleContentPreview = {
     data_type?: ContentTypeEnum;
     slug?: string;

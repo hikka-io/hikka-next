@@ -2,7 +2,6 @@ import { type ChangeEvent, useRef, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import { UploadTypeEnum, deleteUserImageMutation } from '@hikka/api';
-import { useSession } from '@hikka/react';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -16,6 +15,7 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { CropEditorModal } from '@/features/users';
 import { useRouter } from '@/utils/navigation';
 

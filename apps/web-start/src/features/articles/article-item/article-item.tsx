@@ -3,7 +3,7 @@ import type { ComponentProps, FC } from 'react';
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
 
 import type { ArticlePreviewResponse } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { Badge } from '@/components/ui/badge';

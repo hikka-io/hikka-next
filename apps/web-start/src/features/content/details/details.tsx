@@ -30,7 +30,7 @@ const Details = ({ className, content_type }: Props) => {
     }
 
     // TODO(phase2): drop casts — `data` comes from CONTENT_CONFIG (still
-    // @hikka/client-typed); cast across to the @hikka/api component prop types.
+    // the legacy client-typed); cast across to the @hikka/api component prop types.
     switch (content_type) {
         case ContentTypeEnum.ANIME:
             return (

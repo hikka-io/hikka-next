@@ -3,7 +3,7 @@ import { type FC, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { followStatsOptions } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import FollowButton from '@/components/action-buttons/follow-button';
 import { Button } from '@/components/ui/button';

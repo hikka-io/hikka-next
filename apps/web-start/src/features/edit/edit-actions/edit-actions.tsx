@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getEditOptions } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import { Button } from '@/components/ui/button';
 import { Link, useParams } from '@/utils/navigation';

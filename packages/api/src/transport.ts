@@ -84,6 +84,11 @@ export function setAuthToken(token: string | undefined): void {
     browserToken = token;
 }
 
+/** Current browser auth token, if any (used to gate authenticated queries). */
+export function getAuthToken(): string | undefined {
+    return browserToken;
+}
+
 /**
  * Build an isolated per-request client for SSR. Each request gets its own
  * client carrying that request's auth token, so tokens never leak between

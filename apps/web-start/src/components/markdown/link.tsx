@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import {
     AnimeTooltip,

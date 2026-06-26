@@ -1,7 +1,7 @@
 import { HistoryTypeEnum } from '@hikka/api';
 
 // Local narrowings for the loose `HistoryResponse.data` (`{ [key]: unknown }`)
-// in @hikka/api. Field shapes copied from @hikka/client `types/history.ts`.
+// in @hikka/api. Field shapes copied from the legacy client `types/history.ts`.
 type HistoryWatchImportData = {
     imported: number;
 };

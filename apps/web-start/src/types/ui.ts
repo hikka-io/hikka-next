@@ -1,13 +1,13 @@
 /**
  * App-owned UI and customization types.
  *
- * These were historically defined in `@hikka/client` (`types/ui.ts`). The
+ * These were historically defined in `the legacy client` (`types/ui.ts`). The
  * generated `@hikka/api` UI types use a split Input/Output shape
  * (`UiStylesInput`/`UiStylesOutput`, `UiPreferencesInput`/`Output`, etc.) and
  * inline the language/score/widget unions, which does not match how the app
  * consumes a single unified UI object across its editor stores, merge helpers,
  * and SSR injection. To keep the app compiling with the least churn — and to
- * let `@hikka/client` be deleted — these presentation types now live in the
+ * let `the legacy client` be deleted — these presentation types now live in the
  * app and are the single source of truth for the UI customization system.
  *
  * The data hooks (`use-session-ui`, `use-update-session-ui`) talk to the
@@ -116,7 +116,7 @@ export type UIFeedWidget = {
 
 /**
  * Collection content types allowed in feed settings.
- * (Inlined from the former `@hikka/client` `CollectionContentType`.)
+ * (Inlined from the former `the legacy client` `CollectionContentType`.)
  */
 export type FeedCollectionContentType =
     | 'character'
@@ -127,7 +127,7 @@ export type FeedCollectionContentType =
 
 /**
  * Comment content types allowed in feed settings.
- * (Inlined from the former `@hikka/client` `CommentsContentType`.)
+ * (Inlined from the former `the legacy client` `CommentsContentType`.)
  */
 export type FeedCommentContentType =
     | 'collection'

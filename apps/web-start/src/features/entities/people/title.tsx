@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { personInfoOptions } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import { useParams } from '@/utils/navigation';
 

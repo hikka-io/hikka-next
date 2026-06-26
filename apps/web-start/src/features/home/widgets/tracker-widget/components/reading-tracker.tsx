@@ -4,18 +4,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
     ContentTypeEnum,
-    readAddMutation,
+    type ReadArgs,
     type ReadContentTypeEnum,
+    type ReadResponse,
+    ReadStatusEnum,
+    readAddMutation,
     readGetQueryKey,
     userReadListInfiniteOptions,
 } from '@hikka/api';
-import {
-    type ReadArgs,
-    type ReadResponse,
-    ReadStatusEnum,
-} from '@hikka/client';
-import { useHikkaClient, useSession } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
 
 import { ReadEditModal } from '@/components/action-buttons';
 import ContentCard from '@/components/content-card/content-card';
@@ -39,10 +35,13 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useSession } from '@/features/auth/hooks/use-session';
 import useDebounce from '@/services/hooks/use-debounce';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
+import { getTitle } from '@/utils/title/get-title';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link, useRouter } from '@/utils/navigation';
 
@@ -74,7 +73,7 @@ type ReadingTrackerProps = {
 const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const router = useRouter();
     const { user: loggedUser } = useSession();
-    const { defaultOptions } = useHikkaClient();
+    const { preferences } = useSessionUI();
     const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
 
@@ -184,7 +183,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                     ? ReadStatusEnum.COMPLETED
                     : ReadStatusEnum.READING,
             chapters,
-        });
+        } as ReadArgs);
     };
 
     const handleRemoveChapter = () => {
@@ -194,7 +193,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
         if (chapters < 0) return;
 
-        setUpdatedRead({ ...selectedRead, chapters });
+        setUpdatedRead({ ...selectedRead, chapters } as ReadArgs);
     };
 
     useEffect(() => {
@@ -292,8 +291,8 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             <TooltipContent className="max-w-48 truncate">
                                 {getTitle(
                                     item.content,
-                                    defaultOptions?.title,
-                                    defaultOptions?.name,
+                                    preferences.title_language,
+                                    preferences.name_language,
                                 )}
                             </TooltipContent>
                         </Tooltip>
@@ -312,8 +311,8 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             <h5>
                                 {getTitle(
                                     selectedRead.content,
-                                    defaultOptions?.title,
-                                    defaultOptions?.name,
+                                    preferences.title_language,
+                                    preferences.name_language,
                                 )}
                             </h5>
                             <div className="mt-1 flex cursor-pointer items-center gap-2">
@@ -419,8 +418,8 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             <ResponsiveModalTitle>
                                 {getTitle(
                                     selectedRead.content,
-                                    defaultOptions?.title,
-                                    defaultOptions?.name,
+                                    preferences.title_language,
+                                    preferences.name_language,
                                 )}
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>

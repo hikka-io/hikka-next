@@ -4,8 +4,8 @@ import { formatDistance } from 'date-fns/formatDistance';
 import { ArrowBigUp, MessageCircle } from 'lucide-react';
 
 import type { CollectionResponse } from '@hikka/api';
-import { useHikkaClient } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { getTitle } from '@/utils/title/get-title';
 
 import FollowButton from '@/components/action-buttons/follow-button';
 import ContentCard from '@/components/content-card/content-card';
@@ -46,7 +46,7 @@ const CollectionCard: FC<Props> = ({
 }) => {
     const isCompact = variant === 'compact';
     const isDesktop = useMediaQuery('(min-width: 768px)');
-    const { defaultOptions } = useHikkaClient();
+    const { preferences } = useSessionUI();
     const previewItems = collection.collection.slice(0, maxPreviewItems);
     const remainingCount = collection.entries - maxPreviewItems;
     const previewItem =
@@ -169,8 +169,8 @@ const CollectionCard: FC<Props> = ({
                                               string,
                                               unknown
                                           >,
-                                          defaultOptions?.title,
-                                          defaultOptions?.name,
+                                          preferences.title_language,
+                                          preferences.name_language,
                                       )
                             }
                             to={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}

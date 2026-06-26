@@ -10,7 +10,7 @@ type GetFeedClient = Pick<Parameters<typeof getFeed>[0], 'client'>;
  * The generated `getFeed` operation is a POST that returns a flat array with
  * no `{ list, pagination }` envelope, so it has no generated `*InfiniteOptions`
  * and cannot use the shared `useInfiniteList` helper. This mirrors the old
- * `@hikka/react` `feedOptions`: it pages with the `before` cursor (ISO date of
+ * `the legacy react package` `feedOptions`: it pages with the `before` cursor (ISO date of
  * the last item's `created`) carried in the request body.
  */
 export function feedInfiniteOptions(args: FeedArgs = {}, options?: GetFeedClient) {

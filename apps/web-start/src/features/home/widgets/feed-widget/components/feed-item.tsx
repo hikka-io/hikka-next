@@ -21,7 +21,7 @@ import FeedItemHeader from './feed-item-header';
 // CommentResponseFeed | CollectionResponse`, but @hikka/api types every
 // member's `data_type` as a loose `string`, so the union does not discriminate.
 // Re-attach the literal `data_type` per member so the `switch` below narrows
-// (mirrors the old @hikka/client `FeedItemResponse` discriminated union).
+// (mirrors the old the legacy client `FeedItemResponse` discriminated union).
 type FeedArticleItem = ArticlePreviewResponse & {
     data_type: typeof ContentTypeEnum.ARTICLE;
 };

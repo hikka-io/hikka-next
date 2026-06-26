@@ -1,4 +1,4 @@
-import type { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 export interface YearTopContent {
     date: number;
@@ -92,9 +92,9 @@ export interface YearCompletedCountByMonth {
 }
 
 export type YearContentType =
-    | ContentTypeEnum.ANIME
-    | ContentTypeEnum.MANGA
-    | ContentTypeEnum.NOVEL;
+    | typeof ContentTypeEnum.ANIME
+    | typeof ContentTypeEnum.MANGA
+    | typeof ContentTypeEnum.NOVEL;
 
 export interface YearStatistics {
     first_record: number;

@@ -3,9 +3,12 @@ import { type Dispatch, type SetStateAction, useState } from 'react';
 import { toast } from 'sonner';
 
 import { ContentTypeEnum, type ImportReadArgs } from '@hikka/api';
-import { AnilistTypeEnum, useAnilist } from '@hikka/react';
 
 import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
+import {
+    AnilistTypeEnum,
+    useAnilist,
+} from '@/features/settings/list/use-anilist';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -24,7 +27,7 @@ const AnilistReadlist = ({ readList, setReadList, importing }: Props) => {
     const { mutate: fetchAnilist, isPending: aniListLoading } = useAnilist({
         options: {
             onSuccess: (data) => {
-                // TODO(phase2): useAnilist still returns @hikka/client types
+                // TODO(phase2): useAnilist still returns the legacy client types
                 setReadList(data as unknown as ImportReadArgs[]);
             },
             onError: (error: Error) => {

@@ -1,7 +1,7 @@
 import type * as React from 'react';
 
 import type { PersonResponse } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Label } from '@/components/ui/label';

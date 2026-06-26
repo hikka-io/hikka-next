@@ -7,7 +7,7 @@ import {
     getContentsListInfiniteOptions,
     threadOptions,
 } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
 import LoadMoreButton from '@/components/load-more-button';

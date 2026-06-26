@@ -9,7 +9,7 @@ import {
     personInfoOptions,
     personVoicesOptions,
 } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import MaterialSymbolsMoreHoriz from '../../icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MDViewer from '../../markdown/viewer/md-viewer';

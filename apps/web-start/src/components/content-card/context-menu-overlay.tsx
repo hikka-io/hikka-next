@@ -3,7 +3,7 @@ import type { FC, ReactNode } from 'react';
 import { Copy } from 'lucide-react';
 
 import type { ContentTypeEnum } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import {
     ContextMenu,

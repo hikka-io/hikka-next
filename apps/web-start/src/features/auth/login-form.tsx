@@ -4,9 +4,12 @@ import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { Eye, EyeOff } from 'lucide-react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { loginMutation, setAuthToken } from '@hikka/api';
-import { useHikkaClient } from '@hikka/react';
-import { queryKeys } from '@hikka/react/core';
+import {
+    authInfoQueryKey,
+    loginMutation,
+    profileQueryKey,
+    setAuthToken,
+} from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -28,7 +31,6 @@ const formSchema = z.object({
 });
 
 const LoginForm = () => {
-    const { client } = useHikkaClient();
     const queryClient = useQueryClient();
     const { callbackUrl: callbackUrlParam } = useFilterSearch<{
         callbackUrl?: string;
@@ -46,13 +48,12 @@ const LoginForm = () => {
                 data: { secret: data.secret },
             });
             setAuthToken(data.secret);
-            client.setAuthToken(data.secret);
             await Promise.all([
                 queryClient.invalidateQueries({
-                    queryKey: queryKeys.user.me(),
+                    queryKey: profileQueryKey(),
                 }),
                 queryClient.invalidateQueries({
-                    queryKey: queryKeys.auth.tokenInfo(),
+                    queryKey: authInfoQueryKey(),
                 }),
             ]);
             form.reset();

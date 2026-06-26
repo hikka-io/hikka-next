@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { MessageCircle } from 'lucide-react';
 
-import type { CommentsContentType } from '@hikka/client';
+import type { AppCommentsSchemasContentTypeEnum as CommentsContentType } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { getDeclensionWord } from '@/utils/i18n/declension';

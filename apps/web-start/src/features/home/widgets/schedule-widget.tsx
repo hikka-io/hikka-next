@@ -8,8 +8,8 @@ import {
     animeScheduleInfiniteOptions,
     AnimeStatusEnum,
 } from '@hikka/api';
-import { useHikkaClient } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { getTitle } from '@/utils/title/get-title';
 
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
@@ -28,7 +28,7 @@ import { getCurrentSeason } from '@/utils/season';
 import type { WidgetProps } from '../constants';
 
 const ScheduleWidget: FC<WidgetProps> = () => {
-    const { defaultOptions } = useHikkaClient();
+    const { preferences } = useSessionUI();
     const season = getCurrentSeason()!;
     const year = new Date().getFullYear();
 
@@ -109,8 +109,8 @@ const ScheduleWidget: FC<WidgetProps> = () => {
                                 >
                                     {getTitle(
                                         item.anime,
-                                        defaultOptions?.title,
-                                        defaultOptions?.name,
+                                        preferences.title_language,
+                                        preferences.name_language,
                                     )}
                                 </span>
                                 <span

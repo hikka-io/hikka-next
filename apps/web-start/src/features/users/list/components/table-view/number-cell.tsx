@@ -8,7 +8,8 @@ import {
     type ReadResponseBase,
     type WatchResponseBase,
 } from '@hikka/api';
-import { useSession, useTitle } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { useTitle } from '@/utils/title/use-title';
 
 import { ReadEditModal, WatchEditModal } from '@/components/action-buttons';
 import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';

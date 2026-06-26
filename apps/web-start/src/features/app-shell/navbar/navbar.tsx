@@ -1,4 +1,4 @@
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import { Button } from '@/components/ui/button';
 import { NotificationsMenu } from '@/features/notifications';

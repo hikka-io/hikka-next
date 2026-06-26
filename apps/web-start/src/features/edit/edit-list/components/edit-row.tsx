@@ -3,7 +3,7 @@ import type { FC, MouseEvent } from 'react';
 import { format } from 'date-fns';
 
 import type { EditSimpleResponse } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';

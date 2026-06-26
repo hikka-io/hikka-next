@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { characterInfoOptions } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import { useParams } from '@/utils/navigation';
 

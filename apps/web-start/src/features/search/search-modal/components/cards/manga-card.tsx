@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 import type * as React from 'react';
 
 import type { MangaResponseWithRead } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import ContentCard from '@/components/content-card/content-card';
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';

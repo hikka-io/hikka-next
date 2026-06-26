@@ -1,7 +1,7 @@
 import { type FC, Fragment, memo, useState } from 'react';
 
 import { type ClientResponse } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import { Button } from '@/components/ui/button';

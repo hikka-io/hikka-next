@@ -8,8 +8,8 @@ import {
     searchAnimeInfiniteOptions,
     type SeasonEnum,
 } from '@hikka/api';
-import { useHikkaClient } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { getTitle } from '@/utils/title/get-title';
 
 import { AnimeTooltip } from '@/components/content-card';
 import AnimeCard from '@/components/content-card/anime-card';
@@ -57,7 +57,7 @@ const OngoingItemSkeleton = () => (
 );
 
 const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
-    const { defaultOptions } = useHikkaClient();
+    const { preferences } = useSessionUI();
     const currentSeason = getCurrentSeason() as SeasonEnum;
     const year = new Date().getFullYear();
     const isCenter = side === 'center';
@@ -189,8 +189,8 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                                                 </span>
                                                 {getTitle(
                                                     anime,
-                                                    defaultOptions?.title,
-                                                    defaultOptions?.name,
+                                                    preferences.title_language,
+                                                    preferences.name_language,
                                                 )}
                                             </p>
                                             <div className="flex items-center gap-2">

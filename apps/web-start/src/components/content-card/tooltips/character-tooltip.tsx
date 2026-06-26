@@ -2,7 +2,7 @@ import { type FC, memo, type PropsWithChildren } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { characterAnimeOptions, characterInfoOptions } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import MDViewer from '../../markdown/viewer/md-viewer';
 import ContentCard from '../content-card';

@@ -6,7 +6,7 @@ import {
     type NotificationResponse,
     NotificationTypeEnum,
 } from '@hikka/api';
-import { getTitle } from '@hikka/react/utils';
+import { getTitle } from '@/utils/title/get-title';
 
 import FeMention from '@/components/icons/fe/FeMention';
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
@@ -25,7 +25,7 @@ import MaterialSymbolsPersonAddRounded from '@/components/icons/material-symbols
 // `NotificationOf<T>` re-attaches a concrete per-type `data` shape so the
 // helpers below can keep their narrow signatures; the dispatcher narrows
 // `notification.data` by `notification_type` before handing off. The data
-// shapes mirror @hikka/client `types/notifications.ts`.
+// shapes mirror the legacy client `types/notifications.ts`.
 type NotificationOf<TData> = Omit<NotificationResponse, 'data'> & {
     data: TData;
 };
@@ -217,7 +217,7 @@ const getBaseNotification = (
     return {
         reference: notification.reference,
         // `Hikka.Notification.type` (src/types/hikka.d.ts, out of scope) still
-        // references the @hikka/client enum; the @hikka/api enum has identical
+        // references the the legacy client enum; the @hikka/api enum has identical
         // string values, so bridge across the nominal mismatch.
         // TODO(phase2): drop cast once hikka.d.ts uses @hikka/api types.
         type: type as unknown as Hikka.Notification['type'],

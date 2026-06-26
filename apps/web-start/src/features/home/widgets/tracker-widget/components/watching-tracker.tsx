@@ -3,17 +3,13 @@ import { type ComponentProps, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
+    type WatchArgs,
+    type WatchResponse,
+    WatchStatusEnum,
     userWatchListInfiniteOptions,
     watchAddMutation,
     watchGetQueryKey,
 } from '@hikka/api';
-import {
-    type WatchArgs,
-    type WatchResponse,
-    WatchStatusEnum,
-} from '@hikka/client';
-import { useHikkaClient, useSession } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
 
 import { WatchEditModal } from '@/components/action-buttons';
 import ContentCard from '@/components/content-card/content-card';
@@ -37,8 +33,11 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useSession } from '@/features/auth/hooks/use-session';
 import useDebounce from '@/services/hooks/use-debounce';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { getTitle } from '@/utils/title/get-title';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -53,7 +52,7 @@ const EPISODES_DECLENSION: [string, string, string] = [
 const WatchingTracker = () => {
     const router = useRouter();
     const { user: loggedUser } = useSession();
-    const { defaultOptions } = useHikkaClient();
+    const { preferences } = useSessionUI();
     const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
 
@@ -150,7 +149,7 @@ const WatchingTracker = () => {
                     ? WatchStatusEnum.COMPLETED
                     : WatchStatusEnum.WATCHING,
             episodes,
-        });
+        } as WatchArgs);
     };
 
     const handleRemoveEpisode = () => {
@@ -160,7 +159,7 @@ const WatchingTracker = () => {
 
         if (episodes < 0) return;
 
-        setUpdatedWatch({ ...selectedWatch, episodes });
+        setUpdatedWatch({ ...selectedWatch, episodes } as WatchArgs);
     };
 
     useEffect(() => {
@@ -241,8 +240,8 @@ const WatchingTracker = () => {
                             <TooltipContent className="max-w-48 truncate">
                                 {getTitle(
                                     item.anime,
-                                    defaultOptions?.title,
-                                    defaultOptions?.name,
+                                    preferences.title_language,
+                                    preferences.name_language,
                                 )}
                             </TooltipContent>
                         </Tooltip>
@@ -261,8 +260,8 @@ const WatchingTracker = () => {
                             <h5>
                                 {getTitle(
                                     selectedWatch.anime,
-                                    defaultOptions?.title,
-                                    defaultOptions?.name,
+                                    preferences.title_language,
+                                    preferences.name_language,
                                 )}
                             </h5>
                             <div className="mt-1 flex cursor-pointer items-center gap-2">
@@ -278,7 +277,7 @@ const WatchingTracker = () => {
                                             {
                                                 ANIME_MEDIA_TYPE[
                                                     selectedWatch.anime
-                                                        .media_type
+                                                        .media_type as keyof typeof ANIME_MEDIA_TYPE
                                                 ]?.title_ua
                                             }
                                         </Label>
@@ -363,8 +362,8 @@ const WatchingTracker = () => {
                             <ResponsiveModalTitle>
                                 {getTitle(
                                     selectedWatch.anime,
-                                    defaultOptions?.title,
-                                    defaultOptions?.name,
+                                    preferences.title_language,
+                                    preferences.name_language,
                                 )}
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>

@@ -14,7 +14,7 @@ import {
     watchGetOptions,
     watchGetQueryKey,
 } from '@hikka/api';
-import { getTitle } from '@hikka/react/utils';
+import { getTitle } from '@/utils/title/get-title';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';

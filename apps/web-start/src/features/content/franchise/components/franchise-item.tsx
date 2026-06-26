@@ -5,7 +5,8 @@ import type {
     MangaResponseWithRead,
     NovelResponseWithRead,
 } from '@hikka/api';
-import { useSession, useTitle } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { useTitle } from '@/utils/title/use-title';
 
 import ReadlistButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';

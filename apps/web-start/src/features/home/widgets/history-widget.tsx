@@ -1,7 +1,7 @@
 import { type ComponentProps, type FC, useMemo } from 'react';
 
 import { followingHistoryInfiniteOptions } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import { HistoryItem } from '@/components/content-card';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';

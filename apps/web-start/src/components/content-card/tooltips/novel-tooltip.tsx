@@ -6,7 +6,8 @@ import {
     novelInfoOptions,
     type ReadResponseBase,
 } from '@hikka/api';
-import { useSession, useTitle } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { useTitle } from '@/utils/title/use-title';
 
 import { ReadlistButton } from '@/components/action-buttons';
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';

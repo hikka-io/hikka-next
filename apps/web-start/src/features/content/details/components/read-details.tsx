@@ -14,7 +14,7 @@ import {
     type MangaInfoResponse,
     type NovelInfoResponse,
 } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';

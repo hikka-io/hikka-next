@@ -13,8 +13,8 @@ import {
     novelInfoOptions,
     personInfoOptions,
 } from '@hikka/api';
-import { useHikkaClient } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { getTitle } from '@/utils/title/get-title';
 
 interface UseContentParams {
     content_type: CommentsContentType | EditContentType;
@@ -22,9 +22,9 @@ interface UseContentParams {
 }
 
 export function useContent({ content_type, slug }: UseContentParams) {
-    const { defaultOptions } = useHikkaClient();
-    const titleLang = defaultOptions?.title;
-    const nameLang = defaultOptions?.name;
+    const { preferences } = useSessionUI();
+    const titleLang = preferences.title_language;
+    const nameLang = preferences.name_language;
 
     const animeQuery = useQuery({
         ...animeSlugOptions({ path: { slug } }),

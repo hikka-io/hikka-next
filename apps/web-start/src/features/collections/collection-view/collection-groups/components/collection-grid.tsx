@@ -3,8 +3,8 @@ import { type ComponentProps, type FC, memo, useRef } from 'react';
 import { Info } from 'lucide-react';
 
 import type { CollectionContentResponse } from '@hikka/api';
-import { useHikkaClient } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { getTitle } from '@/utils/title/get-title';
 
 import ContentCard, {
     DEFAULT_CONTAINER_RATIO,
@@ -84,7 +84,7 @@ type Props = {
 };
 
 const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
-    const { defaultOptions } = useHikkaClient();
+    const { preferences } = useSessionUI();
 
     // TODO(phase2): drop cast once ContentCard + CONTENT_TYPE_LINKS use @hikka/api types
     const contentType = content_type as NonNullable<
@@ -113,8 +113,8 @@ const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
                                     string,
                                     unknown
                                 >,
-                                defaultOptions?.title,
-                                defaultOptions?.name,
+                                preferences.title_language,
+                                preferences.name_language,
                             )}
                             watch={
                                 'watch' in item.content &&

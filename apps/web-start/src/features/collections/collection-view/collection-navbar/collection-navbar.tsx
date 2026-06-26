@@ -4,7 +4,7 @@ import { MessageCircle, TableOfContents } from 'lucide-react';
 
 import { ContentTypeEnum, getCollectionOptions } from '@hikka/api';
 import { useQuery } from '@tanstack/react-query';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
 import { Button } from '@/components/ui/button';

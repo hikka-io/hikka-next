@@ -2,11 +2,12 @@ import { ElementApi, type PluginConfig, type TElement } from 'platejs';
 import { createTPlatePlugin } from 'platejs/react';
 import { toast } from 'sonner';
 
-import { classifyAttachmentType } from '@hikka/client';
-
 import { ImageGroupElement } from '@/components/plate/ui/image-group-node';
 
-import { UPLOAD_VALIDATION_MESSAGES } from '../upload-image';
+import {
+    classifyAttachmentType,
+    UPLOAD_VALIDATION_MESSAGES,
+} from '../upload-image';
 import { getUpload } from '../upload-store';
 import { ImageKit, ImagePlugin, type TImageElement } from './image-kit';
 import {

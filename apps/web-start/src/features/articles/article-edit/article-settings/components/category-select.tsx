@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import type { ArticleCategoryEnum } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import { Label } from '@/components/ui/label';
 import {

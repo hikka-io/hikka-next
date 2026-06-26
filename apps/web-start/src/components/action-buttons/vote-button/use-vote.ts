@@ -4,7 +4,7 @@ import {
     getVoteQueryKey,
     setVoteMutation,
 } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import { useRouter } from '@/utils/navigation';
 

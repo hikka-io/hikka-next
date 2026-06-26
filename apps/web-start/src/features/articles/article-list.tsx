@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { type ArticleCategoryEnum, getArticlesInfiniteOptions } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';

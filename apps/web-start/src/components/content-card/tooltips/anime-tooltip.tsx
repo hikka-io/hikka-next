@@ -2,7 +2,8 @@ import { type ComponentProps, type FC, memo, type PropsWithChildren } from 'reac
 
 import { useQuery } from '@tanstack/react-query';
 import { animeSlugOptions, type WatchResponseBase } from '@hikka/api';
-import { useSession, useTitle } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { useTitle } from '@/utils/title/use-title';
 
 import { WatchlistButton } from '@/components/action-buttons';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';

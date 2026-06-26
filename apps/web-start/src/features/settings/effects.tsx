@@ -1,8 +1,7 @@
-import type { UIEffect } from '@hikka/client';
-
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useSessionUI } from '@/services/hooks/use-session-ui';
+import type { UIEffect } from '@/types/ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 
 const EFFECTS: { value: UIEffect; label: string; description: string }[] = [

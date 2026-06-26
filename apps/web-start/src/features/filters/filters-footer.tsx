@@ -72,9 +72,7 @@ const FiltersFooter: FC<FiltersFooterProps> = ({ className, contentType }) => {
         arrayStringKeys.forEach((key) => {
             const values = search[key];
             if (Array.isArray(values) && values.length > 0) {
-                next[key] = values as unknown as NonNullable<
-                    Hikka.FilterPreset[typeof key]
-                >;
+                (next as Record<string, unknown>)[key] = values;
             }
         });
 

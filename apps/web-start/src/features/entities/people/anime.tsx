@@ -1,7 +1,7 @@
 import type { ComponentProps, FC } from 'react';
 
 import { personAnimeInfiniteOptions } from '@hikka/api';
-import { getTitle } from '@hikka/react/utils';
+import { getTitle } from '@/utils/title/get-title';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import AppearanceGrid from '@/features/entities/appearance-grid';

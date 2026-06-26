@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 import { type AnimeInfoResponse, AnimeStatusEnum } from '@hikka/api';
-import { useTitle } from '@hikka/react';
+import { useTitle } from '@/utils/title/use-title';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';

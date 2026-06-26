@@ -3,7 +3,7 @@ import type { ComponentProps, FC } from 'react';
 import { MessageCircle } from 'lucide-react';
 
 import { ContentTypeEnum } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
 import ReadlistButton from '@/components/action-buttons/readlist-button';
@@ -56,7 +56,7 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
     const { user: loggedUser } = useSession();
 
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
-    // data_type is the not-yet-migrated @hikka/client enum; compare as string
+    // data_type is the not-yet-migrated the legacy client enum; compare as string
     const dataType = data?.data_type as string | undefined;
     // comments_count is absent on character/person responses in the union
     const commentsCount = (data as { comments_count?: number } | undefined)

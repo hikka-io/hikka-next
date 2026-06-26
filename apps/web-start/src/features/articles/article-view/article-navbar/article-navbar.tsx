@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { useQuery } from '@tanstack/react-query';
 
 import { getArticleOptions } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import { MaterialSymbolsLinkRounded } from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import { Button } from '@/components/ui/button';

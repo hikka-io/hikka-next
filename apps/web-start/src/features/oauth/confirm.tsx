@@ -4,7 +4,7 @@ import { getRouteApi } from '@tanstack/react-router';
 
 import { useMutation } from '@tanstack/react-query';
 import { requestTokenMutation } from '@hikka/api';
-import { useSession } from '@hikka/react';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
