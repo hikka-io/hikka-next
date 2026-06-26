@@ -1,8 +1,10 @@
-import type { FC } from 'react';
+import { type ComponentProps, type FC, useMemo } from 'react';
 
-import { useFollowingHistory, useSession } from '@hikka/react';
+import { followingHistoryInfiniteOptions } from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import { HistoryItem } from '@/components/content-card';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
@@ -20,14 +22,18 @@ const HISTORY_REFETCH_INTERVAL_MS = 30_000;
 
 const HistoryWidget: FC<WidgetProps> = () => {
     const { user } = useSession();
-    const { list } = useFollowingHistory({
-        options: {
-            enabled: Boolean(user),
+    const { list } = useInfiniteList(
+        {
+            ...followingHistoryInfiniteOptions(),
             refetchInterval: HISTORY_REFETCH_INTERVAL_MS,
         },
-    });
+        { enabled: Boolean(user) },
+    );
 
-    const filteredHistory = list?.slice(0, HISTORY_SIZE);
+    const filteredHistory = useMemo(
+        () => list?.slice(0, HISTORY_SIZE),
+        [list],
+    );
 
     if (!user) return null;
 
@@ -47,8 +53,13 @@ const HistoryWidget: FC<WidgetProps> = () => {
 
                 <div className="flex flex-col gap-6 px-4">
                     {filteredHistory?.map((item) => (
+                        // TODO(phase2): drop the cast once HistoryItem migrates to @hikka/api types
                         <HistoryItem
-                            data={item}
+                            data={
+                                item as unknown as ComponentProps<
+                                    typeof HistoryItem
+                                >['data']
+                            }
                             key={item.reference}
                             withUser
                         />

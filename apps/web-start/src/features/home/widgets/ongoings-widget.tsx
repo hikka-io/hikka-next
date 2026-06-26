@@ -1,13 +1,14 @@
-import type { FC } from 'react';
+import { type ComponentProps, type FC } from 'react';
 
 import { range } from '@antfu/utils';
 
 import {
     AnimeMediaEnum,
     AnimeStatusEnum,
+    searchAnimeInfiniteOptions,
     type SeasonEnum,
-} from '@hikka/client';
-import { useHikkaClient, useSearchAnimes } from '@hikka/react';
+} from '@hikka/api';
+import { useHikkaClient } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
 import { AnimeTooltip } from '@/components/content-card';
@@ -28,6 +29,7 @@ import NotFound from '@/components/ui/not-found';
 import { Skeleton } from '@/components/ui/skeleton';
 import Stack from '@/components/ui/stack';
 import { getOngoingsSort } from '@/features/filters/sort';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
@@ -60,19 +62,21 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
     const year = new Date().getFullYear();
     const isCenter = side === 'center';
 
-    const { list, isLoading } = useSearchAnimes({
-        args: {
-            season: [currentSeason!],
-            media_type: [AnimeMediaEnum.TV],
-            years: [year, year],
-            genres: ['-ecchi', '-hentai'],
-            status: [AnimeStatusEnum.ONGOING],
-            sort: getOngoingsSort(),
-        },
-        paginationArgs: {
-            size: isCenter ? CENTER_SIZE : SIDEBAR_SIZE,
-        },
-    });
+    const { list, isLoading } = useInfiniteList(
+        searchAnimeInfiniteOptions({
+            body: {
+                season: [currentSeason!],
+                media_type: [AnimeMediaEnum.TV],
+                years: [year, year],
+                genres: ['-ecchi', '-hentai'],
+                status: [AnimeStatusEnum.ONGOING],
+                sort: getOngoingsSort(),
+            },
+            query: {
+                size: isCenter ? CENTER_SIZE : SIDEBAR_SIZE,
+            },
+        }),
+    );
 
     const search = {
         statuses: ['ongoing'],
@@ -109,7 +113,15 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                             {list &&
                                 list.length > 0 &&
                                 list.map((item) => (
-                                    <AnimeCard anime={item} key={item.slug} />
+                                    // TODO(phase2): drop the cast once AnimeCard migrates to @hikka/api types
+                                    <AnimeCard
+                                        anime={
+                                            item as unknown as ComponentProps<
+                                                typeof AnimeCard
+                                            >['anime']
+                                        }
+                                        key={item.slug}
+                                    />
                                 ))}
                         </Stack>
                     )}
@@ -143,12 +155,15 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                     {!isLoading &&
                         list?.map((anime, index) => {
                             return (
+                                // TODO(phase2): drop the watch cast once AnimeTooltip migrates to @hikka/api types
                                 <AnimeTooltip
                                     key={anime.slug}
                                     slug={anime.slug}
                                     watch={
                                         anime.watch.length > 0
-                                            ? anime.watch[0]
+                                            ? (anime.watch[0] as unknown as ComponentProps<
+                                                  typeof AnimeTooltip
+                                              >['watch'])
                                             : undefined
                                     }
                                 >

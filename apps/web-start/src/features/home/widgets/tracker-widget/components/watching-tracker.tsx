@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import {
+    userWatchListInfiniteOptions,
+    watchAddMutation,
+    watchGetQueryKey,
+} from '@hikka/api';
 import {
     type WatchArgs,
     type WatchResponse,
     WatchStatusEnum,
 } from '@hikka/client';
-import {
-    useCreateWatch,
-    useHikkaClient,
-    useMutation,
-    useSearchUserWatches,
-    useSession,
-} from '@hikka/react';
-import { queryKeys, useQueryClient } from '@hikka/react/core';
+import { useHikkaClient, useSession } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
 import { WatchEditModal } from '@/components/action-buttons';
@@ -38,6 +38,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import useDebounce from '@/services/hooks/use-debounce';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -59,13 +60,24 @@ const WatchingTracker = () => {
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
 
-    const { list, ref, isFetchingNextPage } = useSearchUserWatches({
-        username: String(loggedUser?.username),
-        args: {
-            watch_status: WatchStatusEnum.WATCHING,
-            sort: ['watch_updated:desc'],
-        },
-    });
+    const {
+        list: apiList,
+        ref,
+        isFetchingNextPage,
+    } = useInfiniteList(
+        userWatchListInfiniteOptions({
+            path: { username: String(loggedUser?.username) },
+            body: {
+                watch_status: WatchStatusEnum.WATCHING,
+                sort: ['watch_updated:desc'],
+            },
+        }),
+        { enabled: Boolean(loggedUser?.username) },
+    );
+
+    // TODO(phase2): drop the cast once the watch list-item edit flow migrates to
+    // @hikka/api types (WatchResponse.status is `string` in the generated spec).
+    const list = apiList as unknown as WatchResponse[] | undefined;
 
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
@@ -75,23 +87,33 @@ const WatchingTracker = () => {
         delay: 500,
     });
 
-    const { mutate: mutateCreateWatch, reset } = useCreateWatch();
+    const invalidateWatchLists = (refetch: boolean) =>
+        queryClient.invalidateQueries({
+            predicate: (query) =>
+                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                'userWatchList',
+            refetchType: refetch ? undefined : 'none',
+        });
 
-    const { mutate: mutateCreateWatchSilent } = useMutation<
-        WatchResponse,
-        Error,
-        { slug: string; args: WatchArgs }
-    >({
-        mutationFn: (client, { slug, args }) =>
-            client.watch.createWatch(slug, args),
-        options: {
-            onSuccess: (data, { slug }) => {
-                queryClient.setQueryData(queryKeys.watch.entry(slug), data);
-                queryClient.invalidateQueries({
-                    queryKey: queryKeys.watch.lists(),
-                    refetchType: 'none',
-                });
-            },
+    const { mutate: mutateCreateWatch, reset } = useMutation({
+        ...watchAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                watchGetQueryKey({ path: { slug: path.slug } }),
+                data,
+            );
+            invalidateWatchLists(true);
+        },
+    });
+
+    const { mutate: mutateCreateWatchSilent } = useMutation({
+        ...watchAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                watchGetQueryKey({ path: { slug: path.slug } }),
+                data,
+            );
+            invalidateWatchLists(false);
         },
     });
 
@@ -161,8 +183,8 @@ const WatchingTracker = () => {
                 : mutateCreateWatch;
 
             mutate({
-                slug: selectedWatch.anime.slug,
-                args: {
+                path: { slug: selectedWatch.anime.slug },
+                body: {
                     note: debouncedUpdatedWatch.note,
                     episodes: debouncedUpdatedWatch.episodes,
                     rewatches: debouncedUpdatedWatch.rewatches,

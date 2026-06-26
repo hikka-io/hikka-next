@@ -3,8 +3,12 @@ import type { FC } from 'react';
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
 
-import { type AnimeScheduleResponse, ContentStatusEnum } from '@hikka/client';
-import { useHikkaClient, useSearchAnimeSchedule } from '@hikka/react';
+import {
+    type AnimeScheduleResponse,
+    animeScheduleInfiniteOptions,
+    AnimeStatusEnum,
+} from '@hikka/api';
+import { useHikkaClient } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +20,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
@@ -27,12 +32,14 @@ const ScheduleWidget: FC<WidgetProps> = () => {
     const season = getCurrentSeason()!;
     const year = new Date().getFullYear();
 
-    const { list } = useSearchAnimeSchedule({
-        args: {
-            airing_season: [season, year],
-            status: [ContentStatusEnum.ONGOING, ContentStatusEnum.ANNOUNCED],
-        },
-    });
+    const { list } = useInfiniteList(
+        animeScheduleInfiniteOptions({
+            body: {
+                airing_season: [season, year],
+                status: [AnimeStatusEnum.ONGOING, AnimeStatusEnum.ANNOUNCED],
+            },
+        }),
+    );
 
     const todayKey = String(getUnixTime(startOfDay(new Date())));
 

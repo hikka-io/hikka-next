@@ -1,19 +1,20 @@
 import { useEffect, useState } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import {
+    readAddMutation,
+    type ReadContentTypeEnum,
+    readGetQueryKey,
+    userReadListInfiniteOptions,
+} from '@hikka/api';
 import {
     ContentTypeEnum,
     type ReadArgs,
     type ReadResponse,
     ReadStatusEnum,
 } from '@hikka/client';
-import {
-    useCreateRead,
-    useHikkaClient,
-    useMutation,
-    useSearchUserReads,
-    useSession,
-} from '@hikka/react';
-import { queryKeys, useQueryClient } from '@hikka/react/core';
+import { useHikkaClient, useSession } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
 import { ReadEditModal } from '@/components/action-buttons';
@@ -39,6 +40,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import useDebounce from '@/services/hooks/use-debounce';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -77,14 +79,31 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [updatedRead, setUpdatedRead] = useState<ReadArgs | null>(null);
 
-    const { list, ref, isFetchingNextPage } = useSearchUserReads({
-        contentType,
-        username: String(loggedUser?.username),
-        args: {
-            read_status: ReadStatusEnum.READING,
-            sort: ['read_updated:desc'],
-        },
-    });
+    // The generated read endpoints type `content_type` as `ReadContentTypeEnum`;
+    // the client `ContentTypeEnum.MANGA | NOVEL` values are identical strings.
+    const apiContentType = contentType as unknown as ReadContentTypeEnum;
+
+    const {
+        list: apiList,
+        ref,
+        isFetchingNextPage,
+    } = useInfiniteList(
+        userReadListInfiniteOptions({
+            path: {
+                content_type: apiContentType,
+                username: String(loggedUser?.username),
+            },
+            body: {
+                read_status: ReadStatusEnum.READING,
+                sort: ['read_updated:desc'],
+            },
+        }),
+        { enabled: Boolean(loggedUser?.username) },
+    );
+
+    // TODO(phase2): drop the cast once the read list-item edit flow migrates to
+    // @hikka/api types (ReadResponse.status is `string` in the generated spec).
+    const list = apiList as unknown as ReadResponse[] | undefined;
 
     const selectedRead =
         list?.find((item) => item.content.slug === selectedSlug) || list?.[0];
@@ -94,26 +113,37 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
         delay: 500,
     });
 
-    const { mutate: mutateCreateRead, reset } = useCreateRead();
+    const invalidateReadLists = (refetch: boolean) =>
+        queryClient.invalidateQueries({
+            predicate: (query) =>
+                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                'userReadList',
+            refetchType: refetch ? undefined : 'none',
+        });
 
-    const { mutate: mutateCreateReadSilent } = useMutation<
-        ReadResponse,
-        Error,
-        { slug: string; args: ReadArgs }
-    >({
-        mutationFn: (client, { slug, args }) =>
-            client.read.createRead(contentType, slug, args),
-        options: {
-            onSuccess: (data, { slug }) => {
-                queryClient.setQueryData(
-                    queryKeys.read.entry(contentType, slug),
-                    data,
-                );
-                queryClient.invalidateQueries({
-                    queryKey: queryKeys.read.lists(contentType),
-                    refetchType: 'none',
-                });
-            },
+    const { mutate: mutateCreateRead, reset } = useMutation({
+        ...readAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                readGetQueryKey({
+                    path: { content_type: path.content_type, slug: path.slug },
+                }),
+                data,
+            );
+            invalidateReadLists(true);
+        },
+    });
+
+    const { mutate: mutateCreateReadSilent } = useMutation({
+        ...readAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                readGetQueryKey({
+                    path: { content_type: path.content_type, slug: path.slug },
+                }),
+                data,
+            );
+            invalidateReadLists(false);
         },
     });
 
@@ -191,14 +221,19 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
             if (isLastChapter) {
                 mutateCreateReadSilent({
-                    slug: selectedRead.content.slug,
-                    args,
+                    path: {
+                        content_type: apiContentType,
+                        slug: selectedRead.content.slug,
+                    },
+                    body: args,
                 });
             } else {
                 mutateCreateRead({
-                    contentType,
-                    slug: selectedRead.content.slug,
-                    args,
+                    path: {
+                        content_type: apiContentType,
+                        slug: selectedRead.content.slug,
+                    },
+                    body: args,
                 });
             }
         }

@@ -1,15 +1,18 @@
-import { type FC, useMemo, useState } from 'react';
+import { type FC, useEffect, useMemo, useState } from 'react';
 
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInView } from 'react-intersection-observer';
+
+import type { FeedArgs } from '@hikka/api';
 import {
     type CollectionContentType,
     type CommentsContentType,
     ContentTypeEnum,
-    type FeedArgs,
     type FeedArticleCategory,
     type FeedArticleContentType,
     type FeedItemResponse,
 } from '@hikka/client';
-import { useFeed, useSession } from '@hikka/react';
+import { useSession } from '@hikka/react';
 
 import LoadMoreButton from '@/components/load-more-button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -25,6 +28,7 @@ import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 
 import type { WidgetProps } from '../../constants';
+import { feedInfiniteOptions } from './feed-infinite-options';
 import FeedItem from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
 import FeedSubTypeSelect, {
@@ -101,16 +105,26 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
         return args;
     }, [onlyFollowed, filters]);
 
+    const { ref: feedRef, inView } = useInView();
+
+    const feedQuery = useInfiniteQuery(feedInfiniteOptions(feedArgs));
     const {
-        list: feedList,
-        ref: feedRef,
+        data: feedData,
         isPending,
         hasNextPage,
         isFetchingNextPage,
         fetchNextPage,
-    } = useFeed({
-        args: feedArgs,
-    });
+    } = feedQuery;
+
+    // TODO(phase2): drop the cast once the feed components migrate to @hikka/api
+    // discriminated-union response types.
+    const feedList = feedData?.pages.flat(1) as FeedItemResponse[] | undefined;
+
+    useEffect(() => {
+        if (inView && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
         <div className="-mx-4 flex flex-col overflow-hidden border-x-0 border-y md:mx-0 md:rounded-lg md:border-x">

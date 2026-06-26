@@ -2,7 +2,10 @@ import { type FC, useState } from 'react';
 
 import { Settings } from 'lucide-react';
 
-import { useSession, useUserFollowStats } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { followStatsOptions } from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -25,8 +28,9 @@ const ProfileWidget: FC<WidgetProps> = () => {
     );
     useCloseOnRouteChange(setOpen);
     const { user } = useSession();
-    const { data: followStats } = useUserFollowStats({
-        username: String(user?.username),
+    const { data: followStats } = useQuery({
+        ...followStatsOptions({ path: { username: String(user?.username) } }),
+        enabled: Boolean(user?.username),
     });
 
     if (!user || !followStats) {
