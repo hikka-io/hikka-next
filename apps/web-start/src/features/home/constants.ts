@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { UIFeedWidgetSide, UIFeedWidgetSlug } from '@hikka/client';
+import type { UIFeedWidgetSide, UIFeedWidgetSlug } from '@/types/ui';
 
 import {
     FeedWidget,

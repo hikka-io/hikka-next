@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 
-import type { UIFeedWidget, UIFeedWidgetSlug } from '@hikka/client';
 import { useSession } from '@hikka/react';
 
 import { useSessionUI } from '@/services/hooks/use-session-ui';
+import type { UIFeedWidget, UIFeedWidgetSlug } from '@/types/ui';
 
 import { WIDGET_REGISTRY } from '../constants';
 import { groupBySide } from '../utils';

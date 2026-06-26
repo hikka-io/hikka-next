@@ -1,8 +1,15 @@
-import {
-    type HistoryReadImportData,
-    HistoryTypeEnum,
-    type HistoryWatchImportData,
-} from '@hikka/client';
+import { HistoryTypeEnum } from '@hikka/api';
+
+// Local narrowings for the loose `HistoryResponse.data` (`{ [key]: unknown }`)
+// in @hikka/api. Field shapes copied from @hikka/client `types/history.ts`.
+type HistoryWatchImportData = {
+    imported: number;
+};
+
+type HistoryReadImportData = {
+    imported_manga: number;
+    imported_novel: number;
+};
 
 export const convertImportWatch = (data: HistoryWatchImportData) => {
     return `Імпортовано **${data.imported}** аніме у список`;

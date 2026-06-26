@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { ContentTypeEnum } from '@hikka/client';
+import type { ContentTypeEnum } from '@hikka/api';
 
 import { Badge } from '@/components/ui/badge';
 import { CONTENT_TYPES } from '@/utils/constants/common';

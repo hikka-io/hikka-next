@@ -3,15 +3,7 @@ import { type FC, useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 
-import type { FeedArgs } from '@hikka/api';
-import {
-    type CollectionContentType,
-    type CommentsContentType,
-    ContentTypeEnum,
-    type FeedArticleCategory,
-    type FeedArticleContentType,
-    type FeedItemResponse,
-} from '@hikka/client';
+import { ContentTypeEnum, type FeedArgs } from '@hikka/api';
 import { useSession } from '@hikka/react';
 
 import LoadMoreButton from '@/components/load-more-button';
@@ -29,7 +21,7 @@ import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 
 import type { WidgetProps } from '../../constants';
 import { feedInfiniteOptions } from './feed-infinite-options';
-import FeedItem from './components/feed-item';
+import FeedItem, { type FeedItemResponse } from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
 import FeedSubTypeSelect, {
     type FeedSubTypeFilters,
@@ -88,19 +80,20 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
         if (onlyFollowed) args.only_followed = true;
 
         if (filters.feed_content_types !== null)
-            args.feed_content_types = filters.feed_content_types;
+            args.feed_content_types =
+                filters.feed_content_types as FeedArgs['feed_content_types'];
         if (filters.comment_content_types?.length)
             args.comment_content_types =
-                filters.comment_content_types as CommentsContentType[];
+                filters.comment_content_types as FeedArgs['comment_content_types'];
         if (filters.article_content_types?.length)
             args.article_content_types =
-                filters.article_content_types as FeedArticleContentType[];
+                filters.article_content_types as FeedArgs['article_content_types'];
         if (filters.article_categories?.length)
             args.article_categories =
-                filters.article_categories as FeedArticleCategory[];
+                filters.article_categories as FeedArgs['article_categories'];
         if (filters.collection_content_types?.length)
             args.collection_content_types =
-                filters.collection_content_types as CollectionContentType[];
+                filters.collection_content_types as FeedArgs['collection_content_types'];
 
         return args;
     }, [onlyFollowed, filters]);
@@ -116,9 +109,12 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
         fetchNextPage,
     } = feedQuery;
 
-    // TODO(phase2): drop the cast once the feed components migrate to @hikka/api
-    // discriminated-union response types.
-    const feedList = feedData?.pages.flat(1) as FeedItemResponse[] | undefined;
+    // The generated `getFeed` response members type `data_type` as a loose
+    // `string`, so narrow to the local discriminated `FeedItemResponse` union
+    // (see `./components/feed-item`) the feed components consume.
+    const feedList = feedData?.pages.flat(1) as unknown as
+        | FeedItemResponse[]
+        | undefined;
 
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) {

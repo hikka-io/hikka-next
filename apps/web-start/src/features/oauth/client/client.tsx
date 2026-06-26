@@ -2,7 +2,8 @@ import type { FC } from 'react';
 
 import { getRouteApi } from '@tanstack/react-router';
 
-import { useClientByReference } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+import { getClientByReferenceOptions } from '@hikka/api';
 
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -29,9 +30,11 @@ const Client: FC<Props> = () => {
                     [],
             ) ?? [];
 
-    const { data: client } = useClientByReference({
-        reference: reference!,
-    });
+    const { data: client } = useQuery(
+        getClientByReferenceOptions({
+            path: { client_reference: reference! },
+        }),
+    );
 
     return (
         <Card className="w-full">

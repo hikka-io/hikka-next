@@ -1,10 +1,13 @@
 import type { FC } from 'react';
 
 import {
+    type AppVoteSchemasContentTypeEnum,
+    type ArticleCategoryEnum,
+    type ArticlePreviewResponse,
+    type CollectionResponse,
+    type CommentResponseFeed,
     ContentTypeEnum,
-    type FeedItemResponse,
-    type VoteContentType,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
@@ -14,11 +17,33 @@ import FeedItemComment from './feed-item-comment';
 import FeedItemFooter from './feed-item-footer';
 import FeedItemHeader from './feed-item-header';
 
+// The generated `getFeed` response is `ArticlePreviewResponse |
+// CommentResponseFeed | CollectionResponse`, but @hikka/api types every
+// member's `data_type` as a loose `string`, so the union does not discriminate.
+// Re-attach the literal `data_type` per member so the `switch` below narrows
+// (mirrors the old @hikka/client `FeedItemResponse` discriminated union).
+type FeedArticleItem = ArticlePreviewResponse & {
+    data_type: typeof ContentTypeEnum.ARTICLE;
+};
+type FeedCollectionItem = CollectionResponse & {
+    data_type: typeof ContentTypeEnum.COLLECTION;
+};
+type FeedCommentItem = CommentResponseFeed & {
+    data_type: typeof ContentTypeEnum.COMMENT;
+};
+export type FeedItemResponse =
+    | FeedArticleItem
+    | FeedCollectionItem
+    | FeedCommentItem;
+
+// @hikka/api types `CommentResponseFeed.preview` as a loose `{ [key]: unknown }`.
+type CommentPreview = { slug?: string };
+
 function getStats(item: FeedItemResponse): {
     commentsCount: number;
     voteScore: number;
     commentsHref?: string;
-    contentType?: VoteContentType;
+    contentType?: AppVoteSchemasContentTypeEnum;
     slug?: string;
     myScore?: number;
 } {
@@ -41,21 +66,24 @@ function getStats(item: FeedItemResponse): {
                 slug: item.reference,
                 myScore: item.my_score,
             };
-        case ContentTypeEnum.COMMENT:
+        case ContentTypeEnum.COMMENT: {
+            const preview = item.preview as CommentPreview;
             return {
-                commentsCount: item.total_replies,
+                commentsCount: item.total_replies ?? 0,
                 voteScore: item.vote_score,
-                commentsHref: `/comments/${item.content_type}/${item.preview.slug}/${item.reference}`,
+                commentsHref: `/comments/${item.content_type}/${preview.slug}/${item.reference}`,
                 contentType: ContentTypeEnum.COMMENT,
                 slug: item.reference,
                 myScore: item.my_score,
             };
+        }
     }
 }
 
 function getExtraInfo(item: FeedItemResponse): string | undefined {
     if (item.data_type === ContentTypeEnum.ARTICLE) {
-        return ARTICLE_CATEGORY_OPTIONS[item.category]?.title_ua;
+        return ARTICLE_CATEGORY_OPTIONS[item.category as ArticleCategoryEnum]
+            ?.title_ua;
     }
     return undefined;
 }

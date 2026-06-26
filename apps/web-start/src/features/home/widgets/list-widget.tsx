@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import { type CommonContentType, ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 import { useSession } from '@hikka/react';
 
 import Card from '@/components/ui/card';
@@ -9,6 +9,12 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { ListTabContent } from '@/features/users/profile/user-list-stats';
 
 import type { WidgetProps } from '../constants';
+
+// @hikka/api has no `CommonContentType`; mirror the @hikka/client union.
+type CommonContentType =
+    | typeof ContentTypeEnum.ANIME
+    | typeof ContentTypeEnum.MANGA
+    | typeof ContentTypeEnum.NOVEL;
 
 const ListWidget: FC<WidgetProps> = () => {
     const { user } = useSession();

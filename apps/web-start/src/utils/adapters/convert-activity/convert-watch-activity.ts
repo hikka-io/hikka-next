@@ -1,10 +1,24 @@
-import {
-    HistoryTypeEnum,
-    type HistoryWatchData,
-    type WatchStatusEnum,
-} from '@hikka/client';
+import { HistoryTypeEnum, type WatchStatusEnum } from '@hikka/api';
 
 import { WATCH_STATUS } from '@/utils/constants/common';
+
+// Local narrowing for the loose `HistoryResponse.data` (`{ [key]: unknown }`)
+// in @hikka/api. Field shapes copied from @hikka/client `types/history.ts`.
+type HistoryWatchData = {
+    after: {
+        score: number | null;
+        status: WatchStatusEnum | null;
+        episodes: number | null;
+        rewatches: number | null;
+    };
+    before: {
+        score: number | null;
+        status: WatchStatusEnum | null;
+        episodes: number | null;
+        rewatches: number | null;
+    };
+    new_watch: boolean;
+};
 import { getDeclensionWord } from '@/utils/i18n/declension';
 
 const EPISODES_DECLENSION: [string, string, string] = [

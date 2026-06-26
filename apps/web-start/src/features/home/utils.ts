@@ -1,4 +1,4 @@
-import type { UIFeedWidget, UIFeedWidgetSide } from '@hikka/client';
+import type { UIFeedWidget, UIFeedWidgetSide } from '@/types/ui';
 
 export const COLUMNS: UIFeedWidgetSide[] = ['left', 'center', 'right'];
 

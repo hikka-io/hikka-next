@@ -3,13 +3,13 @@ import { type ComponentProps, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
+    ContentTypeEnum,
     readAddMutation,
     type ReadContentTypeEnum,
     readGetQueryKey,
     userReadListInfiniteOptions,
 } from '@hikka/api';
 import {
-    ContentTypeEnum,
     type ReadArgs,
     type ReadResponse,
     ReadStatusEnum,
@@ -66,7 +66,9 @@ const CONTENT_TYPE_CONFIG = {
 } as const;
 
 type ReadingTrackerProps = {
-    contentType: ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL;
+    contentType:
+        | typeof ContentTypeEnum.MANGA
+        | typeof ContentTypeEnum.NOVEL;
 };
 
 const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
@@ -80,7 +82,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const [updatedRead, setUpdatedRead] = useState<ReadArgs | null>(null);
 
     // The generated read endpoints type `content_type` as `ReadContentTypeEnum`;
-    // the client `ContentTypeEnum.MANGA | NOVEL` values are identical strings.
+    // the `ContentTypeEnum.MANGA | NOVEL` values are identical strings.
     const apiContentType = contentType as unknown as ReadContentTypeEnum;
 
     const {

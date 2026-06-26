@@ -1,11 +1,6 @@
 import { type FC, useState } from 'react';
 
-import {
-    type CommonContentType,
-    ContentTypeEnum,
-    ReadStatusEnum,
-    WatchStatusEnum,
-} from '@hikka/client';
+import { ContentTypeEnum, ReadStatusEnum, WatchStatusEnum } from '@hikka/api';
 import { useSession } from '@hikka/react';
 
 import Block from '@/components/ui/block';
@@ -21,6 +16,12 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import type { WidgetProps } from '../../constants';
 import ReadingTracker from './components/reading-tracker';
 import WatchingTracker from './components/watching-tracker';
+
+// @hikka/api has no `CommonContentType`; mirror the @hikka/client union.
+type CommonContentType =
+    | typeof ContentTypeEnum.ANIME
+    | typeof ContentTypeEnum.MANGA
+    | typeof ContentTypeEnum.NOVEL;
 
 const TAB_LIST_CONFIG: Record<
     CommonContentType,

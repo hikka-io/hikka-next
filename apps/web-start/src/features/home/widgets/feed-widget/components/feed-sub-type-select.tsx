@@ -1,14 +1,6 @@
 import { type FC, useId, useState } from 'react';
 
-import {
-    ArticleCategoryEnum,
-    type CollectionContentType,
-    type CommentsContentType,
-    ContentTypeEnum,
-    type FeedArticleCategory,
-    type FeedArticleContentType,
-    type FeedContentType,
-} from '@hikka/client';
+import { ArticleCategoryEnum, ContentTypeEnum } from '@hikka/api';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { Button } from '@/components/ui/button';
@@ -18,6 +10,13 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { Switch } from '@/components/ui/switch';
+import type {
+    FeedArticleCategory,
+    FeedArticleContentType,
+    FeedCollectionContentType as CollectionContentType,
+    FeedCommentContentType as CommentsContentType,
+    FeedContentType,
+} from '@/types/ui';
 import { cn } from '@/utils/cn';
 import {
     ARTICLE_CATEGORY_OPTIONS,

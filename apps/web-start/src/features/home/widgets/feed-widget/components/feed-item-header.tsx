@@ -2,7 +2,7 @@ import type { ComponentProps, FC } from 'react';
 
 import { formatDistance } from 'date-fns';
 
-import { ContentTypeEnum, type UserResponse } from '@hikka/client';
+import { ContentTypeEnum, type FollowUserResponse } from '@hikka/api';
 
 import { FollowButton } from '@/components/action-buttons';
 import {
@@ -29,7 +29,7 @@ const TYPE_LABELS: Partial<Record<ContentTypeEnum, string>> = {
 };
 
 type Props = {
-    author: UserResponse;
+    author: FollowUserResponse;
     dataType: ContentTypeEnum;
     created: number;
     extraInfo?: string;

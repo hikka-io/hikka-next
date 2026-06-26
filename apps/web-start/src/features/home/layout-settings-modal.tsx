@@ -22,12 +22,6 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, Plus, Smartphone, X } from 'lucide-react';
 
-import type {
-    UIFeedWidget,
-    UIFeedWidgetSide,
-    UIFeedWidgetSlug,
-} from '@hikka/client';
-
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Label } from '@/components/ui/label';
@@ -41,6 +35,11 @@ import {
 } from '@/components/ui/tooltip';
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
+import type {
+    UIFeedWidget,
+    UIFeedWidgetSide,
+    UIFeedWidgetSlug,
+} from '@/types/ui';
 import { cn } from '@/utils/cn';
 
 import { ALL_WIDGET_SLUGS, WIDGET_REGISTRY } from './constants';

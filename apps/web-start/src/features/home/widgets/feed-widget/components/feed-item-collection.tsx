@@ -1,6 +1,9 @@
 import type { ComponentProps, FC } from 'react';
 
-import type { CollectionContent, CollectionResponse } from '@hikka/client';
+import {
+    type CollectionResponse,
+    type ContentTypeEnum,
+} from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Badge } from '@/components/ui/badge';
@@ -11,7 +14,7 @@ import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 type Props = {
-    data: CollectionResponse<CollectionContent>;
+    data: CollectionResponse;
 };
 
 const MAX_PREVIEW = 3;
@@ -53,35 +56,40 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                 className="grid-min-5"
                 imagePreset="cardSm"
             >
-                {previewItems.map((item) => (
-                    <ContentCard
-                        key={item.content.slug}
-                        image={item.content.image}
-                        href={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
-                        className={cn(data.spoiler && 'spoiler-blur-md')}
-                        titleClassName={cn(data.spoiler && 'spoiler-blur-sm')}
-                        containerClassName={cn(data.nsfw && 'spoiler-blur-md')}
-                        // TODO(phase2): drop casts once feed content uses @hikka/api types
-                        watch={
-                            ('watch' in item.content &&
-                            item.content.watch.length > 0
-                                ? item.content.watch[0]
-                                : undefined) as unknown as ComponentProps<
-                                typeof ContentCard
-                            >['watch']
-                        }
-                        read={
-                            ('read' in item.content &&
-                            item.content.read.length > 0
-                                ? item.content.read[0]
-                                : undefined) as unknown as ComponentProps<
-                                typeof ContentCard
-                            >['read']
-                        }
-                        slug={item.content.slug}
-                        content_type={item.content_type}
-                    />
-                ))}
+                {previewItems.map((item) => {
+                    const contentType = item.content_type as ContentTypeEnum;
+                    return (
+                        <ContentCard
+                            key={item.content.slug}
+                            image={item.content.image}
+                            href={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
+                            className={cn(data.spoiler && 'spoiler-blur-md')}
+                            titleClassName={cn(data.spoiler && 'spoiler-blur-sm')}
+                            containerClassName={cn(
+                                data.nsfw && 'spoiler-blur-md',
+                            )}
+                            // TODO(phase2): drop casts once feed content uses @hikka/api types
+                            watch={
+                                ('watch' in item.content &&
+                                item.content.watch.length > 0
+                                    ? item.content.watch[0]
+                                    : undefined) as unknown as ComponentProps<
+                                    typeof ContentCard
+                                >['watch']
+                            }
+                            read={
+                                ('read' in item.content &&
+                                item.content.read.length > 0
+                                    ? item.content.read[0]
+                                    : undefined) as unknown as ComponentProps<
+                                    typeof ContentCard
+                                >['read']
+                            }
+                            slug={item.content.slug}
+                            content_type={contentType}
+                        />
+                    );
+                })}
                 {remainingCount > 0 && previewItem && (
                     <ContentCard
                         href={`/collections/${data.reference}`}

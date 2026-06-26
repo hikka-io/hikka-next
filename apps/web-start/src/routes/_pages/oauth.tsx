@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { clientByReferenceOptions } from '@hikka/react/options';
+import { getClientByReferenceOptions } from '@hikka/api';
 
 import {
     OAuthClient as Client,
@@ -15,13 +15,16 @@ import { oauthSearchSchema } from '@/utils/search-schemas';
 export const Route = createFileRoute('/_pages/oauth')({
     validateSearch: zodValidator(oauthSearchSchema),
     loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
+    loader: async ({ context: { queryClient, apiClient }, deps }) => {
         const { reference, scope } = deps;
 
         if (!reference || !scope) throw redirect({ to: '/' });
 
-        await queryClient.prefetchQuery(
-            clientByReferenceOptions(hikkaClient, { reference }),
+        await queryClient.ensureQueryData(
+            getClientByReferenceOptions({
+                path: { client_reference: reference },
+                client: apiClient,
+            }),
         );
     },
     head: () =>

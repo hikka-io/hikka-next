@@ -1,6 +1,6 @@
-import { type FC, lazy, Suspense } from 'react';
+import { type ComponentProps, type FC, lazy, Suspense } from 'react';
 
-import type { ArticlePreviewResponse } from '@hikka/client';
+import type { ArticlePreviewResponse, ContentTypeEnum } from '@hikka/api';
 
 import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -18,13 +18,23 @@ type Props = {
     data: ArticlePreviewResponse;
 };
 
+// @hikka/api types the article `content` union with `data_type: string` and no
+// derived `title`; mirror the old @hikka/client `ArticleContent` preview fields.
+type ArticleContentPreview = {
+    data_type?: ContentTypeEnum;
+    slug?: string;
+    title?: string;
+};
+
 const FeedItemArticle: FC<Props> = ({ data }) => {
+    const content = data.content as ArticleContentPreview | null;
+
     return (
         <div className="relative flex flex-col gap-4 p-4 py-0">
             <FeedItemContentPreview
-                contentType={data.content?.data_type}
-                slug={data.content?.slug}
-                title={data.content?.title}
+                contentType={content?.data_type}
+                slug={content?.slug}
+                title={content?.title}
             />
 
             <div className="flex flex-col gap-4">
@@ -59,7 +69,14 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                                 <div className="h-20 animate-pulse rounded bg-muted" />
                             }
                         >
-                            <StaticViewer value={data.preview} />
+                            {/* TODO(phase2): drop cast once StaticViewer accepts @hikka/api preview arrays */}
+                            <StaticViewer
+                                value={
+                                    data.preview as unknown as ComponentProps<
+                                        typeof StaticViewer
+                                    >['value']
+                                }
+                            />
                         </Suspense>
                     )}
                 </div>
