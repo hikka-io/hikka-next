@@ -1,8 +1,9 @@
 import { type FC, useState } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { User as UserIcon } from 'lucide-react';
 
-import { useSearchUsers } from '@hikka/react';
+import { searchUsersOptions } from '@hikka/api';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -30,13 +31,13 @@ const User: FC<Props> = ({ paramKey, title }) => {
     const search = useFilterSearch();
     const user = search[paramKey] as string | undefined;
     const [userSearch, setUserSearch] = useState<string>();
-    const { data: users, isFetching: isUsersFetching } = useSearchUsers({
-        args: {
-            query: userSearch || '',
-        },
-        options: {
-            enabled: !!userSearch,
-        },
+    const { data: users, isFetching: isUsersFetching } = useQuery({
+        ...searchUsersOptions({
+            body: {
+                query: userSearch || '',
+            },
+        }),
+        enabled: !!userSearch,
     });
 
     const handleChangeParam = useChangeParam();
@@ -73,7 +74,7 @@ const User: FC<Props> = ({ paramKey, title }) => {
                                 users?.map((item) => (
                                     <SelectItem
                                         key={item.username}
-                                        value={item.username}
+                                        value={item.username ?? ''}
                                     >
                                         {item.username}
                                     </SelectItem>

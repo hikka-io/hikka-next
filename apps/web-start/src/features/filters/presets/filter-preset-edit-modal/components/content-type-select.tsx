@@ -1,4 +1,4 @@
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 import { SelectField } from '@/components/form/form-select';
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
@@ -10,10 +10,12 @@ import {
 } from '@/components/ui/select';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 
+// `@hikka/api` enums are const objects, so members are values — not usable in
+// type positions. Build the union from the literal value types instead.
 type FilterPresetContentType =
-    | ContentTypeEnum.ANIME
-    | ContentTypeEnum.MANGA
-    | ContentTypeEnum.NOVEL;
+    | typeof ContentTypeEnum.ANIME
+    | typeof ContentTypeEnum.MANGA
+    | typeof ContentTypeEnum.NOVEL;
 
 const FILTER_PRESET_CONTENT_TYPES: FilterPresetContentType[] = [
     ContentTypeEnum.ANIME,

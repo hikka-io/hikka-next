@@ -1,7 +1,7 @@
 import { useStore } from '@tanstack/react-form';
 import { toast } from 'sonner';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';

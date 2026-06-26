@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { useRouter } from '@tanstack/react-router';
 
-import type { ContentTypeEnum } from '@hikka/client';
+import type { ContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';

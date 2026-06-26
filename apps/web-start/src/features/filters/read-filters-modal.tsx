@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { ReadContentType } from '@hikka/client';
+import type { ReadContentTypeEnum as ReadContentType } from '@hikka/api';
 
 import {
     ResponsiveModal,

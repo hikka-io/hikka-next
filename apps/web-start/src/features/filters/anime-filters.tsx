@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 import AgeRating from '@/features/filters/age-rating';
 import DateRange from '@/features/filters/date-range';

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { Play } from 'lucide-react';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 import {
     BadgeFilterField,

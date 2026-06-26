@@ -2,7 +2,7 @@ import { type FC, useState } from 'react';
 
 import { useRouter, useRouterState } from '@tanstack/react-router';
 
-import type { ContentTypeEnum } from '@hikka/client';
+import type { ContentTypeEnum } from '@hikka/api';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { CustomCopyAddRounded } from '@/components/icons/custom/CustomCopyAddRounded';

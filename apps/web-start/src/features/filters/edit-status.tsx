@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { Activity } from 'lucide-react';
 
-import type { EditStatusEnum } from '@hikka/client';
+import type { EditStatusEnum } from '@hikka/api';
 
 import { Label } from '@/components/ui/label';
 import {

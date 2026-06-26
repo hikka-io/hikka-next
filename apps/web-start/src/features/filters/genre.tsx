@@ -1,8 +1,9 @@
 import { type FC, useMemo } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { Drama } from 'lucide-react';
 
-import { useGenres } from '@hikka/react';
+import { type GenreTypeEnum, genresOptions } from '@hikka/api';
 
 import {
     SelectField,
@@ -34,16 +35,14 @@ const Genre: FC<Props> = () => {
     const { genres = [] } = useFilterSearch<{ genres?: string[] }>();
 
     const handleChangeParam = useChangeParam();
-    const { data: genreList } = useGenres({
-        options: {
-            select: (data) => {
-                return data.list.map((genre) => ({
-                    value: genre.slug,
-                    label: genre.name_ua,
-                    group: GENRE_TYPES[genre.type].title_ua,
-                }));
-            },
-        },
+    const { data: genreList } = useQuery({
+        ...genresOptions(),
+        select: (data) =>
+            data.list.map((genre) => ({
+                value: genre.slug,
+                label: genre.name_ua,
+                group: GENRE_TYPES[genre.type as GenreTypeEnum].title_ua,
+            })),
     });
 
     const options = useMemo(() => {
@@ -79,16 +78,14 @@ const Genre: FC<Props> = () => {
 };
 
 export const FormGenre: FC<Props & Partial<SelectFieldProps>> = (props) => {
-    const { data: genreList } = useGenres({
-        options: {
-            select: (data) => {
-                return data.list.map((genre) => ({
-                    value: genre.slug,
-                    label: genre.name_ua,
-                    group: GENRE_TYPES[genre.type].title_ua,
-                }));
-            },
-        },
+    const { data: genreList } = useQuery({
+        ...genresOptions(),
+        select: (data) =>
+            data.list.map((genre) => ({
+                value: genre.slug,
+                label: genre.name_ua,
+                group: GENRE_TYPES[genre.type as GenreTypeEnum].title_ua,
+            })),
     });
 
     const options = useMemo(() => {

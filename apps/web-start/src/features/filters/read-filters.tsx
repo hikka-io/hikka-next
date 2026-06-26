@@ -1,6 +1,9 @@
 import type { FC } from 'react';
 
-import { ContentTypeEnum, type ReadContentType } from '@hikka/client';
+import {
+    ContentTypeEnum,
+    type ReadContentTypeEnum as ReadContentType,
+} from '@hikka/api';
 
 import FiltersFooter from '@/features/filters/filters-footer';
 import Genre from '@/features/filters/genre';

@@ -3,12 +3,18 @@ import { type FC, type ReactElement, type SVGProps, useMemo } from 'react';
 import { useRouter, useRouterState } from '@tanstack/react-router';
 import { XIcon } from 'lucide-react';
 
-import { CompanyTypeEnum } from '@hikka/client';
-import { useGenres, useSearchCompanies } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import {
+    CompanyTypeEnum,
+    genresOptions,
+    searchCompaniesInfiniteOptions,
+} from '@hikka/api';
 
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import {
     AGE_RATING,
@@ -91,24 +97,24 @@ export function useActiveFilters() {
     const hasGenres = 'genres' in search;
     const hasStudios = 'studios' in search;
 
-    const { data: genreMap } = useGenres({
-        options: {
-            enabled: hasGenres,
-            select: (data) => {
-                const map: Record<string, string> = {};
-                data.list.forEach((genre) => {
-                    map[genre.slug] =
-                        genre.name_ua || genre.name_en || genre.slug;
-                });
-                return map;
-            },
+    const { data: genreMap } = useQuery({
+        ...genresOptions(),
+        enabled: hasGenres,
+        select: (data) => {
+            const map: Record<string, string> = {};
+            data.list.forEach((genre) => {
+                map[genre.slug] = genre.name_ua || genre.name_en || genre.slug;
+            });
+            return map;
         },
     });
 
-    const { list: studioList } = useSearchCompanies({
-        args: { type: CompanyTypeEnum.STUDIO },
-        options: { enabled: hasStudios },
-    });
+    const { list: studioList } = useInfiniteList(
+        searchCompaniesInfiniteOptions({
+            body: { type: CompanyTypeEnum.STUDIO },
+        }),
+        { enabled: hasStudios },
+    );
 
     const studioMap = useMemo(() => {
         if (!studioList) return undefined;
