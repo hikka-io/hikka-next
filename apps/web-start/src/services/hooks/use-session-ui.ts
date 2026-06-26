@@ -1,15 +1,12 @@
 import { useMemo } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { getRouteApi } from '@tanstack/react-router';
 
-import type { UIEffect, UIStyles, UserUI } from '@hikka/client';
-import { sessionUserUIOptions } from '@hikka/react/options';
+import { profileUiOptions } from '@hikka/api';
 
+import type { UIEffect, UIStyles, UserUI } from '@/types/ui';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import { DEFAULT_USER_UI, mergeEffects, mergeStyles } from '@/utils/ui';
-
-const rootRoute = getRouteApi('__root__');
 
 interface SessionUI {
     preferences: NonNullable<UserUI['preferences']>;
@@ -19,16 +16,14 @@ interface SessionUI {
 }
 
 export function useSessionUI(): SessionUI {
-    // Use useQuery directly (not useSessionUserUI from @hikka/react)
-    // because this hook is called in Providers — OUTSIDE HikkaContextProvider.
-    // Get the hikkaClient from router context to provide queryFn.
-    const { hikkaClient } = rootRoute.useRouteContext() as {
-        hikkaClient: import('@hikka/client').HikkaClient;
-    };
+    // The generated @hikka/api client is configured globally (not via React
+    // context), so the query options work even though this hook runs in
+    // Providers. The API response is a structural superset of the app-owned
+    // UserUI type, so we cast at this boundary.
     const { data } = useQuery({
-        ...sessionUserUIOptions(hikkaClient),
+        ...profileUiOptions(),
     });
-    const userUI = data ?? DEFAULT_USER_UI;
+    const userUI = (data as UserUI | undefined) ?? DEFAULT_USER_UI;
 
     return useMemo(() => {
         // Merge sparse API styles with defaults so editors/UI always have full tokens

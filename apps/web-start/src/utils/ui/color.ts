@@ -1,6 +1,6 @@
 import type { HslColor } from 'react-colorful';
 
-import type { HSLColor } from '@hikka/client';
+import type { HSLColor } from '@/types/ui';
 
 /**
  * Convert Hikka HSL color to react-colorful HslColor format.

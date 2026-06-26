@@ -9,7 +9,7 @@ import type {
     UIStyles,
     UIThemeStyles,
     UserUI,
-} from '@hikka/client';
+} from '@/types/ui';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 

@@ -1,4 +1,4 @@
-import type { UIColorTokens, UIStyles } from '@hikka/client';
+import type { UIColorTokens, UIStyles } from '@/types/ui';
 
 import { DEFAULT_STYLES } from '@/utils/ui';
 

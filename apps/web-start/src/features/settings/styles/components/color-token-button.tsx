@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { type HslColor, HslColorPicker } from 'react-colorful';
 
-import type { HSLColor } from '@hikka/client';
+import type { HSLColor } from '@/types/ui';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

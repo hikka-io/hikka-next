@@ -6,7 +6,7 @@ import type {
     UIColorTokens,
     UIStyles,
     UIThemeStyles,
-} from '@hikka/client';
+} from '@/types/ui';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import { DEFAULT_STYLES, mergeStyles } from '@/utils/ui';

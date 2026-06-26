@@ -1,9 +1,12 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import type { UIFeedSettings, UserUI } from '@hikka/client';
-import { useUpdateUserUI } from '@hikka/react';
-import { queryKeys } from '@hikka/react/core';
+import {
+    changeUiMutation,
+    profileUiQueryKey,
+    type UserCustomizationArgs,
+} from '@hikka/api';
 
+import type { UIFeedSettings, UserUI } from '@/types/ui';
 import { DEFAULT_USER_UI, diffStyles } from '@/utils/ui';
 
 type SessionUIPatch = {
@@ -17,8 +20,8 @@ type SessionUIPatch = {
 
 export function useUpdateSessionUI() {
     const queryClient = useQueryClient();
-    const queryKey = queryKeys.user.ui('me');
-    const mutation = useUpdateUserUI();
+    const queryKey = profileUiQueryKey();
+    const mutation = useMutation({ ...changeUiMutation() });
 
     const update = (patch: SessionUIPatch) => {
         const previous = queryClient.getQueryData<UserUI>(queryKey);
@@ -53,7 +56,7 @@ export function useUpdateSessionUI() {
         }));
 
         mutation.mutate(
-            { userUI: apiPayload },
+            { body: apiPayload as unknown as UserCustomizationArgs },
             {
                 onError: () => {
                     // Rollback on error

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import type { HSLColor, UIColorTokens } from '@hikka/client';
+import type { HSLColor, UIColorTokens } from '@/types/ui';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
