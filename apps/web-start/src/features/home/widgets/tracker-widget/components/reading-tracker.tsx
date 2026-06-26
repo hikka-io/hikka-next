@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { type ComponentProps, useEffect, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -423,7 +423,12 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <ReadEditModal
-                            read={selectedRead}
+                            // TODO(phase2): drop cast once tracker read uses @hikka/api ReadResponseBase
+                            read={
+                                selectedRead as unknown as ComponentProps<
+                                    typeof ReadEditModal
+                                >['read']
+                            }
                             slug={selectedRead.content.slug}
                             content_type={contentType}
                             onClose={() => setOpen(false)}

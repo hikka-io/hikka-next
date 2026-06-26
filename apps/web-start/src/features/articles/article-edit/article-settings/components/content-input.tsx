@@ -43,7 +43,11 @@ const ContentInput: FC<Props> = () => {
                             {contentTitle}
                         </HorizontalCardTitle>
                         <HorizontalCardDescription>
-                            {CONTENT_TYPES[content.data_type].title_ua}
+                            {
+                                CONTENT_TYPES[
+                                    content.data_type as keyof typeof CONTENT_TYPES
+                                ].title_ua
+                            }
                         </HorizontalCardDescription>
                     </HorizontalCardContainer>
                     <Button

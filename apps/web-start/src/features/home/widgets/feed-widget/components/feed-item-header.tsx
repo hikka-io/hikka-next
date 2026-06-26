@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
 import { formatDistance } from 'date-fns';
 
@@ -86,7 +86,16 @@ const FeedItemHeader: FC<Props> = ({
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
             </HorizontalCardContainer>
-            <FollowButton user={author} iconOnly size="icon-md" />
+            {/* TODO(phase2): drop cast once feed author uses @hikka/api UserResponseFollowed */}
+            <FollowButton
+                user={
+                    author as unknown as ComponentProps<
+                        typeof FollowButton
+                    >['user']
+                }
+                iconOnly
+                size="icon-md"
+            />
         </HorizontalCard>
     );
 };

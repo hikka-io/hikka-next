@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
 import type { CollectionContent, CollectionResponse } from '@hikka/client';
 
@@ -61,17 +61,22 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                         className={cn(data.spoiler && 'spoiler-blur-md')}
                         titleClassName={cn(data.spoiler && 'spoiler-blur-sm')}
                         containerClassName={cn(data.nsfw && 'spoiler-blur-md')}
+                        // TODO(phase2): drop casts once feed content uses @hikka/api types
                         watch={
-                            'watch' in item.content &&
+                            ('watch' in item.content &&
                             item.content.watch.length > 0
                                 ? item.content.watch[0]
-                                : undefined
+                                : undefined) as unknown as ComponentProps<
+                                typeof ContentCard
+                            >['watch']
                         }
                         read={
-                            'read' in item.content &&
+                            ('read' in item.content &&
                             item.content.read.length > 0
                                 ? item.content.read[0]
-                                : undefined
+                                : undefined) as unknown as ComponentProps<
+                                typeof ContentCard
+                            >['read']
                         }
                         slug={item.content.slug}
                         content_type={item.content_type}

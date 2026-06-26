@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { type ComponentProps, useEffect, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -369,7 +369,12 @@ const WatchingTracker = () => {
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <WatchEditModal
-                            watch={selectedWatch}
+                            // TODO(phase2): drop cast once tracker watch uses @hikka/api WatchResponseBase
+                            watch={
+                                selectedWatch as unknown as ComponentProps<
+                                    typeof WatchEditModal
+                                >['watch']
+                            }
                             slug={selectedWatch.anime.slug}
                             onClose={() => setOpen(false)}
                         />

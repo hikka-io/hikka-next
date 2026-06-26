@@ -25,8 +25,13 @@ const Title = ({ className, content_type }: TitleProps) => {
 
                 <p className="text-muted-foreground text-sm">
                     {data.data_type === ContentTypeEnum.ANIME
-                        ? data.title_ja
-                        : data.title_original}
+                        ? 'title_ja' in data
+                            ? data.title_ja
+                            : null
+                        : 'title_original' in data
+                          ? (data as { title_original?: string | null })
+                                .title_original
+                          : null}
                 </p>
             </div>
             <div className="flex items-center justify-between gap-2">
