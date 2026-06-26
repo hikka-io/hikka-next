@@ -1,0 +1,13 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "composite": true,
+        "declaration": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "rootDir": ".",
+        "types": ["node"]
+    },
+    "include": ["src/**/*.ts", "openapi-ts.config.ts", "scripts/**/*.ts"],
+    "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
+}

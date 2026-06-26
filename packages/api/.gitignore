@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+lib/
+
+# Logs
+*.log
+
+# TypeScript
+*.tsbuildinfo
+
+# Turbo
+.turbo/
+
+# Coverage
+coverage/
+
+# OS specific
+.DS_Store
