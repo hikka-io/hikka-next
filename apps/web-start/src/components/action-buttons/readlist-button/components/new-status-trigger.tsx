@@ -1,8 +1,13 @@
 import type * as React from 'react';
 import { createElement, type FC } from 'react';
 
-import { type ReadContentType, ReadStatusEnum } from '@hikka/client';
-import { useCreateRead } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+    type ReadContentTypeEnum,
+    ReadStatusEnum,
+    readAddMutation,
+    readGetQueryKey,
+} from '@hikka/api';
 
 import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '@/components/ui/button';
@@ -14,7 +19,7 @@ import { READ_STATUS } from '@/utils/constants/common';
 type NewStatusTriggerProps = {
     disabled?: boolean;
     slug: string;
-    content_type: ReadContentType;
+    content_type: ReadContentTypeEnum;
     size?: 'sm' | 'md';
     isLoading?: boolean;
 };
@@ -26,15 +31,31 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     size,
     isLoading,
 }) => {
-    const { mutate: createRead } = useCreateRead();
+    const queryClient = useQueryClient();
+
+    const { mutate: createRead } = useMutation({
+        ...readAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                readGetQueryKey({
+                    path: { content_type: path.content_type, slug: path.slug },
+                }),
+                data,
+            );
+            queryClient.invalidateQueries({
+                predicate: (query) =>
+                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                    'userReadList',
+            });
+        },
+    });
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
         createRead({
-            contentType: content_type,
-            slug,
-            args: {
+            path: { content_type, slug },
+            body: {
                 status: ReadStatusEnum.PLANNED,
             },
         });

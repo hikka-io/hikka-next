@@ -1,14 +1,19 @@
 import { createElement, useEffect, useState } from 'react';
 
 import { useStore } from '@tanstack/react-form';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import type {
-    WatchResponse,
-    WatchResponseBase,
-    WatchStatusEnum,
-} from '@hikka/client';
-import { useCreateWatch, useDeleteWatch, useWatchBySlug } from '@hikka/react';
+import {
+    deleteWatchMutation,
+    type WatchArgs,
+    type WatchResponse,
+    type WatchResponseBase,
+    type WatchStatusEnum,
+    watchAddMutation,
+    watchGetOptions,
+    watchGetQueryKey,
+} from '@hikka/api';
 import { getTitle } from '@hikka/react/utils';
 
 import { useAppForm } from '@/components/form/use-app-form';
@@ -47,49 +52,56 @@ type Props = {
 };
 
 const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
-    const { data: watchQuery } = useWatchBySlug({
-        slug,
-        options: { enabled: !watchProp },
+    const queryClient = useQueryClient();
+
+    const { data: watchQuery } = useQuery({
+        ...watchGetOptions({ path: { slug } }),
+        enabled: !watchProp,
     });
 
     const watch = watchProp || watchQuery;
 
-    const { mutate: createWatch, isPending: addToListLoading } = useCreateWatch(
-        {
-            options: {
-                onSuccess: (data) => {
-                    toast.info(
-                        <span>
-                            <span className="font-bold">
-                                {getTitle(
-                                    data.anime as unknown as Record<
-                                        string,
-                                        unknown
-                                    >,
-                                )}
-                            </span>{' '}
-                            успішно оновлено.
-                        </span>,
-                    );
-                    onClose?.();
-                },
-            },
+    const invalidateWatchLists = () =>
+        queryClient.invalidateQueries({
+            predicate: (query) =>
+                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                'userWatchList',
+        });
+
+    const { mutate: createWatch, isPending: addToListLoading } = useMutation({
+        ...watchAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                watchGetQueryKey({ path: { slug: path.slug } }),
+                data,
+            );
+            invalidateWatchLists();
+            toast.info(
+                <span>
+                    <span className="font-bold">{getTitle(data.anime)}</span>{' '}
+                    успішно оновлено.
+                </span>,
+            );
+            onClose?.();
         },
-    );
+    });
 
     const { mutate: deleteWatch, isPending: deleteFromListLoading } =
-        useDeleteWatch({
-            options: {
-                onSuccess: () => {
-                    toast.success('Аніме успішно видалено.');
-                    onClose?.();
-                },
+        useMutation({
+            ...deleteWatchMutation(),
+            onSuccess: (_data, { path }) => {
+                queryClient.removeQueries({
+                    queryKey: watchGetQueryKey({ path: { slug: path.slug } }),
+                });
+                invalidateWatchLists();
+                toast.success('Аніме успішно видалено.');
+                onClose?.();
             },
         });
 
     const [selectedStatus, setSelectedStatus] = useState<
         WatchStatusEnum | undefined
-    >(watch?.status);
+    >(watch?.status as WatchStatusEnum | undefined);
 
     const form = useAppForm({
         defaultValues: {
@@ -97,17 +109,19 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
             episodes: watch?.episodes ?? 0,
             rewatches: watch?.rewatches ?? 0,
             note: watch?.note ?? null,
-            start_date: (watch as any)?.start_date ?? null,
-            end_date: (watch as any)?.end_date ?? null,
+            start_date: (watch as { start_date?: number | null })?.start_date ?? null,
+            end_date: (watch as { end_date?: number | null })?.end_date ?? null,
         },
         validators: { onSubmit: formSchema as never },
         onSubmit: async ({ value }) => {
             createWatch({
-                slug,
-                args: {
+                path: { slug },
+                // TODO(phase2): start_date/end_date are `number | null` in the
+                // form but typed `string | null` in the generated WatchArgs.
+                body: {
                     status: selectedStatus!,
                     ...value,
-                },
+                } as unknown as WatchArgs,
             });
         },
     });
@@ -116,7 +130,7 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
 
     useEffect(() => {
         if (watch?.status) {
-            setSelectedStatus(watch.status);
+            setSelectedStatus(watch.status as WatchStatusEnum);
         }
     }, [watch]);
 
@@ -254,7 +268,7 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
                     type="button"
                     variant="destructive"
                     size="md"
-                    onClick={() => deleteWatch(slug)}
+                    onClick={() => deleteWatch({ path: { slug } })}
                     disabled={addToListLoading || deleteFromListLoading}
                 >
                     {deleteFromListLoading ? (

@@ -1,14 +1,19 @@
 import { createElement, useEffect, useState } from 'react';
 
 import { useStore } from '@tanstack/react-form';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import type {
-    ReadContentType,
-    ReadResponseBase,
-    ReadStatusEnum,
-} from '@hikka/client';
-import { useCreateRead, useDeleteRead, useReadBySlug } from '@hikka/react';
+import {
+    type ReadArgs,
+    type ReadContentTypeEnum,
+    type ReadResponseBase,
+    type ReadStatusEnum,
+    deleteReadMutation,
+    readAddMutation,
+    readGetOptions,
+    readGetQueryKey,
+} from '@hikka/api';
 import { getTitle } from '@hikka/react/utils';
 
 import { useAppForm } from '@/components/form/use-app-form';
@@ -43,7 +48,7 @@ const formSchema = z.object({
 
 type Props = {
     slug: string;
-    content_type: ReadContentType;
+    content_type: ReadContentTypeEnum;
     read?: ReadResponseBase;
     onClose?: () => void;
 };
@@ -54,50 +59,63 @@ const ReadEditModal = ({
     read: readProp,
     onClose,
 }: Props) => {
-    const { data: readQuery } = useReadBySlug({
-        contentType: content_type,
-        slug,
-        options: {
-            enabled: !readProp,
-        },
+    const queryClient = useQueryClient();
+
+    const { data: readQuery } = useQuery({
+        ...readGetOptions({ path: { content_type, slug } }),
+        enabled: !readProp,
     });
 
     const read = readProp || readQuery;
 
-    const { mutate: createRead, isPending: addToListLoading } = useCreateRead({
-        options: {
-            onSuccess: (data) => {
-                toast.success(
-                    <span>
-                        <span className="font-bold">
-                            {getTitle(
-                                data.content as unknown as Record<
-                                    string,
-                                    unknown
-                                >,
-                            )}
-                        </span>{' '}
-                        успішно оновлено.
-                    </span>,
-                );
-                onClose?.();
-            },
+    const invalidateReadLists = () =>
+        queryClient.invalidateQueries({
+            predicate: (query) =>
+                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                'userReadList',
+        });
+
+    const { mutate: createRead, isPending: addToListLoading } = useMutation({
+        ...readAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                readGetQueryKey({
+                    path: { content_type: path.content_type, slug: path.slug },
+                }),
+                data,
+            );
+            invalidateReadLists();
+            toast.success(
+                <span>
+                    <span className="font-bold">{getTitle(data.content)}</span>{' '}
+                    успішно оновлено.
+                </span>,
+            );
+            onClose?.();
         },
     });
 
     const { mutate: deleteRead, isPending: deleteFromListLoading } =
-        useDeleteRead({
-            options: {
-                onSuccess: () => {
-                    toast.success('Контент успішно видалено.');
-                    onClose?.();
-                },
+        useMutation({
+            ...deleteReadMutation(),
+            onSuccess: (_data, { path }) => {
+                queryClient.removeQueries({
+                    queryKey: readGetQueryKey({
+                        path: {
+                            content_type: path.content_type,
+                            slug: path.slug,
+                        },
+                    }),
+                });
+                invalidateReadLists();
+                toast.success('Контент успішно видалено.');
+                onClose?.();
             },
         });
 
     const [selectedStatus, setSelectedStatus] = useState<
         ReadStatusEnum | undefined
-    >(read?.status);
+    >(read?.status as ReadStatusEnum | undefined);
 
     const form = useAppForm({
         defaultValues: {
@@ -106,18 +124,19 @@ const ReadEditModal = ({
             chapters: read?.chapters ?? 0,
             rereads: read?.rereads ?? 0,
             note: read?.note ?? null,
-            start_date: (read as any)?.start_date ?? null,
-            end_date: (read as any)?.end_date ?? null,
+            start_date: (read as { start_date?: number | null })?.start_date ?? null,
+            end_date: (read as { end_date?: number | null })?.end_date ?? null,
         },
         validators: { onSubmit: formSchema as never },
         onSubmit: async ({ value }) => {
             createRead({
-                contentType: content_type,
-                slug,
-                args: {
+                path: { content_type, slug },
+                // TODO(phase2): start_date/end_date are `number | null` in the
+                // form but typed `string | null` in the generated ReadArgs.
+                body: {
                     status: selectedStatus!,
                     ...value,
-                },
+                } as unknown as ReadArgs,
             });
         },
     });
@@ -126,7 +145,7 @@ const ReadEditModal = ({
 
     useEffect(() => {
         if (read?.status) {
-            setSelectedStatus(read.status);
+            setSelectedStatus(read.status as ReadStatusEnum);
         }
     }, [read]);
 
@@ -277,8 +296,7 @@ const ReadEditModal = ({
                     size="md"
                     onClick={() =>
                         deleteRead({
-                            contentType: content_type,
-                            slug,
+                            path: { content_type, slug },
                         })
                     }
                     disabled={addToListLoading || deleteFromListLoading}

@@ -1,6 +1,10 @@
 import { createElement, type FC } from 'react';
 
-import type { WatchResponse, WatchResponseBase } from '@hikka/client';
+import type {
+    WatchResponse,
+    WatchResponseBase,
+    WatchStatusEnum,
+} from '@hikka/api';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
@@ -24,7 +28,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
     isLoading,
     onOpenModal,
 }) => {
-    const watchStatus = WATCH_STATUS[watch.status];
+    const watchStatus = WATCH_STATUS[watch.status as WatchStatusEnum];
 
     return (
         <SelectTrigger asChild>

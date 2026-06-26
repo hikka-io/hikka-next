@@ -2,7 +2,10 @@ import { type FC, memo } from 'react';
 
 import { ArrowBigUp, Layers, MessageCircle } from 'lucide-react';
 
-import type { CollectionContent, CollectionResponse } from '@hikka/client';
+import type {
+    CollectionContentResponse,
+    CollectionResponse,
+} from '@hikka/api';
 
 import {
     HorizontalCard,
@@ -15,12 +18,13 @@ import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { cn } from '@/utils/cn';
 
 type Props = {
-    data: CollectionResponse<CollectionContent>;
+    data: CollectionResponse;
     className?: string;
 };
 
 const CollectionItem: FC<Props> = ({ data, className }) => {
-    const image = (content: CollectionContent) => content.image;
+    const image = (content: CollectionContentResponse['content']) =>
+        content.image;
 
     return (
         <HorizontalCard className={className}>

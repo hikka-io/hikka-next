@@ -1,7 +1,8 @@
-import { type FC, memo, type PropsWithChildren } from 'react';
+import { type ComponentProps, type FC, memo, type PropsWithChildren } from 'react';
 
-import type { WatchResponseBase } from '@hikka/client';
-import { useAnimeBySlug, useSession, useTitle } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+import { animeSlugOptions, type WatchResponseBase } from '@hikka/api';
+import { useSession, useTitle } from '@hikka/react';
 
 import { WatchlistButton } from '@/components/action-buttons';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
@@ -22,7 +23,7 @@ type Props = PropsWithChildren & {
 
 const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
     const { user: loggedUser } = useSession();
-    const { data } = useAnimeBySlug({ slug });
+    const { data } = useQuery(animeSlugOptions({ path: { slug } }));
     const title = useTitle(data);
 
     if (!data) {
@@ -37,7 +38,9 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
             synopsis_en={data.synopsis_en}
             media_type_label={
                 data.media_type
-                    ? ANIME_MEDIA_TYPE[data.media_type].title_ua
+                    ? ANIME_MEDIA_TYPE[
+                          data.media_type as keyof typeof ANIME_MEDIA_TYPE
+                      ].title_ua
                     : null
             }
             status={data.status}
@@ -65,7 +68,16 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
             }
             actionButton={
                 loggedUser ? (
-                    <WatchlistButton watch={watch} slug={slug} additional />
+                    <WatchlistButton
+                        // TODO(phase2): drop cast once WatchlistButton migrates to @hikka/api types
+                        watch={
+                            watch as unknown as ComponentProps<
+                                typeof WatchlistButton
+                            >['watch']
+                        }
+                        slug={slug}
+                        additional
+                    />
                 ) : undefined
             }
         />

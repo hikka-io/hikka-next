@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 
 import {
+    type AppSchemasRoleResponse,
     ContentTypeEnum,
     type PersonResponse,
-    type RoleResponse,
-} from '@hikka/client';
+} from '@hikka/api';
 import { useTitle } from '@hikka/react';
 import { getTitle } from '@hikka/react/utils';
 
@@ -12,7 +12,7 @@ import ContentCard, { type ContentCardProps } from './content-card';
 
 type Props = ContentCardProps & {
     person: PersonResponse;
-    roles: RoleResponse[];
+    roles: AppSchemasRoleResponse[];
 };
 
 const PersonCard: FC<Props> = ({ person, roles, ...props }) => {

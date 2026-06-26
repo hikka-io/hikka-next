@@ -1,12 +1,15 @@
 import { createElement, type FC } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
     type AnimeResponse,
     type WatchResponse,
     type WatchResponseBase,
-    WatchStatusEnum,
-} from '@hikka/client';
-import { useCreateWatch } from '@hikka/react';
+    type WatchStatusEnum,
+    WatchStatusEnum as WatchStatusEnumValue,
+    watchAddMutation,
+    watchGetQueryKey,
+} from '@hikka/api';
 
 import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
@@ -33,15 +36,30 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
     onOpenModal,
     ...props
 }) => {
-    const { mutate: createWatch } = useCreateWatch();
+    const queryClient = useQueryClient();
+
+    const { mutate: createWatch } = useMutation({
+        ...watchAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                watchGetQueryKey({ path: { slug: path.slug } }),
+                data,
+            );
+            queryClient.invalidateQueries({
+                predicate: (query) =>
+                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                    'userWatchList',
+            });
+        },
+    });
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
         createWatch({
-            slug,
-            args: {
-                status: WatchStatusEnum.PLANNED,
+            path: { slug },
+            body: {
+                status: WatchStatusEnumValue.PLANNED,
             },
         });
     };
@@ -52,7 +70,9 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
         }
     };
 
-    const watchStatus = watch ? WATCH_STATUS[watch.status] : null;
+    const watchStatus = watch
+        ? WATCH_STATUS[watch.status as WatchStatusEnum]
+        : null;
 
     if (!watch || !watchStatus) {
         return (

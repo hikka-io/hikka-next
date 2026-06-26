@@ -1,12 +1,19 @@
-import { type FC, memo, type PropsWithChildren } from 'react';
-
-import { ContentTypeEnum } from '@hikka/client';
 import {
-    useReadStats,
-    useUserByUsername,
-    useUserFollowStats,
-    useUserWatchStats,
-} from '@hikka/react';
+    type ComponentProps,
+    type FC,
+    memo,
+    type PropsWithChildren,
+} from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+import {
+    ContentTypeEnum,
+    followStatsOptions,
+    type ReadContentTypeEnum,
+    userProfileOptions,
+    userReadStatsOptions,
+    userWatchStatsOptions,
+} from '@hikka/api';
 
 import { FollowButton } from '@/components/action-buttons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -35,17 +42,33 @@ type Props = PropsWithChildren & {
 };
 
 const TooltipData: FC<TooltipDataProps> = ({ username }) => {
-    const { data: user } = useUserByUsername({ username });
-    const { data: followStats } = useUserFollowStats({ username });
-    const { data: watchStats } = useUserWatchStats({ username });
-    const { data: mangaStats } = useReadStats({
-        username,
-        contentType: ContentTypeEnum.MANGA,
-    });
-    const { data: novelStats } = useReadStats({
-        username,
-        contentType: ContentTypeEnum.NOVEL,
-    });
+    const { data: user } = useQuery(
+        userProfileOptions({ path: { username } }),
+    );
+    const { data: followStats } = useQuery(
+        followStatsOptions({ path: { username } }),
+    );
+    const { data: watchStats } = useQuery(
+        userWatchStatsOptions({ path: { username } }),
+    );
+    const { data: mangaStats } = useQuery(
+        userReadStatsOptions({
+            path: {
+                username,
+                content_type:
+                    ContentTypeEnum.MANGA as unknown as ReadContentTypeEnum,
+            },
+        }),
+    );
+    const { data: novelStats } = useQuery(
+        userReadStatsOptions({
+            path: {
+                username,
+                content_type:
+                    ContentTypeEnum.NOVEL as unknown as ReadContentTypeEnum,
+            },
+        }),
+    );
 
     if (!user && !followStats) {
         return <UserTooltipSkeleton />;

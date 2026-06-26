@@ -2,7 +2,7 @@ import type {
     ContentTypeEnum,
     ReadResponseBase,
     WatchResponseBase,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import type { ContentCardProps } from './content-card';
 

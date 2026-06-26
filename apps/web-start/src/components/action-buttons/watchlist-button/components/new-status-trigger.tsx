@@ -1,8 +1,12 @@
 import type * as React from 'react';
 import { createElement, type FC } from 'react';
 
-import { WatchStatusEnum } from '@hikka/client';
-import { useCreateWatch } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+    WatchStatusEnum,
+    watchAddMutation,
+    watchGetQueryKey,
+} from '@hikka/api';
 
 import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '@/components/ui/button';
@@ -24,14 +28,29 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     size,
     isLoading,
 }) => {
-    const { mutate: createWatch } = useCreateWatch();
+    const queryClient = useQueryClient();
+
+    const { mutate: createWatch } = useMutation({
+        ...watchAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                watchGetQueryKey({ path: { slug: path.slug } }),
+                data,
+            );
+            queryClient.invalidateQueries({
+                predicate: (query) =>
+                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                    'userWatchList',
+            });
+        },
+    });
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
         createWatch({
-            slug,
-            args: {
+            path: { slug },
+            body: {
                 status: WatchStatusEnum.PLANNED,
             },
         });

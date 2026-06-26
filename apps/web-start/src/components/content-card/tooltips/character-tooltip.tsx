@@ -1,6 +1,8 @@
 import { type FC, memo, type PropsWithChildren } from 'react';
 
-import { useCharacterAnime, useCharacterBySlug, useTitle } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+import { characterAnimeOptions, characterInfoOptions } from '@hikka/api';
+import { useTitle } from '@hikka/react';
 
 import MDViewer from '../../markdown/viewer/md-viewer';
 import ContentCard from '../content-card';
@@ -16,12 +18,14 @@ type Props = PropsWithChildren & {
 };
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
-    const { data } = useCharacterBySlug({ slug });
-    const { list } = useCharacterAnime({ slug });
+    const { data } = useQuery(characterInfoOptions({ path: { slug } }));
+    const { data: characterAnimeData } = useQuery(
+        characterAnimeOptions({ path: { slug } }),
+    );
 
-    const characterAnime = list?.sort(
-        (a, b) => b.anime.score - a.anime.score,
-    )[0];
+    const characterAnime = characterAnimeData?.list
+        ?.slice()
+        .sort((a, b) => b.anime.score - a.anime.score)[0];
 
     const name = useTitle(data);
 

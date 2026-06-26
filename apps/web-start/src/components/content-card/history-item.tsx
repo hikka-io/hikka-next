@@ -2,7 +2,7 @@ import { type FC, memo } from 'react';
 
 import { formatDistance } from 'date-fns/formatDistance';
 
-import type { HistoryResponse } from '@hikka/client';
+import type { HistoryResponse } from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
@@ -40,7 +40,7 @@ const User: FC<Props> = memo(({ data }) => (
                     />
                     <AvatarFallback
                         className="size-10 rounded-md"
-                        title={data.user.username[0]}
+                        title={data.user.username?.[0]}
                     />
                 </Avatar>
             </Link>
@@ -55,7 +55,10 @@ const HistoryItem: FC<Props> = (props) => {
         data.content as unknown as Record<string, unknown> | undefined,
     );
 
-    const activity = convertActivity(data);
+    // TODO(phase2): drop cast once convert-activity migrates to @hikka/api types
+    const activity = convertActivity(
+        data as unknown as Parameters<typeof convertActivity>[0],
+    );
 
     return (
         <HorizontalCard className={className}>
@@ -69,7 +72,7 @@ const HistoryItem: FC<Props> = (props) => {
                 }
                 to={
                     data.content
-                        ? `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
+                        ? `${CONTENT_TYPE_LINKS[data.content.data_type as keyof typeof CONTENT_TYPE_LINKS]}/${data.content.slug}`
                         : undefined
                 }
             />
@@ -77,7 +80,7 @@ const HistoryItem: FC<Props> = (props) => {
                 <HorizontalCardTitle
                     to={
                         data.content
-                            ? `${CONTENT_TYPE_LINKS[data.content.data_type]}/${data.content.slug}`
+                            ? `${CONTENT_TYPE_LINKS[data.content.data_type as keyof typeof CONTENT_TYPE_LINKS]}/${data.content.slug}`
                             : '#'
                     }
                 >

@@ -1,20 +1,21 @@
 import { createElement, useCallback, useMemo, useState } from 'react';
 
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     ContentTypeEnum,
     type MangaResponse,
+    mangaInfoOptions,
     type NovelResponse,
-    type ReadContentType,
+    novelInfoOptions,
+    type ReadArgs,
+    type ReadContentTypeEnum,
     type ReadResponseBase,
     ReadStatusEnum,
-} from '@hikka/client';
-import {
-    useCreateRead,
-    useMangaBySlug,
-    useNovelBySlug,
-    useReadBySlug,
-    useTitle,
-} from '@hikka/react';
+    readAddMutation,
+    readGetOptions,
+    readGetQueryKey,
+} from '@hikka/api';
+import { useTitle } from '@hikka/react';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import type { ButtonProps } from '@/components/ui/button';
@@ -44,7 +45,7 @@ type Props = {
     slug: string;
     additional?: boolean;
     disabled?: boolean;
-    content_type: ReadContentType;
+    content_type: ReadContentTypeEnum;
     read?: ReadResponseBase | null;
     content?: MangaResponse | NovelResponse;
     size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
@@ -94,30 +95,43 @@ const ReadlistButton = ({
     buttonProps,
 }: Props) => {
     const [editOpen, setEditOpen] = useState(false);
+    const queryClient = useQueryClient();
 
-    const { data: readQuery, isError: readError } = useReadBySlug({
-        contentType: content_type,
-        slug,
-        options: {
-            enabled: !disabled && !readProp && readProp !== null,
-        },
+    const { data: readQuery, isError: readError } = useQuery({
+        ...readGetOptions({ path: { content_type, slug } }),
+        retry: false,
+        enabled: !disabled && !readProp && readProp !== null,
     });
 
-    const { data: manga } = useMangaBySlug({
-        slug,
-        options: {
-            enabled: !disabled && content_type === 'manga' && !contentProp,
-        },
+    const { data: manga } = useQuery({
+        ...mangaInfoOptions({ path: { slug } }),
+        enabled: !disabled && content_type === 'manga' && !contentProp,
     });
 
-    const { data: novel } = useNovelBySlug({
-        slug,
-        options: {
-            enabled: !disabled && content_type === 'novel' && !contentProp,
-        },
+    const { data: novel } = useQuery({
+        ...novelInfoOptions({ path: { slug } }),
+        enabled: !disabled && content_type === 'novel' && !contentProp,
     });
 
-    const { mutate: createRead, isPending: isChangingStatus } = useCreateRead();
+    const invalidateReadLists = () =>
+        queryClient.invalidateQueries({
+            predicate: (query) =>
+                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                'userReadList',
+        });
+
+    const { mutate: createRead, isPending: isChangingStatus } = useMutation({
+        ...readAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                readGetQueryKey({
+                    path: { content_type: path.content_type, slug: path.slug },
+                }),
+                data,
+            );
+            invalidateReadLists();
+        },
+    });
 
     // Memoize derived values to prevent unnecessary recalculations
     const read = useMemo(
@@ -125,8 +139,15 @@ const ReadlistButton = ({
         [readProp, readQuery, readError],
     );
 
+    // TODO(phase2): mangaInfoOptions/novelInfoOptions return the *Info* response
+    // supersets; the shared read subcomponents still expect the base
+    // MangaResponse | NovelResponse shape.
     const content = useMemo(
-        () => contentProp || manga || novel,
+        () =>
+            (contentProp || manga || novel) as
+                | MangaResponse
+                | NovelResponse
+                | undefined,
         [contentProp, manga, novel],
     );
 
@@ -160,7 +181,7 @@ const ReadlistButton = ({
                     : {};
 
             // Handle completed status specially to set volumes and chapters for manga/novel
-            const readArgs =
+            const readArgs: ReadArgs =
                 selectedOption === 'completed'
                     ? {
                           status: ReadStatusEnum.COMPLETED,
@@ -184,9 +205,8 @@ const ReadlistButton = ({
                       };
 
             createRead({
-                contentType: content_type,
-                slug,
-                args: readArgs,
+                path: { content_type, slug },
+                body: readArgs,
             });
         },
         [

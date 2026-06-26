@@ -1,11 +1,10 @@
 import type { FC } from 'react';
 
 import {
-    type AnimeInfoResponse,
-    type AnimeResponse,
+    type AnimeResponseWithWatch,
     type CharacterResponse,
     ContentTypeEnum,
-} from '@hikka/client';
+} from '@hikka/api';
 import { useTitle } from '@hikka/react';
 
 import CardOverlay from './card-overlay';
@@ -13,7 +12,7 @@ import ContentCard, { type ContentCardProps } from './content-card';
 
 type Props = ContentCardProps & {
     character: CharacterResponse;
-    anime: AnimeResponse | AnimeInfoResponse;
+    anime: AnimeResponseWithWatch;
 };
 
 const CharacterAnimeCard: FC<Props> = ({ character, anime, ...props }) => {

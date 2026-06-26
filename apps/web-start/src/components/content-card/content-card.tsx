@@ -13,9 +13,8 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import type {
     ContentTypeEnum,
     ReadResponseBase,
-    ReadStatusEnum,
     WatchResponseBase,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import Image from '@/components/ui/image';
@@ -241,7 +240,11 @@ const Content = memo(
                                 {watch && (
                                     <ContentStatus
                                         status={watch.status}
-                                        icon={WATCH_STATUS[watch.status].icon!}
+                                        icon={
+                                            WATCH_STATUS[
+                                                watch.status as keyof typeof WATCH_STATUS
+                                            ].icon!
+                                        }
                                         size={statusSize}
                                     />
                                 )}
@@ -250,7 +253,7 @@ const Content = memo(
                                         status={read.status}
                                         icon={
                                             READ_STATUS[
-                                                read.status as ReadStatusEnum
+                                                read.status as keyof typeof READ_STATUS
                                             ].icon!
                                         }
                                         size={statusSize}

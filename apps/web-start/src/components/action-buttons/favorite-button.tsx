@@ -1,9 +1,11 @@
-import type { FavouriteContentType } from '@hikka/client';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-    useCreateFavourite,
-    useDeleteFavourite,
-    useFavouriteStatus,
-} from '@hikka/react';
+    type FavouriteContentTypeEnum,
+    favouriteAddMutation,
+    favouriteDeleteMutation,
+    getFavouriteOptions,
+    getFavouriteQueryKey,
+} from '@hikka/api';
 
 import { MaterialSymbolsFavoriteOutlineRounded } from '@/components/icons/material-symbols/MaterialSymbolsFavoriteOutlineRounded';
 import { MaterialSymbolsFavoriteRounded } from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
@@ -17,7 +19,7 @@ import {
 type Props = ButtonProps & {
     slug: string;
     disabled?: boolean;
-    content_type: FavouriteContentType;
+    content_type: FavouriteContentTypeEnum;
 };
 
 const FavoriteButton = ({
@@ -27,16 +29,43 @@ const FavoriteButton = ({
     children,
     ...props
 }: Props) => {
-    const { data: favorite, isError: favoriteError } = useFavouriteStatus({
-        slug,
-        contentType: content_type,
+    const queryClient = useQueryClient();
+
+    const favouriteQueryKey = getFavouriteQueryKey({
+        path: { content_type, slug },
     });
 
+    const { data: favorite, isError: favoriteError } = useQuery({
+        ...getFavouriteOptions({ path: { content_type, slug } }),
+        retry: false,
+    });
+
+    const invalidateFavouriteLists = () =>
+        queryClient.invalidateQueries({
+            predicate: (query) =>
+                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                'favouriteList',
+        });
+
     const { mutate: addToFavorite, isPending: addToFavoriteLoading } =
-        useCreateFavourite();
+        useMutation({
+            ...favouriteAddMutation(),
+            onSuccess: (data) => {
+                queryClient.setQueryData(favouriteQueryKey, data);
+                invalidateFavouriteLists();
+            },
+        });
 
     const { mutate: deleteFromFavorite, isPending: deleteFromFavoriteLoading } =
-        useDeleteFavourite();
+        useMutation({
+            ...favouriteDeleteMutation(),
+            onSuccess: () => {
+                queryClient.removeQueries({ queryKey: favouriteQueryKey });
+                invalidateFavouriteLists();
+            },
+        });
+
+    const isFavorite = Boolean(favorite) && !favoriteError;
 
     return (
         <Tooltip delayDuration={0}>
@@ -44,18 +73,21 @@ const FavoriteButton = ({
                 <Button
                     variant="ghost"
                     size="icon-md"
-                    disabled={disabled}
+                    disabled={
+                        disabled ||
+                        addToFavoriteLoading ||
+                        deleteFromFavoriteLoading
+                    }
                     onClick={() =>
-                        favorite && !favoriteError
+                        isFavorite
                             ? deleteFromFavorite({
-                                  contentType: content_type,
-                                  slug,
+                                  path: { content_type, slug },
                               })
-                            : addToFavorite({ contentType: content_type, slug })
+                            : addToFavorite({ path: { content_type, slug } })
                     }
                     {...props}
                 >
-                    {favorite && !favoriteError ? (
+                    {isFavorite ? (
                         <MaterialSymbolsFavoriteRounded className="size-5! text-red-500" />
                     ) : (
                         <MaterialSymbolsFavoriteOutlineRounded className="size-5! text-foreground" />

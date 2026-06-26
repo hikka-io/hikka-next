@@ -1,6 +1,6 @@
 import { createElement, type FC } from 'react';
 
-import type { ReadResponseBase } from '@hikka/client';
+import type { ReadResponseBase, ReadStatusEnum } from '@hikka/api';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
@@ -24,7 +24,7 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
     isLoading,
     onOpenModal,
 }) => {
-    const readStatus = READ_STATUS[read.status];
+    const readStatus = READ_STATUS[read.status as ReadStatusEnum];
 
     return (
         <SelectTrigger asChild className="gap-0 border-none p-0">
@@ -47,9 +47,12 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                                 `bg-${read.status} text-${read.status}-foreground border-${read.status}-border`,
                             )}
                         >
-                            {createElement(READ_STATUS[read.status].icon!, {
-                                className: 'size-3!',
-                            })}
+                            {createElement(
+                                READ_STATUS[read.status as ReadStatusEnum].icon!,
+                                {
+                                    className: 'size-3!',
+                                },
+                            )}
                         </div>
                     )}
                     <span className="truncate rounded-none">

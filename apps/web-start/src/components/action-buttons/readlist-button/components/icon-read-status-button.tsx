@@ -1,13 +1,16 @@
 import { createElement, type FC } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
     type MangaResponse,
     type NovelResponse,
-    type ReadContentType,
+    type ReadContentTypeEnum,
     type ReadResponseBase,
-    ReadStatusEnum,
-} from '@hikka/client';
-import { useCreateRead } from '@hikka/react';
+    type ReadStatusEnum,
+    ReadStatusEnum as ReadStatusEnumValue,
+    readAddMutation,
+    readGetQueryKey,
+} from '@hikka/api';
 
 import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
@@ -19,7 +22,7 @@ type IconReadStatusButtonProps = Omit<ButtonProps, 'content'> & {
     disabled?: boolean;
     size?: 'icon-sm' | 'icon-md';
     slug: string;
-    content_type: ReadContentType;
+    content_type: ReadContentTypeEnum;
     content?: MangaResponse | NovelResponse;
     isLoading?: boolean;
     onOpenModal?: () => void;
@@ -36,16 +39,32 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
     onOpenModal,
     ...props
 }) => {
-    const { mutate: createRead } = useCreateRead();
+    const queryClient = useQueryClient();
+
+    const { mutate: createRead } = useMutation({
+        ...readAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                readGetQueryKey({
+                    path: { content_type: path.content_type, slug: path.slug },
+                }),
+                data,
+            );
+            queryClient.invalidateQueries({
+                predicate: (query) =>
+                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                    'userReadList',
+            });
+        },
+    });
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
         createRead({
-            contentType: content_type,
-            slug,
-            args: {
-                status: ReadStatusEnum.PLANNED,
+            path: { content_type, slug },
+            body: {
+                status: ReadStatusEnumValue.PLANNED,
             },
         });
     };
@@ -56,7 +75,7 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
         }
     };
 
-    const readStatus = read ? READ_STATUS[read.status] : null;
+    const readStatus = read ? READ_STATUS[read.status as ReadStatusEnum] : null;
 
     if (!read || !readStatus) {
         return (

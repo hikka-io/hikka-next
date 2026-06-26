@@ -1,16 +1,17 @@
 import { createElement, useCallback, useMemo, useState } from 'react';
 
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
+    animeSlugOptions,
     type AnimeResponse,
+    type WatchArgs,
     type WatchResponseBase,
     WatchStatusEnum,
-} from '@hikka/client';
-import {
-    useAnimeBySlug,
-    useCreateWatch,
-    useTitle,
-    useWatchBySlug,
-} from '@hikka/react';
+    watchAddMutation,
+    watchGetOptions,
+    watchGetQueryKey,
+} from '@hikka/api';
+import { useTitle } from '@hikka/react';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import type { ButtonProps } from '@/components/ui/button';
@@ -87,22 +88,36 @@ const WatchlistButton = ({
     buttonProps,
 }: Props) => {
     const [editOpen, setEditOpen] = useState(false);
+    const queryClient = useQueryClient();
 
-    const { data: watchQuery, isError: watchError } = useWatchBySlug({
-        slug,
-        options: {
-            enabled: !disabled && !watchProp && watchProp !== null,
-        },
+    const { data: watchQuery, isError: watchError } = useQuery({
+        ...watchGetOptions({ path: { slug } }),
+        retry: false,
+        enabled: !disabled && !watchProp && watchProp !== null,
     });
 
-    const { data: animeQuery } = useAnimeBySlug({
-        slug,
-        options: {
-            enabled: !disabled && !animeProp,
-        },
+    const { data: animeQuery } = useQuery({
+        ...animeSlugOptions({ path: { slug } }),
+        enabled: !disabled && !animeProp,
     });
 
-    const { mutate: addWatch, isPending: isChangingStatus } = useCreateWatch();
+    const invalidateWatchLists = () =>
+        queryClient.invalidateQueries({
+            predicate: (query) =>
+                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
+                'userWatchList',
+        });
+
+    const { mutate: addWatch, isPending: isChangingStatus } = useMutation({
+        ...watchAddMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                watchGetQueryKey({ path: { slug: path.slug } }),
+                data,
+            );
+            invalidateWatchLists();
+        },
+    });
 
     const watch = useMemo(
         () => watchProp || (watchQuery && !watchError ? watchQuery : undefined),
@@ -142,7 +157,7 @@ const WatchlistButton = ({
                 : {};
 
             // Handle completed status specially to set episodes to total
-            const watchArgs =
+            const watchArgs: WatchArgs =
                 selectedOption === 'completed'
                     ? {
                           status: WatchStatusEnum.COMPLETED,
@@ -155,8 +170,8 @@ const WatchlistButton = ({
                       };
 
             addWatch({
-                slug,
-                args: watchArgs,
+                path: { slug },
+                body: watchArgs,
             });
         },
         [watch, anime, slug, addWatch, openWatchEditModal],

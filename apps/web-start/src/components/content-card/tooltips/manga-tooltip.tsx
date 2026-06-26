@@ -1,7 +1,12 @@
-import { type FC, memo, type PropsWithChildren } from 'react';
+import { type ComponentProps, type FC, memo, type PropsWithChildren } from 'react';
 
-import { ContentTypeEnum, type ReadResponseBase } from '@hikka/client';
-import { useMangaBySlug, useSession, useTitle } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+import {
+    ContentTypeEnum,
+    mangaInfoOptions,
+    type ReadResponseBase,
+} from '@hikka/api';
+import { useSession, useTitle } from '@hikka/react';
 
 import { ReadlistButton } from '@/components/action-buttons';
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
@@ -22,7 +27,7 @@ type Props = PropsWithChildren & {
 
 const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
     const { user: loggedUser } = useSession();
-    const { data } = useMangaBySlug({ slug });
+    const { data } = useQuery(mangaInfoOptions({ path: { slug } }));
     const title = useTitle(data);
 
     if (!data) {
@@ -37,7 +42,9 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
             synopsis_en={data.synopsis_en}
             media_type_label={
                 data.media_type
-                    ? MANGA_MEDIA_TYPE[data.media_type].title_ua
+                    ? MANGA_MEDIA_TYPE[
+                          data.media_type as keyof typeof MANGA_MEDIA_TYPE
+                      ].title_ua
                     : null
             }
             status={data.status}
@@ -79,8 +86,17 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                 loggedUser ? (
                     <ReadlistButton
                         slug={slug}
-                        content_type={ContentTypeEnum.MANGA}
-                        read={read}
+                        // TODO(phase2): drop casts once ReadlistButton migrates to @hikka/api types
+                        content_type={
+                            ContentTypeEnum.MANGA as unknown as ComponentProps<
+                                typeof ReadlistButton
+                            >['content_type']
+                        }
+                        read={
+                            read as unknown as ComponentProps<
+                                typeof ReadlistButton
+                            >['read']
+                        }
                     />
                 ) : undefined
             }

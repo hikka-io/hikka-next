@@ -1,10 +1,15 @@
-import type { VoteContentType } from '@hikka/client';
-import { useCreateVote, useSession } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+    type AppVoteSchemasContentTypeEnum,
+    getVoteQueryKey,
+    setVoteMutation,
+} from '@hikka/api';
+import { useSession } from '@hikka/react';
 
 import { useRouter } from '@/utils/navigation';
 
 interface UseVoteParams {
-    contentType: VoteContentType;
+    contentType: AppVoteSchemasContentTypeEnum;
     slug: string;
     myScore: number;
     voteScore: number;
@@ -18,12 +23,23 @@ export function useVote({
 }: UseVoteParams) {
     const { user: loggedUser } = useSession();
     const router = useRouter();
-    const mutation = useCreateVote();
+    const queryClient = useQueryClient();
 
-    const currentMyScore =
-        mutation.variables?.score !== undefined
-            ? mutation.variables.score
-            : myScore;
+    const mutation = useMutation({
+        ...setVoteMutation(),
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                getVoteQueryKey({
+                    path: { content_type: path.content_type, slug: path.slug },
+                }),
+                data,
+            );
+        },
+    });
+
+    const pendingScore = mutation.variables?.body?.score;
+
+    const currentMyScore = pendingScore !== undefined ? pendingScore : myScore;
 
     const optimisticVoteScore = voteScore + (currentMyScore - myScore);
 
@@ -36,9 +52,8 @@ export function useVote({
         const updated = currentMyScore === score ? 0 : score;
 
         mutation.mutate({
-            contentType,
-            slug,
-            score: updated,
+            path: { content_type: contentType, slug },
+            body: { score: updated },
         });
     };
 
