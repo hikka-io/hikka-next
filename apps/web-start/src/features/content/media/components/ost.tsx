@@ -29,7 +29,7 @@ const Ost: FC<Props> = ({ extended, ost }) => {
                     title={ost.title}
                     containerRatio={1}
                     description={
-                        // TODO(phase2): drop cast — ost_type is plain string in @hikka/api, OST keyed by old enum
+                        // ost_type is a plain string in @hikka/api; the OST lookup table is keyed by the OST-type values
                         OST[ost.ost_type as keyof typeof OST].title_ua ||
                         OST[ost.ost_type as keyof typeof OST].title_en
                     }

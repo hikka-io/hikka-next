@@ -17,7 +17,7 @@ import type { WidgetProps } from '../../constants';
 import ReadingTracker from './components/reading-tracker';
 import WatchingTracker from './components/watching-tracker';
 
-// @hikka/api has no `CommonContentType`; mirror the the legacy client union.
+// @hikka/api has no CommonContentType enum; this local union covers the content types this widget handles.
 type CommonContentType =
     | typeof ContentTypeEnum.ANIME
     | typeof ContentTypeEnum.MANGA

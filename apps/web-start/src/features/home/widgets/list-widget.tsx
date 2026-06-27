@@ -10,7 +10,7 @@ import { ListTabContent } from '@/features/users/profile/user-list-stats';
 
 import type { WidgetProps } from '../constants';
 
-// @hikka/api has no `CommonContentType`; mirror the the legacy client union.
+// @hikka/api has no CommonContentType enum; this local union covers the content types this widget handles.
 type CommonContentType =
     | typeof ContentTypeEnum.ANIME
     | typeof ContentTypeEnum.MANGA

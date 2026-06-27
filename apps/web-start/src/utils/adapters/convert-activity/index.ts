@@ -7,7 +7,7 @@ import { createWatchEvents } from './convert-watch-activity';
 
 // @hikka/api types `HistoryResponse.data` as a loose `{ [key]: unknown }`, so
 // narrow it per `history_type` to the shape each sibling handler expects
-// (those shapes are local to the handler files; mirror the legacy client history data).
+// (those shapes are local to the handler files; mirror the API history payload shapes).
 export const convertActivity = (history: HistoryResponse) => {
     switch (history.history_type) {
         case HistoryTypeEnum.WATCH:

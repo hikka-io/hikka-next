@@ -117,8 +117,9 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
         onSubmit: async ({ value }) => {
             createWatch({
                 path: { slug },
-                // TODO(phase2): start_date/end_date are `number | null` in the
-                // form but typed `string | null` in the generated WatchArgs.
+                // The form models start_date/end_date as `number | null`
+                // timestamps, while the generated WatchArgs types them as
+                // `string | null`.
                 body: {
                     status: selectedStatus!,
                     ...value,

@@ -140,8 +140,8 @@ const ReadlistButton = ({
         [readProp, readQuery, readError],
     );
 
-    // TODO(phase2): mangaInfoOptions/novelInfoOptions return the *Info* response
-    // supersets; the shared read subcomponents still expect the base
+    // mangaInfoOptions/novelInfoOptions return the *Info* response supersets,
+    // while the shared read subcomponents take the base
     // MangaResponse | NovelResponse shape.
     const content = useMemo(
         () =>

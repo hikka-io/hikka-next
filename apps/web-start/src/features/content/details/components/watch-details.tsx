@@ -165,8 +165,8 @@ const WatchDetails = ({
 }) => {
     const title = useTitle(data);
 
-    // TODO(phase2): drop cast — generated AnimeInfoResponse.schedule is an
-    // open `{ [key: string]: unknown }` record; the items carry `airing_at`.
+    // @hikka/api types AnimeInfoResponse.schedule as an open
+    // `{ [key: string]: unknown }` record; the items carry `airing_at`.
     const schedule = data.schedule as Array<{ airing_at: number }>;
     const nextEpisodeSchedule = schedule.find(
         (s) => s.airing_at * 1000 > Date.now(),

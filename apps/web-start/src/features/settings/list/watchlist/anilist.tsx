@@ -27,7 +27,7 @@ const AnilistWatchlist = ({ watchList, setWatchList, importing }: Props) => {
     const { mutate: fetchAnilist, isPending: aniListLoading } = useAnilist({
         options: {
             onSuccess: (data) => {
-                // TODO(phase2): useAnilist still returns the legacy client types
+                // useAnilist returns ImportWatchArgs[] | ImportReadArgs[]; this importer requested the watch variant.
                 setWatchList(data as unknown as ImportWatchArgs[]);
             },
             onError: (error: Error) => {

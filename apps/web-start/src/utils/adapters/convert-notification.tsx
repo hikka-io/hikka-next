@@ -25,7 +25,7 @@ import { getTitle } from '@/utils/title/get-title';
 // `NotificationOf<T>` re-attaches a concrete per-type `data` shape so the
 // helpers below can keep their narrow signatures; the dispatcher narrows
 // `notification.data` by `notification_type` before handing off. The data
-// shapes mirror the legacy client `types/notifications.ts`.
+// shapes match the API notification data payloads.
 type NotificationOf<TData> = Omit<NotificationResponse, 'data'> & {
     data: TData;
 };

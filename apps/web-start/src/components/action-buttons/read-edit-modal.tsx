@@ -132,8 +132,9 @@ const ReadEditModal = ({
         onSubmit: async ({ value }) => {
             createRead({
                 path: { content_type, slug },
-                // TODO(phase2): start_date/end_date are `number | null` in the
-                // form but typed `string | null` in the generated ReadArgs.
+                // The form models start_date/end_date as `number | null`
+                // timestamps, while the generated ReadArgs types them as
+                // `string | null`.
                 body: {
                     status: selectedStatus!,
                     ...value,
