@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import {
-    type AppCommentsSchemasContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum as CommentsContentType,
     getContentsListInfiniteOptions,
     threadOptions,
 } from '@hikka/api';

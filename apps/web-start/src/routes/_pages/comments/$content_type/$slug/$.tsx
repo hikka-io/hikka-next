@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import {
-    type AppCommentsSchemasContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum as CommentsContentType,
     threadOptions,
 } from '@hikka/api';
 

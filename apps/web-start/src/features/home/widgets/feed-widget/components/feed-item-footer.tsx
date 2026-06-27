@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { MessageCircle } from 'lucide-react';
 
-import type { AppVoteSchemasContentTypeEnum } from '@hikka/api';
+import type { VoteContentTypeEnum } from '@hikka/api';
 
 import VoteButton from '@/components/action-buttons/vote-button';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
@@ -12,7 +12,7 @@ type Props = {
     commentsCount: number;
     voteScore: number;
     commentsHref?: string;
-    contentType?: AppVoteSchemasContentTypeEnum;
+    contentType?: VoteContentTypeEnum;
     slug?: string;
     myScore?: number;
 };

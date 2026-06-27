@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     profileUiOptions,
-    type UiFeedSettings,
+    type UiFeedSettingsOutput,
     type UiFeedWidget,
     type UiPreferencesOutput,
     type UiStylesOutput,
@@ -25,9 +25,9 @@ type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 /**
  * The merge layer (mergePreferences/DEFAULT_USER_UI) guarantees `feed` and its
  * `widgets` are always present, so they are required here even though the
- * generated `UiFeedSettings` marks them optional.
+ * generated `UiFeedSettingsOutput` marks them optional.
  */
-type SessionFeedSettings = UiFeedSettings & {
+type SessionFeedSettings = UiFeedSettingsOutput & {
     widgets: UiFeedWidget[];
 };
 

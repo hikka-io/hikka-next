@@ -2,9 +2,9 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { createStore } from 'zustand';
 
 import {
-    type AppCollectionsSchemasContentTypeEnum,
     type CollectionArgs,
     type CollectionContentResponse,
+    type CollectionContentTypeEnum,
     type CollectionResponse,
     CollectionVisibilityEnum,
     ContentTypeEnum,
@@ -14,7 +14,7 @@ import {
 // union (with `slug`/`title`) lives on `CollectionContentResponse['content']`.
 type CollectionContent = CollectionContentResponse['content'];
 // Old `CollectionContentType` mapped to the collection content-type enum.
-type CollectionContentType = AppCollectionsSchemasContentTypeEnum;
+type CollectionContentType = CollectionContentTypeEnum;
 
 export type Item = {
     id: string | number;

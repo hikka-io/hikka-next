@@ -85,6 +85,9 @@ export type AnimeEpisodesListResponse = {
  * AnimeInfoResponse
  */
 export type AnimeInfoResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'anime';
     /**
      * Companies
@@ -273,11 +276,22 @@ export type AnimeOstResponse = {
      * Spotify
      */
     spotify: string | null;
-    /**
-     * Ost Type
-     */
-    ost_type: string;
+    ost_type: AnimeOstTypeEnum;
 };
+
+/**
+ * AnimeOSTTypeEnum
+ */
+export const AnimeOstTypeEnum = {
+    OPENING: 'opening',
+    ENDING: 'ending',
+} as const;
+
+/**
+ * AnimeOSTTypeEnum
+ */
+export type AnimeOstTypeEnum =
+    (typeof AnimeOstTypeEnum)[keyof typeof AnimeOstTypeEnum];
 
 /**
  * AnimePaginationResponse
@@ -294,6 +308,9 @@ export type AnimePaginationResponse = {
  * AnimeResponse
  */
 export type AnimeResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'anime';
     /**
      * Media Type
@@ -393,6 +410,9 @@ export type AnimeResponse = {
  * AnimeResponseWithSynopsis
  */
 export type AnimeResponseWithSynopsis = {
+    /**
+     * Data Type
+     */
     data_type: 'anime';
     /**
      * Media Type
@@ -504,6 +524,9 @@ export type AnimeResponseWithSynopsis = {
  * AnimeResponseWithWatch
  */
 export type AnimeResponseWithWatch = {
+    /**
+     * Data Type
+     */
     data_type: 'anime';
     /**
      * Media Type
@@ -844,11 +867,22 @@ export type AnimeVideoResponse = {
      * Description
      */
     description: string | null;
-    /**
-     * Video Type
-     */
-    video_type: string;
+    video_type: AnimeVideoTypeEnum;
 };
+
+/**
+ * AnimeVideoTypeEnum
+ */
+export const AnimeVideoTypeEnum = {
+    VIDEO_PROMO: 'video_promo',
+    VIDEO_MUSIC: 'video_music',
+} as const;
+
+/**
+ * AnimeVideoTypeEnum
+ */
+export type AnimeVideoTypeEnum =
+    (typeof AnimeVideoTypeEnum)[keyof typeof AnimeVideoTypeEnum];
 
 /**
  * AnimeWatchSearchArgs
@@ -917,7 +951,6 @@ export type AnimeWatchSearchArgs = {
  * ArticleAnimeContentResponse
  */
 export type ArticleAnimeContentResponse = {
-    data_type: 'anime';
     /**
      * Image
      */
@@ -934,6 +967,10 @@ export type ArticleAnimeContentResponse = {
      * Slug
      */
     slug: string;
+    /**
+     * Data Type
+     */
+    data_type: 'anime';
     /**
      * Title Ja
      */
@@ -1016,6 +1053,9 @@ export type ArticleContentEnum =
  * ArticleDocumentResponse
  */
 export type ArticleDocumentResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'article';
     author: FollowUserResponse;
     /**
@@ -1085,7 +1125,6 @@ export type ArticleDocumentResponse = {
  * ArticleMangaNovelContentResponse
  */
 export type ArticleMangaNovelContentResponse = {
-    data_type: 'manga' | 'novel';
     /**
      * Image
      */
@@ -1103,6 +1142,10 @@ export type ArticleMangaNovelContentResponse = {
      */
     slug: string;
     /**
+     * Data Type
+     */
+    data_type: 'manga' | 'novel';
+    /**
      * Title Original
      */
     title_original: string | null;
@@ -1112,6 +1155,9 @@ export type ArticleMangaNovelContentResponse = {
  * ArticlePreviewResponse
  */
 export type ArticlePreviewResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'article';
     author: FollowUserResponse;
     /**
@@ -1322,6 +1368,9 @@ export type CharacterAnimeResponse = {
  * CharacterCountResponse
  */
 export type CharacterCountResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'character';
     /**
      * Name Ua
@@ -1421,6 +1470,9 @@ export type CharacterNovelResponse = {
  * CharacterResponse
  */
 export type CharacterResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'character';
     /**
      * Name Ua
@@ -1648,7 +1700,7 @@ export type CollectionArgs = {
      * Content
      */
     content: Array<CollectionContentArgs>;
-    content_type: AppCollectionsSchemasContentTypeEnum;
+    content_type: CollectionContentTypeEnum;
     /**
      * Labels Order
      */
@@ -1697,10 +1749,7 @@ export type CollectionContentResponse = {
      * Label
      */
     label: string | null;
-    /**
-     * Content Type
-     */
-    content_type: string;
+    content_type: CollectionContentTypeEnum;
     /**
      * Order
      */
@@ -1717,9 +1766,29 @@ export type CollectionContentResponse = {
 };
 
 /**
+ * CollectionContentTypeEnum
+ */
+export const CollectionContentTypeEnum = {
+    CHARACTER: 'character',
+    PERSON: 'person',
+    ANIME: 'anime',
+    MANGA: 'manga',
+    NOVEL: 'novel',
+} as const;
+
+/**
+ * CollectionContentTypeEnum
+ */
+export type CollectionContentTypeEnum =
+    (typeof CollectionContentTypeEnum)[keyof typeof CollectionContentTypeEnum];
+
+/**
  * CollectionResponse
  */
 export type CollectionResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'collection';
     visibility: CollectionVisibilityEnum;
     author: FollowUserResponse;
@@ -1739,10 +1808,7 @@ export type CollectionResponse = {
      * Comments Count
      */
     comments_count: number;
-    /**
-     * Content Type
-     */
-    content_type: string;
+    content_type: CollectionContentTypeEnum;
     /**
      * Description
      */
@@ -1812,7 +1878,7 @@ export type CollectionsListArgs = {
      * Content
      */
     content?: Array<string>;
-    content_type?: AppCollectionsSchemasContentTypeEnum | null;
+    content_type?: CollectionContentTypeEnum | null;
     /**
      * Author
      */
@@ -1854,6 +1920,26 @@ export type CommentArgs = {
 };
 
 /**
+ * CommentContentTypeEnum
+ */
+export const CommentContentTypeEnum = {
+    COLLECTION: 'collection',
+    CHARACTER: 'character',
+    EDIT: 'edit',
+    ARTICLE: 'article',
+    PERSON: 'person',
+    ANIME: 'anime',
+    MANGA: 'manga',
+    NOVEL: 'novel',
+} as const;
+
+/**
+ * CommentContentTypeEnum
+ */
+export type CommentContentTypeEnum =
+    (typeof CommentContentTypeEnum)[keyof typeof CommentContentTypeEnum];
+
+/**
  * CommentListResponse
  */
 export type CommentListResponse = {
@@ -1868,6 +1954,9 @@ export type CommentListResponse = {
  * CommentResponse
  */
 export type CommentResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'comment';
     /**
      * Replies
@@ -1891,10 +1980,7 @@ export type CommentResponse = {
      * Parent
      */
     parent: string | null;
-    /**
-     * Content Type
-     */
-    content_type: string;
+    content_type: CommentContentTypeEnum;
     /**
      * Is Editable
      */
@@ -1935,6 +2021,9 @@ export type CommentResponse = {
  * CommentResponseFeed
  */
 export type CommentResponseFeed = {
+    /**
+     * Data Type
+     */
     data_type: 'comment';
     /**
      * Replies
@@ -1958,10 +2047,7 @@ export type CommentResponseFeed = {
      * Parent
      */
     parent: string | null;
-    /**
-     * Content Type
-     */
-    content_type: string;
+    content_type: CommentContentTypeEnum;
     /**
      * Is Editable
      */
@@ -2173,6 +2259,21 @@ export const ContentToDoEnum = {
  */
 export type ContentToDoEnum =
     (typeof ContentToDoEnum)[keyof typeof ContentToDoEnum];
+
+/**
+ * ContentTypeEnum
+ */
+export const ContentTypeEnum = {
+    COLLECTION: 'collection',
+    COMMENT: 'comment',
+    ARTICLE: 'article',
+} as const;
+
+/**
+ * ContentTypeEnum
+ */
+export type ContentTypeEnum =
+    (typeof ContentTypeEnum)[keyof typeof ContentTypeEnum];
 
 /**
  * DescriptionArgs
@@ -2498,21 +2599,36 @@ export type ExternalResponse = {
      * Text
      */
     text: string;
-    /**
-     * Type
-     */
-    type: string;
+    type: ExternalTypeEnum;
 };
+
+/**
+ * ExternalTypeEnum
+ */
+export const ExternalTypeEnum = {
+    GENERAL: 'general',
+    WATCH: 'watch',
+    READ: 'read',
+} as const;
+
+/**
+ * ExternalTypeEnum
+ */
+export type ExternalTypeEnum =
+    (typeof ExternalTypeEnum)[keyof typeof ExternalTypeEnum];
 
 /**
  * FavouriteAnimeResponse
  */
 export type FavouriteAnimeResponse = {
-    data_type: 'anime';
     /**
      * Favourite Created
      */
     favourite_created: number;
+    /**
+     * Data Type
+     */
+    data_type: 'anime';
     /**
      * Media Type
      */
@@ -2615,11 +2731,14 @@ export type FavouriteAnimeResponse = {
  * FavouriteCharacterResponse
  */
 export type FavouriteCharacterResponse = {
-    data_type: 'character';
     /**
      * Favourite Created
      */
     favourite_created: number;
+    /**
+     * Data Type
+     */
+    data_type: 'character';
     /**
      * Name Ua
      */
@@ -2650,11 +2769,14 @@ export type FavouriteCharacterResponse = {
  * FavouriteCollectionResponse
  */
 export type FavouriteCollectionResponse = {
-    data_type: 'collection';
     /**
      * Favourite Created
      */
     favourite_created: number;
+    /**
+     * Data Type
+     */
+    data_type: 'collection';
     visibility: CollectionVisibilityEnum;
     author: FollowUserResponse;
     /**
@@ -2673,10 +2795,7 @@ export type FavouriteCollectionResponse = {
      * Comments Count
      */
     comments_count: number;
-    /**
-     * Content Type
-     */
-    content_type: string;
+    content_type: CollectionContentTypeEnum;
     /**
      * Description
      */
@@ -2740,11 +2859,14 @@ export type FavouriteContentTypeEnum =
  * FavouriteMangaResponse
  */
 export type FavouriteMangaResponse = {
-    data_type: 'manga';
     /**
      * Favourite Created
      */
     favourite_created: number;
+    /**
+     * Data Type
+     */
+    data_type: 'manga';
     /**
      * Start Date
      */
@@ -2835,11 +2957,14 @@ export type FavouriteMangaResponse = {
  * FavouriteNovelResponse
  */
 export type FavouriteNovelResponse = {
-    data_type: 'novel';
     /**
      * Favourite Created
      */
     favourite_created: number;
+    /**
+     * Data Type
+     */
+    data_type: 'novel';
     /**
      * Start Date
      */
@@ -3199,10 +3324,7 @@ export type HistoryResponse = {
      */
     updated: number;
     user: UserResponse;
-    /**
-     * History Type
-     */
-    history_type: string;
+    history_type: HistoryTypeEnum;
     /**
      * Reference
      */
@@ -3214,6 +3336,32 @@ export type HistoryResponse = {
         [key: string]: unknown;
     };
 };
+
+/**
+ * HistoryTypeEnum
+ */
+export const HistoryTypeEnum = {
+    WATCH: 'watch',
+    WATCH_DELETE: 'watch_delete',
+    READ_MANGA: 'read_manga',
+    READ_MANGA_DELETE: 'read_manga_delete',
+    READ_NOVEL: 'read_novel',
+    READ_NOVEL_DELETE: 'read_novel_delete',
+    WATCH_IMPORT: 'watch_import',
+    READ_IMPORT: 'read_import',
+    FAVOURITE_ANIME_ADD: 'favourite_anime_add',
+    FAVOURITE_ANIME_REMOVE: 'favourite_anime_remove',
+    FAVOURITE_MANGA_ADD: 'favourite_manga_add',
+    FAVOURITE_MANGA_REMOVE: 'favourite_manga_remove',
+    FAVOURITE_NOVEL_ADD: 'favourite_novel_add',
+    FAVOURITE_NOVEL_REMOVE: 'favourite_novel_remove',
+} as const;
+
+/**
+ * HistoryTypeEnum
+ */
+export type HistoryTypeEnum =
+    (typeof HistoryTypeEnum)[keyof typeof HistoryTypeEnum];
 
 /**
  * IgnoredNotificationsArgs
@@ -3438,6 +3586,9 @@ export type MagazineResponse = {
  * MangaInfoResponse
  */
 export type MangaInfoResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'manga';
     /**
      * Authors
@@ -3594,6 +3745,9 @@ export type MangaPaginationResponse = {
  * MangaResponse
  */
 export type MangaResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'manga';
     /**
      * Start Date
@@ -3681,6 +3835,9 @@ export type MangaResponse = {
  * MangaResponseWithRead
  */
 export type MangaResponseWithRead = {
+    /**
+     * Data Type
+     */
     data_type: 'manga';
     /**
      * Start Date
@@ -3830,10 +3987,7 @@ export type NotificationPaginationResponse = {
  */
 export type NotificationResponse = {
     initiator_user: UserResponse | null;
-    /**
-     * Notification Type
-     */
-    notification_type: string;
+    notification_type: NotificationTypeEnum;
     /**
      * Created
      */
@@ -3855,6 +4009,33 @@ export type NotificationResponse = {
 };
 
 /**
+ * NotificationTypeEnum
+ */
+export const NotificationTypeEnum = {
+    COMMENT_REPLY: 'comment_reply',
+    COMMENT_VOTE: 'comment_vote',
+    COMMENT_TAG: 'comment_tag',
+    COLLECTION_COMMENT: 'collection_comment',
+    ARTICLE_COMMENT: 'article_comment',
+    COLLECTION_VOTE: 'collection_vote',
+    ARTICLE_VOTE: 'article_vote',
+    EDIT_COMMENT: 'edit_comment',
+    EDIT_ACCEPTED: 'edit_accepted',
+    EDIT_DENIED: 'edit_denied',
+    EDIT_UPDATED: 'edit_updated',
+    HIKKA_UPDATE: 'hikka_update',
+    SCHEDULE_ANIME: 'schedule_anime',
+    FOLLOW: 'follow',
+    THIRDPARTY_LOGIN: 'thirdparty_login',
+} as const;
+
+/**
+ * NotificationTypeEnum
+ */
+export type NotificationTypeEnum =
+    (typeof NotificationTypeEnum)[keyof typeof NotificationTypeEnum];
+
+/**
  * NotificationUnseenResponse
  */
 export type NotificationUnseenResponse = {
@@ -3868,6 +4049,9 @@ export type NotificationUnseenResponse = {
  * NovelInfoResponse
  */
 export type NovelInfoResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'novel';
     /**
      * Authors
@@ -4017,6 +4201,9 @@ export type NovelPaginationResponse = {
  * NovelResponse
  */
 export type NovelResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'novel';
     /**
      * Start Date
@@ -4104,6 +4291,9 @@ export type NovelResponse = {
  * NovelResponseWithRead
  */
 export type NovelResponseWithRead = {
+    /**
+     * Data Type
+     */
     data_type: 'novel';
     /**
      * Start Date
@@ -4332,6 +4522,9 @@ export type PersonCharactersResponse = {
  * PersonCountResponse
  */
 export type PersonCountResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'person';
     /**
      * Name Native
@@ -4431,6 +4624,9 @@ export type PersonNovelResponse = {
  * PersonResponse
  */
 export type PersonResponse = {
+    /**
+     * Data Type
+     */
     data_type: 'person';
     /**
      * Name Native
@@ -4978,7 +5174,54 @@ export type UiColorTokens = {
 /**
  * UIFeedSettings
  */
-export type UiFeedSettings = {
+export type UiFeedSettingsInput = {
+    /**
+     * Collection Content Types
+     */
+    collection_content_types?: Array<
+        'character' | 'person' | 'anime' | 'manga' | 'novel'
+    > | null;
+    /**
+     * Comment Content Types
+     */
+    comment_content_types?: Array<
+        | 'collection'
+        | 'character'
+        | 'edit'
+        | 'article'
+        | 'person'
+        | 'anime'
+        | 'manga'
+        | 'novel'
+    > | null;
+    /**
+     * Article Content Types
+     */
+    article_content_types?: Array<
+        'anime' | 'manga' | 'novel' | 'no_content'
+    > | null;
+    /**
+     * Article Categories
+     */
+    article_categories?: Array<'original' | 'reviews' | 'news'> | null;
+    /**
+     * Feed Content Types
+     */
+    feed_content_types?: Array<'collection' | 'article' | 'comment'> | null;
+    /**
+     * Only Followed
+     */
+    only_followed?: boolean;
+    /**
+     * Widgets
+     */
+    widgets?: Array<UiFeedWidget>;
+};
+
+/**
+ * UIFeedSettings
+ */
+export type UiFeedSettingsOutput = {
     /**
      * Collection Content Types
      */
@@ -5030,20 +5273,7 @@ export type UiFeedWidget = {
      * Side
      */
     side: 'left' | 'center' | 'right';
-    /**
-     * Slug
-     */
-    slug:
-        | 'list'
-        | 'profile'
-        | 'feed'
-        | 'tracker'
-        | 'history'
-        | 'ongoings'
-        | 'schedule'
-        | 'top_anime'
-        | 'articles'
-        | 'collections';
+    slug: UiWidgetEnum;
     /**
      * Order
      */
@@ -5074,7 +5304,7 @@ export type UiPreferencesInput = {
      * Effects
      */
     effects?: Array<'snowfall' | 'sakura'> | null;
-    feed?: UiFeedSettings;
+    feed?: UiFeedSettingsInput;
     /**
      * Score
      */
@@ -5098,18 +5328,7 @@ export type UiPreferencesInput = {
     /**
      * Home Widgets
      */
-    home_widgets?: Array<
-        | 'list'
-        | 'profile'
-        | 'feed'
-        | 'tracker'
-        | 'history'
-        | 'ongoings'
-        | 'schedule'
-        | 'top_anime'
-        | 'articles'
-        | 'collections'
-    >;
+    home_widgets?: Array<UiWidgetEnum>;
 };
 
 /**
@@ -5120,7 +5339,7 @@ export type UiPreferencesOutput = {
      * Effects
      */
     effects?: Array<'snowfall' | 'sakura'> | null;
-    feed?: UiFeedSettings;
+    feed?: UiFeedSettingsOutput;
     /**
      * Score
      */
@@ -5144,18 +5363,7 @@ export type UiPreferencesOutput = {
     /**
      * Home Widgets
      */
-    home_widgets?: Array<
-        | 'list'
-        | 'profile'
-        | 'feed'
-        | 'tracker'
-        | 'history'
-        | 'ongoings'
-        | 'schedule'
-        | 'top_anime'
-        | 'articles'
-        | 'collections'
-    >;
+    home_widgets?: Array<UiWidgetEnum>;
 };
 
 /**
@@ -5266,6 +5474,27 @@ export type UiThemeStylesBody = {
      */
     background_image?: string | null;
 };
+
+/**
+ * UIWidgetEnum
+ */
+export const UiWidgetEnum = {
+    LIST: 'list',
+    PROFILE: 'profile',
+    FEED: 'feed',
+    TRACKER: 'tracker',
+    HISTORY: 'history',
+    ONGOINGS: 'ongoings',
+    SCHEDULE: 'schedule',
+    TOP_ANIME: 'top_anime',
+    ARTICLES: 'articles',
+    COLLECTIONS: 'collections',
+} as const;
+
+/**
+ * UIWidgetEnum
+ */
+export type UiWidgetEnum = (typeof UiWidgetEnum)[keyof typeof UiWidgetEnum];
 
 /**
  * UpdateUserBody
@@ -5994,43 +6223,6 @@ export type WatchStatusEnum =
     (typeof WatchStatusEnum)[keyof typeof WatchStatusEnum];
 
 /**
- * ContentTypeEnum
- */
-export const AppCollectionsSchemasContentTypeEnum = {
-    CHARACTER: 'character',
-    PERSON: 'person',
-    ANIME: 'anime',
-    MANGA: 'manga',
-    NOVEL: 'novel',
-} as const;
-
-/**
- * ContentTypeEnum
- */
-export type AppCollectionsSchemasContentTypeEnum =
-    (typeof AppCollectionsSchemasContentTypeEnum)[keyof typeof AppCollectionsSchemasContentTypeEnum];
-
-/**
- * ContentTypeEnum
- */
-export const AppCommentsSchemasContentTypeEnum = {
-    COLLECTION: 'collection',
-    CHARACTER: 'character',
-    EDIT: 'edit',
-    ARTICLE: 'article',
-    PERSON: 'person',
-    ANIME: 'anime',
-    MANGA: 'manga',
-    NOVEL: 'novel',
-} as const;
-
-/**
- * ContentTypeEnum
- */
-export type AppCommentsSchemasContentTypeEnum =
-    (typeof AppCommentsSchemasContentTypeEnum)[keyof typeof AppCommentsSchemasContentTypeEnum];
-
-/**
  * RoleResponse
  */
 export type AppPeopleSchemasRoleResponse = {
@@ -6157,21 +6349,6 @@ export type AppSchemasRoleResponse = {
      */
     slug: string;
 };
-
-/**
- * ContentTypeEnum
- */
-export const AppVoteSchemasContentTypeEnum = {
-    COLLECTION: 'collection',
-    COMMENT: 'comment',
-    ARTICLE: 'article',
-} as const;
-
-/**
- * ContentTypeEnum
- */
-export type AppVoteSchemasContentTypeEnum =
-    (typeof AppVoteSchemasContentTypeEnum)[keyof typeof AppVoteSchemasContentTypeEnum];
 
 export type NotificationsData = {
     body?: never;
@@ -7750,7 +7927,7 @@ export type WriteCommentData = {
         auth?: string | null;
     };
     path: {
-        content_type: AppCommentsSchemasContentTypeEnum;
+        content_type: CommentContentTypeEnum;
         /**
          * Slug
          */
@@ -7792,7 +7969,7 @@ export type GetContentsListData = {
          * Slug
          */
         slug: string;
-        content_type: AppCommentsSchemasContentTypeEnum;
+        content_type: CommentContentTypeEnum;
     };
     query?: {
         /**
@@ -11191,7 +11368,7 @@ export type GetVoteData = {
         auth?: string | null;
     };
     path: {
-        content_type: AppVoteSchemasContentTypeEnum;
+        content_type: ContentTypeEnum;
         /**
          * Slug
          */
@@ -11228,7 +11405,7 @@ export type SetVoteData = {
         auth?: string | null;
     };
     path: {
-        content_type: AppVoteSchemasContentTypeEnum;
+        content_type: ContentTypeEnum;
         /**
          * Slug
          */

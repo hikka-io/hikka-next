@@ -5,7 +5,7 @@ import { uk } from 'date-fns/locale/uk';
 
 import type {
     CommentResponse,
-    AppCommentsSchemasContentTypeEnum as CommentsContentType,
+    CommentContentTypeEnum as CommentsContentType,
 } from '@hikka/api';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';

@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
     changeUiMutation,
     profileUiQueryKey,
-    type UiFeedSettings,
+    type UiFeedSettingsOutput,
     type UserCustomizationArgs,
     type UserCustomizationResponse,
 } from '@hikka/api';
@@ -14,7 +14,7 @@ type SessionUIPatch = {
     styles?: UserCustomizationResponse['styles'];
     preferences?: Partial<
         Omit<UserCustomizationResponse['preferences'], 'feed'> & {
-            feed?: Partial<UiFeedSettings>;
+            feed?: Partial<UiFeedSettingsOutput>;
         }
     >;
 };

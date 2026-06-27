@@ -1,9 +1,4 @@
-import { cacheControlHeadersFor } from './cache-control';
-import {
-    type CacheControl,
-    DEFAULT_BASE_URL,
-    DEFAULT_CACHE_CONTROL,
-} from './config';
+import { DEFAULT_BASE_URL } from './config';
 import { HikkaApiError } from './errors';
 import { type Client, createClient, createConfig } from './gen/client';
 import { client } from './gen/client.gen';
@@ -11,34 +6,20 @@ import { client } from './gen/client.gen';
 export interface TransportOptions {
     baseUrl?: string;
     authToken?: string;
-    cacheControl?: CacheControl;
 }
 
 /**
- * Wires the auth header, per-path cache-control (GET only) and HikkaApiError
- * mapping onto a client instance. `getAuthToken` is read per-request so the
- * browser singleton can update its token without re-registering interceptors.
+ * Wires the auth header and HikkaApiError mapping onto a client instance.
+ * `getAuthToken` is read per-request so the browser singleton can update its
+ * token without re-registering interceptors.
  */
 function attachInterceptors(
     target: Client,
     getAuthToken: () => string | undefined,
-    cc: CacheControl,
 ): void {
     target.interceptors.request.use((request) => {
         const token = getAuthToken();
         if (token) request.headers.set('auth', token);
-
-        if (request.method === 'GET') {
-            const headers = cacheControlHeadersFor(
-                new URL(request.url).pathname,
-                cc,
-            );
-            if (headers) {
-                for (const [key, value] of Object.entries(headers)) {
-                    request.headers.set(key, value);
-                }
-            }
-        }
         return request;
     });
 
@@ -70,11 +51,7 @@ export function configureBrowserClient(opts: TransportOptions = {}): void {
         credentials: 'include',
     });
     if (!browserConfigured) {
-        attachInterceptors(
-            client,
-            () => browserToken,
-            opts.cacheControl ?? DEFAULT_CACHE_CONTROL,
-        );
+        attachInterceptors(client, () => browserToken);
         browserConfigured = true;
     }
 }
@@ -111,10 +88,6 @@ export function createRequestClient(opts: TransportOptions = {}): Client {
             credentials: 'include',
         }),
     );
-    attachInterceptors(
-        requestClient,
-        () => opts.authToken,
-        opts.cacheControl ?? DEFAULT_CACHE_CONTROL,
-    );
+    attachInterceptors(requestClient, () => opts.authToken);
     return requestClient;
 }

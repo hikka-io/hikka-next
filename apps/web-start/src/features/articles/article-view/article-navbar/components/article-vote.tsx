@@ -1,9 +1,6 @@
 import type { ComponentProps, FC } from 'react';
 
-import {
-    AppVoteSchemasContentTypeEnum,
-    type ArticleDocumentResponse,
-} from '@hikka/api';
+import { type ArticleDocumentResponse, VoteContentTypeEnum } from '@hikka/api';
 
 import VoteButton from '@/components/action-buttons/vote-button';
 import { buttonVariants } from '@/components/ui/button';
@@ -24,7 +21,7 @@ const ArticleVote: FC<Props> = ({ article }) => {
         >
             <VoteButton
                 contentType={
-                    AppVoteSchemasContentTypeEnum.ARTICLE as ComponentProps<
+                    VoteContentTypeEnum.ARTICLE as ComponentProps<
                         typeof VoteButton
                     >['contentType']
                 }

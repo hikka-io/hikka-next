@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 
 import {
-    type AppVoteSchemasContentTypeEnum,
     type ArticleCategoryEnum,
     type ArticlePreviewResponse,
     type CollectionResponse,
     type CommentResponseFeed,
     ContentTypeEnum,
+    type VoteContentTypeEnum,
 } from '@hikka/api';
 
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
@@ -43,7 +43,7 @@ function getStats(item: FeedItemResponse): {
     commentsCount: number;
     voteScore: number;
     commentsHref?: string;
-    contentType?: AppVoteSchemasContentTypeEnum;
+    contentType?: VoteContentTypeEnum;
     slug?: string;
     myScore?: number;
 } {

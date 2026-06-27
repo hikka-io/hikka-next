@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { AppCommentsSchemasContentTypeEnum as CommentsContentType } from '@hikka/api';
+import type { CommentContentTypeEnum as CommentsContentType } from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import Card from '@/components/ui/card';

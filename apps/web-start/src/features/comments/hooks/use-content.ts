@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     animeSlugOptions,
-    type AppCommentsSchemasContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum as CommentsContentType,
     ContentTypeEnum,
     characterInfoOptions,
     type EditContentTypeEnum as EditContentType,

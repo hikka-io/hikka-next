@@ -2,8 +2,8 @@
  * Default UI styles and UI settings.
  */
 import {
-    HomeWidgetsEnum,
     type UiStylesOutput,
+    UiWidgetEnum,
     type UserCustomizationResponse,
 } from '@hikka/api';
 
@@ -82,10 +82,10 @@ export const DEFAULT_USER_UI: UserCustomizationResponse = {
         name_language: 'name_ua',
         overlay: true,
         home_widgets: [
-            HomeWidgetsEnum.TRACKER,
-            HomeWidgetsEnum.HISTORY,
-            HomeWidgetsEnum.ONGOINGS,
-            HomeWidgetsEnum.SCHEDULE,
+            UiWidgetEnum.TRACKER,
+            UiWidgetEnum.HISTORY,
+            UiWidgetEnum.ONGOINGS,
+            UiWidgetEnum.SCHEDULE,
         ],
         feed: {
             widgets: [

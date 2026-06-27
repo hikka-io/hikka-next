@@ -3237,7 +3237,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/app__comments__schemas__ContentTypeEnum"
+              "$ref": "#/components/schemas/CommentContentTypeEnum"
             }
           },
           {
@@ -3338,7 +3338,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/app__comments__schemas__ContentTypeEnum"
+              "$ref": "#/components/schemas/CommentContentTypeEnum"
             }
           },
           {
@@ -10034,7 +10034,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/app__vote__schemas__ContentTypeEnum"
+              "$ref": "#/components/schemas/ContentTypeEnum"
             }
           },
           {
@@ -10114,7 +10114,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/app__vote__schemas__ContentTypeEnum"
+              "$ref": "#/components/schemas/ContentTypeEnum"
             }
           },
           {
@@ -10467,7 +10467,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "anime"
+            "const": "anime",
+            "title": "Data Type"
           },
           "companies": {
             "items": {
@@ -10948,11 +10949,7 @@
             ]
           },
           "ost_type": {
-            "type": "string",
-            "title": "Ost Type",
-            "examples": [
-              "opening"
-            ]
+            "$ref": "#/components/schemas/AnimeOSTTypeEnum"
           }
         },
         "additionalProperties": false,
@@ -10965,6 +10962,14 @@
           "ost_type"
         ],
         "title": "AnimeOSTResponse"
+      },
+      "AnimeOSTTypeEnum": {
+        "type": "string",
+        "enum": [
+          "opening",
+          "ending"
+        ],
+        "title": "AnimeOSTTypeEnum"
       },
       "AnimePaginationResponse": {
         "properties": {
@@ -10991,7 +10996,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "anime"
+            "const": "anime",
+            "title": "Data Type"
           },
           "media_type": {
             "anyOf": [
@@ -11271,7 +11277,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "anime"
+            "const": "anime",
+            "title": "Data Type"
           },
           "media_type": {
             "anyOf": [
@@ -11583,7 +11590,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "anime"
+            "const": "anime",
+            "title": "Data Type"
           },
           "media_type": {
             "anyOf": [
@@ -12406,11 +12414,7 @@
             ]
           },
           "video_type": {
-            "type": "string",
-            "title": "Video Type",
-            "examples": [
-              "video_music"
-            ]
+            "$ref": "#/components/schemas/AnimeVideoTypeEnum"
           }
         },
         "additionalProperties": false,
@@ -12422,6 +12426,14 @@
           "video_type"
         ],
         "title": "AnimeVideoResponse"
+      },
+      "AnimeVideoTypeEnum": {
+        "type": "string",
+        "enum": [
+          "video_promo",
+          "video_music"
+        ],
+        "title": "AnimeVideoTypeEnum"
       },
       "AnimeWatchSearchArgs": {
         "properties": {
@@ -12635,10 +12647,6 @@
       },
       "ArticleAnimeContentResponse": {
         "properties": {
-          "data_type": {
-            "type": "string",
-            "const": "anime"
-          },
           "image": {
             "anyOf": [
               {
@@ -12679,6 +12687,11 @@
             "type": "string",
             "title": "Slug"
           },
+          "data_type": {
+            "type": "string",
+            "const": "anime",
+            "title": "Data Type"
+          },
           "title_ja": {
             "anyOf": [
               {
@@ -12694,11 +12707,11 @@
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "data_type",
           "image",
           "title_en",
           "title_ua",
           "slug",
+          "data_type",
           "title_ja"
         ],
         "title": "ArticleAnimeContentResponse"
@@ -12802,7 +12815,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "article"
+            "const": "article",
+            "title": "Data Type"
           },
           "author": {
             "$ref": "#/components/schemas/FollowUserResponse"
@@ -12904,13 +12918,6 @@
       },
       "ArticleMangaNovelContentResponse": {
         "properties": {
-          "data_type": {
-            "type": "string",
-            "enum": [
-              "manga",
-              "novel"
-            ]
-          },
           "image": {
             "anyOf": [
               {
@@ -12951,6 +12958,14 @@
             "type": "string",
             "title": "Slug"
           },
+          "data_type": {
+            "type": "string",
+            "enum": [
+              "manga",
+              "novel"
+            ],
+            "title": "Data Type"
+          },
           "title_original": {
             "anyOf": [
               {
@@ -12966,11 +12981,11 @@
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "data_type",
           "image",
           "title_en",
           "title_ua",
           "slug",
+          "data_type",
           "title_original"
         ],
         "title": "ArticleMangaNovelContentResponse"
@@ -12979,7 +12994,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "article"
+            "const": "article",
+            "title": "Data Type"
           },
           "author": {
             "$ref": "#/components/schemas/FollowUserResponse"
@@ -13374,7 +13390,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "character"
+            "const": "character",
+            "title": "Data Type"
           },
           "name_ua": {
             "anyOf": [
@@ -13588,7 +13605,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "character"
+            "const": "character",
+            "title": "Data Type"
           },
           "name_ua": {
             "anyOf": [
@@ -14001,7 +14019,7 @@
             "title": "Content"
           },
           "content_type": {
-            "$ref": "#/components/schemas/app__collections__schemas__ContentTypeEnum"
+            "$ref": "#/components/schemas/CollectionContentTypeEnum"
           },
           "labels_order": {
             "items": {
@@ -14102,8 +14120,7 @@
             "title": "Label"
           },
           "content_type": {
-            "type": "string",
-            "title": "Content Type"
+            "$ref": "#/components/schemas/CollectionContentTypeEnum"
           },
           "order": {
             "type": "integer",
@@ -14141,11 +14158,23 @@
         ],
         "title": "CollectionContentResponse"
       },
+      "CollectionContentTypeEnum": {
+        "type": "string",
+        "enum": [
+          "character",
+          "person",
+          "anime",
+          "manga",
+          "novel"
+        ],
+        "title": "CollectionContentTypeEnum"
+      },
       "CollectionResponse": {
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "collection"
+            "const": "collection",
+            "title": "Data Type"
           },
           "visibility": {
             "$ref": "#/components/schemas/CollectionVisibilityEnum"
@@ -14173,8 +14202,7 @@
             "title": "Comments Count"
           },
           "content_type": {
-            "type": "string",
-            "title": "Content Type"
+            "$ref": "#/components/schemas/CollectionContentTypeEnum"
           },
           "description": {
             "type": "string",
@@ -14281,7 +14309,7 @@
           "content_type": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/app__collections__schemas__ContentTypeEnum"
+                "$ref": "#/components/schemas/CollectionContentTypeEnum"
               },
               {
                 "type": "null"
@@ -14377,6 +14405,20 @@
         ],
         "title": "CommentArgs"
       },
+      "CommentContentTypeEnum": {
+        "type": "string",
+        "enum": [
+          "collection",
+          "character",
+          "edit",
+          "article",
+          "person",
+          "anime",
+          "manga",
+          "novel"
+        ],
+        "title": "CommentContentTypeEnum"
+      },
       "CommentListResponse": {
         "properties": {
           "pagination": {
@@ -14402,7 +14444,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "comment"
+            "const": "comment",
+            "title": "Data Type"
           },
           "replies": {
             "items": {
@@ -14450,8 +14493,7 @@
             "title": "Parent"
           },
           "content_type": {
-            "type": "string",
-            "title": "Content Type"
+            "$ref": "#/components/schemas/CommentContentTypeEnum"
           },
           "is_editable": {
             "type": "boolean",
@@ -14517,7 +14559,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "comment"
+            "const": "comment",
+            "title": "Data Type"
           },
           "replies": {
             "items": {
@@ -14565,8 +14608,7 @@
             "title": "Parent"
           },
           "content_type": {
-            "type": "string",
-            "title": "Content Type"
+            "$ref": "#/components/schemas/CommentContentTypeEnum"
           },
           "is_editable": {
             "type": "boolean",
@@ -14907,6 +14949,15 @@
           "title_ua"
         ],
         "title": "ContentToDoEnum"
+      },
+      "ContentTypeEnum": {
+        "type": "string",
+        "enum": [
+          "collection",
+          "comment",
+          "article"
+        ],
+        "title": "ContentTypeEnum"
       },
       "DescriptionArgs": {
         "properties": {
@@ -15494,8 +15545,7 @@
             ]
           },
           "type": {
-            "type": "string",
-            "title": "Type"
+            "$ref": "#/components/schemas/ExternalTypeEnum"
           }
         },
         "additionalProperties": false,
@@ -15507,15 +15557,25 @@
         ],
         "title": "ExternalResponse"
       },
+      "ExternalTypeEnum": {
+        "type": "string",
+        "enum": [
+          "general",
+          "watch",
+          "read"
+        ],
+        "title": "ExternalTypeEnum"
+      },
       "FavouriteAnimeResponse": {
         "properties": {
-          "data_type": {
-            "type": "string",
-            "const": "anime"
-          },
           "favourite_created": {
             "type": "integer",
             "title": "Favourite Created"
+          },
+          "data_type": {
+            "type": "string",
+            "const": "anime",
+            "title": "Data Type"
           },
           "media_type": {
             "anyOf": [
@@ -15771,8 +15831,8 @@
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "data_type",
           "favourite_created",
+          "data_type",
           "media_type",
           "title_ua",
           "title_en",
@@ -15802,13 +15862,14 @@
       },
       "FavouriteCharacterResponse": {
         "properties": {
-          "data_type": {
-            "type": "string",
-            "const": "character"
-          },
           "favourite_created": {
             "type": "integer",
             "title": "Favourite Created"
+          },
+          "data_type": {
+            "type": "string",
+            "const": "character",
+            "title": "Data Type"
           },
           "name_ua": {
             "anyOf": [
@@ -15884,8 +15945,8 @@
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "data_type",
           "favourite_created",
+          "data_type",
           "name_ua",
           "name_en",
           "name_ja",
@@ -15897,13 +15958,14 @@
       },
       "FavouriteCollectionResponse": {
         "properties": {
-          "data_type": {
-            "type": "string",
-            "const": "collection"
-          },
           "favourite_created": {
             "type": "integer",
             "title": "Favourite Created"
+          },
+          "data_type": {
+            "type": "string",
+            "const": "collection",
+            "title": "Data Type"
           },
           "visibility": {
             "$ref": "#/components/schemas/CollectionVisibilityEnum"
@@ -15931,8 +15993,7 @@
             "title": "Comments Count"
           },
           "content_type": {
-            "type": "string",
-            "title": "Content Type"
+            "$ref": "#/components/schemas/CollectionContentTypeEnum"
           },
           "description": {
             "type": "string",
@@ -15984,8 +16045,8 @@
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "data_type",
           "favourite_created",
+          "data_type",
           "visibility",
           "author",
           "labels_order",
@@ -16019,13 +16080,14 @@
       },
       "FavouriteMangaResponse": {
         "properties": {
-          "data_type": {
-            "type": "string",
-            "const": "manga"
-          },
           "favourite_created": {
             "type": "integer",
             "title": "Favourite Created"
+          },
+          "data_type": {
+            "type": "string",
+            "const": "manga",
+            "title": "Data Type"
           },
           "start_date": {
             "anyOf": [
@@ -16209,8 +16271,8 @@
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "data_type",
           "favourite_created",
+          "data_type",
           "start_date",
           "end_date",
           "created",
@@ -16237,13 +16299,14 @@
       },
       "FavouriteNovelResponse": {
         "properties": {
-          "data_type": {
-            "type": "string",
-            "const": "novel"
-          },
           "favourite_created": {
             "type": "integer",
             "title": "Favourite Created"
+          },
+          "data_type": {
+            "type": "string",
+            "const": "novel",
+            "title": "Data Type"
           },
           "start_date": {
             "anyOf": [
@@ -16427,8 +16490,8 @@
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "data_type",
           "favourite_created",
+          "data_type",
           "start_date",
           "end_date",
           "created",
@@ -17035,8 +17098,7 @@
             "$ref": "#/components/schemas/UserResponse"
           },
           "history_type": {
-            "type": "string",
-            "title": "History Type"
+            "$ref": "#/components/schemas/HistoryTypeEnum"
           },
           "reference": {
             "type": "string",
@@ -17058,6 +17120,26 @@
           "data"
         ],
         "title": "HistoryResponse"
+      },
+      "HistoryTypeEnum": {
+        "type": "string",
+        "enum": [
+          "watch",
+          "watch_delete",
+          "read_manga",
+          "read_manga_delete",
+          "read_novel",
+          "read_novel_delete",
+          "watch_import",
+          "read_import",
+          "favourite_anime_add",
+          "favourite_anime_remove",
+          "favourite_manga_add",
+          "favourite_manga_remove",
+          "favourite_novel_add",
+          "favourite_novel_remove"
+        ],
+        "title": "HistoryTypeEnum"
       },
       "IgnoredNotificationsArgs": {
         "properties": {
@@ -17358,7 +17440,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "manga"
+            "const": "manga",
+            "title": "Data Type"
           },
           "authors": {
             "items": {
@@ -17678,7 +17761,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "manga"
+            "const": "manga",
+            "title": "Data Type"
           },
           "start_date": {
             "anyOf": [
@@ -17883,7 +17967,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "manga"
+            "const": "manga",
+            "title": "Data Type"
           },
           "start_date": {
             "anyOf": [
@@ -18278,8 +18363,7 @@
             ]
           },
           "notification_type": {
-            "type": "string",
-            "title": "Notification Type"
+            "$ref": "#/components/schemas/NotificationTypeEnum"
           },
           "created": {
             "type": "integer",
@@ -18310,6 +18394,27 @@
         ],
         "title": "NotificationResponse"
       },
+      "NotificationTypeEnum": {
+        "type": "string",
+        "enum": [
+          "comment_reply",
+          "comment_vote",
+          "comment_tag",
+          "collection_comment",
+          "article_comment",
+          "collection_vote",
+          "article_vote",
+          "edit_comment",
+          "edit_accepted",
+          "edit_denied",
+          "edit_updated",
+          "hikka_update",
+          "schedule_anime",
+          "follow",
+          "thirdparty_login"
+        ],
+        "title": "NotificationTypeEnum"
+      },
       "NotificationUnseenResponse": {
         "properties": {
           "unseen": {
@@ -18328,7 +18433,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "novel"
+            "const": "novel",
+            "title": "Data Type"
           },
           "authors": {
             "items": {
@@ -18626,7 +18732,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "novel"
+            "const": "novel",
+            "title": "Data Type"
           },
           "start_date": {
             "anyOf": [
@@ -18831,7 +18938,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "novel"
+            "const": "novel",
+            "title": "Data Type"
           },
           "start_date": {
             "anyOf": [
@@ -19363,7 +19471,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "person"
+            "const": "person",
+            "title": "Data Type"
           },
           "name_native": {
             "anyOf": [
@@ -19574,7 +19683,8 @@
         "properties": {
           "data_type": {
             "type": "string",
-            "const": "person"
+            "const": "person",
+            "title": "Data Type"
           },
           "name_native": {
             "anyOf": [
@@ -20877,7 +20987,166 @@
         "type": "object",
         "title": "UIColorTokens"
       },
-      "UIFeedSettings": {
+      "UIFeedSettings-Input": {
+        "properties": {
+          "collection_content_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "character",
+                    "person",
+                    "anime",
+                    "manga",
+                    "novel"
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Collection Content Types"
+          },
+          "comment_content_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "collection",
+                    "character",
+                    "edit",
+                    "article",
+                    "person",
+                    "anime",
+                    "manga",
+                    "novel"
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment Content Types"
+          },
+          "article_content_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "anime",
+                    "manga",
+                    "novel",
+                    "no_content"
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Article Content Types"
+          },
+          "article_categories": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "original",
+                    "reviews",
+                    "news"
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Article Categories"
+          },
+          "feed_content_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "collection",
+                    "article",
+                    "comment"
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feed Content Types"
+          },
+          "only_followed": {
+            "type": "boolean",
+            "title": "Only Followed",
+            "default": false
+          },
+          "widgets": {
+            "items": {
+              "$ref": "#/components/schemas/UIFeedWidget"
+            },
+            "type": "array",
+            "title": "Widgets",
+            "default": [
+              {
+                "side": "left",
+                "slug": "profile",
+                "order": 1
+              },
+              {
+                "side": "left",
+                "slug": "tracker",
+                "order": 2
+              },
+              {
+                "side": "left",
+                "slug": "history",
+                "order": 3
+              },
+              {
+                "side": "center",
+                "slug": "ongoings",
+                "order": 1
+              },
+              {
+                "side": "center",
+                "slug": "feed",
+                "order": 2
+              },
+              {
+                "side": "right",
+                "slug": "schedule",
+                "order": 1
+              },
+              {
+                "side": "right",
+                "slug": "list",
+                "order": 2
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "UIFeedSettings"
+      },
+      "UIFeedSettings-Output": {
         "properties": {
           "collection_content_types": {
             "anyOf": [
@@ -21048,20 +21317,7 @@
             "title": "Side"
           },
           "slug": {
-            "type": "string",
-            "enum": [
-              "list",
-              "profile",
-              "feed",
-              "tracker",
-              "history",
-              "ongoings",
-              "schedule",
-              "top_anime",
-              "articles",
-              "collections"
-            ],
-            "title": "Slug"
+            "$ref": "#/components/schemas/UIWidgetEnum"
           },
           "order": {
             "type": "integer",
@@ -21152,7 +21408,7 @@
             "title": "Effects"
           },
           "feed": {
-            "$ref": "#/components/schemas/UIFeedSettings"
+            "$ref": "#/components/schemas/UIFeedSettings-Input"
           },
           "score": {
             "anyOf": [
@@ -21213,19 +21469,7 @@
           },
           "home_widgets": {
             "items": {
-              "type": "string",
-              "enum": [
-                "list",
-                "profile",
-                "feed",
-                "tracker",
-                "history",
-                "ongoings",
-                "schedule",
-                "top_anime",
-                "articles",
-                "collections"
-              ]
+              "$ref": "#/components/schemas/UIWidgetEnum"
             },
             "type": "array",
             "title": "Home Widgets",
@@ -21262,7 +21506,7 @@
             "title": "Effects"
           },
           "feed": {
-            "$ref": "#/components/schemas/UIFeedSettings"
+            "$ref": "#/components/schemas/UIFeedSettings-Output"
           },
           "score": {
             "anyOf": [
@@ -21323,19 +21567,7 @@
           },
           "home_widgets": {
             "items": {
-              "type": "string",
-              "enum": [
-                "list",
-                "profile",
-                "feed",
-                "tracker",
-                "history",
-                "ongoings",
-                "schedule",
-                "top_anime",
-                "articles",
-                "collections"
-              ]
+              "$ref": "#/components/schemas/UIWidgetEnum"
             },
             "type": "array",
             "title": "Home Widgets",
@@ -21808,6 +22040,22 @@
         "additionalProperties": false,
         "type": "object",
         "title": "UIThemeStylesBody"
+      },
+      "UIWidgetEnum": {
+        "type": "string",
+        "enum": [
+          "list",
+          "profile",
+          "feed",
+          "tracker",
+          "history",
+          "ongoings",
+          "schedule",
+          "top_anime",
+          "articles",
+          "collections"
+        ],
+        "title": "UIWidgetEnum"
       },
       "UpdateUserBody": {
         "properties": {
@@ -23268,31 +23516,6 @@
         ],
         "title": "WatchStatusEnum"
       },
-      "app__collections__schemas__ContentTypeEnum": {
-        "type": "string",
-        "enum": [
-          "character",
-          "person",
-          "anime",
-          "manga",
-          "novel"
-        ],
-        "title": "ContentTypeEnum"
-      },
-      "app__comments__schemas__ContentTypeEnum": {
-        "type": "string",
-        "enum": [
-          "collection",
-          "character",
-          "edit",
-          "article",
-          "person",
-          "anime",
-          "manga",
-          "novel"
-        ],
-        "title": "ContentTypeEnum"
-      },
       "app__people__schemas__RoleResponse": {
         "properties": {
           "name_en": {
@@ -23551,15 +23774,6 @@
           "slug"
         ],
         "title": "RoleResponse"
-      },
-      "app__vote__schemas__ContentTypeEnum": {
-        "type": "string",
-        "enum": [
-          "collection",
-          "comment",
-          "article"
-        ],
-        "title": "ContentTypeEnum"
       }
     }
   },

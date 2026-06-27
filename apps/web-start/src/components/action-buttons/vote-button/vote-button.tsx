@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
 
-import type { AppVoteSchemasContentTypeEnum } from '@hikka/api';
+import type { VoteContentTypeEnum } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -13,7 +13,7 @@ import { useVote } from './use-vote';
 export { useVote } from './use-vote';
 
 type Props = {
-    contentType: AppVoteSchemasContentTypeEnum;
+    contentType: VoteContentTypeEnum;
     slug: string;
     myScore: number;
     voteScore: number;

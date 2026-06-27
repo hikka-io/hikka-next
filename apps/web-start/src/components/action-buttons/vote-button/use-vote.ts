@@ -1,16 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
-    type AppVoteSchemasContentTypeEnum,
     getVoteQueryKey,
     setVoteMutation,
+    type VoteContentTypeEnum,
 } from '@hikka/api';
 
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useRouter } from '@/utils/navigation';
 
 interface UseVoteParams {
-    contentType: AppVoteSchemasContentTypeEnum;
+    contentType: VoteContentTypeEnum;
     slug: string;
     myScore: number;
     voteScore: number;

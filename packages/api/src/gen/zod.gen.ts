@@ -46,6 +46,11 @@ export const zAnimeMediaEnum = z.enum([
 ]);
 
 /**
+ * AnimeOSTTypeEnum
+ */
+export const zAnimeOstTypeEnum = z.enum(['opening', 'ending']);
+
+/**
  * AnimeOSTResponse
  */
 export const zAnimeOstResponse = z.object({
@@ -53,7 +58,7 @@ export const zAnimeOstResponse = z.object({
     title: z.string().nullable(),
     author: z.string().nullable(),
     spotify: z.string().nullable(),
-    ost_type: z.string(),
+    ost_type: zAnimeOstTypeEnum,
 });
 
 /**
@@ -113,24 +118,29 @@ export const zAnimeStatsResponse = z.object({
 export const zAnimeStatusEnum = z.enum(['announced', 'finished', 'ongoing']);
 
 /**
+ * AnimeVideoTypeEnum
+ */
+export const zAnimeVideoTypeEnum = z.enum(['video_promo', 'video_music']);
+
+/**
  * AnimeVideoResponse
  */
 export const zAnimeVideoResponse = z.object({
     url: z.string(),
     title: z.string().nullable(),
     description: z.string().nullable(),
-    video_type: z.string(),
+    video_type: zAnimeVideoTypeEnum,
 });
 
 /**
  * ArticleAnimeContentResponse
  */
 export const zArticleAnimeContentResponse = z.object({
-    data_type: z.literal('anime'),
     image: z.string().nullable(),
     title_en: z.string().nullable(),
     title_ua: z.string().nullable(),
     slug: z.string(),
+    data_type: z.literal('anime'),
     title_ja: z.string().nullable(),
 });
 
@@ -174,11 +184,11 @@ export const zArticleArgs = z.object({
  * ArticleMangaNovelContentResponse
  */
 export const zArticleMangaNovelContentResponse = z.object({
-    data_type: z.enum(['manga', 'novel']),
     image: z.string().nullable(),
     title_en: z.string().nullable(),
     title_ua: z.string().nullable(),
     slug: z.string(),
+    data_type: z.enum(['manga', 'novel']),
     title_original: z.string().nullable(),
 });
 
@@ -274,12 +284,67 @@ export const zCollectionContentArgs = z.object({
 });
 
 /**
+ * CollectionContentTypeEnum
+ */
+export const zCollectionContentTypeEnum = z.enum([
+    'character',
+    'person',
+    'anime',
+    'manga',
+    'novel',
+]);
+
+/**
  * CollectionVisibilityEnum
  */
 export const zCollectionVisibilityEnum = z.enum([
     'unlisted',
     'private',
     'public',
+]);
+
+/**
+ * CollectionArgs
+ */
+export const zCollectionArgs = z.object({
+    description: z.string().min(3).max(65536),
+    title: z.string().min(3).max(255),
+    tags: z.array(z.string()).max(3),
+    visibility: zCollectionVisibilityEnum,
+    content: z.array(zCollectionContentArgs),
+    content_type: zCollectionContentTypeEnum,
+    labels_order: z.array(z.string()),
+    spoiler: z.boolean(),
+    nsfw: z.boolean(),
+});
+
+/**
+ * CollectionsListArgs
+ */
+export const zCollectionsListArgs = z.object({
+    sort: z
+        .array(z.string())
+        .optional()
+        .default(['system_ranking:desc', 'created:desc']),
+    content: z.array(z.string()).max(1).optional().default([]),
+    content_type: zCollectionContentTypeEnum.nullish(),
+    author: z.string().nullish(),
+    only_public: z.boolean().optional().default(true),
+    tags: z.array(z.string()).max(3).optional().default([]),
+});
+
+/**
+ * CommentContentTypeEnum
+ */
+export const zCommentContentTypeEnum = z.enum([
+    'collection',
+    'character',
+    'edit',
+    'article',
+    'person',
+    'anime',
+    'manga',
+    'novel',
 ]);
 
 /**
@@ -356,6 +421,11 @@ export const zContentStatusEnum = z.enum([
  * ContentToDoEnum
  */
 export const zContentToDoEnum = z.enum(['synopsis_ua', 'title_ua']);
+
+/**
+ * ContentTypeEnum
+ */
+export const zContentTypeEnum = z.enum(['collection', 'comment', 'article']);
 
 /**
  * DescriptionArgs
@@ -448,20 +518,25 @@ export const zEmailLoginArgs = z.object({
 });
 
 /**
+ * ExternalTypeEnum
+ */
+export const zExternalTypeEnum = z.enum(['general', 'watch', 'read']);
+
+/**
  * ExternalResponse
  */
 export const zExternalResponse = z.object({
     url: z.string(),
     text: z.string(),
-    type: z.string(),
+    type: zExternalTypeEnum,
 });
 
 /**
  * FavouriteCharacterResponse
  */
 export const zFavouriteCharacterResponse = z.object({
-    data_type: z.literal('character'),
     favourite_created: z.number().int(),
+    data_type: z.literal('character'),
     name_ua: z.string().nullable(),
     name_en: z.string().nullable(),
     name_ja: z.string().nullable(),
@@ -632,6 +707,26 @@ export const zHttpValidationError = z.object({
     message: z.string(),
     code: z.string(),
 });
+
+/**
+ * HistoryTypeEnum
+ */
+export const zHistoryTypeEnum = z.enum([
+    'watch',
+    'watch_delete',
+    'read_manga',
+    'read_manga_delete',
+    'read_novel',
+    'read_novel_delete',
+    'watch_import',
+    'read_import',
+    'favourite_anime_add',
+    'favourite_anime_remove',
+    'favourite_manga_add',
+    'favourite_manga_remove',
+    'favourite_novel_add',
+    'favourite_novel_remove',
+]);
 
 /**
  * IgnoredNotificationsArgs
@@ -814,6 +909,27 @@ export const zMangaSearchArgs = z.object({
         .optional()
         .default(['score:desc', 'scored_by:desc']),
 });
+
+/**
+ * NotificationTypeEnum
+ */
+export const zNotificationTypeEnum = z.enum([
+    'comment_reply',
+    'comment_vote',
+    'comment_tag',
+    'collection_comment',
+    'article_comment',
+    'collection_vote',
+    'article_vote',
+    'edit_comment',
+    'edit_accepted',
+    'edit_denied',
+    'edit_updated',
+    'hikka_update',
+    'schedule_anime',
+    'follow',
+    'thirdparty_login',
+]);
 
 /**
  * NotificationUnseenResponse
@@ -1081,8 +1197,8 @@ export const zReadResponseBase = z.object({
  * FavouriteMangaResponse
  */
 export const zFavouriteMangaResponse = z.object({
-    data_type: z.literal('manga'),
     favourite_created: z.number().int(),
+    data_type: z.literal('manga'),
     start_date: z.number().int().nullable(),
     end_date: z.number().int().nullable(),
     created: z.number().int().nullable(),
@@ -1110,8 +1226,8 @@ export const zFavouriteMangaResponse = z.object({
  * FavouriteNovelResponse
  */
 export const zFavouriteNovelResponse = z.object({
-    data_type: z.literal('novel'),
     favourite_created: z.number().int(),
+    data_type: z.literal('novel'),
     start_date: z.number().int().nullable(),
     end_date: z.number().int().nullable(),
     created: z.number().int().nullable(),
@@ -1563,159 +1679,6 @@ export const zUiColorTokens = z.object({
 });
 
 /**
- * UIFeedWidget
- */
-export const zUiFeedWidget = z.object({
-    side: z.enum(['left', 'center', 'right']),
-    slug: z.enum([
-        'list',
-        'profile',
-        'feed',
-        'tracker',
-        'history',
-        'ongoings',
-        'schedule',
-        'top_anime',
-        'articles',
-        'collections',
-    ]),
-    order: z.number().int(),
-});
-
-/**
- * UIFeedSettings
- */
-export const zUiFeedSettings = z.object({
-    collection_content_types: z
-        .array(z.enum(['character', 'person', 'anime', 'manga', 'novel']))
-        .nullish(),
-    comment_content_types: z
-        .array(
-            z.enum([
-                'collection',
-                'character',
-                'edit',
-                'article',
-                'person',
-                'anime',
-                'manga',
-                'novel',
-            ]),
-        )
-        .nullish(),
-    article_content_types: z
-        .array(z.enum(['anime', 'manga', 'novel', 'no_content']))
-        .nullish(),
-    article_categories: z
-        .array(z.enum(['original', 'reviews', 'news']))
-        .nullish(),
-    feed_content_types: z
-        .array(z.enum(['collection', 'article', 'comment']))
-        .nullish(),
-    only_followed: z.boolean().optional().default(false),
-    widgets: z
-        .array(zUiFeedWidget)
-        .optional()
-        .default([
-            {
-                side: 'left',
-                slug: 'profile',
-                order: 1,
-            },
-            {
-                side: 'left',
-                slug: 'tracker',
-                order: 2,
-            },
-            {
-                side: 'left',
-                slug: 'history',
-                order: 3,
-            },
-            {
-                side: 'center',
-                slug: 'ongoings',
-                order: 1,
-            },
-            {
-                side: 'center',
-                slug: 'feed',
-                order: 2,
-            },
-            {
-                side: 'right',
-                slug: 'schedule',
-                order: 1,
-            },
-            {
-                side: 'right',
-                slug: 'list',
-                order: 2,
-            },
-        ]),
-});
-
-/**
- * UIPreferences
- */
-export const zUiPreferencesInput = z.object({
-    effects: z.array(z.enum(['snowfall', 'sakura'])).nullish(),
-    feed: zUiFeedSettings.optional(),
-    score: z.enum(['mal', 'native']).nullish(),
-    title_language: z.string().nullish(),
-    name_language: z.string().nullish(),
-    effect: z.enum(['snowfall', 'sakura']).nullish(),
-    overlay: z.boolean().optional().default(true),
-    home_widgets: z
-        .array(
-            z.enum([
-                'list',
-                'profile',
-                'feed',
-                'tracker',
-                'history',
-                'ongoings',
-                'schedule',
-                'top_anime',
-                'articles',
-                'collections',
-            ]),
-        )
-        .optional()
-        .default(['tracker', 'history', 'ongoings', 'schedule']),
-});
-
-/**
- * UIPreferences
- */
-export const zUiPreferencesOutput = z.object({
-    effects: z.array(z.enum(['snowfall', 'sakura'])).nullish(),
-    feed: zUiFeedSettings.optional(),
-    score: z.enum(['mal', 'native']).nullish(),
-    title_language: z.string().nullish(),
-    name_language: z.string().nullish(),
-    effect: z.enum(['snowfall', 'sakura']).nullish(),
-    overlay: z.boolean().optional().default(true),
-    home_widgets: z
-        .array(
-            z.enum([
-                'list',
-                'profile',
-                'feed',
-                'tracker',
-                'history',
-                'ongoings',
-                'schedule',
-                'top_anime',
-                'articles',
-                'collections',
-            ]),
-        )
-        .optional()
-        .default(['tracker', 'history', 'ongoings', 'schedule']),
-});
-
-/**
  * UIStylesTypography
  */
 export const zUiStylesTypography = z.object({
@@ -1811,6 +1774,211 @@ export const zUiStylesOutput = z.object({
     backdrop: zUiBackdrop.nullish(),
     brand: zOklchColor.nullish(),
     radius: z.string().nullish(),
+});
+
+/**
+ * UIWidgetEnum
+ */
+export const zUiWidgetEnum = z.enum([
+    'list',
+    'profile',
+    'feed',
+    'tracker',
+    'history',
+    'ongoings',
+    'schedule',
+    'top_anime',
+    'articles',
+    'collections',
+]);
+
+/**
+ * UIFeedWidget
+ */
+export const zUiFeedWidget = z.object({
+    side: z.enum(['left', 'center', 'right']),
+    slug: zUiWidgetEnum,
+    order: z.number().int(),
+});
+
+/**
+ * UIFeedSettings
+ */
+export const zUiFeedSettingsInput = z.object({
+    collection_content_types: z
+        .array(z.enum(['character', 'person', 'anime', 'manga', 'novel']))
+        .nullish(),
+    comment_content_types: z
+        .array(
+            z.enum([
+                'collection',
+                'character',
+                'edit',
+                'article',
+                'person',
+                'anime',
+                'manga',
+                'novel',
+            ]),
+        )
+        .nullish(),
+    article_content_types: z
+        .array(z.enum(['anime', 'manga', 'novel', 'no_content']))
+        .nullish(),
+    article_categories: z
+        .array(z.enum(['original', 'reviews', 'news']))
+        .nullish(),
+    feed_content_types: z
+        .array(z.enum(['collection', 'article', 'comment']))
+        .nullish(),
+    only_followed: z.boolean().optional().default(false),
+    widgets: z
+        .array(zUiFeedWidget)
+        .optional()
+        .default([
+            {
+                side: 'left',
+                slug: 'profile',
+                order: 1,
+            },
+            {
+                side: 'left',
+                slug: 'tracker',
+                order: 2,
+            },
+            {
+                side: 'left',
+                slug: 'history',
+                order: 3,
+            },
+            {
+                side: 'center',
+                slug: 'ongoings',
+                order: 1,
+            },
+            {
+                side: 'center',
+                slug: 'feed',
+                order: 2,
+            },
+            {
+                side: 'right',
+                slug: 'schedule',
+                order: 1,
+            },
+            {
+                side: 'right',
+                slug: 'list',
+                order: 2,
+            },
+        ]),
+});
+
+/**
+ * UIFeedSettings
+ */
+export const zUiFeedSettingsOutput = z.object({
+    collection_content_types: z
+        .array(z.enum(['character', 'person', 'anime', 'manga', 'novel']))
+        .nullish(),
+    comment_content_types: z
+        .array(
+            z.enum([
+                'collection',
+                'character',
+                'edit',
+                'article',
+                'person',
+                'anime',
+                'manga',
+                'novel',
+            ]),
+        )
+        .nullish(),
+    article_content_types: z
+        .array(z.enum(['anime', 'manga', 'novel', 'no_content']))
+        .nullish(),
+    article_categories: z
+        .array(z.enum(['original', 'reviews', 'news']))
+        .nullish(),
+    feed_content_types: z
+        .array(z.enum(['collection', 'article', 'comment']))
+        .nullish(),
+    only_followed: z.boolean().optional().default(false),
+    widgets: z
+        .array(zUiFeedWidget)
+        .optional()
+        .default([
+            {
+                side: 'left',
+                slug: 'profile',
+                order: 1,
+            },
+            {
+                side: 'left',
+                slug: 'tracker',
+                order: 2,
+            },
+            {
+                side: 'left',
+                slug: 'history',
+                order: 3,
+            },
+            {
+                side: 'center',
+                slug: 'ongoings',
+                order: 1,
+            },
+            {
+                side: 'center',
+                slug: 'feed',
+                order: 2,
+            },
+            {
+                side: 'right',
+                slug: 'schedule',
+                order: 1,
+            },
+            {
+                side: 'right',
+                slug: 'list',
+                order: 2,
+            },
+        ]),
+});
+
+/**
+ * UIPreferences
+ */
+export const zUiPreferencesInput = z.object({
+    effects: z.array(z.enum(['snowfall', 'sakura'])).nullish(),
+    feed: zUiFeedSettingsInput.optional(),
+    score: z.enum(['mal', 'native']).nullish(),
+    title_language: z.string().nullish(),
+    name_language: z.string().nullish(),
+    effect: z.enum(['snowfall', 'sakura']).nullish(),
+    overlay: z.boolean().optional().default(true),
+    home_widgets: z
+        .array(zUiWidgetEnum)
+        .optional()
+        .default(['tracker', 'history', 'ongoings', 'schedule']),
+});
+
+/**
+ * UIPreferences
+ */
+export const zUiPreferencesOutput = z.object({
+    effects: z.array(z.enum(['snowfall', 'sakura'])).nullish(),
+    feed: zUiFeedSettingsOutput.optional(),
+    score: z.enum(['mal', 'native']).nullish(),
+    title_language: z.string().nullish(),
+    name_language: z.string().nullish(),
+    effect: z.enum(['snowfall', 'sakura']).nullish(),
+    overlay: z.boolean().optional().default(true),
+    home_widgets: z
+        .array(zUiWidgetEnum)
+        .optional()
+        .default(['tracker', 'history', 'ongoings', 'schedule']),
 });
 
 /**
@@ -1994,7 +2162,7 @@ export const zCommentResponse: z.AnyZodObject = z.object({
     created: z.number().int(),
     author: zUserResponse,
     parent: z.string().nullable(),
-    content_type: z.string(),
+    content_type: zCommentContentTypeEnum,
     is_editable: z.boolean(),
     text: z.string().nullable(),
     vote_score: z.number().int(),
@@ -2025,7 +2193,7 @@ export const zCommentResponseFeed = z.object({
     created: z.number().int(),
     author: zFollowUserResponse,
     parent: z.string().nullable(),
-    content_type: z.string(),
+    content_type: zCommentContentTypeEnum,
     is_editable: z.boolean(),
     text: z.string().nullable(),
     vote_score: z.number().int(),
@@ -2116,7 +2284,7 @@ export const zHistoryResponse = z.object({
     created: z.number().int(),
     updated: z.number().int(),
     user: zUserResponse,
-    history_type: z.string(),
+    history_type: zHistoryTypeEnum,
     reference: z.string(),
     data: z.record(z.unknown()),
 });
@@ -2134,7 +2302,7 @@ export const zHistoryPaginationResponse = z.object({
  */
 export const zNotificationResponse = z.object({
     initiator_user: zUserResponse.nullable(),
-    notification_type: z.string(),
+    notification_type: zNotificationTypeEnum,
     created: z.number().int(),
     reference: z.string(),
     seen: z.boolean(),
@@ -2417,7 +2585,7 @@ export const zCharacterVoicesPaginationResponse = z.object({
 export const zCollectionContentResponse = z.object({
     comment: z.string().nullable(),
     label: z.string().nullable(),
-    content_type: z.string(),
+    content_type: zCollectionContentTypeEnum,
     order: z.number().int(),
     content: z.union([
         zAnimeResponseWithWatch,
@@ -2439,7 +2607,7 @@ export const zCollectionResponse = z.object({
     created: z.number().int(),
     updated: z.number().int(),
     comments_count: z.number().int(),
-    content_type: z.string(),
+    content_type: zCollectionContentTypeEnum,
     description: z.string(),
     vote_score: z.number().int(),
     tags: z.array(z.string()),
@@ -2464,8 +2632,8 @@ export const zCollectionsListResponse = z.object({
  * FavouriteAnimeResponse
  */
 export const zFavouriteAnimeResponse = z.object({
-    data_type: z.literal('anime'),
     favourite_created: z.number().int(),
+    data_type: z.literal('anime'),
     media_type: z.string().nullable(),
     title_ua: z.string().nullable(),
     title_en: z.string().nullable(),
@@ -2496,15 +2664,15 @@ export const zFavouriteAnimeResponse = z.object({
  * FavouriteCollectionResponse
  */
 export const zFavouriteCollectionResponse = z.object({
-    data_type: z.literal('collection'),
     favourite_created: z.number().int(),
+    data_type: z.literal('collection'),
     visibility: zCollectionVisibilityEnum,
     author: zFollowUserResponse,
     labels_order: z.array(z.string()),
     created: z.number().int(),
     updated: z.number().int(),
     comments_count: z.number().int(),
-    content_type: z.string(),
+    content_type: zCollectionContentTypeEnum,
     description: z.string(),
     vote_score: z.number().int(),
     tags: z.array(z.string()),
@@ -2654,61 +2822,6 @@ export const zWatchArgs = z.object({
     end_date: z.string().datetime().nullish(),
     status: zWatchStatusEnum,
 });
-
-/**
- * ContentTypeEnum
- */
-export const zAppCollectionsSchemasContentTypeEnum = z.enum([
-    'character',
-    'person',
-    'anime',
-    'manga',
-    'novel',
-]);
-
-/**
- * CollectionArgs
- */
-export const zCollectionArgs = z.object({
-    description: z.string().min(3).max(65536),
-    title: z.string().min(3).max(255),
-    tags: z.array(z.string()).max(3),
-    visibility: zCollectionVisibilityEnum,
-    content: z.array(zCollectionContentArgs),
-    content_type: zAppCollectionsSchemasContentTypeEnum,
-    labels_order: z.array(z.string()),
-    spoiler: z.boolean(),
-    nsfw: z.boolean(),
-});
-
-/**
- * CollectionsListArgs
- */
-export const zCollectionsListArgs = z.object({
-    sort: z
-        .array(z.string())
-        .optional()
-        .default(['system_ranking:desc', 'created:desc']),
-    content: z.array(z.string()).max(1).optional().default([]),
-    content_type: zAppCollectionsSchemasContentTypeEnum.nullish(),
-    author: z.string().nullish(),
-    only_public: z.boolean().optional().default(true),
-    tags: z.array(z.string()).max(3).optional().default([]),
-});
-
-/**
- * ContentTypeEnum
- */
-export const zAppCommentsSchemasContentTypeEnum = z.enum([
-    'collection',
-    'character',
-    'edit',
-    'article',
-    'person',
-    'anime',
-    'manga',
-    'novel',
-]);
 
 /**
  * RoleResponse
@@ -2907,15 +3020,6 @@ export const zNovelInfoResponse = z.object({
     nsfw: z.boolean(),
     slug: z.string(),
 });
-
-/**
- * ContentTypeEnum
- */
-export const zAppVoteSchemasContentTypeEnum = z.enum([
-    'collection',
-    'comment',
-    'article',
-]);
 
 export const zNotificationsHeaders = z.object({
     auth: z.string().nullish(),
@@ -3475,7 +3579,7 @@ export const zWriteCommentHeaders = z.object({
 });
 
 export const zWriteCommentPath = z.object({
-    content_type: zAppCommentsSchemasContentTypeEnum,
+    content_type: zCommentContentTypeEnum,
     slug: z.string(),
 });
 
@@ -3490,7 +3594,7 @@ export const zGetContentsListHeaders = z.object({
 
 export const zGetContentsListPath = z.object({
     slug: z.string(),
-    content_type: zAppCommentsSchemasContentTypeEnum,
+    content_type: zCommentContentTypeEnum,
 });
 
 export const zGetContentsListQuery = z.object({
@@ -4709,7 +4813,7 @@ export const zGetVoteHeaders = z.object({
 });
 
 export const zGetVotePath = z.object({
-    content_type: zAppVoteSchemasContentTypeEnum,
+    content_type: zContentTypeEnum,
     slug: z.string(),
 });
 
@@ -4725,7 +4829,7 @@ export const zSetVoteHeaders = z.object({
 });
 
 export const zSetVotePath = z.object({
-    content_type: zAppVoteSchemasContentTypeEnum,
+    content_type: zContentTypeEnum,
     slug: z.string(),
 });
 

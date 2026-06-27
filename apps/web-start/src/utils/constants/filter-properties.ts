@@ -1,7 +1,7 @@
 import {
     AnimeAgeRatingEnum,
     AnimeMediaEnum,
-    AnimeOSTTypeEnum,
+    AnimeOstTypeEnum,
     AnimeVideoTypeEnum,
     ArticleCategoryEnum,
     ContentStatusEnum,
@@ -192,12 +192,12 @@ export const VIDEO: Hikka.FilterProperty<AnimeVideoTypeEnum> = {
     },
 };
 
-export const OST: Hikka.FilterProperty<AnimeOSTTypeEnum> = {
-    [AnimeOSTTypeEnum.OPENING]: {
+export const OST: Hikka.FilterProperty<AnimeOstTypeEnum> = {
+    [AnimeOstTypeEnum.OPENING]: {
         title_ua: 'Опенінґ',
         title_en: 'Opening',
     },
-    [AnimeOSTTypeEnum.ENDING]: {
+    [AnimeOstTypeEnum.ENDING]: {
         title_ua: 'Ендінґ',
         title_en: 'Ending',
     },

@@ -4,7 +4,7 @@ import { Plate } from 'platejs/react';
 
 import type {
     CommentResponse,
-    AppCommentsSchemasContentTypeEnum as CommentsContentType,
+    CommentContentTypeEnum as CommentsContentType,
 } from '@hikka/api';
 
 import { usePlateMarkdownSetup } from '@/components/plate/editor/markdown-editor-kit';

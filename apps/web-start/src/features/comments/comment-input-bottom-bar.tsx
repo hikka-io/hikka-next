@@ -6,7 +6,7 @@ import { Minimize2, Send } from 'lucide-react';
 
 import {
     type CommentResponse,
-    type AppCommentsSchemasContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum as CommentsContentType,
     editCommentMutation,
     writeCommentMutation,
 } from '@hikka/api';

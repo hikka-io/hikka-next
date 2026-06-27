@@ -3,7 +3,7 @@ import { type FC, useId, useState } from 'react';
 import {
     ArticleCategoryEnum,
     ContentTypeEnum,
-    type UiFeedSettings,
+    type UiFeedSettingsOutput,
 } from '@hikka/api';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -22,19 +22,19 @@ import {
 } from '@/utils/constants/common';
 
 type CollectionContentType = NonNullable<
-    UiFeedSettings['collection_content_types']
+    UiFeedSettingsOutput['collection_content_types']
 >[number];
 type CommentsContentType = NonNullable<
-    UiFeedSettings['comment_content_types']
+    UiFeedSettingsOutput['comment_content_types']
 >[number];
 type FeedArticleContentType = NonNullable<
-    UiFeedSettings['article_content_types']
+    UiFeedSettingsOutput['article_content_types']
 >[number];
 type FeedArticleCategory = NonNullable<
-    UiFeedSettings['article_categories']
+    UiFeedSettingsOutput['article_categories']
 >[number];
 type FeedContentType = NonNullable<
-    UiFeedSettings['feed_content_types']
+    UiFeedSettingsOutput['feed_content_types']
 >[number];
 
 export interface FeedSubTypeFilters {
