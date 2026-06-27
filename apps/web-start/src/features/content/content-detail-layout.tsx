@@ -1,5 +1,7 @@
 import type { FC, PropsWithChildren } from 'react';
 
+import type { MainContentTypeEnum } from '@hikka/api';
+
 import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import NavMenu from '@/features/app-shell/nav-dropdown';
 import { cn } from '@/utils/cn';
@@ -10,7 +12,7 @@ import NsfwOverlay from './nsfw-overlay';
 
 type Props = PropsWithChildren & {
     slug: string;
-    contentType: 'anime' | 'manga' | 'novel' | 'character' | 'person';
+    contentType: MainContentTypeEnum | 'character' | 'person';
     navRoutes: Hikka.NavRoute[];
     urlPrefix: string;
     title: string;

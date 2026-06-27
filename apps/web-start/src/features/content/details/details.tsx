@@ -2,6 +2,7 @@ import {
     type AnimeInfoResponse,
     type CharacterResponse,
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type MangaInfoResponse,
     type NovelInfoResponse,
     type PersonResponse,
@@ -17,7 +18,7 @@ import WatchDetails from './components/watch-details';
 
 type Props = {
     className?: string;
-    content_type: 'anime' | 'manga' | 'novel' | 'character' | 'person';
+    content_type: MainContentTypeEnum | 'character' | 'person';
 };
 
 const Details = ({ className, content_type }: Props) => {

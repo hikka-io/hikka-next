@@ -26,6 +26,19 @@ export const ContentTypeEnum = {
 export type ContentTypeEnum =
     (typeof ContentTypeEnum)[keyof typeof ContentTypeEnum];
 
+/**
+ * The three "main" media content types (anime/manga/novel). A narrowing of
+ * ContentTypeEnum for the catalog/detail surfaces that only ever deal with
+ * media titles — use this instead of a raw `'anime' | 'manga' | 'novel'` union.
+ */
+export const MainContentTypeEnum = {
+    ANIME: 'anime',
+    MANGA: 'manga',
+    NOVEL: 'novel',
+} as const;
+export type MainContentTypeEnum =
+    (typeof MainContentTypeEnum)[keyof typeof MainContentTypeEnum];
+
 export const ExternalTypeEnum = {
     GENERAL: 'general',
     WATCH: 'watch',

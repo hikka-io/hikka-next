@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type ReadContentTypeEnum,
     ReadStatusEnum,
     userReadStatsOptions,
@@ -28,7 +29,7 @@ import { Link } from '@/utils/navigation';
 import StatusProgressBar from './components/status-progress-bar';
 
 type Props = {
-    type: 'anime' | 'manga' | 'novel';
+    type: MainContentTypeEnum;
     username: string;
     className?: string;
 };

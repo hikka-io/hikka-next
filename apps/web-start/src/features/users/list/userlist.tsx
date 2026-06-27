@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import {
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type ReadStatusEnum,
     type WatchStatusEnum,
 } from '@hikka/api';
@@ -19,7 +20,7 @@ import { useReadList } from './hooks/use-readlist';
 import { useWatchList } from './hooks/use-watchlist';
 
 type Props = {
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
     extendedSize?: StackSize;
 };
 

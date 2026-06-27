@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ContentTypeEnum } from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -17,7 +17,7 @@ import Score from './components/score';
 import Watchlist from './components/watchlist';
 
 type Props = {
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const ContentStats = ({ content_type }: Props) => {

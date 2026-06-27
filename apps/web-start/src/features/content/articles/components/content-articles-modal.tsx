@@ -1,6 +1,9 @@
 import type { FC } from 'react';
 
-import { getArticlesInfiniteOptions } from '@hikka/api';
+import {
+    getArticlesInfiniteOptions,
+    type MainContentTypeEnum,
+} from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -9,7 +12,7 @@ import { useParams } from '@/utils/navigation';
 import ContentArticlesItem from './content-articles-item';
 
 type Props = {
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const ContentArticlesModal: FC<Props> = ({ content_type }) => {

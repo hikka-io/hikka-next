@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ContentTypeEnum } from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import Card from '@/components/ui/card';
 import {
@@ -16,7 +16,7 @@ import ListTabContent from './list-tab-content';
 
 export { ListTabContent };
 
-type ListContentType = 'anime' | 'manga' | 'novel';
+type ListContentType = MainContentTypeEnum;
 
 const TAB_LIST_CONFIG: Record<
     ListContentType,

@@ -3,6 +3,7 @@ import { type FC, useState } from 'react';
 import {
     type AnimeResponse,
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type MangaResponse,
     type NovelResponse,
     type ReadContentTypeEnum,
@@ -29,7 +30,7 @@ import { useTitle } from '@/utils/title/use-title';
 type Props = {
     number: number;
     content: MangaResponse | NovelResponse | AnimeResponse;
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
     record?: ReadResponseBase | WatchResponseBase;
 };
 

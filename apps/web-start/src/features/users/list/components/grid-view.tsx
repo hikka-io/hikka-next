@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import {
     type AnimeResponseWithWatch,
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type MangaResponseWithRead,
     type NovelResponseWithRead,
     type ReadResponse,
@@ -16,7 +17,7 @@ import Stack, { type StackSize } from '@/components/ui/stack';
 
 type Props = {
     data: ReadResponse[] | WatchResponse[];
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
     extendedSize?: StackSize;
 };
 

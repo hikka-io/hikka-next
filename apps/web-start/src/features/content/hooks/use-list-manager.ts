@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import {
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type ReadContentTypeEnum,
     type ReadResponse,
     ReadStatusEnum,
@@ -92,7 +93,7 @@ const statuses = {
 
 type ListManagerProps = {
     listItem?: ReadResponse | WatchResponse;
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 export const useUserlistManager = ({

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { ContentTypeEnum } from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import ReadListButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';
@@ -10,7 +10,7 @@ import { useParams } from '@/utils/navigation';
 import UserContentStats from './components/user-content-stats';
 
 type Props = {
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const Actions: FC<Props> = ({ content_type }) => {

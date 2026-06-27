@@ -1,6 +1,9 @@
 import { type FC, useState } from 'react';
 
-import { getArticlesInfiniteOptions } from '@hikka/api';
+import {
+    getArticlesInfiniteOptions,
+    type MainContentTypeEnum,
+} from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -22,7 +25,7 @@ import ContentNewsItem from './components/content-articles-item';
 import ContentNewsModal from './components/content-articles-modal';
 
 type Props = {
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const ContentArticles: FC<Props> = ({ content_type }) => {

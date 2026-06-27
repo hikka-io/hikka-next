@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import { ExternalTypeEnum } from '@hikka/api';
+import { ExternalTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
 import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
@@ -21,7 +21,7 @@ import { useParams } from '@/utils/navigation';
 import { getPlatformIcon } from '@/utils/platform-icons';
 
 type Props = {
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const Links: FC<Props> = ({ content_type }) => {

@@ -1,5 +1,7 @@
 import type { FC } from 'react';
 
+import type { MainContentTypeEnum } from '@hikka/api';
+
 import LoadMoreButton from '@/components/load-more-button';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
@@ -9,7 +11,7 @@ import OtherCharacters from './components/other-characters';
 
 type Props = {
     extended?: boolean;
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const Characters: FC<Props> = ({ extended, content_type }) => {

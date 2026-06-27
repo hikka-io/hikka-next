@@ -1,9 +1,11 @@
+import type { MainContentTypeEnum } from '@hikka/api';
+
 import ContentCard from '@/components/content-card/content-card';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const Cover = ({ content_type }: Props) => {

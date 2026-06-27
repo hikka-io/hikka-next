@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { MessageCircle } from 'lucide-react';
 
-import { ContentTypeEnum } from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
 import ReadlistButton from '@/components/action-buttons/readlist-button';
@@ -18,7 +18,7 @@ import { Link, useParams } from '@/utils/navigation';
 
 type Props = {
     className?: string;
-    content_type: 'anime' | 'manga' | 'novel' | 'character' | 'person';
+    content_type: MainContentTypeEnum | 'character' | 'person';
 };
 
 const UserlistButton = ({ content_type }: Props) => {

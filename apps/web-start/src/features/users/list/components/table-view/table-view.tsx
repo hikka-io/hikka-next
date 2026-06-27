@@ -5,6 +5,7 @@ import { useRouter } from '@tanstack/react-router';
 import {
     type AnimeMediaEnum,
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type ReadResponse,
     type WatchResponse,
 } from '@hikka/api';
@@ -29,7 +30,7 @@ import VolumesCell from './volumes-cell';
 
 type Props = {
     data: ReadResponse[] | WatchResponse[];
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const TableView: FC<Props> = ({ data, content_type }) => {

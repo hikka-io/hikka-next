@@ -1,4 +1,4 @@
-import type { Client } from '@hikka/api';
+import type { Client, MainContentTypeEnum } from '@hikka/api';
 
 import { createServerHikkaClient } from './cookies/headers';
 import { getSiteUrl } from './url';
@@ -23,7 +23,7 @@ export const SITEMAP_RESPONSE_HEADERS = {
  */
 export async function fetchSitemapEntries(
     client: Client,
-    type: 'anime' | 'manga' | 'novel',
+    type: MainContentTypeEnum,
 ): Promise<SitemapResponse[]> {
     const { data } = await client.get<SitemapResponse[], unknown, true>({
         url: `/sitemap/sitemap_${type}.json`,
@@ -80,7 +80,7 @@ ${urls}
 
 export async function handleTypeSitemapRequest(
     request: Request,
-    type: 'anime' | 'manga' | 'novel',
+    type: MainContentTypeEnum,
     fetchEntries: (client: Client) => Promise<SitemapResponse[]>,
 ): Promise<Response> {
     const url = new URL(request.url);

@@ -1,5 +1,6 @@
 import type {
     AnimeStatsResponse,
+    MainContentTypeEnum,
     AppSchemasReadStatsResponse as ReadStatsResponse,
 } from '@hikka/api';
 
@@ -9,7 +10,7 @@ import { useParams } from '@/utils/navigation';
 import Stats from './stats';
 
 type Props = {
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const Score = ({ content_type }: Props) => {

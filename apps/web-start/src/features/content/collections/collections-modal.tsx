@@ -1,6 +1,9 @@
 import type { FC } from 'react';
 
-import { getCollectionsInfiniteOptions } from '@hikka/api';
+import {
+    getCollectionsInfiniteOptions,
+    type MainContentTypeEnum,
+} from '@hikka/api';
 
 import { CollectionItem } from '@/components/content-card';
 import LoadMoreButton from '@/components/load-more-button';
@@ -8,7 +11,7 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const CollectionsModal: FC<Props> = ({ content_type }) => {

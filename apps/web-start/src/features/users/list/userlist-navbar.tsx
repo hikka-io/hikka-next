@@ -6,6 +6,7 @@ import { Filter, PanelRightClose, PanelRightOpen } from 'lucide-react';
 
 import {
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type ReadContentTypeEnum,
     type AppReadSchemasReadStatsResponse as ReadStatsResponse,
     type ReadStatusEnum,
@@ -59,7 +60,7 @@ import { useParams } from '@/utils/navigation';
 const STATUSES = { ...WATCH_STATUS, ...READ_STATUS };
 
 type Props = {
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const UserlistNavbar: FC<Props> = ({ content_type }) => {

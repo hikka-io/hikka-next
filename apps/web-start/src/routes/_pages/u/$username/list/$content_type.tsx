@@ -7,6 +7,7 @@ import {
     type AnimeStatusEnum,
     type ContentStatusEnum,
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type MangaMediaEnum,
     type NovelMediaEnum,
     paginationPageParam,
@@ -150,7 +151,7 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
 
 function ListPage() {
     const { content_type: rawContentType } = Route.useParams();
-    const content_type = rawContentType as 'anime' | 'manga' | 'novel';
+    const content_type = rawContentType as MainContentTypeEnum;
     const isAnime = content_type === ContentTypeEnum.ANIME;
     const { visible: sidebarVisible } = useFiltersSidebar(
         'userlist_filters_sidebar',

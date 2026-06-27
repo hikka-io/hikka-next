@@ -1,5 +1,6 @@
 import {
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type ReadStatusEnum,
     type WatchStatusEnum,
 } from '@hikka/api';
@@ -9,7 +10,7 @@ import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
 type Props = {
     status: ReadStatusEnum | WatchStatusEnum | 'all';
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const CONTENT_TYPE_TITLE = {

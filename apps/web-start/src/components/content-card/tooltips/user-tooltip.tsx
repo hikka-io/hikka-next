@@ -8,9 +8,8 @@ import {
 import { useQuery } from '@tanstack/react-query';
 
 import {
-    ContentTypeEnum,
     followStatsOptions,
-    type ReadContentTypeEnum,
+    ReadContentTypeEnum,
     userProfileOptions,
     userReadStatsOptions,
     userWatchStatsOptions,
@@ -54,8 +53,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
         userReadStatsOptions({
             path: {
                 username,
-                content_type:
-                    ContentTypeEnum.MANGA as unknown as ReadContentTypeEnum,
+                content_type: ReadContentTypeEnum.MANGA,
             },
         }),
     );
@@ -63,8 +61,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
         userReadStatsOptions({
             path: {
                 username,
-                content_type:
-                    ContentTypeEnum.NOVEL as unknown as ReadContentTypeEnum,
+                content_type: ReadContentTypeEnum.NOVEL,
             },
         }),
     );

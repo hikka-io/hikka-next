@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import type { MainContentTypeEnum } from '@hikka/api';
+
 import { createServerHikkaClient } from '@/utils/cookies/headers';
 import {
     buildSitemapIndexXml,
@@ -12,7 +14,7 @@ import {
 } from '@/utils/sitemap';
 import { getSiteUrl } from '@/utils/url';
 
-const TYPES: ('anime' | 'manga' | 'novel')[] = ['anime', 'manga', 'novel'];
+const TYPES: MainContentTypeEnum[] = ['anime', 'manga', 'novel'];
 
 export const Route = createFileRoute('/sitemap.xml')({
     server: {

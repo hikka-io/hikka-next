@@ -4,6 +4,7 @@ import {
     ContentTypeEnum,
     getReadFollowingInfiniteOptions,
     getWatchFollowingInfiniteOptions,
+    type MainContentTypeEnum,
     type ReadContentTypeEnum,
 } from '@hikka/api';
 
@@ -14,7 +15,7 @@ import { useParams } from '@/utils/navigation';
 import FollowingItem from './components/following-item';
 
 type Props = {
-    content_type: 'anime' | 'manga' | 'novel';
+    content_type: MainContentTypeEnum;
 };
 
 const FollowingsModal: FC<Props> = ({ content_type }) => {
