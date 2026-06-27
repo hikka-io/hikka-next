@@ -8,12 +8,12 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { TableCell, TableRow } from '@/components/ui/table';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useRouter } from '@/utils/navigation';
-import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     edit: EditSimpleResponse;

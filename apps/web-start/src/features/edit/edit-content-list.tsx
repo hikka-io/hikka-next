@@ -24,7 +24,7 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Stack from '@/components/ui/stack';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { getTitle } from '@/utils/title/get-title';
 

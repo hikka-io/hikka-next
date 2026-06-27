@@ -11,7 +11,7 @@ import {
     personVoicesOptions,
 } from '@hikka/api';
 
-import { useTitle } from '@/utils/title/use-title';
+import { useTitle } from '@/features/auth/hooks/use-title';
 
 import MaterialSymbolsMoreHoriz from '../../icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MDViewer from '../../markdown/viewer/md-viewer';

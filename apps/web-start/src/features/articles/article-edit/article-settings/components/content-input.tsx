@@ -12,10 +12,10 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { Label } from '@/components/ui/label';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { SearchModal } from '@/features/search';
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPES } from '@/utils/constants/common';
-import { useTitle } from '@/utils/title/use-title';
 
 type Props = {};
 

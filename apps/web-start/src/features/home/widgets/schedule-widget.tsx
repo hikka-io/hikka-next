@@ -18,7 +18,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';

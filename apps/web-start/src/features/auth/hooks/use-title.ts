@@ -1,6 +1,6 @@
-import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { getTitle } from '@/utils/title/get-title';
 
-import { getTitle } from './get-title';
+import { useSessionUI } from './use-session-ui';
 
 export function useTitle(
     item: Record<string, unknown> | object | null | undefined,

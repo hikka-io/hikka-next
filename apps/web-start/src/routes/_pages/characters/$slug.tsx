@@ -11,11 +11,11 @@ import {
     paginationPageParam,
 } from '@hikka/api';
 
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { ContentDetailLayout } from '@/features/content';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 import { getTitle } from '@/utils/title/get-title';
-import { useTitle } from '@/utils/title/use-title';
 
 export const Route = createFileRoute('/_pages/characters/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {

@@ -20,9 +20,9 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { getTitle } from '@/utils/title/get-title';
 

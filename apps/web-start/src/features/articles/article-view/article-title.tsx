@@ -5,9 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 import { getArticleOptions } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useParams } from '@/utils/navigation';
-import { useTitle } from '@/utils/title/use-title';
 
 type Props = {};
 

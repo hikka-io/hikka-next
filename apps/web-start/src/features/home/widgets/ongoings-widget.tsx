@@ -26,8 +26,8 @@ import {
 import NotFound from '@/components/ui/not-found';
 import { Skeleton } from '@/components/ui/skeleton';
 import Stack from '@/components/ui/stack';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { getOngoingsSort } from '@/features/filters/sort';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n';

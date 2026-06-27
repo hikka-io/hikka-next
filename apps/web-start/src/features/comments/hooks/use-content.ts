@@ -14,7 +14,7 @@ import {
     personInfoOptions,
 } from '@hikka/api';
 
-import { useSessionUI } from '@/services/hooks/use-session-ui';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { getTitle } from '@/utils/title/get-title';
 
 interface UseContentParams {

@@ -33,8 +33,8 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import useDebounce from '@/services/hooks/use-debounce';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';

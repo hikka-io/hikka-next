@@ -15,9 +15,9 @@ import {
 } from '@dnd-kit/core';
 
 import ContentCard from '@/components/content-card/content-card';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { useCollectionStore } from '@/services/providers/collection-provider';
 import type { Group, Item } from '@/services/stores/collection-store';
-import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     children: ReactNode;

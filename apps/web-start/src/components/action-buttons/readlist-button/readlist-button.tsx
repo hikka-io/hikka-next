@@ -33,9 +33,9 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
-import { useTitle } from '@/utils/title/use-title';
 
 import ReadEditModal from '../read-edit-modal';
 import IconReadStatusButton from './components/icon-read-status-button';

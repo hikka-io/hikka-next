@@ -6,8 +6,8 @@ import type { PersonResponse } from '@hikka/api';
 
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
-import { useTitle } from '@/utils/title/use-title';
 
 import DetailItem from './detail-item';
 import SynonymsModal from './synonyms-modal';

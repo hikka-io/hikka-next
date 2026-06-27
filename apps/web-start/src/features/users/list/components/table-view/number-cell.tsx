@@ -23,9 +23,9 @@ import {
 } from '@/components/ui/responsive-modal';
 import { TableCell } from '@/components/ui/table';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
-import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     number: number;

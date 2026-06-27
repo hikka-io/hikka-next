@@ -16,8 +16,8 @@ import {
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 
 import type { WidgetProps } from '../../constants';
 import FeedItem, { type FeedItemResponse } from './components/feed-item';

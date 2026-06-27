@@ -18,8 +18,8 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { MEDIA_TYPE } from '@/utils/constants/common';
-import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     content:

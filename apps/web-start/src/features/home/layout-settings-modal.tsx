@@ -35,8 +35,8 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { cn } from '@/utils/cn';
 
 import {

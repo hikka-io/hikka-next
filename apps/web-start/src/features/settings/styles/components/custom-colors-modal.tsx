@@ -26,8 +26,8 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { useTheme } from '@/services/providers/theme-provider';
 import { stylesToReactStyles } from '@/utils/ui/inject-styles';
 

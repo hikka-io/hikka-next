@@ -7,10 +7,10 @@ import ContentCard from '@/components/content-card/content-card';
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
-import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     anime: AnimeResponseWithWatch;

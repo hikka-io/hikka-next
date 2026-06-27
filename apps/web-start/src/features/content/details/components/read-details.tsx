@@ -18,6 +18,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import {
     MANGA_MEDIA_TYPE,
@@ -25,7 +26,6 @@ import {
     RELEASE_STATUS,
 } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
-import { useTitle } from '@/utils/title/use-title';
 
 import DetailItem from './detail-item';
 import SynonymsModal from './synonyms-modal';

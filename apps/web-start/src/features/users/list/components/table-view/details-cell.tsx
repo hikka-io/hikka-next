@@ -12,9 +12,9 @@ import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { getDeclensionWord } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
-import { useTitle } from '@/utils/title/use-title';
 
 const REPEAT_DECLENSIONS: [string, string, string] = [
     'перегляд',

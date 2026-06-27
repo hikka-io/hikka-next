@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { characterAnimeOptions, characterInfoOptions } from '@hikka/api';
 
-import { useTitle } from '@/utils/title/use-title';
+import { useTitle } from '@/features/auth/hooks/use-title';
 
 import MDViewer from '../../markdown/viewer/md-viewer';
 import ContentCard from '../content-card';

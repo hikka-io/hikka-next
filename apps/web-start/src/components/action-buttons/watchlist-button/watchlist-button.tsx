@@ -29,9 +29,9 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
-import { useTitle } from '@/utils/title/use-title';
 
 import WatchEditModal from '../watch-edit-modal';
 import IconWatchStatusButton from './components/icon-watch-status-button';

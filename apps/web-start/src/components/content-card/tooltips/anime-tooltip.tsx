@@ -6,8 +6,8 @@ import { animeSlugOptions, type WatchResponseBase } from '@hikka/api';
 
 import { WatchlistButton } from '@/components/action-buttons';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
-import { useTitle } from '@/utils/title/use-title';
 
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent from './media-tooltip-content';

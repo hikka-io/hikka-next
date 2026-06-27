@@ -6,9 +6,9 @@ import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import HorizontalContentCard, {
     type Props as HorizontalContentCardProps,
 } from '@/components/ui/horizontal-content-card';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
-import { useTitle } from '@/utils/title/use-title';
 
 type Props = Omit<HorizontalContentCardProps, 'title' | 'href'> & {
     item: AnimeScheduleResponse;
