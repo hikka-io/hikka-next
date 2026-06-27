@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { userReferenceOptions } from '@hikka/api';
+import { userProfileOptions } from '@hikka/api';
 
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
@@ -15,8 +15,8 @@ import { Link, useParams } from '@/utils/navigation';
 const UserTitle = () => {
     const params = useParams();
     const { data: user } = useQuery(
-        userReferenceOptions({
-            path: { reference: String(params.username) },
+        userProfileOptions({
+            path: { username: String(params.username) },
         }),
     );
 

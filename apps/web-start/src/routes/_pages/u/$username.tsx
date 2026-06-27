@@ -3,8 +3,8 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import {
     ContentTypeEnum,
     followStatsOptions,
+    userProfileOptions,
     userReadStatsOptions,
-    userReferenceOptions,
     userWatchStatsOptions,
 } from '@hikka/api';
 
@@ -26,8 +26,8 @@ export const Route = createFileRoute('/_pages/u/$username')({
         const { username } = params;
 
         const user = await queryClient.ensureQueryData(
-            userReferenceOptions({
-                path: { reference: username },
+            userProfileOptions({
+                path: { username },
                 client: apiClient,
             }),
         );

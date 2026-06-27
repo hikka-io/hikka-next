@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { activationResendMutation, userReferenceOptions } from '@hikka/api';
+import { activationResendMutation, userProfileOptions } from '@hikka/api';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';
@@ -12,8 +12,8 @@ const ActivationAlert = () => {
     const params = useParams();
 
     const { data: user } = useQuery(
-        userReferenceOptions({
-            path: { reference: String(params.username) },
+        userProfileOptions({
+            path: { username: String(params.username) },
         }),
     );
     const { user: loggedUser } = useSession();

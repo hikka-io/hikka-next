@@ -2,7 +2,7 @@ import { type ChangeEvent, useRef, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { UploadTypeEnum, userReferenceOptions } from '@hikka/api';
+import { UploadTypeEnum, userProfileOptions } from '@hikka/api';
 
 import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
 import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
@@ -36,8 +36,8 @@ const UserInfo = () => {
     const params = useParams();
 
     const { data: user } = useQuery({
-        ...userReferenceOptions({
-            path: { reference: String(params.username) },
+        ...userProfileOptions({
+            path: { username: String(params.username) },
         }),
         enabled: !!params.username,
     });
