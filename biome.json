@@ -16,7 +16,8 @@
             "!**/.turbo",
             "!**/coverage",
             "!**/public",
-            "!**/routeTree.gen.ts"
+            "!**/routeTree.gen.ts",
+            "!packages/api/src/gen"
         ]
     },
     "formatter": {

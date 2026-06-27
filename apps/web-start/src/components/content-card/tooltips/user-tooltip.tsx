@@ -1,9 +1,4 @@
-import {
-    type ComponentProps,
-    type FC,
-    memo,
-    type PropsWithChildren,
-} from 'react';
+import { type FC, memo, type PropsWithChildren } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
