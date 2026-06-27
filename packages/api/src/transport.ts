@@ -84,6 +84,16 @@ export function setAuthToken(token: string | undefined): void {
     browserToken = token;
 }
 
+/**
+ * The configured browser singleton client. Its interceptor reads the auth
+ * token live, so it always reflects the latest `setAuthToken` value — use it
+ * as the router-context client in the browser (never on the server, where a
+ * shared client would leak tokens across concurrent requests).
+ */
+export function getBrowserClient(): Client {
+    return client;
+}
+
 /** Current browser auth token, if any (used to gate authenticated queries). */
 export function getAuthToken(): string | undefined {
     return browserToken;

@@ -7,6 +7,7 @@ import {
     type Client as ApiClient,
     configureBrowserClient,
     createRequestClient,
+    getBrowserClient,
     profileOptions,
     profileUiOptions,
 } from '@hikka/api';
@@ -43,17 +44,22 @@ export async function createRouter() {
 
     const baseUrl = import.meta.env.API_URL ?? 'https://api.hikka.io';
 
-    // @hikka/api: per-request client for SSR loaders; configure the browser
-    // singleton with baseUrl always (so loader/component query keys match) and
-    // the token only in the browser (never the shared server singleton).
-    const apiClient = createRequestClient({
-        baseUrl,
-        authToken: authToken ?? undefined,
-    });
+    // @hikka/api: configure the browser singleton with baseUrl always (so
+    // loader/component query keys match) and the token only in the browser
+    // (never the shared server singleton).
     configureBrowserClient({
         baseUrl,
         authToken: isServer ? undefined : (authToken ?? undefined),
     });
+
+    // On the server, every request gets an isolated client carrying its own
+    // token (no cross-request bleed). In the browser, the router context uses
+    // the singleton so loaders pick up the live token after login/logout —
+    // `createRouter` only runs once, so a frozen per-request token would go
+    // stale the moment the user authenticates without a full reload.
+    const apiClient = isServer
+        ? createRequestClient({ baseUrl, authToken: authToken ?? undefined })
+        : getBrowserClient();
 
     const router = createTanStackRouter({
         routeTree,
