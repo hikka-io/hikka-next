@@ -17,24 +17,12 @@ import FeedItemComment from './feed-item-comment';
 import FeedItemFooter from './feed-item-footer';
 import FeedItemHeader from './feed-item-header';
 
-// The generated `getFeed` response is `ArticlePreviewResponse |
-// CommentResponseFeed | CollectionResponse`, but @hikka/api types every
-// member's `data_type` as a loose `string`, so the union does not discriminate.
-// Re-attach the literal `data_type` per member so the `switch` below narrows
-// into a discriminated union over the feed item content types.
-type FeedArticleItem = ArticlePreviewResponse & {
-    data_type: typeof ContentTypeEnum.ARTICLE;
-};
-type FeedCollectionItem = CollectionResponse & {
-    data_type: typeof ContentTypeEnum.COLLECTION;
-};
-type FeedCommentItem = CommentResponseFeed & {
-    data_type: typeof ContentTypeEnum.COMMENT;
-};
+// The getFeed response union; each member carries a literal `data_type`
+// ('article' | 'collection' | 'comment') that discriminates the switch below.
 export type FeedItemResponse =
-    | FeedArticleItem
-    | FeedCollectionItem
-    | FeedCommentItem;
+    | ArticlePreviewResponse
+    | CollectionResponse
+    | CommentResponseFeed;
 
 // @hikka/api types `CommentResponseFeed.preview` as a loose `{ [key]: unknown }`.
 type CommentPreview = { slug?: string };

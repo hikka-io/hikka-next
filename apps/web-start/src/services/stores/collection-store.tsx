@@ -271,9 +271,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
             set({
                 title: data.title,
                 description: data.description,
-                // Generated response widens content_type to `string`; the store
-                // models the narrower collection content-type enum.
-                content_type: data.content_type as CollectionContentType,
+                content_type: data.content_type,
                 groups,
                 nsfw: data.nsfw,
                 spoiler: data.spoiler,

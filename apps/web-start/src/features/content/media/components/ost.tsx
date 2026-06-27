@@ -29,9 +29,7 @@ const Ost: FC<Props> = ({ extended, ost }) => {
                     title={ost.title}
                     containerRatio={1}
                     description={
-                        // ost_type is a plain string in @hikka/api; the OST lookup table is keyed by the OST-type values
-                        OST[ost.ost_type as keyof typeof OST].title_ua ||
-                        OST[ost.ost_type as keyof typeof OST].title_en
+                        OST[ost.ost_type].title_ua || OST[ost.ost_type].title_en
                     }
                     image={
                         <MaterialSymbolsLibraryMusicRounded className="text-4xl text-muted-foreground" />

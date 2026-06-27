@@ -109,12 +109,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
         fetchNextPage,
     } = feedQuery;
 
-    // The generated `getFeed` response members type `data_type` as a loose
-    // `string`, so narrow to the local discriminated `FeedItemResponse` union
-    // (see `./components/feed-item`) the feed components consume.
-    const feedList = feedData?.pages.flat(1) as unknown as
-        | FeedItemResponse[]
-        | undefined;
+    const feedList: FeedItemResponse[] | undefined = feedData?.pages.flat(1);
 
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) {

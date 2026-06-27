@@ -20,8 +20,8 @@ type Props = {
     data: ArticlePreviewResponse;
 };
 
-// @hikka/api types the article `content` union with `data_type: string` and no
-// derived `title`; this captures the article preview fields used below.
+// The article `content` union doesn't expose a flat `title`; capture the
+// preview fields this card reads.
 type ArticleContentPreview = {
     data_type?: ContentTypeEnum;
     slug?: string;

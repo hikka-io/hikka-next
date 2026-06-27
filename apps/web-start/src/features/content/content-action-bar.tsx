@@ -51,7 +51,8 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
     const { user: loggedUser } = useSession();
 
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
-    // data_type is a plain string in @hikka/api; compare as string
+    // data_type is a per-response literal; widen to string so the
+    // character/person checks below typecheck across the content-type union.
     const dataType = data?.data_type as string | undefined;
     // comments_count is absent on character/person responses in the union
     const commentsCount = (data as { comments_count?: number } | undefined)

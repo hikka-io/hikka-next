@@ -4,7 +4,6 @@ interface Paginated {
 
 /**
  * Shared `getNextPageParam`/`initialPageParam` for Hikka's page/pages pagination.
- * Matches the behavior of the previous @hikka/react infinite query options.
  */
 export function paginationPageParam<T extends Paginated>() {
     return {

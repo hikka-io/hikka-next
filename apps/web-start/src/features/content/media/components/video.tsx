@@ -36,10 +36,8 @@ const Video: FC<Props> = ({ extended, videos }) => {
                     image={parseYouTubeThumbnail(video.url)}
                     containerRatio={1.7}
                     description={
-                        // video_type is a plain string in @hikka/api; the VIDEO lookup table is keyed by the video-type values
-                        VIDEO[video.video_type as keyof typeof VIDEO]
-                            .title_ua ||
-                        VIDEO[video.video_type as keyof typeof VIDEO].title_en
+                        VIDEO[video.video_type].title_ua ||
+                        VIDEO[video.video_type].title_en
                     }
                 />
             ))}
