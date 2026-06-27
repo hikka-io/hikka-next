@@ -1,7 +1,6 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { ArticleContentEnum } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Button } from '@/components/ui/button';
@@ -16,15 +15,14 @@ import { Label } from '@/components/ui/label';
 import { SearchModal } from '@/features/search';
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPES } from '@/utils/constants/common';
+import { useTitle } from '@/utils/title/use-title';
 
 type Props = {};
 
 const ContentInput: FC<Props> = () => {
     const content = useArticleContext((state) => state.content);
     const setContent = useArticleContext((state) => state.setContent);
-    const contentTitle = useTitle(
-        content as unknown as Record<string, unknown> | undefined,
-    );
+    const contentTitle = useTitle(content);
 
     return (
         <div className="flex flex-col gap-4">
@@ -60,17 +58,12 @@ const ContentInput: FC<Props> = () => {
                 </HorizontalCard>
             )}
             {!content && (
-                /* TODO(phase2): drop casts once SearchModal + article store use @hikka/api types */
                 <SearchModal
-                    allowedTypes={
-                        [
-                            ArticleContentEnum.ANIME,
-                            ArticleContentEnum.MANGA,
-                            ArticleContentEnum.NOVEL,
-                        ] as unknown as ComponentProps<
-                            typeof SearchModal
-                        >['allowedTypes']
-                    }
+                    allowedTypes={[
+                        ArticleContentEnum.ANIME,
+                        ArticleContentEnum.MANGA,
+                        ArticleContentEnum.NOVEL,
+                    ]}
                     onClick={(value) =>
                         setContent(
                             value as unknown as Parameters<

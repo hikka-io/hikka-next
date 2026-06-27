@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
 
-import { useQuery } from '@tanstack/react-query';
 import { getClientByReferenceOptions } from '@hikka/api';
 
 import Card from '@/components/ui/card';

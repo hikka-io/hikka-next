@@ -1,6 +1,5 @@
-import type { UIColorTokens, UIStyles } from '@/types/ui';
-
 import { DEFAULT_STYLES } from '@/utils/ui';
+import type { UIColorTokens, UIStyles } from '@/types/ui';
 
 export type ColorPreset = {
     name: string;

@@ -1,8 +1,5 @@
-import type { ComponentProps } from 'react';
-
-import { createFileRoute } from '@tanstack/react-router';
-
 import { useQuery } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
 
 import { getArticleOptions } from '@hikka/api';
 
@@ -81,16 +78,7 @@ function ArticlePage() {
                     <ArticleTitle />
                     <ArticleDocumentView />
                     <ArticleTags />
-                    {/* TODO(phase2): drop cast once CommentList is migrated to @hikka/api types */}
-                    <Comments
-                        preview
-                        slug={slug}
-                        content_type={
-                            'article' as ComponentProps<
-                                typeof Comments
-                            >['content_type']
-                        }
-                    />
+                    <Comments preview slug={slug} content_type="article" />
                 </Block>
                 <ArticleNavbar />
             </div>

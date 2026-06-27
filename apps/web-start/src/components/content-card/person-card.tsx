@@ -5,8 +5,9 @@ import {
     ContentTypeEnum,
     type PersonResponse,
 } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
+
 import { getTitle } from '@/utils/title/get-title';
+import { useTitle } from '@/utils/title/use-title';
 
 import ContentCard, { type ContentCardProps } from './content-card';
 

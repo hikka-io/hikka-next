@@ -34,16 +34,7 @@ const MangaList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
             pagination={pagination}
             removeQueryKey={queryKey}
             extendedSize={extendedSize}
-            renderItem={(manga) => (
-                <MangaCard
-                    key={manga.slug}
-                    manga={
-                        manga as unknown as ComponentProps<
-                            typeof MangaCard
-                        >['manga']
-                    }
-                />
-            )}
+            renderItem={(manga) => <MangaCard key={manga.slug} manga={manga} />}
         />
     );
 };

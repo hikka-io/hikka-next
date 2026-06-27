@@ -2,9 +2,9 @@ import type { QueryClient } from '@tanstack/react-query';
 
 import {
     animeSlugOptions,
-    characterInfoOptions,
     type Client,
     ContentTypeEnum,
+    characterInfoOptions,
     getArticleOptions,
     getCollectionOptions,
     getEditOptions,

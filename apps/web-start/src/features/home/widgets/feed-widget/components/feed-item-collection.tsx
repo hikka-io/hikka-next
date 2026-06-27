@@ -1,9 +1,6 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
-import {
-    type CollectionResponse,
-    type ContentTypeEnum,
-} from '@hikka/api';
+import type { CollectionResponse, ContentTypeEnum } from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Badge } from '@/components/ui/badge';
@@ -64,26 +61,23 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                             image={item.content.image}
                             href={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
                             className={cn(data.spoiler && 'spoiler-blur-md')}
-                            titleClassName={cn(data.spoiler && 'spoiler-blur-sm')}
+                            titleClassName={cn(
+                                data.spoiler && 'spoiler-blur-sm',
+                            )}
                             containerClassName={cn(
                                 data.nsfw && 'spoiler-blur-md',
                             )}
-                            // TODO(phase2): drop casts once feed content uses @hikka/api types
                             watch={
-                                ('watch' in item.content &&
+                                'watch' in item.content &&
                                 item.content.watch.length > 0
                                     ? item.content.watch[0]
-                                    : undefined) as unknown as ComponentProps<
-                                    typeof ContentCard
-                                >['watch']
+                                    : undefined
                             }
                             read={
-                                ('read' in item.content &&
+                                'read' in item.content &&
                                 item.content.read.length > 0
                                     ? item.content.read[0]
-                                    : undefined) as unknown as ComponentProps<
-                                    typeof ContentCard
-                                >['read']
+                                    : undefined
                             }
                             slug={item.content.slug}
                             content_type={contentType}

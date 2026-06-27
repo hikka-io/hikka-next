@@ -191,9 +191,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                                         <MediaCell
                                             media_type={
                                                 (res as WatchResponse).anime
-                                                    .media_type as
-                                                    | AnimeMediaEnum
-                                                    | null
+                                                    .media_type as AnimeMediaEnum | null
                                             }
                                         />
                                     </Fragment>

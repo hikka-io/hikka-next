@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
 
-import { type EditContentTypeEnum, ContentTypeEnum } from '@hikka/api';
+import { ContentTypeEnum, type EditContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import MaterialSymbolsCategoryOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsCategoryOutlineRounded';

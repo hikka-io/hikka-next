@@ -1,11 +1,11 @@
 import type * as React from 'react';
 
 import type { PersonResponse } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import ContentCard from '@/components/content-card/content-card';
 import { Label } from '@/components/ui/label';
 import { Link } from '@/utils/navigation';
+import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     person: PersonResponse;

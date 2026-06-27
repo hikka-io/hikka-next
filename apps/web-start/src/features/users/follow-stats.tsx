@@ -3,7 +3,6 @@ import { type FC, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { followStatsOptions } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import FollowButton from '@/components/action-buttons/follow-button';
 import { Button } from '@/components/ui/button';
@@ -13,6 +12,7 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { Separator } from '@/components/ui/separator';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';

@@ -2,13 +2,12 @@ import { type FC, useMemo, useRef, useState } from 'react';
 
 import { Settings2 } from 'lucide-react';
 
-import { useSession } from '@/features/auth/hooks/use-session';
-
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
-import type { UIFeedWidget, UIFeedWidgetSlug } from '@/types/ui';
 import { cn } from '@/utils/cn';
+import type { UIFeedWidget, UIFeedWidgetSlug } from '@/types/ui';
 
 import { WIDGET_REGISTRY } from './constants';
 import { useFeedLayout } from './hooks/use-feed-layout';

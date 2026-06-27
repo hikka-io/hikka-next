@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { characterInfoOptions } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import { useParams } from '@/utils/navigation';
+import { useTitle } from '@/utils/title/use-title';
 
 const Title = () => {
     const params = useParams();

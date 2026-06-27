@@ -1,9 +1,9 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
+import type { Value } from 'platejs';
 
 import type { ArticlePreviewResponse } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import { StaticViewer } from '@/components/plate/editor/static-viewer';
 import { Badge } from '@/components/ui/badge';
@@ -13,6 +13,7 @@ import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
+import { useTitle } from '@/utils/title/use-title';
 
 import Author from './article-author';
 
@@ -22,10 +23,8 @@ type Props = {
 };
 
 const ArticleItem: FC<Props> = ({ article, className }) => {
-    const contentTitle = useTitle(
-        article.content as unknown as Record<string, unknown> | undefined,
-    );
-    const document = article.preview;
+    const contentTitle = useTitle(article.content);
+    const document = article.preview as Value;
 
     return (
         <Card
@@ -68,14 +67,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                         )}
                     </div>
                 )}
-                {/* TODO(phase2): drop cast once StaticViewer accepts @hikka/api document arrays */}
-                <StaticViewer
-                    value={
-                        document as unknown as ComponentProps<
-                            typeof StaticViewer
-                        >['value']
-                    }
-                />
+                <StaticViewer value={document} />
             </div>
             <div className="flex items-center justify-between p-4">
                 <StatItemGroup>

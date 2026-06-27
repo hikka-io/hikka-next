@@ -24,14 +24,7 @@ function MangaDetailPage() {
                         type="application/ld+json"
                         // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD structured data, no user input.
                         dangerouslySetInnerHTML={{
-                            __html: JSON.stringify(
-                            // TODO(phase2): drop cast once manga-schema reads @hikka/api types
-                            mangaJsonSchema({
-                                manga: manga as unknown as Parameters<
-                                    typeof mangaJsonSchema
-                                >[0]['manga'],
-                            }),
-                        ),
+                            __html: JSON.stringify(mangaJsonSchema({ manga })),
                         }}
                     />
                 ) : undefined

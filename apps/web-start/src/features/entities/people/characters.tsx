@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { personVoicesInfiniteOptions } from '@hikka/api';
 
@@ -33,18 +33,8 @@ const Characters: FC<Props> = ({ extended }) => {
             ref={ref}
             renderItem={(ch) => (
                 <CharacterAnimeCard
-                    // TODO(phase2): drop cast
-                    anime={
-                        ch.anime as unknown as ComponentProps<
-                            typeof CharacterAnimeCard
-                        >['anime']
-                    }
-                    // TODO(phase2): drop cast
-                    character={
-                        ch.character as unknown as ComponentProps<
-                            typeof CharacterAnimeCard
-                        >['character']
-                    }
+                    anime={ch.anime}
+                    character={ch.character}
                     key={ch.character.slug + ch.anime.slug}
                 />
             )}

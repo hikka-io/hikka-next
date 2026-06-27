@@ -3,8 +3,6 @@ import { type ComponentProps, type FC, memo, useRef } from 'react';
 import { Info } from 'lucide-react';
 
 import type { CollectionContentResponse } from '@hikka/api';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { getTitle } from '@/utils/title/get-title';
 
 import ContentCard, {
     DEFAULT_CONTAINER_RATIO,
@@ -24,7 +22,9 @@ import {
 } from '@/components/ui/tooltip';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { getTitle } from '@/utils/title/get-title';
 
 const ASPECT_RATIO = String(DEFAULT_CONTAINER_RATIO);
 
@@ -86,7 +86,6 @@ type Props = {
 const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
     const { preferences } = useSessionUI();
 
-    // TODO(phase2): drop cast once ContentCard + CONTENT_TYPE_LINKS use @hikka/api types
     const contentType = content_type as NonNullable<
         ComponentProps<typeof ContentCard>['content_type']
     >;
@@ -109,10 +108,7 @@ const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
                             href={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
                             image={item.content.image}
                             title={getTitle(
-                                item.content as unknown as Record<
-                                    string,
-                                    unknown
-                                >,
+                                item.content,
                                 preferences.title_language,
                                 preferences.name_language,
                             )}

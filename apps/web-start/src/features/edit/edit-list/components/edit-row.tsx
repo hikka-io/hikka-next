@@ -3,7 +3,6 @@ import type { FC, MouseEvent } from 'react';
 import { format } from 'date-fns';
 
 import type { EditSimpleResponse } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +13,7 @@ import { CONTENT_TYPES } from '@/utils/constants/common';
 import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useRouter } from '@/utils/navigation';
+import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     edit: EditSimpleResponse;

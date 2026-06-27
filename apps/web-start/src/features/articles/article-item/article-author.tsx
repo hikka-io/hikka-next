@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { formatDistance } from 'date-fns';
 
@@ -71,15 +71,10 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
             </HorizontalCardContainer>
-            {/* TODO(phase2): drop cast once FollowButton is migrated to @hikka/api types */}
             <FollowButton
                 iconOnly={!isDesktop || preview}
                 size={!isDesktop || preview ? 'icon-md' : 'md'}
-                user={
-                    article.author as unknown as ComponentProps<
-                        typeof FollowButton
-                    >['user']
-                }
+                user={article.author}
             />
         </HorizontalCard>
     );

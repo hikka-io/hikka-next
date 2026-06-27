@@ -1,4 +1,4 @@
-import { type ComponentProps, type FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
@@ -9,8 +9,6 @@ import {
     EditContentToDoEnum,
     getContentEditTodoInfiniteOptions,
 } from '@hikka/api';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { getTitle } from '@/utils/title/get-title';
 
 import ContentCard from '@/components/content-card/content-card';
 import SkeletonCard from '@/components/content-card/content-card-skeleton';
@@ -26,7 +24,9 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Stack from '@/components/ui/stack';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { getTitle } from '@/utils/title/get-title';
 
 type Props = {
     extended?: boolean;
@@ -111,27 +111,18 @@ const ContentList: FC<Props> = () => {
             </div>
             <Stack extended size={5} extendedSize={7}>
                 {(list as AnimeResponseWithWatch[]).map((anime) => (
-                    // TODO(phase2): drop the content_type/watch casts once ContentCard migrates to @hikka/api types
                     <ContentCard
                         withContextMenu
-                        content_type={
-                            ContentTypeEnum.ANIME as unknown as ComponentProps<
-                                typeof ContentCard
-                            >['content_type']
-                        }
+                        content_type={ContentTypeEnum.ANIME}
                         key={anime.slug}
                         watch={
-                            anime.watch.length > 0
-                                ? (anime.watch[0] as unknown as ComponentProps<
-                                      typeof ContentCard
-                                  >['watch'])
-                                : undefined
+                            anime.watch.length > 0 ? anime.watch[0] : undefined
                         }
                         slug={anime.slug}
                         href={`/anime/${anime.slug}`}
                         image={anime.image}
                         title={getTitle(
-                            anime as unknown as Record<string, unknown>,
+                            anime,
                             preferences.title_language,
                             preferences.name_language,
                         )}

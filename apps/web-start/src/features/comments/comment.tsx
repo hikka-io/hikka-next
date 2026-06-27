@@ -4,10 +4,9 @@ import { formatDistance } from 'date-fns';
 import { uk } from 'date-fns/locale/uk';
 
 import type {
-    AppCommentsSchemasContentTypeEnum as CommentsContentType,
     CommentResponse,
+    AppCommentsSchemasContentTypeEnum as CommentsContentType,
 } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
@@ -28,6 +27,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link } from '@/utils/navigation';
@@ -66,10 +66,9 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
         const relevant = pendingReplies.filter(
             (r) => r.comment.parent === comment.reference,
         );
-        // TODO(phase2): drop cast once comments-provider is migrated to @hikka/api types
         const prepend = relevant
             .filter((r) => !r.insertAfter)
-            .map((r) => r.comment as unknown as CommentResponse);
+            .map((r) => r.comment);
         const insertAfters = relevant.filter((r) => r.insertAfter);
         const pendingRefs = new Set([
             ...prepend.map((c) => c.reference),
@@ -83,8 +82,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
         for (const entry of insertAfters) {
             const key = entry.insertAfter!;
             const list = insertAfterMap.get(key) ?? [];
-            // TODO(phase2): drop cast once comments-provider is migrated to @hikka/api types
-            list.push(entry.comment as unknown as CommentResponse);
+            list.push(entry.comment);
             insertAfterMap.set(key, list);
         }
 

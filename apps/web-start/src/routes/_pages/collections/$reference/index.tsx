@@ -1,9 +1,7 @@
-import type { ComponentProps } from 'react';
-
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum, getCollectionOptions } from '@hikka/api';
-import { useQuery } from '@tanstack/react-query';
 
 import Block from '@/components/ui/block';
 import Link from '@/components/ui/link';
@@ -17,6 +15,7 @@ import {
 } from '@/features/collections';
 import { CommentList as Comments } from '@/features/comments';
 import CollectionProvider from '@/services/providers/collection-provider';
+import type { CollectionState } from '@/services/stores/collection-store';
 
 export const Route = createFileRoute('/_pages/collections/$reference/')({
     component: CollectionPage,
@@ -29,13 +28,8 @@ function CollectionPage() {
     );
 
     return (
-        // TODO(phase2): drop cast once the collection store/provider uses @hikka/api types
         <CollectionProvider
-            initialState={
-                collection as unknown as ComponentProps<
-                    typeof CollectionProvider
-                >['initialState']
-            }
+            initialState={collection as Partial<CollectionState>}
         >
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">

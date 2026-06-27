@@ -6,8 +6,8 @@ import {
     type UserCustomizationArgs,
 } from '@hikka/api';
 
-import type { UIFeedSettings, UserUI } from '@/types/ui';
 import { DEFAULT_USER_UI, diffStyles } from '@/utils/ui';
+import type { UIFeedSettings, UserUI } from '@/types/ui';
 
 type SessionUIPatch = {
     styles?: UserUI['styles'];

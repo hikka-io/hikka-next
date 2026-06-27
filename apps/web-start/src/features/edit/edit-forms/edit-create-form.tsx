@@ -1,10 +1,9 @@
 import { type FC, useRef } from 'react';
 
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
-
 import { useMutation } from '@tanstack/react-query';
 
-import { type EditContentTypeEnum, createEditMutation } from '@hikka/api';
+import { createEditMutation, type EditContentTypeEnum } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -12,10 +11,10 @@ import Spinner from '@/components/ui/spinner';
 import { TURNSTILE_SITE_KEY } from '@/utils/constants/edit';
 import { useRouter } from '@/utils/navigation';
 
+import type { EditMainContent } from '../types';
 import AutoButton from './components/auto-button';
 import EditDescription from './components/edit-description';
 import EditGroup from './components/edit-group';
-import type { EditMainContent } from '../types';
 import {
     getEditGroups,
     getEditParamSlugs,

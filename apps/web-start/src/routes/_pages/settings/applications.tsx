@@ -1,6 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { listUserClientsInfiniteOptions, paginationPageParam } from '@hikka/api';
+import {
+    listUserClientsInfiniteOptions,
+    paginationPageParam,
+} from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ApplicationsSettings, ClientCreateButton } from '@/features/settings';

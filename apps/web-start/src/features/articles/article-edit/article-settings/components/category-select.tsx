@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
 import type { ArticleCategoryEnum } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -13,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useArticleContext } from '@/services/providers/article-provider';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
@@ -47,7 +47,6 @@ const CategorySelect: FC<Props> = () => {
                 <Select
                     value={category ? [category] : category}
                     onValueChange={(value: ArticleCategoryEnum[]) =>
-                        // TODO(phase2): drop cast once the article store uses @hikka/api types
                         setCategory(
                             value[0] as Parameters<typeof setCategory>[0],
                         )

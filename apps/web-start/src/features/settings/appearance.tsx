@@ -1,7 +1,8 @@
 import { type ChangeEvent, useRef, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
-import { UploadTypeEnum, deleteUserImageMutation } from '@hikka/api';
+
+import { deleteUserImageMutation, UploadTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -19,7 +20,9 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import { CropEditorModal } from '@/features/users';
 import { useRouter } from '@/utils/navigation';
 
-type AvatarOrCoverType = typeof UploadTypeEnum.AVATAR | typeof UploadTypeEnum.COVER;
+type AvatarOrCoverType =
+    | typeof UploadTypeEnum.AVATAR
+    | typeof UploadTypeEnum.COVER;
 
 const Appearance = () => {
     const router = useRouter();

@@ -1,12 +1,10 @@
 import { type FC, Fragment, useCallback } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { MessageCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { useQuery } from '@tanstack/react-query';
-
 import { getArticleOptions } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import { MaterialSymbolsLinkRounded } from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import { Button } from '@/components/ui/button';
@@ -16,6 +14,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link, useParams } from '@/utils/navigation';

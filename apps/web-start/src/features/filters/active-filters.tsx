@@ -1,9 +1,8 @@
 import { type FC, type ReactElement, type SVGProps, useMemo } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { useRouter, useRouterState } from '@tanstack/react-router';
 import { XIcon } from 'lucide-react';
-
-import { useQuery } from '@tanstack/react-query';
 
 import {
     CompanyTypeEnum,

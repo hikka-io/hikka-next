@@ -34,16 +34,7 @@ const NovelList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
             pagination={pagination}
             removeQueryKey={queryKey}
             extendedSize={extendedSize}
-            renderItem={(novel) => (
-                <NovelCard
-                    key={novel.slug}
-                    novel={
-                        novel as unknown as ComponentProps<
-                            typeof NovelCard
-                        >['novel']
-                    }
-                />
-            )}
+            renderItem={(novel) => <NovelCard key={novel.slug} novel={novel} />}
         />
     );
 };

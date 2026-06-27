@@ -1,5 +1,3 @@
-import type { ComponentProps } from 'react';
-
 import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
@@ -23,10 +21,7 @@ export const Route = createFileRoute('/_pages/characters/$slug/')({
 function CharacterDetailPage() {
     const { slug } = Route.useParams();
 
-    // TODO(phase2): drop cast
-    const detailsContentType = ContentTypeEnum.CHARACTER as ComponentProps<
-        typeof Details
-    >['content_type'];
+    const detailsContentType = ContentTypeEnum.CHARACTER;
 
     return (
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-12">
@@ -36,7 +31,10 @@ function CharacterDetailPage() {
             <div className="flex flex-col gap-12 lg:col-span-2">
                 <Title />
                 <Description />
-                <Details className="lg:hidden" content_type={detailsContentType} />
+                <Details
+                    className="lg:hidden"
+                    content_type={detailsContentType}
+                />
                 <Anime />
                 <Manga />
                 <Novel />

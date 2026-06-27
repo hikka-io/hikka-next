@@ -1,10 +1,8 @@
-import type { ComponentProps } from 'react';
-
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
 import type { GetCollectionResponse } from '@hikka/api';
 import { getCollectionOptions, getCollectionQueryKey } from '@hikka/api';
-import { useQuery } from '@tanstack/react-query';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -14,6 +12,7 @@ import {
     CollectionEditTitle as CollectionTitle,
 } from '@/features/collections';
 import CollectionProvider from '@/services/providers/collection-provider';
+import type { CollectionState } from '@/services/stores/collection-store';
 import { requireOwner } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
@@ -46,13 +45,8 @@ function CollectionUpdatePage() {
     if (!collection) return null;
 
     return (
-        // TODO(phase2): drop cast once the collection store/provider uses @hikka/api types
         <CollectionProvider
-            initialState={
-                collection as unknown as ComponentProps<
-                    typeof CollectionProvider
-                >['initialState']
-            }
+            initialState={collection as Partial<CollectionState>}
         >
             <div>
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">

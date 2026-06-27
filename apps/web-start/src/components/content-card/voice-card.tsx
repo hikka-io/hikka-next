@@ -5,6 +5,7 @@ import {
     ContentTypeEnum,
     type PersonResponse,
 } from '@hikka/api';
+
 import { useTitle } from '@/utils/title/use-title';
 
 import CardOverlay from './card-overlay';

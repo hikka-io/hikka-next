@@ -1,10 +1,9 @@
 import { type ComponentProps, type FC, Fragment } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { MessageCircle, TableOfContents } from 'lucide-react';
 
 import { ContentTypeEnum, getCollectionOptions } from '@hikka/api';
-import { useQuery } from '@tanstack/react-query';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
 import { Button } from '@/components/ui/button';
@@ -14,6 +13,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link, useParams } from '@/utils/navigation';
@@ -40,7 +40,6 @@ const CollectionNavbar: FC<Props> = () => {
                     <FavoriteButton
                         size="icon-md"
                         variant="ghost"
-                        // TODO(phase2): drop cast once FavoriteButton is migrated to @hikka/api types
                         content_type={
                             ContentTypeEnum.COLLECTION as ComponentProps<
                                 typeof FavoriteButton

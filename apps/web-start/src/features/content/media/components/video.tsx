@@ -37,7 +37,8 @@ const Video: FC<Props> = ({ extended, videos }) => {
                     containerRatio={1.7}
                     description={
                         // TODO(phase2): drop cast — video_type is plain string in @hikka/api, VIDEO keyed by old enum
-                        VIDEO[video.video_type as keyof typeof VIDEO].title_ua ||
+                        VIDEO[video.video_type as keyof typeof VIDEO]
+                            .title_ua ||
                         VIDEO[video.video_type as keyof typeof VIDEO].title_en
                     }
                 />

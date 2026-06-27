@@ -1,23 +1,21 @@
-import type { ComponentProps } from 'react';
-
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import {
+    ContentTypeEnum,
     characterAnimeInfiniteOptions,
     characterInfoOptions,
     characterMangaInfiniteOptions,
     characterNovelInfiniteOptions,
     characterVoicesInfiniteOptions,
-    ContentTypeEnum,
     getFavouriteOptions,
     paginationPageParam,
 } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
-import { getTitle } from '@/utils/title/get-title';
 
 import { ContentDetailLayout } from '@/features/content';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
+import { getTitle } from '@/utils/title/get-title';
+import { useTitle } from '@/utils/title/use-title';
 
 export const Route = createFileRoute('/_pages/characters/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -95,12 +93,7 @@ function CharacterDetailLayout() {
     return (
         <ContentDetailLayout
             slug={character.slug}
-            // TODO(phase2): drop cast
-            contentType={
-                ContentTypeEnum.CHARACTER as ComponentProps<
-                    typeof ContentDetailLayout
-                >['contentType']
-            }
+            contentType={ContentTypeEnum.CHARACTER}
             navRoutes={CHARACTER_NAV_ROUTES}
             urlPrefix="/characters"
             title={title}

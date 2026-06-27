@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useMutation } from '@tanstack/react-query';
 import {
     ContentTypeEnum,
     type ImportReadArgs,
@@ -30,8 +30,8 @@ const ReadlistSettings = () => {
             toast.success(
                 <span>
                     Ви успішно імпортували{' '}
-                    <span className="font-bold">{readList.length}</span> манґи та
-                    ранобе до Вашого списку.
+                    <span className="font-bold">{readList.length}</span> манґи
+                    та ранобе до Вашого списку.
                 </span>,
             );
         },

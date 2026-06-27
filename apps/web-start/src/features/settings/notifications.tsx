@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
 import {
     changeIgnoredNotificationsMutation,
     getIgnoredNotificationsOptions,

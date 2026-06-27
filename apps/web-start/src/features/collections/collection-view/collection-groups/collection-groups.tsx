@@ -1,6 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
+
 import type { CollectionContentResponse } from '@hikka/api';
 import { getCollectionOptions } from '@hikka/api';
-import { useQuery } from '@tanstack/react-query';
 
 import { useParams } from '@/utils/navigation';
 

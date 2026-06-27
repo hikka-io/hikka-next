@@ -1,15 +1,14 @@
 import { type TemporalState, temporal } from 'zundo';
 import { createStore, type StoreApi } from 'zustand/vanilla';
 
+import { getActiveEventTheme } from '@/utils/constants/event-themes';
+import { DEFAULT_STYLES, mergeStyles } from '@/utils/ui';
 import type {
     HSLColor,
     UIColorTokens,
     UIStyles,
     UIThemeStyles,
 } from '@/types/ui';
-
-import { getActiveEventTheme } from '@/utils/constants/event-themes';
-import { DEFAULT_STYLES, mergeStyles } from '@/utils/ui';
 
 export type StylesEditorState = {
     styles: UIStyles;

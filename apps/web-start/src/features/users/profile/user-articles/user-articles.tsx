@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
 import { getArticlesInfiniteOptions } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import Block from '@/components/ui/block';
@@ -17,6 +16,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useParams } from '@/utils/navigation';

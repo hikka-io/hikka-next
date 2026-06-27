@@ -1,9 +1,11 @@
+import { useQuery } from '@tanstack/react-query';
+
 import {
     animeCharactersInfiniteOptions,
     animeSlugOptions,
     animeStaffInfiniteOptions,
-    characterInfoOptions,
     ContentTypeEnum,
+    characterInfoOptions,
     mangaCharactersInfiniteOptions,
     mangaInfoOptions,
     novelCharactersInfiniteOptions,
@@ -13,7 +15,6 @@ import {
     readGetOptions,
     watchGetOptions,
 } from '@hikka/api';
-import { useQuery } from '@tanstack/react-query';
 
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 

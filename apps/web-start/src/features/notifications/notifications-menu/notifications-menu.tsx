@@ -1,10 +1,7 @@
 import { type FC, useMemo, useState } from 'react';
 
-import {
-    useMutation,
-    useQuery,
-    useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import {
     type NotificationResponse,
     notificationSeenMutation,
@@ -66,13 +63,7 @@ const NotificationsMenu: FC = () => {
 
     const { normalized, grouped } = useMemo(() => {
         const items = (list as NotificationResponse[] | undefined)
-            // TODO(phase2): drop cast once convert-notification reads @hikka/api
-            // NotificationResponse (per-type data unions absent in @hikka/api).
-            ?.map((n) =>
-                convertNotification(
-                    n as unknown as Parameters<typeof convertNotification>[0],
-                ),
-            )
+            ?.map((n) => convertNotification(n))
             .filter((n): n is Hikka.Notification => n !== null);
         return {
             normalized: items,

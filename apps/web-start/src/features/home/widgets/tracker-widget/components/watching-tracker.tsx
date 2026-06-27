@@ -1,12 +1,11 @@
-import { type ComponentProps, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
-    type WatchArgs,
-    type WatchResponse,
-    WatchStatusEnum,
     userWatchListInfiniteOptions,
+    type WatchArgs,
+    WatchStatusEnum,
     watchAddMutation,
     watchGetQueryKey,
 } from '@hikka/api';
@@ -37,11 +36,11 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import useDebounce from '@/services/hooks/use-debounce';
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { getTitle } from '@/utils/title/get-title';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link, useRouter } from '@/utils/navigation';
+import { getTitle } from '@/utils/title/get-title';
 
 const EPISODES_DECLENSION: [string, string, string] = [
     'епізод',
@@ -74,9 +73,7 @@ const WatchingTracker = () => {
         { enabled: Boolean(loggedUser?.username) },
     );
 
-    // TODO(phase2): drop the cast once the watch list-item edit flow migrates to
-    // @hikka/api types (WatchResponse.status is `string` in the generated spec).
-    const list = apiList as unknown as WatchResponse[] | undefined;
+    const list = apiList;
 
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
@@ -368,12 +365,7 @@ const WatchingTracker = () => {
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <WatchEditModal
-                            // TODO(phase2): drop cast once tracker watch uses @hikka/api WatchResponseBase
-                            watch={
-                                selectedWatch as unknown as ComponentProps<
-                                    typeof WatchEditModal
-                                >['watch']
-                            }
+                            watch={selectedWatch}
                             slug={selectedWatch.anime.slug}
                             onClose={() => setOpen(false)}
                         />

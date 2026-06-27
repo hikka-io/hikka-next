@@ -1,12 +1,11 @@
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
-
 import { activationResendMutation, userReferenceOptions } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useParams } from '@/utils/navigation';
 
 const ActivationAlert = () => {
@@ -25,7 +24,8 @@ const ActivationAlert = () => {
             toast.success(
                 <span>
                     <span className="font-bold">{user.username}</span>, ми
-                    успішно надіслали Вам лист для підтвердження поштової адреси.
+                    успішно надіслали Вам лист для підтвердження поштової
+                    адреси.
                 </span>,
             );
         },

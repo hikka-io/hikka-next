@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
     authInfoQueryKey,
     passwordResetMutation,

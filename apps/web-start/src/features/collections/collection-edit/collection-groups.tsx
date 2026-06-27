@@ -1,6 +1,7 @@
 import { type FC, useEffect } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
+
 import { getCollectionOptions } from '@hikka/api';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
@@ -28,7 +29,6 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
 
     useEffect(() => {
         if (data) {
-            // TODO(phase2): drop cast once the collection store uses @hikka/api types
             setApiData(data as Parameters<typeof setApiData>[0]);
         }
     }, [data]);

@@ -3,11 +3,11 @@ import type { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getArticleOptions } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useParams } from '@/utils/navigation';
+import { useTitle } from '@/utils/title/use-title';
 
 type Props = {};
 
@@ -18,9 +18,7 @@ const ArticleTitle: FC<Props> = () => {
         getArticleOptions({ path: { slug: String(params.slug) } }),
     );
 
-    const contentTitle = useTitle(
-        article?.content as unknown as Record<string, unknown> | undefined,
-    );
+    const contentTitle = useTitle(article?.content);
 
     return (
         <div className="flex flex-col gap-1">

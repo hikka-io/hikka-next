@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import { useSession } from '@/features/auth/hooks/use-session';
-
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import type { UIFeedWidget, UIFeedWidgetSlug } from '@/types/ui';
 

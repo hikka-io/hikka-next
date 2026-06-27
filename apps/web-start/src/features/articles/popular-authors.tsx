@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -48,15 +48,10 @@ const PopularAuthors: FC<Props> = () => {
                                     {author.user.description}
                                 </HorizontalCardDescription>
                             </HorizontalCardContainer>
-                            {/* TODO(phase2): drop cast once FollowButton is migrated to @hikka/api types */}
                             <FollowButton
                                 size="icon-md"
                                 iconOnly
-                                user={
-                                    author.user as unknown as ComponentProps<
-                                        typeof FollowButton
-                                    >['user']
-                                }
+                                user={author.user}
                             />
                         </HorizontalCard>
                     ))}

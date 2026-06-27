@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Eye, EyeOff } from 'lucide-react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
     authInfoQueryKey,
     loginMutation,

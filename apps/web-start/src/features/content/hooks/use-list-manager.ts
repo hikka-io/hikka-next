@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
+
 import {
     ContentTypeEnum,
     type ReadContentTypeEnum,
@@ -196,8 +197,7 @@ export const useUserlistManager = ({
             case ContentTypeEnum.NOVEL:
                 mutateCreateRead({
                     path: {
-                        content_type:
-                            content_type as ReadContentTypeEnum,
+                        content_type: content_type as ReadContentTypeEnum,
                         slug: debouncedUpdate.slug,
                     },
                     body: {

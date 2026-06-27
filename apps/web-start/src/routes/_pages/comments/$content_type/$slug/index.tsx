@@ -5,11 +5,11 @@ import {
     getContentsListInfiniteOptions,
     paginationPageParam,
 } from '@hikka/api';
-import { getTitle } from '@/utils/title/get-title';
 
 import { CommentList as Comments, prefetchContent } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
 import { generateHeadMeta } from '@/utils/metadata';
+import { getTitle } from '@/utils/title/get-title';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {

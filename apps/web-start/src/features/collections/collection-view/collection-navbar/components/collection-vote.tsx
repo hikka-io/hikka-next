@@ -19,7 +19,6 @@ const CollectionVote: FC<Props> = ({ collection }) => {
                 className: 'flex-row gap-0 overflow-hidden border-none p-0',
             })}
         >
-            {/* TODO(phase2): drop cast once VoteButton is migrated to @hikka/api types */}
             <VoteButton
                 contentType={
                     ContentTypeEnum.COLLECTION as ComponentProps<

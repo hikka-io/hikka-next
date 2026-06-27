@@ -1,6 +1,5 @@
-import type { UserUI } from '@/types/ui';
-
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
+import type { UserUI } from '@/types/ui';
 
 import { stylesToCSS } from './inject-styles';
 import { mergeStyles } from './merge';

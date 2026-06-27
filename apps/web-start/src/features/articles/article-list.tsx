@@ -1,7 +1,9 @@
 import type { FC } from 'react';
 
-import { type ArticleCategoryEnum, getArticlesInfiniteOptions } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
+import {
+    type ArticleCategoryEnum,
+    getArticlesInfiniteOptions,
+} from '@hikka/api';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -10,6 +12,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';

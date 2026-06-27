@@ -28,10 +28,7 @@ const UserContentStats = ({
 
     const { addProgress, removeProgress, setScore, score, progress, total } =
         useUserlistManager({
-            // TODO(phase2): drop cast once CONTENT_CONFIG returns @hikka/api types
-            listItem: userlist as unknown as Parameters<
-                typeof useUserlistManager
-            >[0]['listItem'],
+            listItem: userlist,
             content_type,
         });
 

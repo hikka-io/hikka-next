@@ -1,6 +1,7 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
+import type { Value } from 'platejs';
 
 import { getArticleOptions } from '@hikka/api';
 
@@ -29,16 +30,7 @@ const ArticleDocumentView: FC<Props> = () => {
             ? [...(firstNode.children ?? []), ...article.document.slice(1)]
             : article.document;
 
-    // TODO(phase2): drop cast once StaticViewer accepts @hikka/api document arrays
-    return (
-        <StaticViewer
-            value={
-                document as unknown as ComponentProps<
-                    typeof StaticViewer
-                >['value']
-            }
-        />
-    );
+    return <StaticViewer value={document as Value} />;
 };
 
 export default ArticleDocumentView;

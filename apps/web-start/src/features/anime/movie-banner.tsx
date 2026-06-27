@@ -1,8 +1,7 @@
 import type { FC } from 'react';
 
-import { MessageCirclePlus, Popcorn } from 'lucide-react';
-
 import { useQuery } from '@tanstack/react-query';
+import { MessageCirclePlus, Popcorn } from 'lucide-react';
 
 import { animeSlugOptions } from '@hikka/api';
 

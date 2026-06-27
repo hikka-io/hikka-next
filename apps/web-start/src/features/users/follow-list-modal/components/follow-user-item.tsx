@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import type { FollowUserResponse } from '@hikka/api';
 
@@ -31,13 +31,7 @@ const FollowUserItem: FC<Props> = ({ user }) => {
                     {user.description}
                 </HorizontalCardDescription>
             </HorizontalCardContainer>
-            <FollowButton
-                size="md"
-                user={
-                    // TODO(phase2): drop cast once action-buttons is on @hikka/api
-                    user as unknown as ComponentProps<typeof FollowButton>['user']
-                }
-            />
+            <FollowButton size="md" user={user} />
         </HorizontalCard>
     );
 };

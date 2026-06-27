@@ -34,16 +34,7 @@ const AnimeList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
             pagination={pagination}
             removeQueryKey={queryKey}
             extendedSize={extendedSize}
-            renderItem={(anime) => (
-                <AnimeCard
-                    key={anime.slug}
-                    anime={
-                        anime as unknown as ComponentProps<
-                            typeof AnimeCard
-                        >['anime']
-                    }
-                />
-            )}
+            renderItem={(anime) => <AnimeCard key={anime.slug} anime={anime} />}
         />
     );
 };

@@ -2,10 +2,7 @@ import { type FC, memo } from 'react';
 
 import { ArrowBigUp, Layers, MessageCircle } from 'lucide-react';
 
-import type {
-    CollectionContentResponse,
-    CollectionResponse,
-} from '@hikka/api';
+import type { CollectionContentResponse, CollectionResponse } from '@hikka/api';
 
 import {
     HorizontalCard,

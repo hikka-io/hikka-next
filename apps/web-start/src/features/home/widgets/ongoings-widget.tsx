@@ -1,15 +1,13 @@
-import { type ComponentProps, type FC } from 'react';
+import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
 
 import {
     AnimeMediaEnum,
     AnimeStatusEnum,
-    searchAnimeInfiniteOptions,
     type SeasonEnum,
+    searchAnimeInfiniteOptions,
 } from '@hikka/api';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { getTitle } from '@/utils/title/get-title';
 
 import { AnimeTooltip } from '@/components/content-card';
 import AnimeCard from '@/components/content-card/anime-card';
@@ -29,11 +27,13 @@ import NotFound from '@/components/ui/not-found';
 import { Skeleton } from '@/components/ui/skeleton';
 import Stack from '@/components/ui/stack';
 import { getOngoingsSort } from '@/features/filters/sort';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
+import { getTitle } from '@/utils/title/get-title';
 
 import type { WidgetProps } from '../constants';
 
@@ -113,15 +113,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                             {list &&
                                 list.length > 0 &&
                                 list.map((item) => (
-                                    // TODO(phase2): drop the cast once AnimeCard migrates to @hikka/api types
-                                    <AnimeCard
-                                        anime={
-                                            item as unknown as ComponentProps<
-                                                typeof AnimeCard
-                                            >['anime']
-                                        }
-                                        key={item.slug}
-                                    />
+                                    <AnimeCard anime={item} key={item.slug} />
                                 ))}
                         </Stack>
                     )}
@@ -155,15 +147,12 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                     {!isLoading &&
                         list?.map((anime, index) => {
                             return (
-                                // TODO(phase2): drop the watch cast once AnimeTooltip migrates to @hikka/api types
                                 <AnimeTooltip
                                     key={anime.slug}
                                     slug={anime.slug}
                                     watch={
                                         anime.watch.length > 0
-                                            ? (anime.watch[0] as unknown as ComponentProps<
-                                                  typeof AnimeTooltip
-                                              >['watch'])
+                                            ? anime.watch[0]
                                             : undefined
                                     }
                                 >

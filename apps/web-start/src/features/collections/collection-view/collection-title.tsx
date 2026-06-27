@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { getCollectionOptions } from '@hikka/api';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';

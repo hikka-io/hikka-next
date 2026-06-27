@@ -3,8 +3,6 @@ import type { FC } from 'react';
 import { range } from '@antfu/utils';
 import { useRouter } from '@tanstack/react-router';
 
-import { useSession } from '@/features/auth/hooks/use-session';
-
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -18,6 +16,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { cn } from '@/utils/cn';
 import { RELEASE_STATUS, SEASON } from '@/utils/constants/common';

@@ -1,4 +1,6 @@
-import { type ComponentProps, type FC, lazy, Suspense } from 'react';
+import { type FC, lazy, Suspense } from 'react';
+
+import type { Value } from 'platejs';
 
 import type { ArticlePreviewResponse, ContentTypeEnum } from '@hikka/api';
 
@@ -69,14 +71,7 @@ const FeedItemArticle: FC<Props> = ({ data }) => {
                                 <div className="h-20 animate-pulse rounded bg-muted" />
                             }
                         >
-                            {/* TODO(phase2): drop cast once StaticViewer accepts @hikka/api preview arrays */}
-                            <StaticViewer
-                                value={
-                                    data.preview as unknown as ComponentProps<
-                                        typeof StaticViewer
-                                    >['value']
-                                }
-                            />
+                            <StaticViewer value={data.preview as Value} />
                         </Suspense>
                     )}
                 </div>

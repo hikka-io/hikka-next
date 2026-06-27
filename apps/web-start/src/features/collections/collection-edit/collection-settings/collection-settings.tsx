@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import type { CollectionArgs } from '@hikka/api';
@@ -9,7 +10,6 @@ import {
     getCollectionsQueryKey,
     updateCollectionMutation,
 } from '@hikka/api';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -193,9 +193,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         value={[visibility]}
                         onValueChange={(value) =>
                             setVisibility(
-                                value[0] as Parameters<
-                                    typeof setVisibility
-                                >[0],
+                                value[0] as Parameters<typeof setVisibility>[0],
                             )
                         }
                     >
@@ -259,7 +257,6 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         onClick={() =>
                             mutateUpdateCollection({
                                 path: { reference: String(params.reference) },
-                                // TODO(phase2): drop cast once the collection store emits @hikka/api CollectionArgs
                                 body: getApiData() as CollectionArgs,
                             })
                         }
@@ -287,7 +284,6 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         variant="default"
                         onClick={() =>
                             mutateCreateCollection({
-                                // TODO(phase2): drop cast once the collection store emits @hikka/api CollectionArgs
                                 body: getApiData() as CollectionArgs,
                             })
                         }

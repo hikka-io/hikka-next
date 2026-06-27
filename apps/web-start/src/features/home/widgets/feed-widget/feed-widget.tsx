@@ -4,7 +4,6 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 
 import { ContentTypeEnum, type FeedArgs } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import LoadMoreButton from '@/components/load-more-button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -16,16 +15,17 @@ import {
 } from '@/components/ui/field';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 
 import type { WidgetProps } from '../../constants';
-import { feedInfiniteOptions } from './feed-infinite-options';
 import FeedItem, { type FeedItemResponse } from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
 import FeedSubTypeSelect, {
     type FeedSubTypeFilters,
 } from './components/feed-sub-type-select';
+import { feedInfiniteOptions } from './feed-infinite-options';
 
 function getFeedItemKey(item: FeedItemResponse): string {
     if (item.data_type === ContentTypeEnum.ARTICLE) return item.slug;

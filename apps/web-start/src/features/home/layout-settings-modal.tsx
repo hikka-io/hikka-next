@@ -35,12 +35,12 @@ import {
 } from '@/components/ui/tooltip';
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
+import { cn } from '@/utils/cn';
 import type {
     UIFeedWidget,
     UIFeedWidgetSide,
     UIFeedWidgetSlug,
 } from '@/types/ui';
-import { cn } from '@/utils/cn';
 
 import { ALL_WIDGET_SLUGS, WIDGET_REGISTRY } from './constants';
 import { COLUMNS, groupBySide } from './utils';

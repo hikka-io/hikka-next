@@ -2,7 +2,11 @@ import type { FC } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getEditOptions, getEditQueryKey, updateEditMutation } from '@hikka/api';
+import {
+    getEditOptions,
+    getEditQueryKey,
+    updateEditMutation,
+} from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';

@@ -1,7 +1,6 @@
 import { type FC, useState } from 'react';
 
 import { ExternalTypeEnum } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
 import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
@@ -16,6 +15,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 import { getPlatformIcon } from '@/utils/platform-icons';

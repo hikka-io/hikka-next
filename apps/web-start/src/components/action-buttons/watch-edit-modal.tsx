@@ -14,7 +14,6 @@ import {
     watchGetOptions,
     watchGetQueryKey,
 } from '@hikka/api';
-import { getTitle } from '@/utils/title/get-title';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
@@ -35,6 +34,7 @@ import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/i18n/zod';
+import { getTitle } from '@/utils/title/get-title';
 
 const formSchema = z.object({
     score: z.coerce.number().min(0).max(10).optional(),
@@ -109,7 +109,8 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
             episodes: watch?.episodes ?? 0,
             rewatches: watch?.rewatches ?? 0,
             note: watch?.note ?? null,
-            start_date: (watch as { start_date?: number | null })?.start_date ?? null,
+            start_date:
+                (watch as { start_date?: number | null })?.start_date ?? null,
             end_date: (watch as { end_date?: number | null })?.end_date ?? null,
         },
         validators: { onSubmit: formSchema as never },

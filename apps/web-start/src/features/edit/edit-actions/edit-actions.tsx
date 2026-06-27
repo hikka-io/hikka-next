@@ -3,9 +3,9 @@ import type { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getEditOptions } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import { Button } from '@/components/ui/button';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { Link, useParams } from '@/utils/navigation';
 
 import AcceptAction from './accept-action';

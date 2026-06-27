@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     type ClientResponse,
     deleteUserClientMutation,

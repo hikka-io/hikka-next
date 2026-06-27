@@ -5,11 +5,9 @@ import { format } from 'date-fns/format';
 
 import {
     type AnimeScheduleResponse,
-    animeScheduleInfiniteOptions,
     AnimeStatusEnum,
+    animeScheduleInfiniteOptions,
 } from '@hikka/api';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { getTitle } from '@/utils/title/get-title';
 
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
@@ -20,10 +18,12 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
+import { getTitle } from '@/utils/title/get-title';
 
 import type { WidgetProps } from '../constants';
 

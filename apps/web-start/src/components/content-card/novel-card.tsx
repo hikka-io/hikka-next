@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 
 import { ContentTypeEnum, type NovelResponseWithRead } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
+import { useTitle } from '@/utils/title/use-title';
 
 import ContentCard, { type ContentCardProps } from './content-card';
 import { getMediaCardProps } from './utils';

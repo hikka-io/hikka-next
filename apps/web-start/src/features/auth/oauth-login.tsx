@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { providerUrlOptions } from '@hikka/api';
 
 import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';

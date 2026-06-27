@@ -7,8 +7,8 @@ import {
     ContentTypeEnum,
     contentFranchiseOptions,
     getArticlesInfiniteOptions,
-    getContentsListInfiniteOptions,
     getCollectionsInfiniteOptions,
+    getContentsListInfiniteOptions,
     getFavouriteOptions,
     getWatchFollowingInfiniteOptions,
     paginationPageParam,
@@ -18,8 +18,8 @@ import {
 
 import { ContentDetailLayout } from '@/features/content';
 import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
-import { getAuthTokenFn } from '@/utils/cookies';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
+import { getAuthTokenFn } from '@/utils/cookies';
 import { getNsfwConsentFn } from '@/utils/cookies/server';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
@@ -36,12 +36,7 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
         if (!anime) throw redirect({ to: '/' });
 
         if (!(await getAuthTokenFn())) {
-            // TODO(phase2): drop cast once stripRestrictedExternal reads @hikka/api types
-            anime = stripRestrictedExternal(
-                anime as unknown as Parameters<
-                    typeof stripRestrictedExternal
-                >[0],
-            ) as unknown as typeof anime;
+            anime = stripRestrictedExternal(anime);
             queryClient.setQueryData(animeOptions.queryKey, anime);
         }
 

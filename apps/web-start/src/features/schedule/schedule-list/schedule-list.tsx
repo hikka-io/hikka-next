@@ -3,8 +3,8 @@ import { format } from 'date-fns/format';
 
 import {
     type AnimeScheduleResponse,
-    animeScheduleInfiniteOptions,
     type AnimeStatusEnum,
+    animeScheduleInfiniteOptions,
     type SeasonEnum,
 } from '@hikka/api';
 

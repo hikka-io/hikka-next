@@ -142,11 +142,7 @@ export type FeedCommentContentType =
 /**
  * Article content type filter for feed (includes no_content).
  */
-export type FeedArticleContentType =
-    | 'anime'
-    | 'manga'
-    | 'novel'
-    | 'no_content';
+export type FeedArticleContentType = 'anime' | 'manga' | 'novel' | 'no_content';
 
 /**
  * Article category filter for feed.

@@ -1,5 +1,3 @@
-import type { ComponentProps } from 'react';
-
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import {
@@ -11,12 +9,12 @@ import {
     personNovelInfiniteOptions,
     personVoicesInfiniteOptions,
 } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
-import { getTitle } from '@/utils/title/get-title';
 
 import { ContentDetailLayout } from '@/features/content';
 import { PERSON_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
+import { getTitle } from '@/utils/title/get-title';
+import { useTitle } from '@/utils/title/use-title';
 
 export const Route = createFileRoute('/_pages/people/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -85,12 +83,7 @@ function PersonDetailLayout() {
     return (
         <ContentDetailLayout
             slug={person.slug}
-            // TODO(phase2): drop cast
-            contentType={
-                ContentTypeEnum.PERSON as ComponentProps<
-                    typeof ContentDetailLayout
-                >['contentType']
-            }
+            contentType={ContentTypeEnum.PERSON}
             navRoutes={PERSON_NAV_ROUTES}
             urlPrefix="/people"
             title={title}

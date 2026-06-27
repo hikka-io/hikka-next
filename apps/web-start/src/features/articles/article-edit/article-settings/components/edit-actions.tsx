@@ -1,13 +1,9 @@
 import { type FC, useCallback } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import {
-    type ArticleContentEnum,
-    updateArticleMutation,
-} from '@hikka/api';
+import { type ArticleContentEnum, updateArticleMutation } from '@hikka/api';
 
 import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -54,10 +50,7 @@ const EditActions: FC<Props> = () => {
 
             toast.success('Ви успішно оновили статтю.');
 
-            // TODO(phase2): drop cast once the article store uses @hikka/api types
-            setArticle(
-                data as unknown as Parameters<typeof setArticle>[0],
-            );
+            setArticle(data as unknown as Parameters<typeof setArticle>[0]);
         },
     });
 

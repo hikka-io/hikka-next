@@ -1,7 +1,5 @@
 import { useRef } from 'react';
 
-import type { HSLColor, UIColorTokens } from '@/types/ui';
-
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -12,6 +10,7 @@ import {
     UI_TOKENS,
 } from '@/utils/constants/styles';
 import { DEFAULT_STYLES } from '@/utils/ui';
+import type { HSLColor, UIColorTokens } from '@/types/ui';
 
 import { useStylesEditor } from './custom-colors-modal';
 import PresetButtons from './preset-buttons';

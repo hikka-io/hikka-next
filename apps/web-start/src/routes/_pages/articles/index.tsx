@@ -3,8 +3,8 @@ import { zodValidator } from '@tanstack/zod-adapter';
 
 import {
     type ArticleCategoryEnum,
-    getArticleTopOptions,
     getArticlesInfiniteOptions,
+    getArticleTopOptions,
     paginationPageParam,
 } from '@hikka/api';
 

@@ -1,5 +1,3 @@
-import type { ComponentProps } from 'react';
-
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
@@ -56,12 +54,7 @@ function NovelListPage() {
                 <div className="flex flex-col gap-4">
                     <CatalogNavbar
                         sort_type="novel"
-                        // TODO(phase2): drop cast once catalog reads @hikka/api enum
-                        content_type={
-                            ContentTypeEnum.NOVEL as ComponentProps<
-                                typeof CatalogNavbar
-                            >['content_type']
-                        }
+                        content_type={ContentTypeEnum.NOVEL}
                         searchPlaceholder="Введіть назву ранобе..."
                         renderFilterModal={({ open, onOpenChange }) => (
                             <ReadFiltersModal

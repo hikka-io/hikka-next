@@ -1,12 +1,12 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { personNovelInfiniteOptions } from '@hikka/api';
-import { getTitle } from '@/utils/title/get-title';
 
 import NovelCard from '@/components/content-card/novel-card';
 import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
+import { getTitle } from '@/utils/title/get-title';
 
 type Props = {
     extended?: boolean;
@@ -34,12 +34,7 @@ const Novel: FC<Props> = ({ extended }) => {
             renderItem={(ch) => (
                 <NovelCard
                     key={ch.novel.slug}
-                    // TODO(phase2): drop cast
-                    novel={
-                        ch.novel as unknown as ComponentProps<
-                            typeof NovelCard
-                        >['novel']
-                    }
+                    novel={ch.novel}
                     description={
                         ch.roles[0] ? getTitle(ch.roles[0]) : undefined
                     }

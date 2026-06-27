@@ -1,12 +1,13 @@
-import { type ComponentProps, type FC, memo, type PropsWithChildren } from 'react';
+import { type FC, memo, type PropsWithChildren } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
+
 import { animeSlugOptions, type WatchResponseBase } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useTitle } from '@/utils/title/use-title';
 
 import { WatchlistButton } from '@/components/action-buttons';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
+import { useTitle } from '@/utils/title/use-title';
 
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent from './media-tooltip-content';
@@ -69,16 +70,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
             }
             actionButton={
                 loggedUser ? (
-                    <WatchlistButton
-                        // TODO(phase2): drop cast once WatchlistButton migrates to @hikka/api types
-                        watch={
-                            watch as unknown as ComponentProps<
-                                typeof WatchlistButton
-                            >['watch']
-                        }
-                        slug={slug}
-                        additional
-                    />
+                    <WatchlistButton watch={watch} slug={slug} additional />
                 ) : undefined
             }
         />

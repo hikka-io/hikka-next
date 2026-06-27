@@ -1,9 +1,12 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
 import {
+    type AnimeResponseWithWatch,
     contentFranchiseOptions,
+    type MangaResponseWithRead,
+    type NovelResponseWithRead,
     type RelatedContentTypeEnum,
 } from '@hikka/api';
 
@@ -118,12 +121,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                             return (
                                 <AnimeCard
                                     key={content.slug}
-                                    // TODO(phase2): drop cast
-                                    anime={
-                                        content as unknown as ComponentProps<
-                                            typeof AnimeCard
-                                        >['anime']
-                                    }
+                                    anime={content as AnimeResponseWithWatch}
                                 />
                             );
                         }
@@ -132,12 +130,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                             return (
                                 <MangaCard
                                     key={content.slug}
-                                    // TODO(phase2): drop cast
-                                    manga={
-                                        content as unknown as ComponentProps<
-                                            typeof MangaCard
-                                        >['manga']
-                                    }
+                                    manga={content as MangaResponseWithRead}
                                 />
                             );
                         }
@@ -146,12 +139,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                             return (
                                 <NovelCard
                                     key={content.slug}
-                                    // TODO(phase2): drop cast
-                                    novel={
-                                        content as unknown as ComponentProps<
-                                            typeof NovelCard
-                                        >['novel']
-                                    }
+                                    novel={content as NovelResponseWithRead}
                                 />
                             );
                         }

@@ -1,10 +1,12 @@
 import type { FC } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { type ArticleDocumentResponse, deleteArticleMutation } from '@hikka/api';
+import {
+    type ArticleDocumentResponse,
+    deleteArticleMutation,
+} from '@hikka/api';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import {

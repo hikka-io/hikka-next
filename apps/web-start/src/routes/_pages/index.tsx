@@ -3,8 +3,8 @@ import { zodValidator } from '@tanstack/zod-adapter';
 
 import {
     AnimeMediaEnum,
-    animeScheduleInfiniteOptions,
     AnimeStatusEnum,
+    animeScheduleInfiniteOptions,
     ContentTypeEnum,
     type FeedArgs,
     followingHistoryInfiniteOptions,

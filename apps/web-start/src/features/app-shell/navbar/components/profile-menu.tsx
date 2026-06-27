@@ -1,7 +1,5 @@
 import { useRouterState } from '@tanstack/react-router';
 
-import { useSession } from '@/features/auth/hooks/use-session';
-
 import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -14,6 +12,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { USER_ROLE } from '@/utils/constants/common';
 import { PROFILE_MENU } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';

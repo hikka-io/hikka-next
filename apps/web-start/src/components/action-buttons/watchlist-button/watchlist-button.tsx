@@ -1,9 +1,10 @@
 import { createElement, useCallback, useMemo, useState } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import {
-    animeSlugOptions,
     type AnimeResponse,
+    animeSlugOptions,
     type WatchArgs,
     type WatchResponseBase,
     WatchStatusEnum,
@@ -11,7 +12,6 @@ import {
     watchGetOptions,
     watchGetQueryKey,
 } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import type { ButtonProps } from '@/components/ui/button';
@@ -31,6 +31,7 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
+import { useTitle } from '@/utils/title/use-title';
 
 import WatchEditModal from '../watch-edit-modal';
 import IconWatchStatusButton from './components/icon-watch-status-button';

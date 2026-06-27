@@ -1,8 +1,6 @@
-import type { ComponentProps } from 'react';
-
-import { createFileRoute } from '@tanstack/react-router';
-
 import { useQuery } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
+import type { Value } from 'platejs';
 
 import {
     type ArticleDocumentResponse,
@@ -20,6 +18,7 @@ import {
     ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';
 import ArticleProvider from '@/services/providers/article-provider';
+import type { ArticleState } from '@/services/stores/article-store';
 import { requireOwner } from '@/utils/auth';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -72,17 +71,14 @@ function ArticleUpdatePage() {
                 </div>
             </Breadcrumbs>
             <ArticleProvider
-                // TODO(phase2): drop cast once the article store uses @hikka/api types
                 initialState={
                     {
                         ...article,
-                        document: article.document,
+                        document: article.document as Value,
                         tags: article.tags.map(
                             (tag: { name: string }) => tag.name,
                         ),
-                    } as unknown as ComponentProps<
-                        typeof ArticleProvider
-                    >['initialState']
+                    } as Partial<ArticleState>
                 }
             >
                 <div className="grid grid-cols-1 justify-center md:grid-cols-[1fr_30%] md:items-start md:justify-between md:gap-12 lg:grid-cols-[1fr_25%]">

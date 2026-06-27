@@ -1,6 +1,5 @@
-import type { HSLColor, UIColorTokens } from '@/types/ui';
-
 import { Label } from '@/components/ui/label';
+import type { HSLColor, UIColorTokens } from '@/types/ui';
 
 import ColorTokenButton from './color-token-button';
 

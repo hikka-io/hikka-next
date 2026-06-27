@@ -1,7 +1,6 @@
 import { type FC, useState } from 'react';
 
 import { ContentTypeEnum, ReadStatusEnum, WatchStatusEnum } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -12,6 +11,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import type { WidgetProps } from '../../constants';
 import ReadingTracker from './components/reading-tracker';

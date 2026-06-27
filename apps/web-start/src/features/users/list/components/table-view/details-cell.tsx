@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
 import type { AnimeResponse, MangaResponse, NovelResponse } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import ContentCard from '@/components/content-card/content-card';
 import MDViewer from '@/components/markdown/viewer/md-viewer';
@@ -10,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 import { getDeclensionWord } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
+import { useTitle } from '@/utils/title/use-title';
 
 const REPEAT_DECLENSIONS: [string, string, string] = [
     'перегляд',
@@ -25,7 +25,7 @@ type Props = {
 };
 
 const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
-    const title = useTitle(content as unknown as Record<string, unknown>);
+    const title = useTitle(content);
 
     return (
         <TableCell className="w-36">

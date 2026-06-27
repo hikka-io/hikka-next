@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { getCollectionsInfiniteOptions } from '@hikka/api';
 
@@ -27,15 +27,7 @@ const CollectionsModal: FC<Props> = ({ content_type }) => {
     return (
         <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
             {list?.map((collection) => (
-                <CollectionItem
-                    // TODO(phase2): drop cast
-                    data={
-                        collection as unknown as ComponentProps<
-                            typeof CollectionItem
-                        >['data']
-                    }
-                    key={collection.reference}
-                />
+                <CollectionItem data={collection} key={collection.reference} />
             ))}
             {hasNextPage && (
                 <LoadMoreButton

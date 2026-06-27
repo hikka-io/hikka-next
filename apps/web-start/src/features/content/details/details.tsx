@@ -29,46 +29,37 @@ const Details = ({ className, content_type }: Props) => {
         return null;
     }
 
-    // TODO(phase2): drop casts — `data` comes from CONTENT_CONFIG (still
-    // the legacy client-typed); cast across to the @hikka/api component prop types.
+    // `data` is the union of every CONTENT_CONFIG info type; the content_type
+    // switch can't narrow it (the lookup key is generic), so each branch
+    // asserts the matching response type.
     switch (content_type) {
         case ContentTypeEnum.ANIME:
             return (
                 <WatchDetails
                     className={className}
-                    data={data as unknown as AnimeInfoResponse}
+                    data={data as AnimeInfoResponse}
                 />
             );
         case ContentTypeEnum.MANGA:
-            return (
-                <ReadDetails
-                    className={className}
-                    data={
-                        data as unknown as
-                            | MangaInfoResponse
-                            | NovelInfoResponse
-                    }
-                />
-            );
         case ContentTypeEnum.NOVEL:
             return (
                 <ReadDetails
                     className={className}
-                    data={data as unknown as NovelInfoResponse}
+                    data={data as MangaInfoResponse | NovelInfoResponse}
                 />
             );
         case ContentTypeEnum.CHARACTER:
             return (
                 <CharacterDetails
                     className={className}
-                    data={data as unknown as CharacterResponse}
+                    data={data as CharacterResponse}
                 />
             );
         case ContentTypeEnum.PERSON:
             return (
                 <PersonDetails
                     className={className}
-                    data={data as unknown as PersonResponse}
+                    data={data as PersonResponse}
                 />
             );
     }

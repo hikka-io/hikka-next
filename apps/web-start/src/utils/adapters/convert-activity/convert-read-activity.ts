@@ -21,6 +21,7 @@ type HistoryReadData = {
     };
     new_read: boolean;
 };
+
 import { getDeclensionWord } from '@/utils/i18n/declension';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [

@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 
 import { type HslColor, HslColorPicker } from 'react-colorful';
 
-import type { HSLColor } from '@/types/ui';
-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -21,6 +19,7 @@ import {
     toHSLString,
     toReactColorful,
 } from '@/utils/ui/color';
+import type { HSLColor } from '@/types/ui';
 
 type ColorTokenButtonProps = {
     token: keyof typeof COLOR_TOKEN_LABELS;

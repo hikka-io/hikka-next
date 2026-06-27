@@ -19,6 +19,7 @@ type HistoryWatchData = {
     };
     new_watch: boolean;
 };
+
 import { getDeclensionWord } from '@/utils/i18n/declension';
 
 const EPISODES_DECLENSION: [string, string, string] = [

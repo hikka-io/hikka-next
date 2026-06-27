@@ -1,5 +1,3 @@
-import type { ComponentProps } from 'react';
-
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
@@ -194,19 +192,11 @@ function ListPage() {
                         {isAnime ? (
                             <AnimeFilters
                                 sort_type="watch"
-                                content_type={
-                                    ContentTypeEnum.ANIME as unknown as ComponentProps<
-                                        typeof AnimeFilters
-                                    >['content_type']
-                                }
+                                content_type={ContentTypeEnum.ANIME}
                             />
                         ) : (
                             <ReadFilters
-                                content_type={
-                                    content_type as unknown as ComponentProps<
-                                        typeof ReadFilters
-                                    >['content_type']
-                                }
+                                content_type={content_type}
                                 sort_type="read"
                             />
                         )}

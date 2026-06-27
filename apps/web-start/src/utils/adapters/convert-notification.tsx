@@ -6,7 +6,6 @@ import {
     type NotificationResponse,
     NotificationTypeEnum,
 } from '@hikka/api';
-import { getTitle } from '@/utils/title/get-title';
 
 import FeMention from '@/components/icons/fe/FeMention';
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
@@ -20,6 +19,7 @@ import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/Mate
 import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
 import MaterialSymbolsLockOpenRightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRightOutlineRounded';
 import MaterialSymbolsPersonAddRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddRounded';
+import { getTitle } from '@/utils/title/get-title';
 
 // @hikka/api types `NotificationResponse.data` as a loose `{ [key]: unknown }`.
 // `NotificationOf<T>` re-attaches a concrete per-type `data` shape so the
@@ -216,11 +216,7 @@ const getBaseNotification = (
 
     return {
         reference: notification.reference,
-        // `Hikka.Notification.type` (src/types/hikka.d.ts, out of scope) still
-        // references the the legacy client enum; the @hikka/api enum has identical
-        // string values, so bridge across the nominal mismatch.
-        // TODO(phase2): drop cast once hikka.d.ts uses @hikka/api types.
-        type: type as unknown as Hikka.Notification['type'],
+        type,
         created: notification.created,
         seen: notification.seen,
         title: NOTIFICATION_TITLES[type],
@@ -378,9 +374,7 @@ const createScheduleAnimeNotification = (
 
     return {
         ...getBaseNotification(notification),
-        title: getTitle(
-            notification.data as unknown as Record<string, unknown>,
-        ),
+        title: getTitle(notification.data),
         description: `Вийшов **${after.episodes_released}** епізод аніме`,
         href: `/anime/${slug}`,
         contentImage: image || undefined,
@@ -415,8 +409,12 @@ const createThirdpartyLoginNotification = (
 };
 
 export const convertNotification = (
-    notification: NotificationOf<NotificationData>,
+    response: NotificationResponse,
 ): Hikka.Notification | null => {
+    // The generated `data` is a broad untyped shape; refine it once to the
+    // discriminated union so each branch can narrow by notification_type.
+    const notification =
+        response as unknown as NotificationOf<NotificationData>;
     const type = notification.notification_type;
 
     switch (type) {

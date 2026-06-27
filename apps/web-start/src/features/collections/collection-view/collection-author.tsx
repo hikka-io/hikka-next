@@ -1,8 +1,6 @@
-import type { ComponentProps } from 'react';
-
+import { useQuery } from '@tanstack/react-query';
 import { formatDistance } from 'date-fns';
 
-import { useQuery } from '@tanstack/react-query';
 import { getCollectionOptions } from '@hikka/api';
 
 import FollowButton from '@/components/action-buttons/follow-button';
@@ -49,15 +47,10 @@ const CollectionAuthor = () => {
                         )}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
-                {/* TODO(phase2): drop cast once FollowButton is migrated to @hikka/api types */}
                 <FollowButton
                     size={!isDesktop ? 'icon-md' : 'md'}
                     iconOnly={!isDesktop}
-                    user={
-                        collection?.author as unknown as ComponentProps<
-                            typeof FollowButton
-                        >['user']
-                    }
+                    user={collection?.author}
                 />
             </HorizontalCard>
         </Card>

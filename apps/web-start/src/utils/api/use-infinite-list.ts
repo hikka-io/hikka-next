@@ -5,8 +5,9 @@ import {
     type UseInfiniteQueryOptions,
     useInfiniteQuery,
 } from '@tanstack/react-query';
-import { paginationPageParam } from '@hikka/api';
 import { useInView } from 'react-intersection-observer';
+
+import { paginationPageParam } from '@hikka/api';
 
 interface PaginatedPage {
     list: unknown[];

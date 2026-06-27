@@ -1,8 +1,8 @@
 import { ContentTypeEnum } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { Link, useParams } from '@/utils/navigation';
+import { useTitle } from '@/utils/title/use-title';
 
 type TitleProps = {
     className?: string;

@@ -1,7 +1,6 @@
-import { type ComponentProps, type FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { getCollectionsInfiniteOptions } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import { CollectionItem } from '@/components/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -19,6 +18,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
@@ -90,15 +90,7 @@ const UserCollections: FC<Props> = ({ className }) => {
 
                     <div className="flex flex-col gap-6">
                         {filteredCollections?.map((item) => (
-                            <CollectionItem
-                                data={
-                                    // TODO(phase2): drop cast once content-card is on @hikka/api
-                                    item as unknown as ComponentProps<
-                                        typeof CollectionItem
-                                    >['data']
-                                }
-                                key={item.reference}
-                            />
+                            <CollectionItem data={item} key={item.reference} />
                         ))}
                         {collections && collections?.length === 0 && (
                             <NotFound

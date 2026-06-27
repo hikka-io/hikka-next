@@ -4,8 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     getAuthToken,
-    profileOptions,
     type ProfileResponse,
+    profileOptions,
     UserRoleEnum,
 } from '@hikka/api';
 

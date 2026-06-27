@@ -4,22 +4,22 @@ import {
     ContentTypeEnum,
     contentFranchiseOptions,
     getArticlesInfiniteOptions,
-    getContentsListInfiniteOptions,
     getCollectionsInfiniteOptions,
+    getContentsListInfiniteOptions,
     getFavouriteOptions,
     getReadFollowingInfiniteOptions,
     mangaCharactersInfiniteOptions,
     mangaInfoOptions,
     paginationPageParam,
     ReadContentTypeEnum,
-    readGetOptions,
     RelatedContentTypeEnum,
+    readGetOptions,
 } from '@hikka/api';
 
 import { ContentDetailLayout } from '@/features/content';
 import { MANGA_NAV_ROUTES } from '@/utils/constants/navigation';
-import { getAuthTokenFn } from '@/utils/cookies';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
+import { getAuthTokenFn } from '@/utils/cookies';
 import { getNsfwConsentFn } from '@/utils/cookies/server';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
@@ -36,12 +36,7 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
         if (!manga) throw redirect({ to: '/' });
 
         if (!(await getAuthTokenFn())) {
-            // TODO(phase2): drop cast once stripRestrictedExternal reads @hikka/api types
-            manga = stripRestrictedExternal(
-                manga as unknown as Parameters<
-                    typeof stripRestrictedExternal
-                >[0],
-            ) as unknown as typeof manga;
+            manga = stripRestrictedExternal(manga);
             queryClient.setQueryData(mangaOptions.queryKey, manga);
         }
 

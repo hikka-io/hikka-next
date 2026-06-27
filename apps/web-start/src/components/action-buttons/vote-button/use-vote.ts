@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import {
     type AppVoteSchemasContentTypeEnum,
     getVoteQueryKey,
     setVoteMutation,
 } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useRouter } from '@/utils/navigation';
 
 interface UseVoteParams {

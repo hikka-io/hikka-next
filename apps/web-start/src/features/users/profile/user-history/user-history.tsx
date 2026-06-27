@@ -1,4 +1,4 @@
-import { type ComponentProps, type FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { userHistoryInfiniteOptions } from '@hikka/api';
 
@@ -68,15 +68,7 @@ const History: FC<Props> = ({ className }) => {
                     </Header>
                     <div className="flex flex-col gap-6">
                         {filteredActivity?.map((item) => (
-                            <HistoryItem
-                                data={
-                                    // TODO(phase2): drop cast once content-card is on @hikka/api
-                                    item as unknown as ComponentProps<
-                                        typeof HistoryItem
-                                    >['data']
-                                }
-                                key={item.reference}
-                            />
+                            <HistoryItem data={item} key={item.reference} />
                         ))}
                         {activity && activity?.length === 0 && (
                             <NotFound

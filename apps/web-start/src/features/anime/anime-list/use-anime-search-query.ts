@@ -7,8 +7,8 @@ import {
 } from '@hikka/api';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { expandSort } from '@/features/filters/sort';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import type { AnimeSearch } from '@/utils/search-schemas';
 import { getSeasonByOffset } from '@/utils/season';
 

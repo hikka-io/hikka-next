@@ -1,6 +1,5 @@
-import { useSession } from '@/features/auth/hooks/use-session';
-
 import { Button } from '@/components/ui/button';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { NotificationsMenu } from '@/features/notifications';
 import { SearchModal } from '@/features/search';
 import { useMediaQuery } from '@/services/hooks/use-media-query';

@@ -1,4 +1,4 @@
-import { type ComponentProps, type FC, useState } from 'react';
+import { type FC, useState } from 'react';
 
 import { getCollectionsInfiniteOptions } from '@hikka/api';
 
@@ -57,12 +57,7 @@ const Collections: FC<Props> = ({ content_type }) => {
                         {filteredCollections.map((collection) => (
                             <CollectionItem
                                 key={collection.reference}
-                                // TODO(phase2): drop cast
-                                data={
-                                    collection as unknown as ComponentProps<
-                                        typeof CollectionItem
-                                    >['data']
-                                }
+                                data={collection}
                             />
                         ))}
                     </div>

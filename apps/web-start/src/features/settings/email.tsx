@@ -1,6 +1,6 @@
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useMutation } from '@tanstack/react-query';
 import { changeEmailMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';

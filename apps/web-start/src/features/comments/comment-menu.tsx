@@ -4,7 +4,6 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { type CommentResponse, hideCommentMutation } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -27,6 +26,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 
 type Props = {

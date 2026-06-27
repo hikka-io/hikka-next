@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { type CommentResponseFeed, type ContentTypeEnum } from '@hikka/api';
+import type { CommentResponseFeed, ContentTypeEnum } from '@hikka/api';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';

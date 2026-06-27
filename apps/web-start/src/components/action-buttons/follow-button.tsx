@@ -5,17 +5,17 @@ import type { VariantProps } from 'class-variance-authority';
 
 import {
     followMutation,
-    unfollowMutation,
     type UserResponseFollowed,
+    unfollowMutation,
     userProfileOptions,
     userProfileQueryKey,
 } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 import MaterialSymbolsPersonRemoveOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonRemoveOutlineRounded';
 import { Button, type buttonVariants } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -63,9 +63,7 @@ const FollowButton: FC<Props> = ({
                     id === 'followersList' ||
                     id === 'followStats' ||
                     (id === 'userProfile' &&
-                        JSON.stringify(query.queryKey).includes(
-                            targetUsername,
-                        ))
+                        JSON.stringify(query.queryKey).includes(targetUsername))
                 );
             },
         });

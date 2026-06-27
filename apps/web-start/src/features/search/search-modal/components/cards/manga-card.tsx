@@ -1,8 +1,7 @@
-import type { ComponentProps } from 'react';
 import type * as React from 'react';
+import type { ComponentProps } from 'react';
 
 import type { MangaResponseWithRead } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import ContentCard from '@/components/content-card/content-card';
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
@@ -11,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
+import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     manga: MangaResponseWithRead;
@@ -32,9 +32,10 @@ const MangaCard = ({ manga, onClick, type }: Props) => {
                 <ContentCard
                     containerClassName="rounded-(--base-radius)"
                     image={manga.image}
-                    // TODO(phase2): drop cast once ContentCard is migrated to @hikka/api types
                     read={
-                        (manga.read ? manga.read[0] : undefined) as ComponentProps<
+                        (manga.read
+                            ? manga.read[0]
+                            : undefined) as ComponentProps<
                             typeof ContentCard
                         >['read']
                     }

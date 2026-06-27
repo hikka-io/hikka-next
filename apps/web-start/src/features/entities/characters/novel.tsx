@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { characterNovelInfiniteOptions } from '@hikka/api';
 
@@ -31,15 +31,7 @@ const Novel: FC<Props> = ({ extended }) => {
             isFetchingNextPage={isFetchingNextPage}
             ref={ref}
             renderItem={(ch) => (
-                <NovelCard
-                    key={ch.novel.slug}
-                    // TODO(phase2): drop cast
-                    novel={
-                        ch.novel as unknown as ComponentProps<
-                            typeof NovelCard
-                        >['novel']
-                    }
-                />
+                <NovelCard key={ch.novel.slug} novel={ch.novel} />
             )}
         />
     );

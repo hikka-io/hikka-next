@@ -1,9 +1,8 @@
 import { useRef, useState } from 'react';
 
+import { useMutation } from '@tanstack/react-query';
 import AvatarEditor from 'react-avatar-editor';
 import { toast } from 'sonner';
-
-import { useMutation } from '@tanstack/react-query';
 
 import {
     UploadTypeEnum,

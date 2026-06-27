@@ -10,19 +10,19 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { Switch } from '@/components/ui/switch';
-import type {
-    FeedArticleCategory,
-    FeedArticleContentType,
-    FeedCollectionContentType as CollectionContentType,
-    FeedCommentContentType as CommentsContentType,
-    FeedContentType,
-} from '@/types/ui';
 import { cn } from '@/utils/cn';
 import {
     ARTICLE_CATEGORY_OPTIONS,
     COLLECTION_CONTENT_TYPE_OPTIONS,
     CONTENT_TYPES,
 } from '@/utils/constants/common';
+import type {
+    FeedCollectionContentType as CollectionContentType,
+    FeedCommentContentType as CommentsContentType,
+    FeedArticleCategory,
+    FeedArticleContentType,
+    FeedContentType,
+} from '@/types/ui';
 
 export interface FeedSubTypeFilters {
     feed_content_types: FeedContentType[] | null;

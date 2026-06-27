@@ -6,6 +6,7 @@ import {
 } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
+
 import {
     ContentTypeEnum,
     followStatsOptions,
@@ -42,9 +43,7 @@ type Props = PropsWithChildren & {
 };
 
 const TooltipData: FC<TooltipDataProps> = ({ username }) => {
-    const { data: user } = useQuery(
-        userProfileOptions({ path: { username } }),
-    );
+    const { data: user } = useQuery(userProfileOptions({ path: { username } }));
     const { data: followStats } = useQuery(
         followStatsOptions({ path: { username } }),
     );

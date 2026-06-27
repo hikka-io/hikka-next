@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import {
     ContentTypeEnum,
@@ -61,12 +61,7 @@ const Manga: FC<Props> = ({ extended }) => {
                     {filteredData.map((res) => (
                         <MangaCard
                             key={res.slug}
-                            manga={
-                                // TODO(phase2): drop cast once content-card is on @hikka/api
-                                res as unknown as ComponentProps<
-                                    typeof MangaCard
-                                >['manga']
-                            }
+                            manga={res}
                             imagePreset="cardSm"
                         />
                     ))}

@@ -1,15 +1,15 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { MessageCircle } from 'lucide-react';
 
 import { ContentTypeEnum } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
 import ReadlistButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
+import { useSession } from '@/features/auth/hooks/use-session';
 import EditButton from '@/features/edit/edit-button';
 import { cn } from '@/utils/cn';
 import { COMMENT_DECLENSIONS, CONTENT_CONFIG } from '@/utils/constants/common';
@@ -35,12 +35,7 @@ const UserlistButton = ({ content_type }: Props) => {
                 <ReadlistButton
                     slug={String(params.slug)}
                     size="icon-md"
-                    // TODO(phase2): drop cast once readlist-button reads @hikka/api enum
-                    content_type={
-                        content_type as ComponentProps<
-                            typeof ReadlistButton
-                        >['content_type']
-                    }
+                    content_type={content_type}
                 />
             );
         case ContentTypeEnum.PERSON:
@@ -77,12 +72,7 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
                 {content_type !== ContentTypeEnum.PERSON && (
                     <FavoriteButton
                         slug={String(params.slug)}
-                        // TODO(phase2): drop cast once favorite-button reads @hikka/api enum
-                        content_type={
-                            content_type as ComponentProps<
-                                typeof FavoriteButton
-                            >['content_type']
-                        }
+                        content_type={content_type}
                         size="icon-md"
                         variant="ghost"
                     />

@@ -1,6 +1,7 @@
 import { createElement, useCallback, useMemo, useState } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import {
     ContentTypeEnum,
     type MangaResponse,
@@ -15,7 +16,6 @@ import {
     readGetOptions,
     readGetQueryKey,
 } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import type { ButtonProps } from '@/components/ui/button';
@@ -35,6 +35,7 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
+import { useTitle } from '@/utils/title/use-title';
 
 import ReadEditModal from '../read-edit-modal';
 import IconReadStatusButton from './components/icon-read-status-button';

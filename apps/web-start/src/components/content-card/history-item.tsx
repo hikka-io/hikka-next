@@ -3,7 +3,6 @@ import { type FC, memo } from 'react';
 import { formatDistance } from 'date-fns/formatDistance';
 
 import type { HistoryResponse } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -22,6 +21,7 @@ import {
 import { convertActivity } from '@/utils/adapters/convert-activity';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
+import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     data: HistoryResponse;
@@ -51,14 +51,9 @@ const User: FC<Props> = memo(({ data }) => (
 
 const HistoryItem: FC<Props> = (props) => {
     const { data, withUser, className } = props;
-    const title = useTitle(
-        data.content as unknown as Record<string, unknown> | undefined,
-    );
+    const title = useTitle(data.content);
 
-    // TODO(phase2): drop cast once convert-activity migrates to @hikka/api types
-    const activity = convertActivity(
-        data as unknown as Parameters<typeof convertActivity>[0],
-    );
+    const activity = convertActivity(data);
 
     return (
         <HorizontalCard className={className}>

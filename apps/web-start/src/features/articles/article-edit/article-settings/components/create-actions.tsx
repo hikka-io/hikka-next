@@ -1,13 +1,9 @@
 import { type FC, useCallback } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import {
-    type ArticleContentEnum,
-    createArticleMutation,
-} from '@hikka/api';
+import { type ArticleContentEnum, createArticleMutation } from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';

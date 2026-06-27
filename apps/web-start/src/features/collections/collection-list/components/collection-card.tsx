@@ -4,8 +4,6 @@ import { formatDistance } from 'date-fns/formatDistance';
 import { ArrowBigUp, MessageCircle } from 'lucide-react';
 
 import type { CollectionResponse } from '@hikka/api';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { getTitle } from '@/utils/title/get-title';
 
 import FollowButton from '@/components/action-buttons/follow-button';
 import ContentCard from '@/components/content-card/content-card';
@@ -23,9 +21,11 @@ import { Label } from '@/components/ui/label';
 import Stack, { type StackSize } from '@/components/ui/stack';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
+import { getTitle } from '@/utils/title/get-title';
 
 type Props = {
     collection: CollectionResponse;
@@ -89,15 +89,10 @@ const CollectionCard: FC<Props> = ({
                         </HorizontalCardDescription>
                     </HorizontalCardContainer>
                 </HorizontalCardContainer>
-                {/* TODO(phase2): drop cast once FollowButton is migrated to @hikka/api types */}
                 <FollowButton
                     iconOnly={isCompact || !isDesktop}
                     size={isCompact || !isDesktop ? 'icon-md' : 'md'}
-                    user={
-                        collection.author as unknown as ComponentProps<
-                            typeof FollowButton
-                        >['user']
-                    }
+                    user={collection.author}
                 />
             </HorizontalCard>
 
@@ -153,7 +148,6 @@ const CollectionCard: FC<Props> = ({
                 imagePreset="cardSm"
             >
                 {previewItems.map((item) => {
-                    // TODO(phase2): drop casts once ContentCard + CONTENT_TYPE_LINKS use @hikka/api types
                     const contentType = item.content_type as NonNullable<
                         ComponentProps<typeof ContentCard>['content_type']
                     >;
@@ -165,10 +159,7 @@ const CollectionCard: FC<Props> = ({
                                 isCompact
                                     ? undefined
                                     : getTitle(
-                                          item.content as unknown as Record<
-                                              string,
-                                              unknown
-                                          >,
+                                          item.content,
                                           preferences.title_language,
                                           preferences.name_language,
                                       )

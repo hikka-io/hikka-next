@@ -1,6 +1,8 @@
 /**
  * Utilities for merging UI styles and effects.
  */
+
+import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import type {
     HSLColor,
     UIColorTokens,
@@ -10,8 +12,6 @@ import type {
     UIThemeStyles,
     UserUI,
 } from '@/types/ui';
-
-import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
 import { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 import { ALLOWED_COLOR_TOKENS } from './inject-styles';

@@ -2,8 +2,8 @@ import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import {
-    animeScheduleInfiniteOptions,
     AnimeStatusEnum,
+    animeScheduleInfiniteOptions,
     paginationPageParam,
     type SeasonEnum,
 } from '@hikka/api';

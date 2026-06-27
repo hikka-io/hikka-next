@@ -1,4 +1,4 @@
-import { type ComponentProps, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -6,7 +6,6 @@ import {
     ContentTypeEnum,
     type ReadArgs,
     type ReadContentTypeEnum,
-    type ReadResponse,
     ReadStatusEnum,
     readAddMutation,
     readGetQueryKey,
@@ -41,9 +40,9 @@ import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
-import { getTitle } from '@/utils/title/get-title';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link, useRouter } from '@/utils/navigation';
+import { getTitle } from '@/utils/title/get-title';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [
     'розділ',
@@ -65,9 +64,7 @@ const CONTENT_TYPE_CONFIG = {
 } as const;
 
 type ReadingTrackerProps = {
-    contentType:
-        | typeof ContentTypeEnum.MANGA
-        | typeof ContentTypeEnum.NOVEL;
+    contentType: typeof ContentTypeEnum.MANGA | typeof ContentTypeEnum.NOVEL;
 };
 
 const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
@@ -102,9 +99,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
         { enabled: Boolean(loggedUser?.username) },
     );
 
-    // TODO(phase2): drop the cast once the read list-item edit flow migrates to
-    // @hikka/api types (ReadResponse.status is `string` in the generated spec).
-    const list = apiList as unknown as ReadResponse[] | undefined;
+    const list = apiList;
 
     const selectedRead =
         list?.find((item) => item.content.slug === selectedSlug) || list?.[0];
@@ -424,12 +419,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                             </ResponsiveModalTitle>
                         </ResponsiveModalHeader>
                         <ReadEditModal
-                            // TODO(phase2): drop cast once tracker read uses @hikka/api ReadResponseBase
-                            read={
-                                selectedRead as unknown as ComponentProps<
-                                    typeof ReadEditModal
-                                >['read']
-                            }
+                            read={selectedRead}
                             slug={selectedRead.content.slug}
                             content_type={contentType}
                             onClose={() => setOpen(false)}

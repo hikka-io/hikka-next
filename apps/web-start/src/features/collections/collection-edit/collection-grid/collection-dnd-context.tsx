@@ -14,11 +14,10 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 
-import { useTitle } from '@/utils/title/use-title';
-
 import ContentCard from '@/components/content-card/content-card';
 import { useCollectionStore } from '@/services/providers/collection-provider';
 import type { Group, Item } from '@/services/stores/collection-store';
+import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     children: ReactNode;
@@ -50,7 +49,7 @@ function findItem(groups: Group[], itemId: UniqueIdentifier): Item | undefined {
 }
 
 const OverlayCard = memo<{ content: Item['content'] }>(({ content }) => {
-    const title = useTitle(content as unknown as Record<string, unknown>);
+    const title = useTitle(content);
     return <ContentCard image={content.image} title={title} />;
 });
 

@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import type { CollectionResponse } from '@hikka/api';
 import { deleteCollectionMutation } from '@hikka/api';
-import { useMutation } from '@tanstack/react-query';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';

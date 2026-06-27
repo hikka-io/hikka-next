@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { characterMangaInfiniteOptions } from '@hikka/api';
 
@@ -31,15 +31,7 @@ const Manga: FC<Props> = ({ extended }) => {
             isFetchingNextPage={isFetchingNextPage}
             ref={ref}
             renderItem={(ch) => (
-                <MangaCard
-                    key={ch.manga.slug}
-                    // TODO(phase2): drop cast
-                    manga={
-                        ch.manga as unknown as ComponentProps<
-                            typeof MangaCard
-                        >['manga']
-                    }
-                />
+                <MangaCard key={ch.manga.slug} manga={ch.manga} />
             )}
         />
     );

@@ -52,9 +52,10 @@ const Score = ({ content_type }: Props) => {
             return {
                 icon: <small>{stat.split('score_')[1]}</small>,
                 percentage,
-                value: data.stats[
-                    stat as keyof (AnimeStatsResponse | ReadStatsResponse)
-                ] ?? 0,
+                value:
+                    data.stats[
+                        stat as keyof (AnimeStatsResponse | ReadStatsResponse)
+                    ] ?? 0,
             };
         });
 

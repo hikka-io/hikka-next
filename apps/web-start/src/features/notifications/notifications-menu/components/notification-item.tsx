@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { formatDistance } from 'date-fns/formatDistance';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { notificationSeenMutation } from '@hikka/api';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';

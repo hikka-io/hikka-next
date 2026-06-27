@@ -3,8 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import {
     animeSlugOptions,
     type AppCommentsSchemasContentTypeEnum as CommentsContentType,
-    characterInfoOptions,
     ContentTypeEnum,
+    characterInfoOptions,
     type EditContentTypeEnum as EditContentType,
     getArticleOptions,
     getCollectionOptions,
@@ -13,6 +13,7 @@ import {
     novelInfoOptions,
     personInfoOptions,
 } from '@hikka/api';
+
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { getTitle } from '@/utils/title/get-title';
 

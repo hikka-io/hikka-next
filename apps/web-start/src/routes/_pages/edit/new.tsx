@@ -1,13 +1,12 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { useQuery } from '@tanstack/react-query';
-
 import {
-    type EditContentTypeEnum,
-    ContentTypeEnum,
     animeSlugOptions,
+    ContentTypeEnum,
     characterInfoOptions,
+    type EditContentTypeEnum,
     mangaInfoOptions,
     novelInfoOptions,
     personInfoOptions,

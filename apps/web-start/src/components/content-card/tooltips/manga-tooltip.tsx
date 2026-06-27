@@ -1,16 +1,17 @@
-import { type ComponentProps, type FC, memo, type PropsWithChildren } from 'react';
+import { type FC, memo, type PropsWithChildren } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
+
 import {
     ContentTypeEnum,
     mangaInfoOptions,
     type ReadResponseBase,
 } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useTitle } from '@/utils/title/use-title';
 
 import { ReadlistButton } from '@/components/action-buttons';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
+import { useTitle } from '@/utils/title/use-title';
 
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent from './media-tooltip-content';
@@ -87,17 +88,8 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
                 loggedUser ? (
                     <ReadlistButton
                         slug={slug}
-                        // TODO(phase2): drop casts once ReadlistButton migrates to @hikka/api types
-                        content_type={
-                            ContentTypeEnum.MANGA as unknown as ComponentProps<
-                                typeof ReadlistButton
-                            >['content_type']
-                        }
-                        read={
-                            read as unknown as ComponentProps<
-                                typeof ReadlistButton
-                            >['read']
-                        }
+                        content_type={ContentTypeEnum.MANGA}
+                        read={read}
                     />
                 ) : undefined
             }

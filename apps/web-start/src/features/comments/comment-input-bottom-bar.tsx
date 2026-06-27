@@ -5,8 +5,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Minimize2, Send } from 'lucide-react';
 
 import {
-    type AppCommentsSchemasContentTypeEnum as CommentsContentType,
     type CommentResponse,
+    type AppCommentsSchemasContentTypeEnum as CommentsContentType,
     editCommentMutation,
     writeCommentMutation,
 } from '@hikka/api';
@@ -16,10 +16,7 @@ import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
 import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-import {
-    type PendingReply,
-    useCommentsContext,
-} from '@/services/providers/comments-provider';
+import { useCommentsContext } from '@/services/providers/comments-provider';
 import { MAX_COMMENT_DEPTH } from '@/utils/constants/common';
 import { removeEmptyTextNodes } from '@/utils/plate';
 
@@ -61,11 +58,7 @@ const CommentInputBottomBar: FC<Props> = ({
 
     const onEditSuccess = async (data: CommentResponse) => {
         editor.tf.reset();
-        // TODO(phase2): drop cast once comments-provider is migrated to @hikka/api types
-        updatePendingReply(
-            data.reference,
-            data as unknown as PendingReply['comment'],
-        );
+        updatePendingReply(data.reference, data);
         invalidateComments();
 
         if (comment) {
@@ -77,8 +70,7 @@ const CommentInputBottomBar: FC<Props> = ({
         editor.tf.reset();
         invalidateComments();
 
-        // TODO(phase2): drop cast once comments-provider is migrated to @hikka/api types
-        const pendingComment = data as unknown as PendingReply['comment'];
+        const pendingComment = data;
 
         if (comment) {
             if (comment.depth >= MAX_COMMENT_DEPTH) {
@@ -93,15 +85,19 @@ const CommentInputBottomBar: FC<Props> = ({
         }
     };
 
-    const { mutate: mutateEditComment, isPending: isEditPending } = useMutation({
-        ...editCommentMutation(),
-        onSuccess: onEditSuccess,
-    });
+    const { mutate: mutateEditComment, isPending: isEditPending } = useMutation(
+        {
+            ...editCommentMutation(),
+            onSuccess: onEditSuccess,
+        },
+    );
 
-    const { mutate: mutateWriteComment, isPending: isAddPending } = useMutation({
-        ...writeCommentMutation(),
-        onSuccess: onCreateSuccess,
-    });
+    const { mutate: mutateWriteComment, isPending: isAddPending } = useMutation(
+        {
+            ...writeCommentMutation(),
+            onSuccess: onCreateSuccess,
+        },
+    );
 
     const handleCancel = () => {
         clearActive();

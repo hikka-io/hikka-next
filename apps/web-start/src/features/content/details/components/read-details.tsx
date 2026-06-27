@@ -14,7 +14,6 @@ import {
     type MangaInfoResponse,
     type NovelInfoResponse,
 } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
@@ -26,6 +25,7 @@ import {
     RELEASE_STATUS,
 } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
+import { useTitle } from '@/utils/title/use-title';
 
 import DetailItem from './detail-item';
 import SynonymsModal from './synonyms-modal';

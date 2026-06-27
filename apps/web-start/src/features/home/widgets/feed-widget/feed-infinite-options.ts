@@ -13,7 +13,10 @@ type GetFeedClient = Pick<Parameters<typeof getFeed>[0], 'client'>;
  * `the legacy react package` `feedOptions`: it pages with the `before` cursor (ISO date of
  * the last item's `created`) carried in the request body.
  */
-export function feedInfiniteOptions(args: FeedArgs = {}, options?: GetFeedClient) {
+export function feedInfiniteOptions(
+    args: FeedArgs = {},
+    options?: GetFeedClient,
+) {
     return infiniteQueryOptions({
         queryKey: ['feed', { body: args }] as const,
         queryFn: async ({ pageParam, signal }) => {

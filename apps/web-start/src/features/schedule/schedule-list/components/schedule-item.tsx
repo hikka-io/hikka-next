@@ -1,6 +1,4 @@
-import { type ComponentProps, type FC, memo } from 'react';
-
-import { useTitle } from '@/utils/title/use-title';
+import { type FC, memo } from 'react';
 
 import type { AnimeScheduleResponse } from '@hikka/api';
 
@@ -10,6 +8,7 @@ import HorizontalContentCard, {
 } from '@/components/ui/horizontal-content-card';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
+import { useTitle } from '@/utils/title/use-title';
 
 type Props = Omit<HorizontalContentCardProps, 'title' | 'href'> & {
     item: AnimeScheduleResponse;
@@ -45,19 +44,10 @@ const ScheduleItem: FC<Props> = ({ item, ...props }) => {
                     </h5>
                 </div>
 
-                {/* TODO(phase2): drop the casts once WatchlistButton is migrated to @hikka/api types */}
                 <WatchlistButton
                     slug={item.anime.slug}
-                    anime={
-                        item.anime as unknown as ComponentProps<
-                            typeof WatchlistButton
-                        >['anime']
-                    }
-                    watch={
-                        (item.anime.watch[0] ?? null) as ComponentProps<
-                            typeof WatchlistButton
-                        >['watch']
-                    }
+                    anime={item.anime}
+                    watch={item.anime.watch[0] ?? null}
                     size={'icon-sm'}
                 />
             </div>

@@ -48,7 +48,8 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                             )}
                         >
                             {createElement(
-                                READ_STATUS[read.status as ReadStatusEnum].icon!,
+                                READ_STATUS[read.status as ReadStatusEnum]
+                                    .icon!,
                                 {
                                     className: 'size-3!',
                                 },

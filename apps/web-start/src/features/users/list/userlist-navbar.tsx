@@ -1,16 +1,16 @@
 import { type ComponentProps, createElement, type FC, useState } from 'react';
 
-import { useRouter } from '@tanstack/react-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from '@tanstack/react-router';
 import { Filter, PanelRightClose, PanelRightOpen } from 'lucide-react';
 
 import {
-    type AppReadSchemasReadStatsResponse as ReadStatsResponse,
     ContentTypeEnum,
+    type ReadContentTypeEnum,
+    type AppReadSchemasReadStatsResponse as ReadStatsResponse,
+    type ReadStatusEnum,
     randomReadNovelOptions,
     randomWatchEntryOptions,
-    type ReadContentTypeEnum,
-    type ReadStatusEnum,
     userReadStatsOptions,
     userWatchStatsOptions,
     type WatchStatsResponse,
@@ -175,9 +175,9 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                                         const info = STATUSES[key];
                                         const count = listData
                                             ? (
-                                                  listData as unknown as Record<
+                                                  listData as Record<
                                                       string,
-                                                      number
+                                                      number | undefined
                                                   >
                                               )[key]
                                             : undefined;

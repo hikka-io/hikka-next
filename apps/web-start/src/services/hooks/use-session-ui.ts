@@ -4,9 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { profileUiOptions } from '@hikka/api';
 
-import type { UIEffect, UIStyles, UserUI } from '@/types/ui';
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import { DEFAULT_USER_UI, mergeEffects, mergeStyles } from '@/utils/ui';
+import type { UIEffect, UIStyles, UserUI } from '@/types/ui';
 
 interface SessionUI {
     preferences: NonNullable<UserUI['preferences']>;

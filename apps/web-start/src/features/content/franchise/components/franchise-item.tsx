@@ -1,12 +1,11 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import type {
     AnimeResponseWithWatch,
     MangaResponseWithRead,
     NovelResponseWithRead,
+    ReadContentTypeEnum,
 } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useTitle } from '@/utils/title/use-title';
 
 import ReadlistButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';
@@ -18,7 +17,9 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { MEDIA_TYPE } from '@/utils/constants/common';
+import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     content:
@@ -65,18 +66,9 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
             {content.data_type === 'anime' && !preview && (
                 <WatchlistButton
                     slug={content.slug}
-                    // TODO(phase2): drop cast
-                    anime={
-                        content as unknown as ComponentProps<
-                            typeof WatchlistButton
-                        >['anime']
-                    }
-                    // TODO(phase2): drop cast
+                    anime={content as AnimeResponseWithWatch}
                     watch={
-                        ((content as AnimeResponseWithWatch).watch?.[0] ??
-                            null) as ComponentProps<
-                            typeof WatchlistButton
-                        >['watch']
+                        (content as AnimeResponseWithWatch).watch?.[0] ?? null
                     }
                     size="md"
                     disabled={!user}
@@ -84,28 +76,17 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
             )}
             {content.data_type !== 'anime' && !preview && (
                 <ReadlistButton
-                    // TODO(phase2): drop cast
-                    content_type={
-                        content.data_type as ComponentProps<
-                            typeof ReadlistButton
-                        >['content_type']
-                    }
+                    content_type={content.data_type as ReadContentTypeEnum}
                     slug={content.slug}
-                    // TODO(phase2): drop cast
                     content={
-                        content as unknown as ComponentProps<
-                            typeof ReadlistButton
-                        >['content']
+                        content as MangaResponseWithRead | NovelResponseWithRead
                     }
-                    // TODO(phase2): drop cast
                     read={
-                        ((
+                        (
                             content as
                                 | MangaResponseWithRead
                                 | NovelResponseWithRead
-                        ).read?.[0] ?? null) as ComponentProps<
-                            typeof ReadlistButton
-                        >['read']
+                        ).read?.[0] ?? null
                     }
                     size="md"
                     disabled={!user}

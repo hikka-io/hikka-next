@@ -4,8 +4,6 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Check, Trash2, X } from 'lucide-react';
 
-import { useTitle } from '@/utils/title/use-title';
-
 import ContentCard, {
     DEFAULT_CONTAINER_RATIO,
 } from '@/components/content-card/content-card';
@@ -24,6 +22,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import type { Item } from '@/services/stores/collection-store';
 import { cn } from '@/utils/cn';
+import { useTitle } from '@/utils/title/use-title';
 
 type Props = {
     id: string;
@@ -53,7 +52,7 @@ const SortableCardContent = memo<{
         comment: string,
     ) => void;
 }>(({ id, groupId, content, comment, onRemove, onCommentChange }) => {
-    const title = useTitle(content as unknown as Record<string, unknown>);
+    const title = useTitle(content);
     const [commentOpen, setCommentOpen] = useState(false);
     const [draft, setDraft] = useState('');
 

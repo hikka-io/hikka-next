@@ -27,8 +27,7 @@ type Props = {
 const GlobalComment: FC<Props> = ({ comment, href }) => {
     // @hikka/api types content_type as string and preview as an opaque record;
     // narrow them to the shapes this card actually reads.
-    const contentType =
-        comment.content_type as keyof typeof CONTENT_TYPE_LINKS;
+    const contentType = comment.content_type as keyof typeof CONTENT_TYPE_LINKS;
     const preview = comment.preview as { slug?: string; title?: string };
 
     return (

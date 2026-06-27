@@ -5,14 +5,14 @@ import { toast } from 'sonner';
 import { ContentTypeEnum, type ImportReadArgs } from '@hikka/api';
 
 import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
-import {
-    AnilistTypeEnum,
-    useAnilist,
-} from '@/features/settings/list/use-anilist';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
+import {
+    AnilistTypeEnum,
+    useAnilist,
+} from '@/features/settings/list/use-anilist';
 
 import FoundList from '../components/found-list';
 

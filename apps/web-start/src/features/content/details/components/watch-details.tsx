@@ -14,7 +14,6 @@ import {
 } from 'lucide-react';
 
 import { type AnimeInfoResponse, AnimeStatusEnum } from '@hikka/api';
-import { useTitle } from '@/utils/title/use-title';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
@@ -33,6 +32,7 @@ import {
 } from '@/utils/constants/common';
 import { getScheduleDuration } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
+import { useTitle } from '@/utils/title/use-title';
 
 import DetailItem from './detail-item';
 import SynonymsModal from './synonyms-modal';

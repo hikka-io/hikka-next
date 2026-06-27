@@ -1,4 +1,4 @@
-import { ContentTypeEnum } from '@hikka/api';
+import type { ContentTypeEnum } from '@hikka/api';
 
 export interface YearTopContent {
     date: number;

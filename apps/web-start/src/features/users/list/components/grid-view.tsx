@@ -1,7 +1,10 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import {
+    type AnimeResponseWithWatch,
     ContentTypeEnum,
+    type MangaResponseWithRead,
+    type NovelResponseWithRead,
     type ReadResponse,
     type WatchResponse,
 } from '@hikka/api';
@@ -24,32 +27,14 @@ const GridView: FC<Props> = ({ data, content_type, extendedSize = 5 }) => {
                 (data as ReadResponse[]).map((res) =>
                     res.content.data_type === 'manga' ? (
                         <MangaCard
-                            read={
-                                // TODO(phase2): drop cast once content-card is on @hikka/api
-                                res as unknown as ComponentProps<
-                                    typeof MangaCard
-                                >['read']
-                            }
-                            manga={
-                                res.content as unknown as ComponentProps<
-                                    typeof MangaCard
-                                >['manga']
-                            }
+                            read={res}
+                            manga={res.content as MangaResponseWithRead}
                             key={res.reference}
                         />
                     ) : (
                         <NovelCard
-                            read={
-                                // TODO(phase2): drop cast once content-card is on @hikka/api
-                                res as unknown as ComponentProps<
-                                    typeof NovelCard
-                                >['read']
-                            }
-                            novel={
-                                res.content as unknown as ComponentProps<
-                                    typeof NovelCard
-                                >['novel']
-                            }
+                            read={res}
+                            novel={res.content as NovelResponseWithRead}
                             key={res.reference}
                         />
                     ),
@@ -57,17 +42,8 @@ const GridView: FC<Props> = ({ data, content_type, extendedSize = 5 }) => {
             {content_type === ContentTypeEnum.ANIME &&
                 (data as WatchResponse[]).map((res) => (
                     <AnimeCard
-                        watch={
-                            // TODO(phase2): drop cast once content-card is on @hikka/api
-                            res as unknown as ComponentProps<
-                                typeof AnimeCard
-                            >['watch']
-                        }
-                        anime={
-                            res.anime as unknown as ComponentProps<
-                                typeof AnimeCard
-                            >['anime']
-                        }
+                        watch={res}
+                        anime={res.anime as AnimeResponseWithWatch}
                         key={res.reference}
                     />
                 ))}

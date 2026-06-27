@@ -1,4 +1,4 @@
-import { type ComponentProps, type FC, Fragment } from 'react';
+import { type FC, Fragment } from 'react';
 
 import { userHistoryInfiniteOptions } from '@hikka/api';
 
@@ -40,14 +40,7 @@ const History: FC<Props> = ({ className }) => {
                         >
                             #{index + 1}
                         </Badge>
-                        <HistoryItem
-                            data={
-                                // TODO(phase2): drop cast once content-card is on @hikka/api
-                                item as unknown as ComponentProps<
-                                    typeof HistoryItem
-                                >['data']
-                            }
-                        />
+                        <HistoryItem data={item} />
                     </Card>
                 ))}
                 {list?.length === 0 && (

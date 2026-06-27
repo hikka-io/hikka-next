@@ -1,12 +1,12 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { personAnimeInfiniteOptions } from '@hikka/api';
-import { getTitle } from '@/utils/title/get-title';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
+import { getTitle } from '@/utils/title/get-title';
 
 type Props = {
     extended?: boolean;
@@ -34,12 +34,7 @@ const Anime: FC<Props> = ({ extended }) => {
             renderItem={(ch) => (
                 <AnimeCard
                     key={ch.anime.slug}
-                    // TODO(phase2): drop cast
-                    anime={
-                        ch.anime as unknown as ComponentProps<
-                            typeof AnimeCard
-                        >['anime']
-                    }
+                    anime={ch.anime}
                     description={
                         ch.roles[0] ? getTitle(ch.roles[0]) : undefined
                     }

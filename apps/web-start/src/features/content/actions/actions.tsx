@@ -1,10 +1,10 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import ReadListButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useParams } from '@/utils/navigation';
 
 import UserContentStats from './components/user-content-stats';
@@ -28,12 +28,7 @@ const Actions: FC<Props> = ({ content_type }) => {
                     />
                 ) : (
                     <ReadListButton
-                        // TODO(phase2): drop cast once readlist-button reads @hikka/api enum
-                        content_type={
-                            content_type as ComponentProps<
-                                typeof ReadListButton
-                            >['content_type']
-                        }
+                        content_type={content_type}
                         disabled={!user}
                         additional
                         slug={String(params.slug)}

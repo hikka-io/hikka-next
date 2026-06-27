@@ -1,12 +1,12 @@
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useMutation } from '@tanstack/react-query';
 import { changeDescriptionMutation } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({

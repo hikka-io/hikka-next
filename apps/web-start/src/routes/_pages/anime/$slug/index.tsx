@@ -27,14 +27,7 @@ function AnimeDetailPage() {
                         type="application/ld+json"
                         // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD structured data, no user input.
                         dangerouslySetInnerHTML={{
-                            __html: JSON.stringify(
-                            // TODO(phase2): drop cast once anime-schema reads @hikka/api types
-                            animeJsonSchema({
-                                anime: anime as unknown as Parameters<
-                                    typeof animeJsonSchema
-                                >[0]['anime'],
-                            }),
-                        ),
+                            __html: JSON.stringify(animeJsonSchema({ anime })),
                         }}
                     />
                 ) : undefined

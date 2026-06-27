@@ -1,11 +1,9 @@
 import { type FC, useState } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { Settings } from 'lucide-react';
 
-import { useQuery } from '@tanstack/react-query';
-
 import { followStatsOptions } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -15,6 +13,7 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { LoginButton } from '@/features/app-shell';
+import { useSession } from '@/features/auth/hooks/use-session';
 import FollowListModal from '@/features/users/follow-list-modal';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { Link } from '@/utils/navigation';

@@ -1,7 +1,6 @@
 import { type FC, Fragment, memo, useState } from 'react';
 
-import { type ClientResponse } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
+import type { ClientResponse } from '@hikka/api';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import { Button } from '@/components/ui/button';
@@ -11,6 +10,7 @@ import {
     ResponsiveModalHeader,
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 import ClientEditModal from '../client-edit-modal';
 

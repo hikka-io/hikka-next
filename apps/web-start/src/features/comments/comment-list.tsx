@@ -7,7 +7,6 @@ import {
     getContentsListInfiniteOptions,
     threadOptions,
 } from '@hikka/api';
-import { useSession } from '@/features/auth/hooks/use-session';
 
 import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
 import LoadMoreButton from '@/components/load-more-button';
@@ -21,6 +20,7 @@ import {
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import { LoginButton } from '@/features/app-shell';
+import { useSession } from '@/features/auth/hooks/use-session';
 import CommentsProvider from '@/services/providers/comments-provider';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';

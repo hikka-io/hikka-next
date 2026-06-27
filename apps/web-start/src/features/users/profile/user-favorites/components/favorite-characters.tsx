@@ -1,19 +1,19 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import {
     ContentTypeEnum,
     type FavouriteCharacterResponse,
     favouriteListInfiniteOptions,
 } from '@hikka/api';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { getTitle } from '@/utils/title/get-title';
 
 import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
+import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
+import { getTitle } from '@/utils/title/get-title';
 
 type Props = {
     extended?: boolean;
@@ -70,12 +70,7 @@ const Characters: FC<Props> = ({ extended }) => {
                             )}
                             image={res.image}
                             to={`/characters/${res.slug}`}
-                            content_type={
-                                // TODO(phase2): drop cast once content-card is on @hikka/api
-                                ContentTypeEnum.CHARACTER as unknown as ComponentProps<
-                                    typeof ContentCard
-                                >['content_type']
-                            }
+                            content_type={ContentTypeEnum.CHARACTER}
                             slug={res.slug}
                         />
                     ))}

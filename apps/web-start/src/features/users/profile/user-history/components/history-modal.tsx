@@ -1,5 +1,3 @@
-import type { ComponentProps } from 'react';
-
 import { userHistoryInfiniteOptions } from '@hikka/api';
 
 import { HistoryItem } from '@/components/content-card';
@@ -24,15 +22,7 @@ const HistoryModal = ({ className }: Props) => {
     return (
         <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
             {list?.map((item) => (
-                <HistoryItem
-                    data={
-                        // TODO(phase2): drop cast once content-card is on @hikka/api
-                        item as unknown as ComponentProps<
-                            typeof HistoryItem
-                        >['data']
-                    }
-                    key={item.reference}
-                />
+                <HistoryItem data={item} key={item.reference} />
             ))}
             {hasNextPage && (
                 <LoadMoreButton

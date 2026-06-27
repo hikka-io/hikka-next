@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { type UserResponse, searchUsersOptions } from '@hikka/api';
+
+import { searchUsersOptions, type UserResponse } from '@hikka/api';
 
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';

@@ -1,14 +1,16 @@
 import { type FC, memo, type PropsWithChildren } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
+
 import {
     type ContentTypeEnum,
     type PersonAnimeResponse,
-    personAnimeOptions,
     type PersonCharactersResponse,
+    personAnimeOptions,
     personInfoOptions,
     personVoicesOptions,
 } from '@hikka/api';
+
 import { useTitle } from '@/utils/title/use-title';
 
 import MaterialSymbolsMoreHoriz from '../../icons/material-symbols/MaterialSymbolsMoreHoriz';

@@ -2,11 +2,10 @@ import type { FC } from 'react';
 
 import { useRouter } from '@tanstack/react-router';
 
-import { useSession } from '@/features/auth/hooks/use-session';
-
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
