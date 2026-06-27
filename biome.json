@@ -16,8 +16,7 @@
             "!**/.turbo",
             "!**/coverage",
             "!**/public",
-            "!**/routeTree.gen.ts",
-            "!packages/api/src/gen"
+            "!**/routeTree.gen.ts"
         ]
     },
     "formatter": {
@@ -62,6 +61,11 @@
         }
     },
     "overrides": [
+        {
+            "includes": ["packages/api/src/gen/**"],
+            "linter": { "enabled": false },
+            "assist": { "enabled": false }
+        },
         {
             "includes": ["**/components/icons/**", "**/utils/og/**"],
             "linter": {

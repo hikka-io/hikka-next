@@ -253,7 +253,7 @@ export {
     type AuthInfoResponses,
     type AuthTokenInfoPaginationResponse,
     type AuthTokenInfoResponse,
-    type BodyUploadImageUploadUploadTypePut,
+    type BodyUploadImage,
     type ChangeDescriptionData,
     type ChangeDescriptionError,
     type ChangeDescriptionErrors,

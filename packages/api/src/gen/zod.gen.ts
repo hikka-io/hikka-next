@@ -60,7 +60,7 @@ export const zAnimeOstResponse = z.object({
  * AnimeResponse
  */
 export const zAnimeResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('anime'),
     media_type: z.string().nullable(),
     title_ua: z.string().nullable(),
     title_en: z.string().nullable(),
@@ -126,7 +126,7 @@ export const zAnimeVideoResponse = z.object({
  * ArticleAnimeContentResponse
  */
 export const zArticleAnimeContentResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('anime'),
     image: z.string().nullable(),
     title_en: z.string().nullable(),
     title_ua: z.string().nullable(),
@@ -174,7 +174,7 @@ export const zArticleArgs = z.object({
  * ArticleMangaNovelContentResponse
  */
 export const zArticleMangaNovelContentResponse = z.object({
-    data_type: z.string(),
+    data_type: z.enum(['manga', 'novel']),
     image: z.string().nullable(),
     title_en: z.string().nullable(),
     title_ua: z.string().nullable(),
@@ -199,9 +199,9 @@ export const zArticlesListArgs = z.object({
 });
 
 /**
- * Body_upload_image_upload__upload_type__put
+ * Body_upload_image
  */
-export const zBodyUploadImageUploadUploadTypePut = z.object({
+export const zBodyUploadImage = z.object({
     file: z.string(),
 });
 
@@ -209,7 +209,7 @@ export const zBodyUploadImageUploadUploadTypePut = z.object({
  * CharacterCountResponse
  */
 export const zCharacterCountResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('character'),
     name_ua: z.string().nullable(),
     name_en: z.string().nullable(),
     name_ja: z.string().nullable(),
@@ -228,7 +228,7 @@ export const zCharacterCountResponse = z.object({
  * CharacterResponse
  */
 export const zCharacterResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('character'),
     name_ua: z.string().nullable(),
     name_en: z.string().nullable(),
     name_ja: z.string().nullable(),
@@ -460,7 +460,7 @@ export const zExternalResponse = z.object({
  * FavouriteCharacterResponse
  */
 export const zFavouriteCharacterResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('character'),
     favourite_created: z.number().int(),
     name_ua: z.string().nullable(),
     name_en: z.string().nullable(),
@@ -569,7 +569,7 @@ export const zGenreResponse = z.object({
  * AnimeInfoResponse
  */
 export const zAnimeInfoResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('anime'),
     companies: z.array(zAnimeCompanyResponse),
     genres: z.array(zGenreResponse),
     start_date: z.number().int().nullable(),
@@ -764,7 +764,7 @@ export const zMangaMediaEnum = z.enum([
  * MangaResponse
  */
 export const zMangaResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('manga'),
     start_date: z.number().int().nullable(),
     end_date: z.number().int().nullable(),
     created: z.number().int().nullable(),
@@ -831,7 +831,7 @@ export const zNovelMediaEnum = z.enum(['light_novel', 'novel']);
  * NovelResponse
  */
 export const zNovelResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('novel'),
     start_date: z.number().int().nullable(),
     end_date: z.number().int().nullable(),
     created: z.number().int().nullable(),
@@ -959,7 +959,7 @@ export const zPasswordArgs = z.object({
  * PersonCountResponse
  */
 export const zPersonCountResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('person'),
     name_native: z.string().nullable(),
     name_ua: z.string().nullable(),
     name_en: z.string().nullable(),
@@ -978,7 +978,7 @@ export const zPersonCountResponse = z.object({
  * PersonResponse
  */
 export const zPersonResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('person'),
     name_native: z.string().nullable(),
     name_ua: z.string().nullable(),
     name_en: z.string().nullable(),
@@ -1081,7 +1081,7 @@ export const zReadResponseBase = z.object({
  * FavouriteMangaResponse
  */
 export const zFavouriteMangaResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('manga'),
     favourite_created: z.number().int(),
     start_date: z.number().int().nullable(),
     end_date: z.number().int().nullable(),
@@ -1110,7 +1110,7 @@ export const zFavouriteMangaResponse = z.object({
  * FavouriteNovelResponse
  */
 export const zFavouriteNovelResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('novel'),
     favourite_created: z.number().int(),
     start_date: z.number().int().nullable(),
     end_date: z.number().int().nullable(),
@@ -1139,7 +1139,7 @@ export const zFavouriteNovelResponse = z.object({
  * MangaResponseWithRead
  */
 export const zMangaResponseWithRead = z.object({
-    data_type: z.string(),
+    data_type: z.literal('manga'),
     start_date: z.number().int().nullable(),
     end_date: z.number().int().nullable(),
     created: z.number().int().nullable(),
@@ -1191,7 +1191,7 @@ export const zMangaPaginationResponse = z.object({
  * NovelResponseWithRead
  */
 export const zNovelResponseWithRead = z.object({
-    data_type: z.string(),
+    data_type: z.literal('novel'),
     start_date: z.number().int().nullable(),
     end_date: z.number().int().nullable(),
     created: z.number().int().nullable(),
@@ -1428,7 +1428,7 @@ export const zTagResponse = z.object({
  * ArticleDocumentResponse
  */
 export const zArticleDocumentResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('article'),
     author: zFollowUserResponse,
     tags: z.array(zTagResponse),
     created: z.number().int(),
@@ -1455,7 +1455,7 @@ export const zArticleDocumentResponse = z.object({
  * ArticlePreviewResponse
  */
 export const zArticlePreviewResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('article'),
     author: zFollowUserResponse,
     tags: z.array(zTagResponse),
     created: z.number().int(),
@@ -1983,7 +1983,7 @@ export const zClientPaginationResponse = z.object({
  * CommentResponse
  */
 export const zCommentResponse: z.AnyZodObject = z.object({
-    data_type: z.string(),
+    data_type: z.literal('comment'),
     replies: z
         .array(z.lazy(() => zCommentResponse))
         .optional()
@@ -2017,7 +2017,7 @@ export const zCommentListResponse = z.object({
  * CommentResponseFeed
  */
 export const zCommentResponseFeed = z.object({
-    data_type: z.string(),
+    data_type: z.literal('comment'),
     replies: z.array(zCommentResponse).optional().default([]),
     review: zReviewResponse.nullish(),
     total_replies: z.number().int().optional().default(0),
@@ -2292,7 +2292,7 @@ export const zWatchResponseBase = z.object({
  * AnimeResponseWithSynopsis
  */
 export const zAnimeResponseWithSynopsis = z.object({
-    data_type: z.string(),
+    data_type: z.literal('anime'),
     media_type: z.string().nullable(),
     title_ua: z.string().nullable(),
     title_en: z.string().nullable(),
@@ -2325,7 +2325,7 @@ export const zAnimeResponseWithSynopsis = z.object({
  * AnimeResponseWithWatch
  */
 export const zAnimeResponseWithWatch = z.object({
-    data_type: z.string(),
+    data_type: z.literal('anime'),
     media_type: z.string().nullable(),
     title_ua: z.string().nullable(),
     title_en: z.string().nullable(),
@@ -2432,7 +2432,7 @@ export const zCollectionContentResponse = z.object({
  * CollectionResponse
  */
 export const zCollectionResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('collection'),
     visibility: zCollectionVisibilityEnum,
     author: zFollowUserResponse,
     labels_order: z.array(z.string()),
@@ -2464,7 +2464,7 @@ export const zCollectionsListResponse = z.object({
  * FavouriteAnimeResponse
  */
 export const zFavouriteAnimeResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('anime'),
     favourite_created: z.number().int(),
     media_type: z.string().nullable(),
     title_ua: z.string().nullable(),
@@ -2496,7 +2496,7 @@ export const zFavouriteAnimeResponse = z.object({
  * FavouriteCollectionResponse
  */
 export const zFavouriteCollectionResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('collection'),
     favourite_created: z.number().int(),
     visibility: zCollectionVisibilityEnum,
     author: zFollowUserResponse,
@@ -2837,7 +2837,7 @@ export const zContentAuthorResponse = z.object({
  * MangaInfoResponse
  */
 export const zMangaInfoResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('manga'),
     authors: z.array(zContentAuthorResponse),
     magazines: z.array(zMagazineResponse),
     external: z.array(zExternalResponse),
@@ -2875,7 +2875,7 @@ export const zMangaInfoResponse = z.object({
  * NovelInfoResponse
  */
 export const zNovelInfoResponse = z.object({
-    data_type: z.string(),
+    data_type: z.literal('novel'),
     authors: z.array(zContentAuthorResponse),
     magazines: z.array(zMagazineResponse),
     external: z.array(zExternalResponse),
@@ -2968,7 +2968,7 @@ export const zMalContentPath = z.object({
 });
 
 /**
- * Response Mal Content Integrations Mal  Content Type   Mal Id  Get
+ * Response Mal Content
  *
  * Successful Response
  */
@@ -2985,7 +2985,7 @@ export const zMalContentListPath = z.object({
 });
 
 /**
- * Response Mal Content List Integrations Mal  Content Type  Post
+ * Response Mal Content List
  *
  * Successful Response
  */
@@ -3446,7 +3446,7 @@ export const zDeleteUserReadPath = z.object({
 export const zDeleteUserReadResponse = zSuccessResponse;
 
 /**
- * Response Latest Comments Comments Latest Get
+ * Response Latest Comments
  *
  * Successful Response
  */
@@ -3684,7 +3684,7 @@ export const zUserHistoryResponse = zHistoryPaginationResponse;
  */
 export const zGenresResponse = zGenreListResponse;
 
-export const zUploadImageBody = zBodyUploadImageUploadUploadTypePut;
+export const zUploadImageBody = zBodyUploadImage;
 
 export const zUploadImageHeaders = z.object({
     auth: z.string().nullish(),
@@ -4360,7 +4360,7 @@ export const zRandomReadNovelPath = z.object({
 });
 
 /**
- * Response Random Read Novel Read  Content Type  Random  Username   Status  Get
+ * Response Random Read Novel
  *
  * Successful Response
  */
@@ -4422,7 +4422,7 @@ export const zServiceUserActivityPath = z.object({
 });
 
 /**
- * Response Service User Activity User  Username  Activity Get
+ * Response Service User Activity
  *
  * Successful Response
  */
@@ -4449,7 +4449,7 @@ export const zUserUiResponse = zUserCustomizationResponse;
 export const zSearchUsersBody = zQuerySearchRequiredArgs;
 
 /**
- * Response Search Users User List Post
+ * Response Search Users
  *
  * Successful Response
  */
@@ -4694,7 +4694,7 @@ export const zGetContentEditTodoQuery = z.object({
 });
 
 /**
- * Response Get Content Edit Todo Edit Todo  Content Type   Todo Type  Get
+ * Response Get Content Edit Todo
  *
  * Successful Response
  */
@@ -4741,7 +4741,7 @@ export const zGetFeedHeaders = z.object({
 });
 
 /**
- * Response Get Feed Feed Post
+ * Response Get Feed
  *
  * Successful Response
  */

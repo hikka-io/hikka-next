@@ -85,10 +85,7 @@ export type AnimeEpisodesListResponse = {
  * AnimeInfoResponse
  */
 export type AnimeInfoResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'anime';
     /**
      * Companies
      */
@@ -297,10 +294,7 @@ export type AnimePaginationResponse = {
  * AnimeResponse
  */
 export type AnimeResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'anime';
     /**
      * Media Type
      */
@@ -399,10 +393,7 @@ export type AnimeResponse = {
  * AnimeResponseWithSynopsis
  */
 export type AnimeResponseWithSynopsis = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'anime';
     /**
      * Media Type
      */
@@ -513,10 +504,7 @@ export type AnimeResponseWithSynopsis = {
  * AnimeResponseWithWatch
  */
 export type AnimeResponseWithWatch = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'anime';
     /**
      * Media Type
      */
@@ -929,10 +917,7 @@ export type AnimeWatchSearchArgs = {
  * ArticleAnimeContentResponse
  */
 export type ArticleAnimeContentResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'anime';
     /**
      * Image
      */
@@ -1031,10 +1016,7 @@ export type ArticleContentEnum =
  * ArticleDocumentResponse
  */
 export type ArticleDocumentResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'article';
     author: FollowUserResponse;
     /**
      * Tags
@@ -1103,10 +1085,7 @@ export type ArticleDocumentResponse = {
  * ArticleMangaNovelContentResponse
  */
 export type ArticleMangaNovelContentResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'manga' | 'novel';
     /**
      * Image
      */
@@ -1133,10 +1112,7 @@ export type ArticleMangaNovelContentResponse = {
  * ArticlePreviewResponse
  */
 export type ArticlePreviewResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'article';
     author: FollowUserResponse;
     /**
      * Tags
@@ -1311,9 +1287,9 @@ export type AuthTokenInfoResponse = {
 };
 
 /**
- * Body_upload_image_upload__upload_type__put
+ * Body_upload_image
  */
-export type BodyUploadImageUploadUploadTypePut = {
+export type BodyUploadImage = {
     /**
      * File
      */
@@ -1346,10 +1322,7 @@ export type CharacterAnimeResponse = {
  * CharacterCountResponse
  */
 export type CharacterCountResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'character';
     /**
      * Name Ua
      */
@@ -1448,10 +1421,7 @@ export type CharacterNovelResponse = {
  * CharacterResponse
  */
 export type CharacterResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'character';
     /**
      * Name Ua
      */
@@ -1750,10 +1720,7 @@ export type CollectionContentResponse = {
  * CollectionResponse
  */
 export type CollectionResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'collection';
     visibility: CollectionVisibilityEnum;
     author: FollowUserResponse;
     /**
@@ -1901,10 +1868,7 @@ export type CommentListResponse = {
  * CommentResponse
  */
 export type CommentResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'comment';
     /**
      * Replies
      */
@@ -1971,10 +1935,7 @@ export type CommentResponse = {
  * CommentResponseFeed
  */
 export type CommentResponseFeed = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'comment';
     /**
      * Replies
      */
@@ -2547,10 +2508,7 @@ export type ExternalResponse = {
  * FavouriteAnimeResponse
  */
 export type FavouriteAnimeResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'anime';
     /**
      * Favourite Created
      */
@@ -2657,10 +2615,7 @@ export type FavouriteAnimeResponse = {
  * FavouriteCharacterResponse
  */
 export type FavouriteCharacterResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'character';
     /**
      * Favourite Created
      */
@@ -2695,10 +2650,7 @@ export type FavouriteCharacterResponse = {
  * FavouriteCollectionResponse
  */
 export type FavouriteCollectionResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'collection';
     /**
      * Favourite Created
      */
@@ -2788,10 +2740,7 @@ export type FavouriteContentTypeEnum =
  * FavouriteMangaResponse
  */
 export type FavouriteMangaResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'manga';
     /**
      * Favourite Created
      */
@@ -2886,10 +2835,7 @@ export type FavouriteMangaResponse = {
  * FavouriteNovelResponse
  */
 export type FavouriteNovelResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'novel';
     /**
      * Favourite Created
      */
@@ -3492,10 +3438,7 @@ export type MagazineResponse = {
  * MangaInfoResponse
  */
 export type MangaInfoResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'manga';
     /**
      * Authors
      */
@@ -3651,10 +3594,7 @@ export type MangaPaginationResponse = {
  * MangaResponse
  */
 export type MangaResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'manga';
     /**
      * Start Date
      */
@@ -3741,10 +3681,7 @@ export type MangaResponse = {
  * MangaResponseWithRead
  */
 export type MangaResponseWithRead = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'manga';
     /**
      * Start Date
      */
@@ -3931,10 +3868,7 @@ export type NotificationUnseenResponse = {
  * NovelInfoResponse
  */
 export type NovelInfoResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'novel';
     /**
      * Authors
      */
@@ -4083,10 +4017,7 @@ export type NovelPaginationResponse = {
  * NovelResponse
  */
 export type NovelResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'novel';
     /**
      * Start Date
      */
@@ -4173,10 +4104,7 @@ export type NovelResponse = {
  * NovelResponseWithRead
  */
 export type NovelResponseWithRead = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'novel';
     /**
      * Start Date
      */
@@ -4404,10 +4332,7 @@ export type PersonCharactersResponse = {
  * PersonCountResponse
  */
 export type PersonCountResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'person';
     /**
      * Name Native
      */
@@ -4506,10 +4431,7 @@ export type PersonNovelResponse = {
  * PersonResponse
  */
 export type PersonResponse = {
-    /**
-     * Data Type
-     */
-    data_type: string;
+    data_type: 'person';
     /**
      * Name Native
      */
@@ -6418,7 +6340,7 @@ export type MalContentError = MalContentErrors[keyof MalContentErrors];
 
 export type MalContentResponses = {
     /**
-     * Response Mal Content Integrations Mal  Content Type   Mal Id  Get
+     * Response Mal Content
      *
      * Successful Response
      */
@@ -6448,7 +6370,7 @@ export type MalContentListError =
 
 export type MalContentListResponses = {
     /**
-     * Response Mal Content List Integrations Mal  Content Type  Post
+     * Response Mal Content List
      *
      * Successful Response
      */
@@ -7760,7 +7682,7 @@ export type LatestCommentsData = {
 
 export type LatestCommentsResponses = {
     /**
-     * Response Latest Comments Comments Latest Get
+     * Response Latest Comments
      *
      * Successful Response
      */
@@ -8409,7 +8331,7 @@ export type GenresResponses = {
 export type GenresResponse = GenresResponses[keyof GenresResponses];
 
 export type UploadImageData = {
-    body: BodyUploadImageUploadUploadTypePut;
+    body: BodyUploadImage;
     headers?: {
         /**
          * Auth
@@ -10282,7 +10204,7 @@ export type RandomReadNovelError =
 
 export type RandomReadNovelResponses = {
     /**
-     * Response Random Read Novel Read  Content Type  Random  Username   Status  Get
+     * Response Random Read Novel
      *
      * Successful Response
      */
@@ -10456,7 +10378,7 @@ export type ServiceUserActivityError =
 
 export type ServiceUserActivityResponses = {
     /**
-     * Response Service User Activity User  Username  Activity Get
+     * Response Service User Activity
      *
      * Successful Response
      */
@@ -10545,7 +10467,7 @@ export type SearchUsersError = SearchUsersErrors[keyof SearchUsersErrors];
 
 export type SearchUsersResponses = {
     /**
-     * Response Search Users User List Post
+     * Response Search Users
      *
      * Successful Response
      */
@@ -11247,7 +11169,7 @@ export type GetContentEditTodoError =
 
 export type GetContentEditTodoResponses = {
     /**
-     * Response Get Content Edit Todo Edit Todo  Content Type   Todo Type  Get
+     * Response Get Content Edit Todo
      *
      * Successful Response
      */
@@ -11358,7 +11280,7 @@ export type GetFeedError = GetFeedErrors[keyof GetFeedErrors];
 
 export type GetFeedResponses = {
     /**
-     * Response Get Feed Feed Post
+     * Response Get Feed
      *
      * Successful Response
      */

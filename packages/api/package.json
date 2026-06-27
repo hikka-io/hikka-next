@@ -11,7 +11,7 @@
         "prebuild": "pnpm build:clean",
         "dev": "tsup --watch",
         "api:spec": "tsx scripts/sync-spec.ts",
-        "api:generate": "openapi-ts",
+        "api:generate": "openapi-ts && biome format --write src/gen",
         "test": "jest",
         "lint": "biome lint .",
         "format": "biome format --write .",

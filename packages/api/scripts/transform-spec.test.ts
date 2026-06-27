@@ -45,4 +45,41 @@ describe('transformSpec', () => {
             'Character Info',
         );
     });
+
+    it('narrows data_type to a const literal per mapped schema', () => {
+        const spec = {
+            paths: {},
+            components: {
+                schemas: {
+                    AnimeResponse: {
+                        properties: {
+                            data_type: { type: 'string', title: 'Data Type' },
+                            slug: { type: 'string' },
+                        },
+                    },
+                    ArticleMangaNovelContentResponse: {
+                        properties: {
+                            data_type: { type: 'string', title: 'Data Type' },
+                        },
+                    },
+                    SomeOtherSchema: {
+                        properties: { name: { type: 'string' } },
+                    },
+                },
+            },
+        };
+        const out = transformSpec(spec);
+        const schemas = out.components.schemas;
+        expect(schemas.AnimeResponse.properties.data_type).toEqual({
+            type: 'string',
+            const: 'anime',
+        });
+        expect(
+            schemas.ArticleMangaNovelContentResponse.properties.data_type,
+        ).toEqual({ type: 'string', enum: ['manga', 'novel'] });
+        // untouched: schema without data_type
+        expect(schemas.SomeOtherSchema.properties.name).toEqual({
+            type: 'string',
+        });
+    });
 });
