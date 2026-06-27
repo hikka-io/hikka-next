@@ -1,6 +1,10 @@
 import { type FC, useId, useState } from 'react';
 
-import { ArticleCategoryEnum, ContentTypeEnum } from '@hikka/api';
+import {
+    ArticleCategoryEnum,
+    ContentTypeEnum,
+    type UiFeedSettings,
+} from '@hikka/api';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { Button } from '@/components/ui/button';
@@ -16,13 +20,22 @@ import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
     CONTENT_TYPES,
 } from '@/utils/constants/common';
-import type {
-    FeedCollectionContentType as CollectionContentType,
-    FeedCommentContentType as CommentsContentType,
-    FeedArticleCategory,
-    FeedArticleContentType,
-    FeedContentType,
-} from '@/types/ui';
+
+type CollectionContentType = NonNullable<
+    UiFeedSettings['collection_content_types']
+>[number];
+type CommentsContentType = NonNullable<
+    UiFeedSettings['comment_content_types']
+>[number];
+type FeedArticleContentType = NonNullable<
+    UiFeedSettings['article_content_types']
+>[number];
+type FeedArticleCategory = NonNullable<
+    UiFeedSettings['article_categories']
+>[number];
+type FeedContentType = NonNullable<
+    UiFeedSettings['feed_content_types']
+>[number];
 
 export interface FeedSubTypeFilters {
     feed_content_types: FeedContentType[] | null;

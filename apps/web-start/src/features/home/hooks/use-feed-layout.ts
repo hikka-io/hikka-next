@@ -1,16 +1,17 @@
 import { useMemo } from 'react';
 
+import type { UiFeedWidget } from '@hikka/api';
+
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useSessionUI } from '@/services/hooks/use-session-ui';
-import type { UIFeedWidget, UIFeedWidgetSlug } from '@/types/ui';
 
-import { WIDGET_REGISTRY } from '../constants';
+import { type SupportedWidgetSlug, WIDGET_REGISTRY } from '../constants';
 import { groupBySide } from '../utils';
 
 export interface FeedLayoutData {
-    left: UIFeedWidget[];
-    center: UIFeedWidget[];
-    right: UIFeedWidget[];
+    left: UiFeedWidget[];
+    center: UiFeedWidget[];
+    right: UiFeedWidget[];
 }
 
 export function useFeedLayout(): FeedLayoutData {
@@ -20,7 +21,7 @@ export function useFeedLayout(): FeedLayoutData {
 
     return useMemo(() => {
         const filtered = widgets.filter((w) => {
-            const meta = WIDGET_REGISTRY[w.slug as UIFeedWidgetSlug];
+            const meta = WIDGET_REGISTRY[w.slug as SupportedWidgetSlug];
             if (!meta) return false;
             if (meta.authRequired && !user) return false;
             return true;

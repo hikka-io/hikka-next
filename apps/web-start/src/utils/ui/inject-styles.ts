@@ -1,11 +1,11 @@
 import type { CSSProperties } from 'react';
 
-import type { HSLColor, UIColorTokens, UIStyles } from '@/types/ui';
+import type { HslColor, UiColorTokens, UiStylesOutput } from '@hikka/api';
 
 export const STYLE_ELEMENT_ID = 'user-styles';
 
 /** Valid color token keys — shared with merge.ts for diff filtering. */
-export const ALLOWED_COLOR_TOKENS = new Set<keyof UIColorTokens>([
+export const ALLOWED_COLOR_TOKENS = new Set<keyof UiColorTokens>([
     'background',
     'foreground',
     'primary',
@@ -41,7 +41,7 @@ function keyToKebab(str: string): string {
 type CSSVarStyle = CSSProperties & Record<string, string | number>;
 
 /** Validate HSL color has finite numbers in valid ranges. */
-function isValidHSL(color: HSLColor): boolean {
+function isValidHSL(color: HslColor): boolean {
     return (
         typeof color.h === 'number' &&
         Number.isFinite(color.h) &&
@@ -116,20 +116,20 @@ function sanitizeCSSGradient(value: string): string | undefined {
     return trimmed;
 }
 
-/** Convert UIColorTokens to CSS variable declarations with sanitization. */
-function colorTokensToCSS(tokens: UIColorTokens | undefined): string {
+/** Convert UiColorTokens to CSS variable declarations with sanitization. */
+function colorTokensToCSS(tokens: UiColorTokens | null | undefined): string {
     if (!tokens) return '';
 
     const declarations: string[] = [];
 
     for (const [key, value] of Object.entries(tokens)) {
-        if (!ALLOWED_COLOR_TOKENS.has(key as keyof UIColorTokens)) continue;
+        if (!ALLOWED_COLOR_TOKENS.has(key as keyof UiColorTokens)) continue;
         if (value === undefined || value === null) continue;
 
         const cssVarName = `--${keyToKebab(key)}`;
 
         if (typeof value === 'object' && value?.h !== undefined) {
-            if (!isValidHSL(value as HSLColor)) continue;
+            if (!isValidHSL(value as HslColor)) continue;
             declarations.push(
                 `${cssVarName}: hsl(${value.h} ${value.s}% ${value.l}%);`,
             );
@@ -143,21 +143,21 @@ function colorTokensToCSS(tokens: UIColorTokens | undefined): string {
     return declarations.join('\n    ');
 }
 
-/** Convert UIColorTokens to React style object with sanitization. */
+/** Convert UiColorTokens to React style object with sanitization. */
 function colorTokensToReactStyle(
-    tokens: UIColorTokens | undefined,
+    tokens: UiColorTokens | null | undefined,
 ): CSSVarStyle {
     const style: CSSVarStyle = {};
     if (!tokens) return style;
 
     for (const [key, value] of Object.entries(tokens)) {
-        if (!ALLOWED_COLOR_TOKENS.has(key as keyof UIColorTokens)) continue;
+        if (!ALLOWED_COLOR_TOKENS.has(key as keyof UiColorTokens)) continue;
         if (value === undefined || value === null) continue;
 
         const cssVarName = `--${keyToKebab(key)}`;
 
         if (typeof value === 'object' && value?.h !== undefined) {
-            if (!isValidHSL(value as HSLColor)) continue;
+            if (!isValidHSL(value as HslColor)) continue;
             style[cssVarName] = `hsl(${value.h} ${value.s}% ${value.l}%)`;
         } else if (typeof value === 'string' && value !== '') {
             const sanitized = sanitizeCSSColor(value);
@@ -169,8 +169,8 @@ function colorTokensToReactStyle(
     return style;
 }
 
-/** Convert UIStyles to CSS string with :root and .dark selectors. */
-export function stylesToCSS(styles: UIStyles | undefined): string {
+/** Convert UiStylesOutput to CSS string with :root and .dark selectors. */
+export function stylesToCSS(styles: UiStylesOutput | undefined): string {
     if (!styles) return '';
 
     const parts: string[] = [];
@@ -222,10 +222,10 @@ export function stylesToCSS(styles: UIStyles | undefined): string {
 }
 
 /**
- * Convert UIStyles to React style objects with CSS variables.
+ * Convert UiStylesOutput to React style objects with CSS variables.
  * Returns separate objects for light (root) and dark themes.
  */
-export function stylesToReactStyles(styles: UIStyles | undefined): {
+export function stylesToReactStyles(styles: UiStylesOutput | undefined): {
     root: CSSVarStyle;
     dark: CSSVarStyle;
 } {
@@ -291,9 +291,9 @@ export function removeInjectedStyles(): void {
 }
 
 /**
- * Convert UIStyles and inject into document (client-side).
+ * Convert UiStylesOutput and inject into document (client-side).
  */
-export function applyStyles(styles: UIStyles | undefined): void {
+export function applyStyles(styles: UiStylesOutput | undefined): void {
     const css = stylesToCSS(styles);
 
     if (css) {

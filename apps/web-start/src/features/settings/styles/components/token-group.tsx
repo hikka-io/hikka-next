@@ -1,14 +1,15 @@
+import type { HslColor, UiColorTokens } from '@hikka/api';
+
 import { Label } from '@/components/ui/label';
-import type { HSLColor, UIColorTokens } from '@/types/ui';
 
 import ColorTokenButton from './color-token-button';
 
 type TokenGroupProps = {
     title: string;
-    tokens: (keyof UIColorTokens)[];
+    tokens: (keyof UiColorTokens)[];
     keyPrefix: string;
-    getColor: (token: keyof UIColorTokens) => HSLColor | undefined;
-    onColorChange: (token: keyof UIColorTokens, color: HSLColor) => void;
+    getColor: (token: keyof UiColorTokens) => HslColor | undefined;
+    onColorChange: (token: keyof UiColorTokens, color: HslColor) => void;
 };
 
 const TokenGroup = ({

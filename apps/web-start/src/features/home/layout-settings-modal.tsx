@@ -22,6 +22,8 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, Plus, Smartphone, X } from 'lucide-react';
 
+import type { UiFeedWidget } from '@hikka/api';
+
 import { Button } from '@/components/ui/button';
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Label } from '@/components/ui/label';
@@ -36,14 +38,17 @@ import {
 import { useSessionUI } from '@/services/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
 import { cn } from '@/utils/cn';
-import type {
-    UIFeedWidget,
-    UIFeedWidgetSide,
-    UIFeedWidgetSlug,
-} from '@/types/ui';
 
-import { ALL_WIDGET_SLUGS, WIDGET_REGISTRY } from './constants';
+import {
+    ALL_WIDGET_SLUGS,
+    type SupportedWidgetSlug,
+    WIDGET_REGISTRY,
+} from './constants';
 import { COLUMNS, groupBySide } from './utils';
+
+type UIFeedWidget = UiFeedWidget;
+type UIFeedWidgetSide = UiFeedWidget['side'];
+type UIFeedWidgetSlug = UiFeedWidget['slug'];
 
 // --- Preset types & helpers ---
 
@@ -279,7 +284,7 @@ const SortableWidgetItem: FC<{
         opacity: isDragging ? 0.5 : 1,
     };
 
-    const meta = WIDGET_REGISTRY[widget.slug];
+    const meta = WIDGET_REGISTRY[widget.slug as SupportedWidgetSlug];
 
     return (
         <div
@@ -419,7 +424,7 @@ const LayoutSettingsContent = () => {
     };
 
     const handleAdd = (slug: UIFeedWidgetSlug) => {
-        const meta = WIDGET_REGISTRY[slug];
+        const meta = WIDGET_REGISTRY[slug as SupportedWidgetSlug];
         const side = resolveSide(meta.defaultSide, activeColumns);
         persist([...widgetsRef.current, { slug, side, order: 0 }]);
     };

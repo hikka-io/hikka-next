@@ -1,13 +1,14 @@
+import type { UiColorTokens, UiStylesOutput } from '@hikka/api';
+
 import { DEFAULT_STYLES } from '@/utils/ui';
-import type { UIColorTokens, UIStyles } from '@/types/ui';
 
 export type ColorPreset = {
     name: string;
     color: string;
-    styles: UIStyles;
+    styles: UiStylesOutput;
 };
 
-const createPrimaryPreset = (h: number): UIStyles => ({
+const createPrimaryPreset = (h: number): UiStylesOutput => ({
     light: {
         colors: {
             primary: { h, s: 100, l: 95 },
@@ -40,7 +41,7 @@ export const COLOR_PRESETS: ColorPreset[] = [
     { name: 'Бірюзовий', color: '#63e8e8', styles: createPrimaryPreset(180) },
 ];
 
-export const COLOR_TOKEN_LABELS: Record<keyof UIColorTokens, string> = {
+export const COLOR_TOKEN_LABELS: Record<keyof UiColorTokens, string> = {
     primary: 'Основний',
     primary_foreground: 'Текст основного',
     primary_border: 'Рамка основного',
@@ -65,13 +66,13 @@ export const COLOR_TOKEN_LABELS: Record<keyof UIColorTokens, string> = {
     sidebar_background: 'Фон бокової панелі',
 };
 
-export const PRIMARY_TOKENS: (keyof UIColorTokens)[] = [
+export const PRIMARY_TOKENS: (keyof UiColorTokens)[] = [
     'primary',
     'primary_foreground',
     'primary_border',
 ];
 
-export const SURFACE_TOKENS: (keyof UIColorTokens)[] = [
+export const SURFACE_TOKENS: (keyof UiColorTokens)[] = [
     'background',
     'foreground',
     'secondary',
@@ -80,7 +81,7 @@ export const SURFACE_TOKENS: (keyof UIColorTokens)[] = [
     'muted_foreground',
 ];
 
-export const UI_TOKENS: (keyof UIColorTokens)[] = [
+export const UI_TOKENS: (keyof UiColorTokens)[] = [
     'accent_foreground',
     'border',
     'ring',
@@ -88,7 +89,7 @@ export const UI_TOKENS: (keyof UIColorTokens)[] = [
     'popover_foreground',
 ];
 
-export const SIDEBAR_TOKENS: (keyof UIColorTokens)[] = [
+export const SIDEBAR_TOKENS: (keyof UiColorTokens)[] = [
     'sidebar_background',
     'sidebar_foreground',
     'sidebar_primary',
@@ -99,7 +100,7 @@ export const SIDEBAR_TOKENS: (keyof UIColorTokens)[] = [
     'sidebar_ring',
 ];
 
-export const PREVIEW_COLOR_TOKENS: (keyof UIColorTokens)[] = [
+export const PREVIEW_COLOR_TOKENS: (keyof UiColorTokens)[] = [
     'primary',
     'primary_foreground',
     'primary_border',

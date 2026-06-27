@@ -2,28 +2,29 @@ import { type FC, useMemo, useRef, useState } from 'react';
 
 import { Settings2 } from 'lucide-react';
 
+import type { UiFeedWidget } from '@hikka/api';
+
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
-import type { UIFeedWidget, UIFeedWidgetSlug } from '@/types/ui';
 
-import { WIDGET_REGISTRY } from './constants';
+import { type SupportedWidgetSlug, WIDGET_REGISTRY } from './constants';
 import { useFeedLayout } from './hooks/use-feed-layout';
 import { useOpenLayoutSettings } from './hooks/use-open-layout-settings';
 
-const WidgetRenderer: FC<{ widget: UIFeedWidget; isLast?: boolean }> = ({
+const WidgetRenderer: FC<{ widget: UiFeedWidget; isLast?: boolean }> = ({
     widget,
     isLast,
 }) => {
-    const meta = WIDGET_REGISTRY[widget.slug as UIFeedWidgetSlug];
+    const meta = WIDGET_REGISTRY[widget.slug as SupportedWidgetSlug];
     if (!meta) return null;
     const WidgetComponent = meta.component;
     return <WidgetComponent side={widget.side} isLast={isLast} />;
 };
 
-const WidgetColumn: FC<{ widgets: UIFeedWidget[]; className?: string }> = ({
+const WidgetColumn: FC<{ widgets: UiFeedWidget[]; className?: string }> = ({
     widgets,
     className,
 }) => (
@@ -39,7 +40,7 @@ const WidgetColumn: FC<{ widgets: UIFeedWidget[]; className?: string }> = ({
 );
 
 const SidebarWidgetTabs: FC<{
-    widgets: UIFeedWidget[];
+    widgets: UiFeedWidget[];
     settingsButton: React.ReactNode;
 }> = ({ widgets, settingsButton }) => {
     const [activeTab, setActiveTab] = useState<string | undefined>();
@@ -70,7 +71,7 @@ const SidebarWidgetTabs: FC<{
                 >
                     {widgets.map((w) => {
                         const meta =
-                            WIDGET_REGISTRY[w.slug as UIFeedWidgetSlug];
+                            WIDGET_REGISTRY[w.slug as SupportedWidgetSlug];
                         return (
                             <TabsTrigger key={w.slug} value={w.slug}>
                                 {meta?.title}

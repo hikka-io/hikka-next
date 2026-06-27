@@ -1,8 +1,11 @@
 import { ReactElement, ReactNode, SVGProps } from 'react';
 
-import type { ContentTypeEnum, UserRoleEnum } from '@hikka/api';
-
-import type { UIEffect, UIStyles } from '@/types/ui';
+import type {
+    ContentTypeEnum,
+    UiPreferencesOutput,
+    UiStylesOutput,
+    UserRoleEnum,
+} from '@hikka/api';
 
 declare global {
     namespace Hikka {
@@ -189,8 +192,8 @@ declare global {
         type EventTheme = {
             id: string;
             name: string;
-            styles?: UIStyles;
-            effects?: UIEffect[];
+            styles?: UiStylesOutput;
+            effects?: NonNullable<UiPreferencesOutput['effect']>[];
             startDate: Date;
             endDate: Date;
         };

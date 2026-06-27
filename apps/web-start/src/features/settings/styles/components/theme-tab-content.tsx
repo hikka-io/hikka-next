@@ -1,5 +1,7 @@
 import { useRef } from 'react';
 
+import type { HslColor, UiColorTokens } from '@hikka/api';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -10,7 +12,6 @@ import {
     UI_TOKENS,
 } from '@/utils/constants/styles';
 import { DEFAULT_STYLES } from '@/utils/ui';
-import type { HSLColor, UIColorTokens } from '@/types/ui';
 
 import { useStylesEditor } from './custom-colors-modal';
 import PresetButtons from './preset-buttons';
@@ -27,11 +28,12 @@ const ThemeTabContent = ({ theme }: ThemeTabContentProps) => {
     const setBody = useStylesEditor((state) => state.setBody);
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    const getColor = (token: keyof UIColorTokens) =>
+    const getColor = (token: keyof UiColorTokens) =>
         styles?.[theme]?.colors?.[token] ??
-        DEFAULT_STYLES[theme]?.colors?.[token];
+        DEFAULT_STYLES[theme]?.colors?.[token] ??
+        undefined;
 
-    const handleColorChange = (token: keyof UIColorTokens, color: HSLColor) => {
+    const handleColorChange = (token: keyof UiColorTokens, color: HslColor) => {
         setColorToken(theme, token, color);
     };
 

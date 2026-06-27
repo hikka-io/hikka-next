@@ -3,17 +3,18 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
     changeUiMutation,
     profileUiQueryKey,
+    type UiFeedSettings,
     type UserCustomizationArgs,
+    type UserCustomizationResponse,
 } from '@hikka/api';
 
 import { DEFAULT_USER_UI, diffStyles } from '@/utils/ui';
-import type { UIFeedSettings, UserUI } from '@/types/ui';
 
 type SessionUIPatch = {
-    styles?: UserUI['styles'];
+    styles?: UserCustomizationResponse['styles'];
     preferences?: Partial<
-        Omit<UserUI['preferences'], 'feed'> & {
-            feed?: Partial<UIFeedSettings>;
+        Omit<UserCustomizationResponse['preferences'], 'feed'> & {
+            feed?: Partial<UiFeedSettings>;
         }
     >;
 };
@@ -24,7 +25,8 @@ export function useUpdateSessionUI() {
     const mutation = useMutation({ ...changeUiMutation() });
 
     const update = (patch: SessionUIPatch) => {
-        const previous = queryClient.getQueryData<UserUI>(queryKey);
+        const previous =
+            queryClient.getQueryData<UserCustomizationResponse>(queryKey);
         const currentUI = previous ?? DEFAULT_USER_UI;
 
         const mergedPreferences = patch.preferences
@@ -40,20 +42,23 @@ export function useUpdateSessionUI() {
               }
             : currentUI.preferences;
 
-        const resolvedNext: UserUI = {
+        const resolvedNext: UserCustomizationResponse = {
             styles: patch.styles ?? currentUI.styles,
             preferences: mergedPreferences,
         };
 
-        const apiPayload: UserUI = {
+        const apiPayload: UserCustomizationResponse = {
             styles: diffStyles(resolvedNext.styles) || {},
             preferences: resolvedNext.preferences,
         };
 
-        queryClient.setQueryData<UserUI>(queryKey, (old) => ({
-            ...old,
-            ...resolvedNext,
-        }));
+        queryClient.setQueryData<UserCustomizationResponse>(
+            queryKey,
+            (old) => ({
+                ...old,
+                ...resolvedNext,
+            }),
+        );
 
         mutation.mutate(
             { body: apiPayload as unknown as UserCustomizationArgs },

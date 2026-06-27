@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { UIFeedWidgetSide, UIFeedWidgetSlug } from '@/types/ui';
+import type { UiFeedWidget } from '@hikka/api';
 
 import {
     FeedWidget,
@@ -11,6 +11,24 @@ import {
     ScheduleWidget,
     TrackerWidget,
 } from './widgets';
+
+type UIFeedWidgetSide = UiFeedWidget['side'];
+
+/**
+ * The slugs this app actually renders. The generated `UiFeedWidget['slug']`
+ * union also includes server-side slugs (`top_anime`, `articles`,
+ * `collections`) that have no widget implementation yet.
+ */
+export type SupportedWidgetSlug = Extract<
+    UiFeedWidget['slug'],
+    | 'profile'
+    | 'list'
+    | 'ongoings'
+    | 'tracker'
+    | 'history'
+    | 'schedule'
+    | 'feed'
+>;
 
 export type WidgetProps = {
     side: UIFeedWidgetSide;
@@ -25,7 +43,7 @@ export interface WidgetMeta {
     defaultSide: UIFeedWidgetSide;
 }
 
-export const WIDGET_REGISTRY: Record<UIFeedWidgetSlug, WidgetMeta> = {
+export const WIDGET_REGISTRY: Record<SupportedWidgetSlug, WidgetMeta> = {
     profile: {
         title: 'Профіль',
         description: 'Профіль та статистика підписок',
@@ -79,4 +97,4 @@ export const WIDGET_REGISTRY: Record<UIFeedWidgetSlug, WidgetMeta> = {
 
 export const ALL_WIDGET_SLUGS = Object.keys(
     WIDGET_REGISTRY,
-) as UIFeedWidgetSlug[];
+) as SupportedWidgetSlug[];

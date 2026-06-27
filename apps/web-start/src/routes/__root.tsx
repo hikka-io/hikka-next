@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
-import { profileUiQueryKey } from '@hikka/api';
+import { profileUiQueryKey, type UserCustomizationResponse } from '@hikka/api';
 
 import NotFoundPage from '@/components/not-found-page';
 import RouterProgressBar from '@/components/router-progress-bar';
@@ -19,7 +19,6 @@ import { Providers } from '@/features/app-shell';
 import { getThemeCookieFn, refreshAuthCookieFn } from '@/utils/cookies';
 import { DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getUserStylesCSS } from '@/utils/ui/server';
-import type { UserUI } from '@/types/ui';
 
 import '../globals.css';
 import type { RouterContext } from '../router';
@@ -67,7 +66,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         // Read from query cache — no extra server fn call needed.
         const userUI =
             (context.queryClient.getQueryData(profileUiQueryKey()) as
-                | UserUI
+                | UserCustomizationResponse
                 | undefined) ?? DEFAULT_USER_UI;
 
         const userStylesCSS = getUserStylesCSS(userUI);

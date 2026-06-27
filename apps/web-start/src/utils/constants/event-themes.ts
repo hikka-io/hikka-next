@@ -1,4 +1,6 @@
-import type { UIEffect } from '@/types/ui';
+import type { UiPreferencesOutput } from '@hikka/api';
+
+type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 
 /**
  * Event themes that can be activated based on date ranges.

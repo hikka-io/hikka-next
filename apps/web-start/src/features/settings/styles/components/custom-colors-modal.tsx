@@ -202,7 +202,7 @@ const CustomColorsModal = ({ onClose }: Props) => {
                         style={{
                             backgroundImage:
                                 editorStyles?.[activeTheme]?.body
-                                    ?.background_image,
+                                    ?.background_image ?? undefined,
                         }}
                     >
                         <div className="flex flex-wrap items-start gap-2">

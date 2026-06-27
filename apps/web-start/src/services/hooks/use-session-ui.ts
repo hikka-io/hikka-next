@@ -2,16 +2,49 @@ import { useMemo } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { profileUiOptions } from '@hikka/api';
+import {
+    profileUiOptions,
+    type UiFeedSettings,
+    type UiFeedWidget,
+    type UiPreferencesOutput,
+    type UiStylesOutput,
+    type UserCustomizationResponse,
+} from '@hikka/api';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
+import type { NameLanguage, TitleLanguage } from '@/utils/title/get-title';
 import { DEFAULT_USER_UI, mergeEffects, mergeStyles } from '@/utils/ui';
-import type { UIEffect, UIStyles, UserUI } from '@/types/ui';
+
+type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
+
+/**
+ * The merge layer (mergePreferences/DEFAULT_USER_UI) guarantees `feed` and its
+ * `widgets` are always present, so they are required here even though the
+ * generated `UiFeedSettings` marks them optional.
+ */
+type SessionFeedSettings = UiFeedSettings & {
+    widgets: UiFeedWidget[];
+};
+
+/**
+ * The generated `title_language`/`name_language` are widened to `string`, but
+ * the app consumes them as its `TitleLanguage`/`NameLanguage` unions (the
+ * backend only ever returns those literals). Narrow at this single boundary,
+ * and surface the always-present `feed` settings.
+ */
+type SessionPreferences = Omit<
+    NonNullable<UserCustomizationResponse['preferences']>,
+    'title_language' | 'name_language' | 'feed'
+> & {
+    title_language?: TitleLanguage;
+    name_language?: NameLanguage;
+    feed: SessionFeedSettings;
+};
 
 interface SessionUI {
-    preferences: NonNullable<UserUI['preferences']>;
-    styles: UIStyles;
-    mergedStyles: UIStyles;
+    preferences: SessionPreferences;
+    styles: UiStylesOutput;
+    mergedStyles: UiStylesOutput;
     activeEffects: UIEffect[];
 }
 
@@ -23,7 +56,8 @@ export function useSessionUI(): SessionUI {
     const { data } = useQuery({
         ...profileUiOptions(),
     });
-    const userUI = (data as UserUI | undefined) ?? DEFAULT_USER_UI;
+    const userUI =
+        (data as UserCustomizationResponse | undefined) ?? DEFAULT_USER_UI;
 
     return useMemo(() => {
         // Merge sparse API styles with defaults so editors/UI always have full tokens
@@ -39,7 +73,10 @@ export function useSessionUI(): SessionUI {
             userUI.preferences?.effect,
         );
         return {
-            preferences: userUI.preferences ?? DEFAULT_USER_UI.preferences!,
+            // Narrow the widened language literals at this boundary (see
+            // SessionPreferences above).
+            preferences: (userUI.preferences ??
+                DEFAULT_USER_UI.preferences!) as SessionPreferences,
             styles: resolvedStyles,
             mergedStyles,
             activeEffects,

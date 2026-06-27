@@ -1,11 +1,13 @@
-import type { UIFeedWidget, UIFeedWidgetSide } from '@/types/ui';
+import type { UiFeedWidget } from '@hikka/api';
+
+type UIFeedWidgetSide = UiFeedWidget['side'];
 
 export const COLUMNS: UIFeedWidgetSide[] = ['left', 'center', 'right'];
 
 export function groupBySide(
-    widgets: UIFeedWidget[],
-): Record<UIFeedWidgetSide, UIFeedWidget[]> {
-    const result: Record<UIFeedWidgetSide, UIFeedWidget[]> = {
+    widgets: UiFeedWidget[],
+): Record<UIFeedWidgetSide, UiFeedWidget[]> {
+    const result: Record<UIFeedWidgetSide, UiFeedWidget[]> = {
         left: [],
         center: [],
         right: [],
