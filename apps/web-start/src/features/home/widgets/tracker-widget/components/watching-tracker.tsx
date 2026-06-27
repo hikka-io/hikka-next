@@ -35,6 +35,7 @@ import {
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import useDebounce from '@/services/hooks/use-debounce';
+import { invalidateWatchState } from '@/utils/api/invalidate-content-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
@@ -84,12 +85,7 @@ const WatchingTracker = () => {
     });
 
     const invalidateWatchLists = (refetch: boolean) =>
-        queryClient.invalidateQueries({
-            predicate: (query) =>
-                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                'userWatchList',
-            refetchType: refetch ? undefined : 'none',
-        });
+        invalidateWatchState(queryClient, { refetch });
 
     const { mutate: mutateCreateWatch, reset } = useMutation({
         ...watchAddMutation(),

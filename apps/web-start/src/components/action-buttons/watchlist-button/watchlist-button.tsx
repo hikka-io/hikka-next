@@ -30,6 +30,7 @@ import {
     SelectSeparator,
 } from '@/components/ui/select';
 import { useTitle } from '@/features/auth/hooks/use-title';
+import { invalidateWatchState } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
@@ -102,12 +103,7 @@ const WatchlistButton = ({
         enabled: !disabled && !animeProp,
     });
 
-    const invalidateWatchLists = () =>
-        queryClient.invalidateQueries({
-            predicate: (query) =>
-                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                'userWatchList',
-        });
+    const invalidateWatchLists = () => invalidateWatchState(queryClient);
 
     const { mutate: addWatch, isPending: isChangingStatus } = useMutation({
         ...watchAddMutation(),

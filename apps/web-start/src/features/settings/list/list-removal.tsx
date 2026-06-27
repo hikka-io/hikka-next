@@ -7,6 +7,11 @@ import {
     deleteUserWatchMutation,
 } from '@hikka/api';
 
+import {
+    invalidateReadState,
+    invalidateWatchState,
+} from '@/utils/api/invalidate-content-state';
+
 import ListRemovalItem from './components/list-removal-item';
 
 const ListRemoval = () => {
@@ -15,22 +20,14 @@ const ListRemoval = () => {
     const { mutate: deleteWatchList } = useMutation({
         ...deleteUserWatchMutation(),
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                predicate: (query) =>
-                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                    'userWatchList',
-            });
+            invalidateWatchState(queryClient);
             toast.success('Список аніме успішно видалено.');
         },
     });
     const { mutate: deleteReadList } = useMutation({
         ...deleteUserReadMutation(),
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                predicate: (query) =>
-                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                    'userReadList',
-            });
+            invalidateReadState(queryClient);
             toast.success('Список успішно видалено.');
         },
     });

@@ -14,6 +14,7 @@ import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-sym
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
+import { invalidateReadState } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
@@ -43,11 +44,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                 }),
                 data,
             );
-            queryClient.invalidateQueries({
-                predicate: (query) =>
-                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                    'userReadList',
-            });
+            invalidateReadState(queryClient);
         },
     });
 

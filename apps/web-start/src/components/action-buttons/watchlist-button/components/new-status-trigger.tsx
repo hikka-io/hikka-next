@@ -13,6 +13,7 @@ import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-sym
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
+import { invalidateWatchState } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
@@ -38,11 +39,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                 watchGetQueryKey({ path: { slug: path.slug } }),
                 data,
             );
-            queryClient.invalidateQueries({
-                predicate: (query) =>
-                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                    'userWatchList',
-            });
+            invalidateWatchState(queryClient);
         },
     });
 

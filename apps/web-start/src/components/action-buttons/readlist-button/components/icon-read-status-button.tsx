@@ -15,6 +15,7 @@ import {
 
 import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { invalidateReadState } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
@@ -51,11 +52,7 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
                 }),
                 data,
             );
-            queryClient.invalidateQueries({
-                predicate: (query) =>
-                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                    'userReadList',
-            });
+            invalidateReadState(queryClient);
         },
     });
 

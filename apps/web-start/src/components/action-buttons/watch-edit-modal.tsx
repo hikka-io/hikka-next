@@ -31,6 +31,7 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
+import { invalidateWatchState } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/i18n/zod';
@@ -61,12 +62,7 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
 
     const watch = watchProp || watchQuery;
 
-    const invalidateWatchLists = () =>
-        queryClient.invalidateQueries({
-            predicate: (query) =>
-                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                'userWatchList',
-        });
+    const invalidateWatchLists = () => invalidateWatchState(queryClient);
 
     const { mutate: createWatch, isPending: addToListLoading } = useMutation({
         ...watchAddMutation(),

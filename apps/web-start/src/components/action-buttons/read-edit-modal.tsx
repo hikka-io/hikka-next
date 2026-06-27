@@ -31,6 +31,7 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
+import { invalidateReadState } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/i18n/zod';
@@ -68,12 +69,7 @@ const ReadEditModal = ({
 
     const read = readProp || readQuery;
 
-    const invalidateReadLists = () =>
-        queryClient.invalidateQueries({
-            predicate: (query) =>
-                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                'userReadList',
-        });
+    const invalidateReadLists = () => invalidateReadState(queryClient);
 
     const { mutate: createRead, isPending: addToListLoading } = useMutation({
         ...readAddMutation(),

@@ -34,6 +34,7 @@ import {
     SelectSeparator,
 } from '@/components/ui/select';
 import { useTitle } from '@/features/auth/hooks/use-title';
+import { invalidateReadState } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
@@ -114,12 +115,7 @@ const ReadlistButton = ({
         enabled: !disabled && content_type === 'novel' && !contentProp,
     });
 
-    const invalidateReadLists = () =>
-        queryClient.invalidateQueries({
-            predicate: (query) =>
-                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                'userReadList',
-        });
+    const invalidateReadLists = () => invalidateReadState(queryClient);
 
     const { mutate: createRead, isPending: isChangingStatus } = useMutation({
         ...readAddMutation(),
