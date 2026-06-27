@@ -166,10 +166,13 @@ const WatchDetails = ({
     const title = useTitle(data);
 
     // @hikka/api types AnimeInfoResponse.schedule as an open
-    // `{ [key: string]: unknown }` record; the items carry `airing_at`.
-    const schedule = data.schedule as Array<{ airing_at: number }>;
+    // `{ [key: string]: unknown }` record; the items carry a numeric
+    // `airing_at`. Guard the field so a shape change degrades to "no next
+    // episode" instead of producing NaN comparisons.
+    const schedule = data.schedule as Array<{ airing_at?: unknown }>;
     const nextEpisodeSchedule = schedule.find(
-        (s) => s.airing_at * 1000 > Date.now(),
+        (s): s is { airing_at: number } =>
+            typeof s.airing_at === 'number' && s.airing_at * 1000 > Date.now(),
     );
     const studio = data.companies.find((c) => c.type === 'studio');
 

@@ -14,6 +14,7 @@ import {
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { ContentDetailLayout } from '@/features/content';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants/navigation';
+import { getAuthTokenFn } from '@/utils/cookies';
 import { generateHeadMeta } from '@/utils/metadata';
 import { getTitle } from '@/utils/title/get-title';
 
@@ -28,7 +29,7 @@ export const Route = createFileRoute('/_pages/characters/$slug')({
 
         if (!character) throw redirect({ to: '/' });
 
-        await Promise.allSettled([
+        const prefetches: Promise<unknown>[] = [
             queryClient.ensureInfiniteQueryData({
                 ...characterAnimeInfiniteOptions({
                     path: { slug: params.slug },
@@ -57,16 +58,24 @@ export const Route = createFileRoute('/_pages/characters/$slug')({
                 }),
                 ...paginationPageParam(),
             }),
-            queryClient.ensureQueryData(
-                getFavouriteOptions({
-                    path: {
-                        slug: params.slug,
-                        content_type: ContentTypeEnum.CHARACTER,
-                    },
-                    client: apiClient,
-                }),
-            ),
-        ]);
+        ];
+
+        // Favourite status is user-specific; only prefetch when authenticated.
+        if (await getAuthTokenFn()) {
+            prefetches.push(
+                queryClient.ensureQueryData(
+                    getFavouriteOptions({
+                        path: {
+                            slug: params.slug,
+                            content_type: ContentTypeEnum.CHARACTER,
+                        },
+                        client: apiClient,
+                    }),
+                ),
+            );
+        }
+
+        await Promise.allSettled(prefetches);
 
         return { character };
     },

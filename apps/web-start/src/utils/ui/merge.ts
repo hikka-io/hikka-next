@@ -109,6 +109,9 @@ export function mergePreferences(
     return {
         ...base,
         ...override,
+        // Deep-merge `feed` so a partial override (e.g. only `only_followed`)
+        // doesn't drop the `widgets` array coming from the base/defaults.
+        feed: { ...base.feed, ...override.feed },
     };
 }
 

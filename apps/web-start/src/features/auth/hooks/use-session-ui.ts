@@ -13,7 +13,12 @@ import {
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import type { NameLanguage, TitleLanguage } from '@/utils/title/get-title';
-import { DEFAULT_USER_UI, mergeEffects, mergeStyles } from '@/utils/ui';
+import {
+    DEFAULT_USER_UI,
+    mergeEffects,
+    mergePreferences,
+    mergeStyles,
+} from '@/utils/ui';
 
 type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 
@@ -73,10 +78,13 @@ export function useSessionUI(): SessionUI {
             userUI.preferences?.effect,
         );
         return {
-            // Narrow the widened language literals at this boundary (see
-            // SessionPreferences above).
-            preferences: (userUI.preferences ??
-                DEFAULT_USER_UI.preferences!) as SessionPreferences,
+            // Merge against defaults so `feed`/`widgets` are always present
+            // (the API marks them optional), then narrow the widened language
+            // literals at this boundary (see SessionPreferences above).
+            preferences: mergePreferences(
+                DEFAULT_USER_UI.preferences,
+                userUI.preferences,
+            ) as SessionPreferences,
             styles: resolvedStyles,
             mergedStyles,
             activeEffects,

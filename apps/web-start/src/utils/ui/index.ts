@@ -17,6 +17,7 @@ export {
 export {
     diffStyles,
     mergeEffects,
+    mergePreferences,
     mergeStyles,
     mergeWithEventTheme,
 } from './merge';

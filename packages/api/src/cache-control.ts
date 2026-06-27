@@ -2,7 +2,12 @@ import type { CacheControl } from './config';
 
 function matchesPattern(pattern: string, path: string): boolean {
     if (pattern.includes('*')) {
-        return new RegExp(`^${pattern.replace(/\*/g, '.*')}$`).test(path);
+        // Escape regex metacharacters before turning `*` into `.*`, so patterns
+        // are matched literally apart from the glob wildcard.
+        const escaped = pattern
+            .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+            .replace(/\*/g, '.*');
+        return new RegExp(`^${escaped}$`).test(path);
     }
     return pattern === path;
 }

@@ -35,18 +35,21 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
 
         if (!manga) throw redirect({ to: '/' });
 
-        if (!(await getAuthTokenFn())) {
+        const authToken = await getAuthTokenFn();
+
+        if (!authToken) {
             manga = stripRestrictedExternal(manga);
             queryClient.setQueryData(mangaOptions.queryKey, manga);
         }
 
         const nsfwConsented = manga.nsfw ? !!(await getNsfwConsentFn()) : false;
 
-        await Promise.allSettled([
+        const prefetches: Promise<unknown>[] = [
+            // Args must match the component-body call (no `query`) so the SSR
+            // prefetch and client share a cache key.
             queryClient.ensureInfiniteQueryData({
                 ...mangaCharactersInfiniteOptions({
                     path: { slug: params.slug },
-                    query: { size: 20, page: 1 },
                     client: apiClient,
                 }),
                 ...paginationPageParam(),
@@ -56,34 +59,6 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
                     path: {
                         slug: params.slug,
                         content_type: RelatedContentTypeEnum.MANGA,
-                    },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.ensureQueryData(
-                readGetOptions({
-                    path: {
-                        slug: params.slug,
-                        content_type: ReadContentTypeEnum.MANGA,
-                    },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.ensureInfiniteQueryData({
-                ...getReadFollowingInfiniteOptions({
-                    path: {
-                        slug: params.slug,
-                        content_type: ReadContentTypeEnum.MANGA,
-                    },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            queryClient.ensureQueryData(
-                getFavouriteOptions({
-                    path: {
-                        slug: params.slug,
-                        content_type: ContentTypeEnum.MANGA,
                     },
                     client: apiClient,
                 }),
@@ -119,7 +94,44 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
                 }),
                 ...paginationPageParam(),
             }),
-        ]);
+        ];
+
+        // User-specific data is only worth prefetching when authenticated;
+        // anonymous requests just 401 and get discarded.
+        if (authToken) {
+            prefetches.push(
+                queryClient.ensureQueryData(
+                    readGetOptions({
+                        path: {
+                            slug: params.slug,
+                            content_type: ReadContentTypeEnum.MANGA,
+                        },
+                        client: apiClient,
+                    }),
+                ),
+                queryClient.ensureQueryData(
+                    getFavouriteOptions({
+                        path: {
+                            slug: params.slug,
+                            content_type: ContentTypeEnum.MANGA,
+                        },
+                        client: apiClient,
+                    }),
+                ),
+                queryClient.ensureInfiniteQueryData({
+                    ...getReadFollowingInfiniteOptions({
+                        path: {
+                            slug: params.slug,
+                            content_type: ReadContentTypeEnum.MANGA,
+                        },
+                        client: apiClient,
+                    }),
+                    ...paginationPageParam(),
+                }),
+            );
+        }
+
+        await Promise.allSettled(prefetches);
 
         return { manga, nsfwConsented };
     },

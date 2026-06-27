@@ -35,14 +35,16 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
 
         if (!anime) throw redirect({ to: '/' });
 
-        if (!(await getAuthTokenFn())) {
+        const authToken = await getAuthTokenFn();
+
+        if (!authToken) {
             anime = stripRestrictedExternal(anime);
             queryClient.setQueryData(animeOptions.queryKey, anime);
         }
 
         const nsfwConsented = anime.nsfw ? !!(await getNsfwConsentFn()) : false;
 
-        await Promise.allSettled([
+        const prefetches: Promise<unknown>[] = [
             queryClient.ensureQueryData(
                 contentFranchiseOptions({
                     path: {
@@ -54,28 +56,6 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
             ),
             queryClient.ensureInfiniteQueryData({
                 ...animeStaffInfiniteOptions({
-                    path: { slug: params.slug },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            queryClient.ensureQueryData(
-                watchGetOptions({
-                    path: { slug: params.slug },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.ensureQueryData(
-                getFavouriteOptions({
-                    path: {
-                        slug: params.slug,
-                        content_type: ContentTypeEnum.ANIME,
-                    },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.ensureInfiniteQueryData({
-                ...getWatchFollowingInfiniteOptions({
                     path: { slug: params.slug },
                     client: apiClient,
                 }),
@@ -102,10 +82,11 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
                 }),
                 ...paginationPageParam(),
             }),
+            // Args must match the component-body call (no `query`) so the SSR
+            // prefetch and client share a cache key.
             queryClient.ensureInfiniteQueryData({
                 ...animeCharactersInfiniteOptions({
                     path: { slug: params.slug },
-                    query: { size: 20, page: 1 },
                     client: apiClient,
                 }),
                 ...paginationPageParam(),
@@ -120,7 +101,38 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
                 }),
                 ...paginationPageParam(),
             }),
-        ]);
+        ];
+
+        // User-specific data is only worth prefetching when authenticated;
+        // anonymous requests just 401 and get discarded.
+        if (authToken) {
+            prefetches.push(
+                queryClient.ensureQueryData(
+                    watchGetOptions({
+                        path: { slug: params.slug },
+                        client: apiClient,
+                    }),
+                ),
+                queryClient.ensureQueryData(
+                    getFavouriteOptions({
+                        path: {
+                            slug: params.slug,
+                            content_type: ContentTypeEnum.ANIME,
+                        },
+                        client: apiClient,
+                    }),
+                ),
+                queryClient.ensureInfiniteQueryData({
+                    ...getWatchFollowingInfiniteOptions({
+                        path: { slug: params.slug },
+                        client: apiClient,
+                    }),
+                    ...paginationPageParam(),
+                }),
+            );
+        }
+
+        await Promise.allSettled(prefetches);
 
         return { anime, nsfwConsented };
     },
