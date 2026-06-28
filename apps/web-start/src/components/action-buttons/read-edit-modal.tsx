@@ -95,7 +95,11 @@ const ReadEditModal = ({
         useMutation({
             ...deleteReadMutation(),
             onSuccess: (_data, { path }) => {
-                queryClient.removeQueries({
+                // Invalidate (not remove) the per-content read entry: removing it
+                // leaves separately-mounted observers (e.g. UserContentStats, the
+                // progress/score cards) holding the stale entry. Invalidating
+                // refetches → 404 → error state, so every observer hides.
+                queryClient.invalidateQueries({
                     queryKey: readGetQueryKey({
                         path: {
                             content_type: path.content_type,

@@ -86,7 +86,11 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
         useMutation({
             ...deleteWatchMutation(),
             onSuccess: (_data, { path }) => {
-                queryClient.removeQueries({
+                // Invalidate (not remove) the per-content watch entry: removing
+                // it leaves separately-mounted observers (e.g. UserContentStats,
+                // the progress/score cards) holding the stale entry. Invalidating
+                // refetches → 404 → error state, so every observer hides.
+                queryClient.invalidateQueries({
                     queryKey: watchGetQueryKey({ path: { slug: path.slug } }),
                 });
                 invalidateWatchLists();
