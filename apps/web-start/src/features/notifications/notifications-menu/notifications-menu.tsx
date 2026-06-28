@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { convertNotification } from '@/utils/adapters/convert-notification';
+import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import NotificationsContent from './components/notifications-content';
@@ -46,19 +47,7 @@ const NotificationsMenu: FC = () => {
 
     const { mutateAsync: markSeen } = useMutation({
         ...notificationSeenMutation(),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                predicate: (query) => {
-                    const id = (
-                        query.queryKey[0] as { _id?: string } | undefined
-                    )?._id;
-                    return (
-                        id === 'notifications' ||
-                        id === 'unseenNotificationsCount'
-                    );
-                },
-            });
-        },
+        onSuccess: () => invalidateNotifications(queryClient),
     });
 
     const { normalized, grouped } = useMemo(() => {

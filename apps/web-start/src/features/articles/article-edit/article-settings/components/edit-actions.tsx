@@ -15,6 +15,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useArticleContext } from '@/services/providers/article-provider';
+import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 import {
@@ -39,17 +40,8 @@ const EditActions: FC<Props> = () => {
     const { mutate: mutateUpdateArticle, isPending } = useMutation({
         ...updateArticleMutation(),
         onSuccess: (data) => {
-            queryClient.invalidateQueries({
-                predicate: (query) => {
-                    const id = (
-                        query.queryKey[0] as { _id?: string } | undefined
-                    )?._id;
-                    return id === 'getArticles' || id === 'getArticle';
-                },
-            });
-
+            invalidateArticles(queryClient);
             toast.success('Ви успішно оновили статтю.');
-
             setArticle(data as unknown as Parameters<typeof setArticle>[0]);
         },
     });

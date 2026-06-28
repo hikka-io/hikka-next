@@ -7,6 +7,7 @@ import { notificationSeenMutation } from '@hikka/api';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { HorizontalCardDescription } from '@/components/ui/horizontal-card';
+import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -22,19 +23,7 @@ const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
     const queryClient = useQueryClient();
     const { mutate: markSeen } = useMutation({
         ...notificationSeenMutation(),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                predicate: (query) => {
-                    const id = (
-                        query.queryKey[0] as { _id?: string } | undefined
-                    )?._id;
-                    return (
-                        id === 'notifications' ||
-                        id === 'unseenNotificationsCount'
-                    );
-                },
-            });
-        },
+        onSuccess: () => invalidateNotifications(queryClient),
     });
 
     const handleNotificationClick = () => {

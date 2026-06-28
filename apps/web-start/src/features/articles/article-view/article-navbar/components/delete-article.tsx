@@ -21,6 +21,7 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
 type Props = {
@@ -34,17 +35,8 @@ const DeleteArticle: FC<Props> = ({ article }) => {
     const { mutate: mutateDeleteArticle } = useMutation({
         ...deleteArticleMutation(),
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                predicate: (query) => {
-                    const id = (
-                        query.queryKey[0] as { _id?: string } | undefined
-                    )?._id;
-                    return id === 'getArticles' || id === 'getArticle';
-                },
-            });
-
+            invalidateArticles(queryClient);
             toast.success('Статтю успішно видалено.');
-
             router.push('/articles');
         },
     });

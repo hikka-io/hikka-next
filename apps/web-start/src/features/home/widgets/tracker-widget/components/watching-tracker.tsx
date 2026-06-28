@@ -59,11 +59,7 @@ const WatchingTracker = () => {
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
 
-    const {
-        list: apiList,
-        ref,
-        isFetchingNextPage,
-    } = useInfiniteList(
+    const { list, ref, isFetchingNextPage } = useInfiniteList(
         userWatchListInfiniteOptions({
             path: { username: String(loggedUser?.username) },
             body: {
@@ -73,8 +69,6 @@ const WatchingTracker = () => {
         }),
         { enabled: Boolean(loggedUser?.username) },
     );
-
-    const list = apiList;
 
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
@@ -94,18 +88,6 @@ const WatchingTracker = () => {
                 watchGetQueryKey({ path: { slug: path.slug } }),
                 data,
             );
-            invalidateWatchLists(true);
-        },
-    });
-
-    const { mutate: mutateCreateWatchSilent } = useMutation({
-        ...watchAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                watchGetQueryKey({ path: { slug: path.slug } }),
-                data,
-            );
-            invalidateWatchLists(false);
         },
     });
 
@@ -170,22 +152,23 @@ const WatchingTracker = () => {
                 totalEpisodes != null &&
                 debouncedUpdatedWatch.episodes === totalEpisodes;
 
-            const mutate = isLastEpisode
-                ? mutateCreateWatchSilent
-                : mutateCreateWatch;
-
-            mutate({
-                path: { slug: selectedWatch.anime.slug },
-                body: {
-                    note: debouncedUpdatedWatch.note,
-                    episodes: debouncedUpdatedWatch.episodes,
-                    rewatches: debouncedUpdatedWatch.rewatches,
-                    score: debouncedUpdatedWatch.score,
-                    status: debouncedUpdatedWatch.status,
+            mutateCreateWatch(
+                {
+                    path: { slug: selectedWatch.anime.slug },
+                    body: {
+                        note: debouncedUpdatedWatch.note,
+                        episodes: debouncedUpdatedWatch.episodes,
+                        rewatches: debouncedUpdatedWatch.rewatches,
+                        score: debouncedUpdatedWatch.score,
+                        status: debouncedUpdatedWatch.status,
+                    },
                 },
-            });
+                // Skip the immediate list refetch on the final episode so the
+                // entry doesn't reorder/vanish mid-interaction.
+                { onSuccess: () => invalidateWatchLists(!isLastEpisode) },
+            );
         }
-    }, [mutateCreateWatch, mutateCreateWatchSilent, debouncedUpdatedWatch]);
+    }, [mutateCreateWatch, debouncedUpdatedWatch]);
 
     if (!list || list.length === 0) {
         return (

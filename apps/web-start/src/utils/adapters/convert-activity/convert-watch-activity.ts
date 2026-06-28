@@ -1,6 +1,7 @@
 import { HistoryTypeEnum, type WatchStatusEnum } from '@hikka/api';
 
 import { WATCH_STATUS } from '@/utils/constants/common';
+import { getDeclensionWord } from '@/utils/i18n/declension';
 
 // Local narrowing for the loose `HistoryResponse.data` (`{ [key]: unknown }`)
 // in @hikka/api. Field shapes match the API history payloads.
@@ -19,8 +20,6 @@ type HistoryWatchData = {
     };
     new_watch: boolean;
 };
-
-import { getDeclensionWord } from '@/utils/i18n/declension';
 
 const EPISODES_DECLENSION: [string, string, string] = [
     'епізод',

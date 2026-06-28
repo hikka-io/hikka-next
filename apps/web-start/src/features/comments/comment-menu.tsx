@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { type CommentResponse, hideCommentMutation } from '@hikka/api';
@@ -28,6 +28,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useCommentsContext } from '@/services/providers/comments-provider';
+import { invalidateComments } from '@/utils/api/invalidate-content-state';
 
 type Props = {
     comment: CommentResponse;
@@ -35,12 +36,16 @@ type Props = {
 
 const CommentMenu: FC<Props> = ({ comment }) => {
     const { setEdit, removePendingReply } = useCommentsContext();
+    const queryClient = useQueryClient();
 
     const { user: loggedUser } = useSession();
 
     const deleteCommentMutation = useMutation({
         ...hideCommentMutation(),
-        onSuccess: () => removePendingReply(comment.reference),
+        onSuccess: () => {
+            removePendingReply(comment.reference);
+            invalidateComments(queryClient);
+        },
         onError: () =>
             toast.error(
                 'Виникла помилка при видаленні повідомлення. Спробуйте, будь ласка, ще раз',

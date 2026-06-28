@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { changeEmailMutation } from '@hikka/api';
@@ -6,6 +6,7 @@ import { changeEmailMutation } from '@hikka/api';
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z
@@ -19,9 +20,12 @@ const formSchema = z
     });
 
 const EmailSettings = () => {
+    const queryClient = useQueryClient();
+
     const mutationChangeEmail = useMutation({
         ...changeEmailMutation(),
         onSuccess: async () => {
+            invalidateSession(queryClient);
             toast.success('Ви успішно змінили поштову адресу.');
         },
     });

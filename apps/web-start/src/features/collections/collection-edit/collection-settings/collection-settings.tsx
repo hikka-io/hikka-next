@@ -4,12 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import type { CollectionArgs } from '@hikka/api';
-import {
-    createCollectionMutation,
-    getCollectionQueryKey,
-    getCollectionsQueryKey,
-    updateCollectionMutation,
-} from '@hikka/api';
+import { createCollectionMutation, updateCollectionMutation } from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -36,6 +31,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useCollectionContext } from '@/services/providers/collection-provider';
+import { invalidateCollections } from '@/utils/api/invalidate-content-state';
 import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
     COLLECTION_VISIBILITY_OPTIONS,
@@ -81,9 +77,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     } = useMutation({
         ...createCollectionMutation(),
         onSuccess: (data) => {
-            queryClient.invalidateQueries({
-                queryKey: getCollectionsQueryKey({ body: {} }),
-            });
+            invalidateCollections(queryClient);
             toast.success('Ви успішно створили колекцію.');
 
             router.push(
@@ -96,11 +90,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
         useMutation({
             ...updateCollectionMutation(),
             onSuccess: (_data) => {
-                queryClient.invalidateQueries({
-                    queryKey: getCollectionQueryKey({
-                        path: { reference: String(params.reference) },
-                    }),
-                });
+                invalidateCollections(queryClient);
                 toast.success('Ви успішно оновили колекцію.');
             },
         });

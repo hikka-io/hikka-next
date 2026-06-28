@@ -7,6 +7,7 @@ import {
 } from '@hikka/api';
 
 import { useSession } from '@/features/auth/hooks/use-session';
+import { invalidateVote } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
 interface UseVoteParams {
@@ -35,6 +36,7 @@ export function useVote({
                 }),
                 data,
             );
+            invalidateVote(queryClient);
         },
     });
 

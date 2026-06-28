@@ -1,6 +1,7 @@
 import type { HistoryTypeEnum, ReadStatusEnum } from '@hikka/api';
 
 import { READ_STATUS } from '@/utils/constants/common';
+import { getDeclensionWord } from '@/utils/i18n/declension';
 
 // Local narrowing for the loose `HistoryResponse.data` (`{ [key]: unknown }`)
 // in @hikka/api. Field shapes match the API history payloads.
@@ -21,8 +22,6 @@ type HistoryReadData = {
     };
     new_read: boolean;
 };
-
-import { getDeclensionWord } from '@/utils/i18n/declension';
 
 const CHAPTERS_DECLENSION: [string, string, string] = [
     'розділ',

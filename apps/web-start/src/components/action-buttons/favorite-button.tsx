@@ -16,6 +16,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { invalidateFavourites } from '@/utils/api/invalidate-content-state';
 
 type Props = ButtonProps & {
     slug: string;
@@ -41,19 +42,12 @@ const FavoriteButton = ({
         retry: false,
     });
 
-    const invalidateFavouriteLists = () =>
-        queryClient.invalidateQueries({
-            predicate: (query) =>
-                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                'favouriteList',
-        });
-
     const { mutate: addToFavorite, isPending: addToFavoriteLoading } =
         useMutation({
             ...favouriteAddMutation(),
             onSuccess: (data) => {
                 queryClient.setQueryData(favouriteQueryKey, data);
-                invalidateFavouriteLists();
+                invalidateFavourites(queryClient);
             },
         });
 
@@ -62,7 +56,7 @@ const FavoriteButton = ({
             ...favouriteDeleteMutation(),
             onSuccess: () => {
                 queryClient.removeQueries({ queryKey: favouriteQueryKey });
-                invalidateFavouriteLists();
+                invalidateFavourites(queryClient);
             },
         });
 

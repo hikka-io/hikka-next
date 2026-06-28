@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { changeDescriptionMutation } from '@hikka/api';
@@ -7,6 +7,7 @@ import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
@@ -15,10 +16,12 @@ const formSchema = z.object({
 
 const ProfileDescription = () => {
     const { user: loggedUser } = useSession();
+    const queryClient = useQueryClient();
 
     const mutationChangeDescription = useMutation({
         ...changeDescriptionMutation(),
         onSuccess: async () => {
+            invalidateSession(queryClient);
             toast.success('Ви успішно змінили загальні налаштування профілю.');
         },
     });

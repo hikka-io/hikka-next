@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import type { CollectionResponse } from '@hikka/api';
@@ -27,6 +27,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { invalidateCollections } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useRouter } from '@/utils/navigation';
 
@@ -36,24 +37,25 @@ type Props = {
 
 const CollectionMenu: FC<Props> = ({ collection }) => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const deleteCollection = useMutation({
         ...deleteCollectionMutation(),
         onSuccess: () => {
+            invalidateCollections(queryClient);
             router.push('/');
         },
-    });
-
-    const handleDeleteCollection = async () => {
-        try {
-            deleteCollection.mutate({
-                path: { reference: collection.reference },
-            });
-        } catch (_e) {
+        onError: () => {
             toast.error(
                 'Виникла помилка при видаленні колекції. Спробуйте, будь ласка, ще раз',
             );
-        }
+        },
+    });
+
+    const handleDeleteCollection = () => {
+        deleteCollection.mutate({
+            path: { reference: collection.reference },
+        });
     };
 
     return (

@@ -16,6 +16,7 @@ import MaterialSymbolsPersonRemoveOutlineRounded from '@/components/icons/materi
 import { Button, type buttonVariants } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { invalidateFollow } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
@@ -53,26 +54,11 @@ const FollowButton: FC<Props> = ({
         );
     };
 
-    const invalidateFollow = (targetUsername: string) =>
-        queryClient.invalidateQueries({
-            predicate: (query) => {
-                const id = (query.queryKey[0] as { _id?: string } | undefined)
-                    ?._id;
-                return (
-                    id === 'followingList' ||
-                    id === 'followersList' ||
-                    id === 'followStats' ||
-                    (id === 'userProfile' &&
-                        JSON.stringify(query.queryKey).includes(targetUsername))
-                );
-            },
-        });
-
     const { mutate: mutateFollow, isPending: followLoading } = useMutation({
         ...followMutation(),
         onSuccess: (_data, { path }) => {
             updateFollowState(true);
-            invalidateFollow(path.username);
+            invalidateFollow(queryClient, path.username);
         },
     });
 
@@ -80,7 +66,7 @@ const FollowButton: FC<Props> = ({
         ...unfollowMutation(),
         onSuccess: (_data, { path }) => {
             updateFollowState(false);
-            invalidateFollow(path.username);
+            invalidateFollow(queryClient, path.username);
         },
     });
 

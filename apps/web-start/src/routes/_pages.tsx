@@ -1,7 +1,6 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import {
-    getAuthToken,
     HikkaApiError,
     notificationsInfiniteOptions,
     profileOptions,
@@ -10,10 +9,11 @@ import {
 
 import { Toaster } from '@/components/ui/sonner';
 import { Footer, Navbar } from '@/features/app-shell';
+import { getAuthTokenFn } from '@/utils/cookies';
 
 export const Route = createFileRoute('/_pages')({
     beforeLoad: async ({ context: { queryClient, apiClient } }) => {
-        if (!getAuthToken()) return;
+        if (!(await getAuthTokenFn())) return;
 
         try {
             const session = await queryClient.ensureQueryData(
@@ -31,7 +31,7 @@ export const Route = createFileRoute('/_pages')({
         }
     },
     loader: async ({ context: { queryClient, apiClient } }) => {
-        if (!getAuthToken()) return;
+        if (!(await getAuthTokenFn())) return;
 
         await Promise.allSettled([
             queryClient.ensureInfiniteQueryData(

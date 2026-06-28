@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import {
@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { invalidateReadState } from '@/utils/api/invalidate-content-state';
 
 import General from '../components/import-list';
 import Anilist from './anilist';
@@ -23,10 +24,12 @@ const ReadlistSettings = () => {
     const [rewrite, setRewrite] = useState(true);
     const [readList, setReadList] = useState<ImportReadArgs[]>([]);
     const [importing, setImporting] = useState<boolean>(false);
+    const queryClient = useQueryClient();
 
     const mutationImportReadList = useMutation({
         ...importReadMutation(),
         onSuccess: () => {
+            invalidateReadState(queryClient);
             toast.success(
                 <span>
                     Ви успішно імпортували{' '}

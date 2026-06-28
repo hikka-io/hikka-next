@@ -1,13 +1,14 @@
 import { type FC, useRef } from 'react';
 
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { createEditMutation, type EditContentTypeEnum } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { invalidateEdits } from '@/utils/api/invalidate-content-state';
 import { TURNSTILE_SITE_KEY } from '@/utils/constants/edit';
 import { useRouter } from '@/utils/navigation';
 
@@ -38,6 +39,7 @@ const EditForm: FC<Props> = ({
     const captchaRef = useRef<TurnstileInstance>(undefined);
 
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const params = getEditParams(content_type)!;
     const groups = getEditGroups(content_type)!;
@@ -50,7 +52,10 @@ const EditForm: FC<Props> = ({
 
     const mutationAddEdit = useMutation({
         ...createEditMutation(),
-        onSuccess: (data) => onDismiss(data.edit_id),
+        onSuccess: (data) => {
+            invalidateEdits(queryClient);
+            onDismiss(data.edit_id);
+        },
     });
 
     const form = useAppForm({

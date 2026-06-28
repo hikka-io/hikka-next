@@ -17,6 +17,7 @@ import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { useCommentsContext } from '@/services/providers/comments-provider';
+import { invalidateComments } from '@/utils/api/invalidate-content-state';
 import { MAX_COMMENT_DEPTH } from '@/utils/constants/common';
 import { removeEmptyTextNodes } from '@/utils/plate';
 
@@ -42,24 +43,10 @@ const CommentInputBottomBar: FC<Props> = ({
     const queryClient = useQueryClient();
     const editor = useMarkdownEditor();
 
-    const invalidateComments = () =>
-        queryClient.invalidateQueries({
-            predicate: (query) => {
-                const id = (query.queryKey[0] as { _id?: string } | undefined)
-                    ?._id;
-                return (
-                    id === 'commentsList' ||
-                    id === 'getContentsList' ||
-                    id === 'thread' ||
-                    id === 'latestComments'
-                );
-            },
-        });
-
     const onEditSuccess = async (data: CommentResponse) => {
         editor.tf.reset();
         updatePendingReply(data.reference, data);
-        invalidateComments();
+        invalidateComments(queryClient);
 
         if (comment) {
             clearActive();
@@ -68,18 +55,16 @@ const CommentInputBottomBar: FC<Props> = ({
 
     const onCreateSuccess = async (data: CommentResponse) => {
         editor.tf.reset();
-        invalidateComments();
-
-        const pendingComment = data;
+        invalidateComments(queryClient);
 
         if (comment) {
             if (comment.depth >= MAX_COMMENT_DEPTH) {
                 addPendingReply({
-                    comment: pendingComment,
+                    comment: data,
                     insertAfter: comment.reference,
                 });
             } else {
-                addPendingReply({ comment: pendingComment });
+                addPendingReply({ comment: data });
             }
             clearActive();
         }

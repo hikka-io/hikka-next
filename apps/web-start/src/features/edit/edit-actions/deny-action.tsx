@@ -15,6 +15,7 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { invalidateEdits } from '@/utils/api/invalidate-content-state';
 import { useParams } from '@/utils/navigation';
 
 type Props = {};
@@ -30,6 +31,7 @@ const DenyAction: FC<Props> = () => {
                     path: { edit_id: Number(params.editId) },
                 }),
             });
+            invalidateEdits(queryClient);
         },
     });
 

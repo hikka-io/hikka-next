@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import {
@@ -12,6 +12,7 @@ import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Spinner from '@/components/ui/spinner';
+import { invalidateIgnoredNotifications } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
@@ -33,6 +34,7 @@ const formSchema = z.object({
 });
 
 const NotificationsSettings = () => {
+    const queryClient = useQueryClient();
     const { data } = useQuery(getIgnoredNotificationsOptions());
 
     const formValues = useMemo(() => {
@@ -52,6 +54,7 @@ const NotificationsSettings = () => {
     const { mutate: changeIgnoredNotifications, isPending } = useMutation({
         ...changeIgnoredNotificationsMutation(),
         onSuccess: async () => {
+            invalidateIgnoredNotifications(queryClient);
             toast.success('Ви успішно змінили налаштування сповіщень.');
         },
     });

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
     ContentTypeEnum,
@@ -15,6 +15,11 @@ import {
 } from '@hikka/api';
 
 import useDebounce from '@/services/hooks/use-debounce';
+import {
+    invalidateByIds,
+    invalidateReadState,
+    invalidateWatchState,
+} from '@/utils/api/invalidate-content-state';
 
 type MappedListItem = {
     progress: number;
@@ -109,8 +114,22 @@ export const useUserlistManager = ({
         delay: 500,
     });
 
-    const { mutate: mutateCreateWatch } = useMutation(watchAddMutation());
-    const { mutate: mutateCreateRead } = useMutation(readAddMutation());
+    const queryClient = useQueryClient();
+
+    const { mutate: mutateCreateWatch } = useMutation({
+        ...watchAddMutation(),
+        onSuccess: () => {
+            invalidateByIds(queryClient, ['watchGet']);
+            invalidateWatchState(queryClient);
+        },
+    });
+    const { mutate: mutateCreateRead } = useMutation({
+        ...readAddMutation(),
+        onSuccess: () => {
+            invalidateByIds(queryClient, ['readGet']);
+            invalidateReadState(queryClient);
+        },
+    });
 
     const mappedListItem = mapListItem({ listItem, content_type });
 

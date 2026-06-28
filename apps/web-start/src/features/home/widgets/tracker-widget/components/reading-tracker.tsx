@@ -82,11 +82,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     // the `ContentTypeEnum.MANGA | NOVEL` values are identical strings.
     const apiContentType = contentType as unknown as ReadContentTypeEnum;
 
-    const {
-        list: apiList,
-        ref,
-        isFetchingNextPage,
-    } = useInfiniteList(
+    const { list, ref, isFetchingNextPage } = useInfiniteList(
         userReadListInfiniteOptions({
             path: {
                 content_type: apiContentType,
@@ -99,8 +95,6 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
         }),
         { enabled: Boolean(loggedUser?.username) },
     );
-
-    const list = apiList;
 
     const selectedRead =
         list?.find((item) => item.content.slug === selectedSlug) || list?.[0];
@@ -122,20 +116,6 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                 }),
                 data,
             );
-            invalidateReadLists(true);
-        },
-    });
-
-    const { mutate: mutateCreateReadSilent } = useMutation({
-        ...readAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                readGetQueryKey({
-                    path: { content_type: path.content_type, slug: path.slug },
-                }),
-                data,
-            );
-            invalidateReadLists(false);
         },
     });
 
@@ -211,30 +191,20 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                 chapters: debouncedUpdatedRead.chapters,
             };
 
-            if (isLastChapter) {
-                mutateCreateReadSilent({
+            mutateCreateRead(
+                {
                     path: {
                         content_type: apiContentType,
                         slug: selectedRead.content.slug,
                     },
                     body: args,
-                });
-            } else {
-                mutateCreateRead({
-                    path: {
-                        content_type: apiContentType,
-                        slug: selectedRead.content.slug,
-                    },
-                    body: args,
-                });
-            }
+                },
+                // Skip the immediate list refetch on the final chapter so the
+                // entry doesn't reorder/vanish mid-interaction.
+                { onSuccess: () => invalidateReadLists(!isLastChapter) },
+            );
         }
-    }, [
-        mutateCreateRead,
-        mutateCreateReadSilent,
-        debouncedUpdatedRead,
-        contentType,
-    ]);
+    }, [mutateCreateRead, debouncedUpdatedRead, contentType]);
 
     if (!list || list.length === 0) {
         return (

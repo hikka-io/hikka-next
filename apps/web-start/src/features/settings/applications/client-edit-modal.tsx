@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
+import { invalidateUserClients } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
@@ -35,18 +36,11 @@ type Props = {
 const ClientEditModal = ({ client, onClose }: Props) => {
     const queryClient = useQueryClient();
 
-    const invalidateClientList = () =>
-        queryClient.invalidateQueries({
-            predicate: (query) =>
-                (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                'listUserClients',
-        });
-
     const { mutate: updateClient, isPending: updateClientLoading } =
         useMutation({
             ...updateUserClientMutation(),
             onSuccess: () => {
-                invalidateClientList();
+                invalidateUserClients(queryClient);
                 toast.success('Застосунок успішно оновлено');
                 onClose?.();
             },
@@ -55,7 +49,7 @@ const ClientEditModal = ({ client, onClose }: Props) => {
         useMutation({
             ...deleteUserClientMutation(),
             onSuccess: () => {
-                invalidateClientList();
+                invalidateUserClients(queryClient);
                 toast.success('Застосунок успішно видалено');
                 onClose?.();
             },

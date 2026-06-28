@@ -50,6 +50,7 @@ export const Route = createFileRoute('/_pages/edit/')({
                     client: apiClient,
                 }),
                 ...paginationPageParam(),
+                initialPageParam: Number(page),
             }),
             queryClient.ensureInfiniteQueryData({
                 ...editsTopInfiniteOptions({ client: apiClient }),

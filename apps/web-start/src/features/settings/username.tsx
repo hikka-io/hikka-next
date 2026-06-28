@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { changeUsernameMutation } from '@hikka/api';
@@ -6,6 +6,7 @@ import { changeUsernameMutation } from '@hikka/api';
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
 
@@ -15,10 +16,12 @@ const formSchema = z.object({
 
 const ProfileUsername = () => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const mutationChangeUsername = useMutation({
         ...changeUsernameMutation(),
         onSuccess: async () => {
+            invalidateSession(queryClient);
             router.push(`/u/${form.getFieldValue('username')}`);
             toast.success('Ви успішно змінили імʼя користвача.');
         },

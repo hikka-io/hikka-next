@@ -7,6 +7,7 @@ import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
+import { invalidateUserClients } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
@@ -26,11 +27,7 @@ const ClientCreateModal = ({ onClose }: Props) => {
         useMutation({
             ...createUserClientMutation(),
             onSuccess: () => {
-                queryClient.invalidateQueries({
-                    predicate: (query) =>
-                        (query.queryKey[0] as { _id?: string } | undefined)
-                            ?._id === 'listUserClients',
-                });
+                invalidateUserClients(queryClient);
                 toast.success('Застосунок успішно створено.');
                 onClose?.();
             },

@@ -9,6 +9,7 @@ import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/Mater
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import { Button } from '@/components/ui/button';
 import { useArticleContext } from '@/services/providers/article-provider';
+import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useRouter } from '@/utils/navigation';
 import {
@@ -36,14 +37,8 @@ const CreateActions: FC<Props> = () => {
     } = useMutation({
         ...createArticleMutation(),
         onSuccess: (data) => {
-            queryClient.invalidateQueries({
-                predicate: (query) =>
-                    (query.queryKey[0] as { _id?: string } | undefined)?._id ===
-                    'getArticles',
-            });
-
+            invalidateArticles(queryClient);
             toast.success('Ви успішно створили статтю.');
-
             router.push(`${CONTENT_TYPE_LINKS.article}/${data.slug}/update`);
         },
     });
