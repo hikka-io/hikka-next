@@ -24,17 +24,17 @@ const EditActions: FC<Props> = ({ editId }) => {
 
     const { user: loggedUser } = useSession();
 
-    const isPending = edit?.status === 'pending';
-    const isAuthor = loggedUser?.username === edit?.author?.username;
-    const isModeratorOrAdmin =
-        loggedUser && ['moderator', 'admin'].includes(loggedUser?.role);
-
-    if (!isPending) {
+    if (edit?.status !== 'pending') {
         return null;
     }
 
-    const showDenyAndAccept = isModeratorOrAdmin && isPending;
-    const showCloseAndEdit = (isAuthor || isModeratorOrAdmin) && isPending;
+    const isAuthor = loggedUser?.username === edit.author?.username;
+    const isModeratorOrAdmin = ['moderator', 'admin'].includes(
+        loggedUser?.role ?? '',
+    );
+
+    const showDenyAndAccept = isModeratorOrAdmin;
+    const showCloseAndEdit = isAuthor || isModeratorOrAdmin;
 
     return (
         <div className="flex items-center justify-between gap-2">
@@ -52,7 +52,7 @@ const EditActions: FC<Props> = ({ editId }) => {
             {showDenyAndAccept && (
                 <div className="flex items-center gap-2">
                     <DenyAction />
-                    <AcceptAction />
+                    <AcceptAction edit={edit} />
                 </div>
             )}
         </div>

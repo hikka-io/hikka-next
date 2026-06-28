@@ -85,6 +85,7 @@ const CONTENT_DETAIL_IDS = [
     'animeStaff',
     'animeEpisodes',
     'characterVoices',
+    'personVoices',
 ];
 
 /** Read the generated query key's leading `_id` discriminator (`[{ _id, ... }]`). */
@@ -462,7 +463,9 @@ export function invalidateVote(
 
 /**
  * Invalidate the content-detail queries for a slug — used when an accepted edit
- * mutates the underlying content (mirrors the old `invalidateContentQueries`).
+ * mutates the underlying content. Matches the slug on the typed `path.slug` key
+ * field (not a `JSON.stringify` substring, which both false-matches one slug
+ * inside another — `one` in `one-piece` — and re-serializes every cached key).
  */
 export function invalidateContentBySlug(
     queryClient: QueryClient,
@@ -473,11 +476,10 @@ export function invalidateContentBySlug(
     return queryClient.invalidateQueries({
         predicate: (query) => {
             const id = queryId(query.queryKey);
-            return (
-                id !== undefined &&
-                idSet.has(id) &&
-                JSON.stringify(query.queryKey).includes(slug)
-            );
+            if (id === undefined || !idSet.has(id)) return false;
+            const path = (query.queryKey[0] as { path?: { slug?: string } })
+                .path;
+            return path?.slug === slug;
         },
         refetchType: refetchTypeFor(options),
     });
