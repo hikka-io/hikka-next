@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import AvatarEditor from 'react-avatar-editor';
 import { toast } from 'sonner';
 
@@ -14,6 +14,7 @@ import MaterialSymbolsZoomOutRounded from '@/components/icons/material-symbols/M
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import Spinner from '@/components/ui/spinner';
+import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { getImage } from '@/utils/image';
 import { useRouter } from '@/utils/navigation';
@@ -39,6 +40,7 @@ const CROP_PARAMS = {
 
 const CropEditorModal = ({ file, type, onClose }: Props) => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const editor = useRef<AvatarEditor>(null);
     const [scale, setScale] = useState<number>(100);
@@ -60,6 +62,7 @@ const CropEditorModal = ({ file, type, onClose }: Props) => {
             );
         },
         onSettled: () => {
+            invalidateSession(queryClient);
             router.refresh();
             onClose?.();
         },

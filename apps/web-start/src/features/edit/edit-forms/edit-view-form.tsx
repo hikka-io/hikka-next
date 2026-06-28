@@ -2,15 +2,15 @@ import type { FC } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import {
-    getEditOptions,
-    getEditQueryKey,
-    updateEditMutation,
-} from '@hikka/api';
+import { getEditOptions, updateEditMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import {
+    invalidateEditDetail,
+    invalidateEdits,
+} from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
 import AutoButton from './components/auto-button';
@@ -50,11 +50,8 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
     const mutationUpdateEdit = useMutation({
         ...updateEditMutation(),
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: getEditQueryKey({
-                    path: { edit_id: Number(editId) },
-                }),
-            });
+            invalidateEditDetail(queryClient, Number(editId));
+            invalidateEdits(queryClient);
             onDismiss();
         },
     });

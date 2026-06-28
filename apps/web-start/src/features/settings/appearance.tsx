@@ -1,6 +1,6 @@
 import { type ChangeEvent, useRef, useState } from 'react';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { deleteUserImageMutation, UploadTypeEnum } from '@hikka/api';
 
@@ -18,6 +18,7 @@ import {
 import Spinner from '@/components/ui/spinner';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { CropEditorModal } from '@/features/users';
+import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
 type AvatarOrCoverType =
@@ -35,10 +36,12 @@ const Appearance = () => {
     );
 
     const { user: loggedUser } = useSession();
+    const queryClient = useQueryClient();
 
     const { mutate: deleteImage, isPending: isDeletingImage } = useMutation({
         ...deleteUserImageMutation(),
         onSuccess: () => {
+            invalidateSession(queryClient);
             router.refresh();
         },
     });

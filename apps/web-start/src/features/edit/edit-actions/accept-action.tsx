@@ -2,11 +2,12 @@ import type { FC } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { acceptEditMutation, getEditQueryKey } from '@hikka/api';
+import { acceptEditMutation } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import {
     invalidateContentBySlug,
+    invalidateEditDetail,
     invalidateEdits,
 } from '@/utils/api/invalidate-content-state';
 import { useParams } from '@/utils/navigation';
@@ -19,11 +20,7 @@ const AcceptAction: FC<Props> = () => {
     const acceptEdit = useMutation({
         ...acceptEditMutation(),
         onSuccess: (data) => {
-            queryClient.invalidateQueries({
-                queryKey: getEditQueryKey({
-                    path: { edit_id: Number(params.editId) },
-                }),
-            });
+            invalidateEditDetail(queryClient, Number(params.editId));
             invalidateEdits(queryClient);
 
             // An accepted edit mutates the underlying content — refresh it.

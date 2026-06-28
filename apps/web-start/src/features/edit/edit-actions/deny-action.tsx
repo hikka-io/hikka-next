@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { denyEditMutation, getEditQueryKey } from '@hikka/api';
+import { denyEditMutation } from '@hikka/api';
 
 import {
     AlertDialog,
@@ -15,7 +15,10 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { invalidateEdits } from '@/utils/api/invalidate-content-state';
+import {
+    invalidateEditDetail,
+    invalidateEdits,
+} from '@/utils/api/invalidate-content-state';
 import { useParams } from '@/utils/navigation';
 
 type Props = {};
@@ -26,11 +29,7 @@ const DenyAction: FC<Props> = () => {
     const denyEdit = useMutation({
         ...denyEditMutation(),
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: getEditQueryKey({
-                    path: { edit_id: Number(params.editId) },
-                }),
-            });
+            invalidateEditDetail(queryClient, Number(params.editId));
             invalidateEdits(queryClient);
         },
     });

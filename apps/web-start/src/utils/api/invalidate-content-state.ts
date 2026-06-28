@@ -1,6 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query';
 
 import {
+    getEditQueryKey,
     type ReadResponse,
     readGetQueryKey,
     type WatchResponse,
@@ -347,6 +348,18 @@ export function invalidateEdits(
     options?: InvalidateOptions,
 ): Promise<void> {
     return invalidateByIds(queryClient, EDIT_LIST_IDS, options);
+}
+
+/** Invalidate a single community-edit detail (`getEdit`) after accept/close/deny/update. */
+export function invalidateEditDetail(
+    queryClient: QueryClient,
+    editId: number,
+    options?: InvalidateOptions,
+): Promise<void> {
+    return queryClient.invalidateQueries({
+        queryKey: getEditQueryKey({ path: { edit_id: editId } }),
+        refetchType: refetchTypeFor(options),
+    });
 }
 
 /** Invalidate collection list/detail queries after a collection mutation. */
