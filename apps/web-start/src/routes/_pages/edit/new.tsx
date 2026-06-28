@@ -76,35 +76,35 @@ export const Route = createFileRoute('/_pages/edit/new')({
         }
 
         if (content_type === ContentTypeEnum.ANIME) {
-            await queryClient.ensureQueryData(
+            await queryClient.prefetchQuery(
                 animeSlugOptions({
                     path: { slug: String(slug) },
                     client: apiClient,
                 }),
             );
         } else if (content_type === ContentTypeEnum.MANGA) {
-            await queryClient.ensureQueryData(
+            await queryClient.prefetchQuery(
                 mangaInfoOptions({
                     path: { slug: String(slug) },
                     client: apiClient,
                 }),
             );
         } else if (content_type === ContentTypeEnum.NOVEL) {
-            await queryClient.ensureQueryData(
+            await queryClient.prefetchQuery(
                 novelInfoOptions({
                     path: { slug: String(slug) },
                     client: apiClient,
                 }),
             );
         } else if (content_type === ContentTypeEnum.CHARACTER) {
-            await queryClient.ensureQueryData(
+            await queryClient.prefetchQuery(
                 characterInfoOptions({
                     path: { slug: String(slug) },
                     client: apiClient,
                 }),
             );
         } else if (content_type === ContentTypeEnum.PERSON) {
-            await queryClient.ensureQueryData(
+            await queryClient.prefetchQuery(
                 personInfoOptions({
                     path: { slug: String(slug) },
                     client: apiClient,

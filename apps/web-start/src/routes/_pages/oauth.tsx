@@ -20,7 +20,7 @@ export const Route = createFileRoute('/_pages/oauth')({
 
         if (!reference || !scope) throw redirect({ to: '/' });
 
-        await queryClient.ensureQueryData(
+        await queryClient.prefetchQuery(
             getClientByReferenceOptions({
                 path: { client_reference: reference },
                 client: apiClient,

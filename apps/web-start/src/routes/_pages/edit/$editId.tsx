@@ -29,7 +29,7 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
 
         if (!edit) throw redirect({ to: '/edit' });
 
-        await queryClient.ensureInfiniteQueryData({
+        await queryClient.prefetchInfiniteQuery({
             ...getContentsListInfiniteOptions({
                 path: {
                     content_type: 'edit' as CommentsContentType,

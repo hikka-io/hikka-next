@@ -35,7 +35,7 @@ export const Route = createFileRoute('/_pages/schedule')({
                 ? (status as AnimeStatusEnum[])
                 : [AnimeStatusEnum.ONGOING, AnimeStatusEnum.ANNOUNCED];
 
-        await queryClient.ensureInfiniteQueryData({
+        await queryClient.prefetchInfiniteQuery({
             ...animeScheduleInfiniteOptions({
                 body: {
                     status: resolvedStatus,

@@ -7,7 +7,7 @@ import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/comments/latest')({
     loader: async ({ context: { queryClient, apiClient } }) => {
-        await queryClient.ensureInfiniteQueryData({
+        await queryClient.prefetchInfiniteQuery({
             ...commentsListInfiniteOptions({ client: apiClient }),
             ...paginationPageParam(),
         });

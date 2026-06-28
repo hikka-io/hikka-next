@@ -7,7 +7,7 @@ import { NotificationsSettings } from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/notifications')({
     loader: async ({ context: { queryClient, apiClient } }) => {
-        await queryClient.ensureQueryData(
+        await queryClient.prefetchQuery(
             getIgnoredNotificationsOptions({ client: apiClient }),
         );
     },

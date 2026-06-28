@@ -81,7 +81,7 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                 ? (deps.score as [number, number])
                 : undefined;
 
-            await queryClient.ensureInfiniteQueryData({
+            await queryClient.prefetchInfiniteQuery({
                 ...userWatchListInfiniteOptions({
                     path: { username },
                     body: {
@@ -119,7 +119,7 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                 ? (deps.score as [number, number])
                 : undefined;
 
-            await queryClient.ensureInfiniteQueryData({
+            await queryClient.prefetchInfiniteQuery({
                 ...userReadListInfiniteOptions({
                     path: {
                         username,
