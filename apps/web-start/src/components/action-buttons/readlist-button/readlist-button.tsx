@@ -14,7 +14,6 @@ import {
     ReadStatusEnum,
     readAddMutation,
     readGetOptions,
-    readGetQueryKey,
 } from '@hikka/api';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
@@ -34,7 +33,7 @@ import {
     SelectSeparator,
 } from '@/components/ui/select';
 import { useTitle } from '@/features/auth/hooks/use-title';
-import { invalidateReadState } from '@/utils/api/invalidate-content-state';
+import { applyReadMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
@@ -115,18 +114,10 @@ const ReadlistButton = ({
         enabled: !disabled && content_type === 'novel' && !contentProp,
     });
 
-    const invalidateReadLists = () => invalidateReadState(queryClient);
-
     const { mutate: createRead, isPending: isChangingStatus } = useMutation({
         ...readAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                readGetQueryKey({
-                    path: { content_type: path.content_type, slug: path.slug },
-                }),
-                data,
-            );
-            invalidateReadLists();
+        onSuccess: (data) => {
+            applyReadMutation(queryClient, data);
         },
     });
 

@@ -9,12 +9,11 @@ import {
     type WatchStatusEnum,
     WatchStatusEnum as WatchStatusEnumValue,
     watchAddMutation,
-    watchGetQueryKey,
 } from '@hikka/api';
 
 import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-import { invalidateWatchState } from '@/utils/api/invalidate-content-state';
+import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
@@ -42,12 +41,8 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
 
     const { mutate: createWatch } = useMutation({
         ...watchAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                watchGetQueryKey({ path: { slug: path.slug } }),
-                data,
-            );
-            invalidateWatchState(queryClient);
+        onSuccess: (data) => {
+            applyWatchMutation(queryClient, data);
         },
     });
 

@@ -1,9 +1,23 @@
 import type { QueryClient } from '@tanstack/react-query';
 
-// Queries that embed the user's `.watch` per item and are usually on screen
-// when they toggle a status — refetch immediately.
-const WATCH_OWNED_IDS = [
-    'userWatchList',
+import {
+    type ReadResponse,
+    readGetQueryKey,
+    type WatchResponse,
+    watchGetQueryKey,
+} from '@hikka/api';
+
+// The user's own watch list — refetched on every change so the entry reorders
+// (sorted by updated-at). Its status is top-level, so the patcher below skips it.
+const WATCH_LIST_IDS = ['userWatchList'];
+
+// Every other query that embeds the user's `.watch` per content item (catalog,
+// collections, character/person, franchise, favourites). Patched in place by
+// `writeWatchToCaches` and only stale-marked — never refetched, so one toggle
+// never reloads a large grid.
+const WATCH_EMBED_IDS = [
+    'searchAnime',
+    'animeRecommendations',
     'characterAnime',
     'personAnime',
     'contentFranchise',
@@ -12,13 +26,12 @@ const WATCH_OWNED_IDS = [
     'getCollections',
 ];
 
-// Also embed `.watch`, but are high-cardinality infinite lists — marked stale
-// without refetching every loaded page (see invalidateWatchState).
-const WATCH_CATALOG_IDS = ['searchAnime', 'animeRecommendations'];
-
 // Same split for `.read` status.
-const READ_OWNED_IDS = [
-    'userReadList',
+const READ_LIST_IDS = ['userReadList'];
+
+const READ_EMBED_IDS = [
+    'searchManga',
+    'searchNovel',
     'characterManga',
     'characterNovel',
     'personManga',
@@ -28,8 +41,6 @@ const READ_OWNED_IDS = [
     'getCollection',
     'getCollections',
 ];
-
-const READ_CATALOG_IDS = ['searchManga', 'searchNovel'];
 
 /** Comment lists + content-list queries that embed a comments count/preview. */
 const COMMENT_IDS = [
@@ -119,17 +130,19 @@ export function invalidateByIds(
 }
 
 /**
- * Invalidate every cache reflecting the user's anime watch status: their own
- * list plus all content-list queries that embed `.watch` per item. Active
- * queries refetch immediately; inactive ones refetch on next view.
+ * Reconcile every cache reflecting the user's anime watch status: refetch the
+ * user's own list (it reorders/filters by status) and mark the status-embedding
+ * lists stale as a refetch-on-focus backstop. The on-screen update is handled
+ * optimistically by `writeWatchToCaches`; pass `{ refetch: false }` to also skip
+ * the own-list refetch (debounced trackers, to avoid mid-interaction reorder).
  */
 export function invalidateWatchState(
     queryClient: QueryClient,
     options?: InvalidateOptions,
 ): Promise<void> {
     return Promise.all([
-        invalidateByIds(queryClient, WATCH_OWNED_IDS, options),
-        invalidateByIds(queryClient, WATCH_CATALOG_IDS, { refetch: false }),
+        invalidateByIds(queryClient, WATCH_LIST_IDS, options),
+        invalidateByIds(queryClient, WATCH_EMBED_IDS, { refetch: false }),
     ]).then(() => undefined);
 }
 
@@ -139,9 +152,185 @@ export function invalidateReadState(
     options?: InvalidateOptions,
 ): Promise<void> {
     return Promise.all([
-        invalidateByIds(queryClient, READ_OWNED_IDS, options),
-        invalidateByIds(queryClient, READ_CATALOG_IDS, { refetch: false }),
+        invalidateByIds(queryClient, READ_LIST_IDS, options),
+        invalidateByIds(queryClient, READ_EMBED_IDS, { refetch: false }),
     ]).then(() => undefined);
+}
+
+// --- Optimistic status patching ------------------------------------------
+//
+// Cards read the user's status from the object embedded per content item
+// (`item.watch[0]` / `item.read[0]`). Those queries aren't refetched on a change
+// (WATCH_EMBED_IDS), so we patch the cache directly. The same `{ slug, watch|read }`
+// object sits at different depths per query — top-level in catalogs, `item.content`
+// in collections, `item.anime` in character/person rows — so one recursive walk
+// patches it wherever it lives, instead of a patcher per shape.
+
+type StatusField = 'watch' | 'read';
+
+const WATCH_EMBED_SET = new Set(WATCH_EMBED_IDS);
+const READ_EMBED_SET = new Set(READ_EMBED_IDS);
+
+/**
+ * Return `node` with the embedded `field` array of every `{ slug, [field] }`
+ * content object matching `slug` replaced by `next` (or cleared). Walks arbitrary
+ * nesting and preserves referential identity for unchanged branches — so
+ * `setQueriesData` skips notifying observers of queries that didn't contain the
+ * slug, and React only re-renders the cards that actually changed.
+ */
+function patchEmbeddedStatus<T>(
+    node: T,
+    slug: string,
+    field: StatusField,
+    next: object | undefined,
+): T {
+    if (Array.isArray(node)) {
+        let changed = false;
+        const mapped = node.map((child) => {
+            const patched = patchEmbeddedStatus(child, slug, field, next);
+            if (patched !== child) changed = true;
+            return patched;
+        });
+        return (changed ? mapped : node) as T;
+    }
+
+    if (node === null || typeof node !== 'object') return node;
+    const record = node as Record<string, unknown>;
+
+    // A status-bearing content node: patch it if it's our target, and never
+    // descend further either way (its children hold no other matching content).
+    if (typeof record.slug === 'string' && Array.isArray(record[field])) {
+        if (record.slug !== slug) return node;
+        return { ...record, [field]: next ? [next] : [] } as T;
+    }
+
+    let changed = false;
+    const out: Record<string, unknown> = {};
+    for (const key in record) {
+        const patched = patchEmbeddedStatus(record[key], slug, field, next);
+        if (patched !== record[key]) changed = true;
+        out[key] = patched;
+    }
+    return (changed ? out : node) as T;
+}
+
+/** Patch the embedded status of `slug` across every query whose `_id` is in `ids`. */
+function patchEmbeddedStatusInQueries(
+    queryClient: QueryClient,
+    ids: Set<string>,
+    slug: string,
+    field: StatusField,
+    next: object | undefined,
+): void {
+    queryClient.setQueriesData<unknown>(
+        { predicate: (query) => ids.has(queryId(query.queryKey) ?? '') },
+        (data: unknown) => patchEmbeddedStatus(data, slug, field, next),
+    );
+}
+
+/**
+ * Reflect a watch add/update in the per-content (`watchGet`) cache and in every
+ * status-embedding list. Use this from a watch mutation `onSuccess`; pair with
+ * `invalidateWatchState` (or call `applyWatchMutation`, which does both).
+ */
+export function writeWatchToCaches(
+    queryClient: QueryClient,
+    data: WatchResponse,
+): void {
+    const { anime, ...base } = data;
+    queryClient.setQueryData(
+        watchGetQueryKey({ path: { slug: anime.slug } }),
+        data,
+    );
+    patchEmbeddedStatusInQueries(
+        queryClient,
+        WATCH_EMBED_SET,
+        anime.slug,
+        'watch',
+        base,
+    );
+}
+
+/** `writeWatchToCaches` + `invalidateWatchState`. The standard watch onSuccess. */
+export function applyWatchMutation(
+    queryClient: QueryClient,
+    data: WatchResponse,
+    options?: InvalidateOptions,
+): Promise<void> {
+    writeWatchToCaches(queryClient, data);
+    return invalidateWatchState(queryClient, options);
+}
+
+/** Clear a deleted watch entry from the per-content + embedding caches, then invalidate. */
+export function applyWatchDeletion(
+    queryClient: QueryClient,
+    slug: string,
+    options?: InvalidateOptions,
+): Promise<void> {
+    // Invalidate (not remove) the per-content entry so separately-mounted
+    // observers refetch → 404 → hide, rather than keep a stale entry.
+    queryClient.invalidateQueries({
+        queryKey: watchGetQueryKey({ path: { slug } }),
+    });
+    patchEmbeddedStatusInQueries(
+        queryClient,
+        WATCH_EMBED_SET,
+        slug,
+        'watch',
+        undefined,
+    );
+    return invalidateWatchState(queryClient, options);
+}
+
+/** Read mirror of `writeWatchToCaches`. */
+export function writeReadToCaches(
+    queryClient: QueryClient,
+    data: ReadResponse,
+): void {
+    const { content, ...base } = data;
+    queryClient.setQueryData(
+        readGetQueryKey({
+            path: { content_type: content.data_type, slug: content.slug },
+        }),
+        data,
+    );
+    patchEmbeddedStatusInQueries(
+        queryClient,
+        READ_EMBED_SET,
+        content.slug,
+        'read',
+        base,
+    );
+}
+
+/** Read mirror of `applyWatchMutation`. */
+export function applyReadMutation(
+    queryClient: QueryClient,
+    data: ReadResponse,
+    options?: InvalidateOptions,
+): Promise<void> {
+    writeReadToCaches(queryClient, data);
+    return invalidateReadState(queryClient, options);
+}
+
+/** Read mirror of `applyWatchDeletion`. */
+export function applyReadDeletion(
+    queryClient: QueryClient,
+    content_type: ReadResponse['content']['data_type'],
+    slug: string,
+    options?: InvalidateOptions,
+): Promise<void> {
+    queryClient.invalidateQueries({
+        queryKey: readGetQueryKey({ path: { content_type, slug } }),
+    });
+    patchEmbeddedStatusInQueries(
+        queryClient,
+        READ_EMBED_SET,
+        slug,
+        'read',
+        undefined,
+    );
+    return invalidateReadState(queryClient, options);
 }
 
 /** Invalidate comment lists/threads after a comment write/edit/delete. */

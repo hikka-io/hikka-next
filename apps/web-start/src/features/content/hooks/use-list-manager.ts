@@ -9,17 +9,15 @@ import {
     type ReadResponse,
     ReadStatusEnum,
     readAddMutation,
-    readGetQueryKey,
     type WatchResponse,
     WatchStatusEnum,
     watchAddMutation,
-    watchGetQueryKey,
 } from '@hikka/api';
 
 import useDebounce from '@/services/hooks/use-debounce';
 import {
-    invalidateReadState,
-    invalidateWatchState,
+    applyReadMutation,
+    applyWatchMutation,
 } from '@/utils/api/invalidate-content-state';
 
 type MappedListItem = {
@@ -119,24 +117,14 @@ export const useUserlistManager = ({
 
     const { mutate: mutateCreateWatch } = useMutation({
         ...watchAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                watchGetQueryKey({ path: { slug: path.slug } }),
-                data,
-            );
-            invalidateWatchState(queryClient);
+        onSuccess: (data) => {
+            applyWatchMutation(queryClient, data);
         },
     });
     const { mutate: mutateCreateRead } = useMutation({
         ...readAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                readGetQueryKey({
-                    path: { content_type: path.content_type, slug: path.slug },
-                }),
-                data,
-            );
-            invalidateReadState(queryClient);
+        onSuccess: (data) => {
+            applyReadMutation(queryClient, data);
         },
     });
 

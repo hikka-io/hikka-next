@@ -12,7 +12,6 @@ import {
     type ReadStatusEnum,
     readAddMutation,
     readGetOptions,
-    readGetQueryKey,
 } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
@@ -31,7 +30,10 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-import { invalidateReadState } from '@/utils/api/invalidate-content-state';
+import {
+    applyReadDeletion,
+    applyReadMutation,
+} from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/i18n/zod';
@@ -69,18 +71,10 @@ const ReadEditModal = ({
 
     const read = readProp || readQuery;
 
-    const invalidateReadLists = () => invalidateReadState(queryClient);
-
     const { mutate: createRead, isPending: addToListLoading } = useMutation({
         ...readAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                readGetQueryKey({
-                    path: { content_type: path.content_type, slug: path.slug },
-                }),
-                data,
-            );
-            invalidateReadLists();
+        onSuccess: (data) => {
+            applyReadMutation(queryClient, data);
             toast.success(
                 <span>
                     <span className="font-bold">{getTitle(data.content)}</span>{' '}
@@ -95,19 +89,7 @@ const ReadEditModal = ({
         useMutation({
             ...deleteReadMutation(),
             onSuccess: (_data, { path }) => {
-                // Invalidate (not remove) the per-content read entry: removing it
-                // leaves separately-mounted observers (e.g. UserContentStats, the
-                // progress/score cards) holding the stale entry. Invalidating
-                // refetches → 404 → error state, so every observer hides.
-                queryClient.invalidateQueries({
-                    queryKey: readGetQueryKey({
-                        path: {
-                            content_type: path.content_type,
-                            slug: path.slug,
-                        },
-                    }),
-                });
-                invalidateReadLists();
+                applyReadDeletion(queryClient, path.content_type, path.slug);
                 toast.success('Контент успішно видалено.');
                 onClose?.();
             },

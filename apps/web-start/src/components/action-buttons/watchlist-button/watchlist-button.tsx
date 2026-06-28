@@ -10,7 +10,6 @@ import {
     WatchStatusEnum,
     watchAddMutation,
     watchGetOptions,
-    watchGetQueryKey,
 } from '@hikka/api';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
@@ -30,7 +29,7 @@ import {
     SelectSeparator,
 } from '@/components/ui/select';
 import { useTitle } from '@/features/auth/hooks/use-title';
-import { invalidateWatchState } from '@/utils/api/invalidate-content-state';
+import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
@@ -103,16 +102,10 @@ const WatchlistButton = ({
         enabled: !disabled && !animeProp,
     });
 
-    const invalidateWatchLists = () => invalidateWatchState(queryClient);
-
     const { mutate: addWatch, isPending: isChangingStatus } = useMutation({
         ...watchAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                watchGetQueryKey({ path: { slug: path.slug } }),
-                data,
-            );
-            invalidateWatchLists();
+        onSuccess: (data) => {
+            applyWatchMutation(queryClient, data);
         },
     });
 

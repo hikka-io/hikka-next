@@ -3,17 +3,13 @@ import { createElement, type FC } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import {
-    WatchStatusEnum,
-    watchAddMutation,
-    watchGetQueryKey,
-} from '@hikka/api';
+import { WatchStatusEnum, watchAddMutation } from '@hikka/api';
 
 import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-import { invalidateWatchState } from '@/utils/api/invalidate-content-state';
+import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
@@ -34,12 +30,8 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
 
     const { mutate: createWatch } = useMutation({
         ...watchAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                watchGetQueryKey({ path: { slug: path.slug } }),
-                data,
-            );
-            invalidateWatchState(queryClient);
+        onSuccess: (data) => {
+            applyWatchMutation(queryClient, data);
         },
     });
 

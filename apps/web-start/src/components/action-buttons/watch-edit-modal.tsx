@@ -12,7 +12,6 @@ import {
     type WatchStatusEnum,
     watchAddMutation,
     watchGetOptions,
-    watchGetQueryKey,
 } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
@@ -31,7 +30,10 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-import { invalidateWatchState } from '@/utils/api/invalidate-content-state';
+import {
+    applyWatchDeletion,
+    applyWatchMutation,
+} from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/i18n/zod';
@@ -62,16 +64,10 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
 
     const watch = watchProp || watchQuery;
 
-    const invalidateWatchLists = () => invalidateWatchState(queryClient);
-
     const { mutate: createWatch, isPending: addToListLoading } = useMutation({
         ...watchAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                watchGetQueryKey({ path: { slug: path.slug } }),
-                data,
-            );
-            invalidateWatchLists();
+        onSuccess: (data) => {
+            applyWatchMutation(queryClient, data);
             toast.info(
                 <span>
                     <span className="font-bold">{getTitle(data.anime)}</span>{' '}
@@ -86,14 +82,7 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
         useMutation({
             ...deleteWatchMutation(),
             onSuccess: (_data, { path }) => {
-                // Invalidate (not remove) the per-content watch entry: removing
-                // it leaves separately-mounted observers (e.g. UserContentStats,
-                // the progress/score cards) holding the stale entry. Invalidating
-                // refetches → 404 → error state, so every observer hides.
-                queryClient.invalidateQueries({
-                    queryKey: watchGetQueryKey({ path: { slug: path.slug } }),
-                });
-                invalidateWatchLists();
+                applyWatchDeletion(queryClient, path.slug);
                 toast.success('Аніме успішно видалено.');
                 onClose?.();
             },

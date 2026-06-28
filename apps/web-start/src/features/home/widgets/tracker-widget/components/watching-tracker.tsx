@@ -7,7 +7,6 @@ import {
     type WatchArgs,
     WatchStatusEnum,
     watchAddMutation,
-    watchGetQueryKey,
 } from '@hikka/api';
 
 import { WatchEditModal } from '@/components/action-buttons';
@@ -35,7 +34,10 @@ import {
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import useDebounce from '@/services/hooks/use-debounce';
-import { invalidateWatchState } from '@/utils/api/invalidate-content-state';
+import {
+    invalidateWatchState,
+    writeWatchToCaches,
+} from '@/utils/api/invalidate-content-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
@@ -83,11 +85,8 @@ const WatchingTracker = () => {
 
     const { mutate: mutateCreateWatch, reset } = useMutation({
         ...watchAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                watchGetQueryKey({ path: { slug: path.slug } }),
-                data,
-            );
+        onSuccess: (data) => {
+            writeWatchToCaches(queryClient, data);
         },
     });
 

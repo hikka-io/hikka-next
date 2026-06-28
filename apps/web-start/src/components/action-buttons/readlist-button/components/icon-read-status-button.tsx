@@ -10,12 +10,11 @@ import {
     type ReadStatusEnum,
     ReadStatusEnum as ReadStatusEnumValue,
     readAddMutation,
-    readGetQueryKey,
 } from '@hikka/api';
 
 import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-import { invalidateReadState } from '@/utils/api/invalidate-content-state';
+import { applyReadMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
@@ -45,14 +44,8 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
 
     const { mutate: createRead } = useMutation({
         ...readAddMutation(),
-        onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                readGetQueryKey({
-                    path: { content_type: path.content_type, slug: path.slug },
-                }),
-                data,
-            );
-            invalidateReadState(queryClient);
+        onSuccess: (data) => {
+            applyReadMutation(queryClient, data);
         },
     });
 
