@@ -3,7 +3,12 @@ import { type FC, useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
 
-import { ContentTypeEnum, type FeedArgs } from '@hikka/api';
+import {
+    ContentTypeEnum,
+    type FeedArgs,
+    feedPageParam,
+    getFeedInfiniteOptions,
+} from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -25,7 +30,6 @@ import FeedItemSkeleton from './components/feed-item-skeleton';
 import FeedSubTypeSelect, {
     type FeedSubTypeFilters,
 } from './components/feed-sub-type-select';
-import { feedInfiniteOptions } from './feed-infinite-options';
 
 function getFeedItemKey(item: FeedItemResponse): string {
     if (item.data_type === ContentTypeEnum.ARTICLE) return item.slug;
@@ -100,7 +104,10 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
 
     const { ref: feedRef, inView } = useInView();
 
-    const feedQuery = useInfiniteQuery(feedInfiniteOptions(feedArgs));
+    const feedQuery = useInfiniteQuery({
+        ...getFeedInfiniteOptions({ body: feedArgs }),
+        ...feedPageParam(),
+    });
     const {
         data: feedData,
         isPending,

@@ -22,6 +22,7 @@ const QUERY_POST_PATHS = new Set([
     '/favourite/{content_type}/{username}/list',
     '/watch/{username}/list',
     '/read/{content_type}/{username}/list',
+    '/feed',
 ]);
 
 export default defineConfig({

@@ -147,11 +147,13 @@ const ReadEditModal = ({
 
     const startDate = useStore(form.store, (s) => s.values.start_date);
 
+    // Depend on the status, not the `read` identity, so a background refetch
+    // doesn't clobber an unsaved dropdown change.
     useEffect(() => {
         if (read?.status) {
             setSelectedStatus(read.status as ReadStatusEnum);
         }
-    }, [read]);
+    }, [read?.status]);
 
     if (!read) return null;
 

@@ -7,8 +7,10 @@ import {
     animeScheduleInfiniteOptions,
     ContentTypeEnum,
     type FeedArgs,
+    feedPageParam,
     followingHistoryInfiniteOptions,
     followStatsOptions,
+    getFeedInfiniteOptions,
     paginationPageParam,
     profileQueryKey,
     searchAnimeInfiniteOptions,
@@ -23,7 +25,6 @@ import CoverImage from '@/components/cover-image';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { getOngoingsSort } from '@/features/filters/sort';
 import { FeedLayout } from '@/features/home';
-import { feedInfiniteOptions } from '@/features/home/widgets/feed-widget/feed-infinite-options';
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
@@ -105,14 +106,15 @@ export const Route = createFileRoute('/_pages/')({
         }
 
         promises.push(
-            queryClient.ensureInfiniteQueryData(
-                feedInfiniteOptions(
-                    {
+            queryClient.ensureInfiniteQueryData({
+                ...getFeedInfiniteOptions({
+                    body: {
                         content_type: FEED_TYPE_TO_CONTENT_TYPE[type ?? 'all'],
                     },
-                    { client: apiClient },
-                ),
-            ),
+                    client: apiClient,
+                }),
+                ...feedPageParam(),
+            }),
         );
 
         promises.push(

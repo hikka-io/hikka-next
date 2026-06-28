@@ -1,33 +1,35 @@
 import type { QueryClient } from '@tanstack/react-query';
 
-/**
- * Generated query-key `_id`s whose responses embed the current user's `watch`
- * status on each content item (`AnimeResponseWithWatch.watch`, etc.). Content
- * cards render their status from this embedded field, so a watch mutation must
- * invalidate these — not just `watchGet` — for the cards to refresh.
- */
-const WATCH_BEARING_IDS = [
-    'userWatchList', // the user's own watch list
-    'searchAnime', // catalog + ongoings + search
-    'animeRecommendations',
-    'characterAnime', // CharacterAnimeResponse.anime
-    'personAnime', // PersonAnimeResponse.anime
-    'contentFranchise', // FranchiseResponse.anime[]
-    'favouriteList', // FavouriteAnimeResponse.watch
+// Queries that embed the user's `.watch` per item and are usually on screen
+// when they toggle a status — refetch immediately.
+const WATCH_OWNED_IDS = [
+    'userWatchList',
+    'characterAnime',
+    'personAnime',
+    'contentFranchise',
+    'favouriteList',
+    'getCollection',
+    'getCollections',
 ];
 
-/** Same idea for `read` status (`MangaResponseWithRead.read`, etc.). */
-const READ_BEARING_IDS = [
+// Also embed `.watch`, but are high-cardinality infinite lists — marked stale
+// without refetching every loaded page (see invalidateWatchState).
+const WATCH_CATALOG_IDS = ['searchAnime', 'animeRecommendations'];
+
+// Same split for `.read` status.
+const READ_OWNED_IDS = [
     'userReadList',
-    'searchManga',
-    'searchNovel',
     'characterManga',
     'characterNovel',
     'personManga',
     'personNovel',
-    'contentFranchise', // FranchiseResponse.manga[] / .novel[]
-    'favouriteList', // FavouriteManga/NovelResponse.read
+    'contentFranchise',
+    'favouriteList',
+    'getCollection',
+    'getCollections',
 ];
+
+const READ_CATALOG_IDS = ['searchManga', 'searchNovel'];
 
 /** Comment lists + content-list queries that embed a comments count/preview. */
 const COMMENT_IDS = [
@@ -51,7 +53,8 @@ const FOLLOW_IDS = [
     'followingList',
     'followersList',
     'followStats',
-    'followingHistory', // the personalised feed
+    'followingHistory',
+    'getFeed', // the home feed widget
     'getWatchFollowing',
     'getReadFollowing',
 ];
@@ -86,8 +89,14 @@ export type InvalidateOptions = {
     refetch?: boolean;
 };
 
+/** Map our `refetch` flag onto TanStack's `refetchType`. */
+function refetchTypeFor(options?: InvalidateOptions): 'none' | undefined {
+    return options?.refetch === false ? 'none' : undefined;
+}
+
 /**
- * Invalidate every cached query whose generated `_id` is in `ids`. This is the
+ * Invalidate every cached query whose generated `_id` is in `ids`, plus any
+ * query the optional `extraMatch` predicate accepts (OR-combined). This is the
  * shared replacement for the old `@hikka/react` `createMutation`
  * `invalidateQueries` mechanism — call it (or one of the named helpers below)
  * from a mutation `onSuccess` instead of hand-rolling a `predicate`.
@@ -96,14 +105,16 @@ export function invalidateByIds(
     queryClient: QueryClient,
     ids: readonly string[],
     options?: InvalidateOptions,
+    extraMatch?: (query: { queryKey: readonly unknown[] }) => boolean,
 ): Promise<void> {
     const idSet = new Set(ids);
     return queryClient.invalidateQueries({
         predicate: (query) => {
             const id = queryId(query.queryKey);
-            return id !== undefined && idSet.has(id);
+            if (id !== undefined && idSet.has(id)) return true;
+            return extraMatch ? extraMatch(query) : false;
         },
-        refetchType: options?.refetch === false ? 'none' : undefined,
+        refetchType: refetchTypeFor(options),
     });
 }
 
@@ -116,7 +127,10 @@ export function invalidateWatchState(
     queryClient: QueryClient,
     options?: InvalidateOptions,
 ): Promise<void> {
-    return invalidateByIds(queryClient, WATCH_BEARING_IDS, options);
+    return Promise.all([
+        invalidateByIds(queryClient, WATCH_OWNED_IDS, options),
+        invalidateByIds(queryClient, WATCH_CATALOG_IDS, { refetch: false }),
+    ]).then(() => undefined);
 }
 
 /** Invalidate every cache reflecting the user's manga/novel read status. */
@@ -124,7 +138,10 @@ export function invalidateReadState(
     queryClient: QueryClient,
     options?: InvalidateOptions,
 ): Promise<void> {
-    return invalidateByIds(queryClient, READ_BEARING_IDS, options);
+    return Promise.all([
+        invalidateByIds(queryClient, READ_OWNED_IDS, options),
+        invalidateByIds(queryClient, READ_CATALOG_IDS, { refetch: false }),
+    ]).then(() => undefined);
 }
 
 /** Invalidate comment lists/threads after a comment write/edit/delete. */
@@ -214,19 +231,14 @@ export function invalidateFollow(
     targetUsername: string,
     options?: InvalidateOptions,
 ): Promise<void> {
-    const idSet = new Set([...FOLLOW_IDS, ...ARTICLE_IDS, ...COLLECTION_IDS]);
-    return queryClient.invalidateQueries({
-        predicate: (query) => {
-            const id = queryId(query.queryKey);
-            if (id === undefined) return false;
-            if (idSet.has(id)) return true;
-            return (
-                id === 'userProfile' &&
-                JSON.stringify(query.queryKey).includes(targetUsername)
-            );
-        },
-        refetchType: options?.refetch === false ? 'none' : undefined,
-    });
+    return invalidateByIds(
+        queryClient,
+        [...FOLLOW_IDS, ...ARTICLE_IDS, ...COLLECTION_IDS],
+        options,
+        (query) =>
+            queryId(query.queryKey) === 'userProfile' &&
+            JSON.stringify(query.queryKey).includes(targetUsername),
+    );
 }
 
 /**
@@ -265,6 +277,6 @@ export function invalidateContentBySlug(
                 JSON.stringify(query.queryKey).includes(slug)
             );
         },
-        refetchType: options?.refetch === false ? 'none' : undefined,
+        refetchType: refetchTypeFor(options),
     });
 }

@@ -6902,6 +6902,81 @@ export const setVoteMutation = (
     return mutationOptions;
 };
 
+export const getFeedQueryKey = (options: Options<GetFeedData>) =>
+    createQueryKey('getFeed', options);
+
+/**
+ * Get Feed
+ */
+export const getFeedOptions = (options: Options<GetFeedData>) =>
+    queryOptions<
+        GetFeedResponse,
+        GetFeedError,
+        GetFeedResponse,
+        ReturnType<typeof getFeedQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getFeed({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getFeedQueryKey(options),
+    });
+
+export const getFeedInfiniteQueryKey = (
+    options: Options<GetFeedData>,
+): QueryKey<Options<GetFeedData>> => createQueryKey('getFeed', options, true);
+
+/**
+ * Get Feed
+ */
+export const getFeedInfiniteOptions = (options: Options<GetFeedData>) => {
+    const opts = infiniteQueryOptions<
+        GetFeedResponse,
+        GetFeedError,
+        InfiniteData<GetFeedResponse>,
+        QueryKey<Options<GetFeedData>>,
+        | string
+        | null
+        | Pick<
+              QueryKey<Options<GetFeedData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetFeedData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              body: {
+                                  before: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getFeed({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getFeedInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
 /**
  * Get Feed
  */

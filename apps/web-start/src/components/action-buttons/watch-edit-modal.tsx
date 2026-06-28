@@ -132,11 +132,13 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
 
     const startDate = useStore(form.store, (s) => s.values.start_date);
 
+    // Depend on the status, not the `watch` identity, so a background refetch
+    // doesn't clobber an unsaved dropdown change.
     useEffect(() => {
         if (watch?.status) {
             setSelectedStatus(watch.status as WatchStatusEnum);
         }
-    }, [watch]);
+    }, [watch?.status]);
 
     if (!watch) return null;
 

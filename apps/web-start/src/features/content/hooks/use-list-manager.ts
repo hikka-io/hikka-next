@@ -9,14 +9,15 @@ import {
     type ReadResponse,
     ReadStatusEnum,
     readAddMutation,
+    readGetQueryKey,
     type WatchResponse,
     WatchStatusEnum,
     watchAddMutation,
+    watchGetQueryKey,
 } from '@hikka/api';
 
 import useDebounce from '@/services/hooks/use-debounce';
 import {
-    invalidateByIds,
     invalidateReadState,
     invalidateWatchState,
 } from '@/utils/api/invalidate-content-state';
@@ -118,15 +119,23 @@ export const useUserlistManager = ({
 
     const { mutate: mutateCreateWatch } = useMutation({
         ...watchAddMutation(),
-        onSuccess: () => {
-            invalidateByIds(queryClient, ['watchGet']);
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                watchGetQueryKey({ path: { slug: path.slug } }),
+                data,
+            );
             invalidateWatchState(queryClient);
         },
     });
     const { mutate: mutateCreateRead } = useMutation({
         ...readAddMutation(),
-        onSuccess: () => {
-            invalidateByIds(queryClient, ['readGet']);
+        onSuccess: (data, { path }) => {
+            queryClient.setQueryData(
+                readGetQueryKey({
+                    path: { content_type: path.content_type, slug: path.slug },
+                }),
+                data,
+            );
             invalidateReadState(queryClient);
         },
     });
