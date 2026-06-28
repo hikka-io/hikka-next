@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
 
 import {
     ContentTypeEnum,
@@ -8,6 +8,7 @@ import {
     characterNovelInfiniteOptions,
     characterVoicesInfiniteOptions,
     getFavouriteOptions,
+    HikkaApiError,
     paginationPageParam,
 } from '@hikka/api';
 
@@ -20,14 +21,23 @@ import { getTitle } from '@/utils/title/get-title';
 
 export const Route = createFileRoute('/_pages/characters/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
-        const character = await queryClient.ensureQueryData(
-            characterInfoOptions({
-                path: { slug: params.slug },
-                client: apiClient,
-            }),
-        );
+        const character = await queryClient
+            .ensureQueryData(
+                characterInfoOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
+                }),
+            )
+            .catch((error) => {
+                // An unknown slug returns 404 — render the not-found page
+                // instead of letting the error bubble to the 500 component.
+                if (error instanceof HikkaApiError && error.status === 404) {
+                    throw notFound();
+                }
+                throw error;
+            });
 
-        if (!character) throw redirect({ to: '/' });
+        if (!character) throw notFound();
 
         const prefetches: Promise<unknown>[] = [
             queryClient.ensureInfiniteQueryData({

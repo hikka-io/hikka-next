@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
 
 import {
     ContentTypeEnum,
@@ -8,6 +8,7 @@ import {
     getContentsListInfiniteOptions,
     getFavouriteOptions,
     getReadFollowingInfiniteOptions,
+    HikkaApiError,
     novelCharactersInfiniteOptions,
     novelInfoOptions,
     paginationPageParam,
@@ -31,9 +32,18 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
             path: { slug: params.slug },
             client: apiClient,
         });
-        let novel = await queryClient.ensureQueryData(novelOptions);
+        let novel = await queryClient
+            .ensureQueryData(novelOptions)
+            .catch((error) => {
+                // An unknown slug returns 404 — render the not-found page
+                // instead of letting the error bubble to the 500 component.
+                if (error instanceof HikkaApiError && error.status === 404) {
+                    throw notFound();
+                }
+                throw error;
+            });
 
-        if (!novel) throw redirect({ to: '/' });
+        if (!novel) throw notFound();
 
         const authToken = await getAuthTokenFn();
 

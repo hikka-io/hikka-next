@@ -1,7 +1,8 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
 
 import {
     ContentTypeEnum,
+    HikkaApiError,
     paginationPageParam,
     personAnimeInfiniteOptions,
     personInfoOptions,
@@ -18,14 +19,23 @@ import { getTitle } from '@/utils/title/get-title';
 
 export const Route = createFileRoute('/_pages/people/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
-        const person = await queryClient.ensureQueryData(
-            personInfoOptions({
-                path: { slug: params.slug },
-                client: apiClient,
-            }),
-        );
+        const person = await queryClient
+            .ensureQueryData(
+                personInfoOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
+                }),
+            )
+            .catch((error) => {
+                // An unknown slug returns 404 — render the not-found page
+                // instead of letting the error bubble to the 500 component.
+                if (error instanceof HikkaApiError && error.status === 404) {
+                    throw notFound();
+                }
+                throw error;
+            });
 
-        if (!person) throw redirect({ to: '/' });
+        if (!person) throw notFound();
 
         await Promise.allSettled([
             queryClient.ensureInfiniteQueryData({
