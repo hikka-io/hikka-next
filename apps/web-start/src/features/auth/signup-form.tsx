@@ -18,6 +18,7 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
 import { setAuthCookieFn } from '@/utils/auth';
+import { getCaptchaToken } from '@/utils/captcha';
 import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
 
@@ -92,7 +93,7 @@ const SignupForm = () => {
                     username: value.username,
                 },
                 headers: {
-                    captcha: String(captchaRef.current?.getResponse()),
+                    captcha: getCaptchaToken(captchaRef.current),
                 },
             });
         },

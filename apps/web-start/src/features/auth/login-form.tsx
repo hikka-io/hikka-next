@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { setAuthCookieFn } from '@/utils/auth';
+import { getCaptchaToken } from '@/utils/captcha';
 import { z } from '@/utils/i18n/zod';
 import { Link, useRouter } from '@/utils/navigation';
 import { validateRedirectUrl } from '@/utils/url';
@@ -81,7 +82,7 @@ const LoginForm = () => {
             mutationLogin.mutate({
                 body,
                 headers: {
-                    captcha: String(captchaRef.current?.getResponse()),
+                    captcha: getCaptchaToken(captchaRef.current),
                 },
             });
         },

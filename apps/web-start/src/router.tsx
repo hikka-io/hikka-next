@@ -42,21 +42,20 @@ export async function createRouter() {
 
     const authToken = await getAuthTokenFn();
 
-    const baseUrl = import.meta.env.API_URL ?? 'https://api.hikka.io';
+    // `API_URL` is server-only; the browser bundle sees only `VITE_`-prefixed vars.
+    const baseUrl =
+        import.meta.env.API_URL ??
+        import.meta.env.VITE_API_URL ??
+        'https://api.hikka.io';
 
-    // @hikka/api: configure the browser singleton with baseUrl always (so
-    // loader/component query keys match) and the token only in the browser
-    // (never the shared server singleton).
+    // Token only in the browser; never on the shared server singleton.
     configureBrowserClient({
         baseUrl,
         authToken: isServer ? undefined : (authToken ?? undefined),
     });
 
-    // On the server, every request gets an isolated client carrying its own
-    // token (no cross-request bleed). In the browser, the router context uses
-    // the singleton so loaders pick up the live token after login/logout —
-    // `createRouter` only runs once, so a frozen per-request token would go
-    // stale the moment the user authenticates without a full reload.
+    // Server: per-request client to avoid cross-request token bleed. Browser:
+    // the singleton, so loaders pick up the live token after login/logout.
     const apiClient = isServer
         ? createRequestClient({ baseUrl, authToken: authToken ?? undefined })
         : getBrowserClient();
