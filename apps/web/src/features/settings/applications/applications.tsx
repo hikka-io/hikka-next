@@ -1,6 +1,7 @@
 import { listUserClientsInfiniteOptions } from '@hikka/api';
 
-import NotFound from '@/components/ui/not-found';
+import MaterialSymbolsAppsRounded from '@/components/icons/material-symbols/MaterialSymbolsAppsRounded';
+import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import ApplicationItem from './components/application-item';
@@ -17,7 +18,9 @@ const ApplicationsSettings = () => {
                     ))}
                 </div>
             ) : (
-                <NotFound
+                <EmptyState
+                    bordered
+                    icon={<MaterialSymbolsAppsRounded />}
                     title="Не знайдено застосунків"
                     description="Створіть свій перший застосунок для сторонньої авторизації"
                 />

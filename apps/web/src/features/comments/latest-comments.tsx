@@ -2,12 +2,13 @@ import type { FC } from 'react';
 
 import { commentsListInfiniteOptions } from '@hikka/api';
 
+import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
@@ -50,7 +51,8 @@ const Comments: FC<Props> = ({ className }) => {
                     </Card>
                 ))}
                 {list?.length === 0 && (
-                    <NotFound
+                    <EmptyState
+                        icon={<MaterialSymbolsAddCommentRounded />}
                         title="Історія відсутня"
                         description="Історія оновиться після змін у Вашому списку, або у списку користувачів, яких Ви відстежуєте"
                     />

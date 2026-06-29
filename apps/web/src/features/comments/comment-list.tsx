@@ -9,16 +9,18 @@ import {
 } from '@hikka/api';
 
 import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
+import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
+import MaterialSymbolsLockOpenRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
+import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import NotFound from '@/components/ui/not-found';
 import { LoginButton } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
 import CommentsProvider from '@/services/providers/comments-provider';
@@ -98,23 +100,26 @@ const CommentList: FC<Props> = ({
             <CommentsProvider>
                 <div className="flex flex-col gap-4">
                     {!loggedUser && (
-                        <NotFound
+                        <EmptyState
+                            icon={<MaterialSymbolsLockOpenRounded />}
                             title={<span>Ви не авторизовані</span>}
                             description="Увійдіть у свій акаунт, щоб залишити коментар"
-                        >
-                            <LoginButton
-                                variant="default"
-                                size="md"
-                                className="w-full lg:w-auto"
-                                asChild
-                            />
-                        </NotFound>
+                            action={
+                                <LoginButton
+                                    variant="default"
+                                    size="md"
+                                    className="w-full lg:w-auto"
+                                    asChild
+                                />
+                            }
+                        />
                     )}
                     {loggedUser && !comment_reference && (
                         <CommentInput slug={slug} content_type={content_type} />
                     )}
                     {list && list.length === 0 && (
-                        <NotFound
+                        <EmptyState
+                            icon={<MaterialSymbolsAddCommentRounded />}
                             title={<span>Коментарів не знайдено</span>}
                             description="Ви можете розпочати обговорення першим"
                         />
