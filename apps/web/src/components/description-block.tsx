@@ -26,10 +26,22 @@ type Props = {
 };
 
 /**
+ * Treats a description as empty when it has no meaningful content — only
+ * whitespace, newlines (real or literal `\n`/`\r` escapes), non-breaking
+ * spaces, or zero-width spaces.
+ */
+const isBlank = (text?: string | null) =>
+    !text ||
+    text
+        .replace(/\\[rn]/g, '')
+        .replace(/[\s​﻿]/g, '')
+        .trim() === '';
+
+/**
  * Shared "Опис" block used by content and character pages: renders a markdown
- * description with an optional UA/EN toggle. Empty options are dropped, the
+ * description with an optional UA/EN toggle. Blank options are dropped, the
  * toggle only appears when more than one language is available, and the whole
- * block renders nothing when there is no text at all.
+ * block renders nothing when there is no meaningful text at all.
  */
 const DescriptionBlock = ({
     title = 'Опис',
@@ -38,7 +50,7 @@ const DescriptionBlock = ({
     id,
 }: Props) => {
     const valid = options
-        .filter((o) => o.text && o.text.trim() !== '')
+        .filter((o) => !isBlank(o.text))
         .map((o, i) => ({ ...o, key: o.value ?? String(i) }));
     const [active, setActive] = useState<string | undefined>(undefined);
 
