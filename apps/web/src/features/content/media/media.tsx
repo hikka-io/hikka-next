@@ -21,13 +21,21 @@ type Props = {
 const Media: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { data: anime } = CONTENT_CONFIG.anime.useInfo(String(params.slug));
-    const [active, setActive] = useState<'video' | 'music'>(
-        anime?.videos && anime.videos.length === 0 ? 'music' : 'video',
-    );
+    const [active, setActive] = useState<'video' | 'music'>('video');
 
     if (!anime || (anime.ost.length === 0 && anime.videos.length === 0)) {
         return null;
     }
+
+    const hasVideo = anime.videos.length > 0;
+    const hasMusic = anime.ost.length > 0;
+
+    const effectiveActive =
+        active === 'video' && !hasVideo
+            ? 'music'
+            : active === 'music' && !hasMusic
+              ? 'video'
+              : active;
 
     return (
         <Block id="content-media">
@@ -38,7 +46,7 @@ const Media: FC<Props> = ({ extended }) => {
                     <HeaderTitle>Медіа</HeaderTitle>
                     <ToggleGroup
                         type="single"
-                        value={active}
+                        value={effectiveActive}
                         onValueChange={(value: 'video' | 'music') =>
                             value && setActive(value)
                         }
@@ -59,10 +67,12 @@ const Media: FC<Props> = ({ extended }) => {
                 <HeaderNavButton />
             </Header>
 
-            {active === 'video' && (
+            {effectiveActive === 'video' && (
                 <Video videos={anime.videos} extended={extended} />
             )}
-            {active === 'music' && <Ost ost={anime.ost} extended={extended} />}
+            {effectiveActive === 'music' && (
+                <Ost ost={anime.ost} extended={extended} />
+            )}
         </Block>
     );
 };
