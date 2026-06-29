@@ -2,7 +2,7 @@ import { useRouter } from '@tanstack/react-router';
 
 import type { PaginationResponse } from '@hikka/api';
 
-import Pagination from '@/components/ui/pagination';
+import { StickyPagination } from '@/components/ui/pagination';
 
 type Props = {
     pagination: PaginationResponse;
@@ -22,12 +22,8 @@ const Component = ({ pagination }: Props) => {
         } as any);
     };
 
-    if (pagination.pages < 2) {
-        return null;
-    }
-
     return (
-        <Pagination
+        <StickyPagination
             page={pagination.page}
             pages={pagination.pages}
             setPage={updatePage}

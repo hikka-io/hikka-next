@@ -14,6 +14,7 @@ import { cn } from '@/utils/cn';
 import AntDesignArrowLeftOutlined from '../icons/ant-design/AntDesignArrowLeftOutlined';
 import AntDesignArrowRightOutlined from '../icons/ant-design/AntDesignArrowRightOutlined';
 import { Button } from './button';
+import Card from './card';
 import { Input } from './input';
 
 type Props = {
@@ -198,6 +199,24 @@ const Pagination = ({ page, pages, setPage }: Props) => {
             >
                 <AntDesignArrowRightOutlined />
             </Button>
+        </div>
+    );
+};
+
+/**
+ * Pagination wrapped in the sticky, blurred bottom card shared by the catalog,
+ * collections and edit pages. Renders nothing for a single page.
+ */
+export const StickyPagination = ({ page, pages, setPage }: Props) => {
+    if (pages < 2) {
+        return null;
+    }
+
+    return (
+        <div className="sticky bottom-4 z-10 mx-auto flex w-fit items-center">
+            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
+                <Pagination page={page} pages={pages} setPage={setPage} />
+            </Card>
         </div>
     );
 };

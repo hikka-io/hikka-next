@@ -7,8 +7,7 @@ import { useNavigate } from '@tanstack/react-router';
 import CatalogListSkeleton from '@/components/catalog-list-skeleton';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
-import Card from '@/components/ui/card';
-import Pagination from '@/components/ui/pagination';
+import { StickyPagination } from '@/components/ui/pagination';
 import Stack, { type StackSize } from '@/components/ui/stack';
 
 type Props<T> = {
@@ -75,16 +74,12 @@ function CatalogListView<T>({
                     fetchNextPage={fetchNextPage}
                 />
             )}
-            {pagination && pagination.pages > 1 && (
-                <div className="sticky bottom-4 z-10 mx-auto flex w-fit items-center">
-                    <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
-                        <Pagination
-                            page={pagination.page}
-                            pages={pagination.pages}
-                            setPage={handlePageChange}
-                        />
-                    </Card>
-                </div>
+            {pagination && (
+                <StickyPagination
+                    page={pagination.page}
+                    pages={pagination.pages}
+                    setPage={handlePageChange}
+                />
             )}
         </div>
     );
