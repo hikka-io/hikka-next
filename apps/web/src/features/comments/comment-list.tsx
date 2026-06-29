@@ -101,6 +101,7 @@ const CommentList: FC<Props> = ({
                 <div className="flex flex-col gap-4">
                     {!loggedUser && (
                         <EmptyState
+                            bordered
                             icon={<MaterialSymbolsLockOpenRounded />}
                             title={<span>Ви не авторизовані</span>}
                             description="Увійдіть у свій акаунт, щоб залишити коментар"
@@ -119,6 +120,7 @@ const CommentList: FC<Props> = ({
                     )}
                     {list && list.length === 0 && (
                         <EmptyState
+                            bordered
                             icon={<MaterialSymbolsAddCommentRounded />}
                             title={<span>Коментарів не знайдено</span>}
                             description="Ви можете розпочати обговорення першим"
