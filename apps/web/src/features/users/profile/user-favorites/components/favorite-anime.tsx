@@ -7,8 +7,9 @@ import {
 } from '@hikka/api';
 
 import AnimeCard from '@/components/content-card/anime-card';
+import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
 import LoadMoreButton from '@/components/load-more-button';
-import NotFound from '@/components/ui/not-found';
+import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
@@ -67,7 +68,8 @@ const Anime: FC<Props> = ({ extended }) => {
                 </div>
             )}
             {filteredData.length === 0 && (
-                <NotFound
+                <EmptyState
+                    icon={<MaterialSymbolsLiveTvRounded />}
                     title={
                         <span>
                             У списку <span className="font-black">Аніме</span>{' '}

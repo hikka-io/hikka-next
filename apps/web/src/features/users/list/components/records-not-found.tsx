@@ -5,7 +5,8 @@ import {
     type WatchStatusEnum,
 } from '@hikka/api';
 
-import NotFound from '@/components/ui/not-found';
+import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
+import EmptyState from '@/components/ui/empty-state';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
 type Props = {
@@ -28,7 +29,8 @@ const RecordsNotFound = ({ status, content_type }: Props) => {
               : READ_STATUS[status as ReadStatusEnum].title_ua;
 
     return (
-        <NotFound
+        <EmptyState
+            icon={<MaterialSymbolsBookmarkOutline />}
             title={
                 statusTitle ? (
                     <span>

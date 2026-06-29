@@ -7,8 +7,9 @@ import {
 } from '@hikka/api';
 
 import MangaCard from '@/components/content-card/manga-card';
+import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
 import LoadMoreButton from '@/components/load-more-button';
-import NotFound from '@/components/ui/not-found';
+import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
@@ -68,7 +69,8 @@ const Manga: FC<Props> = ({ extended }) => {
                 </div>
             )}
             {filteredData.length === 0 && (
-                <NotFound
+                <EmptyState
+                    icon={<MaterialSymbolsMenuBookRounded />}
                     title={
                         <span>
                             У списку <span className="font-black">Манґа</span>{' '}

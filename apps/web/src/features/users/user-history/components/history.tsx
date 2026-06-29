@@ -3,10 +3,11 @@ import { type FC, Fragment } from 'react';
 import { userHistoryInfiniteOptions } from '@hikka/api';
 
 import { HistoryItem } from '@/components/content-card';
+import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
-import NotFound from '@/components/ui/not-found';
+import EmptyState from '@/components/ui/empty-state';
 import Stack from '@/components/ui/stack';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
@@ -44,7 +45,8 @@ const History: FC<Props> = ({ className }) => {
                     </Card>
                 ))}
                 {list?.length === 0 && (
-                    <NotFound
+                    <EmptyState
+                        icon={<MaterialSymbolsHistoryRounded />}
                         title="Історія відсутня"
                         description="Історія оновиться після змін у Вашому списку, або у списку користувачів, яких Ви відстежуєте"
                     />
