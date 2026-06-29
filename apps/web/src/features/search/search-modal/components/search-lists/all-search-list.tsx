@@ -163,7 +163,8 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
             onClose();
             const path = CONTENT_TYPE_LINKS[contentType];
             router.push(
-                value ? `${path}?search=${encodeURIComponent(value)}` : path,
+                path,
+                value ? { search: { search: value } } : undefined,
             );
         },
         [onClose, router, value],

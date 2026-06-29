@@ -1,4 +1,4 @@
-import { type FC, Suspense, useEffect, useState } from 'react';
+import { type FC, Suspense, useEffect, useRef, useState } from 'react';
 
 import { useNavigate } from '@tanstack/react-router';
 import { Filter, PanelRightClose, PanelRightOpen } from 'lucide-react';
@@ -42,11 +42,21 @@ const Search = ({ placeholder }: { placeholder: string }) => {
     const [search, setSearch] = useState(query);
     const debouncedSearch = useDebounce({ value: search, delay: 300 });
 
+    // Latest values read inside effects without making them retrigger.
+    const queryRef = useRef(query);
+    queryRef.current = query;
+    const debouncedRef = useRef(debouncedSearch);
+    debouncedRef.current = debouncedSearch;
+
+    // Push the debounced input to the URL. Keyed on the debounced input only —
+    // deliberately NOT on `query` — so a URL change coming from elsewhere (the
+    // search modal, browser back/forward) cannot retrigger this with a stale
+    // debounced value and wipe the incoming param.
     useEffect(() => {
         const desired = debouncedSearch || undefined;
-        // Skip when the debounced value already matches the URL — otherwise
-        // the mount-time fire would strip ?page from a deep link.
-        if (desired === (query || undefined)) return;
+        // Skip when it already matches the URL — otherwise the mount-time fire
+        // would strip ?page from a deep link.
+        if (desired === (queryRef.current || undefined)) return;
 
         navigate({
             to: '.',
@@ -62,7 +72,15 @@ const Search = ({ placeholder }: { placeholder: string }) => {
             },
             replace: true,
         });
-    }, [debouncedSearch, query, navigate]);
+    }, [debouncedSearch, navigate]);
+
+    // Adopt URL `search` changes that originate elsewhere (search modal,
+    // back/forward), ignoring the echo of our own debounced push above.
+    useEffect(() => {
+        if ((query || undefined) !== (debouncedRef.current || undefined)) {
+            setSearch(query);
+        }
+    }, [query]);
 
     return (
         <Input
