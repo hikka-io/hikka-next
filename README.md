@@ -35,8 +35,7 @@
 
 ```
 apps/web/             → TanStack Start frontend (@hikka/web)
-packages/client/      → TypeScript API client (@hikka/client)
-packages/react/       → React hooks & query options (@hikka/react)
+packages/api/         → Generated API client + TanStack Query options (@hikka/api)
 ```
 
 **Package manager**: pnpm 10.33.4  
@@ -84,8 +83,7 @@ This starts all packages in dev/watch mode. The web app will be available at `ht
 # Development
 pnpm dev              # Start all packages in dev mode
 pnpm dev:web          # Start TanStack Start dev server
-pnpm dev:client       # Watch-build @hikka/client
-pnpm dev:react        # Watch-build @hikka/react
+pnpm dev:api          # Watch-build @hikka/api
 
 # Building
 pnpm build            # Build everything

@@ -13,8 +13,7 @@ ENV CI=true
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY turbo.json ./
 COPY tsconfig.base.json ./
-COPY packages/client/package.json ./packages/client/
-COPY packages/react/package.json ./packages/react/
+COPY packages/api/package.json ./packages/api/
 COPY apps/web/package.json ./apps/web/
 RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
