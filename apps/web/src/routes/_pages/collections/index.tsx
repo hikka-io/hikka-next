@@ -1,7 +1,10 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { getCollectionsInfiniteOptions, paginationPageParam } from '@hikka/api';
+import {
+    getCollectionsInfiniteOptions,
+    paginatedInfiniteOptions,
+} from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import PagePagination from '@/components/page-pagination';
@@ -26,14 +29,15 @@ export const Route = createFileRoute('/_pages/collections/')({
             });
         }
 
-        const collections = await queryClient.ensureInfiniteQueryData({
-            ...getCollectionsInfiniteOptions({
-                body: { sort: [`${sort}:desc`] },
-                client: apiClient,
-            }),
-            ...paginationPageParam(),
-            initialPageParam: Number(page),
-        });
+        const collections = await queryClient.ensureInfiniteQueryData(
+            paginatedInfiniteOptions(
+                getCollectionsInfiniteOptions({
+                    body: { sort: [`${sort}:desc`] },
+                    client: apiClient,
+                }),
+                Number(page),
+            ),
+        );
 
         return { collections, page: Number(page), sort };
     },
