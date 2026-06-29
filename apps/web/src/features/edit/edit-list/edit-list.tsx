@@ -4,6 +4,7 @@ import {
     type EditContentTypeEnum,
     type EditStatusEnum,
     getEditsInfiniteOptions,
+    paginatedInfiniteOptions,
 } from '@hikka/api';
 
 import FiltersNotFound from '@/components/filters-not-found';
@@ -32,16 +33,18 @@ const EditList: FC<Props> = () => {
     const moderator = search.moderator;
 
     const { list, isLoading, pagination } = useInfiniteList(
-        getEditsInfiniteOptions({
-            body: {
-                content_type,
-                sort: expandSort('edit', search.sort, search.order),
-                status: edit_status,
-                author,
-                moderator,
-            },
-        }),
-        { initialPageParam: Number(page) },
+        paginatedInfiniteOptions(
+            getEditsInfiniteOptions({
+                body: {
+                    content_type,
+                    sort: expandSort('edit', search.sort, search.order),
+                    status: edit_status,
+                    author,
+                    moderator,
+                },
+            }),
+            Number(page),
+        ),
     );
 
     if (isLoading) {

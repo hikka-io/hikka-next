@@ -6,6 +6,7 @@ import {
     type EditStatusEnum,
     editsTopInfiniteOptions,
     getEditsInfiniteOptions,
+    paginatedInfiniteOptions,
     paginationPageParam,
 } from '@hikka/api';
 
@@ -37,21 +38,23 @@ export const Route = createFileRoute('/_pages/edit/')({
         }
 
         await Promise.allSettled([
-            queryClient.ensureInfiniteQueryData({
-                ...getEditsInfiniteOptions({
-                    body: {
-                        content_type:
-                            (content_type as EditContentTypeEnum) || undefined,
-                        sort: expandSort('edit', deps.sort, deps.order),
-                        status: edit_status
-                            ? (edit_status as EditStatusEnum)
-                            : undefined,
-                    },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-                initialPageParam: Number(page),
-            }),
+            queryClient.ensureInfiniteQueryData(
+                paginatedInfiniteOptions(
+                    getEditsInfiniteOptions({
+                        body: {
+                            content_type:
+                                (content_type as EditContentTypeEnum) ||
+                                undefined,
+                            sort: expandSort('edit', deps.sort, deps.order),
+                            status: edit_status
+                                ? (edit_status as EditStatusEnum)
+                                : undefined,
+                        },
+                        client: apiClient,
+                    }),
+                    Number(page),
+                ),
+            ),
             queryClient.ensureInfiniteQueryData({
                 ...editsTopInfiniteOptions({ client: apiClient }),
                 ...paginationPageParam(),
