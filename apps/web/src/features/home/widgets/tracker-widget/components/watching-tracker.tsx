@@ -180,7 +180,7 @@ const WatchingTracker = () => {
                         порожній
                     </span>
                 }
-                description="Додайте аніме у список, щоб стежити за прогресом"
+                description="Додайте аніме у список Дивлюсь"
                 action={
                     <Button variant="secondary" size="md" asChild>
                         <Link to="/anime">Знайти аніме</Link>
