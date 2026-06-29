@@ -2,6 +2,7 @@ import {
     type AnimeAgeRatingEnum,
     type AnimeMediaEnum,
     type AnimeStatusEnum,
+    paginatedInfiniteOptions,
     type SeasonEnum,
     searchAnimeInfiniteOptions,
 } from '@hikka/api';
@@ -65,8 +66,11 @@ export function useAnimeSearchQuery(size?: number) {
     const search = useFilterSearch<AnimeSearch>();
     const { args, page } = buildAnimeSearchArgs(search);
 
-    const options = searchAnimeInfiniteOptions({ body: args, query: { size } });
-    const queryResult = useInfiniteList(options, { initialPageParam: page });
+    const options = paginatedInfiniteOptions(
+        searchAnimeInfiniteOptions({ body: args, query: { size } }),
+        page,
+    );
+    const queryResult = useInfiniteList(options);
 
     return { ...queryResult, queryKey: options.queryKey, args, search };
 }

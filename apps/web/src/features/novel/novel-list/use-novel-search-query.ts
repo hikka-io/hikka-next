@@ -1,6 +1,7 @@
 import {
     type ContentStatusEnum,
     type NovelMediaEnum,
+    paginatedInfiniteOptions,
     searchNovelInfiniteOptions,
 } from '@hikka/api';
 
@@ -47,8 +48,11 @@ export function useNovelSearchQuery(size?: number) {
     const search = useFilterSearch<NovelSearch>();
     const { args, page } = buildNovelSearchArgs(search);
 
-    const options = searchNovelInfiniteOptions({ body: args, query: { size } });
-    const queryResult = useInfiniteList(options, { initialPageParam: page });
+    const options = paginatedInfiniteOptions(
+        searchNovelInfiniteOptions({ body: args, query: { size } }),
+        page,
+    );
+    const queryResult = useInfiniteList(options);
 
     return { ...queryResult, queryKey: options.queryKey, args, search };
 }
