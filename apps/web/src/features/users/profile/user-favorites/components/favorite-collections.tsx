@@ -7,8 +7,9 @@ import {
 } from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
+import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import LoadMoreButton from '@/components/load-more-button';
-import NotFound from '@/components/ui/not-found';
+import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
@@ -78,7 +79,9 @@ const Collections: FC<Props> = ({ extended }) => {
                 </div>
             )}
             {filteredData.length === 0 && (
-                <NotFound
+                <EmptyState
+                    bordered
+                    icon={<MaterialSymbolsGridViewRounded />}
                     title={
                         <span>
                             У списку{' '}

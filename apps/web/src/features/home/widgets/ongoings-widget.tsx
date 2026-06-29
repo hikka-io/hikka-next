@@ -13,17 +13,18 @@ import { AnimeTooltip } from '@/components/content-card';
 import AnimeCard from '@/components/content-card/anime-card';
 import ContentCard from '@/components/content-card/content-card';
 import SkeletonCard from '@/components/content-card/content-card-skeleton';
+import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import NotFound from '@/components/ui/not-found';
 import { Skeleton } from '@/components/ui/skeleton';
 import Stack from '@/components/ui/stack';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
@@ -118,7 +119,8 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                         </Stack>
                     )}
                     {list && list.length === 0 && (
-                        <NotFound
+                        <EmptyState
+                            icon={<MaterialSymbolsLiveTvRounded />}
                             title="Не знайдено сезонних онґоїнґів"
                             description="Сезон ще не почався або поки немає достатньо оцінених тайтлів"
                         />
@@ -213,9 +215,11 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                         })}
 
                     {!isLoading && (!list || list.length === 0) && (
-                        <p className="py-4 text-center text-muted-foreground text-sm">
-                            Немає сезонних онґоїнґів
-                        </p>
+                        <EmptyState
+                            size="sm"
+                            icon={<MaterialSymbolsLiveTvRounded />}
+                            title="Немає сезонних онґоїнґів"
+                        />
                     )}
                 </div>
             </Block>

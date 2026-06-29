@@ -3,15 +3,16 @@ import { type FC, useMemo } from 'react';
 import { followingHistoryInfiniteOptions } from '@hikka/api';
 
 import { HistoryItem } from '@/components/content-card';
+import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import NotFound from '@/components/ui/not-found';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
@@ -57,7 +58,8 @@ const HistoryWidget: FC<WidgetProps> = () => {
                         />
                     ))}
                     {filteredHistory?.length === 0 && (
-                        <NotFound
+                        <EmptyState
+                            icon={<MaterialSymbolsHistoryRounded />}
                             title="Історія відсутня"
                             description="Історія оновиться після змін у Вашому списку, або у списку користувачів, яких Ви відстежуєте"
                         />

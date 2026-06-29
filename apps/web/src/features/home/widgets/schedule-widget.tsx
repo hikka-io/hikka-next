@@ -9,9 +9,11 @@ import {
     animeScheduleInfiniteOptions,
 } from '@hikka/api';
 
+import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
     HeaderContainer,
@@ -127,9 +129,11 @@ const ScheduleWidget: FC<WidgetProps> = () => {
                         );
                     })}
                     {(!todayItems || todayItems.length === 0) && (
-                        <p className="py-4 text-center text-muted-foreground text-sm">
-                            Немає запланованих епізодів
-                        </p>
+                        <EmptyState
+                            size="sm"
+                            icon={<MaterialSymbolsCalendarClockRounded />}
+                            title="Немає запланованих епізодів"
+                        />
                     )}
                 </div>
             </Block>

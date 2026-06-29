@@ -4,16 +4,17 @@ import { userHistoryInfiniteOptions } from '@hikka/api';
 
 import { HistoryItem } from '@/components/content-card';
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
+import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
+import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import NotFound from '@/components/ui/not-found';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
@@ -71,8 +72,9 @@ const History: FC<Props> = ({ className }) => {
                             <HistoryItem data={item} key={item.reference} />
                         ))}
                         {activity && activity?.length === 0 && (
-                            <NotFound
-                                title={'Історія відсутня'}
+                            <EmptyState
+                                icon={<MaterialSymbolsHistoryRounded />}
+                                title="Історія відсутня"
                                 description="Інформація оновиться після змін у списку"
                             />
                         )}

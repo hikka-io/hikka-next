@@ -10,8 +10,10 @@ import {
     getFeedInfiniteOptions,
 } from '@hikka/api';
 
+import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import { Checkbox } from '@/components/ui/checkbox';
+import EmptyState from '@/components/ui/empty-state';
 import {
     Field,
     FieldContent,
@@ -19,7 +21,6 @@ import {
     FieldTitle,
 } from '@/components/ui/field';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import NotFound from '@/components/ui/not-found';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
@@ -180,7 +181,8 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
 
             {!isPending && feedList?.length === 0 && (
                 <div className="p-4">
-                    <NotFound
+                    <EmptyState
+                        icon={<MaterialSymbolsDynamicFeedRounded />}
                         title="Стрічка порожня"
                         description={
                             onlyFollowed

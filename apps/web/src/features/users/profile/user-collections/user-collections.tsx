@@ -4,16 +4,17 @@ import { getCollectionsInfiniteOptions } from '@hikka/api';
 
 import { CollectionItem } from '@/components/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
+import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import NotFound from '@/components/ui/not-found';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
@@ -93,9 +94,22 @@ const UserCollections: FC<Props> = ({ className }) => {
                             <CollectionItem data={item} key={item.reference} />
                         ))}
                         {collections && collections?.length === 0 && (
-                            <NotFound
-                                title={'Колекції відсутні'}
+                            <EmptyState
+                                icon={<MaterialSymbolsGridViewRounded />}
+                                title="Колекції відсутні"
                                 description="Створіть свою першу колекцію"
+                                action={
+                                    <Button
+                                        variant="secondary"
+                                        size="md"
+                                        asChild
+                                    >
+                                        <Link to="/collections/new">
+                                            <MaterialSymbolsAddRounded />
+                                            Створити колекцію
+                                        </Link>
+                                    </Button>
+                                }
                             />
                         )}
                     </div>

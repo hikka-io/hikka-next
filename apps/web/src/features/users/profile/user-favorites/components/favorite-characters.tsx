@@ -7,8 +7,9 @@ import {
 } from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
+import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
 import LoadMoreButton from '@/components/load-more-button';
-import NotFound from '@/components/ui/not-found';
+import EmptyState from '@/components/ui/empty-state';
 import Stack from '@/components/ui/stack';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -77,7 +78,9 @@ const Characters: FC<Props> = ({ extended }) => {
                 </Stack>
             )}
             {filteredData.length === 0 && (
-                <NotFound
+                <EmptyState
+                    bordered
+                    icon={<MaterialSymbolsPerson2OutlineRounded />}
                     title={
                         <span>
                             У списку{' '}
