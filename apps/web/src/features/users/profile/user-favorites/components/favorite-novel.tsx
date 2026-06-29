@@ -69,6 +69,7 @@ const Novel: FC<Props> = ({ extended }) => {
             )}
             {filteredData.length === 0 && (
                 <EmptyState
+                    bordered
                     icon={<MaterialSymbolsMenuBookRounded />}
                     title={
                         <span>

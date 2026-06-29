@@ -69,6 +69,7 @@ const Anime: FC<Props> = ({ extended }) => {
             )}
             {filteredData.length === 0 && (
                 <EmptyState
+                    bordered
                     icon={<MaterialSymbolsLiveTvRounded />}
                     title={
                         <span>

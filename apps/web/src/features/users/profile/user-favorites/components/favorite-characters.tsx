@@ -79,6 +79,7 @@ const Characters: FC<Props> = ({ extended }) => {
             )}
             {filteredData.length === 0 && (
                 <EmptyState
+                    bordered
                     icon={<MaterialSymbolsPerson2OutlineRounded />}
                     title={
                         <span>

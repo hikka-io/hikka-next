@@ -80,6 +80,7 @@ const Collections: FC<Props> = ({ extended }) => {
             )}
             {filteredData.length === 0 && (
                 <EmptyState
+                    bordered
                     icon={<MaterialSymbolsGridViewRounded />}
                     title={
                         <span>
