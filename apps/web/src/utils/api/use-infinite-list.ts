@@ -41,6 +41,9 @@ export function useInfiniteList<TPage extends PaginatedPage>(
 
     const pageParam = paginationPageParam<TPage>();
 
+    // biome-ignore lint/suspicious/noExplicitAny: bridging generated options into the strict overload
+    const options = infiniteOptions as any;
+
     const query = useInfiniteQuery<
         TPage,
         Error,
@@ -49,10 +52,15 @@ export function useInfiniteList<TPage extends PaginatedPage>(
         any,
         number
     >({
-        // biome-ignore lint/suspicious/noExplicitAny: bridging generated options into the strict overload
-        ...(infiniteOptions as any),
+        // Page/pages fallback for raw generated options (queryFn + queryKey
+        // only). `paginatedInfiniteOptions`-wrapped options override these with
+        // a page-scoped key and their own getNextPageParam/initialPageParam.
         ...pageParam,
-        initialPageParam: extra?.initialPageParam ?? pageParam.initialPageParam,
+        ...options,
+        initialPageParam:
+            extra?.initialPageParam ??
+            options.initialPageParam ??
+            pageParam.initialPageParam,
         enabled: extra?.enabled,
     });
 
