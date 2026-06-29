@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_pages/_auth')({
 function AuthLayout() {
     return (
         <div className="mx-auto flex min-h-[inherit] w-full max-w-lg items-center justify-center p-0">
-            <CoverImage cover="/hikka.art.w.jpg" position="bottom" />
+            <CoverImage cover="/hikka.art.summer.jpg" position="top" />
             <Outlet />
         </div>
     );
