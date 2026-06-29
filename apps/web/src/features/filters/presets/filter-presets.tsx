@@ -28,7 +28,13 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
 
         router.navigate({
             to: '.',
-            search: rest,
+            search: (prev: Record<string, unknown>) => {
+                const next: Record<string, unknown> = { ...rest };
+                // Keep the active text query; presets define filters/sort only.
+                // `page` is intentionally dropped (reset to the first page).
+                if (prev.search) next.search = prev.search;
+                return next;
+            },
             replace: true,
         } as any);
     };

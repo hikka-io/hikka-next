@@ -50,7 +50,19 @@ const FiltersFooter: FC<FiltersFooterProps> = ({ className, contentType }) => {
     }) as Record<string, unknown>;
 
     const clearFilters = () => {
-        router.navigate({ search: {}, replace: true } as any);
+        // Clear filters only — keep the text query and sort, matching the
+        // "Очистити все" action in active-filters.
+        router.navigate({
+            to: '.',
+            search: (prev: Record<string, unknown>) => {
+                const next: Record<string, unknown> = {};
+                if (prev.search) next.search = prev.search;
+                if (prev.sort) next.sort = prev.sort;
+                if (prev.order) next.order = prev.order;
+                return next;
+            },
+            replace: true,
+        } as any);
     };
 
     const handleCreateFromCurrent = () => {
