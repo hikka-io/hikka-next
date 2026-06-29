@@ -14,11 +14,12 @@ import {
 import { ReadEditModal } from '@/components/action-buttons';
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
+import EmptyState from '@/components/ui/empty-state';
 import { Label } from '@/components/ui/label';
-import NotFound from '@/components/ui/not-found';
 import { Progress } from '@/components/ui/progress';
 import {
     ResponsiveModal,
@@ -205,7 +206,8 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
     if (!list || list.length === 0) {
         return (
-            <NotFound
+            <EmptyState
+                icon={<MaterialSymbolsMenuBookRounded />}
                 title={
                     <span>
                         Список <span className="font-extrabold">Читаю</span>{' '}
@@ -213,6 +215,11 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                     </span>
                 }
                 description={config.emptyDescription}
+                action={
+                    <Button variant="secondary" size="md" asChild>
+                        <Link to="/manga">Знайти манґу</Link>
+                    </Button>
+                }
             />
         );
     }

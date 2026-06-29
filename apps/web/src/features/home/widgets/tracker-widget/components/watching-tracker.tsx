@@ -12,11 +12,12 @@ import {
 import { WatchEditModal } from '@/components/action-buttons';
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
+import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
 import { MaterialSymbolsRemoveRounded } from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
+import EmptyState from '@/components/ui/empty-state';
 import { Label } from '@/components/ui/label';
-import NotFound from '@/components/ui/not-found';
 import { Progress } from '@/components/ui/progress';
 import {
     ResponsiveModal,
@@ -171,14 +172,20 @@ const WatchingTracker = () => {
 
     if (!list || list.length === 0) {
         return (
-            <NotFound
+            <EmptyState
+                icon={<MaterialSymbolsBookmarkOutline />}
                 title={
                     <span>
                         Список <span className="font-extrabold">Дивлюсь</span>{' '}
                         порожній
                     </span>
                 }
-                description="Додайте аніме у список Дивлюсь"
+                description="Додайте аніме у список, щоб стежити за прогресом"
+                action={
+                    <Button variant="secondary" size="md" asChild>
+                        <Link to="/anime">Знайти аніме</Link>
+                    </Button>
+                }
             />
         );
     }
