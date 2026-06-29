@@ -1,8 +1,8 @@
 <div align="center">
    <a href="https://github.com/hikka-io/hikka-next">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="apps/web-start/public/logo-dark.svg">
-  <img alt="Logo" src="apps/web-start/public/logo.svg" width="120" height="80">
+  <source media="(prefers-color-scheme: dark)" srcset="apps/web/public/logo-dark.svg">
+  <img alt="Logo" src="apps/web/public/logo.svg" width="120" height="80">
 </picture>
 </a>
   <p align="center">
@@ -34,9 +34,8 @@
 ## Monorepo Structure
 
 ```
-apps/web-start/       → TanStack Start frontend (@hikka/web-start)
-packages/client/      → TypeScript API client (@hikka/client)
-packages/react/       → React hooks & query options (@hikka/react)
+apps/web/             → TanStack Start frontend (@hikka/web)
+packages/api/         → Generated API client + TanStack Query options (@hikka/api)
 ```
 
 **Package manager**: pnpm 10.33.4  
@@ -83,14 +82,13 @@ This starts all packages in dev/watch mode. The web app will be available at `ht
 ```bash
 # Development
 pnpm dev              # Start all packages in dev mode
-pnpm dev:web-start    # Start TanStack Start dev server
-pnpm dev:client       # Watch-build @hikka/client
-pnpm dev:react        # Watch-build @hikka/react
+pnpm dev:web          # Start TanStack Start dev server
+pnpm dev:api          # Watch-build @hikka/api
 
 # Building
 pnpm build            # Build everything
-pnpm build:web-start  # Build web app
-pnpm start:web-start  # Run production build
+pnpm build:web        # Build web app
+pnpm start:web        # Run production build
 
 # Code Quality
 pnpm lint             # Biome lint across all packages

@@ -13,9 +13,8 @@ ENV CI=true
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY turbo.json ./
 COPY tsconfig.base.json ./
-COPY packages/client/package.json ./packages/client/
-COPY packages/react/package.json ./packages/react/
-COPY apps/web-start/package.json ./apps/web-start/
+COPY packages/api/package.json ./packages/api/
+COPY apps/web/package.json ./apps/web/
 RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
 # Rebuild the source code only when needed
@@ -27,7 +26,7 @@ COPY . .
 ENV NODE_OPTIONS=--max-old-space-size=4096
 
 # Build using Turbo (builds all dependencies in correct order)
-RUN pnpm turbo run build --filter=@hikka/web-start
+RUN pnpm turbo run build --filter=@hikka/web
 
 # Materialize the @takumi-rs closure: pnpm only symlinks it into the virtual
 # store, so dereference it into real files for the runtime image.
@@ -43,7 +42,7 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 appuser
 
 # Copy Nitro build output (self-contained: server + public assets)
-COPY --from=builder --chown=appuser:nodejs /app/apps/web-start/.output ./
+COPY --from=builder --chown=appuser:nodejs /app/apps/web/.output ./
 
 # Copy @takumi-rs native bindings for OG image generation (dereferenced above)
 COPY --from=builder --chown=appuser:nodejs /app/takumi-rs/ ./node_modules/@takumi-rs/
