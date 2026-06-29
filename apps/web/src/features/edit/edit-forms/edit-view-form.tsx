@@ -16,11 +16,13 @@ import { useRouter } from '@/utils/navigation';
 import AutoButton from './components/auto-button';
 import EditDescription from './components/edit-description';
 import EditGroup from './components/edit-group';
+import NativeTitleWarning from './components/native-title-warning';
 import {
     getEditGroups,
     getEditParamSlugs,
     getEditParams,
     getFilteredEditParams,
+    isNativeTitleMissing,
 } from './utils/edit-param-utils';
 
 type Props = {
@@ -40,6 +42,10 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
 
     const groups = getEditGroups(edit!.content_type)!;
     const paramSlugs = getEditParamSlugs(params);
+    const nativeTitleMissing = isNativeTitleMissing(
+        edit!.content_type,
+        edit!.content,
+    );
 
     const onDismiss = async () => {
         form.reset();
@@ -101,6 +107,10 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
                             title={groups[group]}
                             params={params[group]}
                             mode={mode}
+                            warning={
+                                group === 'title' &&
+                                nativeTitleMissing && <NativeTitleWarning />
+                            }
                         />
                     ))}
 

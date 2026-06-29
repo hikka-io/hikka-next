@@ -84,6 +84,44 @@ export const getEditGroups = (content_type: EditContentTypeEnum) => {
     }
 };
 
+/**
+ * Slug of the native/original title field per content type. This is the title
+ * editors translate from, so when the content lacks it there is nothing to
+ * verify a translation against.
+ */
+export const getNativeTitleSlug = (
+    content_type: EditContentTypeEnum,
+): string | undefined => {
+    switch (content_type) {
+        case ContentTypeEnum.ANIME:
+            return 'title_ja';
+        case ContentTypeEnum.MANGA:
+        case ContentTypeEnum.NOVEL:
+            return 'title_original';
+        case ContentTypeEnum.CHARACTER:
+            return 'name_ja';
+        case ContentTypeEnum.PERSON:
+            return 'name_native';
+    }
+};
+
+/**
+ * Whether the edited content is missing its native/original title, in which
+ * case the editor/reviewer must double-check the translation by hand.
+ */
+export const isNativeTitleMissing = (
+    content_type: EditContentTypeEnum,
+    content: Record<string, unknown> | null | undefined,
+) => {
+    const slug = getNativeTitleSlug(content_type);
+
+    if (!slug || !content) return false;
+
+    const value = content[slug];
+
+    return typeof value !== 'string' || value.trim().length === 0;
+};
+
 export const getEditParamSlugs = (
     params: Record<string, Hikka.EditParam[]>,
 ) => {

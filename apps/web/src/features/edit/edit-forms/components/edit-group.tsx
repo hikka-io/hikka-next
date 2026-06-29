@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import * as React from 'react';
 
 import { LucideChevronsUpDown } from 'lucide-react';
@@ -16,9 +16,10 @@ type Props = {
     title: string;
     params: Hikka.EditParam[];
     mode: 'view' | 'edit' | 'update';
+    warning?: ReactNode;
 };
 
-const EditGroup: FC<Props> = ({ title, params, mode }) => {
+const EditGroup: FC<Props> = ({ title, params, mode, warning }) => {
     const [selected, setSelected] = React.useState<string[]>([]);
 
     const switchParam = (param: string) => {
@@ -50,6 +51,8 @@ const EditGroup: FC<Props> = ({ title, params, mode }) => {
             </CollapsibleTrigger>
 
             <CollapsibleContent className="flex flex-col gap-6">
+                {warning}
+
                 {(mode === 'edit' || mode === 'update') &&
                     params.length > 1 && (
                         <div className="flex flex-wrap gap-2">

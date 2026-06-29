@@ -16,11 +16,13 @@ import type { EditMainContent } from '../types';
 import AutoButton from './components/auto-button';
 import EditDescription from './components/edit-description';
 import EditGroup from './components/edit-group';
+import NativeTitleWarning from './components/native-title-warning';
 import {
     getEditGroups,
     getEditParamSlugs,
     getEditParams,
     getFilteredEditParams,
+    isNativeTitleMissing,
 } from './utils/edit-param-utils';
 
 type Props = {
@@ -44,6 +46,7 @@ const EditForm: FC<Props> = ({
     const params = getEditParams(content_type)!;
     const groups = getEditGroups(content_type)!;
     const paramSlugs = getEditParamSlugs(params);
+    const nativeTitleMissing = isNativeTitleMissing(content_type, content);
 
     const onDismiss = (editId: number) => {
         form.reset();
@@ -108,6 +111,10 @@ const EditForm: FC<Props> = ({
                             title={groups[group]}
                             params={params[group]}
                             mode={mode}
+                            warning={
+                                group === 'title' &&
+                                nativeTitleMissing && <NativeTitleWarning />
+                            }
                         />
                     ))}
 
