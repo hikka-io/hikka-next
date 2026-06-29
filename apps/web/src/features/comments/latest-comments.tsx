@@ -53,8 +53,8 @@ const Comments: FC<Props> = ({ className }) => {
                 {list?.length === 0 && (
                     <EmptyState
                         icon={<MaterialSymbolsAddCommentRounded />}
-                        title="Історія відсутня"
-                        description="Історія оновиться після змін у Вашому списку, або у списку користувачів, яких Ви відстежуєте"
+                        title="Коментарів ще немає"
+                        description="Тут зʼявляться останні коментарі спільноти"
                     />
                 )}
             </Stack>
