@@ -1,12 +1,16 @@
 /**
  * Default UI styles and UI settings.
  */
-import { HomeWidgetsEnum, type UIStyles, type UserUI } from '@hikka/client';
+import {
+    type UiStylesOutput,
+    UiWidgetEnum,
+    type UserCustomizationResponse,
+} from '@hikka/api';
 
 /**
  * Default UI styles for light and dark themes.
  */
-export const DEFAULT_STYLES: UIStyles = {
+export const DEFAULT_STYLES: UiStylesOutput = {
     light: {
         colors: {
             background: { h: 0, s: 0, l: 100 },
@@ -71,17 +75,17 @@ export const DEFAULT_STYLES: UIStyles = {
 /**
  * Default user UI settings.
  */
-export const DEFAULT_USER_UI: UserUI = {
+export const DEFAULT_USER_UI: UserCustomizationResponse = {
     styles: DEFAULT_STYLES,
     preferences: {
         title_language: 'title_ua',
         name_language: 'name_ua',
         overlay: true,
         home_widgets: [
-            HomeWidgetsEnum.TRACKER,
-            HomeWidgetsEnum.HISTORY,
-            HomeWidgetsEnum.ONGOINGS,
-            HomeWidgetsEnum.SCHEDULE,
+            UiWidgetEnum.TRACKER,
+            UiWidgetEnum.HISTORY,
+            UiWidgetEnum.ONGOINGS,
+            UiWidgetEnum.SCHEDULE,
         ],
         feed: {
             widgets: [

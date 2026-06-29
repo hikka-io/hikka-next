@@ -1,15 +1,16 @@
+import { MutationCache, QueryClient } from '@tanstack/react-query';
 import { createRouter as createTanStackRouter } from '@tanstack/react-router';
 import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query';
 import { toast } from 'sonner';
 
-import type { HikkaClient } from '@hikka/client';
 import {
-    createHikkaClient,
-    createQueryClient,
-    MutationCache,
-    type QueryClient,
-} from '@hikka/react/core';
-import { sessionOptions, sessionUserUIOptions } from '@hikka/react/options';
+    type Client as ApiClient,
+    configureBrowserClient,
+    createRequestClient,
+    getBrowserClient,
+    profileOptions,
+    profileUiOptions,
+} from '@hikka/api';
 
 import ErrorPage from '@/components/error-page';
 
@@ -18,30 +19,50 @@ import { getAuthTokenFn } from './utils/cookies';
 
 export interface RouterContext {
     queryClient: QueryClient;
-    hikkaClient: HikkaClient;
+    apiClient: ApiClient;
 }
 
 const isServer = typeof window === 'undefined';
 
 export async function createRouter() {
-    const queryClient = createQueryClient({
+    const queryClient = new QueryClient({
         mutationCache: new MutationCache({
             onError: (error) => {
                 toast.error(error.message);
             },
         }),
+        defaultOptions: {
+            queries: {
+                staleTime: 60 * 1000,
+                gcTime: Infinity,
+                retry: false,
+            },
+        },
     });
 
     const authToken = await getAuthTokenFn();
 
-    const hikkaClient = createHikkaClient({
-        baseUrl: import.meta.env.API_URL ?? 'https://api.hikka.io',
-        authToken: authToken ?? undefined,
+    // `API_URL` is server-only; the browser bundle sees only `VITE_`-prefixed vars.
+    const baseUrl =
+        import.meta.env.API_URL ??
+        import.meta.env.VITE_API_URL ??
+        'https://api.hikka.io';
+
+    // Token only in the browser; never on the shared server singleton.
+    configureBrowserClient({
+        baseUrl,
+        authToken: isServer ? undefined : (authToken ?? undefined),
     });
+
+    // Server: per-request client to avoid cross-request token bleed. Browser:
+    // the singleton, so loaders pick up the live token after login/logout.
+    const apiClient = isServer
+        ? createRequestClient({ baseUrl, authToken: authToken ?? undefined })
+        : getBrowserClient();
 
     const router = createTanStackRouter({
         routeTree,
-        context: { queryClient, hikkaClient },
+        context: { queryClient, apiClient },
         defaultPreload: false,
         defaultErrorComponent: ErrorPage,
         scrollRestoration: true,
@@ -54,10 +75,10 @@ export async function createRouter() {
         wrapQueryClient: true,
     });
 
-    if (isServer) {
+    if (isServer && authToken) {
         await Promise.all([
-            queryClient.prefetchQuery(sessionOptions(hikkaClient)),
-            queryClient.prefetchQuery(sessionUserUIOptions(hikkaClient)),
+            queryClient.prefetchQuery(profileOptions({ client: apiClient })),
+            queryClient.prefetchQuery(profileUiOptions({ client: apiClient })),
         ]);
     }
 

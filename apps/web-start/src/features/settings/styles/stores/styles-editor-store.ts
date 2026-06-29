@@ -2,17 +2,17 @@ import { type TemporalState, temporal } from 'zundo';
 import { createStore, type StoreApi } from 'zustand/vanilla';
 
 import type {
-    HSLColor,
-    UIColorTokens,
-    UIStyles,
-    UIThemeStyles,
-} from '@hikka/client';
+    HslColor,
+    UiColorTokens,
+    UiStylesOutput,
+    UiThemeStylesOutput,
+} from '@hikka/api';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import { DEFAULT_STYLES, mergeStyles } from '@/utils/ui';
 
 export type StylesEditorState = {
-    styles: UIStyles;
+    styles: UiStylesOutput;
 };
 
 export type StylesEditorTemporalState = TemporalState<StylesEditorState>;
@@ -20,19 +20,19 @@ export type StylesEditorTemporalState = TemporalState<StylesEditorState>;
 export interface StylesEditorActions {
     setColorToken: (
         theme: 'light' | 'dark',
-        token: keyof UIColorTokens,
-        value: HSLColor | undefined,
+        token: keyof UiColorTokens,
+        value: HslColor | undefined,
     ) => void;
     setThemeColors: (
         theme: 'light' | 'dark',
-        colors: Partial<UIColorTokens>,
+        colors: Partial<UiColorTokens>,
     ) => void;
     setBody: (
         theme: 'light' | 'dark',
-        body: UIThemeStyles['body'] | undefined,
+        body: UiThemeStylesOutput['body'] | undefined,
     ) => void;
-    setStyles: (styles: UIStyles | undefined) => void;
-    getMergedStyles: () => UIStyles;
+    setStyles: (styles: UiStylesOutput | undefined) => void;
+    getMergedStyles: () => UiStylesOutput;
 }
 
 export type StylesEditorStore = StylesEditorState & StylesEditorActions;
@@ -42,7 +42,7 @@ export type StylesEditorStoreWithTemporal = StoreApi<StylesEditorStore> & {
 };
 
 export function createStylesEditorStore(
-    initialStyles: UIStyles,
+    initialStyles: UiStylesOutput,
 ): StylesEditorStoreWithTemporal {
     // Ensure all default tokens are present even if initialStyles is sparse
     const resolved = mergeStyles(DEFAULT_STYLES, initialStyles);

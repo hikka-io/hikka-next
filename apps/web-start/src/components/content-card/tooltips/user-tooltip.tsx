@@ -1,13 +1,16 @@
 import { type FC, memo, type PropsWithChildren } from 'react';
 
-import { ContentTypeEnum } from '@hikka/client';
-import {
-    useReadStats,
-    useUserByUsername,
-    useUserFollowStats,
-    useUserWatchStats,
-} from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
 
+import {
+    followStatsOptions,
+    ReadContentTypeEnum,
+    userProfileOptions,
+    userReadStatsOptions,
+    userWatchStatsOptions,
+} from '@hikka/api';
+
+import { FollowButton } from '@/components/action-buttons';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -15,7 +18,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { FollowButton } from '@/features/common';
 
 import MaterialSymbolsAnimatedImages from '../../icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsMenuBookRounded from '../../icons/material-symbols/MaterialSymbolsMenuBookRounded';
@@ -35,17 +37,29 @@ type Props = PropsWithChildren & {
 };
 
 const TooltipData: FC<TooltipDataProps> = ({ username }) => {
-    const { data: user } = useUserByUsername({ username });
-    const { data: followStats } = useUserFollowStats({ username });
-    const { data: watchStats } = useUserWatchStats({ username });
-    const { data: mangaStats } = useReadStats({
-        username,
-        contentType: ContentTypeEnum.MANGA,
-    });
-    const { data: novelStats } = useReadStats({
-        username,
-        contentType: ContentTypeEnum.NOVEL,
-    });
+    const { data: user } = useQuery(userProfileOptions({ path: { username } }));
+    const { data: followStats } = useQuery(
+        followStatsOptions({ path: { username } }),
+    );
+    const { data: watchStats } = useQuery(
+        userWatchStatsOptions({ path: { username } }),
+    );
+    const { data: mangaStats } = useQuery(
+        userReadStatsOptions({
+            path: {
+                username,
+                content_type: ReadContentTypeEnum.MANGA,
+            },
+        }),
+    );
+    const { data: novelStats } = useQuery(
+        userReadStatsOptions({
+            path: {
+                username,
+                content_type: ReadContentTypeEnum.NOVEL,
+            },
+        }),
+    );
 
     if (!user && !followStats) {
         return <UserTooltipSkeleton />;

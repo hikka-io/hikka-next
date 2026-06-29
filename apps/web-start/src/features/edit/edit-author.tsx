@@ -1,8 +1,9 @@
 import type { FC } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 
-import { useEdit } from '@hikka/react';
+import { getEditOptions } from '@hikka/api';
 
 import {
     HorizontalCard,
@@ -18,7 +19,9 @@ type Props = {
 };
 
 const EditAuthor: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ editId: Number(editId) });
+    const { data: edit } = useQuery(
+        getEditOptions({ path: { edit_id: Number(editId) } }),
+    );
 
     if (!edit) {
         return null;

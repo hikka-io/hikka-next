@@ -1,7 +1,8 @@
 // Main User Components
 export { default as ActivationAlert } from './activation-alert';
+export { default as CropEditorModal } from './crop-editor-modal';
+export { default as FollowListModal } from './follow-list-modal';
 export { default as FollowStats } from './follow-stats';
-export { default as FollowListModal } from './followlist-modal';
 export * from './list';
 export * from './profile';
 // User History

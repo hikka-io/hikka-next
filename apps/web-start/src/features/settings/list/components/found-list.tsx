@@ -1,11 +1,11 @@
-import { ContentTypeEnum, type ReadContentType } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 type Props = {
     list: Record<string, any>[];
-    type: ReadContentType | ContentTypeEnum.ANIME;
+    type: ContentTypeEnum;
 };
 
-const Component = ({ list, type }: Props) => {
+const FoundList = ({ list, type }: Props) => {
     const typeName =
         type === ContentTypeEnum.ANIME ? 'аніме' : 'манґи та ранобе';
 
@@ -22,4 +22,4 @@ const Component = ({ list, type }: Props) => {
     );
 };
 
-export default Component;
+export default FoundList;

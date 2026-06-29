@@ -1,10 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import type { HikkaClient, SitemapResponse } from '@hikka/client';
+import type { MainContentTypeEnum } from '@hikka/api';
 
 import { createServerHikkaClient } from '@/utils/cookies/headers';
 import {
     buildSitemapIndexXml,
+    fetchSitemapEntries,
     getSitemapPageCount,
     getSlicedLastmod,
     paginateSitemap,
@@ -13,14 +14,7 @@ import {
 } from '@/utils/sitemap';
 import { getSiteUrl } from '@/utils/url';
 
-const TYPES: {
-    path: 'anime' | 'manga' | 'novel';
-    fetch: (client: HikkaClient) => Promise<SitemapResponse[]>;
-}[] = [
-    { path: 'anime', fetch: (c) => c.sitemap.getAnimeSitemap() },
-    { path: 'manga', fetch: (c) => c.sitemap.getMangaSitemap() },
-    { path: 'novel', fetch: (c) => c.sitemap.getNovelSitemap() },
-];
+const TYPES: MainContentTypeEnum[] = ['anime', 'manga', 'novel'];
 
 export const Route = createFileRoute('/sitemap.xml')({
     server: {
@@ -30,9 +24,9 @@ export const Route = createFileRoute('/sitemap.xml')({
                 const siteUrl = getSiteUrl();
 
                 const typeEntries = await Promise.all(
-                    TYPES.map(async ({ path, fetch }) => ({
+                    TYPES.map(async (path) => ({
                         path,
-                        entries: await fetch(client),
+                        entries: await fetchSitemapEntries(client, path),
                     })),
                 );
 

@@ -1,7 +1,10 @@
 import { type FC, useState } from 'react';
 
-import { useSession, useUserFollowStats } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
 
+import { followStatsOptions } from '@hikka/api';
+
+import FollowButton from '@/components/action-buttons/follow-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {
@@ -9,12 +12,12 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { Separator } from '@/components/ui/separator';
-import FollowButton from '@/features/common/follow-button';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
-import FollowListModal from './followlist-modal';
+import FollowListModal from './follow-list-modal';
 
 type Props = {
     className?: string;
@@ -29,9 +32,11 @@ const FollowStats: FC<Props> = ({ className }) => {
     const params = useParams();
     const { user: loggedUser } = useSession();
 
-    const { data: followStats } = useUserFollowStats({
-        username: String(params.username),
-    });
+    const { data: followStats } = useQuery(
+        followStatsOptions({
+            path: { username: String(params.username) },
+        }),
+    );
 
     if (!followStats) {
         return null;

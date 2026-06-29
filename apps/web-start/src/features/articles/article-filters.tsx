@@ -2,10 +2,9 @@ import type { FC } from 'react';
 
 import { useRouter } from '@tanstack/react-router';
 
-import { useSession } from '@hikka/react';
-
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
+import { useSession } from '@/features/auth/hooks/use-session';
 import ArticleCategory from '@/features/filters/article-category';
 import ArticleCustomization from '@/features/filters/article-customization';
 import Sort from '@/features/filters/sort';

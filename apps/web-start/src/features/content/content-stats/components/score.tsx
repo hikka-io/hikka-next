@@ -1,8 +1,8 @@
 import type {
     AnimeStatsResponse,
-    ContentTypeEnum,
-    ReadStatsResponse,
-} from '@hikka/client';
+    MainContentTypeEnum,
+    AppSchemasReadStatsResponse as ReadStatsResponse,
+} from '@hikka/api';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
@@ -10,10 +10,7 @@ import { useParams } from '@/utils/navigation';
 import Stats from './stats';
 
 type Props = {
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: MainContentTypeEnum;
 };
 
 const Score = ({ content_type }: Props) => {
@@ -25,41 +22,41 @@ const Score = ({ content_type }: Props) => {
     }
 
     const sumStats =
-        data.stats.score_1 +
-        data.stats.score_2 +
-        data.stats.score_3 +
-        data.stats.score_4 +
-        data.stats.score_5 +
-        data.stats.score_6 +
-        data.stats.score_7 +
-        data.stats.score_8 +
-        data.stats.score_9 +
-        data.stats.score_10;
+        (data.stats.score_1 ?? 0) +
+        (data.stats.score_2 ?? 0) +
+        (data.stats.score_3 ?? 0) +
+        (data.stats.score_4 ?? 0) +
+        (data.stats.score_5 ?? 0) +
+        (data.stats.score_6 ?? 0) +
+        (data.stats.score_7 ?? 0) +
+        (data.stats.score_8 ?? 0) +
+        (data.stats.score_9 ?? 0) +
+        (data.stats.score_10 ?? 0);
 
     const stats: Hikka.ListStat[] = Object.keys(data.stats)
         .filter(
             (stat) =>
                 stat.includes('score') &&
-                data.stats[
+                (data.stats[
                     stat as keyof (AnimeStatsResponse | ReadStatsResponse)
-                ] > 0,
+                ] ?? 0) > 0,
         )
         .reverse()
         .map((stat) => {
             const percentage =
                 (100 *
-                    data.stats[
+                    (data.stats[
                         stat as keyof (AnimeStatsResponse | ReadStatsResponse)
-                    ]) /
+                    ] ?? 0)) /
                 sumStats;
 
             return {
                 icon: <small>{stat.split('score_')[1]}</small>,
                 percentage,
-                value: data.stats[
-                    stat as keyof (AnimeStatsResponse | ReadStatsResponse)
-                ],
-                name: stat,
+                value:
+                    data.stats[
+                        stat as keyof (AnimeStatsResponse | ReadStatsResponse)
+                    ] ?? 0,
             };
         });
 

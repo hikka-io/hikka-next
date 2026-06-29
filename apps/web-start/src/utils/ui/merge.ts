@@ -1,20 +1,22 @@
 /**
  * Utilities for merging UI styles and effects.
  */
+
 import type {
-    HSLColor,
-    UIColorTokens,
-    UIEffect,
-    UIPreferences,
-    UIStyles,
-    UIThemeStyles,
-    UserUI,
-} from '@hikka/client';
+    HslColor,
+    UiColorTokens,
+    UiPreferencesOutput,
+    UiStylesOutput,
+    UiThemeStylesOutput,
+    UserCustomizationResponse,
+} from '@hikka/api';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
 import { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 import { ALLOWED_COLOR_TOKENS } from './inject-styles';
+
+type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 
 /**
  * Strip null/undefined values from an object so they don't overwrite
@@ -39,13 +41,13 @@ function stripNulls<T extends Record<string, unknown>>(
 }
 
 /**
- * Merge two UIStyles objects, with override taking precedence.
+ * Merge two UiStylesOutput objects, with override taking precedence.
  * Null values in override are treated as "not set" and fall through to base.
  */
 export function mergeStyles(
-    base: UIStyles | undefined,
-    override: UIStyles | undefined,
-): UIStyles {
+    base: UiStylesOutput | undefined,
+    override: UiStylesOutput | undefined,
+): UiStylesOutput {
     if (!base && !override) return {};
     if (!base) return override!;
     if (!override) return base;
@@ -94,12 +96,12 @@ export function mergeEffects(
 }
 
 /**
- * Merge two UIPreferences objects, with override taking precedence.
+ * Merge two UiPreferencesOutput objects, with override taking precedence.
  */
 export function mergePreferences(
-    base: UIPreferences | undefined,
-    override: Partial<UIPreferences> | undefined,
-): UIPreferences {
+    base: UiPreferencesOutput | undefined,
+    override: Partial<UiPreferencesOutput> | undefined,
+): UiPreferencesOutput {
     if (!base && !override) return DEFAULT_USER_UI.preferences;
     if (!base) return { ...DEFAULT_USER_UI.preferences, ...override };
     if (!override) return base;
@@ -107,17 +109,20 @@ export function mergePreferences(
     return {
         ...base,
         ...override,
+        // Deep-merge `feed` so a partial override (e.g. only `only_followed`)
+        // doesn't drop the `widgets` array coming from the base/defaults.
+        feed: { ...base.feed, ...override.feed },
     };
 }
 
 /**
- * Merge two UserUI objects, with override taking precedence.
+ * Merge two UserCustomizationResponse objects, with override taking precedence.
  */
 
 export function mergeUserUI(
-    base: UserUI | undefined,
-    override: UserUI | undefined,
-): UserUI {
+    base: UserCustomizationResponse | undefined,
+    override: UserCustomizationResponse | undefined,
+): UserCustomizationResponse {
     if (!base && !override) return DEFAULT_USER_UI;
     if (!base) return override!;
     if (!override) return base;
@@ -130,27 +135,31 @@ export function mergeUserUI(
     };
 }
 
-function hslEqual(a: HSLColor | undefined, b: HSLColor | undefined): boolean {
+function hslEqual(
+    a: HslColor | null | undefined,
+    b: HslColor | null | undefined,
+): boolean {
     if (!a && !b) return true;
     if (!a || !b) return false;
     return a.h === b.h && a.s === b.s && a.l === b.l;
 }
 
 function diffColorTokens(
-    tokens: UIColorTokens | undefined,
-    defaults: UIColorTokens | undefined,
-): UIColorTokens | undefined {
+    tokens: UiColorTokens | null | undefined,
+    defaults: UiColorTokens | null | undefined,
+): UiColorTokens | undefined {
     if (!tokens) return undefined;
     if (!defaults) return tokens;
 
-    const result: UIColorTokens = {};
+    const result: UiColorTokens = {};
     let hasOverrides = false;
 
     for (const [key, value] of Object.entries(tokens)) {
-        if (!ALLOWED_COLOR_TOKENS.has(key as keyof UIColorTokens)) continue;
-        const defaultValue = defaults[key as keyof UIColorTokens];
+        if (!ALLOWED_COLOR_TOKENS.has(key as keyof UiColorTokens)) continue;
+        const defaultValue = defaults[key as keyof UiColorTokens];
         if (!hslEqual(value, defaultValue)) {
-            (result as Record<string, HSLColor | undefined>)[key] = value;
+            (result as Record<string, HslColor | undefined>)[key] =
+                value ?? undefined;
             hasOverrides = true;
         }
     }
@@ -159,9 +168,9 @@ function diffColorTokens(
 }
 
 function diffThemeStyles(
-    theme: UIThemeStyles | undefined,
-    defaults: UIThemeStyles | undefined,
-): UIThemeStyles | undefined {
+    theme: UiThemeStylesOutput | null | undefined,
+    defaults: UiThemeStylesOutput | null | undefined,
+): UiThemeStylesOutput | undefined {
     if (!theme) return undefined;
 
     const colors = diffColorTokens(theme.colors, defaults?.colors);
@@ -172,7 +181,7 @@ function diffThemeStyles(
 
     if (!colors && !body) return undefined;
 
-    const result: UIThemeStyles = {};
+    const result: UiThemeStylesOutput = {};
     if (colors) result.colors = colors;
     if (body) result.body = body;
     return result;
@@ -183,7 +192,9 @@ function diffThemeStyles(
  * Use before saving to the API so only changed tokens are persisted.
  * On read, mergeStyles(DEFAULT_STYLES, sparseConfig) fills in the rest.
  */
-export function diffStyles(styles: UIStyles | undefined): UIStyles | undefined {
+export function diffStyles(
+    styles: UiStylesOutput | undefined,
+): UiStylesOutput | undefined {
     if (!styles) return undefined;
 
     const light = diffThemeStyles(styles.light, DEFAULT_STYLES.light);
@@ -193,7 +204,7 @@ export function diffStyles(styles: UIStyles | undefined): UIStyles | undefined {
 
     if (!light && !dark && !radius) return undefined;
 
-    const result: UIStyles = {};
+    const result: UiStylesOutput = {};
     if (light) result.light = light;
     if (dark) result.dark = dark;
     if (radius) result.radius = radius;
@@ -205,8 +216,8 @@ export function diffStyles(styles: UIStyles | undefined): UIStyles | undefined {
  * Single canonical source for event theme merging — use this instead of
  * calling getActiveEventTheme() + mergeStyles/mergeEffects separately.
  */
-export function mergeWithEventTheme(userUI: UserUI): {
-    mergedStyles: UIStyles;
+export function mergeWithEventTheme(userUI: UserCustomizationResponse): {
+    mergedStyles: UiStylesOutput;
     activeEffects: UIEffect[];
 } {
     const eventTheme = getActiveEventTheme();

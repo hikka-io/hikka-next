@@ -1,26 +1,28 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useChangeDescription, useSession } from '@hikka/react';
+import { changeDescriptionMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
     description: z.string().max(140).nullable(),
 });
 
-const Component = () => {
+const ProfileDescription = () => {
     const { user: loggedUser } = useSession();
+    const queryClient = useQueryClient();
 
-    const mutationChangeDescription = useChangeDescription({
-        options: {
-            onSuccess: async () => {
-                toast.success(
-                    'Ви успішно змінили загальні налаштування профілю.',
-                );
-            },
+    const mutationChangeDescription = useMutation({
+        ...changeDescriptionMutation(),
+        onSuccess: async () => {
+            invalidateSession(queryClient);
+            toast.success('Ви успішно змінили загальні налаштування профілю.');
         },
     });
 
@@ -31,7 +33,7 @@ const Component = () => {
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
             mutationChangeDescription.mutate({
-                description: value.description,
+                body: { description: value.description },
             });
         },
     });
@@ -68,4 +70,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ProfileDescription;

@@ -1,9 +1,11 @@
-import type { UIEffect } from '@hikka/client';
+import type { UiPreferencesOutput } from '@hikka/api';
 
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { useSessionUI } from '@/services/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/services/hooks/use-update-session-ui';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
+
+type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 
 const EFFECTS: { value: UIEffect; label: string; description: string }[] = [
     {

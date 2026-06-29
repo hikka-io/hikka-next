@@ -1,7 +1,7 @@
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
-const Component = () => {
+const ProfilePrivacy = () => {
     return (
         <div className="flex w-full flex-col gap-6">
             <div className="flex w-full flex-row items-center justify-between gap-2">
@@ -17,4 +17,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ProfilePrivacy;

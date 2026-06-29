@@ -1,4 +1,4 @@
-import type { ContentTypeEnum } from '@hikka/client';
+import type { MainContentTypeEnum } from '@hikka/api';
 
 import Hikka from '@/components/icons/custom/Hikka';
 import MAL from '@/components/icons/custom/MAL';
@@ -10,10 +10,7 @@ import { useParams } from '@/utils/navigation';
 
 type ScoresProps = {
     className?: string;
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: MainContentTypeEnum;
 };
 
 const Scores = ({ className, content_type }: ScoresProps) => {

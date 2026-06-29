@@ -3,15 +3,17 @@ import type { FC } from 'react';
 import {
     ContentTypeEnum,
     type FavouriteCharacterResponse,
-} from '@hikka/client';
-import { useHikkaClient, useUserFavourites } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+    favouriteListInfiniteOptions,
+} from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
+import { getTitle } from '@/utils/title/get-title';
 
 type Props = {
     extended?: boolean;
@@ -19,18 +21,24 @@ type Props = {
 
 const Characters: FC<Props> = ({ extended }) => {
     const params = useParams();
-    const { defaultOptions } = useHikkaClient();
+    const { preferences } = useSessionUI();
     const {
-        list,
+        list: rawList,
         isPending,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         ref,
-    } = useUserFavourites<FavouriteCharacterResponse>({
-        username: String(params.username),
-        contentType: ContentTypeEnum.CHARACTER,
-    });
+    } = useInfiniteList(
+        favouriteListInfiniteOptions({
+            path: {
+                content_type: ContentTypeEnum.CHARACTER,
+                username: String(params.username),
+            },
+        }),
+    );
+
+    const list = rawList as FavouriteCharacterResponse[] | undefined;
 
     if (isPending) {
         return null;
@@ -57,8 +65,8 @@ const Characters: FC<Props> = ({ extended }) => {
                             key={res.slug}
                             title={getTitle(
                                 res,
-                                defaultOptions?.title,
-                                defaultOptions?.name,
+                                preferences.title_language,
+                                preferences.name_language,
                             )}
                             image={res.image}
                             to={`/characters/${res.slug}`}

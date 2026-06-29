@@ -1,17 +1,18 @@
 import { useMemo } from 'react';
 
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import type { NotificationTypeEnum } from '@hikka/client';
 import {
-    useIgnoredNotifications,
-    useUpdateIgnoredNotifications,
-} from '@hikka/react';
+    changeIgnoredNotificationsMutation,
+    getIgnoredNotificationsOptions,
+} from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Spinner from '@/components/ui/spinner';
+import { invalidateIgnoredNotifications } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
@@ -32,8 +33,9 @@ const formSchema = z.object({
     thirdparty_login: z.boolean().optional().nullable().default(true),
 });
 
-const Component = () => {
-    const { data } = useIgnoredNotifications();
+const NotificationsSettings = () => {
+    const queryClient = useQueryClient();
+    const { data } = useQuery(getIgnoredNotificationsOptions());
 
     const formValues = useMemo(() => {
         const defaults = formSchema.parse({});
@@ -49,23 +51,25 @@ const Component = () => {
         );
     }, [data?.ignored_notifications]);
 
-    const { mutate: changeIgnoredNotifications, isPending } =
-        useUpdateIgnoredNotifications({
-            options: {
-                onSuccess: async () => {
-                    toast.success('Ви успішно змінили налаштування сповіщень.');
-                },
-            },
-        });
+    const { mutate: changeIgnoredNotifications, isPending } = useMutation({
+        ...changeIgnoredNotificationsMutation(),
+        onSuccess: async () => {
+            invalidateIgnoredNotifications(queryClient);
+            toast.success('Ви успішно змінили налаштування сповіщень.');
+        },
+    });
 
     const form = useAppForm({
         defaultValues: formValues,
         validators: { onSubmit: formSchema as never },
         onSubmit: async ({ value }) => {
             changeIgnoredNotifications({
-                ignored_notifications: Object.keys(value).filter(
-                    (key) => !value[key as keyof z.infer<typeof formSchema>],
-                ) as NotificationTypeEnum[],
+                body: {
+                    ignored_notifications: Object.keys(value).filter(
+                        (key) =>
+                            !value[key as keyof z.infer<typeof formSchema>],
+                    ),
+                },
             });
         },
     });
@@ -264,4 +268,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default NotificationsSettings;

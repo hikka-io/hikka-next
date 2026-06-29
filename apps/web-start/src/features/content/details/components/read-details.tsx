@@ -13,12 +13,12 @@ import {
     ContentTypeEnum,
     type MangaInfoResponse,
     type NovelInfoResponse,
-} from '@hikka/client';
-import { useTitle } from '@hikka/react';
+} from '@hikka/api';
 
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import {
     MANGA_MEDIA_TYPE,
@@ -93,8 +93,12 @@ const ReadDetails = ({
                     value={
                         data.media_type
                             ? data.data_type === ContentTypeEnum.MANGA
-                                ? MANGA_MEDIA_TYPE[data.media_type].title_ua
-                                : NOVEL_MEDIA_TYPE[data.media_type].title_ua
+                                ? MANGA_MEDIA_TYPE[
+                                      data.media_type as keyof typeof MANGA_MEDIA_TYPE
+                                  ].title_ua
+                                : NOVEL_MEDIA_TYPE[
+                                      data.media_type as keyof typeof NOVEL_MEDIA_TYPE
+                                  ].title_ua
                             : undefined
                     }
                 />

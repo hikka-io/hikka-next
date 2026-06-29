@@ -1,15 +1,12 @@
-import { ContentTypeEnum } from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { Link, useParams } from '@/utils/navigation';
 
 type TitleProps = {
     className?: string;
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: MainContentTypeEnum;
 };
 
 const Title = ({ className, content_type }: TitleProps) => {
@@ -28,8 +25,13 @@ const Title = ({ className, content_type }: TitleProps) => {
 
                 <p className="text-muted-foreground text-sm">
                     {data.data_type === ContentTypeEnum.ANIME
-                        ? data.title_ja
-                        : data.title_original}
+                        ? 'title_ja' in data
+                            ? data.title_ja
+                            : null
+                        : 'title_original' in data
+                          ? (data as { title_original?: string | null })
+                                .title_original
+                          : null}
                 </p>
             </div>
             <div className="flex items-center justify-between gap-2">

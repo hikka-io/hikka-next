@@ -1,7 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useAnimeBySlug } from '@hikka/react';
+import { animeSlugOptions, ContentTypeEnum } from '@hikka/api';
 
 import { MovieBanner } from '@/features/anime';
 import { ContentDetailPage, ContentMedia as Media } from '@/features/content';
@@ -13,7 +13,7 @@ export const Route = createFileRoute('/_pages/anime/$slug/')({
 
 function AnimeDetailPage() {
     const { slug } = Route.useParams();
-    const { data: anime } = useAnimeBySlug({ slug });
+    const { data: anime } = useQuery(animeSlugOptions({ path: { slug } }));
 
     return (
         <ContentDetailPage

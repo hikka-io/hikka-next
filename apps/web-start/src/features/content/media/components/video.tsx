@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { AnimeVideoResponse } from '@hikka/client';
+import type { AnimeVideoResponse } from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import Stack from '@/components/ui/stack';

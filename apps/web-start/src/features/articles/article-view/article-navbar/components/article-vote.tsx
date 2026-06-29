@@ -1,13 +1,13 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
-import { type ArticleBaseResponse, ContentTypeEnum } from '@hikka/client';
+import { type ArticleDocumentResponse, VoteContentTypeEnum } from '@hikka/api';
 
+import VoteButton from '@/components/action-buttons/vote-button';
 import { buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import VoteButton from '@/features/common/vote-button';
 
 type Props = {
-    article: ArticleBaseResponse;
+    article: ArticleDocumentResponse;
 };
 
 const ArticleVote: FC<Props> = ({ article }) => {
@@ -20,7 +20,11 @@ const ArticleVote: FC<Props> = ({ article }) => {
             })}
         >
             <VoteButton
-                contentType={ContentTypeEnum.ARTICLE}
+                contentType={
+                    VoteContentTypeEnum.ARTICLE as ComponentProps<
+                        typeof VoteButton
+                    >['contentType']
+                }
                 slug={article.slug}
                 myScore={article.my_score}
                 voteScore={article.vote_score}

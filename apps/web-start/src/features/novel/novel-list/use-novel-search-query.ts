@@ -1,8 +1,12 @@
-import type { ContentStatusEnum, NovelMediaEnum } from '@hikka/client';
-import { useSearchNovels } from '@hikka/react';
+import {
+    type ContentStatusEnum,
+    type NovelMediaEnum,
+    searchNovelInfiniteOptions,
+} from '@hikka/api';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import type { NovelSearch } from '@/utils/search-schemas';
 
 /**
@@ -42,15 +46,9 @@ export function buildNovelSearchArgs(search: NovelSearch) {
 export function useNovelSearchQuery(size?: number) {
     const search = useFilterSearch<NovelSearch>();
     const { args, page } = buildNovelSearchArgs(search);
-    const paginationArgs = { page, size };
 
-    const queryResult = useSearchNovels({
-        args,
-        paginationArgs,
-        options: {
-            initialPageParam: page,
-        },
-    });
+    const options = searchNovelInfiniteOptions({ body: args, query: { size } });
+    const queryResult = useInfiniteList(options, { initialPageParam: page });
 
-    return { ...queryResult, args, paginationArgs, search };
+    return { ...queryResult, queryKey: options.queryKey, args, search };
 }

@@ -1,4 +1,4 @@
-import { HikkaClient } from '@hikka/client';
+import { type Client, createRequestClient, profile } from '@hikka/api';
 
 // 30 days. The API extends the auth token on each authenticated request,
 // so the cookie should comfortably outlive any single token.
@@ -47,8 +47,8 @@ export function clearCookieHeader(
         .join('; ');
 }
 
-export function createServerHikkaClient(): HikkaClient {
-    return new HikkaClient({
+export function createServerHikkaClient(): Client {
+    return createRequestClient({
         baseUrl: import.meta.env.API_URL ?? 'https://api.hikka.io',
     });
 }
@@ -56,22 +56,28 @@ export function createServerHikkaClient(): HikkaClient {
 /**
  * Best-effort: fetch the current user with the given secret and append a
  * non-HttpOnly `username` cookie so the UI can read it before the first
- * authenticated request resolves. Mutates `headers` and `client`.
+ * authenticated request resolves. Mutates `headers`.
  *
  * Failures are swallowed — the username cookie is non-critical.
  */
 export async function appendUsernameCookie(
     headers: Headers,
-    client: HikkaClient,
     secret: string,
 ): Promise<void> {
     try {
-        client.setAuthToken(secret);
-        const user = await client.user.getCurrentUser();
-        headers.append(
-            'Set-Cookie',
-            makeCookieHeader('username', user.username, { httpOnly: false }),
-        );
+        const client = createRequestClient({
+            baseUrl: import.meta.env.API_URL ?? 'https://api.hikka.io',
+            authToken: secret,
+        });
+        const { data: user } = await profile({ client, throwOnError: true });
+        if (user.username) {
+            headers.append(
+                'Set-Cookie',
+                makeCookieHeader('username', user.username, {
+                    httpOnly: false,
+                }),
+            );
+        }
     } catch {
         // ignore
     }

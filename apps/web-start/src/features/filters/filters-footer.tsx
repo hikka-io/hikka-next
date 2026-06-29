@@ -2,7 +2,7 @@ import { type FC, useState } from 'react';
 
 import { useRouter, useRouterState } from '@tanstack/react-router';
 
-import type { ContentTypeEnum } from '@hikka/client';
+import type { ContentTypeEnum } from '@hikka/api';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { CustomCopyAddRounded } from '@/components/icons/custom/CustomCopyAddRounded';
@@ -17,11 +17,12 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { cn } from '@/utils/cn';
+
 // Deep import (not the @/features/content barrel) keeps the filters → content
 // import edge narrow, avoiding the module-init cycle that previously broke
 // hydration.
-import FilterPresetEditModal from '@/features/content/presets/filter-preset-edit-modal';
-import { cn } from '@/utils/cn';
+import FilterPresetEditModal from './presets/filter-preset-edit-modal';
 
 export type FiltersFooterProps = {
     className?: string;
@@ -71,9 +72,7 @@ const FiltersFooter: FC<FiltersFooterProps> = ({ className, contentType }) => {
         arrayStringKeys.forEach((key) => {
             const values = search[key];
             if (Array.isArray(values) && values.length > 0) {
-                next[key] = values as unknown as NonNullable<
-                    Hikka.FilterPreset[typeof key]
-                >;
+                (next as Record<string, unknown>)[key] = values;
             }
         });
 

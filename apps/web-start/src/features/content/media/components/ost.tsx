@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { AnimeOSTResponse } from '@hikka/client';
+import type { AnimeOstResponse } from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import MaterialSymbolsLibraryMusicRounded from '@/components/icons/material-symbols/MaterialSymbolsLibraryMusicRounded';
@@ -9,7 +9,7 @@ import { OST } from '@/utils/constants/common';
 
 type Props = {
     extended?: boolean;
-    ost: AnimeOSTResponse[];
+    ost: AnimeOstResponse[];
 };
 
 const Ost: FC<Props> = ({ extended, ost }) => {

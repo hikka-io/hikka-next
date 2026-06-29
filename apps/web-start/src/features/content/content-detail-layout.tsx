@@ -1,23 +1,18 @@
 import type { FC, PropsWithChildren } from 'react';
 
-import type { ContentTypeEnum } from '@hikka/client';
+import type { MainContentTypeEnum } from '@hikka/api';
 
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
-import NavMenu from '@/features/common/nav-dropdown';
-import { ContentNavbar } from '@/features/content';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
+import NavMenu from '@/features/app-shell/nav-dropdown';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
+import ContentActionBar from './content-action-bar';
 import NsfwOverlay from './nsfw-overlay';
 
 type Props = PropsWithChildren & {
     slug: string;
-    contentType:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL
-        | ContentTypeEnum.CHARACTER
-        | ContentTypeEnum.PERSON;
+    contentType: MainContentTypeEnum | 'character' | 'person';
     navRoutes: Hikka.NavRoute[];
     urlPrefix: string;
     title: string;
@@ -65,7 +60,7 @@ const ContentDetailLayout: FC<Props> = ({
             {nsfw && !nsfwConsented && <NsfwOverlay />}
             {children}
 
-            <ContentNavbar content_type={contentType} className="mt-12" />
+            <ContentActionBar content_type={contentType} className="mt-12" />
         </>
     );
 };

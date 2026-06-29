@@ -1,24 +1,23 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
-import { HikkaApiError } from '@hikka/client';
-import { prefetchInfiniteQuery } from '@hikka/react/core';
 import {
-    notificationListOptions,
-    sessionOptions,
+    HikkaApiError,
+    notificationsInfiniteOptions,
+    profileOptions,
     unseenNotificationsCountOptions,
-} from '@hikka/react/options';
+} from '@hikka/api';
 
 import { Toaster } from '@/components/ui/sonner';
-import { Footer, Navbar } from '@/features/common';
+import { Footer, Navbar } from '@/features/app-shell';
+import { getAuthTokenFn } from '@/utils/cookies';
 
 export const Route = createFileRoute('/_pages')({
-    beforeLoad: async ({ context: { queryClient, hikkaClient } }) => {
-        const authToken = hikkaClient.getAuthToken();
-        if (!authToken) return;
+    beforeLoad: async ({ context: { queryClient, apiClient } }) => {
+        if (!(await getAuthTokenFn())) return;
 
         try {
             const session = await queryClient.ensureQueryData(
-                sessionOptions(hikkaClient),
+                profileOptions({ client: apiClient }),
             );
             if (!session) throw redirect({ to: '/auth/logout' });
         } catch (error) {
@@ -31,16 +30,15 @@ export const Route = createFileRoute('/_pages')({
             throw error;
         }
     },
-    loader: async ({ context: { queryClient, hikkaClient } }) => {
-        if (!hikkaClient.getAuthToken()) return;
+    loader: async ({ context: { queryClient, apiClient } }) => {
+        if (!(await getAuthTokenFn())) return;
 
         await Promise.allSettled([
-            prefetchInfiniteQuery(
-                queryClient,
-                notificationListOptions(hikkaClient),
+            queryClient.ensureInfiniteQueryData(
+                notificationsInfiniteOptions({ client: apiClient }),
             ),
-            queryClient.prefetchQuery(
-                unseenNotificationsCountOptions(hikkaClient),
+            queryClient.ensureQueryData(
+                unseenNotificationsCountOptions({ client: apiClient }),
             ),
         ]);
     },

@@ -1,6 +1,7 @@
+import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useChangePassword } from '@hikka/react';
+import { changePasswordMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -17,12 +18,11 @@ const formSchema = z
         path: ['passwordConfirmation'],
     });
 
-const Component = () => {
-    const mutationChangePassword = useChangePassword({
-        options: {
-            onSuccess: async () => {
-                toast.success('Ви успішно змінили пароль.');
-            },
+const PasswordSettings = () => {
+    const mutationChangePassword = useMutation({
+        ...changePasswordMutation(),
+        onSuccess: async () => {
+            toast.success('Ви успішно змінили пароль.');
         },
     });
 
@@ -34,7 +34,7 @@ const Component = () => {
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
             mutationChangePassword.mutate({
-                password: value.password,
+                body: { password: value.password },
             });
         },
     });
@@ -83,4 +83,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default PasswordSettings;

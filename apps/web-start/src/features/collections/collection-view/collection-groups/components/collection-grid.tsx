@@ -1,14 +1,8 @@
-import { type FC, memo, useRef } from 'react';
+import { type ComponentProps, type FC, memo, useRef } from 'react';
 
 import { Info } from 'lucide-react';
 
-import type {
-    CollectionContent,
-    CollectionContentResponse,
-    ContentTypeEnum,
-} from '@hikka/client';
-import { useHikkaClient } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import type { CollectionContentResponse } from '@hikka/api';
 
 import ContentCard, {
     DEFAULT_CONTAINER_RATIO,
@@ -26,9 +20,11 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { getTitle } from '@/utils/title/get-title';
 
 const ASPECT_RATIO = String(DEFAULT_CONTAINER_RATIO);
 
@@ -83,12 +79,16 @@ const CommentButton: FC<{ comment: string }> = ({ comment }) => {
 
 type Props = {
     group?: string;
-    items: CollectionContentResponse<CollectionContent>[];
-    content_type: ContentTypeEnum;
+    items: CollectionContentResponse[];
+    content_type: string;
 };
 
-const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
-    const { defaultOptions } = useHikkaClient();
+const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
+    const { preferences } = useSessionUI();
+
+    const contentType = content_type as NonNullable<
+        ComponentProps<typeof ContentCard>['content_type']
+    >;
 
     return (
         <div className="flex scroll-mt-20 flex-col gap-4" id={group}>
@@ -104,27 +104,28 @@ const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
                     <div key={item.content.slug} className="relative">
                         <ContentCard
                             slug={item.content.slug}
-                            content_type={content_type}
-                            href={`${CONTENT_TYPE_LINKS[content_type]}/${item.content.slug}`}
+                            content_type={contentType}
+                            href={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
                             image={item.content.image}
                             title={getTitle(
-                                item.content as unknown as Record<
-                                    string,
-                                    unknown
-                                >,
-                                defaultOptions?.title,
-                                defaultOptions?.name,
+                                item.content,
+                                preferences.title_language,
+                                preferences.name_language,
                             )}
                             watch={
                                 'watch' in item.content &&
                                 item.content.watch.length > 0
-                                    ? item.content.watch[0]
+                                    ? (item.content.watch[0] as ComponentProps<
+                                          typeof ContentCard
+                                      >['watch'])
                                     : undefined
                             }
                             read={
                                 'read' in item.content &&
                                 item.content.read.length > 0
-                                    ? item.content.read[0]
+                                    ? (item.content.read[0] as ComponentProps<
+                                          typeof ContentCard
+                                      >['read'])
                                     : undefined
                             }
                         />
@@ -146,4 +147,4 @@ const CollectionGrid: FC<Props> = ({ group, items, content_type }) => {
     );
 };
 
-export default memo(CollectionGrid);
+export default memo(CollectionDisplayGrid);

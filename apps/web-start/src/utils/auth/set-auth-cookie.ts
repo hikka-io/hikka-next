@@ -1,6 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
 
-import { HikkaClient } from '@hikka/client';
+import { createRequestClient, profile } from '@hikka/api';
 
 /**
  * Server function that sets HttpOnly auth and username cookies.
@@ -31,20 +31,25 @@ export const setAuthCookieFn = createServerFn({ method: 'POST' })
 
         // Fetch username to set the username cookie (used for UI cache)
         try {
-            const client = new HikkaClient({
+            const client = createRequestClient({
                 baseUrl: import.meta.env.API_URL ?? 'https://api.hikka.io',
                 authToken: secret,
             });
-            const user = await client.user.getCurrentUser();
-
-            setCookie('username', user.username, {
-                maxAge: 60 * 60 * 24 * 30, // 30 days
-                path: '/',
-                httpOnly: false,
-                secure,
-                sameSite: 'lax',
-                ...(domain ? { domain } : {}),
+            const { data: user } = await profile({
+                client,
+                throwOnError: true,
             });
+
+            if (user.username) {
+                setCookie('username', user.username, {
+                    maxAge: 60 * 60 * 24 * 30, // 30 days
+                    path: '/',
+                    httpOnly: false,
+                    secure,
+                    sameSite: 'lax',
+                    ...(domain ? { domain } : {}),
+                });
+            }
         } catch {
             // Username cookie is non-critical; auth cookie is already set
         }

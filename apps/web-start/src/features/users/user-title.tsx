@@ -1,4 +1,6 @@
-import { useUserByUsername } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { userProfileOptions } from '@hikka/api';
 
 import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
 import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
@@ -12,9 +14,11 @@ import { Link, useParams } from '@/utils/navigation';
 
 const UserTitle = () => {
     const params = useParams();
-    const { data: user } = useUserByUsername({
-        username: String(params.username),
-    });
+    const { data: user } = useQuery(
+        userProfileOptions({
+            path: { username: String(params.username) },
+        }),
+    );
 
     if (!user) {
         return null;

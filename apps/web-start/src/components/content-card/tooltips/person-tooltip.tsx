@@ -1,15 +1,17 @@
 import { type FC, memo, type PropsWithChildren } from 'react';
 
-import type {
-    PersonAnimeResponse,
-    PersonCharactersResponse,
-} from '@hikka/client';
+import { useQuery } from '@tanstack/react-query';
+
 import {
-    usePersonAnime,
-    usePersonBySlug,
-    usePersonCharacters,
-    useTitle,
-} from '@hikka/react';
+    type ContentTypeEnum,
+    type PersonAnimeResponse,
+    type PersonCharactersResponse,
+    personAnimeOptions,
+    personInfoOptions,
+    personVoicesOptions,
+} from '@hikka/api';
+
+import { useTitle } from '@/features/auth/hooks/use-title';
 
 import MaterialSymbolsMoreHoriz from '../../icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MDViewer from '../../markdown/viewer/md-viewer';
@@ -45,7 +47,7 @@ const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
                         key={anime.slug}
                         image={anime.image}
                         slug={anime.slug}
-                        content_type={anime.data_type}
+                        content_type={anime.data_type as ContentTypeEnum}
                         containerRatio={0.7}
                     />
                 ))}
@@ -84,7 +86,7 @@ const PersonCharactersList: FC<{
                         key={character.slug}
                         image={character.image}
                         slug={character.slug}
-                        content_type={character.data_type}
+                        content_type={character.data_type as ContentTypeEnum}
                         containerRatio={0.7}
                     />
                 ))}
@@ -104,20 +106,20 @@ const PersonCharactersList: FC<{
 };
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
-    const { data } = usePersonBySlug({ slug });
-    const { list: anime } = usePersonAnime({
-        slug,
-        options: {
-            enabled:
-                data && data.characters_count === 0 && data.anime_count > 0,
-        },
+    const { data } = useQuery(personInfoOptions({ path: { slug } }));
+    const { data: animeData } = useQuery({
+        ...personAnimeOptions({ path: { slug } }),
+        enabled: Boolean(
+            data && data.characters_count === 0 && data.anime_count > 0,
+        ),
     });
-    const { list: characters } = usePersonCharacters({
-        slug,
-        options: {
-            enabled: data && data.characters_count > 0,
-        },
+    const { data: charactersData } = useQuery({
+        ...personVoicesOptions({ path: { slug } }),
+        enabled: Boolean(data && data.characters_count > 0),
     });
+
+    const anime = animeData?.list;
+    const characters = charactersData?.list;
 
     const name = useTitle(data);
 

@@ -1,7 +1,7 @@
 import {
     AnimeAgeRatingEnum,
     AnimeMediaEnum,
-    AnimeOSTTypeEnum,
+    AnimeOstTypeEnum,
     AnimeVideoTypeEnum,
     ArticleCategoryEnum,
     ContentStatusEnum,
@@ -12,7 +12,7 @@ import {
     type SeasonEnum,
     SourceEnum,
     WatchStatusEnum,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import MaterialSymbolsBookmarkFlagOutlineRounded from '../../components/icons/material-symbols/MaterialSymbolsBookmarkFlagOutlineRounded';
 import MaterialSymbolsBookmarkOutline from '../../components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
@@ -192,12 +192,12 @@ export const VIDEO: Hikka.FilterProperty<AnimeVideoTypeEnum> = {
     },
 };
 
-export const OST: Hikka.FilterProperty<AnimeOSTTypeEnum> = {
-    [AnimeOSTTypeEnum.OPENING]: {
+export const OST: Hikka.FilterProperty<AnimeOstTypeEnum> = {
+    [AnimeOstTypeEnum.OPENING]: {
         title_ua: 'Опенінґ',
         title_en: 'Opening',
     },
-    [AnimeOSTTypeEnum.ENDING]: {
+    [AnimeOstTypeEnum.ENDING]: {
         title_ua: 'Ендінґ',
         title_en: 'Ending',
     },
@@ -216,7 +216,7 @@ export const SOURCE: Hikka.FilterProperty<SourceEnum> = {
         title_ua: 'Візуальна Новала',
         title_en: 'Visual Novel',
     },
-    [SourceEnum.KOMA_MANGA]: {
+    [SourceEnum['4_KOMA_MANGA']]: {
         title_ua: 'Чотирьохпанельна Манґа',
         title_en: 'Yonkoma manga',
     },

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { CommentsContentType } from '@hikka/client';
+import type { CommentContentTypeEnum as CommentsContentType } from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import Card from '@/components/ui/card';
@@ -10,11 +10,12 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { useContent } from '@/features/comments';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
+
+import { useContent } from './hooks/use-content';
 
 type Props = {
     slug: string;

@@ -1,9 +1,8 @@
 import type { FC } from 'react';
 
-import { useSession } from '@hikka/react';
-
 import { useFormContext } from '@/components/form/form-context';
 import { Button } from '@/components/ui/button';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 const AutoButton: FC = () => {
     const { user: loggedUser } = useSession();

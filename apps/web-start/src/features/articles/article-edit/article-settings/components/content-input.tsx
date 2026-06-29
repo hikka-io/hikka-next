@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
-import { type ArticleContent, ContentTypeEnum } from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import { ArticleContentEnum } from '@hikka/api';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Button } from '@/components/ui/button';
@@ -13,7 +12,8 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { Label } from '@/components/ui/label';
-import { SearchModal } from '@/features/common';
+import { useTitle } from '@/features/auth/hooks/use-title';
+import { SearchModal } from '@/features/search';
 import { useArticleContext } from '@/services/providers/article-provider';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 
@@ -22,9 +22,7 @@ type Props = {};
 const ContentInput: FC<Props> = () => {
     const content = useArticleContext((state) => state.content);
     const setContent = useArticleContext((state) => state.setContent);
-    const contentTitle = useTitle(
-        content as unknown as Record<string, unknown> | undefined,
-    );
+    const contentTitle = useTitle(content);
 
     return (
         <div className="flex flex-col gap-4">
@@ -43,7 +41,11 @@ const ContentInput: FC<Props> = () => {
                             {contentTitle}
                         </HorizontalCardTitle>
                         <HorizontalCardDescription>
-                            {CONTENT_TYPES[content.data_type].title_ua}
+                            {
+                                CONTENT_TYPES[
+                                    content.data_type as keyof typeof CONTENT_TYPES
+                                ].title_ua
+                            }
                         </HorizontalCardDescription>
                     </HorizontalCardContainer>
                     <Button
@@ -58,15 +60,15 @@ const ContentInput: FC<Props> = () => {
             {!content && (
                 <SearchModal
                     allowedTypes={[
-                        ContentTypeEnum.ANIME,
-                        ContentTypeEnum.MANGA,
-                        ContentTypeEnum.NOVEL,
+                        ArticleContentEnum.ANIME,
+                        ArticleContentEnum.MANGA,
+                        ArticleContentEnum.NOVEL,
                     ]}
                     onClick={(value) =>
                         setContent(
-                            value as ArticleContent & {
-                                title?: string;
-                            },
+                            value as unknown as Parameters<
+                                typeof setContent
+                            >[0],
                         )
                     }
                     type="button"

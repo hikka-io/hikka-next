@@ -1,9 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { ContentStatusEnum, type SeasonEnum } from '@hikka/client';
-import { prefetchInfiniteQuery } from '@hikka/react/core';
-import { searchAnimeScheduleOptions } from '@hikka/react/options';
+import {
+    AnimeStatusEnum,
+    animeScheduleInfiniteOptions,
+    paginationPageParam,
+    type SeasonEnum,
+} from '@hikka/api';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Block from '@/components/ui/block';
@@ -22,26 +25,27 @@ import { getCurrentSeason } from '@/utils/season';
 export const Route = createFileRoute('/_pages/schedule')({
     validateSearch: zodValidator(scheduleSearchSchema),
     loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
+    loader: async ({ context: { queryClient, apiClient }, deps }) => {
         const { only_watch, season, year, status } = deps;
 
         const resolvedSeason = (season as SeasonEnum) || getCurrentSeason()!;
         const resolvedYear = Number(year) || new Date().getFullYear();
         const resolvedStatus =
             status && status.length > 0
-                ? (status as ContentStatusEnum[])
-                : [ContentStatusEnum.ONGOING, ContentStatusEnum.ANNOUNCED];
+                ? (status as AnimeStatusEnum[])
+                : [AnimeStatusEnum.ONGOING, AnimeStatusEnum.ANNOUNCED];
 
-        await prefetchInfiniteQuery(
-            queryClient,
-            searchAnimeScheduleOptions(hikkaClient, {
-                args: {
+        await queryClient.prefetchInfiniteQuery({
+            ...animeScheduleInfiniteOptions({
+                body: {
                     status: resolvedStatus,
                     only_watch,
                     airing_season: [resolvedSeason as SeasonEnum, resolvedYear],
                 },
+                client: apiClient,
             }),
-        );
+            ...paginationPageParam(),
+        });
     },
     head: () =>
         generateHeadMeta({

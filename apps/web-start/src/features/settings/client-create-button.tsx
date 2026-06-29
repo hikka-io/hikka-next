@@ -1,14 +1,14 @@
 import { type FC, Fragment, memo, useState } from 'react';
 
-import { useSession } from '@hikka/react';
-
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { ClientCreateModal } from '@/features/oauth';
+import { useSession } from '@/features/auth/hooks/use-session';
+
+import ClientCreateModal from './applications/client-create-modal';
 
 const ClientCreateButton: FC = () => {
     const { user: loggedUser } = useSession();

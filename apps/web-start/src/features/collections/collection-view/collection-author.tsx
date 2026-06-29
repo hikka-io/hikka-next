@@ -1,7 +1,9 @@
+import { useQuery } from '@tanstack/react-query';
 import { formatDistance } from 'date-fns';
 
-import { useCollectionByReference } from '@hikka/react';
+import { getCollectionOptions } from '@hikka/api';
 
+import FollowButton from '@/components/action-buttons/follow-button';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -10,7 +12,6 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import FollowButton from '@/features/common/follow-button';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { useParams } from '@/utils/navigation';
 
@@ -18,9 +19,9 @@ const CollectionAuthor = () => {
     const params = useParams();
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
-    const { data: collection } = useCollectionByReference({
-        reference: String(params.reference),
-    });
+    const { data: collection } = useQuery(
+        getCollectionOptions({ path: { reference: String(params.reference) } }),
+    );
 
     return (
         <Card className="bg-secondary/20 backdrop-blur-xl">

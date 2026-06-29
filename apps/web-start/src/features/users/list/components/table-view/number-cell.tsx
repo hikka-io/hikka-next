@@ -1,0 +1,88 @@
+import { type FC, useState } from 'react';
+
+import {
+    type AnimeResponse,
+    ContentTypeEnum,
+    type MainContentTypeEnum,
+    type MangaResponse,
+    type NovelResponse,
+    type ReadContentTypeEnum,
+    type ReadResponseBase,
+    type WatchResponseBase,
+} from '@hikka/api';
+
+import { ReadEditModal, WatchEditModal } from '@/components/action-buttons';
+import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+    ResponsiveModalHeader,
+    ResponsiveModalTitle,
+} from '@/components/ui/responsive-modal';
+import { TableCell } from '@/components/ui/table';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { useTitle } from '@/features/auth/hooks/use-title';
+import { cn } from '@/utils/cn';
+import { useParams } from '@/utils/navigation';
+
+type Props = {
+    number: number;
+    content: MangaResponse | NovelResponse | AnimeResponse;
+    content_type: MainContentTypeEnum;
+    record?: ReadResponseBase | WatchResponseBase;
+};
+
+const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
+    const params = useParams();
+    const { user: loggedUser } = useSession();
+    const title = useTitle(content);
+    const [open, setOpen] = useState(false);
+
+    return (
+        <TableCell className="w-12 pr-0">
+            {loggedUser?.username === params.username && (
+                <Button
+                    size="icon-sm"
+                    className="hidden group-hover:flex"
+                    onClick={() => setOpen(true)}
+                >
+                    <MaterialSymbolsMoreVert />
+                </Button>
+            )}
+            <Label
+                className={cn(
+                    'text-muted-foreground',
+                    loggedUser?.username === params.username &&
+                        'inline group-hover:hidden',
+                )}
+            >
+                {number}
+            </Label>
+            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+                <ResponsiveModalContent className="md:max-w-xl">
+                    <ResponsiveModalHeader>
+                        <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
+                    </ResponsiveModalHeader>
+                    {content_type === ContentTypeEnum.ANIME ? (
+                        <WatchEditModal
+                            watch={record as WatchResponseBase}
+                            slug={content.slug}
+                            onClose={() => setOpen(false)}
+                        />
+                    ) : (
+                        <ReadEditModal
+                            read={record as ReadResponseBase}
+                            content_type={content_type as ReadContentTypeEnum}
+                            slug={content.slug}
+                            onClose={() => setOpen(false)}
+                        />
+                    )}
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </TableCell>
+    );
+};
+
+export default NumberCell;

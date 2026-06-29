@@ -1,34 +1,39 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import type { CommentsContentType } from '@hikka/client';
-import { prefetchInfiniteQuery } from '@hikka/react/core';
-import { contentCommentsOptions } from '@hikka/react/options';
-import { getTitle } from '@hikka/react/utils';
+import {
+    type CommentContentTypeEnum as CommentsContentType,
+    getContentsListInfiniteOptions,
+    paginationPageParam,
+} from '@hikka/api';
 
 import { CommentList as Comments, prefetchContent } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
 import { generateHeadMeta } from '@/utils/metadata';
+import { getTitle } from '@/utils/title/get-title';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
-    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { content_type, slug } = params;
 
         const content = await prefetchContent({
             content_type: content_type as CommentsContentType,
             slug,
             queryClient,
-            hikkaClient,
+            apiClient,
         });
 
         if (!content) throw redirect({ to: '/' });
 
-        await prefetchInfiniteQuery(
-            queryClient,
-            contentCommentsOptions(hikkaClient, {
-                contentType: content_type as CommentsContentType,
-                slug,
+        await queryClient.prefetchInfiniteQuery({
+            ...getContentsListInfiniteOptions({
+                path: {
+                    content_type: content_type as CommentsContentType,
+                    slug,
+                },
+                client: apiClient,
             }),
-        );
+            ...paginationPageParam(),
+        });
 
         return { content };
     },

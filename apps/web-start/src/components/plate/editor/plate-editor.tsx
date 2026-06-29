@@ -5,8 +5,6 @@ import { MessageCircleMore, MessageCirclePlus } from 'lucide-react';
 import type { Value } from 'platejs';
 import { Plate, type PlateEditor, usePlateEditor } from 'platejs/react';
 
-import { useHikkaClient } from '@hikka/react';
-
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { Editor, EditorContainer } from '@/components/plate/ui/editor';
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
@@ -194,7 +192,6 @@ export function ArticlePlateEditor({
     placeholder = 'Напишіть зміст статті...',
     onValueChange,
 }: ArticlePlateEditorProps) {
-    const { client } = useHikkaClient();
     const editor = usePlateEditor({
         plugins: ArticleKit,
         value,
@@ -207,10 +204,9 @@ export function ArticlePlateEditor({
         editor.setOption(
             ImageGroupPlugin,
             'uploadImage',
-            (file: File, options) =>
-                uploadAttachmentImage(client, file, options),
+            (file: File, options) => uploadAttachmentImage(file, options),
         );
-    }, [editor, client]);
+    }, [editor]);
 
     return (
         <Plate

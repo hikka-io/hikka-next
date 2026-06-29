@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { formatDistance } from 'date-fns/formatDistance';
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
 
-import type { ArticleBaseResponse } from '@hikka/client';
+import type { ArticlePreviewResponse } from '@hikka/api';
 
 import Card from '@/components/ui/card';
 import {
@@ -15,7 +15,7 @@ import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 type Props = {
-    article: ArticleBaseResponse;
+    article: ArticlePreviewResponse;
 };
 
 const ArticleItem: FC<Props> = ({ article }) => {

@@ -1,11 +1,12 @@
-import { useClientList } from '@hikka/react';
+import { listUserClientsInfiniteOptions } from '@hikka/api';
 
 import NotFound from '@/components/ui/not-found';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import ApplicationItem from './components/application-item';
 
-const Component = () => {
-    const { list } = useClientList();
+const ApplicationsSettings = () => {
+    const { list } = useInfiniteList(listUserClientsInfiniteOptions());
 
     return (
         <div className="flex w-full flex-col gap-6">
@@ -25,4 +26,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ApplicationsSettings;

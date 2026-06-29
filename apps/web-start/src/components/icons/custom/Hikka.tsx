@@ -25,8 +25,8 @@ export function Hikka(props: SVGProps<SVGSVGElement>) {
                     y2="20.5843"
                     gradientUnits="userSpaceOnUse"
                 >
-                    <stop offset="0.290756" stop-color="#D691F7" />
-                    <stop offset="1" stop-color="#226CBB" />
+                    <stop offset="0.290756" stopColor="#D691F7" />
+                    <stop offset="1" stopColor="#226CBB" />
                 </linearGradient>
             </defs>
         </svg>

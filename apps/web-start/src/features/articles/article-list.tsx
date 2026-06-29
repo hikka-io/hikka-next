@@ -1,7 +1,9 @@
 import type { FC } from 'react';
 
-import type { ArticleCategoryEnum } from '@hikka/client';
-import { useSearchArticles, useSession } from '@hikka/react';
+import {
+    type ArticleCategoryEnum,
+    getArticlesInfiniteOptions,
+} from '@hikka/api';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -10,16 +12,19 @@ import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { ArticleFiltersModal } from '@/features/articles';
-import ArticleItem from '@/features/articles/article-item/article-item';
-import ArticleItemSkeleton from '@/features/articles/article-item/article-item-skeleton';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 import type { ArticlesSearch } from '@/utils/search-schemas';
+
+import ArticleFiltersModal from './article-filters-modal';
+import ArticleItem from './article-item/article-item';
+import ArticleItemSkeleton from './article-item/article-item-skeleton';
 
 type Props = {};
 
@@ -42,15 +47,17 @@ const ArticleList: FC<Props> = () => {
         isFetchingNextPage,
         isPending,
         hasNextPage,
-    } = useSearchArticles({
-        args: {
-            categories,
-            author,
-            sort: expandSort('article', search.sort, search.order),
-            tags,
-            draft,
-        },
-    });
+    } = useInfiniteList(
+        getArticlesInfiniteOptions({
+            body: {
+                categories,
+                author,
+                sort: expandSort('article', search.sort, search.order),
+                tags,
+                draft,
+            },
+        }),
+    );
 
     return (
         <Block>

@@ -1,95 +1,148 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
 import {
-    animeBySlugOptions,
-    animeCharactersOptions,
-    animeStaffOptions,
-    contentCommentsOptions,
-    favouriteStatusOptions,
-    franchiseOptions,
-    searchArticlesOptions,
-    searchCollectionsOptions,
-    watchBySlugOptions,
-    watchingUsersOptions,
-} from '@hikka/react/options';
+    animeCharactersInfiniteOptions,
+    animeSlugOptions,
+    animeStaffInfiniteOptions,
+    ContentTypeEnum,
+    contentFranchiseOptions,
+    getArticlesInfiniteOptions,
+    getCollectionsInfiniteOptions,
+    getContentsListInfiniteOptions,
+    getFavouriteOptions,
+    getWatchFollowingInfiniteOptions,
+    HikkaApiError,
+    paginationPageParam,
+    RelatedContentTypeEnum,
+    watchGetOptions,
+} from '@hikka/api';
 
 import { ContentDetailLayout } from '@/features/content';
 import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
+import { getAuthTokenFn } from '@/utils/cookies';
 import { getNsfwConsentFn } from '@/utils/cookies/server';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
 
 export const Route = createFileRoute('/_pages/anime/$slug')({
-    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
-        const animeOptions = animeBySlugOptions(hikkaClient, {
-            slug: params.slug,
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
+        const animeOptions = animeSlugOptions({
+            path: { slug: params.slug },
+            client: apiClient,
         });
-        let anime = await queryClient.ensureQueryData(animeOptions);
+        let anime = await queryClient
+            .ensureQueryData(animeOptions)
+            .catch((error) => {
+                // An unknown slug returns 404 — render the not-found page
+                // instead of letting the error bubble to the 500 component.
+                if (error instanceof HikkaApiError && error.status === 404) {
+                    throw notFound();
+                }
+                throw error;
+            });
 
-        if (!anime) throw redirect({ to: '/' });
+        if (!anime) throw notFound();
 
-        if (!hikkaClient.getAuthToken()) {
+        const authToken = await getAuthTokenFn();
+
+        if (!authToken) {
             anime = stripRestrictedExternal(anime);
             queryClient.setQueryData(animeOptions.queryKey, anime);
         }
 
         const nsfwConsented = anime.nsfw ? !!(await getNsfwConsentFn()) : false;
 
-        await Promise.allSettled([
+        const prefetches: Promise<unknown>[] = [
             queryClient.ensureQueryData(
-                franchiseOptions(hikkaClient, {
-                    slug: params.slug,
-                    contentType: ContentTypeEnum.ANIME,
+                contentFranchiseOptions({
+                    path: {
+                        slug: params.slug,
+                        content_type: RelatedContentTypeEnum.ANIME,
+                    },
+                    client: apiClient,
                 }),
             ),
-            queryClient.ensureInfiniteQueryData(
-                animeStaffOptions(hikkaClient, { slug: params.slug }),
-            ),
-            queryClient.ensureQueryData(
-                watchBySlugOptions(hikkaClient, { slug: params.slug }),
-            ),
-            queryClient.ensureQueryData(
-                favouriteStatusOptions(hikkaClient, {
-                    slug: params.slug,
-                    contentType: ContentTypeEnum.ANIME,
+            queryClient.ensureInfiniteQueryData({
+                ...animeStaffInfiniteOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
                 }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                watchingUsersOptions(hikkaClient, { slug: params.slug }),
-            ),
-            queryClient.prefetchInfiniteQuery(
-                searchArticlesOptions(hikkaClient, {
-                    args: {
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...getArticlesInfiniteOptions({
+                    body: {
                         content_slug: params.slug,
                         content_type: ContentTypeEnum.ANIME,
                     },
+                    client: apiClient,
                 }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                contentCommentsOptions(hikkaClient, {
-                    contentType: ContentTypeEnum.ANIME,
-                    slug: params.slug,
-                    paginationArgs: { size: 3 },
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...getContentsListInfiniteOptions({
+                    path: {
+                        content_type: ContentTypeEnum.ANIME,
+                        slug: params.slug,
+                    },
+                    query: { size: 3 },
+                    client: apiClient,
                 }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                animeCharactersOptions(hikkaClient, {
-                    slug: params.slug,
-                    paginationArgs: { size: 20, page: 1 },
+                ...paginationPageParam(),
+            }),
+            // Args must match the component-body call (no `query`) so the SSR
+            // prefetch and client share a cache key.
+            queryClient.ensureInfiniteQueryData({
+                ...animeCharactersInfiniteOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
                 }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                searchCollectionsOptions(hikkaClient, {
-                    args: {
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...getCollectionsInfiniteOptions({
+                    body: {
                         content: [params.slug],
                         content_type: ContentTypeEnum.ANIME,
                     },
+                    client: apiClient,
                 }),
-            ),
-        ]);
+                ...paginationPageParam(),
+            }),
+        ];
+
+        // User-specific data is only worth prefetching when authenticated;
+        // anonymous requests just 401 and get discarded.
+        if (authToken) {
+            prefetches.push(
+                queryClient.ensureQueryData(
+                    watchGetOptions({
+                        path: { slug: params.slug },
+                        client: apiClient,
+                    }),
+                ),
+                queryClient.ensureQueryData(
+                    getFavouriteOptions({
+                        path: {
+                            slug: params.slug,
+                            content_type: ContentTypeEnum.ANIME,
+                        },
+                        client: apiClient,
+                    }),
+                ),
+                queryClient.ensureInfiniteQueryData({
+                    ...getWatchFollowingInfiniteOptions({
+                        path: { slug: params.slug },
+                        client: apiClient,
+                    }),
+                    ...paginationPageParam(),
+                }),
+            );
+        }
+
+        await Promise.allSettled(prefetches);
 
         return { anime, nsfwConsented };
     },

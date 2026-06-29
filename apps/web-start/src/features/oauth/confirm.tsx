@@ -1,11 +1,13 @@
 import type { FC } from 'react';
 
+import { useMutation } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
 
-import { useCreateThirdPartyTokenRequest, useSession } from '@hikka/react';
+import { requestTokenMutation } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { useSession } from '@/features/auth/hooks/use-session';
 
 type Props = {};
 
@@ -18,18 +20,17 @@ const Confirm: FC<Props> = () => {
 
     const { user } = useSession();
 
-    const { mutate, isPending } = useCreateThirdPartyTokenRequest({
-        options: {
-            onSuccess: (data) => {
-                window.location.href = data.redirect_url;
-            },
+    const { mutate, isPending } = useMutation({
+        ...requestTokenMutation(),
+        onSuccess: (data) => {
+            window.location.href = data.redirect_url;
         },
     });
 
     const handleConfirm = () => {
         mutate({
-            clientReference: reference!,
-            args: {
+            path: { client_reference: reference! },
+            body: {
                 scope: scopes!,
             },
         });

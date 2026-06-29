@@ -1,97 +1,147 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
 import {
-    contentCommentsOptions,
-    favouriteStatusOptions,
-    franchiseOptions,
-    novelBySlugOptions,
-    novelCharactersOptions,
-    readBySlugOptions,
-    readingUsersOptions,
-    searchArticlesOptions,
-    searchCollectionsOptions,
-} from '@hikka/react/options';
+    ContentTypeEnum,
+    contentFranchiseOptions,
+    getArticlesInfiniteOptions,
+    getCollectionsInfiniteOptions,
+    getContentsListInfiniteOptions,
+    getFavouriteOptions,
+    getReadFollowingInfiniteOptions,
+    HikkaApiError,
+    novelCharactersInfiniteOptions,
+    novelInfoOptions,
+    paginationPageParam,
+    ReadContentTypeEnum,
+    RelatedContentTypeEnum,
+    readGetOptions,
+} from '@hikka/api';
 
 import { ContentDetailLayout } from '@/features/content';
 import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
+import { getAuthTokenFn } from '@/utils/cookies';
 import { getNsfwConsentFn } from '@/utils/cookies/server';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
 
 export const Route = createFileRoute('/_pages/novel/$slug')({
-    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
-        const novelOptions = novelBySlugOptions(hikkaClient, {
-            slug: params.slug,
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
+        const novelOptions = novelInfoOptions({
+            path: { slug: params.slug },
+            client: apiClient,
         });
-        let novel = await queryClient.ensureQueryData(novelOptions);
+        let novel = await queryClient
+            .ensureQueryData(novelOptions)
+            .catch((error) => {
+                // An unknown slug returns 404 — render the not-found page
+                // instead of letting the error bubble to the 500 component.
+                if (error instanceof HikkaApiError && error.status === 404) {
+                    throw notFound();
+                }
+                throw error;
+            });
 
-        if (!novel) throw redirect({ to: '/' });
+        if (!novel) throw notFound();
 
-        if (!hikkaClient.getAuthToken()) {
+        const authToken = await getAuthTokenFn();
+
+        if (!authToken) {
             novel = stripRestrictedExternal(novel);
             queryClient.setQueryData(novelOptions.queryKey, novel);
         }
 
         const nsfwConsented = novel.nsfw ? !!(await getNsfwConsentFn()) : false;
 
-        await Promise.allSettled([
-            queryClient.ensureInfiniteQueryData(
-                novelCharactersOptions(hikkaClient, {
-                    slug: params.slug,
-                    paginationArgs: { size: 20, page: 1 },
+        const prefetches: Promise<unknown>[] = [
+            // Args must match the component-body call (no `query`) so the SSR
+            // prefetch and client share a cache key.
+            queryClient.ensureInfiniteQueryData({
+                ...novelCharactersInfiniteOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
                 }),
-            ),
+                ...paginationPageParam(),
+            }),
             queryClient.ensureQueryData(
-                franchiseOptions(hikkaClient, {
-                    slug: params.slug,
-                    contentType: ContentTypeEnum.NOVEL,
+                contentFranchiseOptions({
+                    path: {
+                        slug: params.slug,
+                        content_type: RelatedContentTypeEnum.NOVEL,
+                    },
+                    client: apiClient,
                 }),
             ),
-            queryClient.ensureQueryData(
-                readBySlugOptions(hikkaClient, {
-                    slug: params.slug,
-                    contentType: ContentTypeEnum.NOVEL,
-                }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                readingUsersOptions(hikkaClient, {
-                    slug: params.slug,
-                    contentType: ContentTypeEnum.NOVEL,
-                }),
-            ),
-            queryClient.ensureQueryData(
-                favouriteStatusOptions(hikkaClient, {
-                    slug: params.slug,
-                    contentType: ContentTypeEnum.NOVEL,
-                }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                searchArticlesOptions(hikkaClient, {
-                    args: {
+            queryClient.ensureInfiniteQueryData({
+                ...getArticlesInfiniteOptions({
+                    body: {
                         content_slug: params.slug,
                         content_type: ContentTypeEnum.NOVEL,
                     },
+                    client: apiClient,
                 }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                contentCommentsOptions(hikkaClient, {
-                    contentType: ContentTypeEnum.NOVEL,
-                    slug: params.slug,
-                    paginationArgs: { size: 3 },
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...getContentsListInfiniteOptions({
+                    path: {
+                        content_type: ContentTypeEnum.NOVEL,
+                        slug: params.slug,
+                    },
+                    query: { size: 3 },
+                    client: apiClient,
                 }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                searchCollectionsOptions(hikkaClient, {
-                    args: {
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...getCollectionsInfiniteOptions({
+                    body: {
                         content: [params.slug],
                         content_type: ContentTypeEnum.NOVEL,
                     },
+                    client: apiClient,
                 }),
-            ),
-        ]);
+                ...paginationPageParam(),
+            }),
+        ];
+
+        // User-specific data is only worth prefetching when authenticated;
+        // anonymous requests just 401 and get discarded.
+        if (authToken) {
+            prefetches.push(
+                queryClient.ensureQueryData(
+                    readGetOptions({
+                        path: {
+                            slug: params.slug,
+                            content_type: ReadContentTypeEnum.NOVEL,
+                        },
+                        client: apiClient,
+                    }),
+                ),
+                queryClient.ensureQueryData(
+                    getFavouriteOptions({
+                        path: {
+                            slug: params.slug,
+                            content_type: ContentTypeEnum.NOVEL,
+                        },
+                        client: apiClient,
+                    }),
+                ),
+                queryClient.ensureInfiniteQueryData({
+                    ...getReadFollowingInfiniteOptions({
+                        path: {
+                            slug: params.slug,
+                            content_type: ReadContentTypeEnum.NOVEL,
+                        },
+                        client: apiClient,
+                    }),
+                    ...paginationPageParam(),
+                }),
+            );
+        }
+
+        await Promise.allSettled(prefetches);
 
         return { novel, nsfwConsented };
     },

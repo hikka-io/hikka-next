@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 
-import { type CommentResponse, ContentTypeEnum } from '@hikka/client';
+import { type CommentResponse, ContentTypeEnum } from '@hikka/api';
 
-import VoteButton from '@/features/common/vote-button';
+import VoteButton from '@/components/action-buttons/vote-button';
 
 type Props = {
     comment: CommentResponse;

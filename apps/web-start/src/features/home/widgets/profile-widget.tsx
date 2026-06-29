@@ -1,0 +1,131 @@
+import { type FC, useState } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+import { Settings } from 'lucide-react';
+
+import { followStatsOptions } from '@hikka/api';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import {
+    ResponsiveModal,
+    ResponsiveModalContent,
+} from '@/components/ui/responsive-modal';
+import { LoginButton } from '@/features/app-shell';
+import { useSession } from '@/features/auth/hooks/use-session';
+import FollowListModal from '@/features/users/follow-list-modal';
+import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { Link } from '@/utils/navigation';
+
+import type { WidgetProps } from '../constants';
+
+const ProfileWidget: FC<WidgetProps> = () => {
+    const [open, setOpen] = useState(false);
+    const [followType, setFollowType] = useState<'followers' | 'followings'>(
+        'followers',
+    );
+    useCloseOnRouteChange(setOpen);
+    const { user } = useSession();
+    const { data: followStats } = useQuery({
+        ...followStatsOptions({ path: { username: String(user?.username) } }),
+        enabled: Boolean(user?.username),
+    });
+
+    if (!user || !followStats) {
+        return (
+            <Card className="items-center bg-secondary/20" id="sidebar-profile">
+                <div className="flex w-full flex-col gap-2">
+                    <p className="font-bold text-sm">Приєднуйся до hikka</p>
+                    <p className="text-muted-foreground text-xs">
+                        Відслідковуй свій прогрес, створюй власні колекції та
+                        веди обговорення зі спільнотою
+                    </p>
+                </div>
+                <LoginButton className="w-full" variant="secondary" />
+            </Card>
+        );
+    }
+
+    return (
+        <>
+            <Card
+                className="items-center bg-secondary/20 backdrop-blur-xl"
+                id="sidebar-profile"
+            >
+                <div className="flex w-full items-center justify-between gap-2">
+                    <div className="flex items-center gap-4">
+                        <Link to={`/u/${user.username}`}>
+                            <Avatar className="size-12 rounded-lg">
+                                <AvatarImage src={user.avatar} />
+                                <AvatarFallback className="rounded-lg">
+                                    {user.username[0]}
+                                </AvatarFallback>
+                            </Avatar>
+                        </Link>
+                        <div className="flex flex-col gap-2">
+                            <Link
+                                to={`/u/${user.username}`}
+                                className="font-bold text-sm hover:underline"
+                            >
+                                {user.username}
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="flex gap-2">
+                        <Button variant="outline" size="icon-md" asChild>
+                            <Link to="/settings">
+                                <Settings />
+                            </Link>
+                        </Button>
+                    </div>
+                </div>
+                <div className="flex h-full w-full items-center gap-4">
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setFollowType('followers');
+                            setOpen(true);
+                        }}
+                        className="flex cursor-pointer gap-1 text-sm hover:underline"
+                    >
+                        <span className="font-bold">
+                            {followStats.followers}
+                        </span>
+                        <span className="text-muted-foreground">стежать</span>
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setFollowType('followings');
+                            setOpen(true);
+                        }}
+                        className="flex cursor-pointer gap-1 text-sm hover:underline"
+                    >
+                        <span className="font-bold">
+                            {followStats.following}
+                        </span>
+                        <span className="text-muted-foreground">
+                            відстежується
+                        </span>
+                    </button>
+                </div>
+            </Card>
+            <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
+                <ResponsiveModalContent
+                    side="right"
+                    title={
+                        followType === 'followers' ? 'Стежать' : 'Відстежується'
+                    }
+                >
+                    <FollowListModal
+                        type={followType}
+                        username={user.username}
+                    />
+                </ResponsiveModalContent>
+            </ResponsiveModal>
+        </>
+    );
+};
+
+export default ProfileWidget;

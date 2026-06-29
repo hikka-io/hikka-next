@@ -1,36 +1,42 @@
 import { useState } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { ContentTypeEnum, type ImportReadArgs } from '@hikka/client';
-import { useImportReadList } from '@hikka/react';
+import {
+    ContentTypeEnum,
+    type ImportReadArgs,
+    importReadMutation,
+} from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { invalidateReadState } from '@/utils/api/invalidate-content-state';
 
 import General from '../components/import-list';
 import Anilist from './anilist';
 
-const Component = () => {
+const ReadlistSettings = () => {
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
     const [rewrite, setRewrite] = useState(true);
     const [readList, setReadList] = useState<ImportReadArgs[]>([]);
     const [importing, setImporting] = useState<boolean>(false);
+    const queryClient = useQueryClient();
 
-    const mutationImportReadList = useImportReadList({
-        options: {
-            onSuccess: () => {
-                toast.success(
-                    <span>
-                        Ви успішно імпортували{' '}
-                        <span className="font-bold">{readList.length}</span>{' '}
-                        манґи та ранобе до Вашого списку.
-                    </span>,
-                );
-            },
+    const mutationImportReadList = useMutation({
+        ...importReadMutation(),
+        onSuccess: () => {
+            invalidateReadState(queryClient);
+            toast.success(
+                <span>
+                    Ви успішно імпортували{' '}
+                    <span className="font-bold">{readList.length}</span> манґи
+                    та ранобе до Вашого списку.
+                </span>,
+            );
         },
     });
 
@@ -40,10 +46,12 @@ const Component = () => {
         if (readList && readList.length > 0) {
             try {
                 mutationImportReadList.mutate({
-                    overwrite: rewrite,
-                    content: readList,
+                    body: {
+                        overwrite: rewrite,
+                        content: readList,
+                    },
                 });
-            } catch (e) {}
+            } catch (_e) {}
         }
 
         setImporting(false);
@@ -101,4 +109,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ReadlistSettings;

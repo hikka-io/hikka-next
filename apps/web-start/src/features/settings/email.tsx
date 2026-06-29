@@ -1,10 +1,12 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useChangeEmail } from '@hikka/react';
+import { changeEmailMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z
@@ -17,12 +19,14 @@ const formSchema = z
         path: ['emailConfirmation'],
     });
 
-const Component = () => {
-    const mutationChangeEmail = useChangeEmail({
-        options: {
-            onSuccess: async () => {
-                toast.success('Ви успішно змінили поштову адресу.');
-            },
+const EmailSettings = () => {
+    const queryClient = useQueryClient();
+
+    const mutationChangeEmail = useMutation({
+        ...changeEmailMutation(),
+        onSuccess: async () => {
+            invalidateSession(queryClient);
+            toast.success('Ви успішно змінили поштову адресу.');
         },
     });
 
@@ -34,7 +38,7 @@ const Component = () => {
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
             mutationChangeEmail.mutate({
-                email: value.email,
+                body: { email: value.email },
             });
         },
     });
@@ -83,4 +87,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default EmailSettings;

@@ -1,7 +1,9 @@
 import type { FC } from 'react';
 import * as React from 'react';
 
-import { useEdit } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getEditOptions } from '@hikka/api';
 
 import { useFormContext } from '@/components/form/form-context';
 import { Button } from '@/components/ui/button';
@@ -19,18 +21,20 @@ const InputParam: FC<Props> = ({ mode, param }) => {
     const form = useFormContext() as any;
     const params = useParams();
     const [showDiff, setShowDiff] = React.useState(false);
-    const { data: edit } = useEdit({
-        editId: Number(params.editId),
-        options: {
-            enabled: mode === 'view',
-        },
+    const { data: edit } = useQuery({
+        ...getEditOptions({ path: { edit_id: Number(params.editId) } }),
+        enabled: mode === 'view',
     });
+
+    const beforeValue = (edit?.before as Record<string, string> | null)?.[
+        param.slug
+    ];
 
     return (
         <div className="flex w-full flex-col gap-4">
             <div className="flex items-center gap-4">
                 <Label>{param.title}</Label>
-                {mode === 'view' && edit && edit.before![param.slug] && (
+                {mode === 'view' && edit && beforeValue && (
                     <Button
                         size="badge"
                         variant={showDiff ? 'secondary' : 'outline'}
@@ -56,16 +60,13 @@ const InputParam: FC<Props> = ({ mode, param }) => {
                 )}
             />
 
-            {mode === 'view' &&
-                edit &&
-                edit.before![param.slug] &&
-                showDiff && (
-                    <Input
-                        className="w-full disabled:cursor-text hover:disabled:opacity-100"
-                        value={edit.before![param.slug]}
-                        disabled
-                    />
-                )}
+            {mode === 'view' && edit && beforeValue && showDiff && (
+                <Input
+                    className="w-full disabled:cursor-text hover:disabled:opacity-100"
+                    value={beforeValue}
+                    disabled
+                />
+            )}
         </div>
     );
 };

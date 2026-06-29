@@ -1,10 +1,11 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useCollectionByReference } from '@hikka/react';
+import { ContentTypeEnum, getCollectionOptions } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Link from '@/components/ui/link';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import {
     CollectionViewAuthor as CollectionAuthor,
     CollectionViewGroups as CollectionGroups,
@@ -13,8 +14,8 @@ import {
     TableOfContents,
 } from '@/features/collections';
 import { CommentList as Comments } from '@/features/comments';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import CollectionProvider from '@/services/providers/collection-provider';
+import type { CollectionState } from '@/services/stores/collection-store';
 
 export const Route = createFileRoute('/_pages/collections/$reference/')({
     component: CollectionPage,
@@ -22,10 +23,14 @@ export const Route = createFileRoute('/_pages/collections/$reference/')({
 
 function CollectionPage() {
     const { reference } = Route.useParams();
-    const { data: collection } = useCollectionByReference({ reference });
+    const { data: collection } = useQuery(
+        getCollectionOptions({ path: { reference } }),
+    );
 
     return (
-        <CollectionProvider initialState={collection}>
+        <CollectionProvider
+            initialState={collection as Partial<CollectionState>}
+        >
             <Breadcrumbs>
                 <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
                     <Link

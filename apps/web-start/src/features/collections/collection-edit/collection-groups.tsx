@@ -1,11 +1,13 @@
 import { type FC, useEffect } from 'react';
 
-import { useCollectionByReference } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getCollectionOptions } from '@hikka/api';
 
 import { useCollectionContext } from '@/services/providers/collection-provider';
 import { useParams } from '@/utils/navigation';
 
-import CollectionGrid from './collection-grid';
+import CollectionEditGrid from './collection-grid';
 import CollectionDndContext from './collection-grid/collection-dnd-context';
 
 type Props = {
@@ -18,14 +20,16 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
     const groups = useCollectionContext((state) => state.groups);
     const setApiData = useCollectionContext((state) => state.setApiData);
 
-    const { data } = useCollectionByReference({
-        reference: String(params.reference),
-        options: { enabled: mode === 'edit' },
+    const { data } = useQuery({
+        ...getCollectionOptions({
+            path: { reference: String(params.reference) },
+        }),
+        enabled: mode === 'edit',
     });
 
     useEffect(() => {
         if (data) {
-            setApiData(data);
+            setApiData(data as Parameters<typeof setApiData>[0]);
         }
     }, [data]);
 
@@ -36,7 +40,7 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
     return (
         <CollectionDndContext>
             {groups.map((group) => (
-                <CollectionGrid key={group.id} group={group} />
+                <CollectionEditGrid key={group.id} group={group} />
             ))}
         </CollectionDndContext>
     );

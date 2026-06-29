@@ -1,10 +1,9 @@
 import { createElement } from 'react';
 
 import type {
-    ContentTypeEnum,
-    ReadStatsResponse,
+    AppSchemasReadStatsResponse as ReadStatsResponse,
     ReadStatusEnum,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import { CONTENT_CONFIG, READ_STATUS } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
@@ -12,7 +11,7 @@ import { useParams } from '@/utils/navigation';
 import Stats from './stats';
 
 type Props = {
-    content_type: ContentTypeEnum.MANGA | ContentTypeEnum.NOVEL;
+    content_type: 'manga' | 'novel';
 };
 
 const Readlist = ({ content_type }: Props) => {
@@ -24,22 +23,23 @@ const Readlist = ({ content_type }: Props) => {
     }
 
     const sumStats =
-        data.stats.completed +
-        data.stats.on_hold +
-        data.stats.dropped +
-        data.stats.planned +
-        data.stats.reading;
+        (data.stats.completed ?? 0) +
+        (data.stats.on_hold ?? 0) +
+        (data.stats.dropped ?? 0) +
+        (data.stats.planned ?? 0) +
+        (data.stats.reading ?? 0);
 
     const stats: Hikka.ListStat[] = Object.keys(data.stats)
         .filter((stat) => !stat.includes('score'))
         .map((stat) => {
             const status = READ_STATUS[stat as ReadStatusEnum];
             const percentage =
-                (100 * data.stats[stat as keyof ReadStatsResponse]) / sumStats;
+                (100 * (data.stats[stat as keyof ReadStatsResponse] ?? 0)) /
+                sumStats;
 
             return {
                 percentage,
-                value: data.stats[stat as keyof ReadStatsResponse],
+                value: data.stats[stat as keyof ReadStatsResponse] ?? 0,
                 icon: status.icon && createElement(status.icon),
                 name: stat,
             };

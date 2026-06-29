@@ -81,6 +81,7 @@ devenv.local.nix
 # TanStack Start / Vinxi
 .output
 .vinxi
+.tanstack
 dist
 # Superpowers (Claude Code plugin artifacts)
 docs/superpowers/

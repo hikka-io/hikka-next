@@ -2,8 +2,13 @@ import type { FC } from 'react';
 
 import { formatDistance } from 'date-fns';
 
-import type { ArticleBaseResponse } from '@hikka/client';
+import type {
+    ArticleCategoryEnum,
+    ArticleDocumentResponse,
+    ArticlePreviewResponse,
+} from '@hikka/api';
 
+import { FollowButton } from '@/components/action-buttons';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -12,19 +17,22 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import Link from '@/components/ui/link';
-import { FollowButton } from '@/features/common';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
 type Props = {
-    article: ArticleBaseResponse;
+    article: ArticlePreviewResponse | ArticleDocumentResponse;
     preview?: boolean;
     className?: string;
 };
 
 const Author: FC<Props> = ({ article, preview, className }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
+
+    // Generated responses type `category` as a plain string; narrow to the enum
+    // used by ARTICLE_CATEGORY_OPTIONS and the /articles search param.
+    const category = article.category as ArticleCategoryEnum;
 
     return (
         <HorizontalCard className={cn('p-4', className)}>
@@ -42,14 +50,11 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                     <HorizontalCardDescription>
                         <Link
                             to="/articles"
-                            search={{ categories: article.category }}
+                            search={{ categories: category }}
                             rel="author"
                             className="hover:underline"
                         >
-                            {
-                                ARTICLE_CATEGORY_OPTIONS[article.category]
-                                    .title_ua
-                            }
+                            {ARTICLE_CATEGORY_OPTIONS[category].title_ua}
                         </Link>
                     </HorizontalCardDescription>
                     <div className="size-1 rounded-full bg-muted-foreground" />

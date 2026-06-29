@@ -3,12 +3,18 @@ import { createStore } from 'zustand';
 
 import {
     type CollectionArgs,
-    type CollectionContent,
-    type CollectionContentType,
+    type CollectionContentResponse,
+    type CollectionContentTypeEnum,
     type CollectionResponse,
     CollectionVisibilityEnum,
     ContentTypeEnum,
-} from '@hikka/client';
+} from '@hikka/api';
+
+// `@hikka/api` has no single `CollectionContent` alias; the per-item content
+// union (with `slug`/`title`) lives on `CollectionContentResponse['content']`.
+type CollectionContent = CollectionContentResponse['content'];
+// Old `CollectionContentType` mapped to the collection content-type enum.
+type CollectionContentType = CollectionContentTypeEnum;
 
 export type Item = {
     id: string | number;
@@ -75,7 +81,7 @@ export type CollectionActions = {
     ) => void;
 
     // API serialization
-    setApiData: (data: CollectionResponse<CollectionContent>) => void;
+    setApiData: (data: CollectionResponse) => void;
     getApiData: () => CollectionArgs;
 };
 

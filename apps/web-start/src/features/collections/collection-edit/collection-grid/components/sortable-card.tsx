@@ -4,9 +4,6 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Check, Trash2, X } from 'lucide-react';
 
-import type { CollectionContent } from '@hikka/client';
-import { useTitle } from '@hikka/react';
-
 import ContentCard, {
     DEFAULT_CONTAINER_RATIO,
 } from '@/components/content-card/content-card';
@@ -23,12 +20,14 @@ import {
     ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { Textarea } from '@/components/ui/textarea';
+import { useTitle } from '@/features/auth/hooks/use-title';
+import type { Item } from '@/services/stores/collection-store';
 import { cn } from '@/utils/cn';
 
 type Props = {
     id: string;
     groupId: string;
-    content: CollectionContent & { title?: string };
+    content: Item['content'];
     comment?: string;
     onRemove: (groupId: string, itemId: string | number) => void;
     onCommentChange?: (
@@ -44,7 +43,7 @@ const ASPECT_RATIO = String(DEFAULT_CONTAINER_RATIO);
 const SortableCardContent = memo<{
     id: string;
     groupId: string;
-    content: CollectionContent & { title?: string };
+    content: Item['content'];
     comment?: string;
     onRemove: (groupId: string, itemId: string | number) => void;
     onCommentChange?: (
@@ -53,7 +52,7 @@ const SortableCardContent = memo<{
         comment: string,
     ) => void;
 }>(({ id, groupId, content, comment, onRemove, onCommentChange }) => {
-    const title = useTitle(content as unknown as Record<string, unknown>);
+    const title = useTitle(content);
     const [commentOpen, setCommentOpen] = useState(false);
     const [draft, setDraft] = useState('');
 

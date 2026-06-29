@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { useCommentList } from '@hikka/react';
+import { commentsListInfiniteOptions } from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
@@ -9,8 +9,10 @@ import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
-import GlobalComment from '@/features/comments/global-comment';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
+
+import GlobalComment from './global-comment';
 
 type Props = {
     className?: string;
@@ -18,7 +20,7 @@ type Props = {
 
 const Comments: FC<Props> = ({ className }) => {
     const { list, hasNextPage, ref, isFetchingNextPage, fetchNextPage } =
-        useCommentList();
+        useInfiniteList(commentsListInfiniteOptions());
 
     return (
         <Block className={cn(className)}>
@@ -42,7 +44,7 @@ const Comments: FC<Props> = ({ className }) => {
                             #{index + 1}
                         </Badge>
                         <GlobalComment
-                            href={`/comments/${item.content_type}/${item.preview.slug}`}
+                            href={`/comments/${item.content_type}/${(item.preview as { slug?: string }).slug}`}
                             comment={item}
                         />
                     </Card>

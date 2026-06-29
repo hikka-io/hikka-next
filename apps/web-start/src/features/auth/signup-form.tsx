@@ -1,20 +1,28 @@
 import { useRef, useState } from 'react';
 
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { useCreateUser, useHikkaClient } from '@hikka/react';
+import {
+    authInfoQueryKey,
+    profileQueryKey,
+    setAuthToken,
+    signupMutation,
+} from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
-import { OAuthLogin } from '@/features/auth';
 import { setAuthCookieFn } from '@/utils/auth';
+import { getCaptchaToken } from '@/utils/captcha';
 import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
+
+import OAuthLogin from './oauth-login';
 
 const formSchema = z
     .object({
@@ -29,36 +37,43 @@ const formSchema = z
     });
 
 const SignupForm = () => {
-    const { client } = useHikkaClient();
+    const queryClient = useQueryClient();
     const captchaRef = useRef<TurnstileInstance>(undefined);
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] =
         useState(false);
 
-    const mutationSignup = useCreateUser({
-        options: {
-            onSuccess: async (data) => {
-                await setAuthCookieFn({
-                    data: { secret: data.secret },
-                });
-                client.setAuthToken(data.secret);
+    const mutationSignup = useMutation({
+        ...signupMutation(),
+        onSuccess: async (data) => {
+            await setAuthCookieFn({
+                data: { secret: data.secret },
+            });
+            setAuthToken(data.secret);
+            await Promise.all([
+                queryClient.invalidateQueries({
+                    queryKey: profileQueryKey(),
+                }),
+                queryClient.invalidateQueries({
+                    queryKey: authInfoQueryKey(),
+                }),
+            ]);
 
-                toast.success(
-                    <span>
-                        <span className="font-bold">
-                            {form.getFieldValue('username')}
-                        </span>
-                        , Ви успішно зареєструвались.
-                    </span>,
-                );
+            toast.success(
+                <span>
+                    <span className="font-bold">
+                        {form.getFieldValue('username')}
+                    </span>
+                    , Ви успішно зареєструвались.
+                </span>,
+            );
 
-                form.reset();
-                router.push('/');
-            },
-            onError: () => {
-                captchaRef.current?.reset();
-            },
+            form.reset();
+            router.push('/');
+        },
+        onError: () => {
+            captchaRef.current?.reset();
         },
     });
 
@@ -72,13 +87,13 @@ const SignupForm = () => {
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
             mutationSignup.mutate({
-                args: {
+                body: {
                     email: value.email,
                     password: value.password,
                     username: value.username,
                 },
-                captcha: {
-                    captcha: String(captchaRef.current?.getResponse()),
+                headers: {
+                    captcha: getCaptchaToken(captchaRef.current),
                 },
             });
         },

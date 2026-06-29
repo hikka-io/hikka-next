@@ -6,7 +6,7 @@ import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-clo
 import { useArticleContext } from '@/services/providers/article-provider';
 import { hasPlateContent } from '@/utils/plate';
 
-const ArticleDocument = () => {
+const ArticleDocumentEditor = () => {
     const document = useArticleContext((state) => state.document);
     const title = useArticleContext((state) => state.title);
     const setDocument = useArticleContext((state) => state.setDocument);
@@ -30,4 +30,4 @@ const ArticleDocument = () => {
     );
 };
 
-export default memo(ArticleDocument);
+export default memo(ArticleDocumentEditor);

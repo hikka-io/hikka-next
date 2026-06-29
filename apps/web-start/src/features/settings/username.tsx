@@ -1,10 +1,12 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useChangeUsername } from '@hikka/react';
+import { changeUsernameMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
 
@@ -12,15 +14,16 @@ const formSchema = z.object({
     username: z.string().min(2).max(50),
 });
 
-const Component = () => {
+const ProfileUsername = () => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
-    const mutationChangeUsername = useChangeUsername({
-        options: {
-            onSuccess: async () => {
-                router.push(`/u/${form.getFieldValue('username')}`);
-                toast.success('Ви успішно змінили імʼя користвача.');
-            },
+    const mutationChangeUsername = useMutation({
+        ...changeUsernameMutation(),
+        onSuccess: async () => {
+            invalidateSession(queryClient);
+            router.push(`/u/${form.getFieldValue('username')}`);
+            toast.success('Ви успішно змінили імʼя користвача.');
         },
     });
 
@@ -31,7 +34,7 @@ const Component = () => {
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
             mutationChangeUsername.mutate({
-                username: value.username,
+                body: { username: value.username },
             });
         },
     });
@@ -69,4 +72,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default ProfileUsername;

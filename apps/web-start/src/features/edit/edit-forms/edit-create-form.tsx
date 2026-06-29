@@ -1,15 +1,18 @@
 import { type FC, useRef } from 'react';
 
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import type { EditContentType, MainContent } from '@hikka/client';
-import { useCreateEdit } from '@hikka/react';
+import { createEditMutation, type EditContentTypeEnum } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { invalidateEdits } from '@/utils/api/invalidate-content-state';
+import { TURNSTILE_SITE_KEY } from '@/utils/constants/edit';
 import { useRouter } from '@/utils/navigation';
 
+import type { EditMainContent } from '../types';
 import AutoButton from './components/auto-button';
 import EditDescription from './components/edit-description';
 import EditGroup from './components/edit-group';
@@ -22,9 +25,9 @@ import {
 
 type Props = {
     slug: string;
-    content_type: EditContentType;
+    content_type: EditContentTypeEnum;
     mode?: 'view' | 'edit';
-    content: MainContent;
+    content: EditMainContent;
 };
 
 const EditForm: FC<Props> = ({
@@ -36,6 +39,7 @@ const EditForm: FC<Props> = ({
     const captchaRef = useRef<TurnstileInstance>(undefined);
 
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const params = getEditParams(content_type)!;
     const groups = getEditGroups(content_type)!;
@@ -46,9 +50,11 @@ const EditForm: FC<Props> = ({
         router.push(`/edit/${editId}`);
     };
 
-    const mutationAddEdit = useCreateEdit({
-        options: {
-            onSuccess: (data) => onDismiss(data.edit_id),
+    const mutationAddEdit = useMutation({
+        ...createEditMutation(),
+        onSuccess: (data) => {
+            invalidateEdits(queryClient);
+            onDismiss(data.edit_id);
         },
     });
 
@@ -70,13 +76,17 @@ const EditForm: FC<Props> = ({
         },
         onSubmit: async ({ value }) => {
             mutationAddEdit.mutate({
-                content_type: content_type,
-                slug: slug,
-                after: {
-                    ...getFilteredEditParams(paramSlugs, value),
+                path: {
+                    content_type: content_type,
+                    slug: slug,
                 },
-                auto: (value as any).auto || false,
-                description: (value as any).description,
+                body: {
+                    after: {
+                        ...getFilteredEditParams(paramSlugs, value),
+                    },
+                    auto: (value as any).auto || false,
+                    description: (value as any).description,
+                },
             });
         },
     });
@@ -110,7 +120,7 @@ const EditForm: FC<Props> = ({
                                 refreshExpired: 'manual',
                             }}
                             ref={captchaRef}
-                            siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
+                            siteKey={TURNSTILE_SITE_KEY}
                         />
                         <div className="flex items-center gap-2">
                             <Button

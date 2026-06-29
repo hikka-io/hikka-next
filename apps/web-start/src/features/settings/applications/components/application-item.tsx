@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { format } from 'date-fns/format';
 
-import type { ClientResponse } from '@hikka/client';
+import type { ClientResponse } from '@hikka/api';
 
 import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
 import Card from '@/components/ui/card';

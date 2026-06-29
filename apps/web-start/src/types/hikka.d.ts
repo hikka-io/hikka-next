@@ -1,6 +1,11 @@
 import { ReactElement, ReactNode, SVGProps } from 'react';
 
-import type { UserRoleEnum } from '@hikka/client';
+import type {
+    ContentTypeEnum,
+    UiPreferencesOutput,
+    UiStylesOutput,
+    UserRoleEnum,
+} from '@hikka/api';
 
 declare global {
     namespace Hikka {
@@ -107,7 +112,7 @@ declare global {
 
         type Notification = {
             reference: string;
-            type: import('@hikka/client').NotificationTypeEnum;
+            type: import('@hikka/api').NotificationTypeEnum;
             created: number;
             seen: boolean;
 
@@ -187,8 +192,8 @@ declare global {
         type EventTheme = {
             id: string;
             name: string;
-            styles?: UIStyles;
-            effects?: UIEffect[];
+            styles?: UiStylesOutput;
+            effects?: NonNullable<UiPreferencesOutput['effect']>[];
             startDate: Date;
             endDate: Date;
         };

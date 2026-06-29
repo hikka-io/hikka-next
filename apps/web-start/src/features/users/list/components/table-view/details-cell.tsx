@@ -1,0 +1,73 @@
+import type { FC } from 'react';
+
+import type {
+    AnimeResponse,
+    MainContentTypeEnum,
+    MangaResponse,
+    NovelResponse,
+} from '@hikka/api';
+
+import ContentCard from '@/components/content-card/content-card';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
+import TextExpand from '@/components/text-expand';
+import { Badge } from '@/components/ui/badge';
+import { TableCell } from '@/components/ui/table';
+import { useTitle } from '@/features/auth/hooks/use-title';
+import { getDeclensionWord } from '@/utils/i18n';
+import { Link } from '@/utils/navigation';
+
+const REPEAT_DECLENSIONS: [string, string, string] = [
+    'перегляд',
+    'перегляди',
+    'переглядів',
+];
+
+type Props = {
+    content: MangaResponse | NovelResponse | AnimeResponse;
+    content_type: MainContentTypeEnum;
+    repeats: number;
+    note?: string;
+};
+
+const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
+    const title = useTitle(content);
+
+    return (
+        <TableCell className="w-36">
+            <div className="flex items-center gap-4 overflow-hidden">
+                <div className="hidden w-12 lg:block">
+                    <ContentCard
+                        containerClassName="rounded-(--base-radius)"
+                        image={content.image}
+                        to={`/${content_type}/${content.slug}`}
+                    />
+                </div>
+                <div className="flex flex-1 flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                        <Link
+                            className="line-clamp-2 hover:underline"
+                            to={`/${content_type}/${content.slug}`}
+                        >
+                            {title}
+                        </Link>
+                    </div>
+                    {note && (
+                        <TextExpand>
+                            <MDViewer className="text-muted-foreground text-xs">
+                                {note}
+                            </MDViewer>
+                        </TextExpand>
+                    )}
+                    {repeats > 0 && (
+                        <Badge variant="warning" className="w-fit">
+                            {repeats + 1}{' '}
+                            {getDeclensionWord(repeats + 1, REPEAT_DECLENSIONS)}
+                        </Badge>
+                    )}
+                </div>
+            </div>
+        </TableCell>
+    );
+};
+
+export default DetailsCell;

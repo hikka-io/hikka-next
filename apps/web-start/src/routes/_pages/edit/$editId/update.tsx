@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import type { EditResponse } from '@hikka/client';
-import { queryKeys } from '@hikka/react/core';
+import { type GetEditResponse, getEditQueryKey } from '@hikka/api';
 
 import { EditViewForm as EditView } from '@/features/edit';
 import { requireOwner } from '@/utils/auth';
@@ -9,8 +8,8 @@ import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/edit/$editId/update')({
     beforeLoad: async ({ params, context: { queryClient } }) => {
-        const edit = queryClient.getQueryData<EditResponse>(
-            queryKeys.edit.byId(Number(params.editId)),
+        const edit = queryClient.getQueryData<GetEditResponse>(
+            getEditQueryKey({ path: { edit_id: Number(params.editId) } }),
         );
 
         requireOwner(

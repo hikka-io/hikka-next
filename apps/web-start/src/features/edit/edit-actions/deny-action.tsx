@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 
-import { useDenyEdit } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { denyEditMutation } from '@hikka/api';
 
 import {
     AlertDialog,
@@ -13,16 +15,27 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import {
+    invalidateEditDetail,
+    invalidateEdits,
+} from '@/utils/api/invalidate-content-state';
 import { useParams } from '@/utils/navigation';
 
 type Props = {};
 
 const DenyAction: FC<Props> = () => {
     const params = useParams();
-    const denyEditMutation = useDenyEdit();
+    const queryClient = useQueryClient();
+    const denyEdit = useMutation({
+        ...denyEditMutation(),
+        onSuccess: () => {
+            invalidateEditDetail(queryClient, Number(params.editId));
+            invalidateEdits(queryClient);
+        },
+    });
 
     const handleClick = () => {
-        denyEditMutation.mutate(Number(params.editId));
+        denyEdit.mutate({ path: { edit_id: Number(params.editId) } });
     };
 
     return (
@@ -31,7 +44,7 @@ const DenyAction: FC<Props> = () => {
                 <Button
                     variant="destructive"
                     size="md"
-                    disabled={denyEditMutation.isPending}
+                    disabled={denyEdit.isPending}
                 >
                     Відхилити
                 </Button>

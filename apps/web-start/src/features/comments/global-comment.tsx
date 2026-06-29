@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { formatDistance } from 'date-fns';
 import { ArrowBigUp } from 'lucide-react';
 
-import type { CommentResponse } from '@hikka/client';
+import type { CommentResponse } from '@hikka/api';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { Badge } from '@/components/ui/badge';
@@ -25,6 +25,11 @@ type Props = {
 };
 
 const GlobalComment: FC<Props> = ({ comment, href }) => {
+    // `preview` is an opaque record on CommentResponse; narrow it to the shape
+    // this card reads.
+    const contentType = comment.content_type;
+    const preview = comment.preview as { slug?: string; title?: string };
+
     return (
         <div className="flex size-full flex-col items-start gap-4">
             <HorizontalCard className="w-full gap-3">
@@ -64,16 +69,16 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
             </Link>
             <div className="flex w-full items-center gap-2">
                 <Badge variant="secondary" className="shrink-0">
-                    {CONTENT_TYPES[comment.content_type].title_ua}
+                    {CONTENT_TYPES[contentType].title_ua}
                 </Badge>
                 <Link
-                    to={`${CONTENT_TYPE_LINKS[comment.content_type]}/${comment.preview.slug}`}
+                    to={`${CONTENT_TYPE_LINKS[contentType]}/${preview.slug}`}
                     className="flex items-center gap-1 text-primary-foreground hover:underline"
                 >
                     <small className="line-clamp-1">
-                        {comment.content_type === 'edit'
-                            ? `#${comment.preview.slug}`
-                            : comment.preview.title}
+                        {contentType === 'edit'
+                            ? `#${preview.slug}`
+                            : preview.title}
                     </small>
                 </Link>
             </div>

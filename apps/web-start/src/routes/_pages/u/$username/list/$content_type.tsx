@@ -5,31 +5,28 @@ import {
     type AnimeAgeRatingEnum,
     type AnimeMediaEnum,
     type AnimeStatusEnum,
-    type CommonContentType,
     type ContentStatusEnum,
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type MangaMediaEnum,
     type NovelMediaEnum,
-    type ReadContentType,
+    paginationPageParam,
+    type ReadContentTypeEnum,
     type ReadStatusEnum,
     type SeasonEnum,
+    userReadListInfiniteOptions,
+    userWatchListInfiniteOptions,
     type WatchStatusEnum,
-} from '@hikka/client';
-import { prefetchInfiniteQuery } from '@hikka/react/core';
-import {
-    searchUserReadsOptions,
-    searchUserWatchesOptions,
-} from '@hikka/react/options';
+} from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
+import { AnimeFilters, ReadFilters } from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { expandSort } from '@/features/filters/sort';
-import { ReadFilters } from '@/features/read';
 import { Userlist, UserlistNavbar } from '@/features/users';
-import { AnimeFilters } from '@/features/watch';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { userlistSearchSchema } from '@/utils/search-schemas';
@@ -49,7 +46,7 @@ const DESCRIPTIONS: Record<string, string> = {
 export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
     validateSearch: zodValidator(userlistSearchSchema),
     loaderDeps: ({ search }) => search,
-    loader: async ({ params, context: { queryClient, hikkaClient }, deps }) => {
+    loader: async ({ params, context: { queryClient, apiClient }, deps }) => {
         const { username, content_type } = params;
         const isAnime = content_type === ContentTypeEnum.ANIME;
         const defaultSort = isAnime ? 'watch_score' : 'read_score';
@@ -84,11 +81,10 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                 ? (deps.score as [number, number])
                 : undefined;
 
-            await prefetchInfiniteQuery(
-                queryClient,
-                searchUserWatchesOptions(hikkaClient, {
-                    username,
-                    args: {
+            await queryClient.prefetchInfiniteQuery({
+                ...userWatchListInfiniteOptions({
+                    path: { username },
+                    body: {
                         watch_status:
                             status !== 'all'
                                 ? (status as WatchStatusEnum)
@@ -103,13 +99,17 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                         score,
                         sort,
                     },
+                    client: apiClient,
                 }),
-            );
+                ...paginationPageParam(),
+            });
         } else {
+            // Generated ReadSearchArgs.media_type is typed MangaMediaEnum[];
+            // novel media values are valid at runtime.
             const media_type = (deps.types ?? []) as (
                 | NovelMediaEnum
                 | MangaMediaEnum
-            )[];
+            )[] as MangaMediaEnum[];
             const readContentStatus = (deps.statuses ??
                 []) as ContentStatusEnum[];
             const years = (deps.years ?? []) as [number | null, number | null];
@@ -119,12 +119,13 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                 ? (deps.score as [number, number])
                 : undefined;
 
-            await prefetchInfiniteQuery(
-                queryClient,
-                searchUserReadsOptions(hikkaClient, {
-                    username,
-                    contentType: content_type as ReadContentType,
-                    args: {
+            await queryClient.prefetchInfiniteQuery({
+                ...userReadListInfiniteOptions({
+                    path: {
+                        username,
+                        content_type: content_type as ReadContentTypeEnum,
+                    },
+                    body: {
                         read_status:
                             status !== 'all'
                                 ? (status as ReadStatusEnum)
@@ -137,8 +138,10 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                         score,
                         sort,
                     },
+                    client: apiClient,
                 }),
-            );
+                ...paginationPageParam(),
+            });
         }
     },
     head: ({ params }) =>
@@ -148,7 +151,7 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
 
 function ListPage() {
     const { content_type: rawContentType } = Route.useParams();
-    const content_type = rawContentType as CommonContentType;
+    const content_type = rawContentType as MainContentTypeEnum;
     const isAnime = content_type === ContentTypeEnum.ANIME;
     const { visible: sidebarVisible } = useFiltersSidebar(
         'userlist_filters_sidebar',
@@ -194,7 +197,7 @@ function ListPage() {
                             />
                         ) : (
                             <ReadFilters
-                                content_type={content_type as ReadContentType}
+                                content_type={content_type}
                                 sort_type="read"
                             />
                         )}

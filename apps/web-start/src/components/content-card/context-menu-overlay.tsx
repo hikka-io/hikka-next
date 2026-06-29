@@ -2,8 +2,7 @@ import type { FC, ReactNode } from 'react';
 
 import { Copy } from 'lucide-react';
 
-import type { ContentTypeEnum } from '@hikka/client';
-import { useSession } from '@hikka/react';
+import type { ContentTypeEnum } from '@hikka/api';
 
 import {
     ContextMenu,
@@ -12,6 +11,7 @@ import {
     ContextMenuSeparator,
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 

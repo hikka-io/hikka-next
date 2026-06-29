@@ -2,8 +2,7 @@ import { type FC, useMemo, useState } from 'react';
 
 import { Building2 } from 'lucide-react';
 
-import { CompanyTypeEnum } from '@hikka/client';
-import { useSearchCompanies } from '@hikka/react';
+import { CompanyTypeEnum, searchCompaniesInfiniteOptions } from '@hikka/api';
 
 import {
     SelectField,
@@ -22,6 +21,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
@@ -34,12 +34,14 @@ const Studio: FC<Props> = () => {
     const { studios = [] } = useFilterSearch<{ studios?: string[] }>();
 
     const [studioSearch, setStudioSearch] = useState<string>();
-    const { list, isFetching: isStudioListFetching } = useSearchCompanies({
-        args: {
-            type: CompanyTypeEnum.STUDIO,
-            query: studioSearch,
-        },
-    });
+    const { list, isFetching: isStudioListFetching } = useInfiniteList(
+        searchCompaniesInfiniteOptions({
+            body: {
+                type: CompanyTypeEnum.STUDIO,
+                query: studioSearch,
+            },
+        }),
+    );
 
     const options = useMemo(() => {
         return list?.map((studio) => ({
@@ -103,12 +105,14 @@ const Studio: FC<Props> = () => {
 
 export const FormStudio: FC<Props & Partial<SelectFieldProps>> = (props) => {
     const [studioSearch, setStudioSearch] = useState<string>();
-    const { list, isFetching: isStudioListFetching } = useSearchCompanies({
-        args: {
-            type: CompanyTypeEnum.STUDIO,
-            query: studioSearch,
-        },
-    });
+    const { list, isFetching: isStudioListFetching } = useInfiniteList(
+        searchCompaniesInfiniteOptions({
+            body: {
+                type: CompanyTypeEnum.STUDIO,
+                query: studioSearch,
+            },
+        }),
+    );
 
     const options = useMemo(() => {
         return list?.map((studio) => ({

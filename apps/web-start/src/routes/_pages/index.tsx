@@ -4,33 +4,32 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import {
     AnimeMediaEnum,
     AnimeStatusEnum,
-    ContentStatusEnum,
+    animeScheduleInfiniteOptions,
     ContentTypeEnum,
-    type FeedContentType,
+    type FeedArgs,
+    feedPageParam,
+    followingHistoryInfiniteOptions,
+    followStatsOptions,
+    getFeedInfiniteOptions,
+    paginationPageParam,
+    profileQueryKey,
+    searchAnimeInfiniteOptions,
     type UserResponse,
-    WatchStatusEnum,
-} from '@hikka/client';
-import { useSession } from '@hikka/react';
-import { queryKeys } from '@hikka/react/core';
-import {
-    feedOptions,
-    followingHistoryOptions,
-    readStatsOptions,
-    searchAnimeScheduleOptions,
-    searchAnimesOptions,
-    searchUserWatchesOptions,
-    userFollowStatsOptions,
+    userReadStatsOptions,
+    userWatchListInfiniteOptions,
     userWatchStatsOptions,
-} from '@hikka/react/options';
+    WatchStatusEnum,
+} from '@hikka/api';
 
 import CoverImage from '@/components/cover-image';
-import { FeedLayout } from '@/features/feed';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { getOngoingsSort } from '@/features/filters/sort';
+import { FeedLayout } from '@/features/home';
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
 
-const FEED_TYPE_TO_CONTENT_TYPE: Record<string, FeedContentType | undefined> = {
+const FEED_TYPE_TO_CONTENT_TYPE: Record<string, FeedArgs['content_type']> = {
     comments: ContentTypeEnum.COMMENT,
     articles: ContentTypeEnum.ARTICLE,
     collections: ContentTypeEnum.COLLECTION,
@@ -45,84 +44,99 @@ export const Route = createFileRoute('/_pages/')({
             title: 'Hikka - енциклопедія аніме, манґи та ранобе українською',
             url: 'https://hikka.io',
         }),
-    loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
+    loader: async ({ context: { queryClient, apiClient }, deps }) => {
         const { type } = deps;
         const season = getCurrentSeason()!;
         const year = Number(new Date().getFullYear());
 
-        const loggedUser: UserResponse | undefined = queryClient.getQueryData(
-            queryKeys.user.me(),
-        );
+        const loggedUser = queryClient.getQueryData(profileQueryKey()) as
+            | (UserResponse & { username: string })
+            | undefined;
 
         const promises: Promise<unknown>[] = [];
 
         if (loggedUser) {
             promises.push(
-                queryClient.prefetchInfiniteQuery({
-                    ...searchUserWatchesOptions(hikkaClient, {
-                        username: loggedUser.username,
-                        args: {
+                queryClient.ensureInfiniteQueryData({
+                    ...userWatchListInfiniteOptions({
+                        path: { username: loggedUser.username },
+                        body: {
                             watch_status: WatchStatusEnum.WATCHING,
                             sort: ['watch_updated:desc'],
                         },
+                        client: apiClient,
                     }),
+                    ...paginationPageParam(),
                 }),
-                queryClient.ensureInfiniteQueryData(
-                    followingHistoryOptions(hikkaClient),
-                ),
+                queryClient.ensureInfiniteQueryData({
+                    ...followingHistoryInfiniteOptions({ client: apiClient }),
+                    ...paginationPageParam(),
+                }),
                 queryClient.ensureQueryData(
-                    userWatchStatsOptions(hikkaClient, {
-                        username: loggedUser.username,
+                    userWatchStatsOptions({
+                        path: { username: loggedUser.username },
+                        client: apiClient,
                     }),
                 ),
                 queryClient.ensureQueryData(
-                    readStatsOptions(hikkaClient, {
-                        contentType: ContentTypeEnum.MANGA,
-                        username: loggedUser.username,
+                    userReadStatsOptions({
+                        path: {
+                            content_type: ContentTypeEnum.MANGA,
+                            username: loggedUser.username,
+                        },
+                        client: apiClient,
                     }),
                 ),
                 queryClient.ensureQueryData(
-                    readStatsOptions(hikkaClient, {
-                        contentType: ContentTypeEnum.NOVEL,
-                        username: loggedUser.username,
+                    userReadStatsOptions({
+                        path: {
+                            content_type: ContentTypeEnum.NOVEL,
+                            username: loggedUser.username,
+                        },
+                        client: apiClient,
                     }),
                 ),
                 queryClient.ensureQueryData(
-                    userFollowStatsOptions(hikkaClient, {
-                        username: loggedUser.username,
+                    followStatsOptions({
+                        path: { username: loggedUser.username },
+                        client: apiClient,
                     }),
                 ),
             );
         }
 
         promises.push(
-            queryClient.ensureInfiniteQueryData(
-                feedOptions(hikkaClient, {
-                    args: {
+            queryClient.ensureInfiniteQueryData({
+                ...getFeedInfiniteOptions({
+                    body: {
                         content_type: FEED_TYPE_TO_CONTENT_TYPE[type ?? 'all'],
                     },
+                    client: apiClient,
                 }),
-            ),
+                ...feedPageParam(),
+            }),
         );
 
         promises.push(
-            queryClient.ensureInfiniteQueryData(
-                searchAnimeScheduleOptions(hikkaClient, {
-                    args: {
+            queryClient.ensureInfiniteQueryData({
+                ...animeScheduleInfiniteOptions({
+                    body: {
                         airing_season: [season, year],
                         status: [
-                            ContentStatusEnum.ONGOING,
-                            ContentStatusEnum.ANNOUNCED,
+                            AnimeStatusEnum.ONGOING,
+                            AnimeStatusEnum.ANNOUNCED,
                         ],
                     },
+                    client: apiClient,
                 }),
-            ),
+                ...paginationPageParam(),
+            }),
         );
 
         promises.push(
-            queryClient.ensureInfiniteQueryData(
-                searchAnimesOptions(hikkaClient, {
-                    args: {
+            queryClient.ensureInfiniteQueryData({
+                ...searchAnimeInfiniteOptions({
+                    body: {
                         season: [season],
                         media_type: [AnimeMediaEnum.TV],
                         years: [year, year],
@@ -130,11 +144,11 @@ export const Route = createFileRoute('/_pages/')({
                         status: [AnimeStatusEnum.ONGOING],
                         sort: getOngoingsSort(),
                     },
-                    paginationArgs: {
-                        size: 5,
-                    },
+                    query: { size: 5 },
+                    client: apiClient,
                 }),
-            ),
+                ...paginationPageParam(),
+            }),
         );
 
         await Promise.allSettled(promises);

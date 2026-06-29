@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { searchCollectionsOptions } from '@hikka/react/options';
+import { getCollectionsInfiniteOptions, paginationPageParam } from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import PagePagination from '@/components/page-pagination';
@@ -16,7 +16,7 @@ import { collectionsSearchSchema } from '@/utils/search-schemas';
 export const Route = createFileRoute('/_pages/collections/')({
     validateSearch: zodValidator(collectionsSearchSchema),
     loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, hikkaClient }, deps }) => {
+    loader: async ({ context: { queryClient, apiClient }, deps }) => {
         const { page, sort = 'system_ranking' } = deps;
 
         if (!page) {
@@ -26,12 +26,14 @@ export const Route = createFileRoute('/_pages/collections/')({
             });
         }
 
-        const collections = await queryClient.ensureInfiniteQueryData(
-            searchCollectionsOptions(hikkaClient, {
-                args: { sort: [`${sort}:desc`] },
-                paginationArgs: { page: Number(page) },
+        const collections = await queryClient.ensureInfiniteQueryData({
+            ...getCollectionsInfiniteOptions({
+                body: { sort: [`${sort}:desc`] },
+                client: apiClient,
             }),
-        );
+            ...paginationPageParam(),
+            initialPageParam: Number(page),
+        });
 
         return { collections, page: Number(page), sort };
     },

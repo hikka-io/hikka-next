@@ -1,41 +1,71 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useTitle } from '@hikka/react';
 import {
-    personAnimeOptions,
-    personBySlugOptions,
-    personCharactersOptions,
-    personMangaOptions,
-    personNovelOptions,
-} from '@hikka/react/options';
-import { getTitle } from '@hikka/react/utils';
+    ContentTypeEnum,
+    HikkaApiError,
+    paginationPageParam,
+    personAnimeInfiniteOptions,
+    personInfoOptions,
+    personMangaInfiniteOptions,
+    personNovelInfiniteOptions,
+    personVoicesInfiniteOptions,
+} from '@hikka/api';
 
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { ContentDetailLayout } from '@/features/content';
 import { PERSON_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
+import { getTitle } from '@/utils/title/get-title';
 
 export const Route = createFileRoute('/_pages/people/$slug')({
-    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
-        const person = await queryClient.ensureQueryData(
-            personBySlugOptions(hikkaClient, { slug: params.slug }),
-        );
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
+        const person = await queryClient
+            .ensureQueryData(
+                personInfoOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
+                }),
+            )
+            .catch((error) => {
+                // An unknown slug returns 404 — render the not-found page
+                // instead of letting the error bubble to the 500 component.
+                if (error instanceof HikkaApiError && error.status === 404) {
+                    throw notFound();
+                }
+                throw error;
+            });
 
-        if (!person) throw redirect({ to: '/' });
+        if (!person) throw notFound();
 
         await Promise.allSettled([
-            queryClient.ensureInfiniteQueryData(
-                personAnimeOptions(hikkaClient, { slug: params.slug }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                personMangaOptions(hikkaClient, { slug: params.slug }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                personNovelOptions(hikkaClient, { slug: params.slug }),
-            ),
-            queryClient.ensureInfiniteQueryData(
-                personCharactersOptions(hikkaClient, { slug: params.slug }),
-            ),
+            queryClient.ensureInfiniteQueryData({
+                ...personAnimeInfiniteOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...personMangaInfiniteOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...personNovelInfiniteOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
+            queryClient.ensureInfiniteQueryData({
+                ...personVoicesInfiniteOptions({
+                    path: { slug: params.slug },
+                    client: apiClient,
+                }),
+                ...paginationPageParam(),
+            }),
         ]);
 
         return { person };

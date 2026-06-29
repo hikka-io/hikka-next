@@ -1,16 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
-import { CatalogNavbar } from '@/features/content';
+import { CatalogNavbar } from '@/features/catalog';
+import { ReadFilters, ReadFiltersModal } from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { NovelList, NovelListSummary } from '@/features/novel';
-import { ReadFilters, ReadFiltersModal } from '@/features/read';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { novelSearchSchema } from '@/utils/search-schemas';

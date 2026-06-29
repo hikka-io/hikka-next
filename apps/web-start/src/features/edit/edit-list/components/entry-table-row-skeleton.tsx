@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback } from '../../../../components/ui/avatar';
 import { TableCell, TableRow } from '../../../../components/ui/table';
 
-const Component = () => {
+const EntryTableRowSkeleton = () => {
     return (
         <TableRow className="animate-pulse">
             <TableCell className="w-8">
@@ -39,4 +39,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default EntryTableRowSkeleton;

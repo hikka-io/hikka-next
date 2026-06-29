@@ -1,4 +1,6 @@
-import { useCollectionByReference } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getCollectionOptions } from '@hikka/api';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
@@ -8,9 +10,9 @@ import { useParams } from '@/utils/navigation';
 
 const CollectionTitle = () => {
     const params = useParams();
-    const { data: collection } = useCollectionByReference({
-        reference: String(params.reference),
-    });
+    const { data: collection } = useQuery(
+        getCollectionOptions({ path: { reference: String(params.reference) } }),
+    );
 
     return (
         <div className="flex flex-col gap-6">

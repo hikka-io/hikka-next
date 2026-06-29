@@ -1,7 +1,8 @@
 import { type ChangeEvent, useRef, useState } from 'react';
 
-import { UploadTypeEnum } from '@hikka/client';
-import { useDeleteImage, useSession } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { deleteUserImageMutation, UploadTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -15,25 +16,39 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
-import { CropEditorModal } from '@/features/common';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { CropEditorModal } from '@/features/users';
+import { invalidateSession } from '@/utils/api/invalidate-content-state';
+import { useRouter } from '@/utils/navigation';
+
+type AvatarOrCoverType =
+    | typeof UploadTypeEnum.AVATAR
+    | typeof UploadTypeEnum.COVER;
 
 const Appearance = () => {
+    const router = useRouter();
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
     const uploadCoverRef = useRef<HTMLInputElement>(null);
     const [cropOpen, setCropOpen] = useState(false);
     const [cropFile, setCropFile] = useState<File | null>(null);
-    const [cropType, setCropType] = useState<
-        UploadTypeEnum.AVATAR | UploadTypeEnum.COVER
-    >(UploadTypeEnum.AVATAR);
+    const [cropType, setCropType] = useState<AvatarOrCoverType>(
+        UploadTypeEnum.AVATAR,
+    );
 
     const { user: loggedUser } = useSession();
+    const queryClient = useQueryClient();
 
-    const { mutate: deleteImage, isPending: isDeletingImage } =
-        useDeleteImage();
+    const { mutate: deleteImage, isPending: isDeletingImage } = useMutation({
+        ...deleteUserImageMutation(),
+        onSuccess: () => {
+            invalidateSession(queryClient);
+            router.refresh();
+        },
+    });
 
     const handleUploadImageSelected = (
         e: ChangeEvent<HTMLInputElement>,
-        type: UploadTypeEnum.AVATAR | UploadTypeEnum.COVER,
+        type: AvatarOrCoverType,
     ) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = Array.from(e.target.files)[0];
@@ -74,7 +89,9 @@ const Appearance = () => {
                             variant="destructive"
                             size={'icon-sm'}
                             onClick={() =>
-                                deleteImage({ imageType: UploadTypeEnum.COVER })
+                                deleteImage({
+                                    path: { image_type: UploadTypeEnum.COVER },
+                                })
                             }
                             disabled={isDeletingImage}
                         >

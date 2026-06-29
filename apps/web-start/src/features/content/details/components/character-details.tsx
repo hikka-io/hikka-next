@@ -2,11 +2,11 @@ import { Fragment, useState } from 'react';
 
 import { BookType, Languages } from 'lucide-react';
 
-import type { CharacterResponse } from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import type { CharacterResponse } from '@hikka/api';
 
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 
 import DetailItem from './detail-item';

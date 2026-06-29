@@ -1,7 +1,12 @@
 import { type FC, useState } from 'react';
 
-import { ContentTypeEnum, type ReadContentType } from '@hikka/client';
-import { useReadingUsers, useWatchingUsers } from '@hikka/react';
+import {
+    ContentTypeEnum,
+    getReadFollowingInfiniteOptions,
+    getWatchFollowingInfiniteOptions,
+    type MainContentTypeEnum,
+    type ReadContentTypeEnum,
+} from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -16,13 +21,14 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 import FollowingItem from './components/following-item';
 import FollowingsModal from './followings-modal';
 
 type Props = {
-    content_type: ContentTypeEnum;
+    content_type: MainContentTypeEnum;
 };
 
 const Followings: FC<Props> = ({ content_type }) => {
@@ -30,16 +36,22 @@ const Followings: FC<Props> = ({ content_type }) => {
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
 
-    const watchListQuery = useWatchingUsers({
-        slug: String(params.slug),
-        options: { enabled: content_type === ContentTypeEnum.ANIME },
-    });
+    const watchListQuery = useInfiniteList(
+        getWatchFollowingInfiniteOptions({
+            path: { slug: String(params.slug) },
+        }),
+        { enabled: content_type === ContentTypeEnum.ANIME },
+    );
 
-    const readListQuery = useReadingUsers({
-        slug: String(params.slug),
-        contentType: content_type as ReadContentType,
-        options: { enabled: content_type !== ContentTypeEnum.ANIME },
-    });
+    const readListQuery = useInfiniteList(
+        getReadFollowingInfiniteOptions({
+            path: {
+                slug: String(params.slug),
+                content_type: content_type as ReadContentTypeEnum,
+            },
+        }),
+        { enabled: content_type !== ContentTypeEnum.ANIME },
+    );
 
     const list =
         content_type === 'anime' ? watchListQuery.list : readListQuery.list;

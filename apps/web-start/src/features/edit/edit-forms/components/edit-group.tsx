@@ -9,7 +9,8 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { getEditParamComponent } from '@/features/edit/edit-forms/utils/edit-param-utils';
+
+import { getEditParamComponent } from '../utils/edit-param-utils';
 
 type Props = {
     title: string;
@@ -76,10 +77,10 @@ const EditGroup: FC<Props> = ({ title, params, mode }) => {
                     )
                         return null;
 
-                    const Component = getEditParamComponent(param.type);
+                    const ParamComponent = getEditParamComponent(param.type);
 
                     return (
-                        <Component
+                        <ParamComponent
                             key={param.slug}
                             param={param}
                             mode={mode === 'update' ? 'edit' : mode}

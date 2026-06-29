@@ -1,7 +1,8 @@
 import { type ChangeEvent, useRef, useState } from 'react';
 
-import { type ImageType, UploadTypeEnum } from '@hikka/client';
-import { useSession, useUserByUsername } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { UploadTypeEnum, userProfileOptions } from '@hikka/api';
 
 import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
 import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
@@ -19,30 +20,32 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { CropEditorModal } from '@/features/common';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { Link, useParams } from '@/utils/navigation';
+
+import CropEditorModal from './crop-editor-modal';
 
 const UserInfo = () => {
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
     const uploadCoverRef = useRef<HTMLInputElement>(null);
     const [open, setOpen] = useState(false);
     const [uploadFile, setUploadFile] = useState<File | null>(null);
-    const [uploadType, setUploadType] = useState<ImageType>(
+    const [uploadType, setUploadType] = useState<UploadTypeEnum>(
         UploadTypeEnum.AVATAR,
     );
     const params = useParams();
 
-    const { data: user } = useUserByUsername({
-        username: String(params.username),
-        options: {
-            enabled: !!params.username,
-        },
+    const { data: user } = useQuery({
+        ...userProfileOptions({
+            path: { username: String(params.username) },
+        }),
+        enabled: !!params.username,
     });
     const { user: loggedUser } = useSession();
 
     const handleUploadImageSelected = (
         e: ChangeEvent<HTMLInputElement>,
-        type: ImageType,
+        type: UploadTypeEnum,
     ) => {
         if (e.target.files && e.target.files.length > 0) {
             const file = Array.from(e.target.files)[0];

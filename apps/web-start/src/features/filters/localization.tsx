@@ -17,7 +17,7 @@ type Props = {
     className?: string;
 };
 
-const Genre: FC<Props> = () => {
+const Localization: FC<Props> = () => {
     const { only_translated } = useFilterSearch<{
         only_translated?: boolean;
     }>();
@@ -55,4 +55,4 @@ export const FormLocalization: FC<Props & Partial<SwitchFieldProps>> = (
     );
 };
 
-export default Genre;
+export default Localization;

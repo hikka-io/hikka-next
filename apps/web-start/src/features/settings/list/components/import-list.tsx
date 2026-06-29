@@ -7,8 +7,7 @@ import {
     ContentTypeEnum,
     type ImportReadArgs,
     type ImportWatchArgs,
-    type ReadContentType,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
@@ -17,18 +16,18 @@ import { Link } from '@/utils/navigation';
 import FoundList from './found-list';
 
 type Props = {
-    content_type: ReadContentType | ContentTypeEnum.ANIME;
+    content_type: ContentTypeEnum;
     list: ImportReadArgs[] | ImportWatchArgs[];
     setList:
         | Dispatch<SetStateAction<ImportReadArgs[]>>
         | Dispatch<SetStateAction<ImportWatchArgs[]>>;
 };
 
-const Component = ({ list, setList, content_type }: Props) => {
+const ImportList = ({ list, setList, content_type }: Props) => {
     const onDrop = useCallback(async (acceptedFiles: File[]) => {
         const nativeType = (value: string) => {
             const nValue = Number(value);
-            if (!isNaN(nValue)) {
+            if (!Number.isNaN(nValue)) {
                 return nValue;
             }
             const bValue = value.toLowerCase();
@@ -53,7 +52,7 @@ const Component = ({ list, setList, content_type }: Props) => {
                 } else {
                     parentElement._parent[keyName] = nativeType(value);
                 }
-            } catch (e) {}
+            } catch (_e) {}
         };
 
         if (acceptedFiles && acceptedFiles.length > 0) {
@@ -142,4 +141,4 @@ const Component = ({ list, setList, content_type }: Props) => {
     );
 };
 
-export default Component;
+export default ImportList;

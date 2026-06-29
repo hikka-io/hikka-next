@@ -15,10 +15,10 @@
         "dev:web-start": "turbo run dev --filter=@hikka/web-start --host",
         "build:web-start": "turbo run build --filter=@hikka/web-start",
         "start:web-start": "turbo run start --filter=@hikka/web-start",
-        "dev:client": "turbo run dev --filter=@hikka/client",
-        "build:client": "turbo run build --filter=@hikka/client",
-        "dev:react": "turbo run dev --filter=@hikka/react",
-        "build:react": "turbo run build --filter=@hikka/react"
+        "dev:api": "turbo run dev --filter=@hikka/api",
+        "build:api": "turbo run build --filter=@hikka/api",
+        "api:spec": "turbo run api:spec --filter=@hikka/api",
+        "api:generate": "turbo run api:generate --filter=@hikka/api"
     },
     "packageManager": "pnpm@10.33.4",
     "syncpack": {

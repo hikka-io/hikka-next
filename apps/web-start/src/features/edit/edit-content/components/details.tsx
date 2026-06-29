@@ -1,12 +1,12 @@
 import type { FC } from 'react';
 
-import type { MainContent } from '@hikka/client';
-
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
+import type { EditMainContent } from '../../types';
+
 type Props = {
-    content: MainContent;
+    content: EditMainContent;
 };
 
 const Details: FC<Props> = ({ content }) => {

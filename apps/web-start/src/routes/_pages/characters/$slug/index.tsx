@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
+import { CommentList as Comments } from '@/features/comments';
+import { ContentDetails as Details } from '@/features/content';
 import {
     CharacterAnime as Anime,
     CharacterCover as Cover,
@@ -10,9 +12,7 @@ import {
     CharacterNovel as Novel,
     CharacterTitle as Title,
     CharacterVoices as Voices,
-} from '@/features/characters';
-import { CommentList as Comments } from '@/features/comments';
-import { ContentDetails as Details } from '@/features/content';
+} from '@/features/entities';
 
 export const Route = createFileRoute('/_pages/characters/$slug/')({
     component: CharacterDetailPage,
@@ -20,6 +20,8 @@ export const Route = createFileRoute('/_pages/characters/$slug/')({
 
 function CharacterDetailPage() {
     const { slug } = Route.useParams();
+
+    const detailsContentType = ContentTypeEnum.CHARACTER;
 
     return (
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-12">
@@ -31,7 +33,7 @@ function CharacterDetailPage() {
                 <Description />
                 <Details
                     className="lg:hidden"
-                    content_type={ContentTypeEnum.CHARACTER}
+                    content_type={detailsContentType}
                 />
                 <Anime />
                 <Manga />
@@ -46,7 +48,7 @@ function CharacterDetailPage() {
             <div className="flex flex-col gap-12 lg:col-span-1">
                 <Details
                     className="hidden lg:flex"
-                    content_type={ContentTypeEnum.CHARACTER}
+                    content_type={detailsContentType}
                 />
             </div>
         </div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { type HslColor, HslColorPicker } from 'react-colorful';
 
-import type { HSLColor } from '@hikka/client';
+import type { HslColor as HikkaHslColor } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,8 +24,8 @@ import {
 
 type ColorTokenButtonProps = {
     token: keyof typeof COLOR_TOKEN_LABELS;
-    color: HSLColor | undefined;
-    onColorChange: (color: HSLColor) => void;
+    color: HikkaHslColor | undefined;
+    onColorChange: (color: HikkaHslColor) => void;
 };
 
 const ColorTokenButton = ({
@@ -76,7 +76,7 @@ const ColorTokenButton = ({
 
     const handleHslChange = (key: 'h' | 's' | 'l', value: string) => {
         const num = parseInt(value, 10);
-        if (isNaN(num)) return;
+        if (Number.isNaN(num)) return;
 
         const max = key === 'h' ? 360 : 100;
         const clamped = Math.max(0, Math.min(max, num));

@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 
-import { type CharacterResponse, ContentTypeEnum } from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import { type CharacterResponse, ContentTypeEnum } from '@hikka/api';
+
+import { useTitle } from '@/features/auth/hooks/use-title';
 
 import ContentCard, { type ContentCardProps } from './content-card';
 

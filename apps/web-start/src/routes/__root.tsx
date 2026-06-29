@@ -11,12 +11,11 @@ import {
 } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
-import type { UserUI } from '@hikka/client';
-import { queryKeys } from '@hikka/react/core';
+import { profileUiQueryKey, type UserCustomizationResponse } from '@hikka/api';
 
 import NotFoundPage from '@/components/not-found-page';
 import RouterProgressBar from '@/components/router-progress-bar';
-import { Providers } from '@/features/common';
+import { Providers } from '@/features/app-shell';
 import { getThemeCookieFn, refreshAuthCookieFn } from '@/utils/cookies';
 import { DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getUserStylesCSS } from '@/utils/ui/server';
@@ -63,11 +62,12 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
         const theme = await getThemeCookieFn();
 
-        // User UI is already prefetched in createRouter via sessionUserUIOptions.
+        // User UI is already prefetched in createRouter via profileUiOptions.
         // Read from query cache — no extra server fn call needed.
         const userUI =
-            context.queryClient.getQueryData<UserUI>(queryKeys.user.ui('me')) ??
-            DEFAULT_USER_UI;
+            (context.queryClient.getQueryData(profileUiQueryKey()) as
+                | UserCustomizationResponse
+                | undefined) ?? DEFAULT_USER_UI;
 
         const userStylesCSS = getUserStylesCSS(userUI);
         return { userStylesCSS, theme };
@@ -78,7 +78,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
 function RootLayout() {
     const { userStylesCSS, theme } = Route.useLoaderData();
-    const { hikkaClient } = Route.useRouteContext() as RouterContext;
     const router = useRouter();
 
     return (
@@ -131,7 +130,7 @@ function RootLayout() {
             </head>
             <body>
                 <div data-vaul-drawer-wrapper>
-                    <Providers client={hikkaClient} serverTheme={theme}>
+                    <Providers serverTheme={theme}>
                         <RouterProgressBar />
                         <Outlet />
                     </Providers>

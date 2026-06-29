@@ -1,9 +1,16 @@
 import { type FC, memo, type PropsWithChildren } from 'react';
 
-import { ContentTypeEnum, type ReadResponseBase } from '@hikka/client';
-import { useMangaBySlug, useSession, useTitle } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
 
-import { ReadlistButton } from '@/features/common';
+import {
+    ContentTypeEnum,
+    mangaInfoOptions,
+    type ReadResponseBase,
+} from '@hikka/api';
+
+import { ReadlistButton } from '@/components/action-buttons';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 
 import HoverCardWrapper from './hover-card-wrapper';
@@ -22,7 +29,7 @@ type Props = PropsWithChildren & {
 
 const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
     const { user: loggedUser } = useSession();
-    const { data } = useMangaBySlug({ slug });
+    const { data } = useQuery(mangaInfoOptions({ path: { slug } }));
     const title = useTitle(data);
 
     if (!data) {
@@ -37,7 +44,9 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
             synopsis_en={data.synopsis_en}
             media_type_label={
                 data.media_type
-                    ? MANGA_MEDIA_TYPE[data.media_type].title_ua
+                    ? MANGA_MEDIA_TYPE[
+                          data.media_type as keyof typeof MANGA_MEDIA_TYPE
+                      ].title_ua
                     : null
             }
             status={data.status}

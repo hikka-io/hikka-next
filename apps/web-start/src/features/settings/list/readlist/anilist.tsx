@@ -2,14 +2,17 @@ import { type Dispatch, type SetStateAction, useState } from 'react';
 
 import { toast } from 'sonner';
 
-import { ContentTypeEnum, type ImportReadArgs } from '@hikka/client';
-import { AnilistTypeEnum, useAnilist } from '@hikka/react';
+import { ContentTypeEnum, type ImportReadArgs } from '@hikka/api';
 
 import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
+import {
+    AnilistTypeEnum,
+    useAnilist,
+} from '@/features/settings/list/use-anilist';
 
 import FoundList from '../components/found-list';
 
@@ -19,12 +22,13 @@ type Props = {
     importing: boolean;
 };
 
-const Component = ({ readList, setReadList, importing }: Props) => {
+const AnilistReadlist = ({ readList, setReadList, importing }: Props) => {
     const [aniListUsername, setAniListUsername] = useState('');
     const { mutate: fetchAnilist, isPending: aniListLoading } = useAnilist({
         options: {
             onSuccess: (data) => {
-                setReadList(data as ImportReadArgs[]);
+                // useAnilist returns ImportWatchArgs[] | ImportReadArgs[]; this importer requested the read variant.
+                setReadList(data as unknown as ImportReadArgs[]);
             },
             onError: (error: Error) => {
                 toast.error(error.message);
@@ -75,4 +79,4 @@ const Component = ({ readList, setReadList, importing }: Props) => {
     );
 };
 
-export default Component;
+export default AnilistReadlist;

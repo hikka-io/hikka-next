@@ -1,4 +1,4 @@
-import type { GenreResponse } from '@hikka/client';
+import type { GenreResponse } from '@hikka/api';
 
 export interface OgContentCardData {
     title: string;
@@ -40,9 +40,11 @@ export function resolveGenres(
 }
 
 export function resolveMediaTypeLabel<T extends string>(
-    mediaType: T,
+    mediaType: string,
     mediaTypeMap: Hikka.FilterProperty<T>,
 ): string | null {
-    const entry = mediaTypeMap[mediaType];
+    const entry = (mediaTypeMap as Record<string, { title_ua: string }>)[
+        mediaType
+    ];
     return entry ? entry.title_ua : null;
 }

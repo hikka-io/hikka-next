@@ -1,20 +1,23 @@
-import { useUserHistory } from '@hikka/react';
+import { userHistoryInfiniteOptions } from '@hikka/api';
 
+import { HistoryItem } from '@/components/content-card';
 import LoadMoreButton from '@/components/load-more-button';
-import HistoryItem from '@/features/users/user-history/components/history-item';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
     className?: string;
 };
 
-const Component = ({ className }: Props) => {
+const HistoryModal = ({ className }: Props) => {
     const params = useParams();
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
-        useUserHistory({
-            username: String(params.username),
-        });
+        useInfiniteList(
+            userHistoryInfiniteOptions({
+                path: { username: String(params.username) },
+            }),
+        );
 
     return (
         <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
@@ -32,4 +35,4 @@ const Component = ({ className }: Props) => {
     );
 };
 
-export default Component;
+export default HistoryModal;

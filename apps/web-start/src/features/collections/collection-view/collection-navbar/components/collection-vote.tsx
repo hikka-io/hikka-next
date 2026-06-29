@@ -1,17 +1,13 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
-import {
-    type CollectionContent,
-    type CollectionResponse,
-    ContentTypeEnum,
-} from '@hikka/client';
+import { type CollectionResponse, ContentTypeEnum } from '@hikka/api';
 
+import VoteButton from '@/components/action-buttons/vote-button';
 import { buttonVariants } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import VoteButton from '@/features/common/vote-button';
 
 type Props = {
-    collection: CollectionResponse<CollectionContent>;
+    collection: CollectionResponse;
 };
 
 const CollectionVote: FC<Props> = ({ collection }) => {
@@ -24,7 +20,11 @@ const CollectionVote: FC<Props> = ({ collection }) => {
             })}
         >
             <VoteButton
-                contentType={ContentTypeEnum.COLLECTION}
+                contentType={
+                    ContentTypeEnum.COLLECTION as ComponentProps<
+                        typeof VoteButton
+                    >['contentType']
+                }
                 slug={collection.reference}
                 myScore={collection.my_score}
                 voteScore={collection.vote_score}

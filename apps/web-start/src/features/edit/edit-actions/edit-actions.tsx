@@ -1,8 +1,11 @@
 import type { FC } from 'react';
 
-import { useEdit, useSession } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getEditOptions } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { Link, useParams } from '@/utils/navigation';
 
 import AcceptAction from './accept-action';
@@ -14,22 +17,24 @@ type Props = {
 };
 
 const EditActions: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ editId: Number(editId) });
+    const { data: edit } = useQuery(
+        getEditOptions({ path: { edit_id: Number(editId) } }),
+    );
     const params = useParams();
 
     const { user: loggedUser } = useSession();
 
-    const isPending = edit?.status === 'pending';
-    const isAuthor = loggedUser?.username === edit?.author?.username;
-    const isModeratorOrAdmin =
-        loggedUser && ['moderator', 'admin'].includes(loggedUser?.role);
-
-    if (!isPending) {
+    if (edit?.status !== 'pending') {
         return null;
     }
 
-    const showDenyAndAccept = isModeratorOrAdmin && isPending;
-    const showCloseAndEdit = (isAuthor || isModeratorOrAdmin) && isPending;
+    const isAuthor = loggedUser?.username === edit.author?.username;
+    const isModeratorOrAdmin = ['moderator', 'admin'].includes(
+        loggedUser?.role ?? '',
+    );
+
+    const showDenyAndAccept = isModeratorOrAdmin;
+    const showCloseAndEdit = isAuthor || isModeratorOrAdmin;
 
     return (
         <div className="flex items-center justify-between gap-2">
@@ -47,7 +52,7 @@ const EditActions: FC<Props> = ({ editId }) => {
             {showDenyAndAccept && (
                 <div className="flex items-center gap-2">
                     <DenyAction />
-                    <AcceptAction />
+                    <AcceptAction edit={edit} />
                 </div>
             )}
         </div>

@@ -1,10 +1,6 @@
 import type { FC, PropsWithChildren } from 'react';
 
-import {
-    ContentTypeEnum,
-    type EditContentType,
-    type MainContent,
-} from '@hikka/client';
+import { ContentTypeEnum, type EditContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import MaterialSymbolsCategoryOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsCategoryOutlineRounded';
@@ -19,17 +15,16 @@ import {
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
+import type { EditMainContent } from '../../types';
+
 type Props = PropsWithChildren & {
-    content: MainContent;
-    content_type: EditContentType;
+    content: EditMainContent;
+    content_type: EditContentTypeEnum;
     slug: string;
 };
 
 const General: FC<Props> = ({ content, content_type, slug }) => {
-    const image =
-        content.data_type === ContentTypeEnum.ANIME
-            ? content.image
-            : content.image;
+    const image = content.image;
     const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
 
     return (
@@ -53,7 +48,7 @@ const General: FC<Props> = ({ content, content_type, slug }) => {
                         content.data_type === ContentTypeEnum.NOVEL) && (
                         <HorizontalCardDescription>
                             <MaterialSymbolsCalendarClockRounded className="size-4 text-muted-foreground" />
-                            {content.year}
+                            {'year' in content ? content.year : null}
                         </HorizontalCardDescription>
                     )}
                 </HorizontalCardContainer>

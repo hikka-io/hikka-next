@@ -1,17 +1,17 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
 import {
-    readStatsOptions,
-    userByUsernameOptions,
-    userFollowStatsOptions,
+    ContentTypeEnum,
+    followStatsOptions,
+    userProfileOptions,
+    userReadStatsOptions,
     userWatchStatsOptions,
-} from '@hikka/react/options';
+} from '@hikka/api';
 
 import CoverImage from '@/components/cover-image';
 import Link from '@/components/ui/link';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
-import NavMenu from '@/features/common/nav-dropdown';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
+import NavMenu from '@/features/app-shell/nav-dropdown';
 import {
     ActivationAlert,
     FollowStats,
@@ -22,33 +22,48 @@ import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/u/$username')({
-    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { username } = params;
 
         const user = await queryClient.ensureQueryData(
-            userByUsernameOptions(hikkaClient, { username }),
+            userProfileOptions({
+                path: { username },
+                client: apiClient,
+            }),
         );
 
         if (!user) throw redirect({ to: '/' });
 
         await Promise.allSettled([
             queryClient.prefetchQuery(
-                readStatsOptions(hikkaClient, {
-                    username,
-                    contentType: ContentTypeEnum.MANGA,
+                userReadStatsOptions({
+                    path: {
+                        username,
+                        content_type: ContentTypeEnum.MANGA,
+                    },
+                    client: apiClient,
                 }),
             ),
             queryClient.prefetchQuery(
-                readStatsOptions(hikkaClient, {
-                    username,
-                    contentType: ContentTypeEnum.NOVEL,
+                userReadStatsOptions({
+                    path: {
+                        username,
+                        content_type: ContentTypeEnum.NOVEL,
+                    },
+                    client: apiClient,
                 }),
             ),
             queryClient.prefetchQuery(
-                userWatchStatsOptions(hikkaClient, { username }),
+                userWatchStatsOptions({
+                    path: { username },
+                    client: apiClient,
+                }),
             ),
             queryClient.prefetchQuery(
-                userFollowStatsOptions(hikkaClient, { username }),
+                followStatsOptions({
+                    path: { username },
+                    client: apiClient,
+                }),
             ),
         ]);
 
@@ -59,7 +74,7 @@ export const Route = createFileRoute('/_pages/u/$username')({
         if (!user) return {};
 
         return generateHeadMeta({
-            title: user.username,
+            title: user.username ?? '',
             description: user.description,
             image: `https://preview.hikka.io/u/${user.username}/${user.updated}`,
             url: `https://hikka.io/u/${user.username}`,
@@ -75,7 +90,7 @@ function UserLayout() {
     return (
         <div className="flex flex-col gap-8">
             <ActivationAlert />
-            <CoverImage cover={user?.cover} />
+            <CoverImage cover={user?.cover ?? undefined} />
             <Breadcrumbs>
                 <Link
                     to={`/u/${username}`}

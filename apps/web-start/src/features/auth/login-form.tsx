@@ -1,21 +1,29 @@
 import { useRef, useState } from 'react';
 
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Eye, EyeOff } from 'lucide-react';
 
-import { useCreateUserSession, useHikkaClient } from '@hikka/react';
+import {
+    authInfoQueryKey,
+    loginMutation,
+    profileQueryKey,
+    setAuthToken,
+} from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
-import { OAuthLogin } from '@/features/auth';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { setAuthCookieFn } from '@/utils/auth';
+import { getCaptchaToken } from '@/utils/captcha';
 import { z } from '@/utils/i18n/zod';
 import { Link, useRouter } from '@/utils/navigation';
 import { validateRedirectUrl } from '@/utils/url';
+
+import OAuthLogin from './oauth-login';
 
 const formSchema = z.object({
     identifier: z.string().min(5),
@@ -24,7 +32,7 @@ const formSchema = z.object({
 });
 
 const LoginForm = () => {
-    const { client } = useHikkaClient();
+    const queryClient = useQueryClient();
     const { callbackUrl: callbackUrlParam } = useFilterSearch<{
         callbackUrl?: string;
     }>();
@@ -34,19 +42,26 @@ const LoginForm = () => {
 
     const callbackUrl = callbackUrlParam ?? '/';
 
-    const mutationLogin = useCreateUserSession({
-        options: {
-            onSuccess: async (data) => {
-                await setAuthCookieFn({
-                    data: { secret: data.secret },
-                });
-                client.setAuthToken(data.secret);
-                form.reset();
-                router.push(validateRedirectUrl(callbackUrl));
-            },
-            onError: () => {
-                captchaRef.current?.reset();
-            },
+    const mutationLogin = useMutation({
+        ...loginMutation(),
+        onSuccess: async (data) => {
+            await setAuthCookieFn({
+                data: { secret: data.secret },
+            });
+            setAuthToken(data.secret);
+            await Promise.all([
+                queryClient.invalidateQueries({
+                    queryKey: profileQueryKey(),
+                }),
+                queryClient.invalidateQueries({
+                    queryKey: authInfoQueryKey(),
+                }),
+            ]);
+            form.reset();
+            router.push(validateRedirectUrl(callbackUrl));
+        },
+        onError: () => {
+            captchaRef.current?.reset();
         },
     });
 
@@ -60,14 +75,14 @@ const LoginForm = () => {
         onSubmit: async ({ value }) => {
             const isEmail = value.identifier.includes('@');
 
-            const args = isEmail
+            const body = isEmail
                 ? { email: value.identifier, password: value.password }
                 : { username: value.identifier, password: value.password };
 
             mutationLogin.mutate({
-                args,
-                captcha: {
-                    captcha: String(captchaRef.current?.getResponse()),
+                body,
+                headers: {
+                    captcha: getCaptchaToken(captchaRef.current),
                 },
             });
         },

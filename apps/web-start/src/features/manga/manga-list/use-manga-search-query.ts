@@ -1,8 +1,12 @@
-import type { ContentStatusEnum, MangaMediaEnum } from '@hikka/client';
-import { useSearchMangas } from '@hikka/react';
+import {
+    type ContentStatusEnum,
+    type MangaMediaEnum,
+    searchMangaInfiniteOptions,
+} from '@hikka/api';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import type { MangaSearch } from '@/utils/search-schemas';
 
 /**
@@ -42,15 +46,9 @@ export function buildMangaSearchArgs(search: MangaSearch) {
 export function useMangaSearchQuery(size?: number) {
     const search = useFilterSearch<MangaSearch>();
     const { args, page } = buildMangaSearchArgs(search);
-    const paginationArgs = { page, size };
 
-    const queryResult = useSearchMangas({
-        args,
-        paginationArgs,
-        options: {
-            initialPageParam: page,
-        },
-    });
+    const options = searchMangaInfiniteOptions({ body: args, query: { size } });
+    const queryResult = useInfiniteList(options, { initialPageParam: page });
 
-    return { ...queryResult, args, paginationArgs, search };
+    return { ...queryResult, queryKey: options.queryKey, args, search };
 }

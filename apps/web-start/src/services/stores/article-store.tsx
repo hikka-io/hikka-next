@@ -6,7 +6,7 @@ import {
     ArticleCategoryEnum,
     type ArticleDocumentResponse,
     type ArticleMangaNovelContentResponse,
-} from '@hikka/client';
+} from '@hikka/api';
 
 export type ArticleState = {
     slug?: string;
@@ -54,7 +54,8 @@ export const createArticleStore = (initProps?: Partial<ArticleState>) => {
         setArticle: (article: ArticleDocumentResponse) => {
             set({
                 ...article,
-                document: article.document,
+                category: article.category as ArticleCategoryEnum,
+                document: article.document as unknown as Value,
                 tags: article.tags.map((tag) => tag.name),
             });
         },

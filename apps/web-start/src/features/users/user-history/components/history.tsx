@@ -1,13 +1,14 @@
 import { type FC, Fragment } from 'react';
 
-import { useUserHistory } from '@hikka/react';
+import { userHistoryInfiniteOptions } from '@hikka/api';
 
+import { HistoryItem } from '@/components/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import NotFound from '@/components/ui/not-found';
 import Stack from '@/components/ui/stack';
-import HistoryItem from '@/features/users/user-history/components/history-item';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
@@ -17,9 +18,11 @@ type Props = {
 const History: FC<Props> = ({ className }) => {
     const params = useParams();
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
-        useUserHistory({
-            username: String(params.username),
-        });
+        useInfiniteList(
+            userHistoryInfiniteOptions({
+                path: { username: String(params.username) },
+            }),
+        );
 
     return (
         <Fragment>

@@ -1,7 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useNovelBySlug } from '@hikka/react';
+import { ContentTypeEnum, novelInfoOptions } from '@hikka/api';
 
 import { ContentDetailPage } from '@/features/content';
 import novelJsonSchema from '@/utils/novel-schema';
@@ -12,7 +12,7 @@ export const Route = createFileRoute('/_pages/novel/$slug/')({
 
 function NovelDetailPage() {
     const { slug } = Route.useParams();
-    const { data: novel } = useNovelBySlug({ slug });
+    const { data: novel } = useQuery(novelInfoOptions({ path: { slug } }));
 
     return (
         <ContentDetailPage

@@ -3,12 +3,13 @@ import type { FC } from 'react';
 import {
     ContentTypeEnum,
     type FavouriteCollectionResponse,
-} from '@hikka/client';
-import { useUserFavourites } from '@hikka/react';
+    favouriteListInfiniteOptions,
+} from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
@@ -19,16 +20,22 @@ type Props = {
 const Collections: FC<Props> = ({ extended }) => {
     const params = useParams();
     const {
-        list,
+        list: rawList,
         isPending,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         ref,
-    } = useUserFavourites<FavouriteCollectionResponse>({
-        username: String(params.username),
-        contentType: ContentTypeEnum.COLLECTION,
-    });
+    } = useInfiniteList(
+        favouriteListInfiniteOptions({
+            path: {
+                content_type: ContentTypeEnum.COLLECTION,
+                username: String(params.username),
+            },
+        }),
+    );
+
+    const list = rawList as FavouriteCollectionResponse[] | undefined;
 
     if (isPending) {
         return null;

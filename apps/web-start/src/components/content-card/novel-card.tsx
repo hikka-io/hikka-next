@@ -1,19 +1,15 @@
 import type { FC } from 'react';
 
-import {
-    ContentTypeEnum,
-    type NovelInfoResponse,
-    type NovelResponse,
-} from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import { ContentTypeEnum, type NovelResponseWithRead } from '@hikka/api';
 
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 
 import ContentCard, { type ContentCardProps } from './content-card';
 import { getMediaCardProps } from './utils';
 
 type Props = ContentCardProps & {
-    novel: NovelResponse | NovelInfoResponse;
+    novel: NovelResponseWithRead;
 };
 
 const NovelCard: FC<Props> = ({ novel, ...props }) => {

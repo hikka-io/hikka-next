@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { ArticleBaseResponse } from '@hikka/client';
+import type { ArticleDocumentResponse } from '@hikka/api';
 
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
@@ -17,7 +17,7 @@ import { Link } from '@/utils/navigation';
 import DeleteArticle from './delete-article';
 
 type Props = {
-    article: ArticleBaseResponse;
+    article: ArticleDocumentResponse;
 };
 
 const ArticleMenu: FC<Props> = ({ article }) => {

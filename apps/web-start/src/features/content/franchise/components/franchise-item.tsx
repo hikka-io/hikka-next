@@ -1,12 +1,14 @@
 import type { FC } from 'react';
 
 import type {
-    AnimeResponse,
-    MangaResponse,
-    NovelResponse,
-} from '@hikka/client';
-import { useSession, useTitle } from '@hikka/react';
+    AnimeResponseWithWatch,
+    MangaResponseWithRead,
+    NovelResponseWithRead,
+    ReadContentTypeEnum,
+} from '@hikka/api';
 
+import ReadlistButton from '@/components/action-buttons/readlist-button';
+import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -15,12 +17,15 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import ReadlistButton from '@/features/common/readlist-button';
-import WatchlistButton from '@/features/common/watchlist-button';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { MEDIA_TYPE } from '@/utils/constants/common';
 
 type Props = {
-    content: AnimeResponse | MangaResponse | NovelResponse;
+    content:
+        | AnimeResponseWithWatch
+        | MangaResponseWithRead
+        | NovelResponseWithRead;
     preview?: boolean;
 };
 
@@ -47,7 +52,13 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                             <div className="size-1 rounded-full bg-muted-foreground" />
                         )}
                         {content.media_type && (
-                            <p>{MEDIA_TYPE[content.media_type].title_ua}</p>
+                            <p>
+                                {
+                                    MEDIA_TYPE[
+                                        content.media_type as keyof typeof MEDIA_TYPE
+                                    ].title_ua
+                                }
+                            </p>
                         )}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
@@ -55,18 +66,28 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
             {content.data_type === 'anime' && !preview && (
                 <WatchlistButton
                     slug={content.slug}
-                    anime={content}
-                    watch={content.watch?.[0] ?? null}
+                    anime={content as AnimeResponseWithWatch}
+                    watch={
+                        (content as AnimeResponseWithWatch).watch?.[0] ?? null
+                    }
                     size="md"
                     disabled={!user}
                 />
             )}
             {content.data_type !== 'anime' && !preview && (
                 <ReadlistButton
-                    content_type={content.data_type}
+                    content_type={content.data_type as ReadContentTypeEnum}
                     slug={content.slug}
-                    content={content}
-                    read={content.read?.[0] ?? null}
+                    content={
+                        content as MangaResponseWithRead | NovelResponseWithRead
+                    }
+                    read={
+                        (
+                            content as
+                                | MangaResponseWithRead
+                                | NovelResponseWithRead
+                        ).read?.[0] ?? null
+                    }
                     size="md"
                     disabled={!user}
                 />

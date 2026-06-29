@@ -1,12 +1,9 @@
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 
 type StaffProps = {
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: MainContentTypeEnum;
     slug: string;
 };
 

@@ -1,8 +1,8 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
-import type { CollectionContent, CollectionResponse } from '@hikka/client';
-import { useCollectionByReference } from '@hikka/react';
-import { queryKeys } from '@hikka/react/core';
+import type { GetCollectionResponse } from '@hikka/api';
+import { getCollectionOptions, getCollectionQueryKey } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -12,14 +12,15 @@ import {
     CollectionEditTitle as CollectionTitle,
 } from '@/features/collections';
 import CollectionProvider from '@/services/providers/collection-provider';
+import type { CollectionState } from '@/services/stores/collection-store';
 import { requireOwner } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/collections/$reference/update')({
     beforeLoad: async ({ params, context: { queryClient } }) => {
-        const collection = queryClient.getQueryData<
-            CollectionResponse<CollectionContent>
-        >(queryKeys.collections.byReference(params.reference));
+        const collection = queryClient.getQueryData<GetCollectionResponse>(
+            getCollectionQueryKey({ path: { reference: params.reference } }),
+        );
 
         requireOwner(
             queryClient,
@@ -37,12 +38,16 @@ export const Route = createFileRoute('/_pages/collections/$reference/update')({
 
 function CollectionUpdatePage() {
     const { reference } = Route.useParams();
-    const { data: collection } = useCollectionByReference({ reference });
+    const { data: collection } = useQuery(
+        getCollectionOptions({ path: { reference } }),
+    );
 
     if (!collection) return null;
 
     return (
-        <CollectionProvider initialState={collection}>
+        <CollectionProvider
+            initialState={collection as Partial<CollectionState>}
+        >
             <div>
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
                     <Block>

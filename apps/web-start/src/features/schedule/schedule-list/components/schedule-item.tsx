@@ -1,12 +1,12 @@
 import { type FC, memo } from 'react';
 
-import type { AnimeScheduleResponse } from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import type { AnimeScheduleResponse } from '@hikka/api';
 
+import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import HorizontalContentCard, {
     type Props as HorizontalContentCardProps,
 } from '@/components/ui/horizontal-content-card';
-import WatchlistButton from '@/features/common/watchlist-button';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
 

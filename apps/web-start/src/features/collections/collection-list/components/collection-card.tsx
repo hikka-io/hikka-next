@@ -1,12 +1,11 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 
 import { formatDistance } from 'date-fns/formatDistance';
 import { ArrowBigUp, MessageCircle } from 'lucide-react';
 
-import type { CollectionContent, CollectionResponse } from '@hikka/client';
-import { useHikkaClient } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import type { CollectionResponse } from '@hikka/api';
 
+import FollowButton from '@/components/action-buttons/follow-button';
 import ContentCard from '@/components/content-card/content-card';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
@@ -21,14 +20,15 @@ import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 import Stack, { type StackSize } from '@/components/ui/stack';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-import FollowButton from '@/features/common/follow-button';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
+import { getTitle } from '@/utils/title/get-title';
 
 type Props = {
-    collection: CollectionResponse<CollectionContent>;
+    collection: CollectionResponse;
     className?: string;
     maxPreviewItems: number;
     /**
@@ -46,7 +46,7 @@ const CollectionCard: FC<Props> = ({
 }) => {
     const isCompact = variant === 'compact';
     const isDesktop = useMediaQuery('(min-width: 768px)');
-    const { defaultOptions } = useHikkaClient();
+    const { preferences } = useSessionUI();
     const previewItems = collection.collection.slice(0, maxPreviewItems);
     const remainingCount = collection.entries - maxPreviewItems;
     const previewItem =
@@ -147,46 +147,54 @@ const CollectionCard: FC<Props> = ({
                 className={cn(isCompact && 'grid-min-5')}
                 imagePreset="cardSm"
             >
-                {previewItems.map((item) => (
-                    <ContentCard
-                        key={item.content.slug}
-                        image={item.content.image}
-                        title={
-                            isCompact
-                                ? undefined
-                                : getTitle(
-                                      item.content as unknown as Record<
-                                          string,
-                                          unknown
-                                      >,
-                                      defaultOptions?.title,
-                                      defaultOptions?.name,
-                                  )
-                        }
-                        to={`${CONTENT_TYPE_LINKS[item.content_type]}/${item.content.slug}`}
-                        className={cn(collection.spoiler && 'spoiler-blur-md')}
-                        titleClassName={cn(
-                            collection.spoiler && 'spoiler-blur-sm',
-                        )}
-                        containerClassName={cn(
-                            collection.nsfw && 'spoiler-blur-md',
-                        )}
-                        watch={
-                            'watch' in item.content &&
-                            item.content.watch.length > 0
-                                ? item.content.watch[0]
-                                : undefined
-                        }
-                        read={
-                            'read' in item.content &&
-                            item.content.read.length > 0
-                                ? item.content.read[0]
-                                : undefined
-                        }
-                        slug={item.content.slug}
-                        content_type={item.content_type}
-                    />
-                ))}
+                {previewItems.map((item) => {
+                    const contentType = item.content_type as NonNullable<
+                        ComponentProps<typeof ContentCard>['content_type']
+                    >;
+                    return (
+                        <ContentCard
+                            key={item.content.slug}
+                            image={item.content.image}
+                            title={
+                                isCompact
+                                    ? undefined
+                                    : getTitle(
+                                          item.content,
+                                          preferences.title_language,
+                                          preferences.name_language,
+                                      )
+                            }
+                            to={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
+                            className={cn(
+                                collection.spoiler && 'spoiler-blur-md',
+                            )}
+                            titleClassName={cn(
+                                collection.spoiler && 'spoiler-blur-sm',
+                            )}
+                            containerClassName={cn(
+                                collection.nsfw && 'spoiler-blur-md',
+                            )}
+                            watch={
+                                'watch' in item.content &&
+                                item.content.watch.length > 0
+                                    ? (item.content.watch[0] as ComponentProps<
+                                          typeof ContentCard
+                                      >['watch'])
+                                    : undefined
+                            }
+                            read={
+                                'read' in item.content &&
+                                item.content.read.length > 0
+                                    ? (item.content.read[0] as ComponentProps<
+                                          typeof ContentCard
+                                      >['read'])
+                                    : undefined
+                            }
+                            slug={item.content.slug}
+                            content_type={contentType}
+                        />
+                    );
+                })}
                 {remainingCount > 0 && (
                     <ContentCard
                         to={`/collections/${collection.reference}`}

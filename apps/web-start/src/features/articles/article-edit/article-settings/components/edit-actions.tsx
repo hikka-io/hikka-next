@@ -1,8 +1,9 @@
 import { type FC, useCallback } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { useUpdateArticle } from '@hikka/react';
+import { type ArticleContentEnum, updateArticleMutation } from '@hikka/api';
 
 import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -14,6 +15,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useArticleContext } from '@/services/providers/article-provider';
+import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 import {
@@ -33,14 +35,14 @@ const EditActions: FC<Props> = () => {
     const content = useArticleContext((state) => state.content);
     const getDocument = useArticleContext((state) => state.getDocument);
     const setArticle = useArticleContext((state) => state.setArticle);
+    const queryClient = useQueryClient();
 
-    const { mutate: mutateUpdateArticle, isPending } = useUpdateArticle({
-        options: {
-            onSuccess: (data) => {
-                toast.success('Ви успішно оновили статтю.');
-
-                setArticle(data);
-            },
+    const { mutate: mutateUpdateArticle, isPending } = useMutation({
+        ...updateArticleMutation(),
+        onSuccess: (data) => {
+            invalidateArticles(queryClient);
+            toast.success('Ви успішно оновили статтю.');
+            setArticle(data as unknown as Parameters<typeof setArticle>[0]);
         },
     });
 
@@ -61,8 +63,8 @@ const EditActions: FC<Props> = () => {
             document = removeEmptyTextNodes(document);
 
             mutateUpdateArticle({
-                slug: slug!,
-                article: {
+                path: { slug: slug! },
+                body: {
                     document: document,
                     title: title || '',
                     tags,
@@ -71,7 +73,8 @@ const EditActions: FC<Props> = () => {
                     content: content
                         ? {
                               slug: content.slug,
-                              content_type: content.data_type,
+                              content_type:
+                                  content.data_type as ArticleContentEnum,
                           }
                         : undefined,
                 },

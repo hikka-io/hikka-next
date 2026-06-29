@@ -1,23 +1,34 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useDeleteReadList, useDeleteWatchList } from '@hikka/react';
+import {
+    ContentTypeEnum,
+    deleteUserReadMutation,
+    deleteUserWatchMutation,
+} from '@hikka/api';
+
+import {
+    invalidateReadState,
+    invalidateWatchState,
+} from '@/utils/api/invalidate-content-state';
 
 import ListRemovalItem from './components/list-removal-item';
 
 const ListRemoval = () => {
-    const { mutate: deleteWatchList } = useDeleteWatchList({
-        options: {
-            onSuccess: () => {
-                toast.success('Список аніме успішно видалено.');
-            },
+    const queryClient = useQueryClient();
+
+    const { mutate: deleteWatchList } = useMutation({
+        ...deleteUserWatchMutation(),
+        onSuccess: () => {
+            invalidateWatchState(queryClient);
+            toast.success('Список аніме успішно видалено.');
         },
     });
-    const { mutate: deleteReadList } = useDeleteReadList({
-        options: {
-            onSuccess: () => {
-                toast.success('Список успішно видалено.');
-            },
+    const { mutate: deleteReadList } = useMutation({
+        ...deleteUserReadMutation(),
+        onSuccess: () => {
+            invalidateReadState(queryClient);
+            toast.success('Список успішно видалено.');
         },
     });
 
@@ -28,7 +39,7 @@ const ListRemoval = () => {
                 return;
             case ContentTypeEnum.MANGA:
             case ContentTypeEnum.NOVEL:
-                deleteReadList({ contentType: content_type });
+                deleteReadList({ path: { content_type } });
                 return;
         }
     };

@@ -1,26 +1,31 @@
 import type { FC } from 'react';
 
-import type { CollectionContentType } from '@hikka/client';
-import { useSearchCollections } from '@hikka/react';
+import {
+    getCollectionsInfiniteOptions,
+    type MainContentTypeEnum,
+} from '@hikka/api';
 
+import { CollectionItem } from '@/components/content-card';
 import LoadMoreButton from '@/components/load-more-button';
-import CollectionItem from '@/features/users/profile/user-collections/components/collection-item';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
-    content_type: CollectionContentType;
+    content_type: MainContentTypeEnum;
 };
 
 const CollectionsModal: FC<Props> = ({ content_type }) => {
     const params = useParams();
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
-        useSearchCollections({
-            args: {
-                content_type: content_type,
-                content: [String(params.slug)],
-            },
-        });
+        useInfiniteList(
+            getCollectionsInfiniteOptions({
+                body: {
+                    content_type,
+                    content: [String(params.slug)],
+                },
+            }),
+        );
 
     return (
         <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">

@@ -1,20 +1,20 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useArticleBySlug } from '@hikka/react';
+import { getArticleOptions } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import Link from '@/components/ui/link';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import {
     ArticleAuthor,
-    ArticleDocument,
+    ArticleDocumentView,
     ArticleNavbar,
     ArticleTags,
     ArticleTitle,
 } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 export const Route = createFileRoute('/_pages/articles/$slug/')({
@@ -23,7 +23,7 @@ export const Route = createFileRoute('/_pages/articles/$slug/')({
 
 function ArticlePage() {
     const { slug } = Route.useParams();
-    const { data: article } = useArticleBySlug({ slug });
+    const { data: article } = useQuery(getArticleOptions({ path: { slug } }));
 
     const jsonLd = article
         ? {
@@ -76,13 +76,9 @@ function ArticlePage() {
                 )}
                 <Block className="isolate">
                     <ArticleTitle />
-                    <ArticleDocument />
+                    <ArticleDocumentView />
                     <ArticleTags />
-                    <Comments
-                        preview
-                        slug={slug}
-                        content_type={ContentTypeEnum.ARTICLE}
-                    />
+                    <Comments preview slug={slug} content_type="article" />
                 </Block>
                 <ArticleNavbar />
             </div>

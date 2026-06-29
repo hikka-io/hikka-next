@@ -4,7 +4,7 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
     ArticleSettings,
-    ArticleEditDocument as ArticleText,
+    ArticleDocumentEditor as ArticleText,
     ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';
 import ArticleProvider from '@/services/providers/article-provider';

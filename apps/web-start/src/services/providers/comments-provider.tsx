@@ -6,7 +6,7 @@ import {
     useState,
 } from 'react';
 
-import type { CommentResponse } from '@hikka/client';
+import type { CommentResponse } from '@hikka/api';
 
 interface ActiveEditor {
     type: 'reply' | 'edit';

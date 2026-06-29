@@ -1,25 +1,43 @@
 import type { FC } from 'react';
 
-import { useAcceptEdit } from '@hikka/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { acceptEditMutation, type EditResponse } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
-import { useParams } from '@/utils/navigation';
+import {
+    invalidateContentBySlug,
+    invalidateEditDetail,
+    invalidateEdits,
+} from '@/utils/api/invalidate-content-state';
 
-type Props = {};
+type Props = {
+    edit: EditResponse;
+};
 
-const AcceptAction: FC<Props> = () => {
-    const params = useParams();
-    const acceptEditMutation = useAcceptEdit();
+const AcceptAction: FC<Props> = ({ edit }) => {
+    const queryClient = useQueryClient();
+    const acceptEdit = useMutation({
+        ...acceptEditMutation(),
+        onSuccess: () => {
+            invalidateEditDetail(queryClient, edit.edit_id);
+            invalidateEdits(queryClient);
+            // An accepted edit mutates the underlying content — refresh it.
+            // Source the slug from the loaded edit, not the mutation response
+            // (which may not populate `content`).
+            invalidateContentBySlug(queryClient, edit.content.slug);
+        },
+    });
 
     const handleClick = () => {
-        acceptEditMutation.mutate(Number(params.editId));
+        acceptEdit.mutate({ path: { edit_id: edit.edit_id } });
     };
 
     return (
         <Button
             variant="success"
             size="md"
-            disabled={acceptEditMutation.isPending}
+            disabled={acceptEdit.isPending}
             onClick={handleClick}
         >
             Прийняти

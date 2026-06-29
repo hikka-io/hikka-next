@@ -6,7 +6,7 @@ import type {
     UserResponse,
     WatchResponseBase,
     WatchStatusEnum,
-} from '@hikka/client';
+} from '@hikka/api';
 
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';

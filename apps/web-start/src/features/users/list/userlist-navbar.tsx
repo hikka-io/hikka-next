@@ -1,21 +1,22 @@
-import { createElement, type FC, useState } from 'react';
+import { type ComponentProps, createElement, type FC, useState } from 'react';
 
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
 import { Filter, PanelRightClose, PanelRightOpen } from 'lucide-react';
 
 import {
     ContentTypeEnum,
-    type ReadStatsResponse,
+    type MainContentTypeEnum,
+    type ReadContentTypeEnum,
+    type AppReadSchemasReadStatsResponse as ReadStatsResponse,
     type ReadStatusEnum,
+    randomReadNovelOptions,
+    randomWatchEntryOptions,
+    userReadStatsOptions,
+    userWatchStatsOptions,
     type WatchStatsResponse,
     type WatchStatusEnum,
-} from '@hikka/client';
-import {
-    useRandomReadByStatus,
-    useRandomWatchByStatus,
-    useReadStats,
-    useUserWatchStats,
-} from '@hikka/react';
+} from '@hikka/api';
 
 import FeRandom from '@/components/icons/fe/FeRandom';
 import MaterialSymbolsEventList from '@/components/icons/material-symbols/MaterialSymbolsEventList';
@@ -38,14 +39,16 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useActiveFilters } from '@/features/content';
+import {
+    AnimeFiltersModal,
+    ReadFiltersModal,
+    useActiveFilters,
+} from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import useChangeParam from '@/features/filters/hooks/use-change-param';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import Sort from '@/features/filters/sort';
-import { ReadFiltersModal } from '@/features/read';
-import { AnimeFiltersModal } from '@/features/watch';
 import { cn } from '@/utils/cn';
 import {
     CONTENT_TYPES,
@@ -57,15 +60,13 @@ import { useParams } from '@/utils/navigation';
 const STATUSES = { ...WATCH_STATUS, ...READ_STATUS };
 
 type Props = {
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: MainContentTypeEnum;
 };
 
 const UserlistNavbar: FC<Props> = ({ content_type }) => {
     const isAnime = content_type === ContentTypeEnum.ANIME;
     const router = useRouter();
+    const queryClient = useQueryClient();
     const params = useParams();
     const search = useFilterSearch<{ status?: string }>();
     const handleChangeParam = useChangeParam();
@@ -81,16 +82,20 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
         | 'all';
 
     // Status stats
-    const { data: watchData } = useUserWatchStats({
-        username: params.username,
-        options: { enabled: isAnime },
+    const { data: watchData } = useQuery({
+        ...userWatchStatsOptions({
+            path: { username: String(params.username) },
+        }),
+        enabled: isAnime,
     });
-    const { data: readData } = useReadStats({
-        username: params.username,
-        contentType: content_type as
-            | ContentTypeEnum.MANGA
-            | ContentTypeEnum.NOVEL,
-        options: { enabled: !isAnime },
+    const { data: readData } = useQuery({
+        ...userReadStatsOptions({
+            path: {
+                username: String(params.username),
+                content_type: content_type as ReadContentTypeEnum,
+            },
+        }),
+        enabled: !isAnime,
     });
     const listData = isAnime ? watchData : readData;
     const statuses = isAnime ? WATCH_STATUS : READ_STATUS;
@@ -106,38 +111,29 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
         : undefined;
 
     // Random content
-    const mutationRandomRead = useRandomReadByStatus({
-        options: {
-            onSuccess: (data) => {
-                router.navigate({
-                    to: `/${content_type}/${data.slug}` as '/',
-                });
-            },
-        },
-    });
-    const mutationRandomWatch = useRandomWatchByStatus({
-        options: {
-            onSuccess: (data) => {
-                router.navigate({
-                    to: `/${content_type}/${data.slug}` as '/',
-                });
-            },
-        },
-    });
+    const handleRandom = async () => {
+        const data = isAnime
+            ? await queryClient.fetchQuery(
+                  randomWatchEntryOptions({
+                      path: {
+                          username: String(params.username),
+                          status: status as WatchStatusEnum,
+                      },
+                  }),
+              )
+            : await queryClient.fetchQuery(
+                  randomReadNovelOptions({
+                      path: {
+                          username: String(params.username),
+                          content_type: content_type as ReadContentTypeEnum,
+                          status: status as ReadStatusEnum,
+                      },
+                  }),
+              );
 
-    const handleRandom = () => {
-        if (isAnime) {
-            mutationRandomWatch.mutate({
-                username: String(params.username),
-                status: status as WatchStatusEnum,
-            });
-        } else {
-            mutationRandomRead.mutate({
-                contentType: content_type,
-                username: String(params.username),
-                status: status as ReadStatusEnum,
-            });
-        }
+        router.navigate({
+            to: `/${content_type}/${data.slug}` as '/',
+        });
     };
 
     const handleChangeView = (value: string) => {
@@ -180,9 +176,9 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                                         const info = STATUSES[key];
                                         const count = listData
                                             ? (
-                                                  listData as unknown as Record<
+                                                  listData as Record<
                                                       string,
-                                                      number
+                                                      number | undefined
                                                   >
                                               )[key]
                                             : undefined;
@@ -330,7 +326,11 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                 <ReadFiltersModal
                     open={mobileFiltersOpen}
                     onOpenChange={setMobileFiltersOpen}
-                    content_type={content_type}
+                    content_type={
+                        content_type as ComponentProps<
+                            typeof ReadFiltersModal
+                        >['content_type']
+                    }
                     sort_type="read"
                 />
             )}

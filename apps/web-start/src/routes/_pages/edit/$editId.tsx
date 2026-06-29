@@ -1,38 +1,44 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
-import { ContentTypeEnum, type EditContentType } from '@hikka/client';
-import { prefetchInfiniteQuery } from '@hikka/react/core';
-import { contentCommentsOptions, editOptions } from '@hikka/react/options';
+import {
+    type CommentContentTypeEnum as CommentsContentType,
+    getContentsListInfiniteOptions,
+    getEditOptions,
+    paginationPageParam,
+} from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Link from '@/components/ui/link';
-import Breadcrumbs from '@/features/common/nav-breadcrumbs';
+import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import {
     EditAuthor as Author,
     EditContent as Content,
-    EditStatus,
+    EditStatusBadge,
     EditModerator as Moderator,
 } from '@/features/edit';
 
 export const Route = createFileRoute('/_pages/edit/$editId')({
-    loader: async ({ params, context: { queryClient, hikkaClient } }) => {
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
         const editId = Number(params.editId);
 
         const edit = await queryClient.ensureQueryData(
-            editOptions(hikkaClient, { editId }),
+            getEditOptions({ path: { edit_id: editId }, client: apiClient }),
         );
 
         if (!edit) throw redirect({ to: '/edit' });
 
-        await prefetchInfiniteQuery(
-            queryClient,
-            contentCommentsOptions(hikkaClient, {
-                contentType: ContentTypeEnum.EDIT,
-                slug: params.editId,
+        await queryClient.prefetchInfiniteQuery({
+            ...getContentsListInfiniteOptions({
+                path: {
+                    content_type: 'edit' as CommentsContentType,
+                    slug: params.editId,
+                },
+                client: apiClient,
             }),
-        );
+            ...paginationPageParam(),
+        });
 
         return { edit };
     },
@@ -74,7 +80,7 @@ function EditLayout() {
                                     Деталі
                                 </HeaderTitle>
                             </HeaderContainer>
-                            <EditStatus editId={editId} />
+                            <EditStatusBadge editId={editId} />
                         </Header>
                         <Card className="justify-between">
                             {edit.author && <Author editId={editId} />}
@@ -83,7 +89,7 @@ function EditLayout() {
                     </Block>
                     <Content
                         slug={edit.content.slug as string}
-                        content_type={edit.content_type as EditContentType}
+                        content_type={edit.content_type}
                         content={edit.content}
                     />
                 </div>

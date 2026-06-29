@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 
-import { useEdit } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getEditOptions } from '@hikka/api';
 
 import { Badge } from '@/components/ui/badge';
 import { EDIT_STATUS } from '@/utils/constants/edit';
@@ -9,8 +11,10 @@ type Props = {
     editId: string;
 };
 
-const EditStatus: FC<Props> = ({ editId }) => {
-    const { data: edit } = useEdit({ editId: Number(editId) });
+const EditStatusBadge: FC<Props> = ({ editId }) => {
+    const { data: edit } = useQuery(
+        getEditOptions({ path: { edit_id: Number(editId) } }),
+    );
 
     if (!edit?.status) {
         return null;
@@ -28,4 +32,4 @@ const EditStatus: FC<Props> = ({ editId }) => {
     return <Badge variant={variant}>{EDIT_STATUS[edit.status].title_ua}</Badge>;
 };
 
-export default EditStatus;
+export default EditStatusBadge;

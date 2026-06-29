@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
-import type { ArticleCategoryEnum } from '@hikka/client';
-import { useSession } from '@hikka/react';
+import type { ArticleCategoryEnum } from '@hikka/api';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -13,6 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useArticleContext } from '@/services/providers/article-provider';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 
@@ -47,7 +47,9 @@ const CategorySelect: FC<Props> = () => {
                 <Select
                     value={category ? [category] : category}
                     onValueChange={(value: ArticleCategoryEnum[]) =>
-                        setCategory(value[0])
+                        setCategory(
+                            value[0] as Parameters<typeof setCategory>[0],
+                        )
                     }
                 >
                     <SelectTrigger size="md">

@@ -1,11 +1,15 @@
 import type { FC } from 'react';
 
-import { ContentTypeEnum, type FavouriteNovelResponse } from '@hikka/client';
-import { useUserFavourites } from '@hikka/react';
+import {
+    ContentTypeEnum,
+    type FavouriteNovelResponse,
+    favouriteListInfiniteOptions,
+} from '@hikka/api';
 
 import NovelCard from '@/components/content-card/novel-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
@@ -16,16 +20,22 @@ type Props = {
 const Novel: FC<Props> = ({ extended }) => {
     const params = useParams();
     const {
-        list,
+        list: rawList,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         isPending,
         ref,
-    } = useUserFavourites<FavouriteNovelResponse>({
-        contentType: ContentTypeEnum.NOVEL,
-        username: String(params.username),
-    });
+    } = useInfiniteList(
+        favouriteListInfiniteOptions({
+            path: {
+                content_type: ContentTypeEnum.NOVEL,
+                username: String(params.username),
+            },
+        }),
+    );
+
+    const list = rawList as FavouriteNovelResponse[] | undefined;
 
     if (isPending) {
         return null;

@@ -1,9 +1,12 @@
 import type { FC } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import type { ArticleBaseResponse } from '@hikka/client';
-import { useDeleteArticle } from '@hikka/react';
+import {
+    type ArticleDocumentResponse,
+    deleteArticleMutation,
+} from '@hikka/api';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import {
@@ -18,27 +21,28 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
 type Props = {
-    article: ArticleBaseResponse;
+    article: ArticleDocumentResponse;
 };
 
 const DeleteArticle: FC<Props> = ({ article }) => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
-    const deleteArticleMutation = useDeleteArticle({
-        options: {
-            onSuccess: () => {
-                toast.success('Статтю успішно видалено.');
-
-                router.push('/articles');
-            },
+    const { mutate: mutateDeleteArticle } = useMutation({
+        ...deleteArticleMutation(),
+        onSuccess: () => {
+            invalidateArticles(queryClient);
+            toast.success('Статтю успішно видалено.');
+            router.push('/articles');
         },
     });
 
     const handleDeleteArticle = async () => {
-        deleteArticleMutation.mutate(article.slug);
+        mutateDeleteArticle({ path: { slug: article.slug } });
     };
 
     return (

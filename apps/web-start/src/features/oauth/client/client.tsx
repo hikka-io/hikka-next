@@ -1,0 +1,66 @@
+import type { FC } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+import { getRouteApi } from '@tanstack/react-router';
+
+import { getClientByReferenceOptions } from '@hikka/api';
+
+import Card from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { cn } from '@/utils/cn';
+import { SCOPE_GROUPS, SCOPES } from '@/utils/constants/oauth';
+
+import Scope from './components/scope';
+
+type Props = {};
+
+const routeApi = getRouteApi('/_pages/oauth');
+
+const Client: FC<Props> = () => {
+    const { reference, scope } = routeApi.useSearch();
+
+    const scopes =
+        scope
+            ?.split(',')
+            .flatMap(
+                (s) =>
+                    SCOPE_GROUPS.find((sg) => sg.slug === s)?.scopes ??
+                    SCOPES.find((sg) => sg.slug === s) ??
+                    [],
+            ) ?? [];
+
+    const { data: client } = useQuery(
+        getClientByReferenceOptions({
+            path: { client_reference: reference! },
+        }),
+    );
+
+    return (
+        <Card className="w-full">
+            <div>
+                <Label>{client?.name}</Label>
+                <p
+                    className={cn(
+                        'text-sm',
+                        client?.verified
+                            ? 'text-success-foreground'
+                            : 'text-warning-foreground',
+                    )}
+                >
+                    {client?.verified
+                        ? 'Перевірений застосунок'
+                        : 'Невідомий застосунок'}
+                </p>
+            </div>
+            <Separator className="-mx-4 w-auto" />
+            <div className="gradient-mask-b-90-d -m-4 flex max-h-60 flex-col gap-4 overflow-scroll p-4">
+                {scopes.map((s) => (
+                    <Scope key={s.slug} scope={s} />
+                ))}
+            </div>
+        </Card>
+    );
+};
+
+export default Client;

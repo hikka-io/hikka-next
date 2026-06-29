@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import type { CollectionContent, CollectionResponse } from '@hikka/client';
-import { useDeleteCollection } from '@hikka/react';
+import type { CollectionResponse } from '@hikka/api';
+import { deleteCollectionMutation } from '@hikka/api';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -26,32 +27,35 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { invalidateCollections } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useRouter } from '@/utils/navigation';
 
 type Props = {
-    collection: CollectionResponse<CollectionContent>;
+    collection: CollectionResponse;
 };
 
 const CollectionMenu: FC<Props> = ({ collection }) => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
-    const deleteCollectionMutation = useDeleteCollection({
-        options: {
-            onSuccess: () => {
-                router.push('/');
-            },
+    const deleteCollection = useMutation({
+        ...deleteCollectionMutation(),
+        onSuccess: () => {
+            invalidateCollections(queryClient);
+            router.push('/');
         },
-    });
-
-    const handleDeleteCollection = async () => {
-        try {
-            deleteCollectionMutation.mutate(collection.reference);
-        } catch (e) {
+        onError: () => {
             toast.error(
                 'Виникла помилка при видаленні колекції. Спробуйте, будь ласка, ще раз',
             );
-        }
+        },
+    });
+
+    const handleDeleteCollection = () => {
+        deleteCollection.mutate({
+            path: { reference: collection.reference },
+        });
     };
 
     return (

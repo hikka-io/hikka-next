@@ -1,7 +1,6 @@
 import { type FC, useState } from 'react';
 
-import { type ContentTypeEnum, ExternalTypeEnum } from '@hikka/client';
-import { useSession } from '@hikka/react';
+import { ExternalTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
 import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
@@ -16,15 +15,13 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 import { getPlatformIcon } from '@/utils/platform-icons';
 
 type Props = {
-    content_type:
-        | ContentTypeEnum.ANIME
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL;
+    content_type: MainContentTypeEnum;
 };
 
 const Links: FC<Props> = ({ content_type }) => {

@@ -1,27 +1,32 @@
 import type { FC } from 'react';
 
-import type { ArticleContentType } from '@hikka/client';
-import { useSearchArticles } from '@hikka/react';
+import {
+    getArticlesInfiniteOptions,
+    type MainContentTypeEnum,
+} from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 import ContentArticlesItem from './content-articles-item';
 
 type Props = {
-    content_type: ArticleContentType;
+    content_type: MainContentTypeEnum;
 };
 
 const ContentArticlesModal: FC<Props> = ({ content_type }) => {
     const params = useParams();
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
-        useSearchArticles({
-            args: {
-                content_type: content_type,
-                content_slug: String(params.slug),
-            },
-        });
+        useInfiniteList(
+            getArticlesInfiniteOptions({
+                body: {
+                    content_type,
+                    content_slug: String(params.slug),
+                },
+            }),
+        );
 
     return (
         <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">

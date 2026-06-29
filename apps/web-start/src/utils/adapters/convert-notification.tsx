@@ -1,20 +1,11 @@
 import type { ReactNode } from 'react';
 
 import {
+    type ContentStatusEnum,
     type ContentTypeEnum,
-    type NotificationCommentData,
-    type NotificationCommentVoteData,
-    type NotificationData,
-    type NotificationEditData,
-    type NotificationFollowData,
-    type NotificationHikkaData,
     type NotificationResponse,
-    type NotificationScheduleAnimeData,
-    type NotificationThirdpartyLoginData,
     NotificationTypeEnum,
-    type NotificationVoteData,
-} from '@hikka/client';
-import { getTitle } from '@hikka/react/utils';
+} from '@hikka/api';
 
 import FeMention from '@/components/icons/fe/FeMention';
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
@@ -28,6 +19,95 @@ import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/Mate
 import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
 import MaterialSymbolsLockOpenRightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRightOutlineRounded';
 import MaterialSymbolsPersonAddRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddRounded';
+import { getTitle } from '@/utils/title/get-title';
+
+// @hikka/api types `NotificationResponse.data` as a loose `{ [key]: unknown }`.
+// `NotificationOf<T>` re-attaches a concrete per-type `data` shape so the
+// helpers below can keep their narrow signatures; the dispatcher narrows
+// `notification.data` by `notification_type` before handing off. The data
+// shapes match the API notification data payloads.
+type NotificationOf<TData> = Omit<NotificationResponse, 'data'> & {
+    data: TData;
+};
+
+interface NotificationFollowData {
+    username: string;
+    avatar: string;
+}
+
+interface NotificationThirdpartyLoginData {
+    scope: string[];
+    client: {
+        name: string;
+        reference: string;
+        description: string;
+    };
+}
+
+interface NotificationCommentData {
+    slug: string;
+    comment_text: string;
+    content_type: ContentTypeEnum;
+    comment_depth: number;
+    comment_reference: string;
+    base_comment_reference: string;
+    username: string;
+    avatar: string;
+}
+
+interface NotificationVoteData {
+    slug: string;
+    user_score: number;
+    old_score: number;
+    new_score: number;
+    username: string;
+    avatar: string;
+}
+
+interface NotificationCommentVoteData extends NotificationVoteData {
+    content_type: ContentTypeEnum;
+    comment_reference: string;
+    comment_depth: number;
+    comment_text: string;
+    base_comment_reference: string;
+}
+
+interface NotificationEditData {
+    description: string;
+    edit_id: number;
+}
+
+interface NotificationHikkaData {
+    description: string;
+    title: string;
+    link: string;
+}
+
+interface NotificationScheduleAnimeData {
+    slug: string;
+    after: {
+        status: ContentStatusEnum;
+        episodes_released: number;
+    };
+    before: {
+        status: ContentStatusEnum;
+        episodes_released: number;
+    };
+    image: string;
+    title_en: string;
+    title_ja: string;
+    title_ua: string;
+}
+
+type NotificationData =
+    | NotificationCommentVoteData
+    | NotificationCommentData
+    | NotificationEditData
+    | NotificationHikkaData
+    | NotificationScheduleAnimeData
+    | NotificationFollowData
+    | NotificationVoteData
+    | NotificationThirdpartyLoginData;
 
 const NOTIFICATION_TITLES: Record<NotificationTypeEnum, string> = {
     [NotificationTypeEnum.EDIT_ACCEPTED]: 'Правка прийнята',
@@ -103,7 +183,7 @@ const getCommentLink = (
 // username/avatar — this happens for downvotes, where the API hides the
 // downvoter's identity.
 const resolveActor = (
-    notification: NotificationResponse<NotificationData>,
+    notification: NotificationOf<NotificationData>,
 ): Hikka.NotificationActor | undefined => {
     const data = notification.data;
     const dataUsername =
@@ -128,16 +208,22 @@ const getVoteIcon = (score: number): ReactNode =>
     );
 
 const getBaseNotification = (
-    notification: NotificationResponse<NotificationData>,
-): Omit<Hikka.Notification, 'description' | 'href'> => ({
-    reference: notification.reference,
-    type: notification.notification_type,
-    created: notification.created,
-    seen: notification.seen,
-    title: NOTIFICATION_TITLES[notification.notification_type],
-    typeIcon: NOTIFICATION_ICONS[notification.notification_type],
-    accent: NOTIFICATION_ACCENTS[notification.notification_type],
-});
+    notification: NotificationOf<NotificationData>,
+): Omit<Hikka.Notification, 'description' | 'href'> => {
+    // @hikka/api types `notification_type` as a loose `string`; narrow to the
+    // enum so the keyed lookup tables below index correctly.
+    const type = notification.notification_type as NotificationTypeEnum;
+
+    return {
+        reference: notification.reference,
+        type,
+        created: notification.created,
+        seen: notification.seen,
+        title: NOTIFICATION_TITLES[type],
+        typeIcon: NOTIFICATION_ICONS[type],
+        accent: NOTIFICATION_ACCENTS[type],
+    };
+};
 
 interface ActorCopy {
     withActor: (username: string) => string;
@@ -145,7 +231,7 @@ interface ActorCopy {
 }
 
 const createCommentNotification = (
-    notification: NotificationResponse<NotificationCommentData>,
+    notification: NotificationOf<NotificationCommentData>,
     copy: ActorCopy,
 ): Hikka.Notification => {
     const { slug, content_type, base_comment_reference, comment_text } =
@@ -164,7 +250,7 @@ const createCommentNotification = (
 };
 
 const createVoteNotification = (
-    notification: NotificationResponse<NotificationVoteData>,
+    notification: NotificationOf<NotificationVoteData>,
     copy: ActorCopy,
     href: string,
 ): Hikka.Notification => {
@@ -215,9 +301,9 @@ const FOLLOW_COPY: ActorCopy = {
 };
 
 type EditActionType =
-    | NotificationTypeEnum.EDIT_ACCEPTED
-    | NotificationTypeEnum.EDIT_DENIED
-    | NotificationTypeEnum.EDIT_UPDATED;
+    | typeof NotificationTypeEnum.EDIT_ACCEPTED
+    | typeof NotificationTypeEnum.EDIT_DENIED
+    | typeof NotificationTypeEnum.EDIT_UPDATED;
 
 const EDIT_ACTION_COPY: Record<EditActionType, ActorCopy> = {
     [NotificationTypeEnum.EDIT_ACCEPTED]: {
@@ -235,7 +321,7 @@ const EDIT_ACTION_COPY: Record<EditActionType, ActorCopy> = {
 };
 
 const createCommentVoteNotification = (
-    notification: NotificationResponse<NotificationCommentVoteData>,
+    notification: NotificationOf<NotificationCommentVoteData>,
 ): Hikka.Notification => {
     const { slug, content_type, base_comment_reference, comment_text } =
         notification.data;
@@ -250,7 +336,7 @@ const createCommentVoteNotification = (
 };
 
 const createEditActionNotification = (
-    notification: NotificationResponse<NotificationEditData>,
+    notification: NotificationOf<NotificationEditData>,
     type: EditActionType,
 ): Hikka.Notification => {
     const { edit_id, description } = notification.data;
@@ -269,7 +355,7 @@ const createEditActionNotification = (
 };
 
 const createHikkaUpdateNotification = (
-    notification: NotificationResponse<NotificationHikkaData>,
+    notification: NotificationOf<NotificationHikkaData>,
 ): Hikka.Notification => {
     const { title, description, link } = notification.data;
 
@@ -282,15 +368,13 @@ const createHikkaUpdateNotification = (
 };
 
 const createScheduleAnimeNotification = (
-    notification: NotificationResponse<NotificationScheduleAnimeData>,
+    notification: NotificationOf<NotificationScheduleAnimeData>,
 ): Hikka.Notification => {
     const { slug, image, after } = notification.data;
 
     return {
         ...getBaseNotification(notification),
-        title: getTitle(
-            notification.data as unknown as Record<string, unknown>,
-        ),
+        title: getTitle(notification.data),
         description: `Вийшов **${after.episodes_released}** епізод аніме`,
         href: `/anime/${slug}`,
         contentImage: image || undefined,
@@ -298,7 +382,7 @@ const createScheduleAnimeNotification = (
 };
 
 const createFollowNotification = (
-    notification: NotificationResponse<NotificationFollowData>,
+    notification: NotificationOf<NotificationFollowData>,
 ): Hikka.Notification => {
     const actor = resolveActor(notification);
 
@@ -313,7 +397,7 @@ const createFollowNotification = (
 };
 
 const createThirdpartyLoginNotification = (
-    notification: NotificationResponse<NotificationThirdpartyLoginData>,
+    notification: NotificationOf<NotificationThirdpartyLoginData>,
 ): Hikka.Notification => {
     const { client } = notification.data;
 
@@ -325,20 +409,24 @@ const createThirdpartyLoginNotification = (
 };
 
 export const convertNotification = (
-    notification: NotificationResponse<NotificationData>,
+    response: NotificationResponse,
 ): Hikka.Notification | null => {
+    // The generated `data` is a broad untyped shape; refine it once to the
+    // discriminated union so each branch can narrow by notification_type.
+    const notification =
+        response as unknown as NotificationOf<NotificationData>;
     const type = notification.notification_type;
 
     switch (type) {
         case NotificationTypeEnum.COMMENT_REPLY:
             return createCommentNotification(
-                notification as NotificationResponse<NotificationCommentData>,
+                notification as NotificationOf<NotificationCommentData>,
                 COMMENT_REPLY_COPY,
             );
 
         case NotificationTypeEnum.COMMENT_TAG:
             return createCommentNotification(
-                notification as NotificationResponse<NotificationCommentData>,
+                notification as NotificationOf<NotificationCommentData>,
                 COMMENT_TAG_COPY,
             );
 
@@ -346,25 +434,25 @@ export const convertNotification = (
         case NotificationTypeEnum.COLLECTION_COMMENT:
         case NotificationTypeEnum.ARTICLE_COMMENT:
             return createCommentNotification(
-                notification as NotificationResponse<NotificationCommentData>,
+                notification as NotificationOf<NotificationCommentData>,
                 COMMENT_GENERIC_COPY,
             );
 
         case NotificationTypeEnum.ARTICLE_VOTE:
             return createVoteNotification(
-                notification as NotificationResponse<NotificationVoteData>,
+                notification as NotificationOf<NotificationVoteData>,
                 ARTICLE_VOTE_COPY,
                 `/articles/${(notification.data as NotificationVoteData).slug}`,
             );
 
         case NotificationTypeEnum.COMMENT_VOTE:
             return createCommentVoteNotification(
-                notification as NotificationResponse<NotificationCommentVoteData>,
+                notification as NotificationOf<NotificationCommentVoteData>,
             );
 
         case NotificationTypeEnum.COLLECTION_VOTE:
             return createVoteNotification(
-                notification as NotificationResponse<NotificationVoteData>,
+                notification as NotificationOf<NotificationVoteData>,
                 COLLECTION_VOTE_COPY,
                 `/collections/${(notification.data as NotificationVoteData).slug}`,
             );
@@ -373,28 +461,28 @@ export const convertNotification = (
         case NotificationTypeEnum.EDIT_DENIED:
         case NotificationTypeEnum.EDIT_UPDATED:
             return createEditActionNotification(
-                notification as NotificationResponse<NotificationEditData>,
+                notification as NotificationOf<NotificationEditData>,
                 type,
             );
 
         case NotificationTypeEnum.HIKKA_UPDATE:
             return createHikkaUpdateNotification(
-                notification as NotificationResponse<NotificationHikkaData>,
+                notification as NotificationOf<NotificationHikkaData>,
             );
 
         case NotificationTypeEnum.SCHEDULE_ANIME:
             return createScheduleAnimeNotification(
-                notification as NotificationResponse<NotificationScheduleAnimeData>,
+                notification as NotificationOf<NotificationScheduleAnimeData>,
             );
 
         case NotificationTypeEnum.FOLLOW:
             return createFollowNotification(
-                notification as NotificationResponse<NotificationFollowData>,
+                notification as NotificationOf<NotificationFollowData>,
             );
 
         case NotificationTypeEnum.THIRDPARTY_LOGIN:
             return createThirdpartyLoginNotification(
-                notification as NotificationResponse<NotificationThirdpartyLoginData>,
+                notification as NotificationOf<NotificationThirdpartyLoginData>,
             );
 
         default:

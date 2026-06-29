@@ -1,7 +1,10 @@
 import type { FC } from 'react';
 
-import { useArticleStats } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
 
+import { getArticleTopOptions } from '@hikka/api';
+
+import FollowButton from '@/components/action-buttons/follow-button';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -12,12 +15,11 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import FollowButton from '@/features/common/follow-button';
 
 type Props = {};
 
 const PopularAuthors: FC<Props> = () => {
-    const { data: articleTop } = useArticleStats();
+    const { data: articleTop } = useQuery(getArticleTopOptions());
 
     return (
         <Card className="bg-secondary/20 backdrop-blur-xl">

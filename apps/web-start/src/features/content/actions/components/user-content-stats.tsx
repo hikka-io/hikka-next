@@ -1,6 +1,6 @@
 import { Hash, Star } from 'lucide-react';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
@@ -17,10 +17,7 @@ import { useUserlistManager } from '../../hooks/use-list-manager';
 const UserContentStats = ({
     content_type,
 }: {
-    content_type:
-        | ContentTypeEnum.MANGA
-        | ContentTypeEnum.NOVEL
-        | ContentTypeEnum.ANIME;
+    content_type: MainContentTypeEnum;
 }) => {
     const { preferences, setCollapsible } = useSettingsStore();
     const params = useParams();

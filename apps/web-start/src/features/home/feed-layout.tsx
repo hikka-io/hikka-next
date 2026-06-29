@@ -1,0 +1,267 @@
+import { type FC, useMemo, useRef, useState } from 'react';
+
+import { Settings2 } from 'lucide-react';
+
+import type { UiFeedWidget } from '@hikka/api';
+
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useSession } from '@/features/auth/hooks/use-session';
+import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
+import { cn } from '@/utils/cn';
+
+import { type SupportedWidgetSlug, WIDGET_REGISTRY } from './constants';
+import { useFeedLayout } from './hooks/use-feed-layout';
+import { useOpenLayoutSettings } from './hooks/use-open-layout-settings';
+
+const WidgetRenderer: FC<{ widget: UiFeedWidget; isLast?: boolean }> = ({
+    widget,
+    isLast,
+}) => {
+    const meta = WIDGET_REGISTRY[widget.slug as SupportedWidgetSlug];
+    if (!meta) return null;
+    const WidgetComponent = meta.component;
+    return <WidgetComponent side={widget.side} isLast={isLast} />;
+};
+
+const WidgetColumn: FC<{ widgets: UiFeedWidget[]; className?: string }> = ({
+    widgets,
+    className,
+}) => (
+    <div className={cn('flex flex-col gap-6', className)}>
+        {widgets.map((w, i) => (
+            <WidgetRenderer
+                key={w.slug}
+                widget={w}
+                isLast={i === widgets.length - 1}
+            />
+        ))}
+    </div>
+);
+
+const SidebarWidgetTabs: FC<{
+    widgets: UiFeedWidget[];
+    settingsButton: React.ReactNode;
+}> = ({ widgets, settingsButton }) => {
+    const [activeTab, setActiveTab] = useState<string | undefined>();
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const { gradientClassName } = useScrollGradientMask(
+        scrollRef,
+        'horizontal',
+    );
+
+    const currentTab =
+        activeTab && widgets.some((w) => w.slug === activeTab)
+            ? activeTab
+            : widgets[0]?.slug;
+
+    if (widgets.length === 0) {
+        return settingsButton;
+    }
+
+    return (
+        <Tabs value={currentTab} onValueChange={setActiveTab}>
+            <div className="flex w-full gap-2 overflow-hidden">
+                <TabsList
+                    ref={scrollRef}
+                    className={cn(
+                        'flex-1 justify-start overflow-hidden overflow-x-scroll',
+                        gradientClassName,
+                    )}
+                >
+                    {widgets.map((w) => {
+                        const meta =
+                            WIDGET_REGISTRY[w.slug as SupportedWidgetSlug];
+                        return (
+                            <TabsTrigger key={w.slug} value={w.slug}>
+                                {meta?.title}
+                            </TabsTrigger>
+                        );
+                    })}
+                </TabsList>
+                {settingsButton}
+            </div>
+            {widgets.map((w) => (
+                <TabsContent key={w.slug} value={w.slug}>
+                    <WidgetRenderer widget={w} isLast />
+                </TabsContent>
+            ))}
+        </Tabs>
+    );
+};
+
+const FeedLayout: FC<{ className?: string }> = ({ className }) => {
+    const { user } = useSession();
+    const { left, center, right } = useFeedLayout();
+    const { openSettings, settingsModal } = useOpenLayoutSettings();
+
+    const hasLeft = left.length > 0;
+    const hasCenter = center.length > 0;
+    const hasRight = right.length > 0;
+    const filledSides = [hasLeft, hasCenter, hasRight].filter(Boolean).length;
+
+    const layout = !user ? 3 : filledSides;
+    const isLeftRightOnly = hasLeft && hasRight && !hasCenter;
+    const isCenterRight = hasCenter && hasRight && !hasLeft;
+
+    const sidebarWidgets = useMemo(() => [...left, ...right], [left, right]);
+
+    const gridClasses = cn(
+        'mx-auto grid w-full grid-cols-1 gap-6',
+        layout === 3 &&
+            'lg:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]',
+        layout === 2 &&
+            !isLeftRightOnly &&
+            !isCenterRight &&
+            'max-w-6xl lg:grid-cols-[28rem_1fr]',
+        layout === 2 &&
+            !isLeftRightOnly &&
+            isCenterRight &&
+            'max-w-6xl lg:grid-cols-[1fr_28rem]',
+        layout === 2 && isLeftRightOnly && 'max-w-6xl lg:grid-cols-2',
+        layout <= 1 && 'max-w-2xl',
+    );
+
+    const settingsIconButton = user ? (
+        <Button
+            variant="secondary"
+            className="shrink-0 text-muted-foreground"
+            size="icon-md"
+            onClick={openSettings}
+        >
+            <Settings2 />
+        </Button>
+    ) : null;
+
+    const settingsFullButton = user ? (
+        <Button
+            variant="outline"
+            className="w-full text-muted-foreground backdrop-blur"
+            size="md"
+            onClick={openSettings}
+        >
+            <Settings2 />
+            Налаштувати макет
+        </Button>
+    ) : null;
+
+    return (
+        <div className={cn(gridClasses, className)}>
+            {settingsModal}
+
+            {layout >= 2 && !isLeftRightOnly && sidebarWidgets.length > 0 && (
+                <aside
+                    className={cn(
+                        'h-fit min-w-0 lg:hidden',
+                        layout === 3 && 'order-1',
+                    )}
+                >
+                    <SidebarWidgetTabs
+                        widgets={sidebarWidgets}
+                        settingsButton={settingsIconButton}
+                    />
+                </aside>
+            )}
+
+            {isLeftRightOnly && (
+                <div className="flex flex-col gap-6 lg:hidden">
+                    {settingsFullButton}
+                    <WidgetColumn widgets={left} />
+                    <WidgetColumn widgets={right} />
+                </div>
+            )}
+
+            {layout === 3 && (
+                <aside
+                    id="feed-left"
+                    className="order-1 hidden h-fit min-w-0 flex-col gap-4 lg:order-2 lg:flex xl:hidden"
+                >
+                    {settingsFullButton}
+                    {sidebarWidgets.length > 0 && (
+                        <WidgetColumn widgets={sidebarWidgets} />
+                    )}
+                </aside>
+            )}
+
+            {layout === 3 && (
+                <aside
+                    id="feed-left"
+                    className="hidden h-fit min-w-0 flex-col gap-4 xl:flex"
+                >
+                    {settingsFullButton}
+                    {hasLeft && <WidgetColumn widgets={left} />}
+                </aside>
+            )}
+
+            {layout === 3 && (
+                <aside
+                    id="feed-right"
+                    className="hidden h-fit min-w-0 xl:order-2 xl:block"
+                >
+                    {hasRight && <WidgetColumn widgets={right} />}
+                </aside>
+            )}
+
+            {layout === 2 && !isLeftRightOnly && sidebarWidgets.length > 0 && (
+                <aside
+                    id="feed-left"
+                    className={cn(
+                        'hidden h-fit min-w-0 flex-col gap-4 lg:flex',
+                        isCenterRight && 'lg:order-2',
+                    )}
+                >
+                    {settingsFullButton}
+                    <WidgetColumn widgets={sidebarWidgets} />
+                </aside>
+            )}
+
+            {layout === 2 && isLeftRightOnly && (
+                <>
+                    <aside
+                        id="feed-left"
+                        className="hidden h-fit min-w-0 flex-col gap-4 lg:flex"
+                    >
+                        {settingsFullButton}
+                        <WidgetColumn widgets={left} />
+                    </aside>
+                    <aside
+                        id="feed-right"
+                        className="hidden h-fit min-w-0 lg:block"
+                    >
+                        <WidgetColumn widgets={right} />
+                    </aside>
+                </>
+            )}
+
+            {layout <= 1 && (
+                <div className="flex flex-col gap-4">
+                    {settingsFullButton}
+                    {!hasCenter && (
+                        <WidgetColumn widgets={hasLeft ? left : right} />
+                    )}
+                </div>
+            )}
+
+            {hasCenter && (
+                <main
+                    className={cn(
+                        'flex min-w-0 flex-col gap-6',
+                        layout === 3 && 'order-2 lg:order-1',
+                        isCenterRight && 'lg:order-1',
+                    )}
+                    id="feed"
+                >
+                    {center.map((w, i) => (
+                        <WidgetRenderer
+                            key={w.slug}
+                            widget={w}
+                            isLast={i === center.length - 1}
+                        />
+                    ))}
+                </main>
+            )}
+        </div>
+    );
+};
+
+export default FeedLayout;

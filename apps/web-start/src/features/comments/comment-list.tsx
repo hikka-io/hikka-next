@@ -1,7 +1,12 @@
 import type { FC } from 'react';
 
-import type { CommentsContentType } from '@hikka/client';
-import { useCommentThread, useContentComments, useSession } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import {
+    type CommentContentTypeEnum as CommentsContentType,
+    getContentsListInfiniteOptions,
+    threadOptions,
+} from '@hikka/api';
 
 import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
 import LoadMoreButton from '@/components/load-more-button';
@@ -14,12 +19,15 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import NotFound from '@/components/ui/not-found';
-import CommentInput from '@/features/comments/comment-input';
-import Comments from '@/features/comments/comments';
-import { LoginButton } from '@/features/common';
+import { LoginButton } from '@/features/app-shell';
+import { useSession } from '@/features/auth/hooks/use-session';
 import CommentsProvider from '@/services/providers/comments-provider';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
+
+import CommentInput from './comment-input';
+import Comments from './comments';
 
 type Props = {
     slug: string;
@@ -44,18 +52,19 @@ const CommentList: FC<Props> = ({
         hasNextPage,
         isFetchingNextPage,
         ref,
-    } = useContentComments({
-        contentType: content_type,
-        slug,
-        paginationArgs: preview ? { size: 3 } : undefined,
-        options: {
-            enabled: !comment_reference,
-        },
-    });
+    } = useInfiniteList(
+        getContentsListInfiniteOptions({
+            path: { content_type, slug },
+            query: preview ? { size: 3 } : undefined,
+        }),
+        { enabled: !comment_reference },
+    );
 
-    const { data: thread } = useCommentThread({
-        commentReference: String(comment_reference),
-        options: { enabled: !!comment_reference },
+    const { data: thread } = useQuery({
+        ...threadOptions({
+            path: { comment_reference: String(comment_reference) },
+        }),
+        enabled: !!comment_reference,
     });
 
     const list = comment_reference ? (thread ? [thread] : []) : comments;

@@ -1,12 +1,16 @@
-import { type FC, useRef } from 'react';
+import type { FC } from 'react';
 
-import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { useEdit, useUpdateEdit } from '@hikka/react';
+import { getEditOptions, updateEditMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import {
+    invalidateEditDetail,
+    invalidateEdits,
+} from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
 import AutoButton from './components/auto-button';
@@ -25,10 +29,12 @@ type Props = {
 };
 
 const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
-    const { data: edit } = useEdit({ editId: Number(editId) });
-    const captchaRef = useRef<TurnstileInstance>(null);
+    const { data: edit } = useQuery(
+        getEditOptions({ path: { edit_id: Number(editId) } }),
+    );
 
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const params = getEditParams(edit!.content_type, Object.keys(edit!.after))!;
 
@@ -41,9 +47,12 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
         router.push(`/edit/${editId}`);
     };
 
-    const mutationUpdateEdit = useUpdateEdit({
-        options: {
-            onSuccess: onDismiss,
+    const mutationUpdateEdit = useMutation({
+        ...updateEditMutation(),
+        onSuccess: () => {
+            invalidateEditDetail(queryClient, Number(editId));
+            invalidateEdits(queryClient);
+            onDismiss();
         },
     });
 
@@ -52,7 +61,7 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
             description: edit!.description || '',
             ...edit!.after,
             synonyms:
-                edit!.after?.synonyms?.map((v: string) => ({
+                (edit!.after?.synonyms as string[] | undefined)?.map((v) => ({
                     value: v,
                 })) || [],
             auto: false,
@@ -62,8 +71,8 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
         },
         onSubmit: async ({ value }) => {
             mutationUpdateEdit.mutate({
-                editId: edit!.edit_id,
-                edit: {
+                path: { edit_id: edit!.edit_id },
+                body: {
                     after: {
                         ...getFilteredEditParams(paramSlugs, value),
                     },
@@ -97,28 +106,21 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
 
                     <EditDescription mode={mode === 'update' ? 'edit' : mode} />
                 </div>
-                {mode === 'edit' ||
-                    (mode === 'update' && (
-                        <div className="flex w-full flex-col gap-4">
-                            <Turnstile
-                                ref={captchaRef}
-                                siteKey="0x4AAAAAAANXs8kaCqjo_FLF"
-                            />
-                            <div className="flex items-center gap-2">
-                                <Button
-                                    disabled={mutationUpdateEdit.isPending}
-                                    type="submit"
-                                    className="w-fit"
-                                >
-                                    {mutationUpdateEdit.isPending && (
-                                        <Spinner />
-                                    )}
-                                    Оновити
-                                </Button>
-                                <AutoButton />
-                            </div>
+                {(mode === 'edit' || mode === 'update') && (
+                    <div className="flex w-full flex-col gap-4">
+                        <div className="flex items-center gap-2">
+                            <Button
+                                disabled={mutationUpdateEdit.isPending}
+                                type="submit"
+                                className="w-fit"
+                            >
+                                {mutationUpdateEdit.isPending && <Spinner />}
+                                Оновити
+                            </Button>
+                            <AutoButton />
                         </div>
-                    ))}
+                    </div>
+                )}
             </form>
         </form.AppForm>
     );

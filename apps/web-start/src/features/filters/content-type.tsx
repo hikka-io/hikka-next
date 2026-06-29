@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { Play } from 'lucide-react';
 
-import type { ContentTypeEnum } from '@hikka/client';
+import type { ContentTypeEnum } from '@hikka/api';
 
 import { Label } from '@/components/ui/label';
 import {

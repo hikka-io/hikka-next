@@ -2,12 +2,12 @@ import type { FC } from 'react';
 
 import { useRouter } from '@tanstack/react-router';
 
-import { ContentTypeEnum } from '@hikka/client';
+import { ContentTypeEnum } from '@hikka/api';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
 import ContentType from '@/features/filters/content-type';
-import EditStatus from '@/features/filters/edit-status';
+import EditStatusFilter from '@/features/filters/edit-status';
 import Sort from '@/features/filters/sort';
 import User from '@/features/filters/user';
 import { cn } from '@/utils/cn';
@@ -32,7 +32,7 @@ const EditFilters: FC<Props> = ({ className }) => {
         >
             <div className="flex flex-1 flex-col gap-8 overflow-y-auto p-4 py-8">
                 <Sort sort_type="edit" />
-                <EditStatus />
+                <EditStatusFilter />
                 <ContentType
                     contentTypes={[
                         ContentTypeEnum.ANIME,

@@ -3,8 +3,10 @@ import { type FC, useMemo, useState } from 'react';
 import { formatDistance } from 'date-fns';
 import { uk } from 'date-fns/locale/uk';
 
-import type { CommentResponse, CommentsContentType } from '@hikka/client';
-import { useSession } from '@hikka/react';
+import type {
+    CommentResponse,
+    CommentContentTypeEnum as CommentsContentType,
+} from '@hikka/api';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
@@ -25,6 +27,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link } from '@/utils/navigation';
@@ -56,19 +59,22 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
         setExpand(true);
     };
 
-    const allReplies = useMemo(() => {
-        if (pendingReplies.length === 0) return comment.replies;
+    const allReplies = useMemo<CommentResponse[]>(() => {
+        const serverRepliesAll = comment.replies ?? [];
+        if (pendingReplies.length === 0) return serverRepliesAll;
 
-        const prepend = pendingReplies.filter(
-            (r) => r.comment.parent === comment.reference && !r.insertAfter,
+        const relevant = pendingReplies.filter(
+            (r) => r.comment.parent === comment.reference,
         );
-        const insertAfters = pendingReplies.filter(
-            (r) => r.comment.parent === comment.reference && r.insertAfter,
-        );
-        const pendingRefs = new Set(
-            [...prepend, ...insertAfters].map((r) => r.comment.reference),
-        );
-        const serverReplies = comment.replies.filter(
+        const prepend = relevant
+            .filter((r) => !r.insertAfter)
+            .map((r) => r.comment);
+        const insertAfters = relevant.filter((r) => r.insertAfter);
+        const pendingRefs = new Set([
+            ...prepend.map((c) => c.reference),
+            ...insertAfters.map((r) => r.comment.reference),
+        ]);
+        const serverReplies = serverRepliesAll.filter(
             (r) => !pendingRefs.has(r.reference),
         );
 
@@ -80,7 +86,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
             insertAfterMap.set(key, list);
         }
 
-        const merged = [...prepend.map((r) => r.comment), ...serverReplies];
+        const merged = [...prepend, ...serverReplies];
         if (insertAfterMap.size === 0) return merged;
 
         return merged.flatMap((r) => {
@@ -95,7 +101,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
         );
         const repliesCount = hasPendingForThis
             ? allReplies.length
-            : comment.total_replies;
+            : (comment.total_replies ?? 0);
 
         return (
             repliesCount +

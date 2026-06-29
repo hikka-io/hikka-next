@@ -1,11 +1,15 @@
 import type { FC } from 'react';
 
-import { ContentTypeEnum, type FavouriteAnimeResponse } from '@hikka/client';
-import { useUserFavourites } from '@hikka/react';
+import {
+    ContentTypeEnum,
+    type FavouriteAnimeResponse,
+    favouriteListInfiniteOptions,
+} from '@hikka/api';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import LoadMoreButton from '@/components/load-more-button';
 import NotFound from '@/components/ui/not-found';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
@@ -16,16 +20,22 @@ type Props = {
 const Anime: FC<Props> = ({ extended }) => {
     const params = useParams();
     const {
-        list,
+        list: rawList,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         isPending,
         ref,
-    } = useUserFavourites<FavouriteAnimeResponse>({
-        contentType: ContentTypeEnum.ANIME,
-        username: String(params.username),
-    });
+    } = useInfiniteList(
+        favouriteListInfiniteOptions({
+            path: {
+                content_type: ContentTypeEnum.ANIME,
+                username: String(params.username),
+            },
+        }),
+    );
+
+    const list = rawList as FavouriteAnimeResponse[] | undefined;
 
     if (isPending) {
         return null;

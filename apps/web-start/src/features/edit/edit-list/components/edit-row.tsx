@@ -2,13 +2,13 @@ import type { FC, MouseEvent } from 'react';
 
 import { format } from 'date-fns';
 
-import type { EditResponse } from '@hikka/client';
-import { useTitle } from '@hikka/react';
+import type { EditSimpleResponse } from '@hikka/api';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { TableCell, TableRow } from '@/components/ui/table';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
@@ -16,14 +16,12 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useRouter } from '@/utils/navigation';
 
 type Props = {
-    edit: EditResponse;
+    edit: EditSimpleResponse;
 };
 
 const EditRow: FC<Props> = ({ edit }) => {
     const router = useRouter();
-    const contentTitle = useTitle(
-        edit.content as unknown as Record<string, unknown>,
-    );
+    const contentTitle = useTitle(edit.content);
 
     const variant =
         edit.status === 'pending'

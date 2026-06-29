@@ -1,8 +1,11 @@
 import type { FC } from 'react';
 
-import { useArticleBySlug, useTitle } from '@hikka/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getArticleOptions } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { useTitle } from '@/features/auth/hooks/use-title';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useParams } from '@/utils/navigation';
 
@@ -11,19 +14,17 @@ type Props = {};
 const ArticleTitle: FC<Props> = () => {
     const params = useParams();
 
-    const { data: article } = useArticleBySlug({
-        slug: String(params.slug),
-    });
-
-    const contentTitle = useTitle(
-        article?.content as unknown as Record<string, unknown> | undefined,
+    const { data: article } = useQuery(
+        getArticleOptions({ path: { slug: String(params.slug) } }),
     );
+
+    const contentTitle = useTitle(article?.content);
 
     return (
         <div className="flex flex-col gap-1">
             {article?.content && (
                 <Link
-                    to={`${CONTENT_TYPE_LINKS[article.content.data_type]}/${article.content.slug}`}
+                    to={`${CONTENT_TYPE_LINKS[article.content.data_type as keyof typeof CONTENT_TYPE_LINKS]}/${article.content.slug}`}
                     className="w-fit text-muted-foreground text-sm hover:underline"
                 >
                     {contentTitle}

@@ -1,36 +1,42 @@
 import { useEffect, useState } from 'react';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { ContentTypeEnum, type ImportWatchArgs } from '@hikka/client';
-import { useImportWatchList } from '@hikka/react';
+import {
+    ContentTypeEnum,
+    type ImportWatchArgs,
+    importWatchMutation,
+} from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { invalidateWatchState } from '@/utils/api/invalidate-content-state';
 
 import General from '../components/import-list';
 import Anilist from './anilist';
 
-const Component = () => {
+const WatchlistSettings = () => {
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
     const [rewrite, setRewrite] = useState(true);
     const [watchList, setWatchList] = useState<ImportWatchArgs[]>([]);
     const [importing, setImporting] = useState<boolean>(false);
+    const queryClient = useQueryClient();
 
-    const mutationImportWatchList = useImportWatchList({
-        options: {
-            onSuccess: () => {
-                toast.success(
-                    <span>
-                        Ви успішно імпортували{' '}
-                        <span className="font-bold">{watchList.length}</span>{' '}
-                        аніме до Вашого списку.
-                    </span>,
-                );
-            },
+    const mutationImportWatchList = useMutation({
+        ...importWatchMutation(),
+        onSuccess: () => {
+            invalidateWatchState(queryClient);
+            toast.success(
+                <span>
+                    Ви успішно імпортували{' '}
+                    <span className="font-bold">{watchList.length}</span> аніме
+                    до Вашого списку.
+                </span>,
+            );
         },
     });
 
@@ -39,8 +45,10 @@ const Component = () => {
 
         if (watchList && watchList.length > 0) {
             mutationImportWatchList.mutate({
-                overwrite: rewrite,
-                anime: watchList,
+                body: {
+                    overwrite: rewrite,
+                    anime: watchList,
+                },
             });
         }
 
@@ -103,4 +111,4 @@ const Component = () => {
     );
 };
 
-export default Component;
+export default WatchlistSettings;

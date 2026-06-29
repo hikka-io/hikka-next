@@ -2,9 +2,13 @@ import { type FC, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
-import { ContentTypeEnum } from '@hikka/client';
-import { useHikkaClient, useTodoEditList } from '@hikka/react';
-import { getTitle } from '@hikka/react/utils';
+import {
+    type AnimeResponseWithWatch,
+    type ContentToDoEnum,
+    ContentTypeEnum,
+    EditContentToDoEnum,
+    getContentEditTodoInfiniteOptions,
+} from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import SkeletonCard from '@/components/content-card/content-card-skeleton';
@@ -20,6 +24,9 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Stack from '@/components/ui/stack';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { getTitle } from '@/utils/title/get-title';
 
 type Props = {
     extended?: boolean;
@@ -34,7 +41,7 @@ const OPTIONS = [
 ];
 
 const ContentList: FC<Props> = () => {
-    const { defaultOptions } = useHikkaClient();
+    const { preferences } = useSessionUI();
     const [param, setParam] = useState('title_ua');
     const option = OPTIONS.find((o) => o.value === param);
 
@@ -46,15 +53,17 @@ const ContentList: FC<Props> = () => {
         isFetchingNextPage,
         isLoading,
         ref,
-    } = useTodoEditList({
-        args: {
-            todo_type: param as 'title_ua' | 'synopsis_ua',
-            content_type: ContentTypeEnum.ANIME,
-        },
-        paginationArgs: {
-            size: 21,
-        },
-    });
+    } = useInfiniteList(
+        getContentEditTodoInfiniteOptions({
+            path: {
+                content_type: EditContentToDoEnum.ANIME,
+                todo_type: param as ContentToDoEnum,
+            },
+            query: {
+                size: 21,
+            },
+        }),
+    );
 
     if (isLoading && !isFetchingNextPage) {
         return (
@@ -101,7 +110,7 @@ const ContentList: FC<Props> = () => {
                 </Select>
             </div>
             <Stack extended size={5} extendedSize={7}>
-                {list.map((anime) => (
+                {(list as AnimeResponseWithWatch[]).map((anime) => (
                     <ContentCard
                         withContextMenu
                         content_type={ContentTypeEnum.ANIME}
@@ -113,9 +122,9 @@ const ContentList: FC<Props> = () => {
                         href={`/anime/${anime.slug}`}
                         image={anime.image}
                         title={getTitle(
-                            anime as unknown as Record<string, unknown>,
-                            defaultOptions?.title,
-                            defaultOptions?.name,
+                            anime,
+                            preferences.title_language,
+                            preferences.name_language,
                         )}
                     />
                 ))}
