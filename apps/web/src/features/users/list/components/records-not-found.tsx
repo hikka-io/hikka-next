@@ -30,6 +30,7 @@ const RecordsNotFound = ({ status, content_type }: Props) => {
 
     return (
         <EmptyState
+            bordered
             icon={<MaterialSymbolsBookmarkOutline />}
             title={
                 statusTitle ? (
