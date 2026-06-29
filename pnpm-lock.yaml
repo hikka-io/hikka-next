@@ -61,7 +61,7 @@ importers:
         specifier: 6.0.3
         version: 6.0.3
 
-  apps/web-start:
+  apps/web:
     dependencies:
       '@antfu/utils':
         specifier: ^0.7.10
@@ -10463,7 +10463,7 @@ snapshots:
       mdast-util-to-string: 4.0.0
       micromark-util-classify-character: 2.0.1
       micromark-util-decode-string: 2.0.1
-      unist-util-visit: 5.0.0
+      unist-util-visit: 5.1.0
       zwitch: 2.0.4
 
   mdast-util-to-string@4.0.0:
@@ -11795,7 +11795,7 @@ snapshots:
   unist-util-remove-position@5.0.0:
     dependencies:
       '@types/unist': 3.0.3
-      unist-util-visit: 5.0.0
+      unist-util-visit: 5.1.0
 
   unist-util-stringify-position@4.0.0:
     dependencies:

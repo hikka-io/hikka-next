@@ -2,7 +2,7 @@
 // Generates static sakura SVG assets from the same geometry the original
 // canvas implementation used. Run: `node scripts/generate-sakura-svg.mjs`
 //
-// Output: apps/web-start/public/sakura/
+// Output: apps/web/public/sakura/
 //   petal-{palette}-{curl}.svg   (12 files, single nominal size, scaled in CSS)
 //   branch-desktop-{n}.svg       (5 files, seeded variants)
 //   branch-mobile-{n}.svg        (5 files, seeded variants)
@@ -16,7 +16,7 @@ const OUT = path.resolve(
     __dirname,
     '..',
     'apps',
-    'web-start',
+    'web',
     'public',
     'sakura',
 );
