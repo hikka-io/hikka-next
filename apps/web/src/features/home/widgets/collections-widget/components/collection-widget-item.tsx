@@ -20,7 +20,7 @@ type Props = {
     hideAuthor?: boolean;
 };
 
-const CollectionWidgetItem: FC<Props> = ({ collection, hideAuthor }) => {
+const CollectionWidgetItem: FC<Props> = ({ collection }) => {
     const href = `/collections/${collection.reference}`;
     const cover = collection.collection[0]?.content.image;
 
@@ -40,26 +40,25 @@ const CollectionWidgetItem: FC<Props> = ({ collection, hideAuthor }) => {
                 </div>
             </ContentCard>
             <HorizontalCardContainer>
-                {!hideAuthor && (
-                    <Link
-                        to={`/u/${collection.author.username}`}
-                        className="flex min-w-0 items-center gap-1.5 text-muted-foreground text-xs transition-colors duration-100 hover:text-foreground"
-                    >
-                        <Avatar className="size-[18px] shrink-0 rounded-sm">
-                            <AvatarImage
-                                className="size-[18px] rounded-sm"
-                                src={collection.author.avatar}
-                            />
-                            <AvatarFallback
-                                className="size-[18px] rounded-sm text-[10px]"
-                                title={collection.author.username?.[0]}
-                            />
-                        </Avatar>
-                        <span className="truncate">
-                            {collection.author.username}
-                        </span>
-                    </Link>
-                )}
+                <Link
+                    to={`/u/${collection.author.username}`}
+                    className="flex min-w-0 items-center gap-2 text-muted-foreground text-xs transition-colors duration-100 hover:text-foreground"
+                >
+                    <Avatar className="size-5 shrink-0 rounded-sm">
+                        <AvatarImage
+                            className="size-5 rounded-sm"
+                            src={collection.author.avatar}
+                        />
+                        <AvatarFallback
+                            className="size-5 rounded-sm text-[10px]"
+                            title={collection.author.username?.[0]}
+                        />
+                    </Avatar>
+                    <span className="truncate">
+                        {collection.author.username}
+                    </span>
+                </Link>
+
                 <Link
                     to={href}
                     title={collection.title}
@@ -71,7 +70,7 @@ const CollectionWidgetItem: FC<Props> = ({ collection, hideAuthor }) => {
                     {collection.title}
                 </Link>
                 <div className="flex flex-wrap items-center gap-2">
-                    <StatItemGroup size="sm">
+                    <StatItemGroup size="sm" className="flex-1">
                         <StatItem size="sm">
                             <MessageCircle />
                             <small>{collection.comments_count}</small>
