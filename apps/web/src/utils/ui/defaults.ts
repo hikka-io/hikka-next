@@ -91,9 +91,12 @@ export const DEFAULT_USER_UI: UserCustomizationResponse = {
             widgets: [
                 { side: 'left', slug: 'profile', order: 1 },
                 { side: 'left', slug: 'list', order: 2 },
+                { side: 'left', slug: 'collections', order: 3 },
+
                 { side: 'right', slug: 'tracker', order: 1 },
                 { side: 'right', slug: 'history', order: 2 },
-                { side: 'right', slug: 'collections', order: 3 },
+                { side: 'right', slug: 'articles', order: 3 },
+
                 { side: 'right', slug: 'schedule', order: 4 },
                 { side: 'center', slug: 'ongoings', order: 1 },
                 { side: 'center', slug: 'feed', order: 2 },
