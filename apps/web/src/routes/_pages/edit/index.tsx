@@ -75,7 +75,7 @@ function EditListPage() {
         <div className="flex flex-col gap-12 lg:gap-12">
             <EditTopStats />
             <div className="grid grid-cols-1 justify-center gap-8 lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
-                <div className="flex flex-col gap-12">
+                <div className="flex min-w-0 flex-col gap-12">
                     <Block>
                         <div className="flex items-center justify-between">
                             <Header>

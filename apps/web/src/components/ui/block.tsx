@@ -6,7 +6,10 @@ type Props = ComponentPropsWithoutRef<'section'>;
 
 const Block = ({ children, className, ...props }: Props) => {
     return (
-        <section className={cn('flex flex-col gap-6', className)} {...props}>
+        <section
+            className={cn('flex min-w-0 flex-col gap-6', className)}
+            {...props}
+        >
             {children}
         </section>
     );
