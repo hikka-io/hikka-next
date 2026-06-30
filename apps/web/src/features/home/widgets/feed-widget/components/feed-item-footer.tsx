@@ -26,7 +26,7 @@ const FeedItemFooter: FC<Props> = ({
     myScore,
 }) => {
     return (
-        <div className="flex items-center justify-between p-4">
+        <div className="flex items-center justify-between">
             <StatItemGroup>
                 {contentType && slug !== undefined && myScore !== undefined && (
                     <StatItem asChild>

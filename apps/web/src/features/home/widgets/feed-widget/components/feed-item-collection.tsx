@@ -25,7 +25,7 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
             : data.collection[data.collection.length - 1];
 
     return (
-        <div className="flex flex-col gap-4 p-4 py-0">
+        <div className="flex flex-col gap-4">
             <Header href={`/collections/${data.reference}`}>
                 <HeaderContainer>
                     <HeaderTitle variant="h4">{data.title}</HeaderTitle>

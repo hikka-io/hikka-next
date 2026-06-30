@@ -2,92 +2,72 @@ import type { FC } from 'react';
 
 import { formatDistance } from 'date-fns';
 
-import { ContentTypeEnum, type FollowUserResponse } from '@hikka/api';
+import type { ContentTypeEnum, FollowUserResponse } from '@hikka/api';
 
-import { FollowButton } from '@/components/action-buttons';
-import {
-    HorizontalCard,
-    HorizontalCardContainer,
-    HorizontalCardDescription,
-    HorizontalCardImage,
-    HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
-import { cn } from '@/utils/cn';
+import { Label } from '@/components/ui/label';
+import { Link } from '@/utils/navigation';
 
-const TYPE_BADGE_STYLES: Partial<Record<ContentTypeEnum, string>> = {
-    [ContentTypeEnum.HISTORY]: 'text-feed-history',
-    [ContentTypeEnum.ARTICLE]: 'text-feed-article',
-    [ContentTypeEnum.COLLECTION]: 'text-feed-collection',
-    [ContentTypeEnum.COMMENT]: 'text-feed-comment',
-};
+import FeedContentRef from './feed-content-ref';
+import FeedItemMenu from './feed-item-menu';
+import FeedTypeChip from './feed-type-chip';
 
-const TYPE_LABELS: Partial<Record<ContentTypeEnum, string>> = {
-    [ContentTypeEnum.HISTORY]: 'Активність',
-    [ContentTypeEnum.ARTICLE]: 'Стаття',
-    [ContentTypeEnum.COLLECTION]: 'Колекція',
-    [ContentTypeEnum.COMMENT]: 'Коментар',
+type Reference = {
+    contentType?: ContentTypeEnum;
+    slug?: string;
+    title?: string;
 };
 
 type Props = {
     author: FollowUserResponse;
-    dataType: ContentTypeEnum;
+    dataType: 'comment' | 'article' | 'collection';
     created: number;
-    extraInfo?: string;
-    className?: string;
-    showTypeLabel?: boolean;
+    recommended?: 'yes' | 'no' | 'maybe' | null;
+    reference?: Reference;
+    shareUrl: string;
 };
 
 const FeedItemHeader: FC<Props> = ({
     author,
     dataType,
     created,
-    extraInfo,
-    className,
-    showTypeLabel = true,
+    recommended,
+    reference,
+    shareUrl,
 }) => {
+    const hasReference = reference?.contentType && reference?.slug;
+
     return (
-        <HorizontalCard className={cn('p-4', className)}>
-            <HorizontalCardImage
-                className="w-10"
-                image={author.avatar}
-                imageRatio={1}
-                href={`/u/${author.username}`}
-            />
-            <HorizontalCardContainer className="gap-1">
-                <HorizontalCardTitle href={`/u/${author.username}`}>
-                    {author.username}
-                </HorizontalCardTitle>
-                <HorizontalCardContainer className="flex-row items-center">
-                    {showTypeLabel && (
-                        <>
-                            <span
-                                className={cn(
-                                    'font-medium text-xs',
-                                    TYPE_BADGE_STYLES[dataType],
-                                )}
-                            >
-                                {TYPE_LABELS[dataType]}
-                            </span>
-                            <div className="size-1 rounded-full bg-muted-foreground" />
-                        </>
-                    )}
-                    {extraInfo && (
-                        <>
-                            <HorizontalCardDescription>
-                                {extraInfo}
-                            </HorizontalCardDescription>
-                            <div className="size-1 rounded-full bg-muted-foreground" />
-                        </>
-                    )}
-                    <HorizontalCardDescription>
+        <div className="flex items-start justify-between gap-2">
+            <div className="flex min-w-0 flex-col gap-3">
+                <div className="flex min-w-0 items-center gap-2">
+                    <Label asChild className="truncate">
+                        <Link to={`/u/${author.username}`}>
+                            {author.username}
+                        </Link>
+                    </Label>
+                    <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
+                    <span className="shrink-0 text-muted-foreground text-xs">
                         {formatDistance(created * 1000, Date.now(), {
                             addSuffix: true,
                         })}
-                    </HorizontalCardDescription>
-                </HorizontalCardContainer>
-            </HorizontalCardContainer>
-            <FollowButton user={author} iconOnly size="icon-md" />
-        </HorizontalCard>
+                    </span>
+                </div>
+                <div className="flex items-center gap-2 overflow-hidden">
+                    <FeedTypeChip
+                        dataType={dataType}
+                        recommended={recommended}
+                    />
+                    {hasReference && (
+                        <FeedContentRef
+                            contentType={reference.contentType}
+                            slug={reference.slug}
+                            title={reference.title}
+                        />
+                    )}
+                </div>
+            </div>
+            <FeedItemMenu author={author} shareUrl={shareUrl} />
+        </div>
     );
 };
 

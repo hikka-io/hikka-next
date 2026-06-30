@@ -1,7 +1,6 @@
 import type { FC } from 'react';
 
 import {
-    type ArticleCategoryEnum,
     type ArticlePreviewResponse,
     type CollectionResponse,
     type CommentResponseFeed,
@@ -9,7 +8,8 @@ import {
     type VoteContentTypeEnum,
 } from '@hikka/api';
 
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { HorizontalCardImage } from '@/components/ui/horizontal-card';
+import { useTitle } from '@/features/auth/hooks/use-title';
 
 import FeedItemArticle from './feed-item-article';
 import FeedItemCollection from './feed-item-collection';
@@ -25,7 +25,19 @@ export type FeedItemResponse =
     | CommentResponseFeed;
 
 // @hikka/api types `CommentResponseFeed.preview` as a loose `{ [key]: unknown }`.
-type CommentPreview = { slug?: string };
+type CommentPreview = { slug?: string; title?: string };
+
+// The article `content` union exposes `data_type`/`slug` for the related entity.
+type ArticleContentPreview = {
+    data_type?: ContentTypeEnum;
+    slug?: string;
+};
+
+type Reference = {
+    contentType?: ContentTypeEnum;
+    slug?: string;
+    title?: string;
+};
 
 function getStats(item: FeedItemResponse): {
     commentsCount: number;
@@ -68,43 +80,88 @@ function getStats(item: FeedItemResponse): {
     }
 }
 
-function getExtraInfo(item: FeedItemResponse): string | undefined {
-    if (item.data_type === ContentTypeEnum.ARTICLE) {
-        return ARTICLE_CATEGORY_OPTIONS[item.category as ArticleCategoryEnum]
-            ?.title_ua;
+function getShareUrl(item: FeedItemResponse): string {
+    switch (item.data_type) {
+        case ContentTypeEnum.ARTICLE:
+            return `/articles/${item.slug}`;
+        case ContentTypeEnum.COLLECTION:
+            return `/collections/${item.reference}`;
+        case ContentTypeEnum.COMMENT: {
+            const preview = item.preview as CommentPreview;
+            return `/comments/${item.content_type}/${preview.slug}/${item.reference}`;
+        }
     }
-    return undefined;
 }
 
 type Props = {
     item: FeedItemResponse;
-    showTypeLabel?: boolean;
 };
 
-const FeedItem: FC<Props> = ({ item, showTypeLabel }) => {
+const FeedItem: FC<Props> = ({ item }) => {
+    // Hooks run every render; pass null for non-article items.
+    const articleContent =
+        item.data_type === ContentTypeEnum.ARTICLE ? item.content : null;
+    const articleTitle = useTitle(articleContent);
+
     const stats = getStats(item);
-    const extraInfo = getExtraInfo(item);
+    const shareUrl = getShareUrl(item);
+
+    let reference: Reference | undefined;
+    let recommended: 'yes' | 'no' | 'maybe' | undefined;
+
+    if (item.data_type === ContentTypeEnum.COMMENT) {
+        const preview = item.preview as CommentPreview;
+        reference = {
+            contentType: item.content_type as ContentTypeEnum,
+            slug: preview.slug,
+            title: preview.title,
+        };
+        recommended = item.review?.recommended as
+            | 'yes'
+            | 'no'
+            | 'maybe'
+            | undefined;
+    } else if (item.data_type === ContentTypeEnum.ARTICLE) {
+        const content = item.content as ArticleContentPreview | null;
+        reference = content
+            ? {
+                  contentType: content.data_type,
+                  slug: content.slug,
+                  title: articleTitle,
+              }
+            : undefined;
+    }
 
     return (
-        <div className="feed-item isolate flex flex-col border-b">
-            <FeedItemHeader
-                author={item.author}
-                dataType={item.data_type}
-                created={item.created}
-                extraInfo={extraInfo}
-                showTypeLabel={showTypeLabel}
+        <article className="flex items-start gap-4 p-4">
+            <HorizontalCardImage
+                className="w-12 shrink-0"
+                image={item.author.avatar}
+                imageRatio={1}
+                href={`/u/${item.author.username}`}
             />
 
-            <div className="feed-item-content ml-14">
-                {item.data_type === ContentTypeEnum.ARTICLE && (
-                    <FeedItemArticle data={item} />
-                )}
-                {item.data_type === ContentTypeEnum.COLLECTION && (
-                    <FeedItemCollection data={item} />
-                )}
-                {item.data_type === ContentTypeEnum.COMMENT && (
-                    <FeedItemComment data={item} />
-                )}
+            <div className="flex min-w-0 flex-1 flex-col gap-3">
+                <FeedItemHeader
+                    author={item.author}
+                    dataType={item.data_type}
+                    created={item.created}
+                    recommended={recommended}
+                    reference={reference}
+                    shareUrl={shareUrl}
+                />
+
+                <div className="flex flex-col gap-4">
+                    {item.data_type === ContentTypeEnum.ARTICLE && (
+                        <FeedItemArticle data={item} />
+                    )}
+                    {item.data_type === ContentTypeEnum.COLLECTION && (
+                        <FeedItemCollection data={item} />
+                    )}
+                    {item.data_type === ContentTypeEnum.COMMENT && (
+                        <FeedItemComment data={item} />
+                    )}
+                </div>
 
                 <FeedItemFooter
                     commentsCount={stats.commentsCount}
@@ -115,7 +172,7 @@ const FeedItem: FC<Props> = ({ item, showTypeLabel }) => {
                     myScore={stats.myScore}
                 />
             </div>
-        </div>
+        </article>
     );
 };
 
