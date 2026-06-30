@@ -1,12 +1,14 @@
 import { type FC, useId, useState } from 'react';
 
+import { Filter } from 'lucide-react';
+
 import {
     ArticleCategoryEnum,
     ContentTypeEnum,
     type UiFeedSettingsOutput,
 } from '@hikka/api';
 
-import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
@@ -134,14 +136,15 @@ function isSubTypeChecked<T extends string>(
     return array === null || array.includes(value);
 }
 
-function hasActiveFilters(value: FeedSubTypeFilters): boolean {
-    return (
-        value.feed_content_types !== null ||
-        value.comment_content_types !== null ||
-        value.article_content_types !== null ||
-        value.article_categories !== null ||
-        value.collection_content_types !== null
-    );
+// Counts only the granular sub-type filter groups — top-level type (quick-filter
+// chips) and scope (tabs) are visible in the header, so they don't add to the badge.
+function activeSubFilterCount(value: FeedSubTypeFilters): number {
+    return [
+        value.comment_content_types,
+        value.article_content_types,
+        value.article_categories,
+        value.collection_content_types,
+    ].filter((group) => group !== null).length;
 }
 
 type SwitchRowProps = {
@@ -246,17 +249,25 @@ const FeedSubTypeSelect: FC<{
         });
     };
 
+    const subFilterCount = activeSubFilterCount(value);
+
     return (
         <>
             <Button
                 variant="outline"
                 size="icon-md"
                 onClick={() => setOpen(true)}
-                className="relative"
+                className="relative shrink-0 overflow-visible"
+                aria-label="Фільтри"
             >
-                <AntDesignFilterFilled />
-                {hasActiveFilters(value) && (
-                    <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-primary-foreground" />
+                <Filter className="size-4" />
+                {subFilterCount > 0 && (
+                    <Badge
+                        variant="default"
+                        className="absolute -top-1.5 -right-1.5 h-4 min-w-4 px-1 text-[10px]"
+                    >
+                        {subFilterCount}
+                    </Badge>
                 )}
             </Button>
 

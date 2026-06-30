@@ -12,6 +12,7 @@ import {
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import LoadMoreButton from '@/components/load-more-button';
+import Card from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import EmptyState from '@/components/ui/empty-state';
 import {
@@ -28,6 +29,7 @@ import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui'
 import type { WidgetProps } from '../../constants';
 import FeedItem, { type FeedItemResponse } from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
+import FeedQuickFilters from './components/feed-quick-filters';
 import FeedSubTypeSelect, {
     type FeedSubTypeFilters,
 } from './components/feed-sub-type-select';
@@ -126,84 +128,74 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
-        <div className="-mx-4 flex flex-col overflow-hidden border-x-0 border-y md:mx-0 md:rounded-lg md:border-x">
-            <div className="backdrop-blur-xl">
-                <Header className="px-4 pt-4">
+        <Card className="gap-0 bg-secondary/20 p-0" id="feed-widget">
+            <div className="flex flex-col gap-4 p-4">
+                <Header>
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Стрічка</HeaderTitle>
                     </HeaderContainer>
-                    <div className="flex gap-2">
-                        {user && (
-                            <FieldLabel className="w-fit! cursor-pointer">
-                                <Field orientation="horizontal">
-                                    <Checkbox
-                                        checked={onlyFollowed}
-                                        onCheckedChange={
-                                            handleOnlyFollowedChange
-                                        }
-                                        id="only-followed-checkbox"
-                                        name="only-followed-checkbox"
-                                    />
-                                    <FieldContent className="flex-0">
-                                        <FieldTitle>Власна</FieldTitle>
-                                    </FieldContent>
-                                </Field>
-                            </FieldLabel>
-                        )}
-                        <FeedSubTypeSelect
-                            value={filters}
-                            onChange={handleFiltersChange}
-                        />
-                    </div>
-                </Header>
-                {feedList && feedList?.length > 0 && (
-                    <FeedItem
-                        key={getFeedItemKey(feedList[0])}
-                        item={feedList[0]}
-                        showTypeLabel
+                    {user && (
+                        <FieldLabel className="w-fit! cursor-pointer">
+                            <Field orientation="horizontal">
+                                <Checkbox
+                                    checked={onlyFollowed}
+                                    onCheckedChange={handleOnlyFollowedChange}
+                                    id="only-followed-checkbox"
+                                    name="only-followed-checkbox"
+                                />
+                                <FieldContent className="flex-0">
+                                    <FieldTitle>Власна</FieldTitle>
+                                </FieldContent>
+                            </Field>
+                        </FieldLabel>
+                    )}
+                    <FeedSubTypeSelect
+                        value={filters}
+                        onChange={handleFiltersChange}
                     />
-                )}
+                </Header>
+
+                <FeedQuickFilters
+                    value={filters}
+                    onChange={handleFiltersChange}
+                />
             </div>
 
-            {isPending
-                ? Array.from({ length: 3 }).map((_, i) => (
-                      <FeedItemSkeleton key={i} />
-                  ))
-                : feedList
-                      ?.slice(1)
-                      ?.map((item) => (
-                          <FeedItem
-                              key={getFeedItemKey(item)}
-                              item={item}
-                              showTypeLabel
-                          />
+            <div className="flex flex-col divide-y divide-border border-border border-t">
+                {isPending
+                    ? Array.from({ length: 3 }).map((_, i) => (
+                          <FeedItemSkeleton key={i} />
+                      ))
+                    : feedList?.map((item) => (
+                          <FeedItem key={getFeedItemKey(item)} item={item} />
                       ))}
 
-            {!isPending && feedList?.length === 0 && (
-                <div className="p-4">
-                    <EmptyState
-                        icon={<MaterialSymbolsDynamicFeedRounded />}
-                        title="Стрічка порожня"
-                        description={
-                            onlyFollowed
-                                ? 'У вашій персональній стрічці поки немає записів. Підпишіться на інших користувачів, щоб бачити їхню активність.'
-                                : 'Наразі тут немає записів. Спробуйте змінити фільтри або повернутися пізніше.'
-                        }
-                    />
-                </div>
-            )}
+                {!isPending && feedList?.length === 0 && (
+                    <div className="p-4">
+                        <EmptyState
+                            icon={<MaterialSymbolsDynamicFeedRounded />}
+                            title="Стрічка порожня"
+                            description={
+                                onlyFollowed
+                                    ? 'У вашій персональній стрічці поки немає записів. Підпишіться на інших користувачів, щоб бачити їхню активність.'
+                                    : 'Наразі тут немає записів. Спробуйте змінити фільтри або повернутися пізніше.'
+                            }
+                        />
+                    </div>
+                )}
 
-            {hasNextPage && (
-                <div className="flex w-full p-4">
-                    <LoadMoreButton
-                        className="flex-1"
-                        isFetchingNextPage={isFetchingNextPage}
-                        fetchNextPage={fetchNextPage}
-                        ref={isLast !== false ? feedRef : undefined}
-                    />
-                </div>
-            )}
-        </div>
+                {hasNextPage && (
+                    <div className="p-4">
+                        <LoadMoreButton
+                            className="w-full"
+                            isFetchingNextPage={isFetchingNextPage}
+                            fetchNextPage={fetchNextPage}
+                            ref={isLast !== false ? feedRef : undefined}
+                        />
+                    </div>
+                )}
+            </div>
+        </Card>
     );
 };
 
