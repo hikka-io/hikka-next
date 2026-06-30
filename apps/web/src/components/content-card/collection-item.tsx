@@ -27,7 +27,8 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
         <HorizontalCard className={className}>
             <HorizontalCardImage
                 image={image(data.collection[0].content)}
-                className={cn(data.nsfw && 'spoiler-blur-sm', 'w-12')}
+                className="w-12"
+                imageBlur={data.nsfw || data.spoiler}
                 href={`/collections/${data.reference}`}
             />
             <HorizontalCardContainer>

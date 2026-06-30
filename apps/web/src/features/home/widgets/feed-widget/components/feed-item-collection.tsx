@@ -60,13 +60,10 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                             key={item.content.slug}
                             image={item.content.image}
                             href={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
-                            className={cn(data.spoiler && 'spoiler-blur-md')}
                             titleClassName={cn(
                                 data.spoiler && 'spoiler-blur-sm',
                             )}
-                            containerClassName={cn(
-                                data.nsfw && 'spoiler-blur-md',
-                            )}
+                            imageBlur={data.nsfw || data.spoiler}
                             watch={
                                 'watch' in item.content &&
                                 item.content.watch.length > 0

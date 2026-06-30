@@ -103,6 +103,7 @@ type HorizontalCardImageProps = {
     image: string | ReactNode;
     href?: string;
     to?: string;
+    imageBlur?: boolean;
 };
 
 const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
@@ -113,6 +114,7 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
     image,
     className,
     imageClassName,
+    imageBlur,
 }) => {
     return (
         <ContentCard
@@ -125,6 +127,7 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
             imagePreset="cardXs"
             href={to ?? href}
             image={image}
+            imageBlur={imageBlur}
         >
             {children}
         </ContentCard>

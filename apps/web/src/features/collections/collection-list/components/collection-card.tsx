@@ -165,15 +165,10 @@ const CollectionCard: FC<Props> = ({
                                       )
                             }
                             to={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
-                            className={cn(
-                                collection.spoiler && 'spoiler-blur-md',
-                            )}
                             titleClassName={cn(
                                 collection.spoiler && 'spoiler-blur-sm',
                             )}
-                            containerClassName={cn(
-                                collection.nsfw && 'spoiler-blur-md',
-                            )}
+                            imageBlur={collection.nsfw || collection.spoiler}
                             watch={
                                 'watch' in item.content &&
                                 item.content.watch.length > 0

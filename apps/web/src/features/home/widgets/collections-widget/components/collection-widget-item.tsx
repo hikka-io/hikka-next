@@ -29,7 +29,7 @@ const CollectionWidgetItem: FC<Props> = ({ collection }) => {
             <ContentCard
                 className="w-14"
                 containerClassName="rounded-(--base-radius)"
-                imageClassName={cn(collection.nsfw && 'spoiler-blur-sm')}
+                imageBlur={collection.nsfw || collection.spoiler}
                 imagePreset="cardXs"
                 href={href}
                 image={cover}
