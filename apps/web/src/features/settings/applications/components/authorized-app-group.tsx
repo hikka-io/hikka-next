@@ -21,9 +21,16 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { LucideChevronsUpDown } from 'lucide-react';
+
 import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
 import {
@@ -116,40 +123,56 @@ const AuthorizedAppGroup: FC<Props> = ({
 }) => {
     return (
         <Card className="flex-col gap-4">
-            <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                    <h5 className="line-clamp-1">{appName}</h5>
-                    {verified && (
-                        <Tooltip delayDuration={0}>
-                            <TooltipTrigger>
-                                <div className="rounded-sm border border-border bg-secondary/20 p-1 backdrop-blur">
-                                    <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
-                                </div>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <Label className="text-sm">
-                                    Верифіковано
-                                </Label>
-                            </TooltipContent>
-                        </Tooltip>
-                    )}
-                    {tokens.length > 1 && (
-                        <span className="rounded-sm border border-border bg-secondary/20 px-1.5 py-0.5 text-muted-foreground text-xs">
-                            {tokens.length} сеанси
-                        </span>
-                    )}
-                </div>
-                {appDescription && (
-                    <p className="line-clamp-2 text-muted-foreground text-sm">
-                        {appDescription}
-                    </p>
-                )}
-            </div>
-            <div className="flex flex-col">
-                {tokens.map((token) => (
-                    <SessionRow key={token.reference} token={token} />
-                ))}
-            </div>
+            <Collapsible defaultOpen={tokens.length === 1}>
+                <CollapsibleTrigger asChild>
+                    <div className="flex cursor-pointer flex-col gap-2">
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                                <h5 className="line-clamp-1">{appName}</h5>
+                                {verified && (
+                                    <Tooltip delayDuration={0}>
+                                        <TooltipTrigger>
+                                            <div className="rounded-sm border border-border bg-secondary/20 p-1 backdrop-blur">
+                                                <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <Label className="text-sm">
+                                                Верифіковано
+                                            </Label>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                )}
+                                {tokens.length > 1 && (
+                                    <span className="rounded-sm border border-border bg-secondary/20 px-1.5 py-0.5 text-muted-foreground text-xs">
+                                        {tokens.length} сеанси
+                                    </span>
+                                )}
+                            </div>
+                            <Button
+                                variant="ghost"
+                                size="md"
+                                className="w-9 p-0"
+                            >
+                                <LucideChevronsUpDown className="size-4" />
+                                <span className="sr-only">Toggle</span>
+                            </Button>
+                        </div>
+                        {appDescription && (
+                            <p className="line-clamp-2 text-muted-foreground text-sm">
+                                {appDescription}
+                            </p>
+                        )}
+                    </div>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="w-full overflow-hidden mt-2 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                    <div className="flex flex-col">
+                        {tokens.map((token) => (
+                            <SessionRow key={token.reference} token={token} />
+                        ))}
+                    </div>
+                </CollapsibleContent>
+            </Collapsible>
         </Card>
     );
 };
