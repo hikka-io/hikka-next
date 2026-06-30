@@ -1,3 +1,4 @@
+export { default as ArticlesWidget } from './articles-widget';
 export { default as CollectionsWidget } from './collections-widget';
 export { default as FeedWidget } from './feed-widget';
 export { default as HistoryWidget } from './history-widget';

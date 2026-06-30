@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import type { UiFeedWidget } from '@hikka/api';
 
 import {
+    ArticlesWidget,
     CollectionsWidget,
     FeedWidget,
     HistoryWidget,
@@ -17,8 +18,8 @@ type UIFeedWidgetSide = UiFeedWidget['side'];
 
 /**
  * The slugs this app actually renders. The generated `UiFeedWidget['slug']`
- * union also includes server-side slugs (`top_anime`, `articles`) that have
- * no widget implementation yet.
+ * union also includes a server-side slug (`top_anime`) that has no widget
+ * implementation yet.
  */
 export type SupportedWidgetSlug = Extract<
     UiFeedWidget['slug'],
@@ -30,6 +31,7 @@ export type SupportedWidgetSlug = Extract<
     | 'schedule'
     | 'feed'
     | 'collections'
+    | 'articles'
 >;
 
 export type WidgetProps = {
@@ -101,6 +103,13 @@ export const WIDGET_REGISTRY: Record<SupportedWidgetSlug, WidgetMeta> = {
         component: CollectionsWidget,
         authRequired: false,
         defaultSide: 'right',
+    },
+    articles: {
+        title: 'Статті',
+        description: 'Статті та огляди від спільноти',
+        component: ArticlesWidget,
+        authRequired: false,
+        defaultSide: 'left',
     },
 };
 
