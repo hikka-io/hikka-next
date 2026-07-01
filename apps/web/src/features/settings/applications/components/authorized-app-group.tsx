@@ -47,7 +47,6 @@ type Props = {
     tokens: AuthTokenInfoResponse[];
 };
 
-// Declared as a standalone component at module level to adhere to React Rules of Hooks
 const AuthorizedAppItem: FC<{ token: AuthTokenInfoResponse }> = ({ token }) => {
     const queryClient = useQueryClient();
 
@@ -104,8 +103,8 @@ const AuthorizedAppItem: FC<{ token: AuthTokenInfoResponse }> = ({ token }) => {
                             Відкликати цей доступ?
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                            Цей сеанс авторизації буде завершено, і
-                            застосунку знадобиться повторна авторизація.
+                            Цей сеанс авторизації буде завершено, і застосунку
+                            знадобиться повторна авторизація.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -116,6 +115,84 @@ const AuthorizedAppItem: FC<{ token: AuthTokenInfoResponse }> = ({ token }) => {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
+        </div>
+    );
+};
+
+const RevokeAllDialog: FC<{
+    appName: string;
+    isRevokingAll: boolean;
+    onRevokeAll: () => void;
+}> = ({ appName, isRevokingAll, onRevokeAll }) => {
+    return (
+        <AlertDialog>
+            <AlertDialogTrigger asChild>
+                <Button
+                    className="shrink-0"
+                    variant="destructive"
+                    size="md"
+                    disabled={isRevokingAll}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {isRevokingAll && <Spinner />}
+                    Відкликати всі
+                </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>
+                        Відкликати всі доступи для {appName}?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                        Усі активні сеанси авторизації для цього застосунку
+                        будуть завершені, і застосунку знадобиться повторна
+                        авторизація.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Відмінити</AlertDialogCancel>
+                    <AlertDialogAction onClick={onRevokeAll}>
+                        Підтвердити
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    );
+};
+
+const AppGroupHeaderInfo: FC<{
+    appName: string;
+    appDescription?: string | null;
+    verified?: boolean;
+    tokenCount: number;
+}> = ({ appName, appDescription, verified, tokenCount }) => {
+    return (
+        <div className="flex flex-1 flex-col gap-2">
+            <div className="flex items-center gap-2">
+                <h5 className="line-clamp-1">{appName}</h5>
+                {verified && (
+                    <Tooltip delayDuration={0}>
+                        <TooltipTrigger>
+                            <div className="rounded-sm border border-border bg-secondary/20 p-1 backdrop-blur">
+                                <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
+                            </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <Label className="text-sm">Верифіковано</Label>
+                        </TooltipContent>
+                    </Tooltip>
+                )}
+                {tokenCount > 1 && (
+                    <span className="rounded-sm border border-border bg-secondary/20 px-1.5 py-0.5 text-muted-foreground text-xs">
+                        {tokenCount} сеанси
+                    </span>
+                )}
+            </div>
+            {appDescription && (
+                <p className="line-clamp-2 text-muted-foreground text-sm">
+                    {appDescription}
+                </p>
+            )}
         </div>
     );
 };
@@ -133,7 +210,6 @@ const AuthorizedAppGroup: FC<Props> = ({
             const { mutationFn } = revokeTokenMutation();
             if (!mutationFn) return;
 
-            // Revoke all tokens associated with this application concurrently
             await Promise.all(
                 tokens.map((token) =>
                     mutationFn(
@@ -159,86 +235,26 @@ const AuthorizedAppGroup: FC<Props> = ({
             <Collapsible defaultOpen={tokens.length === 1}>
                 <CollapsibleTrigger asChild>
                     <div className="flex cursor-pointer items-center justify-between gap-4">
-                        <div className="flex flex-col gap-2 flex-1">
-                            <div className="flex items-center gap-2">
-                                <h5 className="line-clamp-1">{appName}</h5>
-                                {verified && (
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger>
-                                            <div className="rounded-sm border border-border bg-secondary/20 p-1 backdrop-blur">
-                                                <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
-                                            </div>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <Label className="text-sm">
-                                                Верифіковано
-                                            </Label>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                )}
-                                {tokens.length > 1 && (
-                                    <span className="rounded-sm border border-border bg-secondary/20 px-1.5 py-0.5 text-muted-foreground text-xs">
-                                        {tokens.length} сеанси
-                                    </span>
-                                )}
-                            </div>
-                            {appDescription && (
-                                <p className="line-clamp-2 text-muted-foreground text-sm">
-                                    {appDescription}
-                                </p>
-                            )}
-                        </div>
-                        <div className="flex items-center gap-2 shrink-0">
-                            <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                    <Button
-                                        className="shrink-0"
-                                        variant="destructive"
-                                        size="md"
-                                        disabled={isRevokingAll}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                        }}
-                                    >
-                                        {isRevokingAll && <Spinner />}
-                                        Відкликати всі
-                                    </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent onClick={(e) => e.stopPropagation()}>
-                                    <AlertDialogHeader>
-                                        <AlertDialogTitle>
-                                            Відкликати всі доступи для{' '}
-                                            {appName}?
-                                        </AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            Усі активні сеанси авторизації для
-                                            цього застосунку будуть завершені, і
-                                            застосунку знадобиться повторна
-                                            авторизація.
-                                        </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                        <AlertDialogCancel>
-                                            Відмінити
-                                        </AlertDialogCancel>
-                                        <AlertDialogAction onClick={() => revokeAll()}>
-                                            Підтвердити
-                                        </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                </AlertDialogContent>
-                            </AlertDialog>
-                            <Button
-                                variant="ghost"
-                                size="md"
-                                className="w-9 p-0"
-                            >
+                        <AppGroupHeaderInfo
+                            appName={appName}
+                            appDescription={appDescription}
+                            verified={verified}
+                            tokenCount={tokens.length}
+                        />
+                        <div className="flex shrink-0 items-center gap-2">
+                            <RevokeAllDialog
+                                appName={appName}
+                                isRevokingAll={isRevokingAll}
+                                onRevokeAll={() => revokeAll()}
+                            />
+                            <Button variant="ghost" size="md" className="w-9 p-0">
                                 <LucideChevronsUpDown className="size-4" />
                                 <span className="sr-only">Toggle</span>
                             </Button>
                         </div>
                     </div>
                 </CollapsibleTrigger>
-                <CollapsibleContent className="w-full overflow-hidden mt-4 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                <CollapsibleContent className="mt-4 w-full overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                     <div className="flex flex-col">
                         {tokens.map((token) => (
                             <AuthorizedAppItem key={token.reference} token={token} />
