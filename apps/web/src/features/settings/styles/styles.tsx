@@ -12,7 +12,7 @@ import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { ACCENT_PRESETS } from '@/utils/constants/styles';
 import { DEFAULT_STYLES } from '@/utils/ui';
-import { oklchToCss } from '@/utils/ui/color';
+import { oklchEqual, oklchToCss } from '@/utils/ui/color';
 
 import BrandColorPicker from './components/brand-color-picker';
 
@@ -30,9 +30,6 @@ const RADIUS_OPTIONS: { value: string; label: string }[] = [
     { value: '0.75', label: 'LG' },
     { value: '1.5', label: 'XL' },
 ];
-
-const oklchEqual = (a: OklchColor, b: OklchColor) =>
-    a.l === b.l && a.c === b.c && a.h === b.h;
 
 const setLiveVar = (name: string, value: string | null) => {
     if (value === null) document.documentElement.style.removeProperty(name);

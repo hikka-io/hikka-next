@@ -86,6 +86,16 @@ export const isValidOklch = (
 export const oklchToCss = ({ l, c, h }: OklchColor): string =>
     `oklch(${trim(l)} ${trim(c)} ${trim(h)})`;
 
+/** Structural equality for two OklchColors (nullish-safe). */
+export const oklchEqual = (
+    a: OklchColor | null | undefined,
+    b: OklchColor | null | undefined,
+): boolean => {
+    if (!a && !b) return true;
+    if (!a || !b) return false;
+    return a.l === b.l && a.c === b.c && a.h === b.h;
+};
+
 /** Convert a `#rrggbb` hex string to OKLCH (null if malformed). */
 export const hexToOklch = (hex: string): OklchColor | null => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);

@@ -13,6 +13,7 @@ import type {
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
+import { oklchEqual } from './color';
 import { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 import { SURFACE_OVERRIDE_TOKENS } from './inject-styles';
 
@@ -59,7 +60,7 @@ export function mergeStyles(
     override: UiStylesOutput | undefined,
 ): UiStylesOutput {
     if (!base && !override) return {};
-    if (!base) return override!;
+    if (!base) return override ?? {};
     if (!override) return base;
 
     const light = mergeOverrideMaps(
@@ -133,7 +134,7 @@ export function mergeUserUI(
     override: UserCustomizationResponse | undefined,
 ): UserCustomizationResponse {
     if (!base && !override) return DEFAULT_USER_UI;
-    if (!base) return override!;
+    if (!base) return override ?? DEFAULT_USER_UI;
     if (!override) return base;
 
     return {
@@ -142,15 +143,6 @@ export function mergeUserUI(
         styles: mergeStyles(base.styles, override.styles),
         preferences: mergePreferences(base.preferences, override.preferences),
     };
-}
-
-function oklchEqual(
-    a: OklchColor | null | undefined,
-    b: OklchColor | null | undefined,
-): boolean {
-    if (!a && !b) return true;
-    if (!a || !b) return false;
-    return a.l === b.l && a.c === b.c && a.h === b.h;
 }
 
 function backdropEqual(
