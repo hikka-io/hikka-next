@@ -3,12 +3,16 @@ import {
     type FC,
     Fragment,
     forwardRef,
+    type MouseEvent,
     type MouseEventHandler,
     memo,
     type ReactNode,
+    useCallback,
+    useState,
 } from 'react';
 
 import { cva, type VariantProps } from 'class-variance-authority';
+import { Eye } from 'lucide-react';
 
 import type {
     ContentTypeEnum,
@@ -87,10 +91,16 @@ export type ContentCardProps = VariantProps<typeof contentCardVariants> & {
     linkProps?: Record<string, any>;
     statusSize?: 'default' | 'sm';
     /**
-     * Render the image as a full-cover blurred fill (e.g. NSFW posters).
-     * Reveals on hover. Only applies when `image` is a string URL.
+     * Hide the image behind a full-cover blurred fill (e.g. NSFW posters).
+     * Shows a reveal hint; the first click reveals the card (loads full-res,
+     * unblurs) instead of navigating. Only applies when `image` is a string.
      */
     imageBlur?: boolean;
+    /**
+     * Blur the title until the card is revealed (e.g. spoiler collections).
+     * Cleared by the same click that reveals `imageBlur`.
+     */
+    titleBlur?: boolean;
 };
 
 export type TooltipProps = {
@@ -99,6 +109,7 @@ export type TooltipProps = {
     slug?: string;
     watch?: WatchResponseBase;
     read?: ReadResponseBase;
+    disabled?: boolean;
 };
 
 // Constants
@@ -124,10 +135,9 @@ const TOOLTIP_MAP: Record<
 
 // Tooltip Component
 const Tooltip: FC<TooltipProps> = memo(
-    ({ children, content_type, slug, watch, read }) => {
-        const TooltipComponent = content_type
-            ? TOOLTIP_MAP[content_type]
-            : undefined;
+    ({ children, content_type, slug, watch, read, disabled }) => {
+        const TooltipComponent =
+            content_type && !disabled ? TOOLTIP_MAP[content_type] : undefined;
 
         if (!TooltipComponent) {
             return <Fragment>{children}</Fragment>;
@@ -149,11 +159,20 @@ const CardLink: FC<{
     target?: string;
     linkProps?: Record<string, any>;
     className?: string;
+    onClick?: MouseEventHandler<HTMLElement>;
     children: ReactNode;
-}> = ({ to, target, linkProps, className, children }) => {
+}> = ({ to, target, linkProps, className, onClick, children }) => {
+    // Without `to` there is no navigation to intercept, so the reveal click
+    // (onClick) only applies to the linked variant.
     if (!to) return <div className={className}>{children}</div>;
     return (
-        <Link to={to} target={target} className={className} {...linkProps}>
+        <Link
+            to={to}
+            target={target}
+            className={className}
+            onClick={onClick}
+            {...linkProps}
+        >
             {children}
         </Link>
     );
@@ -190,6 +209,7 @@ const Content = memo(
                 target,
                 statusSize,
                 imageBlur,
+                titleBlur,
                 ...props
             },
             ref,
@@ -203,12 +223,26 @@ const Content = memo(
                 ? { ...IMAGE_PRESETS[effectivePreset], ...imageProps }
                 : imageProps;
 
+            // Sensitive (NSFW/spoiler) cards stay hidden until the first click,
+            // which reveals them (loads full-res, unblurs) instead of
+            // navigating; the next click navigates as usual.
+            const [revealed, setRevealed] = useState(false);
+            const isSensitive = Boolean(imageBlur || titleBlur);
+            const hidden = isSensitive && !revealed;
+            const handleReveal = useCallback((e: MouseEvent<HTMLElement>) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setRevealed(true);
+            }, []);
+            const revealClick = hidden ? handleReveal : undefined;
+
             return (
                 <Tooltip
                     slug={slug}
                     content_type={content_type}
                     watch={watch}
                     read={read}
+                    disabled={hidden}
                 >
                     {/* biome-ignore lint/a11y/noStaticElementInteractions: click is a supplementary shortcut; primary navigation is the inner link. */}
                     {/* biome-ignore lint/a11y/useKeyWithClickEvents: click is a supplementary shortcut; primary navigation is the inner link. */}
@@ -234,14 +268,23 @@ const Content = memo(
                                 to={resolvedHref}
                                 target={target}
                                 linkProps={linkProps}
-                                className="absolute top-0 left-0 flex size-full items-center justify-center bg-secondary/20"
+                                onClick={revealClick}
+                                className="@container absolute top-0 left-0 flex size-full items-center justify-center bg-secondary/20"
                             >
                                 {renderImage(
                                     image,
                                     imageClassName,
                                     resolvedImageProps,
                                     containerRatio,
-                                    imageBlur,
+                                    imageBlur && hidden,
+                                )}
+                                {imageBlur && hidden && (
+                                    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+                                        {/* Scales the reveal hint with the rendered card width (clamped), so it stays proportional on tiny covers and large previews alike. */}
+                                        <div className="flex size-[clamp(1rem,28cqw,2rem)] items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm">
+                                            <Eye className="size-[clamp(0.625rem,14cqw,1rem)]" />
+                                        </div>
+                                    </div>
                                 )}
                                 {!disableChildrenLink && children}
                                 {watch && (
@@ -274,6 +317,7 @@ const Content = memo(
                                 to={resolvedHref}
                                 target={target}
                                 linkProps={linkProps}
+                                onClick={revealClick}
                                 className={cn(
                                     'mt-1',
                                     hasSubtitles && 'truncate',
@@ -283,7 +327,12 @@ const Content = memo(
                                 {renderTitle(
                                     title,
                                     hasSubtitles,
-                                    titleClassName,
+                                    cn(
+                                        titleClassName,
+                                        titleBlur &&
+                                            hidden &&
+                                            'spoiler-blur-sm',
+                                    ),
                                 )}
                                 {renderSubtitles(leftSubtitle, rightSubtitle)}
                             </CardLink>

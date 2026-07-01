@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Image from '@/components/ui/image';
 import Stack, { type StackSize } from '@/components/ui/stack';
-import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 type Props = {
@@ -28,7 +27,12 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
         <div className="flex flex-col gap-4">
             <Header href={`/collections/${data.reference}`}>
                 <HeaderContainer>
-                    <HeaderTitle variant="h4">{data.title}</HeaderTitle>
+                    <HeaderTitle
+                        variant="h4"
+                        className={data.spoiler ? 'spoiler-blur-sm' : undefined}
+                    >
+                        {data.title}
+                    </HeaderTitle>
                 </HeaderContainer>
             </Header>
 
@@ -60,9 +64,7 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                             key={item.content.slug}
                             image={item.content.image}
                             href={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
-                            titleClassName={cn(
-                                data.spoiler && 'spoiler-blur-sm',
-                            )}
+                            titleBlur={data.spoiler}
                             imageBlur={data.nsfw || data.spoiler}
                             watch={
                                 'watch' in item.content &&
