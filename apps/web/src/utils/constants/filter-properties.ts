@@ -74,7 +74,7 @@ export const RELEASE_STATUS: Hikka.FilterProperty<ContentStatusEnum> = {
         title_en: 'Announced',
     },
     [ContentStatusEnum.PAUSED]: {
-        title_ua: 'Зупинено',
+        title_ua: 'Призупинено',
         title_en: 'Paused',
     },
 };
