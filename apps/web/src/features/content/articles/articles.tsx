@@ -17,11 +17,11 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
+import { ArticlePreviewCard } from '@/features/articles';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
-import ContentNewsItem from './components/content-articles-item';
 import ContentNewsModal from './components/content-articles-modal';
 
 type Props = {
@@ -56,9 +56,9 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
                         </HeaderContainer>
                         <HeaderNavButton />
                     </Header>
-                    <div className="flex flex-col gap-6">
+                    <div className="-mx-2 flex flex-col">
                         {filteredNews.map((article) => (
-                            <ContentNewsItem
+                            <ArticlePreviewCard
                                 key={article.slug}
                                 article={article}
                             />

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton';
 
-const ArticleWidgetSkeleton: FC = () => (
+const ArticlePreviewCardSkeleton: FC = () => (
     <div className="flex flex-col gap-2 rounded-sm border-border/60 border-t px-2 py-2 first:border-t-0">
         <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-1.5">
@@ -20,4 +20,4 @@ const ArticleWidgetSkeleton: FC = () => (
     </div>
 );
 
-export default ArticleWidgetSkeleton;
+export default ArticlePreviewCardSkeleton;

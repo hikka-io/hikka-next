@@ -38,7 +38,7 @@ const getFirstLine = (preview: ArticlePreviewResponse['preview']): string => {
     return '';
 };
 
-const ArticleWidgetItem: FC<Props> = ({ article }) => {
+const ArticlePreviewCard: FC<Props> = ({ article }) => {
     const href = `${CONTENT_TYPE_LINKS.article}/${article.slug}`;
     const excerpt = getFirstLine(article.preview);
 
@@ -116,4 +116,4 @@ const ArticleWidgetItem: FC<Props> = ({ article }) => {
     );
 };
 
-export default ArticleWidgetItem;
+export default ArticlePreviewCard;

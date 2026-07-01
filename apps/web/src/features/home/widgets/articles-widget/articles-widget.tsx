@@ -17,14 +17,16 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import {
+    ArticlePreviewCard,
+    ArticlePreviewCardSkeleton,
+} from '@/features/articles';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
 import type { WidgetProps } from '../../constants';
-import ArticleWidgetItem from './components/article-widget-item';
-import ArticleWidgetSkeleton from './components/article-widget-skeleton';
 
 const SIZE = 3;
 
@@ -97,12 +99,12 @@ const ArticlesWidget: FC<WidgetProps> = () => {
                 <div className="flex flex-col px-2">
                     {isLoading &&
                         range(0, SIZE).map((i) => (
-                            <ArticleWidgetSkeleton key={i} />
+                            <ArticlePreviewCardSkeleton key={i} />
                         ))}
 
                     {!isLoading &&
                         list?.map((article) => (
-                            <ArticleWidgetItem
+                            <ArticlePreviewCard
                                 key={article.slug}
                                 article={article}
                             />
