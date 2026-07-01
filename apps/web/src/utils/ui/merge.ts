@@ -13,7 +13,6 @@ import type {
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
 
-import { hslToOklch } from './color';
 import { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 import { SURFACE_OVERRIDE_TOKENS } from './inject-styles';
 
@@ -92,24 +91,6 @@ export function mergeStyles(
     }
 
     return result;
-}
-
-/**
- * Legacy read adapter: pre-`brand` configs stored the whole HSL token set.
- * Preserve the user's chosen accent by seeding `brand` from the legacy
- * `primary_foreground` (the saturated brand color) when `brand` is absent.
- */
-export function normalizeLegacyStyles(
-    styles: UiStylesOutput | undefined,
-): UiStylesOutput {
-    if (!styles) return {};
-    if (styles.brand) return styles;
-
-    const legacy = styles.light?.colors?.primary_foreground;
-    if (legacy) {
-        return { ...styles, brand: hslToOklch(legacy) };
-    }
-    return styles;
 }
 
 /**
@@ -246,10 +227,7 @@ export function mergeWithEventTheme(userUI: UserCustomizationResponse): {
 } {
     const eventTheme = getActiveEventTheme();
     return {
-        mergedStyles: mergeStyles(
-            eventTheme?.styles,
-            normalizeLegacyStyles(userUI.styles),
-        ),
+        mergedStyles: mergeStyles(eventTheme?.styles, userUI.styles),
         activeEffects: mergeEffects(
             eventTheme?.effects,
             userUI.preferences?.effect,

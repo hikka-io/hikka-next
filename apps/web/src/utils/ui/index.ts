@@ -4,13 +4,7 @@ export {
     type ResolvedBackdrop,
     resolveBackdrop,
 } from './backdrop';
-export {
-    hexToOklch,
-    hslToOklch,
-    isValidOklch,
-    oklchToCss,
-    oklchToHex,
-} from './color';
+export { hexToOklch, isValidOklch, oklchToCss, oklchToHex } from './color';
 export { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 export {
     applyStyles,
@@ -26,5 +20,4 @@ export {
     mergePreferences,
     mergeStyles,
     mergeWithEventTheme,
-    normalizeLegacyStyles,
 } from './merge';

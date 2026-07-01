@@ -18,7 +18,6 @@ import {
     mergeEffects,
     mergePreferences,
     mergeStyles,
-    normalizeLegacyStyles,
     type ResolvedBackdrop,
     resolveBackdrop,
 } from '@/utils/ui';
@@ -70,10 +69,10 @@ export function useSessionUI(): SessionUI {
 
     return useMemo(() => {
         // Merge sparse API styles with defaults so editors/UI always have full
-        // tokens; adapt legacy (pre-`brand`) configs first.
+        // tokens.
         const resolvedStyles = mergeStyles(
             DEFAULT_USER_UI.styles,
-            normalizeLegacyStyles(userUI.styles),
+            userUI.styles,
         );
         // Then layer event theme on top of resolved styles (single merge, not two)
         const eventTheme = getActiveEventTheme();

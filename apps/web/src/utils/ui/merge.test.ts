@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { DEFAULT_STYLES } from './defaults';
-import { diffStyles, mergeStyles, normalizeLegacyStyles } from './merge';
+import { diffStyles, mergeStyles } from './merge';
 
 describe('diffStyles', () => {
     it('diffs only the changed brand', () => {
@@ -24,21 +24,6 @@ describe('diffStyles', () => {
             c: 0,
             h: 0,
         });
-    });
-});
-
-describe('normalizeLegacyStyles', () => {
-    it('derives brand from legacy primary_foreground', () => {
-        const n = normalizeLegacyStyles({
-            light: { colors: { primary_foreground: { h: 321, s: 70, l: 65 } } },
-        });
-        expect(n.brand?.l).toBeCloseTo(0.69, 1);
-        expect(n.brand?.h).toBeCloseTo(343, 0);
-    });
-
-    it('leaves styles that already have a brand untouched', () => {
-        const styles = { brand: { l: 0.4, c: 0.1, h: 200 } };
-        expect(normalizeLegacyStyles(styles)).toBe(styles);
     });
 });
 

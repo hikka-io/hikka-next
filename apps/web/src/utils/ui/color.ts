@@ -1,4 +1,4 @@
-import type { HslColor as HikkaHslColor, OklchColor } from '@hikka/api';
+import type { OklchColor } from '@hikka/api';
 
 /* ------------------------------------------------------------------ */
 /* OKLCH                                                               */
@@ -19,20 +19,6 @@ const srgbToLinear = (c: number): number =>
 
 const linearToSrgb = (c: number): number =>
     c <= 0.0031308 ? c * 12.92 : 1.055 * c ** (1 / 2.4) - 0.055;
-
-const hslToRgb = (
-    h: number,
-    s: number,
-    l: number,
-): [number, number, number] => {
-    s /= 100;
-    l /= 100;
-    const k = (n: number) => (n + h / 30) % 12;
-    const a = s * Math.min(l, 1 - l);
-    const f = (n: number) =>
-        l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
-    return [f(0), f(8), f(4)];
-};
 
 const rgbToOklch = (r: number, g: number, b: number): OklchColor => {
     const lr = srgbToLinear(r);
@@ -99,12 +85,6 @@ export const isValidOklch = (
 /** Format an OklchColor as a CSS `oklch(l c h)` string. */
 export const oklchToCss = ({ l, c, h }: OklchColor): string =>
     `oklch(${trim(l)} ${trim(c)} ${trim(h)})`;
-
-/** Convert a Hikka HSL color to OKLCH. */
-export const hslToOklch = (color: HikkaHslColor): OklchColor => {
-    const [r, g, b] = hslToRgb(color.h, color.s, color.l);
-    return rgbToOklch(r, g, b);
-};
 
 /** Convert a `#rrggbb` hex string to OKLCH (null if malformed). */
 export const hexToOklch = (hex: string): OklchColor | null => {

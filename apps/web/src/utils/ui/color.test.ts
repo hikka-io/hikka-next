@@ -1,12 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-    hexToOklch,
-    hslToOklch,
-    isValidOklch,
-    oklchToCss,
-    oklchToHex,
-} from './color';
+import { hexToOklch, isValidOklch, oklchToCss, oklchToHex } from './color';
 
 describe('oklch helpers', () => {
     it('formats oklch css without trailing zeros', () => {
@@ -23,13 +17,6 @@ describe('oklch helpers', () => {
         expect(isValidOklch({ l: Number.NaN, c: 0.1, h: 200 } as never)).toBe(
             false,
         );
-    });
-
-    it('converts the brand hsl to oklch near target', () => {
-        const o = hslToOklch({ h: 321, s: 70, l: 65 });
-        expect(o.l).toBeCloseTo(0.69, 1);
-        expect(o.c).toBeCloseTo(0.18, 1);
-        expect(o.h).toBeCloseTo(343, 0);
     });
 
     it('bridges hex and oklch', () => {

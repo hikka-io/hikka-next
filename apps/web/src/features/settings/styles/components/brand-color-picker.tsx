@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { Pipette } from 'lucide-react';
 import { HexColorPicker } from 'react-colorful';
 
 import type { OklchColor } from '@hikka/api';
@@ -12,8 +13,13 @@ import {
 } from '@/components/ui/popover';
 import { hexToOklch, oklchToHex } from '@/utils/ui/color';
 
+const RAINBOW =
+    'conic-gradient(from 0deg, #ff5f6d, #ffc371, #7ee8fa, #6a82fb, #b06ab3, #ff5f6d)';
+
 type Props = {
     value: OklchColor;
+    /** Whether the current brand comes from a custom pick (not a preset). */
+    active?: boolean;
     /** Fired continuously while dragging — use for instant preview. */
     onPreview: (brand: OklchColor) => void;
     /** Fired once when the popover closes — use to persist. */
@@ -23,7 +29,7 @@ type Props = {
 const normalizeHex = (hex: string): string =>
     hex.startsWith('#') ? hex : `#${hex}`;
 
-const BrandColorPicker = ({ value, onPreview, onCommit }: Props) => {
+const BrandColorPicker = ({ value, active, onPreview, onCommit }: Props) => {
     const [open, setOpen] = useState(false);
     const [draft, setDraft] = useState<OklchColor>(value);
     const [hexInput, setHexInput] = useState(() => oklchToHex(value));
@@ -61,10 +67,14 @@ const BrandColorPicker = ({ value, onPreview, onCommit }: Props) => {
             <PopoverTrigger asChild>
                 <button
                     type="button"
-                    aria-label="Обрати колір бренду"
-                    className="size-9 rounded-md border"
-                    style={{ backgroundColor: oklchToHex(draft) }}
-                />
+                    aria-label="Обрати власний колір"
+                    title="Власний колір"
+                    data-active={active}
+                    className="relative flex size-9 items-center justify-center rounded-md border data-[active=true]:ring-2 data-[active=true]:ring-ring data-[active=true]:ring-offset-1"
+                    style={{ background: RAINBOW }}
+                >
+                    <Pipette className="size-4 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]" />
+                </button>
             </PopoverTrigger>
             <PopoverContent className="flex w-auto flex-col gap-3 p-3">
                 <HexColorPicker color={oklchToHex(draft)} onChange={applyHex} />
