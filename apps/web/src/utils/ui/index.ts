@@ -1,7 +1,12 @@
 export {
     formatHSL,
     hexToHsl,
+    hexToOklch,
     hslToHex,
+    hslToOklch,
+    isValidOklch,
+    oklchToCss,
+    oklchToHex,
     toHikkaColor,
     toHSLString,
     toReactColorful,
