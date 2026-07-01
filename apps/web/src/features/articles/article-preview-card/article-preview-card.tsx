@@ -74,20 +74,22 @@ const ArticlePreviewCard: FC<Props> = ({ article }) => {
                 </div>
             </div>
 
-            <Link
-                to={href}
-                title={article.title}
-                className="line-clamp-2 font-semibold text-sm leading-snug transition-colors duration-100 group-hover:text-foreground"
-            >
-                {article.title}
-                <span className="absolute inset-0" />
-            </Link>
+            <div className="flex flex-col gap-2 py-1">
+                <Link
+                    to={href}
+                    title={article.title}
+                    className="line-clamp-2 font-semibold text-sm leading-snug transition-colors duration-100 group-hover:text-foreground"
+                >
+                    {article.title}
+                    <span className="absolute inset-0" />
+                </Link>
 
-            {excerpt && (
-                <p className="line-clamp-1 text-muted-foreground text-xs">
-                    {excerpt}
-                </p>
-            )}
+                {excerpt && (
+                    <p className="line-clamp-1 text-muted-foreground text-xs">
+                        {excerpt}
+                    </p>
+                )}
+            </div>
 
             <div className="flex items-center justify-between gap-2">
                 <span className="shrink-0 text-muted-foreground text-xs">
