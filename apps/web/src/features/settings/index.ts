@@ -3,6 +3,7 @@
 // Profile Settings
 export { default as ProfileAppearance } from './appearance';
 // Applications Settings
+export { default as AuthorizedAppsSettings } from './applications/authorized-apps';
 export { default as ApplicationsSettings } from './applications/applications';
 export { default as ClientCreateButton } from './client-create-button';
 export { default as ProfileDescription } from './description';
