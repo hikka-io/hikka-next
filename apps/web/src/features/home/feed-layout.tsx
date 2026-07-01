@@ -107,7 +107,7 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
     const sidebarWidgets = useMemo(() => [...left, ...right], [left, right]);
 
     const gridClasses = cn(
-        'mx-auto grid w-full grid-cols-1 gap-6',
+        'mx-auto grid w-full grid-cols-1 gap-6 lg:gap-8',
         layout === 3 &&
             'lg:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]',
         layout === 2 &&
