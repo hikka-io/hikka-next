@@ -21,7 +21,7 @@ type Props = {
 
 const ApplicationItem: FC<Props> = ({ client }) => {
     return (
-        <Card className="justify-between gap-6">
+        <Card className="justify-between gap-6 bg-secondary/20 backdrop-blur">
             <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
                     <h5 className="line-clamp-1">{client.name}</h5>
