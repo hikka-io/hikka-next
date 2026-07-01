@@ -7,6 +7,7 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
 import AuthorizedAppsSettings from './authorized-apps';
 import ApplicationItem from './components/application-item';
+import ClientCreateButton from '../client-create-button';
 
 const ApplicationsSettings = () => {
     const { list } = useInfiniteList(listUserClientsInfiniteOptions());
@@ -28,6 +29,7 @@ const ApplicationsSettings = () => {
                 <Header>
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Мої застосунки</HeaderTitle>
+                        <ClientCreateButton />
                     </HeaderContainer>
                 </Header>
                 {list && list.length > 0 ? (
