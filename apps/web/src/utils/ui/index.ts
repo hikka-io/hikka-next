@@ -1,15 +1,15 @@
 export {
-    formatHSL,
-    hexToHsl,
+    applyBackdrop,
+    BACKDROP_ATTR,
+    type ResolvedBackdrop,
+    resolveBackdrop,
+} from './backdrop';
+export {
     hexToOklch,
-    hslToHex,
     hslToOklch,
     isValidOklch,
     oklchToCss,
     oklchToHex,
-    toHikkaColor,
-    toHSLString,
-    toReactColorful,
 } from './color';
 export { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 export {
@@ -17,6 +17,7 @@ export {
     injectStyles,
     removeInjectedStyles,
     STYLE_ELEMENT_ID,
+    SURFACE_OVERRIDE_TOKENS,
     stylesToCSS,
 } from './inject-styles';
 export {
@@ -25,4 +26,5 @@ export {
     mergePreferences,
     mergeStyles,
     mergeWithEventTheme,
+    normalizeLegacyStyles,
 } from './merge';

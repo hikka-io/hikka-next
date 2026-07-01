@@ -20,9 +20,9 @@ describe('oklch helpers', () => {
         expect(isValidOklch({ l: 2, c: 0.1, h: 200 })).toBe(false);
         expect(isValidOklch({ l: 0.5, c: 0.9, h: 200 })).toBe(false);
         expect(isValidOklch({ l: 0.5, c: 0.1, h: 400 })).toBe(false);
-        expect(
-            isValidOklch({ l: Number.NaN, c: 0.1, h: 200 } as never),
-        ).toBe(false);
+        expect(isValidOklch({ l: Number.NaN, c: 0.1, h: 200 } as never)).toBe(
+            false,
+        );
     });
 
     it('converts the brand hsl to oklch near target', () => {

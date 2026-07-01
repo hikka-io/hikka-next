@@ -1,136 +1,4 @@
-import type { HslColor } from 'react-colorful';
-
 import type { HslColor as HikkaHslColor, OklchColor } from '@hikka/api';
-
-/**
- * Convert Hikka HSL color to react-colorful HslColor format.
- */
-export const toReactColorful = (
-    color: HikkaHslColor | null | undefined,
-): HslColor => ({
-    h: color?.h ?? 0,
-    s: color?.s ?? 0,
-    l: color?.l ?? 0,
-});
-
-/**
- * Convert react-colorful HslColor to Hikka HslColor format.
- */
-export const toHikkaColor = (color: HslColor): HikkaHslColor => ({
-    h: Math.round(color.h),
-    s: Math.round(color.s),
-    l: Math.round(color.l),
-});
-
-/**
- * Format Hikka HSL color as a string (e.g., "321 70% 65%").
- */
-export const formatHSL = (
-    color: HikkaHslColor | null | undefined,
-): string | null => {
-    if (!color) return null;
-    return `${color.h} ${color.s}% ${color.l}%`;
-};
-
-/**
- * Convert Hikka HSL color to CSS hsl() string.
- */
-export const toHSLString = (
-    color: HikkaHslColor | null | undefined,
-): string => {
-    if (!color) return 'transparent';
-    return `hsl(${color.h} ${color.s}% ${color.l}%)`;
-};
-
-/**
- * Convert HSL values to hex color string.
- */
-export const hslToHex = (h: number, s: number, l: number): string => {
-    s /= 100;
-    l /= 100;
-
-    const c = (1 - Math.abs(2 * l - 1)) * s;
-    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-    const m = l - c / 2;
-
-    let r = 0,
-        g = 0,
-        b = 0;
-
-    if (h >= 0 && h < 60) {
-        r = c;
-        g = x;
-        b = 0;
-    } else if (h >= 60 && h < 120) {
-        r = x;
-        g = c;
-        b = 0;
-    } else if (h >= 120 && h < 180) {
-        r = 0;
-        g = c;
-        b = x;
-    } else if (h >= 180 && h < 240) {
-        r = 0;
-        g = x;
-        b = c;
-    } else if (h >= 240 && h < 300) {
-        r = x;
-        g = 0;
-        b = c;
-    } else if (h >= 300 && h < 360) {
-        r = c;
-        g = 0;
-        b = x;
-    }
-
-    const toHex = (n: number) => {
-        const hex = Math.round((n + m) * 255).toString(16);
-        return hex.length === 1 ? `0${hex}` : hex;
-    };
-
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
-};
-
-/**
- * Convert hex color string to HSL values.
- */
-export const hexToHsl = (hex: string): HslColor | null => {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    if (!result) return null;
-
-    const r = parseInt(result[1], 16) / 255;
-    const g = parseInt(result[2], 16) / 255;
-    const b = parseInt(result[3], 16) / 255;
-
-    const max = Math.max(r, g, b);
-    const min = Math.min(r, g, b);
-    let h = 0;
-    let s = 0;
-    const l = (max + min) / 2;
-
-    if (max !== min) {
-        const d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-        switch (max) {
-            case r:
-                h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
-                break;
-            case g:
-                h = ((b - r) / d + 2) / 6;
-                break;
-            case b:
-                h = ((r - g) / d + 4) / 6;
-                break;
-        }
-    }
-
-    return {
-        h: Math.round(h * 360),
-        s: Math.round(s * 100),
-        l: Math.round(l * 100),
-    };
-};
 
 /* ------------------------------------------------------------------ */
 /* OKLCH                                                               */
@@ -152,7 +20,11 @@ const srgbToLinear = (c: number): number =>
 const linearToSrgb = (c: number): number =>
     c <= 0.0031308 ? c * 12.92 : 1.055 * c ** (1 / 2.4) - 0.055;
 
-const hslToRgb = (h: number, s: number, l: number): [number, number, number] => {
+const hslToRgb = (
+    h: number,
+    s: number,
+    l: number,
+): [number, number, number] => {
     s /= 100;
     l /= 100;
     const k = (n: number) => (n + h / 30) % 12;
@@ -210,7 +82,9 @@ const oklchToRgb = ({ l, c, h }: OklchColor): [number, number, number] => {
 };
 
 /** Validate an OklchColor: l∈[0,1], c∈[0,0.4], h∈[0,360], all finite. */
-export const isValidOklch = (color: OklchColor | null | undefined): boolean =>
+export const isValidOklch = (
+    color: OklchColor | null | undefined,
+): color is OklchColor =>
     !!color &&
     Number.isFinite(color.l) &&
     color.l >= 0 &&
@@ -246,11 +120,9 @@ export const hexToOklch = (hex: string): OklchColor | null => {
 /** Convert an OklchColor to an uppercase `#RRGGBB` hex string. */
 export const oklchToHex = (color: OklchColor): string => {
     const [r, g, b] = oklchToRgb(color);
-    const toHex = (n: number) => {
-        const hex = Math.round(n * 255)
+    const toHex = (n: number) =>
+        Math.round(n * 255)
             .toString(16)
             .padStart(2, '0');
-        return hex;
-    };
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
 };

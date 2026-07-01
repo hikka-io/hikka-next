@@ -26,6 +26,7 @@
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
     --color-primary-border: var(--primary-border);
+    --color-primary-solid: var(--primary-solid);
     --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
     --color-destructive: var(--destructive);
@@ -35,6 +36,8 @@
     --color-muted-foreground: var(--muted-foreground);
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
     --color-popover: var(--popover);
     --color-popover-foreground: var(--popover-foreground);
     --color-border: var(--border);
@@ -50,17 +53,6 @@
     --color-success: var(--success);
     --color-success-foreground: var(--success-foreground);
     --color-success-border: var(--success-border);
-
-    /* sidebar colors */
-    --color-sidebar: var(--sidebar-background);
-    --color-sidebar-background: var(--sidebar-background);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-ring: var(--sidebar-ring);
 
     /* status colors */
     --color-ongoing: var(--ongoing-background);
@@ -706,53 +698,59 @@
 }
 
 :root {
-    --background: hsl(0 0% 100%);
-    --foreground: hsl(240 10% 3.9%);
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.142 0.004 286);
 
-    --popover: hsl(0 0% 100%);
-    --popover-foreground: hsl(240 10% 3.9%);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.142 0.004 286);
 
-    --primary: hsl(321 100% 95%);
-    --primary-foreground: hsl(321 70% 65%);
-    --primary-border: hsl(321 90% 90%);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.142 0.004 286);
 
-    --secondary: hsl(0 0% 96.1%);
-    --secondary-foreground: hsl(0 0% 9%);
+    /* Brand — the single knob. The concrete primary trio here is the
+       fallback for browsers without relative-color syntax; the @supports
+       block below re-derives the trio from --brand. */
+    --brand: oklch(0.7 0.18 343);
+    --primary: oklch(0.949 0.035 339);
+    --primary-foreground: oklch(0.691 0.18 343);
+    --primary-border: oklch(0.901 0.064 339);
+    --primary-solid: oklch(0.7 0.18 343);
 
-    --muted: hsl(240 4.8% 95.9%);
-    --muted-foreground: hsl(240 3.8% 46.1%);
-    --accent-foreground: hsl(240 5.9% 10%);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.204 0 0);
 
-    --border: hsl(240 5.9% 90%);
-    --ring: hsl(240 5.9% 10%);
+    --muted: oklch(0.968 0.001 286);
+    --muted-foreground: oklch(0.55 0.014 286);
+
+    --accent: oklch(0.968 0.001 286);
+    --accent-foreground: oklch(0.21 0.006 286);
+
+    --border: oklch(0.92 0.004 286);
+    --input: oklch(0.92 0.004 286);
+    --ring: oklch(0.21 0.006 286);
     --radius: 0.625rem;
 
-    --sidebar-background: hsl(0 0% 100%);
-    --sidebar-foreground: hsl(240 5.3% 26.1%);
-    --sidebar-primary: hsl(240 5.9% 10%);
-    --sidebar-primary-foreground: hsl(0 0% 98%);
-    --sidebar-accent: hsl(240 4.8% 95.9%);
-    --sidebar-accent-foreground: hsl(240 5.9% 10%);
-    --sidebar-border: hsl(220 13% 91%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
+    /* Backdrop derivation constants (light = invisible white wash) */
+    --backdrop-l: 1;
+    --backdrop-c: 0;
 
     /* General colors */
 
-    --success: hsl(143 85% 96%);
-    --success-foreground: hsl(140 100% 27%);
-    --success-border: hsl(145 92% 87%);
+    --success: oklch(0.98 0.023 159);
+    --success-foreground: oklch(0.551 0.165 147);
+    --success-border: oklch(0.941 0.078 159);
 
-    --info: hsl(208 100% 97%);
-    --info-foreground: hsl(210 92% 45%);
-    --info-border: hsl(221 91% 93%);
+    --info: oklch(0.975 0.013 244);
+    --info-foreground: oklch(0.563 0.182 255);
+    --info-border: oklch(0.928 0.032 266);
 
-    --warning: hsl(49 100% 97%);
-    --warning-foreground: hsl(31 92% 45%);
-    --warning-border: hsl(49 91% 84%);
+    --warning: oklch(0.99 0.017 96);
+    --warning-foreground: oklch(0.669 0.16 57);
+    --warning-border: oklch(0.945 0.079 97);
 
-    --destructive: hsl(359 100% 97%);
-    --destructive-foreground: hsl(360 100% 45%);
-    --destructive-border: hsl(359 100% 94%);
+    --destructive: oklch(0.966 0.017 16);
+    --destructive-foreground: oklch(0.58 0.238 29);
+    --destructive-border: oklch(0.933 0.034 17);
 
     /* Status colors */
 
@@ -772,9 +770,9 @@
     --discontinued-border: var(--destructive-border);
     --discontinued-foreground: var(--destructive-foreground);
 
-    --paused-background: hsl(0 0% 97%);
-    --paused-border: hsl(0 0% 85%);
-    --paused-foreground: hsl(0 0% 45%);
+    --paused-background: oklch(0.977 0 0);
+    --paused-border: oklch(0.885 0 0);
+    --paused-foreground: oklch(0.555 0 0);
 
     /* Read/Watch status colors */
 
@@ -814,53 +812,54 @@
 }
 
 .dark {
-    --background: hsl(0 0% 0%);
-    --foreground: hsl(0 0% 98%);
+    --background: oklch(0 0 0);
+    --foreground: oklch(0.985 0 0);
 
-    --popover: hsl(240 10% 3.9%);
-    --popover-foreground: hsl(0 0% 98%);
+    --card: oklch(0 0 0);
+    --card-foreground: oklch(0.985 0 0);
 
-    --primary: hsl(300 10% 5%);
-    --primary-foreground: hsl(321 70% 69%);
-    --primary-border: hsl(321 43% 17%);
+    --popover: oklch(0.142 0.004 286);
+    --popover-foreground: oklch(0.985 0 0);
 
-    --secondary: hsl(240 3.7% 15.9%);
-    --secondary-foreground: hsl(0 0% 98%);
+    --primary: oklch(0.156 0.007 326);
+    --primary-foreground: oklch(0.722 0.16 342);
+    --primary-border: oklch(0.277 0.068 343);
 
-    --muted: hsl(240 3.7% 15.9%);
-    --muted-foreground: hsl(240 5% 64.9%);
-    --accent-foreground: hsl(0 0% 98%);
+    --secondary: oklch(0.275 0.006 286);
+    --secondary-foreground: oklch(0.985 0 0);
 
-    --border: hsl(240 3.7% 10%);
-    --ring: hsl(240 4.9% 83.9%);
+    --muted: oklch(0.275 0.006 286);
+    --muted-foreground: oklch(0.713 0.013 286);
+
+    --accent: oklch(0.275 0.006 286);
+    --accent-foreground: oklch(0.985 0 0);
+
+    --border: oklch(0.212 0.004 286);
+    --input: oklch(0.212 0.004 286);
+    --ring: oklch(0.872 0.006 286);
     --radius: 0.625rem;
 
-    --sidebar-background: hsl(0 0% 0%);
-    --sidebar-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-primary: hsl(224.3 76.3% 48%);
-    --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(240 3.7% 15.9%);
-    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-border: hsl(240 3.7% 15.9%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
+    /* Backdrop derivation constants (dark = brand-tinted glow) */
+    --backdrop-l: 0.12;
+    --backdrop-c: 0.5;
 
     /* General colors */
 
-    --success: hsl(150 100% 6%);
-    --success-foreground: hsl(150 86% 65%);
-    --success-border: hsl(147 100% 12%);
+    --success: oklch(0.209 0.049 158);
+    --success-foreground: oklch(0.862 0.169 158);
+    --success-border: oklch(0.316 0.083 152);
 
-    --info: hsl(215 100% 6%);
-    --info-foreground: hsl(216 87% 65%);
-    --info-border: hsl(223 43% 17%);
+    --info: oklch(0.156 0.045 251);
+    --info-foreground: oklch(0.675 0.153 258);
+    --info-border: oklch(0.262 0.053 267);
 
-    --warning: hsl(64 100% 6%);
-    --warning-foreground: hsl(46 87% 65%);
-    --warning-border: hsl(60 100% 9%);
+    --warning: oklch(0.228 0.051 113);
+    --warning-foreground: oklch(0.864 0.142 92);
+    --warning-border: oklch(0.291 0.063 110);
 
-    --destructive: hsl(358 76% 10%);
-    --destructive-foreground: hsl(358 100% 81%);
-    --destructive-border: hsl(357 89% 16%);
+    --destructive: oklch(0.199 0.064 23);
+    --destructive-foreground: oklch(0.799 0.116 18);
+    --destructive-border: oklch(0.27 0.103 26);
 
     /* Status colors */
 
@@ -880,9 +879,9 @@
     --discontinued-border: var(--destructive-border);
     --discontinued-foreground: var(--destructive-foreground);
 
-    --paused-background: hsl(0 0% 15%);
-    --paused-border: hsl(0 0% 20%);
-    --paused-foreground: hsl(0 0% 65%);
+    --paused-background: oklch(0.27 0 0);
+    --paused-border: oklch(0.321 0 0);
+    --paused-foreground: oklch(0.724 0 0);
 
     /* Read/Watch status colors */
 
@@ -909,6 +908,49 @@
     --watching-background: var(--ongoing-background);
     --watching-border: var(--ongoing-border);
     --watching-foreground: var(--ongoing-foreground);
+}
+
+/* Brand-derived primary trio. When relative-color syntax is supported, the
+   primary tint/text/border are generated from the single --brand color, so
+   changing --brand (default or user-injected) re-themes the whole accent.
+   Browsers without support keep the concrete fallback trio defined above. */
+@supports (color: oklch(from red l c h)) {
+    :root:root {
+        --primary: oklch(from var(--brand) 0.95 calc(c * 0.19) h);
+        --primary-foreground: oklch(from var(--brand) 0.69 c h);
+        --primary-border: oklch(from var(--brand) 0.9 calc(c * 0.35) h);
+        --primary-solid: var(--brand);
+    }
+
+    .dark.dark {
+        --primary: oklch(from var(--brand) 0.156 calc(c * 0.04) h);
+        --primary-foreground: oklch(from var(--brand) 0.722 c h);
+        --primary-border: oklch(from var(--brand) 0.277 calc(c * 0.38) h);
+    }
+}
+
+/* Ambient page backdrop — a brand-tinted glow anchored to the top, gated by
+   the [data-backdrop] attribute on <html>. Hidden behind cover images. */
+[data-backdrop="glow"]::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+        to bottom,
+        oklch(
+                from var(--brand) var(--backdrop-l) calc(c * var(--backdrop-c))
+                    h / var(--backdrop-intensity, 1)
+            )
+            0%,
+        transparent 60%
+    );
+}
+
+body:has([data-cover-image][data-overlay="false"]) [data-backdrop]::before {
+    display: none;
 }
 
 @keyframes fade-in {

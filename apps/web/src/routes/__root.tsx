@@ -1,5 +1,7 @@
 import '@fontsource-variable/geist';
 
+import type { CSSProperties } from 'react';
+
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools';
 import {
@@ -18,7 +20,7 @@ import RouterProgressBar from '@/components/router-progress-bar';
 import { Providers } from '@/features/app-shell';
 import { getThemeCookieFn, refreshAuthCookieFn } from '@/utils/cookies';
 import { DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
-import { getUserStylesCSS } from '@/utils/ui/server';
+import { getUserStyles } from '@/utils/ui/server';
 
 import '../globals.css';
 import type { RouterContext } from '../router';
@@ -69,19 +71,26 @@ export const Route = createRootRouteWithContext<RouterContext>()({
                 | UserCustomizationResponse
                 | undefined) ?? DEFAULT_USER_UI;
 
-        const userStylesCSS = getUserStylesCSS(userUI);
-        return { userStylesCSS, theme };
+        const { css: userStylesCSS, backdrop } = getUserStyles(userUI);
+        return { userStylesCSS, theme, backdrop };
     },
     component: RootLayout,
     notFoundComponent: NotFoundPage,
 });
 
 function RootLayout() {
-    const { userStylesCSS, theme } = Route.useLoaderData();
+    const { userStylesCSS, theme, backdrop } = Route.useLoaderData();
     const router = useRouter();
 
     return (
-        <html lang="uk" suppressHydrationWarning>
+        <html
+            lang="uk"
+            suppressHydrationWarning
+            data-backdrop={backdrop.style}
+            style={
+                { '--backdrop-intensity': backdrop.intensity } as CSSProperties
+            }
+        >
             <head>
                 <script
                     // biome-ignore lint/security/noDangerouslySetInnerHtml: static inline theme script to prevent FOUC; contains no user input.

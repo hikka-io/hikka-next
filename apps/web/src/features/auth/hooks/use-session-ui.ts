@@ -18,6 +18,9 @@ import {
     mergeEffects,
     mergePreferences,
     mergeStyles,
+    normalizeLegacyStyles,
+    type ResolvedBackdrop,
+    resolveBackdrop,
 } from '@/utils/ui';
 
 type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
@@ -50,6 +53,7 @@ interface SessionUI {
     preferences: SessionPreferences;
     styles: UiStylesOutput;
     mergedStyles: UiStylesOutput;
+    backdrop: ResolvedBackdrop;
     activeEffects: UIEffect[];
 }
 
@@ -65,10 +69,11 @@ export function useSessionUI(): SessionUI {
         (data as UserCustomizationResponse | undefined) ?? DEFAULT_USER_UI;
 
     return useMemo(() => {
-        // Merge sparse API styles with defaults so editors/UI always have full tokens
+        // Merge sparse API styles with defaults so editors/UI always have full
+        // tokens; adapt legacy (pre-`brand`) configs first.
         const resolvedStyles = mergeStyles(
             DEFAULT_USER_UI.styles,
-            userUI.styles,
+            normalizeLegacyStyles(userUI.styles),
         );
         // Then layer event theme on top of resolved styles (single merge, not two)
         const eventTheme = getActiveEventTheme();
@@ -87,6 +92,7 @@ export function useSessionUI(): SessionUI {
             ) as SessionPreferences,
             styles: resolvedStyles,
             mergedStyles,
+            backdrop: resolveBackdrop(mergedStyles),
             activeEffects,
         };
     }, [userUI]);
