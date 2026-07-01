@@ -81,7 +81,7 @@ const FeedQuickFilters: FC<Props> = ({ value, onChange }) => {
         <div
             ref={scrollRef}
             className={cn(
-                'no-scrollbar -mr-4 flex gap-2 overflow-x-auto',
+                'no-scrollbar -mr-4 flex gap-2 overflow-x-auto pr-4',
                 gradientClassName,
             )}
         >

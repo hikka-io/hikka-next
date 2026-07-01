@@ -135,7 +135,7 @@ const FeedItem: FC<Props> = ({ item }) => {
     return (
         <article className="flex items-start gap-4 p-4">
             <HorizontalCardImage
-                className="w-12 shrink-0"
+                className="w-10 shrink-0 sm:w-12"
                 image={item.author.avatar}
                 imageRatio={1}
                 href={`/u/${item.author.username}`}

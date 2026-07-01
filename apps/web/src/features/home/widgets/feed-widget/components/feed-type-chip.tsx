@@ -31,17 +31,17 @@ const VERDICT: Record<
 > = {
     yes: {
         label: 'Рекомендує',
-        className: 'text-success bg-success/10',
+        className: 'text-success-foreground bg-success-foreground/10',
         icon: ThumbsUp,
     },
     no: {
         label: 'Не рекомендує',
-        className: 'text-destructive bg-destructive/10',
+        className: 'text-destructive-foreground bg-destructive-foreground/10',
         icon: ThumbsDown,
     },
     maybe: {
         label: 'Вагається',
-        className: 'text-warning bg-warning/10',
+        className: 'text-warning-foreground bg-warning-foreground/10',
         icon: Meh,
     },
 };

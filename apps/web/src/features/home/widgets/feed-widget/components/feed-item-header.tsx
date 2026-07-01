@@ -52,7 +52,7 @@ const FeedItemHeader: FC<Props> = ({
                         })}
                     </span>
                 </div>
-                <div className="flex items-center gap-2 overflow-hidden">
+                <div className="flex flex-col items-start gap-2 overflow-hidden sm:flex-row sm:items-center">
                     <FeedTypeChip
                         dataType={dataType}
                         recommended={recommended}

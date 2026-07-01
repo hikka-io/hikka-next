@@ -128,7 +128,10 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
     }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
-        <Card className="gap-0 bg-secondary/20 p-0" id="feed-widget">
+        <Card
+            className="-mx-4 gap-0 rounded-none border-x-0 bg-secondary/20 p-0 sm:mx-0 sm:rounded-lg sm:border-x"
+            id="feed-widget"
+        >
             <div className="flex flex-col gap-4 p-4">
                 <Header>
                     <HeaderContainer>

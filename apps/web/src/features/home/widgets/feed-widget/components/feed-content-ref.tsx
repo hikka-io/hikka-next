@@ -23,7 +23,7 @@ const FeedContentRef: FC<Props> = ({ contentType, slug, title }) => {
     return (
         <Chip
             asChild
-            className="min-w-0 bg-secondary/40 text-muted-foreground hover:bg-secondary"
+            className="min-w-0 max-w-full shrink bg-secondary/40 text-muted-foreground hover:bg-secondary"
         >
             <Link to={`${CONTENT_TYPE_LINKS[contentType]}/${slug}`}>
                 <FeedContentTypeIcon
