@@ -68,7 +68,11 @@ const StylesSettings = () => {
     useEffect(() => setIntensity(backdrop.intensity), [backdrop.intensity]);
 
     const commitBrand = (next: OklchColor) => {
+        // Always clear the live preview; only persist an actual change so
+        // opening/closing the picker (or re-clicking the active preset)
+        // doesn't fire a no-op mutation.
         setLiveVar('--brand', null);
+        if (oklchEqual(next, brand)) return;
         update({ styles: { ...styles, brand: next } });
     };
 
@@ -83,6 +87,7 @@ const StylesSettings = () => {
     };
 
     const commitIntensity = (value: number) => {
+        if (value === backdrop.intensity) return;
         update({
             styles: {
                 ...styles,
