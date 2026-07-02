@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
+import type { UiStylesOutput } from '@hikka/api';
+
 import { DEFAULT_STYLES } from './defaults';
 import { diffStyles, mergeStyles } from './merge';
 
@@ -38,6 +40,26 @@ describe('mergeStyles', () => {
         const merged = mergeStyles(DEFAULT_STYLES, {
             brand: { l: 0.5, c: 0.2, h: 10 },
         });
+        expect(merged.brand).toEqual({ l: 0.5, c: 0.2, h: 10 });
+    });
+});
+
+describe('event theme layering (defaults < event < user)', () => {
+    const eventStyles: UiStylesOutput = { brand: { l: 0.6, c: 0.1, h: 100 } };
+
+    it('event brand beats defaults when the user has no brand', () => {
+        const merged = mergeStyles(
+            mergeStyles(DEFAULT_STYLES, eventStyles),
+            {},
+        );
+        expect(merged.brand).toEqual({ l: 0.6, c: 0.1, h: 100 });
+    });
+
+    it('user brand beats the event theme', () => {
+        const merged = mergeStyles(
+            mergeStyles(DEFAULT_STYLES, eventStyles),
+            { brand: { l: 0.5, c: 0.2, h: 10 } },
+        );
         expect(merged.brand).toEqual({ l: 0.5, c: 0.2, h: 10 });
     });
 });

@@ -74,9 +74,15 @@ export function useSessionUI(): SessionUI {
             DEFAULT_USER_UI.styles,
             userUI.styles,
         );
-        // Then layer event theme on top of resolved styles (single merge, not two)
+        // Layer defaults < event theme < the user's sparse styles, matching
+        // the SSR path in utils/ui/server.ts — the event theme applies only
+        // where the user hasn't customized. (Merging the event theme under
+        // the densified resolvedStyles would mask it entirely.)
         const eventTheme = getActiveEventTheme();
-        const mergedStyles = mergeStyles(eventTheme?.styles, resolvedStyles);
+        const mergedStyles = mergeStyles(
+            mergeStyles(DEFAULT_USER_UI.styles, eventTheme?.styles),
+            userUI.styles,
+        );
         const activeEffects = mergeEffects(
             eventTheme?.effects,
             userUI.preferences?.effect,
