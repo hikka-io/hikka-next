@@ -56,10 +56,9 @@ describe('event theme layering (defaults < event < user)', () => {
     });
 
     it('user brand beats the event theme', () => {
-        const merged = mergeStyles(
-            mergeStyles(DEFAULT_STYLES, eventStyles),
-            { brand: { l: 0.5, c: 0.2, h: 10 } },
-        );
+        const merged = mergeStyles(mergeStyles(DEFAULT_STYLES, eventStyles), {
+            brand: { l: 0.5, c: 0.2, h: 10 },
+        });
         expect(merged.brand).toEqual({ l: 0.5, c: 0.2, h: 10 });
     });
 });
