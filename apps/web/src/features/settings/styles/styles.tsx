@@ -15,6 +15,7 @@ import { DEFAULT_BRAND } from '@/utils/ui';
 import { oklchEqual, oklchToCss, oklchToHex } from '@/utils/ui/color';
 
 import BrandColorPicker from './components/brand-color-picker';
+import Swatch from './components/swatch';
 
 const RADIUS_OPTIONS: { value: string; label: string }[] = [
     { value: '0', label: 'Без' },
@@ -100,22 +101,18 @@ const StylesSettings = () => {
                     {ACCENT_PRESETS.map((preset) => {
                         const isActive = oklchEqual(brand, preset.brand);
                         return (
-                            <button
+                            <Swatch
                                 key={preset.name}
-                                type="button"
                                 title={preset.name}
                                 aria-label={preset.name}
+                                active={isActive}
                                 onClick={() => commitBrand(preset.brand)}
-                                data-active={isActive}
-                                className="grid size-9 place-items-center rounded-lg border transition-transform hover:scale-105 data-[active=true]:ring-2 data-[active=true]:ring-ring data-[active=true]:ring-offset-2 data-[active=true]:ring-offset-background"
                                 style={{
                                     backgroundColor: oklchToCss(preset.brand),
                                 }}
                             >
-                                {isActive && (
-                                    <Check className="size-4 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]" />
-                                )}
-                            </button>
+                                {isActive && <Check />}
+                            </Swatch>
                         );
                     })}
                     <BrandColorPicker

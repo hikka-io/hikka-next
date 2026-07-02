@@ -12,8 +12,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import { cn } from '@/utils/cn';
 import { hexToOklch, oklchToHex } from '@/utils/ui/color';
+
+import Swatch from './swatch';
 
 const RAINBOW =
     'conic-gradient(from 0deg, #ff5f6d, #ffc371, #7ee8fa, #6a82fb, #b06ab3, #ff5f6d)';
@@ -88,27 +89,18 @@ const BrandColorPicker = ({ value, active, onPreview, onCommit }: Props) => {
             }}
         >
             <PopoverTrigger asChild>
-                <button
-                    type="button"
+                <Swatch
                     aria-label="Обрати власний колір"
                     title="Власний колір"
-                    className={cn(
-                        'grid size-9 place-items-center rounded-lg border transition-transform hover:scale-105',
-                        active &&
-                            'ring-2 ring-ring ring-offset-2 ring-offset-background',
-                    )}
+                    active={active}
                     style={
                         active
                             ? { backgroundColor: oklchToHex(value) }
                             : { background: RAINBOW }
                     }
                 >
-                    {active ? (
-                        <Check className="size-4 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]" />
-                    ) : (
-                        <Palette className="size-4 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]" />
-                    )}
-                </button>
+                    {active ? <Check /> : <Palette />}
+                </Swatch>
             </PopoverTrigger>
             <PopoverContent
                 align="end"
