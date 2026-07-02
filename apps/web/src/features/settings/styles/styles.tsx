@@ -11,16 +11,10 @@ import { Switch } from '@/components/ui/switch';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { ACCENT_PRESETS } from '@/utils/constants/styles';
-import { DEFAULT_STYLES } from '@/utils/ui';
+import { DEFAULT_BRAND } from '@/utils/ui';
 import { oklchEqual, oklchToCss, oklchToHex } from '@/utils/ui/color';
 
 import BrandColorPicker from './components/brand-color-picker';
-
-const DEFAULT_BRAND: OklchColor = DEFAULT_STYLES.brand ?? {
-    l: 0.7,
-    c: 0.18,
-    h: 343,
-};
 
 const RADIUS_OPTIONS: { value: string; label: string }[] = [
     { value: '0', label: 'Без' },

@@ -11,7 +11,7 @@ export {
     oklchToCss,
     oklchToHex,
 } from './color';
-export { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
+export { DEFAULT_BRAND, DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 export {
     applyStyles,
     injectStyles,

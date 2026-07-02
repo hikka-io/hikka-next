@@ -2,10 +2,14 @@
  * Default UI styles and UI settings.
  */
 import {
+    type OklchColor,
     type UiStylesOutput,
     UiWidgetEnum,
     type UserCustomizationResponse,
 } from '@hikka/api';
+
+/** The default accent seed — the single source of truth for the brand color. */
+export const DEFAULT_BRAND: OklchColor = { l: 0.7, c: 0.18, h: 343 };
 
 /**
  * Default UI styles. The whole accent palette derives from `brand`; the
@@ -13,7 +17,7 @@ import {
  * fixed constants in globals.css.
  */
 export const DEFAULT_STYLES: UiStylesOutput = {
-    brand: { l: 0.7, c: 0.18, h: 343 },
+    brand: DEFAULT_BRAND,
     backdrop: { style: 'glow', intensity: 0.7 },
     radius: '0.625rem',
 };
