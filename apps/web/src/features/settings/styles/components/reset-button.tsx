@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { cn } from '@/utils/cn';
-import { DEFAULT_STYLES, diffStyles } from '@/utils/ui';
+import { clearLivePreview, DEFAULT_STYLES, diffStyles } from '@/utils/ui';
 
 /**
  * Resets appearance styles (brand, radius, backdrop, overrides) to defaults.
@@ -18,8 +18,7 @@ const StylesResetButton = () => {
     const isCustomized = diffStyles(styles) !== undefined;
 
     const resetToDefaults = () => {
-        document.documentElement.style.removeProperty('--brand');
-        document.documentElement.style.removeProperty('--backdrop-intensity');
+        clearLivePreview();
         update({ styles: { ...DEFAULT_STYLES } });
     };
 

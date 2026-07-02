@@ -21,6 +21,11 @@ export {
     stylesToCSS,
 } from './inject-styles';
 export {
+    clearLivePreview,
+    type LivePreviewVar,
+    setLiveVar,
+} from './live-preview';
+export {
     diffStyles,
     mergeEffects,
     mergePreferences,

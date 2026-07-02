@@ -11,7 +11,7 @@ import { Switch } from '@/components/ui/switch';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { ACCENT_PRESETS } from '@/utils/constants/styles';
-import { DEFAULT_BRAND } from '@/utils/ui';
+import { DEFAULT_BRAND, setLiveVar } from '@/utils/ui';
 import { oklchEqual, oklchToCss, oklchToHex } from '@/utils/ui/color';
 
 import BrandColorPicker from './components/brand-color-picker';
@@ -25,11 +25,6 @@ const RADIUS_OPTIONS: { value: string; label: string }[] = [
     { value: '0.75', label: 'LG' },
     { value: '1.5', label: 'XL' },
 ];
-
-const setLiveVar = (name: string, value: string | null) => {
-    if (value === null) document.documentElement.style.removeProperty(name);
-    else document.documentElement.style.setProperty(name, value);
-};
 
 const Field = ({
     title,
