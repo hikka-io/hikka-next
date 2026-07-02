@@ -927,27 +927,49 @@
 }
 
 /* Ambient page backdrop — a brand-tinted glow anchored to the top, gated by
-   the [data-backdrop] attribute on <html>. Hidden behind cover images. */
+   the [data-backdrop] attribute on <html>. Strength is the user's manual
+   --backdrop-intensity multiplied by a cover-aware scale: pages with a cover
+   dim the glow so the artwork underneath stays visible. */
 [data-backdrop="glow"]::before {
     content: "";
-    position: fixed;
+    position: absolute;
     inset: 0 0 auto 0;
     height: 100vh;
     z-index: -1;
     pointer-events: none;
+    --backdrop-cover-scale: 1;
     background: linear-gradient(
         to bottom,
         oklch(
                 from var(--brand) var(--backdrop-l) calc(c * var(--backdrop-c))
-                    h / var(--backdrop-intensity, 1)
+                    h /
+                calc(var(--backdrop-intensity, 1) * var(--backdrop-cover-scale))
             )
             0%,
         transparent 60%
     );
 }
 
-body:has([data-cover-image][data-overlay="false"]) [data-backdrop]::before {
-    display: none;
+[data-backdrop="glow"]:has([data-cover-image])::before {
+    --backdrop-cover-scale: 0.25;
+}
+
+/* react-colorful (brand color picker) — fill the popover width and follow the
+   app's --radius so the picker matches the rest of the UI. Doubled selectors
+   raise specificity above react-colorful's own injected stylesheet. */
+.react-colorful.react-colorful {
+    width: 100%;
+    height: 11rem;
+}
+
+.react-colorful__saturation.react-colorful__saturation {
+    border-radius: var(--radius);
+}
+
+.react-colorful__hue.react-colorful__hue {
+    height: 1rem;
+    margin-top: 0.75rem;
+    border-radius: var(--radius);
 }
 
 @keyframes fade-in {

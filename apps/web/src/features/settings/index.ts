@@ -2,9 +2,9 @@
 
 // Profile Settings
 export { default as ProfileAppearance } from './appearance';
+export { default as ApplicationsSettings } from './applications/applications';
 // Applications Settings
 export { default as AuthorizedAppsSettings } from './applications/authorized-apps';
-export { default as ApplicationsSettings } from './applications/applications';
 export { default as ClientCreateButton } from './client-create-button';
 export { default as ProfileDescription } from './description';
 // Customization Settings
@@ -23,5 +23,5 @@ export { default as NotificationsSettings } from './notifications';
 export { default as PasswordSettings } from './password';
 export { default as Preferences } from './preferences';
 export { default as ProfilePrivacy } from './privacy';
-export { default as Styles } from './styles';
+export { default as Styles, StylesResetButton } from './styles';
 export { default as ProfileUsername } from './username';

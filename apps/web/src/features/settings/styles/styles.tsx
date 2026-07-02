@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 
-import { RotateCcw } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 import type { OklchColor } from '@hikka/api';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { ACCENT_PRESETS } from '@/utils/constants/styles';
 import { DEFAULT_STYLES } from '@/utils/ui';
-import { oklchEqual, oklchToCss } from '@/utils/ui/color';
+import { oklchEqual, oklchToCss, oklchToHex } from '@/utils/ui/color';
 
 import BrandColorPicker from './components/brand-color-picker';
 
@@ -36,14 +36,30 @@ const setLiveVar = (name: string, value: string | null) => {
     else document.documentElement.style.setProperty(name, value);
 };
 
+const Field = ({
+    title,
+    description,
+    children,
+}: {
+    title: string;
+    description: string;
+    children: ReactNode;
+}) => (
+    <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1">
+            <Label>{title}</Label>
+            <span className="text-muted-foreground text-xs">{description}</span>
+        </div>
+        {children}
+    </div>
+);
+
 const StylesSettings = () => {
     const { styles, backdrop } = useSessionUI();
     const { update } = useUpdateSessionUI();
 
     const brand = styles.brand ?? DEFAULT_BRAND;
-    const isCustomBrand = !ACCENT_PRESETS.some((p) =>
-        oklchEqual(brand, p.brand),
-    );
+    const activePreset = ACCENT_PRESETS.find((p) => oklchEqual(brand, p.brand));
     const currentRadius = styles.radius?.replace('rem', '') ?? '0.625';
 
     // Local slider state so the thumb tracks during drag; the query only
@@ -75,52 +91,57 @@ const StylesSettings = () => {
         });
     };
 
-    const resetToDefaults = () => {
-        setLiveVar('--brand', null);
-        setLiveVar('--backdrop-intensity', null);
-        update({
-            styles: {
-                ...styles,
-                brand: DEFAULT_STYLES.brand,
-                radius: DEFAULT_STYLES.radius,
-                backdrop: DEFAULT_STYLES.backdrop,
-                overrides: undefined,
-            },
-        });
-    };
-
     return (
-        <div className="flex w-full flex-col gap-6">
-            <div className="flex w-full flex-col gap-2">
-                <Label>Основний колір</Label>
+        <div className="flex w-full flex-col gap-8">
+            <Field
+                title="Основний колір"
+                description="Оберіть пресет або власний акцентний колір"
+            >
                 <div className="flex flex-wrap items-center gap-2">
-                    {ACCENT_PRESETS.map((preset) => (
-                        <button
-                            key={preset.name}
-                            type="button"
-                            title={preset.name}
-                            aria-label={preset.name}
-                            onClick={() => commitBrand(preset.brand)}
-                            data-active={oklchEqual(brand, preset.brand)}
-                            className="size-9 rounded-md border data-[active=true]:ring-2 data-[active=true]:ring-ring data-[active=true]:ring-offset-1"
-                            style={{
-                                backgroundColor: oklchToCss(preset.brand),
-                            }}
-                        />
-                    ))}
+                    {ACCENT_PRESETS.map((preset) => {
+                        const isActive = oklchEqual(brand, preset.brand);
+                        return (
+                            <button
+                                key={preset.name}
+                                type="button"
+                                title={preset.name}
+                                aria-label={preset.name}
+                                onClick={() => commitBrand(preset.brand)}
+                                data-active={isActive}
+                                className="grid size-9 place-items-center rounded-lg border transition-transform hover:scale-105 data-[active=true]:ring-2 data-[active=true]:ring-ring data-[active=true]:ring-offset-2 data-[active=true]:ring-offset-background"
+                                style={{
+                                    backgroundColor: oklchToCss(preset.brand),
+                                }}
+                            >
+                                {isActive && (
+                                    <Check className="size-4 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]" />
+                                )}
+                            </button>
+                        );
+                    })}
                     <BrandColorPicker
                         value={brand}
-                        active={isCustomBrand}
+                        active={!activePreset}
                         onPreview={(next) =>
                             setLiveVar('--brand', oklchToCss(next))
                         }
                         onCommit={commitBrand}
                     />
+                    <div className="ml-auto flex items-center gap-2">
+                        <span className="text-muted-foreground text-sm">
+                            {activePreset?.name ?? 'Власний'}
+                        </span>
+                        <span className="rounded-md bg-secondary px-2 py-1 font-mono text-xs">
+                            {oklchToHex(brand)}
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </Field>
 
-            <div className="flex w-full flex-col gap-2">
-                <Label>Радіус заокруглення</Label>
+            <Field
+                title="Радіус заокруглення"
+                description="Заокруглення кутів кнопок, карток та полів"
+            >
                 <div className="flex flex-wrap gap-2">
                     {RADIUS_OPTIONS.map((option) => (
                         <Button
@@ -137,70 +158,47 @@ const StylesSettings = () => {
                         </Button>
                     ))}
                 </div>
-            </div>
+            </Field>
 
-            <div className="flex w-full flex-col gap-2">
-                <Label>Фон</Label>
-                <div className="flex flex-wrap gap-2">
-                    <Button
-                        variant={
-                            backdrop.style === 'glow' ? 'default' : 'outline'
+            <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between gap-4">
+                    <div className="flex flex-col gap-1">
+                        <Label>Фоновий градієнт</Label>
+                        <span className="text-muted-foreground text-xs">
+                            Акцентне сяйво вгорі сторінки
+                        </span>
+                    </div>
+                    <Switch
+                        checked={backdrop.style === 'glow'}
+                        onCheckedChange={(checked) =>
+                            setBackdropStyle(checked ? 'glow' : 'none')
                         }
-                        onClick={() => setBackdropStyle('glow')}
-                        size="badge"
-                    >
-                        Сяйво
-                    </Button>
-                    <Button
-                        variant={
-                            backdrop.style === 'none' ? 'default' : 'outline'
-                        }
-                        onClick={() => setBackdropStyle('none')}
-                        size="badge"
-                    >
-                        Вимкнено
-                    </Button>
+                    />
                 </div>
                 {backdrop.style === 'glow' && (
-                    <Slider
-                        className="mt-2 max-w-xs"
-                        min={0}
-                        max={1}
-                        step={0.05}
-                        value={[intensity]}
-                        showValue="on-interaction"
-                        formatValue={(value) => `${Math.round(value * 100)}%`}
-                        onValueChange={([value]) => {
-                            setIntensity(value);
-                            setLiveVar('--backdrop-intensity', String(value));
-                        }}
-                        onValueCommit={([value]) => commitIntensity(value)}
-                    />
+                    <div className="flex flex-col gap-2">
+                        <div className="flex items-center justify-between">
+                            <Label>Інтенсивність</Label>
+                            <span className="text-muted-foreground text-sm">
+                                {Math.round(intensity * 100)}%
+                            </span>
+                        </div>
+                        <Slider
+                            min={0}
+                            max={1}
+                            step={0.05}
+                            value={[intensity]}
+                            onValueChange={([value]) => {
+                                setIntensity(value);
+                                setLiveVar(
+                                    '--backdrop-intensity',
+                                    String(value),
+                                );
+                            }}
+                            onValueCommit={([value]) => commitIntensity(value)}
+                        />
+                    </div>
                 )}
-            </div>
-
-            <div className="flex w-full flex-col gap-2">
-                <Label>Попередній перегляд</Label>
-                <div className="flex flex-wrap items-center gap-2 rounded-lg border bg-secondary/20 p-4">
-                    <Button size="sm">Кнопка</Button>
-                    <Button size="sm" variant="destructive">
-                        Видалити
-                    </Button>
-                    <Button size="sm" variant="outline">
-                        Контур
-                    </Button>
-                    <Badge>Основний</Badge>
-                    <Badge variant="success">Успіх</Badge>
-                    <Badge variant="warning">Увага</Badge>
-                    <Badge variant="destructive">Помилка</Badge>
-                </div>
-            </div>
-
-            <div>
-                <Button variant="ghost" size="sm" onClick={resetToDefaults}>
-                    <RotateCcw className="size-4" />
-                    Скинути до типових
-                </Button>
             </div>
         </div>
     );

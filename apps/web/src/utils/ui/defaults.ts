@@ -14,7 +14,7 @@ import {
  */
 export const DEFAULT_STYLES: UiStylesOutput = {
     brand: { l: 0.7, c: 0.18, h: 343 },
-    backdrop: { style: 'glow', intensity: 0.5 },
+    backdrop: { style: 'glow', intensity: 0.7 },
     radius: '0.625rem',
 };
 

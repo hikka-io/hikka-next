@@ -1,7 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { Effects, Preferences, Styles } from '@/features/settings';
+import {
+    Effects,
+    Preferences,
+    Styles,
+    StylesResetButton,
+} from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/customization')({
     head: () => ({
@@ -36,6 +41,7 @@ function CustomizationSettingsPage() {
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Вигляд</HeaderTitle>
                     </HeaderContainer>
+                    <StylesResetButton />
                 </Header>
                 <Styles />
             </div>

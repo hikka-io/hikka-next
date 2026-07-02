@@ -4,6 +4,10 @@ import { DEFAULT_STYLES } from './defaults';
 
 export const BACKDROP_ATTR = 'data-backdrop';
 
+/**
+ * The resolved backdrop the app renders. `intensity` is the user's manual glow
+ * strength (0–1); globals.css further scales it down over cover images.
+ */
 export type ResolvedBackdrop = {
     style: 'none' | 'glow';
     intensity: number;
