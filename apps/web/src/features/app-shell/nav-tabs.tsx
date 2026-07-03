@@ -28,7 +28,7 @@ const NavTabs = ({ routes, urlPrefix }: Props) => {
                             asChild
                             key={r.slug}
                             value={urlPrefix + r.url}
-                            className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:hover:bg-secondary/80"
+                            className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground data-[state=active]:hover:bg-accent"
                         >
                             <Link
                                 to={urlPrefix + r.url}

@@ -108,7 +108,7 @@ const FeedQuickFilters: FC<Props> = ({ value, onChange }) => {
                             'border border-transparent px-3.5 text-sm',
                             isActive
                                 ? option.activeClass
-                                : 'bg-secondary/40 text-muted-foreground hover:bg-secondary',
+                                : 'bg-secondary/40 text-muted-foreground hover:bg-accent',
                         )}
                     >
                         <Icon className="size-4 shrink-0" />

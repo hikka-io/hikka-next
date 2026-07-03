@@ -6,7 +6,7 @@ import { Slot as SlotPrimitive } from 'radix-ui';
 import { cn } from '@/utils/cn';
 
 const buttonVariants = cva(
-    'inline-flex gap-2 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50',
+    'inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium outline-none transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
     {
         variants: {
             variant: {
@@ -20,10 +20,10 @@ const buttonVariants = cva(
                 warning:
                     'bg-warning text-warning-foreground border border-warning-border hover:bg-warning-border',
                 outline:
-                    'bg-[var(--surface-inset)] text-foreground border border-border hover:bg-secondary hover:text-secondary-foreground',
+                    'border border-border bg-background text-foreground shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50',
                 secondary:
                     'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-                ghost: 'hover:bg-secondary/60 hover:text-foreground focus-visible:ring-0 focus-visible:ring-offset-0',
+                ghost: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
                 link: 'text-primary-foreground underline-offset-4 hover:underline',
             },
             size: {

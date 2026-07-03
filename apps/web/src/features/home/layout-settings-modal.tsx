@@ -232,7 +232,7 @@ const LayoutPresetSelector: FC<{
             {PRESET_META.map((preset) => (
                 <FieldLabel
                     key={preset.id}
-                    className="transition-colors hover:bg-secondary/60"
+                    className="transition-colors hover:bg-accent"
                 >
                     <Field>
                         <RadioGroupItem

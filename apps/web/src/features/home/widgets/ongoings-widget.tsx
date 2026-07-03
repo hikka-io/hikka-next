@@ -159,7 +159,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                                         to={`/anime/${anime.slug}`}
                                         className={cn(
                                             'group flex items-center gap-4 rounded-sm px-2 py-2',
-                                            'transition-colors hover:bg-secondary/60',
+                                            'transition-colors hover:bg-accent',
                                         )}
                                     >
                                         <ContentCard

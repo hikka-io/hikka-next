@@ -25,6 +25,7 @@ import {
     CommandList,
     CommandSeparator,
 } from './command';
+import { FIELD_BASE } from './field-base';
 import {
     Tooltip,
     TooltipContent,
@@ -356,8 +357,9 @@ const SelectTrigger = React.forwardRef<
                     data-disabled={disabled}
                     {...props}
                     className={cn(
+                        !asChild && FIELD_BASE,
                         !asChild &&
-                            'flex h-auto w-full min-w-0 items-center justify-between gap-2 rounded-lg border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] data-[placeholder]:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:hover:bg-input/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+                            'flex h-auto items-center justify-between gap-2 px-3 py-2 data-[placeholder]:text-muted-foreground dark:hover:bg-input/50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
                         !asChild && selectTriggerSizeClasses[size!],
                         disabled
                             ? 'cursor-not-allowed opacity-50'

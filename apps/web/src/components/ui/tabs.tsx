@@ -28,14 +28,14 @@ const tabsListVariants = cva(
 );
 
 const tabsTriggerVariants = cva(
-    "inline-flex items-center justify-center gap-1.5 whitespace-nowrap text-sm font-medium transition-[color,box-shadow,opacity] focus-visible:outline-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+    "relative inline-flex items-center justify-center gap-1.5 whitespace-nowrap text-sm font-medium text-foreground/60 transition-all hover:text-foreground focus-visible:border-ring focus-visible:outline-1 focus-visible:outline-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     {
         variants: {
             variant: {
                 default:
-                    'data-[state=active]:bg-background dark:data-[state=active]:text-foreground focus-visible:border-ring dark:data-[state=active]:bg-input/30 dark:data-[state=active]:border-input text-foreground dark:text-muted-foreground h-[calc(100%-1px)] flex-1 rounded-md border border-transparent px-2 py-1 data-[state=active]:shadow-sm',
+                    'h-[calc(100%-1px)] flex-1 rounded-md border border-transparent px-2 py-1 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground',
                 underline:
-                    "relative text-muted-foreground hover:text-foreground data-[state=active]:text-foreground px-4 py-0 h-full after:content-[''] after:absolute after:bottom-0 after:inset-x-0 after:h-1 after:rounded-full after:bg-primary-foreground after:opacity-0 after:transition-opacity data-[state=active]:after:opacity-100",
+                    "h-full px-4 py-0 data-[state=active]:text-foreground after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:rounded-full after:bg-primary-foreground after:opacity-0 after:transition-opacity after:content-[''] data-[state=active]:after:opacity-100",
             },
         },
         defaultVariants: {

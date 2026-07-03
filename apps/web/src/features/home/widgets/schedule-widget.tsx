@@ -85,7 +85,7 @@ const ScheduleWidget: FC<WidgetProps> = () => {
                                 key={`${item.anime.slug}-${item.episode}`}
                                 to={`/anime/${item.anime.slug}`}
                                 className={cn(
-                                    'flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors hover:bg-secondary',
+                                    'flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors hover:bg-accent',
                                     isAiringNow &&
                                         'border border-primary-border bg-primary',
                                 )}

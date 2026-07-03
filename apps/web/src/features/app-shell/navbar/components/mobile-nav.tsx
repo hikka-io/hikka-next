@@ -20,8 +20,8 @@ import { Link, usePathname } from '@/utils/navigation';
 const navItemClassName = cn(
     'flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors',
     'text-muted-foreground',
-    'hover:bg-secondary/60 hover:text-foreground',
-    'data-[active=true]:bg-secondary/60 data-[active=true]:font-medium data-[active=true]:text-foreground',
+    'hover:bg-accent hover:text-foreground',
+    'data-[active=true]:bg-accent data-[active=true]:font-medium data-[active=true]:text-foreground',
     '[&_svg:not([class*=size-])]:size-4 [&_svg]:shrink-0',
 );
 
