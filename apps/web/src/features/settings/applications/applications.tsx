@@ -5,9 +5,9 @@ import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
+import ClientCreateButton from '../client-create-button';
 import AuthorizedAppsSettings from './authorized-apps';
 import ApplicationItem from './components/application-item';
-import ClientCreateButton from '../client-create-button';
 
 const ApplicationsSettings = () => {
     const { list } = useInfiniteList(listUserClientsInfiniteOptions());

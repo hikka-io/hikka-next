@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { format } from 'date-fns/format';
+import { LucideChevronsUpDown } from 'lucide-react';
 import { toast } from 'sonner';
 
 import {
@@ -10,6 +11,8 @@ import {
     thirdPartyAuthTokensInfiniteOptions,
 } from '@hikka/api';
 
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -21,10 +24,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { LucideChevronsUpDown } from 'lucide-react';
-
-import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
-import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {
@@ -173,7 +172,7 @@ const AppGroupHeaderInfo: FC<{
                 {verified && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>
-                            <div className="rounded-sm border border-border bg-secondary/20 p-1 backdrop-blur">
+                            <div className="rounded-sm border border-border surface-inset p-1">
                                 <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
                             </div>
                         </TooltipTrigger>
@@ -183,7 +182,7 @@ const AppGroupHeaderInfo: FC<{
                     </Tooltip>
                 )}
                 {tokenCount > 1 && (
-                    <span className="rounded-sm border border-border bg-secondary/20 px-1.5 py-0.5 text-muted-foreground text-xs">
+                    <span className="rounded-sm border border-border surface-inset px-1.5 py-0.5 text-muted-foreground text-xs">
                         {tokenCount} сеанси
                     </span>
                 )}
@@ -231,7 +230,7 @@ const AuthorizedAppGroup: FC<Props> = ({
     });
 
     return (
-        <Card className="flex-col gap-4 bg-secondary/20 backdrop-blur">
+        <Card className="flex-col gap-4">
             <Collapsible defaultOpen={false}>
                 <CollapsibleTrigger asChild>
                     <div className="flex cursor-pointer items-center justify-between gap-4">
@@ -247,7 +246,11 @@ const AuthorizedAppGroup: FC<Props> = ({
                                 isRevokingAll={isRevokingAll}
                                 onRevokeAll={() => revokeAll()}
                             />
-                            <Button variant="ghost" size="md" className="w-9 p-0">
+                            <Button
+                                variant="ghost"
+                                size="md"
+                                className="w-9 p-0"
+                            >
                                 <LucideChevronsUpDown className="size-4" />
                                 <span className="sr-only">Toggle</span>
                             </Button>
@@ -257,7 +260,10 @@ const AuthorizedAppGroup: FC<Props> = ({
                 <CollapsibleContent className="mt-4 w-full overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                     <div className="flex flex-col">
                         {tokens.map((token) => (
-                            <AuthorizedAppItem key={token.reference} token={token} />
+                            <AuthorizedAppItem
+                                key={token.reference}
+                                token={token}
+                            />
                         ))}
                     </div>
                 </CollapsibleContent>

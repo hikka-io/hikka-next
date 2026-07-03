@@ -127,7 +127,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                     to={`/u/${username}/list/${type}`}
                     search={{ status: 'all' }}
                     className={cn(
-                        'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-secondary md:flex-0',
+                        'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent md:flex-0',
                         total === 0 && 'opacity-50',
                     )}
                 >
@@ -165,7 +165,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                                     }
                                     onMouseLeave={() => setHoveredStatus(null)}
                                     className={cn(
-                                        'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-secondary md:flex-0',
+                                        'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent md:flex-0',
                                         count === 0 && 'opacity-50',
                                     )}
                                 >

@@ -105,7 +105,7 @@ const PaginationInput: FC<PaginationInputProps> = ({
                 }
             }}
             className={cn(
-                'size-9 border-none bg-secondary/60 text-center sm:size-10',
+                'size-9 text-center sm:size-10',
                 pageToMove && 'w-16 sm:w-16',
             )}
         />
@@ -214,7 +214,7 @@ export const StickyPagination = ({ page, pages, setPage }: Props) => {
 
     return (
         <div className="sticky bottom-4 z-10 mx-auto flex w-fit items-center">
-            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
+            <Card className="flex-row gap-2 px-3 py-2">
                 <Pagination page={page} pages={pages} setPage={setPage} />
             </Card>
         </div>

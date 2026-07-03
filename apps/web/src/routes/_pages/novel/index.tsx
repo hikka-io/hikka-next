@@ -73,7 +73,7 @@ function NovelListPage() {
                 </div>
 
                 {sidebarVisible && (
-                    <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border bg-secondary/20 backdrop-blur-xl lg:order-2 lg:flex">
+                    <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
                         <ReadFilters
                             content_type={ContentTypeEnum.NOVEL}
                             sort_type="novel"

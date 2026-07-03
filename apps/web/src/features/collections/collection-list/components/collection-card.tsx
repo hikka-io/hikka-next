@@ -56,6 +56,7 @@ const CollectionCard: FC<Props> = ({
 
     return (
         <Card
+            variant="solid"
             className={cn(
                 !isCompact &&
                     'isolate -mx-4 overflow-hidden rounded-none border-x-0 md:mx-0 md:rounded-lg md:border-x',

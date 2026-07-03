@@ -181,7 +181,7 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
                     </Select>
                 </div>
                 {loggedUser && (
-                    <div className="flex h-10 items-center justify-between gap-2 rounded-md border bg-secondary/20 p-4 py-2">
+                    <div className="flex h-10 items-center justify-between gap-2 rounded-md border surface-solid p-4 py-2">
                         <Label
                             htmlFor="only_watch"
                             className="line-clamp-1 min-w-0 truncate text-muted-foreground"

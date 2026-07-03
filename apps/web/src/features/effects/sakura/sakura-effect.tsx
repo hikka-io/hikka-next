@@ -4,40 +4,41 @@ import { BRANCH_TOP_OFFSET_DESKTOP, BRANCH_TOP_OFFSET_MOBILE } from './config';
 import SakuraCanvas from './sakura-canvas';
 
 const MOBILE_MEDIA_QUERY = '(max-width: 767px)';
+const REDUCED_MOTION_MEDIA_QUERY = '(prefers-reduced-motion: reduce)';
 
 const SakuraEffect = () => {
     const branchCanvasRef = useRef<HTMLCanvasElement>(null);
     const particleCanvasRef = useRef<HTMLCanvasElement>(null);
-    const isNarrowRef = useRef(false);
 
     useEffect(() => {
         const branchCanvas = branchCanvasRef.current;
         const particleCanvas = particleCanvasRef.current;
         if (!branchCanvas || !particleCanvas) return;
 
-        const mql = window.matchMedia(MOBILE_MEDIA_QUERY);
+        const narrowMql = window.matchMedia(MOBILE_MEDIA_QUERY);
+        const motionMql = window.matchMedia(REDUCED_MOTION_MEDIA_QUERY);
 
         let controller: SakuraCanvas | null = null;
         let resizeRaf = 0;
 
         const buildController = () => {
-            const isNarrow = mql.matches;
-            isNarrowRef.current = isNarrow;
-            branchCanvas.classList.toggle('top-7', isNarrow);
-            branchCanvas.classList.toggle('top-8', !isNarrow);
+            const isNarrow = narrowMql.matches;
+            const branchTopOffset = isNarrow
+                ? BRANCH_TOP_OFFSET_MOBILE
+                : BRANCH_TOP_OFFSET_DESKTOP;
+            branchCanvas.style.top = `${branchTopOffset}px`;
 
             controller = new SakuraCanvas(branchCanvas, particleCanvas, {
                 isNarrow,
-                branchTopOffset: isNarrow
-                    ? BRANCH_TOP_OFFSET_MOBILE
-                    : BRANCH_TOP_OFFSET_DESKTOP,
+                branchTopOffset,
+                reducedMotion: motionMql.matches,
             });
         };
 
         buildController();
 
         // Coalesce burst resize events (dragging the window corner fires
-        // dozens per second and each resize rebuilds the branch fractal).
+        // dozens per second and each resize rebuilds the branch bitmap).
         const onResize = () => {
             if (resizeRaf) return;
             resizeRaf = requestAnimationFrame(() => {
@@ -52,10 +53,9 @@ const SakuraEffect = () => {
                 controller?.play();
             }
         };
-        // Mobile↔desktop flip: particle DPR and sprite cache are baked into
-        // the instance, so we must fully rebuild on a breakpoint crossing.
-        const onBreakpointChange = () => {
-            if (mql.matches === isNarrowRef.current) return;
+        // Breakpoint or motion-preference flip: render scale, sprite cache
+        // and entity population are baked into the instance — full rebuild.
+        const onEnvironmentChange = () => {
             controller?.dispose();
             controller = null;
             buildController();
@@ -63,7 +63,8 @@ const SakuraEffect = () => {
 
         window.addEventListener('resize', onResize);
         document.addEventListener('visibilitychange', onVisibilityChange);
-        mql.addEventListener('change', onBreakpointChange);
+        narrowMql.addEventListener('change', onEnvironmentChange);
+        motionMql.addEventListener('change', onEnvironmentChange);
 
         return () => {
             if (resizeRaf) cancelAnimationFrame(resizeRaf);
@@ -72,7 +73,8 @@ const SakuraEffect = () => {
                 'visibilitychange',
                 onVisibilityChange,
             );
-            mql.removeEventListener('change', onBreakpointChange);
+            narrowMql.removeEventListener('change', onEnvironmentChange);
+            motionMql.removeEventListener('change', onEnvironmentChange);
             controller?.dispose();
         };
     }, []);
@@ -81,7 +83,7 @@ const SakuraEffect = () => {
         <>
             <canvas
                 ref={branchCanvasRef}
-                className="pointer-events-none fixed top-8 left-0 z-50"
+                className="pointer-events-none fixed left-0 z-50"
             />
             <canvas
                 ref={particleCanvasRef}

@@ -35,7 +35,7 @@ const HorizontalContentCard = forwardRef<HTMLDivElement, Props>(
             <div
                 ref={ref}
                 className={cn(
-                    'flex rounded-md border border-border bg-secondary/20',
+                    'flex rounded-md border border-border surface-solid',
                     className,
                 )}
                 {...props}

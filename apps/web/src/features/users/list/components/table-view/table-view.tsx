@@ -78,9 +78,9 @@ const TableView: FC<Props> = ({ data, content_type }) => {
     };
 
     return (
-        <div className="overflow-hidden rounded-lg border">
+        <div className="overflow-hidden rounded-lg border surface-solid">
             <Table>
-                <TableHeader className="bg-secondary/20 [&_tr]:border-b">
+                <TableHeader className="surface-inset [&_tr]:border-b">
                     <TableRow className="hover:bg-transparent">
                         <TableHead>#</TableHead>
                         <TableHead>Деталі</TableHead>

@@ -91,7 +91,7 @@ function DrawerHeader({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="drawer-header"
             className={cn(
-                '-mx-4 -mt-4 grid gap-1.5 border-b bg-secondary/20 p-4 pt-6 text-center group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center sm:text-left',
+                '-mx-4 -mt-4 grid gap-1.5 border-b p-4 pt-6 text-center group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center sm:text-left',
                 className,
             )}
             {...props}
@@ -104,7 +104,7 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="drawer-footer"
             className={cn(
-                '-mx-4 -mb-4 flex flex-col gap-2 border-t bg-secondary/20 p-4',
+                '-mx-4 -mb-4 flex flex-col gap-2 border-t p-4',
                 className,
             )}
             {...props}

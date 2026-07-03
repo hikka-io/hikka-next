@@ -38,6 +38,9 @@ type FeedArticleCategory = NonNullable<
 type FeedContentType = NonNullable<
     UiFeedSettingsOutput['feed_content_types']
 >[number];
+type ReviewContentType = NonNullable<
+    UiFeedSettingsOutput['review_content_types']
+>[number];
 
 export interface FeedSubTypeFilters {
     feed_content_types: FeedContentType[] | null;
@@ -45,6 +48,7 @@ export interface FeedSubTypeFilters {
     article_content_types: FeedArticleContentType[] | null;
     article_categories: FeedArticleCategory[] | null;
     collection_content_types: CollectionContentType[] | null;
+    review_content_types: ReviewContentType[] | null;
 }
 
 const COMMENT_OPTIONS: { value: CommentsContentType; label: string }[] = (
@@ -80,10 +84,22 @@ const FEED_ARTICLE_CATEGORY_OPTIONS: {
         label: ARTICLE_CATEGORY_OPTIONS[k].title_ua,
     }));
 
+const REVIEW_CONTENT_OPTIONS: {
+    value: ReviewContentType;
+    label: string;
+}[] = [
+    { value: ContentTypeEnum.ANIME, label: CONTENT_TYPES.anime.title_ua },
+    { value: ContentTypeEnum.MANGA, label: CONTENT_TYPES.manga.title_ua },
+    { value: ContentTypeEnum.NOVEL, label: CONTENT_TYPES.novel.title_ua },
+];
+
+const REVIEW: FeedContentType = 'review';
+
 const ALL_FEED_CONTENT_TYPES: FeedContentType[] = [
     ContentTypeEnum.COMMENT,
     ContentTypeEnum.ARTICLE,
     ContentTypeEnum.COLLECTION,
+    REVIEW,
 ];
 
 function isSectionEnabled(
@@ -144,6 +160,7 @@ function activeSubFilterCount(value: FeedSubTypeFilters): number {
         value.article_content_types,
         value.article_categories,
         value.collection_content_types,
+        value.review_content_types,
     ].filter((group) => group !== null).length;
 }
 
@@ -188,7 +205,7 @@ const Section: FC<SectionProps> = ({ title, enabled, onToggle, children }) => {
     const id = useId();
 
     return (
-        <div className="flex flex-col gap-6 rounded-md border bg-secondary/20 p-4">
+        <div className="flex flex-col gap-6 rounded-md border surface-solid p-4">
             <div className="flex items-center justify-between gap-4">
                 <Label htmlFor={id} className="flex-1 text-base">
                     {title}
@@ -237,6 +254,7 @@ const FeedSubTypeSelect: FC<{
         value.feed_content_types,
         ContentTypeEnum.COLLECTION,
     );
+    const reviewsEnabled = isSectionEnabled(value.feed_content_types, REVIEW);
 
     const handleSectionToggle = (type: FeedContentType, enabled: boolean) => {
         onChange({
@@ -408,6 +426,39 @@ const FeedSubTypeSelect: FC<{
                                             })
                                         }
                                         disabled={!collectionsEnabled}
+                                    />
+                                ))}
+                            </SubSection>
+                        </Section>
+
+                        <Section
+                            title="Огляди"
+                            enabled={reviewsEnabled}
+                            onToggle={(v) => handleSectionToggle(REVIEW, v)}
+                        >
+                            <SubSection title="Тип контенту">
+                                {REVIEW_CONTENT_OPTIONS.map((opt) => (
+                                    <SwitchRow
+                                        key={opt.value}
+                                        label={opt.label}
+                                        checked={isSubTypeChecked(
+                                            value.review_content_types,
+                                            opt.value,
+                                        )}
+                                        onCheckedChange={() =>
+                                            onChange({
+                                                ...value,
+                                                review_content_types:
+                                                    toggleSubType(
+                                                        value.review_content_types,
+                                                        opt.value,
+                                                        REVIEW_CONTENT_OPTIONS.map(
+                                                            (o) => o.value,
+                                                        ),
+                                                    ),
+                                            })
+                                        }
+                                        disabled={!reviewsEnabled}
                                     />
                                 ))}
                             </SubSection>

@@ -24,13 +24,13 @@ const CatalogSummary: FC<Props> = ({ total, isLoading, className }) => {
             )}
         >
             <div className="shrink-0 text-muted-foreground text-sm">
-                {isLoading || total == null ? (
+                {isLoading ? (
                     <span className="inline-block h-4 w-40 animate-pulse rounded bg-secondary/40" />
                 ) : (
                     <>
                         Знайдено{' '}
                         <span className="font-semibold text-foreground">
-                            {total.toLocaleString('uk-UA')}
+                            {(total ?? 0).toLocaleString('uk-UA')}
                         </span>{' '}
                         результатів
                     </>

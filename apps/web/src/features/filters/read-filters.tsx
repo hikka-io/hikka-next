@@ -74,7 +74,7 @@ const ReadFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 sort_type={sort_type}
             />
             <FiltersFooter
-                className="shrink-0 border-t bg-secondary/20 p-4"
+                className="shrink-0 border-t p-4"
                 contentType={readPresetContentType(sort_type)}
             />
         </div>

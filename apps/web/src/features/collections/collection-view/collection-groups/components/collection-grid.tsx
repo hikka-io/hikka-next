@@ -48,7 +48,7 @@ const CommentButton: FC<{ comment: string }> = ({ comment }) => {
     const trigger = (
         <button
             type="button"
-            className="flex size-7 items-center justify-center rounded-md bg-secondary/80 backdrop-blur transition-colors hover:bg-secondary"
+            className="flex size-7 items-center justify-center rounded-md bg-secondary/80 backdrop-blur transition-colors hover:bg-accent"
         >
             <Info className="size-4" />
         </button>

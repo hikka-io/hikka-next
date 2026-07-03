@@ -10,6 +10,7 @@ import {
     thirdPartyAuthTokensInfiniteOptions,
 } from '@hikka/api';
 
+import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -21,7 +22,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -66,14 +66,12 @@ const AuthorizedAppItem: FC<Props> = ({ token }) => {
                     {token.client?.verified && (
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="rounded-sm border border-border bg-secondary/20 p-1 backdrop-blur">
+                                <div className="rounded-sm border border-border surface-inset p-1">
                                     <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
                                 </div>
                             </TooltipTrigger>
                             <TooltipContent>
-                                <Label className="text-sm">
-                                    Верифіковано
-                                </Label>
+                                <Label className="text-sm">Верифіковано</Label>
                             </TooltipContent>
                         </Tooltip>
                     )}
@@ -109,8 +107,8 @@ const AuthorizedAppItem: FC<Props> = ({ token }) => {
                             {token.client?.name ?? 'цього застосунку'}?
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                            Застосунок втратить доступ до вашого акаунту і
-                            йому знадобиться повторна авторизація.
+                            Застосунок втратить доступ до вашого акаунту і йому
+                            знадобиться повторна авторизація.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

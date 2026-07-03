@@ -313,13 +313,17 @@ const ActiveFilters: FC<Props> = ({ className }) => {
                     ? filter.excluded
                         ? 'destructive'
                         : 'success'
-                    : 'secondary';
+                    : 'outline';
 
                 return (
                     <Badge
                         key={`${filter.param}-${filter.value}-${idx}`}
                         variant={variant}
-                        className="group h-6 gap-1.5 pr-1.5 pl-2.5"
+                        className={cn(
+                            'group h-6 gap-1.5 pr-1.5 pl-2.5',
+                            !isTriState &&
+                                'border-border bg-background dark:border-input dark:bg-input/30',
+                        )}
                     >
                         {filter.icon && (
                             <filter.icon className="size-3 shrink-0" />

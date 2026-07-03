@@ -25,10 +25,7 @@ const ListWidget: FC<WidgetProps> = () => {
     if (!user) return null;
 
     return (
-        <Card
-            className="bg-secondary/20 px-2 backdrop-blur"
-            id="sidebar-list-stats"
-        >
+        <Card className="px-2" id="sidebar-list-stats">
             <Header className="px-2">
                 <HeaderTitle variant="h4">Список</HeaderTitle>
             </Header>

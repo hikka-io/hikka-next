@@ -1,33 +1,30 @@
-import type { CSSProperties } from 'react';
+import type { UiStylesOutput, UiSurfaceOverrides } from '@hikka/api';
 
-import type { HslColor, UiColorTokens, UiStylesOutput } from '@hikka/api';
+import { isValidOklch, oklchToCss } from './color';
 
 export const STYLE_ELEMENT_ID = 'user-styles';
 
-/** Valid color token keys — shared with merge.ts for diff filtering. */
-export const ALLOWED_COLOR_TOKENS = new Set<keyof UiColorTokens>([
+/**
+ * Surface tokens a user may override directly (the advanced reveal). Excludes
+ * the brand-derived `primary*` family and the developer-controlled status
+ * colors. Mirrors `UiSurfaceOverrides` from the API.
+ */
+export const SURFACE_OVERRIDE_TOKENS = new Set<keyof UiSurfaceOverrides>([
     'background',
     'foreground',
-    'primary',
-    'primary_foreground',
-    'primary_border',
+    'card',
+    'card_foreground',
+    'popover',
+    'popover_foreground',
     'secondary',
     'secondary_foreground',
     'muted',
     'muted_foreground',
+    'accent',
     'accent_foreground',
     'border',
+    'input',
     'ring',
-    'popover',
-    'popover_foreground',
-    'sidebar_background',
-    'sidebar_foreground',
-    'sidebar_primary',
-    'sidebar_primary_foreground',
-    'sidebar_accent',
-    'sidebar_accent_foreground',
-    'sidebar_border',
-    'sidebar_ring',
 ]);
 
 /** Convert snake_case/camelCase to kebab-case. */
@@ -36,26 +33,6 @@ function keyToKebab(str: string): string {
         .replace(/_/g, '-')
         .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
         .toLowerCase();
-}
-
-type CSSVarStyle = CSSProperties & Record<string, string | number>;
-
-/** Validate HSL color has finite numbers in valid ranges. */
-function isValidHSL(color: HslColor): boolean {
-    return (
-        typeof color.h === 'number' &&
-        Number.isFinite(color.h) &&
-        color.h >= 0 &&
-        color.h <= 360 &&
-        typeof color.s === 'number' &&
-        Number.isFinite(color.s) &&
-        color.s >= 0 &&
-        color.s <= 100 &&
-        typeof color.l === 'number' &&
-        Number.isFinite(color.l) &&
-        color.l >= 0 &&
-        color.l <= 100
-    );
 }
 
 /** Matches valid CSS length values: 0.5rem, 4px, 1em, 10%, etc. */
@@ -69,190 +46,65 @@ function sanitizeCSSLength(value: string): string | undefined {
     return CSS_LENGTH_PATTERN.test(trimmed) ? trimmed : undefined;
 }
 
-/** Matches valid CSS color values: hex, rgb(), rgba(), hsl(), hsla(). */
-const CSS_COLOR_PATTERN =
-    /^(#([0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})|rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(,\s*(0|1|0?\.\d+))?\s*\)|hsla?\(\s*\d{1,3}\s*,\s*\d{1,3}%\s*,\s*\d{1,3}%\s*(,\s*(0|1|0?\.\d+))?\s*\))$/i;
+/** Build `--token: oklch(...)` declarations from a surface-override map. */
+function overridesToDecls(
+    overrides: UiSurfaceOverrides | null | undefined,
+): string[] {
+    if (!overrides) return [];
 
-/** Returns sanitized CSS color string or undefined if invalid. */
-function sanitizeCSSColor(value: string): string | undefined {
-    if (typeof value !== 'string') return undefined;
-    const trimmed = value.trim();
-    return CSS_COLOR_PATTERN.test(trimmed) ? trimmed : undefined;
-}
-
-/** Matches valid CSS gradient function names. */
-const GRADIENT_FUNCTION_PATTERN =
-    /^(linear-gradient|radial-gradient|conic-gradient|repeating-linear-gradient|repeating-radial-gradient|repeating-conic-gradient)\(/i;
-
-const DANGEROUS_CSS_CHARS = /[{}<>]/;
-const STYLE_TAG_PATTERN = /<\/?style/i;
-const SCRIPT_TAG_PATTERN = /<\/?script/i;
-
-function hasBalancedParentheses(str: string): boolean {
-    let count = 0;
-    for (const char of str) {
-        if (char === '(') count++;
-        if (char === ')') count--;
-        if (count < 0) return false;
-    }
-    return count === 0;
-}
-
-/** Returns sanitized CSS gradient or undefined if invalid/unsafe. */
-function sanitizeCSSGradient(value: string): string | undefined {
-    if (typeof value !== 'string') return undefined;
-
-    const trimmed = value.trim();
-
-    if (DANGEROUS_CSS_CHARS.test(trimmed)) return undefined;
-    if (STYLE_TAG_PATTERN.test(trimmed)) return undefined;
-    if (SCRIPT_TAG_PATTERN.test(trimmed)) return undefined;
-    if (!GRADIENT_FUNCTION_PATTERN.test(trimmed)) return undefined;
-    if (!hasBalancedParentheses(trimmed)) return undefined;
-    if (/url\s*\(/i.test(trimmed)) return undefined;
-    if (/expression\s*\(/i.test(trimmed)) return undefined;
-    if (/javascript:/i.test(trimmed)) return undefined;
-
-    return trimmed;
-}
-
-/** Convert UiColorTokens to CSS variable declarations with sanitization. */
-function colorTokensToCSS(tokens: UiColorTokens | null | undefined): string {
-    if (!tokens) return '';
-
-    const declarations: string[] = [];
-
-    for (const [key, value] of Object.entries(tokens)) {
-        if (!ALLOWED_COLOR_TOKENS.has(key as keyof UiColorTokens)) continue;
-        if (value === undefined || value === null) continue;
-
-        const cssVarName = `--${keyToKebab(key)}`;
-
-        if (typeof value === 'object' && value?.h !== undefined) {
-            if (!isValidHSL(value as HslColor)) continue;
-            declarations.push(
-                `${cssVarName}: hsl(${value.h} ${value.s}% ${value.l}%);`,
-            );
-        } else if (typeof value === 'string' && value !== '') {
-            const sanitized = sanitizeCSSColor(value);
-            if (!sanitized) continue;
-            declarations.push(`${cssVarName}: ${sanitized};`);
+    const decls: string[] = [];
+    for (const [key, value] of Object.entries(overrides)) {
+        if (!SURFACE_OVERRIDE_TOKENS.has(key as keyof UiSurfaceOverrides)) {
+            continue;
         }
+        if (!isValidOklch(value)) continue;
+        decls.push(`--${keyToKebab(key)}: ${oklchToCss(value)};`);
     }
-
-    return declarations.join('\n    ');
+    return decls;
 }
 
-/** Convert UiColorTokens to React style object with sanitization. */
-function colorTokensToReactStyle(
-    tokens: UiColorTokens | null | undefined,
-): CSSVarStyle {
-    const style: CSSVarStyle = {};
-    if (!tokens) return style;
-
-    for (const [key, value] of Object.entries(tokens)) {
-        if (!ALLOWED_COLOR_TOKENS.has(key as keyof UiColorTokens)) continue;
-        if (value === undefined || value === null) continue;
-
-        const cssVarName = `--${keyToKebab(key)}`;
-
-        if (typeof value === 'object' && value?.h !== undefined) {
-            if (!isValidHSL(value as HslColor)) continue;
-            style[cssVarName] = `hsl(${value.h} ${value.s}% ${value.l}%)`;
-        } else if (typeof value === 'string' && value !== '') {
-            const sanitized = sanitizeCSSColor(value);
-            if (!sanitized) continue;
-            style[cssVarName] = sanitized;
-        }
-    }
-
-    return style;
+function radiusDeclaration(radius: string | null | undefined): string {
+    const sanitized = radius ? sanitizeCSSLength(radius) : undefined;
+    if (!sanitized) return '';
+    return sanitized === '0rem'
+        ? '--radius: 0rem;\n    --base-radius: 0rem;'
+        : `--radius: ${sanitized};`;
 }
 
-/** Convert UiStylesOutput to CSS string with :root and .dark selectors. */
+/**
+ * Convert UiStylesOutput to a CSS string with `:root:root` (light) and
+ * `.dark.dark` (dark) selectors. Only the brand seed, surface overrides and
+ * radius are emitted — the derivation lives in globals.css.
+ */
 export function stylesToCSS(styles: UiStylesOutput | undefined): string {
     if (!styles) return '';
 
     const parts: string[] = [];
-    const lightColors = colorTokensToCSS(styles.light?.colors);
-    const sanitizedRadius = styles.radius
-        ? sanitizeCSSLength(styles.radius)
-        : undefined;
-    const radiusDecl = sanitizedRadius
-        ? sanitizedRadius === '0rem'
-            ? `--radius: 0rem;\n    --base-radius: 0rem;`
-            : `--radius: ${sanitizedRadius};`
-        : '';
-    const sanitizedLightBg = styles.light?.body?.background_image
-        ? sanitizeCSSGradient(styles.light.body.background_image)
-        : undefined;
 
-    if (lightColors || radiusDecl) {
-        const lightDeclarations = [lightColors, radiusDecl]
-            .filter(Boolean)
-            .join('\n    ');
-        // :root:root has specificity [0,2,0] vs :root [0,1,0] — wins regardless of source order
-        parts.push(`:root:root {\n    ${lightDeclarations}\n}`);
+    const brandDecl =
+        styles.brand && isValidOklch(styles.brand)
+            ? `--brand: ${oklchToCss(styles.brand)};`
+            : '';
+
+    const lightDeclarations = [
+        brandDecl,
+        ...overridesToDecls(styles.overrides?.light),
+        radiusDeclaration(styles.radius),
+    ].filter(Boolean);
+
+    if (lightDeclarations.length > 0) {
+        // :root:root has specificity [0,2,0] vs :root [0,1,0] — wins regardless
+        // of source order.
+        parts.push(`:root:root {\n    ${lightDeclarations.join('\n    ')}\n}`);
     }
 
-    if (sanitizedLightBg) {
-        parts.push(
-            `:root:root body {\n    background-image: ${sanitizedLightBg};\n}`,
-        );
-    }
-
-    const darkColors = colorTokensToCSS(styles.dark?.colors);
-
-    if (darkColors) {
-        // .dark.dark has specificity [0,2,0] vs .dark [0,1,0]
-        parts.push(`.dark.dark {\n    ${darkColors}\n}`);
-    }
-
-    const sanitizedDarkBg = styles.dark?.body?.background_image
-        ? sanitizeCSSGradient(styles.dark.body.background_image)
-        : undefined;
-
-    if (sanitizedDarkBg) {
-        parts.push(
-            `.dark.dark body {\n    background-image: ${sanitizedDarkBg};\n}`,
-        );
+    const darkDeclarations = overridesToDecls(styles.overrides?.dark);
+    if (darkDeclarations.length > 0) {
+        // .dark.dark has specificity [0,2,0] vs .dark [0,1,0].
+        parts.push(`.dark.dark {\n    ${darkDeclarations.join('\n    ')}\n}`);
     }
 
     return parts.join('\n\n');
-}
-
-/**
- * Convert UiStylesOutput to React style objects with CSS variables.
- * Returns separate objects for light (root) and dark themes.
- */
-export function stylesToReactStyles(styles: UiStylesOutput | undefined): {
-    root: CSSVarStyle;
-    dark: CSSVarStyle;
-} {
-    if (!styles) return { root: {}, dark: {} };
-
-    const radiusVars: CSSVarStyle = {};
-    if (styles.radius) {
-        const sanitizedRadius = sanitizeCSSLength(styles.radius);
-        if (sanitizedRadius) {
-            radiusVars['--radius'] = sanitizedRadius;
-            if (sanitizedRadius === '0rem') {
-                radiusVars['--base-radius'] = '0rem';
-            }
-        }
-    }
-
-    const root: CSSVarStyle = {
-        ...colorTokensToReactStyle(styles.light?.colors),
-        ...radiusVars,
-    };
-
-    const dark: CSSVarStyle = {
-        ...colorTokensToReactStyle(styles.dark?.colors),
-        ...radiusVars,
-    };
-
-    return { root, dark };
 }
 
 /**

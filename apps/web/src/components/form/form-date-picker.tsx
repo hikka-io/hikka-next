@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
     Field,
@@ -13,6 +12,7 @@ import {
     FieldError,
     FieldLabel,
 } from '@/components/ui/field';
+import { FIELD_BASE } from '@/components/ui/field-base';
 import {
     Popover,
     PopoverContent,
@@ -63,12 +63,12 @@ export const DatePickerField: FC<Props> = ({
 
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button
+                    <button
+                        type="button"
                         id={field.name}
-                        size="md"
-                        variant="outline"
                         className={cn(
-                            'w-full pl-3 text-left font-normal',
+                            FIELD_BASE,
+                            'flex h-10 cursor-pointer items-center justify-start px-3 py-2 text-left font-normal',
                             !field.state.value && 'text-muted-foreground',
                         )}
                     >
@@ -79,8 +79,8 @@ export const DatePickerField: FC<Props> = ({
                         ) : (
                             <span>Виберіть дату</span>
                         )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
+                        <CalendarIcon className="ml-auto size-4 opacity-50" />
+                    </button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                     <Calendar

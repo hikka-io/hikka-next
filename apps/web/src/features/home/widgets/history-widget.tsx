@@ -36,7 +36,7 @@ const HistoryWidget: FC<WidgetProps> = () => {
     if (!user) return null;
 
     return (
-        <Card className="bg-secondary/20 p-0 backdrop-blur-xl" id="history">
+        <Card className="p-0" id="history">
             <Block className="w-full gap-4 py-4">
                 <Header
                     href={`/u/${user.username}/history`}

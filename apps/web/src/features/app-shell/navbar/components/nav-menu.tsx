@@ -31,9 +31,9 @@ const triggerClassName = cn(
     navItemSize,
     'border border-transparent',
     'bg-transparent! text-foreground/70!',
-    'hover:bg-secondary/60! hover:text-foreground!',
+    'hover:bg-accent! hover:text-foreground!',
     'focus:bg-transparent!',
-    'data-[state=open]:bg-secondary/60! data-[state=open]:text-foreground!',
+    'data-[state=open]:bg-accent! data-[state=open]:text-foreground!',
 );
 
 const dropdownItemClassName = cn(

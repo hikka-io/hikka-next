@@ -568,16 +568,15 @@ export const zFavouriteResponse = z.object({
  * FeedArgs
  */
 export const zFeedArgs = z.object({
-    content_type: z.enum(['collection', 'article', 'comment']).nullish(),
     collection_content_types: z
         .array(z.enum(['character', 'person', 'anime', 'manga', 'novel']))
         .nullish(),
     comment_content_types: z
         .array(
             z.enum([
+                'edit',
                 'collection',
                 'character',
-                'edit',
                 'article',
                 'person',
                 'anime',
@@ -589,11 +588,14 @@ export const zFeedArgs = z.object({
     article_content_types: z
         .array(z.enum(['anime', 'manga', 'novel', 'no_content']))
         .nullish(),
+    review_content_types: z
+        .array(z.enum(['anime', 'manga', 'novel']))
+        .nullish(),
     article_categories: z
         .array(z.enum(['original', 'reviews', 'news']))
         .nullish(),
     feed_content_types: z
-        .array(z.enum(['collection', 'article', 'comment']))
+        .array(z.enum(['collection', 'article', 'comment', 'review']))
         .nullish(),
     before: z.string().datetime().nullish(),
     only_followed: z.boolean().optional().default(false),
@@ -1648,6 +1650,7 @@ export const zTokenResponse = z.object({
 export const zUiBackdrop = z.object({
     intensity: z.number().gte(0).lte(1),
     style: z.enum(['none', 'glow']).nullish(),
+    color: zOklchColor.nullish(),
 });
 
 /**
@@ -1811,9 +1814,9 @@ export const zUiFeedSettingsInput = z.object({
     comment_content_types: z
         .array(
             z.enum([
+                'edit',
                 'collection',
                 'character',
-                'edit',
                 'article',
                 'person',
                 'anime',
@@ -1825,11 +1828,14 @@ export const zUiFeedSettingsInput = z.object({
     article_content_types: z
         .array(z.enum(['anime', 'manga', 'novel', 'no_content']))
         .nullish(),
+    review_content_types: z
+        .array(z.enum(['anime', 'manga', 'novel']))
+        .nullish(),
     article_categories: z
         .array(z.enum(['original', 'reviews', 'news']))
         .nullish(),
     feed_content_types: z
-        .array(z.enum(['collection', 'article', 'comment']))
+        .array(z.enum(['collection', 'article', 'comment', 'review']))
         .nullish(),
     only_followed: z.boolean().optional().default(false),
     widgets: z
@@ -1884,9 +1890,9 @@ export const zUiFeedSettingsOutput = z.object({
     comment_content_types: z
         .array(
             z.enum([
+                'edit',
                 'collection',
                 'character',
-                'edit',
                 'article',
                 'person',
                 'anime',
@@ -1898,11 +1904,14 @@ export const zUiFeedSettingsOutput = z.object({
     article_content_types: z
         .array(z.enum(['anime', 'manga', 'novel', 'no_content']))
         .nullish(),
+    review_content_types: z
+        .array(z.enum(['anime', 'manga', 'novel']))
+        .nullish(),
     article_categories: z
         .array(z.enum(['original', 'reviews', 'news']))
         .nullish(),
     feed_content_types: z
-        .array(z.enum(['collection', 'article', 'comment']))
+        .array(z.enum(['collection', 'article', 'comment', 'review']))
         .nullish(),
     only_followed: z.boolean().optional().default(false),
     widgets: z

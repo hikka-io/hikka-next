@@ -60,10 +60,7 @@ const UserCollections: FC<Props> = ({ className }) => {
 
     return (
         <>
-            <Card
-                className={cn('bg-secondary/20', className)}
-                id="user-collections"
-            >
+            <Card className={cn(className)} id="user-collections">
                 <Block>
                     <Header
                         onClick={

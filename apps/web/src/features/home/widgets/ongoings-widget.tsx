@@ -90,10 +90,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
 
     if (isCenter) {
         return (
-            <Card
-                className="bg-secondary/20 p-0 backdrop-blur-xl"
-                id="ongoings"
-            >
+            <Card className="p-0" id="ongoings">
                 <Block className="w-full gap-4 py-4">
                     <Header href="/anime" search={search} className="px-4">
                         <HeaderContainer>
@@ -131,7 +128,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
     }
 
     return (
-        <Card className="bg-secondary/20 p-0 backdrop-blur-xl" id="ongoings">
+        <Card className="p-0" id="ongoings">
             <Block className="w-full gap-4 py-4">
                 <Header href="/anime" search={search} className="px-4">
                     <HeaderContainer>
@@ -162,7 +159,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                                         to={`/anime/${anime.slug}`}
                                         className={cn(
                                             'group flex items-center gap-4 rounded-sm px-2 py-2',
-                                            'transition-colors hover:bg-secondary/60',
+                                            'transition-colors hover:bg-accent',
                                         )}
                                     >
                                         <ContentCard

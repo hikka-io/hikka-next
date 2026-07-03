@@ -52,12 +52,12 @@ function CollectionUpdatePage() {
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
                     <Block>
                         <CollectionTitle />
-                        <div className="block rounded-md border border-border bg-secondary/20 backdrop-blur lg:hidden">
+                        <div className="block rounded-md border border-border surface lg:hidden">
                             <CollectionSettings mode="edit" />
                         </div>
                         <CollectionGroups mode="edit" />
                     </Block>
-                    <Card className="sticky top-20 order-1 hidden w-full bg-secondary/20 p-0 backdrop-blur lg:order-2 lg:block">
+                    <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">
                         <CollectionSettings mode="edit" />
                     </Card>
                 </div>

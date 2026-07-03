@@ -8,7 +8,7 @@ export function SpoilerElement(props: PlateElementProps) {
         <PlateElement
             as="div"
             className={cn(
-                'rounded-md border border-border bg-secondary/20 p-2',
+                'rounded-md border border-border surface-inset p-2',
                 'spoiler',
             )}
             {...props}

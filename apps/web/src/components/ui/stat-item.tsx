@@ -9,7 +9,7 @@ const statItemVariants = cva('inline-flex items-center text-muted-foreground', {
     variants: {
         size: {
             default:
-                'h-8 gap-1 rounded-lg px-2 text-sm font-normal transition-colors hover:bg-secondary/60 hover:text-foreground [&_svg]:size-4 [&_svg]:shrink-0',
+                'h-8 gap-1 rounded-lg px-2 text-sm font-normal transition-colors hover:bg-accent hover:text-foreground [&_svg]:size-4 [&_svg]:shrink-0',
             sm: 'gap-1 text-xs [&_svg]:size-3 [&_svg]:shrink-0',
         },
     },

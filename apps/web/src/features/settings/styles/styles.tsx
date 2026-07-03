@@ -1,147 +1,243 @@
-import { useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
-import { Palette } from 'lucide-react';
+import type { OklchColor, UiBackdrop } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
-import { useTheme } from '@/services/providers/theme-provider';
-import { PREVIEW_COLOR_TOKENS } from '@/utils/constants/styles';
-import { toHSLString } from '@/utils/ui/color';
+import { ACCENT_PRESETS } from '@/utils/constants/styles';
+import {
+    applyBackdrop,
+    clearLivePreview,
+    DEFAULT_BRAND,
+    setLiveVar,
+} from '@/utils/ui';
+import { oklchEqual, oklchToCss } from '@/utils/ui/color';
 
-import CustomColorsModal from './components/custom-colors-modal';
+import ColorField from './components/color-field';
+
+const RADIUS_OPTIONS: { value: string; label: string }[] = [
+    { value: '0', label: 'Без' },
+    { value: '0.25', label: 'XS' },
+    { value: '0.5', label: 'SM' },
+    { value: '0.625', label: 'MD' },
+    { value: '0.75', label: 'LG' },
+    { value: '1.5', label: 'XL' },
+];
+
+const Field = ({
+    title,
+    description,
+    children,
+}: {
+    title: string;
+    description: string;
+    children: ReactNode;
+}) => (
+    <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1">
+            <Label>{title}</Label>
+            <span className="text-muted-foreground text-xs">{description}</span>
+        </div>
+        {children}
+    </div>
+);
 
 const StylesSettings = () => {
-    const [customColorsOpen, setCustomColorsOpen] = useState(false);
-    const { resolvedTheme } = useTheme();
-    const { styles } = useSessionUI();
+    const { styles, backdrop } = useSessionUI();
     const { update } = useUpdateSessionUI();
 
-    const handleRadiusChange = (value: string) => {
+    const brand = styles.brand ?? DEFAULT_BRAND;
+    const currentRadius = styles.radius?.replace('rem', '') ?? '0.625';
+
+    // Local slider state so the thumb tracks during drag; the query only
+    // updates on commit.
+    const [intensity, setIntensity] = useState(backdrop.intensity);
+    useEffect(() => setIntensity(backdrop.intensity), [backdrop.intensity]);
+
+    // Track the latest saved backdrop for the unmount cleanup below.
+    const backdropRef = useRef(backdrop);
+    useEffect(() => {
+        backdropRef.current = backdrop;
+    }, [backdrop]);
+
+    // On leaving the editor, drop any uncommitted inline preview vars so a
+    // leaked preview can't override the saved styles app-wide. The brand
+    // preview falls back to the injected stylesheet, but the backdrop vars are
+    // applied inline on <html> with no stylesheet fallback — so re-assert the
+    // saved backdrop instead of leaving the glow blanked until a reload.
+    useEffect(
+        () => () => {
+            clearLivePreview();
+            applyBackdrop(backdropRef.current);
+        },
+        [],
+    );
+
+    const commitBrand = (next: OklchColor) => {
+        // Always clear the live preview; only persist an actual change so
+        // opening/closing the picker (or re-clicking the active preset)
+        // doesn't fire a no-op mutation.
+        setLiveVar('--brand', null);
+        if (oklchEqual(next, brand)) return;
+        update({ styles: { ...styles, brand: next } });
+    };
+
+    const setRadius = (value: string) => {
+        update({
+            styles: { ...styles, radius: value ? `${value}rem` : undefined },
+        });
+    };
+
+    // Preserve the picked backdrop color across style/intensity edits.
+    const currentBackdrop = (): UiBackdrop => {
+        const next: UiBackdrop = {
+            style: backdrop.style,
+            intensity: backdrop.intensity,
+        };
+        if (backdrop.color) next.color = backdrop.color;
+        return next;
+    };
+
+    const setBackdropStyle = (style: 'none' | 'glow') => {
+        // currentBackdrop() already carries the committed intensity; don't
+        // persist the local slider state, which may hold an uncommitted
+        // mid-drag value.
         update({
             styles: {
                 ...styles,
-                radius: value ? `${value}rem` : undefined,
+                backdrop: { ...currentBackdrop(), style },
             },
         });
     };
 
-    const handleOpenCustomModal = () => {
-        setCustomColorsOpen(true);
+    const commitIntensity = (value: number) => {
+        if (value === backdrop.intensity) return;
+        update({
+            styles: {
+                ...styles,
+                backdrop: { ...currentBackdrop(), intensity: value },
+            },
+        });
     };
 
-    const currentRadius = styles?.radius?.replace('rem', '') ?? '';
-
-    const activeTheme = (resolvedTheme as 'light' | 'dark') ?? 'dark';
-    const themeColors = styles?.[activeTheme]?.colors;
+    const commitBackdropColor = (next: OklchColor | null) => {
+        setLiveVar('--backdrop-color', null);
+        if (oklchEqual(next, backdrop.color)) return;
+        const nextBackdrop = currentBackdrop();
+        if (next) nextBackdrop.color = next;
+        else delete nextBackdrop.color;
+        update({ styles: { ...styles, backdrop: nextBackdrop } });
+    };
 
     return (
-        <>
-            <div className="flex w-full flex-col gap-6">
-                <div className="flex w-full flex-col gap-2">
-                    <Label>Палітра кольорів</Label>
-                    <div className="flex flex-wrap gap-2">
-                        {PREVIEW_COLOR_TOKENS.map((token) => (
-                            <div
-                                key={token}
-                                className="size-9 rounded-md border"
-                                style={{
-                                    backgroundColor: toHSLString(
-                                        themeColors?.[token],
-                                    ),
-                                }}
-                            />
-                        ))}
-                        <Button onClick={handleOpenCustomModal} size="md">
-                            <Palette className="size-4" />
-                            Налаштувати
-                        </Button>
-                    </div>
-                </div>
+        <div className="flex w-full flex-col gap-8">
+            <Field
+                title="Основний колір"
+                description="Оберіть пресет або власний акцентний колір"
+            >
+                <ColorField
+                    value={brand}
+                    presets={ACCENT_PRESETS}
+                    onSelect={commitBrand}
+                    onPreview={(next) =>
+                        setLiveVar('--brand', oklchToCss(next))
+                    }
+                    onCommit={commitBrand}
+                />
+            </Field>
 
-                <div className="flex w-full flex-col gap-2">
-                    <Label>Радіус заокруглення</Label>
-                    <div className="flex flex-wrap gap-2">
+            <Field
+                title="Радіус заокруглення"
+                description="Заокруглення кутів кнопок, карток та полів"
+            >
+                <div className="flex flex-wrap gap-2">
+                    {RADIUS_OPTIONS.map((option) => (
                         <Button
+                            key={option.value}
                             variant={
-                                currentRadius === '0' ? 'default' : 'outline'
-                            }
-                            onClick={() => handleRadiusChange('0')}
-                            size="badge"
-                        >
-                            Без заокруглення
-                        </Button>
-                        <Button
-                            variant={
-                                currentRadius === '0.25' ? 'default' : 'outline'
-                            }
-                            onClick={() => handleRadiusChange('0.25')}
-                            size="badge"
-                        >
-                            XS
-                        </Button>
-                        <Button
-                            variant={
-                                currentRadius === '0.5' ? 'default' : 'outline'
-                            }
-                            onClick={() => handleRadiusChange('0.5')}
-                            size="badge"
-                        >
-                            SM
-                        </Button>
-                        <Button
-                            variant={
-                                currentRadius === '0.625' || !currentRadius
+                                currentRadius === option.value
                                     ? 'default'
                                     : 'outline'
                             }
-                            onClick={() => handleRadiusChange('0.625')}
+                            onClick={() => setRadius(option.value)}
                             size="badge"
                         >
-                            MD
+                            {option.label}
                         </Button>
-                        <Button
-                            variant={
-                                currentRadius === '0.75' ? 'default' : 'outline'
-                            }
-                            onClick={() => handleRadiusChange('0.75')}
-                            size="badge"
-                        >
-                            LG
-                        </Button>
-                        <Button
-                            variant={
-                                currentRadius === '1.5' ? 'default' : 'outline'
-                            }
-                            onClick={() => handleRadiusChange('1.5')}
-                            size="badge"
-                        >
-                            XL
-                        </Button>
-                    </div>
+                    ))}
                 </div>
-            </div>
-            <ResponsiveModal
-                open={customColorsOpen}
-                onOpenChange={setCustomColorsOpen}
-                forceDesktop
-            >
-                <ResponsiveModalContent
-                    className="max-w-4xl!"
-                    onPointerDownOutside={(e) => e.preventDefault()}
-                    title="Налаштування кольорів"
-                >
-                    <CustomColorsModal
-                        onClose={() => setCustomColorsOpen(false)}
+            </Field>
+
+            <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between gap-4">
+                    <div className="flex flex-col gap-1">
+                        <Label>Фоновий градієнт</Label>
+                        <span className="text-muted-foreground text-xs">
+                            Акцентне сяйво вгорі сторінки
+                        </span>
+                    </div>
+                    <Switch
+                        checked={backdrop.style === 'glow'}
+                        onCheckedChange={(checked) =>
+                            setBackdropStyle(checked ? 'glow' : 'none')
+                        }
                     />
-                </ResponsiveModalContent>
-            </ResponsiveModal>
-        </>
+                </div>
+                {backdrop.style === 'glow' && (
+                    <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-2">
+                            <div className="flex items-center justify-between">
+                                <Label>Інтенсивність</Label>
+                                <span className="text-muted-foreground text-sm">
+                                    {Math.round(intensity * 100)}%
+                                </span>
+                            </div>
+                            <Slider
+                                min={0}
+                                max={1}
+                                step={0.05}
+                                value={[intensity]}
+                                onValueChange={([value]) => {
+                                    setIntensity(value);
+                                    setLiveVar(
+                                        '--backdrop-intensity',
+                                        String(value),
+                                    );
+                                }}
+                                onValueCommit={([value]) =>
+                                    commitIntensity(value)
+                                }
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <Label>Колір градієнту</Label>
+                            <ColorField
+                                value={backdrop.color ?? brand}
+                                presets={ACCENT_PRESETS}
+                                auto={{
+                                    active: !backdrop.color,
+                                    label: 'Як акцент',
+                                    previewColor: brand,
+                                    onSelect: () => commitBackdropColor(null),
+                                }}
+                                onSelect={commitBackdropColor}
+                                onPreview={(next) =>
+                                    setLiveVar(
+                                        '--backdrop-color',
+                                        oklchToCss(next),
+                                    )
+                                }
+                                onCommit={commitBackdropColor}
+                            />
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
     );
 };
 

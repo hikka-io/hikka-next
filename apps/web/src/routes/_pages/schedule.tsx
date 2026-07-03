@@ -76,7 +76,7 @@ function ScheduleListPage() {
                         </Button>
                     </ScheduleFiltersModal>
                 </div>
-                <Card className="hidden w-full bg-secondary/20 backdrop-blur-xl lg:block">
+                <Card className="hidden w-full lg:block">
                     <ScheduleFilters />
                 </Card>
             </Block>

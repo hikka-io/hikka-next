@@ -3,18 +3,17 @@
  */
 
 import type {
-    HslColor,
-    UiColorTokens,
+    OklchColor,
+    UiBackdrop,
     UiPreferencesOutput,
     UiStylesOutput,
-    UiThemeStylesOutput,
+    UiSurfaceOverrides,
     UserCustomizationResponse,
 } from '@hikka/api';
 
-import { getActiveEventTheme } from '@/utils/constants/event-themes';
-
+import { oklchEqual } from './color';
 import { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
-import { ALLOWED_COLOR_TOKENS } from './inject-styles';
+import { SURFACE_OVERRIDE_TOKENS } from './inject-styles';
 
 type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 
@@ -40,6 +39,16 @@ function stripNulls<T extends Record<string, unknown>>(
     return hasValues ? (result as Partial<T>) : undefined;
 }
 
+function mergeOverrideMaps(
+    base: UiSurfaceOverrides | null | undefined,
+    override: UiSurfaceOverrides | null | undefined,
+): UiSurfaceOverrides | undefined {
+    const merged = { ...base, ...stripNulls(override) };
+    return Object.keys(merged).length > 0
+        ? (merged as UiSurfaceOverrides)
+        : undefined;
+}
+
 /**
  * Merge two UiStylesOutput objects, with override taking precedence.
  * Null values in override are treated as "not set" and fall through to base.
@@ -49,38 +58,51 @@ export function mergeStyles(
     override: UiStylesOutput | undefined,
 ): UiStylesOutput {
     if (!base && !override) return {};
-    if (!base) return override!;
+    if (!base) return override ?? {};
     if (!override) return base;
 
-    return {
+    const light = mergeOverrideMaps(
+        base.overrides?.light,
+        override.overrides?.light,
+    );
+    const dark = mergeOverrideMaps(
+        base.overrides?.dark,
+        override.overrides?.dark,
+    );
+
+    const result: UiStylesOutput = {
         ...base,
         ...stripNulls(override),
-        light: {
-            ...base.light,
-            ...stripNulls(override.light),
-            colors: {
-                ...base.light?.colors,
-                ...stripNulls(override.light?.colors),
-            },
-            body: {
-                ...base.light?.body,
-                ...stripNulls(override.light?.body),
-            },
-        },
-        dark: {
-            ...base.dark,
-            ...stripNulls(override.dark),
-            colors: {
-                ...base.dark?.colors,
-                ...stripNulls(override.dark?.colors),
-            },
-            body: {
-                ...base.dark?.body,
-                ...stripNulls(override.dark?.body),
-            },
-        },
+        brand: override.brand ?? base.brand,
         radius: override.radius ?? base.radius,
     };
+
+    // Backdrop: when the override defines a backdrop at all, its color is
+    // authoritative — an absent color means "follow the brand accent", so we
+    // must not inherit the base's default color. Only when the override omits
+    // the backdrop entirely do we keep the base backdrop, which carries the
+    // default (violet) glow to users who never customized it.
+    const overrideBackdrop = stripNulls(override.backdrop);
+    if (overrideBackdrop) {
+        result.backdrop = {
+            style: overrideBackdrop.style ?? base.backdrop?.style,
+            intensity: overrideBackdrop.intensity ?? base.backdrop?.intensity,
+            ...(overrideBackdrop.color
+                ? { color: overrideBackdrop.color }
+                : {}),
+        } as UiBackdrop;
+    } else if (base.backdrop) {
+        result.backdrop = base.backdrop;
+    }
+
+    if (light || dark) {
+        result.overrides = {
+            ...(light ? { light } : {}),
+            ...(dark ? { dark } : {}),
+        };
+    }
+
+    return result;
 }
 
 /**
@@ -118,13 +140,12 @@ export function mergePreferences(
 /**
  * Merge two UserCustomizationResponse objects, with override taking precedence.
  */
-
 export function mergeUserUI(
     base: UserCustomizationResponse | undefined,
     override: UserCustomizationResponse | undefined,
 ): UserCustomizationResponse {
     if (!base && !override) return DEFAULT_USER_UI;
-    if (!base) return override!;
+    if (!base) return override ?? DEFAULT_USER_UI;
     if (!override) return base;
 
     return {
@@ -135,61 +156,39 @@ export function mergeUserUI(
     };
 }
 
-function hslEqual(
-    a: HslColor | null | undefined,
-    b: HslColor | null | undefined,
+function backdropEqual(
+    a: UiBackdrop | null | undefined,
+    b: UiBackdrop | null | undefined,
 ): boolean {
     if (!a && !b) return true;
     if (!a || !b) return false;
-    return a.h === b.h && a.s === b.s && a.l === b.l;
+    return (
+        a.style === b.style &&
+        a.intensity === b.intensity &&
+        oklchEqual(a.color, b.color)
+    );
 }
 
-function diffColorTokens(
-    tokens: UiColorTokens | null | undefined,
-    defaults: UiColorTokens | null | undefined,
-): UiColorTokens | undefined {
-    if (!tokens) return undefined;
-    if (!defaults) return tokens;
-
-    const result: UiColorTokens = {};
-    let hasOverrides = false;
-
-    for (const [key, value] of Object.entries(tokens)) {
-        if (!ALLOWED_COLOR_TOKENS.has(key as keyof UiColorTokens)) continue;
-        const defaultValue = defaults[key as keyof UiColorTokens];
-        if (!hslEqual(value, defaultValue)) {
-            (result as Record<string, HslColor | undefined>)[key] =
-                value ?? undefined;
-            hasOverrides = true;
+function cleanOverrideMap(
+    overrides: UiSurfaceOverrides | null | undefined,
+): UiSurfaceOverrides | undefined {
+    if (!overrides) return undefined;
+    const result: Record<string, OklchColor> = {};
+    let has = false;
+    for (const [key, value] of Object.entries(overrides)) {
+        if (!SURFACE_OVERRIDE_TOKENS.has(key as keyof UiSurfaceOverrides)) {
+            continue;
         }
+        if (value == null) continue;
+        result[key] = value;
+        has = true;
     }
-
-    return hasOverrides ? result : undefined;
-}
-
-function diffThemeStyles(
-    theme: UiThemeStylesOutput | null | undefined,
-    defaults: UiThemeStylesOutput | null | undefined,
-): UiThemeStylesOutput | undefined {
-    if (!theme) return undefined;
-
-    const colors = diffColorTokens(theme.colors, defaults?.colors);
-    const body =
-        JSON.stringify(theme.body) !== JSON.stringify(defaults?.body)
-            ? theme.body
-            : undefined;
-
-    if (!colors && !body) return undefined;
-
-    const result: UiThemeStylesOutput = {};
-    if (colors) result.colors = colors;
-    if (body) result.body = body;
-    return result;
+    return has ? (result as UiSurfaceOverrides) : undefined;
 }
 
 /**
  * Diff styles against DEFAULT_STYLES, returning only overrides.
- * Use before saving to the API so only changed tokens are persisted.
+ * Use before saving to the API so only changed fields are persisted.
  * On read, mergeStyles(DEFAULT_STYLES, sparseConfig) fills in the rest.
  */
 export function diffStyles(
@@ -197,35 +196,29 @@ export function diffStyles(
 ): UiStylesOutput | undefined {
     if (!styles) return undefined;
 
-    const light = diffThemeStyles(styles.light, DEFAULT_STYLES.light);
-    const dark = diffThemeStyles(styles.dark, DEFAULT_STYLES.dark);
-    const radius =
-        styles.radius !== DEFAULT_STYLES.radius ? styles.radius : undefined;
-
-    if (!light && !dark && !radius) return undefined;
-
     const result: UiStylesOutput = {};
-    if (light) result.light = light;
-    if (dark) result.dark = dark;
-    if (radius) result.radius = radius;
-    return result;
-}
 
-/**
- * Merge user UI with the currently active event theme (if any).
- * Single canonical source for event theme merging — use this instead of
- * calling getActiveEventTheme() + mergeStyles/mergeEffects separately.
- */
-export function mergeWithEventTheme(userUI: UserCustomizationResponse): {
-    mergedStyles: UiStylesOutput;
-    activeEffects: UIEffect[];
-} {
-    const eventTheme = getActiveEventTheme();
-    return {
-        mergedStyles: mergeStyles(eventTheme?.styles, userUI.styles),
-        activeEffects: mergeEffects(
-            eventTheme?.effects,
-            userUI.preferences?.effect,
-        ),
-    };
+    if (styles.brand && !oklchEqual(styles.brand, DEFAULT_STYLES.brand)) {
+        result.brand = styles.brand;
+    }
+    if (styles.radius && styles.radius !== DEFAULT_STYLES.radius) {
+        result.radius = styles.radius;
+    }
+    if (
+        styles.backdrop &&
+        !backdropEqual(styles.backdrop, DEFAULT_STYLES.backdrop)
+    ) {
+        result.backdrop = styles.backdrop;
+    }
+
+    const light = cleanOverrideMap(styles.overrides?.light);
+    const dark = cleanOverrideMap(styles.overrides?.dark);
+    if (light || dark) {
+        result.overrides = {
+            ...(light ? { light } : {}),
+            ...(dark ? { dark } : {}),
+        };
+    }
+
+    return Object.keys(result).length > 0 ? result : undefined;
 }

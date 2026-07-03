@@ -38,7 +38,7 @@ const ListParam: FC<Props> = ({ param, mode }) => {
                             (item, index) => {
                                 return (
                                     <div
-                                        className="flex items-center gap-2 rounded-md border border-border bg-secondary/20 px-2 py-1 text-sm"
+                                        className="flex items-center gap-2 rounded-md border border-border surface-inset px-2 py-1 text-sm"
                                         key={index}
                                     >
                                         {item.value}

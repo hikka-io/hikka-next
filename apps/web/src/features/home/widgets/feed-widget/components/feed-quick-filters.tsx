@@ -2,7 +2,10 @@ import { type ComponentType, type FC, useRef } from 'react';
 
 import { LayoutGrid, MessageCircle } from 'lucide-react';
 
+import type { UiFeedSettingsOutput } from '@hikka/api';
+
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
+import MaterialSymbolsReviewsRounded from '@/components/icons/material-symbols/MaterialSymbolsReviewsRounded';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import { Chip } from '@/components/ui/chip';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
@@ -10,7 +13,11 @@ import { cn } from '@/utils/cn';
 
 import type { FeedSubTypeFilters } from './feed-sub-type-select';
 
-type FeedContentType = 'comment' | 'collection' | 'article';
+// Derived from the generated API enum (like feed-sub-type-select) so a new
+// backend feed content type doesn't silently drift from this quick-filter row.
+type FeedContentType = NonNullable<
+    UiFeedSettingsOutput['feed_content_types']
+>[number];
 
 type IconComponent = ComponentType<{ className?: string }>;
 
@@ -50,8 +57,13 @@ const OPTIONS: Option[] = [
         activeClass:
             'border border-feed-article/40 bg-feed-article/15 text-feed-article',
     },
-    // 'Огляди' (reviews) needs a backend `has_review` flag on FeedArgs before it
-    // can be a quick filter — omitted until the backend supports it.
+    {
+        label: 'Відгуки',
+        value: 'review',
+        icon: MaterialSymbolsReviewsRounded,
+        activeClass:
+            'border border-feed-review/40 bg-feed-review/15 text-feed-review',
+    },
 ];
 
 type Props = {
@@ -96,7 +108,7 @@ const FeedQuickFilters: FC<Props> = ({ value, onChange }) => {
                             'border border-transparent px-3.5 text-sm',
                             isActive
                                 ? option.activeClass
-                                : 'bg-secondary/40 text-muted-foreground hover:bg-secondary',
+                                : 'bg-secondary/40 text-muted-foreground hover:bg-accent',
                         )}
                     >
                         <Icon className="size-4 shrink-0" />

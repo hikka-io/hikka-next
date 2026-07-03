@@ -52,10 +52,7 @@ const PersonDetails = ({
     const title = useTitle(data);
 
     return (
-        <Card
-            className={cn('bg-secondary/20 px-0 backdrop-blur', className)}
-            id="person-details"
-        >
+        <Card className={cn('px-0', className)} id="person-details">
             <div className="flex flex-col gap-4 px-4">
                 <DetailItem
                     icon={<Languages className="size-4" />}

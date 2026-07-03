@@ -102,7 +102,10 @@ const Appearance = () => {
                             )}
                         </Button>
                     )}
-                    <Card className="flex-1 overflow-hidden bg-secondary/20 p-0 transition-opacity hover:opacity-60">
+                    <Card
+                        variant="solid"
+                        className="flex-1 overflow-hidden p-0 transition-opacity hover:opacity-60"
+                    >
                         {loggedUser?.cover ? (
                             <Image
                                 alt="cover"

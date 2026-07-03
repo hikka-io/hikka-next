@@ -60,7 +60,7 @@ const ScheduleWidget: FC<WidgetProps> = () => {
     const todayItems = groupedByDay?.[todayKey];
 
     return (
-        <Card className="bg-secondary/20 p-0 backdrop-blur-xl" id="calendar">
+        <Card className="p-0" id="calendar">
             <Block className="w-full py-4">
                 <Header href="/schedule" className="px-4">
                     <HeaderContainer>
@@ -85,7 +85,7 @@ const ScheduleWidget: FC<WidgetProps> = () => {
                                 key={`${item.anime.slug}-${item.episode}`}
                                 to={`/anime/${item.anime.slug}`}
                                 className={cn(
-                                    'flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors hover:bg-secondary',
+                                    'flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors hover:bg-accent',
                                     isAiringNow &&
                                         'border border-primary-border bg-primary',
                                 )}

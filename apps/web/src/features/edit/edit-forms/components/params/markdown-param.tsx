@@ -55,7 +55,7 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                 <form.Field
                     name={param.slug}
                     children={(field: any) => (
-                        <MDViewer className="markdown rounded-md border border-border bg-secondary/20 p-4 text-sm">
+                        <MDViewer className="markdown rounded-md border border-border surface-inset p-4 text-sm">
                             {field.state.value as string}
                         </MDViewer>
                     )}

@@ -58,7 +58,7 @@ const ArticlesWidget: FC<WidgetProps> = () => {
     );
 
     return (
-        <Card className="bg-secondary/20 p-0 backdrop-blur-xl" id="articles">
+        <Card className="p-0" id="articles">
             <Block className="w-full gap-4 py-4">
                 <Header href="/articles" className="px-4">
                     <HeaderContainer>
