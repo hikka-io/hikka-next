@@ -55,7 +55,7 @@ const CollectionsWidget: FC<WidgetProps> = () => {
     );
 
     return (
-        <Card className="bg-secondary/20 p-0 backdrop-blur-xl" id="collections">
+        <Card className="p-0" id="collections">
             <Block className="w-full gap-4 py-4">
                 <Header href="/collections" className="px-4">
                     <HeaderContainer>

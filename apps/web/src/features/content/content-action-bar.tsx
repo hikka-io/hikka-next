@@ -74,7 +74,7 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
             )}
         >
             <Card
-                className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl"
+                className="flex-row gap-2 border-none px-3 py-2"
                 id="navbar-card"
             >
                 <UserlistButton

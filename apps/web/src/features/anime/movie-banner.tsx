@@ -39,6 +39,7 @@ const MovieBanner: FC<Props> = () => {
 
     return (
         <Card
+            variant="plain"
             className="isolate flex-col justify-between overflow-hidden bg-center md:flex-row"
             style={{ backgroundImage: `url(${banner.image ?? anime?.image})` }}
         >

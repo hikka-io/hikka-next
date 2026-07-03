@@ -70,7 +70,7 @@ const Links: FC<Props> = ({ content_type }) => {
     };
 
     return (
-        <Card className="bg-secondary/20" id="content-links">
+        <Card variant="solid" id="content-links">
             <Block>
                 <Header>
                     <HeaderContainer>

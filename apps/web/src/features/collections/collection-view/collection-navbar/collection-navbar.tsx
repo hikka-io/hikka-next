@@ -34,7 +34,7 @@ const CollectionNavbar: FC<Props> = () => {
 
     return (
         <div className="sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4">
-            <Card className="flex-row gap-2 border-none bg-secondary/60 px-3 py-2 backdrop-blur-xl">
+            <Card className="flex-row gap-2 border-none px-3 py-2">
                 <CollectionVote collection={collection!} />
                 {collection && (
                     <FavoriteButton

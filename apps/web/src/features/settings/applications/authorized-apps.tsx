@@ -1,6 +1,9 @@
 import { useMemo } from 'react';
 
-import { type AuthTokenInfoResponse, thirdPartyAuthTokensInfiniteOptions } from '@hikka/api';
+import {
+    type AuthTokenInfoResponse,
+    thirdPartyAuthTokensInfiniteOptions,
+} from '@hikka/api';
 
 import MaterialSymbolsAppsRounded from '@/components/icons/material-symbols/MaterialSymbolsAppsRounded';
 import EmptyState from '@/components/ui/empty-state';
@@ -26,9 +29,7 @@ const AuthorizedAppsSettings = () => {
 
         for (const token of list) {
             const key =
-                token.client?.reference ??
-                token.client?.name ??
-                'unknown';
+                token.client?.reference ?? token.client?.name ?? 'unknown';
 
             const existing = map.get(key);
             if (existing) {

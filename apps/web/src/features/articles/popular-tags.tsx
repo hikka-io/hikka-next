@@ -24,7 +24,7 @@ const PopularTags: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     return (
-        <Card className="bg-secondary/20 backdrop-blur-xl">
+        <Card>
             <Block>
                 <Header>
                     <HeaderContainer>

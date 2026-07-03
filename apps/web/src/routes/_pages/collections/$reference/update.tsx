@@ -57,7 +57,7 @@ function CollectionUpdatePage() {
                         </div>
                         <CollectionGroups mode="edit" />
                     </Block>
-                    <Card className="sticky top-20 order-1 hidden w-full bg-secondary/20 p-0 backdrop-blur lg:order-2 lg:block">
+                    <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">
                         <CollectionSettings mode="edit" />
                     </Card>
                 </div>

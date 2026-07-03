@@ -22,7 +22,7 @@ const PopularAuthors: FC<Props> = () => {
     const { data: articleTop } = useQuery(getArticleTopOptions());
 
     return (
-        <Card className="bg-secondary/20 backdrop-blur-xl">
+        <Card>
             <Block>
                 <Header>
                     <HeaderContainer>

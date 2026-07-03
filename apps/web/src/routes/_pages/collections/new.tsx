@@ -36,12 +36,12 @@ function CollectionNewPage() {
             <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
                 <Block>
                     <CollectionTitle />
-                    <Card className="block bg-secondary/20 p-0 backdrop-blur lg:hidden">
+                    <Card className="block p-0 lg:hidden">
                         <CollectionSettings />
                     </Card>
                     <CollectionGroups />
                 </Block>
-                <Card className="sticky top-20 order-1 hidden w-full bg-secondary/20 p-0 backdrop-blur lg:order-2 lg:block">
+                <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">
                     <CollectionSettings />
                 </Card>
             </div>

@@ -60,7 +60,7 @@ const ScheduleWidget: FC<WidgetProps> = () => {
     const todayItems = groupedByDay?.[todayKey];
 
     return (
-        <Card className="bg-secondary/20 p-0 backdrop-blur-xl" id="calendar">
+        <Card className="p-0" id="calendar">
             <Block className="w-full py-4">
                 <Header href="/schedule" className="px-4">
                     <HeaderContainer>

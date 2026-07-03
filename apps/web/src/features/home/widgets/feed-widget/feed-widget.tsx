@@ -134,7 +134,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
 
     return (
         <Card
-            className="-mx-4 gap-0 rounded-none border-x-0 bg-secondary/20 p-0 sm:mx-0 sm:rounded-lg sm:border-x"
+            className="-mx-4 gap-0 rounded-none border-x-0 p-0 sm:mx-0 sm:rounded-lg sm:border-x"
             id="feed-widget"
         >
             <div className="flex flex-col gap-4 p-4">

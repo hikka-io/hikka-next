@@ -45,10 +45,7 @@ const History: FC<Props> = ({ className }) => {
 
     return (
         <>
-            <Card
-                className={cn('bg-secondary/20', className)}
-                id="user-history"
-            >
+            <Card className={cn(className)} id="user-history">
                 <Block>
                     <Header
                         onClick={

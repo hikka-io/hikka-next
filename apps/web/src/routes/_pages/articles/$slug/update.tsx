@@ -84,12 +84,12 @@ function ArticleUpdatePage() {
                 <div className="grid grid-cols-1 justify-center md:grid-cols-[1fr_30%] md:items-start md:justify-between md:gap-12 lg:grid-cols-[1fr_25%]">
                     <Block>
                         <ArticleTitle />
-                        <Card className="flex w-full bg-secondary/20 p-0 backdrop-blur md:hidden">
+                        <Card className="flex w-full p-0 md:hidden">
                             <ArticleSettings />
                         </Card>
                         <ArticleDocument />
                     </Block>
-                    <Card className="sticky top-20 order-1 hidden w-full self-start bg-secondary/20 p-0 backdrop-blur md:flex">
+                    <Card className="sticky top-20 order-1 hidden w-full self-start p-0 md:flex">
                         <ArticleSettings />
                     </Card>
                 </div>
