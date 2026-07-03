@@ -108,6 +108,9 @@ class Petal {
     private cosR = 1;
     private sinR = 0;
     private scaleX = 1;
+    // 0→1 after a respawn so petals fade in instead of popping, which also
+    // makes mid-air (branch-region) spawns believable.
+    private fade = 1;
 
     constructor(
         cache: SpriteCache,
@@ -159,6 +162,20 @@ class Petal {
         );
     }
 
+    private respawn(W: number, H: number) {
+        this.fade = 0;
+        // ~30% of petals re-enter inside the branch's corner region so the
+        // tree visibly sheds petals; the rest re-enter above the viewport.
+        // 0.35/0.3 mirror the branch area fractions in branch.ts.
+        if (Math.random() < 0.3) {
+            this.x = random(0, W * 0.35);
+            this.y = random(H * 0.05, H * 0.3);
+        } else {
+            this.x = random(0, W);
+            this.y = random(-40, -20);
+        }
+    }
+
     static createPetals(
         cache: SpriteCache,
         count: number,
@@ -183,8 +200,11 @@ class Petal {
         this.rotation += this.rotationSpeed * framesPassed;
 
         if (this.y > H + 30) {
-            this.y = random(-40, -20);
-            this.x = random(0, W);
+            this.respawn(W, H);
+        }
+
+        if (this.fade < 1) {
+            this.fade = Math.min(1, this.fade + 0.02 * framesPassed);
         }
 
         this.cosR = Math.cos(this.rotation);
@@ -200,7 +220,10 @@ class Petal {
     }
 
     draw(ctx: CanvasRenderingContext2D, scale: number) {
-        const alpha = this.opacity;
+        // Edge-on petals (|scaleX| near 0) read as catching less light —
+        // a free tumble-lighting cue on top of the pseudo-3D flip.
+        const alpha =
+            this.opacity * this.fade * (0.75 + 0.25 * Math.abs(this.scaleX));
         if (alpha <= 0) return;
 
         const { cosR, sinR, scaleX } = this;
