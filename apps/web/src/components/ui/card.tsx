@@ -2,13 +2,28 @@ import { type ComponentPropsWithoutRef, memo } from 'react';
 
 import { cn } from '@/utils/cn';
 
-type Props = ComponentPropsWithoutRef<'div'>;
+type Variant = 'surface' | 'solid' | 'inset' | 'plain';
 
-const Card = ({ children, className, ...props }: Props) => {
+type Props = ComponentPropsWithoutRef<'div'> & { variant?: Variant };
+
+const VARIANTS: Record<Variant, string> = {
+    surface: 'surface',
+    solid: 'surface-solid',
+    inset: 'surface-inset',
+    plain: '',
+};
+
+const Card = ({
+    children,
+    className,
+    variant = 'surface',
+    ...props
+}: Props) => {
     return (
         <div
             className={cn(
-                'relative isolate flex flex-col gap-4 rounded-lg border border-border p-4 shadow-[var(--shadow-card)] will-change-transform',
+                'relative isolate flex flex-col gap-4 rounded-lg border border-border p-4 will-change-transform',
+                VARIANTS[variant],
                 className,
             )}
             {...props}
