@@ -5,22 +5,23 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
 
 const badgeVariants = cva(
-    'inline-flex truncate items-center rounded-sm border px-1.5 py-0 text-xs font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-1',
+    'inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-full border border-transparent px-2 py-0.5 font-medium text-xs transition-[color,box-shadow] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3',
     {
         variants: {
             variant: {
                 default:
-                    'border-transparent bg-primary text-primary-foreground border border-primary-border hover:bg-primary/80',
+                    'border-primary-border bg-primary text-primary-foreground [a&]:hover:bg-primary/90',
                 secondary:
-                    'border-border bg-secondary text-secondary-foreground hover:bg-secondary/80',
+                    'border-border bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90',
                 success:
-                    'border-transparent bg-success text-success-foreground border border-success-border hover:bg-success/80',
+                    'border-success-border bg-success text-success-foreground [a&]:hover:bg-success/90',
                 warning:
-                    'border-transparent bg-warning text-warning-foreground border border-warning-border hover:bg-warning/80',
+                    'border-warning-border bg-warning text-warning-foreground [a&]:hover:bg-warning/90',
                 destructive:
-                    'border-transparent bg-destructive text-destructive-foreground border border-destructive-border hover:bg-destructive/80',
-                outline: 'text-foreground',
-                status: 'border-transparent text-white rounded-sm px-1.5 py-0',
+                    'border-destructive-border bg-destructive text-destructive-foreground [a&]:hover:bg-destructive/90',
+                outline:
+                    'text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
+                status: 'rounded-sm border-transparent px-1.5 py-0 text-white',
             },
         },
         defaultVariants: {

@@ -1,103 +1,90 @@
-import * as React from 'react';
+import type * as React from 'react';
 
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Tabs as TabsPrimitive } from 'radix-ui';
 
 import { cn } from '@/utils/cn';
 
-const Tabs = TabsPrimitive.Root;
-
-type TabsVariant = 'default' | 'underline';
-
-const TabsVariantContext = React.createContext<TabsVariant>('default');
-
-const tabsListVariants = cva(
-    'inline-flex w-fit items-center justify-center text-muted-foreground',
-    {
-        variants: {
-            variant: {
-                default: 'h-10 rounded-lg bg-muted p-[3px]',
-                underline:
-                    'h-10 gap-1 bg-transparent border-b items-end border-border',
-            },
-        },
-        defaultVariants: {
-            variant: 'default',
-        },
-    },
-);
-
-const tabsTriggerVariants = cva(
-    "relative inline-flex items-center justify-center gap-1.5 whitespace-nowrap text-sm font-medium text-foreground/60 transition-all hover:text-foreground focus-visible:border-ring focus-visible:outline-1 focus-visible:outline-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-    {
-        variants: {
-            variant: {
-                default:
-                    'h-[calc(100%-1px)] flex-1 rounded-md border border-transparent px-2 py-1 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground',
-                underline:
-                    "h-full px-4 py-0 data-[state=active]:text-foreground after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:rounded-full after:bg-primary-foreground after:opacity-0 after:transition-opacity after:content-[''] data-[state=active]:after:opacity-100",
-            },
-        },
-        defaultVariants: {
-            variant: 'default',
-        },
-    },
-);
-
-type TabsListProps = React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> &
-    VariantProps<typeof tabsListVariants>;
-
-const TabsList = React.forwardRef<
-    React.ElementRef<typeof TabsPrimitive.List>,
-    TabsListProps
->(({ className, variant = 'default', ...props }, ref) => (
-    <TabsVariantContext.Provider value={variant!}>
-        <TabsPrimitive.List
-            ref={ref}
-            data-slot="tabs-list"
-            className={cn(tabsListVariants({ variant, className }))}
-            {...props}
-        />
-    </TabsVariantContext.Provider>
-));
-TabsList.displayName = TabsPrimitive.List.displayName;
-
-const TabsTrigger = React.forwardRef<
-    React.ElementRef<typeof TabsPrimitive.Trigger>,
-    React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => {
-    const variant = React.useContext(TabsVariantContext);
-
+function Tabs({
+    className,
+    orientation = 'horizontal',
+    ...props
+}: React.ComponentProps<typeof TabsPrimitive.Root>) {
     return (
-        <TabsPrimitive.Trigger
-            ref={ref}
-            className={cn(tabsTriggerVariants({ variant, className }))}
+        <TabsPrimitive.Root
+            data-slot="tabs"
+            data-orientation={orientation}
+            orientation={orientation}
+            className={cn(
+                'group/tabs flex gap-2 data-[orientation=horizontal]:flex-col',
+                className,
+            )}
             {...props}
         />
     );
-});
-TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
+}
 
-const TabsContent = React.forwardRef<
-    React.ElementRef<typeof TabsPrimitive.Content>,
-    React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ className, ...props }, ref) => (
-    <TabsPrimitive.Content
-        ref={ref}
-        className={cn(
-            'mt-2 ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1',
-            className,
-        )}
-        {...props}
-    />
-));
-TabsContent.displayName = TabsPrimitive.Content.displayName;
+const tabsListVariants = cva(
+    'group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-[3px] text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none',
+    {
+        variants: {
+            variant: {
+                default: 'bg-muted',
+                line: 'gap-1 bg-transparent',
+            },
+        },
+        defaultVariants: {
+            variant: 'default',
+        },
+    },
+);
 
-export {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-    tabsListVariants,
-    tabsTriggerVariants,
-};
+function TabsList({
+    className,
+    variant = 'default',
+    ...props
+}: React.ComponentProps<typeof TabsPrimitive.List> &
+    VariantProps<typeof tabsListVariants>) {
+    return (
+        <TabsPrimitive.List
+            data-slot="tabs-list"
+            data-variant={variant}
+            className={cn(tabsListVariants({ variant }), className)}
+            {...props}
+        />
+    );
+}
+
+function TabsTrigger({
+    className,
+    ...props
+}: React.ComponentProps<typeof TabsPrimitive.Trigger>) {
+    return (
+        <TabsPrimitive.Trigger
+            data-slot="tabs-trigger"
+            className={cn(
+                "relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-transparent px-2 py-1 font-medium text-foreground/60 text-sm transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:outline-1 focus-visible:outline-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+                'group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent',
+                'data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground',
+                "after:absolute after:bg-foreground after:opacity-0 after:transition-opacity after:content-[''] group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100",
+                className,
+            )}
+            {...props}
+        />
+    );
+}
+
+function TabsContent({
+    className,
+    ...props
+}: React.ComponentProps<typeof TabsPrimitive.Content>) {
+    return (
+        <TabsPrimitive.Content
+            data-slot="tabs-content"
+            className={cn('flex-1 outline-none', className)}
+            {...props}
+        />
+    );
+}
+
+export { Tabs, TabsContent, TabsList, TabsTrigger, tabsListVariants };

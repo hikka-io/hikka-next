@@ -730,7 +730,7 @@
 :root {
     /* Canvas sits just below the white card/popover surfaces so elevated
        surfaces read against it (paired with --shadow-card below). */
-    --background: oklch(0.985 0.002 286);
+    --background: oklch(1 0 0);
     --foreground: oklch(0.142 0.004 286);
 
     --card: oklch(1 0 0);
@@ -749,18 +749,18 @@
     --primary-foreground: oklch(0.5 0.17 343);
     --primary-border: oklch(0.901 0.064 339);
 
-    --secondary: oklch(0.948 0.004 286);
-    --secondary-foreground: oklch(0.204 0 0);
+    --secondary: oklch(0.97 0.004 286);
+    --secondary-foreground: oklch(0.205 0.006 286);
 
-    --muted: oklch(0.966 0.003 286);
-    --muted-foreground: oklch(0.505 0.016 286);
+    --muted: oklch(0.97 0.003 286);
+    --muted-foreground: oklch(0.556 0.016 286);
 
-    --accent: oklch(0.955 0.004 286);
-    --accent-foreground: oklch(0.21 0.006 286);
+    --accent: oklch(0.97 0.004 286);
+    --accent-foreground: oklch(0.205 0.006 286);
 
-    --border: oklch(0.905 0.005 286);
-    --input: oklch(0.9 0.005 286);
-    --ring: oklch(0.21 0.006 286);
+    --border: oklch(0.922 0.005 286);
+    --input: oklch(0.922 0.005 286);
+    --ring: oklch(0.708 0.01 286);
     --radius: 0.625rem;
 
     /* Soft elevation shadow for cards/panels — the light theme's depth cue
@@ -887,7 +887,7 @@
 
     --border: oklch(0.212 0.004 286);
     --input: oklch(0.212 0.004 286);
-    --ring: oklch(0.872 0.006 286);
+    --ring: oklch(0.556 0.006 286);
     --radius: 0.625rem;
 
     /* Backdrop derivation constants (dark = brand-tinted glow) */
