@@ -29,10 +29,13 @@ import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
 
-const FEED_TYPE_TO_CONTENT_TYPE: Record<string, FeedArgs['content_type']> = {
-    comments: ContentTypeEnum.COMMENT,
-    articles: ContentTypeEnum.ARTICLE,
-    collections: ContentTypeEnum.COLLECTION,
+const FEED_TYPE_TO_CONTENT_TYPE: Record<
+    string,
+    FeedArgs['feed_content_types']
+> = {
+    comments: [ContentTypeEnum.COMMENT],
+    articles: [ContentTypeEnum.ARTICLE],
+    collections: [ContentTypeEnum.COLLECTION],
     all: undefined,
 };
 
@@ -109,7 +112,8 @@ export const Route = createFileRoute('/_pages/')({
             queryClient.ensureInfiniteQueryData({
                 ...getFeedInfiniteOptions({
                     body: {
-                        content_type: FEED_TYPE_TO_CONTENT_TYPE[type ?? 'all'],
+                        feed_content_types:
+                            FEED_TYPE_TO_CONTENT_TYPE[type ?? 'all'],
                     },
                     client: apiClient,
                 }),

@@ -28,18 +28,18 @@ const getEyeDropper = (): EyeDropperCtor | undefined =>
 
 type Props = {
     value: OklchColor;
-    /** Whether the current brand is a custom pick (not one of the presets). */
+    /** Whether the current value is a custom pick (not one of the presets). */
     active?: boolean;
     /** Fired continuously while dragging — use for instant preview. */
-    onPreview: (brand: OklchColor) => void;
+    onPreview: (color: OklchColor) => void;
     /** Fired once when the popover closes — use to persist. */
-    onCommit: (brand: OklchColor) => void;
+    onCommit: (color: OklchColor) => void;
 };
 
 const normalizeHex = (hex: string): string =>
     hex.startsWith('#') ? hex : `#${hex}`;
 
-const BrandColorPicker = ({ value, active, onPreview, onCommit }: Props) => {
+const ColorPicker = ({ value, active, onPreview, onCommit }: Props) => {
     const [open, setOpen] = useState(false);
     const [draft, setDraft] = useState<OklchColor>(value);
     const [hexInput, setHexInput] = useState(() => oklchToHex(value));
@@ -136,4 +136,4 @@ const BrandColorPicker = ({ value, active, onPreview, onCommit }: Props) => {
     );
 };
 
-export default BrandColorPicker;
+export default ColorPicker;

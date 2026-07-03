@@ -5,7 +5,11 @@
  * or `clearLivePreview`) so the injected styles become the source of truth
  * again.
  */
-const LIVE_PREVIEW_VARS = ['--brand', '--backdrop-intensity'] as const;
+const LIVE_PREVIEW_VARS = [
+    '--brand',
+    '--backdrop-intensity',
+    '--backdrop-color',
+] as const;
 
 export type LivePreviewVar = (typeof LIVE_PREVIEW_VARS)[number];
 

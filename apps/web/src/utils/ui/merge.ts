@@ -151,7 +151,11 @@ function backdropEqual(
 ): boolean {
     if (!a && !b) return true;
     if (!a || !b) return false;
-    return a.style === b.style && a.intensity === b.intensity;
+    return (
+        a.style === b.style &&
+        a.intensity === b.intensity &&
+        oklchEqual(a.color, b.color)
+    );
 }
 
 function cleanOverrideMap(

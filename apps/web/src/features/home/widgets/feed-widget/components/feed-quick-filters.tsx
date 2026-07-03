@@ -3,6 +3,7 @@ import { type ComponentType, type FC, useRef } from 'react';
 import { LayoutGrid, MessageCircle } from 'lucide-react';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
+import MaterialSymbolsReviewsRounded from '@/components/icons/material-symbols/MaterialSymbolsReviewsRounded';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import { Chip } from '@/components/ui/chip';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
@@ -10,7 +11,7 @@ import { cn } from '@/utils/cn';
 
 import type { FeedSubTypeFilters } from './feed-sub-type-select';
 
-type FeedContentType = 'comment' | 'collection' | 'article';
+type FeedContentType = 'comment' | 'collection' | 'article' | 'review';
 
 type IconComponent = ComponentType<{ className?: string }>;
 
@@ -50,8 +51,13 @@ const OPTIONS: Option[] = [
         activeClass:
             'border border-feed-article/40 bg-feed-article/15 text-feed-article',
     },
-    // 'Огляди' (reviews) needs a backend `has_review` flag on FeedArgs before it
-    // can be a quick filter — omitted until the backend supports it.
+    {
+        label: 'Огляди',
+        value: 'review',
+        icon: MaterialSymbolsReviewsRounded,
+        activeClass:
+            'border border-feed-review/40 bg-feed-review/15 text-feed-review',
+    },
 ];
 
 type Props = {

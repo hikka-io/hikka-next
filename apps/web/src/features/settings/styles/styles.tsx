@@ -1,8 +1,6 @@
 import { type ReactNode, useEffect, useState } from 'react';
 
-import { Check } from 'lucide-react';
-
-import type { OklchColor } from '@hikka/api';
+import type { OklchColor, UiBackdrop } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -12,10 +10,9 @@ import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { ACCENT_PRESETS } from '@/utils/constants/styles';
 import { DEFAULT_BRAND, setLiveVar } from '@/utils/ui';
-import { oklchEqual, oklchToCss, oklchToHex } from '@/utils/ui/color';
+import { oklchEqual, oklchToCss } from '@/utils/ui/color';
 
-import BrandColorPicker from './components/brand-color-picker';
-import Swatch from './components/swatch';
+import ColorField from './components/color-field';
 
 const RADIUS_OPTIONS: { value: string; label: string }[] = [
     { value: '0', label: 'Без' },
@@ -49,7 +46,6 @@ const StylesSettings = () => {
     const { update } = useUpdateSessionUI();
 
     const brand = styles.brand ?? DEFAULT_BRAND;
-    const activePreset = ACCENT_PRESETS.find((p) => oklchEqual(brand, p.brand));
     const currentRadius = styles.radius?.replace('rem', '') ?? '0.625';
 
     // Local slider state so the thumb tracks during drag; the query only
@@ -72,8 +68,23 @@ const StylesSettings = () => {
         });
     };
 
+    // Preserve the picked backdrop color across style/intensity edits.
+    const currentBackdrop = (): UiBackdrop => {
+        const next: UiBackdrop = {
+            style: backdrop.style,
+            intensity: backdrop.intensity,
+        };
+        if (backdrop.color) next.color = backdrop.color;
+        return next;
+    };
+
     const setBackdropStyle = (style: 'none' | 'glow') => {
-        update({ styles: { ...styles, backdrop: { style, intensity } } });
+        update({
+            styles: {
+                ...styles,
+                backdrop: { ...currentBackdrop(), style, intensity },
+            },
+        });
     };
 
     const commitIntensity = (value: number) => {
@@ -81,9 +92,18 @@ const StylesSettings = () => {
         update({
             styles: {
                 ...styles,
-                backdrop: { style: backdrop.style, intensity: value },
+                backdrop: { ...currentBackdrop(), intensity: value },
             },
         });
+    };
+
+    const commitBackdropColor = (next: OklchColor | null) => {
+        setLiveVar('--backdrop-color', null);
+        if (oklchEqual(next, backdrop.color)) return;
+        const nextBackdrop = currentBackdrop();
+        if (next) nextBackdrop.color = next;
+        else delete nextBackdrop.color;
+        update({ styles: { ...styles, backdrop: nextBackdrop } });
     };
 
     return (
@@ -92,41 +112,15 @@ const StylesSettings = () => {
                 title="Основний колір"
                 description="Оберіть пресет або власний акцентний колір"
             >
-                <div className="flex flex-wrap items-center gap-2">
-                    {ACCENT_PRESETS.map((preset) => {
-                        const isActive = oklchEqual(brand, preset.brand);
-                        return (
-                            <Swatch
-                                key={preset.name}
-                                title={preset.name}
-                                aria-label={preset.name}
-                                active={isActive}
-                                onClick={() => commitBrand(preset.brand)}
-                                style={{
-                                    backgroundColor: oklchToCss(preset.brand),
-                                }}
-                            >
-                                {isActive && <Check />}
-                            </Swatch>
-                        );
-                    })}
-                    <BrandColorPicker
-                        value={brand}
-                        active={!activePreset}
-                        onPreview={(next) =>
-                            setLiveVar('--brand', oklchToCss(next))
-                        }
-                        onCommit={commitBrand}
-                    />
-                    <div className="ml-auto flex items-center gap-2">
-                        <span className="text-muted-foreground text-sm">
-                            {activePreset?.name ?? 'Власний'}
-                        </span>
-                        <span className="rounded-md bg-secondary px-2 py-1 font-mono text-xs">
-                            {oklchToHex(brand)}
-                        </span>
-                    </div>
-                </div>
+                <ColorField
+                    value={brand}
+                    presets={ACCENT_PRESETS}
+                    onSelect={commitBrand}
+                    onPreview={(next) =>
+                        setLiveVar('--brand', oklchToCss(next))
+                    }
+                    onCommit={commitBrand}
+                />
             </Field>
 
             <Field
@@ -167,27 +161,52 @@ const StylesSettings = () => {
                     />
                 </div>
                 {backdrop.style === 'glow' && (
-                    <div className="flex flex-col gap-2">
-                        <div className="flex items-center justify-between">
-                            <Label>Інтенсивність</Label>
-                            <span className="text-muted-foreground text-sm">
-                                {Math.round(intensity * 100)}%
-                            </span>
+                    <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-2">
+                            <div className="flex items-center justify-between">
+                                <Label>Інтенсивність</Label>
+                                <span className="text-muted-foreground text-sm">
+                                    {Math.round(intensity * 100)}%
+                                </span>
+                            </div>
+                            <Slider
+                                min={0}
+                                max={1}
+                                step={0.05}
+                                value={[intensity]}
+                                onValueChange={([value]) => {
+                                    setIntensity(value);
+                                    setLiveVar(
+                                        '--backdrop-intensity',
+                                        String(value),
+                                    );
+                                }}
+                                onValueCommit={([value]) =>
+                                    commitIntensity(value)
+                                }
+                            />
                         </div>
-                        <Slider
-                            min={0}
-                            max={1}
-                            step={0.05}
-                            value={[intensity]}
-                            onValueChange={([value]) => {
-                                setIntensity(value);
-                                setLiveVar(
-                                    '--backdrop-intensity',
-                                    String(value),
-                                );
-                            }}
-                            onValueCommit={([value]) => commitIntensity(value)}
-                        />
+                        <div className="flex flex-col gap-2">
+                            <Label>Колір сяйва</Label>
+                            <ColorField
+                                value={backdrop.color ?? brand}
+                                presets={ACCENT_PRESETS}
+                                auto={{
+                                    active: !backdrop.color,
+                                    label: 'Як акцент',
+                                    previewColor: brand,
+                                    onSelect: () => commitBackdropColor(null),
+                                }}
+                                onSelect={commitBackdropColor}
+                                onPreview={(next) =>
+                                    setLiveVar(
+                                        '--backdrop-color',
+                                        oklchToCss(next),
+                                    )
+                                }
+                                onCommit={commitBackdropColor}
+                            />
+                        </div>
                     </div>
                 )}
             </div>

@@ -99,6 +99,7 @@
     --color-feed-article: var(--feed-article);
     --color-feed-collection: var(--feed-collection);
     --color-feed-comment: var(--feed-comment);
+    --color-feed-review: var(--feed-review);
 
     /* radius */
     --base-radius: 0.625rem;
@@ -807,6 +808,7 @@
     --feed-article: #78c98d;
     --feed-collection: #6fa8dc;
     --feed-comment: #e8a87c;
+    --feed-review: #b892e8;
 }
 
 .dark {
@@ -926,10 +928,11 @@
     }
 }
 
-/* Ambient page backdrop — a brand-tinted glow anchored to the top, gated by
-   the [data-backdrop] attribute on <html>. Strength is the user's manual
-   --backdrop-intensity multiplied by a cover-aware scale: pages with a cover
-   dim the glow so the artwork underneath stays visible. */
+/* Ambient page backdrop — a glow anchored to the top, gated by the
+   [data-backdrop] attribute on <html>. The hue follows --backdrop-color when
+   the user picks one, otherwise falls back to the brand accent. Strength is the
+   user's manual --backdrop-intensity multiplied by a cover-aware scale: pages
+   with a cover dim the glow so the artwork underneath stays visible. */
 [data-backdrop="glow"]::before {
     content: "";
     position: absolute;
@@ -941,8 +944,8 @@
     background: linear-gradient(
         to bottom,
         oklch(
-                from var(--brand) var(--backdrop-l) calc(c * var(--backdrop-c))
-                    h /
+                from var(--backdrop-color, var(--brand)) var(--backdrop-l)
+                    calc(c * var(--backdrop-c)) h /
                 calc(var(--backdrop-intensity, 1) * var(--backdrop-cover-scale))
             )
             0%,

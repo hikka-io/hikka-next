@@ -45,6 +45,7 @@ const EMPTY_FILTERS: FeedSubTypeFilters = {
     article_content_types: null,
     article_categories: null,
     collection_content_types: null,
+    review_content_types: null,
 };
 
 const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
@@ -66,6 +67,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
               article_categories: feedSettings.article_categories ?? null,
               collection_content_types:
                   feedSettings.collection_content_types ?? null,
+              review_content_types: feedSettings.review_content_types ?? null,
           }
         : localFilters;
 
@@ -101,6 +103,9 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
         if (filters.collection_content_types?.length)
             args.collection_content_types =
                 filters.collection_content_types as FeedArgs['collection_content_types'];
+        if (filters.review_content_types?.length)
+            args.review_content_types =
+                filters.review_content_types as FeedArgs['review_content_types'];
 
         return args;
     }, [onlyFollowed, filters]);
