@@ -21,14 +21,6 @@ interface Viewport {
     dpr: number;
 }
 
-function readViewport(): Viewport {
-    return {
-        W: document.documentElement.clientWidth,
-        H: window.innerHeight,
-        dpr: window.devicePixelRatio || 1,
-    };
-}
-
 /**
  * Controller for the sakura animation. Owns the render loop, timing,
  * particles, and resize. React layer only creates/disposes the instance.
@@ -70,7 +62,7 @@ export class SakuraCanvas {
         this.particleCtx = particleCanvas.getContext('2d')!;
         this.config = config;
 
-        this.viewport = readViewport();
+        this.viewport = this.readViewport();
         this.branchH = this.viewport.H - this.config.branchTopOffset;
 
         // transformOrigin is fixed for the lifetime of the branch canvas —
@@ -83,6 +75,23 @@ export class SakuraCanvas {
         this.blitBranch();
         this.applyBranchSway(0);
         this.play();
+    }
+
+    /**
+     * Measure the particle canvas element itself. Its CSS size (w-full,
+     * h-lvh) is the ground truth: lvh does not change when the mobile URL
+     * bar collapses, so URL-bar resize events yield an identical rect and
+     * fall into resize()'s early return instead of rebuilding the branch
+     * and remapping every particle mid-scroll. It also keeps the bitmap
+     * exactly matching the CSS box (innerHeight-based sizing stretched it).
+     */
+    private readViewport(): Viewport {
+        const rect = this.particleCanvas.getBoundingClientRect();
+        return {
+            W: Math.round(rect.width),
+            H: Math.round(rect.height),
+            dpr: window.devicePixelRatio || 1,
+        };
     }
 
     private sizeParticleCanvas() {
@@ -150,7 +159,9 @@ export class SakuraCanvas {
     }
 
     resize() {
-        const next = readViewport();
+        const next = this.readViewport();
+        // A hidden/unlaid-out canvas measures 0×0 — keep the old viewport.
+        if (next.W === 0 || next.H === 0) return;
         if (
             next.W === this.viewport.W &&
             next.H === this.viewport.H &&
