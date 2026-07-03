@@ -1,4 +1,4 @@
-import { Check, Sparkles } from 'lucide-react';
+import { Check, Link2 } from 'lucide-react';
 
 import type { OklchColor } from '@hikka/api';
 
@@ -70,7 +70,7 @@ const ColorField = ({
                             backgroundColor: oklchToCss(auto.previewColor),
                         }}
                     >
-                        {autoActive ? <Check /> : <Sparkles />}
+                        {autoActive ? <Check /> : <Link2 />}
                     </Swatch>
                 )}
                 {presets.map((preset) => {

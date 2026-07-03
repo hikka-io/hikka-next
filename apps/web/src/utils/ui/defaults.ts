@@ -11,14 +11,22 @@ import {
 /** The default accent seed — the single source of truth for the brand color. */
 export const DEFAULT_BRAND: OklchColor = { l: 0.7, c: 0.18, h: 343 };
 
+/** The default ambient-glow hue — a violet distinct from the pink brand. */
+export const DEFAULT_BACKDROP_COLOR: OklchColor = {
+    l: 0.637,
+    c: 0.186,
+    h: 304.8,
+};
+
 /**
  * Default UI styles. The whole accent palette derives from `brand`; the
- * `backdrop` is the ambient page glow. Neutrals and status colors live as
- * fixed constants in globals.css.
+ * `backdrop` is the ambient page glow, which defaults to a violet hue rather
+ * than following the brand. Neutrals and status colors live as fixed constants
+ * in globals.css.
  */
 export const DEFAULT_STYLES: UiStylesOutput = {
     brand: DEFAULT_BRAND,
-    backdrop: { style: 'glow', intensity: 0.7 },
+    backdrop: { style: 'glow', intensity: 0.7, color: DEFAULT_BACKDROP_COLOR },
     radius: '0.625rem',
 };
 

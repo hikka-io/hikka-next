@@ -77,9 +77,22 @@ export function mergeStyles(
         radius: override.radius ?? base.radius,
     };
 
-    const backdrop = { ...base.backdrop, ...stripNulls(override.backdrop) };
-    if (Object.keys(backdrop).length > 0) {
-        result.backdrop = backdrop as UiBackdrop;
+    // Backdrop: when the override defines a backdrop at all, its color is
+    // authoritative — an absent color means "follow the brand accent", so we
+    // must not inherit the base's default color. Only when the override omits
+    // the backdrop entirely do we keep the base backdrop, which carries the
+    // default (violet) glow to users who never customized it.
+    const overrideBackdrop = stripNulls(override.backdrop);
+    if (overrideBackdrop) {
+        result.backdrop = {
+            style: overrideBackdrop.style ?? base.backdrop?.style,
+            intensity: overrideBackdrop.intensity ?? base.backdrop?.intensity,
+            ...(overrideBackdrop.color
+                ? { color: overrideBackdrop.color }
+                : {}),
+        } as UiBackdrop;
+    } else if (base.backdrop) {
+        result.backdrop = base.backdrop;
     }
 
     if (light || dark) {

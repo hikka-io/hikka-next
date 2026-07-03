@@ -214,7 +214,7 @@ const StylesSettings = () => {
                             />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <Label>Колір сяйва</Label>
+                            <Label>Колір градієнту</Label>
                             <ColorField
                                 value={backdrop.color ?? brand}
                                 presets={ACCENT_PRESETS}

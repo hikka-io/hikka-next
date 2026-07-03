@@ -42,6 +42,31 @@ describe('mergeStyles', () => {
         });
         expect(merged.brand).toEqual({ l: 0.5, c: 0.2, h: 10 });
     });
+
+    it('inherits the default backdrop color when the user has no backdrop', () => {
+        const merged = mergeStyles(DEFAULT_STYLES, {});
+        expect(merged.backdrop?.color).toEqual(DEFAULT_STYLES.backdrop?.color);
+    });
+
+    it('keeps "follow brand" (no color) instead of re-filling the default color', () => {
+        const merged = mergeStyles(DEFAULT_STYLES, {
+            backdrop: { style: 'glow', intensity: 0.7 },
+        });
+        expect(merged.backdrop?.color).toBeUndefined();
+        expect(merged.backdrop?.intensity).toBe(0.7);
+    });
+
+    it('lets the user backdrop color win', () => {
+        const merged = mergeStyles(DEFAULT_STYLES, {
+            backdrop: {
+                style: 'glow',
+                intensity: 0.4,
+                color: { l: 0.5, c: 0.2, h: 10 },
+            },
+        });
+        expect(merged.backdrop?.color).toEqual({ l: 0.5, c: 0.2, h: 10 });
+        expect(merged.backdrop?.intensity).toBe(0.4);
+    });
 });
 
 describe('event theme layering (defaults < event < user)', () => {

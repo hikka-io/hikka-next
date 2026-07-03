@@ -22,8 +22,12 @@ const ToggleGroup = React.forwardRef<
     <ToggleGroupPrimitive.Root
         ref={ref}
         className={cn(
-            'flex items-center',
-            'no-scrollbar overflow-y-scroll rounded-md p-0.75',
+            // No `overflow` here: making the group a scroll container gives it a
+            // flex automatic min-size of 0, so a flex parent (e.g. next to a
+            // Select) shrinks it below its content and it scrolls internally
+            // instead of keeping its natural width. Segmented controls should
+            // size to their content.
+            'flex items-center rounded-md p-0.75',
             variant === 'outline'
                 ? 'border border-border bg-secondary/20'
                 : 'bg-muted',
