@@ -212,6 +212,28 @@
     background-image: none !important;
 }
 
+/* Surface elevation scale — one recipe for every container. Fill + shadow
+   (+ blur for glass) only; border/radius/padding stay per-site Tailwind
+   utilities so edge-to-edge and border-none panels keep working. */
+@utility surface {
+    background-color: var(--surface);
+    color: var(--card-foreground);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
+@utility surface-solid {
+    background-color: var(--surface);
+    color: var(--card-foreground);
+    box-shadow: var(--shadow-card);
+}
+
+@utility surface-inset {
+    background-color: var(--surface-inset);
+    color: var(--card-foreground);
+}
+
 /* Gradient mask utilities (replaces tailwind-gradient-mask-image plugin) */
 @utility gradient-mask-none {
     mask-image: none;
@@ -739,6 +761,12 @@
         0 1px 3px oklch(0.3 0.03 286 / 0.08),
         0 1px 2px oklch(0.3 0.03 286 / 0.05);
 
+    /* Translucent surface fills, derived from the overridable --card/--muted
+       tokens so user surface overrides retint every panel automatically. The
+       .surface* utilities consume these. */
+    --surface: color-mix(in oklab, var(--card) 88%, transparent);
+    --surface-inset: color-mix(in oklab, var(--muted) 60%, transparent);
+
     /* Backdrop derivation constants (light = faint brand-tinted wash). High
        lightness keeps it soft on the white surface; the reduced chroma carries
        the hue so the glow color/brand is visible in light theme too. */
@@ -827,7 +855,10 @@
     --background: oklch(0 0 0);
     --foreground: oklch(0.985 0 0);
 
-    --card: oklch(0 0 0);
+    /* Lifted off pure black so bg-card surfaces read as elevated. The page
+       (--background) stays OLED black; elevation in dark is lightness, not
+       shadow. */
+    --card: oklch(0.17 0.006 286);
     --card-foreground: oklch(0.985 0 0);
 
     --popover: oklch(0.142 0.004 286);
@@ -857,6 +888,9 @@
 
     /* Dark elevates surfaces via lightness, not shadow. */
     --shadow-card: 0 0 #0000;
+
+    --surface: color-mix(in oklab, var(--card) 82%, transparent);
+    --surface-inset: color-mix(in oklab, var(--muted) 45%, transparent);
 
     /* General colors */
 
