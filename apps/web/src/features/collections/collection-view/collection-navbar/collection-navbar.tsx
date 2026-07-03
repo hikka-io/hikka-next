@@ -90,7 +90,7 @@ const CollectionNavbar: FC<Props> = () => {
                     isAdmin() ||
                     isModerator()) && (
                     <Fragment>
-                        <div className="h-full w-px bg-secondary" />
+                        <div className="h-full w-px bg-border" />
                         <CollectionMenu collection={collection!} />
                     </Fragment>
                 )}

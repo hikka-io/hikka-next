@@ -14,7 +14,7 @@ import { usePortalContainer } from '@/components/ui/portal-container-context';
 import { cn } from '@/utils/cn';
 
 import { Badge } from './badge';
-import { buttonVariants } from './button';
+import type { buttonVariants } from './button';
 import { Checkbox } from './checkbox';
 import {
     Command,
@@ -357,9 +357,7 @@ const SelectTrigger = React.forwardRef<
                     {...props}
                     className={cn(
                         !asChild &&
-                            buttonVariants({ variant: 'outline', size }),
-                        !asChild &&
-                            'flex h-auto min-w-0 items-center justify-between',
+                            'flex h-auto w-full min-w-0 items-center justify-between gap-2 rounded-lg border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] data-[placeholder]:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:hover:bg-input/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
                         !asChild && selectTriggerSizeClasses[size!],
                         disabled
                             ? 'cursor-not-allowed opacity-50'

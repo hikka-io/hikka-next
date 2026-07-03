@@ -115,7 +115,7 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
 
                 {loggedUser && (
                     <>
-                        <div className="h-full w-px bg-secondary" />
+                        <div className="h-full w-px bg-border" />
                         <EditButton
                             key={String(params.slug)}
                             slug={String(params.slug)}

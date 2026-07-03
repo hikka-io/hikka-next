@@ -63,7 +63,7 @@ const ArticleNavbar: FC<Props> = () => {
                                 </span>
                             </Link>
                         </Button>
-                        <div className="h-full w-px bg-secondary" />
+                        <div className="h-full w-px bg-border" />
                     </Fragment>
                 )}
 
