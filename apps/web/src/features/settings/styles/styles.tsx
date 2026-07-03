@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 import type { OklchColor, UiBackdrop } from '@hikka/api';
 
@@ -9,7 +9,12 @@ import { Switch } from '@/components/ui/switch';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { ACCENT_PRESETS } from '@/utils/constants/styles';
-import { DEFAULT_BRAND, setLiveVar } from '@/utils/ui';
+import {
+    applyBackdrop,
+    clearLivePreview,
+    DEFAULT_BRAND,
+    setLiveVar,
+} from '@/utils/ui';
 import { oklchEqual, oklchToCss } from '@/utils/ui/color';
 
 import ColorField from './components/color-field';
@@ -53,6 +58,25 @@ const StylesSettings = () => {
     const [intensity, setIntensity] = useState(backdrop.intensity);
     useEffect(() => setIntensity(backdrop.intensity), [backdrop.intensity]);
 
+    // Track the latest saved backdrop for the unmount cleanup below.
+    const backdropRef = useRef(backdrop);
+    useEffect(() => {
+        backdropRef.current = backdrop;
+    }, [backdrop]);
+
+    // On leaving the editor, drop any uncommitted inline preview vars so a
+    // leaked preview can't override the saved styles app-wide. The brand
+    // preview falls back to the injected stylesheet, but the backdrop vars are
+    // applied inline on <html> with no stylesheet fallback — so re-assert the
+    // saved backdrop instead of leaving the glow blanked until a reload.
+    useEffect(
+        () => () => {
+            clearLivePreview();
+            applyBackdrop(backdropRef.current);
+        },
+        [],
+    );
+
     const commitBrand = (next: OklchColor) => {
         // Always clear the live preview; only persist an actual change so
         // opening/closing the picker (or re-clicking the active preset)
@@ -79,10 +103,13 @@ const StylesSettings = () => {
     };
 
     const setBackdropStyle = (style: 'none' | 'glow') => {
+        // currentBackdrop() already carries the committed intensity; don't
+        // persist the local slider state, which may hold an uncommitted
+        // mid-drag value.
         update({
             styles: {
                 ...styles,
-                backdrop: { ...currentBackdrop(), style, intensity },
+                backdrop: { ...currentBackdrop(), style },
             },
         });
     };

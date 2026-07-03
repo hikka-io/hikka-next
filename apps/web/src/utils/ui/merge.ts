@@ -11,8 +11,6 @@ import type {
     UserCustomizationResponse,
 } from '@hikka/api';
 
-import { getActiveEventTheme } from '@/utils/constants/event-themes';
-
 import { oklchEqual } from './color';
 import { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 import { SURFACE_OVERRIDE_TOKENS } from './inject-styles';
@@ -210,23 +208,4 @@ export function diffStyles(
     }
 
     return Object.keys(result).length > 0 ? result : undefined;
-}
-
-/**
- * Merge user UI with the currently active event theme (if any).
- * Single canonical source for event theme merging — use this instead of
- * calling getActiveEventTheme() + mergeStyles/mergeEffects separately.
- */
-export function mergeWithEventTheme(userUI: UserCustomizationResponse): {
-    mergedStyles: UiStylesOutput;
-    activeEffects: UIEffect[];
-} {
-    const eventTheme = getActiveEventTheme();
-    return {
-        mergedStyles: mergeStyles(eventTheme?.styles, userUI.styles),
-        activeEffects: mergeEffects(
-            eventTheme?.effects,
-            userUI.preferences?.effect,
-        ),
-    };
 }

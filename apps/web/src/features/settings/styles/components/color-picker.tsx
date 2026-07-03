@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Check, Palette, Pipette } from 'lucide-react';
 import { HexColorPicker } from 'react-colorful';
@@ -36,25 +36,26 @@ type Props = {
     onCommit: (color: OklchColor) => void;
 };
 
-const normalizeHex = (hex: string): string =>
-    hex.startsWith('#') ? hex : `#${hex}`;
-
 const ColorPicker = ({ value, active, onPreview, onCommit }: Props) => {
     const [open, setOpen] = useState(false);
+    // `value` only changes on commit, so memoize its hex rather than
+    // re-deriving it on every drag-frame re-render.
+    const valueHex = useMemo(() => oklchToHex(value), [value]);
     const [draft, setDraft] = useState<OklchColor>(value);
-    const [hexInput, setHexInput] = useState(() => oklchToHex(value));
+    const [hexInput, setHexInput] = useState(valueHex);
 
     // Keep in sync with external changes (e.g. presets) while closed.
     useEffect(() => {
         if (!open) {
             setDraft(value);
-            setHexInput(oklchToHex(value));
+            setHexInput(valueHex);
         }
-    }, [value, open]);
+    }, [value, valueHex, open]);
 
     const applyHex = (next: string) => {
         setHexInput(next);
-        const oklch = hexToOklch(normalizeHex(next));
+        // hexToOklch tolerates a missing leading '#', so no normalization.
+        const oklch = hexToOklch(next);
         if (oklch) {
             setDraft(oklch);
             onPreview(oklch);
@@ -82,7 +83,7 @@ const ColorPicker = ({ value, active, onPreview, onCommit }: Props) => {
                 setOpen(next);
                 if (next) {
                     setDraft(value);
-                    setHexInput(oklchToHex(value));
+                    setHexInput(valueHex);
                 } else {
                     onCommit(draft);
                 }
@@ -95,7 +96,7 @@ const ColorPicker = ({ value, active, onPreview, onCommit }: Props) => {
                     active={active}
                     style={
                         active
-                            ? { backgroundColor: oklchToHex(value) }
+                            ? { backgroundColor: valueHex }
                             : { background: RAINBOW }
                     }
                 >

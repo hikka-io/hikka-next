@@ -729,9 +729,11 @@
     --ring: oklch(0.21 0.006 286);
     --radius: 0.625rem;
 
-    /* Backdrop derivation constants (light = invisible white wash) */
-    --backdrop-l: 1;
-    --backdrop-c: 0;
+    /* Backdrop derivation constants (light = faint brand-tinted wash). High
+       lightness keeps it soft on the white surface; the reduced chroma carries
+       the hue so the glow color/brand is visible in light theme too. */
+    --backdrop-l: 0.95;
+    --backdrop-c: 0.4;
 
     /* General colors */
 

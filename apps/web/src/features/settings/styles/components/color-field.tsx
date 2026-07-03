@@ -3,7 +3,7 @@ import { Check, Sparkles } from 'lucide-react';
 import type { OklchColor } from '@hikka/api';
 
 import type { AccentPreset } from '@/utils/constants/styles';
-import { oklchEqual, oklchToCss, oklchToHex } from '@/utils/ui/color';
+import { oklchToCss, oklchToHex } from '@/utils/ui/color';
 
 import ColorPicker from './color-picker';
 import Swatch from './swatch';
@@ -47,7 +47,13 @@ const ColorField = ({
     auto,
 }: Props) => {
     const autoActive = auto?.active ?? false;
-    const activePreset = presets.find((p) => oklchEqual(value, p.brand));
+    const valueHex = oklchToHex(value);
+    // Match presets by rendered hex, not OKLCH equality: a color picked via
+    // the hex input/eyedropper round-trips through hexToOklch with tiny
+    // rounding drift, so strict OKLCH comparison would miss its own preset.
+    const activePreset = autoActive
+        ? undefined
+        : presets.find((p) => oklchToHex(p.brand) === valueHex);
     const isCustom = !autoActive && !activePreset;
     const label = autoActive ? auto?.label : (activePreset?.name ?? 'Власний');
 
@@ -68,8 +74,7 @@ const ColorField = ({
                     </Swatch>
                 )}
                 {presets.map((preset) => {
-                    const isActive =
-                        !autoActive && oklchEqual(value, preset.brand);
+                    const isActive = preset === activePreset;
                     return (
                         <Swatch
                             key={preset.name}
@@ -95,7 +100,7 @@ const ColorField = ({
             <div className="flex items-center gap-2">
                 <span className="text-muted-foreground text-sm">{label}</span>
                 <span className="rounded-md bg-secondary px-2 py-1 font-mono text-xs">
-                    {oklchToHex(value)}
+                    {valueHex}
                 </span>
             </div>
         </div>

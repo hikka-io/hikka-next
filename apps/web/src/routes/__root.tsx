@@ -19,7 +19,7 @@ import NotFoundPage from '@/components/not-found-page';
 import RouterProgressBar from '@/components/router-progress-bar';
 import { Providers } from '@/features/app-shell';
 import { getThemeCookieFn, refreshAuthCookieFn } from '@/utils/cookies';
-import { DEFAULT_USER_UI, oklchToCss, STYLE_ELEMENT_ID } from '@/utils/ui';
+import { backdropVars, DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getUserStyles } from '@/utils/ui/server';
 
 import '../globals.css';
@@ -87,14 +87,7 @@ function RootLayout() {
             lang="uk"
             suppressHydrationWarning
             data-backdrop={backdrop.style}
-            style={
-                {
-                    '--backdrop-intensity': backdrop.intensity,
-                    ...(backdrop.color && {
-                        '--backdrop-color': oklchToCss(backdrop.color),
-                    }),
-                } as CSSProperties
-            }
+            style={backdropVars(backdrop) as CSSProperties}
         >
             <head>
                 <script

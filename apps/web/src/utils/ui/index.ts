@@ -1,6 +1,7 @@
 export {
     applyBackdrop,
     BACKDROP_ATTR,
+    backdropVars,
     type ResolvedBackdrop,
     resolveBackdrop,
 } from './backdrop';
@@ -30,5 +31,4 @@ export {
     mergeEffects,
     mergePreferences,
     mergeStyles,
-    mergeWithEventTheme,
 } from './merge';
