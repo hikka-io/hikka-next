@@ -291,7 +291,7 @@ const SortableWidgetItem: FC<{
             ref={setNodeRef}
             style={style}
             className={cn(
-                'flex touch-none items-center gap-2 rounded-lg border bg-secondary/20 p-2',
+                'flex touch-none items-center gap-2 rounded-lg border surface-solid p-2',
                 isDragging ? 'cursor-grabbing' : 'cursor-grab',
             )}
             {...attributes}
@@ -357,7 +357,7 @@ const DroppableColumn: FC<{
             >
                 <div
                     ref={setNodeRef}
-                    className="flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed bg-secondary/20 p-2 transition-colors"
+                    className="flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed surface-inset p-2 transition-colors"
                 >
                     {widgets.map((widget) => (
                         <SortableWidgetItem

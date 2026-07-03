@@ -17,12 +17,7 @@ const ArticleAuthor: FC<Props> = () => {
         getArticleOptions({ path: { slug: String(params.slug) } }),
     );
 
-    return (
-        <Author
-            article={article!}
-            className="bg-secondary/20 backdrop-blur-xl"
-        />
-    );
+    return <Author article={article!} className="surface" />;
 };
 
 export default ArticleAuthor;

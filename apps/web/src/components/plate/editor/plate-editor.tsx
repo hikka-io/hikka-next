@@ -138,7 +138,7 @@ export function PlateMarkdownEditor({
                         side="bottom"
                         className="top-(--visual-viewport-offset-top,0px)! bottom-auto! h-(--visual-viewport-height,100dvh)!"
                     >
-                        <SheetHeader className="bg-secondary/20">
+                        <SheetHeader>
                             <SheetTitle>{modalTitle}</SheetTitle>
                             {modalDescription && (
                                 <SheetDescription>

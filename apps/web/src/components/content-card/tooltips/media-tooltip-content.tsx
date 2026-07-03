@@ -46,7 +46,7 @@ const MediaTooltipContent: FC<Props> = ({
                 <div className="flex justify-between gap-2">
                     <h5>{title}</h5>
                     {score > 0 ? (
-                        <div className="size-fit rounded-md border bg-secondary/20 px-2 text-sm backdrop-blur">
+                        <div className="size-fit rounded-md border surface-inset px-2 text-sm">
                             {score}
                         </div>
                     ) : null}

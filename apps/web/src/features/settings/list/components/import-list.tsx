@@ -102,7 +102,7 @@ const ImportList = ({ list, setList, content_type }: Props) => {
                     className: cn(
                         'h-28 w-full p-4',
                         'flex items-center justify-center',
-                        'cursor-pointer rounded-lg border bg-secondary/20 text-center',
+                        'cursor-pointer rounded-lg border surface-solid text-center',
                         'transition duration-100',
                         'hover:bg-secondary/20/90',
                         isDragActive && 'bg-secondary/20/90',

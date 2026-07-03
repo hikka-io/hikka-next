@@ -5,7 +5,7 @@ import { cn } from '@/utils/cn';
 import { Toolbar } from './toolbar';
 
 const fixedToolbarVariants = cva(
-    'scrollbar-hide left-0 w-full justify-between self-start p-1 z-50 bg-secondary/20 backdrop-blur rounded-md',
+    'scrollbar-hide left-0 w-full justify-between self-start p-1 z-50 surface rounded-md',
     {
         defaultVariants: {
             variant: 'default',

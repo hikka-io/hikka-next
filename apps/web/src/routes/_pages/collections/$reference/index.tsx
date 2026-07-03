@@ -62,7 +62,7 @@ function CollectionPage() {
                 {/* TOC sidebar (lg+); mobile uses the navbar popover */}
                 <div className="hidden min-w-52 max-w-56 lg:block">
                     <div className="sticky top-20 h-[calc(100vh-5rem)]">
-                        <TableOfContents className="max-h-[70vh] bg-secondary/20 opacity-60 backdrop-blur-xl transition-opacity hover:opacity-100" />
+                        <TableOfContents className="max-h-[70vh] surface opacity-60 transition-opacity hover:opacity-100" />
                     </div>
                 </div>
             </div>

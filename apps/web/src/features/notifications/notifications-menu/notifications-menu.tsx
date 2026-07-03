@@ -105,7 +105,7 @@ const NotificationsMenu: FC = () => {
                         unseenCount={unseenCount}
                         isBulkMarking={isBulkMarking}
                         onMarkAllSeen={handleMarkAllSeen}
-                        className="bg-secondary/20 px-3 py-3.5"
+                        className="surface-inset px-3 py-3.5"
                     />
                     <DropdownMenuSeparator className="m-0" />
                     <NotificationsContent

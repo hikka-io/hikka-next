@@ -46,7 +46,7 @@ const FollowStats: FC<Props> = ({ className }) => {
         <>
             <Card
                 className={cn(
-                    'w-full flex-col items-center gap-2 bg-secondary/20 p-2 backdrop-blur md:w-auto lg:flex-row',
+                    'w-full flex-col items-center gap-2 p-2 md:w-auto lg:flex-row',
                     className,
                 )}
             >

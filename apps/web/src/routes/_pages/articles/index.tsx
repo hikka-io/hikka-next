@@ -60,7 +60,7 @@ function ArticlesPage() {
                 <PopularTags />
             </div>
             <ArticleList />
-            <div className="sticky top-20 hidden max-h-[calc(100vh-9rem)] w-full self-start overflow-hidden rounded-lg border border-border bg-secondary/20 backdrop-blur-xl sm:flex">
+            <div className="sticky top-20 hidden max-h-[calc(100vh-9rem)] w-full self-start overflow-hidden rounded-lg border border-border surface sm:flex">
                 <ArticleFilters />
             </div>
         </div>
