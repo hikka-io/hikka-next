@@ -1,5 +1,5 @@
 import { PETAL_PALETTES } from './config';
-import { random, randomItem } from './utils';
+import { random, randomItem, tracePetalPath } from './utils';
 
 function drawBlossom(
     ctx: CanvasRenderingContext2D,
@@ -21,32 +21,10 @@ function drawBlossom(
         ctx.rotate(angle);
         ctx.translate(0, -size * 0.25);
 
-        ctx.beginPath();
-        ctx.moveTo(0, -petalSize * 0.4);
-        ctx.bezierCurveTo(
-            petalSize * 0.35,
-            -petalSize * 0.3,
-            petalSize * 0.38,
-            petalSize * 0.15,
-            0,
-            petalSize * 0.45,
-        );
-        ctx.bezierCurveTo(
-            -petalSize * 0.38,
-            petalSize * 0.15,
-            -petalSize * 0.35,
-            -petalSize * 0.3,
-            0,
-            -petalSize * 0.4,
-        );
-        ctx.closePath();
+        const s = petalSize * 0.9;
+        tracePetalPath(ctx, s, 0);
 
-        const grad = ctx.createLinearGradient(
-            0,
-            -petalSize * 0.4,
-            0,
-            petalSize * 0.45,
-        );
+        const grad = ctx.createLinearGradient(0, -s * 0.5, 0, s * 0.5);
         grad.addColorStop(0, palette.highlight);
         grad.addColorStop(0.45, palette.base);
         grad.addColorStop(1, palette.tip);

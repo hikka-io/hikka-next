@@ -48,7 +48,7 @@ export class SakuraCanvas {
     private spriteCache: SpriteCache = new Map();
     private petals: Petal[] = [];
     private ambientParticles: AmbientParticle[] = [];
-    private branches: Branch[] = [];
+    private branch: Branch | null = null;
 
     private lastUpdate = performance.now();
     private time = 0;
@@ -75,7 +75,7 @@ export class SakuraCanvas {
         this.sizeParticleCanvas();
         this.createEntities();
         this.sizeBranchCanvasToBranch();
-        this.blitBranches();
+        this.blitBranch();
         this.applyBranchSway(0);
         this.play();
     }
@@ -92,7 +92,7 @@ export class SakuraCanvas {
      * The pre-rendered Branch already knows its own area.
      */
     private sizeBranchCanvasToBranch() {
-        const b = this.branches[0];
+        const b = this.branch;
         if (!b) return;
         const { dpr } = this.viewport;
         this.branchCanvas.width = b.canvas.width;
@@ -117,36 +117,25 @@ export class SakuraCanvas {
             W,
             H,
         );
-        this.branches = [
-            new Branch(
-                W,
-                this.branchH,
-                this.config.isNarrow,
-                this.viewport.dpr,
-            ),
-        ];
+        this.branch = new Branch(
+            W,
+            this.branchH,
+            this.config.isNarrow,
+            this.viewport.dpr,
+        );
     }
 
-    private disposeBranches() {
-        for (const b of this.branches) b.dispose();
-        this.branches = [];
-    }
-
-    private blitBranches() {
+    private blitBranch() {
+        if (!this.branch) return;
         const bCtx = this.branchCanvas.getContext('2d')!;
         bCtx.setTransform(1, 0, 0, 1, 0, 0);
         bCtx.clearRect(0, 0, this.branchCanvas.width, this.branchCanvas.height);
-        for (const branch of this.branches) {
-            branch.blit(bCtx, this.viewport.dpr);
-        }
+        this.branch.blit(bCtx, this.viewport.dpr);
     }
 
     private applyBranchSway(time: number) {
-        // Only one branch currently — single-pivot CSS transform is correct.
-        // For multiple branches in different viewport corners, this approach
-        // would need per-branch DOM elements; note for the future.
-        if (this.branches.length === 0) return;
-        const angle = this.branches[0].computeSway(time);
+        if (!this.branch) return;
+        const angle = this.branch.computeSway(time);
         // Skip the style write (and the string allocation) when the angle
         // change is below visible threshold (~0.03°).
         if (Math.abs(angle - this.lastSwayAngle) < 0.0005) return;
@@ -180,14 +169,17 @@ export class SakuraCanvas {
             a.y = (a.y / oldH) * next.H;
         }
 
-        // Branches bake viewport-dependent geometry — rebuild them, then
+        // The branch bakes viewport-dependent geometry — rebuild it, then
         // resize the DOM canvas to match the new branch area.
-        this.disposeBranches();
-        this.branches = [
-            new Branch(next.W, this.branchH, this.config.isNarrow, next.dpr),
-        ];
+        this.branch?.dispose();
+        this.branch = new Branch(
+            next.W,
+            this.branchH,
+            this.config.isNarrow,
+            next.dpr,
+        );
         this.sizeBranchCanvasToBranch();
-        this.blitBranches();
+        this.blitBranch();
     }
 
     private render(framesPassed: number) {
@@ -244,7 +236,8 @@ export class SakuraCanvas {
 
     dispose() {
         this.pause();
-        this.disposeBranches();
+        this.branch?.dispose();
+        this.branch = null;
         this.petals = [];
         this.ambientParticles = [];
         // Drop sprite canvases so GC can reclaim them (instance-scoped cache).

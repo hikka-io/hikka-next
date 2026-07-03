@@ -1,5 +1,5 @@
 import { PETAL_PALETTES, type PetalPalette } from './config';
-import { random, type SpriteCache } from './utils';
+import { random, type SpriteCache, tracePetalPath } from './utils';
 
 function renderPetalCanvas(
     size: number,
@@ -21,25 +21,7 @@ function renderPetalCanvas(
 
     ctx.translate(cx, cx);
 
-    ctx.beginPath();
-    ctx.moveTo(0, -s * 0.5);
-    ctx.bezierCurveTo(
-        s * (0.38 + curl),
-        -s * 0.42,
-        s * (0.42 + curl * 0.5),
-        s * 0.15,
-        0,
-        s * 0.5,
-    );
-    ctx.bezierCurveTo(
-        -s * (0.38 - curl),
-        s * 0.15,
-        -s * (0.42 - curl * 0.5),
-        -s * 0.42,
-        0,
-        -s * 0.5,
-    );
-    ctx.closePath();
+    tracePetalPath(ctx, s, curl);
 
     const grad = ctx.createLinearGradient(0, -s * 0.5, 0, s * 0.5);
     grad.addColorStop(0, palette.highlight);
@@ -114,12 +96,7 @@ class Petal {
     private sinR = 0;
     private scaleX = 1;
 
-    constructor(
-        cache: SpriteCache,
-        width: number,
-        height: number,
-        startAbove = false,
-    ) {
+    constructor(cache: SpriteCache, width: number, height: number) {
         const depth = Math.random();
         const depthScale = 0.6 + depth * 0.4;
         const size = random(20, 32) * depthScale;
@@ -127,9 +104,7 @@ class Petal {
         const paletteIndex = Math.floor(Math.random() * PETAL_PALETTES.length);
 
         this.x = random(0, width);
-        this.y = startAbove
-            ? random(-height * 0.2, -20)
-            : random(-height * 0.1, height);
+        this.y = random(-height * 0.1, height);
         // Base opacity plus an atmospheric-depth multiplier: far petals
         // (low depth) are more translucent, giving a cheap haze effect.
         this.opacity = (random(0.4, 0.7) + depth * 0.2) * (0.5 + depth * 0.5);

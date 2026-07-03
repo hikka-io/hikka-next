@@ -34,3 +34,35 @@ export function randomWith(
 export function randomItemWith<T>(rng: () => number, arr: readonly T[]): T {
     return arr[Math.floor(rng() * arr.length)];
 }
+
+/**
+ * Trace (and close) the shared petal silhouette centered on the origin.
+ * Spans ±s*0.5 vertically; positive curl bows the right edge outward.
+ * Used by both the falling-petal sprite and the branch blossoms so the
+ * two stay visually consistent.
+ */
+export function tracePetalPath(
+    ctx: CanvasRenderingContext2D,
+    s: number,
+    curl: number,
+) {
+    ctx.beginPath();
+    ctx.moveTo(0, -s * 0.5);
+    ctx.bezierCurveTo(
+        s * (0.38 + curl),
+        -s * 0.42,
+        s * (0.42 + curl * 0.5),
+        s * 0.15,
+        0,
+        s * 0.5,
+    );
+    ctx.bezierCurveTo(
+        -s * (0.38 - curl),
+        s * 0.15,
+        -s * (0.42 - curl * 0.5),
+        -s * 0.42,
+        0,
+        -s * 0.5,
+    );
+    ctx.closePath();
+}
