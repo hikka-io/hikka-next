@@ -16580,22 +16580,6 @@
       },
       "FeedArgs": {
         "properties": {
-          "content_type": {
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "collection",
-                  "article",
-                  "comment"
-                ]
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Content Type"
-          },
           "collection_content_types": {
             "anyOf": [
               {
@@ -16623,9 +16607,9 @@
                 "items": {
                   "type": "string",
                   "enum": [
+                    "edit",
                     "collection",
                     "character",
-                    "edit",
                     "article",
                     "person",
                     "anime",
@@ -16661,6 +16645,25 @@
             ],
             "title": "Article Content Types"
           },
+          "review_content_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "anime",
+                    "manga",
+                    "novel"
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Content Types"
+          },
           "article_categories": {
             "anyOf": [
               {
@@ -16688,7 +16691,8 @@
                   "enum": [
                     "collection",
                     "article",
-                    "comment"
+                    "comment",
+                    "review"
                   ]
                 },
                 "type": "array"
@@ -20751,6 +20755,16 @@
               }
             ],
             "title": "Style"
+          },
+          "color": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OKLCHColor"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "additionalProperties": false,
@@ -21016,9 +21030,9 @@
                 "items": {
                   "type": "string",
                   "enum": [
+                    "edit",
                     "collection",
                     "character",
-                    "edit",
                     "article",
                     "person",
                     "anime",
@@ -21054,6 +21068,25 @@
             ],
             "title": "Article Content Types"
           },
+          "review_content_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "anime",
+                    "manga",
+                    "novel"
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Content Types"
+          },
           "article_categories": {
             "anyOf": [
               {
@@ -21081,7 +21114,8 @@
                   "enum": [
                     "collection",
                     "article",
-                    "comment"
+                    "comment",
+                    "review"
                   ]
                 },
                 "type": "array"
@@ -21175,9 +21209,9 @@
                 "items": {
                   "type": "string",
                   "enum": [
+                    "edit",
                     "collection",
                     "character",
-                    "edit",
                     "article",
                     "person",
                     "anime",
@@ -21213,6 +21247,25 @@
             ],
             "title": "Article Content Types"
           },
+          "review_content_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "anime",
+                    "manga",
+                    "novel"
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Content Types"
+          },
           "article_categories": {
             "anyOf": [
               {
@@ -21240,7 +21293,8 @@
                   "enum": [
                     "collection",
                     "article",
-                    "comment"
+                    "comment",
+                    "review"
                   ]
                 },
                 "type": "array"

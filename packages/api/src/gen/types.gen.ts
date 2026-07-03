@@ -3087,10 +3087,6 @@ export type FavouriteResponse = {
  */
 export type FeedArgs = {
     /**
-     * Content Type
-     */
-    content_type?: 'collection' | 'article' | 'comment' | null;
-    /**
      * Collection Content Types
      */
     collection_content_types?: Array<
@@ -3100,9 +3096,9 @@ export type FeedArgs = {
      * Comment Content Types
      */
     comment_content_types?: Array<
+        | 'edit'
         | 'collection'
         | 'character'
-        | 'edit'
         | 'article'
         | 'person'
         | 'anime'
@@ -3116,13 +3112,19 @@ export type FeedArgs = {
         'anime' | 'manga' | 'novel' | 'no_content'
     > | null;
     /**
+     * Review Content Types
+     */
+    review_content_types?: Array<'anime' | 'manga' | 'novel'> | null;
+    /**
      * Article Categories
      */
     article_categories?: Array<'original' | 'reviews' | 'news'> | null;
     /**
      * Feed Content Types
      */
-    feed_content_types?: Array<'collection' | 'article' | 'comment'> | null;
+    feed_content_types?: Array<
+        'collection' | 'article' | 'comment' | 'review'
+    > | null;
     /**
      * Before
      */
@@ -5141,6 +5143,7 @@ export type UiBackdrop = {
      * Style
      */
     style?: 'none' | 'glow' | null;
+    color?: OklchColor | null;
 };
 
 /**
@@ -5185,9 +5188,9 @@ export type UiFeedSettingsInput = {
      * Comment Content Types
      */
     comment_content_types?: Array<
+        | 'edit'
         | 'collection'
         | 'character'
-        | 'edit'
         | 'article'
         | 'person'
         | 'anime'
@@ -5201,13 +5204,19 @@ export type UiFeedSettingsInput = {
         'anime' | 'manga' | 'novel' | 'no_content'
     > | null;
     /**
+     * Review Content Types
+     */
+    review_content_types?: Array<'anime' | 'manga' | 'novel'> | null;
+    /**
      * Article Categories
      */
     article_categories?: Array<'original' | 'reviews' | 'news'> | null;
     /**
      * Feed Content Types
      */
-    feed_content_types?: Array<'collection' | 'article' | 'comment'> | null;
+    feed_content_types?: Array<
+        'collection' | 'article' | 'comment' | 'review'
+    > | null;
     /**
      * Only Followed
      */
@@ -5232,9 +5241,9 @@ export type UiFeedSettingsOutput = {
      * Comment Content Types
      */
     comment_content_types?: Array<
+        | 'edit'
         | 'collection'
         | 'character'
-        | 'edit'
         | 'article'
         | 'person'
         | 'anime'
@@ -5248,13 +5257,19 @@ export type UiFeedSettingsOutput = {
         'anime' | 'manga' | 'novel' | 'no_content'
     > | null;
     /**
+     * Review Content Types
+     */
+    review_content_types?: Array<'anime' | 'manga' | 'novel'> | null;
+    /**
      * Article Categories
      */
     article_categories?: Array<'original' | 'reviews' | 'news'> | null;
     /**
      * Feed Content Types
      */
-    feed_content_types?: Array<'collection' | 'article' | 'comment'> | null;
+    feed_content_types?: Array<
+        'collection' | 'article' | 'comment' | 'review'
+    > | null;
     /**
      * Only Followed
      */
