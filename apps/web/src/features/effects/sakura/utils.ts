@@ -36,6 +36,16 @@ export function randomItemWith<T>(rng: () => number, arr: readonly T[]): T {
 }
 
 /**
+ * Particle-canvas resolution multiplier. Deliberately capped below raw
+ * devicePixelRatio: rendering the full-viewport particle canvas at DPR 3
+ * on mobile was fill-rate bound on weak GPUs (a past regression). DPR-1
+ * devices are unaffected (scale 1 = today's cost).
+ */
+export function computeRenderScale(dpr: number, maxScale: number): number {
+    return Math.max(1, Math.min(dpr, maxScale));
+}
+
+/**
  * Trace (and close) the shared petal silhouette centered on the origin.
  * Spans ±s*0.5 vertically; positive curl bows the right edge outward.
  * Used by both the falling-petal sprite and the branch blossoms so the

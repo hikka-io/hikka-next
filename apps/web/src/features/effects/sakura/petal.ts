@@ -1,23 +1,30 @@
 import { PETAL_PALETTES, type PetalPalette } from './config';
 import { random, type SpriteCache, tracePetalPath } from './utils';
 
+function petalSpriteLogicalSize(sizeBucket: number, blur: number): number {
+    const pad = blur > 0 ? Math.ceil(blur * 3) : 0;
+    return sizeBucket + pad * 2;
+}
+
 function renderPetalCanvas(
-    size: number,
+    sizeBucket: number,
     curl: number,
     palette: PetalPalette,
     blur: number,
+    scale: number,
 ): HTMLCanvasElement {
-    const pad = blur > 0 ? Math.ceil(blur * 3) : 0;
-    const logicalSize = Math.ceil(size) + pad * 2;
+    const logicalSize = petalSpriteLogicalSize(sizeBucket, blur);
     const c = document.createElement('canvas');
-    c.width = logicalSize;
-    c.height = logicalSize;
+    c.width = Math.max(1, Math.round(logicalSize * scale));
+    c.height = c.width;
     const ctx = c.getContext('2d')!;
 
+    // Draw in logical (CSS px) units on a scaled bitmap.
+    ctx.scale(scale, scale);
     if (blur > 0) ctx.filter = `blur(${blur}px)`;
 
     const cx = logicalSize / 2;
-    const s = size;
+    const s = sizeBucket;
 
     ctx.translate(cx, cx);
 
@@ -49,10 +56,11 @@ class Petal {
         curl: number,
         paletteIndex: number,
         blur: number,
+        scale: number,
     ): HTMLCanvasElement {
         const sizeBucket = Math.round(size);
         const curlBucket = Math.round(curl * 20) / 20;
-        const key = `${sizeBucket}|${curlBucket}|${paletteIndex}|${blur}`;
+        const key = `${sizeBucket}|${curlBucket}|${paletteIndex}|${blur}|${scale}`;
 
         let c = cache.get(key);
         if (!c) {
@@ -61,6 +69,7 @@ class Petal {
                 curlBucket,
                 PETAL_PALETTES[paletteIndex],
                 blur,
+                scale,
             );
             cache.set(key, c);
         }
@@ -88,15 +97,24 @@ class Petal {
     swayAmplitude: number;
     fallSpeed: number;
     depth: number;
-    private cachedCanvas: HTMLCanvasElement;
-    private logicalSize: number;
+    private size: number;
+    private curl: number;
+    private paletteIndex: number;
+    private blur: number;
+    private cachedCanvas!: HTMLCanvasElement;
+    private logicalSize = 0;
     // Per-frame trig cache — written in update(), read in draw(). Avoids
     // recomputing cos/sin/scaleX three times per petal per frame.
     private cosR = 1;
     private sinR = 0;
     private scaleX = 1;
 
-    constructor(cache: SpriteCache, width: number, height: number) {
+    constructor(
+        cache: SpriteCache,
+        width: number,
+        height: number,
+        scale: number,
+    ) {
         const depth = Math.random();
         const depthScale = 0.6 + depth * 0.4;
         const size = random(20, 32) * depthScale;
@@ -117,15 +135,28 @@ class Petal {
         this.swayAmplitude = random(20, 45) * 0.008 * depthScale;
         this.fallSpeed = random(0.15, 0.42) * depthScale;
         this.depth = depth;
-        const blur = Petal.blurForDepth(depth);
+        this.size = size;
+        this.curl = curl;
+        this.paletteIndex = paletteIndex;
+        this.blur = Petal.blurForDepth(depth);
+        this.bindSprite(cache, scale);
+    }
+
+    /** (Re)resolve the cached sprite for the given render scale. */
+    bindSprite(cache: SpriteCache, scale: number) {
         this.cachedCanvas = Petal.getCachedCanvas(
             cache,
-            size,
-            curl,
-            paletteIndex,
-            blur,
+            this.size,
+            this.curl,
+            this.paletteIndex,
+            this.blur,
+            scale,
         );
-        this.logicalSize = this.cachedCanvas.width;
+        // Logical size is in CSS px, independent of the sprite bitmap size.
+        this.logicalSize = petalSpriteLogicalSize(
+            Math.round(this.size),
+            this.blur,
+        );
     }
 
     static createPetals(
@@ -133,10 +164,11 @@ class Petal {
         count: number,
         width: number,
         height: number,
+        scale: number,
     ): Petal[] {
         const petals: Petal[] = Array.from(
             { length: count },
-            () => new Petal(cache, width, height),
+            () => new Petal(cache, width, height, scale),
         );
         petals.sort((a, b) => a.depth - b.depth);
         return petals;
@@ -167,23 +199,29 @@ class Petal {
         this.scaleX = scaleX;
     }
 
-    draw(ctx: CanvasRenderingContext2D) {
+    draw(ctx: CanvasRenderingContext2D, scale: number) {
         const alpha = this.opacity;
         if (alpha <= 0) return;
 
         const { cosR, sinR, scaleX } = this;
         ctx.setTransform(
-            cosR * scaleX,
-            sinR * scaleX,
-            -sinR,
-            cosR,
-            this.x,
-            this.y,
+            cosR * scaleX * scale,
+            sinR * scaleX * scale,
+            -sinR * scale,
+            cosR * scale,
+            this.x * scale,
+            this.y * scale,
         );
 
         ctx.globalAlpha = alpha;
         const half = this.logicalSize / 2;
-        ctx.drawImage(this.cachedCanvas, -half, -half);
+        ctx.drawImage(
+            this.cachedCanvas,
+            -half,
+            -half,
+            this.logicalSize,
+            this.logicalSize,
+        );
     }
 }
 

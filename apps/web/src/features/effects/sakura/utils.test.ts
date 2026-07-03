@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { mulberry32, randomItemWith, randomWith } from './utils';
+import {
+    computeRenderScale,
+    mulberry32,
+    randomItemWith,
+    randomWith,
+} from './utils';
 
 describe('mulberry32', () => {
     it('produces identical sequences for identical seeds', () => {
@@ -39,5 +44,21 @@ describe('randomWith / randomItemWith', () => {
         const arr = ['a', 'b', 'c'] as const;
         expect(randomItemWith(() => 0, arr)).toBe('a');
         expect(randomItemWith(() => 0.99, arr)).toBe('c');
+    });
+});
+
+describe('computeRenderScale', () => {
+    it('caps high-dpi devices at the max scale', () => {
+        expect(computeRenderScale(3, 1.5)).toBe(1.5);
+        expect(computeRenderScale(2, 2)).toBe(2);
+    });
+
+    it('passes low dpr through unchanged', () => {
+        expect(computeRenderScale(1, 2)).toBe(1);
+        expect(computeRenderScale(1.25, 2)).toBe(1.25);
+    });
+
+    it('never returns below 1', () => {
+        expect(computeRenderScale(0.5, 2)).toBe(1);
     });
 });

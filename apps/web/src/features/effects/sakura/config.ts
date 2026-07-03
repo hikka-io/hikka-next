@@ -8,6 +8,9 @@ export const BRANCH_TOP_OFFSET_MOBILE = 28;
 
 export const TARGET_FRAME_TIME = 1000 / 60;
 
+export const MAX_RENDER_SCALE_DESKTOP = 2;
+export const MAX_RENDER_SCALE_MOBILE = 1.5;
+
 export const PETAL_PALETTES = [
     { base: '#F9A8B8', tip: '#E8718A', highlight: '#FFDDE4' },
     { base: '#F4929E', tip: '#E05A78', highlight: '#FFD1DC' },

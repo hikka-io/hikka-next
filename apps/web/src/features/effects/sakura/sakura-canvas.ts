@@ -3,12 +3,14 @@ import Branch from './branch';
 import {
     AMBIENT_COUNT_DESKTOP,
     AMBIENT_COUNT_MOBILE,
+    MAX_RENDER_SCALE_DESKTOP,
+    MAX_RENDER_SCALE_MOBILE,
     PETAL_COUNT_DESKTOP,
     PETAL_COUNT_MOBILE,
     TARGET_FRAME_TIME,
 } from './config';
 import Petal from './petal';
-import type { SpriteCache } from './utils';
+import { computeRenderScale, type SpriteCache } from './utils';
 
 export interface SakuraCanvasConfig {
     isNarrow: boolean;
@@ -36,6 +38,7 @@ export class SakuraCanvas {
 
     private viewport: Viewport;
     private branchH: number;
+    private renderScale: number;
 
     private spriteCache: SpriteCache = new Map();
     private petals: Petal[] = [];
@@ -64,6 +67,12 @@ export class SakuraCanvas {
 
         this.viewport = this.readViewport();
         this.branchH = this.viewport.H - this.config.branchTopOffset;
+        this.renderScale = computeRenderScale(
+            this.viewport.dpr,
+            config.isNarrow
+                ? MAX_RENDER_SCALE_MOBILE
+                : MAX_RENDER_SCALE_DESKTOP,
+        );
 
         // transformOrigin is fixed for the lifetime of the branch canvas —
         // set it once here instead of every frame in applyBranchSway.
@@ -96,8 +105,9 @@ export class SakuraCanvas {
 
     private sizeParticleCanvas() {
         const { W, H } = this.viewport;
-        this.particleCanvas.width = W;
-        this.particleCanvas.height = H;
+        const s = this.renderScale;
+        this.particleCanvas.width = Math.round(W * s);
+        this.particleCanvas.height = Math.round(H * s);
     }
 
     /**
@@ -124,12 +134,19 @@ export class SakuraCanvas {
             ? AMBIENT_COUNT_MOBILE
             : AMBIENT_COUNT_DESKTOP;
 
-        this.petals = Petal.createPetals(this.spriteCache, petalCount, W, H);
+        this.petals = Petal.createPetals(
+            this.spriteCache,
+            petalCount,
+            W,
+            H,
+            this.renderScale,
+        );
         this.ambientParticles = AmbientParticle.create(
             this.spriteCache,
             ambientCount,
             W,
             H,
+            this.renderScale,
         );
         this.branch = new Branch(
             W,
@@ -173,10 +190,28 @@ export class SakuraCanvas {
         const { W: oldW, H: oldH } = this.viewport;
         this.viewport = next;
         this.branchH = next.H - this.config.branchTopOffset;
+
+        // A DPR change (window dragged between monitors) shifts the render
+        // scale, so re-bind every sprite at the new resolution.
+        const nextScale = computeRenderScale(
+            next.dpr,
+            this.config.isNarrow
+                ? MAX_RENDER_SCALE_MOBILE
+                : MAX_RENDER_SCALE_DESKTOP,
+        );
+        if (nextScale !== this.renderScale) {
+            this.renderScale = nextScale;
+            this.clearSpriteCache();
+            for (const p of this.petals)
+                p.bindSprite(this.spriteCache, nextScale);
+            for (const a of this.ambientParticles)
+                a.bindSprite(this.spriteCache, nextScale);
+        }
+
         this.sizeParticleCanvas();
 
-        // Particle sprites don't depend on viewport DPR — just clamp positions
-        // to the new bounds. Branch sprite is rebuilt below at the new DPR.
+        // Positions are kept in CSS pixels — just clamp them to the new
+        // bounds. The branch sprite is rebuilt below at the new DPR.
         for (const p of this.petals) {
             p.x = (p.x / oldW) * next.W;
             p.y = (p.y / oldH) * next.H;
@@ -202,13 +237,22 @@ export class SakuraCanvas {
 
     private render(framesPassed: number) {
         const { W, H } = this.viewport;
+        const s = this.renderScale;
         const pCtx = this.particleCtx;
 
-        // Reset to identity so clearRect's rect is interpreted in CSS pixels —
-        // the previous frame's last petal draw left a rotated transform.
+        // Clear in bitmap space (identity transform) — the previous frame's
+        // last petal draw left a scaled/rotated transform.
         pCtx.setTransform(1, 0, 0, 1, 0, 0);
-        pCtx.clearRect(0, 0, W, H);
+        pCtx.clearRect(
+            0,
+            0,
+            this.particleCanvas.width,
+            this.particleCanvas.height,
+        );
 
+        // Ambient glows are axis-aligned — one scale transform covers the
+        // whole loop instead of a setTransform per particle.
+        pCtx.setTransform(s, 0, 0, s, 0, 0);
         for (const particle of this.ambientParticles) {
             particle.update(W, H, framesPassed, this.time);
             particle.draw(pCtx);
@@ -216,7 +260,7 @@ export class SakuraCanvas {
 
         for (const petal of this.petals) {
             petal.update(W, H, framesPassed, this.time);
-            petal.draw(pCtx);
+            petal.draw(pCtx, s);
         }
 
         pCtx.globalAlpha = 1;
@@ -252,18 +296,22 @@ export class SakuraCanvas {
         }
     }
 
-    dispose() {
-        this.pause();
-        this.branch?.dispose();
-        this.branch = null;
-        this.petals = [];
-        this.ambientParticles = [];
+    private clearSpriteCache() {
         // Drop sprite canvases so GC can reclaim them (instance-scoped cache).
         for (const c of this.spriteCache.values()) {
             c.width = 0;
             c.height = 0;
         }
         this.spriteCache.clear();
+    }
+
+    dispose() {
+        this.pause();
+        this.branch?.dispose();
+        this.branch = null;
+        this.petals = [];
+        this.ambientParticles = [];
+        this.clearSpriteCache();
     }
 }
 
