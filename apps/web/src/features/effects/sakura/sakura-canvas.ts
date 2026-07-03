@@ -105,12 +105,16 @@ export class SakuraCanvas {
      * fall into resize()'s early return instead of rebuilding the branch
      * and remapping every particle mid-scroll. It also keeps the bitmap
      * exactly matching the CSS box (innerHeight-based sizing stretched it).
+     *
+     * Falls back to the document/window box when the canvas has not been
+     * laid out yet (rect is 0×0 during the first commit) so construction
+     * never derives a zero-size branch canvas.
      */
     private readViewport(): Viewport {
         const rect = this.particleCanvas.getBoundingClientRect();
         return {
-            W: Math.round(rect.width),
-            H: Math.round(rect.height),
+            W: Math.round(rect.width) || document.documentElement.clientWidth,
+            H: Math.round(rect.height) || window.innerHeight,
             dpr: window.devicePixelRatio || 1,
         };
     }
@@ -173,6 +177,11 @@ export class SakuraCanvas {
 
     private blitBranch() {
         if (!this.branch) return;
+        // A zero-size branch bitmap (degenerate viewport) would throw in
+        // drawImage — skip rather than crash the component.
+        if (this.branch.canvas.width === 0 || this.branch.canvas.height === 0) {
+            return;
+        }
         const bCtx = this.branchCanvas.getContext('2d')!;
         bCtx.setTransform(1, 0, 0, 1, 0, 0);
         bCtx.clearRect(0, 0, this.branchCanvas.width, this.branchCanvas.height);
