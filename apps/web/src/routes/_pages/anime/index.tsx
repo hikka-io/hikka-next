@@ -74,7 +74,7 @@ function AnimeListPage() {
                 </div>
 
                 {sidebarVisible && (
-                    <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border bg-secondary/20 backdrop-blur-xl lg:order-2 lg:flex">
+                    <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
                         <AnimeFilters
                             content_type={ContentTypeEnum.ANIME}
                             sort_type="anime"

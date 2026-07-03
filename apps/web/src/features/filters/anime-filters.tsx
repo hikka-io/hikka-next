@@ -65,7 +65,7 @@ const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
                 sort_type={sort_type}
             />
             <FiltersFooter
-                className="shrink-0 border-t bg-secondary/20 p-4"
+                className="shrink-0 border-t surface-inset p-4"
                 contentType={
                     sort_type === 'anime' ? ContentTypeEnum.ANIME : undefined
                 }

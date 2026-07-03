@@ -66,7 +66,7 @@ const AuthorizedAppItem: FC<Props> = ({ token }) => {
                     {token.client?.verified && (
                         <Tooltip delayDuration={0}>
                             <TooltipTrigger>
-                                <div className="rounded-sm border border-border bg-secondary/20 p-1 backdrop-blur">
+                                <div className="rounded-sm border border-border surface-inset p-1">
                                     <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
                                 </div>
                             </TooltipTrigger>

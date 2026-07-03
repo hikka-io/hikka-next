@@ -172,7 +172,7 @@ const AppGroupHeaderInfo: FC<{
                 {verified && (
                     <Tooltip delayDuration={0}>
                         <TooltipTrigger>
-                            <div className="rounded-sm border border-border bg-secondary/20 p-1 backdrop-blur">
+                            <div className="rounded-sm border border-border surface-inset p-1">
                                 <MaterialSymbolsVerifiedRounded className="text-primary-foreground" />
                             </div>
                         </TooltipTrigger>
@@ -182,7 +182,7 @@ const AppGroupHeaderInfo: FC<{
                     </Tooltip>
                 )}
                 {tokenCount > 1 && (
-                    <span className="rounded-sm border border-border bg-secondary/20 px-1.5 py-0.5 text-muted-foreground text-xs">
+                    <span className="rounded-sm border border-border surface-inset px-1.5 py-0.5 text-muted-foreground text-xs">
                         {tokenCount} сеанси
                     </span>
                 )}

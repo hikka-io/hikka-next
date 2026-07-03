@@ -45,7 +45,7 @@ const EditFilters: FC<Props> = ({ className }) => {
                 <User title="Автор" paramKey="author" />
                 <User title="Модератор" paramKey="moderator" />
             </div>
-            <div className="flex shrink-0 gap-2 border-t bg-secondary/20 p-4">
+            <div className="flex shrink-0 gap-2 border-t surface-inset p-4">
                 <Button
                     size="md"
                     className="w-full"
