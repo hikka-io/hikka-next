@@ -999,7 +999,9 @@
     content: "";
     position: absolute;
     inset: 0 0 auto 0;
-    height: 100vh;
+    /* Fixed height (not 100vh) so the glow fades out near the bottom of the
+       320px cover image (h-80) instead of extending far past it. */
+    height: 34rem;
     z-index: -1;
     pointer-events: none;
     --backdrop-cover-scale: 1;

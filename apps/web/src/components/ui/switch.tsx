@@ -16,7 +16,7 @@ function Switch({
             data-slot="switch"
             data-size={size}
             className={cn(
-                'peer group/switch relative inline-flex shrink-0 items-center rounded-full border border-transparent outline-none transition-all after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[size=default]:h-[18.4px] data-[size=sm]:h-[14px] data-[size=default]:w-[32px] data-[size=sm]:w-[24px] data-disabled:cursor-not-allowed data-[state=checked]:border-primary-border data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted data-disabled:opacity-50 dark:data-[state=unchecked]:bg-muted dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40',
+                'peer group/switch relative inline-flex shrink-0 items-center rounded-full border border-transparent outline-none transition-all after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[size=default]:h-[18.4px] data-[size=sm]:h-[14px] data-[size=default]:w-[32px] data-[size=sm]:w-[24px] data-disabled:cursor-not-allowed data-[state=checked]:border-primary-foreground data-[state=checked]:bg-primary-foreground data-[state=unchecked]:bg-input data-disabled:opacity-50 dark:data-[state=checked]:border-primary-border dark:data-[state=checked]:bg-primary dark:data-[state=unchecked]:bg-muted dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40',
                 className,
             )}
             {...props}
