@@ -55,6 +55,11 @@ export class SakuraCanvas {
     private animationFrame: number | undefined;
     private lastSwayAngle = Number.NaN;
 
+    // One seed per instance: every Branch rebuild (resize) redraws the same
+    // tree instead of re-rolling the fractal, which made the branch visibly
+    // morph while dragging the window corner.
+    private branchSeed = Math.floor(Math.random() * 0xffffffff);
+
     constructor(
         branchCanvas: HTMLCanvasElement,
         particleCanvas: HTMLCanvasElement,
@@ -122,6 +127,7 @@ export class SakuraCanvas {
             this.branchH,
             this.config.isNarrow,
             this.viewport.dpr,
+            this.branchSeed,
         );
     }
 
@@ -177,6 +183,7 @@ export class SakuraCanvas {
             this.branchH,
             this.config.isNarrow,
             next.dpr,
+            this.branchSeed,
         );
         this.sizeBranchCanvasToBranch();
         this.blitBranch();
