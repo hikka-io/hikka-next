@@ -698,7 +698,9 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
+    /* Canvas sits just below the white card/popover surfaces so elevated
+       surfaces read against it (paired with --shadow-card below). */
+    --background: oklch(0.985 0.002 286);
     --foreground: oklch(0.142 0.004 286);
 
     --card: oklch(1 0 0);
@@ -709,25 +711,33 @@
 
     /* Brand — the single knob. The concrete primary trio here is the
        fallback for browsers without relative-color syntax; the @supports
-       block below re-derives the trio from --brand. */
+       block below re-derives the trio from --brand. The foreground is
+       darkened vs the brand so text/links on the light primary fill and on
+       the page reach WCAG AA. */
     --brand: oklch(0.7 0.18 343);
     --primary: oklch(0.949 0.035 339);
-    --primary-foreground: oklch(0.691 0.18 343);
+    --primary-foreground: oklch(0.5 0.17 343);
     --primary-border: oklch(0.901 0.064 339);
 
-    --secondary: oklch(0.97 0 0);
+    --secondary: oklch(0.948 0.004 286);
     --secondary-foreground: oklch(0.204 0 0);
 
-    --muted: oklch(0.968 0.001 286);
-    --muted-foreground: oklch(0.55 0.014 286);
+    --muted: oklch(0.966 0.003 286);
+    --muted-foreground: oklch(0.505 0.016 286);
 
-    --accent: oklch(0.968 0.001 286);
+    --accent: oklch(0.955 0.004 286);
     --accent-foreground: oklch(0.21 0.006 286);
 
-    --border: oklch(0.92 0.004 286);
-    --input: oklch(0.92 0.004 286);
+    --border: oklch(0.905 0.005 286);
+    --input: oklch(0.9 0.005 286);
     --ring: oklch(0.21 0.006 286);
     --radius: 0.625rem;
+
+    /* Soft elevation shadow for cards/panels — the light theme's depth cue
+       (overridden to none in .dark, which elevates via lightness instead). */
+    --shadow-card:
+        0 1px 3px oklch(0.3 0.03 286 / 0.08),
+        0 1px 2px oklch(0.3 0.03 286 / 0.05);
 
     /* Backdrop derivation constants (light = faint brand-tinted wash). High
        lightness keeps it soft on the white surface; the reduced chroma carries
@@ -738,19 +748,19 @@
     /* General colors */
 
     --success: oklch(0.98 0.023 159);
-    --success-foreground: oklch(0.551 0.165 147);
+    --success-foreground: oklch(0.5 0.15 147);
     --success-border: oklch(0.941 0.078 159);
 
     --info: oklch(0.975 0.013 244);
-    --info-foreground: oklch(0.563 0.182 255);
+    --info-foreground: oklch(0.5 0.19 255);
     --info-border: oklch(0.928 0.032 266);
 
     --warning: oklch(0.99 0.017 96);
-    --warning-foreground: oklch(0.669 0.16 57);
+    --warning-foreground: oklch(0.53 0.13 57);
     --warning-border: oklch(0.945 0.079 97);
 
     --destructive: oklch(0.966 0.017 16);
-    --destructive-foreground: oklch(0.58 0.238 29);
+    --destructive-foreground: oklch(0.52 0.22 29);
     --destructive-border: oklch(0.933 0.034 17);
 
     /* Status colors */
@@ -845,6 +855,9 @@
     --backdrop-l: 0.12;
     --backdrop-c: 0.5;
 
+    /* Dark elevates surfaces via lightness, not shadow. */
+    --shadow-card: 0 0 #0000;
+
     /* General colors */
 
     --success: oklch(0.209 0.049 158);
@@ -919,7 +932,7 @@
 @supports (color: oklch(from red l c h)) {
     :root:root {
         --primary: oklch(from var(--brand) 0.95 calc(c * 0.19) h);
-        --primary-foreground: oklch(from var(--brand) 0.69 c h);
+        --primary-foreground: oklch(from var(--brand) 0.5 c h);
         --primary-border: oklch(from var(--brand) 0.9 calc(c * 0.35) h);
     }
 

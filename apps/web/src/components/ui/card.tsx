@@ -8,7 +8,7 @@ const Card = ({ children, className, ...props }: Props) => {
     return (
         <div
             className={cn(
-                'relative isolate flex flex-col gap-4 rounded-lg border border-border p-4 will-change-transform',
+                'relative isolate flex flex-col gap-4 rounded-lg border border-border p-4 shadow-[var(--shadow-card)] will-change-transform',
                 className,
             )}
             {...props}
