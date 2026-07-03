@@ -229,6 +229,14 @@
     box-shadow: var(--shadow-card);
 }
 
+/* Card-colored fill with no shadow/blur — for grouped or nested surfaces that
+   should read as a card but must not cast their own shadow (tables interiors,
+   connected accordions like CollapsibleFilter, in-panel managers). */
+@utility surface-flat {
+    background-color: var(--surface);
+    color: var(--card-foreground);
+}
+
 @utility surface-inset {
     background-color: var(--surface-inset);
     color: var(--card-foreground);

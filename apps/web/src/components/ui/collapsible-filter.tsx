@@ -30,7 +30,7 @@ export const CollapsibleFilter: FC<CollapsibleFilterProps> = ({
         <Collapsible
             defaultOpen={active}
             className={cn(
-                'group border border-border surface-inset py-2 duration-200 data-[state=open]:mb-4 data-[state=open]:rounded-lg data-[state=open]:py-4',
+                'group border border-border surface-flat py-2 duration-200 data-[state=open]:mb-4 data-[state=open]:rounded-lg data-[state=open]:py-4',
                 'data-[state=open]:[&+div]:data-[state=closed]:rounded-t-lg',
                 'data-[state=closed]:border-b-0 data-[state=closed]:has-[+div[data-state=open]]:mb-4 data-[state=closed]:has-[+div[data-state=open]]:rounded-b-lg data-[state=closed]:has-[+div[data-state=open]]:border-b',
                 'first:rounded-t-lg last:rounded-b-lg last:border-b!',

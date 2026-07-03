@@ -231,7 +231,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     />
                 </div>
             </div>
-            <div className="flex gap-2 border-t surface-inset p-4">
+            <div className="flex gap-2 border-t p-4">
                 {mode === 'edit' && (
                     <Button
                         size="md"

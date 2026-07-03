@@ -38,7 +38,7 @@ const ArticleFilters: FC<Props> = ({ className }) => {
                 <Tag />
                 {user && <ArticleCustomization />}
             </div>
-            <div className="flex shrink-0 gap-2 border-t surface-inset p-4">
+            <div className="flex shrink-0 gap-2 border-t p-4">
                 <Button
                     size="md"
                     className="w-full"

@@ -94,7 +94,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="dialog-header"
             className={cn(
-                '-mx-4 -mt-4 flex flex-col gap-2 border-b surface-inset p-4 pr-12',
+                '-mx-4 -mt-4 flex flex-col gap-2 border-b p-4 pr-12',
                 className,
             )}
             {...props}
@@ -114,7 +114,7 @@ function DialogFooter({
         <div
             data-slot="dialog-footer"
             className={cn(
-                '-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t surface-inset p-4 md:flex-row md:justify-end',
+                '-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t p-4 md:flex-row md:justify-end',
                 className,
             )}
             {...props}

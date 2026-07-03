@@ -59,7 +59,7 @@ const EditList: FC<Props> = () => {
 
     return (
         <Block>
-            <div className="overflow-hidden rounded-lg border">
+            <div className="overflow-hidden rounded-lg border surface-solid">
                 <Table>
                     <EditHead />
                     <TableBody>
