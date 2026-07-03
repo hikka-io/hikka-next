@@ -3,12 +3,14 @@ import Branch from './branch';
 import {
     AMBIENT_COUNT_DESKTOP,
     AMBIENT_COUNT_MOBILE,
+    FRAME_HEALTH,
     MAX_RENDER_SCALE_DESKTOP,
     MAX_RENDER_SCALE_MOBILE,
     PETAL_COUNT_DESKTOP,
     PETAL_COUNT_MOBILE,
     TARGET_FRAME_TIME,
 } from './config';
+import { FrameHealthMonitor } from './frame-health';
 import Petal from './petal';
 import { computeRenderScale, type SpriteCache } from './utils';
 
@@ -54,6 +56,11 @@ export class SakuraCanvas {
     // tree instead of re-rolling the fractal, which made the branch visibly
     // morph while dragging the window corner.
     private branchSeed = Math.floor(Math.random() * 0xffffffff);
+
+    private frameHealth = new FrameHealthMonitor(FRAME_HEALTH);
+    // One-way ratchet: once a device proves too slow for the scaled canvas,
+    // stay at 1× for the life of this instance (no oscillation).
+    private degraded = false;
 
     constructor(
         branchCanvas: HTMLCanvasElement,
@@ -192,13 +199,16 @@ export class SakuraCanvas {
         this.branchH = next.H - this.config.branchTopOffset;
 
         // A DPR change (window dragged between monitors) shifts the render
-        // scale, so re-bind every sprite at the new resolution.
-        const nextScale = computeRenderScale(
-            next.dpr,
-            this.config.isNarrow
-                ? MAX_RENDER_SCALE_MOBILE
-                : MAX_RENDER_SCALE_DESKTOP,
-        );
+        // scale, so re-bind every sprite at the new resolution. A degraded
+        // instance stays pinned at 1× (the ratchet holds).
+        const nextScale = this.degraded
+            ? 1
+            : computeRenderScale(
+                  next.dpr,
+                  this.config.isNarrow
+                      ? MAX_RENDER_SCALE_MOBILE
+                      : MAX_RENDER_SCALE_DESKTOP,
+              );
         if (nextScale !== this.renderScale) {
             this.renderScale = nextScale;
             this.clearSpriteCache();
@@ -268,10 +278,29 @@ export class SakuraCanvas {
         this.applyBranchSway(this.time);
     }
 
+    /** Fall back to 1× rendering — exactly the pre-DPR cost profile. */
+    private degradeRenderScale() {
+        this.degraded = true;
+        this.renderScale = 1;
+        this.sizeParticleCanvas();
+        this.clearSpriteCache();
+        for (const p of this.petals) p.bindSprite(this.spriteCache, 1);
+        for (const a of this.ambientParticles)
+            a.bindSprite(this.spriteCache, 1);
+    }
+
     private loop = () => {
         const now = performance.now();
         const msPassed = now - this.lastUpdate;
         this.lastUpdate = now;
+
+        if (
+            !this.degraded &&
+            this.renderScale > 1 &&
+            this.frameHealth.record(msPassed)
+        ) {
+            this.degradeRenderScale();
+        }
 
         // Frames that would have passed at the target frame rate (60fps).
         // Cap at 4 frames to avoid huge jumps after tab-hide or long stalls.
