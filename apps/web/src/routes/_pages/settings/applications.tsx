@@ -6,7 +6,7 @@ import {
 } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { ApplicationsSettings, ClientCreateButton } from '@/features/settings';
+import { ApplicationsSettings } from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/applications')({
     loader: async ({ context: { queryClient, apiClient } }) => {
@@ -28,12 +28,10 @@ function ApplicationsSettingsPage() {
                 <Header>
                     <HeaderContainer>
                         <HeaderTitle>Застосунки</HeaderTitle>
-                        <ClientCreateButton />
                     </HeaderContainer>
                 </Header>
                 <p className="text-muted-foreground text-sm">
-                    Підключіть OAuth авторизацію через hikka за допомогою
-                    застосунку (для розробників)
+                    Керуйте застосунками та їхнім доступом до вашого профілю
                 </p>
             </div>
             <ApplicationsSettings />

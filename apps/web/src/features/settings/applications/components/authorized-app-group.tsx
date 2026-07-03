@@ -231,7 +231,7 @@ const AuthorizedAppGroup: FC<Props> = ({
 
     return (
         <Card className="flex-col gap-4">
-            <Collapsible defaultOpen={tokens.length === 1}>
+            <Collapsible defaultOpen={false}>
                 <CollapsibleTrigger asChild>
                     <div className="flex cursor-pointer items-center justify-between gap-4">
                         <AppGroupHeaderInfo

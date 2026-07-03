@@ -3,30 +3,27 @@ import Branch from './branch';
 import {
     AMBIENT_COUNT_DESKTOP,
     AMBIENT_COUNT_MOBILE,
+    FRAME_HEALTH,
+    MAX_RENDER_SCALE_DESKTOP,
+    MAX_RENDER_SCALE_MOBILE,
     PETAL_COUNT_DESKTOP,
     PETAL_COUNT_MOBILE,
     TARGET_FRAME_TIME,
 } from './config';
+import { FrameHealthMonitor } from './frame-health';
 import Petal from './petal';
-import type { SpriteCache } from './utils';
+import { computeRenderScale, type SpriteCache } from './utils';
 
 export interface SakuraCanvasConfig {
     isNarrow: boolean;
     branchTopOffset: number;
+    reducedMotion: boolean;
 }
 
 interface Viewport {
     W: number;
     H: number;
     dpr: number;
-}
-
-function readViewport(): Viewport {
-    return {
-        W: document.documentElement.clientWidth,
-        H: window.innerHeight,
-        dpr: window.devicePixelRatio || 1,
-    };
 }
 
 /**
@@ -44,16 +41,27 @@ export class SakuraCanvas {
 
     private viewport: Viewport;
     private branchH: number;
+    private renderScale: number;
 
     private spriteCache: SpriteCache = new Map();
     private petals: Petal[] = [];
     private ambientParticles: AmbientParticle[] = [];
-    private branches: Branch[] = [];
+    private branch: Branch | null = null;
 
     private lastUpdate = performance.now();
     private time = 0;
     private animationFrame: number | undefined;
     private lastSwayAngle = Number.NaN;
+
+    // One seed per instance: every Branch rebuild (resize) redraws the same
+    // tree instead of re-rolling the fractal, which made the branch visibly
+    // morph while dragging the window corner.
+    private branchSeed = Math.floor(Math.random() * 0xffffffff);
+
+    private frameHealth = new FrameHealthMonitor(FRAME_HEALTH);
+    // One-way ratchet: once a device proves too slow for the scaled canvas,
+    // stay at 1× for the life of this instance (no oscillation).
+    private degraded = false;
 
     constructor(
         branchCanvas: HTMLCanvasElement,
@@ -65,8 +73,14 @@ export class SakuraCanvas {
         this.particleCtx = particleCanvas.getContext('2d')!;
         this.config = config;
 
-        this.viewport = readViewport();
+        this.viewport = this.readViewport();
         this.branchH = this.viewport.H - this.config.branchTopOffset;
+        this.renderScale = computeRenderScale(
+            this.viewport.dpr,
+            config.isNarrow
+                ? MAX_RENDER_SCALE_MOBILE
+                : MAX_RENDER_SCALE_DESKTOP,
+        );
 
         // transformOrigin is fixed for the lifetime of the branch canvas —
         // set it once here instead of every frame in applyBranchSway.
@@ -75,15 +89,41 @@ export class SakuraCanvas {
         this.sizeParticleCanvas();
         this.createEntities();
         this.sizeBranchCanvasToBranch();
-        this.blitBranches();
-        this.applyBranchSway(0);
-        this.play();
+        this.blitBranch();
+        // Reduced motion: the branch renders as static art — no sway, no
+        // particles, no render loop.
+        if (!config.reducedMotion) {
+            this.applyBranchSway(0);
+            this.play();
+        }
+    }
+
+    /**
+     * Measure the particle canvas element itself. Its CSS size (w-full,
+     * h-lvh) is the ground truth: lvh does not change when the mobile URL
+     * bar collapses, so URL-bar resize events yield an identical rect and
+     * fall into resize()'s early return instead of rebuilding the branch
+     * and remapping every particle mid-scroll. It also keeps the bitmap
+     * exactly matching the CSS box (innerHeight-based sizing stretched it).
+     *
+     * Falls back to the document/window box when the canvas has not been
+     * laid out yet (rect is 0×0 during the first commit) so construction
+     * never derives a zero-size branch canvas.
+     */
+    private readViewport(): Viewport {
+        const rect = this.particleCanvas.getBoundingClientRect();
+        return {
+            W: Math.round(rect.width) || document.documentElement.clientWidth,
+            H: Math.round(rect.height) || window.innerHeight,
+            dpr: window.devicePixelRatio || 1,
+        };
     }
 
     private sizeParticleCanvas() {
         const { W, H } = this.viewport;
-        this.particleCanvas.width = W;
-        this.particleCanvas.height = H;
+        const s = this.renderScale;
+        this.particleCanvas.width = Math.round(W * s);
+        this.particleCanvas.height = Math.round(H * s);
     }
 
     /**
@@ -92,7 +132,7 @@ export class SakuraCanvas {
      * The pre-rendered Branch already knows its own area.
      */
     private sizeBranchCanvasToBranch() {
-        const b = this.branches[0];
+        const b = this.branch;
         if (!b) return;
         const { dpr } = this.viewport;
         this.branchCanvas.width = b.canvas.width;
@@ -110,43 +150,47 @@ export class SakuraCanvas {
             ? AMBIENT_COUNT_MOBILE
             : AMBIENT_COUNT_DESKTOP;
 
-        this.petals = Petal.createPetals(this.spriteCache, petalCount, W, H);
-        this.ambientParticles = AmbientParticle.create(
-            this.spriteCache,
-            ambientCount,
-            W,
-            H,
-        );
-        this.branches = [
-            new Branch(
+        if (!this.config.reducedMotion) {
+            this.petals = Petal.createPetals(
+                this.spriteCache,
+                petalCount,
                 W,
-                this.branchH,
-                this.config.isNarrow,
-                this.viewport.dpr,
-            ),
-        ];
+                H,
+                this.renderScale,
+            );
+            this.ambientParticles = AmbientParticle.create(
+                this.spriteCache,
+                ambientCount,
+                W,
+                H,
+                this.renderScale,
+            );
+        }
+        this.branch = new Branch(
+            W,
+            this.branchH,
+            this.config.isNarrow,
+            this.viewport.dpr,
+            this.branchSeed,
+        );
     }
 
-    private disposeBranches() {
-        for (const b of this.branches) b.dispose();
-        this.branches = [];
-    }
-
-    private blitBranches() {
+    private blitBranch() {
+        if (!this.branch) return;
+        // A zero-size branch bitmap (degenerate viewport) would throw in
+        // drawImage — skip rather than crash the component.
+        if (this.branch.canvas.width === 0 || this.branch.canvas.height === 0) {
+            return;
+        }
         const bCtx = this.branchCanvas.getContext('2d')!;
         bCtx.setTransform(1, 0, 0, 1, 0, 0);
         bCtx.clearRect(0, 0, this.branchCanvas.width, this.branchCanvas.height);
-        for (const branch of this.branches) {
-            branch.blit(bCtx, this.viewport.dpr);
-        }
+        this.branch.blit(bCtx, this.viewport.dpr);
     }
 
     private applyBranchSway(time: number) {
-        // Only one branch currently — single-pivot CSS transform is correct.
-        // For multiple branches in different viewport corners, this approach
-        // would need per-branch DOM elements; note for the future.
-        if (this.branches.length === 0) return;
-        const angle = this.branches[0].computeSway(time);
+        if (!this.branch) return;
+        const angle = this.branch.computeSway(time);
         // Skip the style write (and the string allocation) when the angle
         // change is below visible threshold (~0.03°).
         if (Math.abs(angle - this.lastSwayAngle) < 0.0005) return;
@@ -155,7 +199,9 @@ export class SakuraCanvas {
     }
 
     resize() {
-        const next = readViewport();
+        const next = this.readViewport();
+        // A hidden/unlaid-out canvas measures 0×0 — keep the old viewport.
+        if (next.W === 0 || next.H === 0) return;
         if (
             next.W === this.viewport.W &&
             next.H === this.viewport.H &&
@@ -167,10 +213,31 @@ export class SakuraCanvas {
         const { W: oldW, H: oldH } = this.viewport;
         this.viewport = next;
         this.branchH = next.H - this.config.branchTopOffset;
+
+        // A DPR change (window dragged between monitors) shifts the render
+        // scale, so re-bind every sprite at the new resolution. A degraded
+        // instance stays pinned at 1× (the ratchet holds).
+        const nextScale = this.degraded
+            ? 1
+            : computeRenderScale(
+                  next.dpr,
+                  this.config.isNarrow
+                      ? MAX_RENDER_SCALE_MOBILE
+                      : MAX_RENDER_SCALE_DESKTOP,
+              );
+        if (nextScale !== this.renderScale) {
+            this.renderScale = nextScale;
+            this.clearSpriteCache();
+            for (const p of this.petals)
+                p.bindSprite(this.spriteCache, nextScale);
+            for (const a of this.ambientParticles)
+                a.bindSprite(this.spriteCache, nextScale);
+        }
+
         this.sizeParticleCanvas();
 
-        // Particle sprites don't depend on viewport DPR — just clamp positions
-        // to the new bounds. Branch sprite is rebuilt below at the new DPR.
+        // Positions are kept in CSS pixels — just clamp them to the new
+        // bounds. The branch sprite is rebuilt below at the new DPR.
         for (const p of this.petals) {
             p.x = (p.x / oldW) * next.W;
             p.y = (p.y / oldH) * next.H;
@@ -180,25 +247,38 @@ export class SakuraCanvas {
             a.y = (a.y / oldH) * next.H;
         }
 
-        // Branches bake viewport-dependent geometry — rebuild them, then
+        // The branch bakes viewport-dependent geometry — rebuild it, then
         // resize the DOM canvas to match the new branch area.
-        this.disposeBranches();
-        this.branches = [
-            new Branch(next.W, this.branchH, this.config.isNarrow, next.dpr),
-        ];
+        this.branch?.dispose();
+        this.branch = new Branch(
+            next.W,
+            this.branchH,
+            this.config.isNarrow,
+            next.dpr,
+            this.branchSeed,
+        );
         this.sizeBranchCanvasToBranch();
-        this.blitBranches();
+        this.blitBranch();
     }
 
     private render(framesPassed: number) {
         const { W, H } = this.viewport;
+        const s = this.renderScale;
         const pCtx = this.particleCtx;
 
-        // Reset to identity so clearRect's rect is interpreted in CSS pixels —
-        // the previous frame's last petal draw left a rotated transform.
+        // Clear in bitmap space (identity transform) — the previous frame's
+        // last petal draw left a scaled/rotated transform.
         pCtx.setTransform(1, 0, 0, 1, 0, 0);
-        pCtx.clearRect(0, 0, W, H);
+        pCtx.clearRect(
+            0,
+            0,
+            this.particleCanvas.width,
+            this.particleCanvas.height,
+        );
 
+        // Ambient glows are axis-aligned — one scale transform covers the
+        // whole loop instead of a setTransform per particle.
+        pCtx.setTransform(s, 0, 0, s, 0, 0);
         for (const particle of this.ambientParticles) {
             particle.update(W, H, framesPassed, this.time);
             particle.draw(pCtx);
@@ -206,7 +286,7 @@ export class SakuraCanvas {
 
         for (const petal of this.petals) {
             petal.update(W, H, framesPassed, this.time);
-            petal.draw(pCtx);
+            petal.draw(pCtx, s);
         }
 
         pCtx.globalAlpha = 1;
@@ -214,10 +294,29 @@ export class SakuraCanvas {
         this.applyBranchSway(this.time);
     }
 
+    /** Fall back to 1× rendering — exactly the pre-DPR cost profile. */
+    private degradeRenderScale() {
+        this.degraded = true;
+        this.renderScale = 1;
+        this.sizeParticleCanvas();
+        this.clearSpriteCache();
+        for (const p of this.petals) p.bindSprite(this.spriteCache, 1);
+        for (const a of this.ambientParticles)
+            a.bindSprite(this.spriteCache, 1);
+    }
+
     private loop = () => {
         const now = performance.now();
         const msPassed = now - this.lastUpdate;
         this.lastUpdate = now;
+
+        if (
+            !this.degraded &&
+            this.renderScale > 1 &&
+            this.frameHealth.record(msPassed)
+        ) {
+            this.degradeRenderScale();
+        }
 
         // Frames that would have passed at the target frame rate (60fps).
         // Cap at 4 frames to avoid huge jumps after tab-hide or long stalls.
@@ -230,6 +329,7 @@ export class SakuraCanvas {
     };
 
     play() {
+        if (this.config.reducedMotion) return;
         if (this.animationFrame !== undefined) return;
         this.lastUpdate = performance.now();
         this.animationFrame = requestAnimationFrame(this.loop);
@@ -242,17 +342,22 @@ export class SakuraCanvas {
         }
     }
 
-    dispose() {
-        this.pause();
-        this.disposeBranches();
-        this.petals = [];
-        this.ambientParticles = [];
+    private clearSpriteCache() {
         // Drop sprite canvases so GC can reclaim them (instance-scoped cache).
         for (const c of this.spriteCache.values()) {
             c.width = 0;
             c.height = 0;
         }
         this.spriteCache.clear();
+    }
+
+    dispose() {
+        this.pause();
+        this.branch?.dispose();
+        this.branch = null;
+        this.petals = [];
+        this.ambientParticles = [];
+        this.clearSpriteCache();
     }
 }
 

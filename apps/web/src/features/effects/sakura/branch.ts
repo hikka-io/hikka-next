@@ -1,19 +1,27 @@
 import { PETAL_PALETTES } from './config';
-import { random, randomItem } from './utils';
+import {
+    mulberry32,
+    randomItemWith,
+    randomWith,
+    tracePetalPath,
+} from './utils';
+
+type Rng = () => number;
 
 function drawBlossom(
     ctx: CanvasRenderingContext2D,
+    rng: Rng,
     x: number,
     y: number,
     size: number,
 ) {
-    const palette = randomItem(PETAL_PALETTES);
+    const palette = randomItemWith(rng, PETAL_PALETTES);
     const petalSize = size * 0.45;
     const petalCount = 5;
 
     ctx.save();
     ctx.translate(x, y);
-    ctx.rotate(random(0, Math.PI * 2));
+    ctx.rotate(randomWith(rng, 0, Math.PI * 2));
 
     for (let i = 0; i < petalCount; i++) {
         const angle = (i * Math.PI * 2) / petalCount;
@@ -21,32 +29,10 @@ function drawBlossom(
         ctx.rotate(angle);
         ctx.translate(0, -size * 0.25);
 
-        ctx.beginPath();
-        ctx.moveTo(0, -petalSize * 0.4);
-        ctx.bezierCurveTo(
-            petalSize * 0.35,
-            -petalSize * 0.3,
-            petalSize * 0.38,
-            petalSize * 0.15,
-            0,
-            petalSize * 0.45,
-        );
-        ctx.bezierCurveTo(
-            -petalSize * 0.38,
-            petalSize * 0.15,
-            -petalSize * 0.35,
-            -petalSize * 0.3,
-            0,
-            -petalSize * 0.4,
-        );
-        ctx.closePath();
+        const s = petalSize * 0.9;
+        tracePetalPath(ctx, s, 0);
 
-        const grad = ctx.createLinearGradient(
-            0,
-            -petalSize * 0.4,
-            0,
-            petalSize * 0.45,
-        );
+        const grad = ctx.createLinearGradient(0, -s * 0.5, 0, s * 0.5);
         grad.addColorStop(0, palette.highlight);
         grad.addColorStop(0.45, palette.base);
         grad.addColorStop(1, palette.tip);
@@ -75,6 +61,7 @@ function drawBlossom(
 
 function drawBranchSegment(
     ctx: CanvasRenderingContext2D,
+    rng: Rng,
     startX: number,
     startY: number,
     len: number,
@@ -83,7 +70,7 @@ function drawBranchSegment(
     maxDepth: number,
     depth: number,
 ) {
-    const curveOffset = random(-len * 0.18, len * 0.18);
+    const curveOffset = randomWith(rng, -len * 0.18, len * 0.18);
     const endX = startX + Math.cos(angle) * len;
     const endY = startY + Math.sin(angle) * len;
     const ctrlX =
@@ -111,6 +98,7 @@ function drawBranchSegment(
 
 function drawTwig(
     ctx: CanvasRenderingContext2D,
+    rng: Rng,
     startX: number,
     startY: number,
     len: number,
@@ -123,6 +111,7 @@ function drawTwig(
 
     const { endX, endY } = drawBranchSegment(
         ctx,
+        rng,
         startX,
         startY,
         len,
@@ -133,28 +122,31 @@ function drawTwig(
     );
 
     if (depth <= 1) {
-        if (Math.random() < 0.8) {
-            const size = isNarrow ? random(8, 12) : random(10, 15);
-            drawBlossom(ctx, endX, endY, size);
-        } else if (Math.random() < 0.5) {
+        if (rng() < 0.8) {
+            const size = isNarrow
+                ? randomWith(rng, 8, 12)
+                : randomWith(rng, 10, 15);
+            drawBlossom(ctx, rng, endX, endY, size);
+        } else if (rng() < 0.5) {
             ctx.beginPath();
-            ctx.arc(endX, endY, random(2, 4), 0, Math.PI * 2);
+            ctx.arc(endX, endY, randomWith(rng, 2, 4), 0, Math.PI * 2);
             ctx.globalAlpha = 0.6;
-            ctx.fillStyle = randomItem(PETAL_PALETTES).base;
+            ctx.fillStyle = randomItemWith(rng, PETAL_PALETTES).base;
             ctx.fill();
         }
         return;
     }
 
-    const spread = random(0.35, 0.65);
+    const spread = randomWith(rng, 0.35, 0.65);
     for (let i = 0; i < 2; i++) {
         const childAngle =
-            angle + (i === 0 ? -spread : spread) + random(-0.1, 0.1);
+            angle + (i === 0 ? -spread : spread) + randomWith(rng, -0.1, 0.1);
         drawTwig(
             ctx,
+            rng,
             endX,
             endY,
-            len * random(0.6, 0.75),
+            len * randomWith(rng, 0.6, 0.75),
             childAngle,
             Math.max(1.2, thickness * 0.7),
             depth - 1,
@@ -165,6 +157,7 @@ function drawTwig(
 
 function drawMainBranch(
     ctx: CanvasRenderingContext2D,
+    rng: Rng,
     startX: number,
     startY: number,
     totalLen: number,
@@ -181,13 +174,14 @@ function drawMainBranch(
     let curThick = thickness;
 
     for (let i = 0; i < segmentCount; i++) {
-        curAngle += random(-0.08, 0.08);
+        curAngle += randomWith(rng, -0.08, 0.08);
 
         const { endX, endY } = drawBranchSegment(
             ctx,
+            rng,
             curX,
             curY,
-            segLen + random(-4, 4),
+            segLen + randomWith(rng, -4, 4),
             curAngle,
             curThick,
             segmentCount,
@@ -197,29 +191,45 @@ function drawMainBranch(
         if (i > 0) {
             const sideSign = i % 2 === 0 ? 1 : -1;
             const subAngle =
-                curAngle + sideSign * random(0.6, 1.0) + random(-0.1, 0.1);
-            const subLen = segLen * random(0.6, 0.9);
-            const subThick = Math.max(2.5, curThick * random(0.5, 0.65));
+                curAngle +
+                sideSign * randomWith(rng, 0.6, 1.0) +
+                randomWith(rng, -0.1, 0.1);
+            const subLen = segLen * randomWith(rng, 0.6, 0.9);
+            const subThick = Math.max(
+                2.5,
+                curThick * randomWith(rng, 0.5, 0.65),
+            );
 
-            drawTwig(ctx, curX, curY, subLen, subAngle, subThick, 2, isNarrow);
+            drawTwig(
+                ctx,
+                rng,
+                curX,
+                curY,
+                subLen,
+                subAngle,
+                subThick,
+                2,
+                isNarrow,
+            );
         }
 
-        curThick = Math.max(1.5, curThick * random(0.8, 0.9));
+        curThick = Math.max(1.5, curThick * randomWith(rng, 0.8, 0.9));
         curX = endX;
         curY = endY;
     }
 
-    const termSpread = random(0.4, 0.7);
+    const termSpread = randomWith(rng, 0.4, 0.7);
     for (let i = 0; i < 2; i++) {
         const tAngle =
             curAngle +
             (i === 0 ? -termSpread : termSpread) +
-            random(-0.08, 0.08);
+            randomWith(rng, -0.08, 0.08);
         drawTwig(
             ctx,
+            rng,
             curX,
             curY,
-            segLen * random(0.5, 0.7),
+            segLen * randomWith(rng, 0.5, 0.7),
             tAngle,
             Math.max(1.5, curThick * 0.6),
             2,
@@ -233,7 +243,14 @@ class Branch {
     swayPhase: number;
     swaySpeed: number;
 
-    constructor(viewW: number, viewH: number, isNarrow: boolean, dpr: number) {
+    constructor(
+        viewW: number,
+        viewH: number,
+        isNarrow: boolean,
+        dpr: number,
+        seed: number,
+    ) {
+        const rng = mulberry32(seed);
         const areaW = isNarrow ? viewW * 0.4 : viewW * 0.35;
         const areaH = isNarrow ? viewH * 0.35 : viewH * 0.32;
 
@@ -246,12 +263,15 @@ class Branch {
 
         const startX = -25;
         const startY = isNarrow ? 15 : 45;
-        const baseAngle = random(0.04, 0.1);
-        const totalLen = isNarrow ? random(100, 130) : random(160, 210);
+        const baseAngle = randomWith(rng, 0.04, 0.1);
+        const totalLen = isNarrow
+            ? randomWith(rng, 100, 130)
+            : randomWith(rng, 160, 210);
         const initialThickness = isNarrow ? 5.5 : 8;
 
         drawMainBranch(
             ctx,
+            rng,
             startX,
             startY,
             totalLen,
@@ -261,8 +281,8 @@ class Branch {
         );
 
         this.canvas = offscreen;
-        this.swayPhase = random(0, Math.PI * 2);
-        this.swaySpeed = random(0.006, 0.012);
+        this.swayPhase = randomWith(rng, 0, Math.PI * 2);
+        this.swaySpeed = randomWith(rng, 0.006, 0.012);
     }
 
     /** Blit the pre-rendered branch onto the target canvas once. */
