@@ -3,6 +3,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Bind the `dark:` variant to the `.dark` class (the app toggles theme via that
+   class). Without this, Tailwind v4 defaults `dark:` to prefers-color-scheme, so
+   dark utilities leak into the light theme on dark-preference systems. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Safelist inline */
 @source inline("bg-ongoing bg-ongoing-foreground text-ongoing-foreground border-ongoing-border");
 @source inline("bg-finished bg-finished-foreground text-finished-foreground border-finished-border");
@@ -758,8 +763,8 @@
     --accent: oklch(0.97 0.004 286);
     --accent-foreground: oklch(0.205 0.006 286);
 
-    --border: oklch(0.922 0.005 286);
-    --input: oklch(0.922 0.005 286);
+    --border: oklch(0.905 0.005 286);
+    --input: oklch(0.9 0.005 286);
     --ring: oklch(0.708 0.01 286);
     --radius: 0.625rem;
 
