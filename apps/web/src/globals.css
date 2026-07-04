@@ -769,7 +769,7 @@
     --surface-inset: color-mix(in oklab, var(--muted) 60%, transparent);
 
     /* Backdrop derivation constants */
-    --backdrop-l: 0.95;
+    --backdrop-l: 0.9;
     --backdrop-c: 0.4;
 
     /* General colors */
@@ -882,7 +882,7 @@
     --radius: 0.625rem;
 
     /* Backdrop derivation constants (dark = brand-tinted glow) */
-    --backdrop-l: 0.12;
+    --backdrop-l: 0.2;
     --backdrop-c: 0.5;
 
     /* Dark elevates surfaces via lightness, not shadow. */
