@@ -11,19 +11,13 @@ import {
 } from '@hikka/api';
 
 import { FollowButton } from '@/components/action-buttons';
+import RoleBadge from '@/components/role-badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 import MaterialSymbolsAnimatedImages from '../../icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsMenuBookRounded from '../../icons/material-symbols/MaterialSymbolsMenuBookRounded';
 import MaterialSymbolsPalette from '../../icons/material-symbols/MaterialSymbolsPalette';
-import MaterialSymbolsSecurity from '../../icons/material-symbols/MaterialSymbolsSecurity';
-import MaterialSymbolsShieldPerson from '../../icons/material-symbols/MaterialSymbolsShieldPerson';
 import MDViewer from '../../markdown/viewer/md-viewer';
 import HoverCardWrapper from './hover-card-wrapper';
 import { UserTooltipSkeleton } from './tooltip-skeleton';
@@ -88,28 +82,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
                             <h4 className="font-semibold text-sm">
                                 {username}
                             </h4>
-                            {(user?.role === 'admin' ||
-                                user?.role === 'moderator') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger>
-                                        <div className="rounded-sm border border-border surface-inset p-1 font-bold text-xs">
-                                            {user.role === 'admin' && (
-                                                <MaterialSymbolsSecurity className="text-role-admin" />
-                                            )}
-                                            {user.role === 'moderator' && (
-                                                <MaterialSymbolsShieldPerson className="text-role-moderator" />
-                                            )}
-                                        </div>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p className="text-sm">
-                                            {user.role === 'admin'
-                                                ? 'Адміністратор'
-                                                : 'Модератор'}
-                                        </p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            )}
+                            <RoleBadge role={user?.role} />
                         </div>
                     </div>
                     <FollowButton user={user} className="size-9 p-0" iconOnly />

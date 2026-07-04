@@ -214,9 +214,6 @@
     background-image: none !important;
 }
 
-/* Surface elevation scale — one recipe for every container. Fill + shadow
-   (+ blur for glass) only; border/radius/padding stay per-site Tailwind
-   utilities so edge-to-edge and border-none panels keep working. */
 @utility surface {
     background-color: var(--surface);
     color: var(--card-foreground);
@@ -231,9 +228,6 @@
     box-shadow: var(--shadow-card);
 }
 
-/* Card-colored fill with no shadow/blur — for grouped or nested surfaces that
-   should read as a card but must not cast their own shadow (tables interiors,
-   connected accordions like CollapsibleFilter, in-panel managers). */
 @utility surface-flat {
     background-color: var(--surface);
     color: var(--card-foreground);
@@ -242,6 +236,36 @@
 @utility surface-inset {
     background-color: var(--surface-inset);
     color: var(--card-foreground);
+}
+
+@utility comment-thread {
+    --thread-line: var(--border);
+    --thread-width: 2px;
+    --thread-radius: 12px;
+
+    &:has([data-thread-hit]:hover):not(
+            :has(.comment-thread [data-thread-hit]:hover)
+        ) {
+        --thread-line: var(--primary-foreground);
+    }
+}
+
+@utility thread-bar {
+    pointer-events: none;
+    position: absolute;
+    width: var(--thread-width);
+    background-color: var(--thread-line);
+    transition: background-color 100ms;
+}
+
+@utility thread-elbow {
+    pointer-events: none;
+    position: absolute;
+    height: 0.75rem;
+    border-bottom: var(--thread-width) solid var(--thread-line);
+    border-left: var(--thread-width) solid var(--thread-line);
+    border-bottom-left-radius: var(--thread-radius);
+    transition: border-color 100ms;
 }
 
 /* Gradient mask utilities (replaces tailwind-gradient-mask-image plugin) */
@@ -973,7 +997,6 @@
     }
 }
 
-
 [data-backdrop="glow"]::before {
     content: "";
     position: absolute;
@@ -999,7 +1022,6 @@
 [data-backdrop="glow"]:has([data-cover-image])::before {
     --backdrop-cover-scale: 0.25;
 }
-
 
 [data-backdrop="glow"]:has([data-cover-image][data-overlay="false"])::before {
     --backdrop-cover-scale: 0;

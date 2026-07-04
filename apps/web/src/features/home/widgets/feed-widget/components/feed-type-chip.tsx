@@ -1,16 +1,14 @@
 import type { FC } from 'react';
 
-import { type LucideIcon, Meh, ThumbsDown, ThumbsUp } from 'lucide-react';
-
 import type { ContentTypeEnum } from '@hikka/api';
 
+import ReviewBadge from '@/components/review-badge';
 import { chipVariants } from '@/components/ui/chip';
 import { cn } from '@/utils/cn';
 
 import FeedContentTypeIcon from './feed-content-type-icon';
 
 type FeedDataType = 'comment' | 'article' | 'collection';
-type Recommended = 'yes' | 'no' | 'maybe';
 
 const TYPE_LABELS: Record<FeedDataType, string> = {
     comment: 'Коментар',
@@ -25,45 +23,16 @@ const TYPE_STYLES: Record<FeedDataType, string> = {
     collection: 'text-feed-collection bg-feed-collection/10',
 };
 
-const VERDICT: Record<
-    Recommended,
-    { label: string; className: string; icon: LucideIcon }
-> = {
-    yes: {
-        label: 'Рекомендує',
-        className: 'text-success-foreground bg-success-foreground/10',
-        icon: ThumbsUp,
-    },
-    no: {
-        label: 'Не рекомендує',
-        className: 'text-destructive-foreground bg-destructive-foreground/10',
-        icon: ThumbsDown,
-    },
-    maybe: {
-        label: 'Вагається',
-        className: 'text-warning-foreground bg-warning-foreground/10',
-        icon: Meh,
-    },
-};
-
 const CHIP = chipVariants({ interactive: false });
 
 type Props = {
     dataType: FeedDataType;
-    recommended?: Recommended | null;
+    recommended?: 'yes' | 'no' | 'maybe' | null;
 };
 
 const FeedTypeChip: FC<Props> = ({ dataType, recommended }) => {
-    const verdict = recommended ? VERDICT[recommended] : undefined;
-
-    if (verdict) {
-        const Icon = verdict.icon;
-        return (
-            <span className={cn(CHIP, verdict.className)}>
-                <Icon className="size-3.5" />
-                {verdict.label}
-            </span>
-        );
+    if (recommended) {
+        return <ReviewBadge recommended={recommended} />;
     }
 
     return (

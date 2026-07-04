@@ -1,40 +1,24 @@
 import { type FC, useMemo, useState } from 'react';
 
-import { formatDistance } from 'date-fns';
-import { uk } from 'date-fns/locale/uk';
+import { CirclePlus } from 'lucide-react';
 
 import type {
     CommentResponse,
     CommentContentTypeEnum as CommentsContentType,
 } from '@hikka/api';
 
-import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
-import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
-import MaterialSymbolsSecurity from '@/components/icons/material-symbols/MaterialSymbolsSecurity';
-import MaterialSymbolsShieldPerson from '@/components/icons/material-symbols/MaterialSymbolsShieldPerson';
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
-import { Button } from '@/components/ui/button';
-import {
-    HorizontalCard,
-    HorizontalCardContainer,
-    HorizontalCardDescription,
-    HorizontalCardImage,
-    HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { HorizontalCardImage } from '@/components/ui/horizontal-card';
+import { StatItem } from '@/components/ui/stat-item';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useCommentsContext } from '@/services/providers/comments-provider';
+import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n/declension';
-import { Link } from '@/utils/navigation';
 
+import CommentFooter from './comment-footer';
+import CommentHeader from './comment-header';
 import CommentInput from './comment-input';
-import CommentMenu from './comment-menu';
-import CommentVote from './comment-vote';
 import Comments from './comments';
 
 type Props = {
@@ -59,205 +43,165 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
         setExpand(true);
     };
 
-    const allReplies = useMemo<CommentResponse[]>(() => {
-        const serverRepliesAll = comment.replies ?? [];
-        if (pendingReplies.length === 0) return serverRepliesAll;
+    const { replies: allReplies, hasPending: hasPendingForThis } =
+        useMemo(() => {
+            const serverRepliesAll = comment.replies ?? [];
+            if (pendingReplies.length === 0)
+                return { replies: serverRepliesAll, hasPending: false };
 
-        const relevant = pendingReplies.filter(
-            (r) => r.comment.parent === comment.reference,
-        );
-        const prepend = relevant
-            .filter((r) => !r.insertAfter)
-            .map((r) => r.comment);
-        const insertAfters = relevant.filter((r) => r.insertAfter);
-        const pendingRefs = new Set([
-            ...prepend.map((c) => c.reference),
-            ...insertAfters.map((r) => r.comment.reference),
-        ]);
-        const serverReplies = serverRepliesAll.filter(
-            (r) => !pendingRefs.has(r.reference),
-        );
+            const relevant = pendingReplies.filter(
+                (r) => r.comment.parent === comment.reference,
+            );
+            const hasPending = relevant.length > 0;
+            const prepend = relevant
+                .filter((r) => !r.insertAfter)
+                .map((r) => r.comment);
+            const insertAfters = relevant.filter((r) => r.insertAfter);
+            const pendingRefs = new Set([
+                ...prepend.map((c) => c.reference),
+                ...insertAfters.map((r) => r.comment.reference),
+            ]);
+            const serverReplies = serverRepliesAll.filter(
+                (r) => !pendingRefs.has(r.reference),
+            );
 
-        const insertAfterMap = new Map<string, CommentResponse[]>();
-        for (const entry of insertAfters) {
-            const key = entry.insertAfter!;
-            const list = insertAfterMap.get(key) ?? [];
-            list.push(entry.comment);
-            insertAfterMap.set(key, list);
-        }
+            const insertAfterMap = new Map<string, CommentResponse[]>();
+            for (const entry of insertAfters) {
+                const key = entry.insertAfter;
+                if (!key) continue;
+                const list = insertAfterMap.get(key) ?? [];
+                list.push(entry.comment);
+                insertAfterMap.set(key, list);
+            }
 
-        const merged = [...prepend, ...serverReplies];
-        if (insertAfterMap.size === 0) return merged;
+            const merged = [...prepend, ...serverReplies];
+            if (insertAfterMap.size === 0)
+                return { replies: merged, hasPending };
 
-        return merged.flatMap((r) => {
-            const after = insertAfterMap.get(r.reference);
-            return after ? [r, ...after] : [r];
-        });
-    }, [pendingReplies, comment.replies, comment.reference]);
+            return {
+                replies: merged.flatMap((r) => {
+                    const after = insertAfterMap.get(r.reference);
+                    return after ? [r, ...after] : [r];
+                }),
+                hasPending,
+            };
+        }, [pendingReplies, comment.replies, comment.reference]);
 
-    const getDeclensedReplyCount = () => {
-        const hasPendingForThis = pendingReplies.some(
-            (r) => r.comment.parent === comment.reference,
-        );
-        const repliesCount = hasPendingForThis
-            ? allReplies.length
-            : (comment.total_replies ?? 0);
+    const replyCount = hasPendingForThis
+        ? allReplies.length
+        : (comment.total_replies ?? 0);
 
-        return (
-            repliesCount +
-            ' ' +
-            getDeclensionWord(repliesCount, [
-                'відповідь',
-                'відповіді',
-                'відповідей',
-            ])
-        );
-    };
+    const hasReplies = allReplies.length > 0;
+
+    const toggleThread = () => setExpand((prev) => !prev);
 
     return (
         <div
-            className="flex w-full scroll-mt-20 flex-col gap-2"
+            className="comment-thread flex w-full scroll-mt-20 flex-col"
             id={comment.reference}
         >
-            <div className="flex w-full flex-col items-start gap-2 overflow-hidden">
-                <HorizontalCard className="w-full gap-3">
+            <div className="flex gap-4">
+                <div className="relative w-10 shrink-0">
                     <HorizontalCardImage
-                        className="w-10"
+                        className="relative z-10 w-10"
                         image={comment.author.avatar}
                         imageRatio={1}
                         to={`/u/${comment.author.username}`}
                     />
-                    <HorizontalCardContainer className="gap-1">
-                        <div className="flex items-center gap-2">
-                            <HorizontalCardTitle
-                                href={`/u/${comment.author.username}`}
-                            >
-                                {comment.author.username}
-                            </HorizontalCardTitle>
-                            {(comment.author.role === 'admin' ||
-                                comment.author.role === 'moderator') && (
-                                <Tooltip delayDuration={0}>
-                                    <TooltipTrigger>
-                                        <div className="font-bold text-xs">
-                                            {comment.author.role ===
-                                                'admin' && (
-                                                <MaterialSymbolsSecurity className="text-role-admin" />
-                                            )}
-                                            {comment.author.role ===
-                                                'moderator' && (
-                                                <MaterialSymbolsShieldPerson className="text-role-moderator" />
-                                            )}
-                                        </div>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p className="text-sm">
-                                            {comment.author.role === 'admin'
-                                                ? 'Адміністратор'
-                                                : 'Модератор'}
-                                        </p>
-                                    </TooltipContent>
-                                </Tooltip>
+                    {hasReplies && (
+                        <button
+                            type="button"
+                            data-thread-hit
+                            className={cn(
+                                'absolute inset-x-0 top-5',
+                                expand ? 'bottom-0' : 'bottom-7',
                             )}
-                        </div>
-                        <HorizontalCardDescription>
-                            {formatDistance(
-                                comment.created * 1000,
-                                Date.now(),
-                                { addSuffix: true, locale: uk },
-                            )}
-                        </HorizontalCardDescription>
-                    </HorizontalCardContainer>
-                    <CommentVote comment={comment} />
-                </HorizontalCard>
+                            onClick={toggleThread}
+                            aria-label={
+                                expand
+                                    ? 'Згорнути відповіді'
+                                    : 'Показати відповіді'
+                            }
+                        >
+                            <span className="thread-bar inset-y-0 left-0" />
+                        </button>
+                    )}
+                </div>
 
-                {!comment.hidden ? (
-                    isEditActive ? (
+                <div className="relative flex min-w-0 flex-1 flex-col gap-3">
+                    <CommentHeader
+                        comment={comment}
+                        slug={slug}
+                        content_type={content_type}
+                    />
+
+                    {!comment.hidden ? (
+                        isEditActive ? (
+                            <CommentInput
+                                slug={slug}
+                                content_type={content_type}
+                                comment={comment}
+                                isEdit
+                            />
+                        ) : (
+                            <TextExpand>
+                                <MDViewer className="text-[0.9375rem]">
+                                    {comment.text}
+                                </MDViewer>
+                            </TextExpand>
+                        )
+                    ) : (
+                        <p className="text-[0.9375rem] text-muted-foreground">
+                            Коментар видалено
+                        </p>
+                    )}
+
+                    <CommentFooter
+                        comment={comment}
+                        onReply={addReplyInput}
+                        canReply={!!loggedUser}
+                    />
+
+                    {isReplyActive && (
                         <CommentInput
                             slug={slug}
                             content_type={content_type}
                             comment={comment}
-                            isEdit
                         />
-                    ) : (
-                        <TextExpand>
-                            <MDViewer className="text-[0.9375rem]">
-                                {comment.text}
-                            </MDViewer>
-                        </TextExpand>
-                    )
-                ) : (
-                    <p className="text-[0.9375rem] text-muted-foreground">
-                        Коментар видалено
-                    </p>
-                )}
-            </div>
-            <div className="flex w-full items-center gap-2">
-                <Button
-                    disabled={!loggedUser}
-                    variant="link"
-                    className="h-auto p-0 text-muted-foreground hover:text-primary-foreground hover:no-underline"
-                    size="md"
-                    onClick={addReplyInput}
-                >
-                    Відповісти
-                </Button>
+                    )}
 
-                <Button
-                    variant="ghost"
-                    size="icon-xs"
-                    className="text-muted-foreground text-sm"
-                    asChild
-                >
-                    <Link
-                        to={`/comments/${content_type}/${slug}/${comment.reference}`}
-                    >
-                        <MaterialSymbolsLinkRounded />
-                    </Link>
-                </Button>
-
-                {(loggedUser?.username === comment.author.username ||
-                    loggedUser?.role === 'admin' ||
-                    loggedUser?.role === 'moderator') &&
-                    !comment.hidden && <CommentMenu comment={comment} />}
+                    {!expand && hasReplies && (
+                        <div className="relative flex items-start">
+                            <span
+                                aria-hidden="true"
+                                className="thread-elbow top-1 -left-14 w-14"
+                            />
+                            <StatItem
+                                data-thread-hit
+                                onClick={() => setExpand(true)}
+                            >
+                                <CirclePlus />
+                                {replyCount}{' '}
+                                {getDeclensionWord(replyCount, [
+                                    'відповідь',
+                                    'відповіді',
+                                    'відповідей',
+                                ])}
+                            </StatItem>
+                        </div>
+                    )}
+                </div>
             </div>
-            {isReplyActive && (
-                <div className="flex gap-6">
-                    <CommentInput
+
+            {expand && hasReplies && (
+                <div className="mt-6 ml-4">
+                    <Comments
                         slug={slug}
                         content_type={content_type}
-                        comment={comment}
+                        comments={allReplies}
+                        nested
+                        onToggleThread={toggleThread}
                     />
-                </div>
-            )}
-            {allReplies.length > 0 && (
-                <div className="flex w-full">
-                    {expand && (
-                        <button
-                            type="button"
-                            className="group relative pr-6"
-                            onClick={() => setExpand(false)}
-                        >
-                            <div className="h-full w-px bg-border transition-colors duration-100 group-hover:bg-primary-foreground" />
-                        </button>
-                    )}
-                    {!expand && (
-                        <Button
-                            size="md"
-                            variant="ghost"
-                            className="text-primary-foreground"
-                            onClick={() => setExpand(true)}
-                        >
-                            <MaterialSymbolsKeyboardArrowDownRounded />
-                            {getDeclensedReplyCount()}
-                        </Button>
-                    )}
-                    {expand && (
-                        <Comments
-                            slug={slug}
-                            content_type={content_type}
-                            comments={allReplies}
-                        />
-                    )}
                 </div>
             )}
         </div>

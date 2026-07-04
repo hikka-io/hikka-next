@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { type CommentResponse, ContentTypeEnum } from '@hikka/api';
 
 import VoteButton from '@/components/action-buttons/vote-button';
+import { statItemVariants } from '@/components/ui/stat-item';
 
 type Props = {
     comment: CommentResponse;
@@ -10,13 +11,13 @@ type Props = {
 
 const CommentVote: FC<Props> = ({ comment }) => {
     return (
-        <div className="group flex items-center gap-1">
+        <div className={statItemVariants()}>
             <VoteButton
                 contentType={ContentTypeEnum.COMMENT}
                 slug={comment.reference}
                 myScore={comment.my_score}
                 voteScore={comment.vote_score}
-                size="icon-xs"
+                size="icon-sm"
             />
         </div>
     );

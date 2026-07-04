@@ -5,7 +5,11 @@ import { MessageCircle } from 'lucide-react';
 import type { VoteContentTypeEnum } from '@hikka/api';
 
 import VoteButton from '@/components/action-buttons/vote-button';
-import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
+import {
+    StatItem,
+    StatItemGroup,
+    statItemVariants,
+} from '@/components/ui/stat-item';
 import { Link } from '@/utils/navigation';
 
 type Props = {
@@ -29,7 +33,9 @@ const FeedItemFooter: FC<Props> = ({
         <div className="flex items-center justify-between">
             <StatItemGroup>
                 {contentType && slug !== undefined && myScore !== undefined && (
-                    <StatItem asChild>
+                    // VoteButton renders a fragment, so it can't be a
+                    // `StatItem asChild` child; wrap it in a styled element.
+                    <div className={statItemVariants()}>
                         <VoteButton
                             contentType={contentType}
                             slug={slug}
@@ -37,7 +43,7 @@ const FeedItemFooter: FC<Props> = ({
                             voteScore={voteScore}
                             size="icon-sm"
                         />
-                    </StatItem>
+                    </div>
                 )}
                 {commentsHref ? (
                     <StatItem asChild>

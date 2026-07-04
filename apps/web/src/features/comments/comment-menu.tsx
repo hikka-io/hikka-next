@@ -1,9 +1,14 @@
 import type { FC } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Copy } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { type CommentResponse, hideCommentMutation } from '@hikka/api';
+import {
+    type CommentResponse,
+    type CommentContentTypeEnum as CommentsContentType,
+    hideCommentMutation,
+} from '@hikka/api';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
@@ -32,9 +37,11 @@ import { invalidateComments } from '@/utils/api/invalidate-content-state';
 
 type Props = {
     comment: CommentResponse;
+    slug: string;
+    content_type: CommentsContentType;
 };
 
-const CommentMenu: FC<Props> = ({ comment }) => {
+const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
     const { setEdit, removePendingReply } = useCommentsContext();
     const queryClient = useQueryClient();
 
@@ -58,54 +65,77 @@ const CommentMenu: FC<Props> = ({ comment }) => {
         });
     };
 
+    const handleCopy = () => {
+        const path = `/comments/${content_type}/${slug}/${comment.reference}`;
+        navigator.clipboard
+            .writeText(`${window.location.origin}${path}`)
+            .then(() => toast.success('Посилання скопійовано'))
+            .catch(() => toast.error('Не вдалося скопіювати посилання'));
+    };
+
+    const isAuthor = loggedUser?.username === comment.author.username;
+    const canModerate =
+        isAuthor ||
+        loggedUser?.role === 'admin' ||
+        loggedUser?.role === 'moderator';
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
                     variant="ghost"
-                    size="icon-xs"
-                    className="text-muted-foreground text-sm"
+                    size="icon-sm"
+                    className="shrink-0 text-muted-foreground"
+                    aria-label="Більше"
                 >
                     <MaterialSymbolsMoreHoriz />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-                {loggedUser?.username === comment.author.username && (
+            <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={handleCopy}>
+                    <Copy />
+                    Скопіювати посилання
+                </DropdownMenuItem>
+                {isAuthor && (
                     <DropdownMenuItem
                         onClick={() => setEdit(comment.reference)}
                     >
-                        <MaterialSymbolsEditRounded className="mr-2" />
+                        <MaterialSymbolsEditRounded />
                         Редагувати
                     </DropdownMenuItem>
                 )}
-                <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <DropdownMenuItem
-                            onSelect={(e) => e.preventDefault()}
-                            className="text-destructive-foreground"
-                        >
-                            <MaterialSymbolsDeleteForeverRounded className="mr-2" />
-                            Видалити
-                        </DropdownMenuItem>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                            <AlertDialogTitle>
-                                Ви впевнені, що хочете видалити коментар?
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                                Після цієї операції, Ви вже не зможете його
-                                відновити.
-                            </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                            <AlertDialogCancel>Відмінити</AlertDialogCancel>
-                            <AlertDialogAction onClick={handleDeleteComment}>
-                                Підтвердити
-                            </AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
+                {canModerate && (
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <DropdownMenuItem
+                                onSelect={(e) => e.preventDefault()}
+                                className="text-destructive-foreground"
+                            >
+                                <MaterialSymbolsDeleteForeverRounded />
+                                Видалити
+                            </DropdownMenuItem>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                    Ви впевнені, що хочете видалити коментар?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    Після цієї операції, Ви вже не зможете його
+                                    відновити.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Відмінити</AlertDialogCancel>
+                                <AlertDialogAction
+                                    onClick={handleDeleteComment}
+                                >
+                                    Підтвердити
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                )}
             </DropdownMenuContent>
         </DropdownMenu>
     );

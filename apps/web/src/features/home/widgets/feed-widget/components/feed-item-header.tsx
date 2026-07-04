@@ -1,11 +1,8 @@
 import type { FC } from 'react';
 
-import { formatDistance } from 'date-fns';
-
 import type { ContentTypeEnum, FollowUserResponse } from '@hikka/api';
 
-import { Label } from '@/components/ui/label';
-import { Link } from '@/utils/navigation';
+import AuthorMetaRow from '@/components/author-meta-row';
 
 import FeedContentRef from './feed-content-ref';
 import FeedItemMenu from './feed-item-menu';
@@ -37,36 +34,21 @@ const FeedItemHeader: FC<Props> = ({
     const hasReference = reference?.contentType && reference?.slug;
 
     return (
-        <div className="flex items-start justify-between gap-2">
-            <div className="flex min-w-0 flex-col gap-3">
-                <div className="flex min-w-0 items-center gap-2">
-                    <Label asChild className="truncate">
-                        <Link to={`/u/${author.username}`}>
-                            {author.username}
-                        </Link>
-                    </Label>
-                    <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
-                    <span className="shrink-0 text-muted-foreground text-xs">
-                        {formatDistance(created * 1000, Date.now(), {
-                            addSuffix: true,
-                        })}
-                    </span>
-                </div>
-                <div className="flex flex-col items-start gap-2 overflow-hidden sm:flex-row sm:items-center">
-                    <FeedTypeChip
-                        dataType={dataType}
-                        recommended={recommended}
+        <div className="relative flex min-w-0 flex-col gap-3 pr-9">
+            <AuthorMetaRow username={author.username} created={created} />
+            <div className="flex flex-col items-start gap-2 overflow-hidden sm:flex-row sm:items-center">
+                <FeedTypeChip dataType={dataType} recommended={recommended} />
+                {hasReference && (
+                    <FeedContentRef
+                        contentType={reference.contentType}
+                        slug={reference.slug}
+                        title={reference.title}
                     />
-                    {hasReference && (
-                        <FeedContentRef
-                            contentType={reference.contentType}
-                            slug={reference.slug}
-                            title={reference.title}
-                        />
-                    )}
-                </div>
+                )}
             </div>
-            <FeedItemMenu author={author} shareUrl={shareUrl} />
+            <div className="absolute top-0 right-0">
+                <FeedItemMenu author={author} shareUrl={shareUrl} />
+            </div>
         </div>
     );
 };
