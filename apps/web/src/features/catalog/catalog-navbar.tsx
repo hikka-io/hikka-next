@@ -48,14 +48,12 @@ const Search = ({ placeholder }: { placeholder: string }) => {
     const debouncedRef = useRef(debouncedSearch);
     debouncedRef.current = debouncedSearch;
 
-    // Push the debounced input to the URL. Keyed on the debounced input only —
-    // deliberately NOT on `query` — so a URL change coming from elsewhere (the
-    // search modal, browser back/forward) cannot retrigger this with a stale
-    // debounced value and wipe the incoming param.
+    // Push the debounced input to the URL. Keyed on the debounced input only
+    // (NOT `query`) so an external URL change (search modal, back/forward) can't
+    // retrigger this with a stale debounced value and wipe the incoming param.
     useEffect(() => {
         const desired = debouncedSearch || undefined;
-        // Skip when it already matches the URL — otherwise the mount-time fire
-        // would strip ?page from a deep link.
+        // Skip when it matches the URL — else the mount-time fire strips ?page.
         if (desired === (queryRef.current || undefined)) return;
 
         navigate({

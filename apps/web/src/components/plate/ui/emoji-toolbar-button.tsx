@@ -560,7 +560,7 @@ const emojiCategoryIcons: Record<
     EmojiCategoryList,
     {
         outline: React.ReactElement;
-        solid: React.ReactElement; // Needed to add another solid variant - outline will be used for now
+        solid: React.ReactElement; // Reserved; outline is used for now
     }
 > = {
     activity: {

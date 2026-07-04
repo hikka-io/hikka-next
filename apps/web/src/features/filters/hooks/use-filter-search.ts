@@ -1,9 +1,6 @@
 import { useRouterState } from '@tanstack/react-router';
 
-/**
- * Route-agnostic hook to read parsed search params from TanStack Router state.
- * Replaces useSearchParams().getAll() / .get() pattern in filter components.
- */
+/** Route-agnostic hook to read parsed search params from TanStack Router state. */
 export function useFilterSearch<
     T extends Record<string, unknown> = Record<string, unknown>,
 >(): T {

@@ -53,7 +53,6 @@ type Props = {
     buttonProps?: ButtonProps;
 };
 
-// Move constants outside component to prevent recreation on each render
 const SETTINGS_BUTTON = {
     label: (
         <div className="flex items-center gap-2">
@@ -121,7 +120,6 @@ const ReadlistButton = ({
         },
     });
 
-    // Memoize derived values to prevent unnecessary recalculations
     const read = useMemo(
         () => readProp || (readQuery && !readError ? readQuery : undefined),
         [readProp, readQuery, readError],
@@ -156,7 +154,6 @@ const ReadlistButton = ({
                 return;
             }
 
-            // Extract current read parameters
             const currentReadParams =
                 read && !readError
                     ? {
@@ -168,7 +165,6 @@ const ReadlistButton = ({
                       }
                     : {};
 
-            // Handle completed status specially to set volumes and chapters for manga/novel
             const readArgs: ReadArgs =
                 selectedOption === 'completed'
                     ? {

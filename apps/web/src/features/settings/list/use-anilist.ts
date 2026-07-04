@@ -193,9 +193,6 @@ const getWatchStatus = (
     }
 };
 
-/**
- * Fetches a user's anime list from Anilist and transforms it
- */
 const fetchAnilistData = async ({
     username,
     isCustomList = false,
@@ -241,9 +238,6 @@ const fetchAnilistData = async ({
     }
 };
 
-/**
- * Transforms Anilist API response to standard format
- */
 const transformAnilistAnimeData = (
     data: Response,
     isCustomList = false,
@@ -287,9 +281,6 @@ const transformAnilistAnimeData = (
     return reformatted;
 };
 
-/**
- * Transforms Anilist API response to standard format
- */
 const transformAnilistMangaData = (
     data: Response,
     isCustomList = false,
@@ -332,9 +323,6 @@ const transformAnilistMangaData = (
     return reformatted;
 };
 
-/**
- * React hook for fetching an Anilist user's anime list
- */
 export function useAnilist({
     options,
 }: {

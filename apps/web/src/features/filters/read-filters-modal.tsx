@@ -18,10 +18,7 @@ type Props = {
     sort_type: 'manga' | 'novel' | 'read';
 };
 
-/**
- * Controlled modal wrapper for the read filters. Responsive: Dialog on
- * desktop, Drawer on mobile (via ResponsiveModal).
- */
+/** Controlled modal wrapper for the read filters. */
 const ReadFiltersModal: FC<Props> = ({
     open,
     onOpenChange,

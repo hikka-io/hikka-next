@@ -2,9 +2,7 @@ import type { UiPreferencesOutput } from '@hikka/api';
 
 type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 
-/**
- * Event themes that can be activated based on date ranges.
- */
+/** Event themes activated within their date ranges. */
 export const EVENT_THEMES: Hikka.EventTheme[] = [
     {
         id: 'new-year',
@@ -15,9 +13,6 @@ export const EVENT_THEMES: Hikka.EventTheme[] = [
     },
 ];
 
-/**
- * Get the currently active event theme based on the current date.
- */
 export function getActiveEventTheme(): Hikka.EventTheme | null {
     const now = new Date();
 
@@ -30,9 +25,6 @@ export function getActiveEventTheme(): Hikka.EventTheme | null {
     return null;
 }
 
-/**
- * Check if a specific effect is active based on event themes.
- */
 export function isEventEffectActive(effect: UIEffect): boolean {
     const activeTheme = getActiveEventTheme();
     return activeTheme?.effects?.includes(effect) ?? false;

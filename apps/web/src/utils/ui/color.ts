@@ -1,9 +1,5 @@
 import type { OklchColor } from '@hikka/api';
 
-/* ------------------------------------------------------------------ */
-/* OKLCH                                                               */
-/* ------------------------------------------------------------------ */
-
 const round = (value: number, digits: number): number => {
     const factor = 10 ** digits;
     return Math.round(value * factor) / factor;

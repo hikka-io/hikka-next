@@ -18,10 +18,7 @@ type Props = {
     sort_type: 'anime' | 'watch';
 };
 
-/**
- * Controlled modal wrapper for the anime filters. Responsive: Dialog on
- * desktop, Drawer on mobile (via ResponsiveModal).
- */
+/** Controlled modal wrapper for the anime filters. */
 const AnimeFiltersModal: FC<Props> = ({
     open,
     onOpenChange,

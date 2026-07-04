@@ -1,7 +1,3 @@
-/**
- * Utilities for merging UI styles and effects.
- */
-
 import type {
     OklchColor,
     UiBackdrop,

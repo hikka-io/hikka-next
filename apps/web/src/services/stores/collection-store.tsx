@@ -13,7 +13,6 @@ import {
 // `@hikka/api` has no single `CollectionContent` alias; the per-item content
 // union (with `slug`/`title`) lives on `CollectionContentResponse['content']`.
 type CollectionContent = CollectionContentResponse['content'];
-// Old `CollectionContentType` mapped to the collection content-type enum.
 type CollectionContentType = CollectionContentTypeEnum;
 
 export type Item = {
@@ -48,14 +47,12 @@ export type CollectionActions = {
     setSpoiler: (spoiler: boolean) => void;
     setVisibility: (visibility: CollectionVisibilityEnum) => void;
 
-    // Group actions
     setGroups: (groups: Group[]) => void;
     addGroup: () => void;
     removeGroup: (groupId: string) => void;
     updateGroupTitle: (groupId: string, title: string) => void;
     reorderGroups: (activeIndex: number, overIndex: number) => void;
 
-    // Item actions
     addItem: (
         groupId: string,
         content: CollectionContent & { title?: string },
@@ -80,7 +77,6 @@ export type CollectionActions = {
         overIndex: number,
     ) => void;
 
-    // API serialization
     setApiData: (data: CollectionResponse) => void;
     getApiData: () => CollectionArgs;
 };

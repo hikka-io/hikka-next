@@ -1,6 +1,3 @@
-/**
- * Default UI styles and UI settings.
- */
 import {
     type OklchColor,
     type UiStylesOutput,
@@ -30,9 +27,6 @@ export const DEFAULT_STYLES: UiStylesOutput = {
     radius: '0.625rem',
 };
 
-/**
- * Default user UI settings.
- */
 export const DEFAULT_USER_UI: UserCustomizationResponse = {
     styles: DEFAULT_STYLES,
     preferences: {

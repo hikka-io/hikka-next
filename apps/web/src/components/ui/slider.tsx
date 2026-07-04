@@ -18,11 +18,6 @@ type SliderProps = React.ComponentPropsWithoutRef<
      * - "never": No value display (default)
      */
     showValue?: ShowValueMode;
-    /**
-     * Optional function to format the displayed value
-     * @param value - The current value of the thumb
-     * @returns Formatted string or ReactNode to display
-     */
     formatValue?: (value: number) => React.ReactNode;
 };
 

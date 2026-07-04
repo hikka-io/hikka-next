@@ -24,21 +24,12 @@ import {
 
 type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 
-/**
- * The merge layer (mergePreferences/DEFAULT_USER_UI) guarantees `feed` and its
- * `widgets` are always present, so they are required here even though the
- * generated `UiFeedSettingsOutput` marks them optional.
- */
+/** Merge layer guarantees `feed`/`widgets` are present; required here though the API marks them optional. */
 type SessionFeedSettings = UiFeedSettingsOutput & {
     widgets: UiFeedWidget[];
 };
 
-/**
- * The generated `title_language`/`name_language` are widened to `string`, but
- * the app consumes them as its `TitleLanguage`/`NameLanguage` unions (the
- * backend only ever returns those literals). Narrow at this single boundary,
- * and surface the always-present `feed` settings.
- */
+/** Narrows the API-widened `title_language`/`name_language` strings to their app unions. */
 type SessionPreferences = Omit<
     NonNullable<UserCustomizationResponse['preferences']>,
     'title_language' | 'name_language' | 'feed'
@@ -57,10 +48,8 @@ interface SessionUI {
 }
 
 export function useSessionUI(): SessionUI {
-    // The generated @hikka/api client is configured globally (not via React
-    // context), so the query options work even though this hook runs in
-    // Providers. The API response is a structural superset of the app-owned
-    // UserUI type, so we cast at this boundary.
+    // @hikka/api client is configured globally, so this works even inside Providers.
+    // API response is a structural superset of UserUI, so cast at this boundary.
     const { data } = useQuery({
         ...profileUiOptions(),
     });
@@ -68,16 +57,14 @@ export function useSessionUI(): SessionUI {
         (data as UserCustomizationResponse | undefined) ?? DEFAULT_USER_UI;
 
     return useMemo(() => {
-        // Merge sparse API styles with defaults so editors/UI always have full
-        // tokens.
+        // Merge sparse API styles with defaults so UI always has full tokens.
         const resolvedStyles = mergeStyles(
             DEFAULT_USER_UI.styles,
             userUI.styles,
         );
-        // Layer defaults < event theme < the user's sparse styles, matching
-        // the SSR path in utils/ui/server.ts — the event theme applies only
-        // where the user hasn't customized. (Merging the event theme under
-        // the densified resolvedStyles would mask it entirely.)
+        // Layer defaults < event theme < user's sparse styles (matches SSR in
+        // utils/ui/server.ts): event theme applies only where the user hasn't
+        // customized. Merging it under the densified resolvedStyles would mask it.
         const eventTheme = getActiveEventTheme();
         const mergedStyles = mergeStyles(
             mergeStyles(DEFAULT_USER_UI.styles, eventTheme?.styles),
@@ -88,9 +75,8 @@ export function useSessionUI(): SessionUI {
             userUI.preferences?.effect,
         );
         return {
-            // Merge against defaults so `feed`/`widgets` are always present
-            // (the API marks them optional), then narrow the widened language
-            // literals at this boundary (see SessionPreferences above).
+            // Merge against defaults so `feed`/`widgets` are always present (API
+            // marks them optional); narrow widened language literals here (see SessionPreferences).
             preferences: mergePreferences(
                 DEFAULT_USER_UI.preferences,
                 userUI.preferences,

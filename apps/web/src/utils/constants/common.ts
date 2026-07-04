@@ -1,5 +1,3 @@
-// Filter properties
-
 // Collection options
 export {
     COLLECTION_CONTENT_TYPE_OPTIONS,

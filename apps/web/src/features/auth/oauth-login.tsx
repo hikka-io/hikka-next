@@ -30,7 +30,6 @@ const OAuthLogin = ({
 
     return (
         <>
-            {/* OR Divider */}
             <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-border border-t"></div>
@@ -42,7 +41,6 @@ const OAuthLogin = ({
                 </div>
             </div>
 
-            {/* Google Button */}
             <Button
                 type="button"
                 variant="outline"

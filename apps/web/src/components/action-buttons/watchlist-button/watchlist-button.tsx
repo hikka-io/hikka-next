@@ -136,7 +136,6 @@ const WatchlistButton = ({
                 return;
             }
 
-            // Extract current watch parameters
             const currentWatchParams = watch
                 ? {
                       episodes: watch.episodes || undefined,
@@ -146,7 +145,6 @@ const WatchlistButton = ({
                   }
                 : {};
 
-            // Handle completed status specially to set episodes to total
             const watchArgs: WatchArgs =
                 selectedOption === 'completed'
                     ? {

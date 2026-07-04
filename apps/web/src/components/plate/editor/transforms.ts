@@ -8,13 +8,12 @@ import {
 } from 'platejs';
 import type { PlateEditor } from 'platejs/react';
 
-// Block types that are containers (need a paragraph child, not bare text)
+// Containers need a paragraph child, not bare text
 const CONTAINER_TYPES: Set<string> = new Set(['spoiler', KEYS.blockquote]);
 
-// List types that should use toggleList instead of insertNodes
+// These use toggleList instead of insertNodes
 const LIST_TYPES: Set<string> = new Set([KEYS.ulClassic, KEYS.olClassic]);
 
-/** Create a block node with proper children structure */
 const createBlockNode = (editor: PlateEditor, type: string): TElement => {
     if (CONTAINER_TYPES.has(type)) {
         return {
@@ -26,7 +25,6 @@ const createBlockNode = (editor: PlateEditor, type: string): TElement => {
     return editor.api.create.block({ type });
 };
 
-/** Check if the cursor is inside a container of the given type */
 export const isInsideBlock = (editor: PlateEditor, type: string): boolean => {
     return !!editor.api.block({ match: { type } });
 };
@@ -39,7 +37,7 @@ export const isInsideBlock = (editor: PlateEditor, type: string): boolean => {
  * - Prevents nesting containers of the same type
  */
 export const insertBlock = (editor: PlateEditor, type: string) => {
-    // Ensure editor has a selection (e.g. when toolbar is clicked before focusing)
+    // Toolbar can be clicked before the editor is focused
     if (!editor.selection) {
         const end = editor.api.end([]);
         if (end) {
@@ -58,7 +56,6 @@ export const insertBlock = (editor: PlateEditor, type: string) => {
 
         const [node, path] = block;
 
-        // Lists use toggleList — converts the current block to a list item
         if (LIST_TYPES.has(type)) {
             toggleList(editor, { type: editor.getType(type) as 'ul' | 'ol' });
             return;
@@ -67,7 +64,6 @@ export const insertBlock = (editor: PlateEditor, type: string) => {
         const newNode = createBlockNode(editor, type);
         const isContainer = CONTAINER_TYPES.has(type);
 
-        // Replace empty paragraph, otherwise insert after
         let insertPath: Path;
         if (node.type === KEYS.p && editor.api.isEmpty(node)) {
             editor.tf.removeNodes({ at: path });
@@ -78,8 +74,7 @@ export const insertBlock = (editor: PlateEditor, type: string) => {
 
         editor.tf.insertNodes(newNode, { at: insertPath, select: true });
 
-        // Container blocks always get a trailing paragraph so the user
-        // can continue typing after them
+        // Trailing paragraph so the user can keep typing after the container
         if (isContainer) {
             editor.tf.insertNodes(
                 {

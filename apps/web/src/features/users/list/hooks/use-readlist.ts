@@ -19,8 +19,8 @@ export const useReadList = (options?: { enabled?: boolean }) => {
 
     const readStatus = search.status as ReadStatusEnum | 'all';
 
-    // Generated ReadSearchArgs.media_type is typed MangaMediaEnum[]; novel
-    // media values are valid at runtime, so widen-then-narrow via the body type.
+    // ReadSearchArgs.media_type is typed MangaMediaEnum[], but novel media
+    // values are valid at runtime; widen-then-narrow to satisfy the body type.
     const media_type = (search.types ?? []) as (
         | NovelMediaEnum
         | MangaMediaEnum

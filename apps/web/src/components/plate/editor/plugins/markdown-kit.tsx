@@ -11,7 +11,7 @@ import remarkDirective from 'remark-directive';
 
 import { ELEMENT_SPOILER } from './spoiler-kit';
 
-// Configuration for different container directive types (:::name blocks)
+// Per container-directive type (:::name blocks)
 interface DirectiveConfig {
     deserialize: (
         mdastNode: ContainerDirective,

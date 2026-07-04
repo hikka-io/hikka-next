@@ -25,11 +25,7 @@ type Props<T> = {
     stackClassName?: string;
 };
 
-/**
- * Shared "appearances" section used on character and person pages: a titled
- * Block with a 4-up Stack of cards and an optional load-more in extended mode.
- * Each caller keeps its own data hook and supplies the card renderer here.
- */
+/** Shared "appearances" section for character and person pages. */
 function AppearanceGrid<T>({
     title,
     href,

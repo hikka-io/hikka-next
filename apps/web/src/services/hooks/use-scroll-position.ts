@@ -20,9 +20,6 @@ interface ScrollGradientMaskState {
     gradientClassName: string;
 }
 
-/**
- * Compute the appropriate gradient mask class name based on scroll position and direction.
- */
 function computeGradientClassName(
     showStartGradient: boolean,
     showEndGradient: boolean,
@@ -30,8 +27,7 @@ function computeGradientClassName(
 ): string {
     const isVertical = direction === 'vertical';
 
-    // For vertical: t (top) = start, b (bottom) = end
-    // For horizontal: l (left) = start, r (right) = end
+    // start/end map to t/b (vertical) or l/r (horizontal)
     const startChar = isVertical ? 't' : 'l';
     const endChar = isVertical ? 'b' : 'r';
 

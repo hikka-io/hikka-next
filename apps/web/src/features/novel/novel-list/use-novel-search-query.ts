@@ -10,10 +10,7 @@ import { expandSort } from '@/features/filters/sort';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import type { NovelSearch } from '@/utils/search-schemas';
 
-/**
- * Pure function: converts URL search params into the args shape expected
- * by the Hikka novel search API. Unit-testable, reusable for SSR prefetch.
- */
+/** Converts URL search params into the Hikka novel search API args shape. */
 export function buildNovelSearchArgs(search: NovelSearch) {
     const media_type = (search.types ?? []) as NovelMediaEnum[];
     const status = (search.statuses ?? []) as ContentStatusEnum[];
@@ -40,9 +37,8 @@ export function buildNovelSearchArgs(search: NovelSearch) {
 }
 
 /**
- * Shared query for the /novel catalog. Both NovelList and NovelListSummary
- * call this with the same URL-derived args so the TanStack Query cache is
- * reused — no duplicate network requests.
+ * Shared /novel catalog query. NovelList and NovelListSummary call it with the
+ * same URL-derived args so the query cache is reused — no duplicate requests.
  */
 export function useNovelSearchQuery(size?: number) {
     const search = useFilterSearch<NovelSearch>();

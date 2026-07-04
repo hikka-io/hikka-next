@@ -1,12 +1,7 @@
-/**
- * Extracts the YouTube video ID from various URL formats
- * @param url - YouTube video URL or share link
- * @returns Video ID or null if invalid
- */
+/** Extracts the YouTube video ID from watch/embed/youtu.be URLs (null if none). */
 export function extractYouTubeVideoId(url: string): string | null {
     if (!url) return null;
 
-    // Patterns to match different YouTube URL formats
     const patterns = [
         /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)/,
         /(?:https?:\/\/)?(?:www\.)?youtube\.com\/embed\/([^?&]+)/,
@@ -21,9 +16,6 @@ export function extractYouTubeVideoId(url: string): string | null {
     return null;
 }
 
-/**
- * YouTube Thumbnail Quality Options
- */
 export type YouTubeThumbnailQuality =
     | 'default' // 120x90
     | 'medium' // 320x180
@@ -31,12 +23,7 @@ export type YouTubeThumbnailQuality =
     | 'standard' // 640x480
     | 'maxres'; // 1280x720
 
-/**
- * Generates a YouTube thumbnail URL
- * @param videoId - YouTube video ID
- * @param quality - Desired thumbnail quality (default: 'medium')
- * @returns Thumbnail URL or null if invalid
- */
+/** Builds a YouTube thumbnail URL for the given video ID and quality. */
 export function getYouTubeThumbnail(
     videoId: string | null,
     quality: YouTubeThumbnailQuality = 'medium',
@@ -54,12 +41,7 @@ export function getYouTubeThumbnail(
     return thumbnailQualities[quality] || thumbnailQualities.medium;
 }
 
-/**
- * Comprehensive YouTube Thumbnail Parsing Function
- * @param url - YouTube video URL
- * @param quality - Desired thumbnail quality
- * @returns Thumbnail URL or null if invalid
- */
+/** Extracts the video ID from a URL and returns its thumbnail URL. */
 export default function parseYouTubeThumbnail(
     url: string,
     quality: YouTubeThumbnailQuality = 'medium',

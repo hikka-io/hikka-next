@@ -30,8 +30,7 @@ type Props = {
 const Author: FC<Props> = ({ article, preview, className }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
-    // Generated responses type `category` as a plain string; narrow to the enum
-    // used by ARTICLE_CATEGORY_OPTIONS and the /articles search param.
+    // Generated responses type `category` as a plain string; narrow to the enum.
     const category = article.category as ArticleCategoryEnum;
 
     return (

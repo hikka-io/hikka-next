@@ -48,9 +48,8 @@ function useContentBySlug(
         enabled: contentType === ContentTypeEnum.PERSON,
     });
 
-    // The detail endpoints return richer *InfoResponse/*SlugResponse supersets
-    // of the base entity responses that make up EditMainContent (the edit UI
-    // only reads the shared subset). Narrow them down to the shared union.
+    // Detail endpoints return supersets of EditMainContent; the edit UI reads
+    // only the shared subset, so narrow to the shared union.
     switch (contentType) {
         case ContentTypeEnum.ANIME:
             return anime.data as EditMainContent | undefined;

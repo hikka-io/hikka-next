@@ -22,8 +22,7 @@ type SlateNode = {
     children?: SlateNode[];
 };
 
-// The article `preview` is a slate value; pull the first non-empty block's
-// plain text to show a one-line excerpt under the title.
+// The article `preview` is a slate value; pull the first non-empty block's text.
 const getFirstLine = (preview: ArticlePreviewResponse['preview']): string => {
     const read = (node: SlateNode): string =>
         typeof node.text === 'string'
@@ -42,8 +41,7 @@ const ArticlePreviewCard: FC<Props> = ({ article }) => {
     const href = `${CONTENT_TYPE_LINKS.article}/${article.slug}`;
     const excerpt = getFirstLine(article.preview);
 
-    // Generated responses type `category` as a plain string; narrow it to the
-    // enum that keys ARTICLE_CATEGORY_OPTIONS.
+    // Generated responses type `category` as a plain string; narrow to the enum.
     const category = article.category as ArticleCategoryEnum;
     const categoryOption = ARTICLE_CATEGORY_OPTIONS[category];
 

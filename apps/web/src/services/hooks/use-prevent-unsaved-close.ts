@@ -1,10 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-/**
- * Hook to prevent closing browser tab/window when there's unsaved content
- *
- * @param hasUnsavedContent - Boolean indicating if there's unsaved content
- */
+// Warns before tab/window close while there is unsaved content.
 export function usePreventUnsavedClose(hasUnsavedContent: boolean) {
     const handlerRef = useRef<((e: BeforeUnloadEvent) => void) | null>(null);
 

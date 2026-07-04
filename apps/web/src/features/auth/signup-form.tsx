@@ -226,10 +226,8 @@ const SignupForm = () => {
                 )}
             />
 
-            {/* Captcha */}
             <Turnstile ref={captchaRef} siteKey="0x4AAAAAAANXs8kaCqjo_FLF" />
 
-            {/* Submit Button */}
             <Button
                 type="submit"
                 className="w-full"

@@ -24,11 +24,7 @@ type Props<T> = {
     extendedSize?: StackSize;
 };
 
-/**
- * Shared presentational shell for the /anime, /manga and /novel catalogs.
- * Each per-type list stays a thin wrapper that calls its own search hook
- * (so hook rules hold) and supplies the card renderer + cache key here.
- */
+/** Shared presentational shell for the /anime, /manga and /novel catalogs. */
 function CatalogListView<T>({
     list,
     isLoading,

@@ -78,11 +78,7 @@ export interface ActiveFilter {
     excluded?: boolean;
 }
 
-/**
- * Reads URL search params + dynamic label maps and returns a list of
- * human-readable active filter objects, their count, and a clearAll action.
- * Used by both the ActiveFilters chip component and any badge/count display.
- */
+/** Derives human-readable active filters (+ count, clearAll) from URL params and dynamic label maps. */
 export function useActiveFilters() {
     const router = useRouter();
     const search = useRouterState({

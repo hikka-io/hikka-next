@@ -37,7 +37,6 @@ import { Link } from '@/utils/navigation';
 import DetailItem from './detail-item';
 import SynonymsModal from './synonyms-modal';
 
-// Utility functions
 const formatEpisodeDuration = (duration: number) =>
     formatDuration(
         intervalToDuration({
@@ -60,7 +59,6 @@ const formatEpisodeCount = (
 const formatNextEpisodeDate = (airingAt: number) =>
     format(new Date(airingAt * 1000), 'd MMMM HH:mm');
 
-// Component helpers
 const NextEpisodeDetail = ({
     schedule,
 }: {
@@ -182,7 +180,6 @@ const WatchDetails = ({
 
     return (
         <Card className={cn('px-0', className)} id="watch-details">
-            {/* Basic Info Section */}
             <div className="flex flex-col gap-4 px-4">
                 <DetailItem
                     icon={<Play className="size-4" />}
@@ -222,7 +219,6 @@ const WatchDetails = ({
                 )}
             </div>
 
-            {/* Episode Info Section */}
             {Boolean(data.episodes_total || data.episodes_released) && (
                 <Fragment>
                     <Separator />
@@ -265,7 +261,6 @@ const WatchDetails = ({
 
             <Separator />
 
-            {/* Additional Info Section */}
             <div className="flex flex-col gap-4 px-4">
                 <DetailItem
                     icon={<ShieldEllipsis className="size-4" />}

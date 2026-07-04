@@ -73,7 +73,6 @@ export const SpoilerPlugin = createPlatePlugin({
                 ) {
                     const { children } = node;
 
-                    // Ensure spoiler has children
                     if (!children || children.length === 0) {
                         editor.tf.insertNodes<TElement>(
                             {
@@ -85,7 +84,7 @@ export const SpoilerPlugin = createPlatePlugin({
                         return;
                     }
 
-                    // Ensure no direct text children (only block elements)
+                    // Spoiler children must be block elements, not raw text
                     for (let i = 0; i < children.length; i++) {
                         const child = children[i];
                         if (editor.api.isText(child)) {
@@ -100,7 +99,7 @@ export const SpoilerPlugin = createPlatePlugin({
                         }
                     }
 
-                    // Ensure trailing paragraph after nested spoiler
+                    // A nested spoiler at the end needs a trailing paragraph
                     const lastChild = children[children.length - 1];
                     if (
                         ElementApi.isElement(lastChild) &&

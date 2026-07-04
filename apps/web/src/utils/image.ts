@@ -1,7 +1,3 @@
-/**
- * Image and canvas utilities
- */
-
 export const canvasToBlob = async ({
     canvas,
     quality = 0.85,
@@ -54,11 +50,11 @@ export const getImage = async ({
 
 interface ConvertPngToJpegOptions {
     file: File | Blob;
-    quality?: number; // 0.0 to 1.0, default 0.9
-    backgroundColor?: string; // default 'white'
-    outputFormat?: 'dataUrl' | 'blob'; // default 'dataUrl'
-    maxWidth?: number; // optional resize
-    maxHeight?: number; // optional resize
+    quality?: number; // 0.0 to 1.0
+    backgroundColor?: string;
+    outputFormat?: 'dataUrl' | 'blob';
+    maxWidth?: number;
+    maxHeight?: number;
 }
 
 interface ConvertPngToJpegResult {
@@ -82,18 +78,12 @@ export async function convertPngToJpeg(
         maxHeight,
     } = options;
 
-    // Validate quality
     if (quality < 0 || quality > 1) {
         throw new Error('Quality must be between 0 and 1');
     }
 
-    // Read the file as data URL
     const fileDataUrl = await readFileAsDataUrl(file);
-
-    // Load the image
     const img = await loadImage(fileDataUrl);
-
-    // Calculate dimensions (with optional resize)
     const dimensions = calculateDimensions(
         img.width,
         img.height,
@@ -101,7 +91,6 @@ export async function convertPngToJpeg(
         maxHeight,
     );
 
-    // Create canvas and draw image
     const canvas = document.createElement('canvas');
     canvas.width = dimensions.width;
     canvas.height = dimensions.height;
@@ -115,10 +104,8 @@ export async function convertPngToJpeg(
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw the image
     ctx.drawImage(img, 0, 0, dimensions.width, dimensions.height);
 
-    // Convert to JPEG
     const result: ConvertPngToJpegResult = {
         width: dimensions.width,
         height: dimensions.height,
@@ -180,8 +167,7 @@ const calculateDimensions = (
 };
 
 const estimateDataUrlSize = (dataUrl: string): number => {
-    // Remove the data URL prefix to get base64 string
     const base64 = dataUrl.split(',')[1];
-    // Estimate size (base64 is ~33% larger than binary)
+    // base64 is ~33% larger than binary
     return Math.round((base64.length * 3) / 4);
 };

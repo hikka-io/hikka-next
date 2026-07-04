@@ -13,12 +13,8 @@ import {
 } from '@tanstack/react-router';
 
 /**
- * Link props derived from TanStack Router's native LinkComponentProps
- * with relaxed `to` typing to allow dynamic URL construction.
- *
- * Uses `string` for all route path generics so any URL string is accepted
- * while preserving the full set of TanStack Router link props
- * (activeProps, inactiveProps, preload, mask, resetScroll, etc.).
+ * TanStack Router LinkComponentProps with all route-path generics set to
+ * `string`, so any URL string is accepted while keeping the full link props.
  */
 export type LinkProps = Omit<
     LinkComponentProps<'a', AnyRouter, string, string, string, string>,

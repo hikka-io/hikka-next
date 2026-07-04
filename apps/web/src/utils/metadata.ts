@@ -1,6 +1,3 @@
-/**
- * Default metadata values for the Hikka application
- */
 export const DEFAULTS = {
     siteName: 'Hikka',
     images: 'https://hikka.io/preview.jpg',
@@ -12,9 +9,6 @@ export const DEFAULTS = {
         'Hikka - українська онлайн енциклопедія аніме, манґи та ранобе. Весь список, манґи та ранобе, детальна інформація до кожного тайтлу та зручний інтерфейс. Заповнюй власний список переглянутого та прочитаного, кастомізуй профіль та ділись з друзями.',
 };
 
-/**
- * Defines the structure for Open Graph image metadata
- */
 type OGImageDescriptor = {
     url: string | URL;
     secureUrl?: string | URL;
@@ -24,9 +18,6 @@ type OGImageDescriptor = {
     height?: string | number;
 };
 
-/**
- * Types that Open Graph images can take
- */
 type OGImage = string | OGImageDescriptor | URL;
 
 type TemplateString = {
@@ -34,9 +25,6 @@ type TemplateString = {
     template: string;
 };
 
-/**
- * Extended metadata properties interface
- */
 type MetadataProps = {
     title?: string | TemplateString | null;
     description?: string | null;
@@ -50,12 +38,7 @@ type MetadataProps = {
 
 type Metadata = Record<string, any>;
 
-/**
- * Generates complete metadata for the application by combining provided values with defaults
- *
- * @param props - Metadata properties to be used, with any missing values falling back to defaults
- * @returns Complete Metadata object
- */
+/** Merges provided metadata props with DEFAULTS into a complete Metadata object. */
 const generateMetadata = ({
     title,
     description,

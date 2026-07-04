@@ -166,7 +166,6 @@ const PasswordConfirmForm = () => {
                 )}
             />
 
-            {/* Submit Button */}
             <Button
                 type="submit"
                 className="w-full"

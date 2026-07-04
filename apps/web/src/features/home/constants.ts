@@ -16,11 +16,7 @@ import {
 
 type UIFeedWidgetSide = UiFeedWidget['side'];
 
-/**
- * The slugs this app actually renders. The generated `UiFeedWidget['slug']`
- * union also includes a server-side slug (`top_anime`) that has no widget
- * implementation yet.
- */
+/** Slugs this app renders; excludes server-only `top_anime`, which has no widget yet. */
 export type SupportedWidgetSlug = Extract<
     UiFeedWidget['slug'],
     | 'profile'

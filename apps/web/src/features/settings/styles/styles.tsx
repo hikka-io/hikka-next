@@ -64,11 +64,10 @@ const StylesSettings = () => {
         backdropRef.current = backdrop;
     }, [backdrop]);
 
-    // On leaving the editor, drop any uncommitted inline preview vars so a
-    // leaked preview can't override the saved styles app-wide. The brand
-    // preview falls back to the injected stylesheet, but the backdrop vars are
-    // applied inline on <html> with no stylesheet fallback — so re-assert the
-    // saved backdrop instead of leaving the glow blanked until a reload.
+    // On unmount, drop uncommitted inline preview vars so a leaked preview
+    // can't override saved styles app-wide. Backdrop vars are inline on <html>
+    // with no stylesheet fallback, so re-assert the saved backdrop rather than
+    // leave the glow blanked until reload.
     useEffect(
         () => () => {
             clearLivePreview();

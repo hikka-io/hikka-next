@@ -31,7 +31,7 @@ import {
 import { ELEMENT_SPOILER } from '../editor/plugins/spoiler-kit';
 import { ToolbarButton, ToolbarMenuGroup } from './toolbar';
 
-/** Container types that cannot be nested inside themselves */
+// Cannot be nested inside themselves
 const NO_NEST_TYPES: Set<string> = new Set([ELEMENT_SPOILER, KEYS.blockquote]);
 
 type Group = {

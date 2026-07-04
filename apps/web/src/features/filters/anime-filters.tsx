@@ -21,10 +21,7 @@ type BodyProps = {
     sort_type: 'anime' | 'watch';
 };
 
-/**
- * Filter fields only — no footer, no outer padding/margin hacks.
- * Use this inside modals or any custom wrapper.
- */
+/** Filter fields only — no footer/padding; use inside modals or custom wrappers. */
 export const AnimeFiltersBody: FC<BodyProps> = ({
     className,
     content_type,
@@ -52,10 +49,7 @@ type Props = {
     sort_type: 'anime' | 'watch';
 };
 
-/**
- * Default side-panel composition: scrollable filter body + sticky footer.
- * Kept for backward compatibility with the sidebar layout.
- */
+/** Side-panel composition: scrollable filter body + sticky footer. */
 const AnimeFilters: FC<Props> = ({ className, content_type, sort_type }) => {
     return (
         <div className={cn('flex flex-col', className)}>

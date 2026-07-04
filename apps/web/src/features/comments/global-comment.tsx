@@ -25,8 +25,7 @@ type Props = {
 };
 
 const GlobalComment: FC<Props> = ({ comment, href }) => {
-    // `preview` is an opaque record on CommentResponse; narrow it to the shape
-    // this card reads.
+    // `preview` is an opaque record on CommentResponse; narrow it.
     const contentType = comment.content_type;
     const preview = comment.preview as { slug?: string; title?: string };
 

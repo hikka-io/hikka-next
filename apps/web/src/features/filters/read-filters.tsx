@@ -20,10 +20,7 @@ type BodyProps = {
     sort_type: 'manga' | 'novel' | 'read';
 };
 
-/**
- * Maps the read sort context to the preset content type. The user's read list
- * (`read`) returns undefined so the footer hides the catalog-only preset action.
- */
+/** Read list (`read`) returns undefined so the footer hides the catalog-only preset action. */
 export const readPresetContentType = (
     sort_type: 'manga' | 'novel' | 'read',
 ): ContentTypeEnum | undefined => {
@@ -32,10 +29,7 @@ export const readPresetContentType = (
     return undefined;
 };
 
-/**
- * Filter fields only — no footer, no outer padding/margin hacks.
- * Use this inside modals or any custom wrapper.
- */
+/** Filter fields only — no footer/padding; use inside modals or custom wrappers. */
 export const ReadFiltersBody: FC<BodyProps> = ({
     className,
     content_type,
@@ -61,10 +55,7 @@ type Props = {
     sort_type: 'manga' | 'novel' | 'read';
 };
 
-/**
- * Default side-panel composition: scrollable filter body + sticky footer.
- * Kept for backward compatibility with the sidebar layout.
- */
+/** Side-panel composition: scrollable filter body + sticky footer. */
 const ReadFilters: FC<Props> = ({ className, content_type, sort_type }) => {
     return (
         <div className={cn('flex flex-col', className)}>

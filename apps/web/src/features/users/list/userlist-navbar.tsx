@@ -81,7 +81,6 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
         | WatchStatusEnum
         | 'all';
 
-    // Status stats
     const { data: watchData } = useQuery({
         ...userWatchStatsOptions({
             path: { username: String(params.username) },
@@ -110,7 +109,6 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
               : (listData as ReadStatsResponse).reading)
         : undefined;
 
-    // Random content
     const handleRandom = async () => {
         const data = isAnime
             ? await queryClient.fetchQuery(

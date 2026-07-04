@@ -63,8 +63,6 @@ const CollectionCard: FC<Props> = ({
                 className,
             )}
         >
-            {/* User Header */}
-
             <HorizontalCard>
                 <HorizontalCardImage
                     className={isCompact ? 'w-10' : 'w-12'}
@@ -97,7 +95,6 @@ const CollectionCard: FC<Props> = ({
                 />
             </HorizontalCard>
 
-            {/* Collection Title */}
             <Link to={`/collections/${collection.reference}`} className="block">
                 {isCompact ? (
                     <Label>{collection.title}</Label>
@@ -106,7 +103,6 @@ const CollectionCard: FC<Props> = ({
                 )}
             </Link>
 
-            {/* Tags */}
             {collection.tags.length > 0 && (
                 <div className="flex gap-2">
                     {collection!.spoiler && (
@@ -141,7 +137,6 @@ const CollectionCard: FC<Props> = ({
                 </div>
             )}
 
-            {/* Preview Items Grid */}
             <Stack
                 size={(maxPreviewItems + 1) as StackSize}
                 gap={isCompact ? 'sm' : 'md'}
@@ -211,7 +206,6 @@ const CollectionCard: FC<Props> = ({
                 )}
             </Stack>
 
-            {/* Stats */}
             <div className="flex items-center justify-between">
                 <StatItemGroup>
                     <StatItem asChild>

@@ -12,7 +12,6 @@ const useSize = (target: RefObject<HTMLElement>) => {
         }
     }, [target]);
 
-    // Where the magic happens
     useResizeObserver(target, (entry) => setSize(entry.contentRect));
     return size;
 };

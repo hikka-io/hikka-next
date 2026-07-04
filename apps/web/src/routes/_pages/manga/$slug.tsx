@@ -35,8 +35,7 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
         let manga = await queryClient
             .ensureQueryData(mangaOptions)
             .catch((error) => {
-                // An unknown slug returns 404 — render the not-found page
-                // instead of letting the error bubble to the 500 component.
+                // Unknown slug: render not-found instead of bubbling to 500.
                 if (error instanceof HikkaApiError && error.status === 404) {
                     throw notFound();
                 }
@@ -55,8 +54,7 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
         const nsfwConsented = manga.nsfw ? !!(await getNsfwConsentFn()) : false;
 
         const prefetches: Promise<unknown>[] = [
-            // Args must match the component-body call (no `query`) so the SSR
-            // prefetch and client share a cache key.
+            // Match the component-body call (no `query`) to share a cache key.
             queryClient.ensureInfiniteQueryData({
                 ...mangaCharactersInfiniteOptions({
                     path: { slug: params.slug },
@@ -106,8 +104,7 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
             }),
         ];
 
-        // User-specific data is only worth prefetching when authenticated;
-        // anonymous requests just 401 and get discarded.
+        // Only prefetch user-specific data when authed; anon just 401s.
         if (authToken) {
             prefetches.push(
                 queryClient.ensureQueryData(

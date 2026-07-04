@@ -14,7 +14,6 @@ function defaultTrigger(store: any, options: UseScrollTriggerOptions) {
     const previous = store.current;
 
     if (target) {
-        // Get vertical scroll
         store.current =
             target.pageYOffset !== undefined
                 ? target.pageYOffset

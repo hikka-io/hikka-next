@@ -21,7 +21,7 @@ export function ImageGroupElementStatic({
 
     useEffect(() => {
         const container = imageGroupRef.current;
-        if (!container || element.children.length !== 1) return; // Only for single images
+        if (!container || element.children.length !== 1) return;
 
         const img = container?.querySelector('img');
         if (!img) return;
@@ -31,11 +31,9 @@ export function ImageGroupElementStatic({
             container.style.setProperty('--ratio', `${ratio}%`);
         };
 
-        // If image already loaded
         if (img.complete && img.naturalHeight !== 0) {
             calculateRatio();
         } else {
-            // Wait for image to load
             img.addEventListener('load', calculateRatio);
             return () => img.removeEventListener('load', calculateRatio);
         }

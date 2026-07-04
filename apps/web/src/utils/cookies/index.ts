@@ -1,7 +1,3 @@
-/**
- * Cookie utilities barrel export
- */
-
 export {
     clearCookieHeader,
     createServerHikkaClient,

@@ -29,8 +29,7 @@ export const Route = createFileRoute('/_pages/characters/$slug')({
                 }),
             )
             .catch((error) => {
-                // An unknown slug returns 404 — render the not-found page
-                // instead of letting the error bubble to the 500 component.
+                // Unknown slug: render not-found instead of bubbling to 500.
                 if (error instanceof HikkaApiError && error.status === 404) {
                     throw notFound();
                 }

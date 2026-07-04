@@ -51,8 +51,6 @@ function useResponsiveModalContext() {
     return React.useContext(ResponsiveModalContext);
 }
 
-// --- Root ---
-
 type ResponsiveModalProps = {
     children: React.ReactNode;
     open?: boolean;
@@ -115,8 +113,6 @@ function ResponsiveModal({
     );
 }
 
-// --- Trigger ---
-
 function ResponsiveModalTrigger({
     ...props
 }: React.ComponentProps<typeof DialogTrigger>) {
@@ -126,8 +122,6 @@ function ResponsiveModalTrigger({
     if (type === 'sheet') return <SheetTrigger {...props} />;
     return <DialogTrigger {...props} />;
 }
-
-// --- Content ---
 
 type DialogContentProps = React.ComponentProps<typeof DialogContent>;
 
@@ -211,8 +205,6 @@ function ResponsiveModalContent({
     );
 }
 
-// --- Header ---
-
 function ResponsiveModalHeader({
     className,
     ...props
@@ -225,8 +217,6 @@ function ResponsiveModalHeader({
     return <DialogHeader className={className} {...props} />;
 }
 
-// --- Footer ---
-
 function ResponsiveModalFooter({ ...props }: React.ComponentProps<'div'>) {
     const { isDesktop, type } = useResponsiveModalContext();
 
@@ -234,8 +224,6 @@ function ResponsiveModalFooter({ ...props }: React.ComponentProps<'div'>) {
     if (type === 'sheet') return <SheetFooter {...props} />;
     return <DialogFooter {...props} />;
 }
-
-// --- Title ---
 
 function ResponsiveModalTitle({
     ...props
@@ -247,8 +235,6 @@ function ResponsiveModalTitle({
     return <DialogTitle {...props} />;
 }
 
-// --- Description ---
-
 function ResponsiveModalDescription({
     ...props
 }: React.ComponentProps<typeof DialogDescription>) {
@@ -258,8 +244,6 @@ function ResponsiveModalDescription({
     if (type === 'sheet') return <SheetDescription {...props} />;
     return <DialogDescription {...props} />;
 }
-
-// --- Close ---
 
 function ResponsiveModalClose({
     ...props

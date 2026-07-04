@@ -99,16 +99,11 @@ export class SakuraCanvas {
     }
 
     /**
-     * Measure the particle canvas element itself. Its CSS size (w-full,
-     * h-lvh) is the ground truth: lvh does not change when the mobile URL
-     * bar collapses, so URL-bar resize events yield an identical rect and
-     * fall into resize()'s early return instead of rebuilding the branch
-     * and remapping every particle mid-scroll. It also keeps the bitmap
-     * exactly matching the CSS box (innerHeight-based sizing stretched it).
-     *
-     * Falls back to the document/window box when the canvas has not been
-     * laid out yet (rect is 0×0 during the first commit) so construction
-     * never derives a zero-size branch canvas.
+     * Measure the particle canvas element (CSS size is ground truth). lvh
+     * doesn't change when the mobile URL bar collapses, so those resize
+     * events yield an identical rect and hit resize()'s early return instead
+     * of rebuilding the branch mid-scroll. Falls back to document/window box
+     * when the canvas isn't laid out yet (0×0 on first commit).
      */
     private readViewport(): Viewport {
         const rect = this.particleCanvas.getBoundingClientRect();

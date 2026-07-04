@@ -4,14 +4,9 @@ import {
     intervalToDuration,
 } from 'date-fns';
 
-/**
- * Subset of formatting tokens used in this utility
- */
 type Tokens = 'xSeconds' | 'xMinutes' | 'xHours' | 'xDays' | 'xMonths';
 
-/**
- * Ukrainian localization for date-fns distance formatting
- */
+/** Ukrainian localization for date-fns distance formatting. */
 const UKRAINIAN_FORMAT_DISTANCE_LOCALE = {
     xMonths: '{{count}} міс.',
     xWeeks: '{{count}} тиж.',
@@ -31,20 +26,14 @@ const UKRAINIAN_FORMAT_DISTANCE_LOCALE = {
     almostXYears: 'майже {{count}} років',
 };
 
-/**
- * Time constants in seconds for duration calculations
- */
+/** Durations in seconds. */
 const TIME_CONSTANTS = {
     YEAR: 31536000, // 365 days
     MONTH: 2592000, // 30 days
     DAY: 86400, // 24 hours
 };
 
-/**
- * Creates a locale configuration for date-fns formatDistance with Ukrainian translations
- *
- * @returns A locale object for use in date-fns formatting functions
- */
+/** date-fns formatDistance locale config with Ukrainian translations. */
 export const getShortLocale = () => ({
     formatDistance: (token: FormatDistanceToken, count: number) => {
         return UKRAINIAN_FORMAT_DISTANCE_LOCALE[token].replace(
@@ -54,12 +43,7 @@ export const getShortLocale = () => ({
     },
 });
 
-/**
- * Determines appropriate format units based on the time left
- *
- * @param timeLeft - Time left in seconds
- * @returns Array of duration units to display
- */
+/** Picks duration units to display based on time left (in seconds). */
 export const getFormatUnits = (
     timeLeft: number,
 ): ('years' | 'months' | 'days' | 'hours' | 'minutes')[] => {
@@ -75,11 +59,9 @@ export const getFormatUnits = (
 };
 
 /**
- * Formats the duration between now and a target date in a human-readable format
- *
+ * Formats the duration from now to a target date in Ukrainian.
  * @param unixTimestamp - Unix timestamp in seconds (not milliseconds)
- * @param timeLeft - Optional time remaining in seconds to determine format units
- * @returns Formatted duration string in Ukrainian
+ * @param timeLeft - Optional seconds remaining, used to pick format units
  */
 export const getScheduleDuration = (
     unixTimestamp: number,

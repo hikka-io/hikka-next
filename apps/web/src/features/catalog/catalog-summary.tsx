@@ -9,10 +9,6 @@ type Props = {
     className?: string;
 };
 
-/**
- * Generic catalog summary: "Знайдено N результатів" + optional active filter chips.
- * Reusable across /anime, /manga, /novel catalog pages.
- */
 const CatalogSummary: FC<Props> = ({ total, isLoading, className }) => {
     const { count: activeCount } = useActiveFilters();
 

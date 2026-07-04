@@ -13,10 +13,7 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import type { AnimeSearch } from '@/utils/search-schemas';
 import { getSeasonByOffset } from '@/utils/season';
 
-/**
- * Pure function: converts URL search params into the args shape expected
- * by the Hikka anime search API. Unit-testable, reusable for SSR prefetch.
- */
+/** Converts URL search params into the Hikka anime search API args shape. */
 export function buildAnimeSearchArgs(search: AnimeSearch) {
     const media_type = (search.types ?? []) as AnimeMediaEnum[];
     const status = (search.statuses ?? []) as AnimeStatusEnum[];
@@ -58,9 +55,8 @@ export function buildAnimeSearchArgs(search: AnimeSearch) {
 }
 
 /**
- * Shared query for the /anime catalog. Both AnimeList and AnimeListSummary
- * call this with the same URL-derived args so the TanStack Query cache is
- * reused — no duplicate network requests.
+ * Shared /anime catalog query. AnimeList and AnimeListSummary call it with the
+ * same URL-derived args so the query cache is reused — no duplicate requests.
  */
 export function useAnimeSearchQuery(size?: number) {
     const search = useFilterSearch<AnimeSearch>();

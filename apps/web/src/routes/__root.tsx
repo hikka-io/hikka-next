@@ -54,18 +54,15 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         ],
     }),
     loader: async ({ context }) => {
-        // Rolling cookie: extend auth cookie lifetime on every SSR page request.
-        // Must live here (not in createRouter) so it does NOT run for server routes
-        // like /auth/logout — otherwise the refresh re-sets the cookie the
-        // logout handler is trying to clear.
-        // refreshAuthCookieFn is a createServerFn — it no-ops if no auth cookie exists
-        // and only runs on the server (client calls become RPCs).
+        // Rolling cookie: extend auth lifetime per SSR page request. Must stay
+        // here (not createRouter) so it skips server routes like /auth/logout —
+        // otherwise it re-sets the cookie logout is clearing. No-ops without an
+        // auth cookie; server-only (client calls become RPCs).
         await refreshAuthCookieFn();
 
         const theme = await getThemeCookieFn();
 
-        // User UI is already prefetched in createRouter via profileUiOptions.
-        // Read from query cache — no extra server fn call needed.
+        // Already prefetched in createRouter; read from cache, no extra call.
         const userUI =
             (context.queryClient.getQueryData(profileUiQueryKey()) as
                 | UserCustomizationResponse

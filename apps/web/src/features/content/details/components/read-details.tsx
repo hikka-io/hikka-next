@@ -82,7 +82,6 @@ const ReadDetails = ({
 
     return (
         <Card className={cn('px-0', className)} id="read-details">
-            {/* Basic Info Section */}
             <div className="flex flex-col gap-4 px-4">
                 <DetailItem
                     icon={<Play className="size-4" />}
@@ -125,7 +124,6 @@ const ReadDetails = ({
                 )}
             </div>
 
-            {/* Chapters Info Section */}
             {(data.chapters || data.volumes) && (
                 <Fragment>
                     <Separator />
@@ -145,7 +143,6 @@ const ReadDetails = ({
                 </Fragment>
             )}
 
-            {/* Additional Info Section */}
             {data.magazines.length > 0 && (
                 <Fragment>
                     <Separator />

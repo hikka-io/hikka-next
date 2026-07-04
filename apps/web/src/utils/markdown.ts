@@ -13,16 +13,9 @@ const htmlEscapeToText = (text: string) => {
 const renderPlain = () => {
     const render = new marked.Renderer({ breaks: true });
 
-    // render just the text of a link
     render.link = (_href, _title, text) => text;
-
-    // render just the text of a paragraph
     render.paragraph = (text) => `${htmlEscapeToText(text)}\r\n`;
-
-    // render just the text of a heading element, but indecate level
     render.heading = (text, level) => `${level} ) ${text}`;
-
-    // render nothing for images
     render.image = (_href, _title, _text) => '';
 
     render.em = (text) => text;

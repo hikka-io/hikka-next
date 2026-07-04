@@ -68,7 +68,6 @@ const ForgotPasswordForm = () => {
                 )}
             />
 
-            {/* Submit Button */}
             <Button
                 type="submit"
                 className="w-full"
@@ -80,7 +79,6 @@ const ForgotPasswordForm = () => {
                 Відновити
             </Button>
 
-            {/* Back to Login */}
             <Button
                 variant="secondary"
                 disabled={mutationRequestPasswordReset.isPending}

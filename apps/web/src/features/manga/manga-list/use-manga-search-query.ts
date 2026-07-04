@@ -10,10 +10,7 @@ import { expandSort } from '@/features/filters/sort';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import type { MangaSearch } from '@/utils/search-schemas';
 
-/**
- * Pure function: converts URL search params into the args shape expected
- * by the Hikka manga search API. Unit-testable, reusable for SSR prefetch.
- */
+/** Converts URL search params into the Hikka manga search API args shape. */
 export function buildMangaSearchArgs(search: MangaSearch) {
     const media_type = (search.types ?? []) as MangaMediaEnum[];
     const status = (search.statuses ?? []) as ContentStatusEnum[];
@@ -40,9 +37,8 @@ export function buildMangaSearchArgs(search: MangaSearch) {
 }
 
 /**
- * Shared query for the /manga catalog. Both MangaList and MangaListSummary
- * call this with the same URL-derived args so the TanStack Query cache is
- * reused — no duplicate network requests.
+ * Shared /manga catalog query. MangaList and MangaListSummary call it with the
+ * same URL-derived args so the query cache is reused — no duplicate requests.
  */
 export function useMangaSearchQuery(size?: number) {
     const search = useFilterSearch<MangaSearch>();

@@ -22,8 +22,6 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-// --- Hook ---
-
 interface LinkDialogState {
     open: boolean;
     defaultValues: FormValues;
@@ -118,8 +116,6 @@ export function useLinkDialog(editor: PlateEditor) {
     };
 }
 
-// --- Dialog ---
-
 type LinkDialogFormProps = {
     defaultValues: FormValues;
     onSubmit: (values: FormValues) => void;
@@ -185,8 +181,6 @@ const LinkDialogForm: FC<LinkDialogFormProps> = ({
     );
 };
 
-// --- Dialog ---
-
 type LinkDialogProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -214,8 +208,6 @@ export function LinkDialog({
     );
 }
 
-// --- Per-editor dialog registry ---
-
 export interface LinkDialogApi {
     openInsert: () => void;
     openEdit: () => void;
@@ -226,8 +218,6 @@ const linkDialogRegistry = new WeakMap<object, LinkDialogApi>();
 export function getLinkDialog(editor: object): LinkDialogApi | undefined {
     return linkDialogRegistry.get(editor);
 }
-
-// --- Provider (renders dialog + registers the per-editor dialog api) ---
 
 export function LinkDialogProvider({
     children,

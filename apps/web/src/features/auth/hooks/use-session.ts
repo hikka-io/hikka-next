@@ -9,11 +9,7 @@ import {
     UserRoleEnum,
 } from '@hikka/api';
 
-/**
- * Session user shape. The generated `@hikka/api` widens `username`/`role` to
- * nullable/`string`, but an authenticated session always carries them; narrow
- * here so consumers keep the ergonomics the previous session hook had.
- */
+/** Narrows the API-nullable `username`/`role`, which an authenticated session always carries. */
 export type SessionUser = Omit<ProfileResponse, 'username' | 'role'> & {
     username: string;
     role: UserRoleEnum;

@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
 
 /**
- * Tracks `window.visualViewport` height and sets `--visual-viewport-height`
- * on the document root so fixed modals can stay within the visible area
- * when the virtual keyboard opens on mobile.
- *
- * Only listens to `resize` (fires on keyboard open/close), not `scroll`.
- * Mount once globally in providers.
+ * Sets `--visual-viewport-height` on the root so fixed modals stay visible
+ * when the mobile keyboard opens. Listens to `resize` only (not `scroll`);
+ * mount once globally.
  */
 export function useVisualViewport() {
     useEffect(() => {
@@ -43,16 +40,9 @@ export function useVisualViewport() {
 }
 
 /**
- * Tracks `window.visualViewport` scroll offset and sets
- * `--visual-viewport-offset-top` on the document root.
- *
- * Only activates when `enabled` is true — pass the sheet's open state
- * so the scroll listener is only attached while the sheet is visible.
- * Throttled with requestAnimationFrame.
- *
- * Usage:
- *   useVisualViewportOffset(isSheetOpen);
- *   top: var(--visual-viewport-offset-top, 0px)
+ * Sets `--visual-viewport-offset-top` on the root from the viewport scroll
+ * offset. Pass `enabled` (e.g. sheet open state) so the listener only runs
+ * while visible. Usage: `top: var(--visual-viewport-offset-top, 0px)`.
  */
 export function useVisualViewportOffset(enabled: boolean) {
     useEffect(() => {

@@ -27,7 +27,7 @@ function getVideoInfo(url: string): VideoInfo {
         };
     }
 
-    // Return the original URL if it's already an embed URL or direct video file
+    // Already an embed URL or direct video file
     return {
         embedUrl: url,
         thumbnailUrl: null,

@@ -1,7 +1,4 @@
-/**
- * Keyboard layout conversion utilities
- * Converts text between Ukrainian (ЙЦУКЕН) and English (QWERTY) keyboard layouts
- */
+/** Converts text between Ukrainian (ЙЦУКЕН) and English (QWERTY) keyboard layouts. */
 
 export enum KeyboardLayoutEnum {
     EN = 'en',
@@ -17,8 +14,7 @@ const UK_CHAR_REGEX = /[а-яА-ЯіІїЇєЄґҐ]/;
 const EN_VOWEL_REGEX = /[aeiouAEIOU]/g;
 const UK_VOWEL_REGEX = /[аеиіїоуєюяАЕИІЇОУЄЮЯ]/g;
 
-// Minimum improvement in vowel ratio to trigger conversion
-// Converted text must have at least this much better vowel ratio
+// Converted text must have at least this much better vowel ratio to trigger conversion
 const MIN_VOWEL_IMPROVEMENT = 0.1;
 
 /**
@@ -195,13 +191,11 @@ function looksLikeWrongLayout(
         return false;
     }
 
-    // Get vowel ratio in current layout
     const currentVowelRatio =
         currentLayout === KeyboardLayoutEnum.EN
             ? getVowelRatio(text, EN_VOWEL_REGEX)
             : getVowelRatio(text, UK_VOWEL_REGEX);
 
-    // Convert and check vowel ratio
     const converted =
         currentLayout === KeyboardLayoutEnum.EN
             ? convertEnToUk(text)
@@ -212,42 +206,16 @@ function looksLikeWrongLayout(
             ? getVowelRatio(converted, UK_VOWEL_REGEX)
             : getVowelRatio(converted, EN_VOWEL_REGEX);
 
-    // Convert if converted text has significantly better vowel ratio
     return convertedVowelRatio - currentVowelRatio >= MIN_VOWEL_IMPROVEMENT;
 }
 
 /**
- * Converts text if it appears to be typed with wrong keyboard layout.
- * Uses heuristics to detect if conversion is needed.
- * Returns original text if it appears to be valid or conversion is not possible.
- *
- * This is the main function for keyboard layout correction.
- * Optimized for real-time use (e.g., search fields).
- *
- * @param text - Text to potentially convert
- * @returns Converted text if wrong layout detected, otherwise original
+ * Main keyboard-layout correction. Heuristically converts text typed with the
+ * wrong layout; returns the original if it looks valid, mixed, or letter-free.
  *
  * @example
- * // Gibberish in English that makes sense in Ukrainian - converts
- * convertLayout('ghbdsn') // 'привіт'
- *
- * @example
- * // Valid English word - stays as is
- * convertLayout('naruto') // 'naruto'
- * convertLayout('hello')  // 'hello'
- *
- * @example
- * // Ukrainian typed with wrong layout - converts
- * convertLayout('ру|дщ') // 'hello' (if it looks like gibberish in Ukrainian)
- *
- * @example
- * // Valid Ukrainian word - stays as is
- * convertLayout('привіт') // 'привіт'
- *
- * @example
- * // Mixed or no letters - returns original
- * convertLayout('hello привіт') // 'hello привіт'
- * convertLayout('123')          // '123'
+ * convertLayout('ghbdsn') // 'привіт' (EN gibberish → UK)
+ * convertLayout('naruto') // 'naruto' (valid EN, unchanged)
  */
 export function convertLayout(text?: string): string | undefined {
     if (!text) return undefined;

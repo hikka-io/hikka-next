@@ -42,7 +42,6 @@ import {
     PersonTooltip,
 } from './tooltips';
 
-// Types
 type ImageProps = {
     priority?: boolean;
     loading?: 'lazy' | 'eager';
@@ -112,11 +111,9 @@ export type TooltipProps = {
     disabled?: boolean;
 };
 
-// Constants
 export const DEFAULT_CONTAINER_RATIO = 0.7;
 const DEFAULT_PRESET = IMAGE_PRESETS.card;
 
-// Tooltip map
 const TOOLTIP_MAP: Record<
     string,
     ComponentType<{
@@ -133,7 +130,6 @@ const TOOLTIP_MAP: Record<
     person: PersonTooltip,
 };
 
-// Tooltip Component
 const Tooltip: FC<TooltipProps> = memo(
     ({ children, content_type, slug, watch, read, disabled }) => {
         const TooltipComponent =
@@ -153,7 +149,6 @@ const Tooltip: FC<TooltipProps> = memo(
 
 Tooltip.displayName = 'Tooltip';
 
-// CardLink — eliminates duplicated Link/div render paths
 const CardLink: FC<{
     to?: string;
     target?: string;
@@ -178,7 +173,6 @@ const CardLink: FC<{
     );
 };
 
-// Content Component
 const Content = memo(
     forwardRef<HTMLDivElement, ContentCardProps>(
         (
@@ -346,7 +340,6 @@ const Content = memo(
 
 Content.displayName = 'Content';
 
-// Helper functions
 const renderImage = (
     image: string | ReactNode | undefined,
     imageClassName?: string,
@@ -467,7 +460,6 @@ const renderSubtitles = (
     );
 };
 
-// Main Component
 const ContentCard = forwardRef<HTMLDivElement, ContentCardProps>(
     (props, ref) => {
         const { withContextMenu, slug, content_type, href, to, image } = props;

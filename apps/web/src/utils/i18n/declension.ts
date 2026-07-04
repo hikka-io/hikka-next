@@ -12,7 +12,6 @@ export function getDeclensionWord(
     number: number,
     wordForms: [string, string, string],
 ): string {
-    // Handle edge cases and ensure number is positive
     const absNumber = Math.abs(number);
     const lastDigit = absNumber % 10;
     const lastTwoDigits = absNumber % 100;

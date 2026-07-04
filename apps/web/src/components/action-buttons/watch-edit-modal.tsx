@@ -106,11 +106,9 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
         onSubmit: async ({ value }) => {
             createWatch({
                 path: { slug },
-                // start_date/end_date are Unix-timestamp numbers — matching
-                // the WatchResponse shape and what the API actually accepts.
-                // The generated WatchArgs types them as `string | null` (an
-                // OpenAPI inaccuracy), so this cast is load-bearing: do not
-                // convert the numbers to ISO strings.
+                // Load-bearing cast: the API accepts Unix-timestamp numbers for
+                // start_date/end_date, but generated WatchArgs mistypes them as
+                // `string | null` (OpenAPI inaccuracy). Do not convert to ISO.
                 body: {
                     status: selectedStatus!,
                     ...value,

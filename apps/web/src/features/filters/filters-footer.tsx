@@ -19,27 +19,16 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 
-// Deep import (not the @/features/content barrel) keeps the filters → content
-// import edge narrow, avoiding the module-init cycle that previously broke
-// hydration.
+// Deep import (not the @/features/content barrel) avoids a module-init cycle that broke hydration.
 import FilterPresetEditModal from './presets/filter-preset-edit-modal';
 
 export type FiltersFooterProps = {
     className?: string;
-    /**
-     * Enables the "save as preset" action and tags the created preset with
-     * this content type. Presets are a catalog-only feature, so the user's
-     * own watch/read lists omit this prop and only get the clear-filters
-     * button.
-     */
+    /** Enables the catalog-only save-as-preset action; watch/read lists omit it. */
     contentType?: ContentTypeEnum;
 };
 
-/**
- * Clear filters + (catalog-only) save-as-preset actions, shared by the anime
- * and read filter panels. The preset action only renders when `contentType`
- * is supplied.
- */
+/** Clear filters + (catalog-only) save-as-preset actions for the filter panels. */
 const FiltersFooter: FC<FiltersFooterProps> = ({ className, contentType }) => {
     const router = useRouter();
     const [open, setOpen] = useState(false);

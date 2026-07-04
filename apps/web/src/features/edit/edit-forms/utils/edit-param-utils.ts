@@ -84,11 +84,7 @@ export const getEditGroups = (content_type: EditContentTypeEnum) => {
     }
 };
 
-/**
- * Slug of the native/original title field per content type. This is the title
- * editors translate from, so when the content lacks it there is nothing to
- * verify a translation against.
- */
+/** Slug of the native/original title field (the one editors translate from). */
 export const getNativeTitleSlug = (
     content_type: EditContentTypeEnum,
 ): string | undefined => {
@@ -105,10 +101,7 @@ export const getNativeTitleSlug = (
     }
 };
 
-/**
- * Whether the edited content is missing its native/original title, in which
- * case the editor/reviewer must double-check the translation by hand.
- */
+/** Whether the content lacks its native title (reviewer must verify by hand). */
 export const isNativeTitleMissing = (
     content_type: EditContentTypeEnum,
     content: Record<string, unknown> | null | undefined,

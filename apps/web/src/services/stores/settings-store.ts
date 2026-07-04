@@ -3,10 +3,7 @@ import { persist } from 'zustand/middleware';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-/**
- * Preferences for persisting user UI choices across sessions.
- * Extensible structure for views, filters, and collapsibles in different contexts.
- */
+// Persisted UI choices, keyed by context so different surfaces stay independent.
 export interface Preferences {
     /** View preferences by context key (e.g., 'franchise', 'userlist') */
     views: Record<string, Hikka.View>;
@@ -27,11 +24,8 @@ export interface SettingsActions {
     setHasHydrated: (hasHydrated: boolean) => void;
     setEditTags: (editTags: string[]) => void;
     setFilterPresets: (filterPresets: Hikka.FilterPreset[]) => void;
-    /** Set a view preference for a specific context */
     setViewPreference: (key: string, view: Hikka.View) => void;
-    /** Set a filter preference for a specific context */
     setFilterPreference: (key: string, values: string[]) => void;
-    /** Set a collapsible state for a specific context */
     setCollapsible: (key: string, open: boolean) => void;
     reset: () => void;
 }

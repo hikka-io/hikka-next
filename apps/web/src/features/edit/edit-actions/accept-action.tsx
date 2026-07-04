@@ -22,9 +22,8 @@ const AcceptAction: FC<Props> = ({ edit }) => {
         onSuccess: () => {
             invalidateEditDetail(queryClient, edit.edit_id);
             invalidateEdits(queryClient);
-            // An accepted edit mutates the underlying content — refresh it.
-            // Source the slug from the loaded edit, not the mutation response
-            // (which may not populate `content`).
+            // Accepting mutates the underlying content. Slug from the loaded
+            // edit, not the response (which may not populate `content`).
             invalidateContentBySlug(queryClient, edit.content.slug);
         },
     });

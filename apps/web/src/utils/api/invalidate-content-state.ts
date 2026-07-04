@@ -102,17 +102,15 @@ export type InvalidateOptions = {
     refetch?: boolean;
 };
 
-/** Map our `refetch` flag onto TanStack's `refetchType`. */
 function refetchTypeFor(options?: InvalidateOptions): 'none' | undefined {
     return options?.refetch === false ? 'none' : undefined;
 }
 
 /**
  * Invalidate every cached query whose generated `_id` is in `ids`, plus any
- * query the optional `extraMatch` predicate accepts (OR-combined). This is the
- * shared replacement for the old `@hikka/react` `createMutation`
- * `invalidateQueries` mechanism — call it (or one of the named helpers below)
- * from a mutation `onSuccess` instead of hand-rolling a `predicate`.
+ * query the optional `extraMatch` predicate accepts (OR-combined). Call it (or
+ * a named helper below) from a mutation `onSuccess` instead of hand-rolling a
+ * `predicate`.
  */
 export function invalidateByIds(
     queryClient: QueryClient,
@@ -426,8 +424,7 @@ export function invalidateFavourites(
 /**
  * Invalidate everything a follow/unfollow can change: follow lists/stats, the
  * personalised feed, the article/collection feeds (which order by followed
- * authors), and the target user's profile (`is_followed`). Mirrors the old
- * `useCreateFollow`/`useDeleteFollow` invalidation set.
+ * authors), and the target user's profile (`is_followed`).
  */
 export function invalidateFollow(
     queryClient: QueryClient,
