@@ -3,9 +3,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Bind the `dark:` variant to the `.dark` class (the app toggles theme via that
-   class). Without this, Tailwind v4 defaults `dark:` to prefers-color-scheme, so
-   dark utilities leak into the light theme on dark-preference systems. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* Safelist inline */
@@ -733,8 +730,6 @@
 }
 
 :root {
-    /* Canvas sits just below the white card/popover surfaces so elevated
-       surfaces read against it (paired with --shadow-card below). */
     --background: oklch(1 0 0);
     --foreground: oklch(0.142 0.004 286);
 
@@ -744,11 +739,6 @@
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.142 0.004 286);
 
-    /* Brand — the single knob. The concrete primary trio here is the
-       fallback for browsers without relative-color syntax; the @supports
-       block below re-derives the trio from --brand. The foreground is
-       darkened vs the brand so text/links on the light primary fill and on
-       the page reach WCAG AA. */
     --brand: oklch(0.7 0.18 343);
     --primary: oklch(0.949 0.035 339);
     --primary-foreground: oklch(0.5 0.17 343);
@@ -768,21 +758,17 @@
     --ring: oklch(0.708 0.01 286);
     --radius: 0.625rem;
 
-    /* Soft elevation shadow for cards/panels — the light theme's depth cue
-       (overridden to none in .dark, which elevates via lightness instead). */
+    /* Soft elevation shadow for cards/panels */
     --shadow-card:
         0 1px 3px oklch(0.3 0.03 286 / 0.08),
         0 1px 2px oklch(0.3 0.03 286 / 0.05);
 
     /* Translucent surface fills, derived from the overridable --card/--muted
-       tokens so user surface overrides retint every panel automatically. The
-       .surface* utilities consume these. */
+       tokens */
     --surface: color-mix(in oklab, var(--card) 88%, transparent);
     --surface-inset: color-mix(in oklab, var(--muted) 60%, transparent);
 
-    /* Backdrop derivation constants (light = faint brand-tinted wash). High
-       lightness keeps it soft on the white surface; the reduced chroma carries
-       the hue so the glow color/brand is visible in light theme too. */
+    /* Backdrop derivation constants */
     --backdrop-l: 0.95;
     --backdrop-c: 0.4;
 
@@ -972,10 +958,7 @@
     --watching-foreground: var(--ongoing-foreground);
 }
 
-/* Brand-derived primary trio. When relative-color syntax is supported, the
-   primary tint/text/border are generated from the single --brand color, so
-   changing --brand (default or user-injected) re-themes the whole accent.
-   Browsers without support keep the concrete fallback trio defined above. */
+/* Brand-derived primary trio */
 @supports (color: oklch(from red l c h)) {
     :root:root {
         --primary: oklch(from var(--brand) 0.95 calc(c * 0.19) h);
@@ -990,11 +973,7 @@
     }
 }
 
-/* Ambient page backdrop — a glow anchored to the top, gated by the
-   [data-backdrop] attribute on <html>. The hue follows --backdrop-color when
-   the user picks one, otherwise falls back to the brand accent. Strength is the
-   user's manual --backdrop-intensity multiplied by a cover-aware scale: pages
-   with a cover dim the glow so the artwork underneath stays visible. */
+
 [data-backdrop="glow"]::before {
     content: "";
     position: absolute;
@@ -1021,9 +1000,11 @@
     --backdrop-cover-scale: 0.25;
 }
 
-/* react-colorful (brand color picker) — fill the popover width and follow the
-   app's --radius so the picker matches the rest of the UI. Doubled selectors
-   raise specificity above react-colorful's own injected stylesheet. */
+
+[data-backdrop="glow"]:has([data-cover-image][data-overlay="false"])::before {
+    --backdrop-cover-scale: 0;
+}
+
 .react-colorful.react-colorful {
     width: 100%;
     height: 11rem;
