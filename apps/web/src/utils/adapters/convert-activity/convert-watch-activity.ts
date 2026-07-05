@@ -3,6 +3,12 @@ import { HistoryTypeEnum, type WatchStatusEnum } from '@hikka/api';
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 
+import {
+    convertScore,
+    convertStatus,
+    TIMES_DECLENSION,
+} from './convert-shared';
+
 // Local narrowing for the loose `HistoryResponse.data` (`{ [key]: unknown }`)
 // in @hikka/api. Field shapes match the API history payloads.
 type HistoryWatchData = {
@@ -26,39 +32,6 @@ const EPISODES_DECLENSION: [string, string, string] = [
     'епізоди',
     'епізодів',
 ];
-const TIMES_DECLENSION: [string, string, string] = ['раз', 'рази', 'разів'];
-
-export const convertStatus = (
-    before: WatchStatusEnum | null,
-    after: WatchStatusEnum | null,
-) => {
-    if (before === null && after) {
-        return `${WATCH_STATUS[after].title_ua}`;
-    }
-
-    if (before !== null && after) {
-        return `Змінено на список **${WATCH_STATUS[after].title_ua}**`;
-    }
-
-    if (before && after === null) {
-        return 'Видалено зі списоку';
-    }
-};
-
-export const convertScore = (before: number | null, after: number | null) => {
-    if (before === null && after !== null) {
-        return `Оцінено на **${after}**`;
-    }
-
-    if (before !== null && after !== null) {
-        if (before === after || before === 0) {
-            return `Оцінено на **${after}**`;
-        }
-
-        return `Змінено оцінку з **${before}** на **${after}**`;
-    }
-};
-
 export const convertEpisodes = (
     before: number | null,
     after: number | null,
@@ -104,7 +77,9 @@ export const createWatchEvents = (
     }
 
     if (data?.before?.status || data?.after?.status) {
-        events.push(convertStatus(data.before.status, data.after.status));
+        events.push(
+            convertStatus(data.before.status, data.after.status, WATCH_STATUS),
+        );
     }
 
     if (data?.before?.episodes || data?.after?.episodes) {

@@ -3,6 +3,12 @@ import type { HistoryTypeEnum, ReadStatusEnum } from '@hikka/api';
 import { READ_STATUS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 
+import {
+    convertScore,
+    convertStatus,
+    TIMES_DECLENSION,
+} from './convert-shared';
+
 // Local narrowing for the loose `HistoryResponse.data` (`{ [key]: unknown }`)
 // in @hikka/api. Field shapes match the API history payloads.
 type HistoryReadData = {
@@ -29,38 +35,6 @@ const CHAPTERS_DECLENSION: [string, string, string] = [
     'розділів',
 ];
 const VOLUMES_DECLENSION: [string, string, string] = ['том', 'томи', 'томів'];
-const TIMES_DECLENSION: [string, string, string] = ['раз', 'рази', 'разів'];
-
-export const convertStatus = (
-    before: ReadStatusEnum | null,
-    after: ReadStatusEnum | null,
-) => {
-    if (before === null && after) {
-        return `${READ_STATUS[after].title_ua}`;
-    }
-
-    if (before !== null && after) {
-        return `Змінено на список **${READ_STATUS[after].title_ua}**`;
-    }
-
-    if (before && after === null) {
-        return 'Видалено зі списоку';
-    }
-};
-
-export const convertScore = (before: number | null, after: number | null) => {
-    if (before === null && after !== null) {
-        return `Оцінено на **${after}**`;
-    }
-
-    if (before !== null && after !== null) {
-        if (before === after || before === 0) {
-            return `Оцінено на **${after}**`;
-        }
-
-        return `Змінено оцінку з **${before}** на **${after}**`;
-    }
-};
 
 export const convertChapters = (
     before: number | null,
@@ -128,7 +102,9 @@ export const createReadEvents = (
     }
 
     if (data?.before?.status || data?.after?.status) {
-        events.push(convertStatus(data.before.status, data.after.status));
+        events.push(
+            convertStatus(data.before.status, data.after.status, READ_STATUS),
+        );
     }
 
     if (data?.before?.chapters || data?.after?.chapters) {
