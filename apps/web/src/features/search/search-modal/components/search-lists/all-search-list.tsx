@@ -18,11 +18,7 @@ import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useRouter } from '@/utils/navigation';
 
 import type { SearchContent } from '../../types';
-import AnimeCard from '../cards/anime-card';
-import CharacterCard from '../cards/character-card';
-import MangaCard from '../cards/manga-card';
-import NovelCard from '../cards/novel-card';
-import PersonCard from '../cards/person-card';
+import SearchCard from '../cards/search-card';
 import SearchPlaceholders from '../search-placeholders';
 import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
@@ -185,9 +181,10 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
                 onSelect={(item) => handleSelect(item, ContentTypeEnum.ANIME)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.ANIME)}
                 renderCard={(item) => (
-                    <AnimeCard
+                    <SearchCard
                         onClick={() => onDismiss(item)}
-                        anime={item}
+                        content={item}
+                        contentType="anime"
                         type={type}
                     />
                 )}
@@ -200,9 +197,10 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
                 onSelect={(item) => handleSelect(item, ContentTypeEnum.MANGA)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.MANGA)}
                 renderCard={(item) => (
-                    <MangaCard
+                    <SearchCard
                         onClick={() => onDismiss(item)}
-                        manga={item}
+                        content={item}
+                        contentType="manga"
                         type={type}
                     />
                 )}
@@ -215,9 +213,10 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
                 onSelect={(item) => handleSelect(item, ContentTypeEnum.NOVEL)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.NOVEL)}
                 renderCard={(item) => (
-                    <NovelCard
+                    <SearchCard
                         onClick={() => onDismiss(item)}
-                        novel={item}
+                        content={item}
+                        contentType="novel"
                         type={type}
                     />
                 )}
@@ -232,9 +231,10 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
                 }
                 onNavigate={() => handleNavigate(ContentTypeEnum.CHARACTER)}
                 renderCard={(item) => (
-                    <CharacterCard
+                    <SearchCard
                         onClick={() => onDismiss(item)}
-                        character={item}
+                        content={item}
+                        contentType="character"
                         type={type}
                     />
                 )}
@@ -247,9 +247,10 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
                 onSelect={(item) => handleSelect(item, ContentTypeEnum.PERSON)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.PERSON)}
                 renderCard={(item) => (
-                    <PersonCard
+                    <SearchCard
                         onClick={() => onDismiss(item)}
-                        person={item}
+                        content={item}
+                        contentType="person"
                         type={type}
                     />
                 )}

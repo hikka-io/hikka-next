@@ -17,11 +17,7 @@ import useDebounce from '@/services/hooks/use-debounce';
 
 import SearchButton from './components/search-button';
 import AllSearchList from './components/search-lists/all-search-list';
-import AnimeSearchList from './components/search-lists/anime-search-list';
-import CharacterSearchList from './components/search-lists/character-search-list';
-import MangaSearchList from './components/search-lists/manga-search-list';
-import NovelSearchList from './components/search-lists/novel-search-list';
-import PersonSearchList from './components/search-lists/person-search-list';
+import EntitySearchList from './components/search-lists/entity-search-list';
 import UserSearchList from './components/search-lists/user-search-list';
 import SearchToggle from './components/search-toggle';
 import useSearchModal from './hooks/use-search-modal';
@@ -130,40 +126,13 @@ const SearchModal: FC<Props> = ({
                     />
                 )}
 
-                {searchType === 'anime' && (
-                    <AnimeSearchList
-                        onDismiss={onDismiss}
-                        value={value}
-                        type={type}
-                    />
-                )}
-
-                {searchType === 'manga' && (
-                    <MangaSearchList
-                        onDismiss={onDismiss}
-                        value={value}
-                        type={type}
-                    />
-                )}
-
-                {searchType === 'novel' && (
-                    <NovelSearchList
-                        onDismiss={onDismiss}
-                        value={value}
-                        type={type}
-                    />
-                )}
-
-                {searchType === 'character' && (
-                    <CharacterSearchList
-                        onDismiss={onDismiss}
-                        value={value}
-                        type={type}
-                    />
-                )}
-
-                {searchType === 'person' && (
-                    <PersonSearchList
+                {(searchType === 'anime' ||
+                    searchType === 'manga' ||
+                    searchType === 'novel' ||
+                    searchType === 'character' ||
+                    searchType === 'person') && (
+                    <EntitySearchList
+                        contentType={searchType}
                         onDismiss={onDismiss}
                         value={value}
                         type={type}

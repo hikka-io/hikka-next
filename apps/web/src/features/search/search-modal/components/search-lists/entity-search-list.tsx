@@ -1,8 +1,11 @@
 import { useCallback } from 'react';
 
 import {
-    type CharacterResponse,
+    searchAnimeInfiniteOptions,
     searchCharactersInfiniteOptions,
+    searchMangaInfiniteOptions,
+    searchNovelInfiniteOptions,
+    searchPeopleInfiniteOptions,
 } from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
@@ -10,29 +13,58 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 
-import CharacterCard from '../cards/character-card';
+import type { SearchContent } from '../../types';
+import SearchCard, { type SearchCardType } from '../cards/search-card';
 import SearchPlaceholders from '../search-placeholders';
 import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
+type OptionsFn = typeof searchAnimeInfiniteOptions;
+
+const LIST_CONFIG: Record<
+    SearchCardType,
+    { options: OptionsFn; href: string }
+> = {
+    anime: { options: searchAnimeInfiniteOptions, href: '/anime' },
+    manga: {
+        options: searchMangaInfiniteOptions as unknown as OptionsFn,
+        href: '/manga',
+    },
+    novel: {
+        options: searchNovelInfiniteOptions as unknown as OptionsFn,
+        href: '/novel',
+    },
+    character: {
+        options: searchCharactersInfiniteOptions as unknown as OptionsFn,
+        href: '/characters',
+    },
+    person: {
+        options: searchPeopleInfiniteOptions as unknown as OptionsFn,
+        href: '/people',
+    },
+};
+
 type Props = {
-    onDismiss: (character: CharacterResponse) => void;
+    contentType: SearchCardType;
+    onDismiss: (content: SearchContent) => void;
     type?: 'link' | 'button';
     value?: string;
 };
 
-const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
+const EntitySearchList = ({ contentType, onDismiss, type, value }: Props) => {
     const router = useRouter();
+    const config = LIST_CONFIG[contentType];
 
     const handleSelect = useCallback(
-        (character: CharacterResponse) => {
-            onDismiss(character);
+        (item: SearchContent) => {
+            onDismiss(item);
 
             if (type !== 'button') {
-                router.push(`/characters/${character.slug}`);
+                router.push(`${config.href}/${item.slug}`);
             }
         },
-        [onDismiss, router, type],
+        [onDismiss, router, type, config.href],
     );
+
     const {
         list,
         isFetching,
@@ -42,7 +74,7 @@ const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
         isFetchingNextPage,
         hasNextPage,
     } = useInfiniteList(
-        searchCharactersInfiniteOptions({
+        config.options({
             body: { query: value },
             query: { size: 30 },
         }),
@@ -60,15 +92,16 @@ const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
             />
             {list && list.length > 0 && (
                 <SearchGroup>
-                    {list.map((character) => (
+                    {list.map((item) => (
                         <SearchItem
-                            key={character.slug}
-                            value={character.slug}
-                            onSelect={() => handleSelect(character)}
+                            key={item.slug}
+                            value={item.slug}
+                            onSelect={() => handleSelect(item)}
                         >
-                            <CharacterCard
-                                onClick={() => onDismiss(character)}
-                                character={character}
+                            <SearchCard
+                                onClick={() => onDismiss(item)}
+                                content={item}
+                                contentType={contentType}
                                 type={type}
                             />
                         </SearchItem>
@@ -88,4 +121,4 @@ const CharacterSearchList = ({ onDismiss, type, value }: Props) => {
     );
 };
 
-export default CharacterSearchList;
+export default EntitySearchList;
