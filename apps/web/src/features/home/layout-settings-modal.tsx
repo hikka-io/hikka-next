@@ -46,7 +46,6 @@ import {
 } from './constants';
 import { COLUMNS, groupBySide } from './utils';
 
-type UIFeedWidget = UiFeedWidget;
 type UIFeedWidgetSide = UiFeedWidget['side'];
 type UIFeedWidgetSlug = UiFeedWidget['slug'];
 
@@ -118,7 +117,7 @@ const COLUMN_LABELS: Record<UIFeedWidgetSide, string> = {
     right: 'Права панель',
 };
 
-function derivePreset(widgets: UIFeedWidget[]): LayoutPreset {
+function derivePreset(widgets: UiFeedWidget[]): LayoutPreset {
     const sides = new Set(widgets.map((w) => w.side));
     const hasLeft = sides.has('left');
     const hasCenter = sides.has('center');
@@ -148,7 +147,7 @@ function resolveSide(
     );
 }
 
-function buildPresetWidgets(preset: LayoutPreset): UIFeedWidget[] {
+function buildPresetWidgets(preset: LayoutPreset): UiFeedWidget[] {
     const activeSides = PRESET_COLUMNS[preset];
     return ALL_WIDGET_SLUGS.map((slug) => ({
         slug,
@@ -161,8 +160,8 @@ function isColumnId(id: string | number): id is UIFeedWidgetSide {
     return COLUMNS.includes(id as UIFeedWidgetSide);
 }
 
-function reindex(widgets: UIFeedWidget[]): UIFeedWidget[] {
-    const grouped: Record<UIFeedWidgetSide, UIFeedWidget[]> = {
+function reindex(widgets: UiFeedWidget[]): UiFeedWidget[] {
+    const grouped: Record<UIFeedWidgetSide, UiFeedWidget[]> = {
         left: [],
         center: [],
         right: [],
@@ -266,7 +265,7 @@ const LayoutPresetSelector: FC<{
 // --- DnD Components ---
 
 const SortableWidgetItem: FC<{
-    widget: UIFeedWidget;
+    widget: UiFeedWidget;
     onRemove: (slug: UIFeedWidgetSlug) => void;
 }> = ({ widget, onRemove }) => {
     const {
@@ -325,7 +324,7 @@ function isSidebarTabbed(
 
 const DroppableColumn: FC<{
     side: UIFeedWidgetSide;
-    widgets: UIFeedWidget[];
+    widgets: UiFeedWidget[];
     preset: LayoutPreset;
     onRemove: (slug: UIFeedWidgetSlug) => void;
 }> = ({ side, widgets, preset, onRemove }) => {
@@ -383,7 +382,7 @@ const LayoutSettingsContent = () => {
     const { preferences } = useSessionUI();
     const { update } = useUpdateSessionUI();
 
-    const [widgets, setWidgets] = useState<UIFeedWidget[]>(
+    const [widgets, setWidgets] = useState<UiFeedWidget[]>(
         () => preferences.feed.widgets,
     );
     const [preset, setPreset] = useState<LayoutPreset>(() =>
@@ -392,7 +391,7 @@ const LayoutSettingsContent = () => {
 
     const widgetsRef = useRef(widgets);
     widgetsRef.current = widgets;
-    const preDragRef = useRef<UIFeedWidget[] | null>(null);
+    const preDragRef = useRef<UiFeedWidget[] | null>(null);
 
     const activeColumns = PRESET_COLUMNS[preset];
     const columns = groupBySide(widgets);
@@ -408,7 +407,7 @@ const LayoutSettingsContent = () => {
         }),
     );
 
-    const persist = (next: UIFeedWidget[]) => {
+    const persist = (next: UiFeedWidget[]) => {
         const reindexed = reindex(next);
         setWidgets(reindexed);
         update({ preferences: { feed: { widgets: reindexed } } });
@@ -469,7 +468,7 @@ const LayoutSettingsContent = () => {
                 (w) => w.slug !== activeId,
             );
             const dest = [...grouped[overSide]];
-            const moved: UIFeedWidget = { ...activeWidget, side: overSide };
+            const moved: UiFeedWidget = { ...activeWidget, side: overSide };
 
             if (overIsColumn) {
                 dest.push(moved);
