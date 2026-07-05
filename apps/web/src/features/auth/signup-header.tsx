@@ -1,19 +1,18 @@
 import { Link } from '@/utils/navigation';
 
+import AuthHeader from './auth-header';
+
 const SignupHeader = () => {
     return (
-        <div className="space-y-2 text-center">
-            <h1 className="font-bold text-3xl">✌️ Раді познайомитись!</h1>
-            <small className="text-muted-foreground">
-                Вже маєте аккаунт?{' '}
-                <Link
-                    to="/login"
-                    className="font-medium text-primary-foreground hover:underline"
-                >
-                    Увійдіть зараз
-                </Link>
-            </small>
-        </div>
+        <AuthHeader title="✌️ Раді познайомитись!">
+            Вже маєте аккаунт?{' '}
+            <Link
+                to="/login"
+                className="font-medium text-primary-foreground hover:underline"
+            >
+                Увійдіть зараз
+            </Link>
+        </AuthHeader>
     );
 };
 
