@@ -81,11 +81,11 @@ const DateRange = (_props: Props) => {
     };
 
     const dateRangeKey = JSON.stringify(date_range);
+    // biome-ignore lint/correctness/useExhaustiveDependencies: re-sync only when the serialized date range changes, not on new array identity
     useEffect(() => {
         setSelectingDateRange(
             date_range.length > 0 ? date_range : DEFAULT_DATE_RANGE,
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dateRangeKey]);
 
     return (

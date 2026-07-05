@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import NovelCard from '@/components/content-card/novel-card';
 import type { StackSize } from '@/components/ui/stack';

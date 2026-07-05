@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import type { StackSize } from '@/components/ui/stack';

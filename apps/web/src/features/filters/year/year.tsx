@@ -44,11 +44,11 @@ const Year: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     const yearsKey = JSON.stringify(yearsParam);
+    // biome-ignore lint/correctness/useExhaustiveDependencies: re-sync only when the serialized years change, not on new array identity
     useEffect(() => {
         setSelectingYears(
             years.length > 0 ? years : YEARS.map((y) => String(y)),
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [yearsKey]);
 
     if (date_range_enabled) {

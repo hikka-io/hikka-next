@@ -133,25 +133,6 @@ export function mergePreferences(
     };
 }
 
-/**
- * Merge two UserCustomizationResponse objects, with override taking precedence.
- */
-export function mergeUserUI(
-    base: UserCustomizationResponse | undefined,
-    override: UserCustomizationResponse | undefined,
-): UserCustomizationResponse {
-    if (!base && !override) return DEFAULT_USER_UI;
-    if (!base) return override ?? DEFAULT_USER_UI;
-    if (!override) return base;
-
-    return {
-        ...base,
-        ...override,
-        styles: mergeStyles(base.styles, override.styles),
-        preferences: mergePreferences(base.preferences, override.preferences),
-    };
-}
-
 function backdropEqual(
     a: UiBackdrop | null | undefined,
     b: UiBackdrop | null | undefined,

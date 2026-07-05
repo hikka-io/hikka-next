@@ -6,7 +6,6 @@ export { useTitle } from './hooks/use-title';
 export { useUpdateSessionUI } from './hooks/use-update-session-ui';
 export { default as LoginForm } from './login-form';
 export { default as LoginHeader } from './login-header';
-export { default as OAuthLogin } from './oauth-login';
 export { default as PasswordConfirmForm } from './password-confirm-form';
 export { default as PasswordConfirmHeader } from './password-confirm-header';
 export { default as SignupForm } from './signup-form';

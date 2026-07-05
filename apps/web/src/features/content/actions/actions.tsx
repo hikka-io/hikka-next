@@ -23,14 +23,12 @@ const Actions: FC<Props> = ({ content_type }) => {
                 {content_type === ContentTypeEnum.ANIME ? (
                     <WatchlistButton
                         disabled={!user}
-                        additional
                         slug={String(params.slug)}
                     />
                 ) : (
                     <ReadListButton
                         content_type={content_type}
                         disabled={!user}
-                        additional
                         slug={String(params.slug)}
                     />
                 )}

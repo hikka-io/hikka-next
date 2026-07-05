@@ -1,7 +1,3 @@
-import type { UiPreferencesOutput } from '@hikka/api';
-
-type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
-
 /** Event themes activated within their date ranges. */
 export const EVENT_THEMES: Hikka.EventTheme[] = [
     {
@@ -23,9 +19,4 @@ export function getActiveEventTheme(): Hikka.EventTheme | null {
     }
 
     return null;
-}
-
-export function isEventEffectActive(effect: UIEffect): boolean {
-    const activeTheme = getActiveEventTheme();
-    return activeTheme?.effects?.includes(effect) ?? false;
 }

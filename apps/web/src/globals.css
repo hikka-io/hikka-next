@@ -165,7 +165,7 @@
 }
 
 @utility grid-min-9 {
-    --grid-min: 8rem;
+    --grid-min: 9rem;
 }
 
 @utility grid-min-10 {
@@ -206,14 +206,6 @@
 }
 
 /* Other utilities */
-@utility contain-paint {
-    contain: paint;
-}
-
-@utility no-gradient {
-    background-image: none !important;
-}
-
 @utility surface {
     background-color: var(--surface);
     color: var(--card-foreground);
@@ -226,11 +218,6 @@
     background-color: var(--surface);
     color: var(--card-foreground);
     box-shadow: var(--shadow-card);
-}
-
-@utility surface-flat {
-    background-color: var(--surface);
-    color: var(--card-foreground);
 }
 
 @utility surface-inset {
@@ -1192,16 +1179,6 @@
     scrollbar-width: none;
 }
 
-@keyframes snack-progress {
-    0% {
-        height: 100%;
-    }
-
-    100% {
-        height: 0;
-    }
-}
-
 main {
     min-height: calc(100vh - 16.5rem);
 }
@@ -1221,92 +1198,8 @@ td:last-child {
     @apply rounded-r-md;
 }
 
-.radial-progress {
-    position: relative;
-    display: inline-grid;
-    height: var(--size);
-    width: var(--size);
-    place-content: center;
-    border-radius: 9999px;
-    background-color: transparent;
-    vertical-align: middle;
-    box-sizing: content-box;
-    --value: 0;
-    --size: 5rem;
-    --thickness: calc(var(--size) / 10);
-}
-
-.radial-progress::-moz-progress-bar {
-    -moz-appearance: none;
-    appearance: none;
-    background-color: transparent;
-}
-
-.radial-progress::-webkit-progress-bar,
-.radial-progress::-webkit-progress-value {
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: transparent;
-}
-
-.radial-progress:after,
-.radial-progress:before {
-    position: absolute;
-    border-radius: 9999px;
-    content: "";
-}
-
-.radial-progress:before {
-    inset: 0;
-    background:
-        radial-gradient(farthest-side, currentColor 98%, #0000) top /
-        var(--thickness) var(--thickness) no-repeat,
-        conic-gradient(currentColor calc(var(--value) * 1%), #0000 0);
-    -webkit-mask: radial-gradient(
-        farthest-side,
-        #0000 calc(99% - var(--thickness)),
-        #000 calc(100% - var(--thickness))
-    );
-    mask: radial-gradient(
-        farthest-side,
-        #0000 calc(99% - var(--thickness)),
-        #000 calc(100% - var(--thickness))
-    );
-}
-
-.radial-progress:after {
-    inset: calc(50% - var(--thickness) / 2);
-    transform: rotate(calc(var(--value) * 3.6deg - 90deg))
-        translate(calc(var(--size) / 2 - 50%));
-    background-color: currentColor;
-}
-
-.progress-ring__circle {
-    transition: stroke-dasharray 0.35s;
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-}
-
-._placeholder_1qea1_1049 {
-    @apply text-muted-foreground;
-}
-
-.unexpanded-text {
-    mask-image: linear-gradient(to bottom, white 50%, transparent);
-}
-
-.spoiler-blur-md {
-    @apply blur-md transition-all duration-500 hover:blur-none;
-}
-
 .spoiler-blur-sm {
     @apply blur-xs transition-all duration-500 hover:blur-none;
-}
-
-@layer base {
-    body {
-        @apply bg-background text-foreground;
-    }
 }
 
 /*

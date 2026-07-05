@@ -18,7 +18,6 @@ export const useWatchList = (options?: { enabled?: boolean }) => {
     const params = useParams();
 
     const watchStatus = search.status;
-    const _view = search.view || 'table';
 
     const media_type = (search.types ?? []) as AnimeMediaEnum[];
     const status = (search.statuses ?? []) as AnimeStatusEnum[];

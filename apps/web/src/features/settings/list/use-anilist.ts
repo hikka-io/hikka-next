@@ -88,32 +88,6 @@ export interface Response {
     };
 }
 
-export interface MALEntry {
-    series_animedb_id: number;
-    series_title: string;
-    series_type: string;
-    series_episodes: number;
-    my_id: number;
-    my_watched_episodes: number;
-    my_start_date: string;
-    my_finish_date: string;
-    my_rated: Record<string, any>;
-    my_score: number;
-    my_storage: Record<string, any>;
-    my_storage_value: number;
-    my_status: string;
-    my_comments: string | Record<string, any>;
-    my_times_watched: number;
-    my_rewatch_value: Record<string, any>;
-    my_priority: string;
-    my_tags: Record<string, any>;
-    my_rewatching: number;
-    my_rewatching_ep: number;
-    my_discuss: number;
-    my_sns: string;
-    update_on_import: number;
-}
-
 const ANILIST_QUERY = `
     query($userId:Int,$userName:String,$type:MediaType){
         MediaListCollection(userId:$userId,userName:$userName,type:$type){

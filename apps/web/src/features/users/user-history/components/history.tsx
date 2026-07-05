@@ -1,4 +1,4 @@
-import { type FC, Fragment } from 'react';
+import { Fragment } from 'react';
 
 import { userHistoryInfiniteOptions } from '@hikka/api';
 
@@ -12,11 +12,7 @@ import Stack from '@/components/ui/stack';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
-type Props = {
-    className?: string;
-};
-
-const History: FC<Props> = ({ className }) => {
+const History = () => {
     const params = useParams();
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
         useInfiniteList(

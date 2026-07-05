@@ -44,7 +44,6 @@ import ReadStatusTrigger from './components/read-status-trigger';
 
 type Props = {
     slug: string;
-    additional?: boolean;
     disabled?: boolean;
     content_type: ReadContentTypeEnum;
     read?: ReadResponseBase | null;

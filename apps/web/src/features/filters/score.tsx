@@ -34,11 +34,11 @@ const Score: FC<Props> = ({ score_type }) => {
     const handleChangeParam = useChangeParam();
 
     const scoresKey = JSON.stringify(scores);
+    // biome-ignore lint/correctness/useExhaustiveDependencies: re-sync only when the serialized scores change, not on new array identity
     useEffect(() => {
         setSelectingScores(
             scores.length > 0 ? scores : [DEFAULT_SCORE_MIN, DEFAULT_SCORE_MAX],
         );
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scoresKey]);
 
     return (

@@ -5,11 +5,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
-type Props = {
-    className?: string;
-};
-
-const HistoryModal = ({ className }: Props) => {
+const HistoryModal = () => {
     const params = useParams();
 
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =

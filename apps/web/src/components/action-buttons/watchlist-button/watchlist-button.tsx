@@ -40,7 +40,6 @@ import WatchStatusTrigger from './components/watch-status-trigger';
 
 type Props = {
     slug: string;
-    additional?: boolean;
     disabled?: boolean;
     watch?: WatchResponseBase | null;
     anime?: AnimeResponse;

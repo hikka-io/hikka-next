@@ -112,18 +112,6 @@ export const USER_NAV_ROUTES: Hikka.NavRoute[] = [
     },
 ];
 
-export const EDIT_NAV_ROUTES: Hikka.NavRoute[] = [
-    {
-        slug: 'general',
-        title_ua: 'Загальне',
-        url: '',
-    },
-    {
-        slug: 'content',
-        title_ua: 'Контент',
-        url: '/content',
-    },
-];
 export const NOVEL_NAV_ROUTES: Hikka.NavRoute[] = [
     {
         slug: 'general',

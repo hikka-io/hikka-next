@@ -4,7 +4,6 @@ export { default as CharacterCard } from './character-card';
 export { default as CollectionItem } from './collection-item';
 export type { ContentCardProps } from './content-card';
 export { default as ContentCard } from './content-card';
-export { default as ContentCardSkeleton } from './content-card-skeleton';
 export { default as HistoryItem } from './history-item';
 export { default as MangaCard } from './manga-card';
 export { default as NovelCard } from './novel-card';

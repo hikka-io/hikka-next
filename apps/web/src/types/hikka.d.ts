@@ -36,11 +36,6 @@ declare global {
             linkProps?: Record<string, any>;
         };
 
-        type EditParamGroup = {
-            title: string;
-            slug: string;
-        };
-
         type EditParamType = 'input' | 'markdown' | 'list';
 
         type EditParam = {
@@ -134,14 +129,6 @@ declare global {
             icon?: ReactNode;
             color?: string;
             name?: string;
-        };
-
-        type QueryOptions = {
-            enabled?: boolean;
-            staleTime?: number;
-            gcTime?: number;
-            refetchOnWindowFocus?: boolean;
-            initialData?: undefined;
         };
 
         type View = 'table' | 'grid' | 'list';

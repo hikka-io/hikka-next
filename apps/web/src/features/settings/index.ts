@@ -13,6 +13,5 @@ export { default as SettingsMenu } from './menu';
 export { default as NotificationsSettings } from './notifications';
 export { default as PasswordSettings } from './password';
 export { default as Preferences } from './preferences';
-export { default as ProfilePrivacy } from './privacy';
 export { default as Styles, StylesResetButton } from './styles';
 export { default as ProfileUsername } from './username';

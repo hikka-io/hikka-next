@@ -3,7 +3,6 @@ export {
     createServerHikkaClient,
     makeCookieHeader,
 } from './headers';
-export { parseCookies } from './parse';
 export {
     getAuthTokenFn,
     getThemeCookieFn,

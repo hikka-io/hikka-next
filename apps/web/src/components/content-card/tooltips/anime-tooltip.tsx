@@ -70,7 +70,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
             }
             actionButton={
                 loggedUser ? (
-                    <WatchlistButton watch={watch} slug={slug} additional />
+                    <WatchlistButton watch={watch} slug={slug} />
                 ) : undefined
             }
         />

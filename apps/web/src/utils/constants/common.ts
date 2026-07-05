@@ -34,24 +34,6 @@ export const COMMENT_DECLENSIONS: [string, string, string] = [
     'коментарів',
 ];
 
-export const EDIT_DECLENSIONS: [string, string, string] = [
-    'правка',
-    'правки',
-    'правок',
-];
-
-export const COLLECTION_DECLENSIONS: [string, string, string] = [
-    'колекція',
-    'колекції',
-    'колекцій',
-];
-
-export const ARTICLE_DECLENSIONS: [string, string, string] = [
-    'стаття',
-    'статті',
-    'статтей',
-];
-
 export const MIN_SEARCH_LENGTH = 2;
 
 export const MAX_COMMENT_DEPTH = 5;
