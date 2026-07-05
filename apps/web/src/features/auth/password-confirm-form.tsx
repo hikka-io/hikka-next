@@ -1,21 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import {
-    authInfoQueryKey,
-    passwordResetMutation,
-    profileQueryKey,
-    setAuthToken,
-} from '@hikka/api';
+import { passwordResetMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import Spinner from '@/components/ui/spinner';
-import { setAuthCookieFn } from '@/utils/auth';
 import { z } from '@/utils/i18n/zod';
 import { useParams, useRouter } from '@/utils/navigation';
 
+import { handleAuthSuccess } from './handle-auth-success';
 import PasswordInput from './password-input';
 
 const formSchema = z
@@ -38,18 +33,7 @@ const PasswordConfirmForm = () => {
     const mutationConfirmPasswordReset = useMutation({
         ...passwordResetMutation(),
         onSuccess: async (data) => {
-            await setAuthCookieFn({
-                data: { secret: data.secret },
-            });
-            setAuthToken(data.secret);
-            await Promise.all([
-                queryClient.invalidateQueries({
-                    queryKey: profileQueryKey(),
-                }),
-                queryClient.invalidateQueries({
-                    queryKey: authInfoQueryKey(),
-                }),
-            ]);
+            await handleAuthSuccess(data.secret, queryClient);
             form.reset();
             router.push('/');
             toast.success('Ви успішно змінили Ваш пароль.');

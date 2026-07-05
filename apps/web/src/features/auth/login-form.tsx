@@ -1,14 +1,7 @@
-import { useRef } from 'react';
-
-import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import {
-    authInfoQueryKey,
-    loginMutation,
-    profileQueryKey,
-    setAuthToken,
-} from '@hikka/api';
+import { loginMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -16,12 +9,12 @@ import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-import { setAuthCookieFn } from '@/utils/auth';
-import { getCaptchaToken } from '@/utils/captcha';
 import { z } from '@/utils/i18n/zod';
 import { Link, useRouter } from '@/utils/navigation';
 import { validateRedirectUrl } from '@/utils/url';
 
+import { handleAuthSuccess } from './handle-auth-success';
+import { CAPTCHA_SITE_KEY, useCaptcha } from './hooks/use-captcha';
 import OAuthLogin from './oauth-login';
 import PasswordInput from './password-input';
 
@@ -36,7 +29,7 @@ const LoginForm = () => {
     const { callbackUrl: callbackUrlParam } = useFilterSearch<{
         callbackUrl?: string;
     }>();
-    const captchaRef = useRef<TurnstileInstance>(undefined);
+    const { captchaRef, getToken, reset } = useCaptcha();
     const router = useRouter();
 
     const callbackUrl = callbackUrlParam ?? '/';
@@ -44,23 +37,12 @@ const LoginForm = () => {
     const mutationLogin = useMutation({
         ...loginMutation(),
         onSuccess: async (data) => {
-            await setAuthCookieFn({
-                data: { secret: data.secret },
-            });
-            setAuthToken(data.secret);
-            await Promise.all([
-                queryClient.invalidateQueries({
-                    queryKey: profileQueryKey(),
-                }),
-                queryClient.invalidateQueries({
-                    queryKey: authInfoQueryKey(),
-                }),
-            ]);
+            await handleAuthSuccess(data.secret, queryClient);
             form.reset();
             router.push(validateRedirectUrl(callbackUrl));
         },
         onError: () => {
-            captchaRef.current?.reset();
+            reset();
         },
     });
 
@@ -81,7 +63,7 @@ const LoginForm = () => {
             mutationLogin.mutate({
                 body,
                 headers: {
-                    captcha: getCaptchaToken(captchaRef.current),
+                    captcha: getToken(),
                 },
             });
         },
@@ -142,7 +124,7 @@ const LoginForm = () => {
                 )}
             />
 
-            <Turnstile ref={captchaRef} siteKey="0x4AAAAAAANXs8kaCqjo_FLF" />
+            <Turnstile ref={captchaRef} siteKey={CAPTCHA_SITE_KEY} />
 
             <Button
                 type="submit"

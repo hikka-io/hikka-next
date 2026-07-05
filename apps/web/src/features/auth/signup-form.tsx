@@ -1,26 +1,19 @@
-import { useRef } from 'react';
-
-import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import {
-    authInfoQueryKey,
-    profileQueryKey,
-    setAuthToken,
-    signupMutation,
-} from '@hikka/api';
+import { signupMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
-import { setAuthCookieFn } from '@/utils/auth';
-import { getCaptchaToken } from '@/utils/captcha';
 import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
 
+import { handleAuthSuccess } from './handle-auth-success';
+import { CAPTCHA_SITE_KEY, useCaptcha } from './hooks/use-captcha';
 import OAuthLogin from './oauth-login';
 import PasswordInput from './password-input';
 
@@ -38,24 +31,13 @@ const formSchema = z
 
 const SignupForm = () => {
     const queryClient = useQueryClient();
-    const captchaRef = useRef<TurnstileInstance>(undefined);
+    const { captchaRef, getToken, reset } = useCaptcha();
     const router = useRouter();
 
     const mutationSignup = useMutation({
         ...signupMutation(),
         onSuccess: async (data) => {
-            await setAuthCookieFn({
-                data: { secret: data.secret },
-            });
-            setAuthToken(data.secret);
-            await Promise.all([
-                queryClient.invalidateQueries({
-                    queryKey: profileQueryKey(),
-                }),
-                queryClient.invalidateQueries({
-                    queryKey: authInfoQueryKey(),
-                }),
-            ]);
+            await handleAuthSuccess(data.secret, queryClient);
 
             toast.success(
                 <span>
@@ -70,7 +52,7 @@ const SignupForm = () => {
             router.push('/');
         },
         onError: () => {
-            captchaRef.current?.reset();
+            reset();
         },
     });
 
@@ -90,7 +72,7 @@ const SignupForm = () => {
                     username: value.username,
                 },
                 headers: {
-                    captcha: getCaptchaToken(captchaRef.current),
+                    captcha: getToken(),
                 },
             });
         },
@@ -179,7 +161,7 @@ const SignupForm = () => {
                 )}
             />
 
-            <Turnstile ref={captchaRef} siteKey="0x4AAAAAAANXs8kaCqjo_FLF" />
+            <Turnstile ref={captchaRef} siteKey={CAPTCHA_SITE_KEY} />
 
             <Button
                 type="submit"
