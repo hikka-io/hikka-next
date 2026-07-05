@@ -1,8 +1,7 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Eye, EyeOff } from 'lucide-react';
 
 import {
     authInfoQueryKey,
@@ -24,6 +23,7 @@ import { Link, useRouter } from '@/utils/navigation';
 import { validateRedirectUrl } from '@/utils/url';
 
 import OAuthLogin from './oauth-login';
+import PasswordInput from './password-input';
 
 const formSchema = z.object({
     identifier: z.string().min(5),
@@ -38,7 +38,6 @@ const LoginForm = () => {
     }>();
     const captchaRef = useRef<TurnstileInstance>(undefined);
     const router = useRouter();
-    const [showPassword, setShowPassword] = useState(false);
 
     const callbackUrl = callbackUrlParam ?? '/';
 
@@ -131,31 +130,13 @@ const LoginForm = () => {
                             </Link>
                         </div>
 
-                        <div className="relative">
-                            <Input
-                                id={field.name}
-                                type={showPassword ? 'text' : 'password'}
-                                placeholder="Введіть ваш пароль"
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                    field.handleChange(e.target.value)
-                                }
-                            />
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon-sm"
-                                className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                {showPassword ? (
-                                    <EyeOff className="size-4" />
-                                ) : (
-                                    <Eye className="size-4" />
-                                )}
-                            </Button>
-                        </div>
+                        <PasswordInput
+                            id={field.name}
+                            placeholder="Введіть ваш пароль"
+                            value={field.state.value}
+                            onBlur={field.handleBlur}
+                            onChange={field.handleChange}
+                        />
                         <FieldError errors={field.state.meta.errors} />
                     </Field>
                 )}
