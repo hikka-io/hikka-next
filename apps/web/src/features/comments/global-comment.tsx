@@ -62,6 +62,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                 <MDViewer
                     className="wrap-break-word line-clamp-2 text-sm"
                     preview
+                    spoilerVariant="box"
                 >
                     {comment.text}
                 </MDViewer>

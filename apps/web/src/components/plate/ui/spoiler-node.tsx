@@ -1,3 +1,4 @@
+import { EyeOff } from 'lucide-react';
 import type { PlateElementProps } from 'platejs/react';
 import { PlateElement } from 'platejs/react';
 
@@ -8,11 +9,18 @@ export function SpoilerElement(props: PlateElementProps) {
         <PlateElement
             as="div"
             className={cn(
-                'rounded-md border border-border surface-inset p-2',
+                'relative rounded-md border border-dashed border-border surface-inset p-2 pt-6',
                 'spoiler',
             )}
             {...props}
         >
+            <span
+                contentEditable={false}
+                className="absolute left-2 top-1 inline-flex items-center gap-1 text-xs font-medium text-muted-foreground select-none"
+            >
+                <EyeOff className="size-3" />
+                Спойлер
+            </span>
             {props.children}
         </PlateElement>
     );

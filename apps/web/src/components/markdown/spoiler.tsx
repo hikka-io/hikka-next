@@ -1,14 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
-import { ChevronsUpDown } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from '@/components/ui/collapsible';
-import { cn } from '@/utils/cn';
+import SpoilerReveal from './spoiler-reveal';
 
 type Props = {
     children: ReactNode;
@@ -16,18 +8,7 @@ type Props = {
 };
 
 const Spoiler: FC<Props> = ({ children, className }) => {
-    return (
-        <Collapsible className={cn('spoiler w-full space-y-2', className)}>
-            <CollapsibleTrigger asChild>
-                <Button variant="secondary" size="badge">
-                    Спойлер <ChevronsUpDown className="size-3" />
-                </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="rounded-md border border-border surface-inset p-2">
-                {children}
-            </CollapsibleContent>
-        </Collapsible>
-    );
+    return <SpoilerReveal className={className}>{children}</SpoilerReveal>;
 };
 
 export default Spoiler;
