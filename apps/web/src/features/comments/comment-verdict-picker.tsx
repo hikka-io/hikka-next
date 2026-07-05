@@ -49,7 +49,7 @@ const CommentVerdictPicker: FC<Props> = ({
     return (
         <div
             className={cn(
-                'flex flex-col gap-2 border-border border-t bg-feed-review/5 px-2 py-2',
+                'surface-solid flex flex-col gap-2 border-t px-3 py-3',
                 className,
             )}
         >

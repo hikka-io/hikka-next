@@ -126,7 +126,7 @@ const CommentInputBottomBar: FC<Props> = ({
         if (isEdit) {
             mutateEditComment({
                 path: {
-                    comment_reference: comment!.reference,
+                    comment_reference: comment?.reference,
                 },
                 body: {
                     text,
@@ -165,17 +165,16 @@ const CommentInputBottomBar: FC<Props> = ({
                     <Button
                         type="button"
                         onClick={handleCancel}
-                        size="sm"
+                        size="icon-sm"
                         variant="outline"
                         className="h-10 md:h-8"
                     >
                         <Minimize2 />
-                        <span className="hidden md:inline">Скасувати</span>
                     </Button>
                 )}
 
                 {showReviewToggle && (
-                    <FieldLabel className="h-10 w-fit! cursor-pointer whitespace-nowrap md:h-8 *:data-[slot=field]:h-full *:data-[slot=field]:items-center *:data-[slot=field]:px-2.5 *:data-[slot=field]:py-0">
+                    <FieldLabel className="h-10 w-fit! cursor-pointer whitespace-nowrap *:data-[slot=field]:h-full *:data-[slot=field]:items-center *:data-[slot=field]:px-2.5 *:data-[slot=field]:py-0 md:h-8">
                         <Field orientation="horizontal">
                             <Checkbox
                                 checked={isReview}
