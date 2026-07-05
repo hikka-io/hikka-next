@@ -101,7 +101,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
             id={comment.reference}
         >
             <div className="flex gap-4">
-                <div className="relative w-10 shrink-0">
+                <div className="relative isolate w-10 shrink-0">
                     <HorizontalCardImage
                         className="relative z-10 w-10"
                         image={comment.author.avatar}
