@@ -13,6 +13,7 @@ type Props = {
     comments: CommentResponse[];
     slug: string;
     content_type: CommentsContentType;
+    contentTitle?: string;
     nested?: boolean;
     onToggleThread?: () => void;
 };
@@ -21,6 +22,7 @@ const Comments: FC<Props> = ({
     comments,
     slug,
     content_type,
+    contentTitle,
     nested,
     onToggleThread,
 }) => {
@@ -32,6 +34,7 @@ const Comments: FC<Props> = ({
                         <Comment
                             slug={slug}
                             content_type={content_type}
+                            contentTitle={contentTitle}
                             comment={comment}
                             key={comment.reference}
                         />
@@ -72,6 +75,7 @@ const Comments: FC<Props> = ({
                         <Comment
                             slug={slug}
                             content_type={content_type}
+                            contentTitle={contentTitle}
                             comment={comment}
                         />
                     </div>

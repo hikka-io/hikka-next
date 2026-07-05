@@ -15,11 +15,16 @@ import { useMarkdownEditor } from '@/components/plate/editor/markdown-editor-kit
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
 import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import Spinner from '@/components/ui/spinner';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
 import { MAX_COMMENT_DEPTH } from '@/utils/constants/common';
 import { removeEmptyTextNodes } from '@/utils/plate';
+
+import type { Verdict } from './utils/review';
+import { toReviewArgs } from './utils/review';
 
 type Props = {
     slug: string;
@@ -28,15 +33,22 @@ type Props = {
     className?: string;
     isEdit?: boolean;
     onClose?: () => void;
+    showReviewToggle?: boolean;
+    isReview?: boolean;
+    verdict?: Verdict | null;
+    onToggleReview?: (next: boolean) => void;
 };
 
 const CommentInputBottomBar: FC<Props> = ({
     comment,
     slug,
     content_type,
-    className,
     isEdit,
     onClose,
+    showReviewToggle,
+    isReview = false,
+    verdict = null,
+    onToggleReview,
 }) => {
     const { clearActive, addPendingReply, updatePendingReply } =
         useCommentsContext();
@@ -57,6 +69,10 @@ const CommentInputBottomBar: FC<Props> = ({
         editor.tf.reset();
         invalidateComments(queryClient);
 
+        if (isReview) {
+            onToggleReview?.(false);
+        }
+
         if (comment) {
             if (comment.depth >= MAX_COMMENT_DEPTH) {
                 addPendingReply({
@@ -67,6 +83,9 @@ const CommentInputBottomBar: FC<Props> = ({
                 addPendingReply({ comment: data });
             }
             clearActive();
+        } else {
+            // Root composer: close the mobile sheet after a successful post.
+            onClose?.();
         }
     };
 
@@ -93,6 +112,10 @@ const CommentInputBottomBar: FC<Props> = ({
         const filteredValue = removeEmptyTextNodes(editor.children);
 
         if (filteredValue.length === 0) {
+            return;
+        }
+
+        if (isReview && !verdict) {
             return;
         }
 
@@ -125,39 +148,66 @@ const CommentInputBottomBar: FC<Props> = ({
                         comment?.depth && comment?.depth >= MAX_COMMENT_DEPTH
                             ? `@${comment.author.username} ${text}`
                             : text,
+                    review: toReviewArgs(isReview, verdict),
                 },
             });
         }
     };
 
     return (
-        <FixedToolbar className="gap-4 px-2 py-2">
-            <FixedMarkdownToolbarButtons className="-mx-2 -my-2 px-2 py-2" />
-            <div className="flex justify-between gap-2">
-                <div className="flex gap-2 md:pointer-events-auto">
+        <FixedToolbar className="flex-col items-stretch justify-start gap-2 rounded-none px-2 py-2 md:flex-row md:items-center md:justify-between">
+            <FixedMarkdownToolbarButtons className="-mx-2 -my-2 flex-none px-2 py-2 md:flex-1" />
+            <div className="flex items-center gap-2 md:shrink-0">
+                {/* Inline reply/edit (desktop) has no sheet header close, so it
+                    keeps its own cancel. In the mobile sheet the top close
+                    handles it, so we drop this redundant button there. */}
+                {comment && !onClose && (
                     <Button
                         type="button"
                         onClick={handleCancel}
                         size="sm"
                         variant="outline"
-                        className={comment ? '' : 'md:hidden'}
+                        className="h-10 md:h-8"
                     >
                         <Minimize2 />
                         <span className="hidden md:inline">Скасувати</span>
                     </Button>
+                )}
 
-                    <Button
-                        onClick={onSubmit}
-                        disabled={isAddPending || isEditPending}
-                        size="sm"
-                        type="submit"
-                    >
-                        {isAddPending || isEditPending ? <Spinner /> : <Send />}
-                        <span className="hidden md:inline">
-                            {isEdit ? 'Зберегти' : 'Відправити'}
-                        </span>
-                    </Button>
-                </div>
+                {showReviewToggle && (
+                    <FieldLabel className="h-10 w-fit! cursor-pointer whitespace-nowrap md:h-8 *:data-[slot=field]:h-full *:data-[slot=field]:items-center *:data-[slot=field]:px-2.5 *:data-[slot=field]:py-0">
+                        <Field orientation="horizontal">
+                            <Checkbox
+                                checked={isReview}
+                                onCheckedChange={(checked) =>
+                                    onToggleReview?.(checked === true)
+                                }
+                                id="comment-review-checkbox"
+                                name="comment-review-checkbox"
+                            />
+                            <FieldTitle>Відгук</FieldTitle>
+                        </Field>
+                    </FieldLabel>
+                )}
+
+                <Button
+                    onClick={onSubmit}
+                    disabled={
+                        isAddPending || isEditPending || (isReview && !verdict)
+                    }
+                    size="sm"
+                    type="submit"
+                    className="h-10 flex-1 justify-center md:h-8 md:flex-none"
+                >
+                    {isAddPending || isEditPending ? <Spinner /> : <Send />}
+                    <span>
+                        {isEdit
+                            ? 'Зберегти'
+                            : isReview
+                              ? 'Опублікувати відгук'
+                              : 'Відправити'}
+                    </span>
+                </Button>
             </div>
         </FixedToolbar>
     );

@@ -50,6 +50,8 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
 
 function CommentsPage() {
     const { content_type, slug } = Route.useParams();
+    const { content } = Route.useLoaderData();
+    const contentTitle = getTitle(content) ?? undefined;
 
     return (
         <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
@@ -61,6 +63,7 @@ function CommentsPage() {
                 <Comments
                     slug={slug}
                     content_type={content_type as CommentsContentType}
+                    contentTitle={contentTitle}
                 />
             </div>
         </div>

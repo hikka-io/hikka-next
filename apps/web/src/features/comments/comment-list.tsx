@@ -37,6 +37,7 @@ type Props = {
     comment_reference?: string;
     preview?: boolean;
     className?: string;
+    contentTitle?: string;
 };
 
 const CommentList: FC<Props> = ({
@@ -45,6 +46,7 @@ const CommentList: FC<Props> = ({
     comment_reference,
     preview,
     className,
+    contentTitle,
 }) => {
     const { user: loggedUser } = useSession();
     const {
@@ -116,7 +118,11 @@ const CommentList: FC<Props> = ({
                         />
                     )}
                     {loggedUser && !comment_reference && (
-                        <CommentInput slug={slug} content_type={content_type} />
+                        <CommentInput
+                            slug={slug}
+                            content_type={content_type}
+                            contentTitle={contentTitle}
+                        />
                     )}
                     {list && list.length === 0 && (
                         <EmptyState
@@ -130,6 +136,7 @@ const CommentList: FC<Props> = ({
                         <Comments
                             slug={slug}
                             content_type={content_type}
+                            contentTitle={contentTitle}
                             comments={list}
                         />
                     )}

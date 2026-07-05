@@ -1,16 +1,8 @@
 import type { FC } from 'react';
 
-import {
-    type LucideIcon,
-    Meh,
-    Star,
-    ThumbsDown,
-    ThumbsUp,
-    X,
-} from 'lucide-react';
+import { type LucideIcon, Meh, ThumbsDown, ThumbsUp, X } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/utils/cn';
 
 import type { Verdict } from './utils/review';
@@ -19,25 +11,25 @@ const OPTIONS: {
     value: Verdict;
     label: string;
     icon: LucideIcon;
-    on: string;
+    active: string;
 }[] = [
     {
         value: 'yes',
         label: 'Рекомендує',
         icon: ThumbsUp,
-        on: 'data-[state=on]:border-success-foreground/40 data-[state=on]:bg-success-foreground/15 data-[state=on]:text-success-foreground',
+        active: 'border-success-foreground/50 bg-success-foreground/20 text-success-foreground hover:bg-success-foreground/25 hover:text-success-foreground dark:border-success-foreground/50 dark:bg-success-foreground/20 dark:hover:bg-success-foreground/25',
     },
     {
         value: 'maybe',
         label: 'Вагається',
         icon: Meh,
-        on: 'data-[state=on]:border-warning-foreground/40 data-[state=on]:bg-warning-foreground/15 data-[state=on]:text-warning-foreground',
+        active: 'border-warning-foreground/50 bg-warning-foreground/20 text-warning-foreground hover:bg-warning-foreground/25 hover:text-warning-foreground dark:border-warning-foreground/50 dark:bg-warning-foreground/20 dark:hover:bg-warning-foreground/25',
     },
     {
         value: 'no',
         label: 'Не рекомендує',
         icon: ThumbsDown,
-        on: 'data-[state=on]:border-destructive-foreground/40 data-[state=on]:bg-destructive-foreground/15 data-[state=on]:text-destructive-foreground',
+        active: 'border-destructive-foreground/50 bg-destructive-foreground/20 text-destructive-foreground hover:bg-destructive-foreground/25 hover:text-destructive-foreground dark:border-destructive-foreground/50 dark:bg-destructive-foreground/20 dark:hover:bg-destructive-foreground/25',
     },
 ];
 
@@ -57,12 +49,11 @@ const CommentVerdictPicker: FC<Props> = ({
     return (
         <div
             className={cn(
-                'flex flex-col gap-3 border-border border-t bg-feed-review/5 px-4 py-3',
+                'flex flex-col gap-2 border-border border-t bg-feed-review/5 px-2 py-2',
                 className,
             )}
         >
-            <div className="flex items-center gap-2">
-                <Star className="size-4 text-feed-review" />
+            <div className="flex items-center gap-2 pl-1">
                 <span className="font-medium text-sm">Ваш вердикт</span>
                 <Button
                     type="button"
@@ -75,26 +66,24 @@ const CommentVerdictPicker: FC<Props> = ({
                     <X />
                 </Button>
             </div>
-            <ToggleGroup
-                type="single"
-                variant="outline"
-                value={value ?? ''}
-                onValueChange={(next) =>
-                    onChange((next || null) as Verdict | null)
-                }
-                className="grid grid-cols-3 gap-2 bg-transparent p-0"
-            >
-                {OPTIONS.map(({ value: v, label, icon: Icon, on }) => (
-                    <ToggleGroupItem
+            <div className="grid grid-cols-3 gap-2">
+                {OPTIONS.map(({ value: v, label, icon: Icon, active }) => (
+                    <Button
                         key={v}
-                        value={v}
-                        className={cn('h-11 border border-border', on)}
+                        type="button"
+                        variant="outline"
+                        onClick={() => onChange(value === v ? null : v)}
+                        aria-pressed={value === v}
+                        className={cn(
+                            'h-auto min-w-0 flex-col gap-1 px-1 py-2 text-xs sm:flex-row sm:gap-2 sm:py-2.5 sm:text-sm',
+                            value === v && active,
+                        )}
                     >
                         <Icon />
-                        {label}
-                    </ToggleGroupItem>
+                        <span className="truncate">{label}</span>
+                    </Button>
                 ))}
-            </ToggleGroup>
+            </div>
         </div>
     );
 };

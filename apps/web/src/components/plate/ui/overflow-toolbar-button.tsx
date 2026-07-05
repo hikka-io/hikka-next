@@ -5,8 +5,6 @@ import {
     ListOrderedIcon,
     MoreHorizontalIcon,
     QuoteIcon,
-    Redo2Icon,
-    Undo2Icon,
 } from 'lucide-react';
 import { KEYS } from 'platejs';
 import { useEditorRef } from 'platejs/react';
@@ -15,7 +13,6 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
@@ -34,15 +31,6 @@ export function OverflowToolbarButton() {
                 </ToolbarButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-48">
-                <DropdownMenuItem onSelect={() => editor.undo()}>
-                    <Undo2Icon />
-                    Скасувати
-                </DropdownMenuItem>
-                <DropdownMenuItem onSelect={() => editor.redo()}>
-                    <Redo2Icon />
-                    Повторити
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem
                     onSelect={() => insertBlock(editor, KEYS.blockquote)}
                 >

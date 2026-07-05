@@ -13,6 +13,8 @@ import { ImageGroupToolbarButton } from './image-group-toolbar-button';
 import { InsertToolbarButton } from './insert-toolbar-button';
 import { LinkToolbarButton } from './link-toolbar-button';
 import { MarkToolbarButton } from './mark-toolbar-button';
+import { OverflowToolbarButton } from './overflow-toolbar-button';
+import { SpoilerToolbarButton } from './spoiler-toolbar-button';
 import { ToolbarGroup } from './toolbar';
 import { VideoToolbarButton } from './video-toolbar-button';
 
@@ -40,10 +42,6 @@ export function FixedMarkdownToolbarButtons({ className }: Props) {
             {!readOnly && (
                 <>
                     <ToolbarGroup>
-                        <InsertToolbarButton type="comment" />
-                    </ToolbarGroup>
-
-                    <ToolbarGroup>
                         <MarkToolbarButton
                             nodeType={KEYS.bold}
                             tooltip="Жирний (⌘+B)"
@@ -60,12 +58,18 @@ export function FixedMarkdownToolbarButtons({ className }: Props) {
                     </ToolbarGroup>
 
                     <ToolbarGroup>
+                        <SpoilerToolbarButton />
                         <LinkToolbarButton />
                         <EmojiToolbarButton />
                     </ToolbarGroup>
+
                     <ToolbarGroup>
                         <UndoToolbarButton />
                         <RedoToolbarButton />
+                    </ToolbarGroup>
+
+                    <ToolbarGroup>
+                        <OverflowToolbarButton />
                     </ToolbarGroup>
                 </>
             )}

@@ -25,9 +25,10 @@ type Props = {
     comment: CommentResponse;
     slug: string;
     content_type: CommentsContentType;
+    contentTitle?: string;
 };
 
-const Comment: FC<Props> = ({ comment, slug, content_type }) => {
+const Comment: FC<Props> = ({ comment, slug, content_type, contentTitle }) => {
     const { active, setReply, pendingReplies } = useCommentsContext();
     const [expand, setExpand] = useState<boolean>(comment.depth < 2);
 
@@ -140,6 +141,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                             <CommentInput
                                 slug={slug}
                                 content_type={content_type}
+                                contentTitle={contentTitle}
                                 comment={comment}
                                 isEdit
                             />
@@ -166,6 +168,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                         <CommentInput
                             slug={slug}
                             content_type={content_type}
+                            contentTitle={contentTitle}
                             comment={comment}
                         />
                     )}
@@ -198,6 +201,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type }) => {
                     <Comments
                         slug={slug}
                         content_type={content_type}
+                        contentTitle={contentTitle}
                         comments={allReplies}
                         nested
                         onToggleThread={toggleThread}
