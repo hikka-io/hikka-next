@@ -4,7 +4,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { ContentTypeEnum, mangaInfoOptions } from '@hikka/api';
 
 import { ContentDetailPage } from '@/features/content';
-import mangaJsonSchema from '@/utils/manga-schema';
+import contentJsonSchema from '@/utils/content-schema';
 
 export const Route = createFileRoute('/_pages/manga/$slug/')({
     component: MangaDetailPage,
@@ -24,7 +24,12 @@ function MangaDetailPage() {
                         type="application/ld+json"
                         // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD structured data, no user input.
                         dangerouslySetInnerHTML={{
-                            __html: JSON.stringify(mangaJsonSchema({ manga })),
+                            __html: JSON.stringify(
+                                contentJsonSchema({
+                                    content: manga,
+                                    contentType: 'manga',
+                                }),
+                            ),
                         }}
                     />
                 ) : undefined

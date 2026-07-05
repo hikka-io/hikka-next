@@ -4,7 +4,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { ContentTypeEnum, novelInfoOptions } from '@hikka/api';
 
 import { ContentDetailPage } from '@/features/content';
-import novelJsonSchema from '@/utils/novel-schema';
+import contentJsonSchema from '@/utils/content-schema';
 
 export const Route = createFileRoute('/_pages/novel/$slug/')({
     component: NovelDetailPage,
@@ -24,7 +24,12 @@ function NovelDetailPage() {
                         type="application/ld+json"
                         // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD structured data, no user input.
                         dangerouslySetInnerHTML={{
-                            __html: JSON.stringify(novelJsonSchema({ novel })),
+                            __html: JSON.stringify(
+                                contentJsonSchema({
+                                    content: novel,
+                                    contentType: 'novel',
+                                }),
+                            ),
                         }}
                     />
                 ) : undefined
