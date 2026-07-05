@@ -14,9 +14,7 @@ import { useRouter } from '@/utils/navigation';
 
 import type { EditMainContent } from '../types';
 import AutoButton from './components/auto-button';
-import EditDescription from './components/edit-description';
-import EditGroup from './components/edit-group';
-import NativeTitleWarning from './components/native-title-warning';
+import EditFormFields from './components/edit-form-fields';
 import {
     getEditGroups,
     getEditParamSlugs,
@@ -104,22 +102,12 @@ const EditForm: FC<Props> = ({
                 }}
                 className="flex flex-col gap-6"
             >
-                <div className="flex w-full flex-col gap-6">
-                    {Object.keys(params).map((group) => (
-                        <EditGroup
-                            key={group}
-                            title={groups[group]}
-                            params={params[group]}
-                            mode={mode}
-                            warning={
-                                group === 'title' &&
-                                nativeTitleMissing && <NativeTitleWarning />
-                            }
-                        />
-                    ))}
-
-                    <EditDescription mode={mode} />
-                </div>
+                <EditFormFields
+                    params={params}
+                    groups={groups}
+                    mode={mode}
+                    nativeTitleMissing={nativeTitleMissing}
+                />
                 {mode === 'edit' && (
                     <div className="flex w-full flex-col gap-4">
                         <Turnstile
