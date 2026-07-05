@@ -149,11 +149,11 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
     useEffect(() => {
         reset();
-    }, [selectedSlug, reset]);
+    }, [reset]);
 
     useEffect(() => {
         setUpdatedRead(null);
-    }, [selectedRead]);
+    }, []);
 
     useEffect(() => {
         if (debouncedUpdatedRead && selectedRead) {
@@ -184,7 +184,13 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                 { onSuccess: () => invalidateReadLists(!isLastChapter) },
             );
         }
-    }, [mutateCreateRead, debouncedUpdatedRead, contentType]);
+    }, [
+        mutateCreateRead,
+        debouncedUpdatedRead,
+        apiContentType,
+        invalidateReadLists,
+        selectedRead,
+    ]);
 
     if (!list || list.length === 0) {
         return (
@@ -199,7 +205,12 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                 description={config.emptyDescription}
                 action={
                     <Button variant="secondary" size="md" asChild>
-                        <Link to="/manga">Знайти манґу</Link>
+                        <Link to={`/${config.route}`}>
+                            Знайти{' '}
+                            {contentType === ContentTypeEnum.MANGA
+                                ? 'мангу'
+                                : 'ранобе'}
+                        </Link>
                     </Button>
                 }
             />
