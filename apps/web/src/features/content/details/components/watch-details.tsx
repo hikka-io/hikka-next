@@ -1,8 +1,7 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 
 import { format, formatDuration, intervalToDuration } from 'date-fns';
 import {
-    BookType,
     Building2,
     Calendar,
     CalendarClock,
@@ -35,7 +34,7 @@ import { getScheduleDuration } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
 
 import DetailItem from './detail-item';
-import SynonymsModal from './synonyms-modal';
+import SynonymsTrigger from './synonyms-trigger';
 
 const formatEpisodeDuration = (duration: number) =>
     formatDuration(
@@ -123,36 +122,6 @@ const StatusBadge = ({ status }: { status: string }) => (
         {RELEASE_STATUS[status as keyof typeof RELEASE_STATUS]?.title_ua}
     </Badge>
 );
-
-const SynonymsTrigger = ({
-    synonyms,
-    title,
-}: {
-    synonyms: string[];
-    title?: string;
-}) => {
-    const [open, setOpen] = useState(false);
-
-    return (
-        <>
-            <DetailItem icon={<BookType className="size-4" />} title="Синоніми">
-                <button
-                    type="button"
-                    className="line-clamp-2 w-fit cursor-pointer text-right font-medium text-sm leading-tight hover:underline"
-                    onClick={() => setOpen(true)}
-                >
-                    {synonyms.slice(0, 3).join(', ')}
-                </button>
-            </DetailItem>
-            <SynonymsModal
-                description={title}
-                synonyms={synonyms}
-                open={open}
-                onOpenChange={setOpen}
-            />
-        </>
-    );
-};
 
 const WatchDetails = ({
     className,

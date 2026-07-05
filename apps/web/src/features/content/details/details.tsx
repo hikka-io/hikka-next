@@ -11,8 +11,7 @@ import {
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
-import CharacterDetails from './components/character-details';
-import PersonDetails from './components/person-details';
+import EntityDetails from './components/entity-details';
 import ReadDetails from './components/read-details';
 import WatchDetails from './components/watch-details';
 
@@ -51,16 +50,18 @@ const Details = ({ className, content_type }: Props) => {
             );
         case ContentTypeEnum.CHARACTER:
             return (
-                <CharacterDetails
+                <EntityDetails
                     className={className}
                     data={data as CharacterResponse}
+                    entityType="character"
                 />
             );
         case ContentTypeEnum.PERSON:
             return (
-                <PersonDetails
+                <EntityDetails
                     className={className}
                     data={data as PersonResponse}
+                    entityType="person"
                 />
             );
     }
