@@ -38,11 +38,12 @@ type Props = {
 
 const ColorPicker = ({ value, active, onPreview, onCommit }: Props) => {
     const [open, setOpen] = useState(false);
-    // `value` only changes on commit, so memoize its hex rather than
-    // re-deriving it on every drag-frame re-render.
+    // Memoize hex; value only changes on commit, not per drag-frame.
     const valueHex = useMemo(() => oklchToHex(value), [value]);
     const [draft, setDraft] = useState<OklchColor>(value);
     const [hexInput, setHexInput] = useState(valueHex);
+    // Gate commit-on-close so a no-op open/close doesn't persist a change.
+    const [dirty, setDirty] = useState(false);
 
     // Keep in sync with external changes (e.g. presets) while closed.
     useEffect(() => {
@@ -58,6 +59,7 @@ const ColorPicker = ({ value, active, onPreview, onCommit }: Props) => {
         const oklch = hexToOklch(next);
         if (oklch) {
             setDraft(oklch);
+            setDirty(true);
             onPreview(oklch);
         }
     };
@@ -84,7 +86,8 @@ const ColorPicker = ({ value, active, onPreview, onCommit }: Props) => {
                 if (next) {
                     setDraft(value);
                     setHexInput(valueHex);
-                } else {
+                    setDirty(false);
+                } else if (dirty) {
                     onCommit(draft);
                 }
             }}

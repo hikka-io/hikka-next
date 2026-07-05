@@ -53,21 +53,17 @@ const StylesSettings = () => {
     const brand = styles.brand ?? DEFAULT_BRAND;
     const currentRadius = styles.radius?.replace('rem', '') ?? '0.625';
 
-    // Local slider state so the thumb tracks during drag; the query only
-    // updates on commit.
+    // Local state tracks the thumb during drag; query commits on release.
     const [intensity, setIntensity] = useState(backdrop.intensity);
     useEffect(() => setIntensity(backdrop.intensity), [backdrop.intensity]);
 
-    // Track the latest saved backdrop for the unmount cleanup below.
     const backdropRef = useRef(backdrop);
     useEffect(() => {
         backdropRef.current = backdrop;
     }, [backdrop]);
 
-    // On unmount, drop uncommitted inline preview vars so a leaked preview
-    // can't override saved styles app-wide. Backdrop vars are inline on <html>
-    // with no stylesheet fallback, so re-assert the saved backdrop rather than
-    // leave the glow blanked until reload.
+    // On unmount, drop leaked preview vars. Backdrop vars are inline-only, so
+    // re-assert the saved backdrop instead of blanking the glow until reload.
     useEffect(
         () => () => {
             clearLivePreview();
@@ -77,9 +73,7 @@ const StylesSettings = () => {
     );
 
     const commitBrand = (next: OklchColor) => {
-        // Always clear the live preview; only persist an actual change so
-        // opening/closing the picker (or re-clicking the active preset)
-        // doesn't fire a no-op mutation.
+        // Clear preview; skip no-op mutation when re-clicking the active preset.
         setLiveVar('--brand', null);
         if (oklchEqual(next, brand)) return;
         update({ styles: { ...styles, brand: next } });
@@ -102,9 +96,7 @@ const StylesSettings = () => {
     };
 
     const setBackdropStyle = (style: 'none' | 'glow') => {
-        // currentBackdrop() already carries the committed intensity; don't
-        // persist the local slider state, which may hold an uncommitted
-        // mid-drag value.
+        // Use currentBackdrop()'s committed intensity, not the mid-drag local state.
         update({
             styles: {
                 ...styles,
@@ -124,8 +116,10 @@ const StylesSettings = () => {
     };
 
     const commitBackdropColor = (next: OklchColor | null) => {
-        setLiveVar('--backdrop-color', null);
-        if (oklchEqual(next, backdrop.color)) return;
+        if (oklchEqual(next, backdrop.color)) {
+            applyBackdrop(backdrop);
+            return;
+        }
         const nextBackdrop = currentBackdrop();
         if (next) nextBackdrop.color = next;
         else delete nextBackdrop.color;
