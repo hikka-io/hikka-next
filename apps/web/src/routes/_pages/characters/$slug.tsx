@@ -8,12 +8,12 @@ import {
     characterNovelInfiniteOptions,
     characterVoicesInfiniteOptions,
     getFavouriteOptions,
-    HikkaApiError,
     paginationPageParam,
 } from '@hikka/api';
 
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { ContentDetailLayout } from '@/features/content';
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { CHARACTER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { getAuthTokenFn } from '@/utils/cookies';
 import { generateHeadMeta } from '@/utils/metadata';
@@ -21,20 +21,14 @@ import { getTitle } from '@/utils/title/get-title';
 
 export const Route = createFileRoute('/_pages/characters/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
-        const character = await queryClient
-            .ensureQueryData(
+        const character = await ensureOr404(
+            queryClient.ensureQueryData(
                 characterInfoOptions({
                     path: { slug: params.slug },
                     client: apiClient,
                 }),
-            )
-            .catch((error) => {
-                // Unknown slug: render not-found instead of bubbling to 500.
-                if (error instanceof HikkaApiError && error.status === 404) {
-                    throw notFound();
-                }
-                throw error;
-            });
+            ),
+        );
 
         if (!character) throw notFound();
 

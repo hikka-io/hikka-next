@@ -8,7 +8,6 @@ import {
     getContentsListInfiniteOptions,
     getFavouriteOptions,
     getReadFollowingInfiniteOptions,
-    HikkaApiError,
     novelCharactersInfiniteOptions,
     novelInfoOptions,
     paginationPageParam,
@@ -18,6 +17,7 @@ import {
 } from '@hikka/api';
 
 import { ContentDetailLayout } from '@/features/content';
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
 import { getAuthTokenFn } from '@/utils/cookies';
@@ -32,15 +32,9 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
             path: { slug: params.slug },
             client: apiClient,
         });
-        let novel = await queryClient
-            .ensureQueryData(novelOptions)
-            .catch((error) => {
-                // Unknown slug: render not-found instead of bubbling to 500.
-                if (error instanceof HikkaApiError && error.status === 404) {
-                    throw notFound();
-                }
-                throw error;
-            });
+        let novel = await ensureOr404(
+            queryClient.ensureQueryData(novelOptions),
+        );
 
         if (!novel) throw notFound();
 

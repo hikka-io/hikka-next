@@ -1,12 +1,9 @@
-import { ImageResponse } from '@takumi-rs/image-response';
 import { createFileRoute } from '@tanstack/react-router';
 
 import { novelInfo } from '@hikka/api';
 
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/filter-properties';
-import { createServerHikkaClient } from '@/utils/cookies/headers';
-import { renderOgCard } from '@/utils/og/og-image';
-import type { OgContentCardData } from '@/utils/og/og-utils';
+import { createOgImageHandler } from '@/utils/og/create-og-handler';
 import {
     resolveGenres,
     resolveMediaTypeLabel,
@@ -16,31 +13,23 @@ import {
 export const Route = createFileRoute('/api/og/novel')({
     server: {
         handlers: {
-            GET: async ({ request }) => {
-                const url = new URL(request.url);
-                const slug = url.searchParams.get('slug');
-
-                if (!slug) {
-                    return new Response('Missing slug parameter', {
-                        status: 400,
-                    });
-                }
-
-                try {
-                    const client = createServerHikkaClient();
-                    const { data: novel } = await novelInfo({
+            GET: createOgImageHandler({
+                fetchContent: async (slug, client) => {
+                    const { data } = await novelInfo({
                         client,
                         path: { slug },
                         throwOnError: true,
                     });
-
+                    return data;
+                },
+                buildCard: (novel) => {
                     const { title, subtitle } = resolveTitle(
                         novel.title_ua,
                         novel.title_en,
                         novel.title_original,
                     );
 
-                    const data: OgContentCardData = {
+                    return {
                         title,
                         subtitle,
                         image: novel.image,
@@ -56,20 +45,8 @@ export const Route = createFileRoute('/api/og/novel')({
                         contentTypeLabel: 'Ранобе',
                         producer: novel.magazines[0]?.name_en ?? null,
                     };
-
-                    return new ImageResponse(renderOgCard(data), {
-                        width: 1200,
-                        height: 630,
-                        format: 'jpeg',
-                        headers: {
-                            'Cache-Control':
-                                'public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400',
-                        },
-                    });
-                } catch {
-                    return new Response('Content not found', { status: 404 });
-                }
-            },
+                },
+            }),
         },
     },
 });

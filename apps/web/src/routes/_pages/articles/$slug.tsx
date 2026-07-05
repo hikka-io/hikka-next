@@ -1,11 +1,8 @@
 import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
 
-import {
-    type ArticleCategoryEnum,
-    getArticleOptions,
-    HikkaApiError,
-} from '@hikka/api';
+import { type ArticleCategoryEnum, getArticleOptions } from '@hikka/api';
 
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { generateHeadMeta } from '@/utils/metadata';
 
@@ -13,17 +10,11 @@ export const Route = createFileRoute('/_pages/articles/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { slug } = params;
 
-        const article = await queryClient
-            .ensureQueryData(
+        const article = await ensureOr404(
+            queryClient.ensureQueryData(
                 getArticleOptions({ path: { slug }, client: apiClient }),
-            )
-            .catch((error) => {
-                // Unknown slug: render not-found instead of bubbling to 500.
-                if (error instanceof HikkaApiError && error.status === 404) {
-                    throw notFound();
-                }
-                throw error;
-            });
+            ),
+        );
 
         if (!article) throw notFound();
 

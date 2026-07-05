@@ -8,7 +8,6 @@ import {
     getContentsListInfiniteOptions,
     getFavouriteOptions,
     getReadFollowingInfiniteOptions,
-    HikkaApiError,
     mangaCharactersInfiniteOptions,
     mangaInfoOptions,
     paginationPageParam,
@@ -18,6 +17,7 @@ import {
 } from '@hikka/api';
 
 import { ContentDetailLayout } from '@/features/content';
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { MANGA_NAV_ROUTES } from '@/utils/constants/navigation';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
 import { getAuthTokenFn } from '@/utils/cookies';
@@ -32,15 +32,9 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
             path: { slug: params.slug },
             client: apiClient,
         });
-        let manga = await queryClient
-            .ensureQueryData(mangaOptions)
-            .catch((error) => {
-                // Unknown slug: render not-found instead of bubbling to 500.
-                if (error instanceof HikkaApiError && error.status === 404) {
-                    throw notFound();
-                }
-                throw error;
-            });
+        let manga = await ensureOr404(
+            queryClient.ensureQueryData(mangaOptions),
+        );
 
         if (!manga) throw notFound();
 
