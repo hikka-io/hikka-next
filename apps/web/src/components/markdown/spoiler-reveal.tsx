@@ -47,7 +47,7 @@ const SpoilerReveal: FC<Props> = ({
     return (
         <div
             className={cn(
-                'spoiler surface-inset relative w-full rounded-md border border-border p-2',
+                'spoiler surface-inset relative w-full rounded-(--base-radius) border border-border p-2',
                 className,
             )}
         >
@@ -73,7 +73,7 @@ const SpoilerReveal: FC<Props> = ({
                             setRevealed(true);
                         }}
                         aria-label="Показати спойлер"
-                        className="absolute inset-0 z-20 flex items-center justify-center rounded-md"
+                        className="absolute inset-0 z-20 flex items-center justify-center rounded-(--base-radius)"
                     >
                         <SpoilerPill />
                     </button>

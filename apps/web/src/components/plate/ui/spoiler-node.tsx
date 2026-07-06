@@ -9,7 +9,7 @@ export function SpoilerElement(props: PlateElementProps) {
         <PlateElement
             as="div"
             className={cn(
-                'relative rounded-md border border-dashed border-border surface-inset p-2 pt-6',
+                'relative rounded-(--base-radius) border border-dashed border-border surface-inset p-2 pt-6',
                 'spoiler',
             )}
             {...props}
