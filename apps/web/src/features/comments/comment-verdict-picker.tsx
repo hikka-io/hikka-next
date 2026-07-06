@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { type LucideIcon, Meh, ThumbsDown, ThumbsUp, X } from 'lucide-react';
+import { type LucideIcon, Meh, ThumbsDown, ThumbsUp } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
@@ -15,19 +15,19 @@ const OPTIONS: {
 }[] = [
     {
         value: 'yes',
-        label: 'Рекомендує',
+        label: 'Рекомендую',
         icon: ThumbsUp,
         active: 'border-success-foreground/50 bg-success-foreground/20 text-success-foreground hover:bg-success-foreground/25 hover:text-success-foreground dark:border-success-foreground/50 dark:bg-success-foreground/20 dark:hover:bg-success-foreground/25',
     },
     {
         value: 'maybe',
-        label: 'Вагається',
+        label: 'Вагаюсь',
         icon: Meh,
         active: 'border-warning-foreground/50 bg-warning-foreground/20 text-warning-foreground hover:bg-warning-foreground/25 hover:text-warning-foreground dark:border-warning-foreground/50 dark:bg-warning-foreground/20 dark:hover:bg-warning-foreground/25',
     },
     {
         value: 'no',
-        label: 'Не рекомендує',
+        label: 'Не рекомендую',
         icon: ThumbsDown,
         active: 'border-destructive-foreground/50 bg-destructive-foreground/20 text-destructive-foreground hover:bg-destructive-foreground/25 hover:text-destructive-foreground dark:border-destructive-foreground/50 dark:bg-destructive-foreground/20 dark:hover:bg-destructive-foreground/25',
     },
@@ -36,16 +36,10 @@ const OPTIONS: {
 type Props = {
     value: Verdict | null;
     onChange: (value: Verdict | null) => void;
-    onDismiss: () => void;
     className?: string;
 };
 
-const CommentVerdictPicker: FC<Props> = ({
-    value,
-    onChange,
-    onDismiss,
-    className,
-}) => {
+const CommentVerdictPicker: FC<Props> = ({ value, onChange, className }) => {
     return (
         <div
             className={cn(
@@ -53,19 +47,6 @@ const CommentVerdictPicker: FC<Props> = ({
                 className,
             )}
         >
-            <div className="flex items-center gap-2 pl-1">
-                <span className="font-medium text-sm">Ваш вердикт</span>
-                <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon-sm"
-                    className="ml-auto"
-                    onClick={onDismiss}
-                    aria-label="Скасувати відгук"
-                >
-                    <X />
-                </Button>
-            </div>
             <div className="grid grid-cols-3 gap-2">
                 {OPTIONS.map(({ value: v, label, icon: Icon, active }) => (
                     <Button

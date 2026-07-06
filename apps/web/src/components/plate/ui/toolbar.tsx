@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import * as ToolbarPrimitive from '@radix-ui/react-toolbar';
-import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { ChevronDown } from 'lucide-react';
 
@@ -12,7 +11,12 @@ import {
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { Tooltip, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipPortal,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 
 export function Toolbar({
@@ -330,38 +334,17 @@ function withTooltip<T extends React.ElementType>(Component: T) {
                         {component}
                     </TooltipTrigger>
 
-                    <TooltipContent {...tooltipContentProps}>
-                        {tooltip}
-                    </TooltipContent>
+                    <TooltipPortal>
+                        <TooltipContent {...tooltipContentProps}>
+                            {tooltip}
+                        </TooltipContent>
+                    </TooltipPortal>
                 </Tooltip>
             );
         }
 
         return component;
     };
-}
-
-function TooltipContent({
-    children,
-    className,
-    sideOffset = 4,
-    ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Content>) {
-    return (
-        <TooltipPrimitive.Portal>
-            <TooltipPrimitive.Content
-                className={cn(
-                    'z-50 hidden w-fit origin-(--radix-tooltip-content-transform-origin) text-balance rounded-md bg-primary px-3 py-1.5 text-foreground text-xs md:flex',
-                    className,
-                )}
-                data-slot="tooltip-content"
-                sideOffset={sideOffset}
-                {...props}
-            >
-                {children}
-            </TooltipPrimitive.Content>
-        </TooltipPrimitive.Portal>
-    );
 }
 
 export function ToolbarMenuGroup({

@@ -53,8 +53,11 @@ const CommentInput: FC<Props> = ({
         });
 
     const { clearActive } = useCommentsContext();
-    const [isReview, setIsReview] = useState(false);
-    const [verdict, setVerdict] = useState<Verdict | null>(null);
+    const isReviewEdit = !!isEdit && !!comment?.review;
+    const [isReview, setIsReview] = useState(isReviewEdit);
+    const [verdict, setVerdict] = useState<Verdict | null>(
+        (comment?.review?.recommended as Verdict | null) ?? null,
+    );
 
     useVisualViewportOffset(!!isModalOpen);
 
@@ -78,8 +81,11 @@ const CommentInput: FC<Props> = ({
     }
 
     const isReply = !!comment && !isEdit;
-    const showReviewUI =
+    // Toggle only when composing a new review; an existing review stays a
+    // review, so editing shows the verdict picker without the on/off toggle.
+    const showReviewToggle =
         !isReply && !isEdit && supportsReviews(props.content_type);
+    const showVerdictPicker = (showReviewToggle && isReview) || isReviewEdit;
 
     const onToggleReview = (next: boolean) => {
         setIsReview(next);
@@ -93,18 +99,14 @@ const CommentInput: FC<Props> = ({
           : 'Напишіть повідомлення...';
 
     const reviewProps = {
-        showReviewToggle: showReviewUI,
+        showReviewToggle,
         isReview,
         verdict,
         onToggleReview,
     };
 
-    const verdictCard = showReviewUI && isReview && (
-        <CommentVerdictPicker
-            value={verdict}
-            onChange={setVerdict}
-            onDismiss={() => onToggleReview(false)}
-        />
+    const verdictCard = showVerdictPicker && (
+        <CommentVerdictPicker value={verdict} onChange={setVerdict} />
     );
 
     return (

@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { MarkdownPlugin } from '@platejs/markdown';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Minimize2, Send } from 'lucide-react';
+import { useEditorSelector } from 'platejs/react';
 
 import {
     type CommentResponse,
@@ -54,6 +55,13 @@ const CommentInputBottomBar: FC<Props> = ({
         useCommentsContext();
     const queryClient = useQueryClient();
     const editor = useMarkdownEditor();
+
+    // Reactive emptiness — mirrors the onSubmit guard so the send button
+    // stays disabled until there is real content to post.
+    const hasContent = useEditorSelector(
+        (editor) => removeEmptyTextNodes(editor.children).length > 0,
+        [],
+    );
 
     const onEditSuccess = async (data: CommentResponse) => {
         editor.tf.reset();
@@ -126,10 +134,11 @@ const CommentInputBottomBar: FC<Props> = ({
         if (isEdit) {
             mutateEditComment({
                 path: {
-                    comment_reference: comment?.reference,
+                    comment_reference: comment!.reference,
                 },
                 body: {
                     text,
+                    review: toReviewArgs(isReview, verdict),
                 },
             });
         } else {
@@ -192,7 +201,10 @@ const CommentInputBottomBar: FC<Props> = ({
                 <Button
                     onClick={onSubmit}
                     disabled={
-                        isAddPending || isEditPending || (isReview && !verdict)
+                        isAddPending ||
+                        isEditPending ||
+                        !hasContent ||
+                        (isReview && !verdict)
                     }
                     size="sm"
                     type="submit"
