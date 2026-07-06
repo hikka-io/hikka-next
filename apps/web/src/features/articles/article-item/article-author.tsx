@@ -1,7 +1,5 @@
 import type { FC } from 'react';
 
-import { formatDistance } from 'date-fns';
-
 import type {
     ArticleCategoryEnum,
     ArticleDocumentResponse,
@@ -9,6 +7,7 @@ import type {
 } from '@hikka/api';
 
 import { FollowButton } from '@/components/action-buttons';
+import RelativeTime from '@/components/relative-time';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -58,15 +57,11 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                     </HorizontalCardDescription>
                     <div className="size-1 rounded-full bg-muted-foreground" />
                     <HorizontalCardDescription>
-                        {article.draft
-                            ? 'Чернетка'
-                            : formatDistance(
-                                  article.updated * 1000,
-                                  Date.now(),
-                                  {
-                                      addSuffix: true,
-                                  },
-                              )}
+                        {article.draft ? (
+                            'Чернетка'
+                        ) : (
+                            <RelativeTime value={article.updated} />
+                        )}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
             </HorizontalCardContainer>

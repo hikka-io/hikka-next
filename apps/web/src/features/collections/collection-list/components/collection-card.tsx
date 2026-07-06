@@ -1,12 +1,12 @@
 import type { ComponentProps, FC } from 'react';
 
-import { formatDistance } from 'date-fns/formatDistance';
 import { ArrowBigUp, MessageCircle } from 'lucide-react';
 
 import type { CollectionResponse } from '@hikka/api';
 
 import FollowButton from '@/components/action-buttons/follow-button';
 import ContentCard from '@/components/content-card/content-card';
+import RelativeTime from '@/components/relative-time';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
 import {
@@ -78,13 +78,7 @@ const CollectionCard: FC<Props> = ({
                     </HorizontalCardTitle>
                     <HorizontalCardContainer className="flex-row items-center">
                         <HorizontalCardDescription>
-                            {formatDistance(
-                                collection.updated * 1000,
-                                Date.now(),
-                                {
-                                    addSuffix: true,
-                                },
-                            )}
+                            <RelativeTime value={collection.updated} />
                         </HorizontalCardDescription>
                     </HorizontalCardContainer>
                 </HorizontalCardContainer>

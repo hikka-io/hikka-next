@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 
-import { formatDistance, type Locale } from 'date-fns';
+import type { Locale } from 'date-fns';
 
+import RelativeTime from '@/components/relative-time';
 import RoleBadge from '@/components/role-badge';
 import { Label } from '@/components/ui/label';
 import { Link } from '@/utils/navigation';
@@ -21,12 +22,7 @@ const AuthorMetaRow: FC<Props> = ({ username, created, role, locale }) => {
             </Label>
             <RoleBadge role={role} variant="inline" />
             <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
-            <span className="shrink-0 text-muted-foreground text-xs">
-                {formatDistance(created * 1000, Date.now(), {
-                    addSuffix: true,
-                    locale,
-                })}
-            </span>
+            <RelativeTime value={created} locale={locale} />
         </div>
     );
 };

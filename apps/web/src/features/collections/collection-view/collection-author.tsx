@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { formatDistance } from 'date-fns';
 
 import { getCollectionOptions } from '@hikka/api';
 
 import FollowButton from '@/components/action-buttons/follow-button';
+import RelativeTime from '@/components/relative-time';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -38,13 +38,7 @@ const CollectionAuthor = () => {
                         {collection?.author.username}
                     </HorizontalCardTitle>
                     <HorizontalCardDescription>
-                        {formatDistance(
-                            collection!.updated * 1000,
-                            Date.now(),
-                            {
-                                addSuffix: true,
-                            },
-                        )}
+                        <RelativeTime value={collection!.updated} />
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
                 <FollowButton

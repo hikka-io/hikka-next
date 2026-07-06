@@ -1,11 +1,12 @@
 import type { FC } from 'react';
 
-import { formatDistance } from 'date-fns';
+import { uk } from 'date-fns/locale/uk';
 import { ArrowBigUp } from 'lucide-react';
 
 import type { CommentResponse } from '@hikka/api';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';
+import RelativeTime from '@/components/relative-time';
 import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,
@@ -43,9 +44,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                         {comment.author.username}
                     </HorizontalCardTitle>
                     <HorizontalCardDescription>
-                        {formatDistance(comment.created * 1000, Date.now(), {
-                            addSuffix: true,
-                        })}
+                        <RelativeTime value={comment.created} locale={uk} />
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
                 {comment.vote_score > 0 && (

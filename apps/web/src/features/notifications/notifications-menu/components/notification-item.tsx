@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { formatDistance } from 'date-fns/formatDistance';
 
 import { notificationSeenMutation } from '@hikka/api';
 
 import MDViewer from '@/components/markdown/viewer/md-viewer';
+import RelativeTime from '@/components/relative-time';
 import { HorizontalCardDescription } from '@/components/ui/horizontal-card';
 import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
@@ -101,11 +101,10 @@ const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
                         </MDViewer>
                     </blockquote>
                 )}
-                <HorizontalCardDescription className="opacity-60 group-hover/item:opacity-100">
-                    {formatDistance(data.created * 1000, Date.now(), {
-                        addSuffix: true,
-                    })}
-                </HorizontalCardDescription>
+                <RelativeTime
+                    value={data.created}
+                    className="opacity-60 group-hover/item:opacity-100"
+                />
             </div>
         </div>
     );

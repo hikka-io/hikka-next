@@ -1,10 +1,9 @@
 import { type FC, memo } from 'react';
 
-import { formatDistance } from 'date-fns/formatDistance';
-
 import type { HistoryResponse } from '@hikka/api';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
+import RelativeTime from '@/components/relative-time';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     HorizontalCard,
@@ -86,11 +85,7 @@ const HistoryItem: FC<Props> = (props) => {
                         {activity.join(', ')}
                     </HorizontalCardDescription>
                 )}
-                <HorizontalCardDescription className="opacity-60">
-                    {formatDistance(data.created * 1000, Date.now(), {
-                        addSuffix: true,
-                    })}
-                </HorizontalCardDescription>
+                <RelativeTime value={data.created} className="opacity-60" />
             </HorizontalCardContainer>
             {withUser && <User {...props} />}
         </HorizontalCard>

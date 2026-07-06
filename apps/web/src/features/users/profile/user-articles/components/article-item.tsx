@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 
-import { formatDistance } from 'date-fns/formatDistance';
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
 
 import type { ArticlePreviewResponse } from '@hikka/api';
 
+import RelativeTime from '@/components/relative-time';
 import Card from '@/components/ui/card';
 import {
     HorizontalCard,
@@ -31,11 +31,7 @@ const ArticleItem: FC<Props> = ({ article }) => {
                 </HorizontalCardContainer>
             </HorizontalCard>
             <div className="flex items-center justify-between gap-3">
-                <small className="text-muted-foreground">
-                    {formatDistance(article.updated * 1000, Date.now(), {
-                        addSuffix: true,
-                    })}
-                </small>
+                <RelativeTime value={article.updated} />
                 <StatItemGroup size="sm">
                     {article.views > 0 && (
                         <StatItem size="sm">

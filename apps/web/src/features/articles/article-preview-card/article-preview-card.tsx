@@ -1,11 +1,10 @@
 import type { FC } from 'react';
 
-import { formatDistance } from 'date-fns';
-import { uk } from 'date-fns/locale/uk';
 import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
 
 import type { ArticleCategoryEnum, ArticlePreviewResponse } from '@hikka/api';
 
+import RelativeTime from '@/components/relative-time';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
@@ -90,12 +89,7 @@ const ArticlePreviewCard: FC<Props> = ({ article }) => {
             </div>
 
             <div className="flex items-center justify-between gap-2">
-                <span className="shrink-0 text-muted-foreground text-xs">
-                    {formatDistance(article.created * 1000, Date.now(), {
-                        addSuffix: true,
-                        locale: uk,
-                    })}
-                </span>
+                <RelativeTime value={article.created} />
 
                 <StatItemGroup size="sm" className="shrink-0">
                     <StatItem size="sm">
