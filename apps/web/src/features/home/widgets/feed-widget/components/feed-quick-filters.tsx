@@ -5,16 +5,14 @@ import { LayoutGrid, MessageCircle } from 'lucide-react';
 import type { UiFeedSettingsOutput } from '@hikka/api';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
-import MaterialSymbolsReviewsRounded from '@/components/icons/material-symbols/MaterialSymbolsReviewsRounded';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
+import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Chip } from '@/components/ui/chip';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 
 import type { FeedSubTypeFilters } from './feed-sub-type-select';
 
-// Derived from the generated API enum (like feed-sub-type-select) so a new
-// backend feed content type doesn't silently drift from this quick-filter row.
 type FeedContentType = NonNullable<
     UiFeedSettingsOutput['feed_content_types']
 >[number];
@@ -37,6 +35,13 @@ const OPTIONS: Option[] = [
             'border border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground',
     },
     {
+        label: 'Відгуки',
+        value: 'review',
+        icon: MaterialSymbolsStarRounded,
+        activeClass:
+            'border border-feed-review/40 bg-feed-review/15 text-feed-review',
+    },
+    {
         label: 'Коментарі',
         value: 'comment',
         icon: MessageCircle,
@@ -56,13 +61,6 @@ const OPTIONS: Option[] = [
         icon: MaterialSymbolsDynamicFeedRounded,
         activeClass:
             'border border-feed-article/40 bg-feed-article/15 text-feed-article',
-    },
-    {
-        label: 'Відгуки',
-        value: 'review',
-        icon: MaterialSymbolsReviewsRounded,
-        activeClass:
-            'border border-feed-review/40 bg-feed-review/15 text-feed-review',
     },
 ];
 
