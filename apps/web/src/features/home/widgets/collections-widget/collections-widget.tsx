@@ -34,7 +34,7 @@ type CollectionsTab = 'popular' | 'newest' | 'own';
 
 const CollectionsWidget: FC<WidgetProps> = () => {
     const { user } = useSession();
-    const [tab, setTab] = useState<CollectionsTab>('popular');
+    const [tab, setTab] = useState<CollectionsTab>('newest');
 
     const isOwn = Boolean(user) && tab === 'own';
 
@@ -80,11 +80,11 @@ const CollectionsWidget: FC<WidgetProps> = () => {
                     size="badge"
                     className="mx-4"
                 >
-                    <ToggleGroupItem value="popular" className="flex-1">
-                        Популярні
-                    </ToggleGroupItem>
                     <ToggleGroupItem value="newest" className="flex-1">
                         Нові
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="popular" className="flex-1">
+                        Популярні
                     </ToggleGroupItem>
                     {user && (
                         <ToggleGroupItem value="own" className="flex-1">

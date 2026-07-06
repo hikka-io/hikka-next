@@ -37,7 +37,7 @@ type ArticlesTab = 'popular' | 'newest' | 'own';
 
 const ArticlesWidget: FC<WidgetProps> = () => {
     const { user } = useSession();
-    const [tab, setTab] = useState<ArticlesTab>('popular');
+    const [tab, setTab] = useState<ArticlesTab>('newest');
 
     const isOwn = Boolean(user) && tab === 'own';
 
@@ -83,11 +83,11 @@ const ArticlesWidget: FC<WidgetProps> = () => {
                     size="badge"
                     className="mx-4"
                 >
-                    <ToggleGroupItem value="popular" className="flex-1">
-                        Популярні
-                    </ToggleGroupItem>
                     <ToggleGroupItem value="newest" className="flex-1">
                         Нові
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="popular" className="flex-1">
+                        Популярні
                     </ToggleGroupItem>
                     {user && (
                         <ToggleGroupItem value="own" className="flex-1">
