@@ -137,6 +137,7 @@ const FeedItem: FC<Props> = ({ item }) => {
             <HorizontalCardImage
                 className="w-10 shrink-0 sm:w-12"
                 image={item.author.avatar}
+                imageClassName="sm:rounded-lg"
                 imageRatio={1}
                 href={`/u/${item.author.username}`}
             />

@@ -821,7 +821,7 @@
 
     --paused-background: oklch(0.977 0 0);
     --paused-border: oklch(0.885 0 0);
-    --paused-foreground: oklch(0.62 0.012 250);
+    --paused-foreground: oklch(0.555 0 0);
 
     /* Read/Watch status colors */
 
@@ -893,8 +893,8 @@
     --radius: 0.625rem;
 
     /* Backdrop derivation constants (dark = brand-tinted glow) */
-    --backdrop-l: 0.2;
-    --backdrop-c: 0.5;
+    --backdrop-l: 0.3;
+    --backdrop-c: 0.8;
 
     /* Dark elevates surfaces via lightness, not shadow. */
     --shadow-card: 0 0 #0000;

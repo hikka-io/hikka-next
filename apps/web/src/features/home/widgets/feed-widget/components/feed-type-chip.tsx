@@ -35,6 +35,10 @@ const FeedTypeChip: FC<Props> = ({ dataType, recommended }) => {
         return <ReviewBadge recommended={recommended} />;
     }
 
+    if (dataType === 'comment') {
+        return null;
+    }
+
     return (
         <span className={cn(CHIP, TYPE_STYLES[dataType])}>
             <FeedContentTypeIcon
