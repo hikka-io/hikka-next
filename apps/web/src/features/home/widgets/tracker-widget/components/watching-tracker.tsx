@@ -10,7 +10,7 @@ import {
 } from '@hikka/api';
 
 import { WatchEditModal } from '@/components/action-buttons';
-import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
+import Watching from '@/components/icons/watch-status/watching';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { useSession } from '@/features/auth/hooks/use-session';
@@ -155,7 +155,7 @@ const WatchingTracker = () => {
     if (!list || list.length === 0) {
         return (
             <EmptyState
-                icon={<MaterialSymbolsBookmarkOutline />}
+                icon={<Watching />}
                 title={
                     <span>
                         Список <span className="font-extrabold">Дивлюсь</span>{' '}

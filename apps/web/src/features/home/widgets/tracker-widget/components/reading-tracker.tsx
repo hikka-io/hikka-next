@@ -12,7 +12,7 @@ import {
 } from '@hikka/api';
 
 import { ReadEditModal } from '@/components/action-buttons';
-import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
+import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { useSession } from '@/features/auth/hooks/use-session';
@@ -189,7 +189,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     if (!list || list.length === 0) {
         return (
             <EmptyState
-                icon={<MaterialSymbolsMenuBookRounded />}
+                icon={<MaterialSymbolsBookmarkOutline />}
                 title={
                     <span>
                         Список <span className="font-extrabold">Читаю</span>{' '}

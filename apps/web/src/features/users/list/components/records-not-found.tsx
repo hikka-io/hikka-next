@@ -21,17 +21,20 @@ const CONTENT_TYPE_TITLE = {
 };
 
 const RecordsNotFound = ({ status, content_type }: Props) => {
-    const statusTitle =
+    const statusProperty =
         status === 'all'
             ? undefined
             : content_type === ContentTypeEnum.ANIME
-              ? WATCH_STATUS[status as WatchStatusEnum].title_ua
-              : READ_STATUS[status as ReadStatusEnum].title_ua;
+              ? WATCH_STATUS[status as WatchStatusEnum]
+              : READ_STATUS[status as ReadStatusEnum];
+
+    const statusTitle = statusProperty?.title_ua;
+    const StatusIcon = statusProperty?.icon ?? MaterialSymbolsBookmarkOutline;
 
     return (
         <EmptyState
             bordered
-            icon={<MaterialSymbolsBookmarkOutline />}
+            icon={<StatusIcon />}
             title={
                 statusTitle ? (
                     <span>
