@@ -296,9 +296,7 @@ const Sort: FC<Props> = ({
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p className="text-sm">
-                        {order === 'asc' ? 'За зростанням' : 'За спаданням'}
-                    </p>
+                    <p>{order === 'asc' ? 'За зростанням' : 'За спаданням'}</p>
                 </TooltipContent>
             </Tooltip>
         </div>

@@ -71,9 +71,7 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
                                         </div>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <p className="text-sm">
-                                            {preset.description}
-                                        </p>
+                                        <p>{preset.description}</p>
                                     </TooltipContent>
                                 </Tooltip>
                             )}

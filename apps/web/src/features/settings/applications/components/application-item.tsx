@@ -6,7 +6,6 @@ import type { ClientResponse } from '@hikka/api';
 
 import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
 import Card from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import {
     Tooltip,
     TooltipContent,
@@ -33,7 +32,7 @@ const ApplicationItem: FC<Props> = ({ client }) => {
                                 </div>
                             </TooltipTrigger>
                             <TooltipContent>
-                                <Label className="text-sm">Верифіковано</Label>
+                                <p>Верифіковано</p>
                             </TooltipContent>
                         </Tooltip>
                     )}

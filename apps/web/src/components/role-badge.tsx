@@ -52,7 +52,7 @@ const RoleBadge: FC<Props> = ({ role, variant = 'boxed' }) => {
                 </div>
             </TooltipTrigger>
             <TooltipContent>
-                <p className="text-sm">{config.label}</p>
+                <p>{config.label}</p>
             </TooltipContent>
         </Tooltip>
     );

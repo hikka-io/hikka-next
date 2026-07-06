@@ -1,11 +1,11 @@
 import { type FC, type ReactNode, useCallback } from 'react';
 
-import { Label } from '@/components/ui/label';
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from '@/components/ui/hover-card';
+import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
 
 type Props = {
@@ -34,13 +34,13 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
             }
 
             return (
-                <Tooltip>
-                    <TooltipTrigger asChild>
+                <HoverCard openDelay={200} closeDelay={100}>
+                    <HoverCardTrigger asChild>
                         <span className="line-clamp-2 cursor-text font-medium text-sm leading-tight">
                             {formattedValue}
                         </span>
-                    </TooltipTrigger>
-                    <TooltipContent className="flex max-w-[300px] flex-col gap-2 p-3 text-left">
+                    </HoverCardTrigger>
+                    <HoverCardContent className="flex w-auto max-w-[300px] flex-col gap-2 p-3 text-left text-sm">
                         {value.map((item, index) => (
                             <p key={item}>
                                 <span className="text-muted-foreground">
@@ -49,8 +49,8 @@ const DetailItem: FC<Props> = ({ title, value, children, icon, className }) => {
                                 {item}
                             </p>
                         ))}
-                    </TooltipContent>
-                </Tooltip>
+                    </HoverCardContent>
+                </HoverCard>
             );
         }
 

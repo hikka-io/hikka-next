@@ -140,9 +140,7 @@ const FiltersFooter: FC<FiltersFooterProps> = ({ className, contentType }) => {
                         </TooltipTrigger>
                         <TooltipPortal>
                             <TooltipContent>
-                                <p className="text-sm">
-                                    Створити пресет з поточних фільтрів
-                                </p>
+                                <p>Створити пресет з поточних фільтрів</p>
                             </TooltipContent>
                         </TooltipPortal>
                     </Tooltip>

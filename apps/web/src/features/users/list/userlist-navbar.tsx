@@ -251,7 +251,7 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent>
-                                <p className="text-sm">
+                                <p>
                                     Випадкове{' '}
                                     {CONTENT_TYPES[
                                         content_type
@@ -304,7 +304,7 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                             </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                            <p className="text-sm">
+                            <p>
                                 {sidebarVisible
                                     ? 'Приховати панель фільтрів'
                                     : 'Показати панель фільтрів'}

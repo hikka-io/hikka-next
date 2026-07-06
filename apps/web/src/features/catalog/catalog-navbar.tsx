@@ -166,7 +166,7 @@ const CatalogNavbar: FC<Props> = ({
                             </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                            <p className="text-sm">
+                            <p>
                                 {sidebarVisible
                                     ? 'Приховати панель фільтрів'
                                     : 'Показати панель фільтрів'}

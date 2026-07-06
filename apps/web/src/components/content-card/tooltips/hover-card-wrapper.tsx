@@ -21,7 +21,7 @@ const HoverCardWrapper: FC<Props> = ({ children, content, size = 'md' }) => (
             <HoverCardContent
                 side="right"
                 className={cn(
-                    'hidden flex-col gap-4 p-4 md:flex',
+                    'hidden flex-col gap-4 md:flex',
                     size === 'md' && 'w-80',
                     size === 'auto' && 'min-w-min',
                 )}

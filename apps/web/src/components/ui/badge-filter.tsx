@@ -72,9 +72,7 @@ export const BadgeFilter: FC<BadgeFilterProps> = ({
                                 </TooltipTrigger>
                                 <TooltipPortal>
                                     <TooltipContent>
-                                        <p className="text-sm">
-                                            {properties[slug].description}
-                                        </p>
+                                        <p>{properties[slug].description}</p>
                                     </TooltipContent>
                                 </TooltipPortal>
                             </Tooltip>

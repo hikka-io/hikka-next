@@ -31,7 +31,6 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
 import {
     Tooltip,
@@ -177,7 +176,7 @@ const AppGroupHeaderInfo: FC<{
                             </div>
                         </TooltipTrigger>
                         <TooltipContent>
-                            <Label className="text-sm">Верифіковано</Label>
+                            <p>Верифіковано</p>
                         </TooltipContent>
                     </Tooltip>
                 )}
