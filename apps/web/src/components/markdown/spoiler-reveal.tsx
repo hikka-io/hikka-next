@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Eye } from 'lucide-react';
 
@@ -33,16 +33,8 @@ const SpoilerReveal: FC<Props> = ({
 }) => {
     const contentRef = useRef<HTMLDivElement>(null);
     const [revealed, setRevealed] = useState(false);
-    const [needsClamp, setNeedsClamp] = useState(false);
 
     const hidden = !interactive || !revealed;
-
-    useEffect(() => {
-        const el = contentRef.current;
-        if (!el) return;
-
-        setNeedsClamp(el.scrollHeight > CLAMP_PX);
-    }, []);
 
     return (
         <div
@@ -55,7 +47,6 @@ const SpoilerReveal: FC<Props> = ({
                 className={cn(
                     'overflow-hidden',
                     hidden && 'pointer-events-none select-none blur-sm',
-                    hidden && needsClamp && 'gradient-mask-b-90',
                 )}
                 style={{ maxHeight: hidden ? CLAMP_PX : undefined }}
             >
