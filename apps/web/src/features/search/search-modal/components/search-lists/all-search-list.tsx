@@ -17,7 +17,7 @@ import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useRouter } from '@/utils/navigation';
 
-import type { SearchContent } from '../../types';
+import type { SearchContent, SearchTypeValue } from '../../types';
 import SearchCard from '../cards/search-card';
 import SearchPlaceholders from '../search-placeholders';
 import { SearchGroup, SearchItem, SearchList } from '../search-ui';
@@ -69,11 +69,18 @@ const SearchResultGroup = ({
 type Props = {
     onDismiss: (content: SearchContent) => void;
     onClose: () => void;
+    onSwitchType: (type: SearchTypeValue) => void;
     type?: 'link' | 'button';
     value?: string;
 };
 
-const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
+const AllSearchList = ({
+    onDismiss,
+    onClose,
+    onSwitchType,
+    type,
+    value,
+}: Props) => {
     const router = useRouter();
     const enabled = value !== undefined && value.length >= MIN_SEARCH_LENGTH;
 
@@ -156,6 +163,16 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
 
     const handleNavigate = useCallback(
         (contentType: ContentTypeEnum) => {
+            // Characters/people have no catalog page yet — switch the search
+            // mode instead of navigating to a dead route.
+            if (
+                contentType === ContentTypeEnum.CHARACTER ||
+                contentType === ContentTypeEnum.PERSON
+            ) {
+                onSwitchType(contentType);
+                return;
+            }
+
             onClose();
             const path = CONTENT_TYPE_LINKS[contentType];
             router.push(
@@ -163,7 +180,7 @@ const AllSearchList = ({ onDismiss, onClose, type, value }: Props) => {
                 value ? { search: { search: value } } : undefined,
             );
         },
-        [onClose, router, value],
+        [onClose, onSwitchType, router, value],
     );
 
     return (

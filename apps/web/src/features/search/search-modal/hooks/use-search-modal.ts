@@ -55,25 +55,26 @@ const useSearchModal = ({
         return function cleanup() {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [onClick]);
+    }, [onClick, setOpen]);
 
     useEffect(() => {
         if (setSearchType && content_type) {
             setSearchType(content_type);
         }
-    }, [content_type]);
+    }, [content_type, setSearchType]);
 
     useEffect(() => {
-        if (open) {
-            const currentPageContentType = ALLOWED_SEARCH_TYPES.find((ct) =>
-                pathname.startsWith(CONTENT_TYPE_LINKS[ct as ContentTypeEnum]),
-            );
+        if (!open || content_type || !setSearchType) return;
 
-            if (currentPageContentType) {
-                setSearchType!(currentPageContentType as ContentTypeEnum);
-            }
+        const currentPageContentType = ALLOWED_SEARCH_TYPES.find((ct) => {
+            const link = CONTENT_TYPE_LINKS[ct];
+            return pathname === link || pathname.startsWith(`${link}/`);
+        });
+
+        if (currentPageContentType) {
+            setSearchType(currentPageContentType);
         }
-    }, [open]);
+    }, [open, content_type, pathname, setSearchType]);
 };
 
 export default useSearchModal;

@@ -121,6 +121,7 @@ const SearchModal: FC<Props> = ({
                             setSearchValue('');
                             setOpen(false);
                         }}
+                        onSwitchType={setSearchType}
                         value={value}
                         type={type}
                     />
