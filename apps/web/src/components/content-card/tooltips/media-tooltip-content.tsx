@@ -1,6 +1,10 @@
 import type { FC, ReactNode } from 'react';
 
+import Hikka from '@/components/icons/custom/Hikka';
+import MAL from '@/components/icons/custom/MAL';
+import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
 import { RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
@@ -15,6 +19,9 @@ interface GenreItem {
 type Props = {
     title?: string;
     score: number;
+    native_score?: number;
+    scored_by?: number;
+    native_scored_by?: number;
     synopsis_ua?: string | null;
     synopsis_en?: string | null;
     media_type?: string | null;
@@ -26,9 +33,37 @@ type Props = {
     actionButton?: ReactNode;
 };
 
+const compact = (n: number) =>
+    new Intl.NumberFormat('en', {
+        notation: 'compact',
+        maximumFractionDigits: 1,
+    }).format(n);
+
+const ScoreSource: FC<{
+    icon: ReactNode;
+    score: number;
+    scoredBy?: number;
+}> = ({ icon, score, scoredBy }) => (
+    <div className="flex items-center gap-2">
+        {icon}
+        <div className="flex items-center gap-0.5 font-bold font-display text-sm">
+            {score}
+            <MaterialSymbolsStarRounded className="text-sm text-yellow-400" />
+        </div>
+        {!!scoredBy && (
+            <span className="text-muted-foreground text-xs tabular-nums">
+                {compact(scoredBy)}
+            </span>
+        )}
+    </div>
+);
+
 const MediaTooltipContent: FC<Props> = ({
     title,
     score,
+    native_score,
+    scored_by,
+    native_scored_by,
     synopsis_ua,
     synopsis_en,
     media_type_label,
@@ -43,14 +78,30 @@ const MediaTooltipContent: FC<Props> = ({
     return (
         <>
             <div className="flex flex-col gap-2">
-                <div className="flex justify-between gap-2">
-                    <h5>{title}</h5>
-                    {score > 0 ? (
-                        <div className="size-fit rounded-md border surface-inset px-2 text-sm">
-                            {score}
-                        </div>
-                    ) : null}
-                </div>
+                <h5>{title}</h5>
+                {(score > 0 || (native_score ?? 0) > 0) && (
+                    <div className="flex items-center gap-3">
+                        {score > 0 && (
+                            <ScoreSource
+                                icon={
+                                    <MAL className="h-4 w-4 text-foreground" />
+                                }
+                                score={score}
+                                scoredBy={scored_by}
+                            />
+                        )}
+                        {score > 0 && (native_score ?? 0) > 0 && (
+                            <Separator orientation="vertical" className="h-5" />
+                        )}
+                        {(native_score ?? 0) > 0 && (
+                            <ScoreSource
+                                icon={<Hikka className="h-4 w-4 shrink-0" />}
+                                score={native_score as number}
+                                scoredBy={native_scored_by}
+                            />
+                        )}
+                    </div>
+                )}
                 {synopsis && (
                     <MDViewer className="mb-2 line-clamp-4 text-muted-foreground text-sm">
                         {synopsis}

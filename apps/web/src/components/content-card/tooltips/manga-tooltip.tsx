@@ -40,6 +40,9 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
         <MediaTooltipContent
             title={title}
             score={data.score}
+            native_score={data.native_score}
+            scored_by={data.scored_by}
+            native_scored_by={data.native_scored_by}
             synopsis_ua={data.synopsis_ua}
             synopsis_en={data.synopsis_en}
             media_type_label={
