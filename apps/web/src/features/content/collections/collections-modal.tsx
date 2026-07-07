@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 
 import {
+    type CollectionContentTypeEnum,
     getCollectionsInfiniteOptions,
-    type MainContentTypeEnum,
 } from '@hikka/api';
 
 import { CollectionItem } from '@/components/content-card';
@@ -11,7 +11,7 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
-    content_type: MainContentTypeEnum;
+    content_type: CollectionContentTypeEnum;
 };
 
 const CollectionsModal: FC<Props> = ({ content_type }) => {

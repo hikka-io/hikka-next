@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { ContentTypeEnum } from '@hikka/api';
 
 import { CommentList as Comments } from '@/features/comments';
-import { ContentDetails as Details } from '@/features/content';
+import { Collections, ContentDetails as Details } from '@/features/content';
 import {
     PersonAnime as Anime,
     PersonCharacters as Characters,
@@ -48,6 +48,7 @@ function PersonDetailPage() {
                     className="hidden lg:flex"
                     content_type={detailsContentType}
                 />
+                <Collections content_type={ContentTypeEnum.PERSON} />
             </div>
         </div>
     );
