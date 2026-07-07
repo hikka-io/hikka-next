@@ -27,7 +27,7 @@ function PersonDetailPage() {
             <div className="flex flex-col gap-4 lg:col-span-1">
                 <Cover />
             </div>
-            <div className="flex flex-col gap-12 lg:col-span-2">
+            <div className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-12">
                 <Title />
                 <Details
                     className="lg:hidden"
@@ -37,11 +37,13 @@ function PersonDetailPage() {
                 <Anime />
                 <Manga />
                 <Novel />
-                <Comments
-                    preview
-                    slug={slug}
-                    content_type={ContentTypeEnum.PERSON}
-                />
+                <div className="order-last lg:order-0">
+                    <Comments
+                        preview
+                        slug={slug}
+                        content_type={ContentTypeEnum.PERSON}
+                    />
+                </div>
             </div>
             <div className="flex flex-col gap-12 lg:col-span-1">
                 <Details

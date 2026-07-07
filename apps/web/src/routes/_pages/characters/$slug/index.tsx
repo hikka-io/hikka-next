@@ -28,7 +28,7 @@ function CharacterDetailPage() {
             <div className="flex flex-col gap-4 lg:col-span-1">
                 <Cover />
             </div>
-            <div className="flex flex-col gap-12 lg:col-span-2">
+            <div className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-12">
                 <Title />
                 <Description />
                 <Details
@@ -39,11 +39,13 @@ function CharacterDetailPage() {
                 <Manga />
                 <Novel />
                 <Voices />
-                <Comments
-                    preview
-                    slug={slug}
-                    content_type={ContentTypeEnum.CHARACTER}
-                />
+                <div className="order-last lg:order-0">
+                    <Comments
+                        preview
+                        slug={slug}
+                        content_type={ContentTypeEnum.CHARACTER}
+                    />
+                </div>
             </div>
             <div className="flex flex-col gap-12 lg:col-span-1">
                 <Details
