@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 
 import {
+    type ArticleCategoryEnum,
     type ArticlePreviewResponse,
     type CollectionResponse,
     type CommentResponseFeed,
@@ -108,6 +109,7 @@ const FeedItem: FC<Props> = ({ item }) => {
 
     let reference: Reference | undefined;
     let recommended: 'yes' | 'no' | 'maybe' | undefined;
+    let category: ArticleCategoryEnum | undefined;
 
     if (item.data_type === ContentTypeEnum.COMMENT) {
         const preview = item.preview as CommentPreview;
@@ -122,6 +124,7 @@ const FeedItem: FC<Props> = ({ item }) => {
             | 'maybe'
             | undefined;
     } else if (item.data_type === ContentTypeEnum.ARTICLE) {
+        category = item.category as ArticleCategoryEnum;
         const content = item.content as ArticleContentPreview | null;
         reference = content
             ? {
@@ -148,6 +151,7 @@ const FeedItem: FC<Props> = ({ item }) => {
                     dataType={item.data_type}
                     created={item.created}
                     recommended={recommended}
+                    category={category}
                     reference={reference}
                     shareUrl={shareUrl}
                 />

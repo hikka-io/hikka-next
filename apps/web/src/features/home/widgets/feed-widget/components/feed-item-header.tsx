@@ -1,6 +1,10 @@
 import type { FC } from 'react';
 
-import type { ContentTypeEnum, FollowUserResponse } from '@hikka/api';
+import type {
+    ArticleCategoryEnum,
+    ContentTypeEnum,
+    FollowUserResponse,
+} from '@hikka/api';
 
 import AuthorMetaRow from '@/components/author-meta-row';
 
@@ -19,6 +23,7 @@ type Props = {
     dataType: 'comment' | 'article' | 'collection';
     created: number;
     recommended?: 'yes' | 'no' | 'maybe' | null;
+    category?: ArticleCategoryEnum | null;
     reference?: Reference;
     shareUrl: string;
 };
@@ -28,6 +33,7 @@ const FeedItemHeader: FC<Props> = ({
     dataType,
     created,
     recommended,
+    category,
     reference,
     shareUrl,
 }) => {
@@ -37,7 +43,11 @@ const FeedItemHeader: FC<Props> = ({
         <div className="relative flex min-w-0 flex-col gap-3 pr-9">
             <AuthorMetaRow username={author.username} created={created} />
             <div className="flex flex-col items-start gap-2 overflow-hidden sm:flex-row sm:items-center">
-                <FeedTypeChip dataType={dataType} recommended={recommended} />
+                <FeedTypeChip
+                    dataType={dataType}
+                    recommended={recommended}
+                    category={category}
+                />
                 {hasReference && (
                     <FeedContentRef
                         contentType={reference.contentType}

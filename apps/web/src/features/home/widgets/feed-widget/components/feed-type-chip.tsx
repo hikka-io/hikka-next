@@ -1,9 +1,10 @@
 import type { FC } from 'react';
 
-import type { ContentTypeEnum } from '@hikka/api';
+import type { ArticleCategoryEnum, ContentTypeEnum } from '@hikka/api';
 
 import ReviewBadge from '@/components/review-badge';
 import { chipVariants } from '@/components/ui/chip';
+import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/filter-properties';
 import { cn } from '@/utils/cn';
 
 import FeedContentTypeIcon from './feed-content-type-icon';
@@ -28,15 +29,29 @@ const CHIP = chipVariants({ interactive: false });
 type Props = {
     dataType: FeedDataType;
     recommended?: 'yes' | 'no' | 'maybe' | null;
+    category?: ArticleCategoryEnum | null;
 };
 
-const FeedTypeChip: FC<Props> = ({ dataType, recommended }) => {
+const FeedTypeChip: FC<Props> = ({ dataType, recommended, category }) => {
     if (recommended) {
         return <ReviewBadge recommended={recommended} />;
     }
 
     if (dataType === 'comment') {
         return null;
+    }
+
+    if (dataType === 'article' && category) {
+        const option = ARTICLE_CATEGORY_OPTIONS[category];
+        if (option) {
+            const Icon = option.icon;
+            return (
+                <span className={cn(CHIP, TYPE_STYLES.article)}>
+                    {Icon && <Icon className="size-3.5" />}
+                    {option.title_ua}
+                </span>
+            );
+        }
     }
 
     return (
