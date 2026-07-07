@@ -21,6 +21,7 @@ export const REVIEW_AUTO_THRESHOLD = 500;
 type TextishNode = {
     text?: unknown;
     children?: readonly TextishNode[];
+    [key: string]: unknown;
 };
 
 export function getPlainTextLength(nodes: readonly TextishNode[]): number {

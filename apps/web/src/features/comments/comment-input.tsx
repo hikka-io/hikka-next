@@ -28,7 +28,11 @@ import { cn } from '@/utils/cn';
 import CommentInputBottomBar from './comment-input-bottom-bar';
 import CommentVerdictPicker from './comment-verdict-picker';
 import type { Verdict } from './utils/review';
-import { supportsReviews } from './utils/review';
+import {
+    REVIEW_AUTO_THRESHOLD,
+    getPlainTextLength,
+    supportsReviews,
+} from './utils/review';
 
 type Props = {
     slug: string;
@@ -59,6 +63,39 @@ const CommentInput: FC<Props> = ({
         (comment?.review?.recommended as Verdict | null) ?? null,
     );
 
+    const isReply = !!comment && !isEdit;
+    // Toggle only when composing a new review; an existing review stays a
+    // review, so editing shows the verdict picker without the on/off toggle.
+    const showReviewToggle =
+        !isReply && !isEdit && supportsReviews(props.content_type);
+
+    // One-shot: user unchecking after an auto-check is respected until the
+    // composer is emptied (reset after submit or manual clear).
+    const [autoReviewDismissed, setAutoReviewDismissed] = useState(false);
+
+    // Length check lives in onChange (not useEditorSelector) because this
+    // component renders the <Plate> provider itself, so Plate store hooks
+    // are unavailable at this level.
+    const handleEditorChange = () => {
+        handleChange();
+
+        const length = getPlainTextLength(editor.children);
+
+        if (length === 0) {
+            setAutoReviewDismissed(false);
+            return;
+        }
+
+        if (
+            showReviewToggle &&
+            !isReview &&
+            !autoReviewDismissed &&
+            length > REVIEW_AUTO_THRESHOLD
+        ) {
+            setIsReview(true);
+        }
+    };
+
     useVisualViewportOffset(!!isModalOpen);
 
     // Closing a reply/edit sheet (top close) must also end the active editor,
@@ -80,16 +117,14 @@ const CommentInput: FC<Props> = ({
         return null;
     }
 
-    const isReply = !!comment && !isEdit;
-    // Toggle only when composing a new review; an existing review stays a
-    // review, so editing shows the verdict picker without the on/off toggle.
-    const showReviewToggle =
-        !isReply && !isEdit && supportsReviews(props.content_type);
     const showVerdictPicker = (showReviewToggle && isReview) || isReviewEdit;
 
     const onToggleReview = (next: boolean) => {
         setIsReview(next);
-        if (!next) setVerdict(null);
+        if (!next) {
+            setVerdict(null);
+            setAutoReviewDismissed(true);
+        }
     };
 
     const placeholder = isReply
@@ -110,7 +145,7 @@ const CommentInput: FC<Props> = ({
     );
 
     return (
-        <Plate editor={editor} onChange={handleChange}>
+        <Plate editor={editor} onChange={handleEditorChange}>
             {isMobile && (
                 <Sheet
                     open={isModalOpen}
