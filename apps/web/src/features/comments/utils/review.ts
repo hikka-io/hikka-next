@@ -13,3 +13,24 @@ export function toReviewArgs(
     if (!isReview || !verdict) return undefined;
     return { recommended: verdict };
 }
+
+export const REVIEW_AUTO_THRESHOLD = 500;
+
+// Structural node type so this util needs no platejs import — matches both
+// TText ({ text }) and TElement ({ children }) shapes.
+type TextishNode = {
+    text?: unknown;
+    children?: readonly TextishNode[];
+};
+
+export function getPlainTextLength(nodes: readonly TextishNode[]): number {
+    let length = 0;
+    for (const node of nodes) {
+        if (typeof node.text === 'string') {
+            length += node.text.length;
+        } else if (node.children) {
+            length += getPlainTextLength(node.children);
+        }
+    }
+    return length;
+}
