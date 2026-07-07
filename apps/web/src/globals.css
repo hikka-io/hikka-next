@@ -999,7 +999,7 @@
     content: "";
     position: absolute;
     inset: 0 0 auto 0;
-    height: 34rem;
+    height: 100vh;
     z-index: -1;
     pointer-events: none;
     background: linear-gradient(

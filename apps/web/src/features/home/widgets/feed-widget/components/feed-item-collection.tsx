@@ -27,12 +27,7 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
         <div className="flex flex-col gap-4">
             <Header href={`/collections/${data.reference}`}>
                 <HeaderContainer>
-                    <HeaderTitle
-                        variant="h4"
-                        className={data.spoiler ? 'spoiler-blur-sm' : undefined}
-                    >
-                        {data.title}
-                    </HeaderTitle>
+                    <HeaderTitle variant="h4">{data.title}</HeaderTitle>
                 </HeaderContainer>
             </Header>
 

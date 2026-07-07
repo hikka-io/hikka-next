@@ -20,7 +20,7 @@ const badgeVariants = cva(
                 destructive:
                     'border-destructive-border bg-destructive text-destructive-foreground [a&]:hover:bg-destructive/90',
                 outline:
-                    'text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
+                    'border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground',
                 status: 'rounded-sm border-transparent px-1.5 py-0 text-white',
             },
         },

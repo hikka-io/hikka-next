@@ -12,7 +12,6 @@ import {
     HorizontalCardContainer,
 } from '@/components/ui/horizontal-card';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
 type Props = {
@@ -62,10 +61,7 @@ const CollectionWidgetItem: FC<Props> = ({ collection }) => {
                 <Link
                     to={href}
                     title={collection.title}
-                    className={cn(
-                        'line-clamp-1 font-medium text-sm leading-snug transition-colors duration-100 hover:text-foreground',
-                        collection.spoiler && 'spoiler-blur-sm',
-                    )}
+                    className="line-clamp-1 font-medium text-sm leading-snug transition-colors duration-100 hover:text-foreground"
                 >
                     {collection.title}
                 </Link>
