@@ -39,7 +39,7 @@ const SpoilerReveal: FC<Props> = ({
     return (
         <div
             className={cn(
-                'spoiler surface-inset relative w-full rounded-(--base-radius) border border-border p-2',
+                'spoiler surface-inset relative isolate w-full rounded-(--base-radius) border border-border p-2',
                 className,
             )}
         >
