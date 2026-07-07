@@ -61,7 +61,7 @@ const SidebarWidgetTabs: FC<{
 
     return (
         <Tabs value={currentTab} onValueChange={setActiveTab}>
-            <div className="flex w-full gap-2 overflow-hidden">
+            <div className="flex w-full items-center gap-2 overflow-hidden">
                 <TabsList
                     ref={scrollRef}
                     className={cn(
