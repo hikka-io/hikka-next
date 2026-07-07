@@ -225,6 +225,17 @@
     color: var(--card-foreground);
 }
 
+/* Brighter frosted glass for bars that float ON TOP of content (sticky
+   nav/action bars, pagination). Uses --secondary (lighter than --card in dark)
+   so the panel reads brighter than the content it covers instead of blending. */
+@utility surface-glass {
+    background-color: color-mix(in oklab, var(--secondary) 60%, transparent);
+    color: var(--card-foreground);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+}
+
 @utility comment-thread {
     --thread-line: var(--border);
     --thread-width: 2px;

@@ -214,7 +214,7 @@ export const StickyPagination = ({ page, pages, setPage }: Props) => {
 
     return (
         <div className="sticky bottom-4 z-10 mx-auto flex w-fit items-center">
-            <Card className="flex-row gap-2 px-3 py-2">
+            <Card variant="glass" className="flex-row gap-2 px-3 py-2">
                 <Pagination page={page} pages={pages} setPage={setPage} />
             </Card>
         </div>

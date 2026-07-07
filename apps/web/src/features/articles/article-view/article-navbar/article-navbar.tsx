@@ -45,7 +45,7 @@ const ArticleNavbar: FC<Props> = () => {
 
     return (
         <div className="sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4">
-            <Card className="flex-row gap-2 border-none px-3 py-2">
+            <Card variant="glass" className="flex-row gap-2 border-none px-3 py-2">
                 {article?.category !== 'system' && (
                     <Fragment>
                         <ArticleVote article={article!} />

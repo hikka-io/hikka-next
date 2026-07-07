@@ -74,6 +74,7 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
             )}
         >
             <Card
+                variant="glass"
                 className="flex-row gap-2 border-none px-3 py-2"
                 id="navbar-card"
             >
