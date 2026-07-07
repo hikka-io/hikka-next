@@ -160,7 +160,7 @@ const HeaderNavButton: FC = () => {
 
     if (href) {
         return (
-            <Button size="icon-sm" variant="ghost" asChild>
+            <Button size="icon-sm" variant="outline" asChild>
                 <Link
                     to={href}
                     search={search}
@@ -178,7 +178,7 @@ const HeaderNavButton: FC = () => {
             onClick={onClick}
             size="icon-sm"
             className="flex items-center gap-2 text-muted-foreground"
-            variant="ghost"
+            variant="outline"
         >
             <MaterialSymbolsArrowRightAltRounded className="text-lg" />
         </Button>

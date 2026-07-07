@@ -1,8 +1,8 @@
 import { type FC, useState } from 'react';
 
 import {
+    type CollectionContentTypeEnum,
     getCollectionsInfiniteOptions,
-    type MainContentTypeEnum,
 } from '@hikka/api';
 
 import { CollectionItem } from '@/components/content-card';
@@ -25,7 +25,7 @@ import { useParams } from '@/utils/navigation';
 import CollectionsModal from './collections-modal';
 
 type Props = {
-    content_type: MainContentTypeEnum;
+    content_type: CollectionContentTypeEnum;
 };
 
 const Collections: FC<Props> = ({ content_type }) => {
