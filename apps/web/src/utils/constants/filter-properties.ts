@@ -387,7 +387,7 @@ export const ARTICLE_CATEGORY_OPTIONS: Hikka.FilterProperty<
         admin: true,
     },
     [ArticleCategoryEnum.REVIEWS]: {
-        title_ua: 'Відгуки',
+        title_ua: 'Огляди',
         title_en: 'Reviews',
         icon: MaterialSymbolsReviewsRounded,
     },

@@ -134,7 +134,7 @@ const CommentInputBottomBar: FC<Props> = ({
         if (isEdit) {
             mutateEditComment({
                 path: {
-                    comment_reference: comment!.reference,
+                    comment_reference: comment?.reference,
                 },
                 body: {
                     text,
@@ -211,13 +211,7 @@ const CommentInputBottomBar: FC<Props> = ({
                     className="h-10 flex-1 justify-center md:h-8 md:flex-none"
                 >
                     {isAddPending || isEditPending ? <Spinner /> : <Send />}
-                    <span>
-                        {isEdit
-                            ? 'Зберегти'
-                            : isReview
-                              ? 'Опублікувати відгук'
-                              : 'Відправити'}
-                    </span>
+                    <span>{isEdit ? 'Зберегти' : 'Відправити'}</span>
                 </Button>
             </div>
         </FixedToolbar>
