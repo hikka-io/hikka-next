@@ -210,8 +210,6 @@
     background-color: var(--surface);
     color: var(--card-foreground);
     box-shadow: var(--shadow-card);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
 }
 
 @utility surface-solid {
