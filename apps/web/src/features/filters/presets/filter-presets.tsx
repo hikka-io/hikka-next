@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import {
     Tooltip,
     TooltipContent,
+    TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useSettingsStore } from '@/services/stores/settings-store';
@@ -70,9 +71,11 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
                                             <MaterialSymbolsInfoRounded className="text-xs opacity-30 transition duration-100 hover:opacity-100" />
                                         </div>
                                     </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>{preset.description}</p>
-                                    </TooltipContent>
+                                    <TooltipPortal>
+                                        <TooltipContent>
+                                            <p>{preset.description}</p>
+                                        </TooltipContent>
+                                    </TooltipPortal>
                                 </Tooltip>
                             )}
                         </Button>
