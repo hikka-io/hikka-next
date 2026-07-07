@@ -97,8 +97,10 @@ const ProgressTrackerView = ({
                                     )}
                                 />
                             </TooltipTrigger>
-                            <TooltipContent className="max-w-48 truncate">
-                                {item.title}
+                            <TooltipContent className="max-w-48">
+                                <span className="block truncate">
+                                    {item.title}
+                                </span>
                             </TooltipContent>
                         </Tooltip>
                     ))}
