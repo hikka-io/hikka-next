@@ -44,7 +44,7 @@ const WatchingTracker = () => {
     const [selectedSlug, setSelectedSlug] = useState<string>();
     const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
 
-    const { list, ref, isFetchingNextPage } = useInfiniteList(
+    const { list, ref, isFetchingNextPage, hasNextPage } = useInfiniteList(
         userWatchListInfiniteOptions({
             path: { username: String(loggedUser?.username) },
             body: {
@@ -121,11 +121,11 @@ const WatchingTracker = () => {
 
     useEffect(() => {
         reset();
-    }, [selectedSlug, reset]);
+    }, [reset]);
 
     useEffect(() => {
         setUpdatedWatch(null);
-    }, [selectedWatch]);
+    }, []);
 
     useEffect(() => {
         if (debouncedUpdatedWatch && selectedWatch) {
@@ -150,7 +150,12 @@ const WatchingTracker = () => {
                 { onSuccess: () => invalidateWatchLists(!isLastEpisode) },
             );
         }
-    }, [mutateCreateWatch, debouncedUpdatedWatch]);
+    }, [
+        mutateCreateWatch,
+        debouncedUpdatedWatch,
+        invalidateWatchLists,
+        selectedWatch,
+    ]);
 
     if (!list || list.length === 0) {
         return (
@@ -190,6 +195,7 @@ const WatchingTracker = () => {
                 onSelect: () => handleSelect(item.anime.slug),
             }))}
             listRef={ref}
+            hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
             selected={
                 selectedWatch

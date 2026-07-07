@@ -58,6 +58,7 @@ type EditModalState = {
 type Props = {
     items: TrackerItem[];
     listRef: Ref<HTMLDivElement>;
+    hasNextPage: boolean;
     isFetchingNextPage: boolean;
     selected?: SelectedEntry;
     editModal?: EditModalState;
@@ -72,6 +73,7 @@ const ProgressTrackerView = ({
     items,
     listRef,
     isFetchingNextPage,
+    hasNextPage,
     selected,
     editModal,
 }: Props) => {
@@ -104,12 +106,14 @@ const ProgressTrackerView = ({
                             </TooltipContent>
                         </Tooltip>
                     ))}
-                    <div
-                        ref={listRef}
-                        className="flex items-center justify-center"
-                    >
-                        {isFetchingNextPage && <Spinner />}
-                    </div>
+                    {hasNextPage && (
+                        <div
+                            ref={listRef}
+                            className="flex items-center justify-center"
+                        >
+                            {isFetchingNextPage && <Spinner />}
+                        </div>
+                    )}
                 </Stack>
 
                 {selected && (

@@ -67,7 +67,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     // the `ContentTypeEnum.MANGA | NOVEL` values are identical strings.
     const apiContentType = contentType as unknown as ReadContentTypeEnum;
 
-    const { list, ref, isFetchingNextPage } = useInfiniteList(
+    const { list, ref, isFetchingNextPage, hasNextPage } = useInfiniteList(
         userReadListInfiniteOptions({
             path: {
                 content_type: apiContentType,
@@ -149,11 +149,11 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
     useEffect(() => {
         reset();
-    }, [selectedSlug, reset]);
+    }, [reset]);
 
     useEffect(() => {
         setUpdatedRead(null);
-    }, [selectedRead]);
+    }, []);
 
     useEffect(() => {
         if (debouncedUpdatedRead && selectedRead) {
@@ -184,7 +184,13 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                 { onSuccess: () => invalidateReadLists(!isLastChapter) },
             );
         }
-    }, [mutateCreateRead, debouncedUpdatedRead]);
+    }, [
+        mutateCreateRead,
+        debouncedUpdatedRead,
+        apiContentType,
+        invalidateReadLists,
+        selectedRead,
+    ]);
 
     if (!list || list.length === 0) {
         return (
@@ -229,6 +235,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                 onSelect: () => handleSelect(item.content.slug),
             }))}
             listRef={ref}
+            hasNextPage={hasNextPage}
             isFetchingNextPage={isFetchingNextPage}
             selected={
                 selectedRead
