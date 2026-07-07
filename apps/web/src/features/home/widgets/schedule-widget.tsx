@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 
 import { getUnixTime, startOfDay } from 'date-fns';
 import { format } from 'date-fns/format';
@@ -10,16 +10,18 @@ import {
 } from '@hikka/api';
 
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
-import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import EmptyState from '@/components/ui/empty-state';
+import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
@@ -30,15 +32,19 @@ import { getTitle } from '@/utils/title/get-title';
 import type { WidgetProps } from '../constants';
 
 const ScheduleWidget: FC<WidgetProps> = () => {
+    const { user } = useSession();
     const { preferences } = useSessionUI();
     const season = getCurrentSeason()!;
     const year = new Date().getFullYear();
+
+    const [onlyWatch, setOnlyWatch] = useState(false);
 
     const { list } = useInfiniteList(
         animeScheduleInfiniteOptions({
             body: {
                 airing_season: [season, year],
                 status: [AnimeStatusEnum.ONGOING, AnimeStatusEnum.ANNOUNCED],
+                only_watch: onlyWatch || undefined,
             },
         }),
     );
@@ -65,13 +71,35 @@ const ScheduleWidget: FC<WidgetProps> = () => {
                 <Header href="/schedule" className="px-4">
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Календар</HeaderTitle>
-                        <Badge variant="default">
-                            {format(new Date(), 'd MMMM')}
-                        </Badge>
                     </HeaderContainer>
+                    {user && (
+                        <FieldLabel className="h-8 w-fit! shrink-0 cursor-pointer">
+                            <Field
+                                orientation="horizontal"
+                                className="h-full items-center"
+                            >
+                                <Checkbox
+                                    checked={onlyWatch}
+                                    onCheckedChange={(checked) =>
+                                        setOnlyWatch(checked === true)
+                                    }
+                                    id="schedule-only-watch"
+                                    name="schedule-only-watch"
+                                />
+                                <FieldTitle className="whitespace-nowrap font-normal text-muted-foreground text-sm">
+                                    У списку
+                                </FieldTitle>
+                            </Field>
+                        </FieldLabel>
+                    )}
                     <HeaderNavButton />
                 </Header>
                 <div className="flex flex-col gap-1 px-2">
+                    <div className="mb-1 flex items-center gap-2 px-2 text-muted-foreground text-sm">
+                        <span>Сьогодні</span>
+                        <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
+                        <span>{format(new Date(), 'd MMMM')}</span>
+                    </div>
                     {todayItems?.map((item) => {
                         const airingTime = item.airing_at * 1000;
                         const now = Date.now();
