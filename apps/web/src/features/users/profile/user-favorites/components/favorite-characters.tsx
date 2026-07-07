@@ -16,6 +16,8 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
+import FavoriteSkeleton from './favorite-skeleton';
+
 type Props = {
     extended?: boolean;
 };
@@ -42,7 +44,7 @@ const Characters: FC<Props> = ({ extended }) => {
     const list = rawList as FavouriteCharacterResponse[] | undefined;
 
     if (isPending) {
-        return null;
+        return <FavoriteSkeleton extended={extended} />;
     }
 
     if (!list && !extended) {

@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useRef, useState } from 'react';
 
 import { ContentTypeEnum, type FavouriteContentTypeEnum } from '@hikka/api';
 
@@ -10,6 +10,8 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
+import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
 import Anime from './components/favorite-anime';
@@ -27,6 +29,11 @@ const Favorites: FC<Props> = ({ extended }) => {
         ContentTypeEnum.ANIME,
     );
     const params = useParams();
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const { gradientClassName } = useScrollGradientMask(
+        scrollRef,
+        'horizontal',
+    );
 
     const getComponent = () => {
         switch (content) {
@@ -54,45 +61,54 @@ const Favorites: FC<Props> = ({ extended }) => {
                     <HeaderTitle variant={extended ? 'h2' : 'h3'}>
                         Улюблені
                     </HeaderTitle>
-                    <ToggleGroup
-                        type="single"
-                        value={content}
-                        onValueChange={(value: FavouriteContentTypeEnum) =>
-                            value && setContent(value)
-                        }
-                        size="badge"
+                    <div
+                        ref={scrollRef}
+                        className={cn(
+                            'no-scrollbar min-w-0 flex-1 overflow-x-auto',
+                            gradientClassName,
+                        )}
                     >
-                        <ToggleGroupItem
-                            value={ContentTypeEnum.ANIME}
-                            aria-label="Улюблені аніме"
+                        <ToggleGroup
+                            type="single"
+                            value={content}
+                            onValueChange={(value: FavouriteContentTypeEnum) =>
+                                value && setContent(value)
+                            }
+                            size="badge"
+                            className="w-max"
                         >
-                            Аніме
-                        </ToggleGroupItem>
-                        <ToggleGroupItem
-                            value={ContentTypeEnum.MANGA}
-                            aria-label="Улюблена манґа"
-                        >
-                            Манґа
-                        </ToggleGroupItem>
-                        <ToggleGroupItem
-                            value={ContentTypeEnum.NOVEL}
-                            aria-label="Улюблене ранобе"
-                        >
-                            Ранобе
-                        </ToggleGroupItem>
-                        <ToggleGroupItem
-                            value={ContentTypeEnum.CHARACTER}
-                            aria-label="Улюблені персонажі"
-                        >
-                            Персонажі
-                        </ToggleGroupItem>
-                        <ToggleGroupItem
-                            value={ContentTypeEnum.COLLECTION}
-                            aria-label="Улюблені колекції"
-                        >
-                            Колекції
-                        </ToggleGroupItem>
-                    </ToggleGroup>
+                            <ToggleGroupItem
+                                value={ContentTypeEnum.ANIME}
+                                aria-label="Улюблені аніме"
+                            >
+                                Аніме
+                            </ToggleGroupItem>
+                            <ToggleGroupItem
+                                value={ContentTypeEnum.MANGA}
+                                aria-label="Улюблена манґа"
+                            >
+                                Манґа
+                            </ToggleGroupItem>
+                            <ToggleGroupItem
+                                value={ContentTypeEnum.NOVEL}
+                                aria-label="Улюблене ранобе"
+                            >
+                                Ранобе
+                            </ToggleGroupItem>
+                            <ToggleGroupItem
+                                value={ContentTypeEnum.CHARACTER}
+                                aria-label="Улюблені персонажі"
+                            >
+                                Персонажі
+                            </ToggleGroupItem>
+                            <ToggleGroupItem
+                                value={ContentTypeEnum.COLLECTION}
+                                aria-label="Улюблені колекції"
+                            >
+                                Колекції
+                            </ToggleGroupItem>
+                        </ToggleGroup>
+                    </div>
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
