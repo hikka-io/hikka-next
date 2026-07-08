@@ -1,12 +1,11 @@
 import { type ComponentType, type FC, useRef } from 'react';
 
-import { LayoutGrid, MessageCircle } from 'lucide-react';
+import { LayoutGrid, MessageCircle, Star } from 'lucide-react';
 
 import type { UiFeedSettingsOutput } from '@hikka/api';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
-import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Chip } from '@/components/ui/chip';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
@@ -37,7 +36,7 @@ const OPTIONS: Option[] = [
     {
         label: 'Відгуки',
         value: 'review',
-        icon: MaterialSymbolsStarRounded,
+        icon: Star,
         activeClass:
             'border border-feed-review/40 bg-feed-review/15 text-feed-review',
     },
