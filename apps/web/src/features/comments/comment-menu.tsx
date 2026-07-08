@@ -1,7 +1,7 @@
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Copy } from 'lucide-react';
+import { Copy, Star, StarOff } from 'lucide-react';
 import { toast } from 'sonner';
 
 import {
@@ -34,6 +34,9 @@ import {
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
+
+import ConvertReviewDialog from './convert-review-dialog';
+import { canConvertReview } from './utils/review';
 
 type Props = {
     comment: CommentResponse;
@@ -79,65 +82,109 @@ const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
         loggedUser?.role === 'admin' ||
         loggedUser?.role === 'moderator';
 
+    const [convertMode, setConvertMode] = useState<
+        'to-review' | 'to-comment' | null
+    >(null);
+
+    const canConvert = canConvertReview({
+        isAuthor,
+        hidden: comment.hidden,
+        text: comment.text,
+        parent: comment.parent,
+        contentType: content_type,
+    });
+    const isReview = !!comment.review;
+
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    className="shrink-0 text-muted-foreground"
-                    aria-label="Більше"
-                >
-                    <MaterialSymbolsMoreHoriz />
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={handleCopy}>
-                    <Copy />
-                    Скопіювати посилання
-                </DropdownMenuItem>
-                {isAuthor && (
-                    <DropdownMenuItem
-                        onClick={() => setEdit(comment.reference)}
+        <>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        className="shrink-0 text-muted-foreground"
+                        aria-label="Більше"
                     >
-                        <MaterialSymbolsEditRounded />
-                        Редагувати
+                        <MaterialSymbolsMoreHoriz />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={handleCopy}>
+                        <Copy />
+                        Скопіювати посилання
                     </DropdownMenuItem>
-                )}
-                {canModerate && (
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <DropdownMenuItem
-                                onSelect={(e) => e.preventDefault()}
-                                className="text-destructive-foreground"
-                            >
-                                <MaterialSymbolsDeleteForeverRounded />
-                                Видалити
-                            </DropdownMenuItem>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                    Ви впевнені, що хочете видалити коментар?
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    Після цієї операції, Ви вже не зможете його
-                                    відновити.
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>Відмінити</AlertDialogCancel>
-                                <AlertDialogAction
-                                    onClick={handleDeleteComment}
+                    {isAuthor && (
+                        <DropdownMenuItem
+                            onClick={() => setEdit(comment.reference)}
+                        >
+                            <MaterialSymbolsEditRounded />
+                            Редагувати
+                        </DropdownMenuItem>
+                    )}
+                    {canConvert && !isReview && (
+                        <DropdownMenuItem
+                            onSelect={() => setConvertMode('to-review')}
+                        >
+                            <Star />
+                            Зробити відгуком
+                        </DropdownMenuItem>
+                    )}
+                    {canConvert && isReview && (
+                        <DropdownMenuItem
+                            onSelect={() => setConvertMode('to-comment')}
+                        >
+                            <StarOff />
+                            Зробити коментарем
+                        </DropdownMenuItem>
+                    )}
+                    {canModerate && (
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <DropdownMenuItem
+                                    onSelect={(e) => e.preventDefault()}
+                                    className="text-destructive-foreground"
                                 >
-                                    Підтвердити
-                                </AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-                )}
-            </DropdownMenuContent>
-        </DropdownMenu>
+                                    <MaterialSymbolsDeleteForeverRounded />
+                                    Видалити
+                                </DropdownMenuItem>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>
+                                        Ви впевнені, що хочете видалити
+                                        коментар?
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Після цієї операції, Ви вже не зможете
+                                        його відновити.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>
+                                        Відмінити
+                                    </AlertDialogCancel>
+                                    <AlertDialogAction
+                                        onClick={handleDeleteComment}
+                                    >
+                                        Підтвердити
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    )}
+                </DropdownMenuContent>
+            </DropdownMenu>
+            {convertMode && (
+                <ConvertReviewDialog
+                    comment={comment}
+                    mode={convertMode}
+                    open={!!convertMode}
+                    onOpenChange={(open) => {
+                        if (!open) setConvertMode(null);
+                    }}
+                />
+            )}
+        </>
     );
 };
 
