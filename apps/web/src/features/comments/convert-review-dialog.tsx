@@ -3,11 +3,7 @@ import { type FC, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import {
-    type CommentResponse,
-    HikkaApiError,
-    editCommentMutation,
-} from '@hikka/api';
+import { type CommentResponse, editCommentMutation } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -34,19 +30,14 @@ const ConvertReviewDialog: FC<Props> = ({ comment, open, onOpenChange }) => {
         if (!open) setVerdict(null);
     }, [open]);
 
+    // Errors surface via the global MutationCache.onError toast in router.tsx;
+    // a local onError here would double-toast.
     const mutation = useMutation({
         ...editCommentMutation(),
         onSuccess: () => {
             invalidateComments(queryClient);
             onOpenChange(false);
             toast.success('Коментар перетворено на відгук');
-        },
-        onError: (error) => {
-            toast.error(
-                error instanceof HikkaApiError && error.message
-                    ? error.message
-                    : 'Не вдалося змінити тип повідомлення. Спробуйте, будь ласка, ще раз',
-            );
         },
     });
 
