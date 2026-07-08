@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Copy, Star, StarOff } from 'lucide-react';
+import { Copy, Star } from 'lucide-react';
 import { toast } from 'sonner';
 
 import {
@@ -82,9 +82,7 @@ const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
         loggedUser?.role === 'admin' ||
         loggedUser?.role === 'moderator';
 
-    const [convertMode, setConvertMode] = useState<
-        'to-review' | 'to-comment' | null
-    >(null);
+    const [convertOpen, setConvertOpen] = useState(false);
 
     const canConvert = canConvertReview({
         isAuthor,
@@ -108,7 +106,7 @@ const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
                         <MaterialSymbolsMoreHoriz />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent align="end" className="w-52">
                     <DropdownMenuItem onClick={handleCopy}>
                         <Copy />
                         Скопіювати посилання
@@ -122,19 +120,9 @@ const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
                         </DropdownMenuItem>
                     )}
                     {canConvert && !isReview && (
-                        <DropdownMenuItem
-                            onSelect={() => setConvertMode('to-review')}
-                        >
+                        <DropdownMenuItem onSelect={() => setConvertOpen(true)}>
                             <Star />
                             Зробити відгуком
-                        </DropdownMenuItem>
-                    )}
-                    {canConvert && isReview && (
-                        <DropdownMenuItem
-                            onSelect={() => setConvertMode('to-comment')}
-                        >
-                            <StarOff />
-                            Зробити коментарем
                         </DropdownMenuItem>
                     )}
                     {canModerate && (
@@ -174,14 +162,11 @@ const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
                     )}
                 </DropdownMenuContent>
             </DropdownMenu>
-            {convertMode && (
+            {convertOpen && (
                 <ConvertReviewDialog
                     comment={comment}
-                    mode={convertMode}
-                    open={!!convertMode}
-                    onOpenChange={(open) => {
-                        if (!open) setConvertMode(null);
-                    }}
+                    open={convertOpen}
+                    onOpenChange={setConvertOpen}
                 />
             )}
         </>
