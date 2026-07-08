@@ -14,6 +14,22 @@ export function toReviewArgs(
     return { recommended: verdict };
 }
 
+export function canConvertReview(params: {
+    isAuthor: boolean;
+    hidden: boolean;
+    text: string | null;
+    parent: string | null;
+    contentType: string;
+}): boolean {
+    return (
+        params.isAuthor &&
+        !params.hidden &&
+        !!params.text &&
+        !params.parent &&
+        supportsReviews(params.contentType)
+    );
+}
+
 export const REVIEW_AUTO_THRESHOLD = 500;
 
 // Structural node type so this util needs no platejs import — matches both

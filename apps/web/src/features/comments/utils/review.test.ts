@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
     REVIEW_AUTO_THRESHOLD,
+    canConvertReview,
     getPlainTextLength,
     supportsReviews,
     toReviewArgs,
@@ -32,6 +33,50 @@ describe('toReviewArgs', () => {
 
     it('returns the review payload when review mode and verdict set', () => {
         expect(toReviewArgs(true, 'maybe')).toEqual({ recommended: 'maybe' });
+    });
+});
+
+describe('canConvertReview', () => {
+    const base = {
+        isAuthor: true,
+        hidden: false,
+        text: 'Чудовий тайтл, рекомендую всім.',
+        parent: null,
+        contentType: 'anime',
+    };
+
+    it('is true for an author-owned visible root comment on anime/manga/novel', () => {
+        expect(canConvertReview(base)).toBe(true);
+        expect(canConvertReview({ ...base, contentType: 'manga' })).toBe(true);
+        expect(canConvertReview({ ...base, contentType: 'novel' })).toBe(true);
+    });
+
+    it('is false when the user is not the author', () => {
+        expect(canConvertReview({ ...base, isAuthor: false })).toBe(false);
+    });
+
+    it('is false for hidden (deleted) comments', () => {
+        expect(canConvertReview({ ...base, hidden: true })).toBe(false);
+    });
+
+    it('is false when text is missing', () => {
+        expect(canConvertReview({ ...base, text: null })).toBe(false);
+        expect(canConvertReview({ ...base, text: '' })).toBe(false);
+    });
+
+    it('is false for replies (non-root comments)', () => {
+        expect(canConvertReview({ ...base, parent: 'some-parent-ref' })).toBe(
+            false,
+        );
+    });
+
+    it('is false for content types without reviews', () => {
+        expect(canConvertReview({ ...base, contentType: 'article' })).toBe(
+            false,
+        );
+        expect(canConvertReview({ ...base, contentType: 'collection' })).toBe(
+            false,
+        );
     });
 });
 
