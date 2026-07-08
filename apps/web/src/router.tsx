@@ -13,6 +13,7 @@ import {
 } from '@hikka/api';
 
 import ErrorPage from '@/components/error-page';
+import { shouldSkipGlobalErrorToast } from '@/utils/api/mutation-meta';
 
 import { routeTree } from './routeTree.gen';
 import { getAuthTokenFn } from './utils/cookies';
@@ -27,7 +28,8 @@ const isServer = typeof window === 'undefined';
 export async function createRouter() {
     const queryClient = new QueryClient({
         mutationCache: new MutationCache({
-            onError: (error) => {
+            onError: (error, _variables, _context, mutation) => {
+                if (shouldSkipGlobalErrorToast(mutation.meta)) return;
                 toast.error(error.message);
             },
         }),

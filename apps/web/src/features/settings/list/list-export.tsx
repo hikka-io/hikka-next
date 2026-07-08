@@ -5,6 +5,8 @@ import { toast } from 'sonner';
 
 import { exportListMutation } from '@hikka/api';
 
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
+
 import ListExportItem from './components/list-export-item';
 
 type ExportAnimeItem = {
@@ -168,6 +170,7 @@ export const ExportAnime = () => {
 
     const { mutate: exportLists } = useMutation({
         ...exportListMutation(),
+        meta: MUTATION_META_SKIP_ERROR_TOAST,
         onSuccess: (data) => {
             const anime = data.anime || [];
             if (!anime.length) {
@@ -209,6 +212,7 @@ export const ExportManga = () => {
 
     const { mutate: exportLists } = useMutation({
         ...exportListMutation(),
+        meta: MUTATION_META_SKIP_ERROR_TOAST,
         onSuccess: (data) => {
             const manga = [...(data.manga || []), ...(data.novel || [])];
             if (!manga.length) {

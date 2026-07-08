@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import Spinner from '@/components/ui/spinner';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import { cn } from '@/utils/cn';
 import { getImage } from '@/utils/image';
 import { useRouter } from '@/utils/navigation';
@@ -47,6 +48,7 @@ const CropEditorModal = ({ file, type, onClose }: Props) => {
 
     const uploadImageMutation = useMutation({
         ...uploadImageMutation_(),
+        meta: MUTATION_META_SKIP_ERROR_TOAST,
         onSuccess: () => {
             const successMessage =
                 type === UploadTypeEnum.AVATAR

@@ -37,6 +37,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 
 type Props = {
     appName: string;
@@ -50,6 +51,7 @@ const AuthorizedAppItem: FC<{ token: AuthTokenInfoResponse }> = ({ token }) => {
 
     const { mutate: revokeToken, isPending: isRevoking } = useMutation({
         ...revokeTokenMutation(),
+        meta: MUTATION_META_SKIP_ERROR_TOAST,
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: thirdPartyAuthTokensInfiniteOptions().queryKey,
@@ -204,6 +206,7 @@ const AuthorizedAppGroup: FC<Props> = ({
     const queryClient = useQueryClient();
 
     const { mutate: revokeAll, isPending: isRevokingAll } = useMutation({
+        meta: MUTATION_META_SKIP_ERROR_TOAST,
         mutationFn: async () => {
             const { mutationFn } = revokeTokenMutation();
             if (!mutationFn) return;

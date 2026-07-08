@@ -28,6 +28,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { invalidateCollections } from '@/utils/api/invalidate-content-state';
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useRouter } from '@/utils/navigation';
 
@@ -41,6 +42,7 @@ const CollectionMenu: FC<Props> = ({ collection }) => {
 
     const deleteCollection = useMutation({
         ...deleteCollectionMutation(),
+        meta: MUTATION_META_SKIP_ERROR_TOAST,
         onSuccess: () => {
             invalidateCollections(queryClient);
             router.push('/');

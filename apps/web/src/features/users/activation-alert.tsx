@@ -6,6 +6,7 @@ import { activationResendMutation, userProfileOptions } from '@hikka/api';
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import { useParams } from '@/utils/navigation';
 
 const ActivationAlert = () => {
@@ -20,6 +21,7 @@ const ActivationAlert = () => {
 
     const { mutate: resendActivation } = useMutation({
         ...activationResendMutation(),
+        meta: MUTATION_META_SKIP_ERROR_TOAST,
         onSuccess: (user) => {
             toast.success(
                 <span>
@@ -30,19 +32,22 @@ const ActivationAlert = () => {
             );
         },
         onError: (error) => {
-            if ('code' in (error as any)) {
-                if ((error as any).code === 'auth-modal:activation_valid') {
-                    toast.error(
-                        <span>
-                            <span className="font-bold">
-                                {loggedUser?.username}
-                            </span>
-                            , Ваше посилання досі активне. Перегляньте, будь
-                            ласка, вашу поштову скриньку для активації акаунту.
-                        </span>,
-                    );
-                }
+            if ((error as any)?.code === 'auth-modal:activation_valid') {
+                toast.error(
+                    <span>
+                        <span className="font-bold">
+                            {loggedUser?.username}
+                        </span>
+                        , Ваше посилання досі активне. Перегляньте, будь ласка,
+                        вашу поштову скриньку для активації акаунту.
+                    </span>,
+                );
+                return;
             }
+            toast.error(
+                (error as unknown as Error)?.message ??
+                    'Не вдалося надіслати лист. Спробуйте, будь ласка, ще раз',
+            );
         },
     });
 

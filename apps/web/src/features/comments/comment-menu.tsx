@@ -34,6 +34,7 @@ import {
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
+import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 
 import ConvertReviewDialog from './convert-review-dialog';
 import { canConvertReview } from './utils/review';
@@ -52,6 +53,7 @@ const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
 
     const deleteCommentMutation = useMutation({
         ...hideCommentMutation(),
+        meta: MUTATION_META_SKIP_ERROR_TOAST,
         onSuccess: () => {
             removePendingReply(comment.reference);
             invalidateComments(queryClient);

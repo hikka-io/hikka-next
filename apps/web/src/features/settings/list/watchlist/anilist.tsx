@@ -1,7 +1,5 @@
 import { type Dispatch, type SetStateAction, useState } from 'react';
 
-import { toast } from 'sonner';
-
 import { ContentTypeEnum, type ImportWatchArgs } from '@hikka/api';
 
 import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
@@ -29,9 +27,6 @@ const AnilistWatchlist = ({ watchList, setWatchList, importing }: Props) => {
             onSuccess: (data) => {
                 // useAnilist returns ImportWatchArgs[] | ImportReadArgs[]; this importer requested the watch variant.
                 setWatchList(data as unknown as ImportWatchArgs[]);
-            },
-            onError: (error: Error) => {
-                toast.error(error.message);
             },
         },
     });
