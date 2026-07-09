@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
@@ -18,51 +17,10 @@ import {
     EditContent as Content,
     EditCreateForm as EditForm,
     EditRulesAlert as RulesAlert,
+    useContentBySlug,
 } from '@/features/edit';
-import type { EditMainContent } from '@/features/edit/types';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editNewSearchSchema } from '@/utils/search-schemas';
-
-function useContentBySlug(
-    contentType: EditContentTypeEnum,
-    slug: string,
-): EditMainContent | undefined {
-    const anime = useQuery({
-        ...animeSlugOptions({ path: { slug } }),
-        enabled: contentType === ContentTypeEnum.ANIME,
-    });
-    const manga = useQuery({
-        ...mangaInfoOptions({ path: { slug } }),
-        enabled: contentType === ContentTypeEnum.MANGA,
-    });
-    const novel = useQuery({
-        ...novelInfoOptions({ path: { slug } }),
-        enabled: contentType === ContentTypeEnum.NOVEL,
-    });
-    const character = useQuery({
-        ...characterInfoOptions({ path: { slug } }),
-        enabled: contentType === ContentTypeEnum.CHARACTER,
-    });
-    const person = useQuery({
-        ...personInfoOptions({ path: { slug } }),
-        enabled: contentType === ContentTypeEnum.PERSON,
-    });
-
-    // Detail endpoints return supersets of EditMainContent; the edit UI reads
-    // only the shared subset, so narrow to the shared union.
-    switch (contentType) {
-        case ContentTypeEnum.ANIME:
-            return anime.data as EditMainContent | undefined;
-        case ContentTypeEnum.MANGA:
-            return manga.data as EditMainContent | undefined;
-        case ContentTypeEnum.NOVEL:
-            return novel.data as EditMainContent | undefined;
-        case ContentTypeEnum.CHARACTER:
-            return character.data as EditMainContent | undefined;
-        case ContentTypeEnum.PERSON:
-            return person.data as EditMainContent | undefined;
-    }
-}
 
 export const Route = createFileRoute('/_pages/edit/new')({
     validateSearch: zodValidator(editNewSearchSchema),

@@ -11,3 +11,4 @@ export { default as EditRulesAlert } from './edit-rules-alert';
 export { default as EditStatusBadge } from './edit-status';
 export { default as EditTimeline } from './edit-timeline';
 export { default as EditTopStats } from './edit-top-stats';
+export { useContentBySlug } from './hooks/use-content-by-slug';

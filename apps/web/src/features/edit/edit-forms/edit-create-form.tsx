@@ -14,6 +14,7 @@ import type { EditMainContent } from '../types';
 import AutoButton from './components/auto-button';
 import EditFormFields from './components/edit-form-fields';
 import {
+    getEditFormDefaults,
     getEditGroups,
     getEditParamSlugs,
     getEditParams,
@@ -56,21 +57,7 @@ const EditForm: FC<Props> = ({
     });
 
     const form = useAppForm({
-        defaultValues: {
-            description: '',
-            ...content,
-            synonyms:
-                (content &&
-                    'synonyms' in content &&
-                    content.synonyms!.map((v: string) => ({
-                        value: v,
-                    }))) ||
-                [],
-            auto: false,
-        } as Record<string, unknown> & {
-            description: string;
-            auto: boolean;
-        },
+        defaultValues: getEditFormDefaults(content, false),
         onSubmit: async ({ value }) => {
             mutationAddEdit.mutate({
                 path: {
