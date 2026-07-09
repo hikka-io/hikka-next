@@ -1,12 +1,15 @@
-import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
+import { createFileRoute, notFound, Outlet, redirect } from '@tanstack/react-router';
 
 import {
     ContentTypeEnum,
     followStatsOptions,
     userProfileOptions,
     userReadStatsOptions,
+    userReferenceOptions,
     userWatchStatsOptions,
 } from '@hikka/api';
+
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
 
 import CoverImage from '@/components/cover-image';
 import Link from '@/components/ui/link';
@@ -18,13 +21,33 @@ import {
     UserInfo,
     UserTitle,
 } from '@/features/users';
-import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
+
+const UUID_RE =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export const Route = createFileRoute('/_pages/u/$username')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { username } = params;
+
+        if (UUID_RE.test(username)) {
+            const user = await ensureOr404(
+                queryClient.ensureQueryData(
+                    userReferenceOptions({
+                        path: { reference: username },
+                        client: apiClient,
+                    }),
+                ),
+            );
+
+            if (!user.username) throw notFound();
+
+            throw redirect({
+                to: '/u/$username',
+                params: { username: user.username },
+            });
+        }
 
         const user = await ensureOr404(
             queryClient.ensureQueryData(
@@ -34,8 +57,6 @@ export const Route = createFileRoute('/_pages/u/$username')({
                 }),
             ),
         );
-
-        if (!user) throw notFound();
 
         await Promise.allSettled([
             queryClient.prefetchQuery(
