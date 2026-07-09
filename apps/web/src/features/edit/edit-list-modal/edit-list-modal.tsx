@@ -5,6 +5,7 @@ import { type EditContentTypeEnum, getEditsInfiniteOptions } from '@hikka/api';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import { Button } from '@/components/ui/button';
+import EmptyState from '@/components/ui/empty-state';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link } from '@/utils/navigation';
@@ -34,7 +35,7 @@ const EditListModal = ({ content_type, slug }: Props) => {
 
     return (
         <Fragment>
-            {list!.length > 0 && (
+            {list!.length > 0 ? (
                 <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
                     {list!.map((edit) => (
                         <EditCard
@@ -51,6 +52,12 @@ const EditListModal = ({ content_type, slug }: Props) => {
                         />
                     )}
                 </div>
+            ) : (
+                <EmptyState
+                    icon={<MaterialSymbolsEditRounded />}
+                    title="Правок ще немає"
+                    description="Станьте першим, хто запропонує правку для цього контенту"
+                />
             )}
             <ResponsiveModalFooter>
                 <div className="flex w-full items-center gap-2">
