@@ -1,5 +1,4 @@
 export { default as EditActions } from './edit-actions/edit-actions';
-export { default as EditAuthor } from './edit-author';
 export { default as EditButton } from './edit-button';
 export { default as EditContent } from './edit-content';
 export { default as EditContentList } from './edit-content-list';
@@ -8,7 +7,7 @@ export { default as EditFiltersModal } from './edit-filters-modal';
 export { default as EditCreateForm } from './edit-forms/edit-create-form';
 export { default as EditViewForm } from './edit-forms/edit-view-form';
 export { default as EditList } from './edit-list';
-export { default as EditModerator } from './edit-moderator';
 export { default as EditRulesAlert } from './edit-rules-alert';
 export { default as EditStatusBadge } from './edit-status';
+export { default as EditTimeline } from './edit-timeline';
 export { default as EditTopStats } from './edit-top-stats';
