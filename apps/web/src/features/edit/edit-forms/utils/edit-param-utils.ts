@@ -14,6 +14,7 @@ import {
     PERSON_EDIT_GROUPS,
     PERSON_EDIT_PARAMS,
 } from '../../../../utils/constants/edit';
+import type { EditMainContent } from '../../types';
 import InputParam from '../components/params/input-param';
 import ListParam from '../components/params/list-param';
 import MarkdownParam from '../components/params/markdown-param';
@@ -143,4 +144,28 @@ export const getFilteredEditParams = (
 
         return acc;
     }, {});
+};
+
+/**
+ * Build the TanStack Form default values for the create / quick-edit forms: the current
+ * content spread as-is, `synonyms` mapped to the `{ value }[]` shape the list field uses,
+ * an empty `description`, and the `auto` (accept-on-create) flag.
+ */
+export const getEditFormDefaults = (
+    content: EditMainContent,
+    auto: boolean,
+) => {
+    return {
+        description: '',
+        ...content,
+        synonyms:
+            (content &&
+                'synonyms' in content &&
+                content.synonyms!.map((v: string) => ({ value: v }))) ||
+            [],
+        auto,
+    } as Record<string, unknown> & {
+        description: string;
+        auto: boolean;
+    };
 };

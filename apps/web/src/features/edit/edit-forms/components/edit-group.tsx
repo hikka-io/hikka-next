@@ -25,6 +25,8 @@ type Props = {
     params: Hikka.EditParam[];
     mode: 'view' | 'edit' | 'update';
     warning?: ReactNode;
+    /** Start expanded in `edit` mode (view/update are always open). */
+    defaultOpen?: boolean;
 };
 
 const GROUP_META: Record<string, { icon: LucideIcon; description: string }> = {
@@ -37,7 +39,14 @@ const GROUP_META: Record<string, { icon: LucideIcon; description: string }> = {
     },
 };
 
-const EditGroup: FC<Props> = ({ title, groupKey, params, mode, warning }) => {
+const EditGroup: FC<Props> = ({
+    title,
+    groupKey,
+    params,
+    mode,
+    warning,
+    defaultOpen = false,
+}) => {
     const [selected, setSelected] = React.useState<string[]>([]);
 
     const meta = GROUP_META[groupKey];
@@ -55,6 +64,7 @@ const EditGroup: FC<Props> = ({ title, groupKey, params, mode, warning }) => {
         <Card>
             <Collapsible
                 open={mode === 'view' || mode === 'update' ? true : undefined}
+                defaultOpen={defaultOpen}
             >
                 <CollapsibleTrigger asChild>
                     <button
@@ -76,7 +86,7 @@ const EditGroup: FC<Props> = ({ title, groupKey, params, mode, warning }) => {
                     </button>
                 </CollapsibleTrigger>
 
-                <CollapsibleContent className="mt-4 flex w-full flex-col gap-6 overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                <CollapsibleContent className="mt-4 flex w-full flex-col gap-6 overflow-clip data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                     {warning}
 
                     {(mode === 'edit' || mode === 'update') &&

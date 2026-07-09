@@ -1,4 +1,9 @@
-import { createFileRoute, notFound, Outlet, redirect } from '@tanstack/react-router';
+import {
+    createFileRoute,
+    notFound,
+    Outlet,
+    redirect,
+} from '@tanstack/react-router';
 
 import {
     ContentTypeEnum,
@@ -8,8 +13,6 @@ import {
     userReferenceOptions,
     userWatchStatsOptions,
 } from '@hikka/api';
-
-import { ensureOr404 } from '@/utils/api/ensure-or-404';
 
 import CoverImage from '@/components/cover-image';
 import Link from '@/components/ui/link';
@@ -21,6 +24,7 @@ import {
     UserInfo,
     UserTitle,
 } from '@/features/users';
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 
