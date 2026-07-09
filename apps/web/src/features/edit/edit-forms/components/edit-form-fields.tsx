@@ -7,6 +7,7 @@ type Props = {
     groups: Record<string, string>;
     mode: 'view' | 'edit' | 'update';
     nativeTitleMissing: boolean;
+    defaultOpen?: boolean;
 };
 
 /**
@@ -19,6 +20,7 @@ const EditFormFields = ({
     groups,
     mode,
     nativeTitleMissing,
+    defaultOpen = false,
 }: Props) => {
     return (
         <div className="flex w-full flex-col gap-6">
@@ -29,6 +31,7 @@ const EditFormFields = ({
                     groupKey={group}
                     params={params[group]}
                     mode={mode}
+                    defaultOpen={defaultOpen}
                     warning={
                         mode !== 'view' &&
                         group === 'title' &&

@@ -112,6 +112,7 @@ const QuickEditForm: FC<FormProps> = ({
                         groups={groups}
                         mode="edit"
                         nativeTitleMissing={nativeTitleMissing}
+                        defaultOpen
                     />
                     <form.AppField
                         name="auto"
