@@ -24,7 +24,8 @@ import {
 import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const UUID_RE =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export const Route = createFileRoute('/_pages/u/$username')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -48,14 +49,14 @@ export const Route = createFileRoute('/_pages/u/$username')({
             });
         }
 
-        const user = await queryClient.ensureQueryData(
-            userProfileOptions({
-                path: { username },
-                client: apiClient,
-            }),
+        const user = await ensureOr404(
+            queryClient.ensureQueryData(
+                userProfileOptions({
+                    path: { username },
+                    client: apiClient,
+                }),
+            ),
         );
-
-        if (!user) throw redirect({ to: '/' });
 
         await Promise.allSettled([
             queryClient.prefetchQuery(
