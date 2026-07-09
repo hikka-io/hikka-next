@@ -9,9 +9,9 @@ import { useFormContext } from '@/components/form/form-context';
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { DiffViewer } from '@/components/plate/editor/diff-viewer';
 import { PlateMarkdownEditor } from '@/components/plate/editor/plate-editor';
-import { Button } from '@/components/ui/button';
 import { FIELD_BASE } from '@/components/ui/field-base';
 import { Label } from '@/components/ui/label';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
@@ -20,11 +20,13 @@ type Props = {
     mode: 'view' | 'edit';
 };
 
+type ParamView = 'value' | 'diff';
+
 const MarkdownParam: FC<Props> = ({ mode, param }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const form = useFormContext() as any;
     const params = useParams();
-    const [showDiff, setShowDiff] = React.useState(false);
+    const [view, setView] = React.useState<ParamView>('value');
     const { data: edit } = useQuery({
         ...getEditOptions({ path: { edit_id: Number(params.editId) } }),
         enabled: mode === 'view',
@@ -38,33 +40,46 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
     ];
 
     if (mode === 'view') {
+        const hasDiff = Boolean(edit) && Boolean(beforeValue);
+        const showDiff = hasDiff && view === 'diff';
+
         return (
             <div className="flex w-full flex-col gap-4">
                 <div className="flex items-center gap-4">
                     <Label>{param.title}</Label>
-                    {mode === 'view' && edit && beforeValue && (
-                        <Button
+                    {hasDiff && (
+                        <ToggleGroup
+                            type="single"
                             size="badge"
-                            variant={showDiff ? 'secondary' : 'outline'}
-                            onClick={() => setShowDiff(!showDiff)}
+                            value={view}
+                            onValueChange={(value) =>
+                                value && setView(value as ParamView)
+                            }
                         >
-                            Різниця
-                        </Button>
+                            <ToggleGroupItem value="value">
+                                Значення
+                            </ToggleGroupItem>
+                            <ToggleGroupItem value="diff">
+                                Різниця
+                            </ToggleGroupItem>
+                        </ToggleGroup>
                     )}
                 </div>
-                <form.Field
-                    name={param.slug}
-                    children={(field: any) => (
-                        <MDViewer className={cn(FIELD_BASE, 'markdown p-4')}>
-                            {field.state.value as string}
-                        </MDViewer>
-                    )}
-                />
-                {mode === 'view' && edit && beforeValue && showDiff && (
+                {showDiff ? (
                     <DiffViewer
-                        className="opacity-50 hover:opacity-100"
                         current={afterValue ?? ''}
-                        previous={beforeValue}
+                        previous={beforeValue ?? ''}
+                    />
+                ) : (
+                    <form.Field
+                        name={param.slug}
+                        children={(field: any) => (
+                            <MDViewer
+                                className={cn(FIELD_BASE, 'markdown p-4')}
+                            >
+                                {field.state.value as string}
+                            </MDViewer>
+                        )}
                     />
                 )}
             </div>

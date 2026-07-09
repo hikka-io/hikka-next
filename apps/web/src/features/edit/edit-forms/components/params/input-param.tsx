@@ -6,9 +6,9 @@ import { useQuery } from '@tanstack/react-query';
 import { getEditOptions } from '@hikka/api';
 
 import { useFormContext } from '@/components/form/form-context';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
@@ -16,11 +16,13 @@ type Props = {
     mode: 'view' | 'edit';
 };
 
+type ParamView = 'value' | 'diff';
+
 const InputParam: FC<Props> = ({ mode, param }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const form = useFormContext() as any;
     const params = useParams();
-    const [showDiff, setShowDiff] = React.useState(false);
+    const [view, setView] = React.useState<ParamView>('value');
     const { data: edit } = useQuery({
         ...getEditOptions({ path: { edit_id: Number(params.editId) } }),
         enabled: mode === 'view',
@@ -30,41 +32,50 @@ const InputParam: FC<Props> = ({ mode, param }) => {
         param.slug
     ];
 
+    const hasDiff = mode === 'view' && Boolean(edit) && Boolean(beforeValue);
+    const showDiff = hasDiff && view === 'diff';
+
     return (
         <div className="flex w-full flex-col gap-4">
             <div className="flex items-center gap-4">
                 <Label>{param.title}</Label>
-                {mode === 'view' && edit && beforeValue && (
-                    <Button
+                {hasDiff && (
+                    <ToggleGroup
+                        type="single"
                         size="badge"
-                        variant={showDiff ? 'secondary' : 'outline'}
-                        onClick={() => setShowDiff(!showDiff)}
+                        value={view}
+                        onValueChange={(value) =>
+                            value && setView(value as ParamView)
+                        }
                     >
-                        Різниця
-                    </Button>
+                        <ToggleGroupItem value="value">
+                            Значення
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="diff">Різниця</ToggleGroupItem>
+                    </ToggleGroup>
                 )}
             </div>
 
-            <form.Field
-                name={param.slug}
-                children={(field: any) => (
-                    <Input
-                        disabled={mode === 'view'}
-                        type="text"
-                        placeholder={param.placeholder}
-                        className="w-full disabled:cursor-text disabled:opacity-100"
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        onBlur={field.handleBlur}
-                        value={field.state.value as string}
-                    />
-                )}
-            />
-
-            {mode === 'view' && edit && beforeValue && showDiff && (
+            {showDiff ? (
                 <Input
                     className="w-full disabled:cursor-text hover:disabled:opacity-100"
-                    value={beforeValue}
+                    value={beforeValue ?? ''}
                     disabled
+                />
+            ) : (
+                <form.Field
+                    name={param.slug}
+                    children={(field: any) => (
+                        <Input
+                            disabled={mode === 'view'}
+                            type="text"
+                            placeholder={param.placeholder}
+                            className="w-full disabled:cursor-text disabled:opacity-100"
+                            onChange={(e) => field.handleChange(e.target.value)}
+                            onBlur={field.handleBlur}
+                            value={field.state.value as string}
+                        />
+                    )}
                 />
             )}
         </div>
