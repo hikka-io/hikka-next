@@ -110,7 +110,7 @@ const QuickEditForm: FC<FormProps> = ({
                     submitWith(true);
                 }}
             >
-                <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
+                <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4 [--plate-sticky-top:-1rem]">
                     <EditFormFields
                         params={params}
                         groups={groups}
