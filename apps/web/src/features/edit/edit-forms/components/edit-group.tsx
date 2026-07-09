@@ -86,7 +86,7 @@ const EditGroup: FC<Props> = ({
                     </button>
                 </CollapsibleTrigger>
 
-                <CollapsibleContent className="mt-4 flex w-full flex-col gap-6 overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+                <CollapsibleContent className="mt-4 flex w-full flex-col gap-6 overflow-clip data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
                     {warning}
 
                     {(mode === 'edit' || mode === 'update') &&
