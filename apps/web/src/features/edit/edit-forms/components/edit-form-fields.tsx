@@ -26,6 +26,7 @@ const EditFormFields = ({
                 <EditGroup
                     key={group}
                     title={groups[group]}
+                    groupKey={group}
                     params={params[group]}
                     mode={mode}
                     warning={
