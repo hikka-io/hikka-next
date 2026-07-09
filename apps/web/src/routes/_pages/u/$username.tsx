@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
 
 import {
     ContentTypeEnum,
@@ -18,6 +18,7 @@ import {
     UserInfo,
     UserTitle,
 } from '@/features/users';
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 
@@ -25,14 +26,16 @@ export const Route = createFileRoute('/_pages/u/$username')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { username } = params;
 
-        const user = await queryClient.ensureQueryData(
-            userProfileOptions({
-                path: { username },
-                client: apiClient,
-            }),
+        const user = await ensureOr404(
+            queryClient.ensureQueryData(
+                userProfileOptions({
+                    path: { username },
+                    client: apiClient,
+                }),
+            ),
         );
 
-        if (!user) throw redirect({ to: '/' });
+        if (!user) throw notFound();
 
         await Promise.allSettled([
             queryClient.prefetchQuery(
