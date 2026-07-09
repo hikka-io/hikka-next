@@ -1,12 +1,13 @@
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 
-import { useStore } from '@tanstack/react-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { createEditMutation, type EditContentTypeEnum } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
+import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
+import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
@@ -52,6 +53,7 @@ const QuickEditForm: FC<FormProps> = ({
     onSuccess,
 }) => {
     const queryClient = useQueryClient();
+    const [pendingAuto, setPendingAuto] = useState<boolean | null>(null);
 
     const params = getEditParams(content_type)!;
     const groups = getEditGroups(content_type)!;
@@ -75,6 +77,7 @@ const QuickEditForm: FC<FormProps> = ({
             );
             onSuccess();
         },
+        onError: () => setPendingAuto(null),
     });
 
     const form = useAppForm({
@@ -91,10 +94,11 @@ const QuickEditForm: FC<FormProps> = ({
         },
     });
 
-    const auto = useStore(
-        form.store,
-        (state) => (state.values as { auto: boolean }).auto,
-    );
+    const submitWith = (auto: boolean) => {
+        setPendingAuto(auto);
+        form.setFieldValue('auto', auto);
+        form.handleSubmit();
+    };
 
     return (
         <form.AppForm>
@@ -103,7 +107,7 @@ const QuickEditForm: FC<FormProps> = ({
                 onSubmit={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    form.handleSubmit();
+                    submitWith(true);
                 }}
             >
                 <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
@@ -114,25 +118,34 @@ const QuickEditForm: FC<FormProps> = ({
                         nativeTitleMissing={nativeTitleMissing}
                         defaultOpen
                     />
-                    <form.AppField
-                        name="auto"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Прийняти одразу"
-                                description="Зміни застосуються негайно, без черги на модерацію."
-                            />
-                        )}
-                    />
                 </div>
                 <ResponsiveModalFooter>
                     <Button
-                        type="submit"
+                        type="button"
+                        variant="outline"
                         size="md"
-                        className="w-full"
                         disabled={mutation.isPending}
+                        onClick={() => submitWith(false)}
                     >
-                        {mutation.isPending && <Spinner />}
-                        {auto ? 'Прийняти' : 'Створити'}
+                        {pendingAuto === false ? (
+                            <Spinner />
+                        ) : (
+                            <MaterialSymbolsEditRounded className="size-4" />
+                        )}
+                        Створити
+                    </Button>
+                    <Button
+                        type="button"
+                        size="md"
+                        disabled={mutation.isPending}
+                        onClick={() => submitWith(true)}
+                    >
+                        {pendingAuto === true ? (
+                            <Spinner />
+                        ) : (
+                            <MaterialSymbolsCheckRounded className="size-4" />
+                        )}
+                        Прийняти
                     </Button>
                 </ResponsiveModalFooter>
             </form>
@@ -172,18 +185,16 @@ const QuickEditModal: FC<Props> = ({
     onOpenChange,
 }) => {
     return (
-        <ResponsiveModal open={open} onOpenChange={onOpenChange}>
+        <ResponsiveModal open={open} onOpenChange={onOpenChange} forceDesktop>
             <ResponsiveModalContent
                 className="md:max-w-2xl"
                 title="Швидка правка"
             >
-                {open && (
-                    <QuickEditModalBody
-                        slug={slug}
-                        content_type={content_type}
-                        onOpenChange={onOpenChange}
-                    />
-                )}
+                <QuickEditModalBody
+                    slug={slug}
+                    content_type={content_type}
+                    onOpenChange={onOpenChange}
+                />
             </ResponsiveModalContent>
         </ResponsiveModal>
     );
