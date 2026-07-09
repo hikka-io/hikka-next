@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PagesRouteImport } from './routes/_pages'
 import { Route as PagesIndexRouteImport } from './routes/_pages/index'
-import { Route as RReferenceRouteImport } from './routes/r.$reference'
 import { Route as NovelSitemapDotxmlRouteImport } from './routes/novel/sitemap[.]xml'
 import { Route as MangaSitemapDotxmlRouteImport } from './routes/manga/sitemap[.]xml'
 import { Route as AuthLogoutRouteImport } from './routes/auth/logout'
@@ -111,11 +110,6 @@ const PagesIndexRoute = PagesIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PagesRoute,
-} as any)
-const RReferenceRoute = RReferenceRouteImport.update({
-  id: '/r/$reference',
-  path: '/r/$reference',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const NovelSitemapDotxmlRoute = NovelSitemapDotxmlRouteImport.update({
   id: '/novel/sitemap.xml',
@@ -566,7 +560,6 @@ export interface FileRoutesByFullPath {
   '/auth/logout': typeof AuthLogoutRoute
   '/manga/sitemap.xml': typeof MangaSitemapDotxmlRoute
   '/novel/sitemap.xml': typeof NovelSitemapDotxmlRoute
-  '/r/$reference': typeof RReferenceRoute
   '/login': typeof PagesAuthLoginRoute
   '/reset': typeof PagesAuthResetRoute
   '/signup': typeof PagesAuthSignupRoute
@@ -653,7 +646,6 @@ export interface FileRoutesByTo {
   '/auth/logout': typeof AuthLogoutRoute
   '/manga/sitemap.xml': typeof MangaSitemapDotxmlRoute
   '/novel/sitemap.xml': typeof NovelSitemapDotxmlRoute
-  '/r/$reference': typeof RReferenceRoute
   '/login': typeof PagesAuthLoginRoute
   '/reset': typeof PagesAuthResetRoute
   '/signup': typeof PagesAuthSignupRoute
@@ -733,7 +725,6 @@ export interface FileRoutesById {
   '/auth/logout': typeof AuthLogoutRoute
   '/manga/sitemap.xml': typeof MangaSitemapDotxmlRoute
   '/novel/sitemap.xml': typeof NovelSitemapDotxmlRoute
-  '/r/$reference': typeof RReferenceRoute
   '/_pages/': typeof PagesIndexRoute
   '/_pages/_auth/login': typeof PagesAuthLoginRoute
   '/_pages/_auth/reset': typeof PagesAuthResetRoute
@@ -824,7 +815,6 @@ export interface FileRouteTypes {
     | '/auth/logout'
     | '/manga/sitemap.xml'
     | '/novel/sitemap.xml'
-    | '/r/$reference'
     | '/login'
     | '/reset'
     | '/signup'
@@ -911,7 +901,6 @@ export interface FileRouteTypes {
     | '/auth/logout'
     | '/manga/sitemap.xml'
     | '/novel/sitemap.xml'
-    | '/r/$reference'
     | '/login'
     | '/reset'
     | '/signup'
@@ -990,7 +979,6 @@ export interface FileRouteTypes {
     | '/auth/logout'
     | '/manga/sitemap.xml'
     | '/novel/sitemap.xml'
-    | '/r/$reference'
     | '/_pages/'
     | '/_pages/_auth/login'
     | '/_pages/_auth/reset'
@@ -1077,7 +1065,6 @@ export interface RootRouteChildren {
   AuthLogoutRoute: typeof AuthLogoutRoute
   MangaSitemapDotxmlRoute: typeof MangaSitemapDotxmlRoute
   NovelSitemapDotxmlRoute: typeof NovelSitemapDotxmlRoute
-  RReferenceRoute: typeof RReferenceRoute
   ApiOgAnimeRoute: typeof ApiOgAnimeRoute
   ApiOgMangaRoute: typeof ApiOgMangaRoute
   ApiOgNovelRoute: typeof ApiOgNovelRoute
@@ -1107,13 +1094,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof PagesIndexRouteImport
       parentRoute: typeof PagesRoute
-    }
-    '/r/$reference': {
-      id: '/r/$reference'
-      path: '/r/$reference'
-      fullPath: '/r/$reference'
-      preLoaderRoute: typeof RReferenceRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/novel/sitemap.xml': {
       id: '/novel/sitemap.xml'
@@ -1993,7 +1973,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLogoutRoute: AuthLogoutRoute,
   MangaSitemapDotxmlRoute: MangaSitemapDotxmlRoute,
   NovelSitemapDotxmlRoute: NovelSitemapDotxmlRoute,
-  RReferenceRoute: RReferenceRoute,
   ApiOgAnimeRoute: ApiOgAnimeRoute,
   ApiOgMangaRoute: ApiOgMangaRoute,
   ApiOgNovelRoute: ApiOgNovelRoute,
