@@ -41,6 +41,7 @@ import {
     NovelTooltip,
     PersonTooltip,
 } from './tooltips';
+import { TooltipSuppressProvider } from './tooltips/tooltip-suppress-context';
 
 type ImageProps = {
     priority?: boolean;
@@ -100,7 +101,6 @@ export type TooltipProps = {
     slug?: string;
     watch?: WatchResponseBase;
     read?: ReadResponseBase;
-    disabled?: boolean;
 };
 
 export const DEFAULT_CONTAINER_RATIO = 0.7;
@@ -123,9 +123,10 @@ const TOOLTIP_MAP: Record<
 };
 
 const Tooltip: FC<TooltipProps> = memo(
-    ({ children, content_type, slug, watch, read, disabled }) => {
-        const TooltipComponent =
-            content_type && !disabled ? TOOLTIP_MAP[content_type] : undefined;
+    ({ children, content_type, slug, watch, read }) => {
+        const TooltipComponent = content_type
+            ? TOOLTIP_MAP[content_type]
+            : undefined;
 
         if (!TooltipComponent) {
             return <Fragment>{children}</Fragment>;
@@ -224,108 +225,114 @@ const Content = memo(
             const revealClick = hidden ? handleReveal : undefined;
 
             return (
-                <Tooltip
-                    slug={slug}
-                    content_type={content_type}
-                    watch={watch}
-                    read={read}
-                    disabled={hidden || tooltipDisabled}
+                <TooltipSuppressProvider
+                    value={hidden || Boolean(tooltipDisabled)}
                 >
-                    {/* biome-ignore lint/a11y/noStaticElementInteractions: click is a supplementary shortcut; primary navigation is the inner link. */}
-                    {/* biome-ignore lint/a11y/useKeyWithClickEvents: click is a supplementary shortcut; primary navigation is the inner link. */}
-                    <div
-                        ref={ref}
-                        className={cn(
-                            contentCardVariants({
-                                interactive: !!onClick,
-                            }),
-                            className,
-                        )}
-                        onClick={onClick}
-                        {...props}
+                    <Tooltip
+                        slug={slug}
+                        content_type={content_type}
+                        watch={watch}
+                        read={read}
                     >
-                        <AspectRatio
-                            ratio={containerRatio}
+                        {/* biome-ignore lint/a11y/noStaticElementInteractions: click is a supplementary shortcut; primary navigation is the inner link. */}
+                        {/* biome-ignore lint/a11y/useKeyWithClickEvents: click is a supplementary shortcut; primary navigation is the inner link. */}
+                        <div
+                            ref={ref}
                             className={cn(
-                                'relative w-full overflow-hidden rounded-md bg-muted',
-                                containerClassName,
+                                contentCardVariants({
+                                    interactive: !!onClick,
+                                }),
+                                className,
                             )}
+                            onClick={onClick}
+                            {...props}
                         >
-                            <CardLink
-                                to={resolvedHref}
-                                target={target}
-                                linkProps={linkProps}
-                                onClick={revealClick}
-                                className="@container absolute top-0 left-0 flex size-full items-center justify-center bg-secondary/20"
-                            >
-                                {renderImage(
-                                    image,
-                                    imageClassName,
-                                    resolvedImageProps,
-                                    containerRatio,
-                                    imageBlur && hidden,
-                                )}
-                                {imageBlur && hidden && (
-                                    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-                                        {/* Scales the reveal hint with the rendered card width (clamped), so it stays proportional on tiny covers and large previews alike. */}
-                                        <div className="flex size-[clamp(1rem,28cqw,2rem)] items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm">
-                                            <Eye className="size-[clamp(0.625rem,14cqw,1rem)]" />
-                                        </div>
-                                    </div>
-                                )}
-                                {!disableChildrenLink && children}
-                                {watch && (
-                                    <ContentStatus
-                                        status={watch.status}
-                                        icon={
-                                            WATCH_STATUS[
-                                                watch.status as keyof typeof WATCH_STATUS
-                                            ].icon!
-                                        }
-                                        size={statusSize}
-                                    />
-                                )}
-                                {read && (
-                                    <ContentStatus
-                                        status={read.status}
-                                        icon={
-                                            READ_STATUS[
-                                                read.status as keyof typeof READ_STATUS
-                                            ].icon!
-                                        }
-                                        size={statusSize}
-                                    />
-                                )}
-                            </CardLink>
-                            {disableChildrenLink && children}
-                        </AspectRatio>
-                        {hasTitleOrDescription && (
-                            <CardLink
-                                to={resolvedHref}
-                                target={target}
-                                linkProps={linkProps}
-                                onClick={revealClick}
+                            <AspectRatio
+                                ratio={containerRatio}
                                 className={cn(
-                                    'mt-1',
-                                    hasSubtitles && 'truncate',
+                                    'relative w-full overflow-hidden rounded-md bg-muted',
+                                    containerClassName,
                                 )}
                             >
-                                {renderDescription(description)}
-                                {renderTitle(
-                                    title,
-                                    hasSubtitles,
-                                    cn(
-                                        titleClassName,
-                                        titleBlur &&
-                                            hidden &&
-                                            'spoiler-blur-sm',
-                                    ),
-                                )}
-                                {renderSubtitles(leftSubtitle, rightSubtitle)}
-                            </CardLink>
-                        )}
-                    </div>
-                </Tooltip>
+                                <CardLink
+                                    to={resolvedHref}
+                                    target={target}
+                                    linkProps={linkProps}
+                                    onClick={revealClick}
+                                    className="@container absolute top-0 left-0 flex size-full items-center justify-center bg-secondary/20"
+                                >
+                                    {renderImage(
+                                        image,
+                                        imageClassName,
+                                        resolvedImageProps,
+                                        containerRatio,
+                                        imageBlur && hidden,
+                                    )}
+                                    {imageBlur && hidden && (
+                                        <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+                                            {/* Scales the reveal hint with the rendered card width (clamped), so it stays proportional on tiny covers and large previews alike. */}
+                                            <div className="flex size-[clamp(1rem,28cqw,2rem)] items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm">
+                                                <Eye className="size-[clamp(0.625rem,14cqw,1rem)]" />
+                                            </div>
+                                        </div>
+                                    )}
+                                    {!disableChildrenLink && children}
+                                    {watch && (
+                                        <ContentStatus
+                                            status={watch.status}
+                                            icon={
+                                                WATCH_STATUS[
+                                                    watch.status as keyof typeof WATCH_STATUS
+                                                ].icon!
+                                            }
+                                            size={statusSize}
+                                        />
+                                    )}
+                                    {read && (
+                                        <ContentStatus
+                                            status={read.status}
+                                            icon={
+                                                READ_STATUS[
+                                                    read.status as keyof typeof READ_STATUS
+                                                ].icon!
+                                            }
+                                            size={statusSize}
+                                        />
+                                    )}
+                                </CardLink>
+                                {disableChildrenLink && children}
+                            </AspectRatio>
+                            {hasTitleOrDescription && (
+                                <CardLink
+                                    to={resolvedHref}
+                                    target={target}
+                                    linkProps={linkProps}
+                                    onClick={revealClick}
+                                    className={cn(
+                                        'mt-1',
+                                        hasSubtitles && 'truncate',
+                                    )}
+                                >
+                                    {renderDescription(description)}
+                                    {renderTitle(
+                                        title,
+                                        hasSubtitles,
+                                        cn(
+                                            titleClassName,
+                                            titleBlur &&
+                                                hidden &&
+                                                'spoiler-blur-sm',
+                                        ),
+                                    )}
+                                    {renderSubtitles(
+                                        leftSubtitle,
+                                        rightSubtitle,
+                                    )}
+                                </CardLink>
+                            )}
+                        </div>
+                    </Tooltip>
+                </TooltipSuppressProvider>
             );
         },
     ),
