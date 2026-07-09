@@ -23,7 +23,12 @@ import {
 import { FIELD_BASE } from '@/components/ui/field-base';
 import { cn } from '@/utils/cn';
 
-import { StaticKit } from './static-kit';
+import { BaseBasicBlocksKit } from './plugins/basic-blocks-base-kit';
+import { BaseBasicMarksKit } from './plugins/basic-marks-base-kit';
+import { BaseLinkKit } from './plugins/link-base-kit';
+import { BaseListKit } from './plugins/list-classic-base-kit';
+import { MarkdownKit } from './plugins/markdown-kit';
+import { BaseSpoilerKit } from './plugins/spoiler-base-kit';
 
 const diffOperationColors: Record<DiffOperation['type'], string> = {
     delete: 'bg-destructive text-destructive-foreground',
@@ -139,7 +144,18 @@ function DiffLeaf({ children, ...props }: PlateLeafProps) {
     );
 }
 
-const plugins = [...StaticKit, DiffPlugin];
+// Mirror the markdown editor's element plugins (base/static variants) so the
+// diff renders descriptions with the same nodes the editor produces — no
+// video/image kits, which descriptions never contain.
+const plugins = [
+    ...BaseBasicBlocksKit,
+    ...BaseLinkKit,
+    ...BaseSpoilerKit,
+    ...BaseBasicMarksKit,
+    ...BaseListKit,
+    ...MarkdownKit,
+    DiffPlugin,
+];
 
 function VersionHistoryPlate({
     className,
@@ -147,7 +163,7 @@ function VersionHistoryPlate({
 }: Omit<PlateProps, 'children'> & { className?: string }) {
     return (
         <Plate {...props}>
-            <PlateContent className={cn(FIELD_BASE, 'p-4', className)} />
+            <PlateContent className={cn(FIELD_BASE, 'prose p-4', className)} />
         </Plate>
     );
 }
