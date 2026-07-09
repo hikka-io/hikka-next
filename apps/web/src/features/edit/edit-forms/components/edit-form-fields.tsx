@@ -30,6 +30,7 @@ const EditFormFields = ({
                     params={params[group]}
                     mode={mode}
                     warning={
+                        mode !== 'view' &&
                         group === 'title' &&
                         nativeTitleMissing && <NativeTitleWarning />
                     }

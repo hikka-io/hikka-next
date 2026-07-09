@@ -58,7 +58,7 @@ const InputParam: FC<Props> = ({ mode, param }) => {
 
             {showDiff ? (
                 <Input
-                    className="w-full disabled:cursor-text hover:disabled:opacity-100"
+                    className="w-full disabled:cursor-text disabled:opacity-100"
                     value={beforeValue ?? ''}
                     disabled
                 />
