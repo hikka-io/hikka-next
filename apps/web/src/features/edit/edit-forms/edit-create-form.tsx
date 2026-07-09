@@ -1,6 +1,5 @@
-import { type FC, useRef } from 'react';
+import type { FC } from 'react';
 
-import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { createEditMutation, type EditContentTypeEnum } from '@hikka/api';
@@ -9,7 +8,6 @@ import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { invalidateEdits } from '@/utils/api/invalidate-content-state';
-import { TURNSTILE_SITE_KEY } from '@/utils/constants/edit';
 import { useRouter } from '@/utils/navigation';
 
 import type { EditMainContent } from '../types';
@@ -36,8 +34,6 @@ const EditForm: FC<Props> = ({
     content,
     mode = 'edit',
 }) => {
-    const captchaRef = useRef<TurnstileInstance>(undefined);
-
     const router = useRouter();
     const queryClient = useQueryClient();
 
@@ -109,25 +105,16 @@ const EditForm: FC<Props> = ({
                     nativeTitleMissing={nativeTitleMissing}
                 />
                 {mode === 'edit' && (
-                    <div className="flex w-full flex-col gap-4">
-                        <Turnstile
-                            options={{
-                                refreshExpired: 'manual',
-                            }}
-                            ref={captchaRef}
-                            siteKey={TURNSTILE_SITE_KEY}
-                        />
-                        <div className="flex items-center gap-2">
-                            <Button
-                                disabled={mutationAddEdit.isPending}
-                                type="submit"
-                                className="w-fit"
-                            >
-                                {mutationAddEdit.isPending && <Spinner />}
-                                Створити
-                            </Button>
-                            <AutoButton />
-                        </div>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            disabled={mutationAddEdit.isPending}
+                            type="submit"
+                            className="w-fit"
+                        >
+                            {mutationAddEdit.isPending && <Spinner />}
+                            Створити
+                        </Button>
+                        <AutoButton />
                     </div>
                 )}
             </form>

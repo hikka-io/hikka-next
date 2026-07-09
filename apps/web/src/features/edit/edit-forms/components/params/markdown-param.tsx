@@ -10,7 +10,9 @@ import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { DiffViewer } from '@/components/plate/editor/diff-viewer';
 import { PlateMarkdownEditor } from '@/components/plate/editor/plate-editor';
 import { Button } from '@/components/ui/button';
+import { FIELD_BASE } from '@/components/ui/field-base';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
@@ -53,7 +55,7 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                 <form.Field
                     name={param.slug}
                     children={(field: any) => (
-                        <MDViewer className="markdown rounded-md border border-border surface-inset p-4 text-sm">
+                        <MDViewer className={cn(FIELD_BASE, 'markdown p-4')}>
                             {field.state.value as string}
                         </MDViewer>
                     )}

@@ -23,6 +23,12 @@ const EditDescription: FC<Props> = ({ mode }) => {
     const settings = useSettingsStore();
     const [open, setOpen] = useState(false);
 
+    const descriptionValue = form.getFieldValue('description') as string;
+
+    if (mode === 'view' && !descriptionValue?.trim()) {
+        return null;
+    }
+
     return (
         <Card>
             <div className="flex flex-col gap-1">

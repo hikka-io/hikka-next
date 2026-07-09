@@ -20,6 +20,7 @@ import {
     usePlateEditor,
 } from 'platejs/react';
 
+import { FIELD_BASE } from '@/components/ui/field-base';
 import { cn } from '@/utils/cn';
 
 import { StaticKit } from './static-kit';
@@ -146,12 +147,7 @@ function VersionHistoryPlate({
 }: Omit<PlateProps, 'children'> & { className?: string }) {
     return (
         <Plate {...props}>
-            <PlateContent
-                className={cn(
-                    'rounded-md border border-border surface-inset p-4 text-sm',
-                    className,
-                )}
-            />
+            <PlateContent className={cn(FIELD_BASE, 'p-4', className)} />
         </Plate>
     );
 }
