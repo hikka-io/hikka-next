@@ -34,6 +34,7 @@ type Props = {
     content_type: ContentTypeEnum;
     href?: string;
     image?: string | ReactNode;
+    onOpenChange?: (open: boolean) => void;
 };
 
 const ContextMenuOverlay: FC<Props> = ({
@@ -42,6 +43,7 @@ const ContextMenuOverlay: FC<Props> = ({
     content_type,
     href,
     image,
+    onOpenChange,
 }) => {
     const { user: loggedUser, isModerator } = useSession();
     const [quickEditOpen, setQuickEditOpen] = useState(false);
@@ -55,7 +57,7 @@ const ContextMenuOverlay: FC<Props> = ({
 
     return (
         <>
-            <ContextMenu>
+            <ContextMenu onOpenChange={onOpenChange}>
                 <ContextMenuTrigger>{children}</ContextMenuTrigger>
                 <ContextMenuContent>
                     {href && (

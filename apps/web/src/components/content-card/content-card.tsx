@@ -85,20 +85,12 @@ export type ContentCardProps = VariantProps<typeof contentCardVariants> & {
     slug?: string;
     content_type?: ContentTypeEnum;
     withContextMenu?: boolean;
+    tooltipDisabled?: boolean;
     imageProps?: ImageProps;
     imagePreset?: ImagePreset;
     linkProps?: Record<string, any>;
     statusSize?: 'default' | 'sm';
-    /**
-     * Hide the image behind a full-cover blurred fill (e.g. NSFW posters).
-     * Shows a reveal hint; the first click reveals the card (loads full-res,
-     * unblurs) instead of navigating. Only applies when `image` is a string.
-     */
     imageBlur?: boolean;
-    /**
-     * Blur the title until the card is revealed (e.g. spoiler collections).
-     * Cleared by the same click that reveals `imageBlur`.
-     */
     titleBlur?: boolean;
 };
 
@@ -197,6 +189,7 @@ const Content = memo(
                 slug,
                 content_type,
                 withContextMenu,
+                tooltipDisabled,
                 imageProps,
                 imagePreset,
                 linkProps,
@@ -236,7 +229,7 @@ const Content = memo(
                     content_type={content_type}
                     watch={watch}
                     read={read}
-                    disabled={hidden}
+                    disabled={hidden || tooltipDisabled}
                 >
                     {/* biome-ignore lint/a11y/noStaticElementInteractions: click is a supplementary shortcut; primary navigation is the inner link. */}
                     {/* biome-ignore lint/a11y/useKeyWithClickEvents: click is a supplementary shortcut; primary navigation is the inner link. */}
@@ -464,6 +457,7 @@ const ContentCard = forwardRef<HTMLDivElement, ContentCardProps>(
     (props, ref) => {
         const { withContextMenu, slug, content_type, href, to, image } = props;
         const resolvedHref = to ?? href;
+        const [menuOpen, setMenuOpen] = useState(false);
 
         if (withContextMenu && slug && content_type) {
             return (
@@ -472,8 +466,9 @@ const ContentCard = forwardRef<HTMLDivElement, ContentCardProps>(
                     slug={slug}
                     content_type={content_type}
                     image={image}
+                    onOpenChange={setMenuOpen}
                 >
-                    <Content {...props} ref={ref} />
+                    <Content {...props} ref={ref} tooltipDisabled={menuOpen} />
                 </ContextMenuOverlay>
             );
         }
