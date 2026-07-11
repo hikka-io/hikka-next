@@ -1,5 +1,7 @@
 import { createServerFn } from '@tanstack/react-start';
 
+import { getCookieDomain, isSecureCookieDomain } from './domain';
+
 // Server function for isomorphic use (works from both server and client via RPC)
 export const getAuthTokenFn = createServerFn({ method: 'GET' }).handler(
     async () => {
@@ -15,9 +17,8 @@ export const getThemeCookieFn = createServerFn({ method: 'GET' }).handler(
     },
 );
 
-// Rolling cookie: re-set auth and username cookies with a fresh 30-day maxAge.
-// Called on every SSR request to prevent active users from being logged out
-// or losing their custom styles.
+// Rolling cookie: re-set the auth (and theme) cookies with a fresh maxAge on
+// every SSR request, so active users aren't logged out or lose their theme.
 export const refreshAuthCookieFn = createServerFn({ method: 'POST' }).handler(
     async () => {
         const { getCookie, setCookie } = await import(
@@ -26,8 +27,8 @@ export const refreshAuthCookieFn = createServerFn({ method: 'POST' }).handler(
         const token = getCookie('auth');
         if (!token) return;
 
-        const domain = import.meta.env.COOKIE_DOMAIN;
-        const secure = !!domain && domain !== 'localhost';
+        const domain = getCookieDomain();
+        const secure = isSecureCookieDomain(domain);
         const maxAge = 60 * 60 * 24 * 30; // 30 days
 
         setCookie('auth', token, {
@@ -38,18 +39,6 @@ export const refreshAuthCookieFn = createServerFn({ method: 'POST' }).handler(
             sameSite: 'lax',
             ...(domain ? { domain } : {}),
         });
-
-        const username = getCookie('username');
-        if (username) {
-            setCookie('username', username, {
-                maxAge,
-                path: '/',
-                httpOnly: false,
-                secure,
-                sameSite: 'lax',
-                ...(domain ? { domain } : {}),
-            });
-        }
 
         const theme = getCookie('theme');
         if (theme) {
@@ -75,8 +64,8 @@ export const getNsfwConsentFn = createServerFn({ method: 'GET' }).handler(
 export const setNsfwConsentFn = createServerFn({ method: 'POST' }).handler(
     async () => {
         const { setCookie } = await import('@tanstack/react-start/server');
-        const domain = import.meta.env.COOKIE_DOMAIN;
-        const secure = !!domain && domain !== 'localhost';
+        const domain = getCookieDomain();
+        const secure = isSecureCookieDomain(domain);
 
         setCookie('nsfw_confirmed', '1', {
             maxAge: 60 * 60 * 24, // 1 day

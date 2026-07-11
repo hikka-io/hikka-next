@@ -6,6 +6,24 @@ import { client } from './gen/client.gen';
 export interface TransportOptions {
     baseUrl?: string;
     authToken?: string;
+    internalBaseUrl?: string;
+}
+
+/**
+ * Rewrites the origin of outgoing requests from `fromBaseUrl` to `toBaseUrl`
+ * via a request interceptor, so the request URL (and query keys) keep the
+ * logical `fromBaseUrl` while the socket connects to `toBaseUrl`.
+ */
+function attachRebase(
+    target: Client,
+    fromBaseUrl: string,
+    toBaseUrl: string,
+): void {
+    target.interceptors.request.use((request) => {
+        if (!request.url.startsWith(fromBaseUrl)) return request;
+        const url = toBaseUrl + request.url.slice(fromBaseUrl.length);
+        return new Request(url, request);
+    });
 }
 
 /**
@@ -82,12 +100,16 @@ export function getAuthToken(): string | undefined {
  * concurrent server requests.
  */
 export function createRequestClient(opts: TransportOptions = {}): Client {
+    const baseUrl = opts.baseUrl ?? DEFAULT_BASE_URL;
     const requestClient = createClient(
         createConfig({
-            baseUrl: opts.baseUrl ?? DEFAULT_BASE_URL,
+            baseUrl,
             credentials: 'include',
         }),
     );
     attachInterceptors(requestClient, () => opts.authToken);
+    if (opts.internalBaseUrl && opts.internalBaseUrl !== baseUrl) {
+        attachRebase(requestClient, baseUrl, opts.internalBaseUrl);
+    }
     return requestClient;
 }

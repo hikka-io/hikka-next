@@ -1,9 +1,9 @@
 import { createServerFn } from '@tanstack/react-start';
 
-import { createRequestClient, profile } from '@hikka/api';
+import { getCookieDomain, isSecureCookieDomain } from '@/utils/cookies';
 
 /**
- * Server function that sets HttpOnly auth and username cookies.
+ * Server function that sets the HttpOnly auth cookie.
  * Called from client after a successful login/signup/password-reset mutation.
  * Returns the auth token so the client can set it on HikkaClient in memory.
  */
@@ -12,13 +12,16 @@ export const setAuthCookieFn = createServerFn({ method: 'POST' })
     .handler(async ({ data: { secret } }) => {
         const { setCookie } = await import('@tanstack/react-start/server');
 
-        const domain = import.meta.env.COOKIE_DOMAIN;
-        const secure = !!domain && domain !== 'localhost';
-        // Use a fixed 30-day maxAge. The API extends the token's expiration
-        // on every authenticated request, so the cookie should outlive the
-        // server-side token lifetime. Actual expiration is enforced by the
-        // API returning auth:invalid_token.
+        const domain = getCookieDomain();
+        const secure = isSecureCookieDomain(domain);
         const maxAge = 60 * 60 * 24 * 30; // 30 days
+
+        // Clear legacy host-only cookies that would shadow the domain-scoped
+        // ones on read. (`username` is retired but purged for old clients.)
+        if (domain) {
+            setCookie('auth', '', { maxAge: 0, path: '/' });
+            setCookie('username', '', { maxAge: 0, path: '/' });
+        }
 
         setCookie('auth', secret, {
             maxAge,
@@ -28,31 +31,6 @@ export const setAuthCookieFn = createServerFn({ method: 'POST' })
             sameSite: 'lax',
             ...(domain ? { domain } : {}),
         });
-
-        // Fetch username to set the username cookie (used for UI cache)
-        try {
-            const client = createRequestClient({
-                baseUrl: import.meta.env.API_URL ?? 'https://api.hikka.io',
-                authToken: secret,
-            });
-            const { data: user } = await profile({
-                client,
-                throwOnError: true,
-            });
-
-            if (user.username) {
-                setCookie('username', user.username, {
-                    maxAge: 60 * 60 * 24 * 30, // 30 days
-                    path: '/',
-                    httpOnly: false,
-                    secure,
-                    sameSite: 'lax',
-                    ...(domain ? { domain } : {}),
-                });
-            }
-        } catch {
-            // Username cookie is non-critical; auth cookie is already set
-        }
 
         return { authToken: secret };
     });

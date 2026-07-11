@@ -1,4 +1,8 @@
-import { type Client, createRequestClient, profile } from '@hikka/api';
+import { type Client, createRequestClient } from '@hikka/api';
+
+import { getInternalApiUrl, PUBLIC_API_URL } from '@/utils/api/base-url';
+
+import { getCookieDomain, isSecureCookieDomain } from './domain';
 
 // 30 days. The API extends the auth token on each authenticated request,
 // so the cookie should comfortably outlive any single token.
@@ -9,9 +13,8 @@ export function makeCookieHeader(
     value: string,
     options?: { maxAge?: number; httpOnly?: boolean },
 ): string {
-    const domain =
-        import.meta.env.VITE_COOKIE_DOMAIN ?? import.meta.env.COOKIE_DOMAIN;
-    const secure = domain && domain !== 'localhost';
+    const domain = getCookieDomain();
+    const secure = isSecureCookieDomain(domain);
     const maxAge = options?.maxAge ?? DEFAULT_COOKIE_MAX_AGE;
     const httpOnly = options?.httpOnly ?? true;
     return [
@@ -32,7 +35,7 @@ export function clearCookieHeader(
     domain?: string,
     options?: { httpOnly?: boolean },
 ): string {
-    const secure = domain && domain !== 'localhost';
+    const secure = isSecureCookieDomain(domain);
     const httpOnly = options?.httpOnly ?? true;
     return [
         `${name}=`,
@@ -49,36 +52,7 @@ export function clearCookieHeader(
 
 export function createServerHikkaClient(): Client {
     return createRequestClient({
-        baseUrl: import.meta.env.API_URL ?? 'https://api.hikka.io',
+        baseUrl: PUBLIC_API_URL,
+        internalBaseUrl: getInternalApiUrl(),
     });
-}
-
-/**
- * Best-effort: fetch the current user with the given secret and append a
- * non-HttpOnly `username` cookie so the UI can read it before the first
- * authenticated request resolves. Mutates `headers`.
- *
- * Failures are swallowed — the username cookie is non-critical.
- */
-export async function appendUsernameCookie(
-    headers: Headers,
-    secret: string,
-): Promise<void> {
-    try {
-        const client = createRequestClient({
-            baseUrl: import.meta.env.API_URL ?? 'https://api.hikka.io',
-            authToken: secret,
-        });
-        const { data: user } = await profile({ client, throwOnError: true });
-        if (user.username) {
-            headers.append(
-                'Set-Cookie',
-                makeCookieHeader('username', user.username, {
-                    httpOnly: false,
-                }),
-            );
-        }
-    } catch {
-        // ignore
-    }
 }

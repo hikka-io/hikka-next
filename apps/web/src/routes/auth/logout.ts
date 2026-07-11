@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { clearCookieHeader } from '@/utils/cookies/headers';
+import { clearCookieHeader, getCookieDomain } from '@/utils/cookies';
 
 export const Route = createFileRoute('/auth/logout')({
     server: {
@@ -11,9 +11,7 @@ export const Route = createFileRoute('/auth/logout')({
                 const siteUrl =
                     import.meta.env.VITE_SITE_URL ?? 'http://localhost:3000';
 
-                const domain =
-                    import.meta.env.VITE_COOKIE_DOMAIN ??
-                    import.meta.env.COOKIE_DOMAIN;
+                const domain = getCookieDomain();
 
                 const target = new URL(callbackUrl, siteUrl);
                 const isSafe = target.origin === new URL(siteUrl).origin;

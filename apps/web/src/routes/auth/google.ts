@@ -3,7 +3,6 @@ import { createFileRoute } from '@tanstack/react-router';
 import { HikkaApiError, oauthToken } from '@hikka/api';
 
 import {
-    appendUsernameCookie,
     createServerHikkaClient,
     makeCookieHeader,
 } from '@/utils/cookies/headers';
@@ -48,7 +47,6 @@ export const Route = createFileRoute('/auth/google')({
                         'Set-Cookie',
                         makeCookieHeader('auth', res.secret),
                     );
-                    await appendUsernameCookie(headers, res.secret);
 
                     return new Response(null, { status: 302, headers });
                 } catch (e) {

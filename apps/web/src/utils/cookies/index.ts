@@ -1,3 +1,4 @@
+export { getCookieDomain, isSecureCookieDomain } from './domain';
 export {
     clearCookieHeader,
     createServerHikkaClient,

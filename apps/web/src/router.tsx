@@ -13,6 +13,7 @@ import {
 } from '@hikka/api';
 
 import ErrorPage from '@/components/error-page';
+import { getInternalApiUrl, PUBLIC_API_URL } from '@/utils/api/base-url';
 import { shouldSkipGlobalErrorToast } from '@/utils/api/mutation-meta';
 
 import { routeTree } from './routeTree.gen';
@@ -44,22 +45,17 @@ export async function createRouter() {
 
     const authToken = await getAuthTokenFn();
 
-    // `API_URL` is server-only; the browser bundle sees only `VITE_`-prefixed vars.
-    const baseUrl =
-        import.meta.env.API_URL ??
-        import.meta.env.VITE_API_URL ??
-        'https://api.hikka.io';
-
-    // Token only in the browser; never on the shared server singleton.
     configureBrowserClient({
-        baseUrl,
+        baseUrl: PUBLIC_API_URL,
         authToken: isServer ? undefined : (authToken ?? undefined),
     });
 
-    // Server: per-request client to avoid cross-request token bleed. Browser:
-    // the singleton, so loaders pick up the live token after login/logout.
     const apiClient = isServer
-        ? createRequestClient({ baseUrl, authToken: authToken ?? undefined })
+        ? createRequestClient({
+              baseUrl: PUBLIC_API_URL,
+              internalBaseUrl: getInternalApiUrl(),
+              authToken: authToken ?? undefined,
+          })
         : getBrowserClient();
 
     const router = createTanStackRouter({
