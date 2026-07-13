@@ -1,31 +1,26 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import {
-    ListExport,
-    ListRemoval,
-    ReadlistSettings,
-    WatchlistSettings,
-} from '@/features/settings';
+import { ReadlistSettings, WatchlistSettings } from '@/features/settings';
 
-export const Route = createFileRoute('/_pages/settings/list')({
+export const Route = createFileRoute('/_pages/settings/list/import')({
     head: () => ({
-        meta: [{ title: 'Список / Налаштування / Hikka' }],
+        meta: [{ title: 'Імпорт списку / Налаштування / Hikka' }],
     }),
-    component: ListSettingsPage,
+    component: ListImportPage,
 });
 
-function ListSettingsPage() {
+function ListImportPage() {
     return (
         <div className="flex flex-col gap-8">
             <div className="flex flex-col">
                 <Header>
                     <HeaderContainer>
-                        <HeaderTitle>Список</HeaderTitle>
+                        <HeaderTitle>Імпорт</HeaderTitle>
                     </HeaderContainer>
                 </Header>
                 <p className="text-muted-foreground text-sm">
-                    Імпорт і експорт аніме, манґи та ранобе.
+                    Імпорт аніме, манґи та ранобе.
                 </p>
             </div>
             <div className="flex flex-col gap-4">
@@ -45,22 +40,6 @@ function ListSettingsPage() {
                     </HeaderContainer>
                 </Header>
                 <ReadlistSettings />
-            </div>
-            <div className="flex flex-col gap-4">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Експорт списків</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <ListExport />
-            </div>
-            <div className="flex flex-col gap-4">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Видалення списку</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <ListRemoval />
             </div>
         </div>
     );
