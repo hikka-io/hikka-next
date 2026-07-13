@@ -1,3 +1,5 @@
+import type { FC, SVGProps } from 'react';
+
 import { ChartLine, FilePenLine, MessageCircle, UsersIcon } from 'lucide-react';
 
 import { ContentTypeEnum } from '@hikka/api';
@@ -435,7 +437,16 @@ export const CONTENT_TYPE_LINKS: Record<ContentTypeEnum, string> = {
     [ContentTypeEnum.HISTORY]: '/history',
 };
 
-export const SETTINGS_MENU = [
+export type SettingsMenuChild = { title: string; href: string };
+
+export type SettingsMenuItem = {
+    title: string;
+    icon: FC<SVGProps<SVGSVGElement>>;
+    href: string;
+    children?: SettingsMenuChild[];
+};
+
+export const SETTINGS_MENU: SettingsMenuItem[] = [
     {
         title: 'Профіль',
         icon: MaterialSymbolsPerson,
@@ -450,6 +461,20 @@ export const SETTINGS_MENU = [
         title: 'Список',
         icon: MaterialSymbolsEventListRounded,
         href: '/settings/list',
+        children: [
+            { title: 'Імпорт', href: '/settings/list/import' },
+            { title: 'Експорт', href: '/settings/list/export' },
+        ],
+    },
+    {
+        title: 'Кастомізація',
+        icon: MaterialSymbolsCustomTypographyRounded,
+        href: '/settings/customization',
+        children: [
+            { title: 'Загальне', href: '/settings/customization/general' },
+            { title: 'Вигляд', href: '/settings/customization/appearance' },
+            { title: 'Ефекти', href: '/settings/customization/effects' },
+        ],
     },
     {
         title: 'Сповіщення',
@@ -457,14 +482,16 @@ export const SETTINGS_MENU = [
         href: '/settings/notifications',
     },
     {
-        title: 'Кастомізація',
-        icon: MaterialSymbolsCustomTypographyRounded,
-        href: '/settings/customization',
-    },
-    {
         title: 'Застосунки',
         icon: MdiPuzzle,
         href: '/settings/applications',
+        children: [
+            {
+                title: 'Авторизовані',
+                href: '/settings/applications/authorized',
+            },
+            { title: 'Мої застосунки', href: '/settings/applications/clients' },
+        ],
     },
 ];
 
