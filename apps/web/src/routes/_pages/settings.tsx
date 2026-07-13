@@ -18,7 +18,7 @@ export const Route = createFileRoute('/_pages/settings')({
 
 function SettingsLayout() {
     return (
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 md:flex-row md:items-start md:gap-8">
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 md:flex-row md:items-start lg:gap-12">
             <SettingsSidebar className="md:sticky md:top-20 md:w-64 md:shrink-0" />
             <div className="min-w-0 flex-1">
                 <Outlet />
