@@ -1,8 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { SettingsMenu } from '@/features/settings';
+import { SettingsSidebar } from '@/features/settings';
 import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
@@ -20,16 +18,9 @@ export const Route = createFileRoute('/_pages/settings')({
 
 function SettingsLayout() {
     return (
-        <div className="mx-auto flex max-w-3xl flex-col gap-12 p-0">
-            <Block>
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h2">Налаштування</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <SettingsMenu />
-            </Block>
-            <div className="flex flex-col gap-12">
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 md:flex-row md:items-start lg:gap-12">
+            <SettingsSidebar className="md:sticky md:top-20 md:w-64 md:shrink-0" />
+            <div className="min-w-0 flex-1">
                 <Outlet />
             </div>
         </div>

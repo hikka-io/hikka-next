@@ -6,9 +6,9 @@ import {
 } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { ApplicationsSettings } from '@/features/settings';
+import { ClientApps, ClientCreateButton } from '@/features/settings';
 
-export const Route = createFileRoute('/_pages/settings/applications')({
+export const Route = createFileRoute('/_pages/settings/applications/clients')({
     loader: async ({ context: { queryClient, apiClient } }) => {
         await queryClient.prefetchInfiniteQuery({
             ...listUserClientsInfiniteOptions({ client: apiClient }),
@@ -16,25 +16,26 @@ export const Route = createFileRoute('/_pages/settings/applications')({
         });
     },
     head: () => ({
-        meta: [{ title: 'Застосунки / Налаштування / Hikka' }],
+        meta: [{ title: 'Мої застосунки / Налаштування / Hikka' }],
     }),
-    component: ApplicationsSettingsPage,
+    component: ClientAppsPage,
 });
 
-function ApplicationsSettingsPage() {
+function ClientAppsPage() {
     return (
         <div className="flex flex-col gap-8">
             <div className="flex flex-col">
                 <Header>
                     <HeaderContainer>
-                        <HeaderTitle>Застосунки</HeaderTitle>
+                        <HeaderTitle>Мої застосунки</HeaderTitle>
+                        <ClientCreateButton />
                     </HeaderContainer>
                 </Header>
                 <p className="text-muted-foreground text-sm">
-                    Керуйте застосунками та їхнім доступом до вашого профілю
+                    Створюйте та керуйте власними OAuth-застосунками
                 </p>
             </div>
-            <ApplicationsSettings />
+            <ClientApps />
         </div>
     );
 }
