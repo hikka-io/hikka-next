@@ -39,7 +39,6 @@ import { Route as PagesUUsernameRouteImport } from './routes/_pages/u/$username'
 import { Route as PagesSettingsSecurityRouteImport } from './routes/_pages/settings/security'
 import { Route as PagesSettingsProfileRouteImport } from './routes/_pages/settings/profile'
 import { Route as PagesSettingsNotificationsRouteImport } from './routes/_pages/settings/notifications'
-import { Route as PagesSettingsCustomizationRouteImport } from './routes/_pages/settings/customization'
 import { Route as PagesSettingsApplicationsRouteImport } from './routes/_pages/settings/applications'
 import { Route as PagesPeopleSlugRouteImport } from './routes/_pages/people/$slug'
 import { Route as PagesNovelSlugRouteImport } from './routes/_pages/novel/$slug'
@@ -59,6 +58,7 @@ import { Route as PagesAuthResetRouteImport } from './routes/_pages/_auth/reset'
 import { Route as PagesAuthLoginRouteImport } from './routes/_pages/_auth/login'
 import { Route as PagesUUsernameIndexRouteImport } from './routes/_pages/u/$username/index'
 import { Route as PagesSettingsListIndexRouteImport } from './routes/_pages/settings/list/index'
+import { Route as PagesSettingsCustomizationIndexRouteImport } from './routes/_pages/settings/customization/index'
 import { Route as PagesPeopleSlugIndexRouteImport } from './routes/_pages/people/$slug/index'
 import { Route as PagesNovelSlugIndexRouteImport } from './routes/_pages/novel/$slug/index'
 import { Route as PagesMangaSlugIndexRouteImport } from './routes/_pages/manga/$slug/index'
@@ -72,6 +72,9 @@ import { Route as PagesUUsernameHistoryRouteImport } from './routes/_pages/u/$us
 import { Route as PagesUUsernameFavoritesRouteImport } from './routes/_pages/u/$username/favorites'
 import { Route as PagesSettingsListImportRouteImport } from './routes/_pages/settings/list/import'
 import { Route as PagesSettingsListExportRouteImport } from './routes/_pages/settings/list/export'
+import { Route as PagesSettingsCustomizationGeneralRouteImport } from './routes/_pages/settings/customization/general'
+import { Route as PagesSettingsCustomizationEffectsRouteImport } from './routes/_pages/settings/customization/effects'
+import { Route as PagesSettingsCustomizationAppearanceRouteImport } from './routes/_pages/settings/customization/appearance'
 import { Route as PagesPeopleSlugNovelRouteImport } from './routes/_pages/people/$slug/novel'
 import { Route as PagesPeopleSlugMangaRouteImport } from './routes/_pages/people/$slug/manga'
 import { Route as PagesPeopleSlugCharactersRouteImport } from './routes/_pages/people/$slug/characters'
@@ -248,12 +251,6 @@ const PagesSettingsNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => PagesSettingsRoute,
   } as any)
-const PagesSettingsCustomizationRoute =
-  PagesSettingsCustomizationRouteImport.update({
-    id: '/customization',
-    path: '/customization',
-    getParentRoute: () => PagesSettingsRoute,
-  } as any)
 const PagesSettingsApplicationsRoute =
   PagesSettingsApplicationsRouteImport.update({
     id: '/applications',
@@ -351,6 +348,12 @@ const PagesSettingsListIndexRoute = PagesSettingsListIndexRouteImport.update({
   path: '/list/',
   getParentRoute: () => PagesSettingsRoute,
 } as any)
+const PagesSettingsCustomizationIndexRoute =
+  PagesSettingsCustomizationIndexRouteImport.update({
+    id: '/customization/',
+    path: '/customization/',
+    getParentRoute: () => PagesSettingsRoute,
+  } as any)
 const PagesPeopleSlugIndexRoute = PagesPeopleSlugIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -418,6 +421,24 @@ const PagesSettingsListExportRoute = PagesSettingsListExportRouteImport.update({
   path: '/list/export',
   getParentRoute: () => PagesSettingsRoute,
 } as any)
+const PagesSettingsCustomizationGeneralRoute =
+  PagesSettingsCustomizationGeneralRouteImport.update({
+    id: '/customization/general',
+    path: '/customization/general',
+    getParentRoute: () => PagesSettingsRoute,
+  } as any)
+const PagesSettingsCustomizationEffectsRoute =
+  PagesSettingsCustomizationEffectsRouteImport.update({
+    id: '/customization/effects',
+    path: '/customization/effects',
+    getParentRoute: () => PagesSettingsRoute,
+  } as any)
+const PagesSettingsCustomizationAppearanceRoute =
+  PagesSettingsCustomizationAppearanceRouteImport.update({
+    id: '/customization/appearance',
+    path: '/customization/appearance',
+    getParentRoute: () => PagesSettingsRoute,
+  } as any)
 const PagesPeopleSlugNovelRoute = PagesPeopleSlugNovelRouteImport.update({
   id: '/novel',
   path: '/novel',
@@ -589,7 +610,6 @@ export interface FileRoutesByFullPath {
   '/novel/$slug': typeof PagesNovelSlugRouteWithChildren
   '/people/$slug': typeof PagesPeopleSlugRouteWithChildren
   '/settings/applications': typeof PagesSettingsApplicationsRoute
-  '/settings/customization': typeof PagesSettingsCustomizationRoute
   '/settings/notifications': typeof PagesSettingsNotificationsRoute
   '/settings/profile': typeof PagesSettingsProfileRoute
   '/settings/security': typeof PagesSettingsSecurityRoute
@@ -630,6 +650,9 @@ export interface FileRoutesByFullPath {
   '/people/$slug/characters': typeof PagesPeopleSlugCharactersRoute
   '/people/$slug/manga': typeof PagesPeopleSlugMangaRoute
   '/people/$slug/novel': typeof PagesPeopleSlugNovelRoute
+  '/settings/customization/appearance': typeof PagesSettingsCustomizationAppearanceRoute
+  '/settings/customization/effects': typeof PagesSettingsCustomizationEffectsRoute
+  '/settings/customization/general': typeof PagesSettingsCustomizationGeneralRoute
   '/settings/list/export': typeof PagesSettingsListExportRoute
   '/settings/list/import': typeof PagesSettingsListImportRoute
   '/u/$username/favorites': typeof PagesUUsernameFavoritesRoute
@@ -643,6 +666,7 @@ export interface FileRoutesByFullPath {
   '/manga/$slug/': typeof PagesMangaSlugIndexRoute
   '/novel/$slug/': typeof PagesNovelSlugIndexRoute
   '/people/$slug/': typeof PagesPeopleSlugIndexRoute
+  '/settings/customization/': typeof PagesSettingsCustomizationIndexRoute
   '/settings/list/': typeof PagesSettingsListIndexRoute
   '/u/$username/': typeof PagesUUsernameIndexRoute
   '/comments/$content_type/$slug/$': typeof PagesCommentsContent_typeSlugSplatRoute
@@ -669,7 +693,6 @@ export interface FileRoutesByTo {
   '/edit/content': typeof PagesEditContentRoute
   '/edit/new': typeof PagesEditNewRoute
   '/settings/applications': typeof PagesSettingsApplicationsRoute
-  '/settings/customization': typeof PagesSettingsCustomizationRoute
   '/settings/notifications': typeof PagesSettingsNotificationsRoute
   '/settings/profile': typeof PagesSettingsProfileRoute
   '/settings/security': typeof PagesSettingsSecurityRoute
@@ -709,6 +732,9 @@ export interface FileRoutesByTo {
   '/people/$slug/characters': typeof PagesPeopleSlugCharactersRoute
   '/people/$slug/manga': typeof PagesPeopleSlugMangaRoute
   '/people/$slug/novel': typeof PagesPeopleSlugNovelRoute
+  '/settings/customization/appearance': typeof PagesSettingsCustomizationAppearanceRoute
+  '/settings/customization/effects': typeof PagesSettingsCustomizationEffectsRoute
+  '/settings/customization/general': typeof PagesSettingsCustomizationGeneralRoute
   '/settings/list/export': typeof PagesSettingsListExportRoute
   '/settings/list/import': typeof PagesSettingsListImportRoute
   '/u/$username/favorites': typeof PagesUUsernameFavoritesRoute
@@ -721,6 +747,7 @@ export interface FileRoutesByTo {
   '/manga/$slug': typeof PagesMangaSlugIndexRoute
   '/novel/$slug': typeof PagesNovelSlugIndexRoute
   '/people/$slug': typeof PagesPeopleSlugIndexRoute
+  '/settings/customization': typeof PagesSettingsCustomizationIndexRoute
   '/settings/list': typeof PagesSettingsListIndexRoute
   '/u/$username': typeof PagesUUsernameIndexRoute
   '/comments/$content_type/$slug/$': typeof PagesCommentsContent_typeSlugSplatRoute
@@ -759,7 +786,6 @@ export interface FileRoutesById {
   '/_pages/novel/$slug': typeof PagesNovelSlugRouteWithChildren
   '/_pages/people/$slug': typeof PagesPeopleSlugRouteWithChildren
   '/_pages/settings/applications': typeof PagesSettingsApplicationsRoute
-  '/_pages/settings/customization': typeof PagesSettingsCustomizationRoute
   '/_pages/settings/notifications': typeof PagesSettingsNotificationsRoute
   '/_pages/settings/profile': typeof PagesSettingsProfileRoute
   '/_pages/settings/security': typeof PagesSettingsSecurityRoute
@@ -800,6 +826,9 @@ export interface FileRoutesById {
   '/_pages/people/$slug/characters': typeof PagesPeopleSlugCharactersRoute
   '/_pages/people/$slug/manga': typeof PagesPeopleSlugMangaRoute
   '/_pages/people/$slug/novel': typeof PagesPeopleSlugNovelRoute
+  '/_pages/settings/customization/appearance': typeof PagesSettingsCustomizationAppearanceRoute
+  '/_pages/settings/customization/effects': typeof PagesSettingsCustomizationEffectsRoute
+  '/_pages/settings/customization/general': typeof PagesSettingsCustomizationGeneralRoute
   '/_pages/settings/list/export': typeof PagesSettingsListExportRoute
   '/_pages/settings/list/import': typeof PagesSettingsListImportRoute
   '/_pages/u/$username/favorites': typeof PagesUUsernameFavoritesRoute
@@ -813,6 +842,7 @@ export interface FileRoutesById {
   '/_pages/manga/$slug/': typeof PagesMangaSlugIndexRoute
   '/_pages/novel/$slug/': typeof PagesNovelSlugIndexRoute
   '/_pages/people/$slug/': typeof PagesPeopleSlugIndexRoute
+  '/_pages/settings/customization/': typeof PagesSettingsCustomizationIndexRoute
   '/_pages/settings/list/': typeof PagesSettingsListIndexRoute
   '/_pages/u/$username/': typeof PagesUUsernameIndexRoute
   '/_pages/comments/$content_type/$slug/$': typeof PagesCommentsContent_typeSlugSplatRoute
@@ -850,7 +880,6 @@ export interface FileRouteTypes {
     | '/novel/$slug'
     | '/people/$slug'
     | '/settings/applications'
-    | '/settings/customization'
     | '/settings/notifications'
     | '/settings/profile'
     | '/settings/security'
@@ -891,6 +920,9 @@ export interface FileRouteTypes {
     | '/people/$slug/characters'
     | '/people/$slug/manga'
     | '/people/$slug/novel'
+    | '/settings/customization/appearance'
+    | '/settings/customization/effects'
+    | '/settings/customization/general'
     | '/settings/list/export'
     | '/settings/list/import'
     | '/u/$username/favorites'
@@ -904,6 +936,7 @@ export interface FileRouteTypes {
     | '/manga/$slug/'
     | '/novel/$slug/'
     | '/people/$slug/'
+    | '/settings/customization/'
     | '/settings/list/'
     | '/u/$username/'
     | '/comments/$content_type/$slug/$'
@@ -930,7 +963,6 @@ export interface FileRouteTypes {
     | '/edit/content'
     | '/edit/new'
     | '/settings/applications'
-    | '/settings/customization'
     | '/settings/notifications'
     | '/settings/profile'
     | '/settings/security'
@@ -970,6 +1002,9 @@ export interface FileRouteTypes {
     | '/people/$slug/characters'
     | '/people/$slug/manga'
     | '/people/$slug/novel'
+    | '/settings/customization/appearance'
+    | '/settings/customization/effects'
+    | '/settings/customization/general'
     | '/settings/list/export'
     | '/settings/list/import'
     | '/u/$username/favorites'
@@ -982,6 +1017,7 @@ export interface FileRouteTypes {
     | '/manga/$slug'
     | '/novel/$slug'
     | '/people/$slug'
+    | '/settings/customization'
     | '/settings/list'
     | '/u/$username'
     | '/comments/$content_type/$slug/$'
@@ -1019,7 +1055,6 @@ export interface FileRouteTypes {
     | '/_pages/novel/$slug'
     | '/_pages/people/$slug'
     | '/_pages/settings/applications'
-    | '/_pages/settings/customization'
     | '/_pages/settings/notifications'
     | '/_pages/settings/profile'
     | '/_pages/settings/security'
@@ -1060,6 +1095,9 @@ export interface FileRouteTypes {
     | '/_pages/people/$slug/characters'
     | '/_pages/people/$slug/manga'
     | '/_pages/people/$slug/novel'
+    | '/_pages/settings/customization/appearance'
+    | '/_pages/settings/customization/effects'
+    | '/_pages/settings/customization/general'
     | '/_pages/settings/list/export'
     | '/_pages/settings/list/import'
     | '/_pages/u/$username/favorites'
@@ -1073,6 +1111,7 @@ export interface FileRouteTypes {
     | '/_pages/manga/$slug/'
     | '/_pages/novel/$slug/'
     | '/_pages/people/$slug/'
+    | '/_pages/settings/customization/'
     | '/_pages/settings/list/'
     | '/_pages/u/$username/'
     | '/_pages/comments/$content_type/$slug/$'
@@ -1308,13 +1347,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesSettingsNotificationsRouteImport
       parentRoute: typeof PagesSettingsRoute
     }
-    '/_pages/settings/customization': {
-      id: '/_pages/settings/customization'
-      path: '/customization'
-      fullPath: '/settings/customization'
-      preLoaderRoute: typeof PagesSettingsCustomizationRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
     '/_pages/settings/applications': {
       id: '/_pages/settings/applications'
       path: '/applications'
@@ -1448,6 +1480,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesSettingsListIndexRouteImport
       parentRoute: typeof PagesSettingsRoute
     }
+    '/_pages/settings/customization/': {
+      id: '/_pages/settings/customization/'
+      path: '/customization'
+      fullPath: '/settings/customization/'
+      preLoaderRoute: typeof PagesSettingsCustomizationIndexRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
     '/_pages/people/$slug/': {
       id: '/_pages/people/$slug/'
       path: '/'
@@ -1537,6 +1576,27 @@ declare module '@tanstack/react-router' {
       path: '/list/export'
       fullPath: '/settings/list/export'
       preLoaderRoute: typeof PagesSettingsListExportRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/customization/general': {
+      id: '/_pages/settings/customization/general'
+      path: '/customization/general'
+      fullPath: '/settings/customization/general'
+      preLoaderRoute: typeof PagesSettingsCustomizationGeneralRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/customization/effects': {
+      id: '/_pages/settings/customization/effects'
+      path: '/customization/effects'
+      fullPath: '/settings/customization/effects'
+      preLoaderRoute: typeof PagesSettingsCustomizationEffectsRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/customization/appearance': {
+      id: '/_pages/settings/customization/appearance'
+      path: '/customization/appearance'
+      fullPath: '/settings/customization/appearance'
+      preLoaderRoute: typeof PagesSettingsCustomizationAppearanceRouteImport
       parentRoute: typeof PagesSettingsRoute
     }
     '/_pages/people/$slug/novel': {
@@ -1744,25 +1804,34 @@ const PagesAuthRouteWithChildren = PagesAuthRoute._addFileChildren(
 
 interface PagesSettingsRouteChildren {
   PagesSettingsApplicationsRoute: typeof PagesSettingsApplicationsRoute
-  PagesSettingsCustomizationRoute: typeof PagesSettingsCustomizationRoute
   PagesSettingsNotificationsRoute: typeof PagesSettingsNotificationsRoute
   PagesSettingsProfileRoute: typeof PagesSettingsProfileRoute
   PagesSettingsSecurityRoute: typeof PagesSettingsSecurityRoute
   PagesSettingsIndexRoute: typeof PagesSettingsIndexRoute
+  PagesSettingsCustomizationAppearanceRoute: typeof PagesSettingsCustomizationAppearanceRoute
+  PagesSettingsCustomizationEffectsRoute: typeof PagesSettingsCustomizationEffectsRoute
+  PagesSettingsCustomizationGeneralRoute: typeof PagesSettingsCustomizationGeneralRoute
   PagesSettingsListExportRoute: typeof PagesSettingsListExportRoute
   PagesSettingsListImportRoute: typeof PagesSettingsListImportRoute
+  PagesSettingsCustomizationIndexRoute: typeof PagesSettingsCustomizationIndexRoute
   PagesSettingsListIndexRoute: typeof PagesSettingsListIndexRoute
 }
 
 const PagesSettingsRouteChildren: PagesSettingsRouteChildren = {
   PagesSettingsApplicationsRoute: PagesSettingsApplicationsRoute,
-  PagesSettingsCustomizationRoute: PagesSettingsCustomizationRoute,
   PagesSettingsNotificationsRoute: PagesSettingsNotificationsRoute,
   PagesSettingsProfileRoute: PagesSettingsProfileRoute,
   PagesSettingsSecurityRoute: PagesSettingsSecurityRoute,
   PagesSettingsIndexRoute: PagesSettingsIndexRoute,
+  PagesSettingsCustomizationAppearanceRoute:
+    PagesSettingsCustomizationAppearanceRoute,
+  PagesSettingsCustomizationEffectsRoute:
+    PagesSettingsCustomizationEffectsRoute,
+  PagesSettingsCustomizationGeneralRoute:
+    PagesSettingsCustomizationGeneralRoute,
   PagesSettingsListExportRoute: PagesSettingsListExportRoute,
   PagesSettingsListImportRoute: PagesSettingsListImportRoute,
+  PagesSettingsCustomizationIndexRoute: PagesSettingsCustomizationIndexRoute,
   PagesSettingsListIndexRoute: PagesSettingsListIndexRoute,
 }
 
