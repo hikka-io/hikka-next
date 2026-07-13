@@ -8,6 +8,7 @@
 const LIVE_PREVIEW_VARS = [
     '--brand',
     '--backdrop-intensity',
+    '--backdrop-height',
     '--backdrop-color',
 ] as const;
 

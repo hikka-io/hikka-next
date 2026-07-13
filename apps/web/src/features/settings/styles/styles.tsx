@@ -57,6 +57,9 @@ const StylesSettings = () => {
     const [intensity, setIntensity] = useState(backdrop.intensity);
     useEffect(() => setIntensity(backdrop.intensity), [backdrop.intensity]);
 
+    const [height, setHeight] = useState(backdrop.height);
+    useEffect(() => setHeight(backdrop.height), [backdrop.height]);
+
     const backdropRef = useRef(backdrop);
     useEffect(() => {
         backdropRef.current = backdrop;
@@ -90,6 +93,7 @@ const StylesSettings = () => {
         const next: UiBackdrop = {
             style: backdrop.style,
             intensity: backdrop.intensity,
+            height: backdrop.height,
         };
         if (backdrop.color) next.color = backdrop.color;
         return next;
@@ -111,6 +115,16 @@ const StylesSettings = () => {
             styles: {
                 ...styles,
                 backdrop: { ...currentBackdrop(), intensity: value },
+            },
+        });
+    };
+
+    const commitHeight = (value: number) => {
+        if (value === backdrop.height) return;
+        update({
+            styles: {
+                ...styles,
+                backdrop: { ...currentBackdrop(), height: value },
             },
         });
     };
@@ -204,6 +218,28 @@ const StylesSettings = () => {
                                 onValueCommit={([value]) =>
                                     commitIntensity(value)
                                 }
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <div className="flex items-center justify-between">
+                                <Label>Висота</Label>
+                                <span className="text-muted-foreground text-sm">
+                                    {Math.round(height * 100)}%
+                                </span>
+                            </div>
+                            <Slider
+                                min={0}
+                                max={1}
+                                step={0.05}
+                                value={[height]}
+                                onValueChange={([value]) => {
+                                    setHeight(value);
+                                    setLiveVar(
+                                        '--backdrop-height',
+                                        String(value),
+                                    );
+                                }}
+                                onValueCommit={([value]) => commitHeight(value)}
                             />
                         </div>
                         <div className="flex flex-col gap-2">

@@ -8,13 +8,23 @@ export const BACKDROP_ATTR = 'data-backdrop';
 /**
  * The resolved backdrop the app renders. `intensity` is the user's manual glow
  * strength (0–1); globals.css further scales it down over cover images.
- * `color` overrides the glow hue; when absent the glow follows the brand accent.
+ * `height` is the glow's vertical extent as a 0–1 fraction of the viewport
+ * height (1 = full 100vh). `color` overrides the glow hue; when absent the glow
+ * follows the brand accent.
  */
 export type ResolvedBackdrop = {
     style: 'none' | 'glow';
     intensity: number;
+    height: number;
     color?: OklchColor;
 };
+
+/** Clamp a raw 0–1 value, falling back to `fallback` when non-finite. */
+function clamp01(value: number | undefined, fallback: number): number {
+    return typeof value === 'number' && Number.isFinite(value)
+        ? Math.min(1, Math.max(0, value))
+        : fallback;
+}
 
 /** Resolve the backdrop from styles, falling back to the default glow. */
 export function resolveBackdrop(
@@ -22,14 +32,14 @@ export function resolveBackdrop(
 ): ResolvedBackdrop {
     const backdrop = styles?.backdrop;
     const style = backdrop?.style ?? DEFAULT_STYLES.backdrop?.style ?? 'glow';
-    const rawIntensity =
-        backdrop?.intensity ?? DEFAULT_STYLES.backdrop?.intensity ?? 1;
     const color = backdrop?.color;
     return {
         style: style === 'none' ? 'none' : 'glow',
-        intensity: Number.isFinite(rawIntensity)
-            ? Math.min(1, Math.max(0, rawIntensity))
-            : (DEFAULT_STYLES.backdrop?.intensity ?? 1),
+        intensity: clamp01(
+            backdrop?.intensity,
+            DEFAULT_STYLES.backdrop?.intensity ?? 1,
+        ),
+        height: clamp01(backdrop?.height, DEFAULT_STYLES.backdrop?.height ?? 1),
         color: isValidOklch(color) ? color : undefined,
     };
 }
@@ -45,6 +55,7 @@ export function backdropVars(
 ): Record<string, string> {
     const vars: Record<string, string> = {
         '--backdrop-intensity': String(backdrop.intensity),
+        '--backdrop-height': String(backdrop.height),
     };
     if (backdrop.color) {
         vars['--backdrop-color'] = oklchToCss(backdrop.color);
@@ -59,6 +70,7 @@ export function applyBackdrop(backdrop: ResolvedBackdrop): void {
     el.setAttribute(BACKDROP_ATTR, backdrop.style);
     const vars = backdropVars(backdrop);
     el.style.setProperty('--backdrop-intensity', vars['--backdrop-intensity']);
+    el.style.setProperty('--backdrop-height', vars['--backdrop-height']);
     if (vars['--backdrop-color']) {
         el.style.setProperty('--backdrop-color', vars['--backdrop-color']);
     } else {

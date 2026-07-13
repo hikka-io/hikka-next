@@ -1648,7 +1648,8 @@ export const zTokenResponse = z.object({
  * UIBackdrop
  */
 export const zUiBackdrop = z.object({
-    intensity: z.number().gte(0).lte(1),
+    intensity: z.number().gte(0).lte(1).optional().default(0.3),
+    height: z.number().gte(0).lte(1).optional().default(1),
     style: z.enum(['none', 'glow']).nullish(),
     color: zOklchColor.nullish(),
 });
@@ -1783,16 +1784,16 @@ export const zUiStylesOutput = z.object({
  * UIWidgetEnum
  */
 export const zUiWidgetEnum = z.enum([
-    'list',
-    'profile',
-    'feed',
-    'tracker',
-    'history',
-    'ongoings',
-    'schedule',
+    'collections',
     'top_anime',
     'articles',
-    'collections',
+    'ongoings',
+    'schedule',
+    'profile',
+    'tracker',
+    'history',
+    'feed',
+    'list',
 ]);
 
 /**

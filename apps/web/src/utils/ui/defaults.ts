@@ -23,7 +23,12 @@ export const DEFAULT_BACKDROP_COLOR: OklchColor = {
  */
 export const DEFAULT_STYLES: UiStylesOutput = {
     brand: DEFAULT_BRAND,
-    backdrop: { style: 'glow', intensity: 0.3, color: DEFAULT_BACKDROP_COLOR },
+    backdrop: {
+        style: 'glow',
+        intensity: 0.3,
+        height: 1,
+        color: DEFAULT_BACKDROP_COLOR,
+    },
     radius: '0.625rem',
 };
 

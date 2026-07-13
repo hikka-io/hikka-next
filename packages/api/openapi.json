@@ -20739,7 +20739,15 @@
             "type": "number",
             "maximum": 1,
             "minimum": 0,
-            "title": "Intensity"
+            "title": "Intensity",
+            "default": 0.3
+          },
+          "height": {
+            "type": "number",
+            "maximum": 1,
+            "minimum": 0,
+            "title": "Height",
+            "default": 1
           },
           "style": {
             "anyOf": [
@@ -20769,9 +20777,6 @@
         },
         "additionalProperties": false,
         "type": "object",
-        "required": [
-          "intensity"
-        ],
         "title": "UIBackdrop"
       },
       "UIColorTokens": {
@@ -22098,16 +22103,16 @@
       "UIWidgetEnum": {
         "type": "string",
         "enum": [
-          "list",
-          "profile",
-          "feed",
-          "tracker",
-          "history",
-          "ongoings",
-          "schedule",
+          "collections",
           "top_anime",
           "articles",
-          "collections"
+          "ongoings",
+          "schedule",
+          "profile",
+          "tracker",
+          "history",
+          "feed",
+          "list"
         ],
         "title": "UIWidgetEnum"
       },

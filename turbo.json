@@ -28,6 +28,14 @@
         "start": {
             "cache": false,
             "persistent": true
+        },
+        "api:spec": {
+            "cache": false,
+            "outputs": ["openapi.json"]
+        },
+        "api:generate": {
+            "cache": false,
+            "outputs": ["src/gen/**"]
         }
     }
 }

@@ -5138,7 +5138,11 @@ export type UiBackdrop = {
     /**
      * Intensity
      */
-    intensity: number;
+    intensity?: number;
+    /**
+     * Height
+     */
+    height?: number;
     /**
      * Style
      */
@@ -5494,16 +5498,16 @@ export type UiThemeStylesBody = {
  * UIWidgetEnum
  */
 export const UiWidgetEnum = {
-    LIST: 'list',
-    PROFILE: 'profile',
-    FEED: 'feed',
-    TRACKER: 'tracker',
-    HISTORY: 'history',
-    ONGOINGS: 'ongoings',
-    SCHEDULE: 'schedule',
+    COLLECTIONS: 'collections',
     TOP_ANIME: 'top_anime',
     ARTICLES: 'articles',
-    COLLECTIONS: 'collections',
+    ONGOINGS: 'ongoings',
+    SCHEDULE: 'schedule',
+    PROFILE: 'profile',
+    TRACKER: 'tracker',
+    HISTORY: 'history',
+    FEED: 'feed',
+    LIST: 'list',
 } as const;
 
 /**

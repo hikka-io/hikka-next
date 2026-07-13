@@ -994,7 +994,7 @@
     content: "";
     position: absolute;
     inset: 0 0 auto 0;
-    height: 100vh;
+    height: calc(var(--backdrop-height, 1) * 100vh);
     z-index: -1;
     pointer-events: none;
     background: linear-gradient(

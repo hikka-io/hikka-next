@@ -83,6 +83,7 @@ export function mergeStyles(
         result.backdrop = {
             style: overrideBackdrop.style ?? base.backdrop?.style,
             intensity: overrideBackdrop.intensity ?? base.backdrop?.intensity,
+            height: overrideBackdrop.height ?? base.backdrop?.height,
             ...(overrideBackdrop.color
                 ? { color: overrideBackdrop.color }
                 : {}),
@@ -142,6 +143,7 @@ function backdropEqual(
     return (
         a.style === b.style &&
         a.intensity === b.intensity &&
+        a.height === b.height &&
         oklchEqual(a.color, b.color)
     );
 }
