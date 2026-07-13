@@ -1,6 +1,6 @@
 export { default as ProfileAppearance } from './appearance';
-export { default as ApplicationsSettings } from './applications/applications';
 export { default as AuthorizedAppsSettings } from './applications/authorized-apps';
+export { default as ClientApps } from './applications/client-apps';
 export { default as ClientCreateButton } from './client-create-button';
 export { default as ProfileDescription } from './description';
 export { default as Effects } from './effects';
