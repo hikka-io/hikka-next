@@ -1,5 +1,7 @@
 import type { FC } from 'react';
 
+import { ChevronDown } from 'lucide-react';
+
 import { buttonVariants } from '@/components/ui/button';
 import {
     Collapsible,
@@ -20,11 +22,19 @@ type Props = {
     className?: string;
 };
 
-const groupRowClass = (active: boolean) =>
+const leafRowClass = (active: boolean) =>
     cn(
         buttonVariants({ variant: active ? 'secondary' : 'ghost', size: 'md' }),
         'w-full justify-start',
         !active && 'text-muted-foreground',
+    );
+
+/* Parent of sub-links: never filled — the active sub-link carries the fill. */
+const parentRowClass = (active: boolean) =>
+    cn(
+        buttonVariants({ variant: 'ghost', size: 'md' }),
+        'w-full justify-start',
+        active ? 'text-foreground' : 'text-muted-foreground',
     );
 
 const subRowClass = (active: boolean) =>
@@ -40,7 +50,7 @@ const SettingsSidebar: FC<Props> = ({ className }) => {
 
     return (
         <nav className={cn('flex flex-col gap-2', className)}>
-            <h2 className="px-2 py-1 font-bold text-lg">Налаштування</h2>
+            <h2 className="px-3 font-bold text-lg">Налаштування</h2>
 
             {/* Desktop: always-expanded groups */}
             <div className="hidden flex-col gap-1 md:flex">
@@ -48,15 +58,21 @@ const SettingsSidebar: FC<Props> = ({ className }) => {
                     <div key={item.href} className="flex flex-col gap-1">
                         <Link
                             to={item.href}
-                            className={groupRowClass(
-                                isGroupActive(item.href, pathname),
-                            )}
+                            className={
+                                item.children
+                                    ? parentRowClass(
+                                          isGroupActive(item.href, pathname),
+                                      )
+                                    : leafRowClass(
+                                          isNavLinkActive(item.href, pathname),
+                                      )
+                            }
                         >
                             <item.icon />
                             {item.title}
                         </Link>
                         {item.children && (
-                            <div className="ml-4 flex flex-col gap-1 border-border/60 border-l pl-2">
+                            <div className="ml-5 flex flex-col gap-1 border-border/60 border-l pl-2">
                                 {item.children.map((child) => (
                                     <Link
                                         key={child.href}
@@ -86,14 +102,18 @@ const SettingsSidebar: FC<Props> = ({ className }) => {
                             defaultOpen={activeTopLevel === item.href}
                         >
                             <CollapsibleTrigger
-                                className={groupRowClass(
-                                    isGroupActive(item.href, pathname),
+                                className={cn(
+                                    parentRowClass(
+                                        isGroupActive(item.href, pathname),
+                                    ),
+                                    '[&[data-state=open]>svg:last-child]:rotate-180',
                                 )}
                             >
                                 <item.icon />
                                 {item.title}
+                                <ChevronDown className="ml-auto transition-transform" />
                             </CollapsibleTrigger>
-                            <CollapsibleContent className="mt-1 ml-4 flex flex-col gap-1 border-border/60 border-l pl-2">
+                            <CollapsibleContent className="mt-1 ml-5 flex flex-col gap-1 border-border/60 border-l pl-2">
                                 {item.children.map((child) => (
                                     <Link
                                         key={child.href}
@@ -114,8 +134,8 @@ const SettingsSidebar: FC<Props> = ({ className }) => {
                         <Link
                             key={item.href}
                             to={item.href}
-                            className={groupRowClass(
-                                isGroupActive(item.href, pathname),
+                            className={leafRowClass(
+                                isNavLinkActive(item.href, pathname),
                             )}
                         >
                             <item.icon />

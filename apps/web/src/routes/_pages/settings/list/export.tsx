@@ -20,7 +20,7 @@ function ListExportPage() {
                     </HeaderContainer>
                 </Header>
                 <p className="text-muted-foreground text-sm">
-                    Експорт та видалення ваших списків.
+                    Завантажте резервну копію або видаліть свої списки
                 </p>
             </div>
             <div className="flex flex-col gap-4">

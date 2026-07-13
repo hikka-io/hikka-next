@@ -20,7 +20,7 @@ function ListImportPage() {
                     </HeaderContainer>
                 </Header>
                 <p className="text-muted-foreground text-sm">
-                    Імпорт аніме, манґи та ранобе.
+                    Імпортуйте аніме, манґу та ранобе з інших сервісів
                 </p>
             </div>
             <div className="flex flex-col gap-4">
