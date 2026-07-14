@@ -160,21 +160,25 @@ const QuickEditModalBody: FC<Omit<Props, 'open'>> = ({
 }) => {
     const content = useContentBySlug(content_type, slug);
 
-    if (!content) {
-        return (
-            <div className="flex min-h-40 flex-1 items-center justify-center">
-                <Spinner />
-            </div>
-        );
-    }
-
     return (
-        <QuickEditForm
-            slug={slug}
-            content_type={content_type}
-            content={content}
-            onSuccess={() => onOpenChange(false)}
-        />
+        <div
+            className="contents"
+            data-slug={slug}
+            data-content-type={content_type}
+        >
+            {content ? (
+                <QuickEditForm
+                    slug={slug}
+                    content_type={content_type}
+                    content={content}
+                    onSuccess={() => onOpenChange(false)}
+                />
+            ) : (
+                <div className="flex min-h-40 flex-1 items-center justify-center">
+                    <Spinner />
+                </div>
+            )}
+        </div>
     );
 };
 
