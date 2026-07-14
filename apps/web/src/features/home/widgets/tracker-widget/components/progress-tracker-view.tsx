@@ -18,6 +18,7 @@ import Stack from '@/components/ui/stack';
 import {
     Tooltip,
     TooltipContent,
+    TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
@@ -99,11 +100,13 @@ const ProgressTrackerView = ({
                                     )}
                                 />
                             </TooltipTrigger>
-                            <TooltipContent className="max-w-48">
-                                <span className="block truncate">
-                                    {item.title}
-                                </span>
-                            </TooltipContent>
+                            <TooltipPortal>
+                                <TooltipContent className="max-w-48">
+                                    <span className="block truncate">
+                                        {item.title}
+                                    </span>
+                                </TooltipContent>
+                            </TooltipPortal>
                         </Tooltip>
                     ))}
                     {hasNextPage && (
