@@ -122,7 +122,7 @@ function UserLayout() {
             <Breadcrumbs>
                 <Link
                     to={`/u/${username}`}
-                    className="line-clamp-1 break-all font-bold text-sm hover:underline"
+                    className="truncate font-bold text-sm hover:underline"
                 >
                     {username}
                 </Link>
@@ -132,11 +132,11 @@ function UserLayout() {
                 />
             </Breadcrumbs>
             <div className="flex flex-col gap-4 md:flex-row lg:items-end lg:gap-8">
-                <div className="flex flex-1 gap-4 lg:gap-8">
+                <div className="flex min-w-0 flex-1 gap-4 lg:gap-8">
                     <UserInfo />
                     <UserTitle />
                 </div>
-                <FollowStats />
+                <FollowStats className="shrink-0" />
             </div>
             <div className="flex flex-col gap-8">
                 <Outlet />

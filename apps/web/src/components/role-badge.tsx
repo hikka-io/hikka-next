@@ -39,7 +39,7 @@ const RoleBadge: FC<Props> = ({ role, variant = 'boxed' }) => {
     return (
         <Tooltip delayDuration={0}>
             <TooltipTrigger
-                className={variant === 'inline' ? 'flex shrink-0' : undefined}
+                className={variant === 'inline' ? 'flex shrink-0' : 'shrink-0'}
             >
                 <div
                     className={cn(

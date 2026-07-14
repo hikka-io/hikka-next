@@ -32,8 +32,8 @@ const NavBreadcrumbs = ({ children }: NavBreadcrumbsProps) => {
                 <Fragment key={index}>
                     <IconamoonSignDivisionSlashThin
                         className={cn(
-                            'opacity-30',
-                            index === 0 && 'hidden md:block',
+                            'shrink-0 opacity-30',
+                            index === 0 && 'hidden',
                         )}
                     />
                     {child}
@@ -42,12 +42,14 @@ const NavBreadcrumbs = ({ children }: NavBreadcrumbsProps) => {
         </>
     );
 
-    const portalContainer = isDesktop
-        ? document.getElementById('breadcrumbs')
-        : document.getElementById('breadcrumbs-mobile');
+    // Breadcrumbs are mobile-only — there is no desktop portal container.
+    if (isDesktop) {
+        return null;
+    }
+
+    const portalContainer = document.getElementById('breadcrumbs-mobile');
 
     if (!portalContainer) {
-        console.warn('Breadcrumbs portal container not found');
         return null;
     }
 
