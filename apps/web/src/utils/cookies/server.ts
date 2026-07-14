@@ -79,7 +79,7 @@ export const setNsfwConsentFn = createServerFn({ method: 'POST' }).handler(
         const secure = isSecureCookieDomain(domain);
 
         setCookie('nsfw_confirmed', '1', {
-            maxAge: 60 * 60 * 24, // 1 day
+            maxAge: 60 * 60 * 24 * 7, // 1 week
             path: '/',
             httpOnly: false,
             secure,
