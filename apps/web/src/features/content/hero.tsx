@@ -1,10 +1,11 @@
-import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import type { MainContentTypeEnum } from '@hikka/api';
 
-import { badgeVariants } from '@/components/ui/badge';
 import { useTitle } from '@/features/auth/hooks/use-title';
-import { cn } from '@/utils/cn';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
-import { Link, useParams } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
+
+import ContentGenres from './content-genres';
+import { getOriginalTitle } from './get-original-title';
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -19,14 +20,7 @@ const Hero = ({ content_type }: Props) => {
         return null;
     }
 
-    const originalTitle =
-        data.data_type === ContentTypeEnum.ANIME
-            ? 'title_ja' in data
-                ? data.title_ja
-                : null
-            : 'title_original' in data
-              ? (data as { title_original?: string | null }).title_original
-              : null;
+    const originalTitle = getOriginalTitle(data);
 
     const titleSizeClass =
         title && title.length > 80
@@ -45,22 +39,7 @@ const Hero = ({ content_type }: Props) => {
                     </p>
                 )}
             </div>
-            {data.genres.length > 0 && (
-                <div className="flex flex-wrap gap-1.5">
-                    {data.genres.map((genre) => (
-                        <Link
-                            key={genre.slug}
-                            className={cn(
-                                badgeVariants({ variant: 'secondary' }),
-                            )}
-                            to={`/${content_type}`}
-                            search={{ genres: [genre.slug] }}
-                        >
-                            {genre.name_ua}
-                        </Link>
-                    ))}
-                </div>
-            )}
+            <ContentGenres content_type={content_type} genres={data.genres} />
         </div>
     );
 };

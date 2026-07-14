@@ -1,10 +1,12 @@
-import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import type { MainContentTypeEnum } from '@hikka/api';
 
-import { badgeVariants } from '@/components/ui/badge';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
-import { Link, useParams } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
+
+import ContentGenres from './content-genres';
+import { getOriginalTitle } from './get-original-title';
 
 type TitleProps = {
     className?: string;
@@ -20,6 +22,8 @@ const Title = ({ className, content_type }: TitleProps) => {
         return null;
     }
 
+    const originalTitle = getOriginalTitle(data);
+
     return (
         <div
             className={cn('flex flex-col justify-between gap-4', className)}
@@ -28,33 +32,13 @@ const Title = ({ className, content_type }: TitleProps) => {
             <div className="flex flex-col">
                 <h2>{title}</h2>
 
-                <p className="text-muted-foreground text-sm">
-                    {data.data_type === ContentTypeEnum.ANIME
-                        ? 'title_ja' in data
-                            ? data.title_ja
-                            : null
-                        : 'title_original' in data
-                          ? (data as { title_original?: string | null })
-                                .title_original
-                          : null}
-                </p>
+                {originalTitle && (
+                    <p className="text-muted-foreground text-sm">
+                        {originalTitle}
+                    </p>
+                )}
             </div>
-            {data.genres.length > 0 && (
-                <div className="flex flex-wrap gap-1.5">
-                    {data.genres.map((genre) => (
-                        <Link
-                            key={genre.slug}
-                            className={cn(
-                                badgeVariants({ variant: 'secondary' }),
-                            )}
-                            to={`/${content_type}`}
-                            search={{ genres: [genre.slug] }}
-                        >
-                            {genre.name_ua}
-                        </Link>
-                    ))}
-                </div>
-            )}
+            <ContentGenres content_type={content_type} genres={data.genres} />
         </div>
     );
 };

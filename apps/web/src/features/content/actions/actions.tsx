@@ -27,7 +27,7 @@ const Actions: FC<Props> = ({ content_type, className }) => {
     const hasList = !!userlist && !isError;
 
     return (
-        <div className={cn('flex flex-col', className)} id="content-actions">
+        <div className={cn('flex flex-col', className)}>
             <div className={cn(hasList && '[&_button]:rounded-b-none')}>
                 {content_type === ContentTypeEnum.ANIME ? (
                     <WatchlistButton
@@ -42,7 +42,10 @@ const Actions: FC<Props> = ({ content_type, className }) => {
                     />
                 )}
             </div>
-            <UserContentStats content_type={content_type} />
+            <UserContentStats
+                content_type={content_type}
+                listItem={hasList ? userlist : undefined}
+            />
         </div>
     );
 };

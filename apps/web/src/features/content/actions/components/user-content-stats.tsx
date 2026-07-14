@@ -1,37 +1,38 @@
 import { Hash, Star } from 'lucide-react';
 
-import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import {
+    ContentTypeEnum,
+    type MainContentTypeEnum,
+    type ReadResponse,
+    type WatchResponse,
+} from '@hikka/api';
 
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
-import { useParams } from '@/utils/navigation';
 
 import { useUserlistManager } from '../../hooks/use-list-manager';
 
 const UserContentStats = ({
     content_type,
+    listItem,
 }: {
     content_type: MainContentTypeEnum;
+    listItem?: WatchResponse | ReadResponse;
 }) => {
-    const params = useParams();
-
-    const { data: userlist, isError: userlistError } = CONTENT_CONFIG[
-        content_type
-    ].useUserlistRecord(String(params.slug));
-
     const { addProgress, removeProgress, setScore, score, progress, total } =
         useUserlistManager({
-            listItem: userlist,
+            listItem,
             content_type,
         });
 
-    if (!userlist || userlistError) {
+    if (!listItem) {
         return null;
     }
+
+    const unit = content_type === ContentTypeEnum.ANIME ? 'епізод' : 'розділ';
 
     return (
         <div className="surface flex flex-col divide-y divide-border overflow-hidden rounded-md rounded-t-none border">
@@ -68,7 +69,7 @@ const UserContentStats = ({
                     </p>
                     <Progress
                         className="h-2"
-                        max={total ?? 0}
+                        max={total || progress || 1}
                         value={progress}
                     />
                 </div>
@@ -77,6 +78,7 @@ const UserContentStats = ({
                         variant="secondary"
                         size="icon-md"
                         onClick={removeProgress}
+                        aria-label={`Прибрати ${unit}`}
                         className="rounded-r-none"
                     >
                         <MaterialSymbolsRemoveRounded />
@@ -85,6 +87,7 @@ const UserContentStats = ({
                         variant="secondary"
                         size="icon-md"
                         onClick={addProgress}
+                        aria-label={`Додати ${unit}`}
                         className="rounded-l-none"
                     >
                         <MaterialSymbolsAddRounded />
