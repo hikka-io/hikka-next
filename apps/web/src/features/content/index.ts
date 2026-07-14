@@ -11,6 +11,8 @@ export { default as ContentDescription } from './description';
 export { default as ContentDetails } from './details';
 export * from './followings';
 export { default as Franchise } from './franchise';
+export { default as ContentHero } from './hero';
+export { default as ContentHeroPoster } from './hero-poster';
 export { default as ContentLinks } from './links';
 export { default as ContentMedia } from './media';
 export { default as ContentScores } from './scores';

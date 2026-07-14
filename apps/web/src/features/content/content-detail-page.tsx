@@ -14,6 +14,8 @@ import ContentDescription from './description';
 import ContentDetails from './details';
 import { Followings } from './followings';
 import Franchise from './franchise';
+import ContentHero from './hero';
+import ContentHeroPoster from './hero-poster';
 import ContentLinks from './links';
 import ContentScores from './scores';
 import ContentStaff from './staff';
@@ -38,7 +40,21 @@ const ContentDetailPage: FC<Props> = ({
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-12">
             {jsonLd}
             <div
-                className="flex flex-col gap-4 lg:col-span-1"
+                className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6 lg:hidden"
+                id="content-header-mobile"
+            >
+                <ContentHeroPoster
+                    content_type={contentType}
+                    className="mx-auto md:mx-0 md:w-64"
+                />
+                <div className="flex min-w-0 flex-col gap-4 md:flex-1">
+                    <ContentHero content_type={contentType} />
+                    <ContentScores content_type={contentType} />
+                    <ContentActions content_type={contentType} />
+                </div>
+            </div>
+            <div
+                className="hidden flex-col gap-4 lg:col-span-1 lg:flex"
                 id="content-left-side"
             >
                 <ContentCover content_type={contentType} />
@@ -50,9 +66,8 @@ const ContentDetailPage: FC<Props> = ({
                 className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-8"
                 id="content-center"
             >
-                <ContentTitle content_type={contentType} />
-                <ContentScores
-                    className="lg:hidden"
+                <ContentTitle
+                    className="max-lg:hidden"
                     content_type={contentType}
                 />
                 <ContentDescription content_type={contentType} />

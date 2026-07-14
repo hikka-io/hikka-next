@@ -18,7 +18,6 @@ type NewStatusTriggerProps = {
     slug: string;
     size?: 'sm' | 'md';
     isLoading?: boolean;
-    variant?: 'default' | 'header';
 };
 
 const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
@@ -26,7 +25,6 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     slug,
     size,
     isLoading,
-    variant = 'default',
 }) => {
     const queryClient = useQueryClient();
 
@@ -47,40 +45,6 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
             },
         });
     };
-
-    if (variant === 'header') {
-        return (
-            <SelectTrigger
-                asChild
-                className="gap-0 border-none p-0"
-                onSelect={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }}
-            >
-                <button
-                    type="button"
-                    disabled={disabled}
-                    onClick={handleAddToPlanned}
-                    className="relative flex w-full cursor-pointer items-center justify-center gap-2 bg-secondary/30 p-3"
-                >
-                    {isLoading ? (
-                        <Spinner />
-                    ) : (
-                        <div className="rounded-sm border border-secondary-foreground/20 p-1">
-                            {createElement(WATCH_STATUS.planned.icon!, {
-                                className: 'size-3!',
-                            })}
-                        </div>
-                    )}
-                    <span className="truncate font-medium">
-                        Додати у список
-                    </span>
-                    <MaterialSymbolsArrowDropDownRounded className="absolute top-1/2 right-3 -translate-y-1/2 text-xl" />
-                </button>
-            </SelectTrigger>
-        );
-    }
 
     return (
         <SelectTrigger

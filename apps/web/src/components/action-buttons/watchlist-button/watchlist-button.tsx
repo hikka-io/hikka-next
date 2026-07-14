@@ -45,7 +45,6 @@ type Props = {
     anime?: AnimeResponse;
     size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
     buttonProps?: ButtonProps;
-    variant?: 'default' | 'header';
 };
 
 const SETTINGS_BUTTON = {
@@ -87,7 +86,6 @@ const WatchlistButton = ({
     anime: animeProp,
     size,
     buttonProps,
-    variant = 'default',
 }: Props) => {
     const [editOpen, setEditOpen] = useState(false);
     const queryClient = useQueryClient();
@@ -194,7 +192,6 @@ const WatchlistButton = ({
                             size={size as 'sm' | 'md'}
                             isLoading={isChangingStatus}
                             onOpenModal={() => setEditOpen(true)}
-                            variant={variant}
                         />
                     ) : (
                         <NewStatusTrigger
@@ -202,7 +199,6 @@ const WatchlistButton = ({
                             slug={slug}
                             disabled={disabled}
                             isLoading={isChangingStatus}
-                            variant={variant}
                         />
                     )}
 
