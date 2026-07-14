@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { activation } from '@hikka/api';
 
+import { firstForwardedIp } from '@/utils/api/client-ip';
 import {
     createServerHikkaClient,
     makeCookieHeader,
@@ -10,9 +11,13 @@ import {
 export const Route = createFileRoute('/auth/activate/$token')({
     server: {
         handlers: {
-            GET: async ({ params }) => {
+            GET: async ({ params, request }) => {
                 try {
-                    const client = createServerHikkaClient();
+                    const client = createServerHikkaClient(
+                        firstForwardedIp(
+                            request.headers.get('x-forwarded-for'),
+                        ),
+                    );
                     const { data: res } = await activation({
                         client,
                         body: { token: params.token },

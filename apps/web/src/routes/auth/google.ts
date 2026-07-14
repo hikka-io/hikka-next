@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { HikkaApiError, oauthToken } from '@hikka/api';
 
+import { firstForwardedIp } from '@/utils/api/client-ip';
 import {
     createServerHikkaClient,
     makeCookieHeader,
@@ -28,7 +29,11 @@ export const Route = createFileRoute('/auth/google')({
                 const redirectBase = resolveRedirectBase(state, getSiteUrl());
 
                 try {
-                    const client = createServerHikkaClient();
+                    const client = createServerHikkaClient(
+                        firstForwardedIp(
+                            request.headers.get('x-forwarded-for'),
+                        ),
+                    );
                     const { data: res } = await oauthToken({
                         client,
                         path: { provider: 'google' },

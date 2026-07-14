@@ -7,6 +7,8 @@ export interface TransportOptions {
     baseUrl?: string;
     authToken?: string;
     internalBaseUrl?: string;
+    /** Real client IP for SSR requests; forwarded as cf-connecting-ip + x-forwarded-for. */
+    clientIp?: string;
 }
 
 /**
@@ -108,6 +110,14 @@ export function createRequestClient(opts: TransportOptions = {}): Client {
         }),
     );
     attachInterceptors(requestClient, () => opts.authToken);
+    if (opts.clientIp) {
+        const ip = opts.clientIp;
+        requestClient.interceptors.request.use((request) => {
+            request.headers.set('cf-connecting-ip', ip);
+            request.headers.set('x-forwarded-for', ip);
+            return request;
+        });
+    }
     if (opts.internalBaseUrl && opts.internalBaseUrl !== baseUrl) {
         attachRebase(requestClient, baseUrl, opts.internalBaseUrl);
     }
