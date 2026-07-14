@@ -50,6 +50,7 @@ type Props = {
     content?: MangaResponse | NovelResponse;
     size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
     buttonProps?: ButtonProps;
+    variant?: 'default' | 'header';
 };
 
 const SETTINGS_BUTTON = {
@@ -92,6 +93,7 @@ const ReadlistButton = ({
     content: contentProp,
     size,
     buttonProps,
+    variant = 'default',
 }: Props) => {
     const [editOpen, setEditOpen] = useState(false);
     const queryClient = useQueryClient();
@@ -234,6 +236,7 @@ const ReadlistButton = ({
                             size={size as 'sm' | 'md'}
                             isLoading={isChangingStatus}
                             onOpenModal={() => setEditOpen(true)}
+                            variant={variant}
                         />
                     ) : (
                         <NewStatusTrigger
@@ -242,6 +245,7 @@ const ReadlistButton = ({
                             disabled={disabled}
                             size={size as 'sm' | 'md'}
                             isLoading={isChangingStatus}
+                            variant={variant}
                         />
                     )}
 
