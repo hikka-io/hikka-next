@@ -6,6 +6,7 @@ export {
 } from './headers';
 export {
     getAuthTokenFn,
+    getClientIpFn,
     getThemeCookieFn,
     refreshAuthCookieFn,
 } from './server';

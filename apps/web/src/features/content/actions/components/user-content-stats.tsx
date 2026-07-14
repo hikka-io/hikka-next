@@ -1,121 +1,99 @@
 import { Hash, Star } from 'lucide-react';
 
-import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import {
+    ContentTypeEnum,
+    type MainContentTypeEnum,
+    type ReadResponse,
+    type WatchResponse,
+} from '@hikka/api';
 
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import { Button } from '@/components/ui/button';
-import { CollapsibleFilter } from '@/components/ui/collapsible-filter';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
-import { useSettingsStore } from '@/services/stores/settings-store';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
-import { useParams } from '@/utils/navigation';
 
 import { useUserlistManager } from '../../hooks/use-list-manager';
 
 const UserContentStats = ({
     content_type,
+    listItem,
 }: {
     content_type: MainContentTypeEnum;
+    listItem?: WatchResponse | ReadResponse;
 }) => {
-    const { preferences, setCollapsible } = useSettingsStore();
-    const params = useParams();
-
-    const { data: userlist, isError: userlistError } = CONTENT_CONFIG[
-        content_type
-    ].useUserlistRecord(String(params.slug));
-
     const { addProgress, removeProgress, setScore, score, progress, total } =
         useUserlistManager({
-            listItem: userlist,
+            listItem,
             content_type,
         });
 
-    if (!userlist || userlistError) {
+    if (!listItem) {
         return null;
     }
 
+    const unit = content_type === ContentTypeEnum.ANIME ? 'епізод' : 'розділ';
+
     return (
-        <div className="flex flex-col">
-            <CollapsibleFilter
-                title="Оцінка"
-                icon={<Star className="size-4" />}
-                open={preferences.collapsibles.content_score}
-                onOpenChange={(open) => setCollapsible('content_score', open)}
-                defaultOpen
-            >
-                <div className="flex items-center justify-between gap-4">
-                    <Rating
-                        onChange={setScore}
-                        totalStars={5}
-                        precision={0.5}
-                        value={score ? score / 2 : 0}
-                    />
-                    <p className="text-muted-foreground text-sm">
+        <div className="surface flex flex-col divide-y divide-border overflow-hidden rounded-md rounded-t-none border">
+            <div className="flex items-center justify-between gap-4 p-4">
+                <p className="flex items-center gap-2 text-muted-foreground text-sm">
+                    <Star className="size-4" />
+                    <span>
                         <span className="font-bold text-foreground">
-                            {score}
+                            {score ?? 0}
                         </span>
                         /10
-                    </p>
-                </div>
-            </CollapsibleFilter>
-            <CollapsibleFilter
-                title={
-                    content_type === ContentTypeEnum.ANIME
-                        ? 'Епізоди'
-                        : 'Розділи'
-                }
-                icon={<Hash className="size-4" />}
-                open={preferences.collapsibles.content_progress}
-                onOpenChange={(open) =>
-                    setCollapsible('content_progress', open)
-                }
-                defaultOpen
-            >
-                <div className="flex w-full flex-col gap-2">
-                    <p className="text-muted-foreground text-sm">
-                        <span className="font-bold text-foreground">
-                            {progress}
+                    </span>
+                </p>
+                <Rating
+                    onChange={setScore}
+                    totalStars={5}
+                    precision={0.5}
+                    value={score ? score / 2 : 0}
+                />
+            </div>
+            <div className="flex items-center justify-between gap-4 p-4">
+                <div className="flex min-w-0 flex-1 flex-col gap-2">
+                    <p className="flex items-center gap-2 text-muted-foreground text-sm">
+                        <Hash className="size-4" />
+                        <span>
+                            <span className="font-bold text-foreground">
+                                {progress}
+                            </span>
+                            /{total ?? '?'}{' '}
+                            {content_type === ContentTypeEnum.ANIME
+                                ? 'епізодів'
+                                : 'розділів'}
                         </span>
-                        /{total ?? '?'}{' '}
-                        {content_type === ContentTypeEnum.ANIME
-                            ? 'епізодів'
-                            : 'розділів'}
                     </p>
                     <Progress
                         className="h-2"
-                        max={total ?? 0}
+                        max={total || progress || 1}
                         value={progress}
                     />
                 </div>
                 <div className="flex">
                     <Button
-                        className="flex-1 rounded-r-none"
-                        onClick={addProgress}
-                        variant="secondary"
-                        size="md"
-                    >
-                        <MaterialSymbolsAddRounded />
-                        <div className="flex gap-1">
-                            <span className="hidden sm:block">Додати</span>
-                            <span className="capitalize sm:normal-case">
-                                {content_type === ContentTypeEnum.ANIME
-                                    ? 'епізод'
-                                    : 'розділ'}
-                            </span>
-                        </div>
-                    </Button>
-                    <Button
-                        className="rounded-l-none"
-                        onClick={removeProgress}
                         variant="secondary"
                         size="icon-md"
+                        onClick={removeProgress}
+                        aria-label={`Прибрати ${unit}`}
+                        className="rounded-r-none"
                     >
                         <MaterialSymbolsRemoveRounded />
                     </Button>
+                    <Button
+                        variant="secondary"
+                        size="icon-md"
+                        onClick={addProgress}
+                        aria-label={`Додати ${unit}`}
+                        className="rounded-l-none"
+                    >
+                        <MaterialSymbolsAddRounded />
+                    </Button>
                 </div>
-            </CollapsibleFilter>
+            </div>
         </div>
     );
 };

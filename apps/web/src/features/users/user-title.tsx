@@ -19,17 +19,17 @@ const UserTitle = () => {
     }
 
     return (
-        <div className="flex w-full flex-col gap-2">
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
             <div className="flex items-center gap-2">
-                <Link to={`/u/${user.username}`}>
-                    <h3 className="line-clamp-1 break-all hover:underline">
+                <Link to={`/u/${user.username}`} className="min-w-0">
+                    <h3 className="truncate hover:underline">
                         {user.username}
                     </h3>
                 </Link>
                 <RoleBadge role={user.role} />
             </div>
             {user.description && (
-                <MDViewer className="line-clamp-3 text-muted-foreground text-sm leading-5">
+                <MDViewer className="line-clamp-3 break-words text-muted-foreground text-sm leading-5">
                     {user.description}
                 </MDViewer>
             )}

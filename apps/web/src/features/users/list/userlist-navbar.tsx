@@ -111,23 +111,25 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
 
     const handleRandom = async () => {
         const data = isAnime
-            ? await queryClient.fetchQuery(
-                  randomWatchEntryOptions({
+            ? await queryClient.fetchQuery({
+                  ...randomWatchEntryOptions({
                       path: {
                           username: String(params.username),
                           status: status as WatchStatusEnum,
                       },
                   }),
-              )
-            : await queryClient.fetchQuery(
-                  randomReadNovelOptions({
+                  staleTime: 0,
+              })
+            : await queryClient.fetchQuery({
+                  ...randomReadNovelOptions({
                       path: {
                           username: String(params.username),
                           content_type: content_type as ReadContentTypeEnum,
                           status: status as ReadStatusEnum,
                       },
                   }),
-              );
+                  staleTime: 0,
+              });
 
         router.navigate({
             to: `/${content_type}/${data.slug}` as '/',

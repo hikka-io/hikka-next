@@ -9,7 +9,7 @@ export interface Preferences {
     views: Record<string, Hikka.View>;
     /** Filter preferences by context key (e.g., 'franchiseContentTypes') */
     filters: Record<string, string[]>;
-    /** Collapsible state by context key (e.g., 'content_score', 'content_progress') */
+    /** Collapsible state by context key (e.g., 'home_anime_list', 'home_manga_list') */
     collapsibles: Record<string, boolean>;
 }
 
@@ -43,8 +43,6 @@ export const DEFAULT_PREFERENCES: Preferences = {
         ],
     },
     collapsibles: {
-        content_score: true,
-        content_progress: true,
         home_anime_list: true,
         home_manga_list: false,
         home_novel_list: false,

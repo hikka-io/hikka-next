@@ -1,5 +1,7 @@
 import { createServerFn } from '@tanstack/react-start';
 
+import { firstForwardedIp } from '@/utils/api/client-ip';
+
 import { getCookieDomain, isSecureCookieDomain } from './domain';
 
 // Server function for isomorphic use (works from both server and client via RPC)
@@ -7,6 +9,15 @@ export const getAuthTokenFn = createServerFn({ method: 'GET' }).handler(
     async () => {
         const { getCookie } = await import('@tanstack/react-start/server');
         return getCookie('auth') ?? null;
+    },
+);
+
+export const getClientIpFn = createServerFn({ method: 'GET' }).handler(
+    async () => {
+        const { getRequestHeader } = await import(
+            '@tanstack/react-start/server'
+        );
+        return firstForwardedIp(getRequestHeader('x-forwarded-for')) ?? null;
     },
 );
 

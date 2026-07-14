@@ -50,9 +50,10 @@ export function clearCookieHeader(
         .join('; ');
 }
 
-export function createServerHikkaClient(): Client {
+export function createServerHikkaClient(clientIp?: string): Client {
     return createRequestClient({
         baseUrl: PUBLIC_API_URL,
         internalBaseUrl: getInternalApiUrl(),
+        clientIp,
     });
 }

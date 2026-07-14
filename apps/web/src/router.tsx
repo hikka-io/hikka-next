@@ -17,7 +17,7 @@ import { getInternalApiUrl, PUBLIC_API_URL } from '@/utils/api/base-url';
 import { shouldSkipGlobalErrorToast } from '@/utils/api/mutation-meta';
 
 import { routeTree } from './routeTree.gen';
-import { getAuthTokenFn } from './utils/cookies';
+import { getAuthTokenFn, getClientIpFn } from './utils/cookies';
 
 export interface RouterContext {
     queryClient: QueryClient;
@@ -44,6 +44,7 @@ export async function createRouter() {
     });
 
     const authToken = await getAuthTokenFn();
+    const clientIp = isServer ? await getClientIpFn() : null;
 
     configureBrowserClient({
         baseUrl: PUBLIC_API_URL,
@@ -55,6 +56,7 @@ export async function createRouter() {
               baseUrl: PUBLIC_API_URL,
               internalBaseUrl: getInternalApiUrl(),
               authToken: authToken ?? undefined,
+              clientIp: clientIp ?? undefined,
           })
         : getBrowserClient();
 
