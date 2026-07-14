@@ -67,16 +67,17 @@ const UserContentStats = ({
                         </span>
                     </p>
                     <Progress
-                        className="h-1.5"
+                        className="h-2"
                         max={total ?? 0}
                         value={progress}
                     />
                 </div>
-                <div className="flex gap-2">
+                <div className="flex">
                     <Button
                         variant="secondary"
                         size="icon-md"
                         onClick={removeProgress}
+                        className="rounded-r-none"
                     >
                         <MaterialSymbolsRemoveRounded />
                     </Button>
@@ -84,6 +85,7 @@ const UserContentStats = ({
                         variant="secondary"
                         size="icon-md"
                         onClick={addProgress}
+                        className="rounded-l-none"
                     >
                         <MaterialSymbolsAddRounded />
                     </Button>
