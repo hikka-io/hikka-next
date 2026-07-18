@@ -96,35 +96,53 @@ const LogoSection = () => {
 const FontsSection = () => {
     return (
         <Block>
-            <Header className="flex-col items-start gap-1">
-                <HeaderTitle variant="h3">Шрифт</HeaderTitle>
-                <HeaderDescription>
-                    Geist Variable — var(--font-sans)
-                </HeaderDescription>
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle variant="h3">Шрифт</HeaderTitle>
+                </HeaderContainer>
             </Header>
-            <Card>
-                <p className="text-2xl">
-                    Українська енциклопедія аніме, манґи та ранобе
-                </p>
-                <p className="text-muted-foreground">
-                    Аа Бб Вв Гг Ґг Дд Ее Єє Жж Зз Ии Іі Її Йй Кк Лл Мм Нн Оо Пп
-                    Рр Сс Тт Уу Фф Хх Цц Чч Шш Щщ Ьь Юю Яя
-                </p>
-                <p className="text-muted-foreground">
-                    Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt
-                    Uu Vv Ww Xx Yy Zz 0 1 2 3 4 5 6 7 8 9
-                </p>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <Card className="gap-6">
+                <div className="flex flex-col gap-6 md:flex-row">
+                    <div className="flex h-40 shrink-0 items-center justify-center rounded-md border border-border md:w-48">
+                        <span className="text-7xl leading-none">Аа</span>
+                    </div>
+                    <div className="flex min-w-0 flex-1 flex-col gap-2">
+                        <div className="flex flex-col">
+                            <span className="font-medium">Geist Variable</span>
+                            <span className="text-muted-foreground text-xs">
+                                var(--font-sans)
+                            </span>
+                        </div>
+                        <p className="text-2xl">
+                            Українська енциклопедія аніме, манґи та ранобе
+                        </p>
+                        <p className="text-muted-foreground text-sm">
+                            Аа Бб Вв Гг Ґг Дд Ее Єє Жж Зз Ии Іі Її Йй Кк Лл Мм
+                            Нн Оо Пп Рр Сс Тт Уу Фф Хх Цц Чч Шш Щщ Ьь Юю Яя
+                        </p>
+                        <p className="text-muted-foreground text-sm">
+                            Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq
+                            Rr Ss Tt Uu Vv Ww Xx Yy Zz 0 1 2 3 4 5 6 7 8 9
+                        </p>
+                    </div>
+                </div>
+                <Separator />
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                     {FONT_WEIGHTS.map((weight) => (
                         <div
                             key={weight.title}
-                            className="flex flex-col gap-1 rounded-md border border-border p-3"
+                            className="flex flex-col items-center gap-1 rounded-md border border-border py-3"
                         >
+                            <span
+                                className={cn(
+                                    'text-4xl leading-none',
+                                    weight.className,
+                                )}
+                            >
+                                Аа
+                            </span>
                             <span className="text-muted-foreground text-xs">
                                 {weight.title}
-                            </span>
-                            <span className={cn('text-xl', weight.className)}>
-                                Hikka
                             </span>
                         </div>
                     ))}
