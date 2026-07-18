@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { AnimeResponse, type AnimeResponseWithWatch, ContentTypeEnum } from '@hikka/api';
+import { type AnimeResponseWithWatch, ContentTypeEnum } from '@hikka/api';
 
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
@@ -14,7 +14,8 @@ type Props = ContentCardProps & {
 };
 
 const AnimeCard: FC<Props> = ({ item, ...props }) => {
-    const title = props.title ? props.title : useTitle(item);
+    const fallbackTitle = useTitle(item);
+    const title = props.title || fallbackTitle;
 
     return (
         <ContentCard

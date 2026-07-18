@@ -125,20 +125,6 @@ const CatalogNavbar: FC<Props> = ({
                     className="hidden h-6 md:block"
                 />
 
-                <ToggleGroup
-                    variant="outline"
-                    value={view}
-                    type="single"
-                    onValueChange={handleChangeView}
-                >
-                    <ToggleGroupItem value="grid" aria-label="Сітка">
-                        <MaterialSymbolsGridViewRounded />
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="list" aria-label="Список">
-                        <MaterialSymbolsEventList className="rotate-180" />
-                    </ToggleGroupItem>
-                </ToggleGroup>
-
                 <div className="flex items-center gap-4">
                     <Sort
                         sort_type={sort_type}
@@ -146,6 +132,22 @@ const CatalogNavbar: FC<Props> = ({
                         className="min-w-0 flex-1 overflow-hidden md:w-46"
                         placeholder="Сортування"
                     />
+
+                    <Separator orientation="vertical" className="h-6" />
+
+                    <ToggleGroup
+                        variant="outline"
+                        value={view}
+                        type="single"
+                        onValueChange={handleChangeView}
+                    >
+                        <ToggleGroupItem value="grid" aria-label="Сітка">
+                            <MaterialSymbolsGridViewRounded />
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="list" aria-label="Список">
+                            <MaterialSymbolsEventList />
+                        </ToggleGroupItem>
+                    </ToggleGroup>
 
                     <Separator orientation="vertical" className="h-6" />
 

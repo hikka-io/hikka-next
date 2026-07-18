@@ -20,6 +20,7 @@ import {
     HorizontalCardDescription,
     HorizontalCardTitle,
 } from '../ui/horizontal-card';
+import { Separator } from '../ui/separator';
 import { CompanyTitleLink } from './company-title-link';
 import { InlineScores } from './inline-scores';
 import { MagazineTitleLink } from './magazine-title-link';
@@ -80,11 +81,11 @@ export function ContentListItem(props: Props) {
         : undefined;
 
     return (
-        <div className="flex min-h-[100px] w-full flex-col rounded-(--base-radius) border-1 bg-card shadow-sm lg:flex-row">
-            <div className="flex min-w-0 flex-1 flex-row lg:p-3">
-                <div className="shrink-0 self-stretch p-3 pr-0 lg:p-0">
+        <div className="flex min-h-[100px] w-full flex-col rounded-(--base-radius) surface border border-border md:flex-row">
+            <div className="flex min-w-0 flex-1 flex-row md:p-3">
+                <div className="shrink-0 self-stretch p-3 pr-0 md:p-0">
                     <ContentCard
-                        className="w-30 lg:w-20"
+                        className="w-24 md:w-16"
                         containerClassName="relative z-0 rounded-(--base-radius)"
                         imagePreset='cardXs'
                         image={item?.image}
@@ -120,13 +121,13 @@ export function ContentListItem(props: Props) {
                                 ))}
                         </HorizontalCardDescription>
                         <ContentGenres
-                            className="lg:hidden"
+                            className="md:hidden"
                             contentType={type}
                             genres={item.genres}
                             maxItems={2}
                         />
                         <ContentGenres
-                            className="hidden lg:flex"
+                            className="hidden md:flex"
                             contentType={type}
                             genres={item.genres}
                             /* Desktop have more space for tags (genres)`*/
@@ -134,7 +135,7 @@ export function ContentListItem(props: Props) {
                         />
                     </HorizontalCardContainer>
                     {/* Scores drop to the bottom of the card when the row is narrow */}
-                    <div className="mt-auto pt-1 lg:hidden">
+                    <div className="mt-auto pt-1 md:hidden">
                         <InlineScores
                             hikkaScore={item.native_score}
                             hikkaScoreCount={item.native_scored_by}
@@ -143,7 +144,11 @@ export function ContentListItem(props: Props) {
                         />
                     </div>
                 </div>
-                <div className="hidden w-[300px] shrink-0 flex-col items-center justify-start gap-3 p-3 lg:p-0 lg:pt-3 lg:flex">
+                <Separator
+                    orientation="vertical"
+                    className="hidden md:block"
+                />
+                <div className="hidden w-64 shrink-0 flex-col items-stretch justify-start gap-3 p-3 md:p-0 md:pt-3 md:flex">
                     <InlineScores
                         hikkaScore={item.native_score}
                         hikkaScoreCount={item.native_scored_by}
@@ -156,7 +161,7 @@ export function ContentListItem(props: Props) {
                 </div>
             </div>
             {/* Tracking buttons move under the whole card when the row is narrow */}
-            <div className="px-3 pb-3 lg:hidden grid w-full">
+            <div className="px-3 pb-3 md:hidden grid w-full">
                 <TrackingButtonsGroup {...props} />
             </div>
         </div>

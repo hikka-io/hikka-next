@@ -14,7 +14,8 @@ type Props = ContentCardProps & {
 };
 
 const MangaCard: FC<Props> = ({ item, ...props }) => {
-    const title = props.title ? props.title : useTitle(item);
+    const fallbackTitle = useTitle(item);
+    const title = props.title || fallbackTitle;
 
     return (
         <ContentCard
