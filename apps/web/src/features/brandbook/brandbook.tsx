@@ -55,24 +55,24 @@ const LogoSection = () => {
                             />
                         </div>
                         <div className="flex items-center gap-3">
-                            {LOGO_FORMATS.map((format) =>
-                                format.format === 'svg' ? (
+                            {LOGO_FORMATS.map(({ label, format }) =>
+                                format === 'svg' ? (
                                     <a
-                                        key={format.label}
+                                        key={label}
                                         href={asset.src}
                                         download={`${asset.fileName}.svg`}
                                         className="text-primary-foreground text-xs hover:underline"
                                     >
-                                        {format.label}
+                                        {label}
                                     </a>
                                 ) : (
                                     <button
-                                        key={format.label}
+                                        key={label}
                                         type="button"
                                         onClick={() =>
                                             downloadImage({
                                                 src: asset.src,
-                                                format: format.format,
+                                                format,
                                                 fileName: asset.fileName,
                                                 width: asset.width,
                                                 background: asset.background,
@@ -80,7 +80,7 @@ const LogoSection = () => {
                                         }
                                         className="cursor-pointer text-primary-foreground text-xs hover:underline"
                                     >
-                                        {format.label}
+                                        {label}
                                     </button>
                                 ),
                             )}
