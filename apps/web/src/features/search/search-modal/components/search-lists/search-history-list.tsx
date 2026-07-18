@@ -45,7 +45,9 @@ const SearchHistoryList = ({ onSelect, query }: Props) => {
     if (filteredEntries.length === 0) return null;
 
     return (
-        <SearchList className={normalizedQuery ? 'shrink-0' : undefined}>
+        <SearchList
+            className={normalizedQuery ? 'shrink-0 border-b' : undefined}
+        >
             <SearchGroup heading="Історія пошуку">
                 {filteredEntries.map((entry) => (
                     <SearchItem

@@ -13,7 +13,7 @@ import type { ContentTypeEnum, UserResponse } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
-import useDebounce from '@/services/hooks/use-debounce';
+import useDebouncedValue from '@/services/hooks/use-debounced-value';
 import {
     type SearchHistoryEntry,
     useSearchHistoryStore,
@@ -56,7 +56,7 @@ const SearchModal: FC<Props> = ({
     const [searchValue, setSearchValue] = useState<string | undefined>(
         undefined,
     );
-    const value = useDebounce({
+    const { debouncedValue: value, setDebouncedValue } = useDebouncedValue({
         value: searchValue,
         delay: 500,
     });
@@ -99,9 +99,11 @@ const SearchModal: FC<Props> = ({
             }
 
             setSearchValue(entry.query);
+            // Skip the debounce wait so results start loading immediately
+            setDebouncedValue(entry.query);
             inputRef.current?.focus();
         },
-        [allowedTypes, content_type],
+        [allowedTypes, content_type, setDebouncedValue],
     );
 
     const showHistory =
