@@ -9,22 +9,23 @@ import ContentCard, { type ContentCardProps } from './content-card';
 import { getMediaCardProps } from './utils';
 
 type Props = ContentCardProps & {
-    novel: NovelResponseWithRead;
+    title?: string;
+    item: NovelResponseWithRead;
 };
 
-const NovelCard: FC<Props> = ({ novel, ...props }) => {
-    const title = useTitle(novel);
-
+const NovelCard: FC<Props> = ({ item, ...props }) => {
+    const title = props.title ? props.title : useTitle(item);
+    
     return (
         <ContentCard
             {...getMediaCardProps(
-                novel,
+                item,
                 {
                     contentType: ContentTypeEnum.NOVEL,
                     basePath: '/novel',
                     mediaTypeMap: NOVEL_MEDIA_TYPE,
                 },
-                { read: novel.read ? novel.read[0] : undefined },
+                { read: item.read ? item.read[0] : undefined },
             )}
             title={title}
             {...props}

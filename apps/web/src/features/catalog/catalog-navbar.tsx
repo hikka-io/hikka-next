@@ -5,10 +5,13 @@ import { Filter, PanelRightClose, PanelRightOpen } from 'lucide-react';
 
 import type { ContentTypeEnum } from '@hikka/api';
 
+import MaterialSymbolsEventList from '@/components/icons/material-symbols/MaterialSymbolsEventList';
+import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
     Tooltip,
     TooltipContent,
@@ -24,6 +27,7 @@ import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar'
 import type { SortType } from '@/features/filters/sort';
 import Sort from '@/features/filters/sort';
 import useDebounce from '@/services/hooks/use-debounce';
+import { useCatalogView } from '../filters/hooks/use-catalog-view';
 
 type Props = {
     sort_type: SortType;
@@ -100,7 +104,13 @@ const CatalogNavbar: FC<Props> = ({
     const { visible: sidebarVisible, toggle: toggleSidebar } =
         useFiltersSidebar();
     const { count: activeCount } = useActiveFilters();
+    const { view, setView } = useCatalogView('catalog');
     const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+    const handleChangeView = (value: Hikka.View) => {
+        if (!value) return;
+        setView(value);
+    };
 
     return (
         <>
@@ -114,6 +124,20 @@ const CatalogNavbar: FC<Props> = ({
                     orientation="vertical"
                     className="hidden h-6 md:block"
                 />
+
+                <ToggleGroup
+                    variant="outline"
+                    value={view}
+                    type="single"
+                    onValueChange={handleChangeView}
+                >
+                    <ToggleGroupItem value="grid" aria-label="Сітка">
+                        <MaterialSymbolsGridViewRounded />
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="list" aria-label="Список">
+                        <MaterialSymbolsEventList className="rotate-180" />
+                    </ToggleGroupItem>
+                </ToggleGroup>
 
                 <div className="flex items-center gap-4">
                     <Sort

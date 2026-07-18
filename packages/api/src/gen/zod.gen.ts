@@ -1278,6 +1278,8 @@ export const zMangaResponseWithRead = z.object({
     score: z.number(),
     mal_id: z.number().int(),
     slug: z.string(),
+    genres: z.array(zGenreResponse),
+    magazines: z.array(zMagazineResponse),
     read: z.array(zReadResponseBase),
 });
 
@@ -1330,6 +1332,8 @@ export const zNovelResponseWithRead = z.object({
     score: z.number(),
     mal_id: z.number().int(),
     slug: z.string(),
+    genres: z.array(zGenreResponse),
+    magazines: z.array(zMagazineResponse),
     read: z.array(zReadResponseBase),
 });
 
@@ -2527,6 +2531,8 @@ export const zAnimeResponseWithWatch = z.object({
     rating: z.string().nullable(),
     year: z.number().int().nullable(),
     mal_id: z.number().int(),
+    genres: z.array(zGenreResponse),
+    studios: z.array(zCompanyResponse),
     watch: z.array(zWatchResponseBase),
 });
 

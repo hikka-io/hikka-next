@@ -2,7 +2,7 @@ import type { FC, ReactNode } from 'react';
 
 import Hikka from '@/components/icons/custom/Hikka';
 import MAL from '@/components/icons/custom/MAL';
-import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
+import { ScoreSource } from '@/components/score-source';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
@@ -32,31 +32,6 @@ type Props = {
     progressContent?: ReactNode;
     actionButton?: ReactNode;
 };
-
-const compact = (n: number) =>
-    new Intl.NumberFormat('en', {
-        notation: 'compact',
-        maximumFractionDigits: 1,
-    }).format(n);
-
-const ScoreSource: FC<{
-    icon: ReactNode;
-    score: number;
-    scoredBy?: number;
-}> = ({ icon, score, scoredBy }) => (
-    <div className="flex items-center gap-2">
-        {icon}
-        <div className="flex items-center gap-0.5 font-bold font-display text-sm">
-            {score}
-            <MaterialSymbolsStarRounded className="text-sm text-yellow-400" />
-        </div>
-        {!!scoredBy && (
-            <span className="text-muted-foreground text-xs tabular-nums">
-                {compact(scoredBy)}
-            </span>
-        )}
-    </div>
-);
 
 const MediaTooltipContent: FC<Props> = ({
     title,

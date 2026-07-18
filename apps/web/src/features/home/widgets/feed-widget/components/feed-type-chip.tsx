@@ -2,10 +2,10 @@ import type { FC } from 'react';
 
 import type { ArticleCategoryEnum, ContentTypeEnum } from '@hikka/api';
 
-import ReviewBadge from '@/components/review-badge';
+import { ReviewBadge } from '@/components/badges';
 import { chipVariants } from '@/components/ui/chip';
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/filter-properties';
 import { cn } from '@/utils/cn';
+import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/filter-properties';
 
 import FeedContentTypeIcon from './feed-content-type-icon';
 

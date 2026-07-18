@@ -29,7 +29,7 @@ type Props = {
     variant?: 'boxed' | 'inline';
 };
 
-const RoleBadge: FC<Props> = ({ role, variant = 'boxed' }) => {
+export const RoleBadge: FC<Props> = ({ role, variant = 'boxed' }) => {
     const config =
         role === 'admin' || role === 'moderator' ? ROLE[role] : undefined;
     if (!config) return null;
@@ -57,5 +57,3 @@ const RoleBadge: FC<Props> = ({ role, variant = 'boxed' }) => {
         </Tooltip>
     );
 };
-
-export default RoleBadge;

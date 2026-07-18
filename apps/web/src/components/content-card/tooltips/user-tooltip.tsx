@@ -11,7 +11,7 @@ import {
 } from '@hikka/api';
 
 import { FollowButton } from '@/components/action-buttons';
-import RoleBadge from '@/components/role-badge';
+import { RoleBadge } from '@/components/badges';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 

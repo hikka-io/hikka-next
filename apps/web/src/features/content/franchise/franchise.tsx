@@ -121,7 +121,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                             return (
                                 <AnimeCard
                                     key={content.slug}
-                                    anime={content as AnimeResponseWithWatch}
+                                    item={content as AnimeResponseWithWatch}
                                 />
                             );
                         }

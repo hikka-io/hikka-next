@@ -621,6 +621,14 @@ export type AnimeResponseWithWatch = {
      */
     mal_id: number;
     /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Studios
+     */
+    studios: Array<CompanyResponse>;
+    /**
      * Watch
      */
     watch: Array<WatchResponseBase>;
@@ -3922,6 +3930,14 @@ export type MangaResponseWithRead = {
      */
     slug: string;
     /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Studios
+     */
+    magazines: Array<MagazineResponse>;
+    /**
      * Read
      */
     read: Array<ReadResponseBase>;
@@ -4377,6 +4393,14 @@ export type NovelResponseWithRead = {
      * Slug
      */
     slug: string;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Studios
+     */
+    magazines: Array<MagazineResponse>;
     /**
      * Read
      */

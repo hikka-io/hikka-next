@@ -9,22 +9,23 @@ import ContentCard, { type ContentCardProps } from './content-card';
 import { getMediaCardProps } from './utils';
 
 type Props = ContentCardProps & {
-    manga: MangaResponseWithRead;
+    title?: string;
+    item: MangaResponseWithRead;
 };
 
-const MangaCard: FC<Props> = ({ manga, ...props }) => {
-    const title = useTitle(manga);
+const MangaCard: FC<Props> = ({ item, ...props }) => {
+    const title = props.title ? props.title : useTitle(item);
 
     return (
         <ContentCard
             {...getMediaCardProps(
-                manga,
+                item,
                 {
                     contentType: ContentTypeEnum.MANGA,
                     basePath: '/manga',
                     mediaTypeMap: MANGA_MEDIA_TYPE,
                 },
-                { read: manga.read ? manga.read[0] : undefined },
+                { read: item.read ? item.read[0] : undefined },
             )}
             title={title}
             {...props}
