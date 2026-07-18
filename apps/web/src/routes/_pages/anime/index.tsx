@@ -29,7 +29,7 @@ export const Route = createFileRoute('/_pages/anime/')({
 
 function AnimeListPage() {
     const { visible: sidebarVisible } = useFiltersSidebar();
-    const { view } = useCatalogView();
+    const { view } = useCatalogView('catalog');
 
     const extendedSize: StackSize =
         view === 'list' ? 1 : sidebarVisible ? 5 : 7;
