@@ -12,7 +12,6 @@ import {
     NOVEL_MEDIA_TYPE,
     RELEASE_STATUS,
 } from '@/utils/constants/filter-properties';
-import { Link } from '@/utils/navigation';
 import { Fragment, ReactNode } from 'react';
 import { TrackingButtonsGroup } from '../action-buttons';
 import { ContentCard } from '../content-card';
@@ -21,8 +20,8 @@ import {
     HorizontalCardDescription,
     HorizontalCardTitle,
 } from '../ui/horizontal-card';
-import { InlineScores } from './inline-scores';
 import { CompanyTitleLink } from './company-title-link';
+import { InlineScores } from './inline-scores';
 import { MagazineTitleLink } from './magazine-title-link';
 
 const MEDIA_TYPE_ENUM = Object.assign(
@@ -122,13 +121,13 @@ export function ContentListItem(props: Props) {
                         </HorizontalCardDescription>
                         <ContentGenres
                             className="lg:hidden"
-                            contentType={'anime'}
+                            contentType={type}
                             genres={item.genres}
                             maxItems={2}
                         />
                         <ContentGenres
                             className="hidden lg:flex"
-                            contentType={'anime'}
+                            contentType={type}
                             genres={item.genres}
                             /* Desktop have more space for tags (genres)`*/
                             maxItems={4}
