@@ -17,7 +17,6 @@ import {
     FIGMA_URL,
     FONT_SIZES,
     FONT_WEIGHTS,
-    ICON_SETS,
     LOGO_ASSETS,
     LOGO_FORMATS,
 } from './constants';
@@ -166,31 +165,6 @@ const FontsSection = () => {
     );
 };
 
-const IconsSection = () => {
-    return (
-        <Block>
-            <Header className="flex-col items-start gap-1">
-                <HeaderTitle variant="h3">Іконки</HeaderTitle>
-                <HeaderDescription>
-                    Набори іконок, що використовуються в інтерфейсі
-                </HeaderDescription>
-            </Header>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-                {ICON_SETS.map((set) => (
-                    <Card key={set.title} className="gap-2 p-3">
-                        <span className="font-medium text-xs">{set.title}</span>
-                        <div className="flex items-center gap-3 text-xl">
-                            {set.icons.map((Icon) => (
-                                <Icon key={Icon.name} />
-                            ))}
-                        </div>
-                    </Card>
-                ))}
-            </div>
-        </Block>
-    );
-};
-
 const ResourcesSection = () => {
     return (
         <Block>
@@ -200,18 +174,13 @@ const ResourcesSection = () => {
                 </HeaderContainer>
             </Header>
             <div className="flex flex-wrap gap-2">
-                <Button size="badge" variant="outline" asChild>
+                <Button variant="outline" asChild>
                     <Link to={FIGMA_URL}>
                         Figma <MaterialSymbolsOpenInNewRounded />
                     </Link>
                 </Button>
                 {SOCIAL_LINKS.map((link) => (
-                    <Button
-                        key={link.href}
-                        size="badge"
-                        variant="outline"
-                        asChild
-                    >
+                    <Button key={link.href} variant="outline" asChild>
                         <Link to={link.href}>
                             <link.icon /> {link.title}
                         </Link>
@@ -229,13 +198,12 @@ const Brandbook = () => {
                 <Header className="flex-col items-start gap-1">
                     <HeaderTitle variant="h2">Брендбук</HeaderTitle>
                     <HeaderDescription>
-                        Логотипи, шрифти, іконки та інші ресурси бренду Hikka
+                        Логотипи, шрифти та інші ресурси бренду Hikka
                     </HeaderDescription>
                 </Header>
             </Block>
             <LogoSection />
             <FontsSection />
-            <IconsSection />
             <ResourcesSection />
         </div>
     );

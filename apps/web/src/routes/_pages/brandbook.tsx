@@ -7,8 +7,7 @@ export const Route = createFileRoute('/_pages/brandbook')({
     head: () =>
         generateHeadMeta({
             title: 'Брендбук',
-            description:
-                'Логотипи, кольори, шрифти та інші ресурси бренду Hikka',
+            description: 'Логотипи, шрифти та інші ресурси бренду Hikka',
             url: 'https://hikka.io/brandbook',
         }),
     component: Brandbook,

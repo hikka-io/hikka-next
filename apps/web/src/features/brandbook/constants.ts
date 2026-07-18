@@ -1,16 +1,3 @@
-import type { FC, SVGProps } from 'react';
-
-import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
-import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
-import BxBxlTelegram from '@/components/icons/bx/BxBxlTelegram';
-import BxBxsDonateHeart from '@/components/icons/bx/BxBxsDonateHeart';
-import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
-import MaterialSymbolsHomeRounded from '@/components/icons/material-symbols/MaterialSymbolsHomeRounded';
-import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
-import MaterialSymbolsSearchRounded from '@/components/icons/material-symbols/MaterialSymbolsSearchRounded';
-import MdiPuzzle from '@/components/icons/mdi/MdiPuzzle';
-import PhTipJarFill from '@/components/icons/ph/PhTipJarFill';
-
 export const FIGMA_URL =
     'https://www.figma.com/design/8Vxhnb8sJwFi7s6lKsky2W/Hikka';
 
@@ -81,37 +68,4 @@ export const FONT_SIZES = [
     { title: 'text-xl', size: '20px', className: 'text-xl' },
     { title: 'text-2xl', size: '24px', className: 'text-2xl' },
     { title: 'text-4xl', size: '36px', className: 'text-4xl' },
-];
-
-export type IconSet = {
-    title: string;
-    icons: FC<SVGProps<SVGSVGElement>>[];
-};
-
-export const ICON_SETS: IconSet[] = [
-    {
-        title: 'Material Symbols',
-        icons: [
-            MaterialSymbolsHomeRounded,
-            MaterialSymbolsSearchRounded,
-            MaterialSymbolsCalendarClockRounded,
-            MaterialSymbolsPalette,
-        ],
-    },
-    {
-        title: 'Boxicons',
-        icons: [BxBxlTelegram, BxBxlGithub, BxBxsDonateHeart],
-    },
-    {
-        title: 'Phosphor',
-        icons: [PhTipJarFill],
-    },
-    {
-        title: 'MDI',
-        icons: [MdiPuzzle],
-    },
-    {
-        title: 'Ant Design',
-        icons: [AntDesignFilterFilled],
-    },
 ];
