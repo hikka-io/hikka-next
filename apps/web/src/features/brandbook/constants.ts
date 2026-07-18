@@ -11,8 +11,8 @@ import MaterialSymbolsSearchRounded from '@/components/icons/material-symbols/Ma
 import MdiPuzzle from '@/components/icons/mdi/MdiPuzzle';
 import PhTipJarFill from '@/components/icons/ph/PhTipJarFill';
 
-/** TODO: replace with the real Figma file URL once available. */
-export const FIGMA_URL = 'https://www.figma.com';
+export const FIGMA_URL =
+    'https://www.figma.com/design/8Vxhnb8sJwFi7s6lKsky2W/Hikka';
 
 export type LogoFormat = {
     label: string;

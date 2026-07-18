@@ -96,13 +96,11 @@ const LogoSection = () => {
 const FontsSection = () => {
     return (
         <Block>
-            <Header>
-                <HeaderContainer>
-                    <HeaderTitle variant="h3">Шрифт</HeaderTitle>
-                    <HeaderDescription>
-                        Geist Variable — var(--font-sans)
-                    </HeaderDescription>
-                </HeaderContainer>
+            <Header className="flex-col items-start gap-1">
+                <HeaderTitle variant="h3">Шрифт</HeaderTitle>
+                <HeaderDescription>
+                    Geist Variable — var(--font-sans)
+                </HeaderDescription>
             </Header>
             <Card>
                 <p className="text-2xl">
@@ -153,13 +151,11 @@ const FontsSection = () => {
 const IconsSection = () => {
     return (
         <Block>
-            <Header>
-                <HeaderContainer>
-                    <HeaderTitle variant="h3">Іконки</HeaderTitle>
-                    <HeaderDescription>
-                        Набори іконок, що використовуються в інтерфейсі
-                    </HeaderDescription>
-                </HeaderContainer>
+            <Header className="flex-col items-start gap-1">
+                <HeaderTitle variant="h3">Іконки</HeaderTitle>
+                <HeaderDescription>
+                    Набори іконок, що використовуються в інтерфейсі
+                </HeaderDescription>
             </Header>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
                 {ICON_SETS.map((set) => (
@@ -183,44 +179,27 @@ const ResourcesSection = () => {
             <Header>
                 <HeaderContainer>
                     <HeaderTitle variant="h3">Ресурси</HeaderTitle>
-                    <HeaderDescription>
-                        Корисні посилання та ресурси бренду
-                    </HeaderDescription>
                 </HeaderContainer>
             </Header>
-            <Card className="gap-0 p-0">
-                <div className="flex items-center justify-between gap-4 p-4">
-                    <div className="flex flex-col">
-                        <span className="font-medium text-sm">Figma</span>
-                        <span className="text-muted-foreground text-xs">
-                            Макети та дизайн-система проєкту
-                        </span>
-                    </div>
-                    <Button size="sm" variant="outline" asChild>
-                        <Link to={FIGMA_URL}>
-                            <MaterialSymbolsOpenInNewRounded /> Відкрити
+            <div className="flex flex-wrap gap-2">
+                <Button size="badge" variant="outline" asChild>
+                    <Link to={FIGMA_URL}>
+                        Figma <MaterialSymbolsOpenInNewRounded />
+                    </Link>
+                </Button>
+                {SOCIAL_LINKS.map((link) => (
+                    <Button
+                        key={link.href}
+                        size="badge"
+                        variant="outline"
+                        asChild
+                    >
+                        <Link to={link.href}>
+                            <link.icon /> {link.title}
                         </Link>
                     </Button>
-                </div>
-                {SOCIAL_LINKS.map((link) => (
-                    <div key={link.href}>
-                        <Separator />
-                        <div className="flex items-center justify-between gap-4 p-4">
-                            <div className="flex items-center gap-3">
-                                <link.icon className="text-lg" />
-                                <span className="font-medium text-sm">
-                                    {link.title}
-                                </span>
-                            </div>
-                            <Button size="sm" variant="outline" asChild>
-                                <Link to={link.href}>
-                                    <MaterialSymbolsOpenInNewRounded /> Відкрити
-                                </Link>
-                            </Button>
-                        </div>
-                    </div>
                 ))}
-            </Card>
+            </div>
         </Block>
     );
 };
