@@ -582,6 +582,10 @@ export const FOOTER_LINKS = {
         title: 'Правовласникам',
         href: '/articles/pravovlasnykam-a76512',
     },
+    brandbook: {
+        title: 'Брендбук',
+        href: '/brandbook',
+    },
 } as const;
 
 export const DONATION_LINKS = [
