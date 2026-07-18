@@ -205,7 +205,7 @@ const Section: FC<SectionProps> = ({ title, enabled, onToggle, children }) => {
     const id = useId();
 
     return (
-        <div className="surface-solid flex flex-col gap-6 rounded-md border p-4">
+        <div className="surface flex flex-col gap-6 rounded-md border p-4">
             <div className="flex items-center justify-between gap-4">
                 <Label htmlFor={id} className="flex-1 text-base">
                     {title}

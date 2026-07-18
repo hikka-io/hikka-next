@@ -104,7 +104,7 @@ const CatalogNavbar: FC<Props> = ({
 
     return (
         <>
-            <div className="surface-solid flex flex-col gap-4 rounded-md border p-4 md:flex-row md:items-center">
+            <div className="surface flex flex-col gap-4 rounded-md border p-4 md:flex-row md:items-center">
                 <div className="min-w-0 flex-1">
                     <Suspense>
                         <Search placeholder={searchPlaceholder} />

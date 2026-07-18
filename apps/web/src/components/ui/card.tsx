@@ -2,13 +2,12 @@ import { type ComponentPropsWithoutRef, memo } from 'react';
 
 import { cn } from '@/utils/cn';
 
-type Variant = 'surface' | 'solid' | 'inset' | 'glass' | 'plain';
+type Variant = 'surface' | 'inset' | 'glass' | 'plain';
 
 type Props = ComponentPropsWithoutRef<'div'> & { variant?: Variant };
 
 const VARIANTS: Record<Variant, string> = {
     surface: 'surface',
-    solid: 'surface-solid',
     inset: 'surface-inset',
     glass: 'surface-glass',
     plain: '',
