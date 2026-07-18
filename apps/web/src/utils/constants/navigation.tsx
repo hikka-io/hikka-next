@@ -6,6 +6,7 @@ import { ContentTypeEnum } from '@hikka/api';
 
 import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
 import BxBxlMastadon from '@/components/icons/bx/BxBxlMastadon';
+import Hikka from '@/components/icons/custom/Hikka';
 import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
@@ -262,6 +263,13 @@ const OTHER_GROUP: Hikka.NavRoute[] = [
         slug: 'schedule',
     },
     {
+        title_ua: 'Брендбук',
+        url: '/brandbook',
+        icon: () => <Hikka />,
+        visible: true,
+        slug: 'brandbook',
+    },
+    {
         title_ua: 'Головна',
         url: '/',
         icon: () => <MaterialSymbolsHomeRounded />,
@@ -357,6 +365,13 @@ export const APP_NAV_MORE: { title_ua: string; items: Hikka.NavRoute[] }[] = [
                 icon: () => <MaterialSymbolsCalendarClockRounded />,
                 visible: true,
                 slug: 'schedule',
+            },
+            {
+                title_ua: 'Брендбук',
+                url: '/brandbook',
+                icon: () => <Hikka />,
+                visible: true,
+                slug: 'brandbook',
             },
         ],
     },
