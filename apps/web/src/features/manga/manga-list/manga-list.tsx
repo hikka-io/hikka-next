@@ -7,9 +7,9 @@ import { ContentListItem } from '@/components/content-list';
 import type { StackSize } from '@/components/ui/stack';
 import CatalogListView from '@/features/catalog/catalog-list-view';
 import { getTitle } from '@/utils/title/get-title';
+
 import { useSessionUI } from '../../auth';
 import { useCatalogView } from '../../filters/hooks/use-catalog-view';
-
 import { useMangaSearchQuery } from './use-manga-search-query';
 
 type Props = {

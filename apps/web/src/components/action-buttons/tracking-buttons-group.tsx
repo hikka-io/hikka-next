@@ -11,10 +11,10 @@ import {
     type ReadContentTypeEnum,
     type ReadResponseBase,
     ReadStatusEnum,
+    readAddMutation,
     type WatchArgs,
     type WatchResponseBase,
     WatchStatusEnum,
-    readAddMutation,
     watchAddMutation,
 } from '@hikka/api';
 
@@ -225,12 +225,14 @@ export function TrackingButtonsGroup(props: Props) {
                     isAnime ? (
                         <WatchStatusTrigger
                             watch={tracking as WatchResponseBase}
+                            size="md"
                             isLoading={isChangingStatus}
                             onOpenModal={() => setEditOpen(true)}
                         />
                     ) : (
                         <ReadStatusTrigger
                             read={tracking as ReadResponseBase}
+                            size="md"
                             isLoading={isChangingStatus}
                             onOpenModal={() => setEditOpen(true)}
                         />
@@ -247,6 +249,7 @@ export function TrackingButtonsGroup(props: Props) {
                         <div className="flex w-full">
                             <Button
                                 variant="secondary"
+                                size="md"
                                 disabled={isChangingStatus}
                                 onClick={handleAddToPlanned}
                                 className={cn(
@@ -268,7 +271,7 @@ export function TrackingButtonsGroup(props: Props) {
                             </Button>
                             <Button
                                 variant="secondary"
-                                size="icon"
+                                size="icon-md"
                                 type="button"
                                 disabled={isChangingStatus}
                                 className={cn('rounded-l-none text-xl')}

@@ -16,7 +16,7 @@ type Props = ContentCardProps & {
 const NovelCard: FC<Props> = ({ item, ...props }) => {
     const fallbackTitle = useTitle(item);
     const title = props.title || fallbackTitle;
-    
+
     return (
         <ContentCard
             {...getMediaCardProps(

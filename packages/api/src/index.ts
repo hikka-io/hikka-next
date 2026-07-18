@@ -13,8 +13,10 @@ export * from './gen';
 // The backend's own ContentTypeEnum (collection|comment|article) is shadowed by
 // our superset below; re-export it under an explicit name for the vote endpoints
 // that consume it.
-export { ContentTypeEnum as VoteContentTypeEnum } from './gen';
-export { ContentStatusEnum as AnimeStatusEnum } from './gen';
+export {
+    ContentStatusEnum as AnimeStatusEnum,
+    ContentTypeEnum as VoteContentTypeEnum,
+} from './gen';
 export * from './gen/@tanstack/react-query.gen';
 export type { Client, Config, Options } from './gen/client';
 export * from './pagination';

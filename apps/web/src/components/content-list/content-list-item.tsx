@@ -1,8 +1,10 @@
-import {
-    type AnimeCatalogResponse,
-    type ContentTypeEnum,
-    type MangaCatalogResponse,
-    type NovelCatalogResponse,
+import { Fragment, type ReactNode } from 'react';
+
+import type {
+    AnimeCatalogResponse,
+    ContentTypeEnum,
+    MangaCatalogResponse,
+    NovelCatalogResponse,
 } from '@hikka/api';
 
 import { ContentGenres } from '@/features/content';
@@ -12,17 +14,16 @@ import {
     NOVEL_MEDIA_TYPE,
     RELEASE_STATUS,
 } from '@/utils/constants/filter-properties';
-import { Fragment, ReactNode } from 'react';
+
 import { TrackingButtonsGroup } from '../action-buttons';
 import { ContentCard } from '../content-card';
+import { InlineScores } from '../inline-scores';
 import {
-    HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardTitle,
 } from '../ui/horizontal-card';
 import { Separator } from '../ui/separator';
 import { CompanyTitleLink } from './company-title-link';
-import { InlineScores } from './inline-scores';
 import { MagazineTitleLink } from './magazine-title-link';
 
 const MEDIA_TYPE_ENUM = Object.assign(
@@ -81,24 +82,15 @@ export function ContentListItem(props: Props) {
         : undefined;
 
     return (
-        <div className="flex min-h-[100px] w-full flex-col rounded-(--base-radius) surface border border-border md:flex-row">
-            <div className="flex min-w-0 flex-1 flex-row md:p-3">
-                <div className="shrink-0 self-stretch p-3 pr-0 md:p-0">
-                    <ContentCard
-                        className="w-24 md:w-16"
-                        containerClassName="relative z-0 rounded-(--base-radius)"
-                        imagePreset='cardXs'
-                        image={item?.image}
-                        href={href}
-                        slug={item.slug}
-                        content_type={type}
-                        watch={'watch' in item ? item.watch[0] : undefined}
-                        read={'read' in item ? item.read[0] : undefined}
-                        tooltipDisabled
-                    />
-                </div>
-                <div className="flex min-w-0 flex-1 flex-col items-start gap-1 p-3">
-                    <HorizontalCardContainer className="w-full gap-3 justify-start pt-2 lg:pt-0">
+        <div className="surface -mx-4 flex flex-col gap-4 rounded-none border border-border border-x-0 p-4 md:mx-0 md:rounded-(--base-radius) md:border-x">
+            <div className="flex gap-4">
+                <ContentCard
+                    className="w-24 shrink-0 md:w-16"
+                    image={item?.image}
+                    href={href}
+                />
+                <div className="flex min-w-0 flex-1 flex-col gap-4 md:flex-row md:items-stretch md:gap-4">
+                    <div className="flex min-w-0 flex-1 flex-col justify-start gap-3 md:justify-center">
                         <HorizontalCardTitle to={href} className="min-w-0">
                             {title}
                         </HorizontalCardTitle>
@@ -112,7 +104,7 @@ export function ContentListItem(props: Props) {
                             {[mediaType, item.year, status]
                                 .filter(Boolean)
                                 .map((info, index) => (
-                                    <Fragment key={index}>
+                                    <Fragment key={String(info)}>
                                         {index > 0 && (
                                             <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
                                         )}
@@ -130,38 +122,29 @@ export function ContentListItem(props: Props) {
                             className="hidden md:flex"
                             contentType={type}
                             genres={item.genres}
-                            /* Desktop have more space for tags (genres)`*/
                             maxItems={4}
                         />
-                    </HorizontalCardContainer>
-                    {/* Scores drop to the bottom of the card when the row is narrow */}
-                    <div className="mt-auto pt-1 md:hidden">
+                    </div>
+
+                    <Separator
+                        orientation="vertical"
+                        className="hidden md:block"
+                    />
+
+                    <div className="flex flex-col justify-center gap-3 md:w-64 md:shrink-0">
                         <InlineScores
                             hikkaScore={item.native_score}
                             hikkaScoreCount={item.native_scored_by}
                             malScore={item.score}
                             malScoreCount={item.scored_by}
                         />
-                    </div>
-                </div>
-                <Separator
-                    orientation="vertical"
-                    className="hidden md:block"
-                />
-                <div className="hidden w-64 shrink-0 flex-col items-stretch justify-start gap-3 p-3 md:p-0 md:pt-3 md:flex">
-                    <InlineScores
-                        hikkaScore={item.native_score}
-                        hikkaScoreCount={item.native_scored_by}
-                        malScore={item.score}
-                        malScoreCount={item.scored_by}
-                    />
-                    <div className="grid w-full">
-                        <TrackingButtonsGroup {...props} />
+                        <div className="hidden w-full md:grid">
+                            <TrackingButtonsGroup {...props} />
+                        </div>
                     </div>
                 </div>
             </div>
-            {/* Tracking buttons move under the whole card when the row is narrow */}
-            <div className="px-3 pb-3 md:hidden grid w-full">
+            <div className="grid w-full md:hidden">
                 <TrackingButtonsGroup {...props} />
             </div>
         </div>

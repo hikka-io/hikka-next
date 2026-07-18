@@ -1,10 +1,7 @@
 import type { FC, ReactNode } from 'react';
 
-import Hikka from '@/components/icons/custom/Hikka';
-import MAL from '@/components/icons/custom/MAL';
-import { ScoreSource } from '@/components/score-source';
+import { InlineScores } from '@/components/inline-scores';
 import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
 import { RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
@@ -54,29 +51,12 @@ const MediaTooltipContent: FC<Props> = ({
         <>
             <div className="flex flex-col gap-2">
                 <h5>{title}</h5>
-                {(score > 0 || (native_score ?? 0) > 0) && (
-                    <div className="flex items-center gap-3">
-                        {score > 0 && (
-                            <ScoreSource
-                                icon={
-                                    <MAL className="h-4 w-4 text-foreground" />
-                                }
-                                score={score}
-                                scoredBy={scored_by}
-                            />
-                        )}
-                        {score > 0 && (native_score ?? 0) > 0 && (
-                            <Separator orientation="vertical" className="h-5" />
-                        )}
-                        {(native_score ?? 0) > 0 && (
-                            <ScoreSource
-                                icon={<Hikka className="h-4 w-4 shrink-0" />}
-                                score={native_score as number}
-                                scoredBy={native_scored_by}
-                            />
-                        )}
-                    </div>
-                )}
+                <InlineScores
+                    malScore={score}
+                    malScoreCount={scored_by}
+                    hikkaScore={native_score}
+                    hikkaScoreCount={native_scored_by}
+                />
                 {synopsis && (
                     <MDViewer className="mb-2 line-clamp-4 text-muted-foreground text-sm">
                         {synopsis}

@@ -27,6 +27,7 @@ import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar'
 import type { SortType } from '@/features/filters/sort';
 import Sort from '@/features/filters/sort';
 import useDebounce from '@/services/hooks/use-debounce';
+
 import { useCatalogView } from '../filters/hooks/use-catalog-view';
 
 type Props = {
