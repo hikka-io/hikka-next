@@ -84,7 +84,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const selectedRead =
         list?.find((item) => item.content.slug === selectedSlug) || list?.[0];
 
-    const debouncedUpdatedRead = useDebounce({
+    const [debouncedUpdatedRead] = useDebounce({
         value: updatedRead,
         delay: 500,
     });

@@ -5,8 +5,11 @@ type DebounceProps<T> = {
     delay?: number;
 };
 
-const useDebounce = <T>({ value, delay = 500 }: DebounceProps<T>) => {
-    const [debouncedValue, setDebouncedValue] = React.useState(value);
+const useDebounce = <T>({
+    value,
+    delay = 500,
+}: DebounceProps<T>): [T, React.Dispatch<React.SetStateAction<T>>] => {
+    const [debouncedValue, setDebouncedValue] = React.useState<T>(value);
 
     React.useEffect(() => {
         const handler: NodeJS.Timeout = setTimeout(() => {
@@ -18,7 +21,7 @@ const useDebounce = <T>({ value, delay = 500 }: DebounceProps<T>) => {
         };
     }, [value, delay]);
 
-    return debouncedValue;
+    return [debouncedValue, setDebouncedValue];
 };
 
 export default useDebounce;

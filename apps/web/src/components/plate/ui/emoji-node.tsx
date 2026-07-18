@@ -20,7 +20,10 @@ export function EmojiInputElement(props: PlateElementProps) {
     const { children, editor, element } = props;
     const data = usePluginOption(EmojiPlugin, 'data')!;
     const [value, setValue] = React.useState('');
-    const debouncedValue = useDebounce({ value, delay: 100 });
+    const [debouncedValue] = useDebounce({
+        value,
+        delay: 100,
+    });
     const isPending = value !== debouncedValue;
 
     const filteredEmojis = React.useMemo(() => {
