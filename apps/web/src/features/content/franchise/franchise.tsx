@@ -130,7 +130,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                             return (
                                 <MangaCard
                                     key={content.slug}
-                                    manga={content as MangaResponseWithRead}
+                                    item={content as MangaResponseWithRead}
                                 />
                             );
                         }
@@ -139,7 +139,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                             return (
                                 <NovelCard
                                     key={content.slug}
-                                    novel={content as NovelResponseWithRead}
+                                    item={content as NovelResponseWithRead}
                                 />
                             );
                         }
