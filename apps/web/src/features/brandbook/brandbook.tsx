@@ -1,5 +1,3 @@
-import { Download } from 'lucide-react';
-
 import MaterialSymbolsOpenInNewRounded from '@/components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
@@ -10,94 +8,87 @@ import {
     HeaderDescription,
     HeaderTitle,
 } from '@/components/ui/header';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
 import { SOCIAL_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
 import {
-    BRAND_COLORS,
     FIGMA_URL,
+    FONT_SIZES,
     FONT_WEIGHTS,
     ICON_SETS,
     LOGO_ASSETS,
+    LOGO_FORMATS,
 } from './constants';
+import { downloadImage } from './utils';
 
 const LogoSection = () => {
     return (
         <Block>
             <Header>
                 <HeaderContainer>
-                    <HeaderTitle variant="h3">Логотип</HeaderTitle>
+                    <HeaderTitle variant="h3">Логотипи</HeaderTitle>
                 </HeaderContainer>
             </Header>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {LOGO_ASSETS.map((asset) => (
-                    <Card key={asset.src} className="gap-2">
+                    <Card
+                        key={`${asset.title}-${asset.previewClassName}`}
+                        className="items-center gap-4"
+                    >
+                        <span className="font-medium text-sm">
+                            {asset.title}
+                        </span>
                         <div
                             className={cn(
-                                'flex h-32 items-center justify-center rounded-md border border-border',
+                                'flex h-40 w-full items-center justify-center rounded-md border border-border',
                                 asset.previewClassName,
                             )}
                         >
                             <img
                                 src={asset.src}
                                 alt={asset.title}
-                                className="max-h-16 max-w-[70%] object-contain"
+                                className={cn(
+                                    'max-w-[70%] object-contain',
+                                    asset.imageClassName,
+                                )}
                             />
                         </div>
-                        <div className="flex items-center justify-between gap-2">
-                            <span className="font-medium text-sm">
-                                {asset.title}
-                            </span>
-                            <Button size="sm" variant="outline" asChild>
-                                <a href={asset.src} download={asset.fileName}>
-                                    <Download /> {asset.format}
-                                </a>
-                            </Button>
+                        <div className="flex items-center gap-3">
+                            {LOGO_FORMATS.map((format) =>
+                                format.format === 'svg' ? (
+                                    <a
+                                        key={format.label}
+                                        href={asset.src}
+                                        download={`${asset.fileName}.svg`}
+                                        className="text-primary-foreground text-xs hover:underline"
+                                    >
+                                        {format.label}
+                                    </a>
+                                ) : (
+                                    <button
+                                        key={format.label}
+                                        type="button"
+                                        onClick={() =>
+                                            downloadImage({
+                                                src: asset.src,
+                                                format: format.format,
+                                                fileName: asset.fileName,
+                                                width: asset.width,
+                                                background: asset.background,
+                                            })
+                                        }
+                                        className="cursor-pointer text-primary-foreground text-xs hover:underline"
+                                    >
+                                        {format.label}
+                                    </button>
+                                ),
+                            )}
                         </div>
                     </Card>
                 ))}
             </div>
-        </Block>
-    );
-};
-
-const ColorsSection = () => {
-    return (
-        <Block>
-            <Header>
-                <HeaderContainer>
-                    <HeaderTitle variant="h3">Кольори</HeaderTitle>
-                    <HeaderDescription>
-                        Значення змінюються залежно від обраної теми
-                    </HeaderDescription>
-                </HeaderContainer>
-            </Header>
-            <Card>
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-                    {BRAND_COLORS.map((color) => (
-                        <div
-                            key={color.variable}
-                            className="flex flex-col gap-2"
-                        >
-                            <div
-                                className={cn(
-                                    'h-16 w-full rounded-md border border-border',
-                                    color.className,
-                                )}
-                            />
-                            <div className="flex flex-col">
-                                <span className="font-medium text-sm">
-                                    {color.title}
-                                </span>
-                                <span className="text-muted-foreground text-xs">
-                                    var({color.variable})
-                                </span>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </Card>
         </Block>
     );
 };
@@ -140,6 +131,20 @@ const FontsSection = () => {
                         </div>
                     ))}
                 </div>
+                <Separator />
+                <div className="flex flex-col">
+                    {FONT_SIZES.map((fontSize) => (
+                        <div
+                            key={fontSize.title}
+                            className="flex items-baseline justify-between gap-4 border-border border-b py-2 last:border-b-0"
+                        >
+                            <span className={fontSize.className}>Hikka</span>
+                            <span className="shrink-0 text-muted-foreground text-xs">
+                                {fontSize.title} · {fontSize.size}
+                            </span>
+                        </div>
+                    ))}
+                </div>
             </Card>
         </Block>
     );
@@ -156,18 +161,11 @@ const IconsSection = () => {
                     </HeaderDescription>
                 </HeaderContainer>
             </Header>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
                 {ICON_SETS.map((set) => (
-                    <Card key={set.title} className="gap-2">
-                        <div className="flex flex-col">
-                            <span className="font-medium text-sm">
-                                {set.title}
-                            </span>
-                            <span className="text-muted-foreground text-xs">
-                                {set.description}
-                            </span>
-                        </div>
-                        <div className="flex items-center gap-4 text-2xl">
+                    <Card key={set.title} className="gap-2 p-3">
+                        <span className="font-medium text-xs">{set.title}</span>
+                        <div className="flex items-center gap-3 text-xl">
                             {set.icons.map((Icon) => (
                                 <Icon key={Icon.name} />
                             ))}
@@ -185,44 +183,44 @@ const ResourcesSection = () => {
             <Header>
                 <HeaderContainer>
                     <HeaderTitle variant="h3">Ресурси</HeaderTitle>
+                    <HeaderDescription>
+                        Корисні посилання та ресурси бренду
+                    </HeaderDescription>
                 </HeaderContainer>
             </Header>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <Card className="gap-2">
+            <Card className="gap-0 p-0">
+                <div className="flex items-center justify-between gap-4 p-4">
                     <div className="flex flex-col">
                         <span className="font-medium text-sm">Figma</span>
                         <span className="text-muted-foreground text-xs">
                             Макети та дизайн-система проєкту
                         </span>
                     </div>
-                    <div>
-                        <Button size="sm" variant="outline" asChild>
-                            <Link to={FIGMA_URL}>
-                                <MaterialSymbolsOpenInNewRounded /> Відкрити
-                            </Link>
-                        </Button>
-                    </div>
-                </Card>
+                    <Button size="sm" variant="outline" asChild>
+                        <Link to={FIGMA_URL}>
+                            <MaterialSymbolsOpenInNewRounded /> Відкрити
+                        </Link>
+                    </Button>
+                </div>
                 {SOCIAL_LINKS.map((link) => (
-                    <Card key={link.href} className="gap-2">
-                        <div className="flex flex-col">
-                            <span className="font-medium text-sm">
-                                {link.title}
-                            </span>
-                            <span className="text-muted-foreground text-xs">
-                                {link.href}
-                            </span>
-                        </div>
-                        <div>
+                    <div key={link.href}>
+                        <Separator />
+                        <div className="flex items-center justify-between gap-4 p-4">
+                            <div className="flex items-center gap-3">
+                                <link.icon className="text-lg" />
+                                <span className="font-medium text-sm">
+                                    {link.title}
+                                </span>
+                            </div>
                             <Button size="sm" variant="outline" asChild>
                                 <Link to={link.href}>
-                                    <link.icon /> Відкрити
+                                    <MaterialSymbolsOpenInNewRounded /> Відкрити
                                 </Link>
                             </Button>
                         </div>
-                    </Card>
+                    </div>
                 ))}
-            </div>
+            </Card>
         </Block>
     );
 };
@@ -234,12 +232,11 @@ const Brandbook = () => {
                 <Header className="flex-col items-start gap-1">
                     <HeaderTitle variant="h2">Брендбук</HeaderTitle>
                     <HeaderDescription>
-                        Логотипи, кольори, шрифти та інші ресурси бренду Hikka
+                        Логотипи, шрифти, іконки та інші ресурси бренду Hikka
                     </HeaderDescription>
                 </Header>
             </Block>
             <LogoSection />
-            <ColorsSection />
             <FontsSection />
             <IconsSection />
             <ResourcesSection />
