@@ -5,7 +5,7 @@ import {
     contentFranchiseOptions,
     getArticlesInfiniteOptions,
     getCollectionsInfiniteOptions,
-    getContentsListInfiniteOptions,
+    getCommentsListInfiniteOptions,
     getFavouriteOptions,
     getReadFollowingInfiniteOptions,
     novelCharactersInfiniteOptions,
@@ -76,7 +76,7 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
                 ...paginationPageParam(),
             }),
             queryClient.ensureInfiniteQueryData({
-                ...getContentsListInfiniteOptions({
+                ...getCommentsListInfiniteOptions({
                     path: {
                         content_type: ContentTypeEnum.NOVEL,
                         slug: params.slug,

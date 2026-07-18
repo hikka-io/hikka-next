@@ -14,6 +14,7 @@ export * from './gen';
 // our superset below; re-export it under an explicit name for the vote endpoints
 // that consume it.
 export { ContentTypeEnum as VoteContentTypeEnum } from './gen';
+export { ContentStatusEnum as AnimeStatusEnum } from './gen';
 export * from './gen/@tanstack/react-query.gen';
 export type { Client, Config, Options } from './gen/client';
 export * from './pagination';

@@ -1,8 +1,8 @@
 import {
-    type AnimeResponseWithWatch,
+    type AnimeCatalogResponse,
     type ContentTypeEnum,
-    type MangaResponseWithRead,
-    type NovelResponseWithRead,
+    type MangaCatalogResponse,
+    type NovelCatalogResponse,
 } from '@hikka/api';
 
 import { ContentGenres } from '@/features/content';
@@ -36,17 +36,17 @@ type Props =
     | {
           title: string;
           type: typeof ContentTypeEnum.ANIME;
-          item: AnimeResponseWithWatch;
+          item: AnimeCatalogResponse;
       }
     | {
           title: string;
           type: typeof ContentTypeEnum.MANGA;
-          item: MangaResponseWithRead;
+          item: MangaCatalogResponse;
       }
     | {
           title: string;
           type: typeof ContentTypeEnum.NOVEL;
-          item: NovelResponseWithRead;
+          item: NovelCatalogResponse;
       };
 
 export function ContentListItem(props: Props) {

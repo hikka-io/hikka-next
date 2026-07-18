@@ -37,6 +37,131 @@ export type AnimeAgeRatingEnum =
     (typeof AnimeAgeRatingEnum)[keyof typeof AnimeAgeRatingEnum];
 
 /**
+ * AnimeCatalogPaginationResponse
+ */
+export type AnimeCatalogPaginationResponse = {
+    pagination: PaginationResponse;
+    /**
+     * List
+     */
+    list: Array<AnimeCatalogResponse>;
+};
+
+/**
+ * AnimeCatalogResponse
+ */
+export type AnimeCatalogResponse = {
+    /**
+     * Data Type
+     */
+    data_type: 'anime';
+    /**
+     * Media Type
+     */
+    media_type: string | null;
+    /**
+     * Title Ua
+     */
+    title_ua: string | null;
+    /**
+     * Title En
+     */
+    title_en: string | null;
+    /**
+     * Title Ja
+     */
+    title_ja: string | null;
+    /**
+     * Episodes Released
+     */
+    episodes_released: number | null;
+    /**
+     * Episodes Total
+     */
+    episodes_total: number | null;
+    /**
+     * Image
+     */
+    image: string | null;
+    /**
+     * Status
+     */
+    status: string | null;
+    /**
+     * Native Scored By
+     */
+    native_scored_by: number;
+    /**
+     * Native Score
+     */
+    native_score: number;
+    /**
+     * Scored By
+     */
+    scored_by: number;
+    /**
+     * Score
+     */
+    score: number;
+    /**
+     * Slug
+     */
+    slug: string;
+    /**
+     * Start Date
+     */
+    start_date: number | null;
+    /**
+     * End Date
+     */
+    end_date: number | null;
+    /**
+     * Created
+     */
+    created: number | null;
+    /**
+     * Updated
+     */
+    updated: number | null;
+    /**
+     * Translated Ua
+     */
+    translated_ua: boolean;
+    /**
+     * Season
+     */
+    season: string | null;
+    /**
+     * Source
+     */
+    source: string | null;
+    /**
+     * Rating
+     */
+    rating: string | null;
+    /**
+     * Year
+     */
+    year: number | null;
+    /**
+     * Mal Id
+     */
+    mal_id: number;
+    /**
+     * Watch
+     */
+    watch: Array<WatchResponseBase>;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Studios
+     */
+    studios: Array<CompanyResponse>;
+};
+
+/**
  * AnimeCompanyResponse
  */
 export type AnimeCompanyResponse = {
@@ -621,14 +746,6 @@ export type AnimeResponseWithWatch = {
      */
     mal_id: number;
     /**
-     * Genres
-     */
-    genres: Array<GenreResponse>;
-    /**
-     * Studios
-     */
-    studios: Array<CompanyResponse>;
-    /**
      * Watch
      */
     watch: Array<WatchResponseBase>;
@@ -649,7 +766,7 @@ export type AnimeScheduleArgs = {
     /**
      * Status
      */
-    status?: Array<AnimeStatusEnum>;
+    status?: Array<ContentStatusEnum>;
     /**
      * Only Watch
      */
@@ -721,7 +838,7 @@ export type AnimeSearchArgs = {
     /**
      * Status
      */
-    status?: Array<AnimeStatusEnum>;
+    status?: Array<ContentStatusEnum>;
     /**
      * Source
      */
@@ -845,21 +962,6 @@ export type AnimeStatsResponse = {
 };
 
 /**
- * AnimeStatusEnum
- */
-export const AnimeStatusEnum = {
-    ANNOUNCED: 'announced',
-    FINISHED: 'finished',
-    ONGOING: 'ongoing',
-} as const;
-
-/**
- * AnimeStatusEnum
- */
-export type AnimeStatusEnum =
-    (typeof AnimeStatusEnum)[keyof typeof AnimeStatusEnum];
-
-/**
  * AnimeVideoResponse
  */
 export type AnimeVideoResponse = {
@@ -927,7 +1029,7 @@ export type AnimeWatchSearchArgs = {
     /**
      * Status
      */
-    status?: Array<AnimeStatusEnum>;
+    status?: Array<ContentStatusEnum>;
     /**
      * Source
      */
@@ -3593,6 +3695,119 @@ export type MagazineResponse = {
 };
 
 /**
+ * MangaCatalogPaginationResponse
+ */
+export type MangaCatalogPaginationResponse = {
+    pagination: PaginationResponse;
+    /**
+     * List
+     */
+    list: Array<MangaCatalogResponse>;
+};
+
+/**
+ * MangaCatalogResponse
+ */
+export type MangaCatalogResponse = {
+    /**
+     * Data Type
+     */
+    data_type: 'manga';
+    /**
+     * Start Date
+     */
+    start_date: number | null;
+    /**
+     * End Date
+     */
+    end_date: number | null;
+    /**
+     * Created
+     */
+    created: number | null;
+    /**
+     * Updated
+     */
+    updated: number | null;
+    /**
+     * Title Original
+     */
+    title_original: string | null;
+    /**
+     * Media Type
+     */
+    media_type: string | null;
+    /**
+     * Native Scored By
+     */
+    native_scored_by: number;
+    /**
+     * Title Ua
+     */
+    title_ua: string | null;
+    /**
+     * Title En
+     */
+    title_en: string | null;
+    /**
+     * Chapters
+     */
+    chapters: number | null;
+    /**
+     * Volumes
+     */
+    volumes: number | null;
+    /**
+     * Translated Ua
+     */
+    translated_ua: boolean;
+    /**
+     * Native Score
+     */
+    native_score: number;
+    /**
+     * Status
+     */
+    status: string | null;
+    /**
+     * Image
+     */
+    image: string | null;
+    /**
+     * Year
+     */
+    year: number | null;
+    /**
+     * Scored By
+     */
+    scored_by: number;
+    /**
+     * Score
+     */
+    score: number;
+    /**
+     * Mal Id
+     */
+    mal_id: number;
+    /**
+     * Slug
+     */
+    slug: string;
+    /**
+     * Read
+     */
+    read: Array<ReadResponseBase>;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Magazines
+     */
+    magazines: Array<MagazineResponse>;
+};
+
+/**
  * MangaInfoResponse
  */
 export type MangaInfoResponse = {
@@ -3930,14 +4145,6 @@ export type MangaResponseWithRead = {
      */
     slug: string;
     /**
-     * Genres
-     */
-    genres: Array<GenreResponse>;
-    /**
-     * Studios
-     */
-    magazines: Array<MagazineResponse>;
-    /**
      * Read
      */
     read: Array<ReadResponseBase>;
@@ -4061,6 +4268,119 @@ export type NotificationUnseenResponse = {
      * Unseen
      */
     unseen: number;
+};
+
+/**
+ * NovelCatalogPaginationResponse
+ */
+export type NovelCatalogPaginationResponse = {
+    pagination: PaginationResponse;
+    /**
+     * List
+     */
+    list: Array<NovelCatalogResponse>;
+};
+
+/**
+ * NovelCatalogResponse
+ */
+export type NovelCatalogResponse = {
+    /**
+     * Data Type
+     */
+    data_type: 'novel';
+    /**
+     * Start Date
+     */
+    start_date: number | null;
+    /**
+     * End Date
+     */
+    end_date: number | null;
+    /**
+     * Created
+     */
+    created: number | null;
+    /**
+     * Updated
+     */
+    updated: number | null;
+    /**
+     * Title Original
+     */
+    title_original: string | null;
+    /**
+     * Media Type
+     */
+    media_type: string | null;
+    /**
+     * Native Scored By
+     */
+    native_scored_by: number;
+    /**
+     * Title Ua
+     */
+    title_ua: string | null;
+    /**
+     * Title En
+     */
+    title_en: string | null;
+    /**
+     * Chapters
+     */
+    chapters: number | null;
+    /**
+     * Volumes
+     */
+    volumes: number | null;
+    /**
+     * Translated Ua
+     */
+    translated_ua: boolean;
+    /**
+     * Native Score
+     */
+    native_score: number;
+    /**
+     * Status
+     */
+    status: string | null;
+    /**
+     * Image
+     */
+    image: string | null;
+    /**
+     * Year
+     */
+    year: number | null;
+    /**
+     * Scored By
+     */
+    scored_by: number;
+    /**
+     * Score
+     */
+    score: number;
+    /**
+     * Mal Id
+     */
+    mal_id: number;
+    /**
+     * Slug
+     */
+    slug: string;
+    /**
+     * Read
+     */
+    read: Array<ReadResponseBase>;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Magazines
+     */
+    magazines: Array<MagazineResponse>;
 };
 
 /**
@@ -4393,14 +4713,6 @@ export type NovelResponseWithRead = {
      * Slug
      */
     slug: string;
-    /**
-     * Genres
-     */
-    genres: Array<GenreResponse>;
-    /**
-     * Studios
-     */
-    magazines: Array<MagazineResponse>;
     /**
      * Read
      */
@@ -5942,6 +6254,20 @@ export type UserResponseWithWatch = {
      * Watch
      */
     watch: Array<WatchResponseBase>;
+};
+
+/**
+ * UserStatsResponse
+ */
+export type UserStatsResponse = {
+    /**
+     * Comments Count
+     */
+    comments_count?: number;
+    /**
+     * Edits Count
+     */
+    edits_count?: number;
 };
 
 /**
@@ -7893,26 +8219,7 @@ export type DeleteUserReadResponses = {
 export type DeleteUserReadResponse =
     DeleteUserReadResponses[keyof DeleteUserReadResponses];
 
-export type LatestCommentsData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/comments/latest';
-};
-
-export type LatestCommentsResponses = {
-    /**
-     * Response Latest Comments
-     *
-     * Successful Response
-     */
-    200: Array<CommentResponse>;
-};
-
-export type LatestCommentsResponse =
-    LatestCommentsResponses[keyof LatestCommentsResponses];
-
-export type CommentsListData = {
+export type GetCommentsListData = {
     body?: never;
     headers?: {
         /**
@@ -7920,16 +8227,26 @@ export type CommentsListData = {
          */
         auth?: string | null;
     };
-    path?: never;
+    path: {
+        /**
+         * Slug
+         */
+        slug: string;
+        content_type: CommentContentTypeEnum;
+    };
     query?: {
         /**
-         * Reviews Only
+         * Recommended
          */
-        reviews_only?: boolean;
+        recommended?: 'yes' | 'no' | 'maybe' | null;
         /**
-         * Reviews Recommended
+         * Comment Type
          */
-        reviews_recommended?: 'yes' | 'no' | 'maybe' | null;
+        comment_type?: 'all' | 'comment' | 'review';
+        /**
+         * Flat
+         */
+        flat?: boolean;
         /**
          * Page
          */
@@ -7939,27 +8256,130 @@ export type CommentsListData = {
          */
         size?: number;
     };
-    url: '/comments/list';
+    url: '/comments/{content_type}/{slug}/list';
 };
 
-export type CommentsListErrors = {
+export type GetCommentsListErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type CommentsListError = CommentsListErrors[keyof CommentsListErrors];
+export type GetCommentsListError =
+    GetCommentsListErrors[keyof GetCommentsListErrors];
 
-export type CommentsListResponses = {
+export type GetCommentsListResponses = {
     /**
      * Successful Response
      */
     200: CommentListResponse;
 };
 
-export type CommentsListResponse =
-    CommentsListResponses[keyof CommentsListResponses];
+export type GetCommentsListResponse =
+    GetCommentsListResponses[keyof GetCommentsListResponses];
+
+export type ThreadData = {
+    body?: never;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Comment Reference
+         */
+        comment_reference: string;
+    };
+    query?: {
+        /**
+         * Flat
+         */
+        flat?: boolean;
+    };
+    url: '/comments/thread/{comment_reference}';
+};
+
+export type ThreadErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ThreadError = ThreadErrors[keyof ThreadErrors];
+
+export type ThreadResponses = {
+    /**
+     * Response Thread
+     *
+     * Successful Response
+     */
+    200: CommentResponse | Array<CommentResponse>;
+};
+
+export type ThreadResponse = ThreadResponses[keyof ThreadResponses];
+
+export type GetCommentsUserData = {
+    body?: never;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Username
+         */
+        username: string;
+    };
+    query?: {
+        /**
+         * Recommended
+         */
+        recommended?: 'yes' | 'no' | 'maybe' | null;
+        /**
+         * Comment Type
+         */
+        comment_type?: 'all' | 'comment' | 'review';
+        /**
+         * First Level Only
+         */
+        first_level_only?: boolean;
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Size
+         */
+        size?: number;
+    };
+    url: '/comments/user/{username}';
+};
+
+export type GetCommentsUserErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetCommentsUserError =
+    GetCommentsUserErrors[keyof GetCommentsUserErrors];
+
+export type GetCommentsUserResponses = {
+    /**
+     * Successful Response
+     */
+    200: CommentListResponse;
+};
+
+export type GetCommentsUserResponse =
+    GetCommentsUserResponses[keyof GetCommentsUserResponses];
 
 export type WriteCommentData = {
     body: CommentArgs;
@@ -7998,54 +8418,6 @@ export type WriteCommentResponses = {
 
 export type WriteCommentResponse =
     WriteCommentResponses[keyof WriteCommentResponses];
-
-export type GetContentsListData = {
-    body?: never;
-    headers?: {
-        /**
-         * Auth
-         */
-        auth?: string | null;
-    };
-    path: {
-        /**
-         * Slug
-         */
-        slug: string;
-        content_type: CommentContentTypeEnum;
-    };
-    query?: {
-        /**
-         * Page
-         */
-        page?: number;
-        /**
-         * Size
-         */
-        size?: number;
-    };
-    url: '/comments/{content_type}/{slug}/list';
-};
-
-export type GetContentsListErrors = {
-    /**
-     * Validation Error
-     */
-    422: HttpValidationError;
-};
-
-export type GetContentsListError =
-    GetContentsListErrors[keyof GetContentsListErrors];
-
-export type GetContentsListResponses = {
-    /**
-     * Successful Response
-     */
-    200: CommentListResponse;
-};
-
-export type GetContentsListResponse =
-    GetContentsListResponses[keyof GetContentsListResponses];
 
 export type HideCommentData = {
     body?: never;
@@ -8121,7 +8493,26 @@ export type EditCommentResponses = {
 export type EditCommentResponse =
     EditCommentResponses[keyof EditCommentResponses];
 
-export type ThreadData = {
+export type LatestCommentsData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/comments/latest';
+};
+
+export type LatestCommentsResponses = {
+    /**
+     * Response Latest Comments
+     *
+     * Successful Response
+     */
+    200: Array<CommentResponse>;
+};
+
+export type LatestCommentsResponse =
+    LatestCommentsResponses[keyof LatestCommentsResponses];
+
+export type CommentsListData = {
     body?: never;
     headers?: {
         /**
@@ -8129,33 +8520,38 @@ export type ThreadData = {
          */
         auth?: string | null;
     };
-    path: {
+    path?: never;
+    query?: {
         /**
-         * Comment Reference
+         * Page
          */
-        comment_reference: string;
+        page?: number;
+        /**
+         * Size
+         */
+        size?: number;
     };
-    query?: never;
-    url: '/comments/thread/{comment_reference}';
+    url: '/comments/list';
 };
 
-export type ThreadErrors = {
+export type CommentsListErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type ThreadError = ThreadErrors[keyof ThreadErrors];
+export type CommentsListError = CommentsListErrors[keyof CommentsListErrors];
 
-export type ThreadResponses = {
+export type CommentsListResponses = {
     /**
      * Successful Response
      */
-    200: CommentResponse;
+    200: CommentListResponse;
 };
 
-export type ThreadResponse = ThreadResponses[keyof ThreadResponses];
+export type CommentsListResponse =
+    CommentsListResponses[keyof CommentsListResponses];
 
 export type AnimeScheduleData = {
     body: AnimeScheduleArgs;
@@ -9437,7 +9833,7 @@ export type SearchAnimeResponses = {
     /**
      * Successful Response
      */
-    200: AnimePaginationResponse;
+    200: AnimeCatalogPaginationResponse;
 };
 
 export type SearchAnimeResponse =
@@ -9723,7 +10119,7 @@ export type SearchMangaResponses = {
     /**
      * Successful Response
      */
-    200: MangaPaginationResponse;
+    200: MangaCatalogPaginationResponse;
 };
 
 export type SearchMangaResponse =
@@ -9835,7 +10231,7 @@ export type SearchNovelResponses = {
     /**
      * Successful Response
      */
-    200: NovelPaginationResponse;
+    200: NovelCatalogPaginationResponse;
 };
 
 export type SearchNovelResponse =
@@ -10607,6 +11003,38 @@ export type ServiceUserActivityResponses = {
 
 export type ServiceUserActivityResponse =
     ServiceUserActivityResponses[keyof ServiceUserActivityResponses];
+
+export type ServiceUserStatsData = {
+    body?: never;
+    path: {
+        /**
+         * Username
+         */
+        username: string;
+    };
+    query?: never;
+    url: '/user/{username}/stats';
+};
+
+export type ServiceUserStatsErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ServiceUserStatsError =
+    ServiceUserStatsErrors[keyof ServiceUserStatsErrors];
+
+export type ServiceUserStatsResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserStatsResponse;
+};
+
+export type ServiceUserStatsResponse =
+    ServiceUserStatsResponses[keyof ServiceUserStatsResponses];
 
 export type ProfileUiData = {
     body?: never;

@@ -3079,51 +3079,33 @@
         }
       }
     },
-    "/comments/latest": {
+    "/comments/{content_type}/{slug}/list": {
       "get": {
         "tags": [
           "Comments"
         ],
-        "summary": "Latest Comments",
-        "operationId": "latest_comments",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/CommentResponse"
-                  },
-                  "type": "array",
-                  "title": "Response Latest Comments"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/comments/list": {
-      "get": {
-        "tags": [
-          "Comments"
-        ],
-        "summary": "Comments List",
-        "operationId": "comments_list",
+        "summary": "Get Comments List",
+        "operationId": "get_comments_list",
         "parameters": [
           {
-            "name": "reviews_only",
-            "in": "query",
-            "required": false,
+            "name": "slug",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "boolean",
-              "default": false,
-              "title": "Reviews Only"
+              "type": "string",
+              "title": "Slug"
             }
           },
           {
-            "name": "reviews_recommended",
+            "name": "content_type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/CommentContentTypeEnum"
+            }
+          },
+          {
+            "name": "recommended",
             "in": "query",
             "required": false,
             "schema": {
@@ -3140,7 +3122,272 @@
                   "type": "null"
                 }
               ],
-              "title": "Reviews Recommended"
+              "title": "Recommended"
+            }
+          },
+          {
+            "name": "comment_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "all",
+                "comment",
+                "review"
+              ],
+              "type": "string",
+              "default": "all",
+              "title": "Comment Type"
+            }
+          },
+          {
+            "name": "flat",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Flat"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10000,
+              "exclusiveMinimum": 0,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 15,
+              "title": "Size"
+            }
+          },
+          {
+            "name": "auth",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Auth"
+            }
+          },
+          {
+            "name": "auth",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Auth"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/thread/{comment_reference}": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Thread",
+        "operationId": "thread",
+        "parameters": [
+          {
+            "name": "comment_reference",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Comment Reference"
+            }
+          },
+          {
+            "name": "flat",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Flat"
+            }
+          },
+          {
+            "name": "auth",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Auth"
+            }
+          },
+          {
+            "name": "auth",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Auth"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/CommentResponse"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/CommentResponse"
+                      }
+                    }
+                  ],
+                  "title": "Response Thread"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/user/{username}": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Get Comments User",
+        "operationId": "get_comments_user",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          },
+          {
+            "name": "recommended",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "yes",
+                    "no",
+                    "maybe"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Recommended"
+            }
+          },
+          {
+            "name": "comment_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "all",
+                "comment",
+                "review"
+              ],
+              "type": "string",
+              "default": "all",
+              "title": "Comment Type"
+            }
+          },
+          {
+            "name": "first_level_only",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "First Level Only"
             }
           },
           {
@@ -3316,112 +3563,6 @@
         }
       }
     },
-    "/comments/{content_type}/{slug}/list": {
-      "get": {
-        "tags": [
-          "Comments"
-        ],
-        "summary": "Get Contents List",
-        "operationId": "get_contents_list",
-        "parameters": [
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Slug"
-            }
-          },
-          {
-            "name": "content_type",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/CommentContentTypeEnum"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "maximum": 10000,
-              "exclusiveMinimum": 0,
-              "default": 1,
-              "title": "Page"
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "maximum": 100,
-              "minimum": 1,
-              "default": 15,
-              "title": "Size"
-            }
-          },
-          {
-            "name": "auth",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Auth"
-            }
-          },
-          {
-            "name": "auth",
-            "in": "cookie",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Auth"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CommentListResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/comments/{comment_reference}": {
       "put": {
         "tags": [
@@ -3580,22 +3721,61 @@
         }
       }
     },
-    "/comments/thread/{comment_reference}": {
+    "/comments/latest": {
       "get": {
         "tags": [
           "Comments"
         ],
-        "summary": "Thread",
-        "operationId": "thread",
+        "summary": "Latest Comments",
+        "operationId": "latest_comments",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CommentResponse"
+                  },
+                  "type": "array",
+                  "title": "Response Latest Comments"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/list": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Comments List",
+        "operationId": "comments_list",
         "parameters": [
           {
-            "name": "comment_reference",
-            "in": "path",
-            "required": true,
+            "name": "page",
+            "in": "query",
+            "required": false,
             "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Comment Reference"
+              "type": "integer",
+              "maximum": 10000,
+              "exclusiveMinimum": 0,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 15,
+              "title": "Size"
             }
           },
           {
@@ -3637,7 +3817,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CommentResponse"
+                  "$ref": "#/components/schemas/CommentListResponse"
                 }
               }
             }
@@ -6294,7 +6474,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnimePaginationResponse"
+                  "$ref": "#/components/schemas/AnimeCatalogPaginationResponse"
                 }
               }
             }
@@ -6829,7 +7009,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MangaPaginationResponse"
+                  "$ref": "#/components/schemas/MangaCatalogPaginationResponse"
                 }
               }
             }
@@ -7036,7 +7216,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NovelPaginationResponse"
+                  "$ref": "#/components/schemas/NovelCatalogPaginationResponse"
                 }
               }
             }
@@ -8482,6 +8662,48 @@
                     "$ref": "#/components/schemas/ActivityResponse"
                   },
                   "title": "Response Service User Activity"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{username}/stats": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "User stats",
+        "operationId": "service_user_stats",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserStatsResponse"
                 }
               }
             }
@@ -10348,6 +10570,332 @@
         ],
         "title": "AnimeAgeRatingEnum"
       },
+      "AnimeCatalogPaginationResponse": {
+        "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationResponse"
+          },
+          "list": {
+            "items": {
+              "$ref": "#/components/schemas/AnimeCatalogResponse"
+            },
+            "type": "array",
+            "title": "List"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pagination",
+          "list"
+        ],
+        "title": "AnimeCatalogPaginationResponse"
+      },
+      "AnimeCatalogResponse": {
+        "properties": {
+          "data_type": {
+            "type": "string",
+            "const": "anime",
+            "title": "Data Type"
+          },
+          "media_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Media Type",
+            "examples": [
+              "tv"
+            ]
+          },
+          "title_ua": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title Ua",
+            "examples": [
+              "Цей прекрасний світ, благословенний Богом!"
+            ]
+          },
+          "title_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title En",
+            "examples": [
+              "KonoSuba: God's Blessing on This Wonderful World!"
+            ]
+          },
+          "title_ja": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title Ja",
+            "examples": [
+              "Kono Subarashii Sekai ni Shukufuku wo!"
+            ]
+          },
+          "episodes_released": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Episodes Released",
+            "examples": [
+              "10"
+            ]
+          },
+          "episodes_total": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Episodes Total",
+            "examples": [
+              "10"
+            ]
+          },
+          "image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image",
+            "examples": [
+              "https://cdn.hikka.io/hikka.jpg"
+            ]
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status",
+            "examples": [
+              "finished"
+            ]
+          },
+          "native_scored_by": {
+            "type": "integer",
+            "title": "Native Scored By",
+            "examples": [
+              1210150
+            ]
+          },
+          "native_score": {
+            "type": "number",
+            "title": "Native Score",
+            "examples": [
+              8.11
+            ]
+          },
+          "scored_by": {
+            "type": "integer",
+            "title": "Scored By",
+            "examples": [
+              1210150
+            ]
+          },
+          "score": {
+            "type": "number",
+            "title": "Score",
+            "examples": [
+              8.11
+            ]
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug",
+            "examples": [
+              "kono-subarashii-sekai-ni-shukufuku-wo-123456"
+            ]
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date"
+          },
+          "created": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created"
+          },
+          "updated": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated"
+          },
+          "translated_ua": {
+            "type": "boolean",
+            "title": "Translated Ua"
+          },
+          "season": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Season"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "rating": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rating"
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Year"
+          },
+          "mal_id": {
+            "type": "integer",
+            "title": "Mal Id"
+          },
+          "watch": {
+            "items": {
+              "$ref": "#/components/schemas/WatchResponseBase"
+            },
+            "type": "array",
+            "title": "Watch"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
+          },
+          "studios": {
+            "items": {
+              "$ref": "#/components/schemas/CompanyResponse"
+            },
+            "type": "array",
+            "title": "Studios"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "data_type",
+          "media_type",
+          "title_ua",
+          "title_en",
+          "title_ja",
+          "episodes_released",
+          "episodes_total",
+          "image",
+          "status",
+          "native_scored_by",
+          "native_score",
+          "scored_by",
+          "score",
+          "slug",
+          "start_date",
+          "end_date",
+          "created",
+          "updated",
+          "translated_ua",
+          "season",
+          "source",
+          "rating",
+          "year",
+          "mal_id",
+          "watch",
+          "genres",
+          "studios"
+        ],
+        "title": "AnimeCatalogResponse"
+      },
       "AnimeCompanyResponse": {
         "properties": {
           "company": {
@@ -11908,7 +12456,7 @@
           },
           "status": {
             "items": {
-              "$ref": "#/components/schemas/AnimeStatusEnum"
+              "$ref": "#/components/schemas/ContentStatusEnum"
             },
             "type": "array",
             "title": "Status",
@@ -12111,7 +12659,7 @@
           },
           "status": {
             "items": {
-              "$ref": "#/components/schemas/AnimeStatusEnum"
+              "$ref": "#/components/schemas/ContentStatusEnum"
             },
             "type": "array",
             "title": "Status",
@@ -12367,15 +12915,6 @@
         "type": "object",
         "title": "AnimeStatsResponse"
       },
-      "AnimeStatusEnum": {
-        "type": "string",
-        "enum": [
-          "announced",
-          "finished",
-          "ongoing"
-        ],
-        "title": "AnimeStatusEnum"
-      },
       "AnimeVideoResponse": {
         "properties": {
           "url": {
@@ -12573,7 +13112,7 @@
           },
           "status": {
             "items": {
-              "$ref": "#/components/schemas/AnimeStatusEnum"
+              "$ref": "#/components/schemas/ContentStatusEnum"
             },
             "type": "array",
             "title": "Status",
@@ -17440,6 +17979,257 @@
         ],
         "title": "MagazineResponse"
       },
+      "MangaCatalogPaginationResponse": {
+        "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationResponse"
+          },
+          "list": {
+            "items": {
+              "$ref": "#/components/schemas/MangaCatalogResponse"
+            },
+            "type": "array",
+            "title": "List"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pagination",
+          "list"
+        ],
+        "title": "MangaCatalogPaginationResponse"
+      },
+      "MangaCatalogResponse": {
+        "properties": {
+          "data_type": {
+            "type": "string",
+            "const": "manga",
+            "title": "Data Type"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date"
+          },
+          "created": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created"
+          },
+          "updated": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated"
+          },
+          "title_original": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title Original"
+          },
+          "media_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Media Type"
+          },
+          "native_scored_by": {
+            "type": "integer",
+            "title": "Native Scored By"
+          },
+          "title_ua": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title Ua"
+          },
+          "title_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title En"
+          },
+          "chapters": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chapters"
+          },
+          "volumes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Volumes"
+          },
+          "translated_ua": {
+            "type": "boolean",
+            "title": "Translated Ua"
+          },
+          "native_score": {
+            "type": "number",
+            "title": "Native Score"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image"
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Year"
+          },
+          "scored_by": {
+            "type": "integer",
+            "title": "Scored By"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "mal_id": {
+            "type": "integer",
+            "title": "Mal Id"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "read": {
+            "items": {
+              "$ref": "#/components/schemas/ReadResponseBase"
+            },
+            "type": "array",
+            "title": "Read"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
+          },
+          "magazines": {
+            "items": {
+              "$ref": "#/components/schemas/MagazineResponse"
+            },
+            "type": "array",
+            "title": "Magazines"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "data_type",
+          "start_date",
+          "end_date",
+          "created",
+          "updated",
+          "title_original",
+          "media_type",
+          "native_scored_by",
+          "title_ua",
+          "title_en",
+          "chapters",
+          "volumes",
+          "translated_ua",
+          "native_score",
+          "status",
+          "image",
+          "year",
+          "scored_by",
+          "score",
+          "mal_id",
+          "slug",
+          "read",
+          "genres",
+          "magazines"
+        ],
+        "title": "MangaCatalogResponse"
+      },
       "MangaInfoResponse": {
         "properties": {
           "data_type": {
@@ -18432,6 +19222,257 @@
           "unseen"
         ],
         "title": "NotificationUnseenResponse"
+      },
+      "NovelCatalogPaginationResponse": {
+        "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationResponse"
+          },
+          "list": {
+            "items": {
+              "$ref": "#/components/schemas/NovelCatalogResponse"
+            },
+            "type": "array",
+            "title": "List"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pagination",
+          "list"
+        ],
+        "title": "NovelCatalogPaginationResponse"
+      },
+      "NovelCatalogResponse": {
+        "properties": {
+          "data_type": {
+            "type": "string",
+            "const": "novel",
+            "title": "Data Type"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date"
+          },
+          "end_date": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End Date"
+          },
+          "created": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created"
+          },
+          "updated": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated"
+          },
+          "title_original": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title Original"
+          },
+          "media_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Media Type"
+          },
+          "native_scored_by": {
+            "type": "integer",
+            "title": "Native Scored By"
+          },
+          "title_ua": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title Ua"
+          },
+          "title_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title En"
+          },
+          "chapters": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chapters"
+          },
+          "volumes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Volumes"
+          },
+          "translated_ua": {
+            "type": "boolean",
+            "title": "Translated Ua"
+          },
+          "native_score": {
+            "type": "number",
+            "title": "Native Score"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image"
+          },
+          "year": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Year"
+          },
+          "scored_by": {
+            "type": "integer",
+            "title": "Scored By"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "mal_id": {
+            "type": "integer",
+            "title": "Mal Id"
+          },
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "read": {
+            "items": {
+              "$ref": "#/components/schemas/ReadResponseBase"
+            },
+            "type": "array",
+            "title": "Read"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
+          },
+          "magazines": {
+            "items": {
+              "$ref": "#/components/schemas/MagazineResponse"
+            },
+            "type": "array",
+            "title": "Magazines"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "data_type",
+          "start_date",
+          "end_date",
+          "created",
+          "updated",
+          "title_original",
+          "media_type",
+          "native_scored_by",
+          "title_ua",
+          "title_en",
+          "chapters",
+          "volumes",
+          "translated_ua",
+          "native_score",
+          "status",
+          "image",
+          "year",
+          "scored_by",
+          "score",
+          "mal_id",
+          "slug",
+          "read",
+          "genres",
+          "magazines"
+        ],
+        "title": "NovelCatalogResponse"
       },
       "NovelInfoResponse": {
         "properties": {
@@ -22925,6 +23966,23 @@
           "watch"
         ],
         "title": "UserResponseWithWatch"
+      },
+      "UserStatsResponse": {
+        "properties": {
+          "comments_count": {
+            "type": "integer",
+            "title": "Comments Count",
+            "default": 0
+          },
+          "edits_count": {
+            "type": "integer",
+            "title": "Edits Count",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "UserStatsResponse"
       },
       "UserWatchPaginationResponse": {
         "properties": {

@@ -194,12 +194,15 @@ import type {
     GetCollectionsData,
     GetCollectionsErrors,
     GetCollectionsResponses,
+    GetCommentsListData,
+    GetCommentsListErrors,
+    GetCommentsListResponses,
+    GetCommentsUserData,
+    GetCommentsUserErrors,
+    GetCommentsUserResponses,
     GetContentEditTodoData,
     GetContentEditTodoErrors,
     GetContentEditTodoResponses,
-    GetContentsListData,
-    GetContentsListErrors,
-    GetContentsListResponses,
     GetDigestData,
     GetDigestErrors,
     GetDigestPrivacyData,
@@ -357,6 +360,9 @@ import type {
     ServiceUserActivityData,
     ServiceUserActivityErrors,
     ServiceUserActivityResponses,
+    ServiceUserStatsData,
+    ServiceUserStatsErrors,
+    ServiceUserStatsResponses,
     SetVoteData,
     SetVoteErrors,
     SetVoteResponses,
@@ -495,8 +501,9 @@ import {
     zGetClientByReferenceResponse,
     zGetCollectionResponse,
     zGetCollectionsResponse,
+    zGetCommentsListResponse,
+    zGetCommentsUserResponse,
     zGetContentEditTodoResponse,
-    zGetContentsListResponse,
     zGetDigestPrivacyResponse,
     zGetDigestResponse,
     zGetEditResponse,
@@ -549,6 +556,7 @@ import {
     zSearchPeopleResponse,
     zSearchUsersResponse,
     zServiceUserActivityResponse,
+    zServiceUserStatsResponse,
     zSetVoteResponse,
     zSignupResponse,
     zThirdPartyAuthTokenResponse,
@@ -1424,36 +1432,59 @@ export const deleteUserRead = <ThrowOnError extends boolean = false>(
     });
 
 /**
- * Latest Comments
+ * Get Comments List
  */
-export const latestComments = <ThrowOnError extends boolean = false>(
-    options?: Options<LatestCommentsData, ThrowOnError>,
-): RequestResult<LatestCommentsResponses, unknown, ThrowOnError> =>
-    (options?.client ?? client).get<
-        LatestCommentsResponses,
-        unknown,
+export const getCommentsList = <ThrowOnError extends boolean = false>(
+    options: Options<GetCommentsListData, ThrowOnError>,
+): RequestResult<
+    GetCommentsListResponses,
+    GetCommentsListErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).get<
+        GetCommentsListResponses,
+        GetCommentsListErrors,
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zLatestCommentsResponse.parseAsync(data),
-        url: '/comments/latest',
+            await zGetCommentsListResponse.parseAsync(data),
+        url: '/comments/{content_type}/{slug}/list',
         ...options,
     });
 
 /**
- * Comments List
+ * Thread
  */
-export const commentsList = <ThrowOnError extends boolean = false>(
-    options?: Options<CommentsListData, ThrowOnError>,
-): RequestResult<CommentsListResponses, CommentsListErrors, ThrowOnError> =>
-    (options?.client ?? client).get<
-        CommentsListResponses,
-        CommentsListErrors,
+export const thread = <ThrowOnError extends boolean = false>(
+    options: Options<ThreadData, ThrowOnError>,
+): RequestResult<ThreadResponses, ThreadErrors, ThrowOnError> =>
+    (options.client ?? client).get<ThreadResponses, ThreadErrors, ThrowOnError>(
+        {
+            responseValidator: async (data) =>
+                await zThreadResponse.parseAsync(data),
+            url: '/comments/thread/{comment_reference}',
+            ...options,
+        },
+    );
+
+/**
+ * Get Comments User
+ */
+export const getCommentsUser = <ThrowOnError extends boolean = false>(
+    options: Options<GetCommentsUserData, ThrowOnError>,
+): RequestResult<
+    GetCommentsUserResponses,
+    GetCommentsUserErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).get<
+        GetCommentsUserResponses,
+        GetCommentsUserErrors,
         ThrowOnError
     >({
         responseValidator: async (data) =>
-            await zCommentsListResponse.parseAsync(data),
-        url: '/comments/list',
+            await zGetCommentsUserResponse.parseAsync(data),
+        url: '/comments/user/{username}',
         ...options,
     });
 
@@ -1476,27 +1507,6 @@ export const writeComment = <ThrowOnError extends boolean = false>(
             'Content-Type': 'application/json',
             ...options.headers,
         },
-    });
-
-/**
- * Get Contents List
- */
-export const getContentsList = <ThrowOnError extends boolean = false>(
-    options: Options<GetContentsListData, ThrowOnError>,
-): RequestResult<
-    GetContentsListResponses,
-    GetContentsListErrors,
-    ThrowOnError
-> =>
-    (options.client ?? client).get<
-        GetContentsListResponses,
-        GetContentsListErrors,
-        ThrowOnError
-    >({
-        responseValidator: async (data) =>
-            await zGetContentsListResponse.parseAsync(data),
-        url: '/comments/{content_type}/{slug}/list',
-        ...options,
     });
 
 /**
@@ -1538,19 +1548,38 @@ export const editComment = <ThrowOnError extends boolean = false>(
     });
 
 /**
- * Thread
+ * Latest Comments
  */
-export const thread = <ThrowOnError extends boolean = false>(
-    options: Options<ThreadData, ThrowOnError>,
-): RequestResult<ThreadResponses, ThreadErrors, ThrowOnError> =>
-    (options.client ?? client).get<ThreadResponses, ThreadErrors, ThrowOnError>(
-        {
-            responseValidator: async (data) =>
-                await zThreadResponse.parseAsync(data),
-            url: '/comments/thread/{comment_reference}',
-            ...options,
-        },
-    );
+export const latestComments = <ThrowOnError extends boolean = false>(
+    options?: Options<LatestCommentsData, ThrowOnError>,
+): RequestResult<LatestCommentsResponses, unknown, ThrowOnError> =>
+    (options?.client ?? client).get<
+        LatestCommentsResponses,
+        unknown,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zLatestCommentsResponse.parseAsync(data),
+        url: '/comments/latest',
+        ...options,
+    });
+
+/**
+ * Comments List
+ */
+export const commentsList = <ThrowOnError extends boolean = false>(
+    options?: Options<CommentsListData, ThrowOnError>,
+): RequestResult<CommentsListResponses, CommentsListErrors, ThrowOnError> =>
+    (options?.client ?? client).get<
+        CommentsListResponses,
+        CommentsListErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zCommentsListResponse.parseAsync(data),
+        url: '/comments/list',
+        ...options,
+    });
 
 /**
  * Anime Schedule
@@ -2785,6 +2814,27 @@ export const serviceUserActivity = <ThrowOnError extends boolean = false>(
         responseValidator: async (data) =>
             await zServiceUserActivityResponse.parseAsync(data),
         url: '/user/{username}/activity',
+        ...options,
+    });
+
+/**
+ * User stats
+ */
+export const serviceUserStats = <ThrowOnError extends boolean = false>(
+    options: Options<ServiceUserStatsData, ThrowOnError>,
+): RequestResult<
+    ServiceUserStatsResponses,
+    ServiceUserStatsErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).get<
+        ServiceUserStatsResponses,
+        ServiceUserStatsErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zServiceUserStatsResponse.parseAsync(data),
+        url: '/user/{username}/stats',
         ...options,
     });
 

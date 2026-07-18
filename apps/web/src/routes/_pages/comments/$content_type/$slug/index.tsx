@@ -2,7 +2,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import {
     type CommentContentTypeEnum as CommentsContentType,
-    getContentsListInfiniteOptions,
+    getCommentsListInfiniteOptions,
     paginationPageParam,
 } from '@hikka/api';
 
@@ -25,7 +25,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
         if (!content) throw redirect({ to: '/' });
 
         await queryClient.prefetchInfiniteQuery({
-            ...getContentsListInfiniteOptions({
+            ...getCommentsListInfiniteOptions({
                 path: {
                     content_type: content_type as CommentsContentType,
                     slug,
