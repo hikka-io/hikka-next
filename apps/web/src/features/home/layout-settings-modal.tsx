@@ -290,7 +290,7 @@ const SortableWidgetItem: FC<{
             ref={setNodeRef}
             style={style}
             className={cn(
-                'flex touch-none items-center gap-2 rounded-lg border surface-solid p-2',
+                'flex touch-none items-center gap-2 rounded-lg border surface p-2',
                 isDragging ? 'cursor-grabbing' : 'cursor-grab',
             )}
             {...attributes}

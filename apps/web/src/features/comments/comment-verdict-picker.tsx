@@ -75,7 +75,7 @@ const CommentVerdictPicker: FC<Props> = ({
     return (
         <div
             className={cn(
-                'surface-solid flex flex-col gap-2 border-t px-3 py-3',
+                'surface flex flex-col gap-2 border-t px-3 py-3',
                 className,
             )}
         >

@@ -132,20 +132,8 @@
 }
 
 /* Grid min utilities */
-@utility grid-min-1 {
-    --grid-min: 1rem;
-}
-
-@utility grid-min-2 {
-    --grid-min: 2rem;
-}
-
 @utility grid-min-3 {
     --grid-min: 3.5rem;
-}
-
-@utility grid-min-4 {
-    --grid-min: 4rem;
 }
 
 @utility grid-min-5 {
@@ -156,36 +144,8 @@
     --grid-min: 6rem;
 }
 
-@utility grid-min-7 {
-    --grid-min: 7rem;
-}
-
-@utility grid-min-8 {
-    --grid-min: 8rem;
-}
-
-@utility grid-min-9 {
-    --grid-min: 9rem;
-}
-
 @utility grid-min-10 {
     --grid-min: 10rem;
-}
-
-@utility grid-min-12 {
-    --grid-min: 12rem;
-}
-
-@utility grid-min-14 {
-    --grid-min: 14rem;
-}
-
-@utility grid-min-16 {
-    --grid-min: 16rem;
-}
-
-@utility grid-min-18 {
-    --grid-min: 18rem;
 }
 
 @utility grid-min-20 {
@@ -197,22 +157,8 @@
     --grid-max: 3.5rem;
 }
 
-@utility grid-max-20 {
-    --grid-max: 20rem;
-}
-
-@utility grid-max-22 {
-    --grid-max: 22rem;
-}
-
 /* Other utilities */
 @utility surface {
-    background-color: var(--surface);
-    color: var(--card-foreground);
-    box-shadow: var(--shadow-card);
-}
-
-@utility surface-solid {
     background-color: var(--surface);
     color: var(--card-foreground);
     box-shadow: var(--shadow-card);
@@ -223,9 +169,11 @@
     color: var(--card-foreground);
 }
 
-
+/* Brighter frosted glass for bars that float ON TOP of content (sticky
+   nav/action bars, pagination), lifted above the regular surface fill so
+   they read brighter than the content they cover instead of blending. */
 @utility surface-glass {
-    background-color: color-mix(in oklab, var(--secondary) 60%, transparent);
+    background-color: oklch(from var(--card) calc(l * 1.6) c h / 0.6);
     color: var(--card-foreground);
     box-shadow: var(--shadow-card);
     backdrop-filter: blur(24px);
@@ -266,84 +214,12 @@
     mask-image: none;
 }
 
-@utility gradient-mask-t-0 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 100%);
-}
-
-@utility gradient-mask-t-10 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 10%, transparent 100%);
-}
-
-@utility gradient-mask-t-20 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 20%, transparent 100%);
-}
-
-@utility gradient-mask-t-30 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 30%, transparent 100%);
-}
-
 @utility gradient-mask-t-40 {
     mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 40%, transparent 100%);
 }
 
-@utility gradient-mask-t-50 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 50%, transparent 100%);
-}
-
-@utility gradient-mask-t-60 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 60%, transparent 100%);
-}
-
-@utility gradient-mask-t-70 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 70%, transparent 100%);
-}
-
-@utility gradient-mask-t-80 {
-    mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 80%, transparent 100%);
-}
-
 @utility gradient-mask-t-90 {
     mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 90%, transparent 100%);
-}
-
-@utility gradient-mask-t-50-d {
-    mask-image: linear-gradient(
-        to top,
-        transparent,
-        rgba(0, 0, 0, 1) 50%,
-        rgba(0, 0, 0, 1) 50%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-t-60-d {
-    mask-image: linear-gradient(
-        to top,
-        transparent,
-        rgba(0, 0, 0, 1) 40%,
-        rgba(0, 0, 0, 1) 60%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-t-70-d {
-    mask-image: linear-gradient(
-        to top,
-        transparent,
-        rgba(0, 0, 0, 1) 30%,
-        rgba(0, 0, 0, 1) 70%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-t-80-d {
-    mask-image: linear-gradient(
-        to top,
-        transparent,
-        rgba(0, 0, 0, 1) 20%,
-        rgba(0, 0, 0, 1) 80%,
-        transparent 100%
-    );
 }
 
 @utility gradient-mask-t-90-d {
@@ -364,114 +240,10 @@
     );
 }
 
-@utility gradient-mask-b-10 {
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 10%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-b-20 {
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 20%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-b-30 {
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 30%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-b-40 {
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 40%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-b-50 {
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 50%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-b-60 {
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 60%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-b-70 {
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 70%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-b-80 {
-    mask-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 1) 80%,
-        transparent 100%
-    );
-}
-
 @utility gradient-mask-b-90 {
     mask-image: linear-gradient(
         to bottom,
         rgba(0, 0, 0, 1) 90%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-b-50-d {
-    mask-image: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(0, 0, 0, 1) 50%,
-        rgba(0, 0, 0, 1) 50%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-b-60-d {
-    mask-image: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(0, 0, 0, 1) 40%,
-        rgba(0, 0, 0, 1) 60%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-b-70-d {
-    mask-image: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(0, 0, 0, 1) 30%,
-        rgba(0, 0, 0, 1) 70%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-b-80-d {
-    mask-image: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(0, 0, 0, 1) 20%,
-        rgba(0, 0, 0, 1) 80%,
         transparent 100%
     );
 }
@@ -486,122 +258,10 @@
     );
 }
 
-@utility gradient-mask-r-0 {
-    mask-image: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 1) 0%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-10 {
-    mask-image: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 1) 10%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-20 {
-    mask-image: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 1) 20%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-30 {
-    mask-image: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 1) 30%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-40 {
-    mask-image: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 1) 40%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-50 {
-    mask-image: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 1) 50%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-60 {
-    mask-image: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 1) 60%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-70 {
-    mask-image: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 1) 70%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-80 {
-    mask-image: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 1) 80%,
-        transparent 100%
-    );
-}
-
 @utility gradient-mask-r-90 {
     mask-image: linear-gradient(
         to right,
         rgba(0, 0, 0, 1) 90%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-50-d {
-    mask-image: linear-gradient(
-        to right,
-        transparent,
-        rgba(0, 0, 0, 1) 50%,
-        rgba(0, 0, 0, 1) 50%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-60-d {
-    mask-image: linear-gradient(
-        to right,
-        transparent,
-        rgba(0, 0, 0, 1) 40%,
-        rgba(0, 0, 0, 1) 60%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-70-d {
-    mask-image: linear-gradient(
-        to right,
-        transparent,
-        rgba(0, 0, 0, 1) 30%,
-        rgba(0, 0, 0, 1) 70%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-r-80-d {
-    mask-image: linear-gradient(
-        to right,
-        transparent,
-        rgba(0, 0, 0, 1) 20%,
-        rgba(0, 0, 0, 1) 80%,
         transparent 100%
     );
 }
@@ -616,118 +276,10 @@
     );
 }
 
-@utility gradient-mask-l-0 {
-    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 0%, transparent 100%);
-}
-
-@utility gradient-mask-l-10 {
-    mask-image: linear-gradient(
-        to left,
-        rgba(0, 0, 0, 1) 10%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-l-20 {
-    mask-image: linear-gradient(
-        to left,
-        rgba(0, 0, 0, 1) 20%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-l-30 {
-    mask-image: linear-gradient(
-        to left,
-        rgba(0, 0, 0, 1) 30%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-l-40 {
-    mask-image: linear-gradient(
-        to left,
-        rgba(0, 0, 0, 1) 40%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-l-50 {
-    mask-image: linear-gradient(
-        to left,
-        rgba(0, 0, 0, 1) 50%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-l-60 {
-    mask-image: linear-gradient(
-        to left,
-        rgba(0, 0, 0, 1) 60%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-l-70 {
-    mask-image: linear-gradient(
-        to left,
-        rgba(0, 0, 0, 1) 70%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-l-80 {
-    mask-image: linear-gradient(
-        to left,
-        rgba(0, 0, 0, 1) 80%,
-        transparent 100%
-    );
-}
-
 @utility gradient-mask-l-90 {
     mask-image: linear-gradient(
         to left,
         rgba(0, 0, 0, 1) 90%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-l-50-d {
-    mask-image: linear-gradient(
-        to left,
-        transparent,
-        rgba(0, 0, 0, 1) 50%,
-        rgba(0, 0, 0, 1) 50%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-l-60-d {
-    mask-image: linear-gradient(
-        to left,
-        transparent,
-        rgba(0, 0, 0, 1) 40%,
-        rgba(0, 0, 0, 1) 60%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-l-70-d {
-    mask-image: linear-gradient(
-        to left,
-        transparent,
-        rgba(0, 0, 0, 1) 30%,
-        rgba(0, 0, 0, 1) 70%,
-        transparent 100%
-    );
-}
-
-@utility gradient-mask-l-80-d {
-    mask-image: linear-gradient(
-        to left,
-        transparent,
-        rgba(0, 0, 0, 1) 20%,
-        rgba(0, 0, 0, 1) 80%,
         transparent 100%
     );
 }
@@ -744,9 +296,7 @@
 
 :root {
     --font-geist: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
-}
 
-:root {
     --background: oklch(1 0 0);
     --foreground: oklch(0.142 0.004 286);
 
@@ -782,7 +332,7 @@
 
     /* Translucent surface fills, derived from the overridable --card/--muted
        tokens */
-    --surface: color-mix(in oklab, var(--card) 88%, transparent);
+    --surface: oklch(from var(--card) l c h / 0.88);
     --surface-inset: color-mix(in oklab, var(--muted) 60%, transparent);
 
     /* Backdrop derivation constants */
@@ -896,7 +446,6 @@
     --border: oklch(0.212 0.004 286);
     --input: oklch(0.212 0.004 286);
     --ring: oklch(0.556 0.006 286);
-    --radius: 0.625rem;
 
     /* Backdrop derivation constants (dark = brand-tinted glow) */
     --backdrop-l: 0.3;
@@ -905,7 +454,7 @@
     /* Dark elevates surfaces via lightness, not shadow. */
     --shadow-card: 0 0 #0000;
 
-    --surface: color-mix(in oklab, var(--card) 82%, transparent);
+    --surface: oklch(from var(--card) calc(l * 1.1) c h / 0.45);
     --surface-inset: color-mix(in oklab, var(--muted) 45%, transparent);
 
     /* General colors */
@@ -926,53 +475,12 @@
     --destructive-foreground: oklch(0.799 0.116 18);
     --destructive-border: oklch(0.27 0.103 26);
 
-    /* Status colors */
-
-    --finished-background: var(--success);
-    --finished-border: var(--success-border);
-    --finished-foreground: var(--success-foreground);
-
-    --ongoing-background: var(--info);
-    --ongoing-border: var(--info-border);
-    --ongoing-foreground: var(--info-foreground);
-
-    --announced-background: var(--warning);
-    --announced-border: var(--warning-border);
-    --announced-foreground: var(--warning-foreground);
-
-    --discontinued-background: var(--destructive);
-    --discontinued-border: var(--destructive-border);
-    --discontinued-foreground: var(--destructive-foreground);
-
+    /* Status/read-watch aliases are var() references declared once in :root;
+       they resolve against the dark base tokens above. Only --paused-* has
+       real per-theme values. */
     --paused-background: oklch(0.27 0 0);
     --paused-border: oklch(0.321 0 0);
     --paused-foreground: oklch(0.724 0 0);
-
-    /* Read/Watch status colors */
-
-    --planned-background: var(--announced-background);
-    --planned-border: var(--announced-border);
-    --planned-foreground: var(--announced-foreground);
-
-    --completed-background: var(--finished-background);
-    --completed-border: var(--finished-border);
-    --completed-foreground: var(--finished-foreground);
-
-    --on-hold-background: var(--paused-background);
-    --on-hold-border: var(--paused-border);
-    --on-hold-foreground: var(--paused-foreground);
-
-    --dropped-background: var(--discontinued-background);
-    --dropped-border: var(--discontinued-border);
-    --dropped-foreground: var(--discontinued-foreground);
-
-    --reading-background: var(--ongoing-background);
-    --reading-border: var(--ongoing-border);
-    --reading-foreground: var(--ongoing-foreground);
-
-    --watching-background: var(--ongoing-background);
-    --watching-border: var(--ongoing-border);
-    --watching-foreground: var(--ongoing-foreground);
 }
 
 /* Brand-derived primary trio */
@@ -1001,7 +509,8 @@
         to bottom,
         oklch(
                 from var(--backdrop-color, var(--brand)) var(--backdrop-l)
-                    calc(c * var(--backdrop-c)) h / var(--backdrop-intensity, 1)
+                    calc(c * var(--backdrop-c)) h /
+                var(--backdrop-intensity, 1)
             )
             0%,
         transparent 60%
@@ -1136,35 +645,31 @@
 }
 
 /* Logo styles */
-.logo {
-    background-image: url(/logo-icon.png);
+.logo,
+.logo-full {
     background-size: contain;
     background-repeat: no-repeat;
 }
 
-.dark .logo-full {
-    background-image: url(/logo-dark.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
+.logo {
+    background-image: url(/logo-icon.png);
 }
 
 .logo-full {
     background-image: url(/logo.svg);
-    background-size: contain;
-    background-repeat: no-repeat;
+}
+
+.dark .logo-full {
+    background-image: url(/logo-dark.svg);
 }
 
 @media (width >= 48rem) {
-    .dark .logo {
-        background-image: url(/logo-dark.svg);
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
-
     .logo {
         background-image: url(/logo.svg);
-        background-size: contain;
-        background-repeat: no-repeat;
+    }
+
+    .dark .logo {
+        background-image: url(/logo-dark.svg);
     }
 }
 
