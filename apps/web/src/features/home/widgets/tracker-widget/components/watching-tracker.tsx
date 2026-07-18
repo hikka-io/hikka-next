@@ -58,7 +58,7 @@ const WatchingTracker = () => {
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
 
-    const debouncedUpdatedWatch = useDebounce({
+    const [debouncedUpdatedWatch] = useDebounce({
         value: updatedWatch,
         delay: 500,
     });

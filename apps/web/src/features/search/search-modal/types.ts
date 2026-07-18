@@ -1,10 +1,10 @@
-import type {
-    AnimeResponse,
-    CharacterResponse,
+import {
+    type AnimeResponse,
+    type CharacterResponse,
     ContentTypeEnum,
-    MangaResponse,
-    NovelResponse,
-    PersonResponse,
+    type MangaResponse,
+    type NovelResponse,
+    type PersonResponse,
 } from '@hikka/api';
 
 export type SearchTypeValue = ContentTypeEnum | 'all';
@@ -18,3 +18,14 @@ export type SearchContent =
     | NovelResponse
     | CharacterResponse
     | PersonResponse;
+
+/** Ukrainian labels for the searchable types (toggle, history entries, etc.). */
+export const SEARCH_TYPE_LABELS: Partial<Record<SearchTypeValue, string>> = {
+    [SEARCH_TYPE_ALL]: 'Усе',
+    [ContentTypeEnum.ANIME]: 'Аніме',
+    [ContentTypeEnum.MANGA]: 'Манґа',
+    [ContentTypeEnum.NOVEL]: 'Ранобе',
+    [ContentTypeEnum.CHARACTER]: 'Персонаж',
+    [ContentTypeEnum.PERSON]: 'Людина',
+    [ContentTypeEnum.USER]: 'Користувач',
+};

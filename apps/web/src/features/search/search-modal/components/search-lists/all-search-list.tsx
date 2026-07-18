@@ -12,6 +12,7 @@ import {
 } from '@hikka/api';
 
 import { CommandItem } from '@/components/ui/command';
+import { useSearchHistoryStore } from '@/services/stores/search-history-store';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -82,6 +83,7 @@ const AllSearchList = ({
     value,
 }: Props) => {
     const router = useRouter();
+    const addHistoryEntry = useSearchHistoryStore((state) => state.addEntry);
     const enabled = value !== undefined && value.length >= MIN_SEARCH_LENGTH;
 
     const anime = useInfiniteList(
@@ -173,6 +175,10 @@ const AllSearchList = ({
                 return;
             }
 
+            if (value && value.trim().length >= MIN_SEARCH_LENGTH) {
+                addHistoryEntry(value, contentType);
+            }
+
             onClose();
             const path = CONTENT_TYPE_LINKS[contentType];
             router.push(
@@ -180,7 +186,7 @@ const AllSearchList = ({
                 value ? { search: { search: value } } : undefined,
             );
         },
-        [onClose, onSwitchType, router, value],
+        [addHistoryEntry, onClose, onSwitchType, router, value],
     );
 
     return (

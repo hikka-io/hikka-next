@@ -40,7 +40,7 @@ const Search = ({ placeholder }: { placeholder: string }) => {
     const { search: query } = useFilterSearch<{ search?: string }>();
 
     const [search, setSearch] = useState(query);
-    const debouncedSearch = useDebounce({ value: search, delay: 300 });
+    const [debouncedSearch] = useDebounce({ value: search, delay: 300 });
 
     // Latest values read inside effects without making them retrigger.
     const queryRef = useRef(query);
@@ -104,7 +104,7 @@ const CatalogNavbar: FC<Props> = ({
 
     return (
         <>
-            <div className="flex flex-col gap-4 rounded-md border surface-solid p-4 md:flex-row md:items-center">
+            <div className="surface-solid flex flex-col gap-4 rounded-md border p-4 md:flex-row md:items-center">
                 <div className="min-w-0 flex-1">
                     <Suspense>
                         <Search placeholder={searchPlaceholder} />

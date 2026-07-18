@@ -24,7 +24,11 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/utils/cn';
 
-import { SEARCH_TYPE_ALL, type SearchTypeValue } from '../types';
+import {
+    SEARCH_TYPE_ALL,
+    SEARCH_TYPE_LABELS,
+    type SearchTypeValue,
+} from '../types';
 
 type Props = {
     type?: SearchTypeValue;
@@ -36,7 +40,6 @@ type Props = {
 
 type SearchType = {
     slug: SearchTypeValue;
-    title_ua: string;
     icon: ReactNode;
     group: 'all' | 'content' | 'community';
 };
@@ -44,43 +47,36 @@ type SearchType = {
 const SEARCH_TYPES: SearchType[] = [
     {
         slug: SEARCH_TYPE_ALL,
-        title_ua: 'Усе',
         icon: <MaterialSymbolsFeatureSearch className="size-4!" />,
         group: 'all',
     },
     {
         slug: ContentTypeEnum.ANIME,
-        title_ua: 'Аніме',
         icon: <MaterialSymbolsAnimatedImages className="size-4!" />,
         group: 'content',
     },
     {
         slug: ContentTypeEnum.MANGA,
-        title_ua: 'Манґа',
         icon: <MaterialSymbolsPalette className="size-4!" />,
         group: 'content',
     },
     {
         slug: ContentTypeEnum.NOVEL,
-        title_ua: 'Ранобе',
         icon: <MaterialSymbolsMenuBookRounded className="size-4!" />,
         group: 'content',
     },
     {
         slug: ContentTypeEnum.CHARACTER,
-        title_ua: 'Персонаж',
         icon: <MaterialSymbolsFace3 className="size-4!" />,
         group: 'content',
     },
     {
         slug: ContentTypeEnum.PERSON,
-        title_ua: 'Людина',
         icon: <MaterialSymbolsPerson className="size-4!" />,
         group: 'content',
     },
     {
         slug: ContentTypeEnum.USER,
-        title_ua: 'Користувач',
         icon: <MaterialSymbolsAccountBox className="size-4!" />,
         group: 'community',
     },
@@ -148,7 +144,11 @@ const SearchToggle: FC<Props> = ({
                                                     <div className="flex items-center gap-2">
                                                         {type.icon}
                                                         <span>
-                                                            {type.title_ua}
+                                                            {
+                                                                SEARCH_TYPE_LABELS[
+                                                                    type.slug
+                                                                ]
+                                                            }
                                                         </span>
                                                     </div>
                                                 </SelectItem>

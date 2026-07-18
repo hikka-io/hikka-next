@@ -108,7 +108,7 @@ export const useUserlistManager = ({
         null,
     );
 
-    const debouncedUpdate = useDebounce({
+    const [debouncedUpdate] = useDebounce({
         value: pendingUpdate,
         delay: 500,
     });
@@ -132,7 +132,7 @@ export const useUserlistManager = ({
 
     useEffect(() => {
         setPendingUpdate(null);
-    }, [mappedListItem.slug]);
+    }, []);
 
     const currentScore = pendingUpdate?.score ?? mappedListItem.score;
     const currentProgress = pendingUpdate?.progress ?? mappedListItem.progress;
@@ -228,7 +228,13 @@ export const useUserlistManager = ({
                 });
                 break;
         }
-    }, [debouncedUpdate]);
+    }, [
+        debouncedUpdate,
+        content_type,
+        mappedListItem.slug,
+        mutateCreateRead,
+        mutateCreateWatch,
+    ]);
 
     return {
         addProgress,
