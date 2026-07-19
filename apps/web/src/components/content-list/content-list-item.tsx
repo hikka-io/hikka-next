@@ -7,6 +7,7 @@ import type {
     NovelCatalogResponse,
 } from '@hikka/api';
 
+import { useTitle } from '@/features/auth';
 import { ContentGenres } from '@/features/content';
 import {
     ANIME_MEDIA_TYPE,
@@ -35,24 +36,24 @@ const MEDIA_TYPE_ENUM = Object.assign(
 
 type Props =
     | {
-          title: string;
           type: typeof ContentTypeEnum.ANIME;
           item: AnimeCatalogResponse;
+          title?: string;
       }
     | {
-          title: string;
           type: typeof ContentTypeEnum.MANGA;
           item: MangaCatalogResponse;
+          title?: string;
       }
     | {
-          title: string;
           type: typeof ContentTypeEnum.NOVEL;
           item: NovelCatalogResponse;
+          title?: string;
       };
 
 export function ContentListItem(props: Props) {
-    const { item, title, type } = props;
-
+    const { item, type } = props;
+    const title = useTitle(item);
     const href = `/${type}/${item.slug}`;
 
     let CompanyView: ReactNode;
@@ -139,13 +140,13 @@ export function ContentListItem(props: Props) {
                             malScoreCount={item.scored_by}
                         />
                         <div className="hidden w-full md:grid">
-                            <TrackingButtonsGroup {...props} />
+                            <TrackingButtonsGroup {...props} title={title} />
                         </div>
                     </div>
                 </div>
             </div>
             <div className="grid w-full md:hidden">
-                <TrackingButtonsGroup {...props} />
+                <TrackingButtonsGroup {...props} title={title} />
             </div>
         </div>
     );

@@ -9,13 +9,11 @@ import ContentCard, { type ContentCardProps } from './content-card';
 import { getMediaCardProps } from './utils';
 
 type Props = ContentCardProps & {
-    title?: string;
     item: NovelResponseWithRead;
 };
 
 const NovelCard: FC<Props> = ({ item, ...props }) => {
-    const fallbackTitle = useTitle(item);
-    const title = props.title || fallbackTitle;
+    const title = useTitle(item);
 
     return (
         <ContentCard

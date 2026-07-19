@@ -47,15 +47,7 @@ const MangaList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
             removeQueryKey={queryKey}
             extendedSize={extendedSize}
             renderGridItem={(item) => (
-                <MangaCardItem
-                    key={item.slug}
-                    item={item}
-                    title={getTitle(
-                        item,
-                        prefs.title_language,
-                        prefs.name_language,
-                    )}
-                />
+                <MangaCardItem key={item.slug} item={item} />
             )}
             renderListItem={(item) => (
                 <ContentListItem

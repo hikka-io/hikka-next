@@ -64,7 +64,7 @@ const Manga: FC<Props> = ({ extended }) => {
                     {filteredData.map((res) => (
                         <MangaCard
                             key={res.slug}
-                            manga={res}
+                            item={res}
                             imagePreset="cardSm"
                         />
                     ))}

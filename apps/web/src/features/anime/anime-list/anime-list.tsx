@@ -47,15 +47,7 @@ const AnimeList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
             removeQueryKey={queryKey}
             extendedSize={extendedSize}
             renderGridItem={(item) => (
-                <AnimeCardItem
-                    key={item.slug}
-                    item={item}
-                    title={getTitle(
-                        item,
-                        prefs.title_language,
-                        prefs.name_language,
-                    )}
-                />
+                <AnimeCardItem key={item.slug} item={item} />
             )}
             renderListItem={(item) => (
                 <ContentListItem
