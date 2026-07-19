@@ -47,15 +47,7 @@ const NovelList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
             removeQueryKey={queryKey}
             extendedSize={extendedSize}
             renderGridItem={(item) => (
-                <NovelCardItem
-                    key={item.slug}
-                    item={item}
-                    title={getTitle(
-                        item,
-                        prefs.title_language,
-                        prefs.name_language,
-                    )}
-                />
+                <NovelCardItem key={item.slug} item={item} />
             )}
             renderListItem={(item) => (
                 <ContentListItem
