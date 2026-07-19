@@ -1,22 +1,9 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { ContentTypeEnum } from '@hikka/api';
-
-// Persisted UI choices, keyed by context so different surfaces stay independent.
-export interface Preferences {
-    /** View preferences by context key (e.g., 'franchise', 'userlist') */
-    views: Record<string, Hikka.View>;
-    /** Filter preferences by context key (e.g., 'franchiseContentTypes') */
-    filters: Record<string, string[]>;
-    /** Collapsible state by context key (e.g., 'home_anime_list', 'home_manga_list') */
-    collapsibles: Record<string, boolean>;
-}
-
 export interface SettingsState {
     editTags: string[];
     filterPresets: Hikka.FilterPreset[];
-    preferences: Preferences;
     _hasHydrated: boolean;
 }
 
@@ -24,30 +11,8 @@ export interface SettingsActions {
     setHasHydrated: (hasHydrated: boolean) => void;
     setEditTags: (editTags: string[]) => void;
     setFilterPresets: (filterPresets: Hikka.FilterPreset[]) => void;
-    setViewPreference: (key: string, view: Hikka.View) => void;
-    setFilterPreference: (key: string, values: string[]) => void;
-    setCollapsible: (key: string, open: boolean) => void;
     reset: () => void;
 }
-
-export const DEFAULT_PREFERENCES: Preferences = {
-    views: {
-        franchise: 'list',
-        userlist: 'table',
-    },
-    filters: {
-        franchiseContentTypes: [
-            ContentTypeEnum.ANIME,
-            ContentTypeEnum.MANGA,
-            ContentTypeEnum.NOVEL,
-        ],
-    },
-    collapsibles: {
-        home_anime_list: true,
-        home_manga_list: false,
-        home_novel_list: false,
-    },
-};
 
 const DEFAULT_SETTINGS: SettingsState = {
     _hasHydrated: false,
@@ -63,7 +28,6 @@ const DEFAULT_SETTINGS: SettingsState = {
             id: 'ffc33695-017c-4404-9c5d-7b76864a6cfb',
         },
     ],
-    preferences: DEFAULT_PREFERENCES,
 };
 
 export type SettingsStore = SettingsState & SettingsActions;
@@ -79,36 +43,6 @@ export const useSettingsStore = create<SettingsStore>()(
             },
             setEditTags: (editTags) => set({ editTags }),
             setFilterPresets: (filterPresets) => set({ filterPresets }),
-            setViewPreference: (key, view) =>
-                set((state) => ({
-                    preferences: {
-                        ...state.preferences,
-                        views: {
-                            ...state.preferences.views,
-                            [key]: view,
-                        },
-                    },
-                })),
-            setFilterPreference: (key, values) =>
-                set((state) => ({
-                    preferences: {
-                        ...state.preferences,
-                        filters: {
-                            ...state.preferences.filters,
-                            [key]: values,
-                        },
-                    },
-                })),
-            setCollapsible: (key, open) =>
-                set((state) => ({
-                    preferences: {
-                        ...state.preferences,
-                        collapsibles: {
-                            ...state.preferences.collapsibles,
-                            [key]: open,
-                        },
-                    },
-                })),
             reset: () => set(DEFAULT_SETTINGS),
         }),
         {
@@ -117,9 +51,7 @@ export const useSettingsStore = create<SettingsStore>()(
                 return () => state.setHasHydrated(true);
             },
             merge: (persistedState, currentState) => {
-                const persisted = persistedState as Partial<SettingsState> & {
-                    collapsibles?: Record<string, boolean>;
-                };
+                const persisted = persistedState as Partial<SettingsState>;
 
                 // Migrate filter presets: sort was string[], now string
                 const filterPresets = (
@@ -135,23 +67,6 @@ export const useSettingsStore = create<SettingsStore>()(
                     ...currentState,
                     ...persisted,
                     filterPresets,
-                    // Deep merge preferences to handle old localStorage structure
-                    preferences: {
-                        views: {
-                            ...DEFAULT_PREFERENCES.views,
-                            ...persisted?.preferences?.views,
-                        },
-                        filters: {
-                            ...DEFAULT_PREFERENCES.filters,
-                            ...persisted?.preferences?.filters,
-                        },
-                        collapsibles: {
-                            ...DEFAULT_PREFERENCES.collapsibles,
-                            // Support old localStorage with top-level collapsibles
-                            ...persisted?.collapsibles,
-                            ...persisted?.preferences?.collapsibles,
-                        },
-                    },
                 };
             },
         },
