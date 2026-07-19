@@ -115,7 +115,7 @@ const SearchModal: FC<Props> = ({
         <Fragment>
             <SearchButton setOpen={setOpen}>{children}</SearchButton>
             <CommandDialog
-                className="top-24 max-h-[calc(var(--visual-viewport-height,100dvh)-6rem-1rem)] translate-y-0 transition-[max-height] duration-100 md:max-w-2xl"
+                className="top-24 max-h-[calc(var(--visual-viewport-height,100dvh)-6rem)] translate-y-0 transition-[max-height] duration-100 md:max-h-[calc(var(--visual-viewport-height,100dvh)-6rem-1rem)] md:max-w-2xl"
                 open={open}
                 onOpenChange={handleOpenChange}
                 shouldFilter={false}
