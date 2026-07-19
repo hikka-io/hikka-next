@@ -9,7 +9,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
@@ -68,46 +68,46 @@ const Favorites: FC<Props> = ({ extended }) => {
                             gradientClassName,
                         )}
                     >
-                        <ToggleGroup
-                            type="single"
+                        <Tabs
                             value={content}
-                            onValueChange={(value: FavouriteContentTypeEnum) =>
-                                value && setContent(value)
+                            onValueChange={(value) =>
+                                setContent(value as FavouriteContentTypeEnum)
                             }
-                            size="badge"
                             className="w-max"
                         >
-                            <ToggleGroupItem
-                                value={ContentTypeEnum.ANIME}
-                                aria-label="Улюблені аніме"
-                            >
-                                Аніме
-                            </ToggleGroupItem>
-                            <ToggleGroupItem
-                                value={ContentTypeEnum.MANGA}
-                                aria-label="Улюблена манґа"
-                            >
-                                Манґа
-                            </ToggleGroupItem>
-                            <ToggleGroupItem
-                                value={ContentTypeEnum.NOVEL}
-                                aria-label="Улюблене ранобе"
-                            >
-                                Ранобе
-                            </ToggleGroupItem>
-                            <ToggleGroupItem
-                                value={ContentTypeEnum.CHARACTER}
-                                aria-label="Улюблені персонажі"
-                            >
-                                Персонажі
-                            </ToggleGroupItem>
-                            <ToggleGroupItem
-                                value={ContentTypeEnum.COLLECTION}
-                                aria-label="Улюблені колекції"
-                            >
-                                Колекції
-                            </ToggleGroupItem>
-                        </ToggleGroup>
+                            <TabsList size="sm">
+                                <TabsTrigger
+                                    value={ContentTypeEnum.ANIME}
+                                    aria-label="Улюблені аніме"
+                                >
+                                    Аніме
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value={ContentTypeEnum.MANGA}
+                                    aria-label="Улюблена манґа"
+                                >
+                                    Манґа
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value={ContentTypeEnum.NOVEL}
+                                    aria-label="Улюблене ранобе"
+                                >
+                                    Ранобе
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value={ContentTypeEnum.CHARACTER}
+                                    aria-label="Улюблені персонажі"
+                                >
+                                    Персонажі
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value={ContentTypeEnum.COLLECTION}
+                                    aria-label="Улюблені колекції"
+                                >
+                                    Колекції
+                                </TabsTrigger>
+                            </TabsList>
+                        </Tabs>
                     </div>
                 </HeaderContainer>
                 <HeaderNavButton />

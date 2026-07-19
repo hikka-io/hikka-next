@@ -4,7 +4,7 @@ import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export interface DescriptionOption {
     text?: string | null;
@@ -69,22 +69,19 @@ const DescriptionBlock = ({
                 <HeaderContainer>
                     <HeaderTitle>{title}</HeaderTitle>
                     {valid.length > 1 && (
-                        <ToggleGroup
-                            type="single"
-                            value={activeValue}
-                            onValueChange={(value) => value && setActive(value)}
-                            size="badge"
-                        >
-                            {valid.map((option) => (
-                                <ToggleGroupItem
-                                    key={option.key}
-                                    value={option.key}
-                                    aria-label={option.ariaLabel}
-                                >
-                                    {option.label}
-                                </ToggleGroupItem>
-                            ))}
-                        </ToggleGroup>
+                        <Tabs value={activeValue} onValueChange={setActive}>
+                            <TabsList size="sm">
+                                {valid.map((option) => (
+                                    <TabsTrigger
+                                        key={option.key}
+                                        value={option.key}
+                                        aria-label={option.ariaLabel}
+                                    >
+                                        {option.label}
+                                    </TabsTrigger>
+                                ))}
+                            </TabsList>
+                        </Tabs>
                     )}
                 </HeaderContainer>
             </Header>

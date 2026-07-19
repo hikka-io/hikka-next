@@ -8,7 +8,7 @@ import { getEditOptions } from '@hikka/api';
 import { useFormContext } from '@/components/form/form-context';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams } from '@/utils/navigation';
 
 type Props = {
@@ -40,19 +40,15 @@ const InputParam: FC<Props> = ({ mode, param }) => {
             <div className="flex items-center gap-4">
                 <Label>{param.title}</Label>
                 {hasDiff && (
-                    <ToggleGroup
-                        type="single"
-                        size="badge"
+                    <Tabs
                         value={view}
-                        onValueChange={(value) =>
-                            value && setView(value as ParamView)
-                        }
+                        onValueChange={(value) => setView(value as ParamView)}
                     >
-                        <ToggleGroupItem value="value">
-                            Значення
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="diff">Різниця</ToggleGroupItem>
-                    </ToggleGroup>
+                        <TabsList size="sm">
+                            <TabsTrigger value="value">Значення</TabsTrigger>
+                            <TabsTrigger value="diff">Різниця</TabsTrigger>
+                        </TabsList>
+                    </Tabs>
                 )}
             </div>
 

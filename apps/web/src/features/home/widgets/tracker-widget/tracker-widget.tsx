@@ -10,7 +10,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
 
 import type { WidgetProps } from '../../constants';
@@ -65,36 +65,33 @@ const TrackerWidget: FC<WidgetProps> = () => {
                     </HeaderContainer>
                     <HeaderNavButton />
                 </Header>
-                <ToggleGroup
-                    type="single"
+                <Tabs
                     value={activeTab}
-                    onValueChange={(value: string) =>
-                        value && setActiveTab(value as CommonContentType)
+                    onValueChange={(value) =>
+                        setActiveTab(value as CommonContentType)
                     }
-                    size="badge"
                 >
-                    <ToggleGroupItem
-                        value={ContentTypeEnum.ANIME}
-                        aria-label="Аніме"
-                        className="flex-1"
-                    >
-                        Аніме
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                        value={ContentTypeEnum.MANGA}
-                        aria-label="Манґа"
-                        className="flex-1"
-                    >
-                        Манґа
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                        value={ContentTypeEnum.NOVEL}
-                        aria-label="Ранобе"
-                        className="flex-1"
-                    >
-                        Ранобе
-                    </ToggleGroupItem>
-                </ToggleGroup>
+                    <TabsList size="sm" className="w-full">
+                        <TabsTrigger
+                            value={ContentTypeEnum.ANIME}
+                            aria-label="Аніме"
+                        >
+                            Аніме
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value={ContentTypeEnum.MANGA}
+                            aria-label="Манґа"
+                        >
+                            Манґа
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value={ContentTypeEnum.NOVEL}
+                            aria-label="Ранобе"
+                        >
+                            Ранобе
+                        </TabsTrigger>
+                    </TabsList>
+                </Tabs>
                 {activeTab === ContentTypeEnum.ANIME && <WatchingTracker />}
                 {activeTab === ContentTypeEnum.MANGA && (
                     <ReadingTracker contentType={ContentTypeEnum.MANGA} />

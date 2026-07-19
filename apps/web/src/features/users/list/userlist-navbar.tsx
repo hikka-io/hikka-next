@@ -218,7 +218,6 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                         className="hidden h-6 md:block"
                     />
                     <ToggleGroup
-                        variant="outline"
                         value={view}
                         type="single"
                         onValueChange={handleChangeView}

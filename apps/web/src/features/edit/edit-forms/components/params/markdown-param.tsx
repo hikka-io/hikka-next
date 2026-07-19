@@ -11,7 +11,7 @@ import { DiffViewer } from '@/components/plate/editor/diff-viewer';
 import { PlateMarkdownEditor } from '@/components/plate/editor/plate-editor';
 import { FIELD_BASE } from '@/components/ui/field-base';
 import { Label } from '@/components/ui/label';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
@@ -48,21 +48,19 @@ const MarkdownParam: FC<Props> = ({ mode, param }) => {
                 <div className="flex items-center gap-4">
                     <Label>{param.title}</Label>
                     {hasDiff && (
-                        <ToggleGroup
-                            type="single"
-                            size="badge"
+                        <Tabs
                             value={view}
                             onValueChange={(value) =>
-                                value && setView(value as ParamView)
+                                setView(value as ParamView)
                             }
                         >
-                            <ToggleGroupItem value="value">
-                                Значення
-                            </ToggleGroupItem>
-                            <ToggleGroupItem value="diff">
-                                Різниця
-                            </ToggleGroupItem>
-                        </ToggleGroup>
+                            <TabsList size="sm">
+                                <TabsTrigger value="value">
+                                    Значення
+                                </TabsTrigger>
+                                <TabsTrigger value="diff">Різниця</TabsTrigger>
+                            </TabsList>
+                        </Tabs>
                     )}
                 </div>
                 {showDiff ? (

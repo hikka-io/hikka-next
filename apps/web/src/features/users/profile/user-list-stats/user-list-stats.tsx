@@ -9,7 +9,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams } from '@/utils/navigation';
 
 import ListTabContent from './list-tab-content';
@@ -53,33 +53,33 @@ const UserListStats = () => {
             >
                 <HeaderContainer>
                     <HeaderTitle variant="h4">Список</HeaderTitle>
-                    <ToggleGroup
-                        type="single"
+                    <Tabs
                         value={activeTab}
-                        onValueChange={(value: string) =>
-                            value && setActiveTab(value as ListContentType)
+                        onValueChange={(value) =>
+                            setActiveTab(value as ListContentType)
                         }
-                        size="badge"
                     >
-                        <ToggleGroupItem
-                            value={ContentTypeEnum.ANIME}
-                            aria-label="Аніме"
-                        >
-                            Аніме
-                        </ToggleGroupItem>
-                        <ToggleGroupItem
-                            value={ContentTypeEnum.MANGA}
-                            aria-label="Манґа"
-                        >
-                            Манґа
-                        </ToggleGroupItem>
-                        <ToggleGroupItem
-                            value={ContentTypeEnum.NOVEL}
-                            aria-label="Ранобе"
-                        >
-                            Ранобе
-                        </ToggleGroupItem>
-                    </ToggleGroup>
+                        <TabsList size="sm">
+                            <TabsTrigger
+                                value={ContentTypeEnum.ANIME}
+                                aria-label="Аніме"
+                            >
+                                Аніме
+                            </TabsTrigger>
+                            <TabsTrigger
+                                value={ContentTypeEnum.MANGA}
+                                aria-label="Манґа"
+                            >
+                                Манґа
+                            </TabsTrigger>
+                            <TabsTrigger
+                                value={ContentTypeEnum.NOVEL}
+                                aria-label="Ранобе"
+                            >
+                                Ранобе
+                            </TabsTrigger>
+                        </TabsList>
+                    </Tabs>
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>

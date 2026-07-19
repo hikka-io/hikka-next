@@ -29,7 +29,6 @@ const CollectionSort = () => {
     return (
         <ToggleGroup
             type="single"
-            size="badge"
             value={sort[0]}
             onValueChange={handleChangeSort}
         >

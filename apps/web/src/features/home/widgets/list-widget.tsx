@@ -4,7 +4,7 @@ import { ContentTypeEnum } from '@hikka/api';
 
 import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { ListTabContent } from '@/features/users/profile/user-list-stats';
 
@@ -29,37 +29,34 @@ const ListWidget: FC<WidgetProps> = () => {
             <Header className="px-2">
                 <HeaderTitle variant="h4">Список</HeaderTitle>
             </Header>
-            <ToggleGroup
-                type="single"
+            <Tabs
                 value={activeTab}
-                onValueChange={(value: string) =>
-                    value && setActiveTab(value as CommonContentType)
+                onValueChange={(value) =>
+                    setActiveTab(value as CommonContentType)
                 }
-                size="badge"
                 className="mx-2"
             >
-                <ToggleGroupItem
-                    value={ContentTypeEnum.ANIME}
-                    aria-label="Аніме"
-                    className="flex-1"
-                >
-                    Аніме
-                </ToggleGroupItem>
-                <ToggleGroupItem
-                    value={ContentTypeEnum.MANGA}
-                    aria-label="Манґа"
-                    className="flex-1"
-                >
-                    Манґа
-                </ToggleGroupItem>
-                <ToggleGroupItem
-                    value={ContentTypeEnum.NOVEL}
-                    aria-label="Ранобе"
-                    className="flex-1"
-                >
-                    Ранобе
-                </ToggleGroupItem>
-            </ToggleGroup>
+                <TabsList size="sm" className="w-full">
+                    <TabsTrigger
+                        value={ContentTypeEnum.ANIME}
+                        aria-label="Аніме"
+                    >
+                        Аніме
+                    </TabsTrigger>
+                    <TabsTrigger
+                        value={ContentTypeEnum.MANGA}
+                        aria-label="Манґа"
+                    >
+                        Манґа
+                    </TabsTrigger>
+                    <TabsTrigger
+                        value={ContentTypeEnum.NOVEL}
+                        aria-label="Ранобе"
+                    >
+                        Ранобе
+                    </TabsTrigger>
+                </TabsList>
+            </Tabs>
             <ListTabContent
                 type={activeTab}
                 username={user.username}

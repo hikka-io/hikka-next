@@ -7,7 +7,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
@@ -44,25 +44,25 @@ const Media: FC<Props> = ({ extended }) => {
             >
                 <HeaderContainer>
                     <HeaderTitle>Медіа</HeaderTitle>
-                    <ToggleGroup
-                        type="single"
+                    <Tabs
                         value={effectiveActive}
-                        onValueChange={(value: 'video' | 'music') =>
-                            value && setActive(value)
+                        onValueChange={(value) =>
+                            setActive(value as 'video' | 'music')
                         }
-                        size="badge"
                     >
-                        {anime.videos.length > 0 && (
-                            <ToggleGroupItem value="video" aria-label="Відео">
-                                Відео
-                            </ToggleGroupItem>
-                        )}
-                        {anime.ost.length > 0 && (
-                            <ToggleGroupItem value="music" aria-label="Музика">
-                                Музика
-                            </ToggleGroupItem>
-                        )}
-                    </ToggleGroup>
+                        <TabsList size="sm">
+                            {anime.videos.length > 0 && (
+                                <TabsTrigger value="video" aria-label="Відео">
+                                    Відео
+                                </TabsTrigger>
+                            )}
+                            {anime.ost.length > 0 && (
+                                <TabsTrigger value="music" aria-label="Музика">
+                                    Музика
+                                </TabsTrigger>
+                            )}
+                        </TabsList>
+                    </Tabs>
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>

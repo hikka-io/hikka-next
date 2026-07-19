@@ -14,7 +14,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
@@ -62,11 +62,9 @@ const Links: FC<Props> = ({ content_type }) => {
     const linksData =
         active === ExternalTypeEnum.GENERAL ? generalLinksData : watchLinksData;
 
-    const handleChangeActive = (value: ExternalTypeEnum) => {
-        if (value) {
-            setActive(value);
-            setIsExpanded(false);
-        }
+    const handleChangeActive = (value: string) => {
+        setActive(value as ExternalTypeEnum);
+        setIsExpanded(false);
     };
 
     return (
@@ -75,27 +73,24 @@ const Links: FC<Props> = ({ content_type }) => {
                 <Header>
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Посилання</HeaderTitle>
-                        <ToggleGroup
-                            type="single"
-                            value={active}
-                            onValueChange={handleChangeActive}
-                            size="badge"
-                        >
-                            <ToggleGroupItem
-                                value={ExternalTypeEnum.GENERAL}
-                                aria-label="Загальні посилання"
-                            >
-                                <MaterialSymbolsInfoIRounded />
-                            </ToggleGroupItem>
-                            {watchLinksData.length > 0 && (
-                                <ToggleGroupItem
-                                    value={ExternalTypeEnum.WATCH}
-                                    aria-label="Посилання для перегляду"
+                        <Tabs value={active} onValueChange={handleChangeActive}>
+                            <TabsList size="sm">
+                                <TabsTrigger
+                                    value={ExternalTypeEnum.GENERAL}
+                                    aria-label="Загальні посилання"
                                 >
-                                    <MaterialSymbolsPlayArrowRounded />
-                                </ToggleGroupItem>
-                            )}
-                        </ToggleGroup>
+                                    <MaterialSymbolsInfoIRounded />
+                                </TabsTrigger>
+                                {watchLinksData.length > 0 && (
+                                    <TabsTrigger
+                                        value={ExternalTypeEnum.WATCH}
+                                        aria-label="Посилання для перегляду"
+                                    >
+                                        <MaterialSymbolsPlayArrowRounded />
+                                    </TabsTrigger>
+                                )}
+                            </TabsList>
+                        </Tabs>
                     </HeaderContainer>
                 </Header>
                 <TextExpand

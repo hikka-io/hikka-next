@@ -137,17 +137,36 @@ const CatalogNavbar: FC<Props> = ({
                     <Separator orientation="vertical" className="h-6" />
 
                     <ToggleGroup
-                        variant="outline"
                         value={view}
                         type="single"
                         onValueChange={handleChangeView}
                     >
-                        <ToggleGroupItem value="grid" aria-label="Сітка">
-                            <MaterialSymbolsGridViewRounded />
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="list" aria-label="Список">
-                            <MaterialSymbolsEventList />
-                        </ToggleGroupItem>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <ToggleGroupItem
+                                    value="grid"
+                                    aria-label="Сітка"
+                                >
+                                    <MaterialSymbolsGridViewRounded />
+                                </ToggleGroupItem>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Сітка</p>
+                            </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <ToggleGroupItem
+                                    value="list"
+                                    aria-label="Список"
+                                >
+                                    <MaterialSymbolsEventList />
+                                </ToggleGroupItem>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Список</p>
+                            </TooltipContent>
+                        </Tooltip>
                     </ToggleGroup>
 
                     <Separator orientation="vertical" className="h-6" />

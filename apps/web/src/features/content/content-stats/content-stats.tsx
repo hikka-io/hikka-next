@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
+import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
@@ -10,7 +11,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import Readlist from './components/readlist';
 import Score from './components/score';
@@ -31,27 +32,18 @@ const ContentStats = ({ content_type }: Props) => {
                 <Header>
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Статистика</HeaderTitle>
-                        <ToggleGroup type="single" value="MAL" size="badge">
-                            <ToggleGroupItem value="MAL" aria-label="MAL">
-                                MAL
-                            </ToggleGroupItem>
-                        </ToggleGroup>
+                        <Badge variant="secondary">MAL</Badge>
                     </HeaderContainer>
                     <HeaderNavButton />
                 </Header>
-                <ToggleGroup
-                    type="single"
-                    size="badge"
-                    onValueChange={(value) => setStat(value)}
-                    value={stat}
-                >
-                    <ToggleGroupItem value={defaultValue} className="flex-1">
-                        У списках
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="score" className="flex-1">
-                        Оцінки
-                    </ToggleGroupItem>
-                </ToggleGroup>
+                <Tabs value={stat} onValueChange={setStat}>
+                    <TabsList size="sm" className="w-full">
+                        <TabsTrigger value={defaultValue}>
+                            У списках
+                        </TabsTrigger>
+                        <TabsTrigger value="score">Оцінки</TabsTrigger>
+                    </TabsList>
+                </Tabs>
                 {stat === 'readlist' && (
                     <Readlist
                         content_type={content_type as 'manga' | 'novel'}

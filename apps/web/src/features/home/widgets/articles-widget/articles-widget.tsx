@@ -16,7 +16,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
     ArticlePreviewCard,
     ArticlePreviewCardSkeleton,
@@ -74,27 +74,17 @@ const ArticlesWidget: FC<WidgetProps> = () => {
                     <HeaderNavButton />
                 </Header>
 
-                <ToggleGroup
-                    type="single"
+                <Tabs
                     value={tab}
-                    onValueChange={(value: string) =>
-                        value && setTab(value as ArticlesTab)
-                    }
-                    size="badge"
+                    onValueChange={(value) => setTab(value as ArticlesTab)}
                     className="mx-4"
                 >
-                    <ToggleGroupItem value="newest" className="flex-1">
-                        Нові
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="popular" className="flex-1">
-                        Популярні
-                    </ToggleGroupItem>
-                    {user && (
-                        <ToggleGroupItem value="own" className="flex-1">
-                            Мої
-                        </ToggleGroupItem>
-                    )}
-                </ToggleGroup>
+                    <TabsList size="sm" className="w-full">
+                        <TabsTrigger value="newest">Нові</TabsTrigger>
+                        <TabsTrigger value="popular">Популярні</TabsTrigger>
+                        {user && <TabsTrigger value="own">Мої</TabsTrigger>}
+                    </TabsList>
+                </Tabs>
 
                 <div className="flex flex-col px-2">
                     {isLoading &&

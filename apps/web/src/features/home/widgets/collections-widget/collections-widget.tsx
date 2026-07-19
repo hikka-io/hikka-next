@@ -16,7 +16,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link } from '@/utils/navigation';
@@ -71,27 +71,17 @@ const CollectionsWidget: FC<WidgetProps> = () => {
                     <HeaderNavButton />
                 </Header>
 
-                <ToggleGroup
-                    type="single"
+                <Tabs
                     value={tab}
-                    onValueChange={(value: string) =>
-                        value && setTab(value as CollectionsTab)
-                    }
-                    size="badge"
+                    onValueChange={(value) => setTab(value as CollectionsTab)}
                     className="mx-4"
                 >
-                    <ToggleGroupItem value="newest" className="flex-1">
-                        Нові
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="popular" className="flex-1">
-                        Популярні
-                    </ToggleGroupItem>
-                    {user && (
-                        <ToggleGroupItem value="own" className="flex-1">
-                            Мої
-                        </ToggleGroupItem>
-                    )}
-                </ToggleGroup>
+                    <TabsList size="sm" className="w-full">
+                        <TabsTrigger value="newest">Нові</TabsTrigger>
+                        <TabsTrigger value="popular">Популярні</TabsTrigger>
+                        {user && <TabsTrigger value="own">Мої</TabsTrigger>}
+                    </TabsList>
+                </Tabs>
 
                 <div className="flex flex-col gap-1 px-2">
                     {isLoading &&

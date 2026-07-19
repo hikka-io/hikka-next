@@ -4,7 +4,7 @@ import { useRouter } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { cn } from '@/utils/cn';
@@ -38,27 +38,24 @@ const UserHistory: FC<Props> = ({ className }) => {
             <Header>
                 <HeaderContainer>
                     <HeaderTitle variant="h2">Історія</HeaderTitle>
-                    <ToggleGroup
-                        type="single"
-                        value={type}
-                        onValueChange={handleChangeType}
-                        size="badge"
-                    >
-                        <ToggleGroupItem
-                            value="user"
-                            aria-label="Власна історія"
-                        >
-                            Власна
-                        </ToggleGroupItem>
-                        {params.username === loggedUser?.username && (
-                            <ToggleGroupItem
-                                value="following"
-                                aria-label="Історія відстежуючих"
+                    <Tabs value={type} onValueChange={handleChangeType}>
+                        <TabsList size="sm">
+                            <TabsTrigger
+                                value="user"
+                                aria-label="Власна історія"
                             >
-                                Відстежується
-                            </ToggleGroupItem>
-                        )}
-                    </ToggleGroup>
+                                Власна
+                            </TabsTrigger>
+                            {params.username === loggedUser?.username && (
+                                <TabsTrigger
+                                    value="following"
+                                    aria-label="Історія відстежуючих"
+                                >
+                                    Відстежується
+                                </TabsTrigger>
+                            )}
+                        </TabsList>
+                    </Tabs>
                 </HeaderContainer>
             </Header>
             {type === 'user' && <History />}

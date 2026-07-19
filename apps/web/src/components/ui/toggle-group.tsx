@@ -11,14 +11,13 @@ const ToggleGroupContext = React.createContext<
     VariantProps<typeof toggleVariants>
 >({
     size: 'default',
-    variant: 'default',
 });
 
 const ToggleGroup = React.forwardRef<
     React.ElementRef<typeof ToggleGroupPrimitive.Root>,
     React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root> &
         VariantProps<typeof toggleVariants>
->(({ className, variant, size, children, ...props }, ref) => (
+>(({ className, size, children, ...props }, ref) => (
     <ToggleGroupPrimitive.Root
         ref={ref}
         className={cn(
@@ -27,15 +26,12 @@ const ToggleGroup = React.forwardRef<
             // Select) shrinks it below its content and it scrolls internally
             // instead of keeping its natural width. Segmented controls should
             // size to their content.
-            'flex items-center rounded-md p-0.75',
-            variant === 'outline'
-                ? 'border border-border bg-secondary/20'
-                : 'bg-muted',
+            'flex items-center rounded-md border border-border bg-secondary/20 p-0.75',
             className,
         )}
         {...props}
     >
-        <ToggleGroupContext.Provider value={{ variant, size }}>
+        <ToggleGroupContext.Provider value={{ size }}>
             {children}
         </ToggleGroupContext.Provider>
     </ToggleGroupPrimitive.Root>
@@ -47,20 +43,14 @@ const ToggleGroupItem = React.forwardRef<
     React.ElementRef<typeof ToggleGroupPrimitive.Item>,
     React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item> &
         VariantProps<typeof toggleVariants>
->(({ className, children, variant, size, ...props }, ref) => {
+>(({ className, children, size, ...props }, ref) => {
     const context = React.useContext(ToggleGroupContext);
-    const resolvedVariant = context.variant || variant;
 
     return (
         <ToggleGroupPrimitive.Item
             ref={ref}
             className={cn(
-                toggleVariants({
-                    variant: 'default',
-                    size: context.size || size,
-                }),
-                resolvedVariant === 'outline' &&
-                    'data-[state=on]:bg-muted data-[state=on]:text-foreground',
+                toggleVariants({ size: context.size || size }),
                 className,
             )}
             {...props}
