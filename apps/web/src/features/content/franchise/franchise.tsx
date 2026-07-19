@@ -23,9 +23,9 @@ import {
 import Stack from '@/components/ui/stack';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import {
-    DEFAULT_PREFERENCES,
-    useSettingsStore,
-} from '@/services/stores/settings-store';
+    UI_PREFS_DEFAULTS,
+    useUiPreferences,
+} from '@/services/stores/ui-preferences-store';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useParams } from '@/utils/navigation';
 
@@ -41,13 +41,19 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
     const params = useParams();
-    const { preferences } = useSettingsStore();
+    const franchiseView = useUiPreferences(
+        (state) => state.views.franchise ?? UI_PREFS_DEFAULTS.views.franchise,
+    );
+    const franchiseContentTypes = useUiPreferences(
+        (state) =>
+            state.filters.franchiseContentTypes ??
+            UI_PREFS_DEFAULTS.filters.franchiseContentTypes,
+    );
 
-    const view = extended ? preferences.views.franchise || 'list' : 'list';
+    const view = extended ? franchiseView : 'list';
     const contentTypes = extended
-        ? preferences.filters.franchiseContentTypes ||
-          DEFAULT_PREFERENCES.filters.franchiseContentTypes
-        : DEFAULT_PREFERENCES.filters.franchiseContentTypes;
+        ? franchiseContentTypes
+        : UI_PREFS_DEFAULTS.filters.franchiseContentTypes;
 
     const { data: franchise, error } = useQuery({
         ...contentFranchiseOptions({

@@ -13,27 +13,30 @@ import {
 } from '@/components/ui/select';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
-    DEFAULT_PREFERENCES,
-    useSettingsStore,
-} from '@/services/stores/settings-store';
+    UI_PREFS_DEFAULTS,
+    useUiPreferences,
+} from '@/services/stores/ui-preferences-store';
 
 const FranchiseFilters: FC = () => {
-    const { preferences, setViewPreference, setFilterPreference } =
-        useSettingsStore();
-
-    const view = preferences.views.franchise || 'list';
-    const contentTypes =
-        preferences.filters.franchiseContentTypes ||
-        DEFAULT_PREFERENCES.filters.franchiseContentTypes;
+    const view = useUiPreferences(
+        (state) => state.views.franchise ?? UI_PREFS_DEFAULTS.views.franchise,
+    );
+    const contentTypes = useUiPreferences(
+        (state) =>
+            state.filters.franchiseContentTypes ??
+            UI_PREFS_DEFAULTS.filters.franchiseContentTypes,
+    );
+    const setView = useUiPreferences((state) => state.setView);
+    const setFilter = useUiPreferences((state) => state.setFilter);
 
     const handleChangeView = (value: string) => {
         if (!value) return;
-        setViewPreference('franchise', value as Hikka.View);
+        setView('franchise', value as Hikka.View);
     };
 
     const handleChangeContentTypes = (value: string[]) => {
         const newValue = value.length === 0 ? ['anime'] : value;
-        setFilterPreference('franchiseContentTypes', newValue);
+        setFilter('franchiseContentTypes', newValue);
     };
 
     return (

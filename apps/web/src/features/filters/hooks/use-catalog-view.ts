@@ -1,19 +1,21 @@
-import { useSettingsStore } from '@/services/stores/settings-store';
+import {
+    UI_PREFS_DEFAULTS,
+    useUiPreferences,
+} from '@/services/stores/ui-preferences-store';
 
-const DEFAULT_KEY = 'anime_catalog';
+const DEFAULT_KEY = 'catalog';
 const DEFAULT_VIEW: Hikka.View = 'grid';
 
 /** Persisted view mode for a catalog page (grid | list | table). */
 export function useCatalogView(key: string = DEFAULT_KEY) {
-    const view = useSettingsStore(
-        (state) => state.preferences.views[key] ?? DEFAULT_VIEW,
+    const view = useUiPreferences(
+        (state) =>
+            state.views[key] ?? UI_PREFS_DEFAULTS.views[key] ?? DEFAULT_VIEW,
     );
-    const setViewPreference = useSettingsStore(
-        (state) => state.setViewPreference,
-    );
+    const setView = useUiPreferences((state) => state.setView);
 
     return {
         view,
-        setView: (next: Hikka.View) => setViewPreference(key, next),
+        setView: (next: Hikka.View) => setView(key, next),
     };
 }
