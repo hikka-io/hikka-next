@@ -181,6 +181,10 @@ const SearchModal: FC<Props> = ({
                             <EntitySearchList
                                 contentType={searchType}
                                 onDismiss={onDismiss}
+                                onClose={() => {
+                                    setSearchValue('');
+                                    setOpen(false);
+                                }}
                                 value={value}
                                 type={type}
                             />
