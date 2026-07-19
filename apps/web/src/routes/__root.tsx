@@ -18,7 +18,12 @@ import { profileUiQueryKey, type UserCustomizationResponse } from '@hikka/api';
 import NotFoundPage from '@/components/not-found-page';
 import RouterProgressBar from '@/components/router-progress-bar';
 import { Providers } from '@/features/app-shell';
-import { getThemeCookieFn, refreshAuthCookieFn } from '@/utils/cookies';
+import { UiPreferencesProvider } from '@/services/stores/ui-preferences-store';
+import {
+    getThemeCookieFn,
+    getUiPrefsCookieFn,
+    refreshAuthCookieFn,
+} from '@/utils/cookies';
 import { backdropVars, DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getUserStyles } from '@/utils/ui/server';
 
@@ -61,6 +66,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         await refreshAuthCookieFn();
 
         const theme = await getThemeCookieFn();
+        const uiPrefs = await getUiPrefsCookieFn();
 
         // Already prefetched in createRouter; read from cache, no extra call.
         const userUI =
@@ -69,14 +75,14 @@ export const Route = createRootRouteWithContext<RouterContext>()({
                 | undefined) ?? DEFAULT_USER_UI;
 
         const { css: userStylesCSS, backdrop } = getUserStyles(userUI);
-        return { userStylesCSS, theme, backdrop };
+        return { userStylesCSS, theme, backdrop, uiPrefs };
     },
     component: RootLayout,
     notFoundComponent: NotFoundPage,
 });
 
 function RootLayout() {
-    const { userStylesCSS, theme, backdrop } = Route.useLoaderData();
+    const { userStylesCSS, theme, backdrop, uiPrefs } = Route.useLoaderData();
     const router = useRouter();
 
     return (
@@ -134,10 +140,12 @@ function RootLayout() {
             </head>
             <body>
                 <div data-vaul-drawer-wrapper>
-                    <Providers serverTheme={theme}>
-                        <RouterProgressBar />
-                        <Outlet />
-                    </Providers>
+                    <UiPreferencesProvider initial={uiPrefs}>
+                        <Providers serverTheme={theme}>
+                            <RouterProgressBar />
+                            <Outlet />
+                        </Providers>
+                    </UiPreferencesProvider>
                 </div>
                 <TanStackDevtools
                     plugins={[
