@@ -2,7 +2,7 @@ export { default as FavoriteButton } from './favorite-button';
 export { default as FollowButton } from './follow-button';
 export { default as ReadEditModal } from './read-edit-modal';
 export { default as ReadlistButton } from './readlist-button';
+export * from './tracking-buttons-group';
 export { default as VoteButton, useVote } from './vote-button';
 export { default as WatchEditModal } from './watch-edit-modal';
 export { default as WatchlistButton } from './watchlist-button';
-export * from './tracking-buttons-group';
