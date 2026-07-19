@@ -38,7 +38,7 @@ const Title = ({ className, content_type }: TitleProps) => {
                     </p>
                 )}
             </div>
-            <ContentGenres content_type={content_type} genres={data.genres} />
+            <ContentGenres contentType={content_type} genres={data.genres} />
         </div>
     );
 };

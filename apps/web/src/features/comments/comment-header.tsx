@@ -8,7 +8,7 @@ import type {
 } from '@hikka/api';
 
 import AuthorMetaRow from '@/components/author-meta-row';
-import ReviewBadge from '@/components/review-badge';
+import { ReviewBadge } from '@/components/badges';
 
 import CommentMenu from './comment-menu';
 

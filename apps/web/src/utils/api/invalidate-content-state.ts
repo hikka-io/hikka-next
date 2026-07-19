@@ -46,7 +46,7 @@ const READ_EMBED_IDS = [
 /** Comment lists + content-list queries that embed a comments count/preview. */
 const COMMENT_IDS = [
     'commentsList',
-    'getContentsList',
+    'getCommentsList',
     'thread',
     'latestComments',
 ];

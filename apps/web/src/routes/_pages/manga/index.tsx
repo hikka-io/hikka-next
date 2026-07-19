@@ -28,7 +28,7 @@ export const Route = createFileRoute('/_pages/manga/')({
 
 function MangaListPage() {
     const { visible: sidebarVisible } = useFiltersSidebar();
-    const { view } = useCatalogView('manga_catalog');
+    const { view } = useCatalogView('catalog');
 
     const extendedSize: StackSize =
         view === 'list' ? 1 : sidebarVisible ? 5 : 7;

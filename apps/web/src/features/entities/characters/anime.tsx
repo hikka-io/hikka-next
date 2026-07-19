@@ -31,7 +31,7 @@ const Anime: FC<Props> = ({ extended }) => {
             isFetchingNextPage={isFetchingNextPage}
             ref={ref}
             renderItem={(ch) => (
-                <AnimeCard key={ch.anime.slug} anime={ch.anime} />
+                <AnimeCard key={ch.anime.slug} item={ch.anime} />
             )}
         />
     );

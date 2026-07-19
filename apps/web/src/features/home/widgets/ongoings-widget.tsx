@@ -111,7 +111,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                             {list &&
                                 list.length > 0 &&
                                 list.map((item) => (
-                                    <AnimeCard anime={item} key={item.slug} />
+                                    <AnimeCard item={item} key={item.slug} />
                                 ))}
                         </Stack>
                     )}

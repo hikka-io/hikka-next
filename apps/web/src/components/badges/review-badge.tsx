@@ -33,7 +33,7 @@ type Props = {
     recommended?: string | null;
 };
 
-const ReviewBadge: FC<Props> = ({ recommended }) => {
+export const ReviewBadge: FC<Props> = ({ recommended }) => {
     const verdict = recommended ? VERDICT[recommended as Verdict] : undefined;
     if (!verdict) return null;
 
@@ -50,5 +50,3 @@ const ReviewBadge: FC<Props> = ({ recommended }) => {
         </span>
     );
 };
-
-export default ReviewBadge;

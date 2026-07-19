@@ -5,3 +5,4 @@ export { default as ReadlistButton } from './readlist-button';
 export { default as VoteButton, useVote } from './vote-button';
 export { default as WatchEditModal } from './watch-edit-modal';
 export { default as WatchlistButton } from './watchlist-button';
+export * from './tracking-buttons-group';

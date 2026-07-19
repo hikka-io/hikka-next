@@ -8,7 +8,7 @@ import {
     contentFranchiseOptions,
     getArticlesInfiniteOptions,
     getCollectionsInfiniteOptions,
-    getContentsListInfiniteOptions,
+    getCommentsListInfiniteOptions,
     getFavouriteOptions,
     getWatchFollowingInfiniteOptions,
     paginationPageParam,
@@ -75,7 +75,7 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
                 ...paginationPageParam(),
             }),
             queryClient.ensureInfiniteQueryData({
-                ...getContentsListInfiniteOptions({
+                ...getCommentsListInfiniteOptions({
                     path: {
                         content_type: ContentTypeEnum.ANIME,
                         slug: params.slug,

@@ -29,7 +29,7 @@ export const Route = createFileRoute('/_pages/novel/')({
 
 function NovelListPage() {
     const { visible: sidebarVisible } = useFiltersSidebar();
-    const { view } = useCatalogView('novel_catalog');
+    const { view } = useCatalogView('catalog');
 
     const extendedSize: StackSize =
         view === 'list' ? 1 : sidebarVisible ? 5 : 7;

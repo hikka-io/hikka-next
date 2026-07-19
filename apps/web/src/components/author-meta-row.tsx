@@ -2,8 +2,8 @@ import type { FC } from 'react';
 
 import type { Locale } from 'date-fns';
 
+import { RoleBadge } from '@/components/badges';
 import RelativeTime from '@/components/relative-time';
-import RoleBadge from '@/components/role-badge';
 import { Label } from '@/components/ui/label';
 import { Link } from '@/utils/navigation';
 

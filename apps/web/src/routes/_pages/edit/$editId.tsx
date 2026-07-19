@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import {
     type CommentContentTypeEnum as CommentsContentType,
-    getContentsListInfiniteOptions,
+    getCommentsListInfiniteOptions,
     getEditOptions,
     paginationPageParam,
 } from '@hikka/api';
@@ -23,7 +23,7 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
         if (!edit) throw redirect({ to: '/edit' });
 
         await queryClient.prefetchInfiniteQuery({
-            ...getContentsListInfiniteOptions({
+            ...getCommentsListInfiniteOptions({
                 path: {
                     content_type: 'edit' as CommentsContentType,
                     slug: params.editId,

@@ -29,13 +29,13 @@ const GridView: FC<Props> = ({ data, content_type, extendedSize = 5 }) => {
                     res.content.data_type === 'manga' ? (
                         <MangaCard
                             read={res}
-                            manga={res.content as MangaResponseWithRead}
+                            item={res.content as MangaResponseWithRead}
                             key={res.reference}
                         />
                     ) : (
                         <NovelCard
                             read={res}
-                            novel={res.content as NovelResponseWithRead}
+                            item={res.content as NovelResponseWithRead}
                             key={res.reference}
                         />
                     ),
@@ -44,7 +44,7 @@ const GridView: FC<Props> = ({ data, content_type, extendedSize = 5 }) => {
                 (data as WatchResponse[]).map((res) => (
                     <AnimeCard
                         watch={res}
-                        anime={res.anime as AnimeResponseWithWatch}
+                        item={res.anime as AnimeResponseWithWatch}
                         key={res.reference}
                     />
                 ))}

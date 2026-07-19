@@ -12,21 +12,22 @@ import Stack, { type StackSize } from '@/components/ui/stack';
 
 type Props<T> = {
     list: T[] | undefined;
+    view: Hikka.View;
     isLoading: boolean;
     isFetchingNextPage: boolean;
     hasNextPage: boolean;
     fetchNextPage: () => void;
     hasMultiplePages: boolean;
     pagination?: { page: number; pages: number };
-    /** Exact query key to drop from cache when jumping pages. */
     removeQueryKey: QueryKey;
-    renderItem: (item: T) => ReactNode;
+    renderGridItem: (item: T) => ReactNode;
+    renderListItem: (item: T) => ReactNode;
     extendedSize?: StackSize;
 };
 
-/** Shared presentational shell for the /anime, /manga and /novel catalogs. */
 function CatalogListView<T>({
     list,
+    view,
     isLoading,
     isFetchingNextPage,
     hasNextPage,
@@ -34,7 +35,8 @@ function CatalogListView<T>({
     hasMultiplePages,
     pagination,
     removeQueryKey,
-    renderItem,
+    renderGridItem,
+    renderListItem,
     extendedSize = 5,
 }: Props<T>) {
     const queryClient = useQueryClient();
@@ -61,9 +63,15 @@ function CatalogListView<T>({
 
     return (
         <div className="isolate flex flex-col gap-6">
-            <Stack extended size={5} extendedSize={extendedSize}>
-                {list.map(renderItem)}
-            </Stack>
+            {view === 'list' ? (
+                <div className="flex flex-col gap-6">
+                    {list.map(renderListItem)}
+                </div>
+            ) : (
+                <Stack extended size={5} extendedSize={extendedSize}>
+                    {list.map(renderGridItem)}
+                </Stack>
+            )}
             {hasNextPage && (
                 <LoadMoreButton
                     isFetchingNextPage={isFetchingNextPage}

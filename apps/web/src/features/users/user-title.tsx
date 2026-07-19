@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 
 import { userProfileOptions } from '@hikka/api';
 
+import { RoleBadge } from '@/components/badges';
 import MDViewer from '@/components/markdown/viewer/md-viewer';
-import RoleBadge from '@/components/role-badge';
 import { Link, useParams } from '@/utils/navigation';
 
 const UserTitle = () => {

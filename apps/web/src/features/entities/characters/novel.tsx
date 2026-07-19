@@ -31,7 +31,7 @@ const Novel: FC<Props> = ({ extended }) => {
             isFetchingNextPage={isFetchingNextPage}
             ref={ref}
             renderItem={(ch) => (
-                <NovelCard key={ch.novel.slug} novel={ch.novel} />
+                <NovelCard key={ch.novel.slug} item={ch.novel} />
             )}
         />
     );

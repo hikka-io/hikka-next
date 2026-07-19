@@ -34,7 +34,7 @@ const Novel: FC<Props> = ({ extended }) => {
             renderItem={(ch) => (
                 <NovelCard
                     key={ch.novel.slug}
-                    novel={ch.novel}
+                    item={ch.novel}
                     description={
                         ch.roles[0] ? getTitle(ch.roles[0]) : undefined
                     }

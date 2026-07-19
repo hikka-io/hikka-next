@@ -34,7 +34,7 @@ const Manga: FC<Props> = ({ extended }) => {
             renderItem={(ch) => (
                 <MangaCard
                     key={ch.manga.slug}
-                    manga={ch.manga}
+                    item={ch.manga}
                     description={
                         ch.roles[0] ? getTitle(ch.roles[0]) : undefined
                     }

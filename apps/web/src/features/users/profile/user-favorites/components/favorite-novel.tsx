@@ -63,7 +63,7 @@ const Novel: FC<Props> = ({ extended }) => {
                     {filteredData.map((res) => (
                         <NovelCard
                             key={res.slug}
-                            novel={res}
+                            item={res}
                             imagePreset="cardSm"
                         />
                     ))}

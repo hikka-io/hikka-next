@@ -31,7 +31,7 @@ const Manga: FC<Props> = ({ extended }) => {
             isFetchingNextPage={isFetchingNextPage}
             ref={ref}
             renderItem={(ch) => (
-                <MangaCard key={ch.manga.slug} manga={ch.manga} />
+                <MangaCard key={ch.manga.slug} item={ch.manga} />
             )}
         />
     );

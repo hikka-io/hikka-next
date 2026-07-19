@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     type CommentContentTypeEnum as CommentsContentType,
-    getContentsListInfiniteOptions,
+    getCommentsListInfiniteOptions,
     threadOptions,
 } from '@hikka/api';
 
@@ -57,7 +57,7 @@ const CommentList: FC<Props> = ({
         isFetchingNextPage,
         ref,
     } = useInfiniteList(
-        getContentsListInfiniteOptions({
+        getCommentsListInfiniteOptions({
             path: { content_type, slug },
             query: preview ? { size: 3 } : undefined,
         }),

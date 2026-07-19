@@ -9,22 +9,22 @@ import ContentCard, { type ContentCardProps } from './content-card';
 import { getMediaCardProps } from './utils';
 
 type Props = ContentCardProps & {
-    anime: AnimeResponseWithWatch;
+    item: AnimeResponseWithWatch;
 };
 
-const AnimeCard: FC<Props> = ({ anime, ...props }) => {
-    const title = useTitle(anime);
+const AnimeCard: FC<Props> = ({ item, ...props }) => {
+    const title = useTitle(item);
 
     return (
         <ContentCard
             {...getMediaCardProps(
-                anime,
+                item,
                 {
                     contentType: ContentTypeEnum.ANIME,
                     basePath: '/anime',
                     mediaTypeMap: ANIME_MEDIA_TYPE,
                 },
-                { watch: anime.watch ? anime.watch[0] : undefined },
+                { watch: item.watch ? item.watch[0] : undefined },
             )}
             title={title}
             {...props}
