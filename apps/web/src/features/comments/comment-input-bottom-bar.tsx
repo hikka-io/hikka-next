@@ -131,10 +131,10 @@ const CommentInputBottomBar: FC<Props> = ({
             value: filteredValue,
         });
 
-        if (isEdit) {
+        if (isEdit && comment) {
             mutateEditComment({
                 path: {
-                    comment_reference: comment?.reference,
+                    comment_reference: comment.reference,
                 },
                 body: {
                     text,

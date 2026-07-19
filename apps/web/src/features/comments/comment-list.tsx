@@ -71,7 +71,13 @@ const CommentList: FC<Props> = ({
         enabled: !!comment_reference,
     });
 
-    const list = comment_reference ? (thread ? [thread] : []) : comments;
+    const list = comment_reference
+        ? thread
+            ? Array.isArray(thread)
+                ? thread
+                : [thread]
+            : []
+        : comments;
 
     const title = (
         <span>
