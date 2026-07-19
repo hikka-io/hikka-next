@@ -71,7 +71,10 @@ const NsfwOverlay: FC = () => {
                 </div>
 
                 {/* biome-ignore lint/a11y/noLabelWithoutControl: wraps a Radix Checkbox, which renders a labelable button the rule doesn't detect. */}
-                <label className="flex cursor-pointer items-center gap-2">
+                <label
+                    className="flex cursor-pointer items-center gap-2"
+                    title="Вибір буде збережено на 7 днів"
+                >
                     <Checkbox
                         checked={remember}
                         onCheckedChange={(checked) =>
