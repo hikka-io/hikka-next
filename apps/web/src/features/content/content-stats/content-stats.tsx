@@ -26,7 +26,7 @@ const ContentStats = ({ content_type }: Props) => {
     const [stat, setStat] = useState(defaultValue);
 
     return (
-        <Card variant="solid" id="content-stats">
+        <Card id="content-stats">
             <Block>
                 <Header>
                     <HeaderContainer>

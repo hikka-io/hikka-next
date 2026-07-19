@@ -45,7 +45,7 @@ const UserListStats = () => {
     const tabConfig = TAB_LIST_CONFIG[activeTab];
 
     return (
-        <Card variant="solid" className="p-0 py-4" id="user-list-stats">
+        <Card className="p-0 py-4" id="user-list-stats">
             <Header
                 href={`/u/${username}/${tabConfig.path}`}
                 search={tabConfig.search}

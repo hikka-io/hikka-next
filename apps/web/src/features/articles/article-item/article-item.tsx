@@ -28,7 +28,6 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
 
     return (
         <Card
-            variant="solid"
             className={cn(
                 'isolate gap-0 overflow-hidden rounded-none border-x-0 p-0 md:rounded-lg md:border-x',
                 className,

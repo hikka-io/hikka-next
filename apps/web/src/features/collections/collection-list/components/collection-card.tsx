@@ -56,7 +56,6 @@ const CollectionCard: FC<Props> = ({
 
     return (
         <Card
-            variant="solid"
             className={cn(
                 !isCompact &&
                     'isolate -mx-4 overflow-hidden rounded-none border-x-0 md:mx-0 md:rounded-lg md:border-x',
@@ -99,10 +98,10 @@ const CollectionCard: FC<Props> = ({
 
             {collection.tags.length > 0 && (
                 <div className="flex gap-2">
-                    {collection!.spoiler && (
+                    {collection?.spoiler && (
                         <Badge variant="warning">Спойлери</Badge>
                     )}
-                    {collection!.nsfw && (
+                    {collection?.nsfw && (
                         <Badge variant="destructive">+18</Badge>
                     )}
                     {collection.tags.length > 0 && (

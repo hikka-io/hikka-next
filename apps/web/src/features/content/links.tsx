@@ -70,7 +70,7 @@ const Links: FC<Props> = ({ content_type }) => {
     };
 
     return (
-        <Card variant="solid" id="content-links">
+        <Card id="content-links">
             <Block>
                 <Header>
                     <HeaderContainer>

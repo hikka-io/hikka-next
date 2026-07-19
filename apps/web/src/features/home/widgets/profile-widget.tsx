@@ -34,7 +34,7 @@ const ProfileWidget: FC<WidgetProps> = () => {
 
     if (!user || !followStats) {
         return (
-            <Card variant="solid" className="items-center" id="sidebar-profile">
+            <Card className="items-center" id="sidebar-profile">
                 <div className="flex w-full flex-col gap-2">
                     <p className="font-bold text-sm">Приєднуйся до hikka</p>
                     <p className="text-muted-foreground text-xs">

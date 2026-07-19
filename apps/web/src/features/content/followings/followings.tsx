@@ -73,7 +73,7 @@ const Followings: FC<Props> = ({ content_type }) => {
 
     return (
         <>
-            <Card variant="solid" id="content-followings">
+            <Card id="content-followings">
                 <Block>
                     <Header onClick={() => setOpen(true)}>
                         <HeaderContainer>

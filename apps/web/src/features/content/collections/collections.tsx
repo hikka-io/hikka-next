@@ -48,7 +48,7 @@ const Collections: FC<Props> = ({ content_type }) => {
 
     return (
         <>
-            <Card variant="solid" id="content-collections">
+            <Card id="content-collections">
                 <Block>
                     <Header onClick={() => setOpen(true)}>
                         <HeaderContainer>
