@@ -222,12 +222,29 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                         type="single"
                         onValueChange={handleChangeView}
                     >
-                        <ToggleGroupItem value="table" aria-label="Таблиця">
-                            <MaterialSymbolsEventList />
-                        </ToggleGroupItem>
-                        <ToggleGroupItem value="grid" aria-label="Сітка">
-                            <MaterialSymbolsGridViewRounded />
-                        </ToggleGroupItem>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <ToggleGroupItem
+                                    value="table"
+                                    aria-label="Таблиця"
+                                >
+                                    <MaterialSymbolsEventList />
+                                </ToggleGroupItem>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Таблиця</p>
+                            </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <ToggleGroupItem value="grid" aria-label="Сітка">
+                                    <MaterialSymbolsGridViewRounded />
+                                </ToggleGroupItem>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Сітка</p>
+                            </TooltipContent>
+                        </Tooltip>
                     </ToggleGroup>
                 </div>
 
