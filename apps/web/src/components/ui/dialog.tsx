@@ -64,7 +64,7 @@ function DialogContent({
                 ref={setContainer}
                 data-slot="dialog-content"
                 className={cn(
-                    'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(var(--visual-viewport-height,100dvh)-2rem)] w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-xl bg-background p-4 text-sm outline-none ring-1 ring-foreground/10 duration-200 data-[state=closed]:animate-out data-[state=open]:animate-in md:max-w-sm',
+                    'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-1/2 left-1/2 z-50 flex max-h-[calc(var(--visual-viewport-height,100dvh)-2rem)] w-full max-w-full -translate-x-1/2 -translate-y-1/2 flex-col gap-4 bg-background p-4 text-sm outline-none ring-1 ring-foreground/10 duration-200 data-[state=closed]:animate-out data-[state=open]:animate-in md:max-w-sm md:rounded-xl',
                     className,
                 )}
                 {...props}
@@ -114,7 +114,7 @@ function DialogFooter({
         <div
             data-slot="dialog-footer"
             className={cn(
-                '-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t p-4 md:flex-row md:justify-end',
+                '-mx-4 -mb-4 flex flex-col-reverse gap-2 border-t p-4 md:flex-row md:justify-end md:rounded-b-xl',
                 className,
             )}
             {...props}
