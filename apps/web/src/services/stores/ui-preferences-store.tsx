@@ -3,7 +3,6 @@ import {
     type FC,
     type ReactNode,
     useContext,
-    useEffect,
     useState,
 } from 'react';
 
@@ -11,12 +10,7 @@ import { createStore, useStore } from 'zustand';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import {
-    parseUiPrefs,
-    UI_PREFS_COOKIE,
-    type UiPreferences,
-    writeUiPrefsCookie,
-} from '@/utils/cookies';
+import { type UiPreferences, writeUiPrefsCookie } from '@/utils/cookies';
 
 // Fallbacks applied at read time; the cookie stores only explicit choices.
 export const UI_PREFS_DEFAULTS = {
@@ -79,52 +73,6 @@ type UiPreferencesStoreApi = ReturnType<typeof createUiPreferencesStore>;
 
 const UiPreferencesContext = createContext<UiPreferencesStoreApi | null>(null);
 
-// Legacy localStorage keys that never migrate: dead defaults and per-type
-// catalog view keys superseded by the unified 'catalog' key.
-const DEAD_VIEW_KEYS = ['anime_catalog', 'manga_catalog', 'novel_catalog'];
-
-const omitKeys = <T,>(record: Record<string, T>, dead: string[]) =>
-    Object.fromEntries(
-        Object.entries(record).filter(([key]) => !dead.includes(key)),
-    );
-
-/** One-time migration: seed the cookie from the legacy localStorage prefs. */
-const migrateLegacyPreferences = (store: UiPreferencesStoreApi) => {
-    if (document.cookie.includes(`${UI_PREFS_COOKIE}=`)) return;
-
-    try {
-        const settings = localStorage.getItem('settings');
-        if (!settings) return;
-
-        // Round-trip through the codec to reuse it as the shape validator.
-        const legacy = parseUiPrefs(
-            encodeURIComponent(
-                JSON.stringify(JSON.parse(settings)?.state?.preferences),
-            ),
-        );
-        if (!legacy) return;
-
-        const migrated: UiPreferences = {
-            views: omitKeys(legacy.views, DEAD_VIEW_KEYS) as Record<
-                string,
-                Hikka.View
-            >,
-            filters: legacy.filters,
-            collapsibles: omitKeys(
-                legacy.collapsibles,
-                Object.keys(legacy.collapsibles).filter((key) =>
-                    key.startsWith('home_'),
-                ),
-            ),
-        };
-
-        store.setState(migrated);
-        writeUiPrefsCookie(migrated);
-    } catch {
-        // Corrupt legacy state: skip migration, defaults apply.
-    }
-};
-
 type Props = {
     initial: UiPreferences | null;
     children: ReactNode;
@@ -132,10 +80,6 @@ type Props = {
 
 export const UiPreferencesProvider: FC<Props> = ({ initial, children }) => {
     const [store] = useState(() => createUiPreferencesStore(initial));
-
-    useEffect(() => {
-        migrateLegacyPreferences(store);
-    }, [store]);
 
     return (
         <UiPreferencesContext.Provider value={store}>
