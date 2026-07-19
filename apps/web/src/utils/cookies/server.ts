@@ -3,6 +3,7 @@ import { createServerFn } from '@tanstack/react-start';
 import { firstForwardedIp } from '@/utils/api/client-ip';
 
 import { getCookieDomain, isSecureCookieDomain } from './domain';
+import { parseUiPrefs, UI_PREFS_COOKIE, UI_PREFS_MAX_AGE } from './ui-prefs';
 
 // Server function for isomorphic use (works from both server and client via RPC)
 export const getAuthTokenFn = createServerFn({ method: 'GET' }).handler(
@@ -62,6 +63,25 @@ export const refreshAuthCookieFn = createServerFn({ method: 'POST' }).handler(
                 ...(domain ? { domain } : {}),
             });
         }
+
+        const uiPrefs = getCookie(UI_PREFS_COOKIE);
+        if (uiPrefs) {
+            setCookie(UI_PREFS_COOKIE, uiPrefs, {
+                maxAge: UI_PREFS_MAX_AGE,
+                path: '/',
+                httpOnly: false,
+                secure,
+                sameSite: 'lax',
+                ...(domain ? { domain } : {}),
+            });
+        }
+    },
+);
+
+export const getUiPrefsCookieFn = createServerFn({ method: 'GET' }).handler(
+    async () => {
+        const { getCookie } = await import('@tanstack/react-start/server');
+        return parseUiPrefs(getCookie(UI_PREFS_COOKIE));
     },
 );
 
