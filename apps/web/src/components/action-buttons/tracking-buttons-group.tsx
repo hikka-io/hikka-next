@@ -1,19 +1,22 @@
 import type * as React from 'react';
-import { createElement, useCallback, useState } from 'react';
+import {
+    createElement,
+    type ReactElement,
+    type ReactNode,
+    useState,
+} from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
-    type AnimeResponseWithWatch,
-    type MangaResponseWithRead,
-    type NovelResponseWithRead,
+    type AnimeCatalogResponse,
+    ContentTypeEnum,
+    type MangaCatalogResponse,
+    type NovelCatalogResponse,
     type ReadArgs,
-    type ReadContentTypeEnum,
-    type ReadResponseBase,
     ReadStatusEnum,
     readAddMutation,
     type WatchArgs,
-    type WatchResponseBase,
     WatchStatusEnum,
     watchAddMutation,
 } from '@hikka/api';
@@ -49,13 +52,25 @@ import ReadStatusTrigger from './readlist-button/components/read-status-trigger'
 import WatchEditModal from './watch-edit-modal';
 import WatchStatusTrigger from './watchlist-button/components/watch-status-trigger';
 
-type Props = { title: string } & (
-    | { type: 'anime'; item: AnimeResponseWithWatch }
-    | { type: 'manga'; item: MangaResponseWithRead }
-    | { type: 'novel'; item: NovelResponseWithRead }
-);
+type Props =
+    | {
+          title: string;
+          type: typeof ContentTypeEnum.ANIME;
+          item: AnimeCatalogResponse;
+      }
+    | {
+          title: string;
+          type: typeof ContentTypeEnum.MANGA;
+          item: MangaCatalogResponse;
+      }
+    | {
+          title: string;
+          type: typeof ContentTypeEnum.NOVEL;
+          item: NovelCatalogResponse;
+      };
 
 type StatusConfig = typeof WATCH_STATUS | typeof READ_STATUS;
+type StatusIcon = (props: { className?: string }) => ReactElement;
 
 const buildStatusOptions = (config: StatusConfig) =>
     Object.keys(config).map((status) => ({
@@ -78,165 +93,105 @@ const buildStatusOptions = (config: StatusConfig) =>
         ),
     }));
 
+type StatusOption = ReturnType<typeof buildStatusOptions>[number];
+
 const WATCH_STATUS_OPTIONS = buildStatusOptions(WATCH_STATUS);
 const READ_STATUS_OPTIONS = buildStatusOptions(READ_STATUS);
 
-export function TrackingButtonsGroup(props: Props) {
-    const { type, title } = props;
+const buildWatchArgs = (
+    item: AnimeCatalogResponse,
+    status: string,
+): WatchArgs => {
+    const watch = item.watch?.[0];
+    const current = watch
+        ? {
+              episodes: watch.episodes || undefined,
+              score: watch.score || undefined,
+              note: watch.note || undefined,
+              rewatches: watch.rewatches || undefined,
+          }
+        : {};
 
-    if (!type) {
-        throw new Error(
-            'Props "type" is required for TrackingButtonsGroup component',
-        );
+    if (status === WatchStatusEnum.COMPLETED) {
+        return {
+            status: WatchStatusEnum.COMPLETED,
+            ...current,
+            episodes: item.episodes_total || undefined,
+        };
     }
 
-    const isAnime = type === 'anime';
+    return { status: status as WatchStatusEnum, ...current };
+};
 
-    const [editOpen, setEditOpen] = useState(false);
-    const queryClient = useQueryClient();
+const buildReadArgs = (
+    item: MangaCatalogResponse | NovelCatalogResponse,
+    status: string,
+): ReadArgs => {
+    const read = item.read?.[0];
+    const current = read
+        ? {
+              chapters: read.chapters || undefined,
+              volumes: read.volumes || undefined,
+              score: read.score || undefined,
+              note: read.note || undefined,
+              rereads: read.rereads || undefined,
+          }
+        : {};
 
-    const slug = props.item.slug;
-    const tracking =
-        props.type === 'anime' ? props.item.watch?.[0] : props.item.read?.[0];
+    if (status === ReadStatusEnum.COMPLETED) {
+        return {
+            status: ReadStatusEnum.COMPLETED,
+            ...current,
+            volumes: item.volumes || undefined,
+            chapters: item.chapters || undefined,
+        };
+    }
 
-    // Both hooks are declared unconditionally (rules of hooks); only the one
-    // matching `type` is ever invoked.
-    const { mutate: addWatch, isPending: watchPending } = useMutation({
-        ...watchAddMutation(),
-        onSuccess: (data) => {
-            applyWatchMutation(queryClient, data);
-        },
-    });
+    return { status: status as ReadStatusEnum, ...current };
+};
 
-    const { mutate: addRead, isPending: readPending } = useMutation({
-        ...readAddMutation(),
-        onSuccess: (data) => {
-            applyReadMutation(queryClient, data);
-        },
-    });
+type TrackingSelectProps = {
+    title: string;
+    disabled: boolean;
+    currentStatus: string[];
+    statusOptions: StatusOption[];
+    plannedIcon: StatusIcon;
+    hasTracking: boolean;
+    trigger: ReactNode;
+    editOpen: boolean;
+    modal: ReactNode;
+    onValueChange: (options: string[]) => void;
+    onAddPlanned: (e: React.MouseEvent | React.TouchEvent) => void;
+    onEditOpenChange: (open: boolean) => void;
+};
 
-    const isChangingStatus = isAnime ? watchPending : readPending;
-    const statusOptions = isAnime ? WATCH_STATUS_OPTIONS : READ_STATUS_OPTIONS;
-    const plannedIcon = isAnime
-        ? WATCH_STATUS[WatchStatusEnum.PLANNED].icon!
-        : READ_STATUS[ReadStatusEnum.PLANNED].icon!;
-
-    const currentStatus = tracking ? [tracking.status] : [];
-
-    const handleChangeStatus = useCallback(
-        (options: string[]) => {
-            const selectedOption = options[0];
-
-            if (selectedOption === 'settings') {
-                setEditOpen(true);
-                return;
-            }
-
-            if (props.type === 'anime') {
-                const watch = props.item.watch?.[0];
-                const currentWatchParams = watch
-                    ? {
-                          episodes: watch.episodes || undefined,
-                          score: watch.score || undefined,
-                          note: watch.note || undefined,
-                          rewatches: watch.rewatches || undefined,
-                      }
-                    : {};
-
-                const watchArgs: WatchArgs =
-                    selectedOption === 'completed'
-                        ? {
-                              status: WatchStatusEnum.COMPLETED,
-                              ...currentWatchParams,
-                              episodes: props.item.episodes_total || undefined,
-                          }
-                        : {
-                              status: selectedOption as WatchStatusEnum,
-                              ...currentWatchParams,
-                          };
-
-                addWatch({ path: { slug: props.item.slug }, body: watchArgs });
-                return;
-            } else {
-                const read = props.item.read?.[0];
-                const currentReadParams = read
-                    ? {
-                          chapters: read.chapters || undefined,
-                          volumes: read.volumes || undefined,
-                          score: read.score || undefined,
-                          note: read.note || undefined,
-                          rereads: read.rereads || undefined,
-                      }
-                    : {};
-
-                const readArgs: ReadArgs =
-                    selectedOption === 'completed'
-                        ? {
-                              status: ReadStatusEnum.COMPLETED,
-                              ...currentReadParams,
-                              volumes: props.item.volumes || undefined,
-                              chapters: props.item.chapters || undefined,
-                          }
-                        : {
-                              status: selectedOption as ReadStatusEnum,
-                              ...currentReadParams,
-                          };
-
-                addRead({
-                    path: { content_type: props.type, slug: props.item.slug },
-                    body: readArgs,
-                });
-
-                return;
-            }
-        },
-        [props, addWatch, addRead],
-    );
-
-    const handleAddToPlanned = useCallback(
-        (e: React.MouseEvent | React.TouchEvent) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            if (props.type === 'anime') {
-                addWatch({
-                    path: { slug: props.item.slug },
-                    body: { status: WatchStatusEnum.PLANNED },
-                });
-                return;
-            }
-
-            addRead({
-                path: { content_type: props.type, slug: props.item.slug },
-                body: { status: ReadStatusEnum.PLANNED },
-            });
-        },
-        [props, addWatch, addRead],
-    );
-
+/**
+ * Presentational shell shared by the watch and read variants: the status
+ * `Select`, the "add to planned" split button, and the edit modal frame.
+ */
+function TrackingSelect({
+    title,
+    disabled,
+    currentStatus,
+    statusOptions,
+    plannedIcon,
+    hasTracking,
+    trigger,
+    editOpen,
+    modal,
+    onValueChange,
+    onAddPlanned,
+    onEditOpenChange,
+}: TrackingSelectProps) {
     return (
         <>
             <Select
-                disabled={isChangingStatus}
+                disabled={disabled}
                 value={currentStatus}
-                onValueChange={handleChangeStatus}
+                onValueChange={onValueChange}
             >
-                {tracking ? (
-                    isAnime ? (
-                        <WatchStatusTrigger
-                            watch={tracking as WatchResponseBase}
-                            size="md"
-                            isLoading={isChangingStatus}
-                            onOpenModal={() => setEditOpen(true)}
-                        />
-                    ) : (
-                        <ReadStatusTrigger
-                            read={tracking as ReadResponseBase}
-                            size="md"
-                            isLoading={isChangingStatus}
-                            onOpenModal={() => setEditOpen(true)}
-                        />
-                    )
+                {hasTracking ? (
+                    trigger
                 ) : (
                     <SelectTrigger
                         asChild
@@ -250,13 +205,11 @@ export function TrackingButtonsGroup(props: Props) {
                             <Button
                                 variant="secondary"
                                 size="md"
-                                disabled={isChangingStatus}
-                                onClick={handleAddToPlanned}
-                                className={cn(
-                                    'flex-1 flex-nowrap overflow-hidden rounded-r-none',
-                                )}
+                                disabled={disabled}
+                                onClick={onAddPlanned}
+                                className="flex-1 flex-nowrap overflow-hidden rounded-r-none"
                             >
-                                {isChangingStatus ? (
+                                {disabled ? (
                                     <Spinner />
                                 ) : (
                                     <div className="rounded-sm border border-secondary-foreground/20 p-1">
@@ -273,8 +226,8 @@ export function TrackingButtonsGroup(props: Props) {
                                 variant="secondary"
                                 size="icon-md"
                                 type="button"
-                                disabled={isChangingStatus}
-                                className={cn('rounded-l-none text-xl')}
+                                disabled={disabled}
+                                className="rounded-l-none text-xl"
                             >
                                 <MaterialSymbolsArrowDropDownRounded />
                             </Button>
@@ -294,7 +247,7 @@ export function TrackingButtonsGroup(props: Props) {
                                 </SelectItem>
                             ))}
                         </SelectGroup>
-                        {tracking && (
+                        {hasTracking && (
                             <>
                                 <SelectSeparator />
                                 <SelectGroup>
@@ -315,29 +268,181 @@ export function TrackingButtonsGroup(props: Props) {
             </Select>
             <ResponsiveModal
                 open={editOpen}
-                onOpenChange={setEditOpen}
+                onOpenChange={onEditOpenChange}
                 forceDesktop
             >
                 <ResponsiveModalContent className="md:max-w-xl">
                     <ResponsiveModalHeader>
                         <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
                     </ResponsiveModalHeader>
-                    {isAnime ? (
-                        <WatchEditModal
-                            slug={slug}
-                            watch={tracking as WatchResponseBase | undefined}
-                            onClose={() => setEditOpen(false)}
-                        />
-                    ) : (
-                        <ReadEditModal
-                            slug={slug}
-                            content_type={type as ReadContentTypeEnum}
-                            read={tracking as ReadResponseBase | undefined}
-                            onClose={() => setEditOpen(false)}
-                        />
-                    )}
+                    {modal}
                 </ResponsiveModalContent>
             </ResponsiveModal>
         </>
+    );
+}
+
+function WatchTrackingButtons({
+    title,
+    item,
+}: {
+    title: string;
+    item: AnimeCatalogResponse;
+}) {
+    const queryClient = useQueryClient();
+    const [editOpen, setEditOpen] = useState(false);
+
+    const { mutate: addWatch, isPending } = useMutation({
+        ...watchAddMutation(),
+        onSuccess: (data) => applyWatchMutation(queryClient, data),
+    });
+
+    const tracking = item.watch?.[0];
+
+    const handleChangeStatus = (options: string[]) => {
+        const selected = options[0];
+
+        if (selected === 'settings') {
+            setEditOpen(true);
+            return;
+        }
+
+        addWatch({
+            path: { slug: item.slug },
+            body: buildWatchArgs(item, selected),
+        });
+    };
+
+    const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        addWatch({
+            path: { slug: item.slug },
+            body: { status: WatchStatusEnum.PLANNED },
+        });
+    };
+
+    return (
+        <TrackingSelect
+            title={title}
+            disabled={isPending}
+            currentStatus={tracking ? [tracking.status] : []}
+            statusOptions={WATCH_STATUS_OPTIONS}
+            plannedIcon={WATCH_STATUS[WatchStatusEnum.PLANNED].icon!}
+            hasTracking={Boolean(tracking)}
+            trigger={
+                tracking && (
+                    <WatchStatusTrigger
+                        watch={tracking}
+                        size="md"
+                        isLoading={isPending}
+                        onOpenModal={() => setEditOpen(true)}
+                    />
+                )
+            }
+            editOpen={editOpen}
+            onValueChange={handleChangeStatus}
+            onAddPlanned={handleAddToPlanned}
+            onEditOpenChange={setEditOpen}
+            modal={
+                <WatchEditModal
+                    slug={item.slug}
+                    watch={tracking}
+                    onClose={() => setEditOpen(false)}
+                />
+            }
+        />
+    );
+}
+
+function ReadTrackingButtons({
+    title,
+    type,
+    item,
+}: {
+    title: string;
+    type: typeof ContentTypeEnum.MANGA | typeof ContentTypeEnum.NOVEL;
+    item: MangaCatalogResponse | NovelCatalogResponse;
+}) {
+    const queryClient = useQueryClient();
+    const [editOpen, setEditOpen] = useState(false);
+
+    const { mutate: addRead, isPending } = useMutation({
+        ...readAddMutation(),
+        onSuccess: (data) => applyReadMutation(queryClient, data),
+    });
+
+    const tracking = item.read?.[0];
+
+    const handleChangeStatus = (options: string[]) => {
+        const selected = options[0];
+
+        if (selected === 'settings') {
+            setEditOpen(true);
+            return;
+        }
+
+        addRead({
+            path: { content_type: type, slug: item.slug },
+            body: buildReadArgs(item, selected),
+        });
+    };
+
+    const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        addRead({
+            path: { content_type: type, slug: item.slug },
+            body: { status: ReadStatusEnum.PLANNED },
+        });
+    };
+
+    return (
+        <TrackingSelect
+            title={title}
+            disabled={isPending}
+            currentStatus={tracking ? [tracking.status] : []}
+            statusOptions={READ_STATUS_OPTIONS}
+            plannedIcon={READ_STATUS[ReadStatusEnum.PLANNED].icon!}
+            hasTracking={Boolean(tracking)}
+            trigger={
+                tracking && (
+                    <ReadStatusTrigger
+                        read={tracking}
+                        size="md"
+                        isLoading={isPending}
+                        onOpenModal={() => setEditOpen(true)}
+                    />
+                )
+            }
+            editOpen={editOpen}
+            onValueChange={handleChangeStatus}
+            onAddPlanned={handleAddToPlanned}
+            onEditOpenChange={setEditOpen}
+            modal={
+                <ReadEditModal
+                    slug={item.slug}
+                    content_type={type}
+                    read={tracking}
+                    onClose={() => setEditOpen(false)}
+                />
+            }
+        />
+    );
+}
+
+export function TrackingButtonsGroup(props: Props) {
+    if (props.type === ContentTypeEnum.ANIME) {
+        return <WatchTrackingButtons title={props.title} item={props.item} />;
+    }
+
+    return (
+        <ReadTrackingButtons
+            title={props.title}
+            type={props.type}
+            item={props.item}
+        />
     );
 }
