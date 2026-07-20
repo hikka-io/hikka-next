@@ -81,7 +81,7 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
                         content_type: ContentTypeEnum.NOVEL,
                         slug: params.slug,
                     },
-                    query: { size: 3 },
+                    query: { comment_type: 'all', size: 3 },
                     client: apiClient,
                 }),
                 ...paginationPageParam(),

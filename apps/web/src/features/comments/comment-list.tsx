@@ -1,6 +1,7 @@
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
+import { LayoutGrid, MessageCircle, Star } from 'lucide-react';
 
 import {
     type CommentContentTypeEnum as CommentsContentType,
@@ -14,6 +15,7 @@ import MaterialSymbolsLockOpenRounded from '@/components/icons/material-symbols/
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
+import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
@@ -30,6 +32,30 @@ import { Link } from '@/utils/navigation';
 
 import CommentInput from './comment-input';
 import Comments from './comments';
+
+type CommentType = 'all' | 'comment' | 'review';
+
+const COMMENT_TYPE_OPTIONS: ChipTabOption<CommentType>[] = [
+    {
+        label: 'Всі',
+        value: 'all',
+        icon: LayoutGrid,
+    },
+    {
+        label: 'Коментарі',
+        value: 'comment',
+        icon: MessageCircle,
+        activeClass:
+            'border border-feed-comment/40 bg-feed-comment/15 text-feed-comment',
+    },
+    {
+        label: 'Відгуки',
+        value: 'review',
+        icon: Star,
+        activeClass:
+            'border border-feed-review/40 bg-feed-review/15 text-feed-review',
+    },
+];
 
 type Props = {
     slug: string;
@@ -49,6 +75,8 @@ const CommentList: FC<Props> = ({
     contentTitle,
 }) => {
     const { user: loggedUser } = useSession();
+    const hasReviews = ['anime', 'manga', 'novel'].includes(content_type);
+    const [commentType, setCommentType] = useState<CommentType>('all');
     const {
         list: comments,
         pagination,
@@ -59,7 +87,10 @@ const CommentList: FC<Props> = ({
     } = useInfiniteList(
         getCommentsListInfiniteOptions({
             path: { content_type, slug },
-            query: preview ? { size: 3 } : undefined,
+            query: {
+                comment_type: commentType,
+                ...(preview ? { size: 3 } : undefined),
+            },
         }),
         { enabled: !comment_reference },
     );
@@ -107,6 +138,13 @@ const CommentList: FC<Props> = ({
             </Header>
             <CommentsProvider>
                 <div className="flex flex-col gap-4">
+                    {hasReviews && !comment_reference && (
+                        <ChipTabs
+                            options={COMMENT_TYPE_OPTIONS}
+                            value={commentType}
+                            onValueChange={setCommentType}
+                        />
+                    )}
                     {!loggedUser && (
                         <EmptyState
                             bordered
