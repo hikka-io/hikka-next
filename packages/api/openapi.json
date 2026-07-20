@@ -21489,8 +21489,7 @@
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "recommended",
-          "score"
+          "recommended"
         ],
         "title": "ReviewResponse"
       },

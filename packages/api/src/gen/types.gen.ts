@@ -5315,7 +5315,7 @@ export type ReviewResponse = {
     /**
      * Score
      */
-    score: number;
+    score?: number;
 };
 
 /**

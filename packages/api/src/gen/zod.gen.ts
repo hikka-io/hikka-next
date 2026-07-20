@@ -1515,7 +1515,7 @@ export const zCommentTextArgs = z.object({
  */
 export const zReviewResponse = z.object({
     recommended: z.enum(['yes', 'no', 'maybe']),
-    score: z.number().int(),
+    score: z.number().int().optional(),
 });
 
 /**
