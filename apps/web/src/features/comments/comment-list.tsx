@@ -34,11 +34,11 @@ import CommentInput from './comment-input';
 import { CommentListSkeleton } from './comment-skeleton';
 import Comments from './comments';
 
-type CommentType = 'all' | 'comment' | 'review';
+export type CommentType = 'all' | 'comment' | 'review';
 
-const COMMENT_TYPE_OPTIONS: ChipTabOption<CommentType>[] = [
+export const COMMENT_TYPE_OPTIONS: ChipTabOption<CommentType>[] = [
     {
-        label: 'Всі',
+        label: 'Усі',
         value: 'all',
         icon: LayoutGrid,
     },
@@ -65,6 +65,8 @@ type Props = {
     preview?: boolean;
     className?: string;
     contentTitle?: string;
+    commentType?: CommentType;
+    onCommentTypeChange?: (type: CommentType) => void;
 };
 
 const CommentList: FC<Props> = ({
@@ -74,10 +76,15 @@ const CommentList: FC<Props> = ({
     preview,
     className,
     contentTitle,
+    commentType: controlledCommentType,
+    onCommentTypeChange,
 }) => {
     const { user: loggedUser } = useSession();
     const hasReviews = ['anime', 'manga', 'novel'].includes(content_type);
-    const [commentType, setCommentType] = useState<CommentType>('all');
+    const [localCommentType, setLocalCommentType] =
+        useState<CommentType>('all');
+    const commentType = controlledCommentType ?? localCommentType;
+    const setCommentType = onCommentTypeChange ?? setLocalCommentType;
     const {
         list: comments,
         pagination,
@@ -131,7 +138,7 @@ const CommentList: FC<Props> = ({
                     {comment_reference && (
                         <Button size="md" variant="outline">
                             <Link to={`/comments/${content_type}/${slug}`}>
-                                Всі коментарі
+                                Усі коментарі
                             </Link>
                         </Button>
                     )}

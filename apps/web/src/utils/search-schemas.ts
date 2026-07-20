@@ -104,6 +104,10 @@ export const editNewSearchSchema = z.object({
     slug: z.string().optional().catch(undefined),
 });
 
+export const commentsSearchSchema = z.object({
+    comment_type: z.enum(['comment', 'review']).optional().catch(undefined),
+});
+
 export const collectionsSearchSchema = z.object({
     sort: z.enum(['system_ranking', 'created']).optional().catch(undefined),
     ...paginationSearch,
@@ -141,5 +145,6 @@ export type MangaSearch = z.infer<typeof mangaSearchSchema>;
 export type NovelSearch = z.infer<typeof novelSearchSchema>;
 export type ScheduleSearch = z.infer<typeof scheduleSearchSchema>;
 export type ArticlesSearch = z.infer<typeof articlesSearchSchema>;
+export type CommentsSearch = z.infer<typeof commentsSearchSchema>;
 export type EditSearch = z.infer<typeof editSearchSchema>;
 export type UserlistSearch = z.infer<typeof userlistSearchSchema>;

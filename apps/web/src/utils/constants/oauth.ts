@@ -402,7 +402,7 @@ const SCOPE_GROUP_VOTE: Hikka.ScopeGroup = {
 };
 const SCOPE_GROUP_ALL: Hikka.ScopeGroup = {
     slug: 'all',
-    title_ua: 'Всі права',
+    title_ua: 'Усі права',
     level: IMPORTANT_LEVEL,
     scopes: SCOPES,
 };

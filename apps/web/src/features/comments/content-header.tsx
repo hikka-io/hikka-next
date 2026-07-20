@@ -1,6 +1,9 @@
 import type { FC } from 'react';
 
-import type { CommentContentTypeEnum as CommentsContentType } from '@hikka/api';
+import type {
+    CommentContentTypeEnum as CommentsContentType,
+    ContentTypeEnum,
+} from '@hikka/api';
 
 import ContentCard from '@/components/content-card/content-card';
 import Card from '@/components/ui/card';
@@ -19,7 +22,7 @@ import { useContent } from './hooks/use-content';
 
 type Props = {
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentsContentType | typeof ContentTypeEnum.USER;
     disableBreadcrumbs?: boolean;
 };
 
@@ -55,6 +58,9 @@ const ContentHeader: FC<Props> = ({
                         <ContentCard
                             containerClassName="rounded-(--base-radius)"
                             className="w-12"
+                            containerRatio={
+                                content_type === 'user' ? 1 : undefined
+                            }
                             to={link}
                             image={data?.image}
                         />

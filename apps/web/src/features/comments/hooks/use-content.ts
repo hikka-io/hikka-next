@@ -12,13 +12,17 @@ import {
     mangaInfoOptions,
     novelInfoOptions,
     personInfoOptions,
+    userProfileOptions,
 } from '@hikka/api';
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { getTitle } from '@/utils/title/get-title';
 
 interface UseContentParams {
-    content_type: CommentsContentType | EditContentType;
+    content_type:
+        | CommentsContentType
+        | EditContentType
+        | typeof ContentTypeEnum.USER;
     slug: string;
 }
 
@@ -107,6 +111,16 @@ export function useContent({ content_type, slug }: UseContentParams) {
         }),
     });
 
+    const userQuery = useQuery({
+        ...userProfileOptions({ path: { username: slug } }),
+        enabled: content_type === ContentTypeEnum.USER,
+        select: (data) => ({
+            content_type: ContentTypeEnum.USER,
+            title: data.username,
+            image: data.avatar,
+        }),
+    });
+
     const queries = {
         [ContentTypeEnum.ANIME]: animeQuery,
         [ContentTypeEnum.MANGA]: mangaQuery,
@@ -116,6 +130,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         [ContentTypeEnum.COLLECTION]: collectionQuery,
         [ContentTypeEnum.EDIT]: editQuery,
         [ContentTypeEnum.ARTICLE]: articleQuery,
+        [ContentTypeEnum.USER]: userQuery,
     };
 
     return queries[content_type];

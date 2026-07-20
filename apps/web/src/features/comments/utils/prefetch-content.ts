@@ -11,6 +11,7 @@ import {
     mangaInfoOptions,
     novelInfoOptions,
     personInfoOptions,
+    userProfileOptions,
 } from '@hikka/api';
 
 interface PrefetchContentParams {
@@ -64,6 +65,13 @@ export default async function prefetchContent({
         case ContentTypeEnum.ARTICLE:
             return await queryClient.ensureQueryData(
                 getArticleOptions({ path: { slug }, client: apiClient }),
+            );
+        case ContentTypeEnum.USER:
+            return await queryClient.ensureQueryData(
+                userProfileOptions({
+                    path: { username: slug },
+                    client: apiClient,
+                }),
             );
         default:
             return null;

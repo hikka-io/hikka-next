@@ -47,6 +47,7 @@ const READ_EMBED_IDS = [
 const COMMENT_IDS = [
     'commentsList',
     'getCommentsList',
+    'getCommentsUser',
     'thread',
     'latestComments',
 ];
