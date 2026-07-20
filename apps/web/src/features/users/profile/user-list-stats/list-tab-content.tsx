@@ -115,19 +115,19 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
         .join(' ');
 
     return (
-        <div className={cn('flex flex-col gap-2', className)}>
+        <div className={cn('flex grow flex-col gap-2', className)}>
             <div className="flex flex-col gap-2 px-2">
                 <StatusProgressBar
                     segments={segments}
                     hoveredStatus={hoveredStatus}
                 />
             </div>
-            <div className="flex flex-wrap gap-1 px-2">
+            <div className="grid grid-cols-2 gap-1 px-2">
                 <Link
                     to={`/u/${username}/list/${type}`}
                     search={{ status: 'all' }}
                     className={cn(
-                        'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent md:flex-0',
+                        'flex items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent',
                         total === 0 && 'opacity-50',
                     )}
                 >
@@ -165,7 +165,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                                     }
                                     onMouseLeave={() => setHoveredStatus(null)}
                                     className={cn(
-                                        'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent md:flex-0',
+                                        'flex items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent',
                                         count === 0 && 'opacity-50',
                                     )}
                                 >
@@ -195,7 +195,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                 })}
             </div>
             {watchHours !== null && (
-                <div className="flex flex-col gap-4">
+                <div className="mt-auto flex flex-col gap-4">
                     <Separator />
                     <div className="flex items-center justify-between gap-2 px-4">
                         <div className="flex items-center gap-2 text-muted-foreground">

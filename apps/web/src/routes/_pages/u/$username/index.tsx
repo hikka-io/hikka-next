@@ -7,6 +7,7 @@ import {
     getCollectionsInfiniteOptions,
     paginationPageParam,
     serviceUserActivityOptions,
+    serviceUserStatsOptions,
     userHistoryInfiniteOptions,
 } from '@hikka/api';
 
@@ -43,6 +44,12 @@ export const Route = createFileRoute('/_pages/u/$username/')({
             }),
             queryClient.prefetchQuery(
                 serviceUserActivityOptions({
+                    path: { username },
+                    client: apiClient,
+                }),
+            ),
+            queryClient.prefetchQuery(
+                serviceUserStatsOptions({
                     path: { username },
                     client: apiClient,
                 }),
