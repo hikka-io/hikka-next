@@ -31,6 +31,7 @@ import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
 import CommentInput from './comment-input';
+import { CommentListSkeleton } from './comment-skeleton';
 import Comments from './comments';
 
 type CommentType = 'all' | 'comment' | 'review';
@@ -83,6 +84,7 @@ const CommentList: FC<Props> = ({
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
+        isLoading,
         ref,
     } = useInfiniteList(
         getCommentsListInfiniteOptions({
@@ -168,14 +170,24 @@ const CommentList: FC<Props> = ({
                             contentTitle={contentTitle}
                         />
                     )}
-                    {list && list.length === 0 && (
-                        <EmptyState
-                            bordered
-                            icon={<MaterialSymbolsAddCommentRounded />}
-                            title={<span>Коментарів не знайдено</span>}
-                            description="Ви можете розпочати обговорення першим"
-                        />
-                    )}
+                    {!comment_reference && isLoading && <CommentListSkeleton />}
+                    {list &&
+                        list.length === 0 &&
+                        (commentType === 'review' ? (
+                            <EmptyState
+                                bordered
+                                icon={<Star />}
+                                title={<span>Відгуків не знайдено</span>}
+                                description="Тут з'являться відгуки, щойно хтось поділиться враженнями"
+                            />
+                        ) : (
+                            <EmptyState
+                                bordered
+                                icon={<MaterialSymbolsAddCommentRounded />}
+                                title={<span>Коментарів не знайдено</span>}
+                                description="Ви можете розпочати обговорення першим"
+                            />
+                        ))}
                     {list && (
                         <Comments
                             slug={slug}
