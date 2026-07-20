@@ -29,8 +29,8 @@ import CommentInputBottomBar from './comment-input-bottom-bar';
 import CommentVerdictPicker from './comment-verdict-picker';
 import type { Verdict } from './utils/review';
 import {
-    REVIEW_AUTO_THRESHOLD,
     getPlainTextLength,
+    REVIEW_AUTO_THRESHOLD,
     supportsReviews,
 } from './utils/review';
 
@@ -41,6 +41,7 @@ type Props = {
     className?: string;
     isEdit?: boolean;
     contentTitle?: string;
+    forceReview?: boolean;
 };
 
 const CommentInput: FC<Props> = ({
@@ -48,6 +49,7 @@ const CommentInput: FC<Props> = ({
     comment,
     isEdit,
     contentTitle,
+    forceReview,
     ...props
 }) => {
     const { editor, isMobile, isModalOpen, setIsModalOpen, handleChange } =
@@ -95,6 +97,16 @@ const CommentInput: FC<Props> = ({
             setIsReview(true);
         }
     };
+
+    // Follow the section's comment-type filter: selecting the review filter
+    // checks the review toggle, leaving it unchecks (unless already off).
+    useEffect(() => {
+        if (forceReview === undefined || !showReviewToggle) return;
+        setIsReview(forceReview);
+        if (!forceReview) {
+            setVerdict(null);
+        }
+    }, [forceReview, showReviewToggle]);
 
     useVisualViewportOffset(!!isModalOpen);
 

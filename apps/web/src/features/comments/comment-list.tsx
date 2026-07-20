@@ -168,6 +168,11 @@ const CommentList: FC<Props> = ({
                             slug={slug}
                             content_type={content_type}
                             contentTitle={contentTitle}
+                            forceReview={
+                                hasReviews
+                                    ? commentType === 'review'
+                                    : undefined
+                            }
                         />
                     )}
                     {!comment_reference && isLoading && <CommentListSkeleton />}
