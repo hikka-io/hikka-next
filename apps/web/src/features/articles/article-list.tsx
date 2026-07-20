@@ -89,7 +89,7 @@ const ArticleList: FC<Props> = () => {
             </Header>
             <div
                 className={cn(
-                    '-mx-4 flex flex-col gap-6 md:mx-0',
+                    '-mx-4 flex flex-col max-md:[&>*+*]:-mt-px md:mx-0 md:gap-6',
                     (!list || list.length === 0) && 'mx-0',
                 )}
             >
@@ -102,6 +102,7 @@ const ArticleList: FC<Props> = () => {
                 )}
                 {hasNextPage && (
                     <LoadMoreButton
+                        className="max-md:mt-6"
                         ref={ref}
                         isFetchingNextPage={isFetchingNextPage}
                         fetchNextPage={fetchNextPage}

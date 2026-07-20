@@ -1,5 +1,5 @@
 import { Link } from '@/utils/navigation';
-import { ContentTypeEnum, MagazineResponse } from '@hikka/api';
+import type { ContentTypeEnum, MagazineResponse } from '@hikka/api';
 
 type Props = {
     magazine: MagazineResponse;

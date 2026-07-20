@@ -78,14 +78,14 @@ const TableView: FC<Props> = ({ data, content_type }) => {
     };
 
     return (
-        <div className="overflow-hidden rounded-lg border surface">
-            <Table>
-                <TableHeader className="surface-inset [&_tr]:border-b">
+        <div className="-mx-4 overflow-hidden rounded-none border border-x-0 surface md:mx-0 md:rounded-lg md:border-x">
+            <Table className="max-md:table-fixed max-md:[&_td]:px-2 max-md:[&_th]:px-2 max-md:[&_td:first-child]:pl-4 max-md:[&_th:first-child]:pl-4">
+                <TableHeader className="[&_tr]:border-b">
                     <TableRow className="hover:bg-transparent">
-                        <TableHead>#</TableHead>
+                        <TableHead className="max-md:w-12">#</TableHead>
                         <TableHead>Деталі</TableHead>
                         <SortableHead
-                            className="w-4"
+                            className="w-4 max-md:w-16"
                             active={sort.includes(scoreSort)}
                             order={order}
                             onSort={() => switchSort(scoreSort)}
@@ -95,6 +95,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                         {content_type !== ContentTypeEnum.ANIME && (
                             <Fragment>
                                 <SortableHead
+                                    className="max-md:w-14"
                                     active={sort.includes('read_chapters')}
                                     order={order}
                                     onSort={() => switchSort('read_chapters')}
@@ -102,6 +103,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                                     Розділи
                                 </SortableHead>
                                 <SortableHead
+                                    className="max-md:w-16 max-md:pr-4!"
                                     active={sort.includes('read_volumes')}
                                     order={order}
                                     onSort={() => switchSort('read_volumes')}
@@ -113,6 +115,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                         {content_type === ContentTypeEnum.ANIME && (
                             <Fragment>
                                 <SortableHead
+                                    className="max-md:w-[4.5rem] max-md:pr-4!"
                                     active={sort.includes('watch_episodes')}
                                     order={order}
                                     onSort={() => switchSort('watch_episodes')}

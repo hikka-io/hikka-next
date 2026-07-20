@@ -58,7 +58,7 @@ function CatalogListView<T>({
     if (isLoading && !isFetchingNextPage) {
         if (view === 'list') {
             return (
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col max-md:[&>*+*]:-mt-px md:gap-6">
                     {range(1, 7).map((v) => (
                         <ContentListItemSkeleton key={v} />
                     ))}
@@ -75,7 +75,7 @@ function CatalogListView<T>({
     return (
         <div className="isolate flex flex-col gap-6">
             {view === 'list' ? (
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col max-md:[&>*+*]:-mt-px md:gap-6">
                     {list.map(renderListItem)}
                 </div>
             ) : (

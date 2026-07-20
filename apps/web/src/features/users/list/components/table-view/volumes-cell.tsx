@@ -8,7 +8,7 @@ type Props = {
 };
 
 const VolumesCell: FC<Props> = ({ volumes, total }) => (
-    <TableCell className="w-20 text-center" align="center">
+    <TableCell className="w-20 text-center max-md:pr-4!" align="center">
         {volumes} / {total || '?'}
     </TableCell>
 );

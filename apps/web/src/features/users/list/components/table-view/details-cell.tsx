@@ -45,7 +45,7 @@ const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
                 <div className="flex flex-1 flex-col gap-2">
                     <div className="flex items-center gap-2">
                         <Link
-                            className="line-clamp-2 hover:underline"
+                            className="line-clamp-3 hover:underline"
                             to={`/${content_type}/${content.slug}`}
                         >
                             {title}
