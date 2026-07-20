@@ -11,7 +11,7 @@ const ContentListItemSkeleton: FC = () => {
             <div className="flex gap-4">
                 <div className="w-24 shrink-0 md:w-16">
                     <AspectRatio ratio={0.7}>
-                        <Skeleton className="size-full rounded-md" />
+                        <Skeleton className="size-full rounded-(--base-radius)" />
                     </AspectRatio>
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col gap-4 md:flex-row md:items-stretch">

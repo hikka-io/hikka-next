@@ -87,6 +87,7 @@ export function ContentListItem(props: Props) {
             <div className="flex gap-4">
                 <ContentCard
                     className="w-24 shrink-0 md:w-16"
+                    containerClassName="rounded-(--base-radius)"
                     image={item?.image}
                     href={href}
                 />
