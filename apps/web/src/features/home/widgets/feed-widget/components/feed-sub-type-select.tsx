@@ -23,75 +23,44 @@ import {
     CONTENT_TYPES,
 } from '@/utils/constants/common';
 
-type CollectionContentType = NonNullable<
-    UiFeedSettingsOutput['collection_content_types']
->[number];
-type CommentsContentType = NonNullable<
-    UiFeedSettingsOutput['comment_content_types']
->[number];
-type FeedArticleContentType = NonNullable<
-    UiFeedSettingsOutput['article_content_types']
->[number];
-type FeedArticleCategory = NonNullable<
-    UiFeedSettingsOutput['article_categories']
->[number];
 type FeedContentType = NonNullable<
     UiFeedSettingsOutput['feed_content_types']
 >[number];
-type ReviewContentType = NonNullable<
-    UiFeedSettingsOutput['review_content_types']
->[number];
 
-export interface FeedSubTypeFilters {
+export type FeedSubTypeFilters = {
     feed_content_types: FeedContentType[] | null;
-    comment_content_types: CommentsContentType[] | null;
-    article_content_types: FeedArticleContentType[] | null;
-    article_categories: FeedArticleCategory[] | null;
-    collection_content_types: CollectionContentType[] | null;
-    review_content_types: ReviewContentType[] | null;
-}
+    comment_content_types: NonNullable<
+        UiFeedSettingsOutput['comment_content_types']
+    > | null;
+    article_content_types: NonNullable<
+        UiFeedSettingsOutput['article_content_types']
+    > | null;
+    article_categories: NonNullable<
+        UiFeedSettingsOutput['article_categories']
+    > | null;
+    collection_content_types: NonNullable<
+        UiFeedSettingsOutput['collection_content_types']
+    > | null;
+    review_content_types: NonNullable<
+        UiFeedSettingsOutput['review_content_types']
+    > | null;
+};
 
-const COMMENT_OPTIONS: { value: CommentsContentType; label: string }[] = (
-    [
-        ContentTypeEnum.ANIME,
-        ContentTypeEnum.MANGA,
-        ContentTypeEnum.NOVEL,
-        ContentTypeEnum.CHARACTER,
-        ContentTypeEnum.PERSON,
-        ContentTypeEnum.COLLECTION,
-        ContentTypeEnum.ARTICLE,
-        ContentTypeEnum.EDIT,
-    ] as CommentsContentType[]
-).map((v) => ({ value: v, label: CONTENT_TYPES[v].title_ua }));
+type GroupKey = Exclude<keyof FeedSubTypeFilters, 'feed_content_types'>;
 
-const ARTICLE_CONTENT_OPTIONS: {
-    value: FeedArticleContentType;
-    label: string;
-}[] = [
-    { value: ContentTypeEnum.ANIME, label: CONTENT_TYPES.anime.title_ua },
-    { value: ContentTypeEnum.MANGA, label: CONTENT_TYPES.manga.title_ua },
-    { value: ContentTypeEnum.NOVEL, label: CONTENT_TYPES.novel.title_ua },
-    { value: 'no_content', label: 'Без контенту' },
-];
+type SubTypeOption = { value: string; label: string };
 
-const FEED_ARTICLE_CATEGORY_OPTIONS: {
-    value: FeedArticleCategory;
-    label: string;
-}[] = (Object.keys(ARTICLE_CATEGORY_OPTIONS) as ArticleCategoryEnum[])
-    .filter((k) => k !== ArticleCategoryEnum.SYSTEM)
-    .map((k) => ({
-        value: k as FeedArticleCategory,
-        label: ARTICLE_CATEGORY_OPTIONS[k].title_ua,
-    }));
+type GroupConfig = {
+    title: string;
+    key: GroupKey;
+    options: SubTypeOption[];
+};
 
-const REVIEW_CONTENT_OPTIONS: {
-    value: ReviewContentType;
-    label: string;
-}[] = [
-    { value: ContentTypeEnum.ANIME, label: CONTENT_TYPES.anime.title_ua },
-    { value: ContentTypeEnum.MANGA, label: CONTENT_TYPES.manga.title_ua },
-    { value: ContentTypeEnum.NOVEL, label: CONTENT_TYPES.novel.title_ua },
-];
+type SectionConfig = {
+    title: string;
+    sectionType: FeedContentType;
+    groups: GroupConfig[];
+};
 
 const REVIEW: FeedContentType = 'review';
 
@@ -100,6 +69,88 @@ const ALL_FEED_CONTENT_TYPES: FeedContentType[] = [
     ContentTypeEnum.ARTICLE,
     ContentTypeEnum.COLLECTION,
     REVIEW,
+];
+
+const COMMENT_OPTIONS: SubTypeOption[] = [
+    ContentTypeEnum.ANIME,
+    ContentTypeEnum.MANGA,
+    ContentTypeEnum.NOVEL,
+    ContentTypeEnum.CHARACTER,
+    ContentTypeEnum.PERSON,
+    ContentTypeEnum.COLLECTION,
+    ContentTypeEnum.ARTICLE,
+    ContentTypeEnum.EDIT,
+].map((v) => ({ value: v, label: CONTENT_TYPES[v].title_ua }));
+
+const ARTICLE_CONTENT_OPTIONS: SubTypeOption[] = [
+    { value: ContentTypeEnum.ANIME, label: CONTENT_TYPES.anime.title_ua },
+    { value: ContentTypeEnum.MANGA, label: CONTENT_TYPES.manga.title_ua },
+    { value: ContentTypeEnum.NOVEL, label: CONTENT_TYPES.novel.title_ua },
+    { value: 'no_content', label: 'Без контенту' },
+];
+
+const FEED_ARTICLE_CATEGORY_OPTIONS: SubTypeOption[] = (
+    Object.keys(ARTICLE_CATEGORY_OPTIONS) as ArticleCategoryEnum[]
+)
+    .filter((k) => k !== ArticleCategoryEnum.SYSTEM)
+    .map((k) => ({ value: k, label: ARTICLE_CATEGORY_OPTIONS[k].title_ua }));
+
+const REVIEW_CONTENT_OPTIONS: SubTypeOption[] = [
+    { value: ContentTypeEnum.ANIME, label: CONTENT_TYPES.anime.title_ua },
+    { value: ContentTypeEnum.MANGA, label: CONTENT_TYPES.manga.title_ua },
+    { value: ContentTypeEnum.NOVEL, label: CONTENT_TYPES.novel.title_ua },
+];
+
+const SECTIONS: SectionConfig[] = [
+    {
+        title: 'Коментарі',
+        sectionType: ContentTypeEnum.COMMENT,
+        groups: [
+            {
+                title: 'Тип контенту',
+                key: 'comment_content_types',
+                options: COMMENT_OPTIONS,
+            },
+        ],
+    },
+    {
+        title: 'Статті',
+        sectionType: ContentTypeEnum.ARTICLE,
+        groups: [
+            {
+                title: 'Тип контенту',
+                key: 'article_content_types',
+                options: ARTICLE_CONTENT_OPTIONS,
+            },
+            {
+                title: 'Категорія',
+                key: 'article_categories',
+                options: FEED_ARTICLE_CATEGORY_OPTIONS,
+            },
+        ],
+    },
+    {
+        title: 'Колекції',
+        sectionType: ContentTypeEnum.COLLECTION,
+        groups: [
+            {
+                title: 'Тип контенту',
+                key: 'collection_content_types',
+                options: COLLECTION_CONTENT_TYPE_OPTIONS,
+            },
+        ],
+    },
+    {
+        title: 'Відгуки',
+        sectionType: REVIEW,
+        groups: [
+            {
+                title: 'Тип контенту',
+                key: 'review_content_types',
+                options: REVIEW_CONTENT_OPTIONS,
+            },
+        ],
+    },
 ];
 
 function isSectionEnabled(
@@ -121,47 +172,36 @@ function toggleSection(
         return next.length === ALL_FEED_CONTENT_TYPES.length ? null : next;
     }
 
-    const next = current.filter((t) => t !== type);
-    return next;
+    return current.filter((t) => t !== type);
 }
 
-function toggleSubType<T extends string>(
-    array: T[] | null,
-    value: T,
-    allValues: T[],
-): T[] | null {
+function toggleSubType(
+    array: string[] | null,
+    value: string,
+    allValues: string[],
+): string[] | null {
     if (array === null) {
         return allValues.filter((v) => v !== value);
     }
 
-    const has = array.includes(value);
-
-    if (has) {
-        const next = array.filter((v) => v !== value);
-        return next.length === 0 ? null : next;
+    if (array.includes(value)) {
+        return array.filter((v) => v !== value);
     }
 
     const next = [...array, value];
     return next.length === allValues.length ? null : next;
 }
 
-function isSubTypeChecked<T extends string>(
-    array: T[] | null,
-    value: T,
-): boolean {
+function isSubTypeChecked(array: string[] | null, value: string): boolean {
     return array === null || array.includes(value);
 }
 
 // Counts only the granular sub-type filter groups — top-level type (quick-filter
 // chips) and scope (tabs) are visible in the header, so they don't add to the badge.
 function activeSubFilterCount(value: FeedSubTypeFilters): number {
-    return [
-        value.comment_content_types,
-        value.article_content_types,
-        value.article_categories,
-        value.collection_content_types,
-        value.review_content_types,
-    ].filter((group) => group !== null).length;
+    return SECTIONS.flatMap((s) => s.groups).filter(
+        (g) => value[g.key] !== null,
+    ).length;
 }
 
 type SwitchRowProps = {
@@ -215,7 +255,7 @@ const Section: FC<SectionProps> = ({ title, enabled, onToggle, children }) => {
             <div
                 className={cn(
                     'flex flex-col gap-6 transition-opacity duration-200',
-                    !enabled && 'pointer-events-none opacity-40',
+                    !enabled && 'opacity-40',
                 )}
             >
                 {children}
@@ -242,20 +282,6 @@ const FeedSubTypeSelect: FC<{
 }> = ({ value, onChange }) => {
     const [open, setOpen] = useState(false);
 
-    const commentsEnabled = isSectionEnabled(
-        value.feed_content_types,
-        ContentTypeEnum.COMMENT,
-    );
-    const articlesEnabled = isSectionEnabled(
-        value.feed_content_types,
-        ContentTypeEnum.ARTICLE,
-    );
-    const collectionsEnabled = isSectionEnabled(
-        value.feed_content_types,
-        ContentTypeEnum.COLLECTION,
-    );
-    const reviewsEnabled = isSectionEnabled(value.feed_content_types, REVIEW);
-
     const handleSectionToggle = (type: FeedContentType, enabled: boolean) => {
         onChange({
             ...value,
@@ -265,6 +291,33 @@ const FeedSubTypeSelect: FC<{
                 enabled,
             ),
         });
+    };
+
+    const handleSubTypeToggle = (
+        group: GroupConfig,
+        sectionType: FeedContentType,
+        option: string,
+    ) => {
+        const next = toggleSubType(
+            value[group.key],
+            option,
+            group.options.map((o) => o.value),
+        );
+
+        if (next !== null && next.length === 0) {
+            onChange({
+                ...value,
+                [group.key]: null,
+                feed_content_types: toggleSection(
+                    value.feed_content_types,
+                    sectionType,
+                    false,
+                ),
+            } as FeedSubTypeFilters);
+            return;
+        }
+
+        onChange({ ...value, [group.key]: next } as FeedSubTypeFilters);
     };
 
     const subFilterCount = activeSubFilterCount(value);
@@ -295,174 +348,52 @@ const FeedSubTypeSelect: FC<{
                     className="md:max-w-lg"
                 >
                     <div className="-m-4 flex flex-1 flex-col gap-4 overflow-y-auto p-4">
-                        <Section
-                            title="Коментарі"
-                            enabled={commentsEnabled}
-                            onToggle={(v) =>
-                                handleSectionToggle(ContentTypeEnum.COMMENT, v)
-                            }
-                        >
-                            <SubSection title="Тип контенту">
-                                {COMMENT_OPTIONS.map((opt) => (
-                                    <SwitchRow
-                                        key={opt.value}
-                                        label={opt.label}
-                                        checked={isSubTypeChecked(
-                                            value.comment_content_types,
-                                            opt.value,
-                                        )}
-                                        onCheckedChange={() =>
-                                            onChange({
-                                                ...value,
-                                                comment_content_types:
-                                                    toggleSubType(
-                                                        value.comment_content_types,
-                                                        opt.value,
-                                                        COMMENT_OPTIONS.map(
-                                                            (o) => o.value,
-                                                        ),
-                                                    ),
-                                            })
-                                        }
-                                        disabled={!commentsEnabled}
-                                    />
-                                ))}
-                            </SubSection>
-                        </Section>
+                        {SECTIONS.map((section) => {
+                            const enabled = isSectionEnabled(
+                                value.feed_content_types,
+                                section.sectionType,
+                            );
 
-                        <Section
-                            title="Статті"
-                            enabled={articlesEnabled}
-                            onToggle={(v) =>
-                                handleSectionToggle(ContentTypeEnum.ARTICLE, v)
-                            }
-                        >
-                            <SubSection title="Тип контенту">
-                                {ARTICLE_CONTENT_OPTIONS.map((opt) => (
-                                    <SwitchRow
-                                        key={opt.value}
-                                        label={opt.label}
-                                        checked={isSubTypeChecked(
-                                            value.article_content_types,
-                                            opt.value,
-                                        )}
-                                        onCheckedChange={() =>
-                                            onChange({
-                                                ...value,
-                                                article_content_types:
-                                                    toggleSubType(
-                                                        value.article_content_types,
+                            return (
+                                <Section
+                                    key={section.title}
+                                    title={section.title}
+                                    enabled={enabled}
+                                    onToggle={(v) =>
+                                        handleSectionToggle(
+                                            section.sectionType,
+                                            v,
+                                        )
+                                    }
+                                >
+                                    {section.groups.map((group) => (
+                                        <SubSection
+                                            key={group.key}
+                                            title={group.title}
+                                        >
+                                            {group.options.map((opt) => (
+                                                <SwitchRow
+                                                    key={opt.value}
+                                                    label={opt.label}
+                                                    checked={isSubTypeChecked(
+                                                        value[group.key],
                                                         opt.value,
-                                                        ARTICLE_CONTENT_OPTIONS.map(
-                                                            (o) => o.value,
-                                                        ),
-                                                    ),
-                                            })
-                                        }
-                                        disabled={!articlesEnabled}
-                                    />
-                                ))}
-                            </SubSection>
-
-                            <SubSection title="Категорія">
-                                {FEED_ARTICLE_CATEGORY_OPTIONS.map((opt) => (
-                                    <SwitchRow
-                                        key={opt.value}
-                                        label={opt.label}
-                                        checked={isSubTypeChecked(
-                                            value.article_categories,
-                                            opt.value,
-                                        )}
-                                        onCheckedChange={() =>
-                                            onChange({
-                                                ...value,
-                                                article_categories:
-                                                    toggleSubType(
-                                                        value.article_categories,
-                                                        opt.value,
-                                                        FEED_ARTICLE_CATEGORY_OPTIONS.map(
-                                                            (o) => o.value,
-                                                        ),
-                                                    ),
-                                            })
-                                        }
-                                        disabled={!articlesEnabled}
-                                    />
-                                ))}
-                            </SubSection>
-                        </Section>
-
-                        <Section
-                            title="Колекції"
-                            enabled={collectionsEnabled}
-                            onToggle={(v) =>
-                                handleSectionToggle(
-                                    ContentTypeEnum.COLLECTION,
-                                    v,
-                                )
-                            }
-                        >
-                            <SubSection title="Тип контенту">
-                                {COLLECTION_CONTENT_TYPE_OPTIONS.map((opt) => (
-                                    <SwitchRow
-                                        key={opt.value}
-                                        label={opt.label}
-                                        checked={isSubTypeChecked(
-                                            value.collection_content_types,
-                                            opt.value as CollectionContentType,
-                                        )}
-                                        onCheckedChange={() =>
-                                            onChange({
-                                                ...value,
-                                                collection_content_types:
-                                                    toggleSubType(
-                                                        value.collection_content_types,
-                                                        opt.value as CollectionContentType,
-                                                        COLLECTION_CONTENT_TYPE_OPTIONS.map(
-                                                            (o) =>
-                                                                o.value as CollectionContentType,
-                                                        ),
-                                                    ),
-                                            })
-                                        }
-                                        disabled={!collectionsEnabled}
-                                    />
-                                ))}
-                            </SubSection>
-                        </Section>
-
-                        <Section
-                            title="Відгуки"
-                            enabled={reviewsEnabled}
-                            onToggle={(v) => handleSectionToggle(REVIEW, v)}
-                        >
-                            <SubSection title="Тип контенту">
-                                {REVIEW_CONTENT_OPTIONS.map((opt) => (
-                                    <SwitchRow
-                                        key={opt.value}
-                                        label={opt.label}
-                                        checked={isSubTypeChecked(
-                                            value.review_content_types,
-                                            opt.value,
-                                        )}
-                                        onCheckedChange={() =>
-                                            onChange({
-                                                ...value,
-                                                review_content_types:
-                                                    toggleSubType(
-                                                        value.review_content_types,
-                                                        opt.value,
-                                                        REVIEW_CONTENT_OPTIONS.map(
-                                                            (o) => o.value,
-                                                        ),
-                                                    ),
-                                            })
-                                        }
-                                        disabled={!reviewsEnabled}
-                                    />
-                                ))}
-                            </SubSection>
-                        </Section>
+                                                    )}
+                                                    onCheckedChange={() =>
+                                                        handleSubTypeToggle(
+                                                            group,
+                                                            section.sectionType,
+                                                            opt.value,
+                                                        )
+                                                    }
+                                                    disabled={!enabled}
+                                                />
+                                            ))}
+                                        </SubSection>
+                                    ))}
+                                </Section>
+                            );
+                        })}
                     </div>
                 </ResponsiveModalContent>
             </ResponsiveModal>

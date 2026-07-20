@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
@@ -23,6 +25,37 @@ export function useUpdateSessionUI() {
     const queryClient = useQueryClient();
     const queryKey = profileUiQueryKey();
     const mutation = useMutation({ ...changeUiMutation() });
+
+    const inFlightRef = useRef(false);
+    const queuedRef = useRef<UserCustomizationResponse | null>(null);
+    const snapshotRef = useRef<UserCustomizationResponse | undefined>(
+        undefined,
+    );
+
+    const send = (payload: UserCustomizationResponse) => {
+        inFlightRef.current = true;
+        mutation.mutate(
+            { body: payload as unknown as UserCustomizationArgs },
+            {
+                onSuccess: () => {
+                    const queued = queuedRef.current;
+                    queuedRef.current = null;
+                    if (queued) {
+                        send(queued);
+                    } else {
+                        inFlightRef.current = false;
+                        snapshotRef.current = undefined;
+                    }
+                },
+                onError: () => {
+                    inFlightRef.current = false;
+                    queuedRef.current = null;
+                    queryClient.setQueryData(queryKey, snapshotRef.current);
+                    snapshotRef.current = undefined;
+                },
+            },
+        );
+    };
 
     const update = (patch: SessionUIPatch) => {
         const previous =
@@ -60,15 +93,12 @@ export function useUpdateSessionUI() {
             }),
         );
 
-        mutation.mutate(
-            { body: apiPayload as unknown as UserCustomizationArgs },
-            {
-                onError: () => {
-                    // Rollback on error
-                    queryClient.setQueryData(queryKey, previous);
-                },
-            },
-        );
+        if (inFlightRef.current) {
+            queuedRef.current = apiPayload;
+        } else {
+            snapshotRef.current = previous;
+            send(apiPayload);
+        }
     };
 
     return { update, isPending: mutation.isPending };

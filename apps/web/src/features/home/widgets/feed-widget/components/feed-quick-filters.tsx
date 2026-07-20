@@ -76,8 +76,10 @@ const FeedQuickFilters: FC<Props> = ({ value, onChange }) => {
     );
 
     const active = value.feed_content_types;
-    const current: FeedContentType | null =
-        active && active.length === 1 ? (active[0] as FeedContentType) : null;
+    const isChipActive = (chip: FeedContentType | null): boolean =>
+        chip === null
+            ? active === null
+            : active !== null && active.length === 1 && active[0] === chip;
 
     const handleSelect = (next: FeedContentType | null) => {
         onChange({
@@ -95,7 +97,7 @@ const FeedQuickFilters: FC<Props> = ({ value, onChange }) => {
             )}
         >
             {OPTIONS.map((option) => {
-                const isActive = current === option.value;
+                const isActive = isChipActive(option.value);
                 const Icon = option.icon;
                 return (
                     <Chip

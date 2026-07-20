@@ -112,9 +112,12 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
 
     const { ref: feedRef, inView } = useInView();
 
+    const allSectionsDisabled = filters.feed_content_types?.length === 0;
+
     const feedQuery = useInfiniteQuery({
         ...getFeedInfiniteOptions({ body: feedArgs }),
         ...feedPageParam(),
+        enabled: !allSectionsDisabled,
     });
     const {
         data: feedData,
@@ -170,29 +173,33 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
             </div>
 
             <div className="flex flex-col divide-y divide-border border-border border-t">
-                {isPending
+                {isPending && !allSectionsDisabled
                     ? Array.from({ length: 3 }).map((_, i) => (
                           <FeedItemSkeleton key={i} />
                       ))
-                    : feedList?.map((item) => (
+                    : !allSectionsDisabled &&
+                      feedList?.map((item) => (
                           <FeedItem key={getFeedItemKey(item)} item={item} />
                       ))}
 
-                {!isPending && feedList?.length === 0 && (
+                {(allSectionsDisabled ||
+                    (!isPending && feedList?.length === 0)) && (
                     <div className="p-4">
                         <EmptyState
                             icon={<MaterialSymbolsDynamicFeedRounded />}
                             title="Стрічка порожня"
                             description={
-                                onlyFollowed
-                                    ? 'У вашій персональній стрічці поки немає записів. Підпишіться на інших користувачів, щоб бачити їхню активність.'
-                                    : 'Наразі тут немає записів. Спробуйте змінити фільтри або повернутися пізніше.'
+                                allSectionsDisabled
+                                    ? 'Усі розділи стрічки вимкнено. Увімкніть хоча б один розділ у фільтрах.'
+                                    : onlyFollowed
+                                      ? 'У вашій персональній стрічці поки немає записів. Підпишіться на інших користувачів, щоб бачити їхню активність.'
+                                      : 'Наразі тут немає записів. Спробуйте змінити фільтри або повернутися пізніше.'
                             }
                         />
                     </div>
                 )}
 
-                {hasNextPage && (
+                {!allSectionsDisabled && hasNextPage && (
                     <div className="p-4">
                         <LoadMoreButton
                             className="w-full"
