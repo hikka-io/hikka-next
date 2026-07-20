@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { type LucideIcon, Meh, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { type LucideIcon, Meh, Star, ThumbsDown, ThumbsUp } from 'lucide-react';
 
 import type { ReviewResponse } from '@hikka/api';
 
@@ -33,22 +33,36 @@ const VERDICT: Record<
 
 type Props = {
     recommended?: Verdict | null;
+    score?: number | null;
 };
 
-export const ReviewBadge: FC<Props> = ({ recommended }) => {
+export const ReviewBadge: FC<Props> = ({ recommended, score }) => {
     const verdict = recommended ? VERDICT[recommended] : undefined;
     if (!verdict) return null;
 
     const Icon = verdict.icon;
     return (
-        <span
-            className={cn(
-                chipVariants({ interactive: false }),
-                verdict.className,
+        <span className="flex items-center gap-1">
+            <span
+                className={cn(
+                    chipVariants({ interactive: false }),
+                    verdict.className,
+                )}
+            >
+                <Icon className="size-3.5" />
+                {verdict.label}
+            </span>
+            {!!score && (
+                <span
+                    className={cn(
+                        chipVariants({ interactive: false }),
+                        verdict.className,
+                    )}
+                >
+                    <Star className="size-3.5" />
+                    {score}
+                </span>
             )}
-        >
-            <Icon className="size-3.5" />
-            {verdict.label}
         </span>
     );
 };

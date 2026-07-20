@@ -32,13 +32,18 @@ const CHIP = chipVariants({ interactive: false });
 
 type Props = {
     dataType: FeedDataType;
-    recommended?: ReviewResponse['recommended'] | null;
+    review?: ReviewResponse | null;
     category?: ArticleCategoryEnum | null;
 };
 
-const FeedTypeChip: FC<Props> = ({ dataType, recommended, category }) => {
-    if (recommended) {
-        return <ReviewBadge recommended={recommended} />;
+const FeedTypeChip: FC<Props> = ({ dataType, review, category }) => {
+    if (review) {
+        return (
+            <ReviewBadge
+                recommended={review.recommended}
+                score={review.score}
+            />
+        );
     }
 
     if (dataType === 'comment') {

@@ -109,7 +109,7 @@ const FeedItem: FC<Props> = ({ item }) => {
     const shareUrl = getShareUrl(item);
 
     let reference: Reference | undefined;
-    let recommended: ReviewResponse['recommended'] | undefined;
+    let review: ReviewResponse | undefined;
     let category: ArticleCategoryEnum | undefined;
 
     if (item.data_type === ContentTypeEnum.COMMENT) {
@@ -119,7 +119,7 @@ const FeedItem: FC<Props> = ({ item }) => {
             slug: preview.slug,
             title: preview.title,
         };
-        recommended = item.review?.recommended;
+        review = item.review ?? undefined;
     } else if (item.data_type === ContentTypeEnum.ARTICLE) {
         category = item.category as ArticleCategoryEnum;
         const content = item.content as ArticleContentPreview | null;
@@ -147,7 +147,7 @@ const FeedItem: FC<Props> = ({ item }) => {
                     author={item.author}
                     dataType={item.data_type}
                     created={item.created}
-                    recommended={recommended}
+                    review={review}
                     category={category}
                     reference={reference}
                     shareUrl={shareUrl}

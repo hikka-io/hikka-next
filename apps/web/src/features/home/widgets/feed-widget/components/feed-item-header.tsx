@@ -23,7 +23,7 @@ type Props = {
     author: FollowUserResponse;
     dataType: 'comment' | 'article' | 'collection';
     created: number;
-    recommended?: ReviewResponse['recommended'] | null;
+    review?: ReviewResponse | null;
     category?: ArticleCategoryEnum | null;
     reference?: Reference;
     shareUrl: string;
@@ -33,7 +33,7 @@ const FeedItemHeader: FC<Props> = ({
     author,
     dataType,
     created,
-    recommended,
+    review,
     category,
     reference,
     shareUrl,
@@ -46,7 +46,7 @@ const FeedItemHeader: FC<Props> = ({
             <div className="flex flex-col items-start gap-2 overflow-hidden sm:flex-row sm:items-center">
                 <FeedTypeChip
                     dataType={dataType}
-                    recommended={recommended}
+                    review={review}
                     category={category}
                 />
                 {hasReference && (

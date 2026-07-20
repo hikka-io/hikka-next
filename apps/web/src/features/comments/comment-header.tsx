@@ -29,7 +29,10 @@ const CommentHeader: FC<Props> = ({ comment, slug, content_type }) => {
             />
             {comment.review?.recommended && (
                 <div className="flex">
-                    <ReviewBadge recommended={comment.review.recommended} />
+                    <ReviewBadge
+                        recommended={comment.review.recommended}
+                        score={comment.review.score}
+                    />
                 </div>
             )}
             {!comment.hidden && (
