@@ -1,4 +1,6 @@
-export type Verdict = 'yes' | 'no' | 'maybe';
+import type { ReviewResponse } from '@hikka/api';
+
+export type Verdict = ReviewResponse['recommended'];
 
 export const REVIEW_CONTENT_TYPES = ['anime', 'manga', 'novel'] as const;
 

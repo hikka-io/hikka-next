@@ -60,7 +60,7 @@ const CommentInput: FC<Props> = ({
     const isReviewEdit = !!isEdit && !!comment?.review;
     const [isReview, setIsReview] = useState(isReviewEdit);
     const [verdict, setVerdict] = useState<Verdict | null>(
-        (comment?.review?.recommended as Verdict | null) ?? null,
+        comment?.review?.recommended ?? null,
     );
 
     const isReply = !!comment && !isEdit;

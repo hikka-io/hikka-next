@@ -6,6 +6,7 @@ import {
     type CollectionResponse,
     type CommentResponseFeed,
     ContentTypeEnum,
+    type ReviewResponse,
     type VoteContentTypeEnum,
 } from '@hikka/api';
 
@@ -108,7 +109,7 @@ const FeedItem: FC<Props> = ({ item }) => {
     const shareUrl = getShareUrl(item);
 
     let reference: Reference | undefined;
-    let recommended: 'yes' | 'no' | 'maybe' | undefined;
+    let recommended: ReviewResponse['recommended'] | undefined;
     let category: ArticleCategoryEnum | undefined;
 
     if (item.data_type === ContentTypeEnum.COMMENT) {
@@ -118,11 +119,7 @@ const FeedItem: FC<Props> = ({ item }) => {
             slug: preview.slug,
             title: preview.title,
         };
-        recommended = item.review?.recommended as
-            | 'yes'
-            | 'no'
-            | 'maybe'
-            | undefined;
+        recommended = item.review?.recommended;
     } else if (item.data_type === ContentTypeEnum.ARTICLE) {
         category = item.category as ArticleCategoryEnum;
         const content = item.content as ArticleContentPreview | null;

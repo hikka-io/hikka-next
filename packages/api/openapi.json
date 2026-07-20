@@ -21474,13 +21474,23 @@
         "properties": {
           "recommended": {
             "type": "string",
+            "enum": [
+              "yes",
+              "no",
+              "maybe"
+            ],
             "title": "Recommended"
+          },
+          "score": {
+            "type": "integer",
+            "title": "Score"
           }
         },
         "additionalProperties": false,
         "type": "object",
         "required": [
-          "recommended"
+          "recommended",
+          "score"
         ],
         "title": "ReviewResponse"
       },

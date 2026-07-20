@@ -5311,7 +5311,11 @@ export type ReviewResponse = {
     /**
      * Recommended
      */
-    recommended: string;
+    recommended: 'yes' | 'no' | 'maybe';
+    /**
+     * Score
+     */
+    score: number;
 };
 
 /**

@@ -4,6 +4,7 @@ import type {
     ArticleCategoryEnum,
     ContentTypeEnum,
     FollowUserResponse,
+    ReviewResponse,
 } from '@hikka/api';
 
 import AuthorMetaRow from '@/components/author-meta-row';
@@ -22,7 +23,7 @@ type Props = {
     author: FollowUserResponse;
     dataType: 'comment' | 'article' | 'collection';
     created: number;
-    recommended?: 'yes' | 'no' | 'maybe' | null;
+    recommended?: ReviewResponse['recommended'] | null;
     category?: ArticleCategoryEnum | null;
     reference?: Reference;
     shareUrl: string;

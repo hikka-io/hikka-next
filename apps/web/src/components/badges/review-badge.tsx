@@ -2,10 +2,12 @@ import type { FC } from 'react';
 
 import { type LucideIcon, Meh, ThumbsDown, ThumbsUp } from 'lucide-react';
 
+import type { ReviewResponse } from '@hikka/api';
+
 import { chipVariants } from '@/components/ui/chip';
 import { cn } from '@/utils/cn';
 
-type Verdict = 'yes' | 'no' | 'maybe';
+type Verdict = ReviewResponse['recommended'];
 
 // token text color + faint same-color tint background
 const VERDICT: Record<
@@ -30,11 +32,11 @@ const VERDICT: Record<
 };
 
 type Props = {
-    recommended?: string | null;
+    recommended?: Verdict | null;
 };
 
 export const ReviewBadge: FC<Props> = ({ recommended }) => {
-    const verdict = recommended ? VERDICT[recommended as Verdict] : undefined;
+    const verdict = recommended ? VERDICT[recommended] : undefined;
     if (!verdict) return null;
 
     const Icon = verdict.icon;

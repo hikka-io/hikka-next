@@ -1,6 +1,10 @@
 import type { FC } from 'react';
 
-import type { ArticleCategoryEnum, ContentTypeEnum } from '@hikka/api';
+import type {
+    ArticleCategoryEnum,
+    ContentTypeEnum,
+    ReviewResponse,
+} from '@hikka/api';
 
 import { ReviewBadge } from '@/components/badges';
 import { chipVariants } from '@/components/ui/chip';
@@ -28,7 +32,7 @@ const CHIP = chipVariants({ interactive: false });
 
 type Props = {
     dataType: FeedDataType;
-    recommended?: 'yes' | 'no' | 'maybe' | null;
+    recommended?: ReviewResponse['recommended'] | null;
     category?: ArticleCategoryEnum | null;
 };
 
