@@ -10,6 +10,7 @@ import {
     StatItemGroup,
     statItemVariants,
 } from '@/components/ui/stat-item';
+import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
 type Props = {
@@ -35,7 +36,7 @@ const FeedItemFooter: FC<Props> = ({
                 {contentType && slug !== undefined && myScore !== undefined && (
                     // VoteButton renders a fragment, so it can't be a
                     // `StatItem asChild` child; wrap it in a styled element.
-                    <div className={statItemVariants()}>
+                    <div className={cn(statItemVariants(), 'px-0')}>
                         <VoteButton
                             contentType={contentType}
                             slug={slug}
