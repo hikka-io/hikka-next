@@ -50,19 +50,19 @@ const EditRow: FC<Props> = ({ edit }) => {
             onClick={handleRowClick}
             onAuxClick={handleRowClick}
         >
-            <TableCell className="hidden w-8 sm:table-cell">
+            <TableCell className="hidden w-8 md:table-cell">
                 <Link to={`/edit/${edit.edit_id}`} className="hover:underline">
                     <Label className="cursor-pointer">{edit.edit_id}</Label>
                 </Link>
             </TableCell>
-            <TableCell className="w-40">
-                <div className="flex gap-4">
-                    <Avatar className="size-10 rounded-md">
+            <TableCell className="md:w-40">
+                <div className="flex gap-4 max-md:gap-3">
+                    <Avatar className="size-10 rounded-md max-md:hidden">
                         <AvatarImage src={edit.author!.avatar} />
                     </Avatar>
-                    <div className="flex flex-col">
+                    <div className="flex min-w-0 flex-col">
                         <Link
-                            className="hover:underline"
+                            className="truncate hover:underline"
                             to={`/u/${edit.author!.username}`}
                         >
                             {edit.author!.username}
@@ -76,7 +76,7 @@ const EditRow: FC<Props> = ({ edit }) => {
             <TableCell align="left" className="md:w-1/4">
                 <div className="flex gap-4">
                     <Link
-                        className="line-clamp-2 hover:underline"
+                        className="line-clamp-3 hover:underline"
                         to={`${CONTENT_TYPE_LINKS[edit.content_type]}/${
                             edit.content.slug
                         }`}
@@ -88,7 +88,7 @@ const EditRow: FC<Props> = ({ edit }) => {
                     {CONTENT_TYPES[edit.content_type].title_ua}
                 </Label>
             </TableCell>
-            <TableCell className="hidden sm:table-cell" align="left">
+            <TableCell className="hidden md:table-cell" align="left">
                 <div className="flex flex-wrap gap-2">
                     {Object.keys(edit.after).map(
                         (key) =>

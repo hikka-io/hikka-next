@@ -60,7 +60,7 @@ const EditList: FC<Props> = () => {
     return (
         <Block>
             <div className="-mx-4 overflow-hidden rounded-none border border-x-0 surface md:mx-0 md:rounded-lg md:border-x">
-                <Table>
+                <Table className="max-md:table-fixed max-md:[&_td]:px-2 max-md:[&_th]:px-2 max-md:[&_td:nth-child(2)]:pl-4 max-md:[&_th:nth-child(2)]:pl-4 max-md:[&_td:last-child]:pr-4 max-md:[&_th:last-child]:pr-4">
                     <EditHead />
                     <TableBody>
                         {list.map((edit) => (
