@@ -1,14 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import type { ContentTypeEnum } from '@hikka/api';
-
 const MAX_HISTORY_ENTRIES = 10;
 const HISTORY_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 export interface SearchHistoryEntry {
     query: string;
-    type: ContentTypeEnum | 'all';
     timestamp: number;
 }
 
@@ -20,7 +17,7 @@ export interface SearchHistoryState {
 }
 
 export interface SearchHistoryActions {
-    addEntry: (query: string, type: SearchHistoryEntry['type']) => void;
+    addEntry: (query: string) => void;
     removeEntry: (query: string) => void;
     clearHistory: () => void;
 }
@@ -31,14 +28,14 @@ export const useSearchHistoryStore = create<SearchHistoryStore>()(
     persist(
         (set) => ({
             entries: [],
-            addEntry: (query, type) =>
+            addEntry: (query) =>
                 set((state) => {
                     const normalized = query.trim();
                     if (!normalized) return state;
 
                     return {
                         entries: [
-                            { query: normalized, type, timestamp: Date.now() },
+                            { query: normalized, timestamp: Date.now() },
                             // Dedupe by query text, freshest entry stays on
                             // top; drop entries older than the TTL
                             ...state.entries.filter(

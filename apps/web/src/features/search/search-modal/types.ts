@@ -19,7 +19,7 @@ export type SearchContent =
     | CharacterResponse
     | PersonResponse;
 
-/** Ukrainian labels for the searchable types (toggle, history entries, etc.). */
+/** Ukrainian labels for the searchable types (toggle, etc.). */
 export const SEARCH_TYPE_LABELS: Partial<Record<SearchTypeValue, string>> = {
     [SEARCH_TYPE_ALL]: 'Усе',
     [ContentTypeEnum.ANIME]: 'Аніме',

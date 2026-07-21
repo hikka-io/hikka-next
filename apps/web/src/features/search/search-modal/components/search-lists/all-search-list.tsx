@@ -176,7 +176,7 @@ const AllSearchList = ({
             }
 
             if (value && value.trim().length >= MIN_SEARCH_LENGTH) {
-                addHistoryEntry(value, contentType);
+                addHistoryEntry(value);
             }
 
             onClose();

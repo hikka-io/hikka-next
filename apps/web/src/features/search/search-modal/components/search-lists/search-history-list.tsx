@@ -1,7 +1,6 @@
 import { Trash2, X } from 'lucide-react';
 
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { CommandItem } from '@/components/ui/command';
 import {
@@ -9,7 +8,6 @@ import {
     useSearchHistoryStore,
 } from '@/services/stores/search-history-store';
 
-import { SEARCH_TYPE_ALL, SEARCH_TYPE_LABELS } from '../../types';
 import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
 const MAX_HISTORY_SUGGESTIONS = 3;
@@ -57,15 +55,6 @@ const SearchHistoryList = ({ onSelect, query }: Props) => {
                     >
                         <MaterialSymbolsHistoryRounded className="text-muted-foreground" />
                         <span className="flex-1 truncate">{entry.query}</span>
-                        {entry.type !== SEARCH_TYPE_ALL &&
-                            SEARCH_TYPE_LABELS[entry.type] && (
-                                <Badge
-                                    variant="outline"
-                                    className="text-muted-foreground"
-                                >
-                                    {SEARCH_TYPE_LABELS[entry.type]}
-                                </Badge>
-                            )}
                         <Button
                             type="button"
                             size="icon-xs"

@@ -99,7 +99,7 @@ const EntitySearchList = ({
 
     const handleNavigate = useCallback(() => {
         if (value && value.trim().length >= MIN_SEARCH_LENGTH) {
-            addHistoryEntry(value, config.contentType);
+            addHistoryEntry(value);
         }
 
         onClose();
@@ -109,7 +109,6 @@ const EntitySearchList = ({
         );
     }, [
         addHistoryEntry,
-        config.contentType,
         onClose,
         router,
         value,

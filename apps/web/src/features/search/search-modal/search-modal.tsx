@@ -69,7 +69,7 @@ const SearchModal: FC<Props> = ({
     const onDismiss = useCallback(
         (content: SearchContent | UserResponse) => {
             if (searchValue && searchValue.trim().length >= MIN_SEARCH_LENGTH) {
-                addHistoryEntry(searchValue, searchType);
+                addHistoryEntry(searchValue);
             }
 
             setSearchValue('');
@@ -77,7 +77,7 @@ const SearchModal: FC<Props> = ({
 
             onClick?.(content);
         },
-        [addHistoryEntry, onClick, searchType, searchValue],
+        [addHistoryEntry, onClick, searchValue],
     );
 
     const handleOpenChange = useCallback((isOpen: boolean) => {
@@ -89,21 +89,12 @@ const SearchModal: FC<Props> = ({
 
     const handleHistorySelect = useCallback(
         (entry: SearchHistoryEntry) => {
-            if (
-                !content_type &&
-                (entry.type === SEARCH_TYPE_ALL ||
-                    !allowedTypes ||
-                    allowedTypes.includes(entry.type))
-            ) {
-                setSearchType(entry.type);
-            }
-
             setSearchValue(entry.query);
             // Skip the debounce wait so results start loading immediately
             setDebouncedValue(entry.query);
             inputRef.current?.focus();
         },
-        [allowedTypes, content_type, setDebouncedValue],
+        [setDebouncedValue],
     );
 
     const showHistory =
