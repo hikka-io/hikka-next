@@ -10,8 +10,8 @@ import AnimeCard from '@/components/content-card/anime-card';
 import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import EmptyState from '@/components/ui/empty-state';
+import Stack from '@/components/ui/stack';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
 import FavoriteSkeleton from './favorite-skeleton';
@@ -53,21 +53,17 @@ const Anime: FC<Props> = ({ extended }) => {
     return (
         <>
             {filteredData.length > 0 && (
-                <div
-                    className={cn(
-                        'grid grid-cols-2 gap-4 md:grid-cols-6 lg:gap-8',
-                        !extended &&
-                            'grid-min-10 no-scrollbar -mx-4 auto-cols-scroll grid-flow-col grid-cols-scroll overflow-x-auto px-4',
-                    )}
+                <Stack
+                    extended={extended}
+                    size={6}
+                    extendedSize={7}
+                    className="grid-min-10"
+                    imagePreset="cardSm"
                 >
                     {filteredData.map((res) => (
-                        <AnimeCard
-                            key={res.slug}
-                            item={res}
-                            imagePreset="cardSm"
-                        />
+                        <AnimeCard key={res.slug} item={res} />
                     ))}
-                </div>
+                </Stack>
             )}
             {filteredData.length === 0 && (
                 <EmptyState

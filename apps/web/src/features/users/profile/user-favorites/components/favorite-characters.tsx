@@ -59,7 +59,7 @@ const Characters: FC<Props> = ({ extended }) => {
                 <Stack
                     extended={extended}
                     size={6}
-                    extendedSize={6}
+                    extendedSize={7}
                     className="grid-min-10"
                     imagePreset="cardSm"
                 >

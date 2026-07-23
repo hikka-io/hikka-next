@@ -1,5 +1,7 @@
 import { type FC, useState } from 'react';
 
+import { useNavigate } from '@tanstack/react-router';
+
 import { ContentTypeEnum, type FavouriteContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
@@ -53,13 +55,27 @@ const CONTENT_OPTIONS: ChipTabOption<FavouriteContentTypeEnum>[] = [
 
 type Props = {
     extended?: boolean;
+    type?: FavouriteContentTypeEnum;
 };
 
-const Favorites: FC<Props> = ({ extended }) => {
+const Favorites: FC<Props> = ({ extended, type }) => {
     const [content, setContent] = useState<FavouriteContentTypeEnum>(
-        ContentTypeEnum.ANIME,
+        type ?? ContentTypeEnum.ANIME,
     );
     const params = useParams();
+    const navigate = useNavigate();
+
+    const handleContentChange = (value: FavouriteContentTypeEnum) => {
+        setContent(value);
+
+        if (extended) {
+            navigate({
+                to: '.',
+                search: { type: value },
+                replace: true,
+            });
+        }
+    };
 
     const getComponent = () => {
         switch (content) {
@@ -82,6 +98,7 @@ const Favorites: FC<Props> = ({ extended }) => {
         <Block id="user-favorites">
             <Header
                 to={!extended ? `/u/${params.username}/favorites` : undefined}
+                search={!extended ? { type: content } : undefined}
             >
                 <HeaderContainer>
                     <HeaderTitle variant={extended ? 'h2' : 'h3'}>
@@ -93,7 +110,7 @@ const Favorites: FC<Props> = ({ extended }) => {
             <ChipTabs
                 options={CONTENT_OPTIONS}
                 value={content}
-                onValueChange={setContent}
+                onValueChange={handleContentChange}
             />
             {getComponent()}
         </Block>
