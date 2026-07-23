@@ -29,9 +29,11 @@ const ContentArticlesModal: FC<Props> = ({ content_type }) => {
 
     return (
         <div className="-m-4 flex flex-1 flex-col overflow-y-scroll p-4">
-            {list?.map((article) => (
-                <ArticlePreviewCard article={article} key={article.slug} />
-            ))}
+            <div className="-mx-2 flex flex-col">
+                {list?.map((article) => (
+                    <ArticlePreviewCard article={article} key={article.slug} />
+                ))}
+            </div>
             {hasNextPage && (
                 <LoadMoreButton
                     isFetchingNextPage={isFetchingNextPage}

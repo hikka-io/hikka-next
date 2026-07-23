@@ -45,7 +45,7 @@ const ArticlePreviewCard: FC<Props> = ({ article }) => {
     const categoryOption = ARTICLE_CATEGORY_OPTIONS[category];
 
     return (
-        <div className="group relative flex flex-col gap-2 rounded-sm border-border/60 border-t px-2 py-2 transition-colors duration-100 first:border-t-0 hover:bg-accent">
+        <div className="group before:-top-px relative flex flex-col gap-2 rounded-sm px-2 py-2 transition-colors duration-100 before:pointer-events-none before:absolute before:right-0 before:left-0 before:h-px before:bg-border/60 first:before:hidden hover:bg-accent">
             <div className="flex items-center justify-between gap-2">
                 <Link
                     to={`/u/${article.author.username}`}

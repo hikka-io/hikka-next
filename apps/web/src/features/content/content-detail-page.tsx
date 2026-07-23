@@ -54,13 +54,16 @@ const ContentDetailPage: FC<Props> = ({
                 </div>
             </div>
             <div
-                className="hidden flex-col gap-4 lg:col-span-1 lg:flex"
+                className="hidden flex-col gap-8 lg:col-span-1 lg:flex"
                 id="content-left-side"
             >
-                <ContentCover content_type={contentType} />
-                <div className="flex w-full flex-col gap-4 lg:sticky lg:top-20 lg:self-start">
+                <div className="flex flex-col gap-4">
+                    <ContentCover content_type={contentType} />
                     <ContentActions content_type={contentType} />
                 </div>
+                <Followings content_type={contentType} />
+                <ContentArticles content_type={contentType} />
+                <Collections content_type={contentType} />
             </div>
             <div
                 className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-8"
@@ -99,9 +102,11 @@ const ContentDetailPage: FC<Props> = ({
                     content_type={contentType}
                 />
                 <ContentStats content_type={contentType} />
-                <Followings content_type={contentType} />
-                <ContentArticles content_type={contentType} />
-                <Collections content_type={contentType} />
+                <div className="contents lg:hidden">
+                    <Followings content_type={contentType} />
+                    <Collections content_type={contentType} />
+                    <ContentArticles content_type={contentType} />
+                </div>
                 <ContentLinks content_type={contentType} />
             </div>
         </div>
