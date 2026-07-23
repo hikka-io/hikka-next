@@ -28,7 +28,12 @@ const WidgetColumn: FC<{ widgets: UiFeedWidget[]; className?: string }> = ({
     widgets,
     className,
 }) => (
-    <div className={cn('flex flex-col gap-6', className)}>
+    <div
+        className={cn(
+            'flex flex-col gap-6 [&>*:first-child]:backdrop-blur',
+            className,
+        )}
+    >
         {widgets.map((w, i) => (
             <WidgetRenderer
                 key={w.slug}
@@ -82,7 +87,11 @@ const SidebarWidgetTabs: FC<{
                 {settingsButton}
             </div>
             {widgets.map((w) => (
-                <TabsContent key={w.slug} value={w.slug}>
+                <TabsContent
+                    key={w.slug}
+                    value={w.slug}
+                    className="[&>*:first-child]:backdrop-blur"
+                >
                     <WidgetRenderer widget={w} isLast />
                 </TabsContent>
             ))}
@@ -245,7 +254,7 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
             {hasCenter && (
                 <main
                     className={cn(
-                        'flex min-w-0 flex-col gap-6',
+                        'flex min-w-0 flex-col gap-6 [&>*:first-child]:backdrop-blur',
                         layout === 3 && 'order-2 lg:order-1',
                         isCenterRight && 'lg:order-1',
                     )}
