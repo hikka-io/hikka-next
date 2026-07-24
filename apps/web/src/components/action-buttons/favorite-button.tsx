@@ -5,7 +5,6 @@ import {
     favouriteAddMutation,
     favouriteDeleteMutation,
     getFavouriteOptions,
-    getFavouriteQueryKey,
 } from '@hikka/api';
 
 import { MaterialSymbolsFavoriteOutlineRounded } from '@/components/icons/material-symbols/MaterialSymbolsFavoriteOutlineRounded';
@@ -16,7 +15,10 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { invalidateFavourites } from '@/utils/api/invalidate-content-state';
+import {
+    applyFavouriteDeletion,
+    applyFavouriteMutation,
+} from '@/utils/api/invalidate-content-state';
 
 type Props = ButtonProps & {
     slug: string;
@@ -33,10 +35,6 @@ const FavoriteButton = ({
 }: Props) => {
     const queryClient = useQueryClient();
 
-    const favouriteQueryKey = getFavouriteQueryKey({
-        path: { content_type, slug },
-    });
-
     const { data: favorite, isError: favoriteError } = useQuery({
         ...getFavouriteOptions({ path: { content_type, slug } }),
         retry: false,
@@ -47,19 +45,15 @@ const FavoriteButton = ({
     const { mutate: addToFavorite, isPending: addToFavoriteLoading } =
         useMutation({
             ...favouriteAddMutation(),
-            onSuccess: (data) => {
-                queryClient.setQueryData(favouriteQueryKey, data);
-                invalidateFavourites(queryClient);
-            },
+            onSuccess: (data) =>
+                applyFavouriteMutation(queryClient, content_type, slug, data),
         });
 
     const { mutate: deleteFromFavorite, isPending: deleteFromFavoriteLoading } =
         useMutation({
             ...favouriteDeleteMutation(),
-            onSuccess: () => {
-                queryClient.removeQueries({ queryKey: favouriteQueryKey });
-                invalidateFavourites(queryClient);
-            },
+            onSuccess: () =>
+                applyFavouriteDeletion(queryClient, content_type, slug),
         });
 
     const isFavorite = Boolean(favorite) && !favoriteError;
