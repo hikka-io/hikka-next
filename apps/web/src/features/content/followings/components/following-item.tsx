@@ -33,6 +33,19 @@ const FollowingItem: FC<Props> = ({ data, className }) => {
             ? READ_STATUS[data.content[0].status as ReadStatusEnum]
             : WATCH_STATUS[data.content[0].status as WatchStatusEnum];
 
+    const progress =
+        data.type === 'read'
+            ? (data.content[0] as ReadResponseBase).chapters
+            : (data.content[0] as WatchResponseBase).episodes;
+
+    const hiddenProgressStatuses: string[] = ['completed', 'planned'];
+
+    const progressLabel =
+        progress > 0 &&
+        !hiddenProgressStatuses.includes(data.content[0].status)
+            ? `${progress} ${data.type === 'read' ? 'розд.' : 'еп.'}`
+            : null;
+
     return (
         <HorizontalCard className={className}>
             <HorizontalCardImage
@@ -47,6 +60,12 @@ const FollowingItem: FC<Props> = ({ data, className }) => {
                 </HorizontalCardTitle>
                 <HorizontalCardDescription>
                     {status.title_ua}
+                    {progressLabel && (
+                        <>
+                            <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
+                            {progressLabel}
+                        </>
+                    )}
                 </HorizontalCardDescription>
             </HorizontalCardContainer>
             {data.content[0].score > 0 && (
