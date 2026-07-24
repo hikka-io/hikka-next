@@ -99,7 +99,7 @@ const Followings: FC<Props> = ({ content_type }) => {
                 </Block>
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent side="right" title="Відстежується">
+                <ResponsiveModalContent side="left" title="Відстежується">
                     <FollowingsModal content_type={content_type} />
                 </ResponsiveModalContent>
             </ResponsiveModal>

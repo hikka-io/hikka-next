@@ -67,7 +67,7 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
                 </Block>
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent side="right" title="Статті">
+                <ResponsiveModalContent side="left" title="Статті">
                     <ContentNewsModal content_type={content_type} />
                 </ResponsiveModalContent>
             </ResponsiveModal>
