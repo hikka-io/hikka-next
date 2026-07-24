@@ -1,4 +1,4 @@
-import { type FC, useMemo, useState } from 'react';
+import { type FC, type ReactNode, useMemo, useState } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -33,7 +33,11 @@ import NotificationsContent from './components/notifications-content';
 import NotificationsHeader from './components/notifications-header';
 import { groupNotificationsByDay } from './utils/group-notifications-by-day';
 
-const NotificationsMenu: FC = () => {
+type Props = {
+    trigger?: (unseenCount: number) => ReactNode;
+};
+
+const NotificationsMenu: FC<Props> = ({ trigger }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const [isOpen, setIsOpen] = useState(false);
     const [isBulkMarking, setIsBulkMarking] = useState(false);
@@ -80,7 +84,9 @@ const NotificationsMenu: FC = () => {
         }
     };
 
-    const triggerButton = (
+    const triggerButton = trigger ? (
+        trigger(unseenCount)
+    ) : (
         <Button variant="outline" size="icon-md" className="relative">
             <MaterialSymbolsNotificationsRounded />
             {unseenCount > 0 && (

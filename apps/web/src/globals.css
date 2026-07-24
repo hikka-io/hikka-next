@@ -297,6 +297,9 @@
 :root {
     --font-geist: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
 
+    /* Space the mobile tab bar occupies; bottom-anchored UI offsets by it. */
+    --tab-bar-height: calc(3.75rem + env(safe-area-inset-bottom));
+
     --background: oklch(1 0 0);
     --foreground: oklch(0.142 0.004 286);
 
@@ -646,12 +649,15 @@
 
 /* Logo styles */
 .logo,
+.logo-icon,
 .logo-full {
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
-.logo {
+.logo,
+.logo-icon {
     background-image: url(/logo-icon.png);
 }
 
@@ -664,6 +670,10 @@
 }
 
 @media (width >= 48rem) {
+    :root {
+        --tab-bar-height: 0px;
+    }
+
     .logo {
         background-image: url(/logo.svg);
     }

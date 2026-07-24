@@ -69,7 +69,7 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
     return (
         <div
             className={cn(
-                'sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4',
+                'sticky bottom-[calc(var(--tab-bar-height)+0.75rem)] z-10 mx-auto flex w-fit md:bottom-4',
                 className,
             )}
         >

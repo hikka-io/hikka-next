@@ -213,7 +213,7 @@ export const StickyPagination = ({ page, pages, setPage }: Props) => {
     }
 
     return (
-        <div className="sticky bottom-4 z-10 mx-auto flex w-fit items-center">
+        <div className="sticky bottom-[calc(var(--tab-bar-height)+1rem)] z-10 mx-auto flex w-fit items-center">
             <Card variant="glass" className="flex-row gap-2 px-3 py-2">
                 <Pagination page={page} pages={pages} setPage={setPage} />
             </Card>

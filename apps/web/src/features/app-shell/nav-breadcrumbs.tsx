@@ -1,33 +1,37 @@
-import {
-    Children,
-    Fragment,
-    type PropsWithChildren,
-    useEffect,
-    useState,
-} from 'react';
-import { createPortal } from 'react-dom';
+import { Children, Fragment, type PropsWithChildren } from 'react';
 
 import IconamoonSignDivisionSlashThin from '@/components/icons/iconamoon/IconamoonSignDivisionSlashThin';
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
 import { cn } from '@/utils/cn';
 
 type NavBreadcrumbsProps = PropsWithChildren;
 
+/**
+ * Page-context row for mobile, where there is no navbar. Sticks to the top of
+ * the viewport and bleeds past the page padding; the negative top margin
+ * cancels the safe-area padding it re-adds, so it costs no extra space until
+ * it is pinned.
+ */
 const NavBreadcrumbs = ({ children }: NavBreadcrumbsProps) => {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
     const arrayChildren = Children.toArray(children);
-    const [mounted, setMounted] = useState(false);
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+    const trigger = useScrollTrigger({
+        threshold: 8,
+        disableHysteresis: true,
+    });
 
-    if (!mounted || arrayChildren.length === 0) {
+    if (arrayChildren.length === 0) {
         return null;
     }
 
-    const renderBreadcrumbs = () => (
-        <>
+    return (
+        <div
+            className={cn(
+                '-mx-4 -mt-[calc(2rem+env(safe-area-inset-top))] sticky top-0 z-20 mb-4 flex min-h-12 items-center gap-4 overflow-hidden border-b border-b-transparent bg-transparent px-4 pt-[env(safe-area-inset-top)] backdrop-blur transition-[background-color,border-color,backdrop-filter] md:hidden',
+                trigger &&
+                    'border-b-border bg-background/80 backdrop-blur-xl backdrop-saturate-150',
+            )}
+        >
             {Children.map(arrayChildren, (child, index) => (
                 <Fragment key={index}>
                     <IconamoonSignDivisionSlashThin
@@ -39,21 +43,8 @@ const NavBreadcrumbs = ({ children }: NavBreadcrumbsProps) => {
                     {child}
                 </Fragment>
             ))}
-        </>
+        </div>
     );
-
-    // Breadcrumbs are mobile-only — there is no desktop portal container.
-    if (isDesktop) {
-        return null;
-    }
-
-    const portalContainer = document.getElementById('breadcrumbs-mobile');
-
-    if (!portalContainer) {
-        return null;
-    }
-
-    return createPortal(renderBreadcrumbs(), portalContainer);
 };
 
 export default NavBreadcrumbs;

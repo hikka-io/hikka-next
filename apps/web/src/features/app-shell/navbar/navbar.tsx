@@ -2,51 +2,44 @@ import { Button } from '@/components/ui/button';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { NotificationsMenu } from '@/features/notifications';
 import { SearchModal } from '@/features/search';
-import { useMediaQuery } from '@/services/hooks/use-media-query';
 import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
 import LoginButton from '../login-button';
-import MobileNav from './components/mobile-nav';
 import NavMenu from './components/nav-menu';
 import ProfileMenu from './components/profile-menu';
 
+/** Desktop-only — on mobile navigation lives in the tab bar. */
 const Navbar = () => {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
-
     const { user: loggedUser } = useSession();
 
     const trigger = useScrollTrigger({
-        threshold: !isDesktop ? 0 : 40,
+        threshold: 40,
         disableHysteresis: true,
     });
 
     return (
         <header
             className={cn(
-                'sticky top-0 z-10 w-full bg-transparent backdrop-blur transition-[background-color,border-color]',
+                'sticky top-0 z-10 hidden w-full bg-transparent backdrop-blur transition-[background-color,border-color] md:block',
                 trigger && 'border-b border-b-border bg-background!',
             )}
         >
-            <nav className="relative mx-auto flex min-h-16 w-full max-w-350 items-center gap-4 px-4 md:gap-8">
-                <div className="flex min-w-0 flex-1 items-center gap-4 md:gap-6">
+            <nav className="relative mx-auto flex min-h-16 w-full max-w-350 items-center gap-8 px-4">
+                <div className="flex min-w-0 flex-1 items-center gap-6">
                     <Link
-                        className="logo h-6 w-6 shrink-0 md:w-20"
+                        className="logo h-6 w-20 shrink-0"
                         to="/"
-                        onClick={(_e) => {
+                        onClick={() => {
                             if (window.location.pathname === '/') {
                                 window.scrollTo({ top: 0, behavior: 'smooth' });
                             }
                         }}
                     />
 
-                    <div className="hidden min-w-0 flex-1 md:flex">
+                    <div className="flex min-w-0 flex-1">
                         <NavMenu />
-                    </div>
-
-                    <div className="flex min-w-0 flex-1 md:hidden">
-                        <MobileNav />
                     </div>
                 </div>
                 <div className="flex gap-2">
@@ -70,10 +63,6 @@ const Navbar = () => {
                     )}
                 </div>
             </nav>
-            <div
-                className="flex h-auto w-full flex-1 items-center gap-4 overflow-hidden px-4 has-[a]:min-h-10 has-[div]:min-h-10 has-[p]:min-h-10 md:hidden"
-                id="breadcrumbs-mobile"
-            />
         </header>
     );
 };

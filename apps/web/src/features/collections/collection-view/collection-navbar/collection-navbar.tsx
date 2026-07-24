@@ -33,7 +33,7 @@ const CollectionNavbar: FC<Props> = () => {
     );
 
     return (
-        <div className="sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4">
+        <div className="sticky bottom-[calc(var(--tab-bar-height)+0.75rem)] z-10 mx-auto flex w-fit md:bottom-4">
             <Card variant="glass" className="flex-row gap-2 border-none px-3 py-2">
                 <CollectionVote collection={collection!} />
                 {collection && (

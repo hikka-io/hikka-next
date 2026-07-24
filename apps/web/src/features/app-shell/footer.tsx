@@ -1,3 +1,5 @@
+import type { FC } from 'react';
+
 import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import { Button } from '@/components/ui/button';
 import {
@@ -7,6 +9,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
+import { cn } from '@/utils/cn';
 import {
     DONATION_LINKS,
     FOOTER_LINKS,
@@ -14,9 +17,18 @@ import {
 } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
-const Footer = () => {
+type Props = {
+    className?: string;
+};
+
+const Footer: FC<Props> = ({ className }) => {
     return (
-        <footer className="w-full border-t border-t-border md:mt-12">
+        <footer
+            className={cn(
+                'w-full border-t border-t-border md:mt-12',
+                className,
+            )}
+        >
             <div className="mx-auto w-full max-w-350 p-4">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 lg:justify-start">
