@@ -24,11 +24,11 @@ function CharacterDetailPage() {
     const detailsContentType = ContentTypeEnum.CHARACTER;
 
     return (
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-12">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-4">
             <div className="flex flex-col gap-4 lg:col-span-1">
                 <Cover />
             </div>
-            <div className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-12">
+            <div className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-8">
                 <Title />
                 <Description />
                 <Details
@@ -47,7 +47,7 @@ function CharacterDetailPage() {
                     />
                 </div>
             </div>
-            <div className="flex flex-col gap-12 lg:col-span-1">
+            <div className="flex flex-col gap-8 lg:col-span-1">
                 <Details
                     className="hidden lg:flex"
                     content_type={detailsContentType}

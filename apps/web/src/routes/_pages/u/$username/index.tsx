@@ -80,7 +80,7 @@ export const Route = createFileRoute('/_pages/u/$username/')({
 
 function UserPage() {
     return (
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_25%] lg:gap-12">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-[1fr_25%]">
             <div
                 className="contents lg:flex lg:flex-col lg:gap-8"
                 id="profile-left-side"

@@ -46,7 +46,7 @@ function NovelListPage() {
 
             <div
                 className={cn(
-                    'grid grid-cols-1 lg:items-start lg:gap-8',
+                    'grid grid-cols-1 lg:items-start lg:gap-x-10',
                     sidebarVisible &&
                         'lg:grid-cols-[1fr_30%] xl:grid-cols-[1fr_25%]',
                 )}

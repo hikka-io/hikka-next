@@ -62,7 +62,7 @@ function EditLayout() {
                     Правка #{edit.edit_id}
                 </Link>
             </Breadcrumbs>
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_25%]">
+            <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-[1fr_25%]">
                 <Block>
                     <Outlet />
                 </Block>

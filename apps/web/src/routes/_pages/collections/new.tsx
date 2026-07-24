@@ -33,7 +33,7 @@ function CollectionNewPage() {
                     <Label>Нова колекція</Label>
                 </div>
             </Breadcrumbs>
-            <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
+            <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-x-10">
                 <Block>
                     <CollectionTitle />
                     <Card className="block p-0 lg:hidden">

@@ -49,7 +49,7 @@ function CollectionUpdatePage() {
             initialState={collection as Partial<CollectionState>}
         >
             <div>
-                <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
+                <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-x-10">
                     <Block>
                         <CollectionTitle />
                         <div className="block rounded-md border border-border surface lg:hidden">

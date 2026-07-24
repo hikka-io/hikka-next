@@ -86,7 +86,7 @@ function EditNewPage() {
     if (!content) return null;
 
     return (
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-12">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-[1fr_25%]">
             <Block>
                 <Header>
                     <HeaderContainer>
