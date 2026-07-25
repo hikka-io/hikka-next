@@ -15,6 +15,8 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
+import FavoriteMoreCard from './favorite-more-card';
+import { favoritePreview } from './favorite-preview';
 import FavoriteSkeleton from './favorite-skeleton';
 
 type Props = {
@@ -25,6 +27,7 @@ const Collections: FC<Props> = ({ extended }) => {
     const params = useParams();
     const {
         list: rawList,
+        pagination,
         isPending,
         fetchNextPage,
         hasNextPage,
@@ -49,7 +52,11 @@ const Collections: FC<Props> = ({ extended }) => {
         return null;
     }
 
-    const filteredData = (extended ? list : list?.slice(0, 6)) || [];
+    const {
+        items: filteredData,
+        remainingCount,
+        remainingItem,
+    } = favoritePreview(list, pagination?.total ?? 0, extended);
 
     return (
         <>
@@ -79,6 +86,14 @@ const Collections: FC<Props> = ({ extended }) => {
                             }
                         />
                     ))}
+                    {remainingCount > 0 && (
+                        <FavoriteMoreCard
+                            count={remainingCount}
+                            image={remainingItem?.collection[0].content.image}
+                            username={String(params.username)}
+                            type={ContentTypeEnum.COLLECTION}
+                        />
+                    )}
                 </Stack>
             )}
             {filteredData.length === 0 && (

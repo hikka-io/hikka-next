@@ -8,6 +8,7 @@ import {
 import {
     ContentTypeEnum,
     followStatsOptions,
+    serviceUserStatsOptions,
     userProfileOptions,
     userReadStatsOptions,
     userReferenceOptions,
@@ -88,6 +89,12 @@ export const Route = createFileRoute('/_pages/u/$username')({
             ),
             queryClient.prefetchQuery(
                 followStatsOptions({
+                    path: { username },
+                    client: apiClient,
+                }),
+            ),
+            queryClient.prefetchQuery(
+                serviceUserStatsOptions({
                     path: { username },
                     client: apiClient,
                 }),
