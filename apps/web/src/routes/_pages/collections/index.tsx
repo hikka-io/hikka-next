@@ -12,6 +12,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Link from '@/components/ui/link';
+import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { CollectionList, CollectionSort } from '@/features/collections';
 import { generateHeadMeta } from '@/utils/metadata';
 import { collectionsSearchSchema } from '@/utils/search-schemas';
@@ -53,12 +54,18 @@ export const Route = createFileRoute('/_pages/collections/')({
 function CollectionsPage() {
     const { collections, page, sort } = Route.useLoaderData();
 
+    const titleAnchor = usePageTitleAnchor();
+
+    usePageHeader({ title: 'Колекції', parent: '/' });
+
     return (
         <Block>
             <div className="flex items-center justify-between gap-4">
                 <Header>
                     <HeaderContainer>
-                        <HeaderTitle variant="h2">Колекції</HeaderTitle>
+                        <HeaderTitle ref={titleAnchor} variant="h2">
+                            Колекції
+                        </HeaderTitle>
                         <Button asChild size="icon-sm" variant="outline">
                             <Link to="/collections/new">
                                 <MaterialSymbolsAddRounded />

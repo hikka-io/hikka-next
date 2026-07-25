@@ -560,6 +560,17 @@ export const zFavouriteResponse = z.object({
 });
 
 /**
+ * FavouriteStatsResponse
+ */
+export const zFavouriteStatsResponse = z.object({
+    collection: z.number().int().optional().default(0),
+    character: z.number().int().optional().default(0),
+    anime: z.number().int().optional().default(0),
+    manga: z.number().int().optional().default(0),
+    novel: z.number().int().optional().default(0),
+});
+
+/**
  * FeedArgs
  */
 export const zFeedArgs = z.object({
@@ -1276,6 +1287,8 @@ export const zMangaCatalogResponse = z.object({
     read: z.array(zReadResponseBase),
     genres: z.array(zGenreResponse),
     magazines: z.array(zMagazineResponse),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
 });
 
 /**
@@ -1366,6 +1379,8 @@ export const zNovelCatalogResponse = z.object({
     read: z.array(zReadResponseBase),
     genres: z.array(zGenreResponse),
     magazines: z.array(zMagazineResponse),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
 });
 
 /**
@@ -1515,7 +1530,7 @@ export const zCommentTextArgs = z.object({
  */
 export const zReviewResponse = z.object({
     recommended: z.enum(['yes', 'no', 'maybe']),
-    score: z.number().int().optional(),
+    score: z.number().int(),
 });
 
 /**
@@ -2443,7 +2458,9 @@ export const zUserReadPaginationResponse = z.object({
  * UserStatsResponse
  */
 export const zUserStatsResponse = z.object({
+    favourites_count: zFavouriteStatsResponse,
     comments_count: z.number().int().optional().default(0),
+    reviews_count: z.number().int().optional().default(0),
     edits_count: z.number().int().optional().default(0),
 });
 
@@ -2577,6 +2594,8 @@ export const zAnimeCatalogResponse = z.object({
     watch: z.array(zWatchResponseBase),
     genres: z.array(zGenreResponse),
     studios: z.array(zCompanyResponse),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
 });
 
 /**
@@ -3715,6 +3734,8 @@ export const zThreadPath = z.object({
 
 export const zThreadQuery = z.object({
     flat: z.boolean().optional().default(false),
+    page: z.number().int().gt(0).lte(10000).optional().default(1),
+    size: z.number().int().gte(1).lte(100).optional().default(15),
 });
 
 /**
@@ -3724,7 +3745,7 @@ export const zThreadQuery = z.object({
  */
 export const zThreadResponse = z.union([
     zCommentResponse,
-    z.array(zCommentResponse),
+    zCommentListResponse,
 ]);
 
 export const zGetCommentsUserHeaders = z.object({

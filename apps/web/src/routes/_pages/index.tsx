@@ -40,6 +40,7 @@ const FEED_TYPE_TO_CONTENT_TYPE: Record<
 };
 
 export const Route = createFileRoute('/_pages/')({
+    staticData: { headerless: true },
     validateSearch: zodValidator(feedSearchSchema),
     loaderDeps: ({ search }) => ({ type: search.type }),
     head: () =>

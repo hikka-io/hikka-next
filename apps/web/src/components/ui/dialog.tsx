@@ -94,7 +94,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="dialog-header"
             className={cn(
-                '-mx-4 -mt-4 flex flex-col gap-2 border-b p-4 pr-12',
+                '-mx-4 -mt-4 flex flex-col gap-0.5 border-b p-4 pr-12',
                 className,
             )}
             {...props}
@@ -137,7 +137,7 @@ function DialogTitle({
         <DialogPrimitive.Title
             data-slot="dialog-title"
             className={cn(
-                'truncate font-medium text-base leading-none',
+                'truncate font-semibold text-sm leading-4 md:text-base md:leading-none',
                 className,
             )}
             {...props}
@@ -153,7 +153,7 @@ function DialogDescription({
         <DialogPrimitive.Description
             data-slot="dialog-description"
             className={cn(
-                'text-muted-foreground text-sm *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground',
+                'text-muted-foreground text-xs *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground md:text-sm',
                 className,
             )}
             {...props}

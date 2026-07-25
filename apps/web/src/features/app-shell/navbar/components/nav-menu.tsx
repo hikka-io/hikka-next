@@ -6,6 +6,10 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
+import {
+    SELECTED_TINT,
+    SELECTED_TINT_HOVER,
+} from '@/components/ui/selected-tint';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
 import {
@@ -21,9 +25,9 @@ const navItemSize = 'h-9 gap-1.5 rounded-md px-2.5';
 function navItemClassName(active: boolean) {
     return cn(
         'border border-transparent',
-        buttonVariants({ variant: active ? 'default' : 'ghost' }),
+        buttonVariants({ variant: 'ghost' }),
         navItemSize,
-        !active && 'text-foreground/70',
+        active ? cn(SELECTED_TINT, SELECTED_TINT_HOVER) : 'text-foreground/70',
     );
 }
 
@@ -36,11 +40,15 @@ const triggerClassName = cn(
     'data-[state=open]:bg-accent! data-[state=open]:text-foreground!',
 );
 
-const dropdownItemClassName = cn(
-    buttonVariants({ variant: 'ghost' }),
-    'h-auto w-full justify-start gap-2 rounded-sm px-2 py-1.5 text-sm',
-    'text-muted-foreground',
-);
+function dropdownItemClassName(active: boolean) {
+    return cn(
+        buttonVariants({ variant: 'ghost' }),
+        'h-auto w-full justify-start gap-2 rounded-sm border border-transparent px-2 py-1.5 text-sm',
+        active
+            ? cn(SELECTED_TINT, SELECTED_TINT_HOVER)
+            : 'text-muted-foreground',
+    );
+}
 
 function NavMenu() {
     const pathname = usePathname();
@@ -63,7 +71,10 @@ function NavMenu() {
                         </Link>
                     </NavigationMenuItem>
                 ))}
-                <Separator orientation="vertical" className="h-4" />
+                <Separator
+                    orientation="vertical"
+                    className="lifted-edges h-4 bg-border"
+                />
 
                 {APP_NAV_USER_CONTENT.length > 0 && (
                     <NavigationMenuItem>
@@ -80,14 +91,8 @@ function NavMenu() {
                                             to={item.url}
                                             search={item.search}
                                             preload="intent"
-                                            className={cn(
-                                                navItemClassName(
-                                                    isNavActive(
-                                                        pathname,
-                                                        item.url,
-                                                    ),
-                                                ),
-                                                dropdownItemClassName,
+                                            className={dropdownItemClassName(
+                                                isNavActive(pathname, item.url),
                                             )}
                                         >
                                             {item.icon && <item.icon />}
@@ -100,7 +105,10 @@ function NavMenu() {
                     </NavigationMenuItem>
                 )}
 
-                <Separator orientation="vertical" className="h-4" />
+                <Separator
+                    orientation="vertical"
+                    className="lifted-edges h-4 bg-border"
+                />
 
                 {APP_NAV_MORE.length > 0 && (
                     <NavigationMenuItem>
@@ -126,14 +134,11 @@ function NavMenu() {
                                                             to={item.url}
                                                             search={item.search}
                                                             preload="intent"
-                                                            className={cn(
-                                                                navItemClassName(
-                                                                    isNavActive(
-                                                                        pathname,
-                                                                        item.url,
-                                                                    ),
+                                                            className={dropdownItemClassName(
+                                                                isNavActive(
+                                                                    pathname,
+                                                                    item.url,
                                                                 ),
-                                                                dropdownItemClassName,
                                                             )}
                                                         >
                                                             {item.icon && (

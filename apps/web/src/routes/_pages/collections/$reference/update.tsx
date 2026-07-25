@@ -6,6 +6,7 @@ import { getCollectionOptions, getCollectionQueryKey } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+import { usePageHeader } from '@/features/app-shell';
 import {
     CollectionEditGroups as CollectionGroups,
     CollectionEditSettings as CollectionSettings,
@@ -42,6 +43,12 @@ function CollectionUpdatePage() {
         getCollectionOptions({ path: { reference } }),
     );
 
+    usePageHeader({
+        title: collection?.title,
+        subtitle: 'Редагування',
+        parent: `/collections/${reference}`,
+    });
+
     if (!collection) return null;
 
     return (
@@ -49,7 +56,7 @@ function CollectionUpdatePage() {
             initialState={collection as Partial<CollectionState>}
         >
             <div>
-                <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-12">
+                <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-x-10">
                     <Block>
                         <CollectionTitle />
                         <div className="block rounded-md border border-border surface lg:hidden">

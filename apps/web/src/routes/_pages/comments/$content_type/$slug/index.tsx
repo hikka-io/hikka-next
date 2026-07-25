@@ -9,16 +9,19 @@ import {
     paginationPageParam,
 } from '@hikka/api';
 
+import { usePageHeader } from '@/features/app-shell';
 import {
     CommentList as Comments,
+    getContentTitle,
     prefetchContent,
     UserCommentList,
+    useContentTitle,
 } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
 import { useChangeParam } from '@/features/filters';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 import { commentsSearchSchema } from '@/utils/search-schemas';
-import { getTitle } from '@/utils/title/get-title';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
     validateSearch: zodValidator(commentsSearchSchema),
@@ -61,9 +64,10 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
 
         return { content };
     },
-    head: ({ loaderData }) => {
+    head: ({ loaderData, params }) => {
+        const { content_type } = params;
         const content = loaderData?.content as Record<string, any> | undefined;
-        const title = getTitle(content) || (content?.username as string);
+        const title = getContentTitle(content_type as ContentTypeEnum, content);
 
         return generateHeadMeta({
             title: title ? `Коментарі / ${title}` : 'Коментарі',
@@ -77,8 +81,15 @@ function CommentsPage() {
     const { comment_type } = Route.useSearch();
     const { content } = Route.useLoaderData();
     const changeParam = useChangeParam();
-    const contentTitle = getTitle(content) ?? undefined;
+    const contentTitle =
+        useContentTitle(content_type as ContentTypeEnum, content) || undefined;
     const isUser = content_type === ContentTypeEnum.USER;
+
+    usePageHeader({
+        title: contentTitle,
+        subtitle: 'Коментарі',
+        parent: `${CONTENT_TYPE_LINKS[content_type as ContentTypeEnum]}/${slug}`,
+    });
 
     const commentType = comment_type ?? 'all';
     const handleCommentTypeChange = (type: string) =>

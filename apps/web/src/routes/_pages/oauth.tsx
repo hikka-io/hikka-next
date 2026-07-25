@@ -13,6 +13,7 @@ import { generateHeadMeta } from '@/utils/metadata';
 import { oauthSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/oauth')({
+    staticData: { headerless: true },
     validateSearch: zodValidator(oauthSearchSchema),
     loaderDeps: ({ search }) => search,
     loader: async ({ context: { queryClient, apiClient }, deps }) => {

@@ -19,8 +19,9 @@ import {
     type WatchStatusEnum,
 } from '@hikka/api';
 
+import ContentTypeTabs from '@/components/content-type-tabs';
 import Block from '@/components/ui/block';
-import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
 import { AnimeFilters, ReadFilters } from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
@@ -35,12 +36,6 @@ const TITLES: Record<string, string> = {
     [ContentTypeEnum.ANIME]: 'аніме',
     [ContentTypeEnum.MANGA]: 'манґи',
     [ContentTypeEnum.NOVEL]: 'ранобе',
-};
-
-const DESCRIPTIONS: Record<string, string> = {
-    [ContentTypeEnum.ANIME]: 'Персональний список перегляду',
-    [ContentTypeEnum.MANGA]: 'Персональний список читання',
-    [ContentTypeEnum.NOVEL]: 'Персональний список читання',
 };
 
 export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
@@ -150,7 +145,7 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
 });
 
 function ListPage() {
-    const { content_type: rawContentType } = Route.useParams();
+    const { username, content_type: rawContentType } = Route.useParams();
     const content_type = rawContentType as MainContentTypeEnum;
     const isAnime = content_type === ContentTypeEnum.ANIME;
     const { visible: sidebarVisible } = useFiltersSidebar(
@@ -162,18 +157,21 @@ function ListPage() {
 
     return (
         <Block>
-            <Header className="flex-col items-start gap-1">
-                <HeaderTitle variant="h2">
-                    Список {TITLES[content_type]}
-                </HeaderTitle>
-                <HeaderDescription>
-                    {DESCRIPTIONS[content_type]}
-                </HeaderDescription>
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle variant="h2">
+                        Список {TITLES[content_type]}
+                    </HeaderTitle>
+                </HeaderContainer>
             </Header>
+            <ContentTypeTabs
+                value={content_type}
+                urlFor={(type) => `/u/${username}/list/${type}`}
+            />
 
             <div
                 className={cn(
-                    'grid grid-cols-1 lg:items-start lg:gap-8',
+                    'grid grid-cols-1 lg:items-start lg:gap-x-10',
                     sidebarVisible &&
                         'lg:grid-cols-[1fr_30%] xl:grid-cols-[1fr_25%]',
                 )}

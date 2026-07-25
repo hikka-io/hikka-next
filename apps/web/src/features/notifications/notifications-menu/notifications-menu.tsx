@@ -1,4 +1,4 @@
-import { type FC, useMemo, useState } from 'react';
+import { type FC, type ReactNode, useMemo, useState } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -29,11 +29,16 @@ import { convertNotification } from '@/utils/adapters/convert-notification';
 import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
+import NotificationCountBadge from '../notification-count-badge';
 import NotificationsContent from './components/notifications-content';
 import NotificationsHeader from './components/notifications-header';
 import { groupNotificationsByDay } from './utils/group-notifications-by-day';
 
-const NotificationsMenu: FC = () => {
+type Props = {
+    trigger?: (unseenCount: number) => ReactNode;
+};
+
+const NotificationsMenu: FC<Props> = ({ trigger }) => {
     const isDesktop = useMediaQuery('(min-width: 768px)');
     const [isOpen, setIsOpen] = useState(false);
     const [isBulkMarking, setIsBulkMarking] = useState(false);
@@ -80,13 +85,20 @@ const NotificationsMenu: FC = () => {
         }
     };
 
-    const triggerButton = (
-        <Button variant="outline" size="icon-md" className="relative">
+    const triggerButton = trigger ? (
+        trigger(unseenCount)
+    ) : (
+        <Button
+            variant="outline"
+            size="icon-md"
+            className="lifted-edges relative rounded-md"
+        >
             <MaterialSymbolsNotificationsRounded />
             {unseenCount > 0 && (
-                <div className="absolute -right-0.5 -bottom-0.5 rounded-full border border-warning-border bg-warning p-0.5 px-1 font-bold text-[0.6rem] text-warning-foreground leading-none">
-                    {unseenCount < 100 ? unseenCount : '99+'}
-                </div>
+                <NotificationCountBadge
+                    count={unseenCount}
+                    className="-right-1 -bottom-1 absolute"
+                />
             )}
         </Button>
     );

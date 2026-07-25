@@ -393,34 +393,13 @@ export const APP_SIDEBAR: { title_ua: string; items: Hikka.NavRoute[] }[] = [
     },
 ];
 
+/** Sidebar without Контент — the mobile tab bar owns anime/manga/novel. */
+export const MOBILE_SHEET_NAV: { title_ua: string; items: Hikka.NavRoute[] }[] =
+    APP_SIDEBAR.filter((group) => group.items !== CONTENT_GROUP);
+
 export function isNavActive(pathname: string, url: string): boolean {
     if (url === '/') return pathname === '/';
     return pathname === url || pathname.startsWith(`${url}/`);
-}
-
-export function findActiveRoute(pathname: string): Hikka.NavRoute | undefined {
-    for (const group of APP_SIDEBAR) {
-        for (const item of group.items) {
-            if (item.items) {
-                for (const sub of item.items) {
-                    if (
-                        sub.visible !== false &&
-                        isNavActive(pathname, sub.url)
-                    ) {
-                        return sub;
-                    }
-                }
-            }
-            if (
-                item.visible !== false &&
-                item.url !== '/' &&
-                isNavActive(pathname, item.url)
-            ) {
-                return item;
-            }
-        }
-    }
-    return undefined;
 }
 
 export const CONTENT_TYPE_LINKS: Record<ContentTypeEnum, string> = {
@@ -495,12 +474,27 @@ export const SETTINGS_MENU: SettingsMenuItem[] = [
     },
 ];
 
-const PROFILE_GENERAL_GROUP: Hikka.NavRoute[] = [
+export const PROFILE_MENU: Hikka.NavRoute[] = [
     {
-        icon: MaterialSymbolsPerson,
-        title_ua: 'Профіль',
-        slug: 'profile',
-        url: '/u/{username}',
+        icon: MaterialSymbolsAnimatedImages,
+        title_ua: 'Список аніме',
+        slug: 'anime-list',
+        url: '/u/{username}/list/anime',
+        search: { status: 'planned', sort: 'watch_score' },
+    },
+    {
+        icon: MaterialSymbolsPalette,
+        title_ua: 'Список манґи',
+        slug: 'manga-list',
+        url: '/u/{username}/list/manga',
+        search: { status: 'planned', sort: 'read_score' },
+    },
+    {
+        icon: MaterialSymbolsMenuBookRounded,
+        title_ua: 'Список ранобе',
+        slug: 'novel-list',
+        url: '/u/{username}/list/novel',
+        search: { status: 'planned', sort: 'read_score' },
     },
     {
         icon: MaterialSymbolsFavoriteRounded,
@@ -508,53 +502,11 @@ const PROFILE_GENERAL_GROUP: Hikka.NavRoute[] = [
         slug: 'favorite',
         url: '/u/{username}/favorites',
     },
-];
-
-const PROFILE_LISTS_GROUP: Hikka.NavRoute[] = [
-    {
-        icon: MaterialSymbolsAnimatedImages,
-        title_ua: 'Список аніме',
-        slug: 'anime',
-        url: '/u/{username}/list/anime',
-        search: { status: 'planned', sort: 'watch_score' },
-    },
-    {
-        icon: MaterialSymbolsPalette,
-        title_ua: 'Список манґи',
-        slug: 'manga',
-        url: '/u/{username}/list/manga',
-        search: { status: 'planned', sort: 'read_score' },
-    },
-    {
-        icon: MaterialSymbolsMenuBookRounded,
-        title_ua: 'Список ранобе',
-        slug: 'novel',
-        url: '/u/{username}/list/novel',
-        search: { status: 'planned', sort: 'read_score' },
-    },
-];
-
-const PROFILE_OTHER_GROUP: Hikka.NavRoute[] = [
     {
         icon: MaterialSymbolsSettingsOutlineRounded,
         title_ua: 'Налаштування',
         slug: 'settings',
         url: '/settings',
-    },
-];
-
-export const PROFILE_MENU: { title_ua: string; items: Hikka.NavRoute[] }[] = [
-    {
-        title_ua: 'Загальне',
-        items: PROFILE_GENERAL_GROUP,
-    },
-    {
-        title_ua: 'Списки',
-        items: PROFILE_LISTS_GROUP,
-    },
-    {
-        title_ua: 'Інше',
-        items: PROFILE_OTHER_GROUP,
     },
 ];
 

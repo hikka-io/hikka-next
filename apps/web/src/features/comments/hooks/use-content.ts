@@ -16,7 +16,8 @@ import {
 } from '@hikka/api';
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { getTitle } from '@/utils/title/get-title';
+
+import getContentTitle from '../utils/get-content-title';
 
 interface UseContentParams {
     content_type:
@@ -36,7 +37,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         enabled: content_type === ContentTypeEnum.ANIME,
         select: (data) => ({
             content_type: ContentTypeEnum.ANIME,
-            title: getTitle(data, titleLang, nameLang),
+            title: getContentTitle(content_type, data, titleLang, nameLang),
             image: data.image,
         }),
     });
@@ -46,7 +47,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         enabled: content_type === ContentTypeEnum.MANGA,
         select: (data) => ({
             content_type: ContentTypeEnum.MANGA,
-            title: getTitle(data, titleLang, nameLang),
+            title: getContentTitle(content_type, data, titleLang, nameLang),
             image: data.image,
         }),
     });
@@ -56,7 +57,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         enabled: content_type === ContentTypeEnum.NOVEL,
         select: (data) => ({
             content_type: ContentTypeEnum.NOVEL,
-            title: getTitle(data, titleLang, nameLang),
+            title: getContentTitle(content_type, data, titleLang, nameLang),
             image: data.image,
         }),
     });
@@ -66,7 +67,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         enabled: content_type === ContentTypeEnum.CHARACTER,
         select: (data) => ({
             content_type: ContentTypeEnum.CHARACTER,
-            title: getTitle(data, titleLang, nameLang),
+            title: getContentTitle(content_type, data, titleLang, nameLang),
             image: data.image,
         }),
     });
@@ -76,7 +77,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         enabled: content_type === ContentTypeEnum.PERSON,
         select: (data) => ({
             content_type: ContentTypeEnum.PERSON,
-            title: getTitle(data, titleLang, nameLang),
+            title: getContentTitle(content_type, data, titleLang, nameLang),
             image: data.image,
         }),
     });
@@ -86,7 +87,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         enabled: content_type === ContentTypeEnum.COLLECTION,
         select: (data) => ({
             content_type: ContentTypeEnum.COLLECTION,
-            title: data.title,
+            title: getContentTitle(content_type, data),
             image: data.collection[0].content.image,
         }),
     });
@@ -96,7 +97,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         enabled: content_type === ContentTypeEnum.EDIT,
         select: (data) => ({
             content_type: ContentTypeEnum.EDIT,
-            title: `Правка #${data.edit_id}`,
+            title: getContentTitle(content_type, data),
             image: data.content.image,
         }),
     });
@@ -105,7 +106,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         ...getArticleOptions({ path: { slug } }),
         enabled: content_type === ContentTypeEnum.ARTICLE,
         select: (data) => ({
-            title: data.title,
+            title: getContentTitle(content_type, data),
             content_type: ContentTypeEnum.ARTICLE,
             image: null,
         }),
@@ -116,7 +117,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
         enabled: content_type === ContentTypeEnum.USER,
         select: (data) => ({
             content_type: ContentTypeEnum.USER,
-            title: data.username,
+            title: getContentTitle(content_type, data),
             image: data.avatar,
         }),
     });

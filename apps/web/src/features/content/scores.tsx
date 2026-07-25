@@ -33,7 +33,7 @@ const Scores = ({ className, content_type }: ScoresProps) => {
             className={cn(
                 'flex items-center gap-4 rounded-md border surface p-2 px-4 backdrop-blur',
                 (data.score === 0 || data.native_score === 0) &&
-                    'w-fit self-end',
+                    'w-fit self-start lg:self-end',
                 className,
             )}
         >

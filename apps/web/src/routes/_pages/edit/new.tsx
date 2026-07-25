@@ -13,6 +13,7 @@ import {
 
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { usePageHeader } from '@/features/app-shell';
 import {
     EditContent as Content,
     EditCreateForm as EditForm,
@@ -83,10 +84,12 @@ function EditNewPage() {
     const { content_type, slug } = Route.useLoaderData();
     const content = useContentBySlug(content_type, slug);
 
+    usePageHeader({ title: 'Нова правка', parent: '/edit' });
+
     if (!content) return null;
 
     return (
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_25%] lg:gap-12">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-[1fr_25%]">
             <Block>
                 <Header>
                     <HeaderContainer>

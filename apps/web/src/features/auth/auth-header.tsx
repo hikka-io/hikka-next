@@ -8,9 +8,13 @@ const AuthHeader = ({
     children: ReactNode;
 }) => {
     return (
-        <div className="space-y-2 text-center">
-            <h1 className="font-bold text-3xl">{title}</h1>
-            <small className="text-muted-foreground">{children}</small>
+        <div className="flex flex-col gap-1.5 text-center">
+            <h1 className="text-balance font-bold font-display text-2xl md:text-3xl">
+                {title}
+            </h1>
+            <p className="text-balance text-muted-foreground text-sm">
+                {children}
+            </p>
         </div>
     );
 };

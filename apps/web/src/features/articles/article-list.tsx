@@ -12,6 +12,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { usePageTitleAnchor } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { expandSort } from '@/features/filters/sort';
@@ -29,6 +30,7 @@ import ArticleItemSkeleton from './article-item/article-item-skeleton';
 type Props = {};
 
 const ArticleList: FC<Props> = () => {
+    const titleAnchor = usePageTitleAnchor();
     const { user } = useSession();
     const search = useFilterSearch<ArticlesSearch>();
 
@@ -63,7 +65,7 @@ const ArticleList: FC<Props> = () => {
         <Block>
             <Header>
                 <HeaderContainer>
-                    <HeaderTitle variant="h2">
+                    <HeaderTitle ref={titleAnchor} variant="h2">
                         {selectedCategory
                             ? ARTICLE_CATEGORY_OPTIONS[selectedCategory]
                                   ?.title_ua

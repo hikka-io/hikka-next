@@ -8,6 +8,7 @@ import {
 import {
     ContentTypeEnum,
     followStatsOptions,
+    serviceUserStatsOptions,
     userProfileOptions,
     userReadStatsOptions,
     userReferenceOptions,
@@ -15,9 +16,7 @@ import {
 } from '@hikka/api';
 
 import CoverImage from '@/components/cover-image';
-import Link from '@/components/ui/link';
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
-import NavMenu from '@/features/app-shell/nav-dropdown';
+import { usePageHeader } from '@/features/app-shell';
 import {
     ActivationAlert,
     FollowStats,
@@ -27,6 +26,7 @@ import {
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
+import { usePathname } from '@/utils/navigation';
 
 const UUID_RE =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -93,6 +93,12 @@ export const Route = createFileRoute('/_pages/u/$username')({
                     client: apiClient,
                 }),
             ),
+            queryClient.prefetchQuery(
+                serviceUserStatsOptions({
+                    path: { username },
+                    client: apiClient,
+                }),
+            ),
         ]);
 
         return { user };
@@ -114,23 +120,20 @@ export const Route = createFileRoute('/_pages/u/$username')({
 function UserLayout() {
     const { username } = Route.useParams();
     const { user } = Route.useLoaderData();
+    const pathname = usePathname();
+    const profileUrl = `/u/${username}`;
+
+    usePageHeader({
+        title: username,
+        parent: pathname === profileUrl ? '/' : profileUrl,
+        navRoutes: USER_NAV_ROUTES,
+        navUrlPrefix: profileUrl,
+    });
 
     return (
         <div className="flex flex-col gap-8">
             <ActivationAlert />
             <CoverImage cover={user?.cover ?? undefined} />
-            <Breadcrumbs>
-                <Link
-                    to={`/u/${username}`}
-                    className="truncate font-bold text-sm hover:underline"
-                >
-                    {username}
-                </Link>
-                <NavMenu
-                    routes={USER_NAV_ROUTES}
-                    urlPrefix={`/u/${username}`}
-                />
-            </Breadcrumbs>
             <div className="flex flex-col gap-4 md:flex-row lg:items-end lg:gap-8">
                 <div className="flex min-w-0 flex-1 gap-4 lg:gap-8">
                     <UserInfo />

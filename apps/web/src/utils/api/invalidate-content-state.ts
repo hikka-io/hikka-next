@@ -1,7 +1,10 @@
 import type { QueryClient } from '@tanstack/react-query';
 
 import {
+    type FavouriteContentTypeEnum,
+    type FavouriteResponse,
     getEditQueryKey,
+    getFavouriteQueryKey,
     type ReadResponse,
     readGetQueryKey,
     type WatchResponse,
@@ -420,6 +423,34 @@ export function invalidateFavourites(
     options?: InvalidateOptions,
 ): Promise<void> {
     return invalidateByIds(queryClient, ['favouriteList'], options);
+}
+
+/** Write an added favourite into the per-content cache, then invalidate the lists. */
+export function applyFavouriteMutation(
+    queryClient: QueryClient,
+    content_type: FavouriteContentTypeEnum,
+    slug: string,
+    data: FavouriteResponse,
+    options?: InvalidateOptions,
+): Promise<void> {
+    queryClient.setQueryData(
+        getFavouriteQueryKey({ path: { content_type, slug } }),
+        data,
+    );
+    return invalidateFavourites(queryClient, options);
+}
+
+/** Favourite mirror of `applyWatchDeletion`. */
+export function applyFavouriteDeletion(
+    queryClient: QueryClient,
+    content_type: FavouriteContentTypeEnum,
+    slug: string,
+    options?: InvalidateOptions,
+): Promise<void> {
+    queryClient.invalidateQueries({
+        queryKey: getFavouriteQueryKey({ path: { content_type, slug } }),
+    });
+    return invalidateFavourites(queryClient, options);
 }
 
 /**

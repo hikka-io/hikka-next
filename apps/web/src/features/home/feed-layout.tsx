@@ -30,7 +30,7 @@ const WidgetColumn: FC<{ widgets: UiFeedWidget[]; className?: string }> = ({
 }) => (
     <div
         className={cn(
-            'flex flex-col gap-6 [&>*:first-child]:backdrop-blur',
+            'flex flex-col gap-8 [&>*:first-child]:backdrop-blur',
             className,
         )}
     >
@@ -116,7 +116,7 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
     const sidebarWidgets = useMemo(() => [...left, ...right], [left, right]);
 
     const gridClasses = cn(
-        'mx-auto grid w-full grid-cols-1 gap-6 lg:gap-8',
+        'mx-auto grid w-full grid-cols-1 gap-x-10 gap-y-8',
         layout === 3 &&
             'lg:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]',
         layout === 2 &&
@@ -173,10 +173,12 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
             )}
 
             {isLeftRightOnly && (
-                <div className="flex flex-col gap-6 lg:hidden">
+                <div className="flex flex-col gap-4 lg:hidden">
                     {settingsFullButton}
-                    <WidgetColumn widgets={left} />
-                    <WidgetColumn widgets={right} />
+                    <div className="flex flex-col gap-8">
+                        <WidgetColumn widgets={left} />
+                        <WidgetColumn widgets={right} />
+                    </div>
                 </div>
             )}
 
@@ -254,7 +256,7 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
             {hasCenter && (
                 <main
                     className={cn(
-                        'flex min-w-0 flex-col gap-6 [&>*:first-child]:backdrop-blur',
+                        'flex min-w-0 flex-col gap-8 [&>*:first-child]:backdrop-blur',
                         layout === 3 && 'order-2 lg:order-1',
                         isCenterRight && 'lg:order-1',
                     )}

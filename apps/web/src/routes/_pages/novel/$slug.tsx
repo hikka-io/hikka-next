@@ -181,7 +181,6 @@ function NovelDetailLayout() {
             title={
                 novel.title_ua || novel.title_en || novel.title_original || ''
             }
-            status={novel.status}
             nsfw={novel.nsfw}
             nsfwConsented={nsfwConsented}
         >

@@ -8,6 +8,7 @@ import {
     paginationPageParam,
 } from '@hikka/api';
 
+import { usePageHeader } from '@/features/app-shell';
 import {
     ArticleFilters,
     ArticleList,
@@ -53,8 +54,10 @@ export const Route = createFileRoute('/_pages/articles/')({
 });
 
 function ArticlesPage() {
+    usePageHeader({ title: 'Статті', parent: '/' });
+
     return (
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]">
             <div className="sticky top-20 hidden flex-col gap-4 self-start xl:flex">
                 <PopularAuthors />
                 <PopularTags />

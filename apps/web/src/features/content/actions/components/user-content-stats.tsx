@@ -35,7 +35,7 @@ const UserContentStats = ({
     const unit = content_type === ContentTypeEnum.ANIME ? 'епізод' : 'розділ';
 
     return (
-        <div className="surface flex flex-col divide-y divide-border overflow-hidden rounded-md rounded-t-none border">
+        <div className="surface flex flex-col divide-y divide-border overflow-hidden rounded-md border">
             <div className="flex items-center justify-between gap-4 p-4">
                 <p className="flex items-center gap-2 text-muted-foreground text-sm">
                     <Star className="size-4" />

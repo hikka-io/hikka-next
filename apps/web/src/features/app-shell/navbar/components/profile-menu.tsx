@@ -1,4 +1,4 @@
-import { useRouterState } from '@tanstack/react-router';
+import { useState } from 'react';
 
 import MaterialSymbolsLogoutRounded from '@/components/icons/material-symbols/MaterialSymbolsLogoutRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -6,36 +6,26 @@ import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
+    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Label } from '@/components/ui/label';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { USER_ROLE } from '@/utils/constants/common';
-import { PROFILE_MENU } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
-const ProfileMenu = () => {
-    const { user: loggedUser } = useSession();
-    const currentUrl = useRouterState({
-        select: (s) => {
-            const loc = s.resolvedLocation ?? s.location;
-            return loc.pathname + loc.searchStr;
-        },
-    });
+import { useProfileMenu } from '../hooks/use-profile-menu';
+import ProfileIdentity from './profile-identity';
 
-    if (!loggedUser) {
+const ProfileMenu = () => {
+    const [open, setOpen] = useState(false);
+    const { user, items, logout } = useProfileMenu({ enabled: open });
+
+    if (!user) {
         return null;
     }
 
-    const logout = () => {
-        window.location.href = `/auth/logout?callbackUrl=${encodeURIComponent(currentUrl)}`;
-    };
-
     return (
-        <DropdownMenu>
+        <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger asChild>
                 <Button
                     variant="ghost"
@@ -44,71 +34,48 @@ const ProfileMenu = () => {
                 >
                     <Avatar className="rounded-md">
                         <AvatarImage
-                            src={loggedUser.avatar}
+                            src={user.avatar}
                             className="rounded-md"
                             alt="avatar"
                         />
                         <AvatarFallback className="rounded-md">
-                            {loggedUser.username[0]}
+                            {user.username[0]}
                         </AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-60 p-0">
-                <div className="m-2 flex items-center gap-2 rounded-md border surface-inset p-2">
-                    <Avatar className="size-10 rounded-md">
-                        <AvatarImage src={loggedUser.avatar} alt="pfp" />
-                    </Avatar>
-                    <div className="flex flex-col gap-1 overflow-hidden">
-                        <Label className="truncate">
-                            {loggedUser.username}
-                        </Label>
-                        <p className="truncate text-muted-foreground text-xs">
-                            {USER_ROLE[loggedUser.role].label}
-                        </p>
-                    </div>
-                </div>
+            <DropdownMenuContent align="end" className="w-60 p-2">
+                <DropdownMenuItem asChild className="mb-2 p-1">
+                    <ProfileIdentity
+                        user={user}
+                        onNavigate={() => setOpen(false)}
+                    />
+                </DropdownMenuItem>
 
-                {PROFILE_MENU.map((group, index) => (
-                    <DropdownMenuGroup
-                        key={group.title_ua}
-                        title={group.title_ua}
-                        className="flex flex-col gap-1 p-2"
-                    >
-                        <DropdownMenuLabel className="flex h-8 items-center">
-                            {group.title_ua}
-                        </DropdownMenuLabel>
-                        {group.items.map((item) => (
-                            <DropdownMenuItem
-                                key={item.slug}
-                                className="p-2"
-                                asChild
-                            >
-                                <Link
-                                    {...item.linkProps}
-                                    to={item.url
-                                        .replace(
-                                            '{username}',
-                                            loggedUser.username,
-                                        )
-                                        .replace('{currentUrl}', currentUrl)}
-                                    search={item.search}
-                                >
-                                    {item.icon && (
-                                        <item.icon className="size-4" />
-                                    )}
-                                    {item.title_ua}
-                                </Link>
-                            </DropdownMenuItem>
-                        ))}
-                        {PROFILE_MENU.length === index + 1 && (
-                            <DropdownMenuItem onClick={logout} className="p-2">
-                                <MaterialSymbolsLogoutRounded className="text-destructive-foreground" />
-                                Вийти
-                            </DropdownMenuItem>
-                        )}
-                    </DropdownMenuGroup>
+                <DropdownMenuLabel className="flex h-8 items-center">
+                    Профіль
+                </DropdownMenuLabel>
+
+                {items.map((item) => (
+                    <DropdownMenuItem key={item.slug} className="p-2" asChild>
+                        <Link to={item.url} search={item.search}>
+                            {item.icon && <item.icon className="size-4" />}
+                            {item.title_ua}
+                            {item.count !== undefined && (
+                                <span className="ml-auto text-muted-foreground text-xs tabular-nums">
+                                    {item.count}
+                                </span>
+                            )}
+                        </Link>
+                    </DropdownMenuItem>
                 ))}
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem onClick={logout} className="p-2">
+                    <MaterialSymbolsLogoutRounded className="text-destructive-foreground" />
+                    Вийти
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );

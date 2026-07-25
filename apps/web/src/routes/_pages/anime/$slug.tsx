@@ -180,7 +180,6 @@ function AnimeDetailLayout() {
             navRoutes={ANIME_NAV_ROUTES}
             urlPrefix="/anime"
             title={anime.title_ua || anime.title_en || anime.title_ja || ''}
-            status={anime.status}
             nsfw={anime.nsfw}
             nsfwConsented={nsfwConsented}
         >

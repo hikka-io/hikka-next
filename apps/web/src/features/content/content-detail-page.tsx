@@ -37,7 +37,7 @@ const ContentDetailPage: FC<Props> = ({
     jsonLd,
 }) => {
     return (
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-12">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-4">
             {jsonLd}
             <div
                 className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6 lg:hidden"

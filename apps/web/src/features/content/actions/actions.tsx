@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
+import FavoriteButton from '@/components/action-buttons/favorite-button';
 import ReadListButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import { useSession } from '@/features/auth/hooks/use-session';
@@ -27,20 +28,29 @@ const Actions: FC<Props> = ({ content_type, className }) => {
     const hasList = !!userlist && !isError;
 
     return (
-        <div className={cn('flex flex-col', className)}>
-            <div className={cn(hasList && '[&_button]:rounded-b-none')}>
-                {content_type === ContentTypeEnum.ANIME ? (
-                    <WatchlistButton
-                        disabled={!user}
-                        slug={String(params.slug)}
-                    />
-                ) : (
-                    <ReadListButton
-                        content_type={content_type}
-                        disabled={!user}
-                        slug={String(params.slug)}
-                    />
-                )}
+        <div className={cn('flex flex-col gap-4', className)}>
+            <div className="flex gap-4">
+                <div className="min-w-0 flex-1">
+                    {content_type === ContentTypeEnum.ANIME ? (
+                        <WatchlistButton
+                            disabled={!user}
+                            slug={String(params.slug)}
+                        />
+                    ) : (
+                        <ReadListButton
+                            content_type={content_type}
+                            disabled={!user}
+                            slug={String(params.slug)}
+                        />
+                    )}
+                </div>
+                <FavoriteButton
+                    slug={String(params.slug)}
+                    content_type={content_type}
+                    size="icon"
+                    variant="secondary"
+                    disabled={!user}
+                />
             </div>
             <UserContentStats
                 content_type={content_type}

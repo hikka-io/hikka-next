@@ -13,7 +13,7 @@ const fixedToolbarVariants = cva(
         variants: {
             variant: {
                 default: 'sticky bottom-0 border-t',
-                top: 'sticky top-[var(--plate-sticky-top,6.5rem)] md:top-[var(--plate-sticky-top,4rem)] overflow-x-auto border-b',
+                top: 'sticky top-[var(--plate-sticky-top,calc(3.5rem+env(safe-area-inset-top)))] md:top-[var(--plate-sticky-top,4rem)] overflow-x-auto border-b',
             },
         },
     },

@@ -9,6 +9,7 @@ import ReadlistButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
+import { usePageTitleVisible } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
 import EditButton from '@/features/edit/edit-button';
 import { cn } from '@/utils/cn';
@@ -57,6 +58,7 @@ const UserlistButton = ({
 const ContentActionBar: FC<Props> = ({ className, content_type }) => {
     const params = useParams();
     const { user: loggedUser } = useSession();
+    const titleVisible = usePageTitleVisible();
 
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
     // data_type is a per-response literal; widen to string so the
@@ -69,13 +71,15 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
     return (
         <div
             className={cn(
-                'sticky bottom-3 z-10 mx-auto flex w-fit md:bottom-4',
+                'sticky bottom-[calc(var(--tab-bar-height)+1rem)] z-10 mx-auto flex w-fit',
+                'transition-opacity duration-200',
+                !titleVisible && 'max-md:pointer-events-none max-md:opacity-0',
                 className,
             )}
         >
             <Card
                 variant="glass"
-                className="flex-row gap-2 border-none px-3 py-2"
+                className="flex-row gap-2 px-3 py-2"
                 id="navbar-card"
             >
                 <UserlistButton

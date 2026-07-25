@@ -10,6 +10,7 @@ import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
+import { usePageTitleAnchor } from '@/features/app-shell';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 
@@ -22,12 +23,15 @@ type Props = {
 const Comments: FC<Props> = ({ className }) => {
     const { list, hasNextPage, ref, isFetchingNextPage, fetchNextPage } =
         useInfiniteList(commentsListInfiniteOptions());
+    const titleAnchor = usePageTitleAnchor();
 
     return (
         <Block className={cn(className)}>
             <Header>
                 <HeaderContainer>
-                    <HeaderTitle variant="h2">Останні коментарі</HeaderTitle>
+                    <HeaderTitle ref={titleAnchor} variant="h2">
+                        Останні коментарі
+                    </HeaderTitle>
                 </HeaderContainer>
             </Header>
             <Stack

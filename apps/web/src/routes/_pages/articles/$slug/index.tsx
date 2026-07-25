@@ -5,8 +5,7 @@ import { getArticleOptions } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import Link from '@/components/ui/link';
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
+import { usePageHeader } from '@/features/app-shell';
 import {
     ArticleAuthor,
     ArticleDocumentView,
@@ -15,7 +14,6 @@ import {
     ArticleTitle,
 } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 export const Route = createFileRoute('/_pages/articles/$slug/')({
     component: ArticlePage,
@@ -24,6 +22,12 @@ export const Route = createFileRoute('/_pages/articles/$slug/')({
 function ArticlePage() {
     const { slug } = Route.useParams();
     const { data: article } = useQuery(getArticleOptions({ path: { slug } }));
+
+    usePageHeader({
+        title: article?.title,
+        subtitle: article?.author.username,
+        parent: '/articles',
+    });
 
     const jsonLd = article
         ? {
@@ -58,16 +62,6 @@ function ArticlePage() {
                     }}
                 />
             )}
-            <Breadcrumbs>
-                <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                    <Link
-                        to={`${CONTENT_TYPE_LINKS.article}/${slug}`}
-                        className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
-                    >
-                        {article?.title}
-                    </Link>
-                </div>
-            </Breadcrumbs>
             <div className="isolate mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
                 {article?.category !== 'system' && (
                     <Card className="gap-0 overflow-hidden p-0">

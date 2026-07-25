@@ -181,7 +181,6 @@ function MangaDetailLayout() {
             title={
                 manga.title_ua || manga.title_en || manga.title_original || ''
             }
-            status={manga.status}
             nsfw={manga.nsfw}
             nsfwConsented={nsfwConsented}
         >

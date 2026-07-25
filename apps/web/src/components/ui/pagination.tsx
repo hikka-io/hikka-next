@@ -16,6 +16,7 @@ import AntDesignArrowRightOutlined from '../icons/ant-design/AntDesignArrowRight
 import { Button } from './button';
 import Card from './card';
 import { Input } from './input';
+import { SELECTED_TINT, SELECTED_TINT_HOVER } from './selected-tint';
 
 type Props = {
     page: number;
@@ -52,10 +53,14 @@ const PaginationButton: FC<PaginationButtonProps> = ({
     return (
         <Button
             size="icon-md"
-            variant={value === page ? 'default' : 'ghost'}
+            variant="ghost"
             disabled={!value}
             onClick={() => value && setPage(value)}
-            className={cn('size-9 sm:size-10')}
+            className={cn(
+                'size-9 sm:size-10',
+                value === page &&
+                    cn('border', SELECTED_TINT, SELECTED_TINT_HOVER),
+            )}
         >
             {value}
         </Button>
@@ -213,7 +218,7 @@ export const StickyPagination = ({ page, pages, setPage }: Props) => {
     }
 
     return (
-        <div className="sticky bottom-4 z-10 mx-auto flex w-fit items-center">
+        <div className="sticky bottom-[calc(var(--tab-bar-height)+1rem)] z-10 mx-auto flex w-fit items-center">
             <Card variant="glass" className="flex-row gap-2 px-3 py-2">
                 <Pagination page={page} pages={pages} setPage={setPage} />
             </Card>

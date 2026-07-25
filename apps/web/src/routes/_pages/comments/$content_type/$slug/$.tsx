@@ -2,10 +2,16 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import {
     type CommentContentTypeEnum as CommentsContentType,
+    type ContentTypeEnum,
     threadOptions,
 } from '@hikka/api';
 
-import { CommentList as Comments, prefetchContent } from '@/features/comments';
+import { usePageHeader } from '@/features/app-shell';
+import {
+    CommentList as Comments,
+    prefetchContent,
+    useContentTitle,
+} from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
@@ -40,6 +46,17 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
 
 function CommentsThreadPage() {
     const { content_type, slug, _splat: commentReference } = Route.useParams();
+    const { content } = Route.useLoaderData();
+    const contentTitle = useContentTitle(
+        content_type as ContentTypeEnum,
+        content,
+    );
+
+    usePageHeader({
+        title: contentTitle,
+        subtitle: 'Гілка',
+        parent: `/comments/${content_type}/${slug}`,
+    });
 
     return (
         <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">

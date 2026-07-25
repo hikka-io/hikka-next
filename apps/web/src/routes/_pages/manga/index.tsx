@@ -3,9 +3,11 @@ import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum } from '@hikka/api';
 
+import ContentTypeTabs from '@/components/content-type-tabs';
 import Block from '@/components/ui/block';
-import { Header, HeaderDescription, HeaderTitle } from '@/components/ui/header';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
+import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { CatalogNavbar } from '@/features/catalog';
 import { ReadFilters, ReadFiltersModal } from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
@@ -27,6 +29,10 @@ export const Route = createFileRoute('/_pages/manga/')({
 });
 
 function MangaListPage() {
+    const titleAnchor = usePageTitleAnchor();
+
+    usePageHeader({ title: 'Каталог манґи', parent: '/' });
+
     const { visible: sidebarVisible } = useFiltersSidebar();
     const { view } = useCatalogView('catalog');
 
@@ -36,16 +42,22 @@ function MangaListPage() {
 
     return (
         <Block>
-            <Header className="flex-col items-start gap-1">
-                <HeaderTitle variant="h2">Каталог манґи</HeaderTitle>
-                <HeaderDescription>
-                    Знайдіть манґу за жанрами, роком та іншими фільтрами
-                </HeaderDescription>
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle ref={titleAnchor} variant="h2">
+                        Каталог манґи
+                    </HeaderTitle>
+                </HeaderContainer>
             </Header>
+            <ContentTypeTabs
+                value={ContentTypeEnum.MANGA}
+                urlFor={(contentType) => `/${contentType}`}
+                className="md:hidden"
+            />
 
             <div
                 className={cn(
-                    'grid grid-cols-1 lg:items-start lg:gap-8',
+                    'grid grid-cols-1 lg:items-start lg:gap-x-10',
                     sidebarVisible &&
                         'lg:grid-cols-[1fr_30%] xl:grid-cols-[1fr_25%]',
                 )}

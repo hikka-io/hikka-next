@@ -1,8 +1,13 @@
 import { type FC, useState } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
-import { ContentTypeEnum, type FavouriteContentTypeEnum } from '@hikka/api';
+import {
+    ContentTypeEnum,
+    type FavouriteContentTypeEnum,
+    serviceUserStatsOptions,
+} from '@hikka/api';
 
 import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
 import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
@@ -11,12 +16,14 @@ import MaterialSymbolsPalette from '@/components/icons/material-symbols/Material
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import Block from '@/components/ui/block';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
+import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useParams } from '@/utils/navigation';
 
 import Anime from './components/favorite-anime';
@@ -65,6 +72,30 @@ const Favorites: FC<Props> = ({ extended, type }) => {
     const params = useParams();
     const navigate = useNavigate();
 
+    const { data: stats } = useQuery({
+        ...serviceUserStatsOptions({
+            path: { username: String(params.username) },
+        }),
+        enabled: !!params.username,
+    });
+
+    const { user: loggedUser } = useSession();
+    const isOwner =
+        !!loggedUser?.username && loggedUser.username === params.username;
+
+    const counts = stats?.favourites_count;
+    // Empty categories are dropped for visitors; the owner keeps every tab.
+    const options =
+        counts && !isOwner
+            ? CONTENT_OPTIONS.filter(
+                  (option) => (counts[option.value] ?? 0) > 0,
+              )
+            : CONTENT_OPTIONS;
+    // `content` may point at a dropped tab (deep link, or the `anime` default).
+    const activeContent =
+        options.find((option) => option.value === content)?.value ??
+        options[0]?.value;
+
     const handleContentChange = (value: FavouriteContentTypeEnum) => {
         setContent(value);
 
@@ -78,7 +109,7 @@ const Favorites: FC<Props> = ({ extended, type }) => {
     };
 
     const getComponent = () => {
-        switch (content) {
+        switch (activeContent) {
             case ContentTypeEnum.ANIME:
                 return <Anime extended={extended} />;
             case ContentTypeEnum.CHARACTER:
@@ -94,11 +125,31 @@ const Favorites: FC<Props> = ({ extended, type }) => {
         }
     };
 
+    if (!activeContent) {
+        if (!extended) return null;
+
+        return (
+            <Block id="user-favorites">
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle variant="h2">Улюблені</HeaderTitle>
+                    </HeaderContainer>
+                </Header>
+                <EmptyState
+                    bordered
+                    icon={<MaterialSymbolsStack />}
+                    title={<span>У списку пусто</span>}
+                    description="Цей список оновиться після того, як сюди буде щось додано"
+                />
+            </Block>
+        );
+    }
+
     return (
         <Block id="user-favorites">
             <Header
                 to={!extended ? `/u/${params.username}/favorites` : undefined}
-                search={!extended ? { type: content } : undefined}
+                search={!extended ? { type: activeContent } : undefined}
             >
                 <HeaderContainer>
                     <HeaderTitle variant={extended ? 'h2' : 'h3'}>
@@ -108,8 +159,8 @@ const Favorites: FC<Props> = ({ extended, type }) => {
                 <HeaderNavButton />
             </Header>
             <ChipTabs
-                options={CONTENT_OPTIONS}
-                value={content}
+                options={options}
+                value={activeContent}
                 onValueChange={handleContentChange}
             />
             {getComponent()}

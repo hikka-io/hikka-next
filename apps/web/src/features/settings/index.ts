@@ -12,6 +12,11 @@ export { default as WatchlistSettings } from './list/watchlist/watchlist';
 export { default as NotificationsSettings } from './notifications';
 export { default as PasswordSettings } from './password';
 export { default as Preferences } from './preferences';
+export {
+    getActiveTopLevelHref,
+    isGroupActive,
+    isNavLinkActive,
+} from './settings-nav';
 export { default as SettingsSidebar } from './settings-sidebar';
 export { default as Styles, StylesResetButton } from './styles';
 export { default as ProfileUsername } from './username';

@@ -361,8 +361,10 @@ const SelectTrigger = React.forwardRef<
                         !asChild &&
                             'flex h-auto items-center justify-between gap-2 px-3 py-2 data-[placeholder]:text-muted-foreground dark:hover:bg-input/50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
                         !asChild && selectTriggerSizeClasses[size!],
+                        // asChild children dim themselves when disabled —
+                        // dimming here too would stack the opacity.
                         disabled
-                            ? 'cursor-not-allowed opacity-50'
+                            ? cn('cursor-not-allowed', !asChild && 'opacity-50')
                             : 'cursor-pointer',
                         className,
                     )}

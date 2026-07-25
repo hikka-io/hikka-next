@@ -39,6 +39,7 @@ type Props = {
     children?: ReactNode;
     content_type?: ContentTypeEnum;
     allowedTypes?: ContentTypeEnum[];
+    disableHotkey?: boolean;
 };
 
 const SearchModal: FC<Props> = ({
@@ -47,6 +48,7 @@ const SearchModal: FC<Props> = ({
     content_type,
     children,
     allowedTypes,
+    disableHotkey,
 }) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [searchType, setSearchType] = useState<SearchTypeValue>(
@@ -100,7 +102,14 @@ const SearchModal: FC<Props> = ({
     const showHistory =
         hasHistoryEntries && (!searchValue || searchValue.trim().length === 0);
 
-    useSearchModal({ open, setOpen, onClick, content_type, setSearchType });
+    useSearchModal({
+        open,
+        setOpen,
+        onClick,
+        content_type,
+        setSearchType,
+        disableHotkey,
+    });
 
     return (
         <Fragment>

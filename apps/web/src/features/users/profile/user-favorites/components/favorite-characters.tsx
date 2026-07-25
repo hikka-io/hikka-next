@@ -16,6 +16,8 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
+import FavoriteMoreCard from './favorite-more-card';
+import { favoritePreview } from './favorite-preview';
 import FavoriteSkeleton from './favorite-skeleton';
 
 type Props = {
@@ -27,6 +29,7 @@ const Characters: FC<Props> = ({ extended }) => {
     const { preferences } = useSessionUI();
     const {
         list: rawList,
+        pagination,
         isPending,
         fetchNextPage,
         hasNextPage,
@@ -51,7 +54,11 @@ const Characters: FC<Props> = ({ extended }) => {
         return null;
     }
 
-    const filteredData = (extended ? list : list?.slice(0, 6)) || [];
+    const {
+        items: filteredData,
+        remainingCount,
+        remainingItem,
+    } = favoritePreview(list, pagination?.total ?? 0, extended);
 
     return (
         <>
@@ -77,6 +84,14 @@ const Characters: FC<Props> = ({ extended }) => {
                             slug={res.slug}
                         />
                     ))}
+                    {remainingCount > 0 && (
+                        <FavoriteMoreCard
+                            count={remainingCount}
+                            image={remainingItem?.image}
+                            username={String(params.username)}
+                            type={ContentTypeEnum.CHARACTER}
+                        />
+                    )}
                 </Stack>
             )}
             {filteredData.length === 0 && (

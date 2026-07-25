@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { MessageCircle } from 'lucide-react';
+import { MessageCircle, Star } from 'lucide-react';
 
 import { serviceUserStatsOptions } from '@hikka/api';
 
@@ -23,14 +23,16 @@ const ActivityStats: FC = () => {
     if (!data) return null;
 
     const commentsCount = data.comments_count ?? 0;
+    const reviewsCount = data.reviews_count ?? 0;
     const editsCount = data.edits_count ?? 0;
 
     return (
         <div className="mt-auto flex flex-col gap-4">
             <Separator />
-            <div className="-my-2 flex flex-wrap gap-1 px-2">
+            <div className="-my-2 flex flex-col gap-1 px-2 md:flex-row md:flex-wrap">
                 <Link
                     to={`/comments/user/${username}`}
+                    search={{ comment_type: 'comment' }}
                     className={cn(
                         'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent md:flex-0',
                         commentsCount === 0 && 'opacity-50',
@@ -43,6 +45,22 @@ const ActivityStats: FC = () => {
                         </Label>
                     </div>
                     <Label className="cursor-pointer">{commentsCount}</Label>
+                </Link>
+                <Link
+                    to={`/comments/user/${username}`}
+                    search={{ comment_type: 'review' }}
+                    className={cn(
+                        'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent md:flex-0',
+                        reviewsCount === 0 && 'opacity-50',
+                    )}
+                >
+                    <div className="flex min-w-0 items-center gap-2">
+                        <Star className="size-4 text-muted-foreground" />
+                        <Label className="cursor-pointer truncate text-muted-foreground">
+                            Відгуки
+                        </Label>
+                    </div>
+                    <Label className="cursor-pointer">{reviewsCount}</Label>
                 </Link>
                 <Link
                     to="/edit"

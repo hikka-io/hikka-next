@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { commentsListInfiniteOptions, paginationPageParam } from '@hikka/api';
 
+import { usePageHeader } from '@/features/app-shell';
 import { LatestComments } from '@/features/comments';
 import { generateHeadMeta } from '@/utils/metadata';
 
@@ -22,6 +23,8 @@ export const Route = createFileRoute('/_pages/comments/latest')({
 });
 
 function LatestCommentsPage() {
+    usePageHeader({ title: 'Останні коментарі', parent: '/' });
+
     return (
         <div className="flex flex-col gap-12">
             <LatestComments />
