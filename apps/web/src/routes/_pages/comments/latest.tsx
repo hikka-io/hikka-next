@@ -23,7 +23,7 @@ export const Route = createFileRoute('/_pages/comments/latest')({
 });
 
 function LatestCommentsPage() {
-    usePageHeader({ title: 'Останні коментарі', parent: '/' });
+    usePageHeader({ title: 'Останні коментарі', parent: '/', anchored: true });
 
     return (
         <div className="flex flex-col gap-12">

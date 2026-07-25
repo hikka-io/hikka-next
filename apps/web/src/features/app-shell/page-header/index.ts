@@ -4,5 +4,5 @@ export {
     PageHeaderProvider,
     usePageHeader,
     usePageTitleAnchor,
-    usePageTitleVisible,
+    usePageTitleReveal,
 } from './page-header-context';

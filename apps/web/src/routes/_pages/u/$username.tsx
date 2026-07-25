@@ -128,6 +128,7 @@ function UserLayout() {
         parent: pathname === profileUrl ? '/' : profileUrl,
         navRoutes: USER_NAV_ROUTES,
         navUrlPrefix: profileUrl,
+        anchored: true,
     });
 
     return (

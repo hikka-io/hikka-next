@@ -12,12 +12,13 @@ import {
     usePageHeaderActions,
     usePageHeaderState,
 } from './page-header-context';
+import { resolveTitleVisibility } from './resolve-title-visibility';
 
 const SCROLL_THRESHOLD = 8;
 
 const MobileHeader = () => {
     const { config, anchor } = usePageHeaderState();
-    const { setTitleVisible } = usePageHeaderActions();
+    const { setTitleVisible, setTitleAnimated } = usePageHeaderActions();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -28,12 +29,24 @@ const MobileHeader = () => {
     const headerRef = useRef<HTMLElement>(null);
     const [scrolled, setScrolled] = useState(false);
     const [passedAnchor, setPassedAnchor] = useState(false);
+    // Only a mounted anchor can produce a scroll-driven reveal, and that is the
+    // one change worth animating. Route swaps drop the anchor first, so this is
+    // false in the commit that hides the outgoing title — no fade on navigation.
+    const animated = Boolean(config && anchor);
 
-    const titleVisible = !anchor || passedAnchor;
+    const titleVisible = resolveTitleVisibility({
+        config,
+        hasAnchor: Boolean(anchor),
+        passedAnchor,
+    });
 
     useEffect(() => {
         setTitleVisible(titleVisible);
     }, [titleVisible, setTitleVisible]);
+
+    useEffect(() => {
+        setTitleAnimated(animated);
+    }, [animated, setTitleAnimated]);
 
     // biome-ignore lint/correctness/useExhaustiveDependencies(pathname): reset on every navigation
     useEffect(() => {
@@ -115,7 +128,8 @@ const MobileHeader = () => {
                     </Button>
                     <div
                         className={cn(
-                            'flex min-w-0 flex-1 flex-col justify-center transition-opacity',
+                            'flex min-w-0 flex-1 flex-col justify-center',
+                            animated && 'transition-opacity',
                             titleVisible
                                 ? 'opacity-100'
                                 : 'pointer-events-none opacity-0',

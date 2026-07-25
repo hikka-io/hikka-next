@@ -74,7 +74,7 @@ export const Route = createFileRoute('/_pages/edit/')({
 function EditListPage() {
     const titleAnchor = usePageTitleAnchor();
 
-    usePageHeader({ title: 'Правки', parent: '/' });
+    usePageHeader({ title: 'Правки', parent: '/', anchored: true });
 
     return (
         <div className="flex flex-col gap-12 lg:gap-12">

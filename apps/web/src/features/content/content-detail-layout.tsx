@@ -36,6 +36,7 @@ const ContentDetailLayout: FC<Props> = ({
         parent: pathname === contentUrl ? urlPrefix : contentUrl,
         navRoutes,
         navUrlPrefix: contentUrl,
+        anchored: true,
     });
 
     return (

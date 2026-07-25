@@ -30,6 +30,7 @@ function CollectionPage() {
         title: collection?.title,
         subtitle: collection?.author.username,
         parent: '/collections',
+        anchored: true,
     });
 
     return (

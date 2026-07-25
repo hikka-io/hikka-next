@@ -54,7 +54,7 @@ export const Route = createFileRoute('/_pages/articles/')({
 });
 
 function ArticlesPage() {
-    usePageHeader({ title: 'Статті', parent: '/' });
+    usePageHeader({ title: 'Статті', parent: '/', anchored: true });
 
     return (
         <div className="grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]">

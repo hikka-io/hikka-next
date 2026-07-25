@@ -56,7 +56,7 @@ function CollectionsPage() {
 
     const titleAnchor = usePageTitleAnchor();
 
-    usePageHeader({ title: 'Колекції', parent: '/' });
+    usePageHeader({ title: 'Колекції', parent: '/', anchored: true });
 
     return (
         <Block>

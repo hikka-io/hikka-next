@@ -7,6 +7,6 @@ export {
     PageHeaderProvider,
     usePageHeader,
     usePageTitleAnchor,
-    usePageTitleVisible,
+    usePageTitleReveal,
 } from './page-header';
 export { default as Providers } from './providers';

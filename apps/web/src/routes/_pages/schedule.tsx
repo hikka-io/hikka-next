@@ -60,7 +60,7 @@ export const Route = createFileRoute('/_pages/schedule')({
 function ScheduleListPage() {
     const titleAnchor = usePageTitleAnchor();
 
-    usePageHeader({ title: 'Календар', parent: '/' });
+    usePageHeader({ title: 'Календар', parent: '/', anchored: true });
 
     return (
         <div className="flex flex-col gap-12">

@@ -16,18 +16,26 @@ export type PageHeaderConfig = {
     parent?: string;
     navRoutes?: Hikka.NavRoute[];
     navUrlPrefix?: string;
+    /**
+     * Set by pages that mount a `usePageTitleAnchor` node. The header keeps
+     * the title hidden until that anchor is scrolled past. Pages that omit
+     * this show their title unconditionally.
+     */
+    anchored?: boolean;
 };
 
 type PageHeaderState = {
     config: PageHeaderConfig | null;
     anchor: HTMLElement | null;
     titleVisible: boolean;
+    titleAnimated: boolean;
 };
 
 type PageHeaderActions = {
     setConfig: (config: PageHeaderConfig | null) => void;
     setAnchor: (anchor: HTMLElement | null) => void;
     setTitleVisible: (visible: boolean) => void;
+    setTitleAnimated: (animated: boolean) => void;
 };
 
 const PageHeaderStateContext = createContext<PageHeaderState | null>(null);
@@ -37,13 +45,25 @@ export const PageHeaderProvider: FC<PropsWithChildren> = ({ children }) => {
     const [config, setConfig] = useState<PageHeaderConfig | null>(null);
     const [anchor, setAnchor] = useState<HTMLElement | null>(null);
     const [titleVisible, setTitleVisible] = useState(false);
+    const [titleAnimated, setTitleAnimated] = useState(false);
+
+    useEffect(() => {
+        if (!import.meta.env.DEV || !anchor || !config || config.anchored) {
+            return;
+        }
+
+        console.warn(
+            '[page-header] anchor registered but usePageHeader was not called with anchored: true',
+            config.title,
+        );
+    }, [anchor, config]);
 
     const state = useMemo(
-        () => ({ config, anchor, titleVisible }),
-        [config, anchor, titleVisible],
+        () => ({ config, anchor, titleVisible, titleAnimated }),
+        [config, anchor, titleVisible, titleAnimated],
     );
     const actions = useMemo(
-        () => ({ setConfig, setAnchor, setTitleVisible }),
+        () => ({ setConfig, setAnchor, setTitleVisible, setTitleAnimated }),
         [],
     );
 
@@ -87,6 +107,7 @@ export const usePageHeader = ({
     parent,
     navRoutes,
     navUrlPrefix,
+    anchored,
 }: PageHeaderConfig) => {
     const { setConfig } = usePageHeaderActions();
 
@@ -98,6 +119,7 @@ export const usePageHeader = ({
             parent,
             navRoutes,
             navUrlPrefix,
+            anchored,
         });
 
         return () => setConfig(null);
@@ -108,11 +130,19 @@ export const usePageHeader = ({
         parent,
         navRoutes,
         navUrlPrefix,
+        anchored,
         setConfig,
     ]);
 };
 
-export const usePageTitleVisible = () => usePageHeaderState().titleVisible;
+export const usePageTitleReveal = () => {
+    const { titleVisible, titleAnimated } = usePageHeaderState();
+
+    return useMemo(
+        () => ({ visible: titleVisible, animated: titleAnimated }),
+        [titleVisible, titleAnimated],
+    );
+};
 
 export const usePageTitleAnchor = () => {
     const { setAnchor } = usePageHeaderActions();

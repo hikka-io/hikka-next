@@ -27,6 +27,7 @@ function ArticlePage() {
         title: article?.title,
         subtitle: article?.author.username,
         parent: '/articles',
+        anchored: true,
     });
 
     const jsonLd = article
