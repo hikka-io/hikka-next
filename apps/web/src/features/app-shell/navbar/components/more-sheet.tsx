@@ -41,16 +41,11 @@ const MoreSheet: FC<Props> = ({ children }) => {
                     ) : (
                         <div className="flex gap-2">
                             <LoginButton
-                                variant="default"
+                                variant="outline"
                                 className="flex-1"
                                 onClick={close}
                             />
-                            <Button
-                                size="md"
-                                variant="outline"
-                                className="flex-1"
-                                asChild
-                            >
+                            <Button size="md" className="flex-1" asChild>
                                 <Link to="/signup" onClick={close}>
                                     Реєстрація
                                 </Link>

@@ -22,6 +22,7 @@ const SearchButton = ({ setOpen, children }: Props) => {
             variant="outline"
             onClick={() => setOpen(true)}
             className={cn(
+                'lifted-edges',
                 'lg:w-52 lg:justify-between lg:font-normal lg:text-muted-foreground!',
                 'transition-all duration-200',
                 'lg:hover:w-64 lg:hover:text-foreground!',

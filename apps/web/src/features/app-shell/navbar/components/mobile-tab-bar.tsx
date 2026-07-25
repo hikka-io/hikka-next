@@ -6,7 +6,10 @@ import MaterialSymbolsNotificationsRounded from '@/components/icons/material-sym
 import MaterialSymbolsSearchRounded from '@/components/icons/material-symbols/MaterialSymbolsSearchRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { NotificationsMenu } from '@/features/notifications';
+import {
+    NotificationCountBadge,
+    NotificationsMenu,
+} from '@/features/notifications';
 import { SearchModal } from '@/features/search';
 import { cn } from '@/utils/cn';
 import { isNavActive } from '@/utils/constants/navigation';
@@ -90,11 +93,10 @@ const MobileTabBar = () => {
                                     <span className="relative">
                                         <MaterialSymbolsNotificationsRounded />
                                         {unseenCount > 0 && (
-                                            <span className="absolute -top-1 -right-1.5 rounded-full border border-warning-border bg-warning px-1 py-0.5 font-bold text-[0.6rem] text-warning-foreground leading-none">
-                                                {unseenCount < 100
-                                                    ? unseenCount
-                                                    : '99+'}
-                                            </span>
+                                            <NotificationCountBadge
+                                                count={unseenCount}
+                                                className="-top-1 -right-2 absolute"
+                                            />
                                         )}
                                     </span>
                                 </Tab>

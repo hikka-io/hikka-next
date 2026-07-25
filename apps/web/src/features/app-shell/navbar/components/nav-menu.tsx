@@ -71,7 +71,10 @@ function NavMenu() {
                         </Link>
                     </NavigationMenuItem>
                 ))}
-                <Separator orientation="vertical" className="h-4" />
+                <Separator
+                    orientation="vertical"
+                    className="lifted-edges h-4 bg-border"
+                />
 
                 {APP_NAV_USER_CONTENT.length > 0 && (
                     <NavigationMenuItem>
@@ -102,7 +105,10 @@ function NavMenu() {
                     </NavigationMenuItem>
                 )}
 
-                <Separator orientation="vertical" className="h-4" />
+                <Separator
+                    orientation="vertical"
+                    className="lifted-edges h-4 bg-border"
+                />
 
                 {APP_NAV_MORE.length > 0 && (
                     <NavigationMenuItem>
