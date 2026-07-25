@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, MouseEvent } from 'react';
 
 import { ChevronRight } from 'lucide-react';
 
@@ -12,13 +12,27 @@ type Props = {
     user: SessionUser;
     className?: string;
     onNavigate?: () => void;
+    onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+    [key: string]: unknown;
 };
 
-const ProfileIdentity: FC<Props> = ({ user, className, onNavigate }) => {
+const ProfileIdentity: FC<Props> = ({
+    user,
+    className,
+    onNavigate,
+    onClick,
+    ...props
+}) => {
     return (
         <Link
+            {...props}
             to={`/u/${user.username}`}
-            onClick={onNavigate}
+            // Rendered through DropdownMenuItem's asChild, whose own onClick
+            // drives selection — keep it alongside ours.
+            onClick={(event: MouseEvent<HTMLAnchorElement>) => {
+                onClick?.(event);
+                onNavigate?.();
+            }}
             className={cn(
                 'surface-inset flex items-center gap-2 rounded-md border p-2 transition-colors hover:bg-accent',
                 className,

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useRouter } from '@tanstack/react-router';
+import { useMatches, useRouter } from '@tanstack/react-router';
 import { ChevronLeft } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -20,6 +20,11 @@ const MobileHeader = () => {
     const { setTitleVisible } = usePageHeaderActions();
     const router = useRouter();
     const pathname = usePathname();
+
+    const headerless = useMatches({
+        select: (matches) =>
+            matches.some((match) => match.staticData.headerless),
+    });
     const headerRef = useRef<HTMLElement>(null);
     const [scrolled, setScrolled] = useState(false);
     const [passedAnchor, setPassedAnchor] = useState(false);
@@ -30,10 +35,6 @@ const MobileHeader = () => {
         setTitleVisible(titleVisible);
     }, [titleVisible, setTitleVisible]);
 
-    /**
-     * A new screen starts at rest; the router restores its scroll position
-     * after this runs, and that restore fires the scroll listener below.
-     */
     // biome-ignore lint/correctness/useExhaustiveDependencies(pathname): reset on every navigation
     useEffect(() => {
         setScrolled(false);
@@ -69,7 +70,7 @@ const MobileHeader = () => {
         return () => observer.disconnect();
     }, [anchor]);
 
-    if (!config) {
+    if (headerless) {
         return null;
     }
 
@@ -80,7 +81,7 @@ const MobileHeader = () => {
         parent,
         navRoutes,
         navUrlPrefix,
-    } = config;
+    } = config ?? {};
 
     const goBack = () => {
         if (router.history.canGoBack()) {

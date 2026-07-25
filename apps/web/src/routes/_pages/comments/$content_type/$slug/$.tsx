@@ -2,13 +2,17 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import {
     type CommentContentTypeEnum as CommentsContentType,
+    type ContentTypeEnum,
     threadOptions,
 } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
-import { CommentList as Comments, prefetchContent } from '@/features/comments';
+import {
+    CommentList as Comments,
+    prefetchContent,
+    useContentTitle,
+} from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
-import { getTitle } from '@/utils/title/get-title';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -43,9 +47,13 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
 function CommentsThreadPage() {
     const { content_type, slug, _splat: commentReference } = Route.useParams();
     const { content } = Route.useLoaderData();
+    const contentTitle = useContentTitle(
+        content_type as ContentTypeEnum,
+        content,
+    );
 
     usePageHeader({
-        title: getTitle(content) || (content as { username?: string }).username,
+        title: contentTitle,
         subtitle: 'Гілка',
         parent: `/comments/${content_type}/${slug}`,
     });

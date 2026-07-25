@@ -93,4 +93,9 @@ declare module '@tanstack/react-router' {
     interface Register {
         router: ReturnType<typeof createRouter>;
     }
+
+    interface StaticDataRouteOption {
+        /** Screens that render no mobile page header, so it reserves no space. */
+        headerless?: boolean;
+    }
 }

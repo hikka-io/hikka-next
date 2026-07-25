@@ -48,9 +48,10 @@ const MobileTabBar = () => {
     const pathname = usePathname();
     const { user } = useSession();
 
-    const isCatalog = ['/anime', '/manga', '/novel'].some((url) =>
+    const catalogRoot = ['/anime', '/manga', '/novel'].find((url) =>
         isNavActive(pathname, url),
     );
+    const isCatalog = !!catalogRoot;
 
     return (
         <nav className="fixed inset-x-0 bottom-0 z-30 h-[var(--tab-bar-height)] border-t border-t-border bg-background/80 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl backdrop-saturate-150 md:hidden">
@@ -67,10 +68,11 @@ const MobileTabBar = () => {
                 </Link>
 
                 <Link
-                    to="/anime"
+                    to={catalogRoot ?? '/anime'}
+                    activeOptions={{ exact: true }}
                     className={tabClassName}
                     data-active={isCatalog}
-                    aria-current={isCatalog ? 'page' : undefined}
+                    aria-current={isCatalog ? 'true' : undefined}
                 >
                     <Tab label="Каталог">
                         <MaterialSymbolsGridViewRounded />
@@ -95,7 +97,7 @@ const MobileTabBar = () => {
                                         {unseenCount > 0 && (
                                             <NotificationCountBadge
                                                 count={unseenCount}
-                                                className="-top-1 -right-2 absolute"
+                                                className="absolute -top-1 -right-2"
                                             />
                                         )}
                                     </span>

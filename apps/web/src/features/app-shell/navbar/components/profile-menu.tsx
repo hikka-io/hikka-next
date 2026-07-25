@@ -45,11 +45,12 @@ const ProfileMenu = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-60 p-2">
-                <ProfileIdentity
-                    user={user}
-                    onNavigate={() => setOpen(false)}
-                    className="mb-2"
-                />
+                <DropdownMenuItem asChild className="mb-2 p-1">
+                    <ProfileIdentity
+                        user={user}
+                        onNavigate={() => setOpen(false)}
+                    />
+                </DropdownMenuItem>
 
                 <DropdownMenuLabel className="flex h-8 items-center">
                     Профіль

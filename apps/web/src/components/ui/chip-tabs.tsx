@@ -69,7 +69,10 @@ function ChipTabs<T extends string>({
 
                 return option.to ? (
                     <Chip key={option.value} asChild {...chipProps}>
-                        <Link to={option.to} search={option.search}>
+                        <Link
+                            to={option.to}
+                            search={isActive ? true : (option.search ?? {})}
+                        >
                             {content}
                         </Link>
                     </Chip>
