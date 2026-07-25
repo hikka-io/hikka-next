@@ -27,6 +27,7 @@ type Props = {
     warning?: ReactNode;
     /** Start expanded in `edit` mode (view/update are always open). */
     defaultOpen?: boolean;
+    className?: string;
 };
 
 const GROUP_META: Record<string, { icon: LucideIcon; description: string }> = {
@@ -46,6 +47,7 @@ const EditGroup: FC<Props> = ({
     mode,
     warning,
     defaultOpen = false,
+    className,
 }) => {
     const [selected, setSelected] = React.useState<string[]>([]);
 
@@ -61,7 +63,7 @@ const EditGroup: FC<Props> = ({
     };
 
     return (
-        <Card>
+        <Card className={className}>
             <Collapsible
                 open={mode === 'view' || mode === 'update' ? true : undefined}
                 defaultOpen={defaultOpen}

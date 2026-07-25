@@ -24,9 +24,10 @@ const EditFormFields = ({
 }: Props) => {
     return (
         <div className="flex w-full flex-col gap-6">
-            {Object.keys(params).map((group) => (
+            {Object.keys(params).map((group, index) => (
                 <EditGroup
                     key={group}
+                    className={index === 0 ? 'backdrop-blur' : undefined}
                     title={groups[group]}
                     groupKey={group}
                     params={params[group]}

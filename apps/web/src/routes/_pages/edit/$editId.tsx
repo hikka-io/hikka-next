@@ -67,7 +67,7 @@ function EditLayout() {
             <Block>
                 <Outlet />
             </Block>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 [&>*:first-child]:backdrop-blur">
                 <EditTimeline editId={editId} />
                 <Content
                     slug={edit.content.slug as string}
