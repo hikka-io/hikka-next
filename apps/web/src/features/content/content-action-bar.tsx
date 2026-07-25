@@ -72,11 +72,8 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
         <div
             className={cn(
                 'sticky bottom-[calc(var(--tab-bar-height)+1rem)] z-10 mx-auto flex w-fit',
-                // On mobile the bar arrives with the header title, so the page
-                // opens with its cover art uncovered.
-                'transition-[opacity,transform] duration-200',
-                !titleVisible &&
-                    'max-md:pointer-events-none max-md:translate-y-3 max-md:opacity-0',
+                'transition-opacity duration-200',
+                !titleVisible && 'max-md:pointer-events-none max-md:opacity-0',
                 className,
             )}
         >

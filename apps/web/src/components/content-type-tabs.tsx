@@ -31,7 +31,6 @@ type Props = {
     className?: string;
 };
 
-/** Anime/manga/novel switcher for list screens that exist per content type. */
 const ContentTypeTabs: FC<Props> = ({ value, urlFor, className }) => (
     <ChipTabs
         value={value}

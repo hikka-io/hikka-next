@@ -12,9 +12,7 @@ import {
 export type PageHeaderConfig = {
     title?: string | null;
     subtitle?: string | null;
-    /** Tailwind background class for the leading status dot. */
     indicatorClassName?: string;
-    /** Route the back button falls back to when there is no in-app history. */
     parent?: string;
     navRoutes?: Hikka.NavRoute[];
     navUrlPrefix?: string;
@@ -23,7 +21,6 @@ export type PageHeaderConfig = {
 type PageHeaderState = {
     config: PageHeaderConfig | null;
     anchor: HTMLElement | null;
-    /** Whether the header is currently showing the page title. */
     titleVisible: boolean;
 };
 
@@ -36,10 +33,6 @@ type PageHeaderActions = {
 const PageHeaderStateContext = createContext<PageHeaderState | null>(null);
 const PageHeaderActionsContext = createContext<PageHeaderActions | null>(null);
 
-/**
- * Splits state from actions so pages that only register a header never
- * re-render when the header itself changes.
- */
 export const PageHeaderProvider: FC<PropsWithChildren> = ({ children }) => {
     const [config, setConfig] = useState<PageHeaderConfig | null>(null);
     const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -119,15 +112,6 @@ export const usePageHeader = ({
     ]);
 };
 
-/**
- * Marks the element the page uses as its own title. The header keeps its title
- * hidden until that element scrolls out of view; pages without an anchor show
- * it right away.
- */
-/**
- * Whether the header is showing the page title. Bottom bars ride along with
- * it, so a screen opens with its content uncovered.
- */
 export const usePageTitleVisible = () => usePageHeaderState().titleVisible;
 
 export const usePageTitleAnchor = () => {

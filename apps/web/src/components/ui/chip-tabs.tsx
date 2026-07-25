@@ -13,7 +13,6 @@ export type ChipTabOption<T extends string> = {
     value: T;
     icon?: IconComponent;
     activeClass?: string;
-    /** Renders the tab as a link instead of a button. */
     to?: string;
     search?: Record<string, unknown>;
 };

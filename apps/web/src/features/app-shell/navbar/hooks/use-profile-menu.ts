@@ -27,10 +27,6 @@ const readTotal = (stats: AppReadSchemasReadStatsResponse) =>
     stats.on_hold +
     stats.dropped;
 
-/**
- * Profile menu items with the current user's list totals, shared by the desktop
- * dropdown and the mobile «Ще» sheet. Stats are fetched only while `enabled`.
- */
 export function useProfileMenu({ enabled = true }: { enabled?: boolean } = {}) {
     const { user } = useSession();
     const username = user?.username;

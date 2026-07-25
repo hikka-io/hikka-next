@@ -10,7 +10,6 @@ import LoginButton from '../login-button';
 import NavMenu from './components/nav-menu';
 import ProfileMenu from './components/profile-menu';
 
-/** Desktop-only — on mobile navigation lives in the tab bar. */
 const Navbar = () => {
     const { user: loggedUser } = useSession();
 

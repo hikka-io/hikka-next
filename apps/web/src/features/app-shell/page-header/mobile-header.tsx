@@ -15,11 +15,6 @@ import {
 
 const SCROLL_THRESHOLD = 8;
 
-/**
- * Mobile-only page header. It overlays the page, so it stays transparent until
- * the page is scrolled, and it keeps its title hidden while the page still
- * shows its own.
- */
 const MobileHeader = () => {
     const { config, anchor } = usePageHeaderState();
     const { setTitleVisible } = usePageHeaderActions();

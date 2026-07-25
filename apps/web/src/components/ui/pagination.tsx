@@ -58,8 +58,6 @@ const PaginationButton: FC<PaginationButtonProps> = ({
             onClick={() => value && setPage(value)}
             className={cn(
                 'size-9 sm:size-10',
-                // The current page is "you are here", same as an active nav
-                // item — and a solid fill would sink below the glass bar.
                 value === page &&
                     cn('border', SELECTED_TINT, SELECTED_TINT_HOVER),
             )}

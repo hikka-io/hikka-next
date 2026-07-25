@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { usePageHeader } from '@/features/app-shell';
 import { LoginForm, LoginHeader } from '@/features/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
@@ -13,8 +14,10 @@ export const Route = createFileRoute('/_pages/_auth/login')({
 });
 
 function LoginPage() {
+    usePageHeader({ title: 'Вхід', parent: '/' });
+
     return (
-        <div className="w-full space-y-6">
+        <div className="flex w-full flex-col gap-6">
             <LoginHeader />
             <LoginForm />
         </div>

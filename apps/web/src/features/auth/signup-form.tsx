@@ -161,7 +161,11 @@ const SignupForm = () => {
                 )}
             />
 
-            <Turnstile ref={captchaRef} siteKey={CAPTCHA_SITE_KEY} />
+            <Turnstile
+                ref={captchaRef}
+                siteKey={CAPTCHA_SITE_KEY}
+                className="flex justify-center"
+            />
 
             <Button
                 type="submit"

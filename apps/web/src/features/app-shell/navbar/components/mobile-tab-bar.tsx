@@ -17,7 +17,6 @@ import MoreSheet from './more-sheet';
 const tabClassName =
     'group flex flex-1 flex-col items-center justify-center gap-1.5 outline-none';
 
-// Active tint mirrors SELECTED_TINT, prefixed for the group-active state.
 const slotClassName = cn(
     'flex h-8 w-12 items-center justify-center rounded-md text-muted-foreground transition-colors',
     'group-data-[active=true]:bg-primary-foreground/15 group-data-[active=true]:text-primary-foreground',
