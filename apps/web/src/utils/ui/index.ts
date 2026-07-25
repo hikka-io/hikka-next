@@ -32,3 +32,4 @@ export {
     mergePreferences,
     mergeStyles,
 } from './merge';
+export { syncThemeColorMeta, THEME_COLOR } from './theme-color';

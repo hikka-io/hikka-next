@@ -315,8 +315,18 @@
 :root {
     --font-geist: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
 
+    /* Stable bottom inset: the plain env animates with Android edge-to-edge
+       URL-bar collapse; the max variant (Chromium) doesn't. */
+    --safe-area-bottom: env(
+        safe-area-max-inset-bottom,
+        env(safe-area-inset-bottom, 0px)
+    );
+
     /* Space the mobile tab bar occupies; bottom-anchored UI offsets by it. */
-    --tab-bar-height: calc(4.25rem + env(safe-area-inset-bottom));
+    --tab-bar-height: calc(4.25rem + var(--safe-area-bottom));
+
+    scroll-padding-top: calc(3.5rem + env(safe-area-inset-top, 0px) + 0.5rem);
+    scroll-padding-bottom: calc(var(--tab-bar-height) + 0.5rem);
 
     --background: oklch(1 0 0);
     --foreground: oklch(0.142 0.004 286);
@@ -697,6 +707,8 @@
 @media (width >= 48rem) {
     :root {
         --tab-bar-height: 0px;
+        scroll-padding-top: 4.5rem;
+        scroll-padding-bottom: 0.5rem;
     }
 
     .logo {
@@ -718,7 +730,17 @@
 }
 
 main {
-    min-height: calc(100vh - 16.5rem);
+    min-height: calc(100svh - 16.5rem);
+}
+
+/* Modal scroll must not chain to the page (Android pull-to-refresh).
+   Descendant-wide because only the actually-scrolling element counts;
+   inert everywhere else. */
+[data-slot="drawer-content"],
+[data-slot="sheet-content"],
+[data-slot="drawer-content"] *,
+[data-slot="sheet-content"] * {
+    overscroll-behavior-y: contain;
 }
 
 [data-select] [data-radix-popper-content-wrapper] {

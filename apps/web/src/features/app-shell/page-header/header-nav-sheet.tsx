@@ -31,7 +31,7 @@ const HeaderNavSheet: FC<Props> = ({ routes, urlPrefix }) => {
                 <span className="truncate">{current?.title_ua}</span>
                 <MaterialSymbolsKeyboardArrowDownRounded className="size-3.5 shrink-0" />
             </DrawerTrigger>
-            <DrawerContent className="gap-0 p-0 pb-[env(safe-area-inset-bottom)]">
+            <DrawerContent className="gap-0 p-0 data-[vaul-drawer-direction=bottom]:pb-[var(--safe-area-bottom)]">
                 <DrawerTitle className="sr-only">Розділи</DrawerTitle>
                 <div className="flex flex-col gap-0.5 overflow-y-auto p-3 pt-6">
                     {routes.map((route) => (

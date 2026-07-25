@@ -54,7 +54,7 @@ const MobileTabBar = () => {
     const isCatalog = !!catalogRoot;
 
     return (
-        <nav className="fixed inset-x-0 bottom-0 z-30 h-[var(--tab-bar-height)] border-t border-t-border bg-background/80 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl backdrop-saturate-150 md:hidden">
+        <nav className="fixed inset-x-0 bottom-0 z-30 h-[var(--tab-bar-height)] border-t border-t-border bg-background/80 pb-[var(--safe-area-bottom)] backdrop-blur-xl backdrop-saturate-150 md:hidden">
             <div className="flex h-17 items-stretch px-1">
                 <Link
                     to="/"

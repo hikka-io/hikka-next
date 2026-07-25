@@ -36,9 +36,9 @@ export const Route = createRootRouteWithContext<RouterContext>()({
             { charSet: 'utf-8' },
             {
                 name: 'viewport',
-                content: 'width=device-width, initial-scale=1, maximum-scale=1',
+                content:
+                    'width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover',
             },
-            { name: 'theme-color', content: 'black' },
             { name: 'color-scheme', content: 'dark light' },
             {
                 name: 'keywords',
@@ -94,9 +94,12 @@ function RootLayout() {
         >
             <head>
                 <script
+                    // Also creates the theme-color meta (hexes must match
+                    // THEME_COLOR): head() must not own it, or HeadContent
+                    // reverts theme switches on client navigation.
                     // biome-ignore lint/security/noDangerouslySetInnerHtml: static inline theme script to prevent FOUC; contains no user input.
                     dangerouslySetInnerHTML={{
-                        __html: `(function(){try{var c=document.cookie.match(/(?:^|;\\s*)theme=([^;]*)/);var t=c?decodeURIComponent(c[1]):'dark';if(t==='system'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.classList.add(t);document.documentElement.style.colorScheme=t;}catch(e){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}})();`,
+                        __html: `(function(){var t='dark';try{var c=document.cookie.match(/(?:^|;\\s*)theme=([^;]*)/);t=c?decodeURIComponent(c[1]):'dark';if(t==='system'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}}catch(e){t='dark';}if(t!=='light'&&t!=='dark'){t='dark';}document.documentElement.classList.add(t);document.documentElement.style.colorScheme=t;var m=document.createElement('meta');m.name='theme-color';m.content=t==='light'?'#ffffff':'#000000';document.head.appendChild(m);})();`,
                     }}
                 />
                 <HeadContent />

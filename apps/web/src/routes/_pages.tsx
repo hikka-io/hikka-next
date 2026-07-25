@@ -61,7 +61,18 @@ function PagesLayout() {
             </main>
             <Footer className="pb-[var(--tab-bar-height)]" />
             <MobileTabBar />
-            <Toaster richColors position="bottom-right" />
+            <Toaster
+                richColors
+                position="bottom-right"
+                // offset covers sonner's 600px-to-md window where the tab bar
+                // still shows; the var is 0 at md+ so desktop stays at 2rem.
+                offset={{ bottom: 'calc(var(--tab-bar-height) + 2rem)' }}
+                mobileOffset={{
+                    bottom: 'calc(var(--tab-bar-height) + 1rem)',
+                    left: '1rem',
+                    right: '1rem',
+                }}
+            />
         </PageHeaderProvider>
     );
 }

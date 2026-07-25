@@ -9,6 +9,8 @@ import {
     useState,
 } from 'react';
 
+import { syncThemeColorMeta } from '@/utils/ui';
+
 type Theme = 'light' | 'dark' | 'system';
 
 type ThemeProviderProps = PropsWithChildren & {
@@ -75,6 +77,7 @@ function applyTheme(
     }
 
     root.style.colorScheme = resolved;
+    syncThemeColorMeta(resolved);
 }
 
 const ThemeProvider: FC<ThemeProviderProps> = ({
