@@ -5,16 +5,41 @@ import { Drawer as DrawerPrimitive } from 'vaul';
 import { PortalContainerProvider } from '@/components/ui/portal-container-context';
 import { cn } from '@/utils/cn';
 
+/**
+ * The element focus should return to when the drawer closes. Captured by
+ * `Drawer`, consumed by `DrawerContent`, which owns the Radix close handler.
+ */
+const DrawerTriggerRefContext = React.createContext<
+    React.RefObject<HTMLElement | null> | undefined
+>(undefined);
+
 function Drawer({
     shouldScaleBackground = false,
+    onOpenChange,
     ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
+    const triggerRef = React.useRef<HTMLElement | null>(null);
+
+    const handleOpenChange = (open: boolean) => {
+        if (open) {
+            triggerRef.current =
+                document.activeElement instanceof HTMLElement
+                    ? document.activeElement
+                    : null;
+        }
+
+        onOpenChange?.(open);
+    };
+
     return (
-        <DrawerPrimitive.Root
-            data-slot="drawer"
-            shouldScaleBackground={shouldScaleBackground}
-            {...props}
-        />
+        <DrawerTriggerRefContext.Provider value={triggerRef}>
+            <DrawerPrimitive.Root
+                data-slot="drawer"
+                shouldScaleBackground={shouldScaleBackground}
+                onOpenChange={handleOpenChange}
+                {...props}
+            />
+        </DrawerTriggerRefContext.Provider>
     );
 }
 
@@ -55,9 +80,19 @@ function DrawerOverlay({
 function DrawerContent({
     className,
     children,
+    onCloseAutoFocus,
     ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Content>) {
     const [container, setContainer] = React.useState<HTMLElement | null>(null);
+    const triggerRef = React.useContext(DrawerTriggerRefContext);
+
+    const handleCloseAutoFocus = (event: Event) => {
+        onCloseAutoFocus?.(event);
+        if (event.defaultPrevented) return;
+
+        event.preventDefault();
+        triggerRef?.current?.focus({ preventScroll: true });
+    };
 
     return (
         <DrawerPortal data-slot="drawer-portal">
@@ -65,6 +100,7 @@ function DrawerContent({
             <DrawerPrimitive.Content
                 ref={setContainer}
                 data-slot="drawer-content"
+                onCloseAutoFocus={handleCloseAutoFocus}
                 className={cn(
                     'group/drawer-content fixed z-50 flex h-auto flex-col gap-4 bg-background p-4',
                     'data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-[10px] data-[vaul-drawer-direction=top]:border-b',
