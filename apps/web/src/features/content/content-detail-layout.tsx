@@ -2,10 +2,8 @@ import type { FC, PropsWithChildren } from 'react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
-import NavMenu from '@/features/app-shell/nav-dropdown';
-import { cn } from '@/utils/cn';
-import { Link } from '@/utils/navigation';
+import { usePageHeader } from '@/features/app-shell';
+import { usePathname } from '@/utils/navigation';
 
 import ContentActionBar from './content-action-bar';
 import NsfwOverlay from './nsfw-overlay';
@@ -16,7 +14,6 @@ type Props = PropsWithChildren & {
     navRoutes: Hikka.NavRoute[];
     urlPrefix: string;
     title: string;
-    status?: string | null;
     nsfw?: boolean;
     nsfwConsented?: boolean;
 };
@@ -27,36 +24,22 @@ const ContentDetailLayout: FC<Props> = ({
     navRoutes,
     urlPrefix,
     title,
-    status,
     nsfw,
     nsfwConsented,
     children,
 }) => {
+    const pathname = usePathname();
+    const contentUrl = `${urlPrefix}/${slug}`;
+
+    usePageHeader({
+        title,
+        parent: pathname === contentUrl ? urlPrefix : contentUrl,
+        navRoutes,
+        navUrlPrefix: contentUrl,
+    });
+
     return (
         <>
-            <Breadcrumbs>
-                <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                    {status && (
-                        <div
-                            className={cn(
-                                'size-2 rounded-full bg-white',
-                                `bg-${status}-foreground`,
-                            )}
-                        />
-                    )}
-                    <Link
-                        to={`${urlPrefix}/${slug}`}
-                        className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
-                    >
-                        {title}
-                    </Link>
-                </div>
-                <NavMenu
-                    routes={navRoutes}
-                    urlPrefix={`${urlPrefix}/${slug}`}
-                />
-            </Breadcrumbs>
-
             {nsfw && !nsfwConsented && <NsfwOverlay />}
             {children}
 

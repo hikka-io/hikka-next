@@ -93,6 +93,7 @@ type HeaderTitleProps = {
     variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
     href?: string;
     to?: string;
+    ref?: React.Ref<HTMLDivElement>;
 };
 
 const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
@@ -101,6 +102,7 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     variant,
     href: hrefProp,
     to: toProp,
+    ref,
 }) => {
     const resolvedProp = toProp ?? hrefProp;
     const { href, search, onClick, linkProps } = useHeader();
@@ -109,7 +111,7 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     const heading = <Tag>{children}</Tag>;
 
     return (
-        <div className={cn('flex items-center gap-4', className)}>
+        <div ref={ref} className={cn('flex items-center gap-4', className)}>
             {resolvedProp || href ? (
                 <Link
                     to={resolvedProp || href || ''}

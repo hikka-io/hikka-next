@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getArticleOptions } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { usePageTitleAnchor } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useParams } from '@/utils/navigation';
@@ -19,6 +20,7 @@ const ArticleTitle: FC<Props> = () => {
     );
 
     const contentTitle = useTitle(article?.content);
+    const titleAnchor = usePageTitleAnchor();
 
     return (
         <div className="flex flex-col gap-1">
@@ -32,7 +34,9 @@ const ArticleTitle: FC<Props> = () => {
             )}
             <Header>
                 <HeaderContainer>
-                    <HeaderTitle variant="h2">{article!.title}</HeaderTitle>
+                    <HeaderTitle ref={titleAnchor} variant="h2">
+                        {article!.title}
+                    </HeaderTitle>
                 </HeaderContainer>
             </Header>
         </div>

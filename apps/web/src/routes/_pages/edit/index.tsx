@@ -14,6 +14,7 @@ import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilter
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import {
     EditFiltersModal,
     EditList,
@@ -71,6 +72,10 @@ export const Route = createFileRoute('/_pages/edit/')({
 });
 
 function EditListPage() {
+    const titleAnchor = usePageTitleAnchor();
+
+    usePageHeader({ title: 'Правки', parent: '/' });
+
     return (
         <div className="flex flex-col gap-12 lg:gap-12">
             <EditTopStats />
@@ -80,7 +85,7 @@ function EditListPage() {
                         <div className="flex items-center justify-between">
                             <Header>
                                 <HeaderContainer>
-                                    <HeaderTitle variant="h2">
+                                    <HeaderTitle ref={titleAnchor} variant="h2">
                                         Правки
                                     </HeaderTitle>
                                 </HeaderContainer>

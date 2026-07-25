@@ -6,6 +6,7 @@ import { getCollectionOptions, getCollectionQueryKey } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+import { usePageHeader } from '@/features/app-shell';
 import {
     CollectionEditGroups as CollectionGroups,
     CollectionEditSettings as CollectionSettings,
@@ -41,6 +42,12 @@ function CollectionUpdatePage() {
     const { data: collection } = useQuery(
         getCollectionOptions({ path: { reference } }),
     );
+
+    usePageHeader({
+        title: collection?.title,
+        subtitle: 'Редагування',
+        parent: `/collections/${reference}`,
+    });
 
     if (!collection) return null;
 

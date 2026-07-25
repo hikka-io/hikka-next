@@ -18,7 +18,6 @@ function NovelStaffPage() {
         <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
             <div className="flex flex-col gap-12">
                 <ContentHeader
-                    disableBreadcrumbs
                     slug={slug}
                     content_type={ContentTypeEnum.NOVEL}
                 />

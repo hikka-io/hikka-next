@@ -4,8 +4,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { ContentTypeEnum, getCollectionOptions } from '@hikka/api';
 
 import Block from '@/components/ui/block';
-import Link from '@/components/ui/link';
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
+import { usePageHeader } from '@/features/app-shell';
 import {
     CollectionViewAuthor as CollectionAuthor,
     CollectionViewGroups as CollectionGroups,
@@ -27,20 +26,16 @@ function CollectionPage() {
         getCollectionOptions({ path: { reference } }),
     );
 
+    usePageHeader({
+        title: collection?.title,
+        subtitle: collection?.author.username,
+        parent: '/collections',
+    });
+
     return (
         <CollectionProvider
             initialState={collection as Partial<CollectionState>}
         >
-            <Breadcrumbs>
-                <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                    <Link
-                        to={`/collections/${reference}`}
-                        className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
-                    >
-                        {collection?.title}
-                    </Link>
-                </div>
-            </Breadcrumbs>
             <div className="mb-12 flex flex-col gap-12 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-4">
                 {/* left spacer balances the TOC column so the content stays centered */}
                 <div className="hidden min-w-52 max-w-56 lg:block" />

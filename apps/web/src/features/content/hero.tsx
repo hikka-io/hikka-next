@@ -1,5 +1,6 @@
 import type { MainContentTypeEnum } from '@hikka/api';
 
+import { usePageTitleAnchor } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
@@ -15,6 +16,7 @@ const Hero = ({ content_type }: Props) => {
     const params = useParams();
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
     const title = useTitle(data);
+    const titleAnchor = usePageTitleAnchor();
 
     if (!data) {
         return null;
@@ -32,7 +34,9 @@ const Hero = ({ content_type }: Props) => {
     return (
         <div className="flex min-w-0 flex-col gap-4" id="content-hero">
             <div className="flex flex-col">
-                <h2 className={titleSizeClass}>{title}</h2>
+                <h2 ref={titleAnchor} className={titleSizeClass}>
+                    {title}
+                </h2>
                 {originalTitle && (
                     <p className="text-muted-foreground text-sm">
                         {originalTitle}

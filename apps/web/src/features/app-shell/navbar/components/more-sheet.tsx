@@ -9,24 +9,13 @@ import {
     DrawerTrigger,
 } from '@/components/ui/drawer';
 import { Separator } from '@/components/ui/separator';
-import { cn } from '@/utils/cn';
 import { isNavActive, MOBILE_SHEET_NAV } from '@/utils/constants/navigation';
 import { Link, usePathname } from '@/utils/navigation';
 
 import LoginButton from '../../login-button';
+import { navGroupLabelClassName, navRowClassName } from '../../nav-styles';
 import { useProfileMenu } from '../hooks/use-profile-menu';
 import ProfileIdentity from './profile-identity';
-
-const rowClassName = cn(
-    'flex w-full items-center gap-2 rounded-md px-2 py-2 text-sm transition-colors',
-    'text-muted-foreground',
-    'hover:bg-accent hover:text-foreground',
-    'data-[active=true]:bg-accent data-[active=true]:font-medium data-[active=true]:text-foreground',
-    '[&_svg:not([class*=size-])]:size-4 [&_svg]:shrink-0',
-);
-
-const groupLabelClassName =
-    'px-2 py-1.5 font-medium text-muted-foreground/70 text-xs';
 
 type Props = {
     children: ReactNode;
@@ -73,14 +62,16 @@ const MoreSheet: FC<Props> = ({ children }) => {
                 <div className="flex min-h-0 flex-col gap-0.5 overflow-y-auto p-3">
                     {user && (
                         <>
-                            <span className={groupLabelClassName}>Профіль</span>
+                            <span className={navGroupLabelClassName}>
+                                Профіль
+                            </span>
                             {items.map((item) => (
                                 <Link
                                     key={item.slug}
                                     to={item.url}
                                     search={item.search}
                                     onClick={close}
-                                    className={rowClassName}
+                                    className={navRowClassName}
                                     data-active={isNavActive(
                                         pathname,
                                         item.url,
@@ -103,7 +94,7 @@ const MoreSheet: FC<Props> = ({ children }) => {
                             key={group.title_ua}
                             className="flex flex-col gap-0.5"
                         >
-                            <span className={groupLabelClassName}>
+                            <span className={navGroupLabelClassName}>
                                 {group.title_ua}
                             </span>
                             {group.items
@@ -114,7 +105,7 @@ const MoreSheet: FC<Props> = ({ children }) => {
                                         to={item.url}
                                         search={item.search}
                                         onClick={close}
-                                        className={rowClassName}
+                                        className={navRowClassName}
                                         data-active={isNavActive(
                                             pathname,
                                             item.url,
@@ -133,7 +124,7 @@ const MoreSheet: FC<Props> = ({ children }) => {
                             <button
                                 type="button"
                                 onClick={logout}
-                                className={rowClassName}
+                                className={navRowClassName}
                             >
                                 <MaterialSymbolsLogoutRounded className="text-destructive-foreground" />
                                 <span>Вийти</span>

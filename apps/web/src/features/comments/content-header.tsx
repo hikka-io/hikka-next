@@ -13,24 +13,17 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import { Link } from '@/utils/navigation';
 
 import { useContent } from './hooks/use-content';
 
 type Props = {
     slug: string;
     content_type: CommentsContentType | typeof ContentTypeEnum.USER;
-    disableBreadcrumbs?: boolean;
 };
 
-const ContentHeader: FC<Props> = ({
-    slug,
-    content_type,
-    disableBreadcrumbs,
-}) => {
+const ContentHeader: FC<Props> = ({ slug, content_type }) => {
     const { data } = useContent({
         content_type,
         slug,
@@ -40,18 +33,6 @@ const ContentHeader: FC<Props> = ({
 
     return (
         <Card>
-            {!disableBreadcrumbs && (
-                <Breadcrumbs>
-                    <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                        <Link
-                            to={link}
-                            className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
-                        >
-                            {data?.title}
-                        </Link>
-                    </div>
-                </Breadcrumbs>
-            )}
             <Header href={link}>
                 <HeaderContainer>
                     {data?.image && (

@@ -4,6 +4,7 @@ import { userProfileOptions } from '@hikka/api';
 
 import { RoleBadge } from '@/components/badges';
 import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { usePageTitleAnchor } from '@/features/app-shell';
 import { Link, useParams } from '@/utils/navigation';
 
 const UserTitle = () => {
@@ -13,6 +14,7 @@ const UserTitle = () => {
             path: { username: String(params.username) },
         }),
     );
+    const titleAnchor = usePageTitleAnchor();
 
     if (!user) {
         return null;
@@ -22,7 +24,7 @@ const UserTitle = () => {
         <div className="flex min-w-0 flex-1 flex-col gap-2">
             <div className="flex items-center gap-2">
                 <Link to={`/u/${user.username}`} className="min-w-0">
-                    <h3 className="truncate hover:underline">
+                    <h3 ref={titleAnchor} className="truncate hover:underline">
                         {user.username}
                     </h3>
                 </Link>

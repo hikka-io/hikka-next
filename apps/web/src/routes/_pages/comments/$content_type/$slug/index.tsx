@@ -9,6 +9,7 @@ import {
     paginationPageParam,
 } from '@hikka/api';
 
+import { usePageHeader } from '@/features/app-shell';
 import {
     CommentList as Comments,
     prefetchContent,
@@ -16,6 +17,7 @@ import {
 } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
 import { useChangeParam } from '@/features/filters';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 import { commentsSearchSchema } from '@/utils/search-schemas';
 import { getTitle } from '@/utils/title/get-title';
@@ -79,6 +81,12 @@ function CommentsPage() {
     const changeParam = useChangeParam();
     const contentTitle = getTitle(content) ?? undefined;
     const isUser = content_type === ContentTypeEnum.USER;
+
+    usePageHeader({
+        title: contentTitle ?? (content as { username?: string }).username,
+        subtitle: 'Коментарі',
+        parent: `${CONTENT_TYPE_LINKS[content_type as ContentTypeEnum]}/${slug}`,
+    });
 
     const commentType = comment_type ?? 'all';
     const handleCommentTypeChange = (type: string) =>

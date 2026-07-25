@@ -8,9 +8,9 @@ import {
 } from '@hikka/api';
 
 import Block from '@/components/ui/block';
-import Link from '@/components/ui/link';
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
+import { usePageHeader } from '@/features/app-shell';
 import { EditContent as Content, EditTimeline } from '@/features/edit';
+import { getTitle } from '@/utils/title/get-title';
 
 export const Route = createFileRoute('/_pages/edit/$editId')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -52,16 +52,14 @@ function EditLayout() {
     const { editId } = Route.useParams();
     const { edit } = Route.useLoaderData();
 
+    usePageHeader({
+        title: `Правка #${edit.edit_id}`,
+        subtitle: getTitle(edit.content),
+        parent: '/edit',
+    });
+
     return (
         <>
-            <Breadcrumbs>
-                <Link
-                    to={`/edit/${edit.edit_id}`}
-                    className="font-bold text-sm hover:underline"
-                >
-                    Правка #{edit.edit_id}
-                </Link>
-            </Breadcrumbs>
             <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-[1fr_25%]">
                 <Block>
                     <Outlet />

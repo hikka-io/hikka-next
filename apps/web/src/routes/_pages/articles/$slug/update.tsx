@@ -10,8 +10,7 @@ import {
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import Link from '@/components/ui/link';
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
+import { usePageHeader } from '@/features/app-shell';
 import {
     ArticleDocumentEditor as ArticleDocument,
     ArticleSettings,
@@ -20,7 +19,6 @@ import {
 import ArticleProvider from '@/services/providers/article-provider';
 import type { ArticleState } from '@/services/stores/article-store';
 import { requireOwner } from '@/utils/auth';
-import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 
@@ -48,28 +46,19 @@ function ArticleUpdatePage() {
     const { slug } = Route.useParams();
     const { data: article } = useQuery(getArticleOptions({ path: { slug } }));
 
+    usePageHeader({
+        title: article?.title,
+        subtitle: article?.draft ? 'Чернетка' : 'Опубліковано',
+        indicatorClassName: article?.draft
+            ? 'bg-warning-foreground'
+            : 'bg-success-foreground',
+        parent: `${CONTENT_TYPE_LINKS.article}/${slug}`,
+    });
+
     if (!article) return null;
 
     return (
         <>
-            <Breadcrumbs>
-                <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                    <div
-                        className={cn(
-                            'size-2 rounded-full',
-                            article.draft
-                                ? 'bg-warning-foreground'
-                                : 'bg-success-foreground',
-                        )}
-                    />
-                    <Link
-                        to={`${CONTENT_TYPE_LINKS.article}/${slug}`}
-                        className="flex-1 overflow-hidden text-ellipsis font-bold text-sm hover:underline"
-                    >
-                        {article?.title}
-                    </Link>
-                </div>
-            </Breadcrumbs>
             <ArticleProvider
                 initialState={
                     {

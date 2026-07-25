@@ -13,6 +13,7 @@ import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import {
     ScheduleFilters,
     ScheduleFiltersModal,
@@ -57,13 +58,19 @@ export const Route = createFileRoute('/_pages/schedule')({
 });
 
 function ScheduleListPage() {
+    const titleAnchor = usePageTitleAnchor();
+
+    usePageHeader({ title: 'Календар', parent: '/' });
+
     return (
         <div className="flex flex-col gap-12">
             <Block>
                 <div className="flex items-center justify-between">
                     <Header>
                         <HeaderContainer>
-                            <HeaderTitle variant="h2">Календар</HeaderTitle>
+                            <HeaderTitle ref={titleAnchor} variant="h2">
+                                Календар
+                            </HeaderTitle>
                         </HeaderContainer>
                     </Header>
                     <ScheduleFiltersModal>

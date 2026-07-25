@@ -8,7 +8,13 @@ import {
 } from '@hikka/api';
 
 import { Toaster } from '@/components/ui/sonner';
-import { Footer, MobileTabBar, Navbar } from '@/features/app-shell';
+import {
+    Footer,
+    MobileHeader,
+    MobileTabBar,
+    Navbar,
+    PageHeaderProvider,
+} from '@/features/app-shell';
 import { getAuthTokenFn } from '@/utils/cookies';
 
 export const Route = createFileRoute('/_pages')({
@@ -47,14 +53,15 @@ export const Route = createFileRoute('/_pages')({
 
 function PagesLayout() {
     return (
-        <>
+        <PageHeaderProvider>
             <Navbar />
+            <MobileHeader />
             <main className="mx-auto mt-8 mb-8 w-full max-w-350 px-4 pt-[env(safe-area-inset-top)] lg:mt-16">
                 <Outlet />
             </main>
             <Footer className="pb-[var(--tab-bar-height)]" />
             <MobileTabBar />
             <Toaster richColors position="bottom-right" />
-        </>
+        </PageHeaderProvider>
     );
 }

@@ -6,6 +6,7 @@ import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { usePageTitleAnchor } from '@/features/app-shell';
 import { useParams } from '@/utils/navigation';
 
 const CollectionTitle = () => {
@@ -13,13 +14,14 @@ const CollectionTitle = () => {
     const { data: collection } = useQuery(
         getCollectionOptions({ path: { reference: String(params.reference) } }),
     );
+    const titleAnchor = usePageTitleAnchor();
 
     return (
         <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
                 <Header>
                     <HeaderContainer>
-                        <HeaderTitle variant="h2">
+                        <HeaderTitle ref={titleAnchor} variant="h2">
                             {collection?.title || 'Нова колекція'}
                         </HeaderTitle>
                     </HeaderContainer>

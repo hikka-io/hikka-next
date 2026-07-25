@@ -2,8 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import Breadcrumbs from '@/features/app-shell/nav-breadcrumbs';
+import { usePageHeader } from '@/features/app-shell';
 import {
     CollectionEditGroups as CollectionGroups,
     CollectionEditSettings as CollectionSettings,
@@ -26,13 +25,13 @@ export const Route = createFileRoute('/_pages/collections/new')({
 });
 
 function CollectionNewPage() {
+    usePageHeader({
+        title: 'Нова колекція',
+        parent: '/collections',
+    });
+
     return (
         <CollectionProvider>
-            <Breadcrumbs>
-                <div className="flex w-auto items-center gap-4 overflow-hidden whitespace-nowrap">
-                    <Label>Нова колекція</Label>
-                </div>
-            </Breadcrumbs>
             <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-x-10">
                 <Block>
                     <CollectionTitle />

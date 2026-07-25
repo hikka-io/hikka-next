@@ -13,6 +13,7 @@ import {
 
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { usePageHeader } from '@/features/app-shell';
 import {
     EditContent as Content,
     EditCreateForm as EditForm,
@@ -82,6 +83,8 @@ export const Route = createFileRoute('/_pages/edit/new')({
 function EditNewPage() {
     const { content_type, slug } = Route.useLoaderData();
     const content = useContentBySlug(content_type, slug);
+
+    usePageHeader({ title: 'Нова правка', parent: '/edit' });
 
     if (!content) return null;
 
