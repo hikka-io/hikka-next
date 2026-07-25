@@ -1,5 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
+import HikkaIcon from '@/components/icons/custom/HikkaIcon';
 import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
@@ -63,7 +64,7 @@ const MobileTabBar = () => {
                     aria-current={pathname === '/' ? 'page' : undefined}
                 >
                     <Tab label="Головна">
-                        <span className="logo-icon size-[22px]" />
+                        <HikkaIcon />
                     </Tab>
                 </Link>
 
