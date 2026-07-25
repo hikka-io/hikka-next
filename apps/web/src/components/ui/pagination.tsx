@@ -16,6 +16,7 @@ import AntDesignArrowRightOutlined from '../icons/ant-design/AntDesignArrowRight
 import { Button } from './button';
 import Card from './card';
 import { Input } from './input';
+import { SELECTED_TINT, SELECTED_TINT_HOVER } from './selected-tint';
 
 type Props = {
     page: number;
@@ -52,10 +53,16 @@ const PaginationButton: FC<PaginationButtonProps> = ({
     return (
         <Button
             size="icon-md"
-            variant={value === page ? 'default' : 'ghost'}
+            variant="ghost"
             disabled={!value}
             onClick={() => value && setPage(value)}
-            className={cn('size-9 sm:size-10')}
+            className={cn(
+                'size-9 sm:size-10',
+                // The current page is "you are here", same as an active nav
+                // item — and a solid fill would sink below the glass bar.
+                value === page &&
+                    cn('border', SELECTED_TINT, SELECTED_TINT_HOVER),
+            )}
         >
             {value}
         </Button>

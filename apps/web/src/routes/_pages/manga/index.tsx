@@ -52,6 +52,7 @@ function MangaListPage() {
             <ContentTypeTabs
                 value={ContentTypeEnum.MANGA}
                 urlFor={(contentType) => `/${contentType}`}
+                className="md:hidden"
             />
 
             <div

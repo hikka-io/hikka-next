@@ -22,8 +22,9 @@ const Navbar = () => {
     return (
         <header
             className={cn(
-                'sticky top-0 z-10 hidden w-full bg-transparent backdrop-blur transition-[background-color,border-color] md:block',
-                trigger && 'border-b border-b-border bg-background!',
+                'sticky top-0 z-10 hidden w-full border-b border-b-transparent bg-transparent backdrop-blur transition-[background-color,border-color,backdrop-filter] md:block',
+                trigger &&
+                    'border-b-border bg-background/80 backdrop-blur-xl backdrop-saturate-150',
             )}
         >
             <nav className="relative mx-auto flex min-h-16 w-full max-w-350 items-center gap-8 px-4">

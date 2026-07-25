@@ -69,13 +69,13 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
     return (
         <div
             className={cn(
-                'sticky bottom-[calc(var(--tab-bar-height)+0.75rem)] z-10 mx-auto flex w-fit md:bottom-4',
+                'sticky bottom-[calc(var(--tab-bar-height)+1rem)] z-10 mx-auto flex w-fit',
                 className,
             )}
         >
             <Card
                 variant="glass"
-                className="flex-row gap-2 border-none px-3 py-2"
+                className="flex-row gap-2 px-3 py-2"
                 id="navbar-card"
             >
                 <UserlistButton

@@ -167,16 +167,33 @@
 @utility surface-inset {
     background-color: var(--surface-inset);
     color: var(--card-foreground);
+
+    /* Same as surface-glass: the well and anything in it share one edge.
+       --color-* covers borders that fall back to the base-layer default. */
+    --border: var(--surface-inset-border);
+    --input: var(--surface-inset-border);
+    --color-border: var(--surface-inset-border);
+    --color-input: var(--surface-inset-border);
 }
 
-/* Brighter frosted glass for bars that float ON TOP of content (sticky
-   nav/action bars, pagination), lifted above the regular surface fill so
-   they read brighter than the content they cover instead of blending. */
+/* Frosted glass for bars that float ON TOP of content (sticky nav/action
+   bars, pagination). Same blur as the mobile header and tab bar, but a fill
+   one step above --surface: these bars cover cards, and in dark elevation is
+   lightness. */
 @utility surface-glass {
-    background-color: oklch(from var(--card) calc(l * 1.6) c h / 0.6);
+    background-color: var(--surface-glass);
     color: var(--card-foreground);
     box-shadow: var(--shadow-card);
-    backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px) saturate(150%);
+
+    /* Retarget the edge tokens for the bar and everything in it — its own
+       border, dividers, button and input edges — so none of them sink below
+       the lifted fill. --color-* covers borders that fall back to the
+       base-layer default. */
+    --border: var(--surface-glass-border);
+    --input: var(--surface-glass-border);
+    --color-border: var(--surface-glass-border);
+    --color-input: var(--surface-glass-border);
 }
 
 @utility comment-thread {
@@ -298,7 +315,7 @@
     --font-geist: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
 
     /* Space the mobile tab bar occupies; bottom-anchored UI offsets by it. */
-    --tab-bar-height: calc(3.75rem + env(safe-area-inset-bottom));
+    --tab-bar-height: calc(4.25rem + env(safe-area-inset-bottom));
 
     --background: oklch(1 0 0);
     --foreground: oklch(0.142 0.004 286);
@@ -337,6 +354,9 @@
        tokens */
     --surface: oklch(from var(--card) l c h / 0.88);
     --surface-inset: color-mix(in oklab, var(--muted) 60%, transparent);
+    --surface-inset-border: var(--border);
+    --surface-glass: oklch(from var(--card) l c h / 0.8);
+    --surface-glass-border: var(--border);
 
     /* Backdrop derivation constants */
     --backdrop-l: 0.9;
@@ -459,6 +479,13 @@
 
     --surface: oklch(from var(--card) calc(l * 1.1) c h / 0.45);
     --surface-inset: color-mix(in oklab, var(--muted) 45%, transparent);
+    /* The inset fill is --muted at 45%; its edge is the same token at full
+       strength, which lands just above the composited fill. */
+    --surface-inset-border: var(--muted);
+    /* Floating bars sit above cards, so lift the fill further. The edge is
+       lighter than the fill here, the way light-mode edges are darker. */
+    --surface-glass: oklch(from var(--card) calc(l * 1.6) c h / 0.8);
+    --surface-glass-border: oklch(from var(--card) calc(l * 2) c h);
 
     /* General colors */
 

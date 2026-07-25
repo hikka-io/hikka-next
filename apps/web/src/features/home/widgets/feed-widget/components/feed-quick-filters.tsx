@@ -7,6 +7,7 @@ import type { UiFeedSettingsOutput } from '@hikka/api';
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import { Chip } from '@/components/ui/chip';
+import { SELECTED_TINT } from '@/components/ui/selected-tint';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 
@@ -30,8 +31,7 @@ const OPTIONS: Option[] = [
         label: 'Усе',
         value: null,
         icon: LayoutGrid,
-        activeClass:
-            'border border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground',
+        activeClass: SELECTED_TINT,
     },
     {
         label: 'Відгуки',

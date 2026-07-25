@@ -53,6 +53,7 @@ function NovelListPage() {
             <ContentTypeTabs
                 value={ContentTypeEnum.NOVEL}
                 urlFor={(contentType) => `/${contentType}`}
+                className="md:hidden"
             />
 
             <div

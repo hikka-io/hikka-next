@@ -1,14 +1,12 @@
 import { type ComponentType, useRef } from 'react';
 
 import { Chip } from '@/components/ui/chip';
+import { SELECTED_TINT } from '@/components/ui/selected-tint';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
 type IconComponent = ComponentType<{ className?: string }>;
-
-const DEFAULT_ACTIVE_CLASS =
-    'border border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground';
 
 export type ChipTabOption<T extends string> = {
     label: string;
@@ -65,7 +63,7 @@ function ChipTabs<T extends string>({
                     className: cn(
                         'border border-transparent px-3.5 text-sm',
                         isActive
-                            ? (option.activeClass ?? DEFAULT_ACTIVE_CLASS)
+                            ? (option.activeClass ?? SELECTED_TINT)
                             : 'bg-secondary/40 text-muted-foreground hover:bg-accent',
                     ),
                 };

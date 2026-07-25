@@ -17,16 +17,17 @@ import MoreSheet from './more-sheet';
 const tabClassName =
     'group flex flex-1 flex-col items-center justify-center gap-1.5 outline-none';
 
+// Active tint mirrors SELECTED_TINT, prefixed for the group-active state.
 const slotClassName = cn(
     'flex h-8 w-12 items-center justify-center rounded-md text-muted-foreground transition-colors',
-    'group-data-[active=true]:bg-accent group-data-[active=true]:text-foreground',
+    'group-data-[active=true]:bg-primary-foreground/15 group-data-[active=true]:text-primary-foreground',
     'group-focus-visible:ring-[3px] group-focus-visible:ring-ring/50',
     '[&_svg]:size-6',
 );
 
 const labelClassName = cn(
     'text-[0.6875rem] text-muted-foreground leading-none transition-colors',
-    'group-data-[active=true]:font-semibold group-data-[active=true]:text-foreground',
+    'group-data-[active=true]:font-semibold group-data-[active=true]:text-primary-foreground',
 );
 
 type TabProps = {
@@ -51,7 +52,7 @@ const MobileTabBar = () => {
 
     return (
         <nav className="fixed inset-x-0 bottom-0 z-30 h-[var(--tab-bar-height)] border-t border-t-border bg-background/80 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl backdrop-saturate-150 md:hidden">
-            <div className="flex h-15 items-stretch px-1">
+            <div className="flex h-17 items-stretch px-1">
                 <Link
                     to="/"
                     className={tabClassName}

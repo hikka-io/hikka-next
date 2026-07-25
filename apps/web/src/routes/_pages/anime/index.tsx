@@ -55,6 +55,7 @@ function AnimeListPage() {
             <ContentTypeTabs
                 value={ContentTypeEnum.ANIME}
                 urlFor={(contentType) => `/${contentType}`}
+                className="md:hidden"
             />
 
             <div
