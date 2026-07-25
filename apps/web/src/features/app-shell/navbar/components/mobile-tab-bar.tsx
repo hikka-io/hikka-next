@@ -77,7 +77,7 @@ const MobileTabBar = () => {
                     </Tab>
                 </Link>
 
-                <SearchModal>
+                <SearchModal disableHotkey>
                     <button type="button" className={tabClassName}>
                         <Tab label="Пошук">
                             <MaterialSymbolsSearchRounded />

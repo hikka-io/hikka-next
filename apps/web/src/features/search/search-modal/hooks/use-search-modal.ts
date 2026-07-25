@@ -13,6 +13,7 @@ type Props = {
     setOpen: Dispatch<SetStateAction<boolean>>;
     setSearchType?: Dispatch<SetStateAction<SearchTypeValue>>;
     content_type?: ContentTypeEnum;
+    disableHotkey?: boolean;
 };
 
 const ALLOWED_SEARCH_TYPES: ContentTypeEnum[] = [
@@ -30,6 +31,7 @@ const useSearchModal = ({
     setOpen,
     setSearchType,
     content_type,
+    disableHotkey,
 }: Props) => {
     const pathname = usePathname();
 
@@ -48,14 +50,14 @@ const useSearchModal = ({
             }
         }
 
-        if (!onClick) {
+        if (!onClick && !disableHotkey) {
             document.addEventListener('keydown', handleKeyDown);
         }
 
         return function cleanup() {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [onClick, setOpen]);
+    }, [onClick, setOpen, disableHotkey]);
 
     useEffect(() => {
         if (setSearchType && content_type) {

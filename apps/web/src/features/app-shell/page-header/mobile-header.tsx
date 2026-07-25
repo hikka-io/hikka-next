@@ -31,28 +31,42 @@ const MobileHeader = () => {
     }, [titleVisible, setTitleVisible]);
 
     /**
-     * A new screen always starts at rest. Measuring here instead would read the
-     * scroll position of the screen we came from, since the router restores
-     * scroll after the new one has rendered.
+     * A new screen starts at rest; the router restores its scroll position
+     * after this runs, and that restore fires the scroll listener below.
      */
+    // biome-ignore lint/correctness/useExhaustiveDependencies(pathname): reset on every navigation
     useEffect(() => {
         setScrolled(false);
-        setPassedAnchor(false);
     }, [pathname]);
 
     useEffect(() => {
-        const update = () => {
-            setScrolled(window.scrollY > SCROLL_THRESHOLD);
-            setPassedAnchor(
-                !!anchor &&
-                    anchor.getBoundingClientRect().bottom <=
-                        (headerRef.current?.offsetHeight ?? 0),
-            );
-        };
+        const update = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
 
+        update();
         window.addEventListener('scroll', update, { passive: true });
 
         return () => window.removeEventListener('scroll', update);
+    }, []);
+
+    useEffect(() => {
+        setPassedAnchor(false);
+
+        if (!anchor) {
+            return;
+        }
+
+        const headerHeight = headerRef.current?.offsetHeight ?? 0;
+        const observer = new IntersectionObserver(
+            ([entry]) =>
+                setPassedAnchor(
+                    !entry.isIntersecting &&
+                        entry.boundingClientRect.bottom <= headerHeight,
+                ),
+            { rootMargin: `-${headerHeight}px 0px 0px 0px` },
+        );
+        observer.observe(anchor);
+
+        return () => observer.disconnect();
     }, [anchor]);
 
     if (!config) {
