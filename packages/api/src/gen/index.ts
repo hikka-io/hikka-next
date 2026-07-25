@@ -509,6 +509,7 @@ export {
     type FavouriteNovelResponse,
     type FavouritePaginationResponse,
     type FavouriteResponse,
+    type FavouriteStatsResponse,
     type FeedArgs,
     type FollowData,
     type FollowError,

@@ -5,6 +5,7 @@ import { LayoutGrid, MessageCircle, Star } from 'lucide-react';
 
 import {
     type CommentContentTypeEnum as CommentsContentType,
+    type CommentResponse,
     getCommentsListInfiniteOptions,
     threadOptions,
 } from '@hikka/api';
@@ -111,12 +112,14 @@ const CommentList: FC<Props> = ({
         enabled: !!comment_reference,
     });
 
-    const list = comment_reference
-        ? thread
-            ? Array.isArray(thread)
-                ? thread
-                : [thread]
-            : []
+    const threadComments: CommentResponse[] = thread
+        ? 'list' in thread
+            ? thread.list
+            : [thread]
+        : [];
+
+    const list: CommentResponse[] | undefined = comment_reference
+        ? threadComments
         : comments;
 
     const title = (

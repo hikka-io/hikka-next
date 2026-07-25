@@ -159,6 +159,14 @@ export type AnimeCatalogResponse = {
      * Studios
      */
     studios: Array<CompanyResponse>;
+    /**
+     * Synopsis En
+     */
+    synopsis_en: string | null;
+    /**
+     * Synopsis Ua
+     */
+    synopsis_ua: string | null;
 };
 
 /**
@@ -3193,6 +3201,32 @@ export type FavouriteResponse = {
 };
 
 /**
+ * FavouriteStatsResponse
+ */
+export type FavouriteStatsResponse = {
+    /**
+     * Collection
+     */
+    collection?: number;
+    /**
+     * Character
+     */
+    character?: number;
+    /**
+     * Anime
+     */
+    anime?: number;
+    /**
+     * Manga
+     */
+    manga?: number;
+    /**
+     * Novel
+     */
+    novel?: number;
+};
+
+/**
  * FeedArgs
  */
 export type FeedArgs = {
@@ -3805,6 +3839,14 @@ export type MangaCatalogResponse = {
      * Magazines
      */
     magazines: Array<MagazineResponse>;
+    /**
+     * Synopsis En
+     */
+    synopsis_en: string | null;
+    /**
+     * Synopsis Ua
+     */
+    synopsis_ua: string | null;
 };
 
 /**
@@ -4381,6 +4423,14 @@ export type NovelCatalogResponse = {
      * Magazines
      */
     magazines: Array<MagazineResponse>;
+    /**
+     * Synopsis En
+     */
+    synopsis_en: string | null;
+    /**
+     * Synopsis Ua
+     */
+    synopsis_ua: string | null;
 };
 
 /**
@@ -5315,7 +5365,7 @@ export type ReviewResponse = {
     /**
      * Score
      */
-    score?: number;
+    score: number;
 };
 
 /**
@@ -6264,10 +6314,15 @@ export type UserResponseWithWatch = {
  * UserStatsResponse
  */
 export type UserStatsResponse = {
+    favourites_count: FavouriteStatsResponse;
     /**
      * Comments Count
      */
     comments_count?: number;
+    /**
+     * Reviews Count
+     */
+    reviews_count?: number;
     /**
      * Edits Count
      */
@@ -8302,6 +8357,14 @@ export type ThreadData = {
          * Flat
          */
         flat?: boolean;
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Size
+         */
+        size?: number;
     };
     url: '/comments/thread/{comment_reference}';
 };
@@ -8321,7 +8384,7 @@ export type ThreadResponses = {
      *
      * Successful Response
      */
-    200: CommentResponse | Array<CommentResponse>;
+    200: CommentResponse | CommentListResponse;
 };
 
 export type ThreadResponse = ThreadResponses[keyof ThreadResponses];
