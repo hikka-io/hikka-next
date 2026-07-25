@@ -98,7 +98,7 @@ const MobileHeader = () => {
             <header
                 ref={headerRef}
                 className={cn(
-                    'fixed inset-x-0 top-0 z-30 border-b border-b-transparent bg-transparent pt-[env(safe-area-inset-top)] backdrop-blur transition-[background-color,border-color,backdrop-filter] md:hidden',
+                    'fixed inset-x-0 top-0 z-30 border-b border-b-transparent bg-transparent pt-[env(safe-area-inset-top)] backdrop-blur-xs transition-[background-color,border-color,backdrop-filter] md:hidden',
                     scrolled &&
                         'border-b-border bg-background/80 backdrop-blur-xl backdrop-saturate-150',
                 )}
