@@ -33,7 +33,7 @@ const HeaderNavSheet: FC<Props> = ({ routes, urlPrefix }) => {
             </DrawerTrigger>
             <DrawerContent className="gap-0 p-0 pb-[env(safe-area-inset-bottom)]">
                 <DrawerTitle className="sr-only">Розділи</DrawerTitle>
-                <div className="flex flex-col gap-0.5 overflow-y-auto p-3">
+                <div className="flex flex-col gap-0.5 overflow-y-auto p-3 pt-6">
                     {routes.map((route) => (
                         <Link
                             key={route.slug}

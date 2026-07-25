@@ -23,11 +23,14 @@ export type PageHeaderConfig = {
 type PageHeaderState = {
     config: PageHeaderConfig | null;
     anchor: HTMLElement | null;
+    /** Whether the header is currently showing the page title. */
+    titleVisible: boolean;
 };
 
 type PageHeaderActions = {
     setConfig: (config: PageHeaderConfig | null) => void;
     setAnchor: (anchor: HTMLElement | null) => void;
+    setTitleVisible: (visible: boolean) => void;
 };
 
 const PageHeaderStateContext = createContext<PageHeaderState | null>(null);
@@ -40,9 +43,16 @@ const PageHeaderActionsContext = createContext<PageHeaderActions | null>(null);
 export const PageHeaderProvider: FC<PropsWithChildren> = ({ children }) => {
     const [config, setConfig] = useState<PageHeaderConfig | null>(null);
     const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+    const [titleVisible, setTitleVisible] = useState(false);
 
-    const state = useMemo(() => ({ config, anchor }), [config, anchor]);
-    const actions = useMemo(() => ({ setConfig, setAnchor }), []);
+    const state = useMemo(
+        () => ({ config, anchor, titleVisible }),
+        [config, anchor, titleVisible],
+    );
+    const actions = useMemo(
+        () => ({ setConfig, setAnchor, setTitleVisible }),
+        [],
+    );
 
     return (
         <PageHeaderActionsContext.Provider value={actions}>
@@ -53,7 +63,7 @@ export const PageHeaderProvider: FC<PropsWithChildren> = ({ children }) => {
     );
 };
 
-const usePageHeaderActions = () => {
+export const usePageHeaderActions = () => {
     const context = useContext(PageHeaderActionsContext);
 
     if (!context) {
@@ -114,6 +124,12 @@ export const usePageHeader = ({
  * hidden until that element scrolls out of view; pages without an anchor show
  * it right away.
  */
+/**
+ * Whether the header is showing the page title. Bottom bars ride along with
+ * it, so a screen opens with its content uncovered.
+ */
+export const usePageTitleVisible = () => usePageHeaderState().titleVisible;
+
 export const usePageTitleAnchor = () => {
     const { setAnchor } = usePageHeaderActions();
 

@@ -196,7 +196,7 @@ const CommentInput: FC<Props> = ({
                                 type="button"
                                 variant="outline"
                                 size="icon-sm"
-                                className="absolute top-3 right-3"
+                                className="absolute top-2 right-3"
                                 aria-label="Закрити"
                             >
                                 <Minimize2 />

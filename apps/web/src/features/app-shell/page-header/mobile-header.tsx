@@ -8,7 +8,10 @@ import { cn } from '@/utils/cn';
 import { usePathname } from '@/utils/navigation';
 
 import HeaderNavSheet from './header-nav-sheet';
-import { usePageHeaderState } from './page-header-context';
+import {
+    usePageHeaderActions,
+    usePageHeaderState,
+} from './page-header-context';
 
 const SCROLL_THRESHOLD = 8;
 
@@ -19,11 +22,18 @@ const SCROLL_THRESHOLD = 8;
  */
 const MobileHeader = () => {
     const { config, anchor } = usePageHeaderState();
+    const { setTitleVisible } = usePageHeaderActions();
     const router = useRouter();
     const pathname = usePathname();
     const headerRef = useRef<HTMLElement>(null);
     const [scrolled, setScrolled] = useState(false);
     const [passedAnchor, setPassedAnchor] = useState(false);
+
+    const titleVisible = !anchor || passedAnchor;
+
+    useEffect(() => {
+        setTitleVisible(titleVisible);
+    }, [titleVisible, setTitleVisible]);
 
     /**
      * A new screen always starts at rest. Measuring here instead would read the
@@ -96,7 +106,7 @@ const MobileHeader = () => {
                     <div
                         className={cn(
                             'flex min-w-0 flex-1 flex-col justify-center transition-opacity',
-                            !anchor || passedAnchor
+                            titleVisible
                                 ? 'opacity-100'
                                 : 'pointer-events-none opacity-0',
                         )}
