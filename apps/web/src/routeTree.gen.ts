@@ -20,6 +20,7 @@ import { Route as AnimeSitemapDotxmlRouteImport } from './routes/anime/sitemap[.
 import { Route as PagesSettingsRouteImport } from './routes/_pages/settings'
 import { Route as PagesScheduleRouteImport } from './routes/_pages/schedule'
 import { Route as PagesOauthRouteImport } from './routes/_pages/oauth'
+import { Route as PagesBrandbookRouteImport } from './routes/_pages/brandbook'
 import { Route as PagesAuthRouteImport } from './routes/_pages/_auth'
 import { Route as PagesSettingsIndexRouteImport } from './routes/_pages/settings/index'
 import { Route as PagesPeopleIndexRouteImport } from './routes/_pages/people/index'
@@ -156,6 +157,11 @@ const PagesScheduleRoute = PagesScheduleRouteImport.update({
 const PagesOauthRoute = PagesOauthRouteImport.update({
   id: '/oauth',
   path: '/oauth',
+  getParentRoute: () => PagesRoute,
+} as any)
+const PagesBrandbookRoute = PagesBrandbookRouteImport.update({
+  id: '/brandbook',
+  path: '/brandbook',
   getParentRoute: () => PagesRoute,
 } as any)
 const PagesAuthRoute = PagesAuthRouteImport.update({
@@ -599,6 +605,7 @@ const PagesCommentsContent_typeSlugSplatRoute =
 export interface FileRoutesByFullPath {
   '/': typeof PagesIndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/brandbook': typeof PagesBrandbookRoute
   '/oauth': typeof PagesOauthRoute
   '/schedule': typeof PagesScheduleRoute
   '/settings': typeof PagesSettingsRouteWithChildren
@@ -693,6 +700,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/': typeof PagesIndexRoute
+  '/brandbook': typeof PagesBrandbookRoute
   '/oauth': typeof PagesOauthRoute
   '/schedule': typeof PagesScheduleRoute
   '/anime/sitemap.xml': typeof AnimeSitemapDotxmlRoute
@@ -778,6 +786,7 @@ export interface FileRoutesById {
   '/_pages': typeof PagesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_pages/_auth': typeof PagesAuthRouteWithChildren
+  '/_pages/brandbook': typeof PagesBrandbookRoute
   '/_pages/oauth': typeof PagesOauthRoute
   '/_pages/schedule': typeof PagesScheduleRoute
   '/_pages/settings': typeof PagesSettingsRouteWithChildren
@@ -875,6 +884,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/sitemap.xml'
+    | '/brandbook'
     | '/oauth'
     | '/schedule'
     | '/settings'
@@ -969,6 +979,7 @@ export interface FileRouteTypes {
   to:
     | '/sitemap.xml'
     | '/'
+    | '/brandbook'
     | '/oauth'
     | '/schedule'
     | '/anime/sitemap.xml'
@@ -1053,6 +1064,7 @@ export interface FileRouteTypes {
     | '/_pages'
     | '/sitemap.xml'
     | '/_pages/_auth'
+    | '/_pages/brandbook'
     | '/_pages/oauth'
     | '/_pages/schedule'
     | '/_pages/settings'
@@ -1238,6 +1250,13 @@ declare module '@tanstack/react-router' {
       path: '/oauth'
       fullPath: '/oauth'
       preLoaderRoute: typeof PagesOauthRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/brandbook': {
+      id: '/_pages/brandbook'
+      path: '/brandbook'
+      fullPath: '/brandbook'
+      preLoaderRoute: typeof PagesBrandbookRouteImport
       parentRoute: typeof PagesRoute
     }
     '/_pages/_auth': {
@@ -2055,6 +2074,7 @@ const PagesUUsernameRouteWithChildren = PagesUUsernameRoute._addFileChildren(
 
 interface PagesRouteChildren {
   PagesAuthRoute: typeof PagesAuthRouteWithChildren
+  PagesBrandbookRoute: typeof PagesBrandbookRoute
   PagesOauthRoute: typeof PagesOauthRoute
   PagesScheduleRoute: typeof PagesScheduleRoute
   PagesSettingsRoute: typeof PagesSettingsRouteWithChildren
@@ -2087,6 +2107,7 @@ interface PagesRouteChildren {
 
 const PagesRouteChildren: PagesRouteChildren = {
   PagesAuthRoute: PagesAuthRouteWithChildren,
+  PagesBrandbookRoute: PagesBrandbookRoute,
   PagesOauthRoute: PagesOauthRoute,
   PagesScheduleRoute: PagesScheduleRoute,
   PagesSettingsRoute: PagesSettingsRouteWithChildren,
