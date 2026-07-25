@@ -324,7 +324,16 @@
 
     /* Space the mobile tab bar occupies; bottom-anchored UI offsets by it. */
     --tab-bar-height: calc(4.25rem + var(--safe-area-bottom));
+}
 
+
+@supports (-moz-appearance: none) {
+    :root {
+        --safe-area-bottom: 0px;
+    }
+}
+
+:root {
     scroll-padding-top: calc(3.5rem + env(safe-area-inset-top, 0px) + 0.5rem);
     scroll-padding-bottom: calc(var(--tab-bar-height) + 0.5rem);
 
