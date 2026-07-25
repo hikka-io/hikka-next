@@ -91,7 +91,7 @@ function DrawerHeader({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="drawer-header"
             className={cn(
-                '-mx-4 -mt-4 grid gap-1.5 border-b p-4 pt-6 text-center group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center sm:text-left',
+                '-mx-4 -mt-4 flex flex-col gap-0.5 border-b px-4 pt-6 pb-4 text-left',
                 className,
             )}
             {...props}
@@ -120,7 +120,7 @@ function DrawerTitle({
         <DrawerPrimitive.Title
             data-slot="drawer-title"
             className={cn(
-                'font-semibold text-base leading-none tracking-tight',
+                'font-semibold text-sm leading-4 tracking-tight md:text-base md:leading-none',
                 className,
             )}
             {...props}
@@ -135,7 +135,10 @@ function DrawerDescription({
     return (
         <DrawerPrimitive.Description
             data-slot="drawer-description"
-            className={cn('text-muted-foreground text-sm', className)}
+            className={cn(
+                'text-muted-foreground text-xs md:text-sm',
+                className,
+            )}
             {...props}
         />
     );

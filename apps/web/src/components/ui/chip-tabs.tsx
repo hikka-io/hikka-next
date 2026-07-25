@@ -3,6 +3,7 @@ import { type ComponentType, useRef } from 'react';
 import { Chip } from '@/components/ui/chip';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
+import { Link } from '@/utils/navigation';
 
 type IconComponent = ComponentType<{ className?: string }>;
 
@@ -14,12 +15,15 @@ export type ChipTabOption<T extends string> = {
     value: T;
     icon?: IconComponent;
     activeClass?: string;
+    /** Renders the tab as a link instead of a button. */
+    to?: string;
+    search?: Record<string, unknown>;
 };
 
 type Props<T extends string> = {
     options: ChipTabOption<T>[];
     value: T;
-    onValueChange: (value: T) => void;
+    onValueChange?: (value: T) => void;
     className?: string;
 };
 
@@ -48,22 +52,37 @@ function ChipTabs<T extends string>({
             {options.map((option) => {
                 const isActive = value === option.value;
                 const Icon = option.icon;
-                return (
-                    <Chip
-                        key={option.value}
-                        role="tab"
-                        aria-selected={isActive}
-                        aria-label={option.label}
-                        onClick={() => onValueChange(option.value)}
-                        className={cn(
-                            'border border-transparent px-3.5 text-sm',
-                            isActive
-                                ? (option.activeClass ?? DEFAULT_ACTIVE_CLASS)
-                                : 'bg-secondary/40 text-muted-foreground hover:bg-accent',
-                        )}
-                    >
+                const content = (
+                    <>
                         {Icon && <Icon className="size-4 shrink-0" />}
                         {option.label}
+                    </>
+                );
+                const chipProps = {
+                    role: 'tab',
+                    'aria-selected': isActive,
+                    'aria-label': option.label,
+                    className: cn(
+                        'border border-transparent px-3.5 text-sm',
+                        isActive
+                            ? (option.activeClass ?? DEFAULT_ACTIVE_CLASS)
+                            : 'bg-secondary/40 text-muted-foreground hover:bg-accent',
+                    ),
+                };
+
+                return option.to ? (
+                    <Chip key={option.value} asChild {...chipProps}>
+                        <Link to={option.to} search={option.search}>
+                            {content}
+                        </Link>
+                    </Chip>
+                ) : (
+                    <Chip
+                        key={option.value}
+                        onClick={() => onValueChange?.(option.value)}
+                        {...chipProps}
+                    >
+                        {content}
                     </Chip>
                 );
             })}
