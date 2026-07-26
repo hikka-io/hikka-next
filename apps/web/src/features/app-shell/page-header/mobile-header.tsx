@@ -94,6 +94,8 @@ const MobileHeader = () => {
         parent,
         navRoutes,
         navUrlPrefix,
+        titleComponent: TitleComponent,
+        actionsComponent: ActionsComponent,
     } = config ?? {};
 
     const goBack = () => {
@@ -144,9 +146,13 @@ const MobileHeader = () => {
                                     )}
                                 />
                             )}
-                            <span className="truncate font-semibold text-sm">
-                                {title}
-                            </span>
+                            {TitleComponent ? (
+                                <TitleComponent />
+                            ) : (
+                                <span className="truncate font-semibold text-sm">
+                                    {title}
+                                </span>
+                            )}
                         </div>
                         {navRoutes && navUrlPrefix ? (
                             <HeaderNavSheet
@@ -161,6 +167,11 @@ const MobileHeader = () => {
                             )
                         )}
                     </div>
+                    {ActionsComponent && (
+                        <div className="flex shrink-0 items-center">
+                            <ActionsComponent />
+                        </div>
+                    )}
                 </div>
             </header>
         </>

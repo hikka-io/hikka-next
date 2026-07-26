@@ -1,13 +1,13 @@
-import { type FC, useMemo, useRef, useState } from 'react';
+import { type FC, type KeyboardEvent, useMemo, useRef, useState } from 'react';
 
 import { Settings2 } from 'lucide-react';
 
 import type { UiFeedWidget } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Chip } from '@/components/ui/chip';
+import { SELECTED_TINT } from '@/components/ui/selected-tint';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 
 import { type SupportedWidgetSlug, WIDGET_REGISTRY } from './constants';
@@ -44,58 +44,119 @@ const WidgetColumn: FC<{ widgets: UiFeedWidget[]; className?: string }> = ({
     </div>
 );
 
-const SidebarWidgetTabs: FC<{
-    widgets: UiFeedWidget[];
-    settingsButton: React.ReactNode;
-}> = ({ widgets, settingsButton }) => {
-    const [activeTab, setActiveTab] = useState<string | undefined>();
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const { gradientClassName } = useScrollGradientMask(
-        scrollRef,
-        'horizontal',
-    );
+const CHIP_IDLE =
+    'bg-secondary/40 text-muted-foreground hover:bg-accent backdrop-blur';
 
-    const currentTab =
-        activeTab && widgets.some((w) => w.slug === activeTab)
-            ? activeTab
+const SidebarWidgetChips: FC<{
+    widgets: UiFeedWidget[];
+    onOpenSettings?: () => void;
+}> = ({ widgets, onOpenSettings }) => {
+    const [activeSlug, setActiveSlug] = useState<string | undefined>();
+    const tabRefs = useRef(new Map<string, HTMLButtonElement>());
+
+    const currentSlug =
+        activeSlug && widgets.some((w) => w.slug === activeSlug)
+            ? activeSlug
             : widgets[0]?.slug;
+    const currentWidget = widgets.find((w) => w.slug === currentSlug);
+
+    const moveTab = (from: number, event: KeyboardEvent<HTMLButtonElement>) => {
+        const last = widgets.length - 1;
+        const to =
+            event.key === 'ArrowRight'
+                ? from === last
+                    ? 0
+                    : from + 1
+                : event.key === 'ArrowLeft'
+                  ? from === 0
+                      ? last
+                      : from - 1
+                  : event.key === 'Home'
+                    ? 0
+                    : event.key === 'End'
+                      ? last
+                      : null;
+
+        if (to === null) return;
+
+        event.preventDefault();
+        const slug = widgets[to].slug;
+        setActiveSlug(slug);
+        tabRefs.current.get(slug)?.focus();
+    };
 
     if (widgets.length === 0) {
-        return settingsButton;
+        return null;
     }
 
     return (
-        <Tabs value={currentTab} onValueChange={setActiveTab}>
-            <div className="flex w-full items-center gap-2 overflow-hidden">
-                <TabsList
-                    ref={scrollRef}
-                    className={cn(
-                        'flex-1 justify-start overflow-hidden overflow-x-scroll',
-                        gradientClassName,
-                    )}
-                >
-                    {widgets.map((w) => {
+        <div className="flex flex-col gap-4">
+            {/* No gradient mask: mask-image on the scroll container would
+                become the chips' backdrop root and kill their backdrop-blur. */}
+            <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4">
+                {onOpenSettings && (
+                    <Chip
+                        onClick={onOpenSettings}
+                        aria-label="Налаштувати макет"
+                        className={cn(
+                            'w-8 justify-center border border-transparent px-0',
+                            CHIP_IDLE,
+                        )}
+                    >
+                        <Settings2 className="size-4 shrink-0" />
+                    </Chip>
+                )}
+                {/* `contents` keeps the tablist out of the layout so the
+                    settings chip can share the rail without being a tab */}
+                <div role="tablist" aria-label="Віджети" className="contents">
+                    {widgets.map((w, i) => {
                         const meta =
                             WIDGET_REGISTRY[w.slug as SupportedWidgetSlug];
+                        if (!meta) return null;
+
+                        const Icon = meta.icon;
+                        const isActive = w.slug === currentSlug;
+
                         return (
-                            <TabsTrigger key={w.slug} value={w.slug}>
-                                {meta?.title}
-                            </TabsTrigger>
+                            <Chip
+                                key={w.slug}
+                                ref={(node) => {
+                                    if (node) {
+                                        tabRefs.current.set(w.slug, node);
+                                        return;
+                                    }
+                                    tabRefs.current.delete(w.slug);
+                                }}
+                                role="tab"
+                                id={`widget-tab-${w.slug}`}
+                                aria-selected={isActive}
+                                aria-controls={`widget-panel-${w.slug}`}
+                                tabIndex={isActive ? 0 : -1}
+                                onClick={() => setActiveSlug(w.slug)}
+                                onKeyDown={(e) => moveTab(i, e)}
+                                className={cn(
+                                    'border border-transparent px-3.5 text-sm backdrop-blur',
+                                    isActive ? SELECTED_TINT : CHIP_IDLE,
+                                )}
+                            >
+                                <Icon className="size-4 shrink-0" />
+                                {meta.title}
+                            </Chip>
                         );
                     })}
-                </TabsList>
-                {settingsButton}
+                </div>
             </div>
-            {widgets.map((w) => (
-                <TabsContent
-                    key={w.slug}
-                    value={w.slug}
+            {currentWidget && (
+                <div
+                    role="tabpanel"
+                    id={`widget-panel-${currentWidget.slug}`}
+                    aria-labelledby={`widget-tab-${currentWidget.slug}`}
                     className="[&>*:first-child]:backdrop-blur"
                 >
-                    <WidgetRenderer widget={w} isLast />
-                </TabsContent>
-            ))}
-        </Tabs>
+                    <WidgetRenderer widget={currentWidget} isLast />
+                </div>
+            )}
+        </div>
     );
 };
 
@@ -131,17 +192,6 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
         layout <= 1 && 'max-w-2xl',
     );
 
-    const settingsIconButton = user ? (
-        <Button
-            variant="secondary"
-            className="shrink-0 text-muted-foreground"
-            size="icon-md"
-            onClick={openSettings}
-        >
-            <Settings2 />
-        </Button>
-    ) : null;
-
     const settingsFullButton = user ? (
         <Button
             variant="outline"
@@ -165,9 +215,9 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
                         layout === 3 && 'order-1',
                     )}
                 >
-                    <SidebarWidgetTabs
+                    <SidebarWidgetChips
                         widgets={sidebarWidgets}
-                        settingsButton={settingsIconButton}
+                        onOpenSettings={user ? openSettings : undefined}
                     />
                 </aside>
             )}

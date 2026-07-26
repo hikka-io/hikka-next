@@ -326,7 +326,7 @@ const OTHER_GROUP: Hikka.NavRoute[] = [
     },
 ];
 
-const SOCIAL_GROUP: Hikka.NavRoute[] = [
+export const SOCIAL_GROUP: Hikka.NavRoute[] = [
     {
         title_ua: 'Telegram',
         url: 'https://t.me/hikka_io',

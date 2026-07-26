@@ -22,12 +22,21 @@ import {
 } from '@hikka/api';
 
 import CoverImage from '@/components/cover-image';
+import { usePageHeader } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { getOngoingsSort } from '@/features/filters/sort';
-import { FeedLayout } from '@/features/home';
+import { FeedLayout, HomeHeaderActions } from '@/features/home';
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
+
+const HeaderWordmark = () => (
+    <span
+        role="img"
+        aria-label="Hikka"
+        className="logo-full h-4 w-14 shrink-0 bg-left"
+    />
+);
 
 const FEED_TYPE_TO_CONTENT_TYPE: Record<
     string,
@@ -40,7 +49,6 @@ const FEED_TYPE_TO_CONTENT_TYPE: Record<
 };
 
 export const Route = createFileRoute('/_pages/')({
-    staticData: { headerless: true },
     validateSearch: zodValidator(feedSearchSchema),
     loaderDeps: ({ search }) => ({ type: search.type }),
     head: () =>
@@ -163,6 +171,12 @@ export const Route = createFileRoute('/_pages/')({
 
 function HomePage() {
     const { user: loggedUser } = useSession();
+
+    usePageHeader({
+        title: 'Головна',
+        titleComponent: HeaderWordmark,
+        actionsComponent: HomeHeaderActions,
+    });
 
     return (
         <>

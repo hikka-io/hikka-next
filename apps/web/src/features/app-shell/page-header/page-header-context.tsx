@@ -1,4 +1,5 @@
 import {
+    type ComponentType,
     createContext,
     type FC,
     type PropsWithChildren,
@@ -6,6 +7,7 @@ import {
     useContext,
     useEffect,
     useMemo,
+    useRef,
     useState,
 } from 'react';
 
@@ -16,6 +18,8 @@ export type PageHeaderConfig = {
     parent?: string;
     navRoutes?: Hikka.NavRoute[];
     navUrlPrefix?: string;
+    titleComponent?: ComponentType;
+    actionsComponent?: ComponentType;
     /**
      * Set by pages that mount a `usePageTitleAnchor` node. The header keeps
      * the title hidden until that anchor is scrolled past. Pages that omit
@@ -100,6 +104,27 @@ export const usePageHeaderState = () => {
     return context;
 };
 
+// An inline component gets a fresh identity every render, which as a raw
+// effect dep would re-run setConfig forever. The config carries this wrapper.
+const useStableSlot = (component?: ComponentType) => {
+    const latest = useRef(component);
+    const [Slot] = useState(() => {
+        const StableSlot = () => {
+            const Component = latest.current;
+
+            return Component ? <Component /> : null;
+        };
+
+        return StableSlot;
+    });
+
+    useEffect(() => {
+        latest.current = component;
+    });
+
+    return component ? Slot : undefined;
+};
+
 export const usePageHeader = ({
     title,
     subtitle,
@@ -107,9 +132,14 @@ export const usePageHeader = ({
     parent,
     navRoutes,
     navUrlPrefix,
+    titleComponent,
+    actionsComponent,
     anchored,
 }: PageHeaderConfig) => {
     const { setConfig } = usePageHeaderActions();
+
+    const titleSlot = useStableSlot(titleComponent);
+    const actionsSlot = useStableSlot(actionsComponent);
 
     useEffect(() => {
         setConfig({
@@ -119,6 +149,8 @@ export const usePageHeader = ({
             parent,
             navRoutes,
             navUrlPrefix,
+            titleComponent: titleSlot,
+            actionsComponent: actionsSlot,
             anchored,
         });
 
@@ -130,6 +162,8 @@ export const usePageHeader = ({
         parent,
         navRoutes,
         navUrlPrefix,
+        titleSlot,
+        actionsSlot,
         anchored,
         setConfig,
     ]);
