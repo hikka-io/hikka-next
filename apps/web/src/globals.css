@@ -554,7 +554,7 @@
 }
 
 [data-backdrop="glow"]:has([data-cover-image]) {
-    --backdrop-cover-scale: 0.4;
+    --backdrop-cover-scale: 0.7;
 }
 
 [data-backdrop="glow"]::before {
