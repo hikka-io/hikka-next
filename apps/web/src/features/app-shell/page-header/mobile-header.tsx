@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useMatches, useRouter } from '@tanstack/react-router';
+import { useCanGoBack, useMatches, useRouter } from '@tanstack/react-router';
 import { ChevronLeft } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,7 @@ const MobileHeader = () => {
     const { setTitleVisible, setTitleAnimated } = usePageHeaderActions();
     const router = useRouter();
     const pathname = usePathname();
+    const canGoBack = useCanGoBack();
 
     const headerless = useMatches({
         select: (matches) =>
@@ -29,9 +30,10 @@ const MobileHeader = () => {
     const headerRef = useRef<HTMLElement>(null);
     const [scrolled, setScrolled] = useState(false);
     const [passedAnchor, setPassedAnchor] = useState(false);
-    // Only a mounted anchor can produce a scroll-driven reveal, and that is the
-    // one change worth animating. Route swaps drop the anchor first, so this is
-    // false in the commit that hides the outgoing title — no fade on navigation.
+
+    const [historyReady, setHistoryReady] = useState(false);
+    const hasHistory = historyReady && canGoBack;
+
     const animated = Boolean(config && anchor);
 
     const titleVisible = resolveTitleVisibility({
@@ -52,6 +54,10 @@ const MobileHeader = () => {
     useEffect(() => {
         setScrolled(false);
     }, [pathname]);
+
+    useEffect(() => {
+        setHistoryReady(true);
+    }, []);
 
     useEffect(() => {
         const update = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
@@ -98,7 +104,7 @@ const MobileHeader = () => {
     } = config ?? {};
 
     const goBack = () => {
-        if (router.history.canGoBack()) {
+        if (canGoBack) {
             router.history.back();
             return;
         }
@@ -121,8 +127,11 @@ const MobileHeader = () => {
                     <Button
                         variant="ghost"
                         size="icon-md"
-                        className="[&_svg]:size-6"
-                        aria-label="Назад"
+                        className={cn(
+                            '[&_svg]:size-6',
+                            !hasHistory && 'text-muted-foreground',
+                        )}
+                        aria-label={hasHistory ? 'Назад' : 'На рівень вище'}
                         onClick={goBack}
                     >
                         <ChevronLeft />
