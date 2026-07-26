@@ -549,6 +549,14 @@
     }
 }
 
+[data-backdrop="glow"] {
+    --backdrop-cover-scale: 1;
+}
+
+[data-backdrop="glow"]:has([data-cover-image]) {
+    --backdrop-cover-scale: 0.4;
+}
+
 [data-backdrop="glow"]::before {
     content: "";
     position: absolute;
@@ -561,7 +569,7 @@
         oklch(
                 from var(--backdrop-color, var(--brand)) var(--backdrop-l)
                     calc(c * var(--backdrop-c)) h /
-                var(--backdrop-intensity, 1)
+                calc(var(--backdrop-intensity, 1) * var(--backdrop-cover-scale))
             )
             0%,
         transparent 60%
