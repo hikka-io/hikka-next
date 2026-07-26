@@ -1,20 +1,20 @@
 import type { FC } from 'react';
 
-import type {
-    CommentResponse,
-    CommentContentTypeEnum as CommentsContentType,
-} from '@hikka/api';
+import type { CommentContentTypeEnum as CommentsContentType } from '@hikka/api';
 
 import { cn } from '@/utils/cn';
 
 import Comment from './comment';
+import type { CommentNode } from './utils/build-comment-tree';
 
 type Props = {
-    comments: CommentResponse[];
+    comments: CommentNode[];
     slug: string;
     content_type: CommentsContentType;
     contentTitle?: string;
     nested?: boolean;
+    /** Something follows this list inside the same thread (a load-more row). */
+    hasTrailing?: boolean;
     onToggleThread?: () => void;
 };
 
@@ -24,6 +24,7 @@ const Comments: FC<Props> = ({
     content_type,
     contentTitle,
     nested,
+    hasTrailing,
     onToggleThread,
 }) => {
     return (
@@ -41,7 +42,7 @@ const Comments: FC<Props> = ({
                     );
                 }
 
-                const isLast = index === comments.length - 1;
+                const isLast = index === comments.length - 1 && !hasTrailing;
 
                 return (
                     <div className="relative" key={comment.reference}>

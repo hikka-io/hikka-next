@@ -3,7 +3,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import {
     type CommentContentTypeEnum as CommentsContentType,
     type ContentTypeEnum,
-    threadOptions,
+    paginationPageParam,
 } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
@@ -13,6 +13,7 @@ import {
     useContentTitle,
 } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
+import { commentThreadInfiniteOptions } from '@/features/comments/hooks/use-comment-thread';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -28,12 +29,10 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
         if (!content) throw redirect({ to: '/' });
 
         if (commentReference) {
-            await queryClient.prefetchQuery(
-                threadOptions({
-                    path: { comment_reference: commentReference },
-                    client: apiClient,
-                }),
-            );
+            await queryClient.prefetchInfiniteQuery({
+                ...commentThreadInfiniteOptions(commentReference, apiClient),
+                ...paginationPageParam(),
+            });
         }
 
         return { content, commentReference };

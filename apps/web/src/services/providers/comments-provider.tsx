@@ -19,6 +19,7 @@ export interface PendingReply {
 }
 
 interface CommentsContextValue {
+    lazyThread: boolean;
     active: ActiveEditor | null;
     setReply: (reference: string) => void;
     setEdit: (reference: string) => void;
@@ -30,6 +31,7 @@ interface CommentsContextValue {
 }
 
 const CommentsContext = createContext<CommentsContextValue>({
+    lazyThread: true,
     active: null,
     setReply: () => {},
     setEdit: () => {},
@@ -42,13 +44,17 @@ const CommentsContext = createContext<CommentsContextValue>({
 
 type Props = {
     children: ReactNode;
+    lazyThread?: boolean;
 };
 
 export const useCommentsContext = () => {
     return useContext(CommentsContext);
 };
 
-export default function CommentsProvider({ children }: Props) {
+export default function CommentsProvider({
+    children,
+    lazyThread = true,
+}: Props) {
     const [active, setActive] = useState<ActiveEditor | null>(null);
     const [pendingReplies, setPendingReplies] = useState<PendingReply[]>([]);
 
@@ -90,6 +96,7 @@ export default function CommentsProvider({ children }: Props) {
     return (
         <CommentsContext.Provider
             value={{
+                lazyThread,
                 active,
                 setReply,
                 setEdit,

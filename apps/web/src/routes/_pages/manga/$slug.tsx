@@ -81,7 +81,7 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
                         content_type: ContentTypeEnum.MANGA,
                         slug: params.slug,
                     },
-                    query: { comment_type: 'all', size: 3 },
+                    query: { comment_type: 'all', flat: true, size: 3 },
                     client: apiClient,
                 }),
                 ...paginationPageParam(),

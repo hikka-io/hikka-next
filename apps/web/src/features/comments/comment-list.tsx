@@ -1,13 +1,10 @@
-import { type FC, useState } from 'react';
+import { type FC, useMemo, useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
 import { LayoutGrid, MessageCircle, Star } from 'lucide-react';
 
 import {
     type CommentContentTypeEnum as CommentsContentType,
-    type CommentResponse,
     getCommentsListInfiniteOptions,
-    threadOptions,
 } from '@hikka/api';
 
 import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
@@ -34,6 +31,8 @@ import { Link } from '@/utils/navigation';
 import CommentInput from './comment-input';
 import { CommentListSkeleton } from './comment-skeleton';
 import Comments from './comments';
+import { useCommentThread } from './hooks/use-comment-thread';
+import { buildCommentTree, type CommentNode } from './utils/build-comment-tree';
 
 export type CommentType = 'all' | 'comment' | 'review';
 
@@ -86,41 +85,39 @@ const CommentList: FC<Props> = ({
         useState<CommentType>('all');
     const commentType = controlledCommentType ?? localCommentType;
     const setCommentType = onCommentTypeChange ?? setLocalCommentType;
-    const {
-        list: comments,
-        pagination,
-        fetchNextPage,
-        hasNextPage,
-        isFetchingNextPage,
-        isLoading,
-        ref,
-    } = useInfiniteList(
+    const listQuery = useInfiniteList(
         getCommentsListInfiniteOptions({
             path: { content_type, slug },
             query: {
                 comment_type: commentType,
+                flat: true,
                 ...(preview ? { size: 3 } : undefined),
             },
         }),
         { enabled: !comment_reference },
     );
 
-    const { data: thread } = useQuery({
-        ...threadOptions({
-            path: { comment_reference: String(comment_reference) },
-        }),
-        enabled: !!comment_reference,
-    });
+    const threadQuery = useCommentThread(
+        comment_reference,
+        !!comment_reference,
+    );
 
-    const threadComments: CommentResponse[] = thread
-        ? 'list' in thread
-            ? thread.list
-            : [thread]
-        : [];
+    const {
+        list: rows,
+        pagination,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        ref,
+    } = comment_reference ? threadQuery : listQuery;
 
-    const list: CommentResponse[] | undefined = comment_reference
-        ? threadComments
-        : comments;
+    // `[]` once settled without rows, so a failed query still hits the empty
+    // state rather than rendering a blank block.
+    const list: CommentNode[] | undefined = useMemo(
+        () => (rows ? buildCommentTree(rows) : isLoading ? undefined : []),
+        [rows, isLoading],
+    );
 
     const title = (
         <span>
@@ -148,7 +145,7 @@ const CommentList: FC<Props> = ({
                 </HeaderContainer>
                 <HeaderNavButton />
             </Header>
-            <CommentsProvider>
+            <CommentsProvider lazyThread={!comment_reference}>
                 <div className="flex flex-col gap-4">
                     {hasReviews && !comment_reference && (
                         <ChipTabs
@@ -185,7 +182,7 @@ const CommentList: FC<Props> = ({
                             }
                         />
                     )}
-                    {!comment_reference && isLoading && <CommentListSkeleton />}
+                    {isLoading && <CommentListSkeleton />}
                     {list &&
                         list.length === 0 &&
                         (commentType === 'review' ? (

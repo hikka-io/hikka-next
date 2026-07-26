@@ -29,7 +29,7 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
                     content_type: 'edit' as CommentsContentType,
                     slug: params.editId,
                 },
-                query: { comment_type: 'all' },
+                query: { comment_type: 'all', flat: true },
                 client: apiClient,
             }),
             ...paginationPageParam(),
