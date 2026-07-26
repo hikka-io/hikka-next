@@ -18,7 +18,7 @@ import CommentFooter from './comment-footer';
 import CommentHeader from './comment-header';
 import CommentInput from './comment-input';
 import Comments from './comments';
-import { useCommentThread } from './hooks/use-comment-thread';
+import { useCommentThread } from './hooks';
 import {
     buildCommentTree,
     type CommentNode,

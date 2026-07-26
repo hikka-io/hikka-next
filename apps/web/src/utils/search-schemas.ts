@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { COMMENT_SORT_VALUES } from '@/utils/constants/comment-sort';
+
 // Helpers: normalize URL search param values
 // TanStack Router parses ?key=a&key=b → ['a','b'] but ?key=a → 'a' (string, not array)
 const stringArray = z.preprocess(
@@ -106,6 +108,8 @@ export const editNewSearchSchema = z.object({
 
 export const commentsSearchSchema = z.object({
     comment_type: z.enum(['comment', 'review']).optional().catch(undefined),
+    sort: z.enum(COMMENT_SORT_VALUES).optional().catch(undefined),
+    order: z.enum(['asc', 'desc']).optional().catch(undefined),
 });
 
 export const collectionsSearchSchema = z.object({

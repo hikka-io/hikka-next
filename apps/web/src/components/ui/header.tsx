@@ -93,6 +93,7 @@ type HeaderTitleProps = {
     variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
     href?: string;
     to?: string;
+    truncate?: boolean;
     ref?: React.Ref<HTMLDivElement>;
 };
 
@@ -102,16 +103,26 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
     variant,
     href: hrefProp,
     to: toProp,
+    truncate,
     ref,
 }) => {
     const resolvedProp = toProp ?? hrefProp;
     const { href, search, onClick, linkProps } = useHeader();
     const Tag = variant || 'h3';
 
-    const heading = <Tag>{children}</Tag>;
+    const heading = (
+        <Tag className={cn(truncate && 'truncate')}>{children}</Tag>
+    );
 
     return (
-        <div ref={ref} className={cn('flex items-center gap-4', className)}>
+        <div
+            ref={ref}
+            className={cn(
+                'flex items-center gap-4',
+                truncate && 'min-w-0 [&>a]:min-w-0 [&>button]:min-w-0',
+                className,
+            )}
+        >
             {resolvedProp || href ? (
                 <Link
                     to={resolvedProp || href || ''}
@@ -132,6 +143,21 @@ const HeaderTitle: FC<PropsWithChildren<HeaderTitleProps>> = ({
             ) : (
                 heading
             )}
+        </div>
+    );
+};
+
+type HeaderActionsProps = {
+    className?: string;
+};
+
+const HeaderActions: FC<PropsWithChildren<HeaderActionsProps>> = ({
+    className,
+    children,
+}) => {
+    return (
+        <div className={cn('flex shrink-0 items-center gap-2', className)}>
+            {children}
         </div>
     );
 };
@@ -170,4 +196,4 @@ const HeaderNavButton: FC = () => {
     );
 };
 
-export { Header, HeaderContainer, HeaderNavButton, HeaderTitle };
+export { Header, HeaderActions, HeaderContainer, HeaderNavButton, HeaderTitle };

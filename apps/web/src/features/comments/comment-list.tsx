@@ -17,12 +17,14 @@ import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
+    HeaderActions,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
 import { LoginButton } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
+import Sort from '@/features/filters/sort';
 import CommentsProvider from '@/services/providers/comments-provider';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
@@ -31,8 +33,13 @@ import { Link } from '@/utils/navigation';
 import CommentInput from './comment-input';
 import { CommentListSkeleton } from './comment-skeleton';
 import Comments from './comments';
-import { useCommentThread } from './hooks/use-comment-thread';
+import {
+    type CommentSortProps,
+    useCommentSort,
+    useCommentThread,
+} from './hooks';
 import { buildCommentTree, type CommentNode } from './utils/build-comment-tree';
+import { getCommentSort } from './utils/comment-sort';
 
 export type CommentType = 'all' | 'comment' | 'review';
 
@@ -67,7 +74,7 @@ type Props = {
     contentTitle?: string;
     commentType?: CommentType;
     onCommentTypeChange?: (type: CommentType) => void;
-};
+} & CommentSortProps;
 
 const CommentList: FC<Props> = ({
     slug,
@@ -78,6 +85,7 @@ const CommentList: FC<Props> = ({
     contentTitle,
     commentType: controlledCommentType,
     onCommentTypeChange,
+    ...sortProps
 }) => {
     const { user: loggedUser } = useSession();
     const hasReviews = ['anime', 'manga', 'novel'].includes(content_type);
@@ -85,10 +93,14 @@ const CommentList: FC<Props> = ({
         useState<CommentType>('all');
     const commentType = controlledCommentType ?? localCommentType;
     const setCommentType = onCommentTypeChange ?? setLocalCommentType;
+    const { sort, order, setSort, setOrder } = useCommentSort(sortProps);
     const listQuery = useInfiniteList(
         getCommentsListInfiniteOptions({
             path: { content_type, slug },
-            body: { comment_type: commentType },
+            body: {
+                comment_type: commentType,
+                sort: getCommentSort(sort, order),
+            },
             query: preview ? { size: 3 } : undefined,
         }),
         { enabled: !comment_reference },
@@ -130,8 +142,8 @@ const CommentList: FC<Props> = ({
     return (
         <Block className={cn('break-inside-avoid', className)} id="comments">
             <Header href={`/comments/${content_type}/${slug}`}>
-                <HeaderContainer>
-                    <HeaderTitle>{title}</HeaderTitle>
+                <HeaderContainer className="min-w-0">
+                    <HeaderTitle truncate>{title}</HeaderTitle>
                     {comment_reference && (
                         <Button size="md" variant="outline">
                             <Link to={`/comments/${content_type}/${slug}`}>
@@ -140,6 +152,21 @@ const CommentList: FC<Props> = ({
                         </Button>
                     )}
                 </HeaderContainer>
+                {!comment_reference && (
+                    <HeaderActions>
+                        <Sort
+                            sort_type="comment"
+                            compact
+                            size="sm"
+                            placeholder="Сортування"
+                            className="w-32 md:w-48"
+                            sort={sort}
+                            order={order}
+                            onSortChange={setSort}
+                            onOrderChange={setOrder}
+                        />
+                    </HeaderActions>
+                )}
                 <HeaderNavButton />
             </Header>
             <CommentsProvider lazyThread={!comment_reference}>

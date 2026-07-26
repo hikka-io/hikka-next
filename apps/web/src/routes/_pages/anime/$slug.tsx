@@ -16,6 +16,7 @@ import {
     watchGetOptions,
 } from '@hikka/api';
 
+import { getCommentSort } from '@/features/comments/utils/comment-sort';
 import { ContentDetailLayout } from '@/features/content';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
@@ -80,7 +81,7 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
                         content_type: ContentTypeEnum.ANIME,
                         slug: params.slug,
                     },
-                    body: { comment_type: 'all' },
+                    body: { comment_type: 'all', sort: getCommentSort() },
                     query: { size: 3 },
                     client: apiClient,
                 }),

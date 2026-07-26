@@ -11,35 +11,41 @@ import { ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
+    HeaderActions,
     HeaderContainer,
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import Sort from '@/features/filters/sort';
 import CommentsProvider from '@/services/providers/comments-provider';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 
 import { COMMENT_TYPE_OPTIONS, type CommentType } from './comment-list';
 import { CommentListSkeleton } from './comment-skeleton';
+import { type CommentSortProps, useCommentSort } from './hooks';
 import UserComment from './user-comment';
+import { getCommentSort } from './utils/comment-sort';
 
 type Props = {
     username: string;
     className?: string;
     commentType?: CommentType;
     onCommentTypeChange?: (type: CommentType) => void;
-};
+} & CommentSortProps;
 
 const UserCommentList: FC<Props> = ({
     username,
     className,
     commentType: controlledCommentType,
     onCommentTypeChange,
+    ...sortProps
 }) => {
     const [localCommentType, setLocalCommentType] =
         useState<CommentType>('all');
     const commentType = controlledCommentType ?? localCommentType;
     const setCommentType = onCommentTypeChange ?? setLocalCommentType;
+    const { sort, order, setSort, setOrder } = useCommentSort(sortProps);
     const {
         list,
         pagination,
@@ -51,15 +57,18 @@ const UserCommentList: FC<Props> = ({
     } = useInfiniteList(
         getCommentsUserInfiniteOptions({
             path: { username },
-            body: { comment_type: commentType },
+            body: {
+                comment_type: commentType,
+                sort: getCommentSort(sort, order),
+            },
         }),
     );
 
     return (
         <Block className={cn('break-inside-avoid', className)} id="comments">
             <Header>
-                <HeaderContainer>
-                    <HeaderTitle>
+                <HeaderContainer className="min-w-0">
+                    <HeaderTitle truncate>
                         <span>
                             Обговорення{' '}
                             {pagination && (
@@ -70,6 +79,19 @@ const UserCommentList: FC<Props> = ({
                         </span>
                     </HeaderTitle>
                 </HeaderContainer>
+                <HeaderActions>
+                    <Sort
+                        sort_type="comment"
+                        compact
+                        size="sm"
+                        placeholder="Сортування"
+                        className="w-32 md:w-48"
+                        sort={sort}
+                        order={order}
+                        onSortChange={setSort}
+                        onOrderChange={setOrder}
+                    />
+                </HeaderActions>
                 <HeaderNavButton />
             </Header>
             <CommentsProvider>

@@ -136,7 +136,7 @@ const Select: React.FC<SelectProps> = ({
                         const baseValue = value.startsWith('-')
                             ? value.substring(1)
                             : value;
-                        return itemCache![baseValue];
+                        return itemCache?.[baseValue];
                     })
                     .filter(Boolean);
 
@@ -261,7 +261,7 @@ const Select: React.FC<SelectProps> = ({
                 };
             });
         },
-        [setItemCache],
+        [],
     );
 
     const contextValue = React.useMemo(() => {
@@ -326,16 +326,16 @@ const selectTriggerSizeClasses: Record<
     NonNullable<SelectTriggerProps['size']>,
     string
 > = {
-    default: 'min-h-12',
-    xs: 'min-h-6',
-    sm: 'min-h-8',
-    md: 'min-h-10',
-    lg: 'min-h-13',
-    badge: '',
-    icon: 'min-h-12',
-    'icon-md': 'min-h-10',
-    'icon-sm': 'min-h-8',
-    'icon-xs': 'min-h-6',
+    default: 'min-h-12 px-3 py-2',
+    xs: 'min-h-6 px-2 py-1',
+    sm: 'min-h-8 px-2 py-1',
+    md: 'min-h-10 px-3 py-2',
+    lg: 'min-h-13 px-3 py-2',
+    badge: 'px-3 py-2',
+    icon: 'min-h-12 px-3 py-2',
+    'icon-md': 'min-h-10 px-3 py-2',
+    'icon-sm': 'min-h-8 px-2 py-1',
+    'icon-xs': 'min-h-6 px-2 py-1',
 };
 
 const SelectTrigger = React.forwardRef<
@@ -359,7 +359,7 @@ const SelectTrigger = React.forwardRef<
                     className={cn(
                         !asChild && FIELD_BASE,
                         !asChild &&
-                            'flex h-auto items-center justify-between gap-2 px-3 py-2 data-[placeholder]:text-muted-foreground dark:hover:bg-input/50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+                            'flex h-auto items-center justify-between gap-2 data-[placeholder]:text-muted-foreground dark:hover:bg-input/50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
                         !asChild && selectTriggerSizeClasses[size!],
                         // asChild children dim themselves when disabled —
                         // dimming here too would stack the opacity.
@@ -687,7 +687,7 @@ const SelectItem = React.forwardRef<
             if (value) {
                 setItemCache(value, item!);
             }
-        }, [selected, value, item, setItemCache]);
+        }, [value, item, setItemCache]);
 
         const disabled = Boolean(
             disabledProp ||

@@ -18,7 +18,13 @@ import {
     useContentTitle,
 } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
+import { getCommentSort } from '@/features/comments/utils/comment-sort';
 import { useChangeParam } from '@/features/filters';
+import {
+    type CommentOrder,
+    DEFAULT_COMMENT_ORDER,
+    DEFAULT_COMMENT_SORT,
+} from '@/utils/constants/comment-sort';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 import { commentsSearchSchema } from '@/utils/search-schemas';
@@ -29,6 +35,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
     loader: async ({ params, deps, context: { queryClient, apiClient } }) => {
         const { content_type, slug } = params;
         const commentType = deps.comment_type ?? 'all';
+        const sort = getCommentSort(deps.sort, deps.order);
 
         const content = await prefetchContent({
             content_type: content_type as ContentTypeEnum,
@@ -43,7 +50,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
             await queryClient.prefetchInfiniteQuery({
                 ...getCommentsUserInfiniteOptions({
                     path: { username: slug },
-                    body: { comment_type: commentType },
+                    body: { comment_type: commentType, sort },
                     client: apiClient,
                 }),
                 ...paginationPageParam(),
@@ -55,7 +62,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
                         content_type: content_type as CommentsContentType,
                         slug,
                     },
-                    body: { comment_type: commentType },
+                    body: { comment_type: commentType, sort },
                     client: apiClient,
                 }),
                 ...paginationPageParam(),
@@ -78,7 +85,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
 
 function CommentsPage() {
     const { content_type, slug } = Route.useParams();
-    const { comment_type } = Route.useSearch();
+    const { comment_type, sort, order } = Route.useSearch();
     const { content } = Route.useLoaderData();
     const changeParam = useChangeParam();
     const contentTitle =
@@ -94,6 +101,15 @@ function CommentsPage() {
     const commentType = comment_type ?? 'all';
     const handleCommentTypeChange = (type: string) =>
         changeParam('comment_type', type === 'all' ? '' : type);
+
+    const sortProps = {
+        sort: sort ?? DEFAULT_COMMENT_SORT,
+        order: order ?? DEFAULT_COMMENT_ORDER,
+        onSortChange: (value: string) =>
+            changeParam('sort', value === DEFAULT_COMMENT_SORT ? '' : value),
+        onOrderChange: (value: CommentOrder) =>
+            changeParam('order', value === DEFAULT_COMMENT_ORDER ? '' : value),
+    };
 
     return (
         <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
@@ -111,6 +127,7 @@ function CommentsPage() {
                         username={slug}
                         commentType={commentType}
                         onCommentTypeChange={handleCommentTypeChange}
+                        {...sortProps}
                     />
                 ) : (
                     <Comments
@@ -119,6 +136,7 @@ function CommentsPage() {
                         contentTitle={contentTitle}
                         commentType={commentType}
                         onCommentTypeChange={handleCommentTypeChange}
+                        {...sortProps}
                     />
                 )}
             </div>

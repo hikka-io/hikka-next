@@ -26,6 +26,12 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
+import {
+    COMMENT_SORT_OPTIONS,
+    DEFAULT_COMMENT_ORDER,
+    DEFAULT_COMMENT_SORT,
+} from '@/utils/constants/comment-sort';
+import { formatSort } from '@/utils/sort-format';
 
 import useChangeParam from './hooks/use-change-param';
 import { useFilterSearch } from './hooks/use-filter-search';
@@ -37,7 +43,8 @@ export type SortType =
     | 'novel'
     | 'read'
     | 'edit'
-    | 'article';
+    | 'article'
+    | 'comment';
 
 export interface SortOption {
     label: string;
@@ -47,7 +54,7 @@ export interface SortOption {
 }
 
 export interface SortConfig {
-    options: SortOption[];
+    options: readonly SortOption[];
     defaultSort: string;
     defaultOrder: 'asc' | 'desc';
 }
@@ -183,9 +190,14 @@ const SORT_CONFIGS: Record<SortType, SortConfig> = {
         defaultSort: 'created',
         defaultOrder: 'desc',
     },
+    comment: {
+        options: COMMENT_SORT_OPTIONS,
+        defaultSort: DEFAULT_COMMENT_SORT,
+        defaultOrder: DEFAULT_COMMENT_ORDER,
+    },
 };
 
-export function getSort(sort_type: SortType): SortOption[] {
+export function getSort(sort_type: SortType): readonly SortOption[] {
     return SORT_CONFIGS[sort_type].options;
 }
 
@@ -204,7 +216,7 @@ export function expandSort(
         ? [field, ...option.secondaryFields]
         : [field];
 
-    return expanded.map((f) => `${f}:${dir}`);
+    return formatSort(expanded, dir);
 }
 
 const ONGOINGS_SORT_FIELDS = [
@@ -220,26 +232,73 @@ export function getOngoingsSort(): string[] {
     return ONGOINGS_SORT;
 }
 
-type Props = {
+export type SortSize = 'sm' | 'md';
+
+const SORT_SIZES: Record<
+    SortSize,
+    { trigger: 'sm' | 'md'; button: 'icon-sm' | 'icon-md' }
+> = {
+    // Matches `HeaderNavButton` (`icon-sm`, h-8) so both sit flush in a header.
+    sm: { trigger: 'sm', button: 'icon-sm' },
+    md: { trigger: 'md', button: 'icon-md' },
+};
+
+/**
+ * Controlled mode stops the component reading URL search params. All four props
+ * go together — half a set leaves one of the two controls silently dead.
+ */
+type ControlledProps = {
+    sort: string;
+    order: 'asc' | 'desc';
+    onSortChange: (sort: string) => void;
+    onOrderChange: (order: 'asc' | 'desc') => void;
+};
+
+type BaseProps = {
     className?: string;
     sort_type: SortType;
     /** Render as a compact inline control (no label header). */
     compact?: boolean;
+    size?: SortSize;
     placeholder?: string;
 };
+
+type Props = BaseProps &
+    (ControlledProps | { [K in keyof ControlledProps]?: never });
 
 const Sort: FC<Props> = ({
     sort_type,
     className,
     placeholder,
     compact = false,
+    size = 'md',
+    sort: sortProp,
+    order: orderProp,
+    onSortChange,
+    onOrderChange,
 }) => {
-    const { order, sort } = useFilterSearch<{
+    const search = useFilterSearch<{
         order?: string;
         sort?: string;
     }>();
 
     const handleChangeParam = useChangeParam();
+
+    const controlled = onSortChange !== undefined;
+    const sort = controlled ? sortProp : search.sort;
+    const order = controlled ? orderProp : search.order;
+
+    const changeSort = (value: string) =>
+        onSortChange ? onSortChange(value) : handleChangeParam('sort', value);
+
+    const changeOrder = (value: 'asc' | 'desc') =>
+        onOrderChange
+            ? onOrderChange(value)
+            : handleChangeParam('order', value);
+
+    const orderLabel = order === 'asc' ? 'За зростанням' : 'За спаданням';
+
+    const sizeClasses = SORT_SIZES[size];
 
     const control = (
         <div
@@ -247,12 +306,11 @@ const Sort: FC<Props> = ({
         >
             <Select
                 value={sort ? [sort] : []}
-                onValueChange={(value) =>
-                    handleChangeParam('sort', value[0] ?? '')
-                }
+                onValueChange={(value) => changeSort(value[0] ?? '')}
             >
                 <SelectTrigger
-                    size="md"
+                    size={sizeClasses.trigger}
+                    aria-label="Сортування"
                     className={cn(
                         'min-w-0 flex-1',
                         compact && 'rounded-r-none',
@@ -277,17 +335,15 @@ const Sort: FC<Props> = ({
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Button
-                        size="icon-md"
+                        size={sizeClasses.button}
                         variant="outline"
+                        aria-label={`Порядок сортування: ${orderLabel}`}
                         className={cn(
                             'shrink-0',
                             compact && 'rounded-l-none border-l-0',
                         )}
                         onClick={() =>
-                            handleChangeParam(
-                                'order',
-                                order === 'asc' ? 'desc' : 'asc',
-                            )
+                            changeOrder(order === 'asc' ? 'desc' : 'asc')
                         }
                     >
                         <MaterialSymbolsSortRounded
@@ -296,7 +352,7 @@ const Sort: FC<Props> = ({
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p>{order === 'asc' ? 'За зростанням' : 'За спаданням'}</p>
+                    <p>{orderLabel}</p>
                 </TooltipContent>
             </Tooltip>
         </div>

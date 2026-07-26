@@ -10,6 +10,7 @@ import {
 import Block from '@/components/ui/block';
 import { usePageHeader } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
+import { getCommentSort } from '@/features/comments/utils/comment-sort';
 import { EditContent as Content, EditTimeline } from '@/features/edit';
 import { usePathname } from '@/utils/navigation';
 
@@ -29,7 +30,7 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
                     content_type: 'edit' as CommentsContentType,
                     slug: params.editId,
                 },
-                body: { comment_type: 'all' },
+                body: { comment_type: 'all', sort: getCommentSort() },
                 client: apiClient,
             }),
             ...paginationPageParam(),
