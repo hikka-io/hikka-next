@@ -51,7 +51,7 @@ const UserCommentList: FC<Props> = ({
     } = useInfiniteList(
         getCommentsUserInfiniteOptions({
             path: { username },
-            query: { comment_type: commentType },
+            body: { comment_type: commentType },
         }),
     );
 

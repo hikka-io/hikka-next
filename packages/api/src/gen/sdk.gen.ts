@@ -196,6 +196,9 @@ import type {
     GetCollectionsResponses,
     GetCommentsListData,
     GetCommentsListErrors,
+    GetCommentsListLegacyData,
+    GetCommentsListLegacyErrors,
+    GetCommentsListLegacyResponses,
     GetCommentsListResponses,
     GetCommentsUserData,
     GetCommentsUserErrors,
@@ -501,6 +504,7 @@ import {
     zGetClientByReferenceResponse,
     zGetCollectionResponse,
     zGetCollectionsResponse,
+    zGetCommentsListLegacyResponse,
     zGetCommentsListResponse,
     zGetCommentsUserResponse,
     zGetContentEditTodoResponse,
@@ -1432,6 +1436,31 @@ export const deleteUserRead = <ThrowOnError extends boolean = false>(
     });
 
 /**
+ * Get Comments List Legacy
+ */
+export const getCommentsListLegacy = <ThrowOnError extends boolean = false>(
+    options: Options<GetCommentsListLegacyData, ThrowOnError>,
+): RequestResult<
+    GetCommentsListLegacyResponses,
+    GetCommentsListLegacyErrors,
+    ThrowOnError
+> =>
+    (options.client ?? client).get<
+        GetCommentsListLegacyResponses,
+        GetCommentsListLegacyErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zGetCommentsListLegacyResponse.parseAsync(data),
+        url: '/comments/{content_type}/{slug}/list',
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+        },
+    });
+
+/**
  * Get Comments List
  */
 export const getCommentsList = <ThrowOnError extends boolean = false>(
@@ -1441,7 +1470,7 @@ export const getCommentsList = <ThrowOnError extends boolean = false>(
     GetCommentsListErrors,
     ThrowOnError
 > =>
-    (options.client ?? client).get<
+    (options.client ?? client).post<
         GetCommentsListResponses,
         GetCommentsListErrors,
         ThrowOnError
@@ -1466,7 +1495,7 @@ export const getCommentsUser = <ThrowOnError extends boolean = false>(
     GetCommentsUserErrors,
     ThrowOnError
 > =>
-    (options.client ?? client).get<
+    (options.client ?? client).post<
         GetCommentsUserResponses,
         GetCommentsUserErrors,
         ThrowOnError

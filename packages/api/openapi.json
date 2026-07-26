@@ -3084,8 +3084,8 @@
         "tags": [
           "Comments"
         ],
-        "summary": "Get Comments List",
-        "operationId": "get_comments_list",
+        "summary": "Get Comments List Legacy",
+        "operationId": "get_comments_list_legacy",
         "parameters": [
           {
             "name": "slug",
@@ -3102,16 +3102,6 @@
             "required": true,
             "schema": {
               "$ref": "#/components/schemas/CommentContentTypeEnum"
-            }
-          },
-          {
-            "name": "flat",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false,
-              "title": "Flat"
             }
           },
           {
@@ -3245,69 +3235,29 @@
             }
           }
         }
-      }
-    },
-    "/comments/user/{username}": {
-      "get": {
+      },
+      "post": {
         "tags": [
           "Comments"
         ],
-        "summary": "Get Comments User",
-        "operationId": "get_comments_user",
+        "summary": "Get Comments List",
+        "operationId": "get_comments_list",
         "parameters": [
           {
-            "name": "username",
+            "name": "slug",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Username"
+              "title": "Slug"
             }
           },
           {
-            "name": "first_level_only",
-            "in": "query",
-            "required": false,
+            "name": "content_type",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "boolean",
-              "default": false,
-              "title": "First Level Only"
-            }
-          },
-          {
-            "name": "recommended",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "enum": [
-                    "yes",
-                    "no",
-                    "maybe"
-                  ],
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Recommended"
-            }
-          },
-          {
-            "name": "comment_type",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "enum": [
-                "all",
-                "comment",
-                "review"
-              ],
-              "type": "string",
-              "default": "all",
-              "title": "Comment Type"
+              "$ref": "#/components/schemas/CommentContentTypeEnum"
             }
           },
           {
@@ -3368,17 +3318,119 @@
           }
         ],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "array",
-                "items": {
+                "$ref": "#/components/schemas/CommentsFilterArgs"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/user/{username}": {
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "summary": "Get Comments User",
+        "operationId": "get_comments_user",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10000,
+              "exclusiveMinimum": 0,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 15,
+              "title": "Size"
+            }
+          },
+          {
+            "name": "auth",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
                   "type": "string"
                 },
-                "default": [
-                  "created:desc"
-                ],
-                "title": "Sort"
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Auth"
+            }
+          },
+          {
+            "name": "auth",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Auth"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCommentsFilterArgs"
               }
             }
           }
@@ -15312,6 +15364,49 @@
         ],
         "title": "CommentTextArgs"
       },
+      "CommentsFilterArgs": {
+        "properties": {
+          "recommended": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "yes",
+                  "no",
+                  "maybe"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recommended"
+          },
+          "comment_type": {
+            "type": "string",
+            "enum": [
+              "all",
+              "comment",
+              "review"
+            ],
+            "title": "Comment Type",
+            "default": "all"
+          },
+          "sort": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sort",
+            "default": [
+              "created:desc"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CommentsFilterArgs"
+      },
       "CompaniesListArgs": {
         "properties": {
           "query": {
@@ -23499,6 +23594,54 @@
           "total_likes"
         ],
         "title": "UserArticleStatsResponse"
+      },
+      "UserCommentsFilterArgs": {
+        "properties": {
+          "recommended": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "yes",
+                  "no",
+                  "maybe"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recommended"
+          },
+          "comment_type": {
+            "type": "string",
+            "enum": [
+              "all",
+              "comment",
+              "review"
+            ],
+            "title": "Comment Type",
+            "default": "all"
+          },
+          "sort": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sort",
+            "default": [
+              "created:desc"
+            ]
+          },
+          "first_level_only": {
+            "type": "boolean",
+            "title": "First Level Only",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "UserCommentsFilterArgs"
       },
       "UserCustomizationArgs": {
         "properties": {

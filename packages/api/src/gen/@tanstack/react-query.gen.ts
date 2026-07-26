@@ -73,6 +73,7 @@ import {
     getCollection,
     getCollections,
     getCommentsList,
+    getCommentsListLegacy,
     getCommentsUser,
     getContentEditTodo,
     getDigest,
@@ -342,6 +343,9 @@ import type {
     GetCollectionsResponse,
     GetCommentsListData,
     GetCommentsListError,
+    GetCommentsListLegacyData,
+    GetCommentsListLegacyError,
+    GetCommentsListLegacyResponse,
     GetCommentsListResponse,
     GetCommentsUserData,
     GetCommentsUserError,
@@ -2369,6 +2373,86 @@ export const deleteUserReadMutation = (
     return mutationOptions;
 };
 
+export const getCommentsListLegacyQueryKey = (
+    options: Options<GetCommentsListLegacyData>,
+) => createQueryKey('getCommentsListLegacy', options);
+
+/**
+ * Get Comments List Legacy
+ */
+export const getCommentsListLegacyOptions = (
+    options: Options<GetCommentsListLegacyData>,
+) =>
+    queryOptions<
+        GetCommentsListLegacyResponse,
+        GetCommentsListLegacyError,
+        GetCommentsListLegacyResponse,
+        ReturnType<typeof getCommentsListLegacyQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getCommentsListLegacy({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getCommentsListLegacyQueryKey(options),
+    });
+
+export const getCommentsListLegacyInfiniteQueryKey = (
+    options: Options<GetCommentsListLegacyData>,
+): QueryKey<Options<GetCommentsListLegacyData>> =>
+    createQueryKey('getCommentsListLegacy', options, true);
+
+/**
+ * Get Comments List Legacy
+ */
+export const getCommentsListLegacyInfiniteOptions = (
+    options: Options<GetCommentsListLegacyData>,
+) => {
+    const opts = infiniteQueryOptions<
+        GetCommentsListLegacyResponse,
+        GetCommentsListLegacyError,
+        InfiniteData<GetCommentsListLegacyResponse>,
+        QueryKey<Options<GetCommentsListLegacyData>>,
+        | number
+        | Pick<
+              QueryKey<Options<GetCommentsListLegacyData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetCommentsListLegacyData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getCommentsListLegacy({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getCommentsListLegacyInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
 export const getCommentsListQueryKey = (
     options: Options<GetCommentsListData>,
 ) => createQueryKey('getCommentsList', options);
@@ -2447,6 +2531,33 @@ export const getCommentsListInfiniteOptions = (
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
+/**
+ * Get Comments List
+ */
+export const getCommentsListMutation = (
+    options?: Partial<Options<GetCommentsListData>>,
+): UseMutationOptions<
+    GetCommentsListResponse,
+    GetCommentsListError,
+    Options<GetCommentsListData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        GetCommentsListResponse,
+        GetCommentsListError,
+        Options<GetCommentsListData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await getCommentsList({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
 export const getCommentsUserQueryKey = (
     options: Options<GetCommentsUserData>,
 ) => createQueryKey('getCommentsUser', options);
@@ -2523,6 +2634,33 @@ export const getCommentsUserInfiniteOptions = (
         },
     );
     return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Get Comments User
+ */
+export const getCommentsUserMutation = (
+    options?: Partial<Options<GetCommentsUserData>>,
+): UseMutationOptions<
+    GetCommentsUserResponse,
+    GetCommentsUserError,
+    Options<GetCommentsUserData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        GetCommentsUserResponse,
+        GetCommentsUserError,
+        Options<GetCommentsUserData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await getCommentsUser({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
 };
 
 export const threadQueryKey = (options: Options<ThreadData>) =>

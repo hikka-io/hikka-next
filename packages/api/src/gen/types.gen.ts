@@ -2214,6 +2214,24 @@ export type CommentTextArgs = {
 };
 
 /**
+ * CommentsFilterArgs
+ */
+export type CommentsFilterArgs = {
+    /**
+     * Recommended
+     */
+    recommended?: 'yes' | 'no' | 'maybe' | null;
+    /**
+     * Comment Type
+     */
+    comment_type?: 'all' | 'comment' | 'review';
+    /**
+     * Sort
+     */
+    sort?: Array<string>;
+};
+
+/**
  * CompaniesListArgs
  */
 export type CompaniesListArgs = {
@@ -5990,6 +6008,28 @@ export type UserArticleStatsResponse = {
 };
 
 /**
+ * UserCommentsFilterArgs
+ */
+export type UserCommentsFilterArgs = {
+    /**
+     * Recommended
+     */
+    recommended?: 'yes' | 'no' | 'maybe' | null;
+    /**
+     * Comment Type
+     */
+    comment_type?: 'all' | 'comment' | 'review';
+    /**
+     * Sort
+     */
+    sort?: Array<string>;
+    /**
+     * First Level Only
+     */
+    first_level_only?: boolean;
+};
+
+/**
  * UserCustomizationArgs
  */
 export type UserCustomizationArgs = {
@@ -8278,7 +8318,7 @@ export type DeleteUserReadResponses = {
 export type DeleteUserReadResponse =
     DeleteUserReadResponses[keyof DeleteUserReadResponses];
 
-export type GetCommentsListData = {
+export type GetCommentsListLegacyData = {
     /**
      * Sort
      */
@@ -8298,10 +8338,6 @@ export type GetCommentsListData = {
     };
     query?: {
         /**
-         * Flat
-         */
-        flat?: boolean;
-        /**
          * Recommended
          */
         recommended?: 'yes' | 'no' | 'maybe' | null;
@@ -8309,6 +8345,54 @@ export type GetCommentsListData = {
          * Comment Type
          */
         comment_type?: 'all' | 'comment' | 'review';
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Size
+         */
+        size?: number;
+    };
+    url: '/comments/{content_type}/{slug}/list';
+};
+
+export type GetCommentsListLegacyErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetCommentsListLegacyError =
+    GetCommentsListLegacyErrors[keyof GetCommentsListLegacyErrors];
+
+export type GetCommentsListLegacyResponses = {
+    /**
+     * Successful Response
+     */
+    200: CommentListResponse;
+};
+
+export type GetCommentsListLegacyResponse =
+    GetCommentsListLegacyResponses[keyof GetCommentsListLegacyResponses];
+
+export type GetCommentsListData = {
+    body: CommentsFilterArgs;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Slug
+         */
+        slug: string;
+        content_type: CommentContentTypeEnum;
+    };
+    query?: {
         /**
          * Page
          */
@@ -8342,10 +8426,7 @@ export type GetCommentsListResponse =
     GetCommentsListResponses[keyof GetCommentsListResponses];
 
 export type GetCommentsUserData = {
-    /**
-     * Sort
-     */
-    body?: Array<string>;
+    body: UserCommentsFilterArgs;
     headers?: {
         /**
          * Auth
@@ -8359,18 +8440,6 @@ export type GetCommentsUserData = {
         username: string;
     };
     query?: {
-        /**
-         * First Level Only
-         */
-        first_level_only?: boolean;
-        /**
-         * Recommended
-         */
-        recommended?: 'yes' | 'no' | 'maybe' | null;
-        /**
-         * Comment Type
-         */
-        comment_type?: 'all' | 'comment' | 'review';
         /**
          * Page
          */

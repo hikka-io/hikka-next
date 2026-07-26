@@ -343,6 +343,18 @@ export const zCommentContentTypeEnum = z.enum([
 ]);
 
 /**
+ * CommentsFilterArgs
+ */
+export const zCommentsFilterArgs = z.object({
+    recommended: z.enum(['yes', 'no', 'maybe']).nullish(),
+    comment_type: z
+        .enum(['all', 'comment', 'review'])
+        .optional()
+        .default('all'),
+    sort: z.array(z.string()).optional().default(['created:desc']),
+});
+
+/**
  * CompanyAnimeTypeEnum
  */
 export const zCompanyAnimeTypeEnum = z.enum(['producer', 'studio']);
@@ -2116,6 +2128,19 @@ export const zArticlesTopResponse = z.object({
 });
 
 /**
+ * UserCommentsFilterArgs
+ */
+export const zUserCommentsFilterArgs = z.object({
+    recommended: z.enum(['yes', 'no', 'maybe']).nullish(),
+    comment_type: z
+        .enum(['all', 'comment', 'review'])
+        .optional()
+        .default('all'),
+    sort: z.array(z.string()).optional().default(['created:desc']),
+    first_level_only: z.boolean().optional().default(false),
+});
+
+/**
  * UserCustomizationArgs
  */
 export const zUserCustomizationArgs = z.object({
@@ -3702,21 +3727,20 @@ export const zDeleteUserReadResponse = zSuccessResponse;
 /**
  * Sort
  */
-export const zGetCommentsListBody = z
+export const zGetCommentsListLegacyBody = z
     .array(z.string())
     .default(['created:desc']);
 
-export const zGetCommentsListHeaders = z.object({
+export const zGetCommentsListLegacyHeaders = z.object({
     auth: z.string().nullish(),
 });
 
-export const zGetCommentsListPath = z.object({
+export const zGetCommentsListLegacyPath = z.object({
     slug: z.string(),
     content_type: zCommentContentTypeEnum,
 });
 
-export const zGetCommentsListQuery = z.object({
-    flat: z.boolean().optional().default(false),
+export const zGetCommentsListLegacyQuery = z.object({
     recommended: z.enum(['yes', 'no', 'maybe']).nullish(),
     comment_type: z
         .enum(['all', 'comment', 'review'])
@@ -3729,14 +3753,30 @@ export const zGetCommentsListQuery = z.object({
 /**
  * Successful Response
  */
-export const zGetCommentsListResponse = zCommentListResponse;
+export const zGetCommentsListLegacyResponse = zCommentListResponse;
+
+export const zGetCommentsListBody = zCommentsFilterArgs;
+
+export const zGetCommentsListHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zGetCommentsListPath = z.object({
+    slug: z.string(),
+    content_type: zCommentContentTypeEnum,
+});
+
+export const zGetCommentsListQuery = z.object({
+    page: z.number().int().gt(0).lte(10000).optional().default(1),
+    size: z.number().int().gte(1).lte(100).optional().default(15),
+});
 
 /**
- * Sort
+ * Successful Response
  */
-export const zGetCommentsUserBody = z
-    .array(z.string())
-    .default(['created:desc']);
+export const zGetCommentsListResponse = zCommentListResponse;
+
+export const zGetCommentsUserBody = zUserCommentsFilterArgs;
 
 export const zGetCommentsUserHeaders = z.object({
     auth: z.string().nullish(),
@@ -3747,12 +3787,6 @@ export const zGetCommentsUserPath = z.object({
 });
 
 export const zGetCommentsUserQuery = z.object({
-    first_level_only: z.boolean().optional().default(false),
-    recommended: z.enum(['yes', 'no', 'maybe']).nullish(),
-    comment_type: z
-        .enum(['all', 'comment', 'review'])
-        .optional()
-        .default('all'),
     page: z.number().int().gt(0).lte(10000).optional().default(1),
     size: z.number().int().gte(1).lte(100).optional().default(15),
 });

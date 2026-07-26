@@ -43,7 +43,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
             await queryClient.prefetchInfiniteQuery({
                 ...getCommentsUserInfiniteOptions({
                     path: { username: slug },
-                    query: { comment_type: commentType },
+                    body: { comment_type: commentType },
                     client: apiClient,
                 }),
                 ...paginationPageParam(),
@@ -55,7 +55,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
                         content_type: content_type as CommentsContentType,
                         slug,
                     },
-                    query: { comment_type: commentType, flat: true },
+                    body: { comment_type: commentType },
                     client: apiClient,
                 }),
                 ...paginationPageParam(),

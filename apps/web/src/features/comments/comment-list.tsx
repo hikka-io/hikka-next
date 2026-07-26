@@ -88,11 +88,8 @@ const CommentList: FC<Props> = ({
     const listQuery = useInfiniteList(
         getCommentsListInfiniteOptions({
             path: { content_type, slug },
-            query: {
-                comment_type: commentType,
-                flat: true,
-                ...(preview ? { size: 3 } : undefined),
-            },
+            body: { comment_type: commentType },
+            query: preview ? { size: 3 } : undefined,
         }),
         { enabled: !comment_reference },
     );
