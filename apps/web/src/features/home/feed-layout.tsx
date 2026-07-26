@@ -44,6 +44,12 @@ const WidgetColumn: FC<{ widgets: UiFeedWidget[]; className?: string }> = ({
     </div>
 );
 
+const CENTER_FULL_BLEED = cn(
+    '-mx-4 sm:mx-0',
+    '[&>*]:rounded-none! [&>*]:border-x-0!',
+    'sm:[&>*]:rounded-lg! sm:[&>*]:border-x!',
+);
+
 const CHIP_IDLE =
     'bg-secondary/40 text-muted-foreground hover:bg-accent backdrop-blur';
 
@@ -307,6 +313,7 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
                 <main
                     className={cn(
                         'flex min-w-0 flex-col gap-8 [&>*:first-child]:backdrop-blur',
+                        CENTER_FULL_BLEED,
                         layout === 3 && 'order-2 lg:order-1',
                         isCenterRight && 'lg:order-1',
                     )}

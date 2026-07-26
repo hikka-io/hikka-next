@@ -25,6 +25,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
+import { cn } from '@/utils/cn';
 
 import type { WidgetProps } from '../../constants';
 import FeedItem, { type FeedItemResponse } from './components/feed-item';
@@ -48,7 +49,7 @@ const EMPTY_FILTERS: FeedSubTypeFilters = {
     review_content_types: null,
 };
 
-const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
+const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
     const { user } = useSession();
     const { preferences } = useSessionUI();
     const { update } = useUpdateSessionUI();
@@ -137,7 +138,13 @@ const FeedWidget: FC<WidgetProps> = ({ isLast }) => {
 
     return (
         <Card
-            className="-mx-4 gap-0 rounded-none border-x-0 p-0 sm:mx-0 sm:rounded-lg sm:border-x"
+            className={cn(
+                'gap-0 p-0',
+                // the center column bleeds its children itself; only sidebar
+                // placements need to cancel the page padding on their own
+                side !== 'center' &&
+                    '-mx-4 rounded-none border-x-0 sm:mx-0 sm:rounded-lg sm:border-x',
+            )}
             id="feed-widget"
         >
             <div className="flex flex-col gap-4 p-4">
