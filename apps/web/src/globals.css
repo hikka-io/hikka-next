@@ -41,6 +41,8 @@
     --color-card-foreground: var(--card-foreground);
     --color-popover: var(--popover);
     --color-popover-foreground: var(--popover-foreground);
+    --color-tooltip: var(--tooltip);
+    --color-tooltip-foreground: var(--tooltip-foreground);
     --color-border: var(--border);
     --color-input: var(--input);
     --color-ring: var(--ring);
@@ -346,6 +348,9 @@
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.142 0.004 286);
 
+    --tooltip: oklch(0.29 0.006 286);
+    --tooltip-foreground: oklch(0.985 0 0);
+
     --brand: oklch(0.7 0.18 343);
     --primary: oklch(0.949 0.035 339);
     --primary-foreground: oklch(0.5 0.17 343);
@@ -463,15 +468,14 @@
 .dark {
     --background: oklch(0 0 0);
     --foreground: oklch(0.985 0 0);
-
-    /* Lifted off pure black so bg-card surfaces read as elevated. The page
-       (--background) stays OLED black; elevation in dark is lightness, not
-       shadow. */
     --card: oklch(0.17 0.006 286);
     --card-foreground: oklch(0.985 0 0);
 
     --popover: oklch(0.142 0.004 286);
     --popover-foreground: oklch(0.985 0 0);
+
+    --tooltip: oklch(0.38 0.006 286);
+    --tooltip-foreground: oklch(0.985 0 0);
 
     --primary: oklch(0.156 0.007 326);
     --primary-foreground: oklch(0.722 0.16 342);
