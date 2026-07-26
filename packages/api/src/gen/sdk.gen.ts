@@ -1450,22 +1450,11 @@ export const getCommentsList = <ThrowOnError extends boolean = false>(
             await zGetCommentsListResponse.parseAsync(data),
         url: '/comments/{content_type}/{slug}/list',
         ...options,
-    });
-
-/**
- * Thread
- */
-export const thread = <ThrowOnError extends boolean = false>(
-    options: Options<ThreadData, ThrowOnError>,
-): RequestResult<ThreadResponses, ThreadErrors, ThrowOnError> =>
-    (options.client ?? client).get<ThreadResponses, ThreadErrors, ThrowOnError>(
-        {
-            responseValidator: async (data) =>
-                await zThreadResponse.parseAsync(data),
-            url: '/comments/thread/{comment_reference}',
-            ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
         },
-    );
+    });
 
 /**
  * Get Comments User
@@ -1486,7 +1475,26 @@ export const getCommentsUser = <ThrowOnError extends boolean = false>(
             await zGetCommentsUserResponse.parseAsync(data),
         url: '/comments/user/{username}',
         ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+        },
     });
+
+/**
+ * Thread
+ */
+export const thread = <ThrowOnError extends boolean = false>(
+    options: Options<ThreadData, ThrowOnError>,
+): RequestResult<ThreadResponses, ThreadErrors, ThrowOnError> =>
+    (options.client ?? client).get<ThreadResponses, ThreadErrors, ThrowOnError>(
+        {
+            responseValidator: async (data) =>
+                await zThreadResponse.parseAsync(data),
+            url: '/comments/thread/{comment_reference}',
+            ...options,
+        },
+    );
 
 /**
  * Write Comment

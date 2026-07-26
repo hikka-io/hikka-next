@@ -3699,6 +3699,13 @@ export const zDeleteUserReadPath = z.object({
  */
 export const zDeleteUserReadResponse = zSuccessResponse;
 
+/**
+ * Sort
+ */
+export const zGetCommentsListBody = z
+    .array(z.string())
+    .default(['created:desc']);
+
 export const zGetCommentsListHeaders = z.object({
     auth: z.string().nullish(),
 });
@@ -3709,12 +3716,12 @@ export const zGetCommentsListPath = z.object({
 });
 
 export const zGetCommentsListQuery = z.object({
+    flat: z.boolean().optional().default(false),
     recommended: z.enum(['yes', 'no', 'maybe']).nullish(),
     comment_type: z
         .enum(['all', 'comment', 'review'])
         .optional()
         .default('all'),
-    flat: z.boolean().optional().default(false),
     page: z.number().int().gt(0).lte(10000).optional().default(1),
     size: z.number().int().gte(1).lte(100).optional().default(15),
 });
@@ -3723,6 +3730,37 @@ export const zGetCommentsListQuery = z.object({
  * Successful Response
  */
 export const zGetCommentsListResponse = zCommentListResponse;
+
+/**
+ * Sort
+ */
+export const zGetCommentsUserBody = z
+    .array(z.string())
+    .default(['created:desc']);
+
+export const zGetCommentsUserHeaders = z.object({
+    auth: z.string().nullish(),
+});
+
+export const zGetCommentsUserPath = z.object({
+    username: z.string(),
+});
+
+export const zGetCommentsUserQuery = z.object({
+    first_level_only: z.boolean().optional().default(false),
+    recommended: z.enum(['yes', 'no', 'maybe']).nullish(),
+    comment_type: z
+        .enum(['all', 'comment', 'review'])
+        .optional()
+        .default('all'),
+    page: z.number().int().gt(0).lte(10000).optional().default(1),
+    size: z.number().int().gte(1).lte(100).optional().default(15),
+});
+
+/**
+ * Successful Response
+ */
+export const zGetCommentsUserResponse = zCommentListResponse;
 
 export const zThreadHeaders = z.object({
     auth: z.string().nullish(),
@@ -3747,30 +3785,6 @@ export const zThreadResponse = z.union([
     zCommentResponse,
     zCommentListResponse,
 ]);
-
-export const zGetCommentsUserHeaders = z.object({
-    auth: z.string().nullish(),
-});
-
-export const zGetCommentsUserPath = z.object({
-    username: z.string(),
-});
-
-export const zGetCommentsUserQuery = z.object({
-    recommended: z.enum(['yes', 'no', 'maybe']).nullish(),
-    comment_type: z
-        .enum(['all', 'comment', 'review'])
-        .optional()
-        .default('all'),
-    first_level_only: z.boolean().optional().default(false),
-    page: z.number().int().gt(0).lte(10000).optional().default(1),
-    size: z.number().int().gte(1).lte(100).optional().default(15),
-});
-
-/**
- * Successful Response
- */
-export const zGetCommentsUserResponse = zCommentListResponse;
 
 export const zWriteCommentBody = zCommentArgs;
 

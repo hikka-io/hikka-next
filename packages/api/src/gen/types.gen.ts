@@ -8279,7 +8279,10 @@ export type DeleteUserReadResponse =
     DeleteUserReadResponses[keyof DeleteUserReadResponses];
 
 export type GetCommentsListData = {
-    body?: never;
+    /**
+     * Sort
+     */
+    body?: Array<string>;
     headers?: {
         /**
          * Auth
@@ -8295,6 +8298,10 @@ export type GetCommentsListData = {
     };
     query?: {
         /**
+         * Flat
+         */
+        flat?: boolean;
+        /**
          * Recommended
          */
         recommended?: 'yes' | 'no' | 'maybe' | null;
@@ -8302,10 +8309,6 @@ export type GetCommentsListData = {
          * Comment Type
          */
         comment_type?: 'all' | 'comment' | 'review';
-        /**
-         * Flat
-         */
-        flat?: boolean;
         /**
          * Page
          */
@@ -8337,6 +8340,68 @@ export type GetCommentsListResponses = {
 
 export type GetCommentsListResponse =
     GetCommentsListResponses[keyof GetCommentsListResponses];
+
+export type GetCommentsUserData = {
+    /**
+     * Sort
+     */
+    body?: Array<string>;
+    headers?: {
+        /**
+         * Auth
+         */
+        auth?: string | null;
+    };
+    path: {
+        /**
+         * Username
+         */
+        username: string;
+    };
+    query?: {
+        /**
+         * First Level Only
+         */
+        first_level_only?: boolean;
+        /**
+         * Recommended
+         */
+        recommended?: 'yes' | 'no' | 'maybe' | null;
+        /**
+         * Comment Type
+         */
+        comment_type?: 'all' | 'comment' | 'review';
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Size
+         */
+        size?: number;
+    };
+    url: '/comments/user/{username}';
+};
+
+export type GetCommentsUserErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetCommentsUserError =
+    GetCommentsUserErrors[keyof GetCommentsUserErrors];
+
+export type GetCommentsUserResponses = {
+    /**
+     * Successful Response
+     */
+    200: CommentListResponse;
+};
+
+export type GetCommentsUserResponse =
+    GetCommentsUserResponses[keyof GetCommentsUserResponses];
 
 export type ThreadData = {
     body?: never;
@@ -8388,65 +8453,6 @@ export type ThreadResponses = {
 };
 
 export type ThreadResponse = ThreadResponses[keyof ThreadResponses];
-
-export type GetCommentsUserData = {
-    body?: never;
-    headers?: {
-        /**
-         * Auth
-         */
-        auth?: string | null;
-    };
-    path: {
-        /**
-         * Username
-         */
-        username: string;
-    };
-    query?: {
-        /**
-         * Recommended
-         */
-        recommended?: 'yes' | 'no' | 'maybe' | null;
-        /**
-         * Comment Type
-         */
-        comment_type?: 'all' | 'comment' | 'review';
-        /**
-         * First Level Only
-         */
-        first_level_only?: boolean;
-        /**
-         * Page
-         */
-        page?: number;
-        /**
-         * Size
-         */
-        size?: number;
-    };
-    url: '/comments/user/{username}';
-};
-
-export type GetCommentsUserErrors = {
-    /**
-     * Validation Error
-     */
-    422: HttpValidationError;
-};
-
-export type GetCommentsUserError =
-    GetCommentsUserErrors[keyof GetCommentsUserErrors];
-
-export type GetCommentsUserResponses = {
-    /**
-     * Successful Response
-     */
-    200: CommentListResponse;
-};
-
-export type GetCommentsUserResponse =
-    GetCommentsUserResponses[keyof GetCommentsUserResponses];
 
 export type WriteCommentData = {
     body: CommentArgs;

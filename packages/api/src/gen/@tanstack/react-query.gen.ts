@@ -2447,80 +2447,6 @@ export const getCommentsListInfiniteOptions = (
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
-export const threadQueryKey = (options: Options<ThreadData>) =>
-    createQueryKey('thread', options);
-
-/**
- * Thread
- */
-export const threadOptions = (options: Options<ThreadData>) =>
-    queryOptions<
-        ThreadResponse,
-        ThreadError,
-        ThreadResponse,
-        ReturnType<typeof threadQueryKey>
-    >({
-        queryFn: async ({ queryKey, signal }) => {
-            const { data } = await thread({
-                ...options,
-                ...queryKey[0],
-                signal,
-                throwOnError: true,
-            });
-            return data;
-        },
-        queryKey: threadQueryKey(options),
-    });
-
-export const threadInfiniteQueryKey = (
-    options: Options<ThreadData>,
-): QueryKey<Options<ThreadData>> => createQueryKey('thread', options, true);
-
-/**
- * Thread
- */
-export const threadInfiniteOptions = (options: Options<ThreadData>) => {
-    const opts = infiniteQueryOptions<
-        ThreadResponse,
-        ThreadError,
-        InfiniteData<ThreadResponse>,
-        QueryKey<Options<ThreadData>>,
-        | number
-        | Pick<
-              QueryKey<Options<ThreadData>>[0],
-              'body' | 'headers' | 'path' | 'query'
-          >
-    >(
-        // @ts-ignore
-        {
-            queryFn: async ({ pageParam, queryKey, signal }) => {
-                // @ts-ignore
-                const page: Pick<
-                    QueryKey<Options<ThreadData>>[0],
-                    'body' | 'headers' | 'path' | 'query'
-                > =
-                    typeof pageParam === 'object'
-                        ? pageParam
-                        : {
-                              query: {
-                                  page: pageParam,
-                              },
-                          };
-                const params = createInfiniteParams(queryKey, page);
-                const { data } = await thread({
-                    ...options,
-                    ...params,
-                    signal,
-                    throwOnError: true,
-                });
-                return data;
-            },
-            queryKey: threadInfiniteQueryKey(options),
-        },
-    );
-    return opts as Omit<typeof opts, 'initialData'>;
-};
-
 export const getCommentsUserQueryKey = (
     options: Options<GetCommentsUserData>,
 ) => createQueryKey('getCommentsUser', options);
@@ -2594,6 +2520,80 @@ export const getCommentsUserInfiniteOptions = (
                 return data;
             },
             queryKey: getCommentsUserInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const threadQueryKey = (options: Options<ThreadData>) =>
+    createQueryKey('thread', options);
+
+/**
+ * Thread
+ */
+export const threadOptions = (options: Options<ThreadData>) =>
+    queryOptions<
+        ThreadResponse,
+        ThreadError,
+        ThreadResponse,
+        ReturnType<typeof threadQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await thread({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: threadQueryKey(options),
+    });
+
+export const threadInfiniteQueryKey = (
+    options: Options<ThreadData>,
+): QueryKey<Options<ThreadData>> => createQueryKey('thread', options, true);
+
+/**
+ * Thread
+ */
+export const threadInfiniteOptions = (options: Options<ThreadData>) => {
+    const opts = infiniteQueryOptions<
+        ThreadResponse,
+        ThreadError,
+        InfiniteData<ThreadResponse>,
+        QueryKey<Options<ThreadData>>,
+        | number
+        | Pick<
+              QueryKey<Options<ThreadData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<ThreadData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await thread({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: threadInfiniteQueryKey(options),
         },
     );
     return opts as Omit<typeof opts, 'initialData'>;
