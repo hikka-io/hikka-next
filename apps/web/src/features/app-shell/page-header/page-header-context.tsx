@@ -14,7 +14,6 @@ import {
 export type PageHeaderConfig = {
     title?: string | null;
     subtitle?: string | null;
-    indicatorClassName?: string;
     parent?: string;
     navRoutes?: Hikka.NavRoute[];
     navUrlPrefix?: string;
@@ -128,7 +127,6 @@ const useStableSlot = (component?: ComponentType) => {
 export const usePageHeader = ({
     title,
     subtitle,
-    indicatorClassName,
     parent,
     navRoutes,
     navUrlPrefix,
@@ -145,7 +143,6 @@ export const usePageHeader = ({
         setConfig({
             title,
             subtitle,
-            indicatorClassName,
             parent,
             navRoutes,
             navUrlPrefix,
@@ -158,7 +155,6 @@ export const usePageHeader = ({
     }, [
         title,
         subtitle,
-        indicatorClassName,
         parent,
         navRoutes,
         navUrlPrefix,

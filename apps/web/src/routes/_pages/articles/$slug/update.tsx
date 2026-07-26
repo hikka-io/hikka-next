@@ -50,9 +50,6 @@ function ArticleUpdatePage() {
     usePageHeader({
         title: article?.title,
         subtitle: article?.draft ? 'Чернетка' : 'Опубліковано',
-        indicatorClassName: article?.draft
-            ? 'bg-warning-foreground'
-            : 'bg-success-foreground',
         parent: `${CONTENT_TYPE_LINKS.article}/${slug}`,
     });
 

@@ -90,7 +90,6 @@ const MobileHeader = () => {
     const {
         title,
         subtitle,
-        indicatorClassName,
         parent,
         navRoutes,
         navUrlPrefix,
@@ -137,23 +136,13 @@ const MobileHeader = () => {
                                 : 'pointer-events-none opacity-0',
                         )}
                     >
-                        <div className="flex min-w-0 items-center gap-2">
-                            {indicatorClassName && (
-                                <span
-                                    className={cn(
-                                        'size-2 shrink-0 rounded-full',
-                                        indicatorClassName,
-                                    )}
-                                />
-                            )}
-                            {TitleComponent ? (
-                                <TitleComponent />
-                            ) : (
-                                <span className="truncate font-semibold text-sm">
-                                    {title}
-                                </span>
-                            )}
-                        </div>
+                        {TitleComponent ? (
+                            <TitleComponent />
+                        ) : (
+                            <span className="truncate font-semibold text-sm">
+                                {title}
+                            </span>
+                        )}
                         {navRoutes && navUrlPrefix ? (
                             <HeaderNavSheet
                                 routes={navRoutes}
