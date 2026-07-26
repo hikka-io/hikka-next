@@ -22,7 +22,13 @@ interface MediaCardConfig {
 export function getMediaCardProps(
     entity: MediaEntity,
     config: MediaCardConfig,
-    status?: { watch?: WatchResponseBase; read?: ReadResponseBase },
+    // `null` = the payload carried an empty tracking array, so the entry is
+    // known to be absent; `undefined` = unknown. Consumers skip their own
+    // lookup on `null`.
+    status?: {
+        watch?: WatchResponseBase | null;
+        read?: ReadResponseBase | null;
+    },
 ): Partial<ContentCardProps> {
     return {
         slug: entity.slug,

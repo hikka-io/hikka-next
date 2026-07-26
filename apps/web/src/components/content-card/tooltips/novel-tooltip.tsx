@@ -4,11 +4,15 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     ContentTypeEnum,
+    type NovelCatalogResponse,
     novelInfoOptions,
     type ReadResponseBase,
 } from '@hikka/api';
 
-import { ReadlistButton } from '@/components/action-buttons';
+import {
+    ReadlistButton,
+    TrackingButtonsGroup,
+} from '@/components/action-buttons';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
@@ -16,20 +20,27 @@ import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent from './media-tooltip-content';
 import { MediaTooltipSkeleton } from './tooltip-skeleton';
+import type { MediaTooltipItem } from './types';
 
 type TooltipDataProps = {
     slug: string;
-    read?: ReadResponseBase;
+    read?: ReadResponseBase | null;
+    item?: NovelCatalogResponse;
 };
 
 type Props = PropsWithChildren & {
     slug?: string;
-    read?: ReadResponseBase;
+    read?: ReadResponseBase | null;
+    item?: MediaTooltipItem;
 };
 
-const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
+const TooltipData: FC<TooltipDataProps> = ({ slug, read, item }) => {
     const { user: loggedUser } = useSession();
-    const { data } = useQuery(novelInfoOptions({ path: { slug } }));
+    const { data: fetched } = useQuery({
+        ...novelInfoOptions({ path: { slug } }),
+        enabled: !item,
+    });
+    const data = item ?? fetched;
     const title = useTitle(data);
 
     if (!data) {
@@ -89,24 +100,41 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, read }) => {
             }
             actionButton={
                 loggedUser ? (
-                    <ReadlistButton
-                        slug={slug}
-                        content_type={ContentTypeEnum.NOVEL}
-                        read={read}
-                    />
+                    item ? (
+                        <TrackingButtonsGroup
+                            title={title}
+                            size="default"
+                            type={ContentTypeEnum.NOVEL}
+                            item={item}
+                        />
+                    ) : (
+                        <ReadlistButton
+                            slug={slug}
+                            content_type={ContentTypeEnum.NOVEL}
+                            read={read}
+                        />
+                    )
                 ) : undefined
             }
         />
     );
 };
 
-const NovelTooltip: FC<Props> = ({ slug, children, read }) => {
+const NovelTooltip: FC<Props> = ({ slug, children, read, item }) => {
     if (!slug) {
         return null;
     }
 
     return (
-        <HoverCardWrapper content={<TooltipData slug={slug} read={read} />}>
+        <HoverCardWrapper
+            content={
+                <TooltipData
+                    slug={slug}
+                    read={read}
+                    item={item?.data_type === 'novel' ? item : undefined}
+                />
+            }
+        >
             {children}
         </HoverCardWrapper>
     );

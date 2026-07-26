@@ -52,7 +52,10 @@ import ReadStatusTrigger from './readlist-button/components/read-status-trigger'
 import WatchEditModal from './watch-edit-modal';
 import WatchStatusTrigger from './watchlist-button/components/watch-status-trigger';
 
-type Props =
+/** `default` keeps the Button primitive's own height; `sm`/`md` shrink it. */
+type TrackingSize = 'sm' | 'md' | 'default';
+
+type Props = { size?: TrackingSize } & (
     | {
           title: string;
           type: typeof ContentTypeEnum.ANIME;
@@ -67,7 +70,8 @@ type Props =
           title: string;
           type: typeof ContentTypeEnum.NOVEL;
           item: NovelCatalogResponse;
-      };
+      }
+);
 
 type StatusConfig = typeof WATCH_STATUS | typeof READ_STATUS;
 type StatusIcon = (props: { className?: string }) => ReactElement;
@@ -152,6 +156,7 @@ const buildReadArgs = (
 
 type TrackingSelectProps = {
     title: string;
+    size: TrackingSize;
     disabled: boolean;
     currentStatus: string[];
     statusOptions: StatusOption[];
@@ -171,6 +176,7 @@ type TrackingSelectProps = {
  */
 function TrackingSelect({
     title,
+    size,
     disabled,
     currentStatus,
     statusOptions,
@@ -204,7 +210,7 @@ function TrackingSelect({
                         <div className="flex w-full">
                             <Button
                                 variant="secondary"
-                                size="md"
+                                size={size}
                                 disabled={disabled}
                                 onClick={onAddPlanned}
                                 className="flex-1 flex-nowrap overflow-hidden rounded-r-none"
@@ -224,7 +230,9 @@ function TrackingSelect({
                             </Button>
                             <Button
                                 variant="secondary"
-                                size="icon-md"
+                                size={
+                                    size === 'default' ? 'icon' : `icon-${size}`
+                                }
                                 type="button"
                                 disabled={disabled}
                                 className="rounded-l-none text-xl"
@@ -284,9 +292,11 @@ function TrackingSelect({
 
 function WatchTrackingButtons({
     title,
+    size,
     item,
 }: {
     title: string;
+    size: TrackingSize;
     item: AnimeCatalogResponse;
 }) {
     const queryClient = useQueryClient();
@@ -326,6 +336,7 @@ function WatchTrackingButtons({
     return (
         <TrackingSelect
             title={title}
+            size={size}
             disabled={isPending}
             currentStatus={tracking ? [tracking.status] : []}
             statusOptions={WATCH_STATUS_OPTIONS}
@@ -335,7 +346,7 @@ function WatchTrackingButtons({
                 tracking && (
                     <WatchStatusTrigger
                         watch={tracking}
-                        size="md"
+                        size={size === 'default' ? undefined : size}
                         isLoading={isPending}
                         onOpenModal={() => setEditOpen(true)}
                     />
@@ -358,10 +369,12 @@ function WatchTrackingButtons({
 
 function ReadTrackingButtons({
     title,
+    size,
     type,
     item,
 }: {
     title: string;
+    size: TrackingSize;
     type: typeof ContentTypeEnum.MANGA | typeof ContentTypeEnum.NOVEL;
     item: MangaCatalogResponse | NovelCatalogResponse;
 }) {
@@ -402,6 +415,7 @@ function ReadTrackingButtons({
     return (
         <TrackingSelect
             title={title}
+            size={size}
             disabled={isPending}
             currentStatus={tracking ? [tracking.status] : []}
             statusOptions={READ_STATUS_OPTIONS}
@@ -411,7 +425,7 @@ function ReadTrackingButtons({
                 tracking && (
                     <ReadStatusTrigger
                         read={tracking}
-                        size="md"
+                        size={size === 'default' ? undefined : size}
                         isLoading={isPending}
                         onOpenModal={() => setEditOpen(true)}
                     />
@@ -434,13 +448,22 @@ function ReadTrackingButtons({
 }
 
 export function TrackingButtonsGroup(props: Props) {
+    const size = props.size ?? 'md';
+
     if (props.type === ContentTypeEnum.ANIME) {
-        return <WatchTrackingButtons title={props.title} item={props.item} />;
+        return (
+            <WatchTrackingButtons
+                title={props.title}
+                size={size}
+                item={props.item}
+            />
+        );
     }
 
     return (
         <ReadTrackingButtons
             title={props.title}
+            size={size}
             type={props.type}
             item={props.item}
         />

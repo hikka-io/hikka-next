@@ -2,9 +2,17 @@ import { type FC, memo, type PropsWithChildren } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { animeSlugOptions, type WatchResponseBase } from '@hikka/api';
+import {
+    type AnimeCatalogResponse,
+    animeSlugOptions,
+    ContentTypeEnum,
+    type WatchResponseBase,
+} from '@hikka/api';
 
-import { WatchlistButton } from '@/components/action-buttons';
+import {
+    TrackingButtonsGroup,
+    WatchlistButton,
+} from '@/components/action-buttons';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
@@ -12,20 +20,27 @@ import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent from './media-tooltip-content';
 import { MediaTooltipSkeleton } from './tooltip-skeleton';
+import type { MediaTooltipItem } from './types';
 
 type TooltipDataProps = {
     slug: string;
-    watch?: WatchResponseBase;
+    watch?: WatchResponseBase | null;
+    item?: AnimeCatalogResponse;
 };
 
 type Props = PropsWithChildren & {
     slug?: string;
-    watch?: WatchResponseBase;
+    watch?: WatchResponseBase | null;
+    item?: MediaTooltipItem;
 };
 
-const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
+const TooltipData: FC<TooltipDataProps> = ({ slug, watch, item }) => {
     const { user: loggedUser } = useSession();
-    const { data } = useQuery(animeSlugOptions({ path: { slug } }));
+    const { data: fetched } = useQuery({
+        ...animeSlugOptions({ path: { slug } }),
+        enabled: !item,
+    });
+    const data = item ?? fetched;
     const title = useTitle(data);
 
     if (!data) {
@@ -73,20 +88,37 @@ const TooltipData: FC<TooltipDataProps> = ({ slug, watch }) => {
             }
             actionButton={
                 loggedUser ? (
-                    <WatchlistButton watch={watch} slug={slug} />
+                    item ? (
+                        <TrackingButtonsGroup
+                            title={title}
+                            size="default"
+                            type={ContentTypeEnum.ANIME}
+                            item={item}
+                        />
+                    ) : (
+                        <WatchlistButton watch={watch} slug={slug} />
+                    )
                 ) : undefined
             }
         />
     );
 };
 
-const AnimeTooltip: FC<Props> = ({ slug, children, watch }) => {
+const AnimeTooltip: FC<Props> = ({ slug, children, watch, item }) => {
     if (!slug) {
         return null;
     }
 
     return (
-        <HoverCardWrapper content={<TooltipData slug={slug} watch={watch} />}>
+        <HoverCardWrapper
+            content={
+                <TooltipData
+                    slug={slug}
+                    watch={watch}
+                    item={item?.data_type === 'anime' ? item : undefined}
+                />
+            }
+        >
             {children}
         </HoverCardWrapper>
     );

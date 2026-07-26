@@ -38,6 +38,7 @@ import {
     AnimeTooltip,
     CharacterTooltip,
     MangaTooltip,
+    type MediaTooltipItem,
     NovelTooltip,
     PersonTooltip,
 } from './tooltips';
@@ -81,12 +82,14 @@ export type ContentCardProps = VariantProps<typeof contentCardVariants> & {
     disableChildrenLink?: boolean;
     children?: ReactNode;
     onClick?: MouseEventHandler<HTMLDivElement>;
-    watch?: WatchResponseBase;
-    read?: ReadResponseBase;
+    // `null` = known untracked, `undefined` = unknown. See `getMediaCardProps`.
+    watch?: WatchResponseBase | null;
+    read?: ReadResponseBase | null;
     slug?: string;
     content_type?: ContentTypeEnum;
     withContextMenu?: boolean;
     tooltipDisabled?: boolean;
+    tooltipItem?: MediaTooltipItem;
     imageProps?: ImageProps;
     imagePreset?: ImagePreset;
     linkProps?: Record<string, any>;
@@ -99,8 +102,9 @@ export type TooltipProps = {
     children: ReactNode;
     content_type?: ContentTypeEnum;
     slug?: string;
-    watch?: WatchResponseBase;
-    read?: ReadResponseBase;
+    watch?: WatchResponseBase | null;
+    read?: ReadResponseBase | null;
+    item?: MediaTooltipItem;
 };
 
 export const DEFAULT_CONTAINER_RATIO = 0.7;
@@ -111,8 +115,9 @@ const TOOLTIP_MAP: Record<
     ComponentType<{
         slug?: string;
         children: ReactNode;
-        watch?: WatchResponseBase;
-        read?: ReadResponseBase;
+        watch?: WatchResponseBase | null;
+        read?: ReadResponseBase | null;
+        item?: MediaTooltipItem;
     }>
 > = {
     anime: AnimeTooltip,
@@ -123,7 +128,7 @@ const TOOLTIP_MAP: Record<
 };
 
 const Tooltip: FC<TooltipProps> = memo(
-    ({ children, content_type, slug, watch, read }) => {
+    ({ children, content_type, slug, watch, read, item }) => {
         const TooltipComponent = content_type
             ? TOOLTIP_MAP[content_type]
             : undefined;
@@ -133,7 +138,7 @@ const Tooltip: FC<TooltipProps> = memo(
         }
 
         return (
-            <TooltipComponent slug={slug} watch={watch} read={read}>
+            <TooltipComponent slug={slug} watch={watch} read={read} item={item}>
                 {children}
             </TooltipComponent>
         );
@@ -191,6 +196,7 @@ const Content = memo(
                 content_type,
                 withContextMenu,
                 tooltipDisabled,
+                tooltipItem,
                 imageProps,
                 imagePreset,
                 linkProps,
@@ -233,6 +239,7 @@ const Content = memo(
                         content_type={content_type}
                         watch={watch}
                         read={read}
+                        item={tooltipItem}
                     >
                         {/* biome-ignore lint/a11y/noStaticElementInteractions: click is a supplementary shortcut; primary navigation is the inner link. */}
                         {/* biome-ignore lint/a11y/useKeyWithClickEvents: click is a supplementary shortcut; primary navigation is the inner link. */}
