@@ -874,6 +874,7 @@ export {
     type ResetPasswordResponses,
     type ReviewArgs,
     type ReviewResponse,
+    type ReviewStatsResponse,
     type RevokeTokenData,
     type RevokeTokenError,
     type RevokeTokenErrors,

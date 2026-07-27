@@ -105,6 +105,7 @@ export type AnimeInfoResponse = {
      * End Date
      */
     end_date: number | null;
+    review_stats: ReviewStatsResponse;
     /**
      * Updated
      */
@@ -3587,6 +3588,7 @@ export type MangaInfoResponse = {
      * Data Type
      */
     data_type: 'manga';
+    review_stats: ReviewStatsResponse;
     /**
      * Authors
      */
@@ -4082,6 +4084,7 @@ export type NovelInfoResponse = {
      * Data Type
      */
     data_type: 'novel';
+    review_stats: ReviewStatsResponse;
     /**
      * Authors
      */
@@ -5039,6 +5042,24 @@ export type ReviewResponse = {
      * Score
      */
     score: number;
+};
+
+/**
+ * ReviewStatsResponse
+ */
+export type ReviewStatsResponse = {
+    /**
+     * Maybe
+     */
+    maybe?: number;
+    /**
+     * Yes
+     */
+    yes?: number;
+    /**
+     * No
+     */
+    no?: number;
 };
 
 /**

@@ -623,50 +623,6 @@ export const zGenreResponse = z.object({
 });
 
 /**
- * AnimeInfoResponse
- */
-export const zAnimeInfoResponse = z.object({
-    data_type: z.literal('anime'),
-    companies: z.array(zAnimeCompanyResponse),
-    genres: z.array(zGenreResponse),
-    start_date: z.number().int().nullable(),
-    end_date: z.number().int().nullable(),
-    updated: z.number().int().nullable(),
-    comments_count: z.number().int(),
-    episodes_released: z.number().int().nullable(),
-    episodes_total: z.number().int().nullable(),
-    synopsis_en: z.string().nullable(),
-    synopsis_ua: z.string().nullable(),
-    media_type: z.string().nullable(),
-    title_ua: z.string().nullable(),
-    title_en: z.string().nullable(),
-    title_ja: z.string().nullable(),
-    duration: z.number().int().nullable(),
-    image: z.string().nullable(),
-    status: z.string().nullable(),
-    source: z.string().nullable(),
-    rating: z.string().nullable(),
-    has_franchise: z.boolean(),
-    native_scored_by: z.number().int(),
-    native_score: z.number(),
-    scored_by: z.number().int(),
-    score: z.number(),
-    nsfw: z.boolean(),
-    slug: z.string(),
-    created: z.number().int().nullable(),
-    season: z.string().nullable(),
-    year: z.number().int().nullable(),
-    synonyms: z.array(z.string()),
-    external: z.array(zExternalResponse),
-    videos: z.array(zAnimeVideoResponse),
-    ost: z.array(zAnimeOstResponse),
-    stats: zAnimeStatsResponse,
-    schedule: z.array(z.record(z.unknown())),
-    translated_ua: z.boolean(),
-    mal_id: z.number().int(),
-});
-
-/**
  * AnimeResponse
  */
 export const zAnimeResponse = z.object({
@@ -1491,6 +1447,60 @@ export const zCommentTextArgs = z.object({
 export const zReviewResponse = z.object({
     recommended: z.enum(['yes', 'no', 'maybe']),
     score: z.number().int(),
+});
+
+/**
+ * ReviewStatsResponse
+ */
+export const zReviewStatsResponse = z.object({
+    maybe: z.number().int().optional().default(0),
+    yes: z.number().int().optional().default(0),
+    no: z.number().int().optional().default(0),
+});
+
+/**
+ * AnimeInfoResponse
+ */
+export const zAnimeInfoResponse = z.object({
+    data_type: z.literal('anime'),
+    companies: z.array(zAnimeCompanyResponse),
+    genres: z.array(zGenreResponse),
+    start_date: z.number().int().nullable(),
+    end_date: z.number().int().nullable(),
+    review_stats: zReviewStatsResponse,
+    updated: z.number().int().nullable(),
+    comments_count: z.number().int(),
+    episodes_released: z.number().int().nullable(),
+    episodes_total: z.number().int().nullable(),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
+    media_type: z.string().nullable(),
+    title_ua: z.string().nullable(),
+    title_en: z.string().nullable(),
+    title_ja: z.string().nullable(),
+    duration: z.number().int().nullable(),
+    image: z.string().nullable(),
+    status: z.string().nullable(),
+    source: z.string().nullable(),
+    rating: z.string().nullable(),
+    has_franchise: z.boolean(),
+    native_scored_by: z.number().int(),
+    native_score: z.number(),
+    scored_by: z.number().int(),
+    score: z.number(),
+    nsfw: z.boolean(),
+    slug: z.string(),
+    created: z.number().int().nullable(),
+    season: z.string().nullable(),
+    year: z.number().int().nullable(),
+    synonyms: z.array(z.string()),
+    external: z.array(zExternalResponse),
+    videos: z.array(zAnimeVideoResponse),
+    ost: z.array(zAnimeOstResponse),
+    stats: zAnimeStatsResponse,
+    schedule: z.array(z.record(z.unknown())),
+    translated_ua: z.boolean(),
+    mal_id: z.number().int(),
 });
 
 /**
@@ -3006,6 +3016,7 @@ export const zContentAuthorResponse = z.object({
  */
 export const zMangaInfoResponse = z.object({
     data_type: z.literal('manga'),
+    review_stats: zReviewStatsResponse,
     authors: z.array(zContentAuthorResponse),
     magazines: z.array(zMagazineResponse),
     external: z.array(zExternalResponse),
@@ -3044,6 +3055,7 @@ export const zMangaInfoResponse = z.object({
  */
 export const zNovelInfoResponse = z.object({
     data_type: z.literal('novel'),
+    review_stats: zReviewStatsResponse,
     authors: z.array(zContentAuthorResponse),
     magazines: z.array(zMagazineResponse),
     external: z.array(zExternalResponse),
