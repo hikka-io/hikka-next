@@ -2,6 +2,8 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
 
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { usePageTitleAnchor } from '@/features/app-shell';
 import { CommentList as Comments } from '@/features/comments';
 import {
     EditActions as Actions,
@@ -14,10 +16,20 @@ export const Route = createFileRoute('/_pages/edit/$editId/')({
 
 function EditPage() {
     const { editId } = Route.useParams();
+    const titleAnchor = usePageTitleAnchor();
 
     return (
         <div className="flex flex-col gap-12">
-            <EditView editId={editId} mode="view" />
+            <div className="flex flex-col gap-6">
+                <Header>
+                    <HeaderContainer>
+                        <HeaderTitle ref={titleAnchor}>
+                            Правка #{editId}
+                        </HeaderTitle>
+                    </HeaderContainer>
+                </Header>
+                <EditView editId={editId} mode="view" />
+            </div>
             <Actions editId={editId} />
             <Comments slug={editId} content_type={ContentTypeEnum.EDIT} />
         </div>

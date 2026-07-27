@@ -61,6 +61,7 @@ function EditLayout() {
         title: `Правка #${edit.edit_id}`,
         subtitle: pathname === editUrl ? contentTitle : 'Редагування',
         parent: pathname === editUrl ? '/edit' : editUrl,
+        anchored: true,
     });
 
     return (
