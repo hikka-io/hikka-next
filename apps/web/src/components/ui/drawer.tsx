@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Drawer as DrawerPrimitive } from 'vaul';
 
 import { PortalContainerProvider } from '@/components/ui/portal-container-context';
+import { useBackClose } from '@/services/hooks/use-back-close';
 import { cn } from '@/utils/cn';
 
 /**
@@ -30,6 +31,8 @@ function Drawer({
 
         onOpenChange?.(open);
     };
+
+    useBackClose(props.open, handleOpenChange);
 
     return (
         <DrawerTriggerRefContext.Provider value={triggerRef}>

@@ -5,11 +5,14 @@ import { Dialog as DialogPrimitive } from 'radix-ui';
 
 import { Button } from '@/components/ui/button';
 import { PortalContainerProvider } from '@/components/ui/portal-container-context';
+import { useBackClose } from '@/services/hooks/use-back-close';
 import { cn } from '@/utils/cn';
 
 function Dialog({
     ...props
 }: React.ComponentProps<typeof DialogPrimitive.Root>) {
+    useBackClose(props.open, props.onOpenChange);
+
     return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
 

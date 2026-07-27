@@ -5,9 +5,12 @@ import { Dialog as SheetPrimitive } from 'radix-ui';
 
 import { Button } from '@/components/ui/button';
 import { PortalContainerProvider } from '@/components/ui/portal-container-context';
+import { useBackClose } from '@/services/hooks/use-back-close';
 import { cn } from '@/utils/cn';
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
+    useBackClose(props.open, props.onOpenChange);
+
     return <SheetPrimitive.Root data-slot="sheet" {...props} />;
 }
 
