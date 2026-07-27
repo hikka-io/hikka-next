@@ -1,8 +1,8 @@
-import { type ComponentProps, createElement, type FC, useState } from 'react';
+import { createElement, type FC } from 'react';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
-import { Filter, PanelRightClose, PanelRightOpen } from 'lucide-react';
+import { PanelRightClose, PanelRightOpen } from 'lucide-react';
 
 import {
     ContentTypeEnum,
@@ -21,7 +21,6 @@ import {
 import FeRandom from '@/components/icons/fe/FeRandom';
 import MaterialSymbolsEventList from '@/components/icons/material-symbols/MaterialSymbolsEventList';
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
     Select,
@@ -39,11 +38,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import {
-    AnimeFiltersModal,
-    ReadFiltersModal,
-    useActiveFilters,
-} from '@/features/filters';
+import { FiltersButton } from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import useChangeParam from '@/features/filters/hooks/use-change-param';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
@@ -56,6 +51,8 @@ import {
     WATCH_STATUS,
 } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
+
+import UserlistFiltersModal from './userlist-filters-modal';
 
 const STATUSES = { ...WATCH_STATUS, ...READ_STATUS };
 
@@ -72,9 +69,7 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
     const handleChangeParam = useChangeParam();
     const { visible: sidebarVisible, toggle: toggleSidebar } =
         useFiltersSidebar('userlist_filters_sidebar');
-    const { count: activeCount } = useActiveFilters();
     const { view, setView } = useCatalogView('userlist');
-    const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
     const status = (search.status || 'completed') as
         | ReadStatusEnum
@@ -237,7 +232,10 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                         </Tooltip>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <ToggleGroupItem value="grid" aria-label="Сітка">
+                                <ToggleGroupItem
+                                    value="grid"
+                                    aria-label="Сітка"
+                                >
                                     <MaterialSymbolsGridViewRounded />
                                 </ToggleGroupItem>
                             </TooltipTrigger>
@@ -281,26 +279,16 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
 
                     <Separator orientation="vertical" className="h-6" />
 
-                    {/* Mobile: open filters in a sheet */}
-                    <Button
-                        variant="outline"
-                        size="icon-md"
-                        onClick={() => setMobileFiltersOpen(true)}
-                        className="relative shrink-0 overflow-visible lg:hidden"
-                        aria-label="Фільтри"
-                    >
-                        <Filter className="size-4" />
-                        {activeCount > 0 && (
-                            <Badge
-                                variant="default"
-                                className="absolute -top-1.5 -right-1.5 h-4 min-w-4 px-1 text-[10px]"
-                            >
-                                {activeCount}
-                            </Badge>
+                    <FiltersButton
+                        className="lg:hidden"
+                        renderModal={(props) => (
+                            <UserlistFiltersModal
+                                content_type={content_type}
+                                {...props}
+                            />
                         )}
-                    </Button>
+                    />
 
-                    {/* Desktop: toggle sticky sidebar panel */}
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Button
@@ -331,25 +319,6 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                     </Tooltip>
                 </div>
             </div>
-
-            {isAnime ? (
-                <AnimeFiltersModal
-                    open={mobileFiltersOpen}
-                    onOpenChange={setMobileFiltersOpen}
-                    sort_type="watch"
-                />
-            ) : (
-                <ReadFiltersModal
-                    open={mobileFiltersOpen}
-                    onOpenChange={setMobileFiltersOpen}
-                    content_type={
-                        content_type as ComponentProps<
-                            typeof ReadFiltersModal
-                        >['content_type']
-                    }
-                    sort_type="read"
-                />
-            )}
         </>
     );
 };

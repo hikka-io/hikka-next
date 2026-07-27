@@ -9,7 +9,11 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { CatalogNavbar } from '@/features/catalog';
-import { ReadFilters, ReadFiltersModal } from '@/features/filters';
+import {
+    HeaderFiltersButton,
+    ReadFilters,
+    ReadFiltersModal,
+} from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { MangaList, MangaListSummary } from '@/features/manga';
@@ -36,6 +40,17 @@ function MangaListPage() {
         parent: '/',
         anchored: true,
         hideBack: true,
+        actionsComponent: () => (
+            <HeaderFiltersButton
+                renderModal={(props) => (
+                    <ReadFiltersModal
+                        {...props}
+                        content_type={ContentTypeEnum.MANGA}
+                        sort_type="manga"
+                    />
+                )}
+            />
+        ),
     });
 
     const { visible: sidebarVisible } = useFiltersSidebar();

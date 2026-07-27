@@ -153,36 +153,38 @@ const MobileHeader = () => {
                     )}
                     <div
                         className={cn(
-                            'flex min-w-0 flex-1 flex-col justify-center self-stretch',
+                            'flex min-w-0 flex-1 gap-1 self-stretch',
                             animated && 'transition-opacity',
                             titleVisible
                                 ? 'opacity-100'
                                 : 'pointer-events-none opacity-0',
                         )}
                     >
-                        {navRoutes && navUrlPrefix ? (
-                            <HeaderNavSheet
-                                routes={navRoutes}
-                                urlPrefix={navUrlPrefix}
-                            >
-                                {titleNode}
-                            </HeaderNavSheet>
-                        ) : (
-                            <>
-                                {titleNode}
-                                {subtitle && (
-                                    <span className="truncate text-muted-foreground text-xs">
-                                        {subtitle}
-                                    </span>
-                                )}
-                            </>
+                        <div className="flex min-w-0 flex-1 flex-col justify-center">
+                            {navRoutes && navUrlPrefix ? (
+                                <HeaderNavSheet
+                                    routes={navRoutes}
+                                    urlPrefix={navUrlPrefix}
+                                >
+                                    {titleNode}
+                                </HeaderNavSheet>
+                            ) : (
+                                <>
+                                    {titleNode}
+                                    {subtitle && (
+                                        <span className="truncate text-muted-foreground text-xs">
+                                            {subtitle}
+                                        </span>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                        {ActionsComponent && (
+                            <div className="flex shrink-0 items-center">
+                                <ActionsComponent />
+                            </div>
                         )}
                     </div>
-                    {ActionsComponent && (
-                        <div className="flex shrink-0 items-center">
-                            <ActionsComponent />
-                        </div>
-                    )}
                 </div>
             </header>
         </>

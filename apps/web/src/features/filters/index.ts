@@ -1,9 +1,14 @@
 export { default as ActiveFilters, useActiveFilters } from './active-filters';
 export { AnimeFiltersBody, default as AnimeFilters } from './anime-filters';
 export { default as AnimeFiltersModal } from './anime-filters-modal';
+export {
+    default as FiltersButton,
+    HeaderFiltersButton,
+    type RenderFiltersModal,
+} from './filters-button';
+export { FormGenre } from './genre';
 export { default as useChangeParam } from './hooks/use-change-param';
 export { useFilterSearch } from './hooks/use-filter-search';
-export { FormGenre } from './genre';
 export { default as FilterPresetButton } from './presets/filter-preset-button';
 export { default as FilterPresets } from './presets/filter-presets';
 export { default as ReadFilters } from './read-filters';

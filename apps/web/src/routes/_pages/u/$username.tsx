@@ -21,6 +21,7 @@ import {
     ActivationAlert,
     FollowStats,
     UserInfo,
+    UserlistHeaderFilters,
     UserTitle,
 } from '@/features/users';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
@@ -123,12 +124,15 @@ function UserLayout() {
     const pathname = usePathname();
     const profileUrl = `/u/${username}`;
 
+    const isListRoute = pathname.startsWith(`${profileUrl}/list/`);
+
     usePageHeader({
         title: username,
         parent: pathname === profileUrl ? '/' : profileUrl,
         navRoutes: USER_NAV_ROUTES,
         navUrlPrefix: profileUrl,
         anchored: true,
+        actionsComponent: isListRoute ? UserlistHeaderFilters : undefined,
     });
 
     return (

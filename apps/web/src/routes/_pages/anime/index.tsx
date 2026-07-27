@@ -10,7 +10,11 @@ import type { StackSize } from '@/components/ui/stack';
 import { AnimeList, AnimeListSummary } from '@/features/anime';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { CatalogNavbar } from '@/features/catalog';
-import { AnimeFilters, AnimeFiltersModal } from '@/features/filters';
+import {
+    AnimeFilters,
+    AnimeFiltersModal,
+    HeaderFiltersButton,
+} from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { cn } from '@/utils/cn';
@@ -37,6 +41,13 @@ function AnimeListPage() {
         parent: '/',
         anchored: true,
         hideBack: true,
+        actionsComponent: () => (
+            <HeaderFiltersButton
+                renderModal={(props) => (
+                    <AnimeFiltersModal {...props} sort_type="anime" />
+                )}
+            />
+        ),
     });
 
     const { visible: sidebarVisible } = useFiltersSidebar();
@@ -44,8 +55,6 @@ function AnimeListPage() {
 
     const extendedSize: StackSize =
         view === 'list' ? 1 : sidebarVisible ? 5 : 7;
-    // Desktop cols × 4 rows; always even so mobile (grid-cols-2) fills
-    // without empty cells. List view uses the default API page size.
     const pageSize = view === 'list' ? undefined : extendedSize * 4;
 
     return (
