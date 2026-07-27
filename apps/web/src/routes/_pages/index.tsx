@@ -176,6 +176,7 @@ function HomePage() {
         title: 'Головна',
         titleComponent: HeaderWordmark,
         actionsComponent: HomeHeaderActions,
+        hideBack: true,
     });
 
     return (

@@ -25,6 +25,11 @@ export type PageHeaderConfig = {
      * this show their title unconditionally.
      */
     anchored?: boolean;
+    /**
+     * Hides the mobile header's back button. Set by tab-bar roots (home,
+     * catalogs) — there is nowhere to go up from them.
+     */
+    hideBack?: boolean;
 };
 
 type PageHeaderState = {
@@ -133,6 +138,7 @@ export const usePageHeader = ({
     titleComponent,
     actionsComponent,
     anchored,
+    hideBack,
 }: PageHeaderConfig) => {
     const { setConfig } = usePageHeaderActions();
 
@@ -149,6 +155,7 @@ export const usePageHeader = ({
             titleComponent: titleSlot,
             actionsComponent: actionsSlot,
             anchored,
+            hideBack,
         });
 
         return () => setConfig(null);
@@ -161,6 +168,7 @@ export const usePageHeader = ({
         titleSlot,
         actionsSlot,
         anchored,
+        hideBack,
         setConfig,
     ]);
 };

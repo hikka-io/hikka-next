@@ -32,7 +32,12 @@ export const Route = createFileRoute('/_pages/anime/')({
 function AnimeListPage() {
     const titleAnchor = usePageTitleAnchor();
 
-    usePageHeader({ title: 'Каталог аніме', parent: '/', anchored: true });
+    usePageHeader({
+        title: 'Каталог аніме',
+        parent: '/',
+        anchored: true,
+        hideBack: true,
+    });
 
     const { visible: sidebarVisible } = useFiltersSidebar();
     const { view } = useCatalogView('catalog');

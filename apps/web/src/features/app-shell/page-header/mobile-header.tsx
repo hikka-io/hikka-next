@@ -101,7 +101,10 @@ const MobileHeader = () => {
         navUrlPrefix,
         titleComponent: TitleComponent,
         actionsComponent: ActionsComponent,
+        hideBack,
     } = config ?? {};
+
+    const showBack = !hideBack;
 
     const goBack = () => {
         if (canGoBack) {
@@ -123,19 +126,23 @@ const MobileHeader = () => {
                         'border-b-border bg-background/80 backdrop-blur-xl backdrop-saturate-150',
                 )}
             >
-                <div className="flex h-14 items-center gap-1 px-2">
-                    <Button
-                        variant="ghost"
-                        size="icon-md"
-                        className={cn(
-                            '[&_svg]:size-6',
-                            !hasHistory && 'text-muted-foreground',
-                        )}
-                        aria-label={hasHistory ? 'Назад' : 'На рівень вище'}
-                        onClick={goBack}
-                    >
-                        <ChevronLeft />
-                    </Button>
+                <div
+                    className={cn(
+                        'flex h-14 items-center gap-1 px-2',
+                        !showBack && 'pl-4',
+                    )}
+                >
+                    {showBack && (
+                        <Button
+                            variant="ghost"
+                            size="icon-md"
+                            className="[&_svg]:size-6"
+                            aria-label={hasHistory ? 'Назад' : 'На рівень вище'}
+                            onClick={goBack}
+                        >
+                            <ChevronLeft />
+                        </Button>
+                    )}
                     <div
                         className={cn(
                             'flex min-w-0 flex-1 flex-col justify-center',

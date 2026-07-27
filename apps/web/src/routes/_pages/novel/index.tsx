@@ -32,7 +32,12 @@ export const Route = createFileRoute('/_pages/novel/')({
 function NovelListPage() {
     const titleAnchor = usePageTitleAnchor();
 
-    usePageHeader({ title: 'Каталог ранобе', parent: '/', anchored: true });
+    usePageHeader({
+        title: 'Каталог ранобе',
+        parent: '/',
+        anchored: true,
+        hideBack: true,
+    });
 
     const { visible: sidebarVisible } = useFiltersSidebar();
     const { view } = useCatalogView('catalog');

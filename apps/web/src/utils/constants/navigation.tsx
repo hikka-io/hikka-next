@@ -402,6 +402,9 @@ export function isNavActive(pathname: string, url: string): boolean {
     return pathname === url || pathname.startsWith(`${url}/`);
 }
 
+/** Catalog roots reachable from the mobile tab bar's Каталог tab. */
+export const CATALOG_ROOT_LINKS = ['/anime', '/manga', '/novel'];
+
 export const CONTENT_TYPE_LINKS: Record<ContentTypeEnum, string> = {
     [ContentTypeEnum.PERSON]: '/people',
     [ContentTypeEnum.CHARACTER]: '/characters',

@@ -13,7 +13,7 @@ import {
 } from '@/features/notifications';
 import { SearchModal } from '@/features/search';
 import { cn } from '@/utils/cn';
-import { isNavActive } from '@/utils/constants/navigation';
+import { CATALOG_ROOT_LINKS, isNavActive } from '@/utils/constants/navigation';
 import { Link, usePathname } from '@/utils/navigation';
 
 import MoreSheet from './more-sheet';
@@ -49,7 +49,7 @@ const MobileTabBar = () => {
     const pathname = usePathname();
     const { user } = useSession();
 
-    const catalogRoot = ['/anime', '/manga', '/novel'].find((url) =>
+    const catalogRoot = CATALOG_ROOT_LINKS.find((url) =>
         isNavActive(pathname, url),
     );
     const isCatalog = !!catalogRoot;

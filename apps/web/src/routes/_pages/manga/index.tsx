@@ -31,7 +31,12 @@ export const Route = createFileRoute('/_pages/manga/')({
 function MangaListPage() {
     const titleAnchor = usePageTitleAnchor();
 
-    usePageHeader({ title: 'Каталог манґи', parent: '/', anchored: true });
+    usePageHeader({
+        title: 'Каталог манґи',
+        parent: '/',
+        anchored: true,
+        hideBack: true,
+    });
 
     const { visible: sidebarVisible } = useFiltersSidebar();
     const { view } = useCatalogView('catalog');
