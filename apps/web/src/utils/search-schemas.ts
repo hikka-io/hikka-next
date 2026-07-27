@@ -108,6 +108,7 @@ export const editNewSearchSchema = z.object({
 
 export const commentsSearchSchema = z.object({
     comment_type: z.enum(['comment', 'review']).optional().catch(undefined),
+    recommended: z.enum(['yes', 'no', 'maybe']).optional().catch(undefined),
     sort: z.enum(COMMENT_SORT_VALUES).optional().catch(undefined),
     order: z.enum(['asc', 'desc']).optional().catch(undefined),
 });

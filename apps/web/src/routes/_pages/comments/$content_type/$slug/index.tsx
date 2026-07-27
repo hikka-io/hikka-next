@@ -19,6 +19,7 @@ import {
 } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
 import { getCommentSort } from '@/features/comments/utils/comment-sort';
+import type { Verdict } from '@/features/comments/utils/review';
 import { useChangeParam } from '@/features/filters';
 import {
     type CommentOrder,
@@ -36,6 +37,8 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
         const { content_type, slug } = params;
         const commentType = deps.comment_type ?? 'all';
         const sort = getCommentSort(deps.sort, deps.order);
+        const recommended =
+            commentType === 'review' ? deps.recommended : undefined;
 
         const content = await prefetchContent({
             content_type: content_type as ContentTypeEnum,
@@ -62,7 +65,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
                         content_type: content_type as CommentsContentType,
                         slug,
                     },
-                    body: { comment_type: commentType, sort },
+                    body: { comment_type: commentType, sort, recommended },
                     client: apiClient,
                 }),
                 ...paginationPageParam(),
@@ -85,8 +88,9 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
 
 function CommentsPage() {
     const { content_type, slug } = Route.useParams();
-    const { comment_type, sort, order } = Route.useSearch();
+    const { comment_type, recommended, sort, order } = Route.useSearch();
     const { content } = Route.useLoaderData();
+    const navigate = Route.useNavigate();
     const changeParam = useChangeParam();
     const contentTitle =
         useContentTitle(content_type as ContentTypeEnum, content) || undefined;
@@ -99,8 +103,31 @@ function CommentsPage() {
     });
 
     const commentType = comment_type ?? 'all';
+
+    // Both handlers write every affected key in one navigation — `useChangeParam`
+    // writes a single key per async navigate, so two calls in a tick can drop one.
     const handleCommentTypeChange = (type: string) =>
-        changeParam('comment_type', type === 'all' ? '' : type);
+        navigate({
+            search: (prev) => ({
+                ...prev,
+                comment_type:
+                    type === 'all' ? undefined : (type as 'comment' | 'review'),
+                recommended: type === 'review' ? prev.recommended : undefined,
+            }),
+            replace: true,
+            resetScroll: false,
+        });
+
+    const handleVerdictChange = (next: Verdict | null) =>
+        navigate({
+            search: (prev) => ({
+                ...prev,
+                comment_type: 'review' as const,
+                recommended: next ?? undefined,
+            }),
+            replace: true,
+            resetScroll: false,
+        });
 
     const sortProps = {
         sort: sort ?? DEFAULT_COMMENT_SORT,
@@ -136,6 +163,8 @@ function CommentsPage() {
                         contentTitle={contentTitle}
                         commentType={commentType}
                         onCommentTypeChange={handleCommentTypeChange}
+                        verdict={recommended ?? null}
+                        onVerdictChange={handleVerdictChange}
                         {...sortProps}
                     />
                 )}
