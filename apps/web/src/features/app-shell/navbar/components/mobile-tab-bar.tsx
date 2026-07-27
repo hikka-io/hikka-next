@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from 'react';
+import type { FC, MouseEvent, ReactNode } from 'react';
 
 import HikkaIcon from '@/components/icons/custom/HikkaIcon';
 import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
@@ -53,6 +53,17 @@ const MobileTabBar = () => {
         isNavActive(pathname, url),
     );
     const isCatalog = !!catalogRoot;
+    const catalogUrl = catalogRoot ?? '/anime';
+
+    const scrollToTopIfCurrent =
+        (url: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+            if (pathname !== url) {
+                return;
+            }
+
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
 
     return (
         <nav className="fixed inset-x-0 bottom-0 z-30 h-[var(--tab-bar-height)] border-t border-t-border bg-background/80 pb-[var(--safe-area-bottom)] backdrop-blur-xl backdrop-saturate-150 md:hidden">
@@ -62,6 +73,7 @@ const MobileTabBar = () => {
                     className={tabClassName}
                     data-active={pathname === '/'}
                     aria-current={pathname === '/' ? 'page' : undefined}
+                    onClick={scrollToTopIfCurrent('/')}
                 >
                     <Tab label="Головна">
                         <HikkaIcon />
@@ -69,11 +81,12 @@ const MobileTabBar = () => {
                 </Link>
 
                 <Link
-                    to={catalogRoot ?? '/anime'}
+                    to={catalogUrl}
                     activeOptions={{ exact: true }}
                     className={tabClassName}
                     data-active={isCatalog}
                     aria-current={isCatalog ? 'true' : undefined}
+                    onClick={scrollToTopIfCurrent(catalogUrl)}
                 >
                     <Tab label="Каталог">
                         <MaterialSymbolsGridViewRounded />
