@@ -138,7 +138,7 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
 
     return (
         <>
-            <div className="flex flex-col gap-4 rounded-md border surface p-4 md:flex-row md:items-center">
+            <div className="surface -mx-4 flex flex-col gap-4 rounded-none border border-x-0 p-4 md:mx-0 md:flex-row md:items-center md:rounded-md md:border-x">
                 <div className="flex flex-1 items-center gap-4">
                     <Select
                         value={[status]}
