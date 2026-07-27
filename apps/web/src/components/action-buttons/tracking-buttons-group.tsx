@@ -9,10 +9,10 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
-    type AnimeCatalogResponse,
+    type AnimeResponseWithWatch,
     ContentTypeEnum,
-    type MangaCatalogResponse,
-    type NovelCatalogResponse,
+    type MangaResponseWithRead,
+    type NovelResponseWithRead,
     type ReadArgs,
     ReadStatusEnum,
     readAddMutation,
@@ -59,17 +59,17 @@ type Props = { size?: TrackingSize } & (
     | {
           title: string;
           type: typeof ContentTypeEnum.ANIME;
-          item: AnimeCatalogResponse;
+          item: AnimeResponseWithWatch;
       }
     | {
           title: string;
           type: typeof ContentTypeEnum.MANGA;
-          item: MangaCatalogResponse;
+          item: MangaResponseWithRead;
       }
     | {
           title: string;
           type: typeof ContentTypeEnum.NOVEL;
-          item: NovelCatalogResponse;
+          item: NovelResponseWithRead;
       }
 );
 
@@ -103,7 +103,7 @@ const WATCH_STATUS_OPTIONS = buildStatusOptions(WATCH_STATUS);
 const READ_STATUS_OPTIONS = buildStatusOptions(READ_STATUS);
 
 const buildWatchArgs = (
-    item: AnimeCatalogResponse,
+    item: AnimeResponseWithWatch,
     status: string,
 ): WatchArgs => {
     const watch = item.watch?.[0];
@@ -128,7 +128,7 @@ const buildWatchArgs = (
 };
 
 const buildReadArgs = (
-    item: MangaCatalogResponse | NovelCatalogResponse,
+    item: MangaResponseWithRead | NovelResponseWithRead,
     status: string,
 ): ReadArgs => {
     const read = item.read?.[0];
@@ -297,7 +297,7 @@ function WatchTrackingButtons({
 }: {
     title: string;
     size: TrackingSize;
-    item: AnimeCatalogResponse;
+    item: AnimeResponseWithWatch;
 }) {
     const queryClient = useQueryClient();
     const [editOpen, setEditOpen] = useState(false);
@@ -376,7 +376,7 @@ function ReadTrackingButtons({
     title: string;
     size: TrackingSize;
     type: typeof ContentTypeEnum.MANGA | typeof ContentTypeEnum.NOVEL;
-    item: MangaCatalogResponse | NovelCatalogResponse;
+    item: MangaResponseWithRead | NovelResponseWithRead;
 }) {
     const queryClient = useQueryClient();
     const [editOpen, setEditOpen] = useState(false);

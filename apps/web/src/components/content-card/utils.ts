@@ -5,6 +5,33 @@ import type {
 } from '@hikka/api';
 
 import type { ContentCardProps } from './content-card';
+import type { MediaTooltipItem } from './tooltips';
+
+const TRACKING_KEY = {
+    anime: 'watch',
+    manga: 'read',
+    novel: 'read',
+} as const satisfies Record<MediaTooltipItem['data_type'], 'watch' | 'read'>;
+
+/**
+ * The tooltip can serve itself from a list item only when that item carries
+ * both `genres` and its tracking array — some responses declare the full shape
+ * but ship content without `watch`/`read`, and those must keep fetching.
+ */
+export function getTooltipItem<T extends string>(
+    entity: { data_type: string } | null | undefined,
+    dataType: T,
+): Extract<MediaTooltipItem, { data_type: T }> | undefined {
+    if (!entity || entity.data_type !== dataType) return undefined;
+
+    const trackingKey = TRACKING_KEY[dataType as MediaTooltipItem['data_type']];
+
+    if (!trackingKey || !('genres' in entity) || !(trackingKey in entity)) {
+        return undefined;
+    }
+
+    return entity as Extract<MediaTooltipItem, { data_type: T }>;
+}
 
 interface MediaEntity {
     slug: string;
@@ -22,9 +49,6 @@ interface MediaCardConfig {
 export function getMediaCardProps(
     entity: MediaEntity,
     config: MediaCardConfig,
-    // `null` = the payload carried an empty tracking array, so the entry is
-    // known to be absent; `undefined` = unknown. Consumers skip their own
-    // lookup on `null`.
     status?: {
         watch?: WatchResponseBase | null;
         read?: ReadResponseBase | null;

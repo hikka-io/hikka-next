@@ -6579,7 +6579,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AnimeCatalogPaginationResponse"
+                  "$ref": "#/components/schemas/AnimePaginationResponse"
                 }
               }
             }
@@ -7114,7 +7114,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MangaCatalogPaginationResponse"
+                  "$ref": "#/components/schemas/MangaPaginationResponse"
                 }
               }
             }
@@ -7321,7 +7321,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NovelCatalogPaginationResponse"
+                  "$ref": "#/components/schemas/NovelPaginationResponse"
                 }
               }
             }
@@ -10675,356 +10675,6 @@
         ],
         "title": "AnimeAgeRatingEnum"
       },
-      "AnimeCatalogPaginationResponse": {
-        "properties": {
-          "pagination": {
-            "$ref": "#/components/schemas/PaginationResponse"
-          },
-          "list": {
-            "items": {
-              "$ref": "#/components/schemas/AnimeCatalogResponse"
-            },
-            "type": "array",
-            "title": "List"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "pagination",
-          "list"
-        ],
-        "title": "AnimeCatalogPaginationResponse"
-      },
-      "AnimeCatalogResponse": {
-        "properties": {
-          "data_type": {
-            "type": "string",
-            "const": "anime",
-            "title": "Data Type"
-          },
-          "media_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Media Type",
-            "examples": [
-              "tv"
-            ]
-          },
-          "title_ua": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title Ua",
-            "examples": [
-              "Цей прекрасний світ, благословенний Богом!"
-            ]
-          },
-          "title_en": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title En",
-            "examples": [
-              "KonoSuba: God's Blessing on This Wonderful World!"
-            ]
-          },
-          "title_ja": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title Ja",
-            "examples": [
-              "Kono Subarashii Sekai ni Shukufuku wo!"
-            ]
-          },
-          "episodes_released": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Episodes Released",
-            "examples": [
-              "10"
-            ]
-          },
-          "episodes_total": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Episodes Total",
-            "examples": [
-              "10"
-            ]
-          },
-          "image": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Image",
-            "examples": [
-              "https://cdn.hikka.io/hikka.jpg"
-            ]
-          },
-          "status": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Status",
-            "examples": [
-              "finished"
-            ]
-          },
-          "native_scored_by": {
-            "type": "integer",
-            "title": "Native Scored By",
-            "examples": [
-              1210150
-            ]
-          },
-          "native_score": {
-            "type": "number",
-            "title": "Native Score",
-            "examples": [
-              8.11
-            ]
-          },
-          "scored_by": {
-            "type": "integer",
-            "title": "Scored By",
-            "examples": [
-              1210150
-            ]
-          },
-          "score": {
-            "type": "number",
-            "title": "Score",
-            "examples": [
-              8.11
-            ]
-          },
-          "slug": {
-            "type": "string",
-            "title": "Slug",
-            "examples": [
-              "kono-subarashii-sekai-ni-shukufuku-wo-123456"
-            ]
-          },
-          "start_date": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Start Date"
-          },
-          "end_date": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "End Date"
-          },
-          "created": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Created"
-          },
-          "updated": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Updated"
-          },
-          "translated_ua": {
-            "type": "boolean",
-            "title": "Translated Ua"
-          },
-          "season": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Season"
-          },
-          "source": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Source"
-          },
-          "rating": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Rating"
-          },
-          "year": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Year"
-          },
-          "mal_id": {
-            "type": "integer",
-            "title": "Mal Id"
-          },
-          "watch": {
-            "items": {
-              "$ref": "#/components/schemas/WatchResponseBase"
-            },
-            "type": "array",
-            "title": "Watch"
-          },
-          "genres": {
-            "items": {
-              "$ref": "#/components/schemas/GenreResponse"
-            },
-            "type": "array",
-            "title": "Genres"
-          },
-          "studios": {
-            "items": {
-              "$ref": "#/components/schemas/CompanyResponse"
-            },
-            "type": "array",
-            "title": "Studios"
-          },
-          "synopsis_en": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Synopsis En"
-          },
-          "synopsis_ua": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Synopsis Ua"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "data_type",
-          "media_type",
-          "title_ua",
-          "title_en",
-          "title_ja",
-          "episodes_released",
-          "episodes_total",
-          "image",
-          "status",
-          "native_scored_by",
-          "native_score",
-          "scored_by",
-          "score",
-          "slug",
-          "start_date",
-          "end_date",
-          "created",
-          "updated",
-          "translated_ua",
-          "season",
-          "source",
-          "rating",
-          "year",
-          "mal_id",
-          "watch",
-          "genres",
-          "studios",
-          "synopsis_en",
-          "synopsis_ua"
-        ],
-        "title": "AnimeCatalogResponse"
-      },
       "AnimeCompanyResponse": {
         "properties": {
           "company": {
@@ -11918,294 +11568,20 @@
           "mal_id": {
             "type": "integer",
             "title": "Mal Id"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "data_type",
-          "media_type",
-          "title_ua",
-          "title_en",
-          "title_ja",
-          "episodes_released",
-          "episodes_total",
-          "image",
-          "status",
-          "native_scored_by",
-          "native_score",
-          "scored_by",
-          "score",
-          "slug",
-          "start_date",
-          "end_date",
-          "created",
-          "updated",
-          "translated_ua",
-          "season",
-          "source",
-          "rating",
-          "year",
-          "mal_id"
-        ],
-        "title": "AnimeResponse"
-      },
-      "AnimeResponseWithSynopsis": {
-        "properties": {
-          "data_type": {
-            "type": "string",
-            "const": "anime",
-            "title": "Data Type"
           },
-          "media_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Media Type",
-            "examples": [
-              "tv"
-            ]
-          },
-          "title_ua": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title Ua",
-            "examples": [
-              "Цей прекрасний світ, благословенний Богом!"
-            ]
-          },
-          "title_en": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title En",
-            "examples": [
-              "KonoSuba: God's Blessing on This Wonderful World!"
-            ]
-          },
-          "title_ja": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title Ja",
-            "examples": [
-              "Kono Subarashii Sekai ni Shukufuku wo!"
-            ]
-          },
-          "episodes_released": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Episodes Released",
-            "examples": [
-              "10"
-            ]
-          },
-          "episodes_total": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Episodes Total",
-            "examples": [
-              "10"
-            ]
-          },
-          "image": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Image",
-            "examples": [
-              "https://cdn.hikka.io/hikka.jpg"
-            ]
-          },
-          "status": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Status",
-            "examples": [
-              "finished"
-            ]
-          },
-          "native_scored_by": {
-            "type": "integer",
-            "title": "Native Scored By",
-            "examples": [
-              1210150
-            ]
-          },
-          "native_score": {
-            "type": "number",
-            "title": "Native Score",
-            "examples": [
-              8.11
-            ]
-          },
-          "scored_by": {
-            "type": "integer",
-            "title": "Scored By",
-            "examples": [
-              1210150
-            ]
-          },
-          "score": {
-            "type": "number",
-            "title": "Score",
-            "examples": [
-              8.11
-            ]
-          },
-          "slug": {
-            "type": "string",
-            "title": "Slug",
-            "examples": [
-              "kono-subarashii-sekai-ni-shukufuku-wo-123456"
-            ]
-          },
-          "start_date": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Start Date"
-          },
-          "end_date": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "End Date"
-          },
-          "created": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Created"
-          },
-          "updated": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Updated"
-          },
-          "translated_ua": {
-            "type": "boolean",
-            "title": "Translated Ua"
-          },
-          "season": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Season"
-          },
-          "source": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Source"
-          },
-          "rating": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Rating"
-          },
-          "year": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Year"
-          },
-          "mal_id": {
-            "type": "integer",
-            "title": "Mal Id"
-          },
-          "watch": {
+          "studios": {
             "items": {
-              "$ref": "#/components/schemas/WatchResponseBase"
+              "$ref": "#/components/schemas/CompanyResponse"
             },
             "type": "array",
-            "title": "Watch"
+            "title": "Studios"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
           },
           "synopsis_en": {
             "anyOf": [
@@ -12257,11 +11633,12 @@
           "rating",
           "year",
           "mal_id",
-          "watch",
+          "studios",
+          "genres",
           "synopsis_en",
           "synopsis_ua"
         ],
-        "title": "AnimeResponseWithSynopsis"
+        "title": "AnimeResponse"
       },
       "AnimeResponseWithWatch": {
         "properties": {
@@ -12513,6 +11890,42 @@
             "type": "integer",
             "title": "Mal Id"
           },
+          "studios": {
+            "items": {
+              "$ref": "#/components/schemas/CompanyResponse"
+            },
+            "type": "array",
+            "title": "Studios"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
+          },
+          "synopsis_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis En"
+          },
+          "synopsis_ua": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis Ua"
+          },
           "watch": {
             "items": {
               "$ref": "#/components/schemas/WatchResponseBase"
@@ -12548,6 +11961,10 @@
           "rating",
           "year",
           "mal_id",
+          "studios",
+          "genres",
+          "synopsis_en",
+          "synopsis_ua",
           "watch"
         ],
         "title": "AnimeResponseWithWatch"
@@ -12604,7 +12021,7 @@
       "AnimeScheduleResponse": {
         "properties": {
           "anime": {
-            "$ref": "#/components/schemas/AnimeResponseWithSynopsis"
+            "$ref": "#/components/schemas/AnimeResponseWithWatch"
           },
           "time_left": {
             "type": "integer",
@@ -16531,6 +15948,42 @@
             "type": "integer",
             "title": "Mal Id"
           },
+          "studios": {
+            "items": {
+              "$ref": "#/components/schemas/CompanyResponse"
+            },
+            "type": "array",
+            "title": "Studios"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
+          },
+          "synopsis_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis En"
+          },
+          "synopsis_ua": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis Ua"
+          },
           "watch": {
             "items": {
               "$ref": "#/components/schemas/WatchResponseBase"
@@ -16567,6 +16020,10 @@
           "rating",
           "year",
           "mal_id",
+          "studios",
+          "genres",
+          "synopsis_en",
+          "synopsis_ua",
           "watch"
         ],
         "title": "FavouriteAnimeResponse"
@@ -16971,6 +16428,42 @@
             "type": "string",
             "title": "Slug"
           },
+          "magazines": {
+            "items": {
+              "$ref": "#/components/schemas/MagazineResponse"
+            },
+            "type": "array",
+            "title": "Magazines"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
+          },
+          "synopsis_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis En"
+          },
+          "synopsis_ua": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis Ua"
+          },
           "read": {
             "items": {
               "$ref": "#/components/schemas/ReadResponseBase"
@@ -17004,6 +16497,10 @@
           "score",
           "mal_id",
           "slug",
+          "magazines",
+          "genres",
+          "synopsis_en",
+          "synopsis_ua",
           "read"
         ],
         "title": "FavouriteMangaResponse"
@@ -17190,6 +16687,42 @@
             "type": "string",
             "title": "Slug"
           },
+          "magazines": {
+            "items": {
+              "$ref": "#/components/schemas/MagazineResponse"
+            },
+            "type": "array",
+            "title": "Magazines"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
+          },
+          "synopsis_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis En"
+          },
+          "synopsis_ua": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis Ua"
+          },
           "read": {
             "items": {
               "$ref": "#/components/schemas/ReadResponseBase"
@@ -17223,6 +16756,10 @@
           "score",
           "mal_id",
           "slug",
+          "magazines",
+          "genres",
+          "synopsis_en",
+          "synopsis_ua",
           "read"
         ],
         "title": "FavouriteNovelResponse"
@@ -18183,281 +17720,6 @@
         ],
         "title": "MagazineResponse"
       },
-      "MangaCatalogPaginationResponse": {
-        "properties": {
-          "pagination": {
-            "$ref": "#/components/schemas/PaginationResponse"
-          },
-          "list": {
-            "items": {
-              "$ref": "#/components/schemas/MangaCatalogResponse"
-            },
-            "type": "array",
-            "title": "List"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "pagination",
-          "list"
-        ],
-        "title": "MangaCatalogPaginationResponse"
-      },
-      "MangaCatalogResponse": {
-        "properties": {
-          "data_type": {
-            "type": "string",
-            "const": "manga",
-            "title": "Data Type"
-          },
-          "start_date": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Start Date"
-          },
-          "end_date": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "End Date"
-          },
-          "created": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Created"
-          },
-          "updated": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Updated"
-          },
-          "title_original": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title Original"
-          },
-          "media_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Media Type"
-          },
-          "native_scored_by": {
-            "type": "integer",
-            "title": "Native Scored By"
-          },
-          "title_ua": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title Ua"
-          },
-          "title_en": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title En"
-          },
-          "chapters": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Chapters"
-          },
-          "volumes": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Volumes"
-          },
-          "translated_ua": {
-            "type": "boolean",
-            "title": "Translated Ua"
-          },
-          "native_score": {
-            "type": "number",
-            "title": "Native Score"
-          },
-          "status": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Status"
-          },
-          "image": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Image"
-          },
-          "year": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Year"
-          },
-          "scored_by": {
-            "type": "integer",
-            "title": "Scored By"
-          },
-          "score": {
-            "type": "number",
-            "title": "Score"
-          },
-          "mal_id": {
-            "type": "integer",
-            "title": "Mal Id"
-          },
-          "slug": {
-            "type": "string",
-            "title": "Slug"
-          },
-          "read": {
-            "items": {
-              "$ref": "#/components/schemas/ReadResponseBase"
-            },
-            "type": "array",
-            "title": "Read"
-          },
-          "genres": {
-            "items": {
-              "$ref": "#/components/schemas/GenreResponse"
-            },
-            "type": "array",
-            "title": "Genres"
-          },
-          "magazines": {
-            "items": {
-              "$ref": "#/components/schemas/MagazineResponse"
-            },
-            "type": "array",
-            "title": "Magazines"
-          },
-          "synopsis_en": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Synopsis En"
-          },
-          "synopsis_ua": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Synopsis Ua"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "data_type",
-          "start_date",
-          "end_date",
-          "created",
-          "updated",
-          "title_original",
-          "media_type",
-          "native_scored_by",
-          "title_ua",
-          "title_en",
-          "chapters",
-          "volumes",
-          "translated_ua",
-          "native_score",
-          "status",
-          "image",
-          "year",
-          "scored_by",
-          "score",
-          "mal_id",
-          "slug",
-          "read",
-          "genres",
-          "magazines",
-          "synopsis_en",
-          "synopsis_ua"
-        ],
-        "title": "MangaCatalogResponse"
-      },
       "MangaInfoResponse": {
         "properties": {
           "data_type": {
@@ -18956,6 +18218,42 @@
           "slug": {
             "type": "string",
             "title": "Slug"
+          },
+          "magazines": {
+            "items": {
+              "$ref": "#/components/schemas/MagazineResponse"
+            },
+            "type": "array",
+            "title": "Magazines"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
+          },
+          "synopsis_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis En"
+          },
+          "synopsis_ua": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis Ua"
           }
         },
         "additionalProperties": false,
@@ -18981,7 +18279,11 @@
           "scored_by",
           "score",
           "mal_id",
-          "slug"
+          "slug",
+          "magazines",
+          "genres",
+          "synopsis_en",
+          "synopsis_ua"
         ],
         "title": "MangaResponse"
       },
@@ -19163,6 +18465,42 @@
             "type": "string",
             "title": "Slug"
           },
+          "magazines": {
+            "items": {
+              "$ref": "#/components/schemas/MagazineResponse"
+            },
+            "type": "array",
+            "title": "Magazines"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
+          },
+          "synopsis_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis En"
+          },
+          "synopsis_ua": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis Ua"
+          },
           "read": {
             "items": {
               "$ref": "#/components/schemas/ReadResponseBase"
@@ -19195,6 +18533,10 @@
           "score",
           "mal_id",
           "slug",
+          "magazines",
+          "genres",
+          "synopsis_en",
+          "synopsis_ua",
           "read"
         ],
         "title": "MangaResponseWithRead"
@@ -19450,281 +18792,6 @@
           "unseen"
         ],
         "title": "NotificationUnseenResponse"
-      },
-      "NovelCatalogPaginationResponse": {
-        "properties": {
-          "pagination": {
-            "$ref": "#/components/schemas/PaginationResponse"
-          },
-          "list": {
-            "items": {
-              "$ref": "#/components/schemas/NovelCatalogResponse"
-            },
-            "type": "array",
-            "title": "List"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "pagination",
-          "list"
-        ],
-        "title": "NovelCatalogPaginationResponse"
-      },
-      "NovelCatalogResponse": {
-        "properties": {
-          "data_type": {
-            "type": "string",
-            "const": "novel",
-            "title": "Data Type"
-          },
-          "start_date": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Start Date"
-          },
-          "end_date": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "End Date"
-          },
-          "created": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Created"
-          },
-          "updated": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Updated"
-          },
-          "title_original": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title Original"
-          },
-          "media_type": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Media Type"
-          },
-          "native_scored_by": {
-            "type": "integer",
-            "title": "Native Scored By"
-          },
-          "title_ua": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title Ua"
-          },
-          "title_en": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Title En"
-          },
-          "chapters": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Chapters"
-          },
-          "volumes": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Volumes"
-          },
-          "translated_ua": {
-            "type": "boolean",
-            "title": "Translated Ua"
-          },
-          "native_score": {
-            "type": "number",
-            "title": "Native Score"
-          },
-          "status": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Status"
-          },
-          "image": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Image"
-          },
-          "year": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Year"
-          },
-          "scored_by": {
-            "type": "integer",
-            "title": "Scored By"
-          },
-          "score": {
-            "type": "number",
-            "title": "Score"
-          },
-          "mal_id": {
-            "type": "integer",
-            "title": "Mal Id"
-          },
-          "slug": {
-            "type": "string",
-            "title": "Slug"
-          },
-          "read": {
-            "items": {
-              "$ref": "#/components/schemas/ReadResponseBase"
-            },
-            "type": "array",
-            "title": "Read"
-          },
-          "genres": {
-            "items": {
-              "$ref": "#/components/schemas/GenreResponse"
-            },
-            "type": "array",
-            "title": "Genres"
-          },
-          "magazines": {
-            "items": {
-              "$ref": "#/components/schemas/MagazineResponse"
-            },
-            "type": "array",
-            "title": "Magazines"
-          },
-          "synopsis_en": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Synopsis En"
-          },
-          "synopsis_ua": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Synopsis Ua"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "data_type",
-          "start_date",
-          "end_date",
-          "created",
-          "updated",
-          "title_original",
-          "media_type",
-          "native_scored_by",
-          "title_ua",
-          "title_en",
-          "chapters",
-          "volumes",
-          "translated_ua",
-          "native_score",
-          "status",
-          "image",
-          "year",
-          "scored_by",
-          "score",
-          "mal_id",
-          "slug",
-          "read",
-          "genres",
-          "magazines",
-          "synopsis_en",
-          "synopsis_ua"
-        ],
-        "title": "NovelCatalogResponse"
       },
       "NovelInfoResponse": {
         "properties": {
@@ -20202,6 +19269,42 @@
           "slug": {
             "type": "string",
             "title": "Slug"
+          },
+          "magazines": {
+            "items": {
+              "$ref": "#/components/schemas/MagazineResponse"
+            },
+            "type": "array",
+            "title": "Magazines"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
+          },
+          "synopsis_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis En"
+          },
+          "synopsis_ua": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis Ua"
           }
         },
         "additionalProperties": false,
@@ -20227,7 +19330,11 @@
           "scored_by",
           "score",
           "mal_id",
-          "slug"
+          "slug",
+          "magazines",
+          "genres",
+          "synopsis_en",
+          "synopsis_ua"
         ],
         "title": "NovelResponse"
       },
@@ -20409,6 +19516,42 @@
             "type": "string",
             "title": "Slug"
           },
+          "magazines": {
+            "items": {
+              "$ref": "#/components/schemas/MagazineResponse"
+            },
+            "type": "array",
+            "title": "Magazines"
+          },
+          "genres": {
+            "items": {
+              "$ref": "#/components/schemas/GenreResponse"
+            },
+            "type": "array",
+            "title": "Genres"
+          },
+          "synopsis_en": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis En"
+          },
+          "synopsis_ua": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Synopsis Ua"
+          },
           "read": {
             "items": {
               "$ref": "#/components/schemas/ReadResponseBase"
@@ -20441,6 +19584,10 @@
           "score",
           "mal_id",
           "slug",
+          "magazines",
+          "genres",
+          "synopsis_en",
+          "synopsis_ua",
           "read"
         ],
         "title": "NovelResponseWithRead"

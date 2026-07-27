@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import {
-    type AnimeCatalogResponse,
+    type AnimeResponse,
     type AnimeResponseWithWatch,
     ContentTypeEnum,
 } from '@hikka/api';
@@ -10,10 +10,10 @@ import { useTitle } from '@/features/auth/hooks/use-title';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 
 import ContentCard, { type ContentCardProps } from './content-card';
-import { getMediaCardProps } from './utils';
+import { getMediaCardProps, getTooltipItem } from './utils';
 
 type Props = ContentCardProps & {
-    item: AnimeResponseWithWatch | AnimeCatalogResponse;
+    item: AnimeResponseWithWatch | AnimeResponse;
 };
 
 const AnimeCard: FC<Props> = ({ item, ...props }) => {
@@ -28,9 +28,12 @@ const AnimeCard: FC<Props> = ({ item, ...props }) => {
                     basePath: '/anime',
                     mediaTypeMap: ANIME_MEDIA_TYPE,
                 },
-                { watch: item.watch ? (item.watch[0] ?? null) : undefined },
+                {
+                    watch:
+                        'watch' in item ? (item.watch[0] ?? null) : undefined,
+                },
             )}
-            tooltipItem={'genres' in item && 'watch' in item ? item : undefined}
+            tooltipItem={getTooltipItem(item, 'anime')}
             title={title}
             {...props}
         />

@@ -16,4 +16,5 @@ export {
     PersonTooltip,
     UserTooltip,
 } from './tooltips';
+export { getMediaCardProps, getTooltipItem } from './utils';
 export { default as VoiceCard } from './voice-card';

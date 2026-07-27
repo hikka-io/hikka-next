@@ -82,7 +82,7 @@ export type ContentCardProps = VariantProps<typeof contentCardVariants> & {
     disableChildrenLink?: boolean;
     children?: ReactNode;
     onClick?: MouseEventHandler<HTMLDivElement>;
-    // `null` = known untracked, `undefined` = unknown. See `getMediaCardProps`.
+    // `null` = known untracked, `undefined` = unknown.
     watch?: WatchResponseBase | null;
     read?: ReadResponseBase | null;
     slug?: string;

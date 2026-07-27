@@ -3,7 +3,7 @@ import { type FC, memo, type PropsWithChildren } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import {
-    type AnimeCatalogResponse,
+    type AnimeResponseWithWatch,
     animeSlugOptions,
     ContentTypeEnum,
     type WatchResponseBase,
@@ -17,6 +17,7 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 
+import { getTooltipItem } from '../utils';
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent from './media-tooltip-content';
 import { MediaTooltipSkeleton } from './tooltip-skeleton';
@@ -25,7 +26,7 @@ import type { MediaTooltipItem } from './types';
 type TooltipDataProps = {
     slug: string;
     watch?: WatchResponseBase | null;
-    item?: AnimeCatalogResponse;
+    item?: AnimeResponseWithWatch;
 };
 
 type Props = PropsWithChildren & {
@@ -115,7 +116,7 @@ const AnimeTooltip: FC<Props> = ({ slug, children, watch, item }) => {
                 <TooltipData
                     slug={slug}
                     watch={watch}
-                    item={item?.data_type === 'anime' ? item : undefined}
+                    item={getTooltipItem(item, 'anime')}
                 />
             }
         >

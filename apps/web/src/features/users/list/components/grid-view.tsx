@@ -1,11 +1,8 @@
 import type { FC } from 'react';
 
 import {
-    type AnimeResponseWithWatch,
     ContentTypeEnum,
     type MainContentTypeEnum,
-    type MangaResponseWithRead,
-    type NovelResponseWithRead,
     type ReadResponse,
     type WatchResponse,
 } from '@hikka/api';
@@ -29,13 +26,13 @@ const GridView: FC<Props> = ({ data, content_type, extendedSize = 5 }) => {
                     res.content.data_type === 'manga' ? (
                         <MangaCard
                             read={res}
-                            item={res.content as MangaResponseWithRead}
+                            item={res.content}
                             key={res.reference}
                         />
                     ) : (
                         <NovelCard
                             read={res}
-                            item={res.content as NovelResponseWithRead}
+                            item={res.content}
                             key={res.reference}
                         />
                     ),
@@ -44,7 +41,7 @@ const GridView: FC<Props> = ({ data, content_type, extendedSize = 5 }) => {
                 (data as WatchResponse[]).map((res) => (
                     <AnimeCard
                         watch={res}
-                        item={res.anime as AnimeResponseWithWatch}
+                        item={res.anime}
                         key={res.reference}
                     />
                 ))}

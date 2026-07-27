@@ -37,139 +37,6 @@ export type AnimeAgeRatingEnum =
     (typeof AnimeAgeRatingEnum)[keyof typeof AnimeAgeRatingEnum];
 
 /**
- * AnimeCatalogPaginationResponse
- */
-export type AnimeCatalogPaginationResponse = {
-    pagination: PaginationResponse;
-    /**
-     * List
-     */
-    list: Array<AnimeCatalogResponse>;
-};
-
-/**
- * AnimeCatalogResponse
- */
-export type AnimeCatalogResponse = {
-    /**
-     * Data Type
-     */
-    data_type: 'anime';
-    /**
-     * Media Type
-     */
-    media_type: string | null;
-    /**
-     * Title Ua
-     */
-    title_ua: string | null;
-    /**
-     * Title En
-     */
-    title_en: string | null;
-    /**
-     * Title Ja
-     */
-    title_ja: string | null;
-    /**
-     * Episodes Released
-     */
-    episodes_released: number | null;
-    /**
-     * Episodes Total
-     */
-    episodes_total: number | null;
-    /**
-     * Image
-     */
-    image: string | null;
-    /**
-     * Status
-     */
-    status: string | null;
-    /**
-     * Native Scored By
-     */
-    native_scored_by: number;
-    /**
-     * Native Score
-     */
-    native_score: number;
-    /**
-     * Scored By
-     */
-    scored_by: number;
-    /**
-     * Score
-     */
-    score: number;
-    /**
-     * Slug
-     */
-    slug: string;
-    /**
-     * Start Date
-     */
-    start_date: number | null;
-    /**
-     * End Date
-     */
-    end_date: number | null;
-    /**
-     * Created
-     */
-    created: number | null;
-    /**
-     * Updated
-     */
-    updated: number | null;
-    /**
-     * Translated Ua
-     */
-    translated_ua: boolean;
-    /**
-     * Season
-     */
-    season: string | null;
-    /**
-     * Source
-     */
-    source: string | null;
-    /**
-     * Rating
-     */
-    rating: string | null;
-    /**
-     * Year
-     */
-    year: number | null;
-    /**
-     * Mal Id
-     */
-    mal_id: number;
-    /**
-     * Watch
-     */
-    watch: Array<WatchResponseBase>;
-    /**
-     * Genres
-     */
-    genres: Array<GenreResponse>;
-    /**
-     * Studios
-     */
-    studios: Array<CompanyResponse>;
-    /**
-     * Synopsis En
-     */
-    synopsis_en: string | null;
-    /**
-     * Synopsis Ua
-     */
-    synopsis_ua: string | null;
-};
-
-/**
  * AnimeCompanyResponse
  */
 export type AnimeCompanyResponse = {
@@ -537,112 +404,14 @@ export type AnimeResponse = {
      * Mal Id
      */
     mal_id: number;
-};
-
-/**
- * AnimeResponseWithSynopsis
- */
-export type AnimeResponseWithSynopsis = {
     /**
-     * Data Type
+     * Studios
      */
-    data_type: 'anime';
+    studios: Array<CompanyResponse>;
     /**
-     * Media Type
+     * Genres
      */
-    media_type: string | null;
-    /**
-     * Title Ua
-     */
-    title_ua: string | null;
-    /**
-     * Title En
-     */
-    title_en: string | null;
-    /**
-     * Title Ja
-     */
-    title_ja: string | null;
-    /**
-     * Episodes Released
-     */
-    episodes_released: number | null;
-    /**
-     * Episodes Total
-     */
-    episodes_total: number | null;
-    /**
-     * Image
-     */
-    image: string | null;
-    /**
-     * Status
-     */
-    status: string | null;
-    /**
-     * Native Scored By
-     */
-    native_scored_by: number;
-    /**
-     * Native Score
-     */
-    native_score: number;
-    /**
-     * Scored By
-     */
-    scored_by: number;
-    /**
-     * Score
-     */
-    score: number;
-    /**
-     * Slug
-     */
-    slug: string;
-    /**
-     * Start Date
-     */
-    start_date: number | null;
-    /**
-     * End Date
-     */
-    end_date: number | null;
-    /**
-     * Created
-     */
-    created: number | null;
-    /**
-     * Updated
-     */
-    updated: number | null;
-    /**
-     * Translated Ua
-     */
-    translated_ua: boolean;
-    /**
-     * Season
-     */
-    season: string | null;
-    /**
-     * Source
-     */
-    source: string | null;
-    /**
-     * Rating
-     */
-    rating: string | null;
-    /**
-     * Year
-     */
-    year: number | null;
-    /**
-     * Mal Id
-     */
-    mal_id: number;
-    /**
-     * Watch
-     */
-    watch: Array<WatchResponseBase>;
+    genres: Array<GenreResponse>;
     /**
      * Synopsis En
      */
@@ -754,6 +523,22 @@ export type AnimeResponseWithWatch = {
      */
     mal_id: number;
     /**
+     * Studios
+     */
+    studios: Array<CompanyResponse>;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Synopsis En
+     */
+    synopsis_en: string | null;
+    /**
+     * Synopsis Ua
+     */
+    synopsis_ua: string | null;
+    /**
      * Watch
      */
     watch: Array<WatchResponseBase>;
@@ -785,7 +570,7 @@ export type AnimeScheduleArgs = {
  * AnimeScheduleResponse
  */
 export type AnimeScheduleResponse = {
-    anime: AnimeResponseWithSynopsis;
+    anime: AnimeResponseWithWatch;
     /**
      * Time Left
      */
@@ -2858,6 +2643,22 @@ export type FavouriteAnimeResponse = {
      */
     mal_id: number;
     /**
+     * Studios
+     */
+    studios: Array<CompanyResponse>;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Synopsis En
+     */
+    synopsis_en: string | null;
+    /**
+     * Synopsis Ua
+     */
+    synopsis_ua: string | null;
+    /**
      * Watch
      */
     watch: Array<WatchResponseBase>;
@@ -3084,6 +2885,22 @@ export type FavouriteMangaResponse = {
      */
     slug: string;
     /**
+     * Magazines
+     */
+    magazines: Array<MagazineResponse>;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Synopsis En
+     */
+    synopsis_en: string | null;
+    /**
+     * Synopsis Ua
+     */
+    synopsis_ua: string | null;
+    /**
      * Read
      */
     read: Array<ReadResponseBase>;
@@ -3181,6 +2998,22 @@ export type FavouriteNovelResponse = {
      * Slug
      */
     slug: string;
+    /**
+     * Magazines
+     */
+    magazines: Array<MagazineResponse>;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Synopsis En
+     */
+    synopsis_en: string | null;
+    /**
+     * Synopsis Ua
+     */
+    synopsis_ua: string | null;
     /**
      * Read
      */
@@ -3747,127 +3580,6 @@ export type MagazineResponse = {
 };
 
 /**
- * MangaCatalogPaginationResponse
- */
-export type MangaCatalogPaginationResponse = {
-    pagination: PaginationResponse;
-    /**
-     * List
-     */
-    list: Array<MangaCatalogResponse>;
-};
-
-/**
- * MangaCatalogResponse
- */
-export type MangaCatalogResponse = {
-    /**
-     * Data Type
-     */
-    data_type: 'manga';
-    /**
-     * Start Date
-     */
-    start_date: number | null;
-    /**
-     * End Date
-     */
-    end_date: number | null;
-    /**
-     * Created
-     */
-    created: number | null;
-    /**
-     * Updated
-     */
-    updated: number | null;
-    /**
-     * Title Original
-     */
-    title_original: string | null;
-    /**
-     * Media Type
-     */
-    media_type: string | null;
-    /**
-     * Native Scored By
-     */
-    native_scored_by: number;
-    /**
-     * Title Ua
-     */
-    title_ua: string | null;
-    /**
-     * Title En
-     */
-    title_en: string | null;
-    /**
-     * Chapters
-     */
-    chapters: number | null;
-    /**
-     * Volumes
-     */
-    volumes: number | null;
-    /**
-     * Translated Ua
-     */
-    translated_ua: boolean;
-    /**
-     * Native Score
-     */
-    native_score: number;
-    /**
-     * Status
-     */
-    status: string | null;
-    /**
-     * Image
-     */
-    image: string | null;
-    /**
-     * Year
-     */
-    year: number | null;
-    /**
-     * Scored By
-     */
-    scored_by: number;
-    /**
-     * Score
-     */
-    score: number;
-    /**
-     * Mal Id
-     */
-    mal_id: number;
-    /**
-     * Slug
-     */
-    slug: string;
-    /**
-     * Read
-     */
-    read: Array<ReadResponseBase>;
-    /**
-     * Genres
-     */
-    genres: Array<GenreResponse>;
-    /**
-     * Magazines
-     */
-    magazines: Array<MagazineResponse>;
-    /**
-     * Synopsis En
-     */
-    synopsis_en: string | null;
-    /**
-     * Synopsis Ua
-     */
-    synopsis_ua: string | null;
-};
-
-/**
  * MangaInfoResponse
  */
 export type MangaInfoResponse = {
@@ -4114,6 +3826,22 @@ export type MangaResponse = {
      * Slug
      */
     slug: string;
+    /**
+     * Magazines
+     */
+    magazines: Array<MagazineResponse>;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Synopsis En
+     */
+    synopsis_en: string | null;
+    /**
+     * Synopsis Ua
+     */
+    synopsis_ua: string | null;
 };
 
 /**
@@ -4204,6 +3932,22 @@ export type MangaResponseWithRead = {
      * Slug
      */
     slug: string;
+    /**
+     * Magazines
+     */
+    magazines: Array<MagazineResponse>;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Synopsis En
+     */
+    synopsis_en: string | null;
+    /**
+     * Synopsis Ua
+     */
+    synopsis_ua: string | null;
     /**
      * Read
      */
@@ -4328,127 +4072,6 @@ export type NotificationUnseenResponse = {
      * Unseen
      */
     unseen: number;
-};
-
-/**
- * NovelCatalogPaginationResponse
- */
-export type NovelCatalogPaginationResponse = {
-    pagination: PaginationResponse;
-    /**
-     * List
-     */
-    list: Array<NovelCatalogResponse>;
-};
-
-/**
- * NovelCatalogResponse
- */
-export type NovelCatalogResponse = {
-    /**
-     * Data Type
-     */
-    data_type: 'novel';
-    /**
-     * Start Date
-     */
-    start_date: number | null;
-    /**
-     * End Date
-     */
-    end_date: number | null;
-    /**
-     * Created
-     */
-    created: number | null;
-    /**
-     * Updated
-     */
-    updated: number | null;
-    /**
-     * Title Original
-     */
-    title_original: string | null;
-    /**
-     * Media Type
-     */
-    media_type: string | null;
-    /**
-     * Native Scored By
-     */
-    native_scored_by: number;
-    /**
-     * Title Ua
-     */
-    title_ua: string | null;
-    /**
-     * Title En
-     */
-    title_en: string | null;
-    /**
-     * Chapters
-     */
-    chapters: number | null;
-    /**
-     * Volumes
-     */
-    volumes: number | null;
-    /**
-     * Translated Ua
-     */
-    translated_ua: boolean;
-    /**
-     * Native Score
-     */
-    native_score: number;
-    /**
-     * Status
-     */
-    status: string | null;
-    /**
-     * Image
-     */
-    image: string | null;
-    /**
-     * Year
-     */
-    year: number | null;
-    /**
-     * Scored By
-     */
-    scored_by: number;
-    /**
-     * Score
-     */
-    score: number;
-    /**
-     * Mal Id
-     */
-    mal_id: number;
-    /**
-     * Slug
-     */
-    slug: string;
-    /**
-     * Read
-     */
-    read: Array<ReadResponseBase>;
-    /**
-     * Genres
-     */
-    genres: Array<GenreResponse>;
-    /**
-     * Magazines
-     */
-    magazines: Array<MagazineResponse>;
-    /**
-     * Synopsis En
-     */
-    synopsis_en: string | null;
-    /**
-     * Synopsis Ua
-     */
-    synopsis_ua: string | null;
 };
 
 /**
@@ -4691,6 +4314,22 @@ export type NovelResponse = {
      * Slug
      */
     slug: string;
+    /**
+     * Magazines
+     */
+    magazines: Array<MagazineResponse>;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Synopsis En
+     */
+    synopsis_en: string | null;
+    /**
+     * Synopsis Ua
+     */
+    synopsis_ua: string | null;
 };
 
 /**
@@ -4781,6 +4420,22 @@ export type NovelResponseWithRead = {
      * Slug
      */
     slug: string;
+    /**
+     * Magazines
+     */
+    magazines: Array<MagazineResponse>;
+    /**
+     * Genres
+     */
+    genres: Array<GenreResponse>;
+    /**
+     * Synopsis En
+     */
+    synopsis_en: string | null;
+    /**
+     * Synopsis Ua
+     */
+    synopsis_ua: string | null;
     /**
      * Read
      */
@@ -9975,7 +9630,7 @@ export type SearchAnimeResponses = {
     /**
      * Successful Response
      */
-    200: AnimeCatalogPaginationResponse;
+    200: AnimePaginationResponse;
 };
 
 export type SearchAnimeResponse =
@@ -10261,7 +9916,7 @@ export type SearchMangaResponses = {
     /**
      * Successful Response
      */
-    200: MangaCatalogPaginationResponse;
+    200: MangaPaginationResponse;
 };
 
 export type SearchMangaResponse =
@@ -10373,7 +10028,7 @@ export type SearchNovelResponses = {
     /**
      * Successful Response
      */
-    200: NovelCatalogPaginationResponse;
+    200: NovelPaginationResponse;
 };
 
 export type SearchNovelResponse =

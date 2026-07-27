@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     ContentTypeEnum,
-    type MangaCatalogResponse,
+    type MangaResponseWithRead,
     mangaInfoOptions,
     type ReadResponseBase,
 } from '@hikka/api';
@@ -17,6 +17,7 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
 
+import { getTooltipItem } from '../utils';
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent from './media-tooltip-content';
 import { MediaTooltipSkeleton } from './tooltip-skeleton';
@@ -25,7 +26,7 @@ import type { MediaTooltipItem } from './types';
 type TooltipDataProps = {
     slug: string;
     read?: ReadResponseBase | null;
-    item?: MangaCatalogResponse;
+    item?: MangaResponseWithRead;
 };
 
 type Props = PropsWithChildren & {
@@ -131,7 +132,7 @@ const MangaTooltip: FC<Props> = ({ slug, children, read, item }) => {
                 <TooltipData
                     slug={slug}
                     read={read}
-                    item={item?.data_type === 'manga' ? item : undefined}
+                    item={getTooltipItem(item, 'manga')}
                 />
             }
         >

@@ -3,6 +3,7 @@ import { createElement, type FC } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
+    type AnimeInfoResponse,
     type AnimeResponse,
     type WatchResponse,
     type WatchResponseBase,
@@ -22,7 +23,7 @@ type IconWatchStatusButtonProps = ButtonProps & {
     disabled?: boolean;
     size?: 'icon-sm' | 'icon-md';
     slug: string;
-    anime?: AnimeResponse;
+    anime?: AnimeResponse | AnimeInfoResponse;
     isLoading?: boolean;
     onOpenModal?: () => void;
 };

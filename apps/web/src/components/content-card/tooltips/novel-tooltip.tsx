@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     ContentTypeEnum,
-    type NovelCatalogResponse,
+    type NovelResponseWithRead,
     novelInfoOptions,
     type ReadResponseBase,
 } from '@hikka/api';
@@ -17,6 +17,7 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 
+import { getTooltipItem } from '../utils';
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent from './media-tooltip-content';
 import { MediaTooltipSkeleton } from './tooltip-skeleton';
@@ -25,7 +26,7 @@ import type { MediaTooltipItem } from './types';
 type TooltipDataProps = {
     slug: string;
     read?: ReadResponseBase | null;
-    item?: NovelCatalogResponse;
+    item?: NovelResponseWithRead;
 };
 
 type Props = PropsWithChildren & {
@@ -131,7 +132,7 @@ const NovelTooltip: FC<Props> = ({ slug, children, read, item }) => {
                 <TooltipData
                     slug={slug}
                     read={read}
-                    item={item?.data_type === 'novel' ? item : undefined}
+                    item={getTooltipItem(item, 'novel')}
                 />
             }
         >

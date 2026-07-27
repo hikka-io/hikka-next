@@ -62,36 +62,6 @@ export const zAnimeOstResponse = z.object({
 });
 
 /**
- * AnimeResponse
- */
-export const zAnimeResponse = z.object({
-    data_type: z.literal('anime'),
-    media_type: z.string().nullable(),
-    title_ua: z.string().nullable(),
-    title_en: z.string().nullable(),
-    title_ja: z.string().nullable(),
-    episodes_released: z.number().int().nullable(),
-    episodes_total: z.number().int().nullable(),
-    image: z.string().nullable(),
-    status: z.string().nullable(),
-    native_scored_by: z.number().int(),
-    native_score: z.number(),
-    scored_by: z.number().int(),
-    score: z.number(),
-    slug: z.string(),
-    start_date: z.number().int().nullable(),
-    end_date: z.number().int().nullable(),
-    created: z.number().int().nullable(),
-    updated: z.number().int().nullable(),
-    translated_ua: z.boolean(),
-    season: z.string().nullable(),
-    source: z.string().nullable(),
-    rating: z.string().nullable(),
-    year: z.number().int().nullable(),
-    mal_id: z.number().int(),
-});
-
-/**
  * AnimeStatsResponse
  */
 export const zAnimeStatsResponse = z.object({
@@ -386,14 +356,6 @@ export const zCompanyTypeEnum = z.enum(['producer', 'studio']);
  */
 export const zAnimeCompanyResponse = z.object({
     company: zCompanyResponse,
-    type: zCompanyTypeEnum,
-});
-
-/**
- * CompanyAnimeResponse
- */
-export const zCompanyAnimeResponse = z.object({
-    anime: zAnimeResponse,
     type: zCompanyTypeEnum,
 });
 
@@ -705,6 +667,48 @@ export const zAnimeInfoResponse = z.object({
 });
 
 /**
+ * AnimeResponse
+ */
+export const zAnimeResponse = z.object({
+    data_type: z.literal('anime'),
+    media_type: z.string().nullable(),
+    title_ua: z.string().nullable(),
+    title_en: z.string().nullable(),
+    title_ja: z.string().nullable(),
+    episodes_released: z.number().int().nullable(),
+    episodes_total: z.number().int().nullable(),
+    image: z.string().nullable(),
+    status: z.string().nullable(),
+    native_scored_by: z.number().int(),
+    native_score: z.number(),
+    scored_by: z.number().int(),
+    score: z.number(),
+    slug: z.string(),
+    start_date: z.number().int().nullable(),
+    end_date: z.number().int().nullable(),
+    created: z.number().int().nullable(),
+    updated: z.number().int().nullable(),
+    translated_ua: z.boolean(),
+    season: z.string().nullable(),
+    source: z.string().nullable(),
+    rating: z.string().nullable(),
+    year: z.number().int().nullable(),
+    mal_id: z.number().int(),
+    studios: z.array(zCompanyResponse),
+    genres: z.array(zGenreResponse),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
+});
+
+/**
+ * CompanyAnimeResponse
+ */
+export const zCompanyAnimeResponse = z.object({
+    anime: zAnimeResponse,
+    type: zCompanyTypeEnum,
+});
+
+/**
  * GenreListResponse
  */
 export const zGenreListResponse = z.object({
@@ -900,6 +904,10 @@ export const zMangaResponse = z.object({
     score: z.number(),
     mal_id: z.number().int(),
     slug: z.string(),
+    magazines: z.array(zMagazineResponse),
+    genres: z.array(zGenreResponse),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
 });
 
 /**
@@ -988,6 +996,10 @@ export const zNovelResponse = z.object({
     score: z.number(),
     mal_id: z.number().int(),
     slug: z.string(),
+    magazines: z.array(zMagazineResponse),
+    genres: z.array(zGenreResponse),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
 });
 
 /**
@@ -1239,6 +1251,10 @@ export const zFavouriteMangaResponse = z.object({
     score: z.number(),
     mal_id: z.number().int(),
     slug: z.string(),
+    magazines: z.array(zMagazineResponse),
+    genres: z.array(zGenreResponse),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
     read: z.array(zReadResponseBase),
 });
 
@@ -1268,47 +1284,11 @@ export const zFavouriteNovelResponse = z.object({
     score: z.number(),
     mal_id: z.number().int(),
     slug: z.string(),
-    read: z.array(zReadResponseBase),
-});
-
-/**
- * MangaCatalogResponse
- */
-export const zMangaCatalogResponse = z.object({
-    data_type: z.literal('manga'),
-    start_date: z.number().int().nullable(),
-    end_date: z.number().int().nullable(),
-    created: z.number().int().nullable(),
-    updated: z.number().int().nullable(),
-    title_original: z.string().nullable(),
-    media_type: z.string().nullable(),
-    native_scored_by: z.number().int(),
-    title_ua: z.string().nullable(),
-    title_en: z.string().nullable(),
-    chapters: z.number().int().nullable(),
-    volumes: z.number().int().nullable(),
-    translated_ua: z.boolean(),
-    native_score: z.number(),
-    status: z.string().nullable(),
-    image: z.string().nullable(),
-    year: z.number().int().nullable(),
-    scored_by: z.number().int(),
-    score: z.number(),
-    mal_id: z.number().int(),
-    slug: z.string(),
-    read: z.array(zReadResponseBase),
-    genres: z.array(zGenreResponse),
     magazines: z.array(zMagazineResponse),
+    genres: z.array(zGenreResponse),
     synopsis_en: z.string().nullable(),
     synopsis_ua: z.string().nullable(),
-});
-
-/**
- * MangaCatalogPaginationResponse
- */
-export const zMangaCatalogPaginationResponse = z.object({
-    pagination: zPaginationResponse,
-    list: z.array(zMangaCatalogResponse),
+    read: z.array(zReadResponseBase),
 });
 
 /**
@@ -1336,6 +1316,10 @@ export const zMangaResponseWithRead = z.object({
     score: z.number(),
     mal_id: z.number().int(),
     slug: z.string(),
+    magazines: z.array(zMagazineResponse),
+    genres: z.array(zGenreResponse),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
     read: z.array(zReadResponseBase),
 });
 
@@ -1364,46 +1348,6 @@ export const zMangaPaginationResponse = z.object({
 });
 
 /**
- * NovelCatalogResponse
- */
-export const zNovelCatalogResponse = z.object({
-    data_type: z.literal('novel'),
-    start_date: z.number().int().nullable(),
-    end_date: z.number().int().nullable(),
-    created: z.number().int().nullable(),
-    updated: z.number().int().nullable(),
-    title_original: z.string().nullable(),
-    media_type: z.string().nullable(),
-    native_scored_by: z.number().int(),
-    title_ua: z.string().nullable(),
-    title_en: z.string().nullable(),
-    chapters: z.number().int().nullable(),
-    volumes: z.number().int().nullable(),
-    translated_ua: z.boolean(),
-    native_score: z.number(),
-    status: z.string().nullable(),
-    image: z.string().nullable(),
-    year: z.number().int().nullable(),
-    scored_by: z.number().int(),
-    score: z.number(),
-    mal_id: z.number().int(),
-    slug: z.string(),
-    read: z.array(zReadResponseBase),
-    genres: z.array(zGenreResponse),
-    magazines: z.array(zMagazineResponse),
-    synopsis_en: z.string().nullable(),
-    synopsis_ua: z.string().nullable(),
-});
-
-/**
- * NovelCatalogPaginationResponse
- */
-export const zNovelCatalogPaginationResponse = z.object({
-    pagination: zPaginationResponse,
-    list: z.array(zNovelCatalogResponse),
-});
-
-/**
  * NovelResponseWithRead
  */
 export const zNovelResponseWithRead = z.object({
@@ -1428,6 +1372,10 @@ export const zNovelResponseWithRead = z.object({
     score: z.number(),
     mal_id: z.number().int(),
     slug: z.string(),
+    magazines: z.array(zMagazineResponse),
+    genres: z.array(zGenreResponse),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
     read: z.array(zReadResponseBase),
 });
 
@@ -2589,82 +2537,6 @@ export const zWatchResponseBase = z.object({
 });
 
 /**
- * AnimeCatalogResponse
- */
-export const zAnimeCatalogResponse = z.object({
-    data_type: z.literal('anime'),
-    media_type: z.string().nullable(),
-    title_ua: z.string().nullable(),
-    title_en: z.string().nullable(),
-    title_ja: z.string().nullable(),
-    episodes_released: z.number().int().nullable(),
-    episodes_total: z.number().int().nullable(),
-    image: z.string().nullable(),
-    status: z.string().nullable(),
-    native_scored_by: z.number().int(),
-    native_score: z.number(),
-    scored_by: z.number().int(),
-    score: z.number(),
-    slug: z.string(),
-    start_date: z.number().int().nullable(),
-    end_date: z.number().int().nullable(),
-    created: z.number().int().nullable(),
-    updated: z.number().int().nullable(),
-    translated_ua: z.boolean(),
-    season: z.string().nullable(),
-    source: z.string().nullable(),
-    rating: z.string().nullable(),
-    year: z.number().int().nullable(),
-    mal_id: z.number().int(),
-    watch: z.array(zWatchResponseBase),
-    genres: z.array(zGenreResponse),
-    studios: z.array(zCompanyResponse),
-    synopsis_en: z.string().nullable(),
-    synopsis_ua: z.string().nullable(),
-});
-
-/**
- * AnimeCatalogPaginationResponse
- */
-export const zAnimeCatalogPaginationResponse = z.object({
-    pagination: zPaginationResponse,
-    list: z.array(zAnimeCatalogResponse),
-});
-
-/**
- * AnimeResponseWithSynopsis
- */
-export const zAnimeResponseWithSynopsis = z.object({
-    data_type: z.literal('anime'),
-    media_type: z.string().nullable(),
-    title_ua: z.string().nullable(),
-    title_en: z.string().nullable(),
-    title_ja: z.string().nullable(),
-    episodes_released: z.number().int().nullable(),
-    episodes_total: z.number().int().nullable(),
-    image: z.string().nullable(),
-    status: z.string().nullable(),
-    native_scored_by: z.number().int(),
-    native_score: z.number(),
-    scored_by: z.number().int(),
-    score: z.number(),
-    slug: z.string(),
-    start_date: z.number().int().nullable(),
-    end_date: z.number().int().nullable(),
-    created: z.number().int().nullable(),
-    updated: z.number().int().nullable(),
-    translated_ua: z.boolean(),
-    season: z.string().nullable(),
-    source: z.string().nullable(),
-    rating: z.string().nullable(),
-    year: z.number().int().nullable(),
-    mal_id: z.number().int(),
-    watch: z.array(zWatchResponseBase),
-    synopsis_en: z.string().nullable(),
-    synopsis_ua: z.string().nullable(),
-});
-
-/**
  * AnimeResponseWithWatch
  */
 export const zAnimeResponseWithWatch = z.object({
@@ -2692,6 +2564,10 @@ export const zAnimeResponseWithWatch = z.object({
     rating: z.string().nullable(),
     year: z.number().int().nullable(),
     mal_id: z.number().int(),
+    studios: z.array(zCompanyResponse),
+    genres: z.array(zGenreResponse),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
     watch: z.array(zWatchResponseBase),
 });
 
@@ -2707,7 +2583,7 @@ export const zAnimePaginationResponse = z.object({
  * AnimeScheduleResponse
  */
 export const zAnimeScheduleResponse = z.object({
-    anime: zAnimeResponseWithSynopsis,
+    anime: zAnimeResponseWithWatch,
     time_left: z.number().int(),
     airing_at: z.number().int(),
     episode: z.number().int(),
@@ -2832,6 +2708,10 @@ export const zFavouriteAnimeResponse = z.object({
     rating: z.string().nullable(),
     year: z.number().int().nullable(),
     mal_id: z.number().int(),
+    studios: z.array(zCompanyResponse),
+    genres: z.array(zGenreResponse),
+    synopsis_en: z.string().nullable(),
+    synopsis_ua: z.string().nullable(),
     watch: z.array(zWatchResponseBase),
 });
 
@@ -4350,7 +4230,7 @@ export const zSearchAnimeQuery = z.object({
 /**
  * Successful Response
  */
-export const zSearchAnimeResponse = zAnimeCatalogPaginationResponse;
+export const zSearchAnimeResponse = zAnimePaginationResponse;
 
 export const zAnimeSlugPath = z.object({
     slug: z.string(),
@@ -4453,7 +4333,7 @@ export const zSearchMangaQuery = z.object({
 /**
  * Successful Response
  */
-export const zSearchMangaResponse = zMangaCatalogPaginationResponse;
+export const zSearchMangaResponse = zMangaPaginationResponse;
 
 export const zMangaInfoPath = z.object({
     slug: z.string(),
@@ -4492,7 +4372,7 @@ export const zSearchNovelQuery = z.object({
 /**
  * Successful Response
  */
-export const zSearchNovelResponse = zNovelCatalogPaginationResponse;
+export const zSearchNovelResponse = zNovelPaginationResponse;
 
 export const zNovelInfoPath = z.object({
     slug: z.string(),

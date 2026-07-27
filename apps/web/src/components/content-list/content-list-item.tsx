@@ -1,10 +1,10 @@
 import { Fragment, type ReactNode } from 'react';
 
 import type {
-    AnimeCatalogResponse,
+    AnimeResponseWithWatch,
     ContentTypeEnum,
-    MangaCatalogResponse,
-    NovelCatalogResponse,
+    MangaResponseWithRead,
+    NovelResponseWithRead,
 } from '@hikka/api';
 
 import { useTitle } from '@/features/auth';
@@ -37,17 +37,17 @@ const MEDIA_TYPE_ENUM = Object.assign(
 type Props =
     | {
           type: typeof ContentTypeEnum.ANIME;
-          item: AnimeCatalogResponse;
+          item: AnimeResponseWithWatch;
           title?: string;
       }
     | {
           type: typeof ContentTypeEnum.MANGA;
-          item: MangaCatalogResponse;
+          item: MangaResponseWithRead;
           title?: string;
       }
     | {
           type: typeof ContentTypeEnum.NOVEL;
-          item: NovelCatalogResponse;
+          item: NovelResponseWithRead;
           title?: string;
       };
 

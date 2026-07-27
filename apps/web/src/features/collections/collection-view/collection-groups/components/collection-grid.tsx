@@ -4,6 +4,7 @@ import { Info } from 'lucide-react';
 
 import type { CollectionContentResponse } from '@hikka/api';
 
+import { getTooltipItem } from '@/components/content-card';
 import ContentCard, {
     DEFAULT_CONTAINER_RATIO,
 } from '@/components/content-card/content-card';
@@ -113,21 +114,19 @@ const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
                                 preferences.name_language,
                             )}
                             watch={
-                                'watch' in item.content &&
-                                item.content.watch.length > 0
-                                    ? (item.content.watch[0] as ComponentProps<
-                                          typeof ContentCard
-                                      >['watch'])
+                                'watch' in item.content
+                                    ? (item.content.watch[0] ?? null)
                                     : undefined
                             }
                             read={
-                                'read' in item.content &&
-                                item.content.read.length > 0
-                                    ? (item.content.read[0] as ComponentProps<
-                                          typeof ContentCard
-                                      >['read'])
+                                'read' in item.content
+                                    ? (item.content.read[0] ?? null)
                                     : undefined
                             }
+                            tooltipItem={getTooltipItem(
+                                item.content,
+                                item.content.data_type,
+                            )}
                         />
                         {item.comment && (
                             <div
