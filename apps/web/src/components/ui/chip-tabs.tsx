@@ -11,6 +11,8 @@ type IconComponent = ComponentType<{ className?: string }>;
 export type ChipTabOption<T extends string> = {
     label: string;
     value: T;
+    /** Rendered after the label as a subdued number. Omit to render nothing. */
+    count?: number;
     icon?: IconComponent;
     activeClass?: string;
     to?: string;
@@ -53,6 +55,11 @@ function ChipTabs<T extends string>({
                     <>
                         {Icon && <Icon className="size-4 shrink-0" />}
                         {option.label}
+                        {option.count !== undefined && (
+                            <span className="tabular-nums opacity-60">
+                                {option.count}
+                            </span>
+                        )}
                     </>
                 );
                 const chipProps = {
