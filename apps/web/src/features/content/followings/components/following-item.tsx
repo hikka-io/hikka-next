@@ -41,8 +41,7 @@ const FollowingItem: FC<Props> = ({ data, className }) => {
     const hiddenProgressStatuses: string[] = ['completed', 'planned'];
 
     const progressLabel =
-        progress > 0 &&
-        !hiddenProgressStatuses.includes(data.content[0].status)
+        progress > 0 && !hiddenProgressStatuses.includes(data.content[0].status)
             ? `${progress} ${data.type === 'read' ? 'розд.' : 'еп.'}`
             : null;
 

@@ -107,13 +107,7 @@ const EntitySearchList = ({
             config.href,
             value ? { search: { search: value } } : undefined,
         );
-    }, [
-        addHistoryEntry,
-        onClose,
-        router,
-        value,
-        config.href,
-    ]);
+    }, [addHistoryEntry, onClose, router, value, config.href]);
 
     const {
         list,

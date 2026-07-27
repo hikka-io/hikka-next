@@ -328,7 +328,6 @@
     --tab-bar-height: calc(4.25rem + var(--safe-area-bottom));
 }
 
-
 @supports (-moz-appearance: none) {
     :root {
         --safe-area-bottom: 0px;

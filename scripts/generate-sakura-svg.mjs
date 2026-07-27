@@ -12,14 +12,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const OUT = path.resolve(
-    __dirname,
-    '..',
-    'apps',
-    'web',
-    'public',
-    'sakura',
-);
+const OUT = path.resolve(__dirname, '..', 'apps', 'web', 'public', 'sakura');
 
 // ---- Palettes (mirrors sakura-effect.tsx) ----
 
