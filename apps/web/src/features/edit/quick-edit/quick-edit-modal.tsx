@@ -117,6 +117,7 @@ const QuickEditForm: FC<FormProps> = ({
                         mode="edit"
                         nativeTitleMissing={nativeTitleMissing}
                         defaultOpen
+                        bleed
                     />
                 </div>
                 <ResponsiveModalFooter>

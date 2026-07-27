@@ -1,3 +1,5 @@
+import { cn } from '@/utils/cn';
+
 import EditDescription from './edit-description';
 import EditGroup from './edit-group';
 import NativeTitleWarning from './native-title-warning';
@@ -8,7 +10,10 @@ type Props = {
     mode: 'view' | 'edit' | 'update';
     nativeTitleMissing: boolean;
     defaultOpen?: boolean;
+    bleed?: boolean;
 };
+
+const BLEED = '-mx-4 rounded-none border-x-0 md:mx-0 md:rounded-lg md:border-x';
 
 /**
  * Shared field body for the create and view/update edit forms: renders each
@@ -21,13 +26,17 @@ const EditFormFields = ({
     mode,
     nativeTitleMissing,
     defaultOpen = false,
+    bleed = false,
 }: Props) => {
     return (
         <div className="flex w-full flex-col gap-6">
             {Object.keys(params).map((group, index) => (
                 <EditGroup
                     key={group}
-                    className={index === 0 ? 'backdrop-blur' : undefined}
+                    className={cn(
+                        index === 0 && 'backdrop-blur',
+                        bleed && BLEED,
+                    )}
                     title={groups[group]}
                     groupKey={group}
                     params={params[group]}
@@ -41,7 +50,10 @@ const EditFormFields = ({
                 />
             ))}
 
-            <EditDescription mode={mode === 'update' ? 'edit' : mode} />
+            <EditDescription
+                mode={mode === 'update' ? 'edit' : mode}
+                className={bleed ? BLEED : undefined}
+            />
         </div>
     );
 };

@@ -103,6 +103,7 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
                     groups={groups}
                     mode={mode}
                     nativeTitleMissing={nativeTitleMissing}
+                    bleed
                 />
                 {(mode === 'edit' || mode === 'update') && (
                     <div className="flex w-full flex-col gap-4">

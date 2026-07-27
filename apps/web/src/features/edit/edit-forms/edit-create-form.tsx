@@ -90,6 +90,7 @@ const EditForm: FC<Props> = ({
                     groups={groups}
                     mode={mode}
                     nativeTitleMissing={nativeTitleMissing}
+                    bleed
                 />
                 {mode === 'edit' && (
                     <div className="flex items-center gap-2">

@@ -15,9 +15,10 @@ import TagsModal from './tags-modal';
 
 type Props = {
     mode: 'edit' | 'view';
+    className?: string;
 };
 
-const EditDescription: FC<Props> = ({ mode }) => {
+const EditDescription: FC<Props> = ({ mode, className }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const form = useFormContext() as any;
     const settings = useSettingsStore();
@@ -30,7 +31,7 @@ const EditDescription: FC<Props> = ({ mode }) => {
     }
 
     return (
-        <Card>
+        <Card className={className}>
             <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
                     <h5>Опис правки</h5>
