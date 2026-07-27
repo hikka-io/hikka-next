@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { personInfoOptions } from '@hikka/api';
 
+import { usePageTitleAnchor } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { useParams } from '@/utils/navigation';
 
@@ -14,6 +15,7 @@ const Title = () => {
         personInfoOptions({ path: { slug: String(params.slug) } }),
     );
     const title = useTitle(person);
+    const titleAnchor = usePageTitleAnchor();
 
     if (!person) {
         return null;
@@ -24,7 +26,7 @@ const Title = () => {
             <div className="flex justify-between gap-4" ref={divRef}>
                 <div>
                     <div className="flex gap-4">
-                        <h2>{title}</h2>
+                        <h2 ref={titleAnchor}>{title}</h2>
                     </div>
                     <p className="mt-2">{person.name_native}</p>
                 </div>

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { characterInfoOptions } from '@hikka/api';
 
+import { usePageTitleAnchor } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { useParams } from '@/utils/navigation';
 
@@ -11,6 +12,7 @@ const Title = () => {
         characterInfoOptions({ path: { slug: String(params.slug) } }),
     );
     const title = useTitle(character);
+    const titleAnchor = usePageTitleAnchor();
 
     if (!character) {
         return null;
@@ -20,7 +22,7 @@ const Title = () => {
         <div className="flex flex-col gap-4">
             <div className="flex justify-between gap-4">
                 <div>
-                    <h2>{title}</h2>
+                    <h2 ref={titleAnchor}>{title}</h2>
                     <p className="text-muted-foreground text-sm">
                         {character.name_ja}
                     </p>
