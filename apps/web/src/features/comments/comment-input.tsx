@@ -95,14 +95,17 @@ const CommentInput: FC<Props> = ({
         }
     };
 
-    // Follow the section's comment-type filter.
+    // Follow the section's comment-type filter, but never retarget a draft the
+    // user has already started — browsing reviews must not turn their
+    // half-written comment into a review.
     useEffect(() => {
         if (forceReview === undefined || !showReviewToggle) return;
+        if (getPlainTextLength(editor.children) > 0) return;
         setIsReview(forceReview);
         if (!forceReview) {
             setVerdict(null);
         }
-    }, [forceReview, showReviewToggle]);
+    }, [forceReview, showReviewToggle, editor]);
 
     useVisualViewportOffset(!!isModalOpen);
 
@@ -118,7 +121,7 @@ const CommentInput: FC<Props> = ({
         if (comment) {
             setTimeout(() => editor.tf.focus(), 0);
         }
-    }, []);
+    }, [comment, editor.tf.focus]);
 
     if (isMobile === undefined) {
         return null;

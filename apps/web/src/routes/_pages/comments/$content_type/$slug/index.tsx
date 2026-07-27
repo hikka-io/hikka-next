@@ -118,11 +118,13 @@ function CommentsPage() {
             resetScroll: false,
         });
 
+    // Picking a verdict implies the review tab; clearing one leaves the tab
+    // alone, so clearing from "Усі" returns you there rather than to "Відгуки".
     const handleVerdictChange = (next: Verdict | null) =>
         navigate({
             search: (prev) => ({
                 ...prev,
-                comment_type: 'review' as const,
+                ...(next && { comment_type: 'review' as const }),
                 recommended: next ?? undefined,
             }),
             replace: true,
@@ -163,7 +165,13 @@ function CommentsPage() {
                         contentTitle={contentTitle}
                         commentType={commentType}
                         onCommentTypeChange={handleCommentTypeChange}
-                        verdict={recommended ?? null}
+                        // Gated like the query body: a bare `?recommended` with
+                        // no review tab must not render as an active filter.
+                        verdict={
+                            commentType === 'review'
+                                ? (recommended ?? null)
+                                : null
+                        }
                         onVerdictChange={handleVerdictChange}
                         {...sortProps}
                     />

@@ -53,6 +53,9 @@ const COMMENT_IDS = [
     'getCommentsUser',
     'thread',
     'latestComments',
+    'animeSlug',
+    'mangaInfo',
+    'novelInfo',
 ];
 
 /** Community-edit list queries (the `/edit` index, top stats, content todo). */

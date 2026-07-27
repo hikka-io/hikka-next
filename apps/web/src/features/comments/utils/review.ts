@@ -52,7 +52,8 @@ export function getReviewVerdict(
 
     if (yes / total >= REVIEW_MAJORITY_SHARE) return 'Здебільшого радять';
     if (no / total >= REVIEW_MAJORITY_SHARE) return 'Здебільшого не радять';
-    if (maybe > yes && maybe > no) return 'Неоднозначні враження';
+
+    if (maybe >= yes && maybe >= no) return 'Неоднозначні враження';
     return 'Думки розділились';
 }
 

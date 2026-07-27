@@ -100,7 +100,10 @@ const CommentList: FC<Props> = ({
         useState<CommentType>('all');
     const [localVerdict, setLocalVerdict] = useState<Verdict | null>(null);
     const commentType = controlledCommentType ?? localCommentType;
-    const verdict = controlledVerdict ?? localVerdict;
+    // `!== undefined`, not `??`: `null` is a valid controlled value meaning
+    // "no filter", and must not fall through to local state.
+    const verdict =
+        controlledVerdict !== undefined ? controlledVerdict : localVerdict;
 
     const setCommentType = (type: CommentType) => {
         if (onCommentTypeChange) {
@@ -127,9 +130,12 @@ const CommentList: FC<Props> = ({
     const chipOptions = useMemo(() => {
         if (commentsCount === undefined) return COMMENT_TYPE_OPTIONS;
 
+        // `comments_count` already includes reviews, so the plain comment count
+        // is the remainder. Clamped: the two numbers come from different
+        // snapshots of the same content and can disagree briefly.
         const counts: Record<CommentType, number> = {
-            all: commentsCount + reviewsTotal,
-            comment: commentsCount,
+            all: commentsCount,
+            comment: Math.max(commentsCount - reviewsTotal, 0),
             review: reviewsTotal,
         };
 
@@ -171,12 +177,23 @@ const CommentList: FC<Props> = ({
 
     const {
         list: rows,
+        pagination,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         isLoading,
         ref,
     } = comment_reference ? threadQuery : listQuery;
+
+    // Content types without review chips have no other place to show a total.
+    const headerTotal =
+        !showTypeTabs && !comment_reference ? pagination?.total : undefined;
+
+    // Carry the preview block's filter over to the full page.
+    const allCommentsSearch = {
+        ...(commentType !== 'all' && { comment_type: commentType }),
+        ...(commentType === 'review' && verdict && { recommended: verdict }),
+    };
 
     const list: CommentNode[] | undefined = useMemo(
         () => (rows ? buildCommentTree(rows) : isLoading ? undefined : []),
@@ -187,7 +204,14 @@ const CommentList: FC<Props> = ({
         <Block className={cn('break-inside-avoid', className)} id="comments">
             <Header href={`/comments/${content_type}/${slug}`}>
                 <HeaderContainer className="min-w-0">
-                    <HeaderTitle truncate>Обговорення</HeaderTitle>
+                    <HeaderTitle truncate>
+                        Обговорення{' '}
+                        {headerTotal !== undefined && (
+                            <span className="text-muted-foreground">
+                                ({headerTotal})
+                            </span>
+                        )}
+                    </HeaderTitle>
                     {comment_reference && (
                         <Button size="md" variant="outline">
                             <Link to={`/comments/${content_type}/${slug}`}>
@@ -296,7 +320,10 @@ const CommentList: FC<Props> = ({
                     )}
                     {list && list.length !== 0 && preview && (
                         <Button variant="outline" asChild>
-                            <Link to={`/comments/${content_type}/${slug}`}>
+                            <Link
+                                to={`/comments/${content_type}/${slug}`}
+                                search={allCommentsSearch}
+                            >
                                 <AntDesignArrowDownOutlined />
                                 Переглянути всі
                             </Link>

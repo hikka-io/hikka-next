@@ -73,6 +73,9 @@ const ReviewStatsCard: FC<Props> = ({ stats, value, onChange, className }) => {
                                     }
                                     onMouseEnter={() => setHovered(v)}
                                     onMouseLeave={() => setHovered(null)}
+                                    // Keyboard users get the same bar highlight.
+                                    onFocus={() => setHovered(v)}
+                                    onBlur={() => setHovered(null)}
                                     className={cn(
                                         'w-full justify-center border border-transparent tabular-nums sm:w-auto',
                                         isActive

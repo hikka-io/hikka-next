@@ -190,9 +190,15 @@ describe('getReviewVerdict', () => {
         );
     });
 
-    it('reads as divided on an even three-way split', () => {
+    it('reads as mixed when maybe ties the leader', () => {
+        expect(getReviewVerdict({ yes: 5, maybe: 5, no: 0 })).toBe(
+            'Неоднозначні враження',
+        );
+    });
+
+    it('reads as mixed on an even three-way split', () => {
         expect(getReviewVerdict({ yes: 1, maybe: 1, no: 1 })).toBe(
-            'Думки розділились',
+            'Неоднозначні враження',
         );
     });
 

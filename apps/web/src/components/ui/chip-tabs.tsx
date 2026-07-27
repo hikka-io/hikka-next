@@ -11,7 +11,6 @@ type IconComponent = ComponentType<{ className?: string }>;
 export type ChipTabOption<T extends string> = {
     label: string;
     value: T;
-    /** Rendered after the label as a subdued number. Omit to render nothing. */
     count?: number;
     icon?: IconComponent;
     activeClass?: string;
@@ -65,7 +64,13 @@ function ChipTabs<T extends string>({
                 const chipProps = {
                     role: 'tab',
                     'aria-selected': isActive,
-                    'aria-label': option.label,
+                    // Folded in, not just the label: an explicit aria-label
+                    // replaces the accessible name computed from the content,
+                    // which would drop the count.
+                    'aria-label':
+                        option.count !== undefined
+                            ? `${option.label}: ${option.count}`
+                            : option.label,
                     className: cn(
                         'border border-transparent px-3.5 text-sm',
                         isActive
