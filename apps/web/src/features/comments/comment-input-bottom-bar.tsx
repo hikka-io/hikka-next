@@ -56,8 +56,7 @@ const CommentInputBottomBar: FC<Props> = ({
     const queryClient = useQueryClient();
     const editor = useMarkdownEditor();
 
-    // Reactive emptiness — mirrors the onSubmit guard so the send button
-    // stays disabled until there is real content to post.
+    // Mirrors the onSubmit guard so send stays disabled until there is content.
     const hasContent = useEditorSelector(
         (editor) => removeEmptyTextNodes(editor.children).length > 0,
         [],
@@ -92,7 +91,7 @@ const CommentInputBottomBar: FC<Props> = ({
             }
             clearActive();
         } else {
-            // Root composer: close the mobile sheet after a successful post.
+            // Root composer closes the mobile sheet; replies stay open.
             onClose?.();
         }
     };

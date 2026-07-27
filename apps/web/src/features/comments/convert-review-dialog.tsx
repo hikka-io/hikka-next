@@ -30,8 +30,7 @@ const ConvertReviewDialog: FC<Props> = ({ comment, open, onOpenChange }) => {
         if (!open) setVerdict(null);
     }, [open]);
 
-    // Errors surface via the global MutationCache.onError toast in router.tsx;
-    // a local onError here would double-toast.
+    // No onError: the global MutationCache toast in router.tsx already covers it.
     const mutation = useMutation({
         ...editCommentMutation(),
         onSuccess: () => {

@@ -66,18 +66,15 @@ const CommentInput: FC<Props> = ({
     );
 
     const isReply = !!comment && !isEdit;
-    // Toggle only when composing a new review; an existing review stays a
-    // review, so editing shows the verdict picker without the on/off toggle.
+    // An existing review stays a review: editing shows the picker, not the toggle.
     const showReviewToggle =
         !isReply && !isEdit && supportsReviews(props.content_type);
 
-    // One-shot: user unchecking after an auto-check is respected until the
-    // composer is emptied (reset after submit or manual clear).
+    // Unchecking after an auto-check is respected until the composer is emptied.
     const [autoReviewDismissed, setAutoReviewDismissed] = useState(false);
 
-    // Length check lives in onChange (not useEditorSelector) because this
-    // component renders the <Plate> provider itself, so Plate store hooks
-    // are unavailable at this level.
+    // Not useEditorSelector: this component renders the <Plate> provider, so
+    // Plate store hooks are unavailable at this level.
     const handleEditorChange = () => {
         handleChange();
 
@@ -98,8 +95,7 @@ const CommentInput: FC<Props> = ({
         }
     };
 
-    // Follow the section's comment-type filter: selecting the review filter
-    // checks the review toggle, leaving it unchecks (unless already off).
+    // Follow the section's comment-type filter.
     useEffect(() => {
         if (forceReview === undefined || !showReviewToggle) return;
         setIsReview(forceReview);
@@ -110,8 +106,7 @@ const CommentInput: FC<Props> = ({
 
     useVisualViewportOffset(!!isModalOpen);
 
-    // Closing a reply/edit sheet (top close) must also end the active editor,
-    // otherwise it stays mounted behind a hidden sheet.
+    // Closing the sheet must also end the active editor, or it stays mounted behind it.
     const handleSheetOpenChange = (open: boolean) => {
         setIsModalOpen(open);
         if (!open && comment) {

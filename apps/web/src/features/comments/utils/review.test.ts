@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-    REVIEW_AUTO_THRESHOLD,
     canConvertReview,
     getPlainTextLength,
     getReviewTotal,
     getReviewVerdict,
+    REVIEW_AUTO_THRESHOLD,
     supportsReviews,
     toReviewArgs,
 } from './review';

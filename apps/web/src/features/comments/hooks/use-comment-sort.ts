@@ -6,10 +6,7 @@ import {
     DEFAULT_COMMENT_SORT,
 } from '@/utils/constants/comment-sort';
 
-/**
- * All four go together: a half set resolves the value from local state that the
- * setter never writes, freezing the control.
- */
+/** All four go together — a half set freezes the control. */
 type ControlledCommentSort = {
     sort: string;
     order: CommentOrder;
@@ -28,7 +25,7 @@ type CommentSortState = {
     setOrder: (order: CommentOrder) => void;
 };
 
-/** Pure half of {@link useCommentSort}, split out so the branches are testable. */
+/** Pure half of {@link useCommentSort}, split out to be testable. */
 export function resolveCommentSort(
     props: CommentSortProps,
     local: CommentSortState,

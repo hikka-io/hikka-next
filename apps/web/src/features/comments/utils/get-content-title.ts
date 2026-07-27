@@ -7,8 +7,8 @@ import {
 } from '@/utils/title/get-title';
 
 /**
- * Entity titles are not uniform: collections/articles carry a plain `title`,
- * users a `username`, edits only an id — `getTitle` resolves none of those.
+ * `getTitle` handles none of these: collections/articles carry a plain `title`,
+ * users a `username`, edits only an id.
  */
 export default function getContentTitle(
     content_type: ContentTypeEnum,

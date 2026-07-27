@@ -5,8 +5,8 @@ import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import getContentTitle from '../utils/get-content-title';
 
 /**
- * `useTitle` for entities whose title is not a `title_*`/`name_*` field —
- * collections, articles, edits and users — resolved in the session's language.
+ * `useTitle` for entities with no `title_*`/`name_*` field — collections,
+ * articles, edits, users.
  */
 export function useContentTitle(
     content_type: ContentTypeEnum,

@@ -8,8 +8,8 @@ import { formatSort } from '@/utils/sort-format';
 
 /**
  * Builds the `sort` body field for the comment list endpoints. Loaders and
- * component-body queries must pass the same arguments — the body is part of
- * the query key, so a mismatch refetches instead of hydrating.
+ * component-body queries must pass the same arguments — the body is part of the
+ * query key, so a mismatch refetches instead of hydrating.
  */
 export function getCommentSort(sort?: string, order?: CommentOrder): string[] {
     let field = DEFAULT_COMMENT_SORT;

@@ -152,8 +152,8 @@ const CommentList: FC<Props> = ({
             body: {
                 comment_type: commentType,
                 sort: getCommentSort(sort, order),
-                // `undefined`, never `null` — keeps the unfiltered query key
-                // identical to what the content-page loaders prefetch.
+                // `undefined`, never `null`: keeps the unfiltered query key
+                // identical to the one the content-page loaders prefetch.
                 recommended:
                     commentType === 'review'
                         ? (verdict ?? undefined)

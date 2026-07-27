@@ -35,8 +35,7 @@ const UserComment: FC<Props> = ({ comment }) => {
     const href = `/comments/${comment.content_type}/${preview.slug}/${comment.reference}`;
 
     const handleNavigate = (event: MouseEvent<HTMLDivElement>) => {
-        // Spoiler reveals, links, and mentions inside the comment handle
-        // their own clicks; only empty-area clicks open the comment thread.
+        // Spoilers, links and mentions handle their own clicks.
         if ((event.target as HTMLElement).closest('a, button')) return;
 
         navigate({ to: href });

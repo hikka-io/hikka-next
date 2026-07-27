@@ -20,7 +20,7 @@ export function commentThreadInfiniteOptions(
 
 /**
  * Full subtree of a comment, led by the comment itself. List responses cap a
- * comment at ~10 replies, so the rest of a thread comes from here.
+ * comment at ~10 replies; the rest comes from here.
  */
 export function useCommentThread(
     reference: string | undefined,

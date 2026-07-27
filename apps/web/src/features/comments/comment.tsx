@@ -84,8 +84,8 @@ const Comment: FC<Props> = ({ comment, slug, content_type, contentTitle }) => {
 
     const loadedReplies = countCommentNodes(allReplies);
 
-    // `total_replies` counts deleted comments, so it can over-promise; the
-    // stale hint clears after one request. Errors stay mounted as the retry.
+    // `total_replies` counts deleted comments, so it over-promises until the
+    // first request settles. Errors stay mounted as the retry affordance.
     const hasMoreReplies =
         lazyThread &&
         (threadRequested

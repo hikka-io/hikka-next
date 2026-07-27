@@ -1,5 +1,5 @@
-// Hooks only. `commentThreadInfiniteOptions` stays unexported here on purpose —
-// it is loader-callable query options, and routes import it directly.
+// Hooks only. `commentThreadInfiniteOptions` is loader-callable query options,
+// so routes import it directly rather than through here.
 export {
     type CommentSortProps,
     resolveCommentSort,

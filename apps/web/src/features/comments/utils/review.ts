@@ -39,9 +39,7 @@ export function getReviewTotal(stats: ReviewStatsResponse | undefined): number {
 
 export const REVIEW_MAJORITY_SHARE = 0.6;
 
-/**
- * Headline sentiment for a title's reviews
- */
+/** Headline sentiment for a title's reviews. */
 export function getReviewVerdict(
     stats: ReviewStatsResponse | undefined,
 ): string | null {

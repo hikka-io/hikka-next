@@ -3,10 +3,10 @@ import type { PendingReply } from '@/services/providers/comments-provider';
 import { type CommentNode, toCommentNode } from './build-comment-tree';
 
 /**
- * Pins replies posted in this session to the top of `serverReplies` — or after
- * `insertAfter`, for replies re-parented at max depth — so they do not jump to
- * their sorted position on the next refetch. Pending entries decide placement
- * only: once the server returns a reply, its copy wins on content and replies.
+ * Pins replies posted this session to the top of `serverReplies` — or after
+ * `insertAfter`, for replies re-parented at max depth — so they do not jump on
+ * the next refetch. Pending entries decide placement only; once the server
+ * returns a reply, its copy wins on content.
  */
 export function mergePendingReplies(
     serverReplies: CommentNode[],
@@ -56,8 +56,7 @@ export function mergePendingReplies(
         return after ? [reply, ...after] : [reply];
     });
 
-    // Target gone (deleted, or outside the loaded slice) — append rather than
-    // drop the reply along with it.
+    // Target gone (deleted, or outside the loaded slice) — append, don't drop.
     const orphaned = appended
         .filter(
             (pending) =>
