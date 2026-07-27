@@ -108,6 +108,12 @@ const MobileHeader = () => {
 
     const showBack = !hideBack;
 
+    const titleNode = TitleComponent ? (
+        <TitleComponent />
+    ) : (
+        <span className="truncate font-semibold text-sm">{title}</span>
+    );
+
     const goBack = () => {
         if (canGoBack) {
             router.history.back();
@@ -147,31 +153,29 @@ const MobileHeader = () => {
                     )}
                     <div
                         className={cn(
-                            'flex min-w-0 flex-1 flex-col justify-center',
+                            'flex min-w-0 flex-1 flex-col justify-center self-stretch',
                             animated && 'transition-opacity',
                             titleVisible
                                 ? 'opacity-100'
                                 : 'pointer-events-none opacity-0',
                         )}
                     >
-                        {TitleComponent ? (
-                            <TitleComponent />
-                        ) : (
-                            <span className="truncate font-semibold text-sm">
-                                {title}
-                            </span>
-                        )}
                         {navRoutes && navUrlPrefix ? (
                             <HeaderNavSheet
                                 routes={navRoutes}
                                 urlPrefix={navUrlPrefix}
-                            />
+                            >
+                                {titleNode}
+                            </HeaderNavSheet>
                         ) : (
-                            subtitle && (
-                                <span className="truncate text-muted-foreground text-xs">
-                                    {subtitle}
-                                </span>
-                            )
+                            <>
+                                {titleNode}
+                                {subtitle && (
+                                    <span className="truncate text-muted-foreground text-xs">
+                                        {subtitle}
+                                    </span>
+                                )}
+                            </>
                         )}
                     </div>
                     {ActionsComponent && (

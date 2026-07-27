@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, type PropsWithChildren, useState } from 'react';
 
 import MaterialSymbolsKeyboardArrowDownRounded from '@/components/icons/material-symbols/MaterialSymbolsKeyboardArrowDownRounded';
 import {
@@ -11,12 +11,12 @@ import { Link, usePathname } from '@/utils/navigation';
 
 import { navRowClassName } from '../nav-styles';
 
-type Props = {
+type Props = PropsWithChildren & {
     routes: Hikka.NavRoute[];
     urlPrefix: string;
 };
 
-const HeaderNavSheet: FC<Props> = ({ routes, urlPrefix }) => {
+const HeaderNavSheet: FC<Props> = ({ routes, urlPrefix, children }) => {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
 
@@ -27,9 +27,14 @@ const HeaderNavSheet: FC<Props> = ({ routes, urlPrefix }) => {
 
     return (
         <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger className="-my-1 flex min-w-0 items-center gap-0.5 py-1 text-muted-foreground text-xs">
-                <span className="truncate">{current?.title_ua}</span>
-                <MaterialSymbolsKeyboardArrowDownRounded className="size-3.5 shrink-0" />
+            {/* The whole title block is the trigger, so the tap target spans
+                the header row rather than just the section label. */}
+            <DrawerTrigger className="flex h-full min-w-0 flex-col justify-center text-left">
+                {children}
+                <span className="flex min-w-0 items-center gap-0.5 text-muted-foreground text-xs">
+                    <span className="truncate">{current?.title_ua}</span>
+                    <MaterialSymbolsKeyboardArrowDownRounded className="size-3.5 shrink-0" />
+                </span>
             </DrawerTrigger>
             <DrawerContent className="gap-0 p-0 data-[vaul-drawer-direction=bottom]:pb-[var(--safe-area-bottom)]">
                 <DrawerTitle className="sr-only">Розділи</DrawerTitle>
