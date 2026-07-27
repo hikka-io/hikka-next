@@ -166,8 +166,16 @@ const CommentInput: FC<Props> = ({
                 >
                     <SheetTrigger asChild>
                         <EditorPreview
-                            buttonTitle="Написати коментар"
-                            editButtonTitle="Редагувати коментар"
+                            buttonTitle={
+                                isReview
+                                    ? 'Написати відгук'
+                                    : 'Написати коментар'
+                            }
+                            editButtonTitle={
+                                isReview
+                                    ? 'Редагувати відгук'
+                                    : 'Редагувати коментар'
+                            }
                             editor={editor}
                             isOpen={isModalOpen}
                         />
