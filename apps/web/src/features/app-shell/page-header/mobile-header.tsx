@@ -13,6 +13,7 @@ import {
     usePageHeaderState,
 } from './page-header-context';
 import { resolveTitleVisibility } from './resolve-title-visibility';
+import { useSettledScope } from './use-settled-scope';
 
 const SCROLL_THRESHOLD = 8;
 
@@ -34,7 +35,8 @@ const MobileHeader = () => {
     const [historyReady, setHistoryReady] = useState(false);
     const hasHistory = historyReady && canGoBack;
 
-    const animated = Boolean(config && anchor);
+    const settled = useSettledScope(config, anchor);
+    const animated = Boolean(config && anchor) && settled;
 
     const titleVisible = resolveTitleVisibility({
         config,
