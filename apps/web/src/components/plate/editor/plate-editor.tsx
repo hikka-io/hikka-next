@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { MarkdownPlugin } from '@platejs/markdown';
 import { MessageCircleMore, MessageCirclePlus } from 'lucide-react';
@@ -23,7 +23,11 @@ import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
 import { cn } from '@/utils/cn';
 
 import { ArticleKit } from './article-kit';
-import { usePlateMarkdownSetup } from './markdown-editor-kit';
+import {
+    MarkdownEditorKit,
+    usePlateMarkdownSetup,
+} from './markdown-editor-kit';
+import { createEditorApiKit } from './plugins/editor-api-kit';
 import { ImageGroupPlugin } from './plugins/image-group-kit';
 import { uploadAttachmentImage } from './upload-image';
 
@@ -82,6 +86,7 @@ export type PlateMarkdownEditorProps = {
     modalButtonTitle?: string;
     modalEditButtonTitle?: string;
     onValueChange?: (value: string) => void;
+    editorId?: string;
 };
 
 export function PlateMarkdownEditor({
@@ -95,9 +100,14 @@ export function PlateMarkdownEditor({
     modalEditButtonTitle = 'Редагувати коментар',
     modalTitle = 'Коментар',
     modalDescription,
+    editorId,
 }: PlateMarkdownEditorProps) {
+    const plugins = useMemo(
+        () => [...MarkdownEditorKit, ...createEditorApiKit(editorId)],
+        [editorId],
+    );
     const { editor, isMobile, isModalOpen, setIsModalOpen, handleChange } =
-        usePlateMarkdownSetup({ value, modalDefaultOpen });
+        usePlateMarkdownSetup({ value, modalDefaultOpen, plugins });
 
     useVisualViewportOffset(!!isModalOpen);
 
@@ -183,6 +193,7 @@ export type ArticlePlateEditorProps = {
     className?: string;
     placeholder?: string;
     onValueChange?: (value: Value) => void;
+    editorId?: string;
 };
 
 export function ArticlePlateEditor({
@@ -191,9 +202,14 @@ export function ArticlePlateEditor({
     className,
     placeholder = 'Напишіть зміст статті...',
     onValueChange,
+    editorId,
 }: ArticlePlateEditorProps) {
+    const plugins = useMemo(
+        () => [...ArticleKit, ...createEditorApiKit(editorId)],
+        [editorId],
+    );
     const editor = usePlateEditor({
-        plugins: ArticleKit,
+        plugins,
         value,
         nodeId: false,
         shouldNormalizeEditor: true,

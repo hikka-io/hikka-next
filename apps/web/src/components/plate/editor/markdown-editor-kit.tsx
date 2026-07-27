@@ -44,11 +44,12 @@ export const useMarkdownEditor = () => useEditorRef();
 interface UsePlateMarkdownSetupOptions {
     value?: string;
     modalDefaultOpen?: boolean;
+    plugins?: typeof MarkdownEditorKit;
 }
 
 export function usePlateMarkdownSetup(options: UsePlateMarkdownSetupOptions) {
     const editor = usePlateEditor({
-        plugins: MarkdownEditorKit,
+        plugins: options.plugins ?? MarkdownEditorKit,
         value: (editor) =>
             editor
                 .getApi(MarkdownPlugin)
