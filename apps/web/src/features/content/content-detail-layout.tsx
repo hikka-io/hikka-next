@@ -30,13 +30,14 @@ const ContentDetailLayout: FC<Props> = ({
 }) => {
     const pathname = usePathname();
     const contentUrl = `${urlPrefix}/${slug}`;
+    const isContentRoot = pathname === contentUrl;
 
     usePageHeader({
         title,
-        parent: pathname === contentUrl ? urlPrefix : contentUrl,
+        parent: isContentRoot ? urlPrefix : contentUrl,
         navRoutes,
         navUrlPrefix: contentUrl,
-        anchored: true,
+        anchored: isContentRoot,
     });
 
     return (
