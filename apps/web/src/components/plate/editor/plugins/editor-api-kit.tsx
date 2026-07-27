@@ -5,12 +5,11 @@ import {
     type AnyPlatePlugin,
     createPlatePlugin,
     useEditorRef,
-    usePluginOption,
 } from 'platejs/react';
 
 export const EDITOR_API_MESSAGE_SOURCE = 'hikka-editor-api';
 
-export type EditorApiCommand = 'get' | 'set' | 'insert' | 'focus';
+export type EditorApiCommand = 'get' | 'set' | 'insert';
 
 export type EditorApiRequest = {
     source: typeof EDITOR_API_MESSAGE_SOURCE;
@@ -96,7 +95,6 @@ export function handleEditorApiRequest(
     editor: {
         children: Value;
         tf: {
-            focus: () => void;
             insertNodes: (value: Value, options?: { select?: boolean }) => void;
             setValue: (value: Value) => void;
         };
@@ -143,9 +141,6 @@ export function handleEditorApiRequest(
             }
             editor.tf.insertNodes(request.value, { select: true });
             return response(request, { ok: true });
-        case 'focus':
-            editor.tf.focus();
-            return response(request, { ok: true });
         default:
             return errorResponse(
                 request,
@@ -155,9 +150,8 @@ export function handleEditorApiRequest(
     }
 }
 
-function EditorApiBridge() {
+function EditorApiBridge({ editorId }: { editorId?: string }) {
     const editor = useEditorRef();
-    const editorId = usePluginOption(EditorApiPlugin, 'editorId');
 
     useEffect(() => {
         if (!editorId) return;
@@ -185,11 +179,20 @@ export const EditorApiPlugin = createPlatePlugin({
         editorId: '',
     } satisfies EditorApiOptions,
     render: {
-        afterEditable: EditorApiBridge,
+        afterEditable: () => <EditorApiBridge />,
     },
 });
 
 export const createEditorApiKit = (editorId?: string) =>
     (editorId
-        ? [EditorApiPlugin.configure({ options: { editorId } })]
+        ? [
+              EditorApiPlugin.configure({
+                  options: { editorId },
+                  render: {
+                      afterEditable: () => (
+                          <EditorApiBridge editorId={editorId} />
+                      ),
+                  },
+              }),
+          ]
         : []) as AnyPlatePlugin[];

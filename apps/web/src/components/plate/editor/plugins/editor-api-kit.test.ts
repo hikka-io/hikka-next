@@ -27,7 +27,6 @@ function createEditor() {
     return {
         children: value,
         tf: {
-            focus: vi.fn(),
             insertNodes: vi.fn(),
             setValue: vi.fn(),
         },
@@ -76,7 +75,7 @@ describe('editor API bridge', () => {
         });
     });
 
-    it('sets, inserts, and focuses through editor transforms', () => {
+    it('sets and inserts through editor transforms', () => {
         const editor = createEditor();
         const fragment = [{ type: 'p', children: [{ text: 'Inserted' }] }];
 
@@ -99,11 +98,6 @@ describe('editor API bridge', () => {
         expect(editor.tf.insertNodes).toHaveBeenCalledWith(fragment, {
             select: true,
         });
-
-        expect(
-            handleEditorApiRequest(editor, request('focus'), 'article-body'),
-        ).toMatchObject({ ok: true });
-        expect(editor.tf.focus).toHaveBeenCalledOnce();
     });
 
     it('returns structured errors for invalid commands and values', () => {
@@ -130,6 +124,5 @@ describe('editor API bridge', () => {
         expect(
             handleEditorApiRequest(editor, request('get'), 'comment-body'),
         ).toBeUndefined();
-        expect(editor.tf.focus).not.toHaveBeenCalled();
     });
 });

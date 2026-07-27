@@ -29,7 +29,7 @@ The editor responds with the same `requestId`:
 }
 ```
 
-Supported commands are `get`, `set`, `insert`, and `focus`. `set` replaces the
+Supported commands are `get`, `set`, and `insert`. `set` replaces the
 whole Plate value; `insert` inserts a Plate fragment at the current selection.
 Both commands receive their content in `value`.
 
