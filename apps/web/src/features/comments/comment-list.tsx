@@ -37,9 +37,12 @@ import {
     type CommentSortProps,
     useCommentSort,
     useCommentThread,
+    useReviewStats,
 } from './hooks';
+import ReviewStatsCard from './review-stats-card';
 import { buildCommentTree, type CommentNode } from './utils/build-comment-tree';
 import { getCommentSort } from './utils/comment-sort';
+import { getReviewTotal, supportsReviews, type Verdict } from './utils/review';
 
 export type CommentType = 'all' | 'comment' | 'review';
 
@@ -74,6 +77,8 @@ type Props = {
     contentTitle?: string;
     commentType?: CommentType;
     onCommentTypeChange?: (type: CommentType) => void;
+    verdict?: Verdict | null;
+    onVerdictChange?: (verdict: Verdict | null) => void;
 } & CommentSortProps;
 
 const CommentList: FC<Props> = ({
@@ -85,21 +90,74 @@ const CommentList: FC<Props> = ({
     contentTitle,
     commentType: controlledCommentType,
     onCommentTypeChange,
+    verdict: controlledVerdict,
+    onVerdictChange,
     ...sortProps
 }) => {
     const { user: loggedUser } = useSession();
-    const hasReviews = ['anime', 'manga', 'novel'].includes(content_type);
+    const hasReviews = supportsReviews(content_type);
     const [localCommentType, setLocalCommentType] =
         useState<CommentType>('all');
+    const [localVerdict, setLocalVerdict] = useState<Verdict | null>(null);
     const commentType = controlledCommentType ?? localCommentType;
-    const setCommentType = onCommentTypeChange ?? setLocalCommentType;
+    const verdict = controlledVerdict ?? localVerdict;
+
+    const setCommentType = (type: CommentType) => {
+        if (onCommentTypeChange) {
+            onCommentTypeChange(type);
+        } else {
+            setLocalCommentType(type);
+        }
+        if (!onVerdictChange && type !== 'review') setLocalVerdict(null);
+    };
+
+    const setVerdict = (next: Verdict | null) => {
+        if (onVerdictChange) {
+            onVerdictChange(next);
+            return;
+        }
+        setLocalVerdict(next);
+        setCommentType('review');
+    };
+
     const { sort, order, setSort, setOrder } = useCommentSort(sortProps);
+    const { stats, commentsCount } = useReviewStats({ content_type, slug });
+    const reviewsTotal = getReviewTotal(stats);
+
+    const chipOptions = useMemo(() => {
+        if (commentsCount === undefined) return COMMENT_TYPE_OPTIONS;
+
+        const counts: Record<CommentType, number> = {
+            all: commentsCount + reviewsTotal,
+            comment: commentsCount,
+            review: reviewsTotal,
+        };
+
+        return COMMENT_TYPE_OPTIONS.map((option) => ({
+            ...option,
+            count: counts[option.value],
+        }));
+    }, [commentsCount, reviewsTotal]);
+
+    const showTypeTabs = hasReviews && !comment_reference;
+
+    const reviewStats =
+        showTypeTabs && commentType !== 'comment' && reviewsTotal > 0
+            ? stats
+            : undefined;
+
     const listQuery = useInfiniteList(
         getCommentsListInfiniteOptions({
             path: { content_type, slug },
             body: {
                 comment_type: commentType,
                 sort: getCommentSort(sort, order),
+                // `undefined`, never `null` — keeps the unfiltered query key
+                // identical to what the content-page loaders prefetch.
+                recommended:
+                    commentType === 'review'
+                        ? (verdict ?? undefined)
+                        : undefined,
             },
             query: preview ? { size: 3 } : undefined,
         }),
@@ -113,7 +171,6 @@ const CommentList: FC<Props> = ({
 
     const {
         list: rows,
-        pagination,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
@@ -121,29 +178,16 @@ const CommentList: FC<Props> = ({
         ref,
     } = comment_reference ? threadQuery : listQuery;
 
-    // `[]` once settled without rows, so a failed query still hits the empty
-    // state rather than rendering a blank block.
     const list: CommentNode[] | undefined = useMemo(
         () => (rows ? buildCommentTree(rows) : isLoading ? undefined : []),
         [rows, isLoading],
-    );
-
-    const title = (
-        <span>
-            Обговорення{' '}
-            {pagination && !comment_reference && (
-                <span className="text-muted-foreground">
-                    ({pagination.total})
-                </span>
-            )}
-        </span>
     );
 
     return (
         <Block className={cn('break-inside-avoid', className)} id="comments">
             <Header href={`/comments/${content_type}/${slug}`}>
                 <HeaderContainer className="min-w-0">
-                    <HeaderTitle truncate>{title}</HeaderTitle>
+                    <HeaderTitle truncate>Обговорення</HeaderTitle>
                     {comment_reference && (
                         <Button size="md" variant="outline">
                             <Link to={`/comments/${content_type}/${slug}`}>
@@ -171,11 +215,18 @@ const CommentList: FC<Props> = ({
             </Header>
             <CommentsProvider lazyThread={!comment_reference}>
                 <div className="flex flex-col gap-4">
-                    {hasReviews && !comment_reference && (
+                    {showTypeTabs && (
                         <ChipTabs
-                            options={COMMENT_TYPE_OPTIONS}
+                            options={chipOptions}
                             value={commentType}
                             onValueChange={setCommentType}
+                        />
+                    )}
+                    {reviewStats && (
+                        <ReviewStatsCard
+                            stats={reviewStats}
+                            value={verdict}
+                            onChange={setVerdict}
                         />
                     )}
                     {!loggedUser && (
@@ -214,7 +265,11 @@ const CommentList: FC<Props> = ({
                                 bordered
                                 icon={<Star />}
                                 title={<span>Відгуків не знайдено</span>}
-                                description="Тут з'являться відгуки, щойно хтось поділиться враженнями"
+                                description={
+                                    verdict
+                                        ? 'Немає відгуків із цією оцінкою'
+                                        : "Тут з'являться відгуки, щойно хтось поділиться враженнями"
+                                }
                             />
                         ) : (
                             <EmptyState

@@ -1,37 +1,16 @@
 import type { FC } from 'react';
 
-import { type LucideIcon, Meh, ThumbsDown, ThumbsUp } from 'lucide-react';
-
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 
+import { REVIEW_VERDICTS } from './review-verdicts';
 import type { Verdict } from './utils/review';
 
-const OPTIONS: {
-    value: Verdict;
-    label: string;
-    icon: LucideIcon;
-    active: string;
-}[] = [
-    {
-        value: 'yes',
-        label: 'Рекомендую',
-        icon: ThumbsUp,
-        active: 'border-success-foreground/50 bg-success-foreground/20 text-success-foreground hover:bg-success-foreground/25 hover:text-success-foreground dark:border-success-foreground/50 dark:bg-success-foreground/20 dark:hover:bg-success-foreground/25',
-    },
-    {
-        value: 'maybe',
-        label: 'Вагаюсь',
-        icon: Meh,
-        active: 'border-warning-foreground/50 bg-warning-foreground/20 text-warning-foreground hover:bg-warning-foreground/25 hover:text-warning-foreground dark:border-warning-foreground/50 dark:bg-warning-foreground/20 dark:hover:bg-warning-foreground/25',
-    },
-    {
-        value: 'no',
-        label: 'Не рекомендую',
-        icon: ThumbsDown,
-        active: 'border-destructive-foreground/50 bg-destructive-foreground/20 text-destructive-foreground hover:bg-destructive-foreground/25 hover:text-destructive-foreground dark:border-destructive-foreground/50 dark:bg-destructive-foreground/20 dark:hover:bg-destructive-foreground/25',
-    },
-];
+const ACTIVE_CLASS: Record<Verdict, string> = {
+    yes: 'border-success-foreground/50 bg-success-foreground/20 text-success-foreground hover:bg-success-foreground/25 hover:text-success-foreground dark:border-success-foreground/50 dark:bg-success-foreground/20 dark:hover:bg-success-foreground/25',
+    maybe: 'border-warning-foreground/50 bg-warning-foreground/20 text-warning-foreground hover:bg-warning-foreground/25 hover:text-warning-foreground dark:border-warning-foreground/50 dark:bg-warning-foreground/20 dark:hover:bg-warning-foreground/25',
+    no: 'border-destructive-foreground/50 bg-destructive-foreground/20 text-destructive-foreground hover:bg-destructive-foreground/25 hover:text-destructive-foreground dark:border-destructive-foreground/50 dark:bg-destructive-foreground/20 dark:hover:bg-destructive-foreground/25',
+};
 
 type Props = {
     value: Verdict | null;
@@ -47,7 +26,7 @@ const CommentVerdictPicker: FC<Props> = ({
     className,
     bare = false,
 }) => {
-    const buttons = OPTIONS.map(({ value: v, label, icon: Icon, active }) => (
+    const buttons = REVIEW_VERDICTS.map(({ value: v, label, icon: Icon }) => (
         <Button
             key={v}
             type="button"
@@ -56,7 +35,7 @@ const CommentVerdictPicker: FC<Props> = ({
             aria-pressed={value === v}
             className={cn(
                 'h-auto min-w-0 flex-col gap-1 px-1 py-2 text-xs sm:flex-row sm:gap-2 sm:py-2.5 sm:text-sm',
-                value === v && active,
+                value === v && ACTIVE_CLASS[v],
             )}
         >
             <Icon />

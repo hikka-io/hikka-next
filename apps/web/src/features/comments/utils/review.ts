@@ -1,4 +1,4 @@
-import type { ReviewResponse } from '@hikka/api';
+import type { ReviewResponse, ReviewStatsResponse } from '@hikka/api';
 
 export type Verdict = ReviewResponse['recommended'];
 
@@ -32,10 +32,34 @@ export function canConvertReview(params: {
     );
 }
 
+export function getReviewTotal(stats: ReviewStatsResponse | undefined): number {
+    if (!stats) return 0;
+    return (stats.yes ?? 0) + (stats.maybe ?? 0) + (stats.no ?? 0);
+}
+
+export const REVIEW_MAJORITY_SHARE = 0.6;
+
+/**
+ * Headline sentiment for a title's reviews
+ */
+export function getReviewVerdict(
+    stats: ReviewStatsResponse | undefined,
+): string | null {
+    const total = getReviewTotal(stats);
+    if (!stats || total === 0) return null;
+
+    const yes = stats.yes ?? 0;
+    const maybe = stats.maybe ?? 0;
+    const no = stats.no ?? 0;
+
+    if (yes / total >= REVIEW_MAJORITY_SHARE) return 'Здебільшого радять';
+    if (no / total >= REVIEW_MAJORITY_SHARE) return 'Здебільшого не радять';
+    if (maybe > yes && maybe > no) return 'Неоднозначні враження';
+    return 'Думки розділились';
+}
+
 export const REVIEW_AUTO_THRESHOLD = 500;
 
-// Structural node type so this util needs no platejs import — matches both
-// TText ({ text }) and TElement ({ children }) shapes.
 type TextishNode = {
     text?: unknown;
     children?: readonly TextishNode[];

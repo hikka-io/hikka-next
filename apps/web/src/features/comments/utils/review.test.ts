@@ -4,6 +4,8 @@ import {
     REVIEW_AUTO_THRESHOLD,
     canConvertReview,
     getPlainTextLength,
+    getReviewTotal,
+    getReviewVerdict,
     supportsReviews,
     toReviewArgs,
 } from './review';
@@ -125,5 +127,84 @@ describe('getPlainTextLength', () => {
 describe('REVIEW_AUTO_THRESHOLD', () => {
     it('is 500', () => {
         expect(REVIEW_AUTO_THRESHOLD).toBe(500);
+    });
+});
+
+describe('getReviewTotal', () => {
+    it('is 0 for undefined stats', () => {
+        expect(getReviewTotal(undefined)).toBe(0);
+    });
+
+    it('coalesces missing fields to 0', () => {
+        expect(getReviewTotal({ yes: 3 })).toBe(3);
+    });
+
+    it('sums all three verdicts', () => {
+        expect(getReviewTotal({ yes: 8, maybe: 3, no: 1 })).toBe(12);
+    });
+});
+
+describe('getReviewVerdict', () => {
+    it('is null for undefined stats', () => {
+        expect(getReviewVerdict(undefined)).toBeNull();
+    });
+
+    it('is null when there are no reviews', () => {
+        expect(getReviewVerdict({ yes: 0, maybe: 0, no: 0 })).toBeNull();
+    });
+
+    it('reads as recommended when all reviews are positive', () => {
+        expect(getReviewVerdict({ yes: 5, maybe: 0, no: 0 })).toBe(
+            'Здебільшого радять',
+        );
+    });
+
+    it('reads as recommended exactly at the majority threshold', () => {
+        expect(getReviewVerdict({ yes: 6, maybe: 2, no: 2 })).toBe(
+            'Здебільшого радять',
+        );
+    });
+
+    // The reference design labels this exact distribution "Здебільшого радять".
+    it('reads as recommended for the reference 8/3/1 split', () => {
+        expect(getReviewVerdict({ yes: 8, maybe: 3, no: 1 })).toBe(
+            'Здебільшого радять',
+        );
+    });
+
+    it('reads as not recommended when all reviews are negative', () => {
+        expect(getReviewVerdict({ yes: 0, maybe: 0, no: 5 })).toBe(
+            'Здебільшого не радять',
+        );
+    });
+
+    it('reads as not recommended exactly at the majority threshold', () => {
+        expect(getReviewVerdict({ yes: 2, maybe: 2, no: 6 })).toBe(
+            'Здебільшого не радять',
+        );
+    });
+
+    it('reads as mixed impressions when maybe is the strict maximum', () => {
+        expect(getReviewVerdict({ yes: 2, maybe: 5, no: 3 })).toBe(
+            'Неоднозначні враження',
+        );
+    });
+
+    it('reads as divided on an even three-way split', () => {
+        expect(getReviewVerdict({ yes: 1, maybe: 1, no: 1 })).toBe(
+            'Думки розділились',
+        );
+    });
+
+    it('reads as divided just below the positive threshold', () => {
+        expect(getReviewVerdict({ yes: 59, maybe: 0, no: 41 })).toBe(
+            'Думки розділились',
+        );
+    });
+
+    it('reads as divided when no side reaches a majority', () => {
+        expect(getReviewVerdict({ yes: 5, maybe: 1, no: 4 })).toBe(
+            'Думки розділились',
+        );
     });
 });
