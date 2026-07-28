@@ -1,21 +1,27 @@
 import { type FC, useEffect, useState } from 'react';
 
+import { getAuthToken } from '@hikka/api';
+
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from '@/components/ui/image';
+import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { setNsfwConsentFn } from '@/utils/cookies/server';
 import { useRouter } from '@/utils/navigation';
 
-let sessionConsented = false;
+import { grantNsfwSessionConsent, hasNsfwSessionConsent } from './nsfw-consent';
 
 const NsfwOverlay: FC = () => {
     const router = useRouter();
+    const { update } = useUpdateSessionUI();
     const [dismissed, setDismissed] = useState(() => {
-        if (sessionConsented) return true;
+        if (hasNsfwSessionConsent()) return true;
         if (typeof document === 'undefined') return false;
         return document.cookie.includes('nsfw_confirmed=');
     });
     const [remember, setRemember] = useState(false);
+
+    const isAuthenticated = !!getAuthToken();
 
     useEffect(() => {
         if (dismissed) return;
@@ -28,9 +34,13 @@ const NsfwOverlay: FC = () => {
 
     const handleConfirm = async () => {
         if (remember) {
-            await setNsfwConsentFn();
+            if (getAuthToken()) {
+                update({ preferences: { show_nsfw: true } });
+            } else {
+                await setNsfwConsentFn();
+            }
         }
-        sessionConsented = true;
+        grantNsfwSessionConsent();
         setDismissed(true);
     };
 
@@ -73,7 +83,11 @@ const NsfwOverlay: FC = () => {
                 {/* biome-ignore lint/a11y/noLabelWithoutControl: wraps a Radix Checkbox, which renders a labelable button the rule doesn't detect. */}
                 <label
                     className="flex cursor-pointer items-center gap-2"
-                    title="Вибір буде збережено на 7 днів"
+                    title={
+                        isAuthenticated
+                            ? 'Вибір буде збережено в налаштуваннях'
+                            : 'Вибір буде збережено на 7 днів'
+                    }
                 >
                     <Checkbox
                         checked={remember}

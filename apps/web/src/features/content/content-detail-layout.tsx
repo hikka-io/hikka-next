@@ -3,6 +3,7 @@ import type { FC, PropsWithChildren } from 'react';
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
+import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { usePathname } from '@/utils/navigation';
 
 import ContentActionBar from './content-action-bar';
@@ -29,8 +30,11 @@ const ContentDetailLayout: FC<Props> = ({
     children,
 }) => {
     const pathname = usePathname();
+    const { preferences } = useSessionUI();
     const contentUrl = `${urlPrefix}/${slug}`;
     const isContentRoot = pathname === contentUrl;
+
+    const nsfwAllowed = (preferences.show_nsfw ?? false) || nsfwConsented;
 
     usePageHeader({
         title,
@@ -42,7 +46,7 @@ const ContentDetailLayout: FC<Props> = ({
 
     return (
         <>
-            {nsfw && !nsfwConsented && <NsfwOverlay />}
+            {nsfw && !nsfwAllowed && <NsfwOverlay />}
             {children}
 
             <ContentActionBar content_type={contentType} className="mt-12" />

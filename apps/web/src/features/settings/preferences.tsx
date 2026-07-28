@@ -1,3 +1,5 @@
+import { useRouter } from '@tanstack/react-router';
+
 import MaterialSymbolsComputerOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsComputerOutlineRounded';
 import MaterialSymbolsNightlightOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsNightlightOutlineRounded';
 import MaterialSymbolsSunnyOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSunnyOutlineRounded';
@@ -14,11 +16,13 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
+import { clearNsfwConsent } from '@/features/content/nsfw-consent';
 import { useTheme } from '@/services/providers/theme-provider';
 
 const PreferencesSettings = () => {
     const { preferences } = useSessionUI();
     const { update } = useUpdateSessionUI();
+    const router = useRouter();
 
     const { setTheme, theme } = useTheme();
 
@@ -31,6 +35,14 @@ const PreferencesSettings = () => {
                     | 'title_ja',
             },
         });
+
+    const handleChangeShowNsfw = async (value: boolean) => {
+        update({ preferences: { show_nsfw: value } });
+        if (!value) {
+            await clearNsfwConsent();
+            await router.invalidate();
+        }
+    };
 
     const handleChangeNameLanguage = (value: string[]) =>
         update({
@@ -147,6 +159,20 @@ const PreferencesSettings = () => {
                     onCheckedChange={(value) =>
                         update({ preferences: { overlay: value } })
                     }
+                />
+            </div>
+
+            <div className="flex w-full flex-row items-center justify-between gap-2">
+                <div className="flex flex-col gap-1">
+                    <Label>Контент 18+</Label>
+                    <span className="text-muted-foreground text-xs">
+                        Показувати відвертий контент без попередження
+                    </span>
+                </div>
+
+                <Switch
+                    checked={preferences.show_nsfw ?? false}
+                    onCheckedChange={handleChangeShowNsfw}
                 />
             </div>
         </div>

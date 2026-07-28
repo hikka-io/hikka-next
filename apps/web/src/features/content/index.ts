@@ -16,6 +16,7 @@ export { default as ContentHero } from './hero';
 export { default as ContentHeroPoster } from './hero-poster';
 export { default as ContentLinks } from './links';
 export { default as ContentMedia } from './media';
+export * from './nsfw-consent';
 export { default as ContentScores } from './scores';
 export { default as ContentStaff } from './staff';
 export { default as ContentTitle } from './title';

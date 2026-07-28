@@ -108,3 +108,15 @@ export const setNsfwConsentFn = createServerFn({ method: 'POST' }).handler(
         });
     },
 );
+
+export const clearNsfwConsentFn = createServerFn({ method: 'POST' }).handler(
+    async () => {
+        const { deleteCookie } = await import('@tanstack/react-start/server');
+        const domain = getCookieDomain();
+
+        deleteCookie('nsfw_confirmed', {
+            path: '/',
+            ...(domain ? { domain } : {}),
+        });
+    },
+);

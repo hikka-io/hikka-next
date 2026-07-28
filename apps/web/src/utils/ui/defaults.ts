@@ -38,6 +38,7 @@ export const DEFAULT_USER_UI: UserCustomizationResponse = {
         title_language: 'title_ua',
         name_language: 'name_ua',
         overlay: true,
+        show_nsfw: false,
         home_widgets: [
             UiWidgetEnum.TRACKER,
             UiWidgetEnum.HISTORY,
