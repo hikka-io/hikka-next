@@ -88,8 +88,12 @@ const ReviewStatsCard: FC<Props> = ({ stats, value, onChange, className }) => {
                                 </Chip>
                             </TooltipTrigger>
                             <TooltipPortal>
-                                <TooltipContent side="bottom">
-                                    {statsLabel} ·{' '}
+                                <TooltipContent
+                                    side="bottom"
+                                    className="flex items-center gap-1.5"
+                                >
+                                    {statsLabel}
+                                    <div className="size-1 shrink-0 rounded-full bg-current opacity-50" />
                                     {Math.round((count / total) * 100)}%
                                 </TooltipContent>
                             </TooltipPortal>
