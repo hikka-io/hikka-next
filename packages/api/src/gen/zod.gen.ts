@@ -2024,6 +2024,7 @@ export const zUiPreferencesInput = z.object({
     title_language: z.string().nullish(),
     name_language: z.string().nullish(),
     effect: z.enum(['snowfall', 'sakura']).nullish(),
+    show_nsfw: z.boolean().optional().default(false),
     overlay: z.boolean().optional().default(true),
     home_widgets: z
         .array(zUiWidgetEnum)
@@ -2041,6 +2042,7 @@ export const zUiPreferencesOutput = z.object({
     title_language: z.string().nullish(),
     name_language: z.string().nullish(),
     effect: z.enum(['snowfall', 'sakura']).nullish(),
+    show_nsfw: z.boolean().optional().default(false),
     overlay: z.boolean().optional().default(true),
     home_widgets: z
         .array(zUiWidgetEnum)

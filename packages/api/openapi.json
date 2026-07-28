@@ -20710,6 +20710,11 @@
                         ],
                         "title": "Effect"
                     },
+                    "show_nsfw": {
+                        "type": "boolean",
+                        "title": "Show Nsfw",
+                        "default": false
+                    },
                     "overlay": {
                         "type": "boolean",
                         "title": "Overlay",
@@ -20798,6 +20803,11 @@
                             }
                         ],
                         "title": "Effect"
+                    },
+                    "show_nsfw": {
+                        "type": "boolean",
+                        "title": "Show Nsfw",
+                        "default": false
                     },
                     "overlay": {
                         "type": "boolean",

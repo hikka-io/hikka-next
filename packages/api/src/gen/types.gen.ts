@@ -5425,6 +5425,10 @@ export type UiPreferencesInput = {
      */
     effect?: 'snowfall' | 'sakura' | null;
     /**
+     * Show Nsfw
+     */
+    show_nsfw?: boolean;
+    /**
      * Overlay
      */
     overlay?: boolean;
@@ -5459,6 +5463,10 @@ export type UiPreferencesOutput = {
      * Effect
      */
     effect?: 'snowfall' | 'sakura' | null;
+    /**
+     * Show Nsfw
+     */
+    show_nsfw?: boolean;
     /**
      * Overlay
      */
