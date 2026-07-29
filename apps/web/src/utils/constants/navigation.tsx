@@ -506,6 +506,12 @@ export const PROFILE_MENU: Hikka.NavRoute[] = [
         url: '/u/{username}/favorites',
     },
     {
+        icon: (props) => <MessageCircle {...props} />,
+        title_ua: 'Коментарі',
+        slug: 'comments',
+        url: '/comments/user/{username}',
+    },
+    {
         icon: MaterialSymbolsSettingsOutlineRounded,
         title_ua: 'Налаштування',
         slug: 'settings',

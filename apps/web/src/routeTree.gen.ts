@@ -45,6 +45,7 @@ import { Route as PagesMangaSlugRouteImport } from './routes/_pages/manga/$slug'
 import { Route as PagesEditNewRouteImport } from './routes/_pages/edit/new'
 import { Route as PagesEditContentRouteImport } from './routes/_pages/edit/content'
 import { Route as PagesEditEditIdRouteImport } from './routes/_pages/edit/$editId'
+import { Route as PagesCommentsMyRouteImport } from './routes/_pages/comments/my'
 import { Route as PagesCommentsLatestRouteImport } from './routes/_pages/comments/latest'
 import { Route as PagesCollectionsNewRouteImport } from './routes/_pages/collections/new'
 import { Route as PagesCollectionsReferenceRouteImport } from './routes/_pages/collections/$reference'
@@ -281,6 +282,11 @@ const PagesEditContentRoute = PagesEditContentRouteImport.update({
 const PagesEditEditIdRoute = PagesEditEditIdRouteImport.update({
   id: '/edit/$editId',
   path: '/edit/$editId',
+  getParentRoute: () => PagesRoute,
+} as any)
+const PagesCommentsMyRoute = PagesCommentsMyRouteImport.update({
+  id: '/comments/my',
+  path: '/comments/my',
   getParentRoute: () => PagesRoute,
 } as any)
 const PagesCommentsLatestRoute = PagesCommentsLatestRouteImport.update({
@@ -617,6 +623,7 @@ export interface FileRoutesByFullPath {
   '/collections/$reference': typeof PagesCollectionsReferenceRouteWithChildren
   '/collections/new': typeof PagesCollectionsNewRoute
   '/comments/latest': typeof PagesCommentsLatestRoute
+  '/comments/my': typeof PagesCommentsMyRoute
   '/edit/$editId': typeof PagesEditEditIdRouteWithChildren
   '/edit/content': typeof PagesEditContentRoute
   '/edit/new': typeof PagesEditNewRoute
@@ -706,6 +713,7 @@ export interface FileRoutesByTo {
   '/articles/new': typeof PagesArticlesNewRoute
   '/collections/new': typeof PagesCollectionsNewRoute
   '/comments/latest': typeof PagesCommentsLatestRoute
+  '/comments/my': typeof PagesCommentsMyRoute
   '/edit/content': typeof PagesEditContentRoute
   '/edit/new': typeof PagesEditNewRoute
   '/settings/notifications': typeof PagesSettingsNotificationsRoute
@@ -797,6 +805,7 @@ export interface FileRoutesById {
   '/_pages/collections/$reference': typeof PagesCollectionsReferenceRouteWithChildren
   '/_pages/collections/new': typeof PagesCollectionsNewRoute
   '/_pages/comments/latest': typeof PagesCommentsLatestRoute
+  '/_pages/comments/my': typeof PagesCommentsMyRoute
   '/_pages/edit/$editId': typeof PagesEditEditIdRouteWithChildren
   '/_pages/edit/content': typeof PagesEditContentRoute
   '/_pages/edit/new': typeof PagesEditNewRoute
@@ -893,6 +902,7 @@ export interface FileRouteTypes {
     | '/collections/$reference'
     | '/collections/new'
     | '/comments/latest'
+    | '/comments/my'
     | '/edit/$editId'
     | '/edit/content'
     | '/edit/new'
@@ -982,6 +992,7 @@ export interface FileRouteTypes {
     | '/articles/new'
     | '/collections/new'
     | '/comments/latest'
+    | '/comments/my'
     | '/edit/content'
     | '/edit/new'
     | '/settings/notifications'
@@ -1072,6 +1083,7 @@ export interface FileRouteTypes {
     | '/_pages/collections/$reference'
     | '/_pages/collections/new'
     | '/_pages/comments/latest'
+    | '/_pages/comments/my'
     | '/_pages/edit/$editId'
     | '/_pages/edit/content'
     | '/_pages/edit/new'
@@ -1413,6 +1425,13 @@ declare module '@tanstack/react-router' {
       path: '/edit/$editId'
       fullPath: '/edit/$editId'
       preLoaderRoute: typeof PagesEditEditIdRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/comments/my': {
+      id: '/_pages/comments/my'
+      path: '/comments/my'
+      fullPath: '/comments/my'
+      preLoaderRoute: typeof PagesCommentsMyRouteImport
       parentRoute: typeof PagesRoute
     }
     '/_pages/comments/latest': {
@@ -2066,6 +2085,7 @@ interface PagesRouteChildren {
   PagesCollectionsReferenceRoute: typeof PagesCollectionsReferenceRouteWithChildren
   PagesCollectionsNewRoute: typeof PagesCollectionsNewRoute
   PagesCommentsLatestRoute: typeof PagesCommentsLatestRoute
+  PagesCommentsMyRoute: typeof PagesCommentsMyRoute
   PagesEditEditIdRoute: typeof PagesEditEditIdRouteWithChildren
   PagesEditContentRoute: typeof PagesEditContentRoute
   PagesEditNewRoute: typeof PagesEditNewRoute
@@ -2098,6 +2118,7 @@ const PagesRouteChildren: PagesRouteChildren = {
   PagesCollectionsReferenceRoute: PagesCollectionsReferenceRouteWithChildren,
   PagesCollectionsNewRoute: PagesCollectionsNewRoute,
   PagesCommentsLatestRoute: PagesCommentsLatestRoute,
+  PagesCommentsMyRoute: PagesCommentsMyRoute,
   PagesEditEditIdRoute: PagesEditEditIdRouteWithChildren,
   PagesEditContentRoute: PagesEditContentRoute,
   PagesEditNewRoute: PagesEditNewRoute,

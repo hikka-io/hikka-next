@@ -1,7 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query';
 import { redirect } from '@tanstack/react-router';
 
-import { profileQueryKey } from '@hikka/api';
+import { profileQueryKey, type UserResponse } from '@hikka/api';
 
 /**
  * Call in beforeLoad to require an authenticated session.
@@ -9,7 +9,7 @@ import { profileQueryKey } from '@hikka/api';
  * Redirects to /login if no session data exists.
  */
 export function requireAuth(queryClient: QueryClient, redirectTo = '/login') {
-    const session = queryClient.getQueryData(profileQueryKey());
+    const session = queryClient.getQueryData<UserResponse>(profileQueryKey());
     if (!session) {
         throw redirect({ to: redirectTo });
     }
