@@ -7,6 +7,7 @@ import {
     getCommentsListInfiniteOptions,
     getCommentsUserInfiniteOptions,
     paginationPageParam,
+    serviceUserStatsOptions,
 } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
@@ -50,14 +51,27 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
         if (!content) throw redirect({ to: '/' });
 
         if (content_type === ContentTypeEnum.USER) {
-            await queryClient.prefetchInfiniteQuery({
-                ...getCommentsUserInfiniteOptions({
-                    path: { username: slug },
-                    body: { comment_type: commentType, sort },
-                    client: apiClient,
+            await Promise.all([
+                queryClient.prefetchInfiniteQuery({
+                    ...getCommentsUserInfiniteOptions({
+                        path: { username: slug },
+                        body: {
+                            comment_type: commentType,
+                            sort,
+                            first_level_only: deps.first_level_only,
+                        },
+                        client: apiClient,
+                    }),
+                    ...paginationPageParam(),
                 }),
-                ...paginationPageParam(),
-            });
+
+                queryClient.prefetchQuery(
+                    serviceUserStatsOptions({
+                        path: { username: slug },
+                        client: apiClient,
+                    }),
+                ),
+            ]);
         } else {
             await queryClient.prefetchInfiniteQuery({
                 ...getCommentsListInfiniteOptions({
@@ -88,7 +102,8 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
 
 function CommentsPage() {
     const { content_type, slug } = Route.useParams();
-    const { comment_type, recommended, sort, order } = Route.useSearch();
+    const { comment_type, recommended, sort, order, first_level_only } =
+        Route.useSearch();
     const { content } = Route.useLoaderData();
     const navigate = Route.useNavigate();
     const changeParam = useChangeParam();
@@ -156,6 +171,10 @@ function CommentsPage() {
                         username={slug}
                         commentType={commentType}
                         onCommentTypeChange={handleCommentTypeChange}
+                        firstLevelOnly={first_level_only}
+                        onFirstLevelOnlyChange={(value) =>
+                            changeParam('first_level_only', value)
+                        }
                         {...sortProps}
                     />
                 ) : (

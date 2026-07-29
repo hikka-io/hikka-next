@@ -1,14 +1,20 @@
-import { type FC, useState } from 'react';
+import { type FC, useMemo, useState } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
 import { Star } from 'lucide-react';
 
-import { getCommentsUserInfiniteOptions } from '@hikka/api';
+import {
+    getCommentsUserInfiniteOptions,
+    serviceUserStatsOptions,
+} from '@hikka/api';
 
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
+import { Checkbox } from '@/components/ui/checkbox';
 import { ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
+import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import {
     Header,
     HeaderActions,
@@ -32,6 +38,8 @@ type Props = {
     className?: string;
     commentType?: CommentType;
     onCommentTypeChange?: (type: CommentType) => void;
+    firstLevelOnly?: boolean;
+    onFirstLevelOnlyChange?: (value: boolean) => void;
 } & CommentSortProps;
 
 const UserCommentList: FC<Props> = ({
@@ -39,16 +47,42 @@ const UserCommentList: FC<Props> = ({
     className,
     commentType: controlledCommentType,
     onCommentTypeChange,
+    firstLevelOnly: controlledFirstLevelOnly,
+    onFirstLevelOnlyChange,
     ...sortProps
 }) => {
     const [localCommentType, setLocalCommentType] =
         useState<CommentType>('all');
+    const [localFirstLevelOnly, setLocalFirstLevelOnly] = useState(false);
     const commentType = controlledCommentType ?? localCommentType;
     const setCommentType = onCommentTypeChange ?? setLocalCommentType;
+    const firstLevelOnly = controlledFirstLevelOnly ?? localFirstLevelOnly;
+    const setFirstLevelOnly = onFirstLevelOnlyChange ?? setLocalFirstLevelOnly;
     const { sort, order, setSort, setOrder } = useCommentSort(sortProps);
+    const { data: stats } = useQuery(
+        serviceUserStatsOptions({ path: { username } }),
+    );
+
+    const chipOptions = useMemo(() => {
+        const total = stats?.comments_count;
+
+        if (total === undefined) return COMMENT_TYPE_OPTIONS;
+
+        const reviews = stats?.reviews_count ?? 0;
+        const counts: Record<CommentType, number> = {
+            all: total,
+            comment: Math.max(total - reviews, 0),
+            review: reviews,
+        };
+
+        return COMMENT_TYPE_OPTIONS.map((option) => ({
+            ...option,
+            count: counts[option.value],
+        }));
+    }, [stats]);
+
     const {
         list,
-        pagination,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
@@ -60,26 +94,36 @@ const UserCommentList: FC<Props> = ({
             body: {
                 comment_type: commentType,
                 sort: getCommentSort(sort, order),
+                first_level_only: firstLevelOnly || undefined,
             },
         }),
     );
 
     return (
         <Block className={cn('break-inside-avoid', className)} id="comments">
-            <Header>
-                <HeaderContainer className="min-w-0">
-                    <HeaderTitle truncate>
-                        <span>
-                            Обговорення{' '}
-                            {pagination && (
-                                <span className="text-muted-foreground">
-                                    ({pagination.total})
-                                </span>
-                            )}
-                        </span>
-                    </HeaderTitle>
+            <Header className="flex-wrap">
+                <HeaderContainer className="min-w-0 max-md:w-full">
+                    <HeaderTitle truncate>Обговорення</HeaderTitle>
                 </HeaderContainer>
-                <HeaderActions>
+                <HeaderActions className="max-md:w-full max-md:justify-between">
+                    <FieldLabel className="h-8 w-fit! shrink-0 cursor-pointer">
+                        <Field
+                            orientation="horizontal"
+                            className="h-full items-center"
+                        >
+                            <Checkbox
+                                checked={firstLevelOnly}
+                                onCheckedChange={(checked) =>
+                                    setFirstLevelOnly(checked === true)
+                                }
+                                id="first-level-only"
+                                name="first-level-only"
+                            />
+                            <FieldTitle className="whitespace-nowrap font-normal text-muted-foreground text-sm">
+                                Без відповідей
+                            </FieldTitle>
+                        </Field>
+                    </FieldLabel>
                     <Sort
                         sort_type="comment"
                         compact
@@ -97,7 +141,7 @@ const UserCommentList: FC<Props> = ({
             <CommentsProvider>
                 <div className="flex flex-col gap-6">
                     <ChipTabs
-                        options={COMMENT_TYPE_OPTIONS}
+                        options={chipOptions}
                         value={commentType}
                         onValueChange={setCommentType}
                     />

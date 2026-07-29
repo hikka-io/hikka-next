@@ -20,6 +20,11 @@ const coerceBoolean = z.preprocess(
     z.boolean(),
 );
 
+const optionalTrue = z.preprocess(
+    (v) => (v === 'true' || v === true || v === '1' ? true : undefined),
+    z.literal(true).optional(),
+);
+
 // Composable schema fragments
 const paginationSearch = {
     page: z.coerce.number().optional().catch(undefined),
@@ -109,6 +114,7 @@ export const editNewSearchSchema = z.object({
 export const commentsSearchSchema = z.object({
     comment_type: z.enum(['comment', 'review']).optional().catch(undefined),
     recommended: z.enum(['yes', 'no', 'maybe']).optional().catch(undefined),
+    first_level_only: optionalTrue.catch(undefined),
     sort: z.enum(COMMENT_SORT_VALUES).optional().catch(undefined),
     order: z.enum(['asc', 'desc']).optional().catch(undefined),
 });
