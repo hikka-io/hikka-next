@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Copy, Star } from 'lucide-react';
+import { Copy, MessageSquare, Star } from 'lucide-react';
 import { toast } from 'sonner';
 
 import {
@@ -37,15 +37,23 @@ import { invalidateComments } from '@/utils/api/invalidate-content-state';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 
 import ConvertReviewDialog from './convert-review-dialog';
-import { canConvertReview } from './utils/review';
+import DemoteReviewDialog from './demote-review-dialog';
+import { canConvertReview, canDemoteReview } from './utils/review';
 
 type Props = {
     comment: CommentResponse;
     slug: string;
     content_type: CommentsContentType;
+    /** Off where no inline editor is mounted to answer `setEdit`. */
+    editable?: boolean;
 };
 
-const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
+const CommentMenu: FC<Props> = ({
+    comment,
+    slug,
+    content_type,
+    editable = true,
+}) => {
     const { setEdit, removePendingReply } = useCommentsContext();
     const queryClient = useQueryClient();
 
@@ -85,15 +93,27 @@ const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
         loggedUser?.role === 'moderator';
 
     const [convertOpen, setConvertOpen] = useState(false);
+    const [demoteOpen, setDemoteOpen] = useState(false);
+
+    const isReview = !!comment.review;
+
+    const canEdit = editable && isAuthor && comment.is_editable;
 
     const canConvert = canConvertReview({
         isAuthor,
+        isEditable: comment.is_editable,
         hidden: comment.hidden,
         text: comment.text,
         parent: comment.parent,
         contentType: content_type,
     });
-    const isReview = !!comment.review;
+    const canDemote = canDemoteReview({
+        isAuthor,
+        isEditable: comment.is_editable,
+        hidden: comment.hidden,
+        text: comment.text,
+        isReview,
+    });
 
     return (
         <>
@@ -113,7 +133,7 @@ const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
                         <Copy />
                         Скопіювати посилання
                     </DropdownMenuItem>
-                    {isAuthor && (
+                    {canEdit && (
                         <DropdownMenuItem
                             onClick={() => setEdit(comment.reference)}
                         >
@@ -125,6 +145,12 @@ const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
                         <DropdownMenuItem onSelect={() => setConvertOpen(true)}>
                             <Star />
                             Зробити відгуком
+                        </DropdownMenuItem>
+                    )}
+                    {canDemote && (
+                        <DropdownMenuItem onSelect={() => setDemoteOpen(true)}>
+                            <MessageSquare />
+                            Зробити коментарем
                         </DropdownMenuItem>
                     )}
                     {canModerate && (
@@ -169,6 +195,13 @@ const CommentMenu: FC<Props> = ({ comment, slug, content_type }) => {
                     comment={comment}
                     open={convertOpen}
                     onOpenChange={setConvertOpen}
+                />
+            )}
+            {demoteOpen && (
+                <DemoteReviewDialog
+                    comment={comment}
+                    open={demoteOpen}
+                    onOpenChange={setDemoteOpen}
                 />
             )}
         </>

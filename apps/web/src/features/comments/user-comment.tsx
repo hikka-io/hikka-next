@@ -63,6 +63,7 @@ const UserComment: FC<Props> = ({ comment }) => {
                                 comment={comment}
                                 slug={preview.slug ?? ''}
                                 content_type={comment.content_type}
+                                editable={false}
                             />
                         </div>
                     )}

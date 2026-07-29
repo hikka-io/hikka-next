@@ -1,9 +1,6 @@
 import { type FC, useEffect, useState } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
-
-import { type CommentResponse, editCommentMutation } from '@hikka/api';
+import type { CommentResponse } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,9 +8,9 @@ import {
     ResponsiveModalContent,
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
-import { invalidateComments } from '@/utils/api/invalidate-content-state';
 
 import CommentVerdictPicker from './comment-verdict-picker';
+import { useReviewConversion } from './hooks';
 import type { Verdict } from './utils/review';
 
 type Props = {
@@ -23,33 +20,21 @@ type Props = {
 };
 
 const ConvertReviewDialog: FC<Props> = ({ comment, open, onOpenChange }) => {
-    const queryClient = useQueryClient();
     const [verdict, setVerdict] = useState<Verdict | null>(null);
+
+    const { convert, isPending } = useReviewConversion({
+        comment,
+        onOpenChange,
+        successMessage: 'Коментар перетворено на відгук',
+    });
 
     useEffect(() => {
         if (!open) setVerdict(null);
     }, [open]);
 
-    // No onError: the global MutationCache toast in router.tsx already covers it.
-    const mutation = useMutation({
-        ...editCommentMutation(),
-        onSuccess: () => {
-            invalidateComments(queryClient);
-            onOpenChange(false);
-            toast.success('Коментар перетворено на відгук');
-        },
-    });
-
     const handleConfirm = () => {
-        if (!comment.text || !verdict) return;
-
-        mutation.mutate({
-            path: { comment_reference: comment.reference },
-            body: {
-                text: comment.text,
-                review: { recommended: verdict },
-            },
-        });
+        if (!verdict) return;
+        convert({ recommended: verdict });
     };
 
     return (
@@ -68,13 +53,13 @@ const ConvertReviewDialog: FC<Props> = ({ comment, open, onOpenChange }) => {
                     <Button
                         variant="outline"
                         onClick={() => onOpenChange(false)}
-                        disabled={mutation.isPending}
+                        disabled={isPending}
                     >
                         Відмінити
                     </Button>
                     <Button
                         onClick={handleConfirm}
-                        disabled={mutation.isPending || !verdict}
+                        disabled={isPending || !verdict || !comment.text}
                     >
                         Зробити відгуком
                     </Button>

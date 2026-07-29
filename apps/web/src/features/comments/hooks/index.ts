@@ -8,4 +8,5 @@ export {
 export { useCommentThread } from './use-comment-thread';
 export { useContent } from './use-content';
 export { useContentTitle } from './use-content-title';
+export { useReviewConversion } from './use-review-conversion';
 export { useReviewStats } from './use-review-stats';

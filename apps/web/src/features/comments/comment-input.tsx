@@ -28,11 +28,7 @@ import { cn } from '@/utils/cn';
 import CommentInputBottomBar from './comment-input-bottom-bar';
 import CommentVerdictPicker from './comment-verdict-picker';
 import type { Verdict } from './utils/review';
-import {
-    getPlainTextLength,
-    REVIEW_AUTO_THRESHOLD,
-    supportsReviews,
-} from './utils/review';
+import { canToggleReview, getPlainTextLength } from './utils/review';
 
 type Props = {
     slug: string;
@@ -59,53 +55,31 @@ const CommentInput: FC<Props> = ({
         });
 
     const { clearActive } = useCommentsContext();
-    const isReviewEdit = !!isEdit && !!comment?.review;
-    const [isReview, setIsReview] = useState(isReviewEdit);
+    const isExistingReview = !!isEdit && !!comment?.review;
+    const [isReview, setIsReview] = useState(isExistingReview);
     const [verdict, setVerdict] = useState<Verdict | null>(
         comment?.review?.recommended ?? null,
     );
 
     const isReply = !!comment && !isEdit;
-    // An existing review stays a review: editing shows the picker, not the toggle.
-    const showReviewToggle =
-        !isReply && !isEdit && supportsReviews(props.content_type);
-
-    // Unchecking after an auto-check is respected until the composer is emptied.
-    const [autoReviewDismissed, setAutoReviewDismissed] = useState(false);
-
-    // Not useEditorSelector: this component renders the <Plate> provider, so
-    // Plate store hooks are unavailable at this level.
-    const handleEditorChange = () => {
-        handleChange();
-
-        const length = getPlainTextLength(editor.children);
-
-        if (length === 0) {
-            setAutoReviewDismissed(false);
-            return;
-        }
-
-        if (
-            showReviewToggle &&
-            !isReview &&
-            !autoReviewDismissed &&
-            length > REVIEW_AUTO_THRESHOLD
-        ) {
-            setIsReview(true);
-        }
-    };
+    const showReviewToggle = canToggleReview({
+        contentType: props.content_type,
+        isReply,
+        parent: isEdit ? (comment?.parent ?? null) : null,
+        isExistingReview,
+    });
 
     // Follow the section's comment-type filter, but never retarget a draft the
     // user has already started — browsing reviews must not turn their
     // half-written comment into a review.
     useEffect(() => {
-        if (forceReview === undefined || !showReviewToggle) return;
+        if (isEdit || forceReview === undefined || !showReviewToggle) return;
         if (getPlainTextLength(editor.children) > 0) return;
         setIsReview(forceReview);
         if (!forceReview) {
             setVerdict(null);
         }
-    }, [forceReview, showReviewToggle, editor]);
+    }, [forceReview, showReviewToggle, isEdit, editor]);
 
     useVisualViewportOffset(!!isModalOpen);
 
@@ -127,13 +101,12 @@ const CommentInput: FC<Props> = ({
         return null;
     }
 
-    const showVerdictPicker = (showReviewToggle && isReview) || isReviewEdit;
+    const showVerdictPicker = showReviewToggle && isReview;
 
     const onToggleReview = (next: boolean) => {
         setIsReview(next);
         if (!next) {
             setVerdict(null);
-            setAutoReviewDismissed(true);
         }
     };
 
@@ -155,7 +128,7 @@ const CommentInput: FC<Props> = ({
     );
 
     return (
-        <Plate editor={editor} onChange={handleEditorChange}>
+        <Plate editor={editor} onChange={handleChange}>
             {isMobile && (
                 <Sheet
                     open={isModalOpen}

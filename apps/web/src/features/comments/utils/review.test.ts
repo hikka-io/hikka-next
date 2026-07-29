@@ -2,10 +2,11 @@ import { describe, expect, it } from 'vitest';
 
 import {
     canConvertReview,
+    canDemoteReview,
+    canToggleReview,
     getPlainTextLength,
     getReviewTotal,
     getReviewVerdict,
-    REVIEW_AUTO_THRESHOLD,
     supportsReviews,
     toReviewArgs,
 } from './review';
@@ -25,12 +26,12 @@ describe('supportsReviews', () => {
 });
 
 describe('toReviewArgs', () => {
-    it('returns undefined when not in review mode', () => {
-        expect(toReviewArgs(false, 'yes')).toBeUndefined();
+    it('returns null when not in review mode', () => {
+        expect(toReviewArgs(false, 'yes')).toBeNull();
     });
 
-    it('returns undefined when review mode but no verdict', () => {
-        expect(toReviewArgs(true, null)).toBeUndefined();
+    it('returns null when review mode but no verdict', () => {
+        expect(toReviewArgs(true, null)).toBeNull();
     });
 
     it('returns the review payload when review mode and verdict set', () => {
@@ -41,6 +42,7 @@ describe('toReviewArgs', () => {
 describe('canConvertReview', () => {
     const base = {
         isAuthor: true,
+        isEditable: true,
         hidden: false,
         text: 'Чудовий тайтл, рекомендую всім.',
         parent: null,
@@ -55,6 +57,10 @@ describe('canConvertReview', () => {
 
     it('is false when the user is not the author', () => {
         expect(canConvertReview({ ...base, isAuthor: false })).toBe(false);
+    });
+
+    it('is false when the comment is no longer editable', () => {
+        expect(canConvertReview({ ...base, isEditable: false })).toBe(false);
     });
 
     it('is false for hidden (deleted) comments', () => {
@@ -79,6 +85,84 @@ describe('canConvertReview', () => {
         expect(canConvertReview({ ...base, contentType: 'collection' })).toBe(
             false,
         );
+    });
+});
+
+describe('canDemoteReview', () => {
+    const base = {
+        isAuthor: true,
+        isEditable: true,
+        hidden: false,
+        text: 'Чудовий тайтл, рекомендую всім.',
+        isReview: true,
+    };
+
+    it('is true for an author-owned visible review', () => {
+        expect(canDemoteReview(base)).toBe(true);
+    });
+
+    it('is false for a plain comment', () => {
+        expect(canDemoteReview({ ...base, isReview: false })).toBe(false);
+    });
+
+    it('is false when the user is not the author', () => {
+        expect(canDemoteReview({ ...base, isAuthor: false })).toBe(false);
+    });
+
+    it('is false when the comment is no longer editable', () => {
+        expect(canDemoteReview({ ...base, isEditable: false })).toBe(false);
+    });
+
+    it('is false for hidden (deleted) comments', () => {
+        expect(canDemoteReview({ ...base, hidden: true })).toBe(false);
+    });
+
+    it('is false when text is missing', () => {
+        expect(canDemoteReview({ ...base, text: null })).toBe(false);
+        expect(canDemoteReview({ ...base, text: '' })).toBe(false);
+    });
+});
+
+describe('canToggleReview', () => {
+    const base = {
+        contentType: 'anime',
+        isReply: false,
+        parent: null,
+        isExistingReview: false,
+    };
+
+    it('is true for the root composer on anime/manga/novel', () => {
+        expect(canToggleReview(base)).toBe(true);
+        expect(canToggleReview({ ...base, contentType: 'manga' })).toBe(true);
+        expect(canToggleReview({ ...base, contentType: 'novel' })).toBe(true);
+    });
+
+    it('is false for content types without reviews', () => {
+        expect(canToggleReview({ ...base, contentType: 'article' })).toBe(
+            false,
+        );
+        expect(canToggleReview({ ...base, contentType: 'collection' })).toBe(
+            false,
+        );
+    });
+
+    it('is false while composing a reply', () => {
+        expect(canToggleReview({ ...base, isReply: true })).toBe(false);
+    });
+
+    it('is false when editing a non-root comment', () => {
+        expect(canToggleReview({ ...base, parent: 'parent-ref' })).toBe(false);
+    });
+
+    it('stays true for an existing review, whatever its shape', () => {
+        expect(
+            canToggleReview({
+                ...base,
+                isExistingReview: true,
+                contentType: 'article',
+                parent: 'parent-ref',
+            }),
+        ).toBe(true);
     });
 });
 
@@ -121,12 +205,6 @@ describe('getPlainTextLength', () => {
         expect(
             getPlainTextLength([{ type: 'p', children: [{ text: '   ' }] }]),
         ).toBe(3);
-    });
-});
-
-describe('REVIEW_AUTO_THRESHOLD', () => {
-    it('is 500', () => {
-        expect(REVIEW_AUTO_THRESHOLD).toBe(500);
     });
 });
 
