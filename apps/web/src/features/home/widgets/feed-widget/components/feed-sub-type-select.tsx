@@ -326,7 +326,7 @@ const FeedSubTypeSelect: FC<{
         <>
             <Button
                 variant="outline"
-                size="icon-md"
+                size="icon-sm"
                 onClick={() => setOpen(true)}
                 className="relative shrink-0 overflow-visible"
                 aria-label="Фільтри"

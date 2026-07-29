@@ -15,12 +15,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import Card from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import EmptyState from '@/components/ui/empty-state';
-import {
-    Field,
-    FieldContent,
-    FieldLabel,
-    FieldTitle,
-} from '@/components/ui/field';
+import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
@@ -153,17 +148,20 @@ const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
                         <HeaderTitle variant="h4">Стрічка</HeaderTitle>
                     </HeaderContainer>
                     {user && (
-                        <FieldLabel className="w-fit! cursor-pointer">
-                            <Field orientation="horizontal">
+                        <FieldLabel className="h-8 w-fit! shrink-0 cursor-pointer">
+                            <Field
+                                orientation="horizontal"
+                                className="h-full items-center"
+                            >
                                 <Checkbox
                                     checked={onlyFollowed}
                                     onCheckedChange={handleOnlyFollowedChange}
                                     id="only-followed-checkbox"
                                     name="only-followed-checkbox"
                                 />
-                                <FieldContent className="flex-0">
-                                    <FieldTitle>Власна</FieldTitle>
-                                </FieldContent>
+                                <FieldTitle className="whitespace-nowrap font-normal text-muted-foreground text-sm">
+                                    Власна
+                                </FieldTitle>
                             </Field>
                         </FieldLabel>
                     )}
