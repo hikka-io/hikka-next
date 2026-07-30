@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react';
+import { type FC, useMemo, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
@@ -41,14 +41,13 @@ const ArticlesWidget: FC<WidgetProps> = () => {
 
     const isOwn = Boolean(user) && tab === 'own';
 
-    const { list, isLoading } = useInfiniteList(
+    const { list: published, isLoading: isPublishedLoading } = useInfiniteList(
         getArticlesInfiniteOptions({
             body:
                 isOwn && user
                     ? {
                           sort: NEWEST_SORT,
                           author: user.username,
-                          draft: true,
                       }
                     : {
                           sort: tab === 'popular' ? POPULAR_SORT : NEWEST_SORT,
@@ -57,10 +56,36 @@ const ArticlesWidget: FC<WidgetProps> = () => {
         }),
     );
 
+    const { list: drafts, isLoading: isDraftsLoading } = useInfiniteList(
+        getArticlesInfiniteOptions({
+            body: {
+                sort: NEWEST_SORT,
+                author: user?.username,
+                draft: true,
+            },
+            query: { size: SIZE },
+        }),
+        { enabled: isOwn },
+    );
+
+    const list = useMemo(() => {
+        if (!isOwn) return published;
+
+        return [...(drafts ?? []), ...(published ?? [])].slice(0, SIZE);
+    }, [isOwn, published, drafts]);
+
+    const isLoading = isPublishedLoading || isDraftsLoading;
+
     return (
         <Card className="p-0" id="articles">
             <Block className="w-full gap-4 py-4">
-                <Header href="/articles" className="px-4">
+                <Header
+                    to={CONTENT_TYPE_LINKS.article}
+                    search={
+                        isOwn && user ? { author: user.username } : undefined
+                    }
+                    className="px-4"
+                >
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Статті</HeaderTitle>
                         {user && (
