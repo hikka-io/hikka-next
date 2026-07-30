@@ -123,7 +123,18 @@ const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
         fetchNextPage,
     } = feedQuery;
 
-    const feedList: FeedItemResponse[] | undefined = feedData?.pages.flat(1);
+    const feedList: FeedItemResponse[] | undefined = useMemo(() => {
+        const items = feedData?.pages.flat(1);
+        if (!items) return undefined;
+
+        const seen = new Set<string>();
+        return items.filter((item) => {
+            const key = getFeedItemKey(item);
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+    }, [feedData]);
 
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) {
