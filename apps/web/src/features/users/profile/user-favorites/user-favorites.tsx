@@ -85,12 +85,18 @@ const Favorites: FC<Props> = ({ extended, type }) => {
 
     const counts = stats?.favourites_count;
     // Empty categories are dropped for visitors; the owner keeps every tab.
-    const options =
+    const visibleOptions =
         counts && !isOwner
             ? CONTENT_OPTIONS.filter(
                   (option) => (counts[option.value] ?? 0) > 0,
               )
             : CONTENT_OPTIONS;
+    const options = counts
+        ? visibleOptions.map((option) => ({
+              ...option,
+              count: counts[option.value] ?? 0,
+          }))
+        : visibleOptions;
     // `content` may point at a dropped tab (deep link, or the `anime` default).
     const activeContent =
         options.find((option) => option.value === content)?.value ??
