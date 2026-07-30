@@ -194,6 +194,7 @@ const QuickEditModal: FC<Props> = ({
             <ResponsiveModalContent
                 className="md:max-w-2xl"
                 title="Швидка правка"
+                onInteractOutside={(e) => e.preventDefault()}
             >
                 <QuickEditModalBody
                     slug={slug}
