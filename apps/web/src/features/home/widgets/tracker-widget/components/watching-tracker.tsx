@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -34,6 +34,12 @@ const EPISODES_DECLENSION: [string, string, string] = [
     'епізодів',
 ];
 
+type PendingWatch = {
+    slug: string;
+    total: number | null;
+    args: WatchArgs;
+};
+
 const WatchingTracker = () => {
     const router = useRouter();
     const { user: loggedUser } = useSession();
@@ -42,7 +48,7 @@ const WatchingTracker = () => {
     const [open, setOpen] = useState(false);
 
     const [selectedSlug, setSelectedSlug] = useState<string>();
-    const [updatedWatch, setUpdatedWatch] = useState<WatchArgs | null>(null);
+    const [pending, setPending] = useState<PendingWatch | null>(null);
 
     const { list, ref, isFetchingNextPage, hasNextPage } = useInfiniteList(
         userWatchListInfiniteOptions({
@@ -58,20 +64,22 @@ const WatchingTracker = () => {
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
 
-    const [debouncedUpdatedWatch] = useDebounce({
-        value: updatedWatch,
-        delay: 500,
-    });
+    const [debouncedPending] = useDebounce({ value: pending, delay: 500 });
 
-    const invalidateWatchLists = (refetch: boolean) =>
-        invalidateWatchState(queryClient, { refetch });
+    const invalidateWatchLists = useCallback(
+        (refetch: boolean) => invalidateWatchState(queryClient, { refetch }),
+        [queryClient],
+    );
 
-    const { mutate: mutateCreateWatch, reset } = useMutation({
+    const { mutate: mutateCreateWatch } = useMutation({
         ...watchAddMutation(),
         onSuccess: (data) => {
             writeWatchToCaches(queryClient, data);
         },
     });
+
+    const pendingFor = (slug: string) =>
+        pending?.slug === slug ? pending : null;
 
     const handleSelect = (slug: string) => {
         if (slug === selectedWatch?.anime.slug) {
@@ -80,7 +88,6 @@ const WatchingTracker = () => {
         }
 
         setSelectedSlug(slug);
-        setUpdatedWatch(null);
     };
 
     const openWatchEditModal = () => {
@@ -88,74 +95,73 @@ const WatchingTracker = () => {
         setOpen(true);
     };
 
+    const buildArgs = (
+        watch: NonNullable<typeof selectedWatch>,
+        episodes: number,
+    ): WatchArgs =>
+        ({
+            note: watch.note,
+            rewatches: watch.rewatches,
+            score: watch.score,
+            episodes,
+            status:
+                watch.anime.episodes_total != null &&
+                episodes === watch.anime.episodes_total
+                    ? WatchStatusEnum.COMPLETED
+                    : WatchStatusEnum.WATCHING,
+            // Backend resets omitted fields; dates are number timestamps
+            // despite the generated string type.
+            start_date: watch.start_date,
+            end_date: watch.end_date,
+        }) as unknown as WatchArgs;
+
     const handleAddEpisode = () => {
         if (!selectedWatch) return;
 
-        const episodes = (updatedWatch?.episodes ?? selectedWatch.episodes) + 1;
+        const slug = selectedWatch.anime.slug;
+        const total = selectedWatch.anime.episodes_total;
+        const episodes =
+            (pendingFor(slug)?.args.episodes ?? selectedWatch.episodes) + 1;
 
-        if (
-            selectedWatch.anime.episodes_total &&
-            episodes > selectedWatch.anime.episodes_total
-        )
-            return;
+        if (total && episodes > total) return;
 
-        setUpdatedWatch({
-            ...selectedWatch,
-            status:
-                episodes === selectedWatch.anime.episodes_total
-                    ? WatchStatusEnum.COMPLETED
-                    : WatchStatusEnum.WATCHING,
-            episodes,
-        } as WatchArgs);
+        setPending({ slug, total, args: buildArgs(selectedWatch, episodes) });
     };
 
     const handleRemoveEpisode = () => {
         if (!selectedWatch) return;
 
-        const episodes = (updatedWatch?.episodes ?? selectedWatch.episodes) - 1;
+        const slug = selectedWatch.anime.slug;
+        const episodes =
+            (pendingFor(slug)?.args.episodes ?? selectedWatch.episodes) - 1;
 
         if (episodes < 0) return;
 
-        setUpdatedWatch({ ...selectedWatch, episodes } as WatchArgs);
+        setPending({
+            slug,
+            total: selectedWatch.anime.episodes_total,
+            args: buildArgs(selectedWatch, episodes),
+        });
     };
 
-    useEffect(() => {
-        reset();
-    }, [reset]);
+    const sentRef = useRef<PendingWatch | null>(null);
 
     useEffect(() => {
-        setUpdatedWatch(null);
-    }, []);
+        if (!debouncedPending || debouncedPending === sentRef.current) return;
+        sentRef.current = debouncedPending;
 
-    useEffect(() => {
-        if (debouncedUpdatedWatch && selectedWatch) {
-            const totalEpisodes = selectedWatch.anime.episodes_total;
-            const isLastEpisode =
-                totalEpisodes != null &&
-                debouncedUpdatedWatch.episodes === totalEpisodes;
+        const { slug, total, args } = debouncedPending;
 
-            mutateCreateWatch(
-                {
-                    path: { slug: selectedWatch.anime.slug },
-                    body: {
-                        note: debouncedUpdatedWatch.note,
-                        episodes: debouncedUpdatedWatch.episodes,
-                        rewatches: debouncedUpdatedWatch.rewatches,
-                        score: debouncedUpdatedWatch.score,
-                        status: debouncedUpdatedWatch.status,
-                    },
-                },
-                // Skip the immediate list refetch on the final episode so the
-                // entry doesn't reorder/vanish mid-interaction.
-                { onSuccess: () => invalidateWatchLists(!isLastEpisode) },
-            );
-        }
-    }, [
-        mutateCreateWatch,
-        debouncedUpdatedWatch,
-        invalidateWatchLists,
-        selectedWatch,
-    ]);
+        mutateCreateWatch(
+            {
+                path: { slug },
+                body: args,
+            },
+            // Skip the immediate list refetch on the final episode so the
+            // entry doesn't reorder/vanish mid-interaction.
+            { onSuccess: () => invalidateWatchLists(args.episodes !== total) },
+        );
+    }, [debouncedPending, mutateCreateWatch, invalidateWatchLists]);
 
     if (!list || list.length === 0) {
         return (
@@ -177,8 +183,11 @@ const WatchingTracker = () => {
         );
     }
 
+    const selectedPending = selectedWatch
+        ? pendingFor(selectedWatch.anime.slug)
+        : null;
     const currentEpisodes =
-        updatedWatch?.episodes ?? selectedWatch?.episodes ?? 0;
+        selectedPending?.args.episodes ?? selectedWatch?.episodes ?? 0;
     const totalEpisodes = selectedWatch?.anime.episodes_total;
 
     return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -49,6 +49,12 @@ const CONTENT_TYPE_CONFIG = {
     },
 } as const;
 
+type PendingRead = {
+    slug: string;
+    total: number | null;
+    args: ReadArgs;
+};
+
 type ReadingTrackerProps = {
     contentType: typeof ContentTypeEnum.MANGA | typeof ContentTypeEnum.NOVEL;
 };
@@ -61,7 +67,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const [open, setOpen] = useState(false);
 
     const [selectedSlug, setSelectedSlug] = useState<string>();
-    const [updatedRead, setUpdatedRead] = useState<ReadArgs | null>(null);
+    const [pending, setPending] = useState<PendingRead | null>(null);
 
     // The generated read endpoints type `content_type` as `ReadContentTypeEnum`;
     // the `ContentTypeEnum.MANGA | NOVEL` values are identical strings.
@@ -84,15 +90,14 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const selectedRead =
         list?.find((item) => item.content.slug === selectedSlug) || list?.[0];
 
-    const [debouncedUpdatedRead] = useDebounce({
-        value: updatedRead,
-        delay: 500,
-    });
+    const [debouncedPending] = useDebounce({ value: pending, delay: 500 });
 
-    const invalidateReadLists = (refetch: boolean) =>
-        invalidateReadState(queryClient, { refetch });
+    const invalidateReadLists = useCallback(
+        (refetch: boolean) => invalidateReadState(queryClient, { refetch }),
+        [queryClient],
+    );
 
-    const { mutate: mutateCreateRead, reset } = useMutation({
+    const { mutate: mutateCreateRead } = useMutation({
         ...readAddMutation(),
         onSuccess: (data) => {
             writeReadToCaches(queryClient, data);
@@ -101,6 +106,9 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
 
     const config = CONTENT_TYPE_CONFIG[contentType];
 
+    const pendingFor = (slug: string) =>
+        pending?.slug === slug ? pending : null;
+
     const handleSelect = (slug: string) => {
         if (slug === selectedRead?.content.slug) {
             router.push(`${config.route}/${slug}`);
@@ -108,7 +116,6 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
         }
 
         setSelectedSlug(slug);
-        setUpdatedRead(null);
     };
 
     const openReadEditModal = () => {
@@ -116,80 +123,78 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
         setOpen(true);
     };
 
+    const buildArgs = (
+        read: NonNullable<typeof selectedRead>,
+        chapters: number,
+    ): ReadArgs =>
+        ({
+            note: read.note,
+            volumes: read.volumes,
+            rereads: read.rereads,
+            score: read.score,
+            chapters,
+            status:
+                read.content.chapters != null &&
+                chapters === read.content.chapters
+                    ? ReadStatusEnum.COMPLETED
+                    : ReadStatusEnum.READING,
+            // Backend resets omitted fields; dates are number timestamps
+            // despite the generated string type.
+            start_date: read.start_date,
+            end_date: read.end_date,
+        }) as unknown as ReadArgs;
+
     const handleAddChapter = () => {
         if (!selectedRead) return;
 
-        const chapters = (updatedRead?.chapters ?? selectedRead.chapters) + 1;
+        const slug = selectedRead.content.slug;
+        const total = selectedRead.content.chapters;
+        const chapters =
+            (pendingFor(slug)?.args.chapters ?? selectedRead.chapters) + 1;
 
-        if (
-            selectedRead.content.chapters &&
-            chapters > selectedRead.content.chapters
-        )
-            return;
+        if (total && chapters > total) return;
 
-        setUpdatedRead({
-            ...selectedRead,
-            status:
-                chapters === selectedRead.content.chapters
-                    ? ReadStatusEnum.COMPLETED
-                    : ReadStatusEnum.READING,
-            chapters,
-        } as ReadArgs);
+        setPending({ slug, total, args: buildArgs(selectedRead, chapters) });
     };
 
     const handleRemoveChapter = () => {
         if (!selectedRead) return;
 
-        const chapters = (updatedRead?.chapters ?? selectedRead.chapters) - 1;
+        const slug = selectedRead.content.slug;
+        const chapters =
+            (pendingFor(slug)?.args.chapters ?? selectedRead.chapters) - 1;
 
         if (chapters < 0) return;
 
-        setUpdatedRead({ ...selectedRead, chapters } as ReadArgs);
+        setPending({
+            slug,
+            total: selectedRead.content.chapters,
+            args: buildArgs(selectedRead, chapters),
+        });
     };
 
-    useEffect(() => {
-        reset();
-    }, [reset]);
+    const sentRef = useRef<PendingRead | null>(null);
 
     useEffect(() => {
-        setUpdatedRead(null);
-    }, []);
+        if (!debouncedPending || debouncedPending === sentRef.current) return;
+        sentRef.current = debouncedPending;
 
-    useEffect(() => {
-        if (debouncedUpdatedRead && selectedRead) {
-            const totalChapters = selectedRead.content.chapters;
-            const isLastChapter =
-                totalChapters != null &&
-                debouncedUpdatedRead.chapters === totalChapters;
+        const { slug, total, args } = debouncedPending;
 
-            const args = {
-                note: debouncedUpdatedRead.note,
-                volumes: debouncedUpdatedRead.volumes,
-                rereads: debouncedUpdatedRead.rereads,
-                score: debouncedUpdatedRead.score,
-                status: debouncedUpdatedRead.status,
-                chapters: debouncedUpdatedRead.chapters,
-            };
-
-            mutateCreateRead(
-                {
-                    path: {
-                        content_type: apiContentType,
-                        slug: selectedRead.content.slug,
-                    },
-                    body: args,
-                },
-                // Skip the immediate list refetch on the final chapter so the
-                // entry doesn't reorder/vanish mid-interaction.
-                { onSuccess: () => invalidateReadLists(!isLastChapter) },
-            );
-        }
+        mutateCreateRead(
+            {
+                path: { content_type: apiContentType, slug },
+                body: args,
+            },
+            // Skip the immediate list refetch on the final chapter so the
+            // entry doesn't reorder/vanish mid-interaction.
+            { onSuccess: () => invalidateReadLists(args.chapters !== total) },
+        );
     }, [
+        debouncedPending,
         mutateCreateRead,
-        debouncedUpdatedRead,
         apiContentType,
         invalidateReadLists,
-        selectedRead,
     ]);
 
     if (!list || list.length === 0) {
@@ -217,8 +222,11 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
         );
     }
 
+    const selectedPending = selectedRead
+        ? pendingFor(selectedRead.content.slug)
+        : null;
     const currentChapters =
-        updatedRead?.chapters ?? selectedRead?.chapters ?? 0;
+        selectedPending?.args.chapters ?? selectedRead?.chapters ?? 0;
     const totalChapters = selectedRead?.content.chapters;
 
     return (

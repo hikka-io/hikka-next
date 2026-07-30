@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -44,6 +44,9 @@ const mapListItem = ({
                 extraArgs: {
                     note: listItem?.note,
                     rewatches: (listItem as WatchResponse)?.rewatches,
+                    // Backend resets omitted fields; dates must be sent.
+                    start_date: listItem?.start_date,
+                    end_date: listItem?.end_date,
                 },
             };
         case ContentTypeEnum.MANGA:
@@ -58,6 +61,8 @@ const mapListItem = ({
                     volumes: (listItem as ReadResponse)?.volumes,
                     note: listItem?.note,
                     rereads: (listItem as ReadResponse)?.rereads,
+                    start_date: listItem?.start_date,
+                    end_date: listItem?.end_date,
                 },
             };
     }
@@ -130,13 +135,14 @@ export const useUserlistManager = ({
 
     const mappedListItem = mapListItem({ listItem, content_type });
 
-    useEffect(() => {
-        setPendingUpdate(null);
-    }, []);
+    // Slug-gated: the hook survives $slug navigation, so an ungated read
+    // would bleed the previous title's progress/score into the next one.
+    const activePending =
+        pendingUpdate?.slug === mappedListItem.slug ? pendingUpdate : null;
 
-    const currentScore = pendingUpdate?.score ?? mappedListItem.score;
-    const currentProgress = pendingUpdate?.progress ?? mappedListItem.progress;
-    const currentStatus = pendingUpdate?.status ?? mappedListItem.status;
+    const currentScore = activePending?.score ?? mappedListItem.score;
+    const currentProgress = activePending?.progress ?? mappedListItem.progress;
+    const currentStatus = activePending?.status ?? mappedListItem.status;
 
     const updateListItem = (
         fields: Partial<Pick<MappedListItem, 'score' | 'progress' | 'status'>>,
@@ -183,7 +189,17 @@ export const useUserlistManager = ({
 
         if (progress < 0) return;
 
-        updateListItem({ progress });
+        let status = currentStatus;
+
+        if (
+            status === statuses[content_type][CommonStatusEnum.COMPLETED] &&
+            mappedListItem.total != null &&
+            progress < mappedListItem.total
+        ) {
+            status = statuses[content_type][CommonStatusEnum.ON_PROGRESS];
+        }
+
+        updateListItem({ progress, status });
     };
 
     const setScore = (value: number) => {
@@ -192,10 +208,17 @@ export const useUserlistManager = ({
         updateListItem({ score: value * 2 });
     };
 
+    const sentRef = useRef<MappedListItem | null>(null);
+
     useEffect(() => {
-        if (!debouncedUpdate || debouncedUpdate.slug !== mappedListItem.slug) {
+        if (
+            !debouncedUpdate ||
+            debouncedUpdate === sentRef.current ||
+            debouncedUpdate.slug !== mappedListItem.slug
+        ) {
             return;
         }
+        sentRef.current = debouncedUpdate;
 
         switch (content_type) {
             case ContentTypeEnum.ANIME:
@@ -207,6 +230,8 @@ export const useUserlistManager = ({
                         score: debouncedUpdate.score,
                         status: debouncedUpdate.status as WatchStatusEnum,
                         episodes: debouncedUpdate.progress,
+                        start_date: debouncedUpdate.extraArgs.start_date,
+                        end_date: debouncedUpdate.extraArgs.end_date,
                     },
                 });
                 break;
@@ -224,6 +249,8 @@ export const useUserlistManager = ({
                         status: debouncedUpdate.status as ReadStatusEnum,
                         chapters: debouncedUpdate.progress,
                         volumes: debouncedUpdate.extraArgs.volumes,
+                        start_date: debouncedUpdate.extraArgs.start_date,
+                        end_date: debouncedUpdate.extraArgs.end_date,
                     },
                 });
                 break;
@@ -242,6 +269,6 @@ export const useUserlistManager = ({
         setScore,
         score: currentScore,
         progress: currentProgress,
-        total: pendingUpdate?.total ?? mappedListItem.total,
+        total: mappedListItem.total,
     };
 };
