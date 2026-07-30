@@ -11,6 +11,7 @@ export {
     getUiPrefsCookieFn,
     refreshAuthCookieFn,
 } from './server';
+export { writeHostCookie } from './ui-cookie';
 export {
     parseUiPrefs,
     UI_PREFS_COOKIE,

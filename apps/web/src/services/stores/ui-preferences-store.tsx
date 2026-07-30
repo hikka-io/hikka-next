@@ -3,6 +3,7 @@ import {
     type FC,
     type ReactNode,
     useContext,
+    useEffect,
     useState,
 } from 'react';
 
@@ -40,6 +41,11 @@ const EMPTY_PREFS: UiPreferences = {
     filters: {},
     collapsibles: {},
 };
+
+const hasStoredChoices = (state: UiPreferences) =>
+    Object.keys(state.views).length > 0 ||
+    Object.keys(state.filters).length > 0 ||
+    Object.keys(state.collapsibles).length > 0;
 
 const persist = (state: UiPreferencesStore) => {
     writeUiPrefsCookie({
@@ -80,6 +86,15 @@ type Props = {
 
 export const UiPreferencesProvider: FC<Props> = ({ initial, children }) => {
     const [store] = useState(() => createUiPreferencesStore(initial));
+
+    useEffect(() => {
+        // Nothing re-stamps this cookie server-side, so refresh its maxAge on
+        // load or untouched preferences expire. Skipped when there's nothing
+        // saved, to avoid handing every visitor an empty cookie.
+        const state = store.getState();
+        if (!hasStoredChoices(state)) return;
+        persist(state);
+    }, [store]);
 
     return (
         <UiPreferencesContext.Provider value={store}>

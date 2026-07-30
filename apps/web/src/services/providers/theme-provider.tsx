@@ -9,6 +9,7 @@ import {
     useState,
 } from 'react';
 
+import { writeHostCookie } from '@/utils/cookies';
 import { syncThemeColorMeta } from '@/utils/ui';
 
 type Theme = 'light' | 'dark' | 'system';
@@ -44,8 +45,7 @@ function getThemeCookie(): string | null {
 }
 
 function setThemeCookie(value: Theme): void {
-    if (typeof document === 'undefined') return;
-    document.cookie = `${COOKIE_NAME}=${encodeURIComponent(value)}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
+    writeHostCookie(COOKIE_NAME, value, COOKIE_MAX_AGE);
 }
 
 function applyTheme(
@@ -105,6 +105,13 @@ const ThemeProvider: FC<ThemeProviderProps> = ({
     useEffect(() => {
         applyTheme(resolvedTheme, disableTransitionOnChange, attribute);
     }, [resolvedTheme, disableTransitionOnChange, attribute]);
+
+    useEffect(() => {
+        // Nothing re-stamps this cookie server-side, so refresh its maxAge on
+        // load or an untouched theme expires. Only for users who already chose.
+        const stored = getThemeCookie();
+        if (stored) setThemeCookie(stored as Theme);
+    }, []);
 
     useEffect(() => {
         if (!enableSystem) return;

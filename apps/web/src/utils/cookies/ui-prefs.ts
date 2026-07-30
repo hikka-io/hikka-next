@@ -1,3 +1,5 @@
+import { writeHostCookie } from './ui-cookie';
+
 export const UI_PREFS_COOKIE = 'ui-prefs';
 export const UI_PREFS_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
 
@@ -39,11 +41,7 @@ export function parseUiPrefs(
     }
 }
 
-/** Client-side cookie write; the server rolling refresh re-applies domain/secure flags. */
+/** Host-only write; the browser is the sole writer, see `ui-cookie.ts`. */
 export function writeUiPrefsCookie(value: UiPreferences) {
-    if (typeof document === 'undefined') return;
-
-    document.cookie = `${UI_PREFS_COOKIE}=${encodeURIComponent(
-        JSON.stringify(value),
-    )}; path=/; max-age=${UI_PREFS_MAX_AGE}; SameSite=Lax`;
+    writeHostCookie(UI_PREFS_COOKIE, JSON.stringify(value), UI_PREFS_MAX_AGE);
 }
