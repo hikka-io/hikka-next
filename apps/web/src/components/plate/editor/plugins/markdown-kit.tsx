@@ -2,6 +2,7 @@ import {
     convertChildrenDeserialize,
     convertNodesSerialize,
     type DeserializeMdOptions,
+    defaultRules,
     MarkdownPlugin,
     type SerializeMdOptions,
 } from '@platejs/markdown';
@@ -46,18 +47,33 @@ const directiveConfigs: Record<string, DirectiveConfig> = {
     // Add more directive types here as needed (e.g. callout)
 };
 
+const isBlankParagraph = ({ children }: TElement) =>
+    children.length === 1 && 'text' in children[0] && children[0].text === '';
+
+type DefaultParagraphRule = {
+    serialize: NonNullable<NonNullable<typeof defaultRules.p>['serialize']>;
+};
+
+const paragraphRule = {
+    serialize: (node: TElement, options: SerializeMdOptions) =>
+        (defaultRules.p as DefaultParagraphRule).serialize(node, {
+            ...options,
+            preserveEmptyParagraphs: isBlankParagraph(node)
+                ? options.preserveEmptyParagraphs
+                : false,
+        }),
+};
+
 export const MarkdownKit = [
     MarkdownPlugin.configure({
         options: {
             disallowedNodes: [KEYS.suggestion, KEYS.codeBlock, KEYS.code],
             remarkPlugins: [remarkDirective],
-            // Keep [text](url) form for links whose text equals the URL —
-            // the read-side renderer (MDViewer, no GFM) cannot autolink
-            // bare URLs, so v53's default bare-autolink output would
-            // produce dead links in comments.
+
             remarkStringifyOptions: { resourceLink: true },
 
             rules: {
+                p: paragraphRule,
                 // Markdown -> Plate: one entry point for all container directives
                 containerDirective: {
                     deserialize: (mdastNode, deco, options) =>
