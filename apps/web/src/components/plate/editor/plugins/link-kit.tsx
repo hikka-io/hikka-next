@@ -1,3 +1,4 @@
+import { LinkRules } from '@platejs/link';
 import { LinkPlugin } from '@platejs/link/react';
 
 import {
@@ -17,6 +18,12 @@ function LinkAfterEditable() {
 
 export const LinkKit = [
     LinkPlugin.configure({
+        inputRules: [
+            LinkRules.autolink({ variant: 'paste' }),
+            LinkRules.autolink({ variant: 'space' }),
+            LinkRules.autolink({ variant: 'break' }),
+            LinkRules.markdown(),
+        ],
         options: {
             // Disable the built-in floating-link hotkeys — the custom
             // dialog below owns meta+k/ctrl+k.
