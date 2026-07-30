@@ -6,7 +6,7 @@ import type { PlateEditor } from 'platejs/react';
 import { useEditorRef } from 'platejs/react';
 import type { BaseRange } from 'slate';
 
-import { useAppForm } from '@/components/form/use-app-form';
+import { useTextForm } from '@/components/form/use-text-form';
 import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
@@ -127,7 +127,7 @@ const LinkDialogForm: FC<LinkDialogFormProps> = ({
     onSubmit,
     onClose,
 }) => {
-    const form = useAppForm({
+    const form = useTextForm({
         defaultValues,
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {

@@ -3,7 +3,7 @@ import { type FC, useState } from 'react';
 import { Film } from 'lucide-react';
 import { useEditorRef } from 'platejs/react';
 
-import { useAppForm } from '@/components/form/use-app-form';
+import { useTextForm } from '@/components/form/use-text-form';
 import { VideoPlugin } from '@/components/plate/editor/plugins/video-kit';
 import { Button } from '@/components/ui/button';
 import {
@@ -44,7 +44,7 @@ type AddVideoModalProps = {
 };
 
 const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
-    const form = useAppForm({
+    const form = useTextForm({
         defaultValues: {
             url: '',
         },
