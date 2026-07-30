@@ -17,7 +17,6 @@ import { computeRenderScale, type SpriteCache } from './utils';
 export interface SakuraCanvasConfig {
     isNarrow: boolean;
     branchTopOffset: number;
-    reducedMotion: boolean;
 }
 
 interface Viewport {
@@ -90,12 +89,8 @@ export class SakuraCanvas {
         this.createEntities();
         this.sizeBranchCanvasToBranch();
         this.blitBranch();
-        // Reduced motion: the branch renders as static art — no sway, no
-        // particles, no render loop.
-        if (!config.reducedMotion) {
-            this.applyBranchSway(0);
-            this.play();
-        }
+        this.applyBranchSway(0);
+        this.play();
     }
 
     /**
@@ -145,22 +140,20 @@ export class SakuraCanvas {
             ? AMBIENT_COUNT_MOBILE
             : AMBIENT_COUNT_DESKTOP;
 
-        if (!this.config.reducedMotion) {
-            this.petals = Petal.createPetals(
-                this.spriteCache,
-                petalCount,
-                W,
-                H,
-                this.renderScale,
-            );
-            this.ambientParticles = AmbientParticle.create(
-                this.spriteCache,
-                ambientCount,
-                W,
-                H,
-                this.renderScale,
-            );
-        }
+        this.petals = Petal.createPetals(
+            this.spriteCache,
+            petalCount,
+            W,
+            H,
+            this.renderScale,
+        );
+        this.ambientParticles = AmbientParticle.create(
+            this.spriteCache,
+            ambientCount,
+            W,
+            H,
+            this.renderScale,
+        );
         this.branch = new Branch(
             W,
             this.branchH,
@@ -324,7 +317,6 @@ export class SakuraCanvas {
     };
 
     play() {
-        if (this.config.reducedMotion) return;
         if (this.animationFrame !== undefined) return;
         this.lastUpdate = performance.now();
         this.animationFrame = requestAnimationFrame(this.loop);

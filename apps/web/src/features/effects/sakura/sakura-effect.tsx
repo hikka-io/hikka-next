@@ -4,7 +4,6 @@ import { BRANCH_TOP_OFFSET_DESKTOP, BRANCH_TOP_OFFSET_MOBILE } from './config';
 import SakuraCanvas from './sakura-canvas';
 
 const MOBILE_MEDIA_QUERY = '(max-width: 767px)';
-const REDUCED_MOTION_MEDIA_QUERY = '(prefers-reduced-motion: reduce)';
 
 const SakuraEffect = () => {
     const branchCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -16,7 +15,6 @@ const SakuraEffect = () => {
         if (!branchCanvas || !particleCanvas) return;
 
         const narrowMql = window.matchMedia(MOBILE_MEDIA_QUERY);
-        const motionMql = window.matchMedia(REDUCED_MOTION_MEDIA_QUERY);
 
         let controller: SakuraCanvas | null = null;
         let resizeRaf = 0;
@@ -31,7 +29,6 @@ const SakuraEffect = () => {
             controller = new SakuraCanvas(branchCanvas, particleCanvas, {
                 isNarrow,
                 branchTopOffset,
-                reducedMotion: motionMql.matches,
             });
         };
 
@@ -53,8 +50,8 @@ const SakuraEffect = () => {
                 controller?.play();
             }
         };
-        // Breakpoint or motion-preference flip: render scale, sprite cache
-        // and entity population are baked into the instance — full rebuild.
+        // Breakpoint flip: render scale, sprite cache and entity population
+        // are baked into the instance — full rebuild.
         const onEnvironmentChange = () => {
             controller?.dispose();
             controller = null;
@@ -64,7 +61,6 @@ const SakuraEffect = () => {
         window.addEventListener('resize', onResize);
         document.addEventListener('visibilitychange', onVisibilityChange);
         narrowMql.addEventListener('change', onEnvironmentChange);
-        motionMql.addEventListener('change', onEnvironmentChange);
 
         return () => {
             if (resizeRaf) cancelAnimationFrame(resizeRaf);
@@ -74,7 +70,6 @@ const SakuraEffect = () => {
                 onVisibilityChange,
             );
             narrowMql.removeEventListener('change', onEnvironmentChange);
-            motionMql.removeEventListener('change', onEnvironmentChange);
             controller?.dispose();
         };
     }, []);
