@@ -9,6 +9,7 @@ import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-clo
 
 import { BasicBlocksKit } from './plugins/basic-blocks-kit';
 import { BasicMarksKit } from './plugins/basic-marks-kit';
+import { EditorApiKit } from './plugins/editor-api-kit';
 import { EmojiKit } from './plugins/emoji-kit';
 import { ExitBreakKit } from './plugins/exit-break-kit';
 import { LinkKit } from './plugins/link-kit';
@@ -37,6 +38,9 @@ export const MarkdownEditorKit = [
 
     // Parsers
     ...MarkdownKit,
+
+    // API
+    ...EditorApiKit,
 ];
 
 export const useMarkdownEditor = () => useEditorRef();
@@ -44,12 +48,11 @@ export const useMarkdownEditor = () => useEditorRef();
 interface UsePlateMarkdownSetupOptions {
     value?: string;
     modalDefaultOpen?: boolean;
-    plugins?: typeof MarkdownEditorKit;
 }
 
 export function usePlateMarkdownSetup(options: UsePlateMarkdownSetupOptions) {
     const editor = usePlateEditor({
-        plugins: options.plugins ?? MarkdownEditorKit,
+        plugins: MarkdownEditorKit,
         value: (editor) =>
             editor
                 .getApi(MarkdownPlugin)

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { MarkdownPlugin } from '@platejs/markdown';
 import { MessageCircleMore, MessageCirclePlus } from 'lucide-react';
@@ -23,11 +23,8 @@ import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
 import { cn } from '@/utils/cn';
 
 import { ArticleKit } from './article-kit';
-import {
-    MarkdownEditorKit,
-    usePlateMarkdownSetup,
-} from './markdown-editor-kit';
-import { createEditorApiKit } from './plugins/editor-api-kit';
+import { usePlateMarkdownSetup } from './markdown-editor-kit';
+import { EditorApiPlugin } from './plugins/editor-api-kit';
 import { ImageGroupPlugin } from './plugins/image-group-kit';
 import { uploadAttachmentImage } from './upload-image';
 
@@ -102,12 +99,12 @@ export function PlateMarkdownEditor({
     modalDescription,
     editorId,
 }: PlateMarkdownEditorProps) {
-    const plugins = useMemo(
-        () => [...MarkdownEditorKit, ...createEditorApiKit(editorId)],
-        [editorId],
-    );
     const { editor, isMobile, isModalOpen, setIsModalOpen, handleChange } =
-        usePlateMarkdownSetup({ value, modalDefaultOpen, plugins });
+        usePlateMarkdownSetup({ value, modalDefaultOpen });
+
+    useEffect(() => {
+        editor.setOption(EditorApiPlugin, 'editorId', editorId ?? '');
+    }, [editor, editorId]);
 
     useVisualViewportOffset(!!isModalOpen);
 
@@ -204,12 +201,8 @@ export function ArticlePlateEditor({
     onValueChange,
     editorId,
 }: ArticlePlateEditorProps) {
-    const plugins = useMemo(
-        () => [...ArticleKit, ...createEditorApiKit(editorId)],
-        [editorId],
-    );
     const editor = usePlateEditor({
-        plugins,
+        plugins: ArticleKit,
         value,
         nodeId: false,
         shouldNormalizeEditor: true,
@@ -223,6 +216,10 @@ export function ArticlePlateEditor({
             (file: File, options) => uploadAttachmentImage(file, options),
         );
     }, [editor]);
+
+    useEffect(() => {
+        editor.setOption(EditorApiPlugin, 'editorId', editorId ?? '');
+    }, [editor, editorId]);
 
     return (
         <Plate

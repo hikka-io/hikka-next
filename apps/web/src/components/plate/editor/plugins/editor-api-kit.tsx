@@ -1,11 +1,7 @@
 import { useEffect } from 'react';
 
-import type { Value } from 'platejs';
-import {
-    type AnyPlatePlugin,
-    createPlatePlugin,
-    useEditorRef,
-} from 'platejs/react';
+import type { PluginConfig, Value } from 'platejs';
+import { createTPlatePlugin, usePluginOption } from 'platejs/react';
 
 export const EDITOR_API_MESSAGE_SOURCE = 'hikka-editor-api';
 
@@ -16,7 +12,7 @@ export type EditorApiRequest = {
     type: 'request';
     requestId: string;
     editorId: string;
-    command: EditorApiCommand | string;
+    command: EditorApiCommand | (string & {});
     value?: Value;
 };
 
@@ -44,20 +40,31 @@ export type EditorApiOptions = {
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
-    typeof value === 'object' && value !== null;
+    typeof value === 'object' && value !== null && !Array.isArray(value);
 
-const isSlateNode = (value: unknown): boolean => {
-    if (!isRecord(value)) return false;
+// Array.prototype.every skips holes, so density is checked before every walk.
+const isDenseNonEmptyArray = (value: unknown): value is unknown[] => {
+    if (!Array.isArray(value) || value.length === 0) return false;
 
-    if ('text' in value) {
-        return typeof value.text === 'string';
+    for (let index = 0; index < value.length; index++) {
+        if (!(index in value)) return false;
     }
 
-    return Array.isArray(value.children) && value.children.every(isSlateNode);
+    return true;
 };
 
+const isTextNode = (value: unknown): boolean =>
+    isRecord(value) && typeof value.text === 'string' && !('children' in value);
+
+const isElementNode = (value: unknown): boolean =>
+    isRecord(value) &&
+    typeof value.type === 'string' &&
+    !('text' in value) &&
+    isDenseNonEmptyArray(value.children) &&
+    value.children.every((child) => isTextNode(child) || isElementNode(child));
+
 export const isPlateValue = (value: unknown): value is Value =>
-    Array.isArray(value) && value.every(isSlateNode);
+    isDenseNonEmptyArray(value) && value.every(isElementNode);
 
 export const isEditorApiRequest = (value: unknown): value is EditorApiRequest =>
     isRecord(value) &&
@@ -104,95 +111,83 @@ export function handleEditorApiRequest(
 ): EditorApiResponse | undefined {
     if (request.editorId !== editorId) return undefined;
 
-    switch (request.command) {
-        case 'get':
-            return response(request, { ok: true, value: editor.children });
-        case 'set':
-            if (request.value === undefined) {
-                return errorResponse(
-                    request,
-                    'missing_value',
-                    'The set command requires a value.',
-                );
-            }
-            if (!isPlateValue(request.value)) {
-                return errorResponse(
-                    request,
-                    'invalid_value',
-                    'The value must be a valid Plate value.',
-                );
-            }
-            editor.tf.setValue(request.value);
-            return response(request, { ok: true });
-        case 'insert':
-            if (request.value === undefined) {
-                return errorResponse(
-                    request,
-                    'missing_value',
-                    'The insert command requires a value.',
-                );
-            }
-            if (!isPlateValue(request.value)) {
-                return errorResponse(
-                    request,
-                    'invalid_value',
-                    'The value must be a valid Plate fragment.',
-                );
-            }
-            editor.tf.insertNodes(request.value, { select: true });
-            return response(request, { ok: true });
-        default:
-            return errorResponse(
-                request,
-                'unknown_command',
-                `Unknown editor API command: ${request.command}`,
-            );
+    if (request.command === 'get') {
+        return response(request, { ok: true, value: editor.children });
     }
+
+    if (request.command !== 'set' && request.command !== 'insert') {
+        return errorResponse(
+            request,
+            'unknown_command',
+            `Unknown editor API command: ${request.command}`,
+        );
+    }
+
+    if (request.value === undefined) {
+        return errorResponse(
+            request,
+            'missing_value',
+            `The ${request.command} command requires a value.`,
+        );
+    }
+
+    if (!isPlateValue(request.value)) {
+        return errorResponse(
+            request,
+            'invalid_value',
+            `The ${request.command} command requires a valid Plate value.`,
+        );
+    }
+
+    try {
+        if (request.command === 'set') {
+            editor.tf.setValue(request.value);
+        } else {
+            editor.tf.insertNodes(request.value, { select: true });
+        }
+    } catch (error) {
+        return errorResponse(
+            request,
+            'editor_error',
+            error instanceof Error
+                ? error.message
+                : 'The editor rejected the value.',
+        );
+    }
+
+    return response(request, { ok: true });
 }
 
-function EditorApiBridge({ editorId }: { editorId?: string }) {
-    const editor = useEditorRef();
+type EditorApiConfig = PluginConfig<'editor-api', EditorApiOptions>;
 
-    useEffect(() => {
-        if (!editorId) return;
-
-        const handleMessage = (event: MessageEvent<unknown>) => {
-            if (!isEditorApiRequest(event.data)) return;
-
-            const result = handleEditorApiRequest(editor, event.data, editorId);
-            if (result) {
-                window.postMessage(result, '*');
-            }
-        };
-
-        window.addEventListener('message', handleMessage);
-
-        return () => window.removeEventListener('message', handleMessage);
-    }, [editor, editorId]);
-
-    return null;
-}
-
-export const EditorApiPlugin = createPlatePlugin({
+export const EditorApiPlugin = createTPlatePlugin<EditorApiConfig>({
     key: 'editor-api',
-    options: {
-        editorId: '',
-    } satisfies EditorApiOptions,
-    render: {
-        afterEditable: () => <EditorApiBridge />,
+    options: { editorId: '' },
+    useHooks: ({ editor, plugin }) => {
+        const editorId = usePluginOption(plugin, 'editorId');
+
+        useEffect(() => {
+            if (!editorId) return;
+
+            const handleMessage = (event: MessageEvent<unknown>) => {
+                if (event.source !== window) return;
+                if (!isEditorApiRequest(event.data)) return;
+
+                const result = handleEditorApiRequest(
+                    editor,
+                    event.data,
+                    editorId,
+                );
+                if (result) {
+                    window.postMessage(result, window.location.origin);
+                }
+            };
+
+            window.addEventListener('message', handleMessage);
+
+            return () => window.removeEventListener('message', handleMessage);
+        }, [editor, editorId]);
     },
 });
 
-export const createEditorApiKit = (editorId?: string) =>
-    (editorId
-        ? [
-              EditorApiPlugin.configure({
-                  options: { editorId },
-                  render: {
-                      afterEditable: () => (
-                          <EditorApiBridge editorId={editorId} />
-                      ),
-                  },
-              }),
-          ]
-        : []) as AnyPlatePlugin[];
+export const EditorApiKit = [EditorApiPlugin];

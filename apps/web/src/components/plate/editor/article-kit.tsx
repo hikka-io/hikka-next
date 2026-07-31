@@ -3,6 +3,7 @@ import { ParagraphPlugin } from 'platejs/react';
 
 import { BasicBlocksKit } from './plugins/basic-blocks-kit';
 import { BasicMarksKit } from './plugins/basic-marks-kit';
+import { EditorApiKit } from './plugins/editor-api-kit';
 import { EmojiKit } from './plugins/emoji-kit';
 import { ExitBreakKit } from './plugins/exit-break-kit';
 import { FixedArticleToolbarKit } from './plugins/fixed-toolbar-kit';
@@ -38,6 +39,9 @@ export const ArticleKit = [
 
     // Parsers
     ...MarkdownKit,
+
+    // API
+    ...EditorApiKit,
 
     // UI
     ...FixedArticleToolbarKit,
