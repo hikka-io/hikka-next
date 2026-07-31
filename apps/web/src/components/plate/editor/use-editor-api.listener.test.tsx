@@ -1,19 +1,18 @@
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { createPlateEditor, Plate, PlateContent } from 'platejs/react';
+import { createPlateEditor } from 'platejs/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import {
     EDITOR_API_MESSAGE_SOURCE,
-    EditorApiKit,
-    EditorApiPlugin,
     type EditorApiResponse,
-} from './editor-api-kit';
+    useEditorApi,
+} from './use-editor-api';
 
-const EDITOR_ID = 'article-editor';
+const EDITOR_ID = 'comment-anime-frieren';
 
-const document_ = [{ type: 'p', children: [{ text: 'IMPORTANT DRAFT' }] }];
+const initialValue = [{ type: 'p', children: [{ text: 'IMPORTANT DRAFT' }] }];
 
 const teardown: (() => void)[] = [];
 
@@ -24,22 +23,31 @@ afterEach(async () => {
     vi.restoreAllMocks();
 });
 
-async function mountEditor() {
-    const editor = createPlateEditor({
-        plugins: EditorApiKit,
-        value: document_,
-    });
-    const container = window.document.createElement('div');
-    window.document.body.append(container);
+function Host({
+    editor,
+    editorId,
+}: {
+    editor: ReturnType<typeof createPlateEditor>;
+    editorId?: string;
+}) {
+    useEditorApi(editor, editorId);
+
+    return null;
+}
+
+async function mountHost(editorId?: string) {
+    const editor = createPlateEditor({ value: initialValue });
+    const container = document.createElement('div');
+    document.body.append(container);
     const root = createRoot(container);
 
-    await act(async () => {
-        root.render(
-            <Plate editor={editor}>
-                <PlateContent />
-            </Plate>,
-        );
-    });
+    const render = async (nextEditorId?: string) => {
+        await act(async () => {
+            root.render(<Host editor={editor} editorId={nextEditorId} />);
+        });
+    };
+
+    await render(editorId);
 
     const unmount = () => {
         root.unmount();
@@ -47,18 +55,12 @@ async function mountEditor() {
     };
     teardown.push(unmount);
 
-    const setEditorId = async (editorId: string) => {
-        await act(async () => {
-            editor.setOption(EditorApiPlugin, 'editorId', editorId);
-        });
-    };
-
-    return { editor, setEditorId, unmount };
+    return { editor, render, unmount };
 }
 
 async function send(
     command: string,
-    options: { value?: unknown; source?: unknown } = {},
+    options: { editorId?: string; value?: unknown; source?: unknown } = {},
 ) {
     const replies: EditorApiResponse[] = [];
     const collect = (event: MessageEvent) => {
@@ -76,7 +78,7 @@ async function send(
                     source: EDITOR_API_MESSAGE_SOURCE,
                     type: 'request',
                     requestId: 'request-1',
-                    editorId: EDITOR_ID,
+                    editorId: options.editorId ?? EDITOR_ID,
                     command,
                     value: options.value,
                 },
@@ -89,56 +91,66 @@ async function send(
     return replies;
 }
 
-describe('editor API bridge mounting', () => {
-    it('registers no listener until an editorId is configured', async () => {
+describe('useEditorApi listener', () => {
+    it('registers no listener without an editorId', async () => {
         const addEventListener = vi.spyOn(window, 'addEventListener');
         const messageListeners = () =>
             addEventListener.mock.calls.filter(([type]) => type === 'message')
                 .length;
-        const { setEditorId } = await mountEditor();
 
+        const { render } = await mountHost();
         expect(messageListeners()).toBe(0);
 
-        await setEditorId(EDITOR_ID);
-
+        await render(EDITOR_ID);
         expect(messageListeners()).toBe(1);
     });
 
-    it('starts and stops answering as the editorId option changes', async () => {
-        const { editor, setEditorId } = await mountEditor();
+    it('starts and stops answering as the editorId changes', async () => {
+        const { editor, render } = await mountHost(EDITOR_ID);
 
-        await setEditorId(EDITOR_ID);
         expect(await send('get')).toMatchObject([
             { ok: true, value: editor.children },
         ]);
 
-        await setEditorId('');
+        await render(undefined);
         expect(await send('get')).toHaveLength(0);
 
-        await setEditorId(EDITOR_ID);
+        await render(EDITOR_ID);
         expect(await send('get')).toHaveLength(1);
     });
 
     it('ignores messages posted from another window', async () => {
-        const { setEditorId } = await mountEditor();
-        await setEditorId(EDITOR_ID);
+        await mountHost(EDITOR_ID);
 
         expect(await send('get', { source: {} })).toHaveLength(0);
     });
 
+    it('answers only the editor the request targets', async () => {
+        const reply = await mountHost('comment-reply-abc');
+        const edit = await mountHost('comment-edit-abc');
+
+        const next = [{ type: 'p', children: [{ text: 'Replaced' }] }];
+        const replies = await send('set', {
+            editorId: 'comment-edit-abc',
+            value: next,
+        });
+
+        expect(replies).toHaveLength(1);
+        expect(edit.editor.children).toMatchObject(next);
+        expect(reply.editor.children).toMatchObject(initialValue);
+    });
+
     it('rejects a destructive value and leaves the document intact', async () => {
-        const { editor, setEditorId } = await mountEditor();
-        await setEditorId(EDITOR_ID);
+        const { editor } = await mountHost(EDITOR_ID);
 
         expect(await send('set', { value: [] })).toMatchObject([
             { ok: false, error: { code: 'invalid_value' } },
         ]);
-        expect(editor.children).toMatchObject(document_);
+        expect(editor.children).toMatchObject(initialValue);
     });
 
     it('applies a valid set to the editor', async () => {
-        const { editor, setEditorId } = await mountEditor();
-        await setEditorId(EDITOR_ID);
+        const { editor } = await mountHost(EDITOR_ID);
 
         const next = [{ type: 'p', children: [{ text: 'Replaced' }] }];
 
@@ -149,8 +161,7 @@ describe('editor API bridge mounting', () => {
     });
 
     it('removes its listener on unmount', async () => {
-        const { setEditorId, unmount } = await mountEditor();
-        await setEditorId(EDITOR_ID);
+        const { unmount } = await mountHost(EDITOR_ID);
 
         await act(async () => unmount());
 

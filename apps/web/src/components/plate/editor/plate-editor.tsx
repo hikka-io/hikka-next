@@ -24,9 +24,9 @@ import { cn } from '@/utils/cn';
 
 import { ArticleKit } from './article-kit';
 import { usePlateMarkdownSetup } from './markdown-editor-kit';
-import { EditorApiPlugin } from './plugins/editor-api-kit';
 import { ImageGroupPlugin } from './plugins/image-group-kit';
 import { uploadAttachmentImage } from './upload-image';
+import { useEditorApi } from './use-editor-api';
 
 export function EditorPreview({
     editor,
@@ -100,11 +100,7 @@ export function PlateMarkdownEditor({
     editorId,
 }: PlateMarkdownEditorProps) {
     const { editor, isMobile, isModalOpen, setIsModalOpen, handleChange } =
-        usePlateMarkdownSetup({ value, modalDefaultOpen });
-
-    useEffect(() => {
-        editor.setOption(EditorApiPlugin, 'editorId', editorId ?? '');
-    }, [editor, editorId]);
+        usePlateMarkdownSetup({ value, modalDefaultOpen, editorId });
 
     useVisualViewportOffset(!!isModalOpen);
 
@@ -217,9 +213,7 @@ export function ArticlePlateEditor({
         );
     }, [editor]);
 
-    useEffect(() => {
-        editor.setOption(EditorApiPlugin, 'editorId', editorId ?? '');
-    }, [editor, editorId]);
+    useEditorApi(editor, editorId);
 
     return (
         <Plate

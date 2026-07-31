@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 
-import type { PluginConfig, Value } from 'platejs';
-import { createTPlatePlugin, usePluginOption } from 'platejs/react';
+import type { Value } from 'platejs';
 
 export const EDITOR_API_MESSAGE_SOURCE = 'hikka-editor-api';
 
@@ -35,8 +34,12 @@ export type EditorApiResponse = {
     error?: EditorApiError;
 };
 
-export type EditorApiOptions = {
-    editorId: string;
+export type EditorApiTarget = {
+    children: Value;
+    tf: {
+        insertNodes: (value: Value, options?: { select?: boolean }) => void;
+        setValue: (value: Value) => void;
+    };
 };
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
@@ -99,13 +102,7 @@ const errorResponse = (
     });
 
 export function handleEditorApiRequest(
-    editor: {
-        children: Value;
-        tf: {
-            insertNodes: (value: Value, options?: { select?: boolean }) => void;
-            setValue: (value: Value) => void;
-        };
-    },
+    editor: EditorApiTarget,
     request: EditorApiRequest,
     editorId: string,
 ): EditorApiResponse | undefined {
@@ -158,36 +155,22 @@ export function handleEditorApiRequest(
     return response(request, { ok: true });
 }
 
-type EditorApiConfig = PluginConfig<'editor-api', EditorApiOptions>;
+export function useEditorApi(editor: EditorApiTarget, editorId?: string) {
+    useEffect(() => {
+        if (!editorId) return;
 
-export const EditorApiPlugin = createTPlatePlugin<EditorApiConfig>({
-    key: 'editor-api',
-    options: { editorId: '' },
-    useHooks: ({ editor, plugin }) => {
-        const editorId = usePluginOption(plugin, 'editorId');
+        const handleMessage = (event: MessageEvent<unknown>) => {
+            if (event.source !== window) return;
+            if (!isEditorApiRequest(event.data)) return;
 
-        useEffect(() => {
-            if (!editorId) return;
+            const result = handleEditorApiRequest(editor, event.data, editorId);
+            if (result) {
+                window.postMessage(result, window.location.origin);
+            }
+        };
 
-            const handleMessage = (event: MessageEvent<unknown>) => {
-                if (event.source !== window) return;
-                if (!isEditorApiRequest(event.data)) return;
+        window.addEventListener('message', handleMessage);
 
-                const result = handleEditorApiRequest(
-                    editor,
-                    event.data,
-                    editorId,
-                );
-                if (result) {
-                    window.postMessage(result, window.location.origin);
-                }
-            };
-
-            window.addEventListener('message', handleMessage);
-
-            return () => window.removeEventListener('message', handleMessage);
-        }, [editor, editorId]);
-    },
-});
-
-export const EditorApiKit = [EditorApiPlugin];
+        return () => window.removeEventListener('message', handleMessage);
+    }, [editor, editorId]);
+}

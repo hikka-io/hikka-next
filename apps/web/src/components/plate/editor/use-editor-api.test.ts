@@ -7,7 +7,7 @@ import {
     handleEditorApiRequest,
     isEditorApiRequest,
     isPlateValue,
-} from './editor-api-kit';
+} from './use-editor-api';
 
 const value = [{ type: 'p', children: [{ text: 'Hello' }] }];
 

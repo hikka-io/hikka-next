@@ -9,7 +9,6 @@ import { usePreventUnsavedClose } from '@/services/hooks/use-prevent-unsaved-clo
 
 import { BasicBlocksKit } from './plugins/basic-blocks-kit';
 import { BasicMarksKit } from './plugins/basic-marks-kit';
-import { EditorApiKit } from './plugins/editor-api-kit';
 import { EmojiKit } from './plugins/emoji-kit';
 import { ExitBreakKit } from './plugins/exit-break-kit';
 import { LinkKit } from './plugins/link-kit';
@@ -17,6 +16,7 @@ import { ListKit } from './plugins/list-classic-kit';
 import { MarkdownKit } from './plugins/markdown-kit';
 import { SpoilerKit } from './plugins/spoiler-kit';
 import { TextSubstitutionsKit } from './plugins/text-substitutions-kit';
+import { useEditorApi } from './use-editor-api';
 
 export const MarkdownEditorKit = [
     // Elements
@@ -38,9 +38,6 @@ export const MarkdownEditorKit = [
 
     // Parsers
     ...MarkdownKit,
-
-    // API
-    ...EditorApiKit,
 ];
 
 export const useMarkdownEditor = () => useEditorRef();
@@ -48,6 +45,7 @@ export const useMarkdownEditor = () => useEditorRef();
 interface UsePlateMarkdownSetupOptions {
     value?: string;
     modalDefaultOpen?: boolean;
+    editorId?: string;
 }
 
 export function usePlateMarkdownSetup(options: UsePlateMarkdownSetupOptions) {
@@ -58,6 +56,8 @@ export function usePlateMarkdownSetup(options: UsePlateMarkdownSetupOptions) {
                 .getApi(MarkdownPlugin)
                 .markdown.deserialize(options.value ?? ''),
     });
+
+    useEditorApi(editor, options.editorId);
 
     const [isModalOpen, setIsModalOpen] = useState(
         options.modalDefaultOpen ?? false,
