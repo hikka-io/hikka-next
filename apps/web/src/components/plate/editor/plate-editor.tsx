@@ -26,6 +26,7 @@ import { ArticleKit } from './article-kit';
 import { usePlateMarkdownSetup } from './markdown-editor-kit';
 import { ImageGroupPlugin } from './plugins/image-group-kit';
 import { uploadAttachmentImage } from './upload-image';
+import { useEditorApi } from './use-editor-api';
 
 export function EditorPreview({
     editor,
@@ -82,6 +83,7 @@ export type PlateMarkdownEditorProps = {
     modalButtonTitle?: string;
     modalEditButtonTitle?: string;
     onValueChange?: (value: string) => void;
+    editorId?: string;
 };
 
 export function PlateMarkdownEditor({
@@ -95,9 +97,10 @@ export function PlateMarkdownEditor({
     modalEditButtonTitle = 'Редагувати коментар',
     modalTitle = 'Коментар',
     modalDescription,
+    editorId,
 }: PlateMarkdownEditorProps) {
     const { editor, isMobile, isModalOpen, setIsModalOpen, handleChange } =
-        usePlateMarkdownSetup({ value, modalDefaultOpen });
+        usePlateMarkdownSetup({ value, modalDefaultOpen, editorId });
 
     useVisualViewportOffset(!!isModalOpen);
 
@@ -183,6 +186,7 @@ export type ArticlePlateEditorProps = {
     className?: string;
     placeholder?: string;
     onValueChange?: (value: Value) => void;
+    editorId?: string;
 };
 
 export function ArticlePlateEditor({
@@ -191,6 +195,7 @@ export function ArticlePlateEditor({
     className,
     placeholder = 'Напишіть зміст статті...',
     onValueChange,
+    editorId,
 }: ArticlePlateEditorProps) {
     const editor = usePlateEditor({
         plugins: ArticleKit,
@@ -207,6 +212,8 @@ export function ArticlePlateEditor({
             (file: File, options) => uploadAttachmentImage(file, options),
         );
     }, [editor]);
+
+    useEditorApi(editor, editorId);
 
     return (
         <Plate

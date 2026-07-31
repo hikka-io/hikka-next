@@ -40,6 +40,12 @@ type Props = {
     forceReview?: boolean;
 };
 
+const getEditorId = ({ slug, content_type, comment, isEdit }: Props) => {
+    if (!comment) return `comment-${content_type}-${slug}`;
+
+    return `comment-${isEdit ? 'edit' : 'reply'}-${comment.reference}`;
+};
+
 const CommentInput: FC<Props> = ({
     className,
     comment,
@@ -52,6 +58,7 @@ const CommentInput: FC<Props> = ({
         usePlateMarkdownSetup({
             value: isEdit && comment ? comment.text! : undefined,
             modalDefaultOpen: comment !== undefined,
+            editorId: getEditorId({ ...props, comment, isEdit }),
         });
 
     const { clearActive } = useCommentsContext();

@@ -21,6 +21,7 @@ const ArticleDocumentEditor = () => {
         <div className="flex flex-col gap-4">
             <Label>Зміст</Label>
             <ArticlePlateEditor
+                editorId="article-editor"
                 value={document}
                 onValueChange={setDocument}
                 className="min-h-44"
