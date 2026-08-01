@@ -102,7 +102,7 @@ const EditActions: FC<Props> = () => {
 
             {!draft && (
                 <Button
-                    className="flex-1 md:flex-none"
+                    className="flex-1"
                     size="md"
                     disabled={!title || isPending}
                     onClick={() => handleUpdateArticle()}
@@ -131,7 +131,7 @@ const EditActions: FC<Props> = () => {
             {draft && (
                 <Button
                     size="md"
-                    className="flex-1 md:flex-none"
+                    className="flex-1"
                     disabled={!title || isPending}
                     onClick={() => handleUpdateArticle()}
                 >

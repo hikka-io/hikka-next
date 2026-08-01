@@ -236,7 +236,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                 {mode === 'edit' && (
                     <Button
                         size="md"
-                        className="flex-1 md:flex-none"
+                        className="flex-1"
                         disabled={
                             isUpdatePending ||
                             !title ||
@@ -262,7 +262,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                 )}
                 {mode === 'create' && (
                     <Button
-                        className="flex-1 md:flex-none"
+                        className="flex-1"
                         disabled={
                             isSuccess ||
                             isCreatePending ||

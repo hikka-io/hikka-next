@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { Drawer as DrawerPrimitive } from 'vaul';
 
-import { footerBarClassName } from '@/components/ui/footer-bar';
+import { modalFooterBarClassName } from '@/components/ui/footer-bar';
 import {
     PortalContainerProvider,
     usePortalContainer,
@@ -160,7 +160,7 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<'div'>) {
     return (
         <div
             data-slot="drawer-footer"
-            className={cn('-mx-4 -mb-4', footerBarClassName, className)}
+            className={cn('-mx-4 -mb-4', modalFooterBarClassName, className)}
             {...props}
         />
     );

@@ -4,7 +4,7 @@ import { XIcon } from 'lucide-react';
 import { Dialog as DialogPrimitive } from 'radix-ui';
 
 import { Button } from '@/components/ui/button';
-import { footerBarClassName } from '@/components/ui/footer-bar';
+import { modalFooterBarClassName } from '@/components/ui/footer-bar';
 import { PortalContainerProvider } from '@/components/ui/portal-container-context';
 import { useBackClose } from '@/services/hooks/use-back-close';
 import { cn } from '@/utils/cn';
@@ -119,7 +119,7 @@ function DialogFooter({
             data-slot="dialog-footer"
             className={cn(
                 '-mx-4 -mb-4 md:rounded-b-xl',
-                footerBarClassName,
+                modalFooterBarClassName,
                 className,
             )}
             {...props}
