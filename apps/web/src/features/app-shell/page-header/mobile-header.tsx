@@ -13,6 +13,7 @@ import {
     usePageHeaderState,
 } from './page-header-context';
 import { resolveTitleVisibility } from './resolve-title-visibility';
+import { useAnchorReachable } from './use-anchor-reachable';
 import { useSettledScope } from './use-settled-scope';
 
 const SCROLL_THRESHOLD = 8;
@@ -38,10 +39,13 @@ const MobileHeader = () => {
     const settled = useSettledScope(config, anchor);
     const animated = Boolean(config && anchor) && settled;
 
+    const anchorReachable = useAnchorReachable(anchor, headerRef);
+
     const titleVisible = resolveTitleVisibility({
         config,
         hasAnchor: Boolean(anchor),
         passedAnchor,
+        anchorReachable,
     });
 
     useEffect(() => {

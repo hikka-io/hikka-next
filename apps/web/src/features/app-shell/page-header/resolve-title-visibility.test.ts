@@ -13,6 +13,7 @@ describe('resolveTitleVisibility', () => {
                 config: null,
                 hasAnchor: false,
                 passedAnchor: false,
+                anchorReachable: true,
             }),
         ).toBe(false);
     });
@@ -23,6 +24,7 @@ describe('resolveTitleVisibility', () => {
                 config: plainConfig,
                 hasAnchor: false,
                 passedAnchor: false,
+                anchorReachable: true,
             }),
         ).toBe(true);
     });
@@ -33,6 +35,7 @@ describe('resolveTitleVisibility', () => {
                 config: anchoredConfig,
                 hasAnchor: false,
                 passedAnchor: true,
+                anchorReachable: true,
             }),
         ).toBe(false);
     });
@@ -43,6 +46,7 @@ describe('resolveTitleVisibility', () => {
                 config: anchoredConfig,
                 hasAnchor: true,
                 passedAnchor: false,
+                anchorReachable: true,
             }),
         ).toBe(false);
     });
@@ -53,7 +57,30 @@ describe('resolveTitleVisibility', () => {
                 config: anchoredConfig,
                 hasAnchor: true,
                 passedAnchor: true,
+                anchorReachable: true,
             }),
         ).toBe(true);
+    });
+
+    it('shows the title when the page is too short to scroll past the anchor', () => {
+        expect(
+            resolveTitleVisibility({
+                config: anchoredConfig,
+                hasAnchor: true,
+                passedAnchor: false,
+                anchorReachable: false,
+            }),
+        ).toBe(true);
+    });
+
+    it('keeps the title hidden on a short page whose anchor has not mounted', () => {
+        expect(
+            resolveTitleVisibility({
+                config: anchoredConfig,
+                hasAnchor: false,
+                passedAnchor: false,
+                anchorReachable: false,
+            }),
+        ).toBe(false);
     });
 });

@@ -4,6 +4,7 @@ export type TitleVisibilityInput = {
     config: PageHeaderConfig | null;
     hasAnchor: boolean;
     passedAnchor: boolean;
+    anchorReachable: boolean;
 };
 
 /**
@@ -14,11 +15,15 @@ export type TitleVisibilityInput = {
  * anchor" and "the anchor has not registered yet". The `anchored` flag on the
  * page config disambiguates, so the title is never shown optimistically and
  * then withdrawn.
+ *
+ * A page too short to scroll its anchor out of view can never satisfy
+ * `passedAnchor`, so an unreachable anchor reveals the title outright.
  */
 export const resolveTitleVisibility = ({
     config,
     hasAnchor,
     passedAnchor,
+    anchorReachable,
 }: TitleVisibilityInput): boolean => {
     if (!config) {
         return false;
@@ -28,5 +33,5 @@ export const resolveTitleVisibility = ({
         return true;
     }
 
-    return hasAnchor && passedAnchor;
+    return hasAnchor && (passedAnchor || !anchorReachable);
 };
