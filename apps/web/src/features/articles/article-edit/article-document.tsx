@@ -26,6 +26,7 @@ const ArticleDocumentEditor = () => {
                 onValueChange={setDocument}
                 className="min-h-44"
                 placeholder="Напишіть зміст статті..."
+                modalDescription={title}
             />
         </div>
     );
