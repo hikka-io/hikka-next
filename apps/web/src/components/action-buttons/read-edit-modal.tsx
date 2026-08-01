@@ -275,7 +275,7 @@ const ReadEditModal = ({
                     )}
                 />
             </div>
-            <ResponsiveModalFooter>
+            <ResponsiveModalFooter className="flex-row">
                 <Button
                     type="button"
                     variant="destructive"
@@ -297,6 +297,7 @@ const ReadEditModal = ({
                 <Button
                     size="md"
                     type="submit"
+                    className="flex-1 md:flex-none"
                     disabled={addToListLoading || deleteFromListLoading}
                 >
                     {addToListLoading ? (

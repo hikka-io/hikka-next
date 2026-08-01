@@ -495,7 +495,7 @@ const LayoutSettingsContent = () => {
     };
 
     return (
-        <div className="-m-4 flex flex-col overflow-hidden">
+        <div className="-m-4 flex flex-1 flex-col overflow-y-auto">
             <LayoutPresetSelector
                 value={preset}
                 onChange={handlePresetChange}

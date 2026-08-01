@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
+    ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/utils/cn';
@@ -395,6 +396,11 @@ const FeedSubTypeSelect: FC<{
                             );
                         })}
                     </div>
+                    <ResponsiveModalFooter>
+                        <Button size="md" onClick={() => setOpen(false)}>
+                            Готово
+                        </Button>
+                    </ResponsiveModalFooter>
                 </ResponsiveModalContent>
             </ResponsiveModal>
         </>

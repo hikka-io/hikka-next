@@ -59,21 +59,19 @@ const EditListModal = ({ content_type, slug }: Props) => {
                     description="Станьте першим, хто запропонує правку для цього контенту"
                 />
             )}
-            <ResponsiveModalFooter>
-                <div className="flex w-full items-center gap-2">
-                    <Button
-                        variant="secondary"
-                        className="flex-1"
-                        size="md"
-                        asChild
-                    >
-                        <Link to="/edit/new" search={{ slug, content_type }}>
-                            <MaterialSymbolsEditRounded />
-                            Створити правку
-                        </Link>
-                    </Button>
-                    <QuickEditButton slug={slug} content_type={content_type} />
-                </div>
+            <ResponsiveModalFooter className="flex-row items-center">
+                <Button
+                    variant="secondary"
+                    className="flex-1 md:flex-none"
+                    size="md"
+                    asChild
+                >
+                    <Link to="/edit/new" search={{ slug, content_type }}>
+                        <MaterialSymbolsEditRounded />
+                        Створити правку
+                    </Link>
+                </Button>
+                <QuickEditButton slug={slug} content_type={content_type} />
             </ResponsiveModalFooter>
         </Fragment>
     );

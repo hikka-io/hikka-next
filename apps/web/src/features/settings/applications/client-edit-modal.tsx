@@ -197,16 +197,7 @@ const ClientEditModal = ({ client, onClose }: Props) => {
                     )}
                 />
             </div>
-            <ResponsiveModalFooter>
-                <Button
-                    size="md"
-                    variant="secondary"
-                    type="submit"
-                    disabled={deleteClientLoading || updateClientLoading}
-                >
-                    {updateClientLoading && <Spinner />}
-                    Оновити
-                </Button>
+            <ResponsiveModalFooter className="flex-row">
                 <Button
                     size="md"
                     type="button"
@@ -216,6 +207,15 @@ const ClientEditModal = ({ client, onClose }: Props) => {
                 >
                     {deleteClientLoading && <Spinner />}
                     Видалити
+                </Button>
+                <Button
+                    size="md"
+                    type="submit"
+                    className="flex-1 md:flex-none"
+                    disabled={deleteClientLoading || updateClientLoading}
+                >
+                    {updateClientLoading && <Spinner />}
+                    Оновити
                 </Button>
             </ResponsiveModalFooter>
         </form>

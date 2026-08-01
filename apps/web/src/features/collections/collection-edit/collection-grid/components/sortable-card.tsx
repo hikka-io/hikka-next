@@ -123,27 +123,31 @@ const SortableCardContent = memo<{
                                 className="min-h-20 w-full"
                             />
                         </div>
-                        <ResponsiveModalFooter>
+                        <ResponsiveModalFooter className="flex-row">
                             {comment && (
                                 <Button
                                     variant="destructive"
-                                    size="md"
+                                    size="icon-md"
+                                    aria-label="Видалити коментар"
                                     onClick={handleDiscard}
                                 >
                                     <Trash2 className="size-4" />
-                                    Видалити
                                 </Button>
                             )}
-                            <div className="flex-1" />
                             <Button
                                 variant="outline"
                                 size="md"
+                                className="flex-1 md:flex-none"
                                 onClick={() => setCommentOpen(false)}
                             >
                                 <X className="size-4" />
                                 Скасувати
                             </Button>
-                            <Button size="md" onClick={handleSave}>
+                            <Button
+                                size="md"
+                                className="flex-1 md:flex-none"
+                                onClick={handleSave}
+                            >
                                 <Check className="size-4" />
                                 Зберегти
                             </Button>

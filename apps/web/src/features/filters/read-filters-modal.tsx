@@ -42,6 +42,7 @@ const ReadFiltersModal: FC<Props> = ({
                     <FiltersFooter
                         className="w-full"
                         contentType={readPresetContentType(sort_type)}
+                        onDone={() => onOpenChange(false)}
                     />
                 </ResponsiveModalFooter>
             </ResponsiveModalContent>

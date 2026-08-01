@@ -26,10 +26,16 @@ export type FiltersFooterProps = {
     className?: string;
     /** Enables the catalog-only save-as-preset action; watch/read lists omit it. */
     contentType?: ContentTypeEnum;
+    /** Dismisses the surrounding modal; the always-visible sidebar omits it. */
+    onDone?: () => void;
 };
 
 /** Clear filters + (catalog-only) save-as-preset actions for the filter panels. */
-const FiltersFooter: FC<FiltersFooterProps> = ({ className, contentType }) => {
+const FiltersFooter: FC<FiltersFooterProps> = ({
+    className,
+    contentType,
+    onDone,
+}) => {
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [currentFilters, setCurrentFilters] =
@@ -118,32 +124,39 @@ const FiltersFooter: FC<FiltersFooterProps> = ({ className, contentType }) => {
 
     return (
         <>
-            <div className={cn('flex gap-2', className)}>
-                <Button
-                    size="md"
-                    className="flex-1"
-                    variant="destructive"
-                    onClick={clearFilters}
-                >
-                    <AntDesignClearOutlined /> Очистити
-                </Button>
-                {contentType && (
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button
-                                size="icon-md"
-                                variant="secondary"
-                                onClick={handleCreateFromCurrent}
-                            >
-                                <CustomCopyAddRounded />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipPortal>
-                            <TooltipContent>
-                                <p>Створити пресет з поточних фільтрів</p>
-                            </TooltipContent>
-                        </TooltipPortal>
-                    </Tooltip>
+            <div className={cn('flex flex-col gap-2', className)}>
+                <div className="flex gap-2">
+                    <Button
+                        size="md"
+                        className="flex-1"
+                        variant="outline"
+                        onClick={clearFilters}
+                    >
+                        <AntDesignClearOutlined /> Очистити
+                    </Button>
+                    {contentType && (
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    size="icon-md"
+                                    variant="secondary"
+                                    onClick={handleCreateFromCurrent}
+                                >
+                                    <CustomCopyAddRounded />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipPortal>
+                                <TooltipContent>
+                                    <p>Створити пресет з поточних фільтрів</p>
+                                </TooltipContent>
+                            </TooltipPortal>
+                        </Tooltip>
+                    )}
+                </div>
+                {onDone && (
+                    <Button size="md" onClick={onDone}>
+                        Готово
+                    </Button>
                 )}
             </div>
             {contentType && (

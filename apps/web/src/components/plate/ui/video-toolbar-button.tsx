@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
+    ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 import { z } from '@/utils/i18n/zod';
 
@@ -68,7 +69,7 @@ const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
                 e.stopPropagation();
                 form.handleSubmit();
             }}
-            className="flex flex-col gap-6"
+            className="contents"
         >
             <div className="flex w-full flex-col gap-6">
                 <form.AppField
@@ -83,7 +84,7 @@ const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
                     )}
                 />
             </div>
-            <div className="flex w-full justify-end gap-2">
+            <ResponsiveModalFooter>
                 <Button
                     onClick={onClose}
                     type="button"
@@ -92,10 +93,10 @@ const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
                 >
                     Скасувати
                 </Button>
-                <Button variant="secondary" type="submit" size="md">
+                <Button type="submit" size="md">
                     Прийняти
                 </Button>
-            </div>
+            </ResponsiveModalFooter>
         </form>
     );
 };

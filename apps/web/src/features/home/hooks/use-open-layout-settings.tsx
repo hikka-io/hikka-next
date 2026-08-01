@@ -1,8 +1,10 @@
 import { type ReactNode, useCallback, useState } from 'react';
 
+import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
+    ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 
 import LayoutSettingsContent from '../layout-settings-modal';
@@ -25,6 +27,11 @@ export const useOpenLayoutSettings = (): {
                 description="Оберіть тип макету, налаштуйте віджети та їх порядок"
             >
                 <LayoutSettingsContent />
+                <ResponsiveModalFooter>
+                    <Button size="md" onClick={() => setOpen(false)}>
+                        Готово
+                    </Button>
+                </ResponsiveModalFooter>
             </ResponsiveModalContent>
         </ResponsiveModal>
     );

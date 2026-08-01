@@ -47,6 +47,7 @@ const AnimeFiltersModal: FC<Props> = ({
                                 ? ContentTypeEnum.ANIME
                                 : undefined
                         }
+                        onDone={() => onOpenChange(false)}
                     />
                 </ResponsiveModalFooter>
             </ResponsiveModalContent>
