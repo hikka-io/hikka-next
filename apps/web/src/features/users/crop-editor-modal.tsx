@@ -82,33 +82,39 @@ const CropEditorModal = ({ file, type, onClose }: Props) => {
 
     return (
         <>
-            <div className="-m-4 flex flex-1 flex-col justify-center gap-4 overflow-y-auto p-4">
-                <div className="relative grid h-auto w-full place-content-center text-center">
-                    <AvatarEditor
-                        ref={editor}
-                        className={cn(
-                            'm-auto! h-auto! w-full!',
-                            'rounded',
-                            uploadImageMutation.isPending &&
-                                'pointer-events-none',
-                        )}
-                        image={file!}
-                        {...CROP_PARAMS[type as 'avatar' | 'cover']}
-                        color={[0, 0, 0, 0.7]}
-                        scale={scale / 100}
-                        rotate={0}
-                    />
-                </div>
-                <div className="flex items-center gap-4">
-                    <MaterialSymbolsZoomOutRounded className="text-muted-foreground" />
-                    <Slider
-                        disabled={uploadImageMutation.isPending}
-                        onValueChange={(value) => setScale(value[0] as number)}
-                        min={100}
-                        max={130}
-                        value={[scale]}
-                    />
-                    <MaterialSymbolsZoomInRounded className="text-muted-foreground" />
+            {/* Centred with auto margins, not justify-center, which puts
+                overflow out of reach once the crop area is taller than the box. */}
+            <div className="-m-4 flex flex-1 flex-col overflow-y-auto p-4">
+                <div className="my-auto flex w-full flex-col gap-4">
+                    <div className="relative grid h-auto w-full place-content-center text-center">
+                        <AvatarEditor
+                            ref={editor}
+                            className={cn(
+                                'm-auto! h-auto! w-full!',
+                                'rounded',
+                                uploadImageMutation.isPending &&
+                                    'pointer-events-none',
+                            )}
+                            image={file!}
+                            {...CROP_PARAMS[type as 'avatar' | 'cover']}
+                            color={[0, 0, 0, 0.7]}
+                            scale={scale / 100}
+                            rotate={0}
+                        />
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <MaterialSymbolsZoomOutRounded className="text-muted-foreground" />
+                        <Slider
+                            disabled={uploadImageMutation.isPending}
+                            onValueChange={(value) =>
+                                setScale(value[0] as number)
+                            }
+                            min={100}
+                            max={130}
+                            value={[scale]}
+                        />
+                        <MaterialSymbolsZoomInRounded className="text-muted-foreground" />
+                    </div>
                 </div>
             </div>
             <ResponsiveModalFooter>

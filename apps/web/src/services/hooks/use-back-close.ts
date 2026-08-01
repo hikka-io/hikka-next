@@ -1,13 +1,10 @@
-import { useEffect, useId } from 'react';
+import { useCallback, useEffect, useId, useRef } from 'react';
 
 import { useBlocker } from '@tanstack/react-router';
 
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 
-/**
- * Open modals, innermost last. Back must dismiss only the top one, or a
- * preset opened from the preset list takes the list down with it.
- */
+/** Open modals, innermost last. */
 const openModals: string[] = [];
 
 /**
@@ -24,6 +21,15 @@ export function useBackClose(
     const id = useId();
     const active = !isDesktop && open === true && !!onOpenChange;
 
+    // Read through a ref so the blocker keeps a stable identity; `useBlocker`
+    // re-registers whenever `shouldBlockFn` changes, which for an inline
+    // callback is every keystroke inside the modal.
+    const close = useRef(onOpenChange);
+
+    useEffect(() => {
+        close.current = onOpenChange;
+    });
+
     useEffect(() => {
         if (!active) return;
 
@@ -35,16 +41,24 @@ export function useBackClose(
         };
     }, [active, id]);
 
-    useBlocker({
-        disabled: !active,
-        shouldBlockFn: ({ action }) => {
+    const shouldBlockFn = useCallback(
+        ({ action }: { action: string }) => {
             if (action !== 'BACK') return false;
 
-            if (openModals[openModals.length - 1] === id) {
-                onOpenChange?.(false);
-            }
+            // Blockers are consulted in registration order and the first `true`
+            // ends the loop, so every modal but the innermost has to decline.
+            if (openModals[openModals.length - 1] !== id) return false;
 
+            close.current?.(false);
             return true;
         },
+        [id],
+    );
+
+    useBlocker({
+        disabled: !active,
+        // Without this an open modal arms the browser's "Leave site?" prompt.
+        enableBeforeUnload: false,
+        shouldBlockFn,
     });
 }
