@@ -204,7 +204,7 @@ const PresetThumbnail: FC<{
                 key={i}
                 style={{ flex: bar.flex }}
                 className={cn(
-                    'rounded-sm transition-colors',
+                    'rounded-(--base-radius) transition-colors',
                     bar.type === 'center'
                         ? checked
                             ? 'bg-primary-foreground/60'
@@ -226,12 +226,12 @@ const LayoutPresetSelector: FC<{
         <RadioGroup
             value={value}
             onValueChange={(v) => onChange(v as LayoutPreset)}
-            className="grid grid-cols-3 gap-2 p-4 sm:grid-cols-5"
+            className="flex gap-2 overflow-x-scroll p-4"
         >
             {PRESET_META.map((preset) => (
                 <FieldLabel
                     key={preset.id}
-                    className="transition-colors hover:bg-accent"
+                    className="!rounded-(--base-radius) min-w-32 transition-colors hover:bg-accent"
                 >
                     <Field>
                         <RadioGroupItem
@@ -290,7 +290,7 @@ const SortableWidgetItem: FC<{
             ref={setNodeRef}
             style={style}
             className={cn(
-                'flex touch-none items-center gap-2 rounded-lg border surface p-2',
+                'surface flex touch-none items-center gap-2 rounded-lg border p-2',
                 isDragging ? 'cursor-grabbing' : 'cursor-grab',
             )}
             {...attributes}
@@ -356,7 +356,7 @@ const DroppableColumn: FC<{
             >
                 <div
                     ref={setNodeRef}
-                    className="flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed surface-inset p-2 transition-colors"
+                    className="surface-inset flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed p-2 transition-colors"
                 >
                     {widgets.map((widget) => (
                         <SortableWidgetItem
