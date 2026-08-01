@@ -64,14 +64,16 @@ const UserCommentList: FC<Props> = ({
     );
 
     const chipOptions = useMemo(() => {
-        const total = stats?.comments_count;
-
-        if (total === undefined) return COMMENT_TYPE_OPTIONS;
-
         const reviews = stats?.reviews_count ?? 0;
+        const comments = (stats?.comments_count ?? 0) - reviews;
+
+        const total = reviews + comments;
+
+        if (total === 0) return COMMENT_TYPE_OPTIONS;
+
         const counts: Record<CommentType, number> = {
             all: total,
-            comment: Math.max(total - reviews, 0),
+            comment: comments,
             review: reviews,
         };
 
