@@ -7,6 +7,7 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { usePageHeader } from '@/features/app-shell';
 import {
+    ArticleActionsMenu,
     ArticleAuthor,
     ArticleDocumentView,
     ArticleNavbar,
@@ -28,6 +29,7 @@ function ArticlePage() {
         subtitle: article?.author.username,
         parent: '/articles',
         anchored: true,
+        actionsComponent: ArticleActionsMenu,
     });
 
     const jsonLd = article

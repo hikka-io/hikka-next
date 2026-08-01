@@ -52,7 +52,7 @@ const DeleteArticle: FC<Props> = ({ article }) => {
                     onSelect={(e) => e.preventDefault()}
                     className="text-destructive-foreground"
                 >
-                    <MaterialSymbolsDeleteForeverRounded className="mr-2" />
+                    <MaterialSymbolsDeleteForeverRounded />
                     Видалити
                 </DropdownMenuItem>
             </AlertDialogTrigger>

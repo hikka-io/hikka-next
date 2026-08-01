@@ -6,6 +6,7 @@ import { ContentTypeEnum, getCollectionOptions } from '@hikka/api';
 import Block from '@/components/ui/block';
 import { usePageHeader } from '@/features/app-shell';
 import {
+    CollectionViewActionsMenu as CollectionActionsMenu,
     CollectionViewAuthor as CollectionAuthor,
     CollectionViewGroups as CollectionGroups,
     CollectionViewNavbar as CollectionNavbar,
@@ -31,6 +32,7 @@ function CollectionPage() {
         subtitle: collection?.author.username,
         parent: '/collections',
         anchored: true,
+        actionsComponent: CollectionActionsMenu,
     });
 
     return (

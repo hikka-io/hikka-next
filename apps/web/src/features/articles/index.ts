@@ -6,6 +6,7 @@ export { default as ArticleFiltersModal } from './article-filters-modal';
 export { default as ArticleList } from './article-list';
 export { default as ArticlePreviewCard } from './article-preview-card/article-preview-card';
 export { default as ArticlePreviewCardSkeleton } from './article-preview-card/article-preview-card-skeleton';
+export { default as ArticleActionsMenu } from './article-view/article-actions-menu';
 export { default as ArticleAuthor } from './article-view/article-author';
 export { default as ArticleDocumentView } from './article-view/article-document';
 export { default as ArticleNavbar } from './article-view/article-navbar';

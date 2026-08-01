@@ -1,4 +1,4 @@
-import { type ComponentProps, type FC, Fragment } from 'react';
+import type { ComponentProps, FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { MessageCircle, TableOfContents } from 'lucide-react';
@@ -13,19 +13,17 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import { useSession } from '@/features/auth/hooks/use-session';
 import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link, useParams } from '@/utils/navigation';
 
 import TableOfContentsComponent from '../../table-of-contents';
-import CollectionMenu from './components/collection-menu';
+import CollectionActionsMenu from '../collection-actions-menu';
 import CollectionVote from './components/collection-vote';
 
 type Props = {};
 
 const CollectionNavbar: FC<Props> = () => {
-    const { user: loggedUser, isAdmin, isModerator } = useSession();
     const params = useParams();
 
     const { data: collection } = useQuery(
@@ -86,14 +84,8 @@ const CollectionNavbar: FC<Props> = () => {
                     </Popover>
                 )}
 
-                {(loggedUser?.username === collection?.author.username ||
-                    isAdmin() ||
-                    isModerator()) && (
-                    <Fragment>
-                        <div className="h-full w-px bg-border" />
-                        <CollectionMenu collection={collection!} />
-                    </Fragment>
-                )}
+                <div className="hidden h-full w-px bg-border md:block" />
+                <CollectionActionsMenu className="hidden md:flex" />
             </Card>
         </div>
     );
