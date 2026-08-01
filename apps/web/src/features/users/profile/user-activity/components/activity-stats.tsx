@@ -22,9 +22,9 @@ const ActivityStats: FC = () => {
 
     if (!data) return null;
 
-    const commentsCount = data.comments_count ?? 0;
-    const reviewsCount = data.reviews_count ?? 0;
-    const editsCount = data.edits_count ?? 0;
+    const reviews = data.reviews_count ?? 0;
+    const comments = (data.comments_count ?? 0) - reviews;
+    const edits = data.edits_count ?? 0;
 
     return (
         <div className="mt-auto flex flex-col gap-4">
@@ -35,7 +35,7 @@ const ActivityStats: FC = () => {
                     search={{ comment_type: 'comment' }}
                     className={cn(
                         'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent md:flex-0',
-                        commentsCount === 0 && 'opacity-50',
+                        comments === 0 && 'opacity-50',
                     )}
                 >
                     <div className="flex min-w-0 items-center gap-2">
@@ -44,14 +44,14 @@ const ActivityStats: FC = () => {
                             Коментарі
                         </Label>
                     </div>
-                    <Label className="cursor-pointer">{commentsCount}</Label>
+                    <Label className="cursor-pointer">{comments}</Label>
                 </Link>
                 <Link
                     to={`/comments/user/${username}`}
                     search={{ comment_type: 'review' }}
                     className={cn(
                         'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent md:flex-0',
-                        reviewsCount === 0 && 'opacity-50',
+                        reviews === 0 && 'opacity-50',
                     )}
                 >
                     <div className="flex min-w-0 items-center gap-2">
@@ -60,14 +60,14 @@ const ActivityStats: FC = () => {
                             Відгуки
                         </Label>
                     </div>
-                    <Label className="cursor-pointer">{reviewsCount}</Label>
+                    <Label className="cursor-pointer">{reviews}</Label>
                 </Link>
                 <Link
                     to="/edit"
                     search={{ author: username }}
                     className={cn(
                         'flex flex-1 items-center justify-between gap-2 rounded-sm p-2 hover:bg-accent md:flex-0',
-                        editsCount === 0 && 'opacity-50',
+                        edits === 0 && 'opacity-50',
                     )}
                 >
                     <div className="flex min-w-0 items-center gap-2">
@@ -76,7 +76,7 @@ const ActivityStats: FC = () => {
                             Правки
                         </Label>
                     </div>
-                    <Label className="cursor-pointer">{editsCount}</Label>
+                    <Label className="cursor-pointer">{edits}</Label>
                 </Link>
             </div>
         </div>
