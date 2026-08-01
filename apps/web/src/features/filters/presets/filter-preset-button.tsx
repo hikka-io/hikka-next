@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { cn } from '@/utils/cn';
 
@@ -63,7 +61,7 @@ const FilterPresetButton: FC<Props> = ({ className }) => {
             <ResponsiveModal
                 open={presetsOpen}
                 onOpenChange={setPresetsOpen}
-                forceDesktop
+                mobile="page"
             >
                 <ResponsiveModalContent className="md:max-w-xl" title="Пресети">
                     <FilterPresetModal
@@ -77,16 +75,14 @@ const FilterPresetButton: FC<Props> = ({ className }) => {
             <ResponsiveModal
                 open={editOpen}
                 onOpenChange={setEditOpen}
-                forceDesktop
+                mobile="page"
             >
-                <ResponsiveModalContent className="md:max-w-xl">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>
-                            {editPreset?.id
-                                ? 'Редагувати пресет'
-                                : 'Створити пресет'}
-                        </ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+                <ResponsiveModalContent
+                    className="md:max-w-xl"
+                    title={
+                        editPreset?.id ? 'Редагувати пресет' : 'Створити пресет'
+                    }
+                >
                     <FilterPresetEditModal
                         filterPreset={editPreset}
                         onClose={handleEditClose}

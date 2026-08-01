@@ -21,8 +21,6 @@ import type { ButtonProps } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import {
     Select,
@@ -277,12 +275,9 @@ const ReadlistButton = ({
             <ResponsiveModal
                 open={editOpen}
                 onOpenChange={setEditOpen}
-                forceDesktop
+                mobile="page"
             >
-                <ResponsiveModalContent className="md:max-w-xl">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+                <ResponsiveModalContent className="md:max-w-xl" title={title}>
                     <ReadEditModal
                         slug={slug}
                         content_type={content_type}

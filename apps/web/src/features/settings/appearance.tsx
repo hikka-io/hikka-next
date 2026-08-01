@@ -158,10 +158,10 @@ const Appearance = () => {
             <ResponsiveModal
                 open={cropOpen}
                 onOpenChange={setCropOpen}
-                forceDesktop
+                mobile="page"
             >
                 <ResponsiveModalContent
-                    className="max-w-lg!"
+                    className="md:max-w-lg!"
                     title="Редагувати медіафайл"
                 >
                     {cropFile && (

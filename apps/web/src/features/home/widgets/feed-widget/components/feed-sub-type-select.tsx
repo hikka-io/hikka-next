@@ -342,7 +342,7 @@ const FeedSubTypeSelect: FC<{
                 )}
             </Button>
 
-            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+            <ResponsiveModal open={open} onOpenChange={setOpen} mobile="page">
                 <ResponsiveModalContent
                     title="Фільтри стрічки"
                     className="md:max-w-lg"

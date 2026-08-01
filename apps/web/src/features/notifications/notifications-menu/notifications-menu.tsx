@@ -10,20 +10,20 @@ import {
 } from '@hikka/api';
 
 import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    Drawer,
-    DrawerContent,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from '@/components/ui/drawer';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+    PageSheet,
+    PageSheetContent,
+    PageSheetHeader,
+    PageSheetTrigger,
+} from '@/components/ui/page-sheet';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { convertNotification } from '@/utils/adapters/convert-notification';
 import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
@@ -135,19 +135,27 @@ const NotificationsMenu: FC<Props> = ({ trigger }) => {
     }
 
     return (
-        <Drawer open={isOpen} onOpenChange={setIsOpen}>
-            <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
-            <DrawerContent className="max-h-[85dvh]">
-                <DrawerHeader className="border-border border-b p-0">
-                    <DrawerTitle className="sr-only">Сповіщення</DrawerTitle>
-
-                    <NotificationsHeader
-                        unseenCount={unseenCount}
-                        isBulkMarking={isBulkMarking}
-                        onMarkAllSeen={handleMarkAllSeen}
-                        className="px-4 py-4"
-                    />
-                </DrawerHeader>
+        <PageSheet open={isOpen} onOpenChange={setIsOpen}>
+            <PageSheetTrigger asChild>{triggerButton}</PageSheetTrigger>
+            <PageSheetContent>
+                <PageSheetHeader
+                    title="Сповіщення"
+                    actions={
+                        unseenCount > 0 && (
+                            <>
+                                <Badge variant="warning">{unseenCount}</Badge>
+                                <Button
+                                    size="badge"
+                                    variant="outline"
+                                    disabled={isBulkMarking}
+                                    onClick={handleMarkAllSeen}
+                                >
+                                    Прочитати всі
+                                </Button>
+                            </>
+                        )
+                    }
+                />
                 <NotificationsContent
                     normalized={normalized}
                     grouped={grouped}
@@ -157,8 +165,8 @@ const NotificationsMenu: FC<Props> = ({ trigger }) => {
                     loadMoreRef={ref}
                     onNavigate={() => setIsOpen(false)}
                 />
-            </DrawerContent>
-        </Drawer>
+            </PageSheetContent>
+        </PageSheet>
     );
 };
 

@@ -12,13 +12,11 @@ import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar
 import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from '@/components/ui/sheet';
+    PageSheet,
+    PageSheetContent,
+    PageSheetHeader,
+    PageSheetTrigger,
+} from '@/components/ui/page-sheet';
 import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
 import { cn } from '@/utils/cn';
 
@@ -124,31 +122,24 @@ export function PlateMarkdownEditor({
             }
         >
             {isMobile && (
-                <Sheet
+                <PageSheet
                     open={isModalOpen}
                     defaultOpen={modalDefaultOpen}
                     onOpenChange={setIsModalOpen}
                 >
-                    <SheetTrigger asChild>
+                    <PageSheetTrigger asChild>
                         <EditorPreview
                             buttonTitle={modalButtonTitle}
                             editButtonTitle={modalEditButtonTitle}
                             editor={editor}
                             isOpen={isModalOpen}
                         />
-                    </SheetTrigger>
-                    <SheetContent
-                        side="bottom"
-                        className="top-(--visual-viewport-offset-top,0px)! bottom-auto! h-(--visual-viewport-height,100dvh)!"
-                    >
-                        <SheetHeader>
-                            <SheetTitle>{modalTitle}</SheetTitle>
-                            {modalDescription && (
-                                <SheetDescription>
-                                    {modalDescription}
-                                </SheetDescription>
-                            )}
-                        </SheetHeader>
+                    </PageSheetTrigger>
+                    <PageSheetContent className="top-(--visual-viewport-offset-top,0px)! bottom-auto! h-(--visual-viewport-height,100dvh)!">
+                        <PageSheetHeader
+                            title={modalTitle}
+                            subtitle={modalDescription}
+                        />
 
                         <EditorContainer
                             variant="drawer"
@@ -163,8 +154,8 @@ export function PlateMarkdownEditor({
                             </FixedToolbar>
                             {children}
                         </EditorContainer>
-                    </SheetContent>
-                </Sheet>
+                    </PageSheetContent>
+                </PageSheet>
             )}
 
             {!isMobile && (

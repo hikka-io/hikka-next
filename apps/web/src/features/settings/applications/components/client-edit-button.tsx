@@ -7,8 +7,6 @@ import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { useSession } from '@/features/auth/hooks/use-session';
 
@@ -43,13 +41,11 @@ const ClientEditButton: FC<Props> = ({ client }) => {
                 <MaterialSymbolsEditRounded />
                 Редагувати
             </Button>
-            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="md:max-w-xl">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>
-                            {client.name}
-                        </ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+            <ResponsiveModal open={open} onOpenChange={setOpen} mobile="page">
+                <ResponsiveModalContent
+                    className="md:max-w-xl"
+                    title={client.name}
+                >
                     <ClientEditModal
                         client={client}
                         onClose={() => setOpen(false)}

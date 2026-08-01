@@ -25,7 +25,7 @@ const ClientCreateButton: FC = () => {
             >
                 <MaterialSymbolsAddRounded />
             </Button>
-            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+            <ResponsiveModal open={open} onOpenChange={setOpen} mobile="page">
                 <ResponsiveModalContent
                     className="md:max-w-xl"
                     title="Створення застосунку"

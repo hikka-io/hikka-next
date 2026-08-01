@@ -16,8 +16,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
     ResponsiveModalFooter,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { Textarea } from '@/components/ui/textarea';
 import { useTitle } from '@/features/auth/hooks/use-title';
@@ -106,18 +104,16 @@ const SortableCardContent = memo<{
 
             {commentOpen && (
                 <ResponsiveModal
-                    forceDesktop
+                    mobile="page"
                     open={commentOpen}
                     onOpenChange={(open) => {
                         if (!open) setCommentOpen(false);
                     }}
                 >
-                    <ResponsiveModalContent className="md:max-w-xl">
-                        <ResponsiveModalHeader>
-                            <ResponsiveModalTitle>
-                                {title || 'Коментар'}
-                            </ResponsiveModalTitle>
-                        </ResponsiveModalHeader>
+                    <ResponsiveModalContent
+                        className="md:max-w-xl"
+                        title={title || 'Коментар'}
+                    >
                         <div className="flex w-full flex-col gap-2">
                             <Label>Коментар</Label>
                             <Textarea

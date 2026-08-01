@@ -27,8 +27,6 @@ import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import {
     Select,
@@ -277,12 +275,9 @@ function TrackingSelect({
             <ResponsiveModal
                 open={editOpen}
                 onOpenChange={onEditOpenChange}
-                forceDesktop
+                mobile="page"
             >
-                <ResponsiveModalContent className="md:max-w-xl">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+                <ResponsiveModalContent className="md:max-w-xl" title={title}>
                     {modal}
                 </ResponsiveModalContent>
             </ResponsiveModal>

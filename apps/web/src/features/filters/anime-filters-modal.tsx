@@ -28,7 +28,7 @@ const AnimeFiltersModal: FC<Props> = ({
     return (
         <ResponsiveModal
             type="sheet"
-            forceDesktop
+            mobile="page"
             open={open}
             onOpenChange={onOpenChange}
         >

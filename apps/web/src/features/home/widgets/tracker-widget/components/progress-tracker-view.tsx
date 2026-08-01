@@ -10,8 +10,6 @@ import { Progress } from '@/components/ui/progress';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
 import Stack from '@/components/ui/stack';
@@ -206,14 +204,12 @@ const ProgressTrackerView = ({
                 <ResponsiveModal
                     open={editModal.open}
                     onOpenChange={editModal.onOpenChange}
-                    forceDesktop
+                    mobile="page"
                 >
-                    <ResponsiveModalContent className="md:max-w-xl">
-                        <ResponsiveModalHeader>
-                            <ResponsiveModalTitle>
-                                {editModal.title}
-                            </ResponsiveModalTitle>
-                        </ResponsiveModalHeader>
+                    <ResponsiveModalContent
+                        className="md:max-w-xl"
+                        title={editModal.title}
+                    >
                         {editModal.children}
                     </ResponsiveModalContent>
                 </ResponsiveModal>

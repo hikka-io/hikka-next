@@ -113,7 +113,12 @@ export function VideoToolbarButton() {
             >
                 <Film className="size-4" />
             </ToolbarButton>
-            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+            <ResponsiveModal
+                open={open}
+                onOpenChange={setOpen}
+                mobile="drawer"
+                autoFocus
+            >
                 <ResponsiveModalContent
                     className="md:max-w-xl"
                     title="Додати відео"

@@ -150,7 +150,7 @@ const FiltersFooter: FC<FiltersFooterProps> = ({ className, contentType }) => {
                 <ResponsiveModal
                     open={open}
                     onOpenChange={setOpen}
-                    forceDesktop
+                    mobile="page"
                 >
                     <ResponsiveModalContent
                         className="md:max-w-xl"

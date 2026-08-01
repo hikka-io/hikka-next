@@ -144,9 +144,9 @@ const UserInfo = () => {
             {user.active && (
                 <div className="absolute -right-2 -bottom-2 z-1 size-6 rounded-full border-4 border-success bg-success-foreground" />
             )}
-            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
+            <ResponsiveModal open={open} onOpenChange={setOpen} mobile="page">
                 <ResponsiveModalContent
-                    className="max-w-lg!"
+                    className="md:max-w-lg!"
                     title="Редагувати медіафайл"
                 >
                     {uploadFile && (

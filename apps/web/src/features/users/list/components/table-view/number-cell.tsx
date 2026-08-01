@@ -18,8 +18,6 @@ import { Label } from '@/components/ui/label';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
-    ResponsiveModalHeader,
-    ResponsiveModalTitle,
 } from '@/components/ui/responsive-modal';
 import { TableCell } from '@/components/ui/table';
 import { useSession } from '@/features/auth/hooks/use-session';
@@ -60,11 +58,8 @@ const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
             >
                 {number}
             </Label>
-            <ResponsiveModal open={open} onOpenChange={setOpen} forceDesktop>
-                <ResponsiveModalContent className="md:max-w-xl">
-                    <ResponsiveModalHeader>
-                        <ResponsiveModalTitle>{title}</ResponsiveModalTitle>
-                    </ResponsiveModalHeader>
+            <ResponsiveModal open={open} onOpenChange={setOpen} mobile="page">
+                <ResponsiveModalContent className="md:max-w-xl" title={title}>
                     {content_type === ContentTypeEnum.ANIME ? (
                         <WatchEditModal
                             watch={record as WatchResponseBase}

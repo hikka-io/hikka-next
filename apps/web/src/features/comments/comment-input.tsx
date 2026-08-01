@@ -1,6 +1,5 @@
 import { type FC, useEffect, useState } from 'react';
 
-import { Minimize2 } from 'lucide-react';
 import { Plate } from 'platejs/react';
 
 import type {
@@ -11,16 +10,12 @@ import type {
 import { usePlateMarkdownSetup } from '@/components/plate/editor/markdown-editor-kit';
 import { EditorPreview } from '@/components/plate/editor/plate-editor';
 import { Editor, EditorContainer } from '@/components/plate/ui/editor';
-import { Button } from '@/components/ui/button';
 import {
-    Sheet,
-    SheetClose,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from '@/components/ui/sheet';
+    PageSheet,
+    PageSheetContent,
+    PageSheetHeader,
+    PageSheetTrigger,
+} from '@/components/ui/page-sheet';
 import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { cn } from '@/utils/cn';
@@ -137,12 +132,12 @@ const CommentInput: FC<Props> = ({
     return (
         <Plate editor={editor} onChange={handleChange}>
             {isMobile && (
-                <Sheet
+                <PageSheet
                     open={isModalOpen}
                     defaultOpen={comment !== undefined}
                     onOpenChange={handleSheetOpenChange}
                 >
-                    <SheetTrigger asChild>
+                    <PageSheetTrigger asChild>
                         <EditorPreview
                             buttonTitle={
                                 isReview
@@ -157,37 +152,18 @@ const CommentInput: FC<Props> = ({
                             editor={editor}
                             isOpen={isModalOpen}
                         />
-                    </SheetTrigger>
-                    <SheetContent
-                        side="bottom"
-                        showCloseButton={false}
+                    </PageSheetTrigger>
+                    <PageSheetContent
                         className="top-(--visual-viewport-offset-top,0px)! bottom-auto! h-(--visual-viewport-height,100dvh)!"
                         onOpenAutoFocus={(e) => {
                             e.preventDefault();
                             editor.tf.focus();
                         }}
                     >
-                        <SheetHeader className="pr-12">
-                            <SheetTitle>
-                                {isReview ? 'Відгук' : 'Коментар'}
-                            </SheetTitle>
-                            {contentTitle && (
-                                <SheetDescription>
-                                    {contentTitle}
-                                </SheetDescription>
-                            )}
-                        </SheetHeader>
-                        <SheetClose asChild>
-                            <Button
-                                type="button"
-                                variant="outline"
-                                size="icon-sm"
-                                className="absolute top-2 right-3"
-                                aria-label="Закрити"
-                            >
-                                <Minimize2 />
-                            </Button>
-                        </SheetClose>
+                        <PageSheetHeader
+                            title={isReview ? 'Відгук' : 'Коментар'}
+                            subtitle={contentTitle}
+                        />
 
                         <EditorContainer
                             variant="drawer"
@@ -206,8 +182,8 @@ const CommentInput: FC<Props> = ({
                                 {...props}
                             />
                         </EditorContainer>
-                    </SheetContent>
-                </Sheet>
+                    </PageSheetContent>
+                </PageSheet>
             )}
 
             {!isMobile && (

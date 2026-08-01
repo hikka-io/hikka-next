@@ -2,7 +2,10 @@ import * as React from 'react';
 
 import { Drawer as DrawerPrimitive } from 'vaul';
 
-import { PortalContainerProvider } from '@/components/ui/portal-container-context';
+import {
+    PortalContainerProvider,
+    usePortalContainer,
+} from '@/components/ui/portal-container-context';
 import { useBackClose } from '@/services/hooks/use-back-close';
 import { cn } from '@/utils/cn';
 
@@ -53,9 +56,18 @@ function DrawerTrigger({
 }
 
 function DrawerPortal({
+    container,
     ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
-    return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />;
+    const modalContainer = usePortalContainer();
+
+    return (
+        <DrawerPrimitive.Portal
+            data-slot="drawer-portal"
+            container={container ?? modalContainer}
+            {...props}
+        />
+    );
 }
 
 function DrawerClose({
