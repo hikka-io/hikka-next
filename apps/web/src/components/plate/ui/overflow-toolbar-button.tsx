@@ -23,6 +23,11 @@ export function OverflowToolbarButton() {
     const editor = useEditorRef();
     const [open, setOpen] = React.useState(false);
 
+    const insert = (type: string) => {
+        insertBlock(editor, type);
+        editor.tf.focus();
+    };
+
     return (
         <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
             <DropdownMenuTrigger asChild>
@@ -31,21 +36,15 @@ export function OverflowToolbarButton() {
                 </ToolbarButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-48">
-                <DropdownMenuItem
-                    onSelect={() => insertBlock(editor, KEYS.blockquote)}
-                >
+                <DropdownMenuItem onSelect={() => insert(KEYS.blockquote)}>
                     <QuoteIcon />
                     Цитата
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                    onSelect={() => insertBlock(editor, KEYS.ulClassic)}
-                >
+                <DropdownMenuItem onSelect={() => insert(KEYS.ulClassic)}>
                     <ListIcon />
                     Маркований список
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                    onSelect={() => insertBlock(editor, KEYS.olClassic)}
-                >
+                <DropdownMenuItem onSelect={() => insert(KEYS.olClassic)}>
                     <ListOrderedIcon />
                     Нумерований список
                 </DropdownMenuItem>

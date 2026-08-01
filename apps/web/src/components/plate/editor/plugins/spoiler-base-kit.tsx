@@ -26,7 +26,7 @@ export const BaseSpoilerPlugin = createSlatePlugin({
     },
 }).extendTransforms(({ editor, type }) => ({
     toggle: () => {
-        editor.tf.toggleBlock(type);
+        editor.tf.toggleBlock(type, { wrap: true });
     },
 }));
 

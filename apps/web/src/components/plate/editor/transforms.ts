@@ -26,43 +26,81 @@ const createBlockNode = (editor: PlateEditor, type: string): TElement => {
 };
 
 export const isInsideBlock = (editor: PlateEditor, type: string): boolean => {
-    return !!editor.api.block({ match: { type } });
+    return editor.api.some({ match: { type } });
+};
+
+/**
+ * Put the caret back where it was before the toolbar took focus. Tapping a
+ * toolbar button on touch devices blurs the editor, and Slate deselects on
+ * blur — without this every insert lands at the end of the document.
+ */
+export const restoreSelection = (editor: PlateEditor) => {
+    if (editor.selection) return;
+
+    const previous = editor.dom.prevSelection;
+
+    if (
+        previous &&
+        editor.api.hasPath(previous.anchor.path) &&
+        editor.api.hasPath(previous.focus.path)
+    ) {
+        editor.tf.select(previous);
+        return;
+    }
+
+    const end = editor.api.end([]);
+    if (end) {
+        editor.tf.select(end);
+    }
+};
+
+// Matching only top-level blocks keeps multi-block structures (lists,
+// blockquotes) intact instead of wrapping their inner blocks.
+const wrapBlock = (editor: PlateEditor, type: string) => {
+    editor.tf.wrapNodes<TElement>(
+        { type, children: [] },
+        {
+            at: editor.selection ?? undefined,
+            match: (_, path) => path.length === 1,
+        },
+    );
 };
 
 /**
  * Insert a new block.
+ * - Containers with a text selection: wraps the selected blocks
  * - On an empty paragraph: replaces it
  * - On a non-empty block: inserts after
  * - Lists: uses toggleList (converts current block to list)
  * - Prevents nesting containers of the same type
  */
 export const insertBlock = (editor: PlateEditor, type: string) => {
-    // Toolbar can be clicked before the editor is focused
-    if (!editor.selection) {
-        const end = editor.api.end([]);
-        if (end) {
-            editor.tf.select(end);
-        }
-    }
+    restoreSelection(editor);
+    if (!editor.selection) return;
+
+    const isContainer = CONTAINER_TYPES.has(type);
 
     // Prevent nesting containers of the same type (e.g. spoiler inside spoiler)
-    if (CONTAINER_TYPES.has(type) && isInsideBlock(editor, type)) {
+    if (isContainer && isInsideBlock(editor, type)) {
         return;
     }
 
     editor.tf.withoutNormalizing(() => {
-        const block = editor.api.block();
-        if (!block) return;
-
-        const [node, path] = block;
-
         if (LIST_TYPES.has(type)) {
             toggleList(editor, { type: editor.getType(type) as 'ul' | 'ol' });
             return;
         }
 
+        if (isContainer && editor.api.isExpanded()) {
+            wrapBlock(editor, type);
+            return;
+        }
+
+        const block = editor.api.block();
+        if (!block) return;
+
+        const [node, path] = block;
         const newNode = createBlockNode(editor, type);
-        const isContainer = CONTAINER_TYPES.has(type);
 
         let insertPath: Path;
         if (node.type === KEYS.p && editor.api.isEmpty(node)) {
@@ -85,6 +123,23 @@ export const insertBlock = (editor: PlateEditor, type: string) => {
             );
         }
     });
+};
+
+/**
+ * Wrap the selection in a container, or unwrap it when the selection already
+ * touches one. With a collapsed selection outside a container this inserts an
+ * empty one, matching the toolbar's "insert" semantics.
+ */
+export const toggleContainerBlock = (editor: PlateEditor, type: string) => {
+    restoreSelection(editor);
+    if (!editor.selection) return;
+
+    if (isInsideBlock(editor, type)) {
+        editor.tf.unwrapNodes({ at: editor.selection, match: { type } });
+        return;
+    }
+
+    insertBlock(editor, type);
 };
 
 const setBlockMap: Record<string, (editor: PlateEditor, type: string) => void> =
