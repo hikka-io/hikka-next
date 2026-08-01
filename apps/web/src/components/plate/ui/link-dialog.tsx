@@ -195,12 +195,7 @@ export function LinkDialog({
     onSubmit,
 }: LinkDialogProps) {
     return (
-        <ResponsiveModal
-            open={open}
-            onOpenChange={onOpenChange}
-            mobile="drawer"
-            autoFocus
-        >
+        <ResponsiveModal open={open} onOpenChange={onOpenChange} mobile="page">
             <ResponsiveModalContent className="md:max-w-md" title="Посилання">
                 <LinkDialogForm
                     key={open ? 'open' : 'closed'}

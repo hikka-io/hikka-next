@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Drawer as DrawerPrimitive } from 'vaul';
 
+import { footerBarClassName } from '@/components/ui/footer-bar';
 import {
     PortalContainerProvider,
     usePortalContainer,
@@ -159,10 +160,7 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<'div'>) {
     return (
         <div
             data-slot="drawer-footer"
-            className={cn(
-                '-mx-4 -mb-4 flex flex-col gap-2 border-t p-4 md:flex-row md:justify-end',
-                className,
-            )}
+            className={cn('-mx-4 -mb-4', footerBarClassName, className)}
             {...props}
         />
     );

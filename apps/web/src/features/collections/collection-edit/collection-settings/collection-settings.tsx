@@ -10,6 +10,7 @@ import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/Mater
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { Button } from '@/components/ui/button';
+import { FooterBar } from '@/components/ui/footer-bar';
 import { Input } from '@/components/ui/input';
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
@@ -231,11 +232,11 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     />
                 </div>
             </div>
-            <div className="flex gap-2 border-t p-4">
+            <FooterBar className="flex-row">
                 {mode === 'edit' && (
                     <Button
                         size="md"
-                        className="flex-1"
+                        className="flex-1 md:flex-none"
                         disabled={
                             isUpdatePending ||
                             !title ||
@@ -261,7 +262,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                 )}
                 {mode === 'create' && (
                     <Button
-                        className="flex-1"
+                        className="flex-1 md:flex-none"
                         disabled={
                             isSuccess ||
                             isCreatePending ||
@@ -301,7 +302,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         <TooltipContent>Переглянути</TooltipContent>
                     </Tooltip>
                 )}
-            </div>
+            </FooterBar>
         </ScrollArea>
     );
 };

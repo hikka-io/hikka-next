@@ -8,6 +8,7 @@ import { type ArticleContentEnum, createArticleMutation } from '@hikka/api';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import { Button } from '@/components/ui/button';
+import { FooterBar } from '@/components/ui/footer-bar';
 import { useArticleContext } from '@/services/providers/article-provider';
 import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
@@ -80,12 +81,11 @@ const CreateActions: FC<Props> = () => {
     );
 
     return (
-        <div className="flex flex-col gap-4">
+        <FooterBar>
             <Button
                 disabled={!title || isPending || isSuccess}
                 variant="secondary"
                 size="md"
-                className="flex-1"
                 onClick={() => handleCreateArticle(true)}
             >
                 <MaterialSymbolsDraftRounded className="size-4" />У чернетку
@@ -93,14 +93,13 @@ const CreateActions: FC<Props> = () => {
 
             <Button
                 size="md"
-                className="flex-1"
                 disabled={!title || isPending || isSuccess}
                 onClick={() => handleCreateArticle()}
             >
                 <MaterialSymbolsAddRounded />
                 Опублікувати
             </Button>
-        </div>
+        </FooterBar>
     );
 };
 

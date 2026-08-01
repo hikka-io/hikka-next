@@ -18,15 +18,27 @@ import { cn } from '@/utils/cn';
 function PageSheetContent({
     className,
     children,
+    onInteractOutside,
     ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content>) {
     const [container, setContainer] = React.useState<HTMLElement | null>(null);
+
+    // A full-screen sheet has no outside. Radix defers outside-dismiss to the
+    // click phase, so without this the tap that closes a sheet above this one
+    // lands here afterwards and dismisses this one too.
+    const handleInteractOutside = (
+        event: Parameters<NonNullable<typeof onInteractOutside>>[0],
+    ) => {
+        onInteractOutside?.(event);
+        event.preventDefault();
+    };
 
     return (
         <SheetPortal>
             <SheetOverlay />
             <SheetPrimitive.Content
                 ref={setContainer}
+                onInteractOutside={handleInteractOutside}
                 data-slot="page-sheet-content"
                 className={cn(
                     'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right fixed inset-0 z-50 flex h-full w-full flex-col gap-4 bg-background bg-clip-padding p-4 pt-[calc(1rem+env(safe-area-inset-top,0px))] pb-[calc(1rem+var(--safe-area-bottom))] text-sm transition duration-200 ease-in-out data-[state=closed]:animate-out data-[state=open]:animate-in',

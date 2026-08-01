@@ -9,6 +9,7 @@ import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/M
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
 import { Button } from '@/components/ui/button';
+import { FooterBar } from '@/components/ui/footer-bar';
 import {
     Tooltip,
     TooltipContent,
@@ -84,7 +85,7 @@ const EditActions: FC<Props> = () => {
     );
 
     return (
-        <div className="flex gap-2">
+        <FooterBar className="flex-row">
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Button asChild variant="secondary" size="icon-md">
@@ -101,7 +102,7 @@ const EditActions: FC<Props> = () => {
 
             {!draft && (
                 <Button
-                    className="flex-1"
+                    className="flex-1 md:flex-none"
                     size="md"
                     disabled={!title || isPending}
                     onClick={() => handleUpdateArticle()}
@@ -130,7 +131,7 @@ const EditActions: FC<Props> = () => {
             {draft && (
                 <Button
                     size="md"
-                    className="flex-1"
+                    className="flex-1 md:flex-none"
                     disabled={!title || isPending}
                     onClick={() => handleUpdateArticle()}
                 >
@@ -138,7 +139,7 @@ const EditActions: FC<Props> = () => {
                     Опублікувати
                 </Button>
             )}
-        </div>
+        </FooterBar>
     );
 };
 

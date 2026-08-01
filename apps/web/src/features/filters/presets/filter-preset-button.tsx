@@ -23,20 +23,18 @@ const FilterPresetButton: FC<Props> = ({ className }) => {
         Hikka.FilterPreset | undefined
     >(undefined);
 
-    const handleCreatePreset = () => {
-        setEditPreset(undefined);
-        setEditOpen(true);
-    };
-
-    const handleEditPreset = (preset: Hikka.FilterPreset) => {
+    // The editor stacks over the list, so dismissing it uncovers the list again.
+    const openEditor = (preset?: Hikka.FilterPreset) => {
         setEditPreset(preset);
         setEditOpen(true);
     };
 
-    const handleCreateFromCurrent = (filters: Partial<Hikka.FilterPreset>) => {
-        setEditPreset(filters as Hikka.FilterPreset);
-        setEditOpen(true);
-    };
+    const handleCreatePreset = () => openEditor(undefined);
+
+    const handleEditPreset = (preset: Hikka.FilterPreset) => openEditor(preset);
+
+    const handleCreateFromCurrent = (filters: Partial<Hikka.FilterPreset>) =>
+        openEditor(filters as Hikka.FilterPreset);
 
     const handleEditBack = () => {
         setEditOpen(false);

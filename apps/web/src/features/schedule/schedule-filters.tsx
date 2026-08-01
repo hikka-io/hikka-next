@@ -3,8 +3,6 @@ import type { FC } from 'react';
 import { range } from '@antfu/utils';
 import { useRouter } from '@tanstack/react-router';
 
-import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
     Select,
@@ -17,6 +15,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { useSession } from '@/features/auth/hooks/use-session';
+import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { cn } from '@/utils/cn';
 import { RELEASE_STATUS, SEASON } from '@/utils/constants/common';
@@ -35,7 +34,7 @@ interface ScheduleSearch extends Record<string, unknown> {
     status?: string[];
 }
 
-const ScheduleFilters: FC<Props> = ({ className }) => {
+export const ScheduleFiltersBody: FC<Props> = ({ className }) => {
     const { user: loggedUser } = useSession();
     const search = useFilterSearch<ScheduleSearch>();
     const router = useRouter();
@@ -86,10 +85,112 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
         } as any);
     };
 
-    const clearFilters = () => {
-        router.navigate({ search: {}, replace: true } as any);
-    };
+    return (
+        <div className={cn('flex flex-col gap-8', className)}>
+            <div className="flex flex-col gap-2">
+                <Label className="text-muted-foreground">Рік</Label>
+                <Select
+                    value={[year]}
+                    onValueChange={(value) =>
+                        handleChangeParam('year', value[0])
+                    }
+                >
+                    <SelectTrigger size="md">
+                        <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                {getYears().map((option) => (
+                                    <SelectItem
+                                        key={option.value}
+                                        value={option.value}
+                                    >
+                                        {option.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectList>
+                    </SelectContent>
+                </Select>
+            </div>
+            <div className="flex flex-col gap-2">
+                <Label className="text-muted-foreground">Сезон</Label>
+                <Select
+                    value={[season]}
+                    onValueChange={(value) =>
+                        handleChangeParam('season', value[0])
+                    }
+                >
+                    <SelectTrigger size="md">
+                        <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                {getSeasons().map((option) => (
+                                    <SelectItem
+                                        key={option.value}
+                                        value={option.value}
+                                    >
+                                        {option.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectList>
+                    </SelectContent>
+                </Select>
+            </div>
+            <div className="flex flex-col gap-2">
+                <Label className="text-muted-foreground">Статус</Label>
+                <Select
+                    multiple
+                    value={status}
+                    onValueChange={(value) =>
+                        handleChangeParam('status', value)
+                    }
+                >
+                    <SelectTrigger size="md">
+                        <SelectValue maxDisplay={1} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectList>
+                            <SelectGroup>
+                                {getStatuses().map((option) => (
+                                    <SelectItem
+                                        key={option.value}
+                                        value={option.value}
+                                    >
+                                        {option.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectList>
+                    </SelectContent>
+                </Select>
+            </div>
+            {loggedUser && (
+                <div className="flex h-10 items-center justify-between gap-2 rounded-md border surface p-4 py-2">
+                    <Label
+                        htmlFor="only_watch"
+                        className="line-clamp-1 min-w-0 truncate text-muted-foreground"
+                    >
+                        Аніме у списку
+                    </Label>
+                    <Switch
+                        id="only_watch"
+                        checked={Boolean(only_watch)}
+                        onCheckedChange={(checked) =>
+                            handleChangeParam('only_watch', checked)
+                        }
+                    />
+                </div>
+            )}
+        </div>
+    );
+};
 
+const ScheduleFilters: FC<Props> = ({ className }) => {
     return (
         <div
             className={cn(
@@ -97,116 +198,8 @@ const ScheduleFilters: FC<Props> = ({ className }) => {
                 className,
             )}
         >
-            <div className="grid w-full flex-1 grid-cols-1 items-end gap-8 lg:grid-cols-4 lg:gap-4">
-                <div className="flex flex-col gap-2">
-                    <Label className="text-muted-foreground">Рік</Label>
-                    <Select
-                        value={[year]}
-                        onValueChange={(value) =>
-                            handleChangeParam('year', value[0])
-                        }
-                    >
-                        <SelectTrigger size="md">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectList>
-                                <SelectGroup>
-                                    {getYears().map((option) => (
-                                        <SelectItem
-                                            key={option.value}
-                                            value={option.value}
-                                        >
-                                            {option.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectGroup>
-                            </SelectList>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="flex flex-col gap-2">
-                    <Label className="text-muted-foreground">Сезон</Label>
-                    <Select
-                        value={[season]}
-                        onValueChange={(value) =>
-                            handleChangeParam('season', value[0])
-                        }
-                    >
-                        <SelectTrigger size="md">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectList>
-                                <SelectGroup>
-                                    {getSeasons().map((option) => (
-                                        <SelectItem
-                                            key={option.value}
-                                            value={option.value}
-                                        >
-                                            {option.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectGroup>
-                            </SelectList>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="flex flex-col gap-2">
-                    <Label className="text-muted-foreground">Статус</Label>
-                    <Select
-                        multiple
-                        value={status}
-                        onValueChange={(value) =>
-                            handleChangeParam('status', value)
-                        }
-                    >
-                        <SelectTrigger size="md">
-                            <SelectValue maxDisplay={1} />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectList>
-                                <SelectGroup>
-                                    {getStatuses().map((option) => (
-                                        <SelectItem
-                                            key={option.value}
-                                            value={option.value}
-                                        >
-                                            {option.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectGroup>
-                            </SelectList>
-                        </SelectContent>
-                    </Select>
-                </div>
-                {loggedUser && (
-                    <div className="flex h-10 items-center justify-between gap-2 rounded-md border surface p-4 py-2">
-                        <Label
-                            htmlFor="only_watch"
-                            className="line-clamp-1 min-w-0 truncate text-muted-foreground"
-                        >
-                            Аніме у списку
-                        </Label>
-                        <Switch
-                            id="only_watch"
-                            checked={Boolean(only_watch)}
-                            onCheckedChange={(checked) =>
-                                handleChangeParam('only_watch', checked)
-                            }
-                        />
-                    </div>
-                )}
-            </div>
-            <Button
-                variant="destructive"
-                size="md"
-                className="w-full lg:w-fit"
-                onClick={clearFilters}
-            >
-                <AntDesignClearOutlined />
-                Очистити
-            </Button>
+            <ScheduleFiltersBody className="grid w-full flex-1 grid-cols-1 items-end gap-8 lg:grid-cols-4 lg:gap-4" />
+            <ClearFiltersFooter className="w-full lg:w-fit" />
         </div>
     );
 };

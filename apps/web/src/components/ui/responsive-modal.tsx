@@ -57,7 +57,6 @@ type ResponsiveModalProps = {
     onOpenChange?: (open: boolean) => void;
     type?: ModalType;
     mobile?: MobileVariant;
-    autoFocus?: boolean;
     // Drawer-specific
     shouldScaleBackground?: boolean;
     preventScrollRestoration?: boolean;
@@ -69,7 +68,6 @@ function ResponsiveModal({
     onOpenChange,
     type = 'dialog',
     mobile = 'drawer',
-    autoFocus,
     shouldScaleBackground,
     preventScrollRestoration,
 }: ResponsiveModalProps) {
@@ -81,7 +79,6 @@ function ResponsiveModal({
             <Drawer
                 open={open}
                 onOpenChange={onOpenChange}
-                autoFocus={autoFocus}
                 shouldScaleBackground={shouldScaleBackground}
                 preventScrollRestoration={preventScrollRestoration}
             >

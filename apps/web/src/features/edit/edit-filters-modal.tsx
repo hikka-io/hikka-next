@@ -5,10 +5,12 @@ import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
     ResponsiveModalContent,
+    ResponsiveModalFooter,
     ResponsiveModalTrigger,
 } from '@/components/ui/responsive-modal';
+import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
 
-import EditFilters from './edit-filters';
+import { EditFiltersBody } from './edit-filters';
 
 type Props = {
     children?: ReactNode;
@@ -32,11 +34,14 @@ const EditFiltersModal = ({ children }: Props) => {
                     </Button>
                 )}
             </ResponsiveModalTrigger>
-            <ResponsiveModalContent
-                className="md:h-[90dvh] md:max-w-sm!"
-                title="Фільтри"
-            >
-                <EditFilters className="overflow-hidden" />
+            <ResponsiveModalContent className="md:max-w-xl" title="Фільтри">
+                <EditFiltersBody className="-m-4 flex-1 overflow-y-auto p-4" />
+                <ResponsiveModalFooter>
+                    <ClearFiltersFooter
+                        className="w-full"
+                        onDone={() => setOpen(false)}
+                    />
+                </ResponsiveModalFooter>
             </ResponsiveModalContent>
         </ResponsiveModal>
     );

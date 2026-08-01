@@ -1,12 +1,9 @@
 import type { FC } from 'react';
 
-import { useRouter } from '@tanstack/react-router';
-
-import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
-import { Button } from '@/components/ui/button';
 import { useSession } from '@/features/auth/hooks/use-session';
 import ArticleCategory from '@/features/filters/article-category';
 import ArticleCustomization from '@/features/filters/article-customization';
+import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
 import Sort from '@/features/filters/sort';
 import Tag from '@/features/filters/tag';
 import User from '@/features/filters/user';
@@ -16,38 +13,27 @@ type Props = {
     className?: string;
 };
 
-const ArticleFilters: FC<Props> = ({ className }) => {
+/** Filter fields only — no footer/padding; use inside modals or custom wrappers. */
+export const ArticleFiltersBody: FC<Props> = ({ className }) => {
     const { user } = useSession();
-    const router = useRouter();
-
-    const clearFilters = () => {
-        router.navigate({ search: {}, replace: true } as any);
-    };
 
     return (
-        <div
-            className={cn(
-                '-m-4 flex flex-1 flex-col lg:m-0 lg:w-full',
-                className,
-            )}
-        >
-            <div className="flex flex-1 flex-col gap-8 overflow-y-auto p-4 py-8">
-                <ArticleCategory />
-                <Sort sort_type="article" />
-                <User title="Автор" paramKey="author" />
-                <Tag />
-                {user && <ArticleCustomization />}
-            </div>
-            <div className="flex shrink-0 gap-2 border-t p-4">
-                <Button
-                    size="md"
-                    className="w-full"
-                    variant="destructive"
-                    onClick={clearFilters}
-                >
-                    <AntDesignClearOutlined /> Очистити
-                </Button>
-            </div>
+        <div className={cn('flex flex-col gap-8', className)}>
+            <ArticleCategory />
+            <Sort sort_type="article" />
+            <User title="Автор" paramKey="author" />
+            <Tag />
+            {user && <ArticleCustomization />}
+        </div>
+    );
+};
+
+/** Side-panel composition: scrollable filter body + sticky footer. */
+const ArticleFilters: FC<Props> = ({ className }) => {
+    return (
+        <div className={cn('flex flex-1 flex-col lg:w-full', className)}>
+            <ArticleFiltersBody className="flex-1 overflow-y-auto p-4 py-8" />
+            <ClearFiltersFooter className="shrink-0 border-t p-4" />
         </div>
     );
 };

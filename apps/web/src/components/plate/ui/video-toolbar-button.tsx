@@ -71,7 +71,7 @@ const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
             }}
             className="contents"
         >
-            <div className="flex w-full flex-col gap-6">
+            <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-auto p-4">
                 <form.AppField
                     name="url"
                     children={(field) => (
@@ -114,12 +114,7 @@ export function VideoToolbarButton() {
             >
                 <Film className="size-4" />
             </ToolbarButton>
-            <ResponsiveModal
-                open={open}
-                onOpenChange={setOpen}
-                mobile="drawer"
-                autoFocus
-            >
+            <ResponsiveModal open={open} onOpenChange={setOpen} mobile="page">
                 <ResponsiveModalContent
                     className="md:max-w-xl"
                     title="Додати відео"

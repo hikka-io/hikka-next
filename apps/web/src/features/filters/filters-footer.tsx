@@ -124,8 +124,8 @@ const FiltersFooter: FC<FiltersFooterProps> = ({
 
     return (
         <>
-            <div className={cn('flex flex-col gap-2', className)}>
-                <div className="flex gap-2">
+            <div className={cn('flex flex-col gap-3', className)}>
+                <div className="flex gap-3">
                     <Button
                         size="md"
                         className="flex-1"
