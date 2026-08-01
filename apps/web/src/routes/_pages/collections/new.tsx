@@ -35,7 +35,7 @@ function CollectionNewPage() {
             <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-x-10">
                 <Block>
                     <CollectionTitle />
-                    <Card className="block p-0 lg:hidden">
+                    <Card className="-mx-4 block w-auto rounded-none border-x-0 p-0 lg:hidden">
                         <CollectionSettings />
                     </Card>
                     <CollectionGroups />

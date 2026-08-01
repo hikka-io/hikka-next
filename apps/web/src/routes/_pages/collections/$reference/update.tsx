@@ -59,9 +59,9 @@ function CollectionUpdatePage() {
                 <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-x-10">
                     <Block>
                         <CollectionTitle />
-                        <div className="block rounded-md border border-border surface lg:hidden">
+                        <Card className="-mx-4 block w-auto rounded-none border-x-0 p-0 lg:hidden">
                             <CollectionSettings mode="edit" />
-                        </div>
+                        </Card>
                         <CollectionGroups mode="edit" />
                     </Block>
                     <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">

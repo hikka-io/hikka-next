@@ -68,7 +68,7 @@ function ArticleUpdatePage() {
             <div className="grid grid-cols-1 justify-center md:grid-cols-[1fr_30%] md:items-start md:justify-between md:gap-x-10 lg:grid-cols-[1fr_25%]">
                 <Block>
                     <ArticleTitle />
-                    <Card className="flex w-full p-0 md:hidden">
+                    <Card className="-mx-4 flex w-auto rounded-none border-x-0 p-0 md:hidden">
                         <ArticleSettings />
                     </Card>
                     <ArticleDocument />
