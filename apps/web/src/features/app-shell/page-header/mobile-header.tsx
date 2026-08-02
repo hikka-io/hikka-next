@@ -107,10 +107,15 @@ const MobileHeader = () => {
         navUrlPrefix,
         titleComponent: TitleComponent,
         actionsComponent: ActionsComponent,
+        actionsAnchored,
         hideBack,
     } = config ?? {};
 
     const showBack = !hideBack;
+    const revealClassName = cn(
+        animated && 'transition-opacity',
+        titleVisible ? 'opacity-100' : 'pointer-events-none opacity-0',
+    );
 
     const titleNode = TitleComponent ? (
         <TitleComponent />
@@ -157,38 +162,38 @@ const MobileHeader = () => {
                     )}
                     <div
                         className={cn(
-                            'flex min-w-0 flex-1 gap-1 self-stretch',
-                            animated && 'transition-opacity',
-                            titleVisible
-                                ? 'opacity-100'
-                                : 'pointer-events-none opacity-0',
+                            'flex min-w-0 flex-1 flex-col justify-center self-stretch',
+                            revealClassName,
                         )}
                     >
-                        <div className="flex min-w-0 flex-1 flex-col justify-center">
-                            {navRoutes && navUrlPrefix ? (
-                                <HeaderNavSheet
-                                    routes={navRoutes}
-                                    urlPrefix={navUrlPrefix}
-                                >
-                                    {titleNode}
-                                </HeaderNavSheet>
-                            ) : (
-                                <>
-                                    {titleNode}
-                                    {subtitle && (
-                                        <span className="truncate text-muted-foreground text-xs">
-                                            {subtitle}
-                                        </span>
-                                    )}
-                                </>
-                            )}
-                        </div>
-                        {ActionsComponent && (
-                            <div className="flex shrink-0 items-center">
-                                <ActionsComponent />
-                            </div>
+                        {navRoutes && navUrlPrefix ? (
+                            <HeaderNavSheet
+                                routes={navRoutes}
+                                urlPrefix={navUrlPrefix}
+                            >
+                                {titleNode}
+                            </HeaderNavSheet>
+                        ) : (
+                            <>
+                                {titleNode}
+                                {subtitle && (
+                                    <span className="truncate text-muted-foreground text-xs">
+                                        {subtitle}
+                                    </span>
+                                )}
+                            </>
                         )}
                     </div>
+                    {ActionsComponent && (
+                        <div
+                            className={cn(
+                                'flex shrink-0 items-center',
+                                actionsAnchored && revealClassName,
+                            )}
+                        >
+                            <ActionsComponent />
+                        </div>
+                    )}
                 </div>
             </header>
         </>

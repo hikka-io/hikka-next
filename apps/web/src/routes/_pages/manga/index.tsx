@@ -39,6 +39,7 @@ function MangaListPage() {
         title: 'Каталог манґи',
         parent: '/',
         anchored: true,
+        actionsAnchored: true,
         hideBack: true,
         actionsComponent: () => (
             <HeaderFiltersButton

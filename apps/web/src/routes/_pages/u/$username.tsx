@@ -132,6 +132,7 @@ function UserLayout() {
         navRoutes: USER_NAV_ROUTES,
         navUrlPrefix: profileUrl,
         anchored: true,
+        actionsAnchored: true,
         actionsComponent: isListRoute ? UserlistHeaderFilters : undefined,
     });
 

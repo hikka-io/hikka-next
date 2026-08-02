@@ -40,6 +40,7 @@ function AnimeListPage() {
         title: 'Каталог аніме',
         parent: '/',
         anchored: true,
+        actionsAnchored: true,
         hideBack: true,
         actionsComponent: () => (
             <HeaderFiltersButton

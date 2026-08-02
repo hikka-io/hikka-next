@@ -40,6 +40,7 @@ function NovelListPage() {
         title: 'Каталог ранобе',
         parent: '/',
         anchored: true,
+        actionsAnchored: true,
         hideBack: true,
         actionsComponent: () => (
             <HeaderFiltersButton

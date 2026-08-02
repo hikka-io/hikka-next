@@ -26,6 +26,12 @@ export type PageHeaderConfig = {
      */
     anchored?: boolean;
     /**
+     * Ties the actions slot to the title reveal instead of showing it
+     * unconditionally — for actions that duplicate a control the page already
+     * renders above the fold.
+     */
+    actionsAnchored?: boolean;
+    /**
      * Hides the mobile header's back button. Set by tab-bar roots (home,
      * catalogs) — there is nowhere to go up from them.
      */
@@ -138,6 +144,7 @@ export const usePageHeader = ({
     titleComponent,
     actionsComponent,
     anchored,
+    actionsAnchored,
     hideBack,
 }: PageHeaderConfig) => {
     const { setConfig } = usePageHeaderActions();
@@ -155,6 +162,7 @@ export const usePageHeader = ({
             titleComponent: titleSlot,
             actionsComponent: actionsSlot,
             anchored,
+            actionsAnchored,
             hideBack,
         });
 
@@ -168,6 +176,7 @@ export const usePageHeader = ({
         titleSlot,
         actionsSlot,
         anchored,
+        actionsAnchored,
         hideBack,
         setConfig,
     ]);
