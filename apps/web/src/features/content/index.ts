@@ -3,6 +3,7 @@ export { default as ContentArticles } from './articles';
 export { default as ContentCharacters } from './characters';
 export * from './collections';
 export { default as ContentActionBar } from './content-action-bar';
+export { default as ContentActionsMenu } from './content-actions-menu';
 export { default as ContentDetailLayout } from './content-detail-layout';
 export { default as ContentDetailPage } from './content-detail-page';
 export { default as ContentGenres } from './content-genres';

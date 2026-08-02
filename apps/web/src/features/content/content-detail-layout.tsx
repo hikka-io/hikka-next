@@ -2,12 +2,12 @@ import type { FC, PropsWithChildren } from 'react';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
-import PageActionsMenu from '@/components/page-actions-menu';
 import { usePageHeader } from '@/features/app-shell';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { usePathname } from '@/utils/navigation';
 
 import ContentActionBar from './content-action-bar';
+import ContentActionsMenu from './content-actions-menu';
 import NsfwOverlay from './nsfw-overlay';
 
 type Props = PropsWithChildren & {
@@ -43,7 +43,13 @@ const ContentDetailLayout: FC<Props> = ({
         navRoutes,
         navUrlPrefix: contentUrl,
         anchored: isContentRoot,
-        actionsComponent: () => <PageActionsMenu url={contentUrl} />,
+        actionsComponent: () => (
+            <ContentActionsMenu
+                url={contentUrl}
+                slug={slug}
+                contentType={contentType}
+            />
+        ),
     });
 
     return (
