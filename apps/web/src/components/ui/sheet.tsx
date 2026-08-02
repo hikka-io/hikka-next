@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 import { Dialog as SheetPrimitive } from 'radix-ui';
 
 import { Button } from '@/components/ui/button';
-import { modalFooterBarClassName } from '@/components/ui/footer-bar';
+import { footerBarClassName } from '@/components/ui/footer-bar';
 import { PortalContainerProvider } from '@/components/ui/portal-container-context';
 import { useBackClose } from '@/services/hooks/use-back-close';
 import { cn } from '@/utils/cn';
@@ -111,7 +111,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
     return (
         <div
             data-slot="sheet-footer"
-            className={cn('-mx-4 -mb-4', modalFooterBarClassName, className)}
+            className={cn('-mx-4 -mb-4', footerBarClassName, className)}
             {...props}
         />
     );

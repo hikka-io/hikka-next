@@ -10,9 +10,9 @@ import { cn } from '@/utils/cn';
 const footerBarClassName = 'flex flex-col gap-3 border-t p-4';
 
 /**
- * A modal spans the viewport, so its actions collapse to a right-aligned row
- * on desktop. Panels sit in a sidebar column and stay full-width at every
- * width, so `FooterBar` keeps the base layout.
+ * Only for footers that span a wide surface — a dialog or a drawer. A side
+ * sheet and an in-page panel are both narrow columns, so their actions stay
+ * full-width and never collapse to a right-aligned row.
  */
 const modalFooterBarClassName = cn(
     footerBarClassName,
@@ -29,4 +29,4 @@ function FooterBar({ className, ...props }: React.ComponentProps<'div'>) {
     );
 }
 
-export { FooterBar, modalFooterBarClassName };
+export { FooterBar, footerBarClassName, modalFooterBarClassName };
