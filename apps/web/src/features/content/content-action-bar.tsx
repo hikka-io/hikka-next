@@ -22,10 +22,18 @@ type Props = {
     content_type: MainContentTypeEnum | 'character' | 'person';
 };
 
+/** Whatever `CONTENT_CONFIG[type].useInfo` resolves to, across every type. */
+type ContentInfo = NonNullable<
+    ReturnType<
+        (typeof CONTENT_CONFIG)[keyof typeof CONTENT_CONFIG]['useInfo']
+    >['data']
+>;
+
 const UserlistButton = ({
     content_type,
+    content,
     disabled,
-}: Props & { disabled?: boolean }) => {
+}: Props & { content?: ContentInfo; disabled?: boolean }) => {
     const params = useParams();
 
     switch (content_type) {
@@ -34,6 +42,7 @@ const UserlistButton = ({
                 <WatchlistButton
                     slug={String(params.slug)}
                     size="icon-md"
+                    anime={content?.data_type === 'anime' ? content : undefined}
                     disabled={disabled}
                 />
             );
@@ -44,6 +53,12 @@ const UserlistButton = ({
                     slug={String(params.slug)}
                     size="icon-md"
                     content_type={content_type}
+                    content={
+                        content?.data_type === 'manga' ||
+                        content?.data_type === 'novel'
+                            ? content
+                            : undefined
+                    }
                     disabled={disabled}
                 />
             );
@@ -84,6 +99,7 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
             >
                 <UserlistButton
                     content_type={content_type}
+                    content={data}
                     disabled={!loggedUser}
                 />
                 {content_type !== ContentTypeEnum.PERSON && (

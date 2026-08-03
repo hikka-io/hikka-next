@@ -2,8 +2,8 @@ import { type FC, useMemo } from 'react';
 
 import { followingHistoryInfiniteOptions } from '@hikka/api';
 
-import { HistoryItem } from '@/components/content-card';
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
+import { HistoryItem } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';

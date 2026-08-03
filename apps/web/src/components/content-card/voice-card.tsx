@@ -9,34 +9,31 @@ import {
 import { useTitle } from '@/features/auth/hooks/use-title';
 
 import CardOverlay from './card-overlay';
-import ContentCard, { type ContentCardProps } from './content-card';
+import EntityCard, { type EntityCardProps } from './entity-card';
 
-type Props = ContentCardProps & {
+type Props = Omit<EntityCardProps, 'entity'> & {
     person: PersonResponse;
     anime: AnimeResponseWithWatch;
     language: string;
 };
 
 const VoiceCard: FC<Props> = ({ person, anime, language, ...props }) => {
-    const personTitle = useTitle(person);
     const animeTitle = useTitle(anime);
 
     return (
-        <ContentCard
-            key={person.slug + anime.slug}
-            href={`/people/${person.slug}`}
-            image={person.image}
-            title={personTitle}
-            description={animeTitle}
-            disableChildrenLink
+        <EntityCard
+            entity={{ type: ContentTypeEnum.PERSON, data: person }}
             withContextMenu
-            content_type={ContentTypeEnum.PERSON}
-            slug={person.slug}
+            description={animeTitle}
             leftSubtitle={language.toUpperCase()}
+            overlay={
+                <CardOverlay
+                    href={`/anime/${anime.slug}`}
+                    image={anime.image}
+                />
+            }
             {...props}
-        >
-            <CardOverlay href={`/anime/${anime.slug}`} image={anime.image} />
-        </ContentCard>
+        />
     );
 };
 

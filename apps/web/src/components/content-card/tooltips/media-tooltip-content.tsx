@@ -13,6 +13,11 @@ interface GenreItem {
     name_ua: string | null;
 }
 
+export type MediaTooltipRow = {
+    label: string;
+    value: ReactNode;
+};
+
 type Props = {
     title?: string;
     score: number;
@@ -21,14 +26,29 @@ type Props = {
     native_scored_by?: number;
     synopsis_ua?: string | null;
     synopsis_en?: string | null;
-    media_type?: string | null;
     media_type_label?: string | null;
     status?: string | null;
     genres: GenreItem[];
     genreBasePath: string;
-    progressContent?: ReactNode;
+    progressRows?: MediaTooltipRow[];
     actionButton?: ReactNode;
 };
+
+const TooltipRow: FC<{ label: string; children: ReactNode }> = ({
+    label,
+    children,
+}) => (
+    <div className="flex">
+        <div className="w-1/4">
+            <span className="font-medium text-muted-foreground text-sm leading-tight">
+                {label}:
+            </span>
+        </div>
+        <div className="flex flex-1 flex-wrap items-center gap-2">
+            {children}
+        </div>
+    </div>
+);
 
 const MediaTooltipContent: FC<Props> = ({
     title,
@@ -42,7 +62,7 @@ const MediaTooltipContent: FC<Props> = ({
     status,
     genres,
     genreBasePath,
-    progressContent,
+    progressRows,
     actionButton,
 }) => {
     const synopsis = synopsis_ua || synopsis_en;
@@ -62,41 +82,35 @@ const MediaTooltipContent: FC<Props> = ({
                         {synopsis}
                     </MDViewer>
                 )}
-                <div className="flex items-center">
-                    <div className="w-1/4">
-                        <span className="font-medium text-muted-foreground text-sm leading-tight">
-                            Тип:
+                <TooltipRow label="Тип">
+                    {media_type_label && (
+                        <span className="font-medium text-sm leading-tight">
+                            {media_type_label}
                         </span>
-                    </div>
-                    <div className="flex flex-1 flex-wrap items-center gap-2">
-                        {media_type_label && (
-                            <span className="font-medium text-sm leading-tight">
-                                {media_type_label}
-                            </span>
-                        )}
-                        {status && (
-                            <Badge
-                                variant="status"
-                                className={cn(
-                                    `bg-${status} text-${status}-foreground border-${status}-border`,
-                                )}
-                            >
-                                {
-                                    RELEASE_STATUS[
-                                        status as keyof typeof RELEASE_STATUS
-                                    ]?.title_ua
-                                }
-                            </Badge>
-                        )}
-                    </div>
-                </div>
-                {progressContent}
-                <div className="flex">
-                    <div className="w-1/4">
-                        <span className="font-medium text-muted-foreground text-sm leading-tight">
-                            Жанри:
+                    )}
+                    {status && (
+                        <Badge
+                            variant="status"
+                            className={cn(
+                                `bg-${status} text-${status}-foreground border-${status}-border`,
+                            )}
+                        >
+                            {
+                                RELEASE_STATUS[
+                                    status as keyof typeof RELEASE_STATUS
+                                ]?.title_ua
+                            }
+                        </Badge>
+                    )}
+                </TooltipRow>
+                {progressRows?.map((row) => (
+                    <TooltipRow key={row.label} label={row.label}>
+                        <span className="font-medium text-sm leading-tight">
+                            {row.value}
                         </span>
-                    </div>
+                    </TooltipRow>
+                ))}
+                <TooltipRow label="Жанри">
                     <div className="flex-1">
                         {genres.map((genre, i) => (
                             <span key={genre.slug}>
@@ -111,7 +125,7 @@ const MediaTooltipContent: FC<Props> = ({
                             </span>
                         ))}
                     </div>
-                </div>
+                </TooltipRow>
             </div>
             {actionButton}
         </>

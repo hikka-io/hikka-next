@@ -1,6 +1,6 @@
 import type { MainContentTypeEnum } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
@@ -19,7 +19,7 @@ const Cover = ({ content_type }: Props) => {
             className="z-0 flex items-center px-16 md:px-48 lg:px-0"
             id="content-cover"
         >
-            <ContentCard image={content?.image} imagePreset="cardLg" />
+            <PosterCard image={content?.image} imagePreset="cardLg" />
         </div>
     );
 };

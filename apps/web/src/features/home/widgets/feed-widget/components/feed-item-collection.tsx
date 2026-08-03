@@ -1,8 +1,10 @@
 import type { FC } from 'react';
 
-import type { CollectionResponse, ContentTypeEnum } from '@hikka/api';
+import type { CollectionResponse } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import { contentEntity } from '@/components/content-card';
+import EntityCard from '@/components/content-card/entity-card';
+import PosterCard from '@/components/content-card/poster-card';
 import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Image from '@/components/ui/image';
@@ -52,34 +54,17 @@ const FeedItemCollection: FC<Props> = ({ data }) => {
                 className="grid-min-5"
                 imagePreset="cardSm"
             >
-                {previewItems.map((item) => {
-                    const contentType = item.content_type as ContentTypeEnum;
-                    return (
-                        <ContentCard
-                            key={item.content.slug}
-                            image={item.content.image}
-                            href={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
-                            titleBlur={data.spoiler}
-                            imageBlur={data.nsfw || data.spoiler}
-                            watch={
-                                'watch' in item.content &&
-                                item.content.watch.length > 0
-                                    ? item.content.watch[0]
-                                    : undefined
-                            }
-                            read={
-                                'read' in item.content &&
-                                item.content.read.length > 0
-                                    ? item.content.read[0]
-                                    : undefined
-                            }
-                            slug={item.content.slug}
-                            content_type={contentType}
-                        />
-                    );
-                })}
+                {previewItems.map((item) => (
+                    <EntityCard
+                        key={item.content.slug}
+                        entity={contentEntity(item.content)}
+                        title={null}
+                        titleBlur={data.spoiler}
+                        imageBlur={data.nsfw || data.spoiler}
+                    />
+                ))}
                 {remainingCount > 0 && previewItem && (
-                    <ContentCard
+                    <PosterCard
                         href={`/collections/${data.reference}`}
                         image={
                             <div className="isolate flex items-center justify-center">

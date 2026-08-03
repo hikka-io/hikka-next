@@ -7,7 +7,7 @@ type Props = {
     hasTitle?: boolean;
 };
 
-const ContentCardSkeleton: FC<Props> = ({ hasTitle = true }) => {
+const PosterCardSkeleton: FC<Props> = ({ hasTitle = true }) => {
     return (
         <div className="flex flex-col gap-2">
             <AspectRatio ratio={0.7}>
@@ -23,4 +23,4 @@ const ContentCardSkeleton: FC<Props> = ({ hasTitle = true }) => {
     );
 };
 
-export default ContentCardSkeleton;
+export default PosterCardSkeleton;

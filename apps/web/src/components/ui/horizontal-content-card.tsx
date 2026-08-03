@@ -3,7 +3,7 @@ import { type ComponentPropsWithoutRef, forwardRef, memo } from 'react';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-import ContentCard from '../content-card/content-card';
+import PosterCard from '../content-card/poster-card';
 import MDViewer from '../markdown/viewer/md-viewer';
 import { Label } from './label';
 
@@ -40,7 +40,7 @@ const HorizontalContentCard = forwardRef<HTMLDivElement, Props>(
                 )}
                 {...props}
             >
-                <ContentCard
+                <PosterCard
                     className={cn(
                         size === 'md' && 'max-w-36',
                         size === 'sm' && 'max-w-16',

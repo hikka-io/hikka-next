@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
-import ContentCard from './content-card';
+import PosterCard from './poster-card';
 
 type Props = {
     href: string;
@@ -11,7 +11,7 @@ const CardOverlay: FC<Props> = ({ href, image }) => (
     <>
         <div className="absolute bottom-0 left-0 z-0 h-16 w-full bg-linear-to-t from-background to-transparent" />
         <div className="absolute right-2 bottom-2 z-1 flex h-auto shadow-xl">
-            <ContentCard
+            <PosterCard
                 className="w-12 transition-all hover:w-20"
                 containerClassName="rounded-(--base-radius)"
                 href={href}

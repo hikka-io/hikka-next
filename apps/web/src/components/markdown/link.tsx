@@ -1,10 +1,10 @@
 import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 
+import { ContentTypeEnum } from '@hikka/api';
+
 import {
-    AnimeTooltip,
     CharacterTooltip,
-    MangaTooltip,
-    NovelTooltip,
+    MediaTooltip,
     PersonTooltip,
     UserTooltip,
 } from '@/components/content-card';
@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { cn } from '@/utils/cn';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link as TanstackLink } from '@/utils/navigation';
 
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
@@ -49,23 +50,25 @@ const INTERNAL_TOOLTIPS: {
     pattern: RegExp;
     wrap: (slug: string, link: ReactNode) => ReactElement;
 }[] = [
-    {
-        pattern: /^\/anime\/([^/?#]+)/,
-        wrap: (slug, link) => <AnimeTooltip slug={slug}>{link}</AnimeTooltip>,
-    },
+    ...(
+        [
+            ContentTypeEnum.ANIME,
+            ContentTypeEnum.MANGA,
+            ContentTypeEnum.NOVEL,
+        ] as const
+    ).map((type) => ({
+        pattern: new RegExp(`^${CONTENT_TYPE_LINKS[type]}/([^/?#]+)`),
+        wrap: (slug: string, link: ReactNode) => (
+            <MediaTooltip type={type} slug={slug}>
+                {link}
+            </MediaTooltip>
+        ),
+    })),
     {
         pattern: /^\/characters\/([^/?#]+)/,
         wrap: (slug, link) => (
             <CharacterTooltip slug={slug}>{link}</CharacterTooltip>
         ),
-    },
-    {
-        pattern: /^\/manga\/([^/?#]+)/,
-        wrap: (slug, link) => <MangaTooltip slug={slug}>{link}</MangaTooltip>,
-    },
-    {
-        pattern: /^\/novel\/([^/?#]+)/,
-        wrap: (slug, link) => <NovelTooltip slug={slug}>{link}</NovelTooltip>,
     },
     {
         pattern: /^\/people\/([^/?#]+)/,

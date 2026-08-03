@@ -2,9 +2,9 @@ import { type FC, useState } from 'react';
 
 import { userHistoryInfiniteOptions } from '@hikka/api';
 
-import { HistoryItem } from '@/components/content-card';
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
+import { HistoryItem } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';

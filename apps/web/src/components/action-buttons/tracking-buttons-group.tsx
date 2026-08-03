@@ -9,14 +9,19 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
+    type AnimeResponse,
     type AnimeResponseWithWatch,
     ContentTypeEnum,
+    type MangaResponse,
     type MangaResponseWithRead,
+    type NovelResponse,
     type NovelResponseWithRead,
     type ReadArgs,
+    type ReadResponseBase,
     ReadStatusEnum,
     readAddMutation,
     type WatchArgs,
+    type WatchResponseBase,
     WatchStatusEnum,
     watchAddMutation,
 } from '@hikka/api';
@@ -53,23 +58,37 @@ import WatchStatusTrigger from './watchlist-button/components/watch-status-trigg
 /** `default` keeps the Button primitive's own height; `sm`/`md` shrink it. */
 type TrackingSize = 'sm' | 'md' | 'default';
 
+/**
+ * `watch`/`read` win over the array embedded in `item`: responses that nest the
+ * content inside a list entry (userlist) carry the tracking on the entry, not
+ * on the content. `undefined` means "not supplied", `null` means "untracked".
+ */
 type Props = { size?: TrackingSize } & (
     | {
           title: string;
           type: typeof ContentTypeEnum.ANIME;
-          item: AnimeResponseWithWatch;
+          item: AnimeResponse | AnimeResponseWithWatch;
+          watch?: WatchResponseBase | null;
       }
     | {
           title: string;
           type: typeof ContentTypeEnum.MANGA;
-          item: MangaResponseWithRead;
+          item: MangaResponse | MangaResponseWithRead;
+          read?: ReadResponseBase | null;
       }
     | {
           title: string;
           type: typeof ContentTypeEnum.NOVEL;
-          item: NovelResponseWithRead;
+          item: NovelResponse | NovelResponseWithRead;
+          read?: ReadResponseBase | null;
       }
 );
+
+const resolveTracking = <T,>(
+    supplied: T | null | undefined,
+    embedded: T | undefined,
+): T | undefined =>
+    supplied === undefined ? embedded : (supplied ?? undefined);
 
 type StatusConfig = typeof WATCH_STATUS | typeof READ_STATUS;
 type StatusIcon = (props: { className?: string }) => ReactElement;
@@ -101,10 +120,10 @@ const WATCH_STATUS_OPTIONS = buildStatusOptions(WATCH_STATUS);
 const READ_STATUS_OPTIONS = buildStatusOptions(READ_STATUS);
 
 const buildWatchArgs = (
-    item: AnimeResponseWithWatch,
+    item: AnimeResponse | AnimeResponseWithWatch,
+    watch: WatchResponseBase | undefined,
     status: string,
 ): WatchArgs => {
-    const watch = item.watch?.[0];
     const current = watch
         ? {
               episodes: watch.episodes || undefined,
@@ -126,10 +145,14 @@ const buildWatchArgs = (
 };
 
 const buildReadArgs = (
-    item: MangaResponseWithRead | NovelResponseWithRead,
+    item:
+        | MangaResponse
+        | NovelResponse
+        | MangaResponseWithRead
+        | NovelResponseWithRead,
+    read: ReadResponseBase | undefined,
     status: string,
 ): ReadArgs => {
-    const read = item.read?.[0];
     const current = read
         ? {
               chapters: read.chapters || undefined,
@@ -289,10 +312,12 @@ function WatchTrackingButtons({
     title,
     size,
     item,
+    watch,
 }: {
     title: string;
     size: TrackingSize;
-    item: AnimeResponseWithWatch;
+    item: AnimeResponse | AnimeResponseWithWatch;
+    watch?: WatchResponseBase | null;
 }) {
     const queryClient = useQueryClient();
     const [editOpen, setEditOpen] = useState(false);
@@ -302,7 +327,10 @@ function WatchTrackingButtons({
         onSuccess: (data) => applyWatchMutation(queryClient, data),
     });
 
-    const tracking = item.watch?.[0];
+    const tracking = resolveTracking(
+        watch,
+        'watch' in item ? item.watch?.[0] : undefined,
+    );
 
     const handleChangeStatus = (options: string[]) => {
         const selected = options[0];
@@ -314,7 +342,7 @@ function WatchTrackingButtons({
 
         addWatch({
             path: { slug: item.slug },
-            body: buildWatchArgs(item, selected),
+            body: buildWatchArgs(item, tracking, selected),
         });
     };
 
@@ -367,11 +395,17 @@ function ReadTrackingButtons({
     size,
     type,
     item,
+    read,
 }: {
     title: string;
     size: TrackingSize;
     type: typeof ContentTypeEnum.MANGA | typeof ContentTypeEnum.NOVEL;
-    item: MangaResponseWithRead | NovelResponseWithRead;
+    item:
+        | MangaResponse
+        | NovelResponse
+        | MangaResponseWithRead
+        | NovelResponseWithRead;
+    read?: ReadResponseBase | null;
 }) {
     const queryClient = useQueryClient();
     const [editOpen, setEditOpen] = useState(false);
@@ -381,7 +415,10 @@ function ReadTrackingButtons({
         onSuccess: (data) => applyReadMutation(queryClient, data),
     });
 
-    const tracking = item.read?.[0];
+    const tracking = resolveTracking(
+        read,
+        'read' in item ? item.read?.[0] : undefined,
+    );
 
     const handleChangeStatus = (options: string[]) => {
         const selected = options[0];
@@ -393,7 +430,7 @@ function ReadTrackingButtons({
 
         addRead({
             path: { content_type: type, slug: item.slug },
-            body: buildReadArgs(item, selected),
+            body: buildReadArgs(item, tracking, selected),
         });
     };
 
@@ -451,6 +488,7 @@ export function TrackingButtonsGroup(props: Props) {
                 title={props.title}
                 size={size}
                 item={props.item}
+                watch={props.watch}
             />
         );
     }
@@ -461,6 +499,7 @@ export function TrackingButtonsGroup(props: Props) {
             size={size}
             type={props.type}
             item={props.item}
+            read={props.read}
         />
     );
 }

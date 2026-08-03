@@ -4,7 +4,7 @@ import { ArrowBigUp, Layers, MessageCircle } from 'lucide-react';
 
 import type { CollectionResponse } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -25,7 +25,7 @@ const CollectionWidgetItem: FC<Props> = ({ collection }) => {
 
     return (
         <HorizontalCard className="rounded-sm px-2 py-2 transition-colors duration-100 hover:bg-accent">
-            <ContentCard
+            <PosterCard
                 className="w-14"
                 containerClassName="rounded-(--base-radius)"
                 imageBlur={collection.nsfw || collection.spoiler}
@@ -37,7 +37,7 @@ const CollectionWidgetItem: FC<Props> = ({ collection }) => {
                     <Layers className="size-3" />
                     {collection.entries}
                 </div>
-            </ContentCard>
+            </PosterCard>
             <HorizontalCardContainer>
                 <Link
                     to={`/u/${collection.author.username}`}

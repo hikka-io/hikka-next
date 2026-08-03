@@ -6,7 +6,7 @@ import {
     favouriteListInfiniteOptions,
 } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import EmptyState from '@/components/ui/empty-state';
@@ -69,7 +69,7 @@ const Collections: FC<Props> = ({ extended }) => {
                     imagePreset="cardSm"
                 >
                     {filteredData.map((res) => (
-                        <ContentCard
+                        <PosterCard
                             key={res.reference}
                             title={res.title}
                             image={res.collection[0].content.image}

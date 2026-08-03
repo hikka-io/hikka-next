@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren, ReactNode } from 'react';
 
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/content-card';
+import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/poster-card';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import {
     HorizontalCard,

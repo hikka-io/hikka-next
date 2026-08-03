@@ -4,11 +4,11 @@ import { range } from '@antfu/utils';
 
 import { getCollectionsInfiniteOptions } from '@hikka/api';
 
+import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import {
     CollectionItem,
     CollectionItemSkeleton,
-} from '@/components/content-card';
-import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
+} from '@/components/list-items';
 import LoadMoreButton from '@/components/load-more-button';
 import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';

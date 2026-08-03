@@ -3,10 +3,7 @@ import type { FC } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import {
-    type AnimeResponseWithWatch,
     contentFranchiseOptions,
-    type MangaResponseWithRead,
-    type NovelResponseWithRead,
     type RelatedContentTypeEnum,
 } from '@hikka/api';
 
@@ -125,28 +122,19 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
                     filteredData.map((content) => {
                         if (content.data_type === 'anime') {
                             return (
-                                <AnimeCard
-                                    key={content.slug}
-                                    item={content as AnimeResponseWithWatch}
-                                />
+                                <AnimeCard key={content.slug} item={content} />
                             );
                         }
 
                         if (content.data_type === 'manga') {
                             return (
-                                <MangaCard
-                                    key={content.slug}
-                                    item={content as MangaResponseWithRead}
-                                />
+                                <MangaCard key={content.slug} item={content} />
                             );
                         }
 
                         if (content.data_type === 'novel') {
                             return (
-                                <NovelCard
-                                    key={content.slug}
-                                    item={content as NovelResponseWithRead}
-                                />
+                                <NovelCard key={content.slug} item={content} />
                             );
                         }
 

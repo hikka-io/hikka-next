@@ -3,16 +3,14 @@ import { type FC, useState } from 'react';
 import { range } from '@antfu/utils';
 
 import {
-    type AnimeResponse,
+    type AnimeResponseWithWatch,
     type ContentToDoEnum,
-    ContentTypeEnum,
     EditContentToDoEnum,
     getContentEditTodoInfiniteOptions,
 } from '@hikka/api';
 
-import { getTooltipItem } from '@/components/content-card';
-import ContentCard from '@/components/content-card/content-card';
-import SkeletonCard from '@/components/content-card/content-card-skeleton';
+import { AnimeCard } from '@/components/content-card';
+import SkeletonCard from '@/components/content-card/poster-card-skeleton';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Label } from '@/components/ui/label';
@@ -111,31 +109,17 @@ const ContentList: FC<Props> = () => {
                 </Select>
             </div>
             <Stack extended size={5} extendedSize={7}>
-                {(list as AnimeResponse[]).map((anime) => {
-                    const tooltipItem = getTooltipItem(anime, 'anime');
-
-                    return (
-                        <ContentCard
-                            withContextMenu
-                            content_type={ContentTypeEnum.ANIME}
-                            key={anime.slug}
-                            watch={
-                                tooltipItem
-                                    ? (tooltipItem.watch[0] ?? null)
-                                    : undefined
-                            }
-                            tooltipItem={tooltipItem}
-                            slug={anime.slug}
-                            href={`/anime/${anime.slug}`}
-                            image={anime.image}
-                            title={getTitle(
-                                anime,
-                                preferences.title_language,
-                                preferences.name_language,
-                            )}
-                        />
-                    );
-                })}
+                {(list as AnimeResponseWithWatch[]).map((anime) => (
+                    <AnimeCard
+                        key={anime.slug}
+                        item={anime}
+                        title={getTitle(
+                            anime,
+                            preferences.title_language,
+                            preferences.name_language,
+                        )}
+                    />
+                ))}
             </Stack>
             {hasNextPage && (
                 <LoadMoreButton

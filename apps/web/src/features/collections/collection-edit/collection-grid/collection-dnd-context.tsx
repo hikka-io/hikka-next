@@ -14,7 +14,7 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { useCollectionStore } from '@/services/providers/collection-provider';
 import type { Group, Item } from '@/services/stores/collection-store';
@@ -50,7 +50,7 @@ function findItem(groups: Group[], itemId: UniqueIdentifier): Item | undefined {
 
 const OverlayCard = memo<{ content: Item['content'] }>(({ content }) => {
     const title = useTitle(content);
-    return <ContentCard image={content.image} title={title} />;
+    return <PosterCard image={content.image} title={title} />;
 });
 
 OverlayCard.displayName = 'OverlayCard';

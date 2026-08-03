@@ -5,7 +5,7 @@ import type {
     ContentTypeEnum,
 } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import Card from '@/components/ui/card';
 import {
     Header,
@@ -36,7 +36,7 @@ const ContentHeader: FC<Props> = ({ slug, content_type }) => {
             <Header href={link}>
                 <HeaderContainer>
                     {data?.image && (
-                        <ContentCard
+                        <PosterCard
                             containerClassName="rounded-(--base-radius)"
                             className="w-12"
                             containerRatio={

@@ -36,12 +36,7 @@ const CollectionGroups = () => {
         );
 
     if (!groups) {
-        return (
-            <CollectionDisplayGrid
-                content_type={collection.content_type}
-                items={collection?.collection}
-            />
-        );
+        return <CollectionDisplayGrid items={collection?.collection} />;
     }
 
     const orderedKeys = [
@@ -54,7 +49,6 @@ const CollectionGroups = () => {
             key={`${group}_${i + 1}`}
             group={group === 'default' ? undefined : group}
             items={groups[group]}
-            content_type={collection.content_type}
         />
     ));
 };

@@ -6,7 +6,7 @@ import {
     favouriteListInfiniteOptions,
 } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import EntityCard from '@/components/content-card/entity-card';
 import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
 import LoadMoreButton from '@/components/load-more-button';
 import EmptyState from '@/components/ui/empty-state';
@@ -71,17 +71,17 @@ const Characters: FC<Props> = ({ extended }) => {
                     imagePreset="cardSm"
                 >
                     {filteredData.map((res) => (
-                        <ContentCard
+                        <EntityCard
                             key={res.slug}
+                            entity={{
+                                type: ContentTypeEnum.CHARACTER,
+                                data: res,
+                            }}
                             title={getTitle(
                                 res,
                                 preferences.title_language,
                                 preferences.name_language,
                             )}
-                            image={res.image}
-                            to={`/characters/${res.slug}`}
-                            content_type={ContentTypeEnum.CHARACTER}
-                            slug={res.slug}
                         />
                     ))}
                     {remainingCount > 0 && (

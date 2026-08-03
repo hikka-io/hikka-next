@@ -1,13 +1,12 @@
-import { type ComponentProps, type FC, memo, useRef } from 'react';
+import { type FC, memo, useRef } from 'react';
 
 import { Info } from 'lucide-react';
 
 import type { CollectionContentResponse } from '@hikka/api';
 
-import { getTooltipItem } from '@/components/content-card';
-import ContentCard, {
-    DEFAULT_CONTAINER_RATIO,
-} from '@/components/content-card/content-card';
+import { contentEntity } from '@/components/content-card';
+import EntityCard from '@/components/content-card/entity-card';
+import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/poster-card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
     Popover,
@@ -24,7 +23,6 @@ import {
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
 const ASPECT_RATIO = String(DEFAULT_CONTAINER_RATIO);
@@ -81,15 +79,10 @@ const CommentButton: FC<{ comment: string }> = ({ comment }) => {
 type Props = {
     group?: string;
     items: CollectionContentResponse[];
-    content_type: string;
 };
 
-const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
+const CollectionDisplayGrid: FC<Props> = ({ group, items }) => {
     const { preferences } = useSessionUI();
-
-    const contentType = content_type as NonNullable<
-        ComponentProps<typeof ContentCard>['content_type']
-    >;
 
     return (
         <div className="flex scroll-mt-20 flex-col gap-4" id={group}>
@@ -103,29 +96,12 @@ const CollectionDisplayGrid: FC<Props> = ({ group, items, content_type }) => {
             <Stack size={5} extendedSize={5} extended>
                 {items.map((item) => (
                     <div key={item.content.slug} className="relative">
-                        <ContentCard
-                            slug={item.content.slug}
-                            content_type={contentType}
-                            href={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
-                            image={item.content.image}
+                        <EntityCard
+                            entity={contentEntity(item.content)}
                             title={getTitle(
                                 item.content,
                                 preferences.title_language,
                                 preferences.name_language,
-                            )}
-                            watch={
-                                'watch' in item.content
-                                    ? (item.content.watch[0] ?? null)
-                                    : undefined
-                            }
-                            read={
-                                'read' in item.content
-                                    ? (item.content.read[0] ?? null)
-                                    : undefined
-                            }
-                            tooltipItem={getTooltipItem(
-                                item.content,
-                                item.content.data_type,
                             )}
                         />
                         {item.comment && (

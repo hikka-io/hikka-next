@@ -5,14 +5,15 @@ import { range } from '@antfu/utils';
 import {
     AnimeMediaEnum,
     AnimeStatusEnum,
+    ContentTypeEnum,
     type SeasonEnum,
     searchAnimeInfiniteOptions,
 } from '@hikka/api';
 
-import { AnimeTooltip } from '@/components/content-card';
+import { MediaTooltip } from '@/components/content-card';
 import AnimeCard from '@/components/content-card/anime-card';
-import ContentCard from '@/components/content-card/content-card';
-import SkeletonCard from '@/components/content-card/content-card-skeleton';
+import PosterCard from '@/components/content-card/poster-card';
+import SkeletonCard from '@/components/content-card/poster-card-skeleton';
 import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
@@ -146,14 +147,11 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                     {!isLoading &&
                         list?.map((anime, index) => {
                             return (
-                                <AnimeTooltip
+                                <MediaTooltip
                                     key={anime.slug}
+                                    type={ContentTypeEnum.ANIME}
                                     slug={anime.slug}
-                                    watch={
-                                        anime.watch.length > 0
-                                            ? anime.watch[0]
-                                            : undefined
-                                    }
+                                    item={anime}
                                 >
                                     <Link
                                         to={`/anime/${anime.slug}`}
@@ -162,7 +160,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                                             'transition-colors hover:bg-accent',
                                         )}
                                     >
-                                        <ContentCard
+                                        <PosterCard
                                             image={anime.image}
                                             className="w-12"
                                             imagePreset="cardXs"
@@ -207,7 +205,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                                             <MaterialSymbolsStarRounded className="size-4 text-yellow-400" />
                                         </Badge>
                                     </Link>
-                                </AnimeTooltip>
+                                </MediaTooltip>
                             );
                         })}
 

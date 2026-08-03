@@ -7,7 +7,7 @@ import type {
     NovelResponse,
 } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
@@ -36,7 +36,7 @@ const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
         <TableCell className="w-36">
             <div className="flex items-center gap-4 overflow-hidden">
                 <div className="hidden w-12 lg:block">
-                    <ContentCard
+                    <PosterCard
                         containerClassName="rounded-(--base-radius)"
                         image={content.image}
                         to={`/${content_type}/${content.slug}`}

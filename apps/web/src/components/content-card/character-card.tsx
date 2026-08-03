@@ -2,28 +2,18 @@ import type { FC } from 'react';
 
 import { type CharacterResponse, ContentTypeEnum } from '@hikka/api';
 
-import { useTitle } from '@/features/auth/hooks/use-title';
+import EntityCard, { type EntityCardProps } from './entity-card';
 
-import ContentCard, { type ContentCardProps } from './content-card';
-
-type Props = ContentCardProps & {
+type Props = Omit<EntityCardProps, 'entity'> & {
     character: CharacterResponse;
 };
 
-const CharacterCard: FC<Props> = ({ character, ...props }) => {
-    const title = useTitle(character);
-
-    return (
-        <ContentCard
-            slug={character.slug}
-            withContextMenu
-            content_type={ContentTypeEnum.CHARACTER}
-            href={`/characters/${character.slug}`}
-            image={character.image}
-            title={title}
-            {...props}
-        />
-    );
-};
+const CharacterCard: FC<Props> = ({ character, ...props }) => (
+    <EntityCard
+        entity={{ type: ContentTypeEnum.CHARACTER, data: character }}
+        withContextMenu
+        {...props}
+    />
+);
 
 export default CharacterCard;

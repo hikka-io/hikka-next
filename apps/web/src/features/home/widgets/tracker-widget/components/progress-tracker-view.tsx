@@ -1,6 +1,6 @@
 import type { ReactNode, Ref } from 'react';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { MaterialSymbolsRemoveRounded } from '@/components/icons/material-symbols/MaterialSymbolsRemoveRounded';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
@@ -87,7 +87,7 @@ const ProgressTrackerView = ({
                     {items.map((item) => (
                         <Tooltip key={item.slug}>
                             <TooltipTrigger asChild>
-                                <ContentCard
+                                <PosterCard
                                     onClick={item.onSelect}
                                     image={item.image}
                                     containerClassName="rounded-(--base-radius)"

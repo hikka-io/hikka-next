@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import type { AnimeVideoResponse } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import Stack from '@/components/ui/stack';
 import { VIDEO } from '@/utils/constants/common';
 import parseYouTubeThumbnail from '@/utils/youtube';
@@ -28,7 +28,7 @@ const Video: FC<Props> = ({ extended, videos }) => {
             imagePreset="cardSm"
         >
             {filteredVideoData.map((video) => (
-                <ContentCard
+                <PosterCard
                     target="_blank"
                     key={video.url}
                     href={video.url || '#'}

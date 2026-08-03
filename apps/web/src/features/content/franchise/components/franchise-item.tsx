@@ -4,7 +4,6 @@ import type {
     AnimeResponseWithWatch,
     MangaResponseWithRead,
     NovelResponseWithRead,
-    ReadContentTypeEnum,
 } from '@hikka/api';
 
 import ReadlistButton from '@/components/action-buttons/readlist-button';
@@ -66,28 +65,18 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
             {content.data_type === 'anime' && !preview && (
                 <WatchlistButton
                     slug={content.slug}
-                    anime={content as AnimeResponseWithWatch}
-                    watch={
-                        (content as AnimeResponseWithWatch).watch?.[0] ?? null
-                    }
+                    anime={content}
+                    watch={content.watch?.[0] ?? null}
                     size="md"
                     disabled={!user}
                 />
             )}
             {content.data_type !== 'anime' && !preview && (
                 <ReadlistButton
-                    content_type={content.data_type as ReadContentTypeEnum}
+                    content_type={content.data_type}
                     slug={content.slug}
-                    content={
-                        content as MangaResponseWithRead | NovelResponseWithRead
-                    }
-                    read={
-                        (
-                            content as
-                                | MangaResponseWithRead
-                                | NovelResponseWithRead
-                        ).read?.[0] ?? null
-                    }
+                    content={content}
+                    read={content.read?.[0] ?? null}
                     size="md"
                     disabled={!user}
                 />

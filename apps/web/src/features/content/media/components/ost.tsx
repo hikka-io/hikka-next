@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import type { AnimeOstResponse } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import MaterialSymbolsLibraryMusicRounded from '@/components/icons/material-symbols/MaterialSymbolsLibraryMusicRounded';
 import Stack from '@/components/ui/stack';
 import { OST } from '@/utils/constants/common';
@@ -22,7 +22,7 @@ const Ost: FC<Props> = ({ extended, ost }) => {
     return (
         <Stack size={5} extended={extended}>
             {filteredOSTData.map((ost, index) => (
-                <ContentCard
+                <PosterCard
                     target="_blank"
                     key={(ost.spotify || ost.title || '') + index}
                     href={ost.spotify || undefined}

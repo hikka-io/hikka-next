@@ -2,8 +2,8 @@ import { Fragment } from 'react';
 
 import { followingHistoryInfiniteOptions } from '@hikka/api';
 
-import { HistoryItem } from '@/components/content-card';
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
+import { HistoryItem } from '@/components/list-items';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';

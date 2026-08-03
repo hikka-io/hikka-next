@@ -4,7 +4,7 @@ import { format } from 'date-fns/format';
 
 import type { UserResponse } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { USER_ROLE } from '@/utils/constants/common';
@@ -26,7 +26,7 @@ const UserCard = ({ user, onClick, type }: Props) => {
             className="flex w-full items-center gap-4 text-left"
         >
             <div className="w-12">
-                <ContentCard image={user.avatar} containerRatio={1} />
+                <PosterCard image={user.avatar} containerRatio={1} />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">

@@ -7,11 +7,11 @@ import {
     getCollectionsInfiniteOptions,
 } from '@hikka/api';
 
+import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import {
     CollectionItem,
     CollectionItemSkeleton,
-} from '@/components/content-card';
-import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
+} from '@/components/list-items';
 import LoadMoreButton from '@/components/load-more-button';
 import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';

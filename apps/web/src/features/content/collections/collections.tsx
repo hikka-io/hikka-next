@@ -5,7 +5,7 @@ import {
     getCollectionsInfiniteOptions,
 } from '@hikka/api';
 
-import { CollectionItem } from '@/components/content-card';
+import { CollectionItem } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {

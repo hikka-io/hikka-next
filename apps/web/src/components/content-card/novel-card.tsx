@@ -1,40 +1,31 @@
 import type { FC } from 'react';
 
-import {
-    ContentTypeEnum,
-    type NovelResponse,
-    type NovelResponseWithRead,
-} from '@hikka/api';
+import { ContentTypeEnum, type ReadResponseBase } from '@hikka/api';
 
-import { useTitle } from '@/features/auth/hooks/use-title';
 import { NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 
-import ContentCard, { type ContentCardProps } from './content-card';
-import { getMediaCardProps, getTooltipItem } from './utils';
+import EntityCard, { type EntityCardProps } from './entity-card';
+import type { MediaTooltipItemOf } from './tooltips';
 
-type Props = ContentCardProps & {
-    item: NovelResponseWithRead | NovelResponse;
+type Props = Omit<EntityCardProps, 'entity'> & {
+    item: MediaTooltipItemOf<'novel'>;
+    read?: ReadResponseBase | null;
 };
 
-const NovelCard: FC<Props> = ({ item, ...props }) => {
-    const title = useTitle(item);
-
-    return (
-        <ContentCard
-            {...getMediaCardProps(
-                item,
-                {
-                    contentType: ContentTypeEnum.NOVEL,
-                    basePath: '/novel',
-                    mediaTypeMap: NOVEL_MEDIA_TYPE,
-                },
-                { read: 'read' in item ? (item.read[0] ?? null) : undefined },
-            )}
-            tooltipItem={getTooltipItem(item, 'novel')}
-            title={title}
-            {...props}
-        />
-    );
-};
+const NovelCard: FC<Props> = ({ item, read, ...props }) => (
+    <EntityCard
+        entity={{ type: ContentTypeEnum.NOVEL, data: item, read }}
+        withContextMenu
+        leftSubtitle={item.year ? String(item.year) : undefined}
+        rightSubtitle={
+            item.media_type
+                ? NOVEL_MEDIA_TYPE[
+                      item.media_type as keyof typeof NOVEL_MEDIA_TYPE
+                  ]?.title_ua
+                : undefined
+        }
+        {...props}
+    />
+);
 
 export default NovelCard;

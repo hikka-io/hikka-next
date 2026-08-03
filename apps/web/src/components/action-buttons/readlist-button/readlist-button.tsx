@@ -3,11 +3,10 @@ import { createElement, useCallback, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
-    ContentTypeEnum,
+    type MangaInfoResponse,
     type MangaResponse,
-    mangaInfoOptions,
+    type NovelInfoResponse,
     type NovelResponse,
-    novelInfoOptions,
     type ReadArgs,
     type ReadContentTypeEnum,
     type ReadResponseBase,
@@ -45,7 +44,17 @@ type Props = {
     disabled?: boolean;
     content_type: ReadContentTypeEnum;
     read?: ReadResponseBase | null;
-    content?: MangaResponse | NovelResponse;
+    /**
+     * Required, though it may still be loading: the button needs the title and
+     * the chapter/volume counts, and silently fetching them again duplicates
+     * whatever the surrounding page already asked for.
+     */
+    content:
+        | MangaResponse
+        | NovelResponse
+        | MangaInfoResponse
+        | NovelInfoResponse
+        | undefined;
     size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
     buttonProps?: ButtonProps;
 };
@@ -87,7 +96,7 @@ const ReadlistButton = ({
     content_type,
     disabled,
     read: readProp,
-    content: contentProp,
+    content,
     size,
     buttonProps,
 }: Props) => {
@@ -100,16 +109,6 @@ const ReadlistButton = ({
         enabled: !disabled && !readProp && readProp !== null,
     });
 
-    const { data: manga } = useQuery({
-        ...mangaInfoOptions({ path: { slug } }),
-        enabled: !disabled && content_type === 'manga' && !contentProp,
-    });
-
-    const { data: novel } = useQuery({
-        ...novelInfoOptions({ path: { slug } }),
-        enabled: !disabled && content_type === 'novel' && !contentProp,
-    });
-
     const { mutate: createRead, isPending: isChangingStatus } = useMutation({
         ...readAddMutation(),
         onSuccess: (data) => {
@@ -120,18 +119,6 @@ const ReadlistButton = ({
     const read = useMemo(
         () => readProp || (readQuery && !readError ? readQuery : undefined),
         [readProp, readQuery, readError],
-    );
-
-    // mangaInfoOptions/novelInfoOptions return the *Info* response supersets,
-    // while the shared read subcomponents take the base
-    // MangaResponse | NovelResponse shape.
-    const content = useMemo(
-        () =>
-            (contentProp || manga || novel) as
-                | MangaResponse
-                | NovelResponse
-                | undefined,
-        [contentProp, manga, novel],
     );
 
     const title = useTitle(content);
@@ -168,17 +155,9 @@ const ReadlistButton = ({
                           status: ReadStatusEnum.COMPLETED,
                           ...currentReadParams,
                           volumes:
-                              (content_type === ContentTypeEnum.MANGA
-                                  ? manga?.volumes
-                                  : novel?.volumes) ||
-                              read?.volumes ||
-                              undefined,
+                              content?.volumes || read?.volumes || undefined,
                           chapters:
-                              (content_type === ContentTypeEnum.MANGA
-                                  ? manga?.chapters
-                                  : novel?.chapters) ||
-                              read?.chapters ||
-                              undefined,
+                              content?.chapters || read?.chapters || undefined,
                       }
                     : {
                           status: selectedOption as ReadStatusEnum,
@@ -193,8 +172,7 @@ const ReadlistButton = ({
         [
             read,
             readError,
-            manga,
-            novel,
+            content,
             content_type,
             slug,
             createRead,

@@ -17,7 +17,7 @@ import {
 } from '@/utils/constants/filter-properties';
 
 import { TrackingButtonsGroup } from '../action-buttons';
-import { ContentCard } from '../content-card';
+import { PosterCard } from '../content-card';
 import { InlineScores } from '../inline-scores';
 import {
     HorizontalCardDescription,
@@ -85,7 +85,7 @@ export function ContentListItem(props: Props) {
     return (
         <div className="surface -mx-4 flex flex-col gap-4 rounded-none border border-border border-x-0 p-4 md:mx-0 md:rounded-(--base-radius) md:border-x">
             <div className="flex gap-4">
-                <ContentCard
+                <PosterCard
                     className="w-24 shrink-0 md:w-16"
                     containerClassName="rounded-(--base-radius)"
                     image={item?.image}

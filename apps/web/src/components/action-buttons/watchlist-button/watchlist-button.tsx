@@ -3,8 +3,8 @@ import { createElement, useCallback, useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
+    type AnimeInfoResponse,
     type AnimeResponse,
-    animeSlugOptions,
     type WatchArgs,
     type WatchResponseBase,
     WatchStatusEnum,
@@ -40,7 +40,12 @@ type Props = {
     slug: string;
     disabled?: boolean;
     watch?: WatchResponseBase | null;
-    anime?: AnimeResponse;
+    /**
+     * Required, though it may still be loading: the button needs the title and
+     * the episode count, and silently fetching them again duplicates whatever
+     * the surrounding page already asked for.
+     */
+    anime: AnimeResponse | AnimeInfoResponse | undefined;
     size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
     buttonProps?: ButtonProps;
 };
@@ -81,7 +86,7 @@ const WatchlistButton = ({
     slug,
     disabled,
     watch: watchProp,
-    anime: animeProp,
+    anime,
     size,
     buttonProps,
 }: Props) => {
@@ -94,11 +99,6 @@ const WatchlistButton = ({
         enabled: !disabled && !watchProp && watchProp !== null,
     });
 
-    const { data: animeQuery } = useQuery({
-        ...animeSlugOptions({ path: { slug } }),
-        enabled: !disabled && !animeProp,
-    });
-
     const { mutate: addWatch, isPending: isChangingStatus } = useMutation({
         ...watchAddMutation(),
         onSuccess: (data) => {
@@ -109,11 +109,6 @@ const WatchlistButton = ({
     const watch = useMemo(
         () => watchProp || (watchQuery && !watchError ? watchQuery : undefined),
         [watchProp, watchQuery, watchError],
-    );
-
-    const anime = useMemo(
-        () => animeProp || animeQuery,
-        [animeProp, animeQuery],
     );
 
     const title = useTitle(anime);

@@ -9,7 +9,7 @@ import type {
 
 import { cn } from '@/utils/cn';
 
-import ContentCard from '../content-card/content-card';
+import PosterCard from '../content-card/poster-card';
 import MDViewer from '../markdown/viewer/md-viewer';
 import { Label } from './label';
 import Link from './link';
@@ -117,7 +117,7 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
     imageBlur,
 }) => {
     return (
-        <ContentCard
+        <PosterCard
             className={cn('w-12', className)}
             containerClassName={cn(
                 imageClassName,
@@ -130,7 +130,7 @@ const HorizontalCardImage: FC<PropsWithChildren<HorizontalCardImageProps>> = ({
             imageBlur={imageBlur}
         >
             {children}
-        </ContentCard>
+        </PosterCard>
     );
 };
 

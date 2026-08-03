@@ -2,8 +2,8 @@ import { range } from '@antfu/utils';
 
 import { userHistoryInfiniteOptions } from '@hikka/api';
 
-import { HistoryItem, HistoryItemSkeleton } from '@/components/content-card';
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
+import { HistoryItem, HistoryItemSkeleton } from '@/components/list-items';
 import LoadMoreButton from '@/components/load-more-button';
 import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';

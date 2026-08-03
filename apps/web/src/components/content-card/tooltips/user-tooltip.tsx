@@ -1,4 +1,4 @@
-import { type FC, memo, type PropsWithChildren } from 'react';
+import { type FC, memo, type PropsWithChildren, type ReactNode } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -132,7 +132,7 @@ const TooltipData: FC<TooltipDataProps> = ({ username }) => {
 };
 
 const UserTooltip: FC<Props> = ({ username, children }) => {
-    if (!username) return null;
+    if (!username) return children as ReactNode;
 
     return (
         <HoverCardWrapper

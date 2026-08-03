@@ -2,9 +2,9 @@ import { type FC, useState } from 'react';
 
 import { getCollectionsInfiniteOptions } from '@hikka/api';
 
-import { CollectionItem } from '@/components/content-card';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
+import { CollectionItem } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';

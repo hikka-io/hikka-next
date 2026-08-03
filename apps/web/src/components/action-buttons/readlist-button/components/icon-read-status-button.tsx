@@ -3,7 +3,9 @@ import { createElement, type FC } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
+    type MangaInfoResponse,
     type MangaResponse,
+    type NovelInfoResponse,
     type NovelResponse,
     type ReadContentTypeEnum,
     type ReadResponseBase,
@@ -24,7 +26,11 @@ type IconReadStatusButtonProps = Omit<ButtonProps, 'content'> & {
     size?: 'icon-sm' | 'icon-md';
     slug: string;
     content_type: ReadContentTypeEnum;
-    content?: MangaResponse | NovelResponse;
+    content?:
+        | MangaResponse
+        | NovelResponse
+        | MangaInfoResponse
+        | NovelInfoResponse;
     isLoading?: boolean;
     onOpenModal?: () => void;
 };

@@ -1,11 +1,13 @@
-import type { ComponentProps, FC } from 'react';
+import type { FC } from 'react';
 
 import { ArrowBigUp, MessageCircle } from 'lucide-react';
 
 import type { CollectionResponse } from '@hikka/api';
 
 import FollowButton from '@/components/action-buttons/follow-button';
-import ContentCard from '@/components/content-card/content-card';
+import { contentEntity } from '@/components/content-card';
+import EntityCard from '@/components/content-card/entity-card';
+import PosterCard from '@/components/content-card/poster-card';
 import RelativeTime from '@/components/relative-time';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
@@ -136,49 +138,25 @@ const CollectionCard: FC<Props> = ({
                 className={cn(isCompact && 'grid-min-5')}
                 imagePreset="cardSm"
             >
-                {previewItems.map((item) => {
-                    const contentType = item.content_type as NonNullable<
-                        ComponentProps<typeof ContentCard>['content_type']
-                    >;
-                    return (
-                        <ContentCard
-                            key={item.content.slug}
-                            image={item.content.image}
-                            title={
-                                isCompact
-                                    ? undefined
-                                    : getTitle(
-                                          item.content,
-                                          preferences.title_language,
-                                          preferences.name_language,
-                                      )
-                            }
-                            to={`${CONTENT_TYPE_LINKS[contentType]}/${item.content.slug}`}
-                            titleBlur={collection.spoiler}
-                            imageBlur={collection.nsfw || collection.spoiler}
-                            watch={
-                                'watch' in item.content &&
-                                item.content.watch.length > 0
-                                    ? (item.content.watch[0] as ComponentProps<
-                                          typeof ContentCard
-                                      >['watch'])
-                                    : undefined
-                            }
-                            read={
-                                'read' in item.content &&
-                                item.content.read.length > 0
-                                    ? (item.content.read[0] as ComponentProps<
-                                          typeof ContentCard
-                                      >['read'])
-                                    : undefined
-                            }
-                            slug={item.content.slug}
-                            content_type={contentType}
-                        />
-                    );
-                })}
+                {previewItems.map((item) => (
+                    <EntityCard
+                        key={item.content.slug}
+                        entity={contentEntity(item.content)}
+                        title={
+                            isCompact
+                                ? null
+                                : getTitle(
+                                      item.content,
+                                      preferences.title_language,
+                                      preferences.name_language,
+                                  )
+                        }
+                        titleBlur={collection.spoiler}
+                        imageBlur={collection.nsfw || collection.spoiler}
+                    />
+                ))}
                 {remainingCount > 0 && (
-                    <ContentCard
+                    <PosterCard
                         to={`/collections/${collection.reference}`}
                         image={
                             <div className="isolate flex items-center justify-center">

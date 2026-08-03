@@ -24,6 +24,9 @@ const Actions: FC<Props> = ({ content_type, className }) => {
     const { data: userlist, isError } = CONTENT_CONFIG[
         content_type
     ].useUserlistRecord(String(params.slug));
+    const { data: content } = CONTENT_CONFIG[content_type].useInfo(
+        String(params.slug),
+    );
 
     const hasList = !!userlist && !isError;
 
@@ -35,12 +38,23 @@ const Actions: FC<Props> = ({ content_type, className }) => {
                         <WatchlistButton
                             disabled={!user}
                             slug={String(params.slug)}
+                            anime={
+                                content?.data_type === 'anime'
+                                    ? content
+                                    : undefined
+                            }
                         />
                     ) : (
                         <ReadListButton
                             content_type={content_type}
                             disabled={!user}
                             slug={String(params.slug)}
+                            content={
+                                content?.data_type === 'manga' ||
+                                content?.data_type === 'novel'
+                                    ? content
+                                    : undefined
+                            }
                         />
                     )}
                 </div>

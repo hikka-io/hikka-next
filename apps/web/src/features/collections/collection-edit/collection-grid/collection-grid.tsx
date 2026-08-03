@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useDroppable } from '@dnd-kit/core';
 import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { SearchModal } from '@/features/search';
@@ -75,7 +75,7 @@ const CollectionEditGrid: FC<Props> = ({ group }) => {
                         }
                         type="button"
                     >
-                        <ContentCard
+                        <PosterCard
                             image={
                                 <MaterialSymbolsAddRounded className="text-4xl text-muted-foreground" />
                             }

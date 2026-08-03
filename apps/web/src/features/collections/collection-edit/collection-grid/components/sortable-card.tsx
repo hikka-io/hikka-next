@@ -4,9 +4,9 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Check, Trash2, X } from 'lucide-react';
 
-import ContentCard, {
+import PosterCard, {
     DEFAULT_CONTAINER_RATIO,
-} from '@/components/content-card/content-card';
+} from '@/components/content-card/poster-card';
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
 import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
 import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';
@@ -71,7 +71,7 @@ const SortableCardContent = memo<{
 
     return (
         <>
-            <ContentCard image={content.image} title={title} />
+            <PosterCard image={content.image} title={title} />
 
             <div
                 className="pointer-events-none absolute top-0 left-0 w-full"

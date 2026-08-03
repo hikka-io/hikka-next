@@ -1,4 +1,4 @@
-import { type FC, memo, type PropsWithChildren } from 'react';
+import { type FC, memo, type PropsWithChildren, type ReactNode } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -7,7 +7,7 @@ import { characterAnimeOptions, characterInfoOptions } from '@hikka/api';
 import { useTitle } from '@/features/auth/hooks/use-title';
 
 import MDViewer from '../../markdown/viewer/md-viewer';
-import ContentCard from '../content-card';
+import PosterCard from '../poster-card';
 import HoverCardWrapper from './hover-card-wrapper';
 import { CharacterTooltipSkeleton } from './tooltip-skeleton';
 
@@ -37,7 +37,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
 
     return (
         <div className="flex w-96 gap-4 text-left">
-            <ContentCard
+            <PosterCard
                 className="w-20"
                 image={data.image}
                 containerRatio={0.7}
@@ -59,7 +59,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
             </div>
             {characterAnime && (
                 <div className="flex flex-col gap-2">
-                    <ContentCard
+                    <PosterCard
                         className="w-10"
                         containerClassName="rounded-(--base-radius)"
                         image={characterAnime.anime.image}
@@ -74,7 +74,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
 
 const CharacterTooltip: FC<Props> = ({ slug, children }) => {
     if (!slug) {
-        return null;
+        return children as ReactNode;
     }
 
     return (

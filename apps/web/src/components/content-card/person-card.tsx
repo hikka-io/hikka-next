@@ -6,40 +6,22 @@ import {
     type PersonResponse,
 } from '@hikka/api';
 
-import { useTitle } from '@/features/auth/hooks/use-title';
 import { getTitle } from '@/utils/title/get-title';
 
-import ContentCard, { type ContentCardProps } from './content-card';
+import EntityCard, { type EntityCardProps } from './entity-card';
 
-type Props = ContentCardProps & {
+type Props = Omit<EntityCardProps, 'entity'> & {
     person: PersonResponse;
     roles: AppSchemasRoleResponse[];
 };
 
-const PersonCard: FC<Props> = ({ person, roles, ...props }) => {
-    const title = useTitle(person);
-
-    const getRole = (roles: Props['roles']) => {
-        if (roles.length === 0) {
-            return undefined;
-        }
-
-        return getTitle(roles[0]);
-    };
-
-    return (
-        <ContentCard
-            key={person.slug}
-            href={`/people/${person.slug}`}
-            description={getRole(roles)}
-            image={person.image}
-            slug={person.slug}
-            content_type={ContentTypeEnum.PERSON}
-            withContextMenu
-            title={title}
-            {...props}
-        />
-    );
-};
+const PersonCard: FC<Props> = ({ person, roles, ...props }) => (
+    <EntityCard
+        entity={{ type: ContentTypeEnum.PERSON, data: person }}
+        withContextMenu
+        description={roles[0] ? getTitle(roles[0]) : undefined}
+        {...props}
+    />
+);
 
 export default PersonCard;

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import type { FavouriteContentTypeEnum } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import Image from '@/components/ui/image';
 
 type Props = {
@@ -18,7 +18,7 @@ type Props = {
  */
 const FavoriteMoreCard: FC<Props> = ({ count, image, username, type }) => {
     return (
-        <ContentCard
+        <PosterCard
             to={`/u/${username}/favorites`}
             linkProps={{ search: { type } }}
             image={

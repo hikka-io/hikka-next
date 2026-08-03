@@ -1,9 +1,8 @@
-import { type FC, memo, type PropsWithChildren } from 'react';
+import { type FC, memo, type PropsWithChildren, type ReactNode } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
 import {
-    type ContentTypeEnum,
     type PersonAnimeResponse,
     type PersonCharactersResponse,
     personAnimeOptions,
@@ -15,7 +14,9 @@ import { useTitle } from '@/features/auth/hooks/use-title';
 
 import MaterialSymbolsMoreHoriz from '../../icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MDViewer from '../../markdown/viewer/md-viewer';
-import ContentCard from '../content-card';
+import { contentEntity } from '../entity';
+import EntityCard from '../entity-card';
+import PosterCard from '../poster-card';
 import HoverCardWrapper from './hover-card-wrapper';
 import { PersonTooltipSkeleton } from './tooltip-skeleton';
 
@@ -40,19 +41,17 @@ const PersonAnimeList: FC<{ list?: PersonAnimeResponse[]; slug: string }> = ({
             </span>
             <div className="flex gap-2">
                 {list.slice(0, 5).map(({ anime }) => (
-                    <ContentCard
+                    <EntityCard
                         containerClassName="rounded-(--base-radius)"
                         className="w-10"
-                        href={`/anime/${anime.slug}`}
                         key={anime.slug}
-                        image={anime.image}
-                        slug={anime.slug}
-                        content_type={anime.data_type as ContentTypeEnum}
+                        entity={contentEntity(anime)}
+                        title={null}
                         containerRatio={0.7}
                     />
                 ))}
                 {list.length > 5 && (
-                    <ContentCard
+                    <PosterCard
                         containerClassName="rounded-(--base-radius)"
                         className="w-10"
                         href={`/people/${slug}`}
@@ -80,18 +79,16 @@ const PersonCharactersList: FC<{
             </span>
             <div className="flex gap-2">
                 {list.slice(0, 5).map(({ character }) => (
-                    <ContentCard
+                    <EntityCard
                         className="w-10"
-                        href={`/characters/${character.slug}`}
                         key={character.slug}
-                        image={character.image}
-                        slug={character.slug}
-                        content_type={character.data_type as ContentTypeEnum}
+                        entity={contentEntity(character)}
+                        title={null}
                         containerRatio={0.7}
                     />
                 ))}
                 {list.length > 5 && (
-                    <ContentCard
+                    <PosterCard
                         className="w-10"
                         href={`/people/${slug}`}
                         image={
@@ -129,7 +126,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
 
     return (
         <div className="flex w-96 gap-4 text-left">
-            <ContentCard
+            <PosterCard
                 className="w-20"
                 image={data.image}
                 containerRatio={0.7}
@@ -156,7 +153,7 @@ const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
 };
 
 const PersonTooltip: FC<Props> = ({ slug, children }) => {
-    if (!slug) return null;
+    if (!slug) return children as ReactNode;
 
     return (
         <HoverCardWrapper size="auto" content={<TooltipData slug={slug} />}>

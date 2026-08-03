@@ -6,7 +6,7 @@ import type {
     MangaResponseWithRead,
 } from '@hikka/api';
 
-import ContentCard from '@/components/content-card/content-card';
+import PosterCard from '@/components/content-card/poster-card';
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
@@ -96,23 +96,15 @@ const SearchCard = ({ content, contentType, onClick, type }: Props) => {
             className="flex w-full items-center gap-4 text-left"
         >
             <div className="w-12">
-                <ContentCard
+                <PosterCard
                     containerClassName="rounded-(--base-radius)"
                     image={content.image}
-                    {...(config.track === 'watch'
-                        ? {
-                              watch: trackItem as ComponentProps<
-                                  typeof ContentCard
-                              >['watch'],
-                          }
-                        : config.track === 'read'
-                          ? {
-                                read: trackItem as ComponentProps<
-                                    typeof ContentCard
-                                >['read'],
-                            }
-                          : {})}
-                    {...(isContent ? { statusSize: 'sm' as const } : {})}
+                    status={
+                        config.track && trackItem
+                            ? { value: trackItem.status, kind: config.track }
+                            : undefined
+                    }
+                    statusSize={isContent ? 'sm' : undefined}
                 />
             </div>
             <div className="flex w-full flex-1 flex-col gap-2">
