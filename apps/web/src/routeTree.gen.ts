@@ -20,7 +20,6 @@ import { Route as AnimeSitemapDotxmlRouteImport } from './routes/anime/sitemap[.
 import { Route as PagesSettingsRouteImport } from './routes/_pages/settings'
 import { Route as PagesScheduleRouteImport } from './routes/_pages/schedule'
 import { Route as PagesOauthRouteImport } from './routes/_pages/oauth'
-import { Route as PagesHarnessProfileMenuRouteImport } from './routes/_pages/harness-profile-menu'
 import { Route as PagesAuthRouteImport } from './routes/_pages/_auth'
 import { Route as PagesSettingsIndexRouteImport } from './routes/_pages/settings/index'
 import { Route as PagesPeopleIndexRouteImport } from './routes/_pages/people/index'
@@ -158,11 +157,6 @@ const PagesScheduleRoute = PagesScheduleRouteImport.update({
 const PagesOauthRoute = PagesOauthRouteImport.update({
   id: '/oauth',
   path: '/oauth',
-  getParentRoute: () => PagesRoute,
-} as any)
-const PagesHarnessProfileMenuRoute = PagesHarnessProfileMenuRouteImport.update({
-  id: '/harness-profile-menu',
-  path: '/harness-profile-menu',
   getParentRoute: () => PagesRoute,
 } as any)
 const PagesAuthRoute = PagesAuthRouteImport.update({
@@ -611,7 +605,6 @@ const PagesCommentsContent_typeSlugSplatRoute =
 export interface FileRoutesByFullPath {
   '/': typeof PagesIndexRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/harness-profile-menu': typeof PagesHarnessProfileMenuRoute
   '/oauth': typeof PagesOauthRoute
   '/schedule': typeof PagesScheduleRoute
   '/settings': typeof PagesSettingsRouteWithChildren
@@ -707,7 +700,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/': typeof PagesIndexRoute
-  '/harness-profile-menu': typeof PagesHarnessProfileMenuRoute
   '/oauth': typeof PagesOauthRoute
   '/schedule': typeof PagesScheduleRoute
   '/anime/sitemap.xml': typeof AnimeSitemapDotxmlRoute
@@ -794,7 +786,6 @@ export interface FileRoutesById {
   '/_pages': typeof PagesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_pages/_auth': typeof PagesAuthRouteWithChildren
-  '/_pages/harness-profile-menu': typeof PagesHarnessProfileMenuRoute
   '/_pages/oauth': typeof PagesOauthRoute
   '/_pages/schedule': typeof PagesScheduleRoute
   '/_pages/settings': typeof PagesSettingsRouteWithChildren
@@ -893,7 +884,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/sitemap.xml'
-    | '/harness-profile-menu'
     | '/oauth'
     | '/schedule'
     | '/settings'
@@ -989,7 +979,6 @@ export interface FileRouteTypes {
   to:
     | '/sitemap.xml'
     | '/'
-    | '/harness-profile-menu'
     | '/oauth'
     | '/schedule'
     | '/anime/sitemap.xml'
@@ -1075,7 +1064,6 @@ export interface FileRouteTypes {
     | '/_pages'
     | '/sitemap.xml'
     | '/_pages/_auth'
-    | '/_pages/harness-profile-menu'
     | '/_pages/oauth'
     | '/_pages/schedule'
     | '/_pages/settings'
@@ -1262,13 +1250,6 @@ declare module '@tanstack/react-router' {
       path: '/oauth'
       fullPath: '/oauth'
       preLoaderRoute: typeof PagesOauthRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/harness-profile-menu': {
-      id: '/_pages/harness-profile-menu'
-      path: '/harness-profile-menu'
-      fullPath: '/harness-profile-menu'
-      preLoaderRoute: typeof PagesHarnessProfileMenuRouteImport
       parentRoute: typeof PagesRoute
     }
     '/_pages/_auth': {
@@ -2093,7 +2074,6 @@ const PagesUUsernameRouteWithChildren = PagesUUsernameRoute._addFileChildren(
 
 interface PagesRouteChildren {
   PagesAuthRoute: typeof PagesAuthRouteWithChildren
-  PagesHarnessProfileMenuRoute: typeof PagesHarnessProfileMenuRoute
   PagesOauthRoute: typeof PagesOauthRoute
   PagesScheduleRoute: typeof PagesScheduleRoute
   PagesSettingsRoute: typeof PagesSettingsRouteWithChildren
@@ -2127,7 +2107,6 @@ interface PagesRouteChildren {
 
 const PagesRouteChildren: PagesRouteChildren = {
   PagesAuthRoute: PagesAuthRouteWithChildren,
-  PagesHarnessProfileMenuRoute: PagesHarnessProfileMenuRoute,
   PagesOauthRoute: PagesOauthRoute,
   PagesScheduleRoute: PagesScheduleRoute,
   PagesSettingsRoute: PagesSettingsRouteWithChildren,
