@@ -112,7 +112,15 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                             {list &&
                                 list.length > 0 &&
                                 list.map((item) => (
-                                    <AnimeCard item={item} key={item.slug} />
+                                    <AnimeCard
+                                        item={item}
+                                        key={item.slug}
+                                        leftSubtitle={`${item.episodes_released ?? 0} / ${item.episodes_total ?? '?'} ${getDeclensionWord(
+                                            item.episodes_total ?? 0,
+                                            EPISODE_DECLENSIONS,
+                                        )}`}
+                                        rightSubtitle={null}
+                                    />
                                 ))}
                         </Stack>
                     )}
