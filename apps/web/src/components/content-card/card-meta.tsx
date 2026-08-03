@@ -45,7 +45,7 @@ const CardMeta: FC<Props> = ({
                         </span>
                     )}
                     {leftSubtitle && rightSubtitle && (
-                        <div className="size-1 rounded-full bg-muted-foreground" />
+                        <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
                     )}
                     {rightSubtitle && (
                         <span className="font-medium text-muted-foreground text-xs leading-tight">
