@@ -33,7 +33,7 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
             path: { slug: params.slug },
             client: apiClient,
         });
-        let manga = await ensureOr404(
+        let manga = await ensureOr404(() =>
             queryClient.ensureQueryData(mangaOptions),
         );
 

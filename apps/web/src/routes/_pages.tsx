@@ -15,6 +15,7 @@ import {
     Navbar,
     PageHeaderProvider,
 } from '@/features/app-shell';
+import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { getAuthTokenFn } from '@/utils/cookies';
 
 export const Route = createFileRoute('/_pages')({
@@ -22,8 +23,10 @@ export const Route = createFileRoute('/_pages')({
         if (!(await getAuthTokenFn())) return;
 
         try {
-            const session = await queryClient.ensureQueryData(
-                profileOptions({ client: apiClient }),
+            const session = await retryOnCancel(() =>
+                queryClient.ensureQueryData(
+                    profileOptions({ client: apiClient }),
+                ),
             );
             if (!session) throw redirect({ to: '/auth/logout' });
         } catch (error) {

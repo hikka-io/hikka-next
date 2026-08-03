@@ -37,7 +37,7 @@ export const Route = createFileRoute('/_pages/u/$username')({
         const { username } = params;
 
         if (UUID_RE.test(username)) {
-            const user = await ensureOr404(
+            const user = await ensureOr404(() =>
                 queryClient.ensureQueryData(
                     userReferenceOptions({
                         path: { reference: username },
@@ -54,7 +54,7 @@ export const Route = createFileRoute('/_pages/u/$username')({
             });
         }
 
-        const user = await ensureOr404(
+        const user = await ensureOr404(() =>
             queryClient.ensureQueryData(
                 userProfileOptions({
                     path: { username },

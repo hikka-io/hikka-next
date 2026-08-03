@@ -14,20 +14,21 @@ import {
 } from '@/features/articles';
 import ArticleProvider from '@/services/providers/article-provider';
 import type { ArticleState } from '@/services/stores/article-store';
+import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { requireOwner } from '@/utils/auth';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/articles/$slug/update')({
     beforeLoad: async ({ params, context: { queryClient, apiClient } }) => {
-        const article = await queryClient
-            .ensureQueryData(
+        const article = await retryOnCancel(() =>
+            queryClient.ensureQueryData(
                 getArticleOptions({
                     path: { slug: params.slug },
                     client: apiClient,
                 }),
-            )
-            .catch(() => undefined);
+            ),
+        ).catch(() => undefined);
 
         requireOwner(
             queryClient,

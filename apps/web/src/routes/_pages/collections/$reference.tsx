@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import { getCollectionOptions } from '@hikka/api';
 
+import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
 
@@ -9,8 +10,13 @@ export const Route = createFileRoute('/_pages/collections/$reference')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { reference } = params;
 
-        const collection = await queryClient.ensureQueryData(
-            getCollectionOptions({ path: { reference }, client: apiClient }),
+        const collection = await retryOnCancel(() =>
+            queryClient.ensureQueryData(
+                getCollectionOptions({
+                    path: { reference },
+                    client: apiClient,
+                }),
+            ),
         );
 
         if (!collection) throw redirect({ to: '/collections' });

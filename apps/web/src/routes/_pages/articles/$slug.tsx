@@ -10,7 +10,7 @@ export const Route = createFileRoute('/_pages/articles/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { slug } = params;
 
-        const article = await ensureOr404(
+        const article = await ensureOr404(() =>
             queryClient.ensureQueryData(
                 getArticleOptions({ path: { slug }, client: apiClient }),
             ),

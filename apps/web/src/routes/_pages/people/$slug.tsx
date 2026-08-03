@@ -19,7 +19,7 @@ import { getTitle } from '@/utils/title/get-title';
 
 export const Route = createFileRoute('/_pages/people/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
-        const person = await ensureOr404(
+        const person = await ensureOr404(() =>
             queryClient.ensureQueryData(
                 personInfoOptions({
                     path: { slug: params.slug },

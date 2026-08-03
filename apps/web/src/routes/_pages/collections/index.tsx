@@ -14,6 +14,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Link from '@/components/ui/link';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { CollectionList, CollectionSort } from '@/features/collections';
+import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { generateHeadMeta } from '@/utils/metadata';
 import { collectionsSearchSchema } from '@/utils/search-schemas';
 
@@ -30,13 +31,15 @@ export const Route = createFileRoute('/_pages/collections/')({
             });
         }
 
-        const collections = await queryClient.ensureInfiniteQueryData(
-            paginatedInfiniteOptions(
-                getCollectionsInfiniteOptions({
-                    body: { sort: [`${sort}:desc`] },
-                    client: apiClient,
-                }),
-                Number(page),
+        const collections = await retryOnCancel(() =>
+            queryClient.ensureInfiniteQueryData(
+                paginatedInfiniteOptions(
+                    getCollectionsInfiniteOptions({
+                        body: { sort: [`${sort}:desc`] },
+                        client: apiClient,
+                    }),
+                    Number(page),
+                ),
             ),
         );
 

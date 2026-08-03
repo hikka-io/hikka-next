@@ -12,14 +12,20 @@ import { usePageHeader } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { getCommentSort } from '@/features/comments/utils/comment-sort';
 import { EditContent as Content, EditTimeline } from '@/features/edit';
+import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { usePathname } from '@/utils/navigation';
 
 export const Route = createFileRoute('/_pages/edit/$editId')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
         const editId = Number(params.editId);
 
-        const edit = await queryClient.ensureQueryData(
-            getEditOptions({ path: { edit_id: editId }, client: apiClient }),
+        const edit = await retryOnCancel(() =>
+            queryClient.ensureQueryData(
+                getEditOptions({
+                    path: { edit_id: editId },
+                    client: apiClient,
+                }),
+            ),
         );
 
         if (!edit) throw redirect({ to: '/edit' });

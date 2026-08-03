@@ -21,7 +21,7 @@ import { getTitle } from '@/utils/title/get-title';
 
 export const Route = createFileRoute('/_pages/characters/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
-        const character = await ensureOr404(
+        const character = await ensureOr404(() =>
             queryClient.ensureQueryData(
                 characterInfoOptions({
                     path: { slug: params.slug },
