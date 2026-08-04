@@ -106,6 +106,30 @@ export const editSearchSchema = z.object({
     ...paginationSearch,
 });
 
+export const editContentSearchSchema = z.object({
+    tab: z
+        .enum(['anime', 'manga', 'novel', 'character', 'person'])
+        .optional()
+        .catch(undefined),
+    title_ua: coerceBoolean.optional().catch(undefined),
+    title_en: coerceBoolean.optional().catch(undefined),
+    title_original: coerceBoolean.optional().catch(undefined),
+    synopsis_ua: coerceBoolean.optional().catch(undefined),
+    synopsis_en: coerceBoolean.optional().catch(undefined),
+    media_type: z.string().optional().catch(undefined),
+    mal_id: z.coerce.number().optional().catch(undefined),
+    name_ua: coerceBoolean.optional().catch(undefined),
+    name_en: coerceBoolean.optional().catch(undefined),
+    name_original: coerceBoolean.optional().catch(undefined),
+    description_ua: coerceBoolean.optional().catch(undefined),
+    content_type: z
+        .enum(['anime', 'manga', 'novel'])
+        .optional()
+        .catch(undefined),
+    content_slug: z.string().optional().catch(undefined),
+    ...paginationSearch,
+});
+
 export const editNewSearchSchema = z.object({
     content_type: z.string().optional().catch(undefined),
     slug: z.string().optional().catch(undefined),
@@ -158,4 +182,5 @@ export type ScheduleSearch = z.infer<typeof scheduleSearchSchema>;
 export type ArticlesSearch = z.infer<typeof articlesSearchSchema>;
 export type CommentsSearch = z.infer<typeof commentsSearchSchema>;
 export type EditSearch = z.infer<typeof editSearchSchema>;
+export type EditContentSearch = z.infer<typeof editContentSearchSchema>;
 export type UserlistSearch = z.infer<typeof userlistSearchSchema>;
