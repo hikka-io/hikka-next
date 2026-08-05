@@ -5,6 +5,9 @@ import { usePageHeader } from '@/features/app-shell';
 import { EditContentList as ContentList } from '@/features/edit';
 import { editContentSearchSchema } from '@/utils/search-schemas';
 
+import Block from '@/components/ui/block';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+
 export const Route = createFileRoute('/_pages/edit/content')({
     validateSearch: zodValidator(editContentSearchSchema),
     head: () => ({
@@ -16,5 +19,14 @@ export const Route = createFileRoute('/_pages/edit/content')({
 function ContentPage() {
     usePageHeader({ title: 'Незаповнений контент', parent: '/edit' });
 
-    return <ContentList />;
+    return (
+        <Block>
+            <Header>
+                <HeaderContainer>
+                    <HeaderTitle variant="h2">Незаповнений контент</HeaderTitle>
+                </HeaderContainer>
+            </Header>
+            <ContentList />
+        </Block>
+    );
 }

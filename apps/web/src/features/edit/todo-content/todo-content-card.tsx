@@ -57,6 +57,55 @@ const isMediaContent = (
     item.data_type === 'manga' ||
     item.data_type === 'novel';
 
+const CardActions = ({
+    contentType,
+    slug,
+}: {
+    contentType: EditContentTypeEnum;
+    slug: string;
+}) => (
+    <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+            <Button
+                variant="ghost"
+                size="icon-sm"
+                className="shrink-0 text-muted-foreground"
+                aria-label="Більше"
+            >
+                <MaterialSymbolsMoreHoriz />
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+            <DropdownMenuItem asChild>
+                <Link
+                    to="/edit/content"
+                    search={{
+                        tab: 'character',
+                        content_type: contentType,
+                        content_slug: slug,
+                    }}
+                >
+                    <MaterialSymbolsFace3 />
+                    Персонажі
+                </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+                <Link
+                    to="/edit/content"
+                    search={{
+                        tab: 'person',
+                        content_type: contentType,
+                        content_slug: slug,
+                    }}
+                >
+                    <MaterialSymbolsPerson />
+                    Люди
+                </Link>
+            </DropdownMenuItem>
+        </DropdownMenuContent>
+    </DropdownMenu>
+);
+
 /**
  * Labels for every issue flag across the three issue shapes (titles, characters,
  * people). Key order doubles as chip order, so a card lists its gaps in the same
@@ -194,104 +243,59 @@ export function TodoContentCard(props: Props) {
                     content_type={contentType}
                     slug={item.slug}
                 />
-                <div className="flex min-w-0 flex-1 flex-col gap-4">
-                    <div className="flex min-w-0 flex-1 flex-col gap-3">
-                        <HorizontalCardTitle
-                            to={href}
-                            className="min-w-0 font-semibold text-base"
-                            titleMeta={
-                                isMedia && (
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button
-                                                variant="ghost"
-                                                size="icon-sm"
-                                                className="shrink-0 text-muted-foreground"
-                                                aria-label="Більше"
-                                            >
-                                                <MaterialSymbolsMoreHoriz />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                            <DropdownMenuItem asChild>
-                                                <Link
-                                                    to="/edit/content"
-                                                    search={{
-                                                        tab: 'character',
-                                                        content_type:
-                                                            contentType,
-                                                        content_slug: item.slug,
-                                                    }}
-                                                >
-                                                    <MaterialSymbolsFace3 />
-                                                    Персонажі
-                                                </Link>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem asChild>
-                                                <Link
-                                                    to="/edit/content"
-                                                    search={{
-                                                        tab: 'person',
-                                                        content_type:
-                                                            contentType,
-                                                        content_slug: item.slug,
-                                                    }}
-                                                >
-                                                    <MaterialSymbolsPerson />
-                                                    Люди
-                                                </Link>
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                )
-                            }
-                        >
-                            {title}
-                        </HorizontalCardTitle>
-                        {isMedia && (
-                            <HorizontalCardDescription className="flex-wrap">
-                                {CompanyView && (
-                                    <>
-                                        {CompanyView}
-                                        <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
-                                    </>
-                                )}
-                                {[mediaType, year, status]
-                                    .filter(Boolean)
-                                    .map((info, index) => (
-                                        <Fragment key={String(info)}>
-                                            {index > 0 && (
-                                                <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
-                                            )}
-                                            {info}
-                                        </Fragment>
-                                    ))}
-                            </HorizontalCardDescription>
-                        )}
+                <div className="flex min-w-0 flex-1 flex-col gap-3">
+                    <HorizontalCardTitle
+                        to={href}
+                        className="min-w-0 font-semibold text-base"
+                        titleMeta={
+                            isMedia && (
+                                <CardActions
+                                    contentType={contentType}
+                                    slug={item.slug}
+                                />
+                            )
+                        }
+                    >
+                        {title}
+                    </HorizontalCardTitle>
+                    {isMedia && (
+                        <HorizontalCardDescription className="flex-wrap">
+                            {CompanyView && (
+                                <>
+                                    {CompanyView}
+                                    <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
+                                </>
+                            )}
+                            {[mediaType, year, status]
+                                .filter(Boolean)
+                                .map((info, index) => (
+                                    <Fragment key={String(info)}>
+                                        {index > 0 && (
+                                            <div className="size-1 shrink-0 rounded-full bg-muted-foreground" />
+                                        )}
+                                        {info}
+                                    </Fragment>
+                                ))}
+                        </HorizontalCardDescription>
+                    )}
 
-                        <TodoContentIssues issues={issues} maxItems={3} />
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Button size="md" className="min-w-0 flex-1" asChild>
-                            <Link
-                                to="/edit/new"
-                                search={{
-                                    slug: item.slug,
-                                    content_type: contentType,
-                                }}
-                            >
-                                <MaterialSymbolsEditRounded />
-                                <span className="truncate">
-                                    Створити правку
-                                </span>
-                            </Link>
-                        </Button>
-                        <QuickEditButton
-                            slug={item.slug}
-                            content_type={contentType}
-                        />
-                    </div>
+                    <TodoContentIssues issues={issues} maxItems={3} />
                 </div>
+            </div>
+            <div className="flex items-center gap-2">
+                <Button size="md" className="min-w-0 flex-1" asChild>
+                    <Link
+                        to="/edit/new"
+                        search={{
+                            slug: item.slug,
+                            content_type: contentType,
+                        }}
+                    >
+                        <MaterialSymbolsEditRounded />
+                        <span className="truncate">Створити правку</span>
+                    </Link>
+                </Button>
+                <QuickEditButton slug={item.slug} content_type={contentType} />
             </div>
         </div>
     );

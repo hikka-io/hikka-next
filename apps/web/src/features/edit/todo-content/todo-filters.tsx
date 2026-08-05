@@ -352,9 +352,7 @@ export const TodoFiltersBody: FC<BodyProps> = ({
                     <div className="flex flex-col gap-4">
                         <div className="flex items-center gap-2 text-muted-foreground">
                             <Link2 className="size-4 shrink-0" />
-                            <Label htmlFor="content_slug">
-                                Slug контенту
-                            </Label>
+                            <Label htmlFor="content_slug">Slug контенту</Label>
                         </div>
                         <Input
                             id="content_slug"
@@ -391,7 +389,7 @@ export function TodoFilters({
     const handleChange = onChange ?? setInternalValue;
 
     return (
-        <div className={cn('flex flex-col', className)}>
+        <div className={cn('flex w-full flex-col', className)}>
             <TodoFiltersBody
                 className="flex-1 overflow-y-auto p-4 py-8"
                 contentType={contentType}
