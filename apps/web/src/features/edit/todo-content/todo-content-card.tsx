@@ -31,13 +31,13 @@ import {
     HorizontalCardDescription,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import Link from '@/components/ui/link';
 import { useTitle } from '@/features/auth';
 import { cn } from '@/utils/cn';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
+import { Link } from '@/utils/navigation';
+
 import { QuickEditButton } from '../quick-edit';
 
-/** Every `/edit/todo/*` entry is `{ item, issues }` — only the shapes differ. */
 type TodoContentItem =
     | AnimeResponse
     | MangaResponse
@@ -75,7 +75,7 @@ const CardActions = ({
                 <MaterialSymbolsMoreHoriz />
             </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="end" className="w-52">
             <DropdownMenuItem asChild>
                 <Link
                     to="/edit/content"
@@ -106,11 +106,8 @@ const CardActions = ({
     </DropdownMenu>
 );
 
-/**
- * Labels for every issue flag across the three issue shapes (titles, characters,
- * people). Key order doubles as chip order, so a card lists its gaps in the same
- * sequence no matter how the API serialises the object.
- */
+// Key order doubles as chip order, so a card lists its gaps in the same
+// sequence no matter how the API serialises the issues object.
 const ISSUE_LABELS: Record<string, string> = {
     title_ua_absent: 'Назва (укр)',
     title_en_absent: 'Назва (англ)',
@@ -133,8 +130,7 @@ type IssuesProps = {
     maxItems?: number;
 };
 
-/** Missing-data flags as badges on a single row, overflow collapsed into `+N`. */
-function TodoContentIssues(props: IssuesProps) {
+function IssueBadges(props: IssuesProps) {
     const { issues, maxItems } = props;
     const keys = getIssueKeys(issues);
 
@@ -163,7 +159,8 @@ function TodoContentIssues(props: IssuesProps) {
                 </div>
             ))}
             {collapsed && (
-                <div
+                <button
+                    type="button"
                     className={cn(
                         badgeVariants({ variant: 'secondary' }),
                         'cursor-pointer bg-transparent hover:bg-secondary',
@@ -171,7 +168,7 @@ function TodoContentIssues(props: IssuesProps) {
                     onClick={() => setExpanded(true)}
                 >
                     +{keys.length - maxItems}
-                </div>
+                </button>
             )}
         </div>
     );
@@ -182,11 +179,6 @@ type Props = {
     issues: TodoContentIssues;
 };
 
-/**
- * Card for the `/edit/todo` lists — renders any of the five sources (anime,
- * manga, novel, character, person) identically: poster, title, the missing-data
- * chips and the edit actions.
- */
 export function TodoContentCard(props: Props) {
     const { item, issues } = props;
 
@@ -232,10 +224,10 @@ export function TodoContentCard(props: Props) {
     }
 
     return (
-        <div className="surface -mx-4 flex flex-col gap-4 rounded-none border border-border border-x-0 p-4 max-md:not-first:-mt-px md:mx-0 md:rounded-(--base-radius) md:border-x">
+        <div className="surface -mx-4 flex flex-col gap-4 rounded-none border border-border border-x-0 p-4 md:mx-0 md:rounded-(--base-radius) md:border-x">
             <div className="flex gap-4">
                 <ContentCard
-                    className="w-20 shrink-0 sm:w-24"
+                    className="w-24 shrink-0"
                     containerClassName="rounded-(--base-radius)"
                     imagePreset="cardXs"
                     image={item.image}
@@ -246,7 +238,7 @@ export function TodoContentCard(props: Props) {
                 <div className="flex min-w-0 flex-1 flex-col gap-3">
                     <HorizontalCardTitle
                         to={href}
-                        className="min-w-0 font-semibold text-base"
+                        className="min-w-0"
                         titleMeta={
                             isMedia && (
                                 <CardActions
@@ -279,7 +271,7 @@ export function TodoContentCard(props: Props) {
                         </HorizontalCardDescription>
                     )}
 
-                    <TodoContentIssues issues={issues} maxItems={3} />
+                    <IssueBadges issues={issues} maxItems={3} />
                 </div>
             </div>
             <div className="flex items-center gap-2">

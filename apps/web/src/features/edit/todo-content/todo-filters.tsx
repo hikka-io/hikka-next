@@ -24,6 +24,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
 import useDebounce from '@/services/hooks/use-debounce';
 import { cn } from '@/utils/cn';
 import {
@@ -49,24 +50,24 @@ export type TodoFiltersValue = {
 };
 
 const TITLE_PROPERTIES: Hikka.FilterProperty<string> = {
-    title_ua: { title_ua: 'Укр', title_en: 'UA' },
-    title_en: { title_ua: 'Англ', title_en: 'EN' },
-    title_original: { title_ua: 'Оригінал', title_en: 'Original' },
+    title_ua: { title_ua: 'Українською', title_en: 'Ukrainian' },
+    title_en: { title_ua: 'Англійською', title_en: 'English' },
+    title_original: { title_ua: 'Оригінальна', title_en: 'Original' },
 };
 
 const SYNOPSIS_PROPERTIES: Hikka.FilterProperty<string> = {
-    synopsis_ua: { title_ua: 'Укр', title_en: 'UA' },
-    synopsis_en: { title_ua: 'Англ', title_en: 'EN' },
+    synopsis_ua: { title_ua: 'Українською', title_en: 'Ukrainian' },
+    synopsis_en: { title_ua: 'Англійською', title_en: 'English' },
 };
 
 const NAME_PROPERTIES: Hikka.FilterProperty<string> = {
-    name_ua: { title_ua: 'Укр', title_en: 'UA' },
-    name_en: { title_ua: 'Англ', title_en: 'EN' },
-    name_original: { title_ua: 'Оригінал', title_en: 'Original' },
+    name_ua: { title_ua: 'Українською', title_en: 'Ukrainian' },
+    name_en: { title_ua: 'Англійською', title_en: 'English' },
+    name_original: { title_ua: 'Оригінальне', title_en: 'Original' },
 };
 
 const DESCRIPTION_PROPERTIES: Hikka.FilterProperty<string> = {
-    description_ua: { title_ua: 'Укр', title_en: 'UA' },
+    description_ua: { title_ua: 'Українською', title_en: 'Ukrainian' },
 };
 
 const CONTENT_TYPE_PROPERTIES: Hikka.FilterProperty<string> = {
@@ -105,7 +106,7 @@ type BodyProps = {
     onChange: (value: TodoFiltersValue) => void;
 };
 
-/** Filter fields only — no footer/padding; use inside sidebars or custom wrappers. */
+/** Filter fields only — no footer/padding; use inside modals or custom wrappers. */
 export const TodoFiltersBody: FC<BodyProps> = ({
     className,
     contentType,
@@ -118,9 +119,10 @@ export const TodoFiltersBody: FC<BodyProps> = ({
     ) => {
         const updates: TodoFiltersValue = {};
         Object.keys(properties).forEach((key) => {
-            updates[key as keyof TodoFiltersValue] = selected.includes(
-                key,
-            ) as never;
+            // Unselected flags drop out of the URL instead of writing `=false`.
+            updates[key as keyof TodoFiltersValue] = (selected.includes(key)
+                ? true
+                : undefined) as never;
         });
         onChange({ ...value, ...updates });
     };
@@ -286,7 +288,7 @@ export const TodoFiltersBody: FC<BodyProps> = ({
                             }
                         />
                     </div>
-                    {!isPerson && (
+                    {isCharacter && (
                         <div className="flex flex-col gap-4">
                             <div className="flex items-center gap-2 text-muted-foreground">
                                 <AlignLeft className="size-4 shrink-0" />
@@ -369,32 +371,26 @@ export const TodoFiltersBody: FC<BodyProps> = ({
     );
 };
 
-type Props = {
-    className?: string;
-    contentType: ContentTypeEnum;
-    value?: TodoFiltersValue;
-    onChange?: (value: TodoFiltersValue) => void;
-};
+type Props = BodyProps;
 
-/** Side-panel composition: scrollable filter body — mirrors AnimeFilters' layout. */
+/** Side-panel composition: scrollable filter body + sticky footer. */
 export function TodoFilters({
     className,
     contentType,
     value,
     onChange,
 }: Props) {
-    const [internalValue, setInternalValue] = useState<TodoFiltersValue>({});
-
-    const currentValue = value ?? internalValue;
-    const handleChange = onChange ?? setInternalValue;
-
     return (
         <div className={cn('flex w-full flex-col', className)}>
             <TodoFiltersBody
                 className="flex-1 overflow-y-auto p-4 py-8"
                 contentType={contentType}
-                value={currentValue}
-                onChange={handleChange}
+                value={value}
+                onChange={onChange}
+            />
+            <ClearFiltersFooter
+                className="shrink-0 border-t p-4"
+                preserve={['tab']}
             />
         </div>
     );

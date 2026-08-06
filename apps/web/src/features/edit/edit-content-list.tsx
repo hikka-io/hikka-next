@@ -1,50 +1,38 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
+import { useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import SkeletonCard from '@/components/content-card/content-card-skeleton';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
-import Block from '@/components/ui/block';
 import { StickyPagination } from '@/components/ui/pagination';
-import Stack from '@/components/ui/stack';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { FiltersButton } from '@/features/filters';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-import { cn } from '@/utils/cn';
 import type { EditContentSearch } from '@/utils/search-schemas';
-import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from '@tanstack/react-router';
+
 import {
     type TodoContentType,
     useTodoContentList,
 } from './hooks/use-todo-content-list';
-import { TodoContentCard } from './todo-content/todo-content-card';
 import {
+    TodoContentCard,
+    TodoContentCardSkeleton,
     TodoFilters,
+    TodoFiltersModal,
     type TodoFiltersValue,
-} from './todo-content/todo-filters';
-import { TodoListSummary } from './todo-content/todo-list-summary';
-import { TodoNavbar } from './todo-content/todo-navbar';
+    TodoListSummary,
+} from './todo-content';
 
-type Props = {
-    extended?: boolean;
-};
+const LIST_CLASSNAME =
+    'grid grid-cols-1 max-md:[&>*+*]:-mt-px md:grid-cols-2 md:gap-6';
 
-const OPTIONS = [
-    { value: 'title_ua', label: 'Аніме без назв' },
-    {
-        value: 'synopsis_ua',
-        label: 'Аніме без опису',
-    },
-];
-
-const ContentList: FC<Props> = () => {
+const EditContentList: FC = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
-    const { preferences } = useSessionUI();
     const search = useFilterSearch<EditContentSearch>();
     const page = search.page || 1;
     const contentType: TodoContentType = search.tab ?? ContentTypeEnum.ANIME;
@@ -65,17 +53,14 @@ const ContentList: FC<Props> = () => {
         content_slug: search.content_slug,
     };
 
+    const activeFiltersCount = Object.values(filters).filter(
+        (value) => value !== undefined,
+    ).length;
+
     const handleFiltersChange = (value: TodoFiltersValue) => {
         navigate({
             to: '.',
-            search: (prev) => ({ ...prev, ...value }),
-        });
-    };
-
-    const handleContentTypeChange = (val: ContentTypeEnum) => {
-        navigate({
-            to: '.',
-            search: (prev) => ({ page: prev.page, tab: val }),
+            search: (prev) => ({ ...prev, ...value, page: undefined }),
         });
     };
 
@@ -110,78 +95,69 @@ const ContentList: FC<Props> = () => {
         });
     };
 
-    if (isLoading && !isFetchingNextPage) {
-        return (
-            <Stack extended size={5} extendedSize={7}>
-                {range(1, 21).map((v) => (
-                    <SkeletonCard key={v} />
-                ))}
-            </Stack>
-        );
-    }
-
-    let sidebarVisible = true;
-
     return (
-        <Block>
-            <div
-                className={cn(
-                    'grid grid-cols-1 lg:items-start lg:gap-x-10',
-                    sidebarVisible &&
-                        'lg:grid-cols-[1fr_30%] xl:grid-cols-[1fr_25%]',
-                )}
-            >
-                <div className="flex flex-col gap-4">
-                    <TodoNavbar
-                        contentType={contentType}
-                        onContentTypeChange={handleContentTypeChange}
-                    />
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_30%] lg:items-start lg:gap-x-10 xl:grid-cols-[1fr_25%]">
+            <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between gap-4">
                     <TodoListSummary
                         total={pagination?.total}
                         isLoading={isLoading}
                     />
-
-                    {list == null || list.length === 0 ? (
-                        <FiltersNotFound />
-                    ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-6">
-                            {list.map((item) => (
-                                <TodoContentCard
-                                    key={item.item.slug}
-                                    {...item}
-                                />
-                            ))}
-                        </div>
-                    )}
-
-                    {hasNextPage && (
-                        <LoadMoreButton
-                            isFetchingNextPage={isFetchingNextPage}
-                            fetchNextPage={fetchNextPage}
-                        />
-                    )}
-
-                    {pagination && (
-                        <StickyPagination
-                            page={pagination.page}
-                            pages={pagination.pages}
-                            setPage={handlePageChange}
-                        />
-                    )}
+                    <FiltersButton
+                        className="lg:hidden"
+                        count={activeFiltersCount}
+                        renderModal={(props) => (
+                            <TodoFiltersModal
+                                {...props}
+                                contentType={contentType}
+                                value={filters}
+                                onChange={handleFiltersChange}
+                            />
+                        )}
+                    />
                 </div>
 
-                {sidebarVisible && (
-                    <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
-                        <TodoFilters
-                            contentType={contentType}
-                            value={filters}
-                            onChange={handleFiltersChange}
-                        />
+                {isLoading ? (
+                    <div className={LIST_CLASSNAME}>
+                        {range(1, 7).map((v) => (
+                            <TodoContentCardSkeleton key={v} />
+                        ))}
+                    </div>
+                ) : !list || list.length === 0 ? (
+                    <FiltersNotFound search={{ tab: contentType }} />
+                ) : (
+                    <div className={LIST_CLASSNAME}>
+                        {list.map((item) => (
+                            <TodoContentCard key={item.item.slug} {...item} />
+                        ))}
                     </div>
                 )}
+
+                {hasNextPage && (
+                    <LoadMoreButton
+                        isFetchingNextPage={isFetchingNextPage}
+                        fetchNextPage={fetchNextPage}
+                    />
+                )}
+
+                {pagination && (
+                    <StickyPagination
+                        page={pagination.page}
+                        pages={pagination.pages}
+                        setPage={handlePageChange}
+                    />
+                )}
             </div>
-        </Block>
+
+            <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
+                <TodoFilters
+                    contentType={contentType}
+                    value={filters}
+                    onChange={handleFiltersChange}
+                />
+            </div>
+        </div>
     );
 };
 
-export default ContentList;
+export default EditContentList;

@@ -18,7 +18,7 @@ const QuickEditButton: FC<Props> = ({ slug, content_type }) => {
     const { isModerator } = useSession();
     const [open, setOpen] = useState(false);
 
-    // if (!isModerator()) return null;
+    if (!isModerator()) return null;
 
     return (
         <Fragment>

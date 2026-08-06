@@ -1,12 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { usePageHeader } from '@/features/app-shell';
-import { EditContentList as ContentList } from '@/features/edit';
-import { editContentSearchSchema } from '@/utils/search-schemas';
+import { ContentTypeEnum } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { usePageHeader } from '@/features/app-shell';
+import { EditContentList, TodoContentTabs } from '@/features/edit';
+import { editContentSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/edit/content')({
     validateSearch: zodValidator(editContentSearchSchema),
@@ -17,6 +18,8 @@ export const Route = createFileRoute('/_pages/edit/content')({
 });
 
 function ContentPage() {
+    const { tab } = Route.useSearch();
+
     usePageHeader({ title: 'Незаповнений контент', parent: '/edit' });
 
     return (
@@ -26,7 +29,8 @@ function ContentPage() {
                     <HeaderTitle variant="h2">Незаповнений контент</HeaderTitle>
                 </HeaderContainer>
             </Header>
-            <ContentList />
+            <TodoContentTabs value={tab ?? ContentTypeEnum.ANIME} />
+            <EditContentList />
         </Block>
     );
 }
