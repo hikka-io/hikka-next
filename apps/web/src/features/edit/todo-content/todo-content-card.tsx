@@ -31,7 +31,7 @@ import {
     HorizontalCardDescription,
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
-import { useTitle } from '@/features/auth';
+import { useSession, useTitle } from '@/features/auth';
 import { cn } from '@/utils/cn';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
@@ -182,6 +182,7 @@ type Props = {
 export function TodoContentCard(props: Props) {
     const { item, issues } = props;
 
+    const { user } = useSession();
     const title = useTitle(item);
     const contentType = item.data_type as EditContentTypeEnum;
     const href = `/${contentType}/${item.slug}`;
@@ -275,17 +276,30 @@ export function TodoContentCard(props: Props) {
                 </div>
             </div>
             <div className="flex items-center gap-2">
-                <Button size="md" className="min-w-0 flex-1" asChild>
-                    <Link
-                        to="/edit/new"
-                        search={{
-                            slug: item.slug,
-                            content_type: contentType,
-                        }}
-                    >
-                        <MaterialSymbolsEditRounded />
-                        <span className="truncate">Створити правку</span>
-                    </Link>
+                {/* An anchor ignores `disabled`, so the logged-out button drops the link. */}
+                <Button
+                    size="md"
+                    className="min-w-0 flex-1"
+                    asChild={!!user}
+                    disabled={!user}
+                >
+                    {user ? (
+                        <Link
+                            to="/edit/new"
+                            search={{
+                                slug: item.slug,
+                                content_type: contentType,
+                            }}
+                        >
+                            <MaterialSymbolsEditRounded />
+                            <span className="truncate">Створити правку</span>
+                        </Link>
+                    ) : (
+                        <>
+                            <MaterialSymbolsEditRounded />
+                            <span className="truncate">Створити правку</span>
+                        </>
+                    )}
                 </Button>
                 <QuickEditButton slug={item.slug} content_type={contentType} />
             </div>
