@@ -60,14 +60,16 @@ const FiltersButton: FC<Props> = ({
     );
 };
 
-export const HeaderFiltersButton: FC<{ renderModal: RenderFiltersModal }> = ({
-    renderModal,
-}) => (
+export const HeaderFiltersButton: FC<{
+    renderModal: RenderFiltersModal;
+    count?: number;
+}> = ({ renderModal, count }) => (
     <FiltersButton
         variant="ghost"
         className="text-muted-foreground [&_svg]:size-5"
         badgeClassName="top-0 right-0"
         renderModal={renderModal}
+        count={count}
     />
 );
 

@@ -1,12 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { ContentTypeEnum } from '@hikka/api';
-
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { usePageHeader } from '@/features/app-shell';
+import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { EditContentList, TodoContentTabs } from '@/features/edit';
+import { useTodoFilters } from '@/features/edit/hooks/use-todo-filters';
+import { TodoFiltersModal } from '@/features/edit/todo-content';
+import { HeaderFiltersButton } from '@/features/filters';
 import { editContentSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/edit/content')({
@@ -18,18 +19,39 @@ export const Route = createFileRoute('/_pages/edit/content')({
 });
 
 function ContentPage() {
-    const { tab } = Route.useSearch();
+    const titleAnchor = usePageTitleAnchor();
+    const { contentType, filters, activeCount, setFilters } = useTodoFilters();
 
-    usePageHeader({ title: 'Незаповнений контент', parent: '/edit' });
+    usePageHeader({
+        title: 'Незаповнений контент',
+        parent: '/edit',
+        anchored: true,
+        actionsAnchored: true,
+        actionsComponent: () => (
+            <HeaderFiltersButton
+                count={activeCount}
+                renderModal={(props) => (
+                    <TodoFiltersModal
+                        {...props}
+                        contentType={contentType}
+                        value={filters}
+                        onChange={setFilters}
+                    />
+                )}
+            />
+        ),
+    });
 
     return (
         <Block>
             <Header>
                 <HeaderContainer>
-                    <HeaderTitle variant="h2">Незаповнений контент</HeaderTitle>
+                    <HeaderTitle ref={titleAnchor} variant="h2">
+                        Незаповнений контент
+                    </HeaderTitle>
                 </HeaderContainer>
             </Header>
-            <TodoContentTabs value={tab ?? ContentTypeEnum.ANIME} />
+            <TodoContentTabs value={contentType} />
             <EditContentList />
         </Block>
     );
