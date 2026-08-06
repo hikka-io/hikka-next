@@ -120,9 +120,9 @@ export const TodoFiltersBody: FC<BodyProps> = ({
         const updates: TodoFiltersValue = {};
         Object.keys(properties).forEach((key) => {
             // Unselected flags drop out of the URL instead of writing `=false`.
-            updates[key as keyof TodoFiltersValue] = (selected.includes(key)
-                ? true
-                : undefined) as never;
+            updates[key as keyof TodoFiltersValue] = (
+                selected.includes(key) ? true : undefined
+            ) as never;
         });
         onChange({ ...value, ...updates });
     };

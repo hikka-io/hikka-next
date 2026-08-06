@@ -18,8 +18,6 @@ type Props = {
     variant?: ButtonProps['variant'];
     className?: string;
     badgeClassName?: string;
-    /** Badge count for panels whose params the shared filter registry doesn't know. */
-    count?: number;
 };
 
 const FiltersButton: FC<Props> = ({
@@ -27,11 +25,9 @@ const FiltersButton: FC<Props> = ({
     variant = 'outline',
     className,
     badgeClassName,
-    count: countOverride,
 }) => {
     const [open, setOpen] = useState(false);
-    const { count: activeCount } = useActiveFilters();
-    const count = countOverride ?? activeCount;
+    const { count } = useActiveFilters();
 
     return (
         <>
@@ -60,16 +56,14 @@ const FiltersButton: FC<Props> = ({
     );
 };
 
-export const HeaderFiltersButton: FC<{
-    renderModal: RenderFiltersModal;
-    count?: number;
-}> = ({ renderModal, count }) => (
+export const HeaderFiltersButton: FC<{ renderModal: RenderFiltersModal }> = ({
+    renderModal,
+}) => (
     <FiltersButton
         variant="ghost"
         className="text-muted-foreground [&_svg]:size-5"
         badgeClassName="top-0 right-0"
         renderModal={renderModal}
-        count={count}
     />
 );
 

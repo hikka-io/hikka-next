@@ -9,14 +9,15 @@ import type { TodoFiltersValue } from '../todo-content/todo-filters';
 import type { TodoContentType } from './use-todo-content-list';
 
 /**
- * Shared by the list and the page header, which mount their own filter buttons
- * and must agree on the active tab, the current values and the active count.
+ * Shared by the route, the summary and the list, which each query the same
+ * endpoint and must agree on the active tab, page and filter values.
  */
 export function useTodoFilters() {
     const navigate = useNavigate();
     const search = useFilterSearch<EditContentSearch>();
 
     const contentType: TodoContentType = search.tab ?? ContentTypeEnum.ANIME;
+    const page = search.page || 1;
 
     const filters: TodoFiltersValue = {
         title_ua: search.title_ua,
@@ -34,10 +35,6 @@ export function useTodoFilters() {
         content_slug: search.content_slug,
     };
 
-    const activeCount = Object.values(filters).filter(
-        (value) => value !== undefined,
-    ).length;
-
     const setFilters = (value: TodoFiltersValue) => {
         navigate({
             to: '.',
@@ -45,5 +42,5 @@ export function useTodoFilters() {
         });
     };
 
-    return { contentType, filters, activeCount, setFilters };
+    return { contentType, page, filters, setFilters };
 }
