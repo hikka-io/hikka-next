@@ -1662,6 +1662,116 @@ export const zArticlesListResponse = z.object({
 });
 
 /**
+ * TodoCharacterIssuesInfo
+ */
+export const zTodoCharacterIssuesInfo = z.object({
+    name_ua_absent: z.boolean(),
+    name_en_absent: z.boolean(),
+    name_original_absent: z.boolean(),
+    description_ua_absent: z.boolean(),
+});
+
+/**
+ * TodoCharacterResponse
+ */
+export const zTodoCharacterResponse = z.object({
+    item: zCharacterResponse,
+    issues: zTodoCharacterIssuesInfo,
+});
+
+/**
+ * TodoCharacterListResponse
+ */
+export const zTodoCharacterListResponse = z.object({
+    list: z.array(zTodoCharacterResponse),
+    pagination: zPaginationResponse,
+});
+
+/**
+ * TodoContentIssuesInfo
+ */
+export const zTodoContentIssuesInfo = z.object({
+    title_ua_absent: z.boolean(),
+    title_en_absent: z.boolean(),
+    title_original_absent: z.boolean(),
+    synopsis_ua_absent: z.boolean(),
+    synopsis_en_absent: z.boolean(),
+});
+
+/**
+ * TodoAnimeResponse
+ */
+export const zTodoAnimeResponse = z.object({
+    item: zAnimeResponse,
+    issues: zTodoContentIssuesInfo,
+});
+
+/**
+ * TodoAnimeListResponse
+ */
+export const zTodoAnimeListResponse = z.object({
+    list: z.array(zTodoAnimeResponse),
+    pagination: zPaginationResponse,
+});
+
+/**
+ * TodoMangaResponse
+ */
+export const zTodoMangaResponse = z.object({
+    item: zMangaResponse,
+    issues: zTodoContentIssuesInfo,
+});
+
+/**
+ * TodoMangaListResponse
+ */
+export const zTodoMangaListResponse = z.object({
+    list: z.array(zTodoMangaResponse),
+    pagination: zPaginationResponse,
+});
+
+/**
+ * TodoNovelResponse
+ */
+export const zTodoNovelResponse = z.object({
+    item: zNovelResponse,
+    issues: zTodoContentIssuesInfo,
+});
+
+/**
+ * TodoNovelListResponse
+ */
+export const zTodoNovelListResponse = z.object({
+    list: z.array(zTodoNovelResponse),
+    pagination: zPaginationResponse,
+});
+
+/**
+ * TodoPersonIssuesInfo
+ */
+export const zTodoPersonIssuesInfo = z.object({
+    name_ua_absent: z.boolean(),
+    name_en_absent: z.boolean(),
+    name_original_absent: z.boolean(),
+});
+
+/**
+ * TodoPersonResponse
+ */
+export const zTodoPersonResponse = z.object({
+    item: zPersonResponse,
+    issues: zTodoPersonIssuesInfo,
+});
+
+/**
+ * TodoPersonListResponse
+ */
+export const zTodoPersonListResponse = z.object({
+    list: z.array(zTodoPersonResponse),
+    pagination: zPaginationResponse,
+});
+
+/**
  * TokenArgs
  */
 export const zTokenArgs = z.object({
@@ -4947,6 +5057,88 @@ export const zGetContentEditTodoResponse = z.union([
     zMangaPaginationResponse,
     zNovelPaginationResponse,
 ]);
+
+export const zGetTodoAnimeListQuery = z.object({
+    page: z.number().int().gt(0).lte(10000).optional().default(1),
+    title_ua: z.boolean().nullish(),
+    title_en: z.boolean().nullish(),
+    title_original: z.boolean().nullish(),
+    synopsis_ua: z.boolean().nullish(),
+    synopsis_en: z.boolean().nullish(),
+    media_type: zAnimeMediaEnum.nullish(),
+    mal_id: z.number().int().nullish(),
+    size: z.number().int().gte(1).lte(100).optional().default(15),
+});
+
+/**
+ * Successful Response
+ */
+export const zGetTodoAnimeListResponse = zTodoAnimeListResponse;
+
+export const zGetTodoMangaListQuery = z.object({
+    page: z.number().int().gt(0).lte(10000).optional().default(1),
+    title_ua: z.boolean().nullish(),
+    title_en: z.boolean().nullish(),
+    title_original: z.boolean().nullish(),
+    synopsis_ua: z.boolean().nullish(),
+    synopsis_en: z.boolean().nullish(),
+    media_type: zMangaMediaEnum.nullish(),
+    mal_id: z.number().int().nullish(),
+    size: z.number().int().gte(1).lte(100).optional().default(15),
+});
+
+/**
+ * Successful Response
+ */
+export const zGetTodoMangaListResponse = zTodoMangaListResponse;
+
+export const zGetTodoNovelListQuery = z.object({
+    page: z.number().int().gt(0).lte(10000).optional().default(1),
+    title_ua: z.boolean().nullish(),
+    title_en: z.boolean().nullish(),
+    title_original: z.boolean().nullish(),
+    synopsis_ua: z.boolean().nullish(),
+    synopsis_en: z.boolean().nullish(),
+    media_type: zNovelMediaEnum.nullish(),
+    mal_id: z.number().int().nullish(),
+    size: z.number().int().gte(1).lte(100).optional().default(15),
+});
+
+/**
+ * Successful Response
+ */
+export const zGetTodoNovelListResponse = zTodoNovelListResponse;
+
+export const zGetTodoCharacterListQuery = z.object({
+    page: z.number().int().gt(0).lte(10000).optional().default(1),
+    name_ua: z.boolean().nullish(),
+    name_en: z.boolean().nullish(),
+    name_original: z.boolean().nullish(),
+    description_ua: z.boolean().nullish(),
+    content_type: zEditContentToDoEnum.nullish(),
+    content_slug: z.string().nullish(),
+    size: z.number().int().gte(1).lte(100).optional().default(15),
+});
+
+/**
+ * Successful Response
+ */
+export const zGetTodoCharacterListResponse = zTodoCharacterListResponse;
+
+export const zGetTodoPersonListQuery = z.object({
+    page: z.number().int().gt(0).lte(10000).optional().default(1),
+    name_ua: z.boolean().nullish(),
+    name_en: z.boolean().nullish(),
+    name_original: z.boolean().nullish(),
+    content_type: zEditContentToDoEnum.nullish(),
+    content_slug: z.string().nullish(),
+    size: z.number().int().gte(1).lte(100).optional().default(15),
+});
+
+/**
+ * Successful Response
+ */
+export const zGetTodoPersonListResponse = zTodoPersonListResponse;
 
 export const zGetVoteHeaders = z.object({
     auth: z.string().nullish(),
