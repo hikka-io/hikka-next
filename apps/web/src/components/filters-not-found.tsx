@@ -5,7 +5,12 @@ import { Link, usePathname } from '@/utils/navigation';
 
 import AntDesignClearOutlined from './icons/ant-design/AntDesignClearOutlined';
 
-const FiltersNotFound = () => {
+type Props = {
+    /** Search params kept when clearing — for lists whose tab lives in the URL. */
+    search?: Record<string, unknown>;
+};
+
+const FiltersNotFound = ({ search }: Props) => {
     const pathname = usePathname();
 
     return (
@@ -21,7 +26,7 @@ const FiltersNotFound = () => {
                     className="w-full lg:w-auto"
                     asChild
                 >
-                    <Link to={pathname}>
+                    <Link to={pathname} search={search}>
                         <AntDesignClearOutlined />
                         Очистити
                     </Link>

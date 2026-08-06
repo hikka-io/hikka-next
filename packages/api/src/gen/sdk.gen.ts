@@ -230,6 +230,21 @@ import type {
     GetReadFollowingData,
     GetReadFollowingErrors,
     GetReadFollowingResponses,
+    GetTodoAnimeListData,
+    GetTodoAnimeListErrors,
+    GetTodoAnimeListResponses,
+    GetTodoCharacterListData,
+    GetTodoCharacterListErrors,
+    GetTodoCharacterListResponses,
+    GetTodoMangaListData,
+    GetTodoMangaListErrors,
+    GetTodoMangaListResponses,
+    GetTodoNovelListData,
+    GetTodoNovelListErrors,
+    GetTodoNovelListResponses,
+    GetTodoPersonListData,
+    GetTodoPersonListErrors,
+    GetTodoPersonListResponses,
     GetUserClientData,
     GetUserClientErrors,
     GetUserClientResponses,
@@ -516,6 +531,11 @@ import {
     zGetFeedResponse,
     zGetIgnoredNotificationsResponse,
     zGetReadFollowingResponse,
+    zGetTodoAnimeListResponse,
+    zGetTodoCharacterListResponse,
+    zGetTodoMangaListResponse,
+    zGetTodoNovelListResponse,
+    zGetTodoPersonListResponse,
     zGetUserClientResponse,
     zGetUserDigestPrivacyResponse,
     zGetVoteResponse,
@@ -3322,6 +3342,8 @@ export const denyEdit = <ThrowOnError extends boolean = false>(
 
 /**
  * Get Content Edit Todo
+ *
+ * @deprecated
  */
 export const getContentEditTodo = <ThrowOnError extends boolean = false>(
     options: Options<GetContentEditTodoData, ThrowOnError>,
@@ -3338,6 +3360,111 @@ export const getContentEditTodo = <ThrowOnError extends boolean = false>(
         responseValidator: async (data) =>
             await zGetContentEditTodoResponse.parseAsync(data),
         url: '/edit/todo/{content_type}/{todo_type}',
+        ...options,
+    });
+
+/**
+ * Return list of anime with issues
+ */
+export const getTodoAnimeList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetTodoAnimeListData, ThrowOnError>,
+): RequestResult<
+    GetTodoAnimeListResponses,
+    GetTodoAnimeListErrors,
+    ThrowOnError
+> =>
+    (options?.client ?? client).get<
+        GetTodoAnimeListResponses,
+        GetTodoAnimeListErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zGetTodoAnimeListResponse.parseAsync(data),
+        url: '/edit/todo/anime',
+        ...options,
+    });
+
+/**
+ * Return list of manga with issues
+ */
+export const getTodoMangaList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetTodoMangaListData, ThrowOnError>,
+): RequestResult<
+    GetTodoMangaListResponses,
+    GetTodoMangaListErrors,
+    ThrowOnError
+> =>
+    (options?.client ?? client).get<
+        GetTodoMangaListResponses,
+        GetTodoMangaListErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zGetTodoMangaListResponse.parseAsync(data),
+        url: '/edit/todo/manga',
+        ...options,
+    });
+
+/**
+ * Return list of novel with issues
+ */
+export const getTodoNovelList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetTodoNovelListData, ThrowOnError>,
+): RequestResult<
+    GetTodoNovelListResponses,
+    GetTodoNovelListErrors,
+    ThrowOnError
+> =>
+    (options?.client ?? client).get<
+        GetTodoNovelListResponses,
+        GetTodoNovelListErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zGetTodoNovelListResponse.parseAsync(data),
+        url: '/edit/todo/novel',
+        ...options,
+    });
+
+/**
+ * Return list of characters with issues
+ */
+export const getTodoCharacterList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetTodoCharacterListData, ThrowOnError>,
+): RequestResult<
+    GetTodoCharacterListResponses,
+    GetTodoCharacterListErrors,
+    ThrowOnError
+> =>
+    (options?.client ?? client).get<
+        GetTodoCharacterListResponses,
+        GetTodoCharacterListErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zGetTodoCharacterListResponse.parseAsync(data),
+        url: '/edit/todo/characters',
+        ...options,
+    });
+
+/**
+ * Return list of people with issues
+ */
+export const getTodoPersonList = <ThrowOnError extends boolean = false>(
+    options?: Options<GetTodoPersonListData, ThrowOnError>,
+): RequestResult<
+    GetTodoPersonListResponses,
+    GetTodoPersonListErrors,
+    ThrowOnError
+> =>
+    (options?.client ?? client).get<
+        GetTodoPersonListResponses,
+        GetTodoPersonListErrors,
+        ThrowOnError
+    >({
+        responseValidator: async (data) =>
+            await zGetTodoPersonListResponse.parseAsync(data),
+        url: '/edit/todo/people',
         ...options,
     });
 

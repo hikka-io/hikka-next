@@ -84,6 +84,11 @@ import {
     getFeed,
     getIgnoredNotifications,
     getReadFollowing,
+    getTodoAnimeList,
+    getTodoCharacterList,
+    getTodoMangaList,
+    getTodoNovelList,
+    getTodoPersonList,
     getUserClient,
     getUserDigestPrivacy,
     getVote,
@@ -377,6 +382,21 @@ import type {
     GetReadFollowingData,
     GetReadFollowingError,
     GetReadFollowingResponse,
+    GetTodoAnimeListData,
+    GetTodoAnimeListError,
+    GetTodoAnimeListResponse,
+    GetTodoCharacterListData,
+    GetTodoCharacterListError,
+    GetTodoCharacterListResponse,
+    GetTodoMangaListData,
+    GetTodoMangaListError,
+    GetTodoMangaListResponse,
+    GetTodoNovelListData,
+    GetTodoNovelListError,
+    GetTodoNovelListResponse,
+    GetTodoPersonListData,
+    GetTodoPersonListError,
+    GetTodoPersonListResponse,
     GetUserClientData,
     GetUserClientError,
     GetUserClientResponse,
@@ -7081,6 +7101,8 @@ export const getContentEditTodoQueryKey = (
 
 /**
  * Get Content Edit Todo
+ *
+ * @deprecated
  */
 export const getContentEditTodoOptions = (
     options: Options<GetContentEditTodoData>,
@@ -7110,6 +7132,8 @@ export const getContentEditTodoInfiniteQueryKey = (
 
 /**
  * Get Content Edit Todo
+ *
+ * @deprecated
  */
 export const getContentEditTodoInfiniteOptions = (
     options: Options<GetContentEditTodoData>,
@@ -7150,6 +7174,406 @@ export const getContentEditTodoInfiniteOptions = (
                 return data;
             },
             queryKey: getContentEditTodoInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const getTodoAnimeListQueryKey = (
+    options?: Options<GetTodoAnimeListData>,
+) => createQueryKey('getTodoAnimeList', options);
+
+/**
+ * Return list of anime with issues
+ */
+export const getTodoAnimeListOptions = (
+    options?: Options<GetTodoAnimeListData>,
+) =>
+    queryOptions<
+        GetTodoAnimeListResponse,
+        GetTodoAnimeListError,
+        GetTodoAnimeListResponse,
+        ReturnType<typeof getTodoAnimeListQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getTodoAnimeList({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getTodoAnimeListQueryKey(options),
+    });
+
+export const getTodoAnimeListInfiniteQueryKey = (
+    options?: Options<GetTodoAnimeListData>,
+): QueryKey<Options<GetTodoAnimeListData>> =>
+    createQueryKey('getTodoAnimeList', options, true);
+
+/**
+ * Return list of anime with issues
+ */
+export const getTodoAnimeListInfiniteOptions = (
+    options?: Options<GetTodoAnimeListData>,
+) => {
+    const opts = infiniteQueryOptions<
+        GetTodoAnimeListResponse,
+        GetTodoAnimeListError,
+        InfiniteData<GetTodoAnimeListResponse>,
+        QueryKey<Options<GetTodoAnimeListData>>,
+        | number
+        | Pick<
+              QueryKey<Options<GetTodoAnimeListData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetTodoAnimeListData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getTodoAnimeList({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getTodoAnimeListInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const getTodoMangaListQueryKey = (
+    options?: Options<GetTodoMangaListData>,
+) => createQueryKey('getTodoMangaList', options);
+
+/**
+ * Return list of manga with issues
+ */
+export const getTodoMangaListOptions = (
+    options?: Options<GetTodoMangaListData>,
+) =>
+    queryOptions<
+        GetTodoMangaListResponse,
+        GetTodoMangaListError,
+        GetTodoMangaListResponse,
+        ReturnType<typeof getTodoMangaListQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getTodoMangaList({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getTodoMangaListQueryKey(options),
+    });
+
+export const getTodoMangaListInfiniteQueryKey = (
+    options?: Options<GetTodoMangaListData>,
+): QueryKey<Options<GetTodoMangaListData>> =>
+    createQueryKey('getTodoMangaList', options, true);
+
+/**
+ * Return list of manga with issues
+ */
+export const getTodoMangaListInfiniteOptions = (
+    options?: Options<GetTodoMangaListData>,
+) => {
+    const opts = infiniteQueryOptions<
+        GetTodoMangaListResponse,
+        GetTodoMangaListError,
+        InfiniteData<GetTodoMangaListResponse>,
+        QueryKey<Options<GetTodoMangaListData>>,
+        | number
+        | Pick<
+              QueryKey<Options<GetTodoMangaListData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetTodoMangaListData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getTodoMangaList({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getTodoMangaListInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const getTodoNovelListQueryKey = (
+    options?: Options<GetTodoNovelListData>,
+) => createQueryKey('getTodoNovelList', options);
+
+/**
+ * Return list of novel with issues
+ */
+export const getTodoNovelListOptions = (
+    options?: Options<GetTodoNovelListData>,
+) =>
+    queryOptions<
+        GetTodoNovelListResponse,
+        GetTodoNovelListError,
+        GetTodoNovelListResponse,
+        ReturnType<typeof getTodoNovelListQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getTodoNovelList({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getTodoNovelListQueryKey(options),
+    });
+
+export const getTodoNovelListInfiniteQueryKey = (
+    options?: Options<GetTodoNovelListData>,
+): QueryKey<Options<GetTodoNovelListData>> =>
+    createQueryKey('getTodoNovelList', options, true);
+
+/**
+ * Return list of novel with issues
+ */
+export const getTodoNovelListInfiniteOptions = (
+    options?: Options<GetTodoNovelListData>,
+) => {
+    const opts = infiniteQueryOptions<
+        GetTodoNovelListResponse,
+        GetTodoNovelListError,
+        InfiniteData<GetTodoNovelListResponse>,
+        QueryKey<Options<GetTodoNovelListData>>,
+        | number
+        | Pick<
+              QueryKey<Options<GetTodoNovelListData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetTodoNovelListData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getTodoNovelList({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getTodoNovelListInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const getTodoCharacterListQueryKey = (
+    options?: Options<GetTodoCharacterListData>,
+) => createQueryKey('getTodoCharacterList', options);
+
+/**
+ * Return list of characters with issues
+ */
+export const getTodoCharacterListOptions = (
+    options?: Options<GetTodoCharacterListData>,
+) =>
+    queryOptions<
+        GetTodoCharacterListResponse,
+        GetTodoCharacterListError,
+        GetTodoCharacterListResponse,
+        ReturnType<typeof getTodoCharacterListQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getTodoCharacterList({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getTodoCharacterListQueryKey(options),
+    });
+
+export const getTodoCharacterListInfiniteQueryKey = (
+    options?: Options<GetTodoCharacterListData>,
+): QueryKey<Options<GetTodoCharacterListData>> =>
+    createQueryKey('getTodoCharacterList', options, true);
+
+/**
+ * Return list of characters with issues
+ */
+export const getTodoCharacterListInfiniteOptions = (
+    options?: Options<GetTodoCharacterListData>,
+) => {
+    const opts = infiniteQueryOptions<
+        GetTodoCharacterListResponse,
+        GetTodoCharacterListError,
+        InfiniteData<GetTodoCharacterListResponse>,
+        QueryKey<Options<GetTodoCharacterListData>>,
+        | number
+        | Pick<
+              QueryKey<Options<GetTodoCharacterListData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetTodoCharacterListData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getTodoCharacterList({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getTodoCharacterListInfiniteQueryKey(options),
+        },
+    );
+    return opts as Omit<typeof opts, 'initialData'>;
+};
+
+export const getTodoPersonListQueryKey = (
+    options?: Options<GetTodoPersonListData>,
+) => createQueryKey('getTodoPersonList', options);
+
+/**
+ * Return list of people with issues
+ */
+export const getTodoPersonListOptions = (
+    options?: Options<GetTodoPersonListData>,
+) =>
+    queryOptions<
+        GetTodoPersonListResponse,
+        GetTodoPersonListError,
+        GetTodoPersonListResponse,
+        ReturnType<typeof getTodoPersonListQueryKey>
+    >({
+        queryFn: async ({ queryKey, signal }) => {
+            const { data } = await getTodoPersonList({
+                ...options,
+                ...queryKey[0],
+                signal,
+                throwOnError: true,
+            });
+            return data;
+        },
+        queryKey: getTodoPersonListQueryKey(options),
+    });
+
+export const getTodoPersonListInfiniteQueryKey = (
+    options?: Options<GetTodoPersonListData>,
+): QueryKey<Options<GetTodoPersonListData>> =>
+    createQueryKey('getTodoPersonList', options, true);
+
+/**
+ * Return list of people with issues
+ */
+export const getTodoPersonListInfiniteOptions = (
+    options?: Options<GetTodoPersonListData>,
+) => {
+    const opts = infiniteQueryOptions<
+        GetTodoPersonListResponse,
+        GetTodoPersonListError,
+        InfiniteData<GetTodoPersonListResponse>,
+        QueryKey<Options<GetTodoPersonListData>>,
+        | number
+        | Pick<
+              QueryKey<Options<GetTodoPersonListData>>[0],
+              'body' | 'headers' | 'path' | 'query'
+          >
+    >(
+        // @ts-ignore
+        {
+            queryFn: async ({ pageParam, queryKey, signal }) => {
+                // @ts-ignore
+                const page: Pick<
+                    QueryKey<Options<GetTodoPersonListData>>[0],
+                    'body' | 'headers' | 'path' | 'query'
+                > =
+                    typeof pageParam === 'object'
+                        ? pageParam
+                        : {
+                              query: {
+                                  page: pageParam,
+                              },
+                          };
+                const params = createInfiniteParams(queryKey, page);
+                const { data } = await getTodoPersonList({
+                    ...options,
+                    ...params,
+                    signal,
+                    throwOnError: true,
+                });
+                return data;
+            },
+            queryKey: getTodoPersonListInfiniteQueryKey(options),
         },
     );
     return opts as Omit<typeof opts, 'initialData'>;

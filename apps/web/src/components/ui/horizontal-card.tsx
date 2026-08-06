@@ -31,10 +31,13 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
     titleMeta,
 }) => {
     return (
-        <div className="flex min-w-0 items-center gap-2">
+        <div className="flex min-w-0 items-center justify-between gap-2">
             <Label
                 asChild
-                className={cn('line-clamp-1 inline-block truncate', className)}
+                className={cn(
+                    'line-clamp-1 inline-block min-w-0 flex-1 truncate',
+                    className,
+                )}
             >
                 <Link
                     title={children as string}
