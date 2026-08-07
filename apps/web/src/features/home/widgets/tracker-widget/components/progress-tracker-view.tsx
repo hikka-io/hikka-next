@@ -172,7 +172,15 @@ const ProgressTrackerView = ({
                             </Button>
                             <div className="flex flex-1">
                                 <Button
-                                    className="flex-1 rounded-r-none"
+                                    className="rounded-r-none"
+                                    onClick={selected.onRemove}
+                                    variant="secondary"
+                                    size="icon-md"
+                                >
+                                    <MaterialSymbolsRemoveRounded />
+                                </Button>
+                                <Button
+                                    className="flex-1 rounded-l-none"
                                     onClick={selected.onAdd}
                                     variant="secondary"
                                     size="md"
@@ -186,14 +194,6 @@ const ProgressTrackerView = ({
                                             {selected.addUnitLabel}
                                         </span>
                                     </div>
-                                </Button>
-                                <Button
-                                    className="rounded-l-none"
-                                    onClick={selected.onRemove}
-                                    variant="secondary"
-                                    size="icon-md"
-                                >
-                                    <MaterialSymbolsRemoveRounded />
                                 </Button>
                             </div>
                         </div>
