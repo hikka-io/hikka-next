@@ -50,7 +50,7 @@ const NsfwOverlay: FC = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden backdrop-blur-xl">
             <div
                 aria-hidden
-                className="pointer-events-none absolute inset-0 bg-background/80"
+                className="pointer-events-none absolute inset-0 bg-background opacity-80"
             />
             <div
                 aria-hidden

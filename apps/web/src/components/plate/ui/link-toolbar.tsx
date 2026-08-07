@@ -28,7 +28,7 @@ import { Separator } from '@/components/ui/separator';
 import { getLinkDialog } from './link-dialog';
 
 const popoverVariants = cva(
-    'bg-popover text-popover-foreground ring-foreground/10 z-50 w-auto rounded-lg p-1 shadow-md ring-1 outline-hidden',
+    'bg-popover text-popover-foreground ring-border z-50 w-auto rounded-lg p-1 shadow-md ring-1 outline-hidden',
 );
 
 export function LinkFloatingToolbar() {

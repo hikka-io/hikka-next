@@ -334,6 +334,30 @@
     }
 }
 
+/* In `@theme`, not `:root` — Tailwind only inlines a literal fallback for
+   `bg-…/15` from theme variables, else it degrades to full opacity. That
+   literal is the light value, so only near-theme-neutral tokens belong here;
+   `static` keeps tokens read from TSX out of tree-shaking. */
+@theme static {
+    --primary-foreground: oklch(0.5 0.17 343);
+    --muted-foreground: oklch(0.556 0.016 286);
+    --ring: oklch(0.708 0.01 286);
+
+    --success-foreground: oklch(0.63 0.16 150);
+    --warning-foreground: oklch(0.66 0.16 55);
+    --destructive-foreground: oklch(0.585 0.21 27);
+
+    /* Role/feed accents are theme-independent — no .dark override. */
+    --role-admin: #d0bfff;
+    --role-moderator: #ffc9c9;
+
+    --feed-history: #e891c0;
+    --feed-article: #78c98d;
+    --feed-collection: #6fa8dc;
+    --feed-comment: #e8a87c;
+    --feed-review: #b892e8;
+}
+
 :root {
     scroll-padding-top: calc(3.5rem + env(safe-area-inset-top, 0px) + 0.5rem);
     scroll-padding-bottom: calc(var(--tab-bar-height) + 0.5rem);
@@ -352,21 +376,18 @@
 
     --brand: oklch(0.7 0.18 343);
     --primary: oklch(0.949 0.035 339);
-    --primary-foreground: oklch(0.5 0.17 343);
     --primary-border: oklch(0.901 0.064 339);
 
     --secondary: oklch(0.97 0.004 286);
     --secondary-foreground: oklch(0.205 0.006 286);
 
     --muted: oklch(0.97 0.003 286);
-    --muted-foreground: oklch(0.556 0.016 286);
 
     --accent: oklch(0.97 0.004 286);
     --accent-foreground: oklch(0.205 0.006 286);
 
     --border: oklch(0.905 0.005 286);
     --input: oklch(0.9 0.005 286);
-    --ring: oklch(0.708 0.01 286);
     --radius: 0.625rem;
 
     /* Soft elevation shadow for cards/panels */
@@ -374,12 +395,13 @@
         0 1px 3px oklch(0.3 0.03 286 / 0.08),
         0 1px 2px oklch(0.3 0.03 286 / 0.05);
 
-    /* Translucent surface fills, derived from the overridable --card/--muted
-       tokens */
-    --surface: oklch(from var(--card) l c h / 0.88);
-    --surface-inset: color-mix(in oklab, var(--muted) 60%, transparent);
+    /* Surface fills derived from the overridable --card/--muted tokens. Opaque
+       fallbacks here; translucent forms are gated below, since an unsupported
+       value in a custom property computes to `unset` rather than falling back. */
+    --surface: var(--card);
+    --surface-inset: var(--muted);
     --surface-inset-border: var(--border);
-    --surface-glass: oklch(from var(--card) l c h / 0.8);
+    --surface-glass: var(--card);
     --surface-glass-border: var(--border);
 
     /* Backdrop derivation constants */
@@ -389,7 +411,6 @@
     /* General colors */
 
     --success: oklch(0.945 0.065 159);
-    --success-foreground: oklch(0.63 0.16 150);
     --success-border: oklch(0.895 0.12 159);
 
     --info: oklch(0.94 0.05 244);
@@ -397,11 +418,9 @@
     --info-border: oklch(0.885 0.09 258);
 
     --warning: oklch(0.955 0.06 96);
-    --warning-foreground: oklch(0.66 0.16 55);
     --warning-border: oklch(0.9 0.12 97);
 
     --destructive: oklch(0.93 0.055 16);
-    --destructive-foreground: oklch(0.585 0.21 27);
     --destructive-border: oklch(0.885 0.09 17);
 
     /* Status colors */
@@ -451,17 +470,6 @@
     --watching-background: var(--ongoing-background);
     --watching-border: var(--ongoing-border);
     --watching-foreground: var(--ongoing-foreground);
-
-    /* Role/feed accents are theme-independent — defined once here and inherited
-       by .dark (no per-theme override). */
-    --role-admin: #d0bfff;
-    --role-moderator: #ffc9c9;
-
-    --feed-history: #e891c0;
-    --feed-article: #78c98d;
-    --feed-collection: #6fa8dc;
-    --feed-comment: #e8a87c;
-    --feed-review: #b892e8;
 }
 
 .dark {
@@ -500,12 +508,11 @@
     /* Dark elevates surfaces via lightness, not shadow. */
     --shadow-card: 0 0 #0000;
 
-    --surface: oklch(from var(--card) calc(l * 1.1) c h / 0.45);
-    --surface-inset: color-mix(in oklab, var(--muted) 45%, transparent);
+    --surface: var(--card);
+    --surface-inset: var(--muted);
     --surface-inset-border: var(--muted);
-    /* Dark lifts surfaces by lightness, so an edge sits above its own fill. */
-    --surface-glass: oklch(from var(--card) calc(l * 1.6) c h / 0.8);
-    --surface-glass-border: oklch(from var(--card) calc(l * 2) c h);
+    --surface-glass: var(--card);
+    --surface-glass-border: var(--border);
 
     /* General colors */
 
@@ -545,6 +552,28 @@
         --primary: oklch(from var(--brand) 0.156 calc(c * 0.04) h);
         --primary-foreground: oklch(from var(--brand) 0.722 c h);
         --primary-border: oklch(from var(--brand) 0.277 calc(c * 0.38) h);
+    }
+
+    :root {
+        --surface: oklch(from var(--card) l c h / 0.88);
+        --surface-glass: oklch(from var(--card) l c h / 0.8);
+    }
+
+    /* Dark lifts surfaces by lightness, so an edge sits above its own fill. */
+    .dark {
+        --surface: oklch(from var(--card) calc(l * 1.1) c h / 0.45);
+        --surface-glass: oklch(from var(--card) calc(l * 1.6) c h / 0.8);
+        --surface-glass-border: oklch(from var(--card) calc(l * 2) c h);
+    }
+}
+
+@supports (color: color-mix(in lab, red, red)) {
+    :root {
+        --surface-inset: color-mix(in oklab, var(--muted) 60%, transparent);
+    }
+
+    .dark {
+        --surface-inset: color-mix(in oklab, var(--muted) 45%, transparent);
     }
 }
 

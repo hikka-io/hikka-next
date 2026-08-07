@@ -19,7 +19,7 @@ const ErrorPage: React.FC<ErrorComponentProps> = (props) => {
                 aria-hidden
                 className="pointer-events-none absolute inset-0 -z-10 flex select-none items-center justify-center"
             >
-                <span className="font-black text-[18rem] text-foreground/5 leading-none md:text-[24rem]">
+                <span className="font-black text-[18rem] text-foreground leading-none opacity-5 md:text-[24rem]">
                     500
                 </span>
             </div>
