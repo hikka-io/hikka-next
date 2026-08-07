@@ -25,7 +25,6 @@ import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 

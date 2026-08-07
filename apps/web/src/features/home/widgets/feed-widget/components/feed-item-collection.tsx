@@ -9,7 +9,6 @@ import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Image from '@/components/ui/image';
 import Stack, { type StackSize } from '@/components/ui/stack';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 
 type Props = {
     data: CollectionResponse;

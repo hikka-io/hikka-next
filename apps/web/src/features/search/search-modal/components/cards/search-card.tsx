@@ -1,4 +1,4 @@
-import type { ComponentProps, MouseEventHandler } from 'react';
+import type { MouseEventHandler } from 'react';
 
 import type {
     AnimeResponse,
