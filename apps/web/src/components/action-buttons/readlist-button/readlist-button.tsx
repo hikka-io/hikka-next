@@ -31,6 +31,7 @@ import {
 } from '@/components/ui/select';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { applyReadMutation } from '@/utils/api/invalidate-content-state';
+import { carryOverReadArgs } from '@/utils/api/tracking-args';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/constants/common';
 
@@ -44,11 +45,6 @@ type Props = {
     disabled?: boolean;
     content_type: ReadContentTypeEnum;
     read?: ReadResponseBase | null;
-    /**
-     * Required, though it may still be loading: the button needs the title and
-     * the chapter/volume counts, and silently fetching them again duplicates
-     * whatever the surrounding page already asked for.
-     */
     content:
         | MangaResponse
         | NovelResponse
@@ -138,16 +134,9 @@ const ReadlistButton = ({
                 return;
             }
 
-            const currentReadParams =
-                read && !readError
-                    ? {
-                          chapters: read.chapters || undefined,
-                          volumes: read.volumes || undefined,
-                          score: read.score || undefined,
-                          note: read.note || undefined,
-                          rereads: read.rereads || undefined,
-                      }
-                    : {};
+            const currentReadParams = carryOverReadArgs(
+                read && !readError ? read : undefined,
+            );
 
             const readArgs: ReadArgs =
                 selectedOption === 'completed'

@@ -5,10 +5,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
     ContentTypeEnum,
     type MainContentTypeEnum,
+    type ReadArgs,
     type ReadContentTypeEnum,
     type ReadResponse,
     ReadStatusEnum,
     readAddMutation,
+    type WatchArgs,
     type WatchResponse,
     WatchStatusEnum,
     watchAddMutation,
@@ -19,6 +21,10 @@ import {
     applyReadMutation,
     applyWatchMutation,
 } from '@/utils/api/invalidate-content-state';
+import {
+    carryOverReadArgs,
+    carryOverWatchArgs,
+} from '@/utils/api/tracking-args';
 
 type MappedListItem = {
     progress: number;
@@ -26,7 +32,7 @@ type MappedListItem = {
     score: number | undefined;
     status: ReadStatusEnum | WatchStatusEnum | undefined;
     slug: string;
-    extraArgs: Record<string, any>;
+    extraArgs: Partial<WatchArgs> | Partial<ReadArgs>;
 };
 
 const mapListItem = ({
@@ -41,13 +47,7 @@ const mapListItem = ({
                 score: listItem?.score,
                 status: (listItem as WatchResponse)?.status as WatchStatusEnum,
                 slug: (listItem as WatchResponse)?.anime.slug,
-                extraArgs: {
-                    note: listItem?.note,
-                    rewatches: (listItem as WatchResponse)?.rewatches,
-                    // Backend resets omitted fields; dates must be sent.
-                    start_date: listItem?.start_date,
-                    end_date: listItem?.end_date,
-                },
+                extraArgs: carryOverWatchArgs(listItem as WatchResponse),
             };
         case ContentTypeEnum.MANGA:
         case ContentTypeEnum.NOVEL:
@@ -57,13 +57,7 @@ const mapListItem = ({
                 status: (listItem as ReadResponse)?.status as ReadStatusEnum,
                 score: listItem?.score,
                 slug: (listItem as ReadResponse)?.content.slug,
-                extraArgs: {
-                    volumes: (listItem as ReadResponse)?.volumes,
-                    note: listItem?.note,
-                    rereads: (listItem as ReadResponse)?.rereads,
-                    start_date: listItem?.start_date,
-                    end_date: listItem?.end_date,
-                },
+                extraArgs: carryOverReadArgs(listItem as ReadResponse),
             };
     }
 };
@@ -225,13 +219,10 @@ export const useUserlistManager = ({
                 mutateCreateWatch({
                     path: { slug: debouncedUpdate.slug },
                     body: {
-                        note: debouncedUpdate.extraArgs.note,
-                        rewatches: debouncedUpdate.extraArgs.rewatches,
+                        ...debouncedUpdate.extraArgs,
                         score: debouncedUpdate.score,
                         status: debouncedUpdate.status as WatchStatusEnum,
                         episodes: debouncedUpdate.progress,
-                        start_date: debouncedUpdate.extraArgs.start_date,
-                        end_date: debouncedUpdate.extraArgs.end_date,
                     },
                 });
                 break;
@@ -243,14 +234,10 @@ export const useUserlistManager = ({
                         slug: debouncedUpdate.slug,
                     },
                     body: {
-                        note: debouncedUpdate.extraArgs.note,
-                        rereads: debouncedUpdate.extraArgs.rereads,
+                        ...debouncedUpdate.extraArgs,
                         score: debouncedUpdate.score,
                         status: debouncedUpdate.status as ReadStatusEnum,
                         chapters: debouncedUpdate.progress,
-                        volumes: debouncedUpdate.extraArgs.volumes,
-                        start_date: debouncedUpdate.extraArgs.start_date,
-                        end_date: debouncedUpdate.extraArgs.end_date,
                     },
                 });
                 break;

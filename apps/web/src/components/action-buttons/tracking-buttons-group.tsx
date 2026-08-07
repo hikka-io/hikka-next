@@ -47,6 +47,10 @@ import {
     applyReadMutation,
     applyWatchMutation,
 } from '@/utils/api/invalidate-content-state';
+import {
+    carryOverReadArgs,
+    carryOverWatchArgs,
+} from '@/utils/api/tracking-args';
 import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
@@ -124,14 +128,7 @@ const buildWatchArgs = (
     watch: WatchResponseBase | undefined,
     status: string,
 ): WatchArgs => {
-    const current = watch
-        ? {
-              episodes: watch.episodes || undefined,
-              score: watch.score || undefined,
-              note: watch.note || undefined,
-              rewatches: watch.rewatches || undefined,
-          }
-        : {};
+    const current = carryOverWatchArgs(watch);
 
     if (status === WatchStatusEnum.COMPLETED) {
         return {
@@ -153,15 +150,7 @@ const buildReadArgs = (
     read: ReadResponseBase | undefined,
     status: string,
 ): ReadArgs => {
-    const current = read
-        ? {
-              chapters: read.chapters || undefined,
-              volumes: read.volumes || undefined,
-              score: read.score || undefined,
-              note: read.note || undefined,
-              rereads: read.rereads || undefined,
-          }
-        : {};
+    const current = carryOverReadArgs(read);
 
     if (status === ReadStatusEnum.COMPLETED) {
         return {

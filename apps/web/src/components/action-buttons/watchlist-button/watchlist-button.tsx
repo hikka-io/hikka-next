@@ -28,6 +28,7 @@ import {
 } from '@/components/ui/select';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
+import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/constants/common';
 
@@ -40,11 +41,6 @@ type Props = {
     slug: string;
     disabled?: boolean;
     watch?: WatchResponseBase | null;
-    /**
-     * Required, though it may still be loading: the button needs the title and
-     * the episode count, and silently fetching them again duplicates whatever
-     * the surrounding page already asked for.
-     */
     anime: AnimeResponse | AnimeInfoResponse | undefined;
     size?: 'sm' | 'md' | 'icon-sm' | 'icon-md';
     buttonProps?: ButtonProps;
@@ -128,14 +124,7 @@ const WatchlistButton = ({
                 return;
             }
 
-            const currentWatchParams = watch
-                ? {
-                      episodes: watch.episodes || undefined,
-                      score: watch.score || undefined,
-                      note: watch.note || undefined,
-                      rewatches: watch.rewatches || undefined,
-                  }
-                : {};
+            const currentWatchParams = carryOverWatchArgs(watch);
 
             const watchArgs: WatchArgs =
                 selectedOption === 'completed'

@@ -22,6 +22,7 @@ import {
     invalidateReadState,
     writeReadToCaches,
 } from '@/utils/api/invalidate-content-state';
+import { carryOverReadArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -126,23 +127,14 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const buildArgs = (
         read: NonNullable<typeof selectedRead>,
         chapters: number,
-    ): ReadArgs =>
-        ({
-            note: read.note,
-            volumes: read.volumes,
-            rereads: read.rereads,
-            score: read.score,
-            chapters,
-            status:
-                read.content.chapters != null &&
-                chapters === read.content.chapters
-                    ? ReadStatusEnum.COMPLETED
-                    : ReadStatusEnum.READING,
-            // Backend resets omitted fields; dates are number timestamps
-            // despite the generated string type.
-            start_date: read.start_date,
-            end_date: read.end_date,
-        }) as unknown as ReadArgs;
+    ): ReadArgs => ({
+        ...carryOverReadArgs(read),
+        chapters,
+        status:
+            read.content.chapters != null && chapters === read.content.chapters
+                ? ReadStatusEnum.COMPLETED
+                : ReadStatusEnum.READING,
+    });
 
     const handleAddChapter = () => {
         if (!selectedRead) return;

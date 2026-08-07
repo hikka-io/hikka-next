@@ -20,6 +20,7 @@ import {
     invalidateWatchState,
     writeWatchToCaches,
 } from '@/utils/api/invalidate-content-state';
+import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
@@ -98,22 +99,15 @@ const WatchingTracker = () => {
     const buildArgs = (
         watch: NonNullable<typeof selectedWatch>,
         episodes: number,
-    ): WatchArgs =>
-        ({
-            note: watch.note,
-            rewatches: watch.rewatches,
-            score: watch.score,
-            episodes,
-            status:
-                watch.anime.episodes_total != null &&
-                episodes === watch.anime.episodes_total
-                    ? WatchStatusEnum.COMPLETED
-                    : WatchStatusEnum.WATCHING,
-            // Backend resets omitted fields; dates are number timestamps
-            // despite the generated string type.
-            start_date: watch.start_date,
-            end_date: watch.end_date,
-        }) as unknown as WatchArgs;
+    ): WatchArgs => ({
+        ...carryOverWatchArgs(watch),
+        episodes,
+        status:
+            watch.anime.episodes_total != null &&
+            episodes === watch.anime.episodes_total
+                ? WatchStatusEnum.COMPLETED
+                : WatchStatusEnum.WATCHING,
+    });
 
     const handleAddEpisode = () => {
         if (!selectedWatch) return;
