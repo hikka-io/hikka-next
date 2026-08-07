@@ -17,6 +17,7 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import {
     AGE_RATING,
+    CONTENT_TYPES,
     MEDIA_TYPE,
     RELEASE_STATUS,
     SEASON,
@@ -31,6 +32,8 @@ type FilterDef =
     | { kind: 'dynamic'; tristate?: true }
     | { kind: 'range'; icon?: (props: SVGProps<SVGSVGElement>) => ReactElement }
     | { kind: 'boolean'; label: string }
+    /** Free-form param whose own value belongs on the chip, e.g. `MAL ID: 47128`. */
+    | { kind: 'value'; label: string }
     | { kind: 'combined'; label: string; related: string[] }
     | { kind: 'subordinate' }
     | { kind: 'ignored' };
@@ -41,6 +44,8 @@ const FILTER_REGISTRY: Record<string, FilterDef> = {
     search: { kind: 'ignored' },
     order: { kind: 'ignored' },
     sort: { kind: 'ignored' },
+    // Selects which list is shown rather than filtering it.
+    tab: { kind: 'ignored' },
 
     // Subordinate params (controlled by a combined param)
     date_range: { kind: 'subordinate' },
@@ -50,6 +55,8 @@ const FILTER_REGISTRY: Record<string, FilterDef> = {
     seasons: { kind: 'enum', labelMap: SEASON },
     types: { kind: 'enum', labelMap: MEDIA_TYPE },
     ratings: { kind: 'enum', labelMap: AGE_RATING },
+    media_type: { kind: 'enum', labelMap: MEDIA_TYPE },
+    content_type: { kind: 'enum', labelMap: CONTENT_TYPES },
 
     // Enum params with dynamic label maps (fetched from API)
     genres: { kind: 'dynamic', tristate: true },
@@ -61,6 +68,21 @@ const FILTER_REGISTRY: Record<string, FilterDef> = {
 
     // Boolean params
     only_translated: { kind: 'boolean', label: 'Перекладено українською' },
+
+    // Missing-data flags of the /edit/content lists
+    title_ua: { kind: 'boolean', label: 'Без назви українською' },
+    title_en: { kind: 'boolean', label: 'Без назви англійською' },
+    title_original: { kind: 'boolean', label: 'Без оригінальної назви' },
+    synopsis_ua: { kind: 'boolean', label: 'Без опису українською' },
+    synopsis_en: { kind: 'boolean', label: 'Без опису англійською' },
+    name_ua: { kind: 'boolean', label: 'Без імені українською' },
+    name_en: { kind: 'boolean', label: 'Без імені англійською' },
+    name_original: { kind: 'boolean', label: 'Без оригінального імені' },
+    description_ua: { kind: 'boolean', label: 'Без опису українською' },
+
+    // Value params (the chip carries the entered value)
+    mal_id: { kind: 'value', label: 'MAL ID' },
+    content_slug: { kind: 'value', label: 'Slug' },
 
     // Combined params (group related URL params under one chip)
     date_range_enabled: {
@@ -194,6 +216,15 @@ export function useActiveFilters() {
                     return;
                 }
 
+                case 'value': {
+                    result.push({
+                        param: key,
+                        value: String(rawValue),
+                        label: `${def.label}: ${rawValue}`,
+                    });
+                    return;
+                }
+
                 case 'enum':
                 case 'dynamic': {
                     const isTristate = 'tristate' in def && def.tristate;
@@ -237,9 +268,10 @@ export function useActiveFilters() {
                         });
                         break;
 
-                    // Range and boolean always map to a single chip — delete the whole param
+                    // Range, boolean and value always map to a single chip — delete the whole param
                     case 'range':
                     case 'boolean':
+                    case 'value':
                         delete next[filter.param];
                         break;
 
@@ -277,6 +309,7 @@ export function useActiveFilters() {
                 if (prev.search) next.search = prev.search;
                 if (prev.sort) next.sort = prev.sort;
                 if (prev.order) next.order = prev.order;
+                if (prev.tab) next.tab = prev.tab;
                 return next;
             },
             replace: true,

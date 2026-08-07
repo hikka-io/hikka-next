@@ -397,9 +397,31 @@ export const APP_SIDEBAR: { title_ua: string; items: Hikka.NavRoute[] }[] = [
 export const MOBILE_SHEET_NAV: { title_ua: string; items: Hikka.NavRoute[] }[] =
     APP_SIDEBAR.filter((group) => group.items !== CONTENT_GROUP);
 
-export function isNavActive(pathname: string, url: string): boolean {
+const NAV_URLS = [
+    ...CONTENT_GROUP,
+    ...COMMUNITY_GROUP,
+    ...MODERATION_GROUP,
+    ...OTHER_GROUP,
+]
+    .map((item) => item.url)
+    .filter((url) => url.startsWith('/'));
+
+function isUnder(pathname: string, url: string): boolean {
     if (url === '/') return pathname === '/';
     return pathname === url || pathname.startsWith(`${url}/`);
+}
+
+/**
+ * A nav item owns the pathname only when no deeper item also claims it, so
+ * `/edit/content` lights its own entry instead of that one and `/edit`.
+ */
+export function isNavActive(pathname: string, url: string): boolean {
+    if (!isUnder(pathname, url)) return false;
+
+    return !NAV_URLS.some(
+        (candidate) =>
+            candidate.length > url.length && isUnder(pathname, candidate),
+    );
 }
 
 /** Catalog roots reachable from the mobile tab bar's Каталог tab. */

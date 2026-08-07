@@ -1,5 +1,10 @@
 import { defineConfig } from '@hey-api/openapi-ts';
 
+import { transformSpec } from './scripts/transform-spec';
+
+const SPEC_URL =
+    process.env.HIKKA_OPENAPI_URL ?? 'https://api.hikka.io/openapi.json';
+
 /**
  * Hikka list/search endpoints are POST (filters in the body, `page`/`size` in
  * the query) but are semantically queries. hey-api defaults POST -> mutation,
@@ -28,9 +33,19 @@ const QUERY_POST_PATHS = new Set([
 ]);
 
 export default defineConfig({
-    input: './openapi.json',
+    input: {
+        path: SPEC_URL,
+        fetch: { headers: { 'User-Agent': 'hikka-codegen' } },
+    },
     output: { path: './src/gen', postProcess: [] },
     parser: {
+        patch: {
+            input: (spec) => {
+                transformSpec(
+                    spec as unknown as Parameters<typeof transformSpec>[0],
+                );
+            },
+        },
         hooks: {
             operations: {
                 isQuery: (op) =>
@@ -41,7 +56,7 @@ export default defineConfig({
         },
     },
     plugins: [
-        '@hey-api/client-fetch',
+        { name: '@hey-api/client-fetch', baseUrl: false },
         { name: '@hey-api/typescript', enums: 'javascript' },
         { name: '@hey-api/sdk', validator: { response: 'zod' } },
         'zod',
