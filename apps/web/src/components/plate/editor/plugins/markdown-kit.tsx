@@ -91,6 +91,23 @@ const deserializeTextDirective = (
     deco: Parameters<typeof convertChildrenDeserialize>[1],
     options: DeserializeMdOptions,
 ) => {
+    const mark =
+        mdastNode.name === 'underline'
+            ? KEYS.underline
+            : mdastNode.name === 'strike'
+              ? KEYS.strikethrough
+              : undefined;
+    if (mark) {
+        if (mdastNode.children.length === 0)
+            return [{ text: `:${mdastNode.name}` }];
+
+        return convertChildrenDeserialize(
+            mdastNode.children as TextDirective['children'],
+            { ...deco, [mark]: true },
+            options,
+        );
+    }
+
     const config = configFor(mdastNode.name, 'text');
 
     if (!config) return undefined;
@@ -216,11 +233,30 @@ export const createMarkdownKit = ({
 
             remarkStringifyOptions: {
                 resourceLink: true,
-                ...(mentions && { handlers: mentionHandlers }),
+                handlers: {
+                    ...(mentions && mentionHandlers),
+                    // Keep marks in the same directive syntax as spoilers.
+                    delete: (node, _parent, state, info) =>
+                        ':strike[' +
+                        state.containerPhrasing(node, {
+                            ...info,
+                            before: '[',
+                            after: ']',
+                        }) +
+                        ']',
+                },
             },
 
             rules: {
                 p: paragraphRule,
+                underline: {
+                    mark: true,
+                    serialize: (node) => ({
+                        type: 'textDirective',
+                        name: 'underline',
+                        children: [{ type: 'text', value: node.text }],
+                    }),
+                },
                 ...(mentions && mentionRules),
                 // Markdown -> Plate: one entry point per directive shape
                 containerDirective: {

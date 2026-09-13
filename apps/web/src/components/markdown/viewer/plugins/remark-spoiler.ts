@@ -6,6 +6,11 @@ const SPOILER_TAGS: Record<string, string> = {
     textDirective: 'spoiler-inline',
 };
 
+const INLINE_MARK_TAGS: Record<string, string> = {
+    strike: 's',
+    underline: 'u',
+};
+
 // Directives with no hName carry no hast handler, and their text is dropped
 const FALLBACK_TAGS: Record<string, string> = {
     containerDirective: 'div',
@@ -26,7 +31,9 @@ const tagDirectives = (node: Parent) => {
                 hName:
                     child.name === 'spoiler'
                         ? SPOILER_TAGS[child.type]
-                        : fallback,
+                        : child.type === 'textDirective'
+                          ? (INLINE_MARK_TAGS[child.name] ?? fallback)
+                          : fallback,
             };
         }
 

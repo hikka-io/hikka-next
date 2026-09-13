@@ -42,3 +42,20 @@ describe('spoiler rendering', () => {
         expect(html).toContain('kept');
     });
 });
+
+describe('text formatting', () => {
+    it('renders underline and strikethrough directives', () => {
+        const html = render(
+            ':underline[underlined] and :strike[struck through]',
+        );
+
+        expect(html).toContain('<u>underlined</u>');
+        expect(html).toContain('<s>struck through</s>');
+    });
+
+    it('renders nested formatting', () => {
+        const html = render(':underline[:strike[formatted]]');
+
+        expect(html).toContain('<u><s>formatted</s></u>');
+    });
+});

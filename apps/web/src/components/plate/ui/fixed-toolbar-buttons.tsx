@@ -1,6 +1,11 @@
 import { useRef } from 'react';
 
-import { BoldIcon, ItalicIcon } from 'lucide-react';
+import {
+    BoldIcon,
+    ItalicIcon,
+    StrikethroughIcon,
+    UnderlineIcon,
+} from 'lucide-react';
 import { KEYS } from 'platejs';
 import { useEditorReadOnly } from 'platejs/react';
 
@@ -59,6 +64,20 @@ export function FixedMarkdownToolbarButtons({ className }: Props) {
                         >
                             <ItalicIcon />
                         </MarkToolbarButton>
+
+                        <MarkToolbarButton
+                            nodeType={KEYS.underline}
+                            tooltip="Підкреслений (⌘+U)"
+                        >
+                            <UnderlineIcon />
+                        </MarkToolbarButton>
+
+                        <MarkToolbarButton
+                            nodeType={KEYS.strikethrough}
+                            tooltip="Закреслений"
+                        >
+                            <StrikethroughIcon />
+                        </MarkToolbarButton>
                     </ToolbarGroup>
 
                     <ToolbarGroup>
@@ -105,6 +124,20 @@ export function FixedArticleToolbarButtons() {
                             tooltip="Курсив (⌘+I)"
                         >
                             <ItalicIcon />
+                        </MarkToolbarButton>
+
+                        <MarkToolbarButton
+                            nodeType={KEYS.underline}
+                            tooltip="Підкреслений (⌘+U)"
+                        >
+                            <UnderlineIcon />
+                        </MarkToolbarButton>
+
+                        <MarkToolbarButton
+                            nodeType={KEYS.strikethrough}
+                            tooltip="Закреслений"
+                        >
+                            <StrikethroughIcon />
                         </MarkToolbarButton>
                     </ToolbarGroup>
 
