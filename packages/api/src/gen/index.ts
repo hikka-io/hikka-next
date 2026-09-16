@@ -512,6 +512,7 @@ export {
     type FavouriteMangaResponse,
     type FavouriteNovelResponse,
     type FavouritePaginationResponse,
+    type FavouritePersonResponse,
     type FavouriteResponse,
     type FavouriteStatsResponse,
     type FeedArgs,

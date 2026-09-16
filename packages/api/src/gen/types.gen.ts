@@ -2782,6 +2782,7 @@ export type FavouriteCollectionResponse = {
 export const FavouriteContentTypeEnum = {
     COLLECTION: 'collection',
     CHARACTER: 'character',
+    PERSON: 'person',
     ANIME: 'anime',
     MANGA: 'manga',
     NOVEL: 'novel',
@@ -3034,8 +3035,51 @@ export type FavouritePaginationResponse = {
         | FavouriteNovelResponse
         | FavouriteCollectionResponse
         | FavouriteCharacterResponse
+        | FavouritePersonResponse
     >;
     pagination: PaginationResponse;
+};
+
+/**
+ * FavouritePersonResponse
+ */
+export type FavouritePersonResponse = {
+    /**
+     * Favourite Created
+     */
+    favourite_created: number;
+    /**
+     * Data Type
+     */
+    data_type: 'person';
+    /**
+     * Name Native
+     */
+    name_native: string | null;
+    /**
+     * Name Ua
+     */
+    name_ua: string | null;
+    /**
+     * Name En
+     */
+    name_en: string | null;
+    /**
+     * Image
+     */
+    image: string | null;
+    /**
+     * Slug
+     */
+    slug: string;
+    /**
+     * Description Ua
+     */
+    description_ua: string | null;
+    /**
+     * Synonyms
+     */
+    synonyms: Array<string>;
 };
 
 /**
@@ -3064,6 +3108,10 @@ export type FavouriteStatsResponse = {
      * Character
      */
     character?: number;
+    /**
+     * Person
+     */
+    person?: number;
     /**
      * Anime
      */
