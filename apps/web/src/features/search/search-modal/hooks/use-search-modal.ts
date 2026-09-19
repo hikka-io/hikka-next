@@ -1,29 +1,18 @@
 import { type Dispatch, type SetStateAction, useEffect } from 'react';
 
-import { type AnimeResponse, ContentTypeEnum } from '@hikka/api';
-
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { usePathname } from '@/utils/navigation';
 
-import type { SearchTypeValue } from '../types';
+import { SEARCH_ENTITIES } from '../search-entities';
+import type { SearchEntityType, SearchResult, SearchTypeValue } from '../types';
 
 type Props = {
     open: boolean;
-    onClick?: (anime: AnimeResponse) => void;
+    onClick?: (content: SearchResult) => void;
     setOpen: (open: boolean) => void;
     setSearchType?: Dispatch<SetStateAction<SearchTypeValue>>;
-    content_type?: ContentTypeEnum;
+    content_type?: SearchEntityType;
     disableHotkey?: boolean;
 };
-
-const ALLOWED_SEARCH_TYPES: ContentTypeEnum[] = [
-    ContentTypeEnum.ANIME,
-    ContentTypeEnum.MANGA,
-    ContentTypeEnum.NOVEL,
-    ContentTypeEnum.CHARACTER,
-    ContentTypeEnum.PERSON,
-    ContentTypeEnum.USER,
-];
 
 const useSearchModal = ({
     onClick,
@@ -68,13 +57,14 @@ const useSearchModal = ({
     useEffect(() => {
         if (!open || content_type || !setSearchType) return;
 
-        const currentPageContentType = ALLOWED_SEARCH_TYPES.find((ct) => {
-            const link = CONTENT_TYPE_LINKS[ct];
-            return pathname === link || pathname.startsWith(`${link}/`);
-        });
+        const currentPageEntity = SEARCH_ENTITIES.find(
+            ({ routePrefix }) =>
+                pathname === routePrefix ||
+                pathname.startsWith(`${routePrefix}/`),
+        );
 
-        if (currentPageContentType) {
-            setSearchType(currentPageContentType);
+        if (currentPageEntity) {
+            setSearchType(currentPageEntity.type);
         }
     }, [open, content_type, pathname, setSearchType]);
 };

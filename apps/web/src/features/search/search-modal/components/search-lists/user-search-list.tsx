@@ -7,28 +7,31 @@ import { searchUsersOptions, type UserResponse } from '@hikka/api';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 
-import UserCard from '../cards/user-card';
+import type { SearchEntity } from '../../search-entities';
+import type { SearchResultVariant } from '../../types';
 import SearchPlaceholders from '../search-placeholders';
 import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
 type Props = {
+    entity: SearchEntity;
     onDismiss: (user: UserResponse) => void;
-    type?: 'link' | 'button';
+    type?: SearchResultVariant;
     value?: string;
 };
 
-const UserSearchList = ({ onDismiss, type, value }: Props) => {
+const UserSearchList = ({ entity, onDismiss, type, value }: Props) => {
     const router = useRouter();
 
     const handleSelect = useCallback(
         (user: UserResponse) => {
             onDismiss(user);
 
-            if (type !== 'button') {
-                router.push(`/u/${user.username}`);
+            const href = entity.getHref(user);
+            if (type !== 'button' && href) {
+                router.push(href);
             }
         },
-        [onDismiss, router, type],
+        [onDismiss, router, type, entity],
     );
     const { data, isFetching, isRefetching } = useQuery({
         ...searchUsersOptions({ body: { query: value || '' } }),
@@ -44,15 +47,23 @@ const UserSearchList = ({ onDismiss, type, value }: Props) => {
             />
             {data && data.length > 0 && (
                 <SearchGroup>
-                    {data.map((user) => (
-                        <SearchItem
-                            key={user.reference}
-                            value={user.reference}
-                            onSelect={() => handleSelect(user)}
-                        >
-                            <UserCard user={user} type={type} />
-                        </SearchItem>
-                    ))}
+                    {data.map((user) => {
+                        const href = entity.getHref(user);
+                        // A user without a username has nowhere to link to.
+                        if (!href) return null;
+
+                        // The row still keys on the reference rather than the
+                        // href: it is the stable id the API guarantees.
+                        return (
+                            <SearchItem
+                                key={user.reference}
+                                value={user.reference}
+                                onSelect={() => handleSelect(user)}
+                            >
+                                {entity.renderCard(user, href, type)}
+                            </SearchItem>
+                        );
+                    })}
                 </SearchGroup>
             )}
         </SearchList>

@@ -4,11 +4,11 @@ import { createLinkNode } from '@platejs/link';
 import { AtSignIcon, SearchIcon } from 'lucide-react';
 import { useEditorRef } from 'platejs/react';
 
-import { ContentTypeEnum, type UserResponse } from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { SearchModal } from '@/features/search';
-import type { SearchContent } from '@/features/search/search-modal/types';
+import type { SearchResult } from '@/features/search/search-modal/types';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { userMentionUrl } from '@/utils/mentions';
 import { getTitle } from '@/utils/title/get-title';
@@ -33,7 +33,7 @@ export function useContentSearchModal() {
     const { preferences } = useSessionUI();
     const [open, setOpen] = React.useState(false);
 
-    const insertContentLink = (content: SearchContent | UserResponse) => {
+    const insertContentLink = (content: SearchResult) => {
         if (!('slug' in content)) return;
 
         const path = CONTENT_TYPE_LINKS[content.data_type as ContentTypeEnum];
@@ -87,7 +87,7 @@ export function useUserSearchModal() {
     const editor = useEditorRef();
     const [open, setOpen] = React.useState(false);
 
-    const insertMention = (content: SearchContent | UserResponse) => {
+    const insertMention = (content: SearchResult) => {
         if (!('username' in content) || !content.username) return;
 
         restoreSelection(editor);

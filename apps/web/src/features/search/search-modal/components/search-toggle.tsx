@@ -1,15 +1,7 @@
 import type * as React from 'react';
-import { type FC, Fragment, type ReactNode } from 'react';
+import { type FC, Fragment } from 'react';
 
-import { ContentTypeEnum } from '@hikka/api';
-
-import MaterialSymbolsAccountBox from '@/components/icons/material-symbols/MaterialSymbolsAccountBox';
-import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
 import MaterialSymbolsFeatureSearch from '@/components/icons/material-symbols/MaterialSymbolsFeatureSearch';
-import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
-import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
 import { buttonVariants } from '@/components/ui/button';
 import { PortalContainerProvider } from '@/components/ui/portal-container-context';
 import {
@@ -25,8 +17,13 @@ import {
 import { cn } from '@/utils/cn';
 
 import {
+    SEARCH_ENTITIES,
+    type SearchEntity,
+    type SearchEntityGroup,
+} from '../search-entities';
+import {
     SEARCH_TYPE_ALL,
-    SEARCH_TYPE_LABELS,
+    type SearchEntityType,
     type SearchTypeValue,
 } from '../types';
 
@@ -35,58 +32,16 @@ type Props = {
     setType: (type: SearchTypeValue) => void;
     disabled?: boolean;
     inputRef: React.RefObject<HTMLInputElement | null>;
-    allowedTypes?: ContentTypeEnum[];
+    allowedTypes?: SearchEntityType[];
 };
 
-type SearchType = {
-    slug: SearchTypeValue;
-    icon: ReactNode;
-    group: 'all' | 'content' | 'community';
-};
-
-const SEARCH_TYPES: SearchType[] = [
-    {
-        slug: SEARCH_TYPE_ALL,
-        icon: <MaterialSymbolsFeatureSearch className="size-4!" />,
-        group: 'all',
-    },
-    {
-        slug: ContentTypeEnum.ANIME,
-        icon: <MaterialSymbolsAnimatedImages className="size-4!" />,
-        group: 'content',
-    },
-    {
-        slug: ContentTypeEnum.MANGA,
-        icon: <MaterialSymbolsPalette className="size-4!" />,
-        group: 'content',
-    },
-    {
-        slug: ContentTypeEnum.NOVEL,
-        icon: <MaterialSymbolsMenuBookRounded className="size-4!" />,
-        group: 'content',
-    },
-    {
-        slug: ContentTypeEnum.CHARACTER,
-        icon: <MaterialSymbolsFace3 className="size-4!" />,
-        group: 'content',
-    },
-    {
-        slug: ContentTypeEnum.PERSON,
-        icon: <MaterialSymbolsPerson className="size-4!" />,
-        group: 'content',
-    },
-    {
-        slug: ContentTypeEnum.USER,
-        icon: <MaterialSymbolsAccountBox className="size-4!" />,
-        group: 'community',
-    },
-];
-
-const GROUP_LABELS: Record<string, string | undefined> = {
-    all: undefined,
+/** Toggle chrome, not entity data — the registry knows nothing about it. */
+const GROUP_HEADINGS: Record<SearchEntityGroup, string> = {
     content: 'Контент',
     community: 'Спільнота',
 };
+
+const GROUP_ORDER: SearchEntityGroup[] = ['content', 'community'];
 
 const SearchToggle: FC<Props> = ({
     type,
@@ -100,13 +55,25 @@ const SearchToggle: FC<Props> = ({
         inputRef.current?.focus();
     };
 
-    const filteredTypes = allowedTypes
-        ? SEARCH_TYPES.filter(
-              (t) =>
-                  t.slug === SEARCH_TYPE_ALL ||
-                  allowedTypes.includes(t.slug as ContentTypeEnum),
-          )
-        : SEARCH_TYPES;
+    const visibleEntities = allowedTypes?.length
+        ? SEARCH_ENTITIES.filter((entity) => allowedTypes.includes(entity.type))
+        : SEARCH_ENTITIES;
+
+    // Only groups that actually have entries get rendered, so the separator can
+    // key off a rendered group rather than its position in the group order.
+    const groups = GROUP_ORDER.map((group) => ({
+        group,
+        entities: visibleEntities.filter((entity) => entity.group === group),
+    })).filter(({ entities }) => entities.length > 0);
+
+    const renderItem = (entity: SearchEntity) => (
+        <SelectItem key={entity.type} value={entity.type}>
+            <div className="flex items-center gap-2">
+                {entity.icon}
+                <span>{entity.label}</span>
+            </div>
+        </SelectItem>
+    );
 
     return (
         <PortalContainerProvider value={null}>
@@ -126,38 +93,22 @@ const SearchToggle: FC<Props> = ({
                 </SelectTrigger>
                 <SelectContent>
                     <SelectList>
-                        {Object.entries(GROUP_LABELS).map(
-                            ([group, label], index) => {
-                                const items = filteredTypes.filter(
-                                    (t) => t.group === group,
-                                );
-                                if (items.length === 0) return null;
-                                return (
-                                    <Fragment key={group}>
-                                        {index > 0 && <SelectSeparator />}
-                                        <SelectGroup heading={label}>
-                                            {items.map((type) => (
-                                                <SelectItem
-                                                    key={type.slug}
-                                                    value={type.slug}
-                                                >
-                                                    <div className="flex items-center gap-2">
-                                                        {type.icon}
-                                                        <span>
-                                                            {
-                                                                SEARCH_TYPE_LABELS[
-                                                                    type.slug
-                                                                ]
-                                                            }
-                                                        </span>
-                                                    </div>
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </Fragment>
-                                );
-                            },
-                        )}
+                        <SelectGroup>
+                            <SelectItem value={SEARCH_TYPE_ALL}>
+                                <div className="flex items-center gap-2">
+                                    <MaterialSymbolsFeatureSearch className="size-4!" />
+                                    <span>Усе</span>
+                                </div>
+                            </SelectItem>
+                        </SelectGroup>
+                        {groups.map(({ group, entities }) => (
+                            <Fragment key={group}>
+                                <SelectSeparator />
+                                <SelectGroup heading={GROUP_HEADINGS[group]}>
+                                    {entities.map(renderItem)}
+                                </SelectGroup>
+                            </Fragment>
+                        ))}
                     </SelectList>
                 </SelectContent>
             </Select>

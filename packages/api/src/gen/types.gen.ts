@@ -1775,6 +1775,10 @@ export type CollectionVisibilityEnum =
  */
 export type CollectionsListArgs = {
     /**
+     * Query
+     */
+    query?: string | null;
+    /**
      * Sort
      */
     sort?: Array<string>;

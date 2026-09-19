@@ -1,17 +1,39 @@
-import {
-    type AnimeResponse,
-    type CharacterResponse,
+import type {
+    AnimeResponse,
+    CharacterResponse,
+    CollectionResponse,
     ContentTypeEnum,
-    type MangaResponse,
-    type NovelResponse,
-    type PersonResponse,
+    MangaResponse,
+    NovelResponse,
+    PersonResponse,
+    UserResponse,
 } from '@hikka/api';
-
-export type SearchTypeValue = ContentTypeEnum | 'all';
 
 export const SEARCH_TYPE_ALL = 'all' as const;
 
-/** Union of the main searchable content types (keeps card props well-typed). */
+/**
+ * The content types the modal can actually search. `ContentTypeEnum` also
+ * carries article/comment/edit/history, which no result list handles — keeping
+ * them out means the toggle, the registry and the callers all agree.
+ */
+export type SearchEntityType = Exclude<
+    ContentTypeEnum,
+    'article' | 'comment' | 'edit' | 'history'
+>;
+
+export type SearchTypeValue = SearchEntityType | typeof SEARCH_TYPE_ALL;
+
+/**
+ * The types the `Усе` tab searches. Users are left out because `/user/list` is
+ * unpaginated and has its own list component — everything here is expected to
+ * have infinite options *and* a hook in `all-search-list`.
+ */
+export type ContentSearchEntityType = Exclude<SearchEntityType, 'user'>;
+
+/** How a result row behaves: a navigating link, or a picker button. */
+export type SearchResultVariant = 'link' | 'button';
+
+/** Union of the poster-card content types (keeps card props well-typed). */
 export type SearchContent =
     | AnimeResponse
     | MangaResponse
@@ -19,13 +41,5 @@ export type SearchContent =
     | CharacterResponse
     | PersonResponse;
 
-/** Ukrainian labels for the searchable types (toggle, etc.). */
-export const SEARCH_TYPE_LABELS: Partial<Record<SearchTypeValue, string>> = {
-    [SEARCH_TYPE_ALL]: 'Усе',
-    [ContentTypeEnum.ANIME]: 'Аніме',
-    [ContentTypeEnum.MANGA]: 'Манґа',
-    [ContentTypeEnum.NOVEL]: 'Ранобе',
-    [ContentTypeEnum.CHARACTER]: 'Персонаж',
-    [ContentTypeEnum.PERSON]: 'Людина',
-    [ContentTypeEnum.USER]: 'Користувач',
-};
+/** Anything a result row can hand back through `onClick` / `onDismiss`. */
+export type SearchResult = SearchContent | CollectionResponse | UserResponse;
