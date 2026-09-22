@@ -43,19 +43,26 @@ describe('spoiler rendering', () => {
     });
 });
 
-describe('text formatting', () => {
-    it('renders underline and strikethrough directives', () => {
-        const html = render(
-            ':underline[underlined] and :strike[struck through]',
-        );
-
-        expect(html).toContain('<u>underlined</u>');
-        expect(html).toContain('<s>struck through</s>');
+describe('strikethrough', () => {
+    it('renders GFM strikethrough', () => {
+        expect(render('a ~~struck~~ b')).toContain('<del>struck</del>');
     });
 
-    it('renders nested formatting', () => {
-        const html = render(':underline[:strike[formatted]]');
+    it('leaves a single tilde as text', () => {
+        const html = render('~5 серій~');
 
-        expect(html).toContain('<u><s>formatted</s></u>');
+        expect(html).not.toContain('<del>');
+        expect(html).toContain('~5 серій~');
+    });
+});
+
+describe('directives that are text', () => {
+    it.each([
+        ['Re:Zero is great', '<p>Re:Zero is great</p>'],
+        ['plain :spoiler b', '<p>plain :spoiler b</p>'],
+        ['see :note[kept] ok', '<p>see :note[kept] ok</p>'],
+        ['::note[leaf]', '<p>::note[leaf]</p>'],
+    ])('renders %j literally', (markdown, expected) => {
+        expect(render(markdown)).toContain(expected);
     });
 });

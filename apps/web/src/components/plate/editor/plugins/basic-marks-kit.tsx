@@ -1,24 +1,8 @@
-import {
-    BoldRules,
-    ItalicRules,
-    StrikethroughRules,
-    UnderlineRules,
-} from '@platejs/basic-nodes';
-import {
-    BoldPlugin,
-    ItalicPlugin,
-    StrikethroughPlugin,
-    UnderlinePlugin,
-} from '@platejs/basic-nodes/react';
+import { BoldRules, ItalicRules } from '@platejs/basic-nodes';
+import { BoldPlugin, ItalicPlugin } from '@platejs/basic-nodes/react';
 import { createMarkInputRule, KEYS } from 'platejs';
 
 export const BasicMarksKit = [
-    UnderlinePlugin.configure({
-        inputRules: [UnderlineRules.markdown()],
-    }),
-    StrikethroughPlugin.configure({
-        inputRules: [StrikethroughRules.markdown()],
-    }),
     BoldPlugin.configure({
         inputRules: [
             // ***text*** -> bold + italic

@@ -125,6 +125,46 @@ describe('inline spoiler deserialization', () => {
     });
 });
 
+describe('directive-like text', () => {
+    it('keeps an inline spoiler that directly follows a colon', () => {
+        const value = [
+            p(
+                { text: 'a:' },
+                {
+                    type: ELEMENT_SPOILER_INLINE,
+                    children: [{ text: 'hidden' }],
+                },
+                { text: '' },
+            ),
+        ];
+
+        expect(
+            find(deserialize(serialize(value)), ELEMENT_SPOILER_INLINE),
+        ).toHaveLength(1);
+    });
+
+    it('keeps the marks around a bare :spoiler', () => {
+        expect(deserialize('**:spoiler**')).toEqual([
+            p({ bold: true, text: ':spoiler' }),
+        ]);
+    });
+
+    it('keeps the content of an unknown block directive', () => {
+        const value = deserialize(':::note\nkept\n:::');
+
+        expect(value).not.toContain(null);
+        expect(flatText(value)).toBe('kept');
+    });
+
+    it.each([
+        'Re:Zero is great',
+        'see :foo[x] ok',
+        '::foo[leaf]',
+    ])('keeps %j as literal text', (markdown) => {
+        expect(flatText(deserialize(markdown))).toBe(markdown);
+    });
+});
+
 describe('article editor', () => {
     it('reads a pasted inline spoiler', () => {
         const editor = createPlateEditor({ plugins: ArticleKit }) as any;

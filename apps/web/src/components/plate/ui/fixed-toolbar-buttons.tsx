@@ -1,11 +1,6 @@
 import { useRef } from 'react';
 
-import {
-    BoldIcon,
-    ItalicIcon,
-    StrikethroughIcon,
-    UnderlineIcon,
-} from 'lucide-react';
+import { BoldIcon, ItalicIcon, StrikethroughIcon } from 'lucide-react';
 import { KEYS } from 'platejs';
 import { useEditorReadOnly } from 'platejs/react';
 
@@ -26,6 +21,37 @@ import {
 import { SpoilerToolbarButton } from './spoiler-toolbar-button';
 import { ToolbarGroup } from './toolbar';
 import { VideoToolbarButton } from './video-toolbar-button';
+
+const MARKS = {
+    [KEYS.bold]: { icon: BoldIcon, tooltip: 'Жирний (⌘+B)' },
+    [KEYS.italic]: { icon: ItalicIcon, tooltip: 'Курсив (⌘+I)' },
+    [KEYS.strikethrough]: { icon: StrikethroughIcon, tooltip: 'Закреслений' },
+};
+
+type Mark = keyof typeof MARKS;
+
+const ARTICLE_MARKS: Mark[] = [KEYS.bold, KEYS.italic];
+const MARKDOWN_MARKS: Mark[] = [...ARTICLE_MARKS, KEYS.strikethrough];
+
+function MarkToolbarButtons({ marks }: { marks: Mark[] }) {
+    return (
+        <ToolbarGroup>
+            {marks.map((mark) => {
+                const { icon: Icon, tooltip } = MARKS[mark];
+
+                return (
+                    <MarkToolbarButton
+                        key={mark}
+                        nodeType={mark}
+                        tooltip={tooltip}
+                    >
+                        <Icon />
+                    </MarkToolbarButton>
+                );
+            })}
+        </ToolbarGroup>
+    );
+}
 
 type Props = {
     className?: string;
@@ -50,35 +76,7 @@ export function FixedMarkdownToolbarButtons({ className }: Props) {
         >
             {!readOnly && (
                 <>
-                    <ToolbarGroup>
-                        <MarkToolbarButton
-                            nodeType={KEYS.bold}
-                            tooltip="Жирний (⌘+B)"
-                        >
-                            <BoldIcon />
-                        </MarkToolbarButton>
-
-                        <MarkToolbarButton
-                            nodeType={KEYS.italic}
-                            tooltip="Курсив (⌘+I)"
-                        >
-                            <ItalicIcon />
-                        </MarkToolbarButton>
-
-                        <MarkToolbarButton
-                            nodeType={KEYS.underline}
-                            tooltip="Підкреслений (⌘+U)"
-                        >
-                            <UnderlineIcon />
-                        </MarkToolbarButton>
-
-                        <MarkToolbarButton
-                            nodeType={KEYS.strikethrough}
-                            tooltip="Закреслений"
-                        >
-                            <StrikethroughIcon />
-                        </MarkToolbarButton>
-                    </ToolbarGroup>
+                    <MarkToolbarButtons marks={MARKDOWN_MARKS} />
 
                     <ToolbarGroup>
                         <SpoilerToolbarButton />
@@ -111,35 +109,7 @@ export function FixedArticleToolbarButtons() {
                         <InsertToolbarButton type="article" />
                     </ToolbarGroup>
 
-                    <ToolbarGroup>
-                        <MarkToolbarButton
-                            nodeType={KEYS.bold}
-                            tooltip="Жирний (⌘+B)"
-                        >
-                            <BoldIcon />
-                        </MarkToolbarButton>
-
-                        <MarkToolbarButton
-                            nodeType={KEYS.italic}
-                            tooltip="Курсив (⌘+I)"
-                        >
-                            <ItalicIcon />
-                        </MarkToolbarButton>
-
-                        <MarkToolbarButton
-                            nodeType={KEYS.underline}
-                            tooltip="Підкреслений (⌘+U)"
-                        >
-                            <UnderlineIcon />
-                        </MarkToolbarButton>
-
-                        <MarkToolbarButton
-                            nodeType={KEYS.strikethrough}
-                            tooltip="Закреслений"
-                        >
-                            <StrikethroughIcon />
-                        </MarkToolbarButton>
-                    </ToolbarGroup>
+                    <MarkToolbarButtons marks={ARTICLE_MARKS} />
 
                     <ToolbarGroup>
                         <SpoilerToolbarButton />

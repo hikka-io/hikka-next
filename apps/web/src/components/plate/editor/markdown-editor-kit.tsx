@@ -16,6 +16,7 @@ import { LinkKit } from './plugins/link-kit';
 import { ListKit } from './plugins/list-classic-kit';
 import { createMarkdownKit } from './plugins/markdown-kit';
 import { SpoilerKit } from './plugins/spoiler-kit';
+import { StrikethroughKit } from './plugins/strikethrough-kit';
 import { TextSubstitutionsKit } from './plugins/text-substitutions-kit';
 import { withoutTriggerPlugins } from './plugins/trigger-plugins';
 import { UserSearchKit } from './plugins/user-search-kit';
@@ -29,6 +30,7 @@ export const MarkdownEditorKit = [
 
     // Marks
     ...BasicMarksKit,
+    ...StrikethroughKit,
 
     // Editing
     ...EmojiKit,

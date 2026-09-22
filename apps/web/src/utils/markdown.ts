@@ -22,6 +22,8 @@ const renderPlain = () => {
 
     render.strong = (text) => text;
 
+    render.del = (text) => text;
+
     render.blockquote = (text) => text;
 
     return render;
