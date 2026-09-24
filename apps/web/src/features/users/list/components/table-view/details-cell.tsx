@@ -9,7 +9,6 @@ import type {
 
 import PosterCard from '@/components/content-card/poster-card';
 import MDViewer from '@/components/markdown/viewer/md-viewer';
-import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 import { useTitle } from '@/features/auth/hooks/use-title';
@@ -26,7 +25,7 @@ type Props = {
     content: MangaResponse | NovelResponse | AnimeResponse;
     content_type: MainContentTypeEnum;
     repeats: number;
-    note?: string;
+    note?: string | null;
 };
 
 const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
@@ -52,11 +51,12 @@ const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
                         </Link>
                     </div>
                     {note && (
-                        <TextExpand>
-                            <MDViewer className="text-muted-foreground text-xs">
-                                {note}
-                            </MDViewer>
-                        </TextExpand>
+                        <MDViewer
+                            preview
+                            className="prose-inline line-clamp-2 text-muted-foreground text-xs"
+                        >
+                            {note}
+                        </MDViewer>
                     )}
                     {repeats > 0 && (
                         <Badge variant="warning" className="w-fit">

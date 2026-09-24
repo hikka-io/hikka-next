@@ -14,6 +14,7 @@ import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
 
 import { useUserlistManager } from '../../hooks/use-list-manager';
+import UserNote from './user-note';
 
 const UserContentStats = ({
     content_type,
@@ -22,11 +23,19 @@ const UserContentStats = ({
     content_type: MainContentTypeEnum;
     listItem?: WatchResponse | ReadResponse;
 }) => {
-    const { addProgress, removeProgress, setScore, score, progress, total } =
-        useUserlistManager({
-            listItem,
-            content_type,
-        });
+    const {
+        addProgress,
+        removeProgress,
+        setScore,
+        setNote,
+        isSaving,
+        score,
+        progress,
+        total,
+    } = useUserlistManager({
+        listItem,
+        content_type,
+    });
 
     if (!listItem) {
         return null;
@@ -94,6 +103,12 @@ const UserContentStats = ({
                     </Button>
                 </div>
             </div>
+            <UserNote
+                key={listItem.reference}
+                note={listItem.note}
+                isSaving={isSaving}
+                onSave={setNote}
+            />
         </div>
     );
 };

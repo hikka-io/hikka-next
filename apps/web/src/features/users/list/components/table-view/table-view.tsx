@@ -17,7 +17,9 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useSession } from '@/features/auth/hooks/use-session';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { useParams } from '@/utils/navigation';
 
 import ChaptersCell from './chapters-cell';
 import DetailsCell from './details-cell';
@@ -39,6 +41,9 @@ const TableView: FC<Props> = ({ data, content_type }) => {
         sort?: string | string[];
     }>();
     const router = useRouter();
+    const params = useParams();
+    const { user } = useSession();
+    const isOwner = user?.username === params.username;
 
     const order = (search.order as 'asc' | 'desc' | null) || null;
     const sortRaw = search.sort;
@@ -153,7 +158,7 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                                     number={i + 1}
                                 />
                                 <DetailsCell
-                                    note={res.note || undefined}
+                                    note={isOwner ? res.note : null}
                                     content_type={content_type}
                                     content={content}
                                     repeats={repeats}

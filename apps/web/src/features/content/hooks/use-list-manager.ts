@@ -114,13 +114,14 @@ export const useUserlistManager = ({
 
     const queryClient = useQueryClient();
 
-    const { mutate: mutateCreateWatch } = useMutation({
-        ...watchAddMutation(),
-        onSuccess: (data) => {
-            applyWatchMutation(queryClient, data);
-        },
-    });
-    const { mutate: mutateCreateRead } = useMutation({
+    const { mutate: mutateCreateWatch, isPending: isWatchPending } =
+        useMutation({
+            ...watchAddMutation(),
+            onSuccess: (data) => {
+                applyWatchMutation(queryClient, data);
+            },
+        });
+    const { mutate: mutateCreateRead, isPending: isReadPending } = useMutation({
         ...readAddMutation(),
         onSuccess: (data) => {
             applyReadMutation(queryClient, data);
@@ -204,6 +205,57 @@ export const useUserlistManager = ({
 
     const sentRef = useRef<MappedListItem | null>(null);
 
+    const setNote = (
+        note: string,
+        { onSuccess }: { onSuccess?: () => void },
+    ) => {
+        if (!listItem) return;
+
+        // The immediate write carries the pending score/progress, so the
+        // debounced one must not follow with the note it captured earlier.
+        if (activePending) sentRef.current = activePending;
+
+        const extraArgs = {
+            ...mappedListItem.extraArgs,
+            note: note.trim() || null,
+        };
+
+        switch (content_type) {
+            case ContentTypeEnum.ANIME:
+                mutateCreateWatch(
+                    {
+                        path: { slug: mappedListItem.slug },
+                        body: {
+                            ...extraArgs,
+                            score: currentScore,
+                            status: currentStatus as WatchStatusEnum,
+                            episodes: currentProgress,
+                        },
+                    },
+                    { onSuccess },
+                );
+                break;
+            case ContentTypeEnum.MANGA:
+            case ContentTypeEnum.NOVEL:
+                mutateCreateRead(
+                    {
+                        path: {
+                            content_type: content_type as ReadContentTypeEnum,
+                            slug: mappedListItem.slug,
+                        },
+                        body: {
+                            ...extraArgs,
+                            score: currentScore,
+                            status: currentStatus as ReadStatusEnum,
+                            chapters: currentProgress,
+                        },
+                    },
+                    { onSuccess },
+                );
+                break;
+        }
+    };
+
     useEffect(() => {
         if (
             !debouncedUpdate ||
@@ -254,6 +306,8 @@ export const useUserlistManager = ({
         addProgress,
         removeProgress,
         setScore,
+        setNote,
+        isSaving: isWatchPending || isReadPending,
         score: currentScore,
         progress: currentProgress,
         total: mappedListItem.total,
