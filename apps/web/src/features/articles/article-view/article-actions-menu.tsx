@@ -1,9 +1,10 @@
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
 import { getArticleOptions } from '@hikka/api';
 
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import PageActionsMenu from '@/components/page-actions-menu';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
@@ -23,6 +24,7 @@ const ArticleActionsMenu: FC<Props> = ({ className }) => {
     const { user: loggedUser, isAdmin, isModerator } = useSession();
 
     const { data: article } = useQuery(getArticleOptions({ path: { slug } }));
+    const [deleteOpen, setDeleteOpen] = useState(false);
 
     const articleUrl = `${CONTENT_TYPE_LINKS.article}/${slug}`;
     const canManage =
@@ -32,19 +34,34 @@ const ArticleActionsMenu: FC<Props> = ({ className }) => {
             isModerator());
 
     return (
-        <PageActionsMenu url={articleUrl} className={className}>
+        <>
+            <PageActionsMenu url={articleUrl} className={className}>
+                {canManage && (
+                    <>
+                        <DropdownMenuItem
+                            render={<Link to={`${articleUrl}/update`} />}
+                        >
+                            <MaterialSymbolsEditRounded />
+                            Редагувати
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => setDeleteOpen(true)}
+                            className="text-destructive-foreground"
+                        >
+                            <MaterialSymbolsDeleteForeverRounded />
+                            Видалити
+                        </DropdownMenuItem>
+                    </>
+                )}
+            </PageActionsMenu>
             {canManage && (
-                <>
-                    <DropdownMenuItem
-                        render={<Link to={`${articleUrl}/update`} />}
-                    >
-                        <MaterialSymbolsEditRounded />
-                        Редагувати
-                    </DropdownMenuItem>
-                    <DeleteArticle article={article} />
-                </>
+                <DeleteArticle
+                    article={article}
+                    open={deleteOpen}
+                    onOpenChange={setDeleteOpen}
+                />
             )}
-        </PageActionsMenu>
+        </>
     );
 };
 

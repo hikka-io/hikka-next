@@ -22,7 +22,6 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import {
@@ -94,6 +93,7 @@ const CommentMenu: FC<Props> = ({
 
     const [convertOpen, setConvertOpen] = useState(false);
     const [demoteOpen, setDemoteOpen] = useState(false);
+    const [deleteOpen, setDeleteOpen] = useState(false);
 
     const isReview = !!comment.review;
 
@@ -156,44 +156,35 @@ const CommentMenu: FC<Props> = ({
                         </DropdownMenuItem>
                     )}
                     {canModerate && (
-                        <AlertDialog>
-                            <AlertDialogTrigger
-                                render={
-                                    <DropdownMenuItem
-                                        onClick={(e) => e.preventDefault()}
-                                        className="text-destructive-foreground"
-                                    >
-                                        <MaterialSymbolsDeleteForeverRounded />
-                                        Видалити
-                                    </DropdownMenuItem>
-                                }
-                            />
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>
-                                        Ви впевнені, що хочете видалити
-                                        коментар?
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                        Після цієї операції, Ви вже не зможете
-                                        його відновити.
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>
-                                        Відмінити
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction
-                                        onClick={handleDeleteComment}
-                                    >
-                                        Підтвердити
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
+                        <DropdownMenuItem
+                            onClick={() => setDeleteOpen(true)}
+                            className="text-destructive-foreground"
+                        >
+                            <MaterialSymbolsDeleteForeverRounded />
+                            Видалити
+                        </DropdownMenuItem>
                     )}
                 </DropdownMenuContent>
             </DropdownMenu>
+            <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>
+                            Ви впевнені, що хочете видалити коментар?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Після цієї операції, Ви вже не зможете його
+                            відновити.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Відмінити</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDeleteComment}>
+                            Підтвердити
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
             {convertOpen && (
                 <ConvertReviewDialog
                     comment={comment}

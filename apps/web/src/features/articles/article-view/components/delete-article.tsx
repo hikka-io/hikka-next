@@ -8,7 +8,6 @@ import {
     deleteArticleMutation,
 } from '@hikka/api';
 
-import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -18,17 +17,17 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
 type Props = {
     article: ArticleDocumentResponse;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
 };
 
-const DeleteArticle: FC<Props> = ({ article }) => {
+const DeleteArticle: FC<Props> = ({ article, open, onOpenChange }) => {
     const router = useRouter();
     const queryClient = useQueryClient();
 
@@ -46,18 +45,7 @@ const DeleteArticle: FC<Props> = ({ article }) => {
     };
 
     return (
-        <AlertDialog>
-            <AlertDialogTrigger
-                render={
-                    <DropdownMenuItem
-                        onClick={(e) => e.preventDefault()}
-                        className="text-destructive-foreground"
-                    >
-                        <MaterialSymbolsDeleteForeverRounded />
-                        Видалити
-                    </DropdownMenuItem>
-                }
-            />
+        <AlertDialog open={open} onOpenChange={onOpenChange}>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>
