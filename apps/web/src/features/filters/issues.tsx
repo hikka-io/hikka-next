@@ -19,7 +19,7 @@ type Props = {
     onChange: (value: string[] | undefined) => void;
 };
 
-export const Issues: FC<Props> = ({ properties, value, onChange }) => {
+const Issues: FC<Props> = ({ properties, value, onChange }) => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2 text-muted-foreground">
@@ -56,3 +56,5 @@ export const Issues: FC<Props> = ({ properties, value, onChange }) => {
         </div>
     );
 };
+
+export default Issues;

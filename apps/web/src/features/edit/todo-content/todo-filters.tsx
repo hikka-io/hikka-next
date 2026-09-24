@@ -1,11 +1,13 @@
+import type { FC } from 'react';
+
 import { ContentTypeEnum } from '@hikka/api';
 
 import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
-import { TodoMediaFilters } from '@/features/filters/todo-media-filters';
-import { TodoPersonFilters } from '@/features/filters/todo-person-filters';
 import { cn } from '@/utils/cn';
 
 import type { TodoFiltersValue } from './todo-filters-value';
+import TodoMediaFilters from './todo-media-filters';
+import TodoPersonFilters from './todo-person-filters';
 
 type BodyProps = {
     className?: string;
@@ -14,12 +16,13 @@ type BodyProps = {
     onChange: (value: TodoFiltersValue) => void;
 };
 
-export function TodoFiltersBody({
+/** Filter fields only — no footer/padding; use inside modals or custom wrappers. */
+export const TodoFiltersBody: FC<BodyProps> = ({
     className,
     contentType,
     value,
     onChange,
-}: BodyProps) {
+}) => {
     return (
         <div className={cn('flex flex-col gap-8', className)}>
             {(contentType === ContentTypeEnum.ANIME ||
@@ -41,10 +44,11 @@ export function TodoFiltersBody({
             )}
         </div>
     );
-}
+};
 
 type Props = BodyProps;
 
+/** Side-panel composition: scrollable filter body + sticky footer. */
 export function TodoFilters({
     className,
     contentType,

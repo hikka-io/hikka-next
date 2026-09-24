@@ -10,7 +10,7 @@ type Props = {
     onChange: (value: string[] | undefined) => void;
 };
 
-export const Magazine: FC<Props> = ({ value, onChange }) => {
+const Magazine: FC<Props> = ({ value, onChange }) => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2 text-muted-foreground">
@@ -29,3 +29,5 @@ export const Magazine: FC<Props> = ({ value, onChange }) => {
         </div>
     );
 };
+
+export default Magazine;

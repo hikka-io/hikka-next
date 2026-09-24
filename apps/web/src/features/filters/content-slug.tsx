@@ -7,26 +7,22 @@ import { Label } from '@/components/ui/label';
 import useDebounce from '@/services/hooks/use-debounce';
 
 type Props = {
-    /** Included in the reset effect's deps so an in-flight edit is discarded on tab switch. */
     resetKey: unknown;
     value: string | undefined;
     onChange: (value: string | undefined) => void;
 };
 
-/**
- * Temporary hack: the API has no way to filter characters/persons by
- * mal_id directly, so this lets moderators paste the parent content's
- * slug instead. Remove once character/person todo endpoints gain a
- * proper mal_id filter.
- */
-export const ContentSlug: FC<Props> = ({ resetKey, value, onChange }) => {
+// Character/person todo endpoints have no mal_id filter; the parent content slug stands in.
+const ContentSlug: FC<Props> = ({ resetKey, value, onChange }) => {
     const [input, setInput] = useState(value ?? '');
     const [debounced] = useDebounce({ value: input, delay: 500 });
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: resetKey discards an in-flight edit on tab switch
     useEffect(() => {
         setInput(value ?? '');
     }, [value, resetKey]);
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: commit only when the debounced input settles, not on every value/onChange identity
     useEffect(() => {
         const parsed = debounced || undefined;
         if (parsed === value) return;
@@ -48,3 +44,5 @@ export const ContentSlug: FC<Props> = ({ resetKey, value, onChange }) => {
         </div>
     );
 };
+
+export default ContentSlug;

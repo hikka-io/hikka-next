@@ -10,7 +10,7 @@ import {
 import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
 
 import { TodoFiltersBody } from './todo-filters';
-import { type TodoFiltersValue } from './todo-filters-value';
+import type { TodoFiltersValue } from './todo-filters-value';
 
 type Props = {
     open: boolean;
