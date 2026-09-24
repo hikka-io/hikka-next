@@ -1,6 +1,7 @@
 import { type FC, Suspense } from 'react';
 
 import { Separator } from '@/components/ui/separator';
+import { FiltersButton, type RenderFiltersModal } from '@/features/filters';
 import SearchInput from '@/features/filters/search-input';
 import Sort from '@/features/filters/sort';
 import { cn } from '@/utils/cn';
@@ -9,11 +10,16 @@ import type { TodoContentType } from '../hooks/use-todo-content-list';
 import { getTodoSortType } from '../hooks/use-todo-filters';
 
 type Props = {
-    value: TodoContentType;
+    contentType: TodoContentType;
+    renderFilterModal: RenderFiltersModal;
     className?: string;
 };
 
-const TodoContentNavbar: FC<Props> = ({ value, className }) => {
+const TodoContentNavbar: FC<Props> = ({
+    contentType,
+    renderFilterModal,
+    className,
+}) => {
     return (
         <div
             className={cn(
@@ -31,13 +37,18 @@ const TodoContentNavbar: FC<Props> = ({ value, className }) => {
 
             <div className="flex items-center gap-4">
                 <Sort
-                    sort_type={getTodoSortType(value)}
+                    sort_type={getTodoSortType(contentType)}
                     compact
                     className="min-w-0 flex-1 overflow-hidden md:w-46"
                     placeholder="Сортування"
                 />
 
-                <Separator orientation="vertical" className="h-6" />
+                <Separator orientation="vertical" className="h-6 lg:hidden" />
+
+                <FiltersButton
+                    className="lg:hidden"
+                    renderModal={renderFilterModal}
+                />
             </div>
         </div>
     );
