@@ -1,23 +1,25 @@
 import {
+    type AnimeAgeRatingEnum,
     type AnimeMediaEnum,
     type AnimeTodoArgs,
     type CharacterTodoArgs,
+    type ContentStatusEnum,
     ContentTypeEnum,
-    type MangaMediaEnum,
-    type MangaTodoArgs,
-    type NovelMediaEnum,
-    type NovelTodoArgs,
-    type PersonTodoArgs,
     getTodoAnimeListInfiniteOptions,
     getTodoCharacterListInfiniteOptions,
     getTodoMangaListInfiniteOptions,
     getTodoNovelListInfiniteOptions,
     getTodoPersonListInfiniteOptions,
+    type MangaMediaEnum,
+    type MangaTodoArgs,
+    type NovelMediaEnum,
     paginatedInfiniteOptions,
+    type SeasonEnum,
 } from '@hikka/api';
 
-import type { TodoFiltersValue } from '@/features/edit/todo-content/todo-filters-value';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+
+import type { TodoFiltersValue } from '../todo-content/todo-filters-value';
 
 export type TodoContentType =
     | typeof ContentTypeEnum.ANIME
@@ -26,98 +28,64 @@ export type TodoContentType =
     | typeof ContentTypeEnum.CHARACTER
     | typeof ContentTypeEnum.PERSON;
 
-type TodoContentQueryMap = {
-    [ContentTypeEnum.ANIME]: TodoFiltersValue;
-    [ContentTypeEnum.MANGA]: TodoFiltersValue;
-    [ContentTypeEnum.NOVEL]: TodoFiltersValue;
-    [ContentTypeEnum.CHARACTER]: TodoFiltersValue;
-    [ContentTypeEnum.PERSON]: TodoFiltersValue;
+type TodoContentListParams = {
+    filters: TodoFiltersValue;
+    page: number;
+    size: number;
+    query?: string;
+    sort: string[];
 };
 
-/**
- * Anime and manga/novel bodies diverge (studios/season/rating vs magazines),
- * so each content family gets its own mapper.
- */
-function toAnimeTodoBody<M extends string>(
-    filters: TodoFiltersValue | undefined,
-): {
-    media_type?: M[];
-    mal_id?: number;
-    fields?: string[];
-    genres?: string[];
-    studios?: string[];
-    season?: string[];
-    status?: string[];
-    rating?: string[];
-    years?: [number | null, number | null];
-} {
+function toAnimeTodoArgs(filters: TodoFiltersValue): AnimeTodoArgs {
     return {
-        media_type: filters?.types as M[] | undefined,
-        mal_id: filters?.mal_id,
-        fields: filters?.issues,
-        genres: filters?.genres,
-        studios: filters?.studios,
-        season: filters?.seasons,
-        status: filters?.statuses,
-        rating: filters?.ratings,
-        years: filters?.years,
+        media_type: filters.types as AnimeMediaEnum[] | undefined,
+        mal_id: filters.mal_id,
+        fields: filters.issues,
+        genres: filters.genres,
+        studios: filters.studios,
+        season: filters.seasons as SeasonEnum[] | undefined,
+        status: filters.statuses as ContentStatusEnum[] | undefined,
+        rating: filters.ratings as AnimeAgeRatingEnum[] | undefined,
+        years: filters.years,
+    };
+}
+
+function toReadTodoArgs(
+    filters: TodoFiltersValue,
+): Omit<MangaTodoArgs, 'media_type'> {
+    return {
+        mal_id: filters.mal_id,
+        fields: filters.issues,
+        genres: filters.genres,
+        magazines: filters.magazines,
+        status: filters.statuses as ContentStatusEnum[] | undefined,
+        years: filters.years,
+    };
+}
+
+function toPersonTodoArgs(filters: TodoFiltersValue): CharacterTodoArgs {
+    return {
+        fields: filters.issues,
+        content_type: filters.content_type,
+        content_slug: filters.content_slug,
     };
 }
 
 /**
- * Character/person bodies only take `fields`/`content_type`/`content_slug` —
- * spreading `TodoFiltersValue` directly would send `issues` under the wrong
- * key and silently drop the filter.
+ * One infinite-list hook for all five `/edit/todo/*` endpoints (anime, manga,
+ * novel, characters, people). Each endpoint has its own fixed URL and a
+ * slightly different filter body shape, so `contentType` just selects which
+ * generated infinite-query options — and matching result — to return.
  */
-function toPersonTodoBody(filters: TodoFiltersValue | undefined): {
-    fields?: string[];
-    content_type?: TodoFiltersValue['content_type'];
-    content_slug?: string;
-} {
-    return {
-        fields: filters?.issues,
-        content_type: filters?.content_type,
-        content_slug: filters?.content_slug,
-    };
-}
-
-function toReadTodoBody<M extends string>(
-    filters: TodoFiltersValue | undefined,
-): {
-    media_type?: M[];
-    mal_id?: number;
-    fields?: string[];
-    genres?: string[];
-    magazines?: string[];
-    status?: string[];
-    years?: [number | null, number | null];
-} {
-    return {
-        media_type: filters?.types as M[] | undefined,
-        mal_id: filters?.mal_id,
-        fields: filters?.issues,
-        genres: filters?.genres,
-        magazines: filters?.magazines,
-        status: filters?.statuses,
-        years: filters?.years,
-    };
-}
-
-export function useTodoContentList<T extends TodoContentType>(
-    contentType: T,
-    filters?: TodoContentQueryMap[T],
-    page = 1,
-    size?: number,
-    query?: string,
-    sort?: string[],
+export function useTodoContentList(
+    contentType: TodoContentType,
+    { filters, page, size, query, sort }: TodoContentListParams,
 ) {
+    const shared = { query, sort };
+
     const animeOptions = paginatedInfiniteOptions(
         getTodoAnimeListInfiniteOptions({
-            body: {
-                ...toAnimeTodoBody<AnimeMediaEnum>(filters),
-                query,
-                sort,
-            } as AnimeTodoArgs,
+            body: { ...toAnimeTodoArgs(filters), ...shared },
             query: { size },
         }),
         page,
@@ -125,10 +93,10 @@ export function useTodoContentList<T extends TodoContentType>(
     const mangaOptions = paginatedInfiniteOptions(
         getTodoMangaListInfiniteOptions({
             body: {
-                ...toReadTodoBody<MangaMediaEnum>(filters),
-                query,
-                sort,
-            } as MangaTodoArgs,
+                ...toReadTodoArgs(filters),
+                ...shared,
+                media_type: filters.types as MangaMediaEnum[] | undefined,
+            },
             query: { size },
         }),
         page,
@@ -136,32 +104,24 @@ export function useTodoContentList<T extends TodoContentType>(
     const novelOptions = paginatedInfiniteOptions(
         getTodoNovelListInfiniteOptions({
             body: {
-                ...toReadTodoBody<NovelMediaEnum>(filters),
-                query,
-                sort,
-            } as NovelTodoArgs,
+                ...toReadTodoArgs(filters),
+                ...shared,
+                media_type: filters.types as NovelMediaEnum[] | undefined,
+            },
             query: { size },
         }),
         page,
     );
     const characterOptions = paginatedInfiniteOptions(
         getTodoCharacterListInfiniteOptions({
-            body: {
-                ...toPersonTodoBody(filters),
-                query,
-                sort,
-            } as CharacterTodoArgs,
+            body: { ...toPersonTodoArgs(filters), ...shared },
             query: { size },
         }),
         page,
     );
     const personOptions = paginatedInfiniteOptions(
         getTodoPersonListInfiniteOptions({
-            body: {
-                ...toPersonTodoBody(filters),
-                query,
-                sort,
-            } as PersonTodoArgs,
+            body: { ...toPersonTodoArgs(filters), ...shared },
             query: { size },
         }),
         page,

@@ -9,7 +9,6 @@ import type { EditContentSearch } from '@/utils/search-schemas';
 import type { TodoFiltersValue } from '../todo-content/todo-filters-value';
 import type { TodoContentType } from './use-todo-content-list';
 
-/** Character/person are named entities; anime/manga/novel are titled ones. */
 export function getTodoSortType(contentType: TodoContentType): SortType {
     if (
         contentType === ContentTypeEnum.CHARACTER ||
