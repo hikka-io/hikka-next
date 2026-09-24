@@ -60,6 +60,8 @@ const FILTER_REGISTRY: Record<string, FilterDef> = {
     // Enum params with dynamic label maps (fetched from API)
     genres: { kind: 'dynamic', tristate: true },
     studios: { kind: 'dynamic' },
+    // No magazine lookup endpoint, so chips show the raw slug.
+    magazines: { kind: 'dynamic' },
 
     // Range params
     years: { kind: 'range' },
