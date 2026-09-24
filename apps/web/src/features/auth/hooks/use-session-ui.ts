@@ -22,6 +22,8 @@ import {
     resolveBackdrop,
 } from '@/utils/ui';
 
+import { useSession } from './use-session';
+
 type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 
 /** Merge layer guarantees `feed`/`widgets` are present; required here though the API marks them optional. */
@@ -48,10 +50,12 @@ interface SessionUI {
 }
 
 export function useSessionUI(): SessionUI {
+    const { user } = useSession();
     // @hikka/api client is configured globally, so this works even inside Providers.
     // API response is a structural superset of UserUI, so cast at this boundary.
     const { data } = useQuery({
         ...profileUiOptions(),
+        enabled: !!user,
     });
     const userUI =
         (data as UserCustomizationResponse | undefined) ?? DEFAULT_USER_UI;
