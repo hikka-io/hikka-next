@@ -102,16 +102,13 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
                     content={data}
                     disabled={!loggedUser}
                 />
-                {content_type !== ContentTypeEnum.PERSON && (
-                    <FavoriteButton
-                        slug={String(params.slug)}
-                        content_type={content_type}
-                        size="icon-md"
-                        variant="ghost"
-                        disabled={!loggedUser}
-                    />
-                )}
-
+                <FavoriteButton
+                    slug={String(params.slug)}
+                    content_type={content_type}
+                    size="icon-md"
+                    variant="ghost"
+                    disabled={!loggedUser}
+                />
                 <Button
                     size="md"
                     variant="ghost"

@@ -13,6 +13,7 @@ import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/M
 import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
 import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
 import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
+import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import Block from '@/components/ui/block';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
@@ -31,6 +32,7 @@ import Character from './components/favorite-characters';
 import Collections from './components/favorite-collections';
 import Manga from './components/favorite-manga';
 import Novel from './components/favorite-novel';
+import People from './components/favorite-people';
 
 const CONTENT_OPTIONS: ChipTabOption<FavouriteContentTypeEnum>[] = [
     {
@@ -52,6 +54,11 @@ const CONTENT_OPTIONS: ChipTabOption<FavouriteContentTypeEnum>[] = [
         label: 'Персонажі',
         value: ContentTypeEnum.CHARACTER,
         icon: MaterialSymbolsFace3,
+    },
+    {
+        label: 'Люди',
+        value: ContentTypeEnum.PERSON,
+        icon: MaterialSymbolsPerson,
     },
     {
         label: 'Колекції',
@@ -124,6 +131,8 @@ const Favorites: FC<Props> = ({ extended, type }) => {
                 return <Manga extended={extended} />;
             case ContentTypeEnum.NOVEL:
                 return <Novel extended={extended} />;
+            case ContentTypeEnum.PERSON:
+                return <People extended={extended} />;
             case ContentTypeEnum.COLLECTION:
                 return <Collections extended={extended} />;
             default:

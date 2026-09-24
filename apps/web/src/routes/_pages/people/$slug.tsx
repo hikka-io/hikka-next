@@ -2,6 +2,7 @@ import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
 
 import {
     ContentTypeEnum,
+    getFavouriteOptions,
     paginationPageParam,
     personAnimeInfiniteOptions,
     personInfoOptions,
@@ -14,6 +15,7 @@ import { useTitle } from '@/features/auth/hooks/use-title';
 import { ContentDetailLayout } from '@/features/content';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { PERSON_NAV_ROUTES } from '@/utils/constants/navigation';
+import { getAuthTokenFn } from '@/utils/cookies';
 import { generateHeadMeta } from '@/utils/metadata';
 import { getTitle } from '@/utils/title/get-title';
 
@@ -30,7 +32,7 @@ export const Route = createFileRoute('/_pages/people/$slug')({
 
         if (!person) throw notFound();
 
-        await Promise.allSettled([
+        const prefetches: Promise<unknown>[] = [
             queryClient.ensureInfiniteQueryData({
                 ...personAnimeInfiniteOptions({
                     path: { slug: params.slug },
@@ -59,7 +61,24 @@ export const Route = createFileRoute('/_pages/people/$slug')({
                 }),
                 ...paginationPageParam(),
             }),
-        ]);
+        ];
+
+        // Favourite status is user-specific; only prefetch when authenticated.
+        if (await getAuthTokenFn()) {
+            prefetches.push(
+                queryClient.ensureQueryData(
+                    getFavouriteOptions({
+                        path: {
+                            slug: params.slug,
+                            content_type: ContentTypeEnum.PERSON,
+                        },
+                        client: apiClient,
+                    }),
+                ),
+            );
+        }
+
+        await Promise.allSettled(prefetches);
 
         return { person };
     },

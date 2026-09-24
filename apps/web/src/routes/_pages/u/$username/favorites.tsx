@@ -7,7 +7,7 @@ import { generateHeadMeta } from '@/utils/metadata';
 
 const favoritesSearchSchema = z.object({
     type: z
-        .enum(['anime', 'manga', 'novel', 'character', 'collection'])
+        .enum(['anime', 'manga', 'novel', 'character', 'person', 'collection'])
         .optional()
         .catch(undefined),
 });
