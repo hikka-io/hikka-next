@@ -3,7 +3,7 @@ import { defineConfig } from '@hey-api/openapi-ts';
 import { transformSpec } from './scripts/transform-spec';
 
 const SPEC_URL =
-    process.env.HIKKA_OPENAPI_URL ?? 'http://localhost:8888/openapi.json';
+    process.env.HIKKA_OPENAPI_URL ?? 'https://api.hikka.io/openapi.json';
 
 /**
  * Hikka list/search endpoints are POST (filters in the body, `page`/`size` in

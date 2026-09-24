@@ -532,10 +532,26 @@ export const zFavouriteCharacterResponse = z.object({
 export const zFavouriteContentTypeEnum = z.enum([
     'collection',
     'character',
+    'person',
     'anime',
     'manga',
     'novel',
 ]);
+
+/**
+ * FavouritePersonResponse
+ */
+export const zFavouritePersonResponse = z.object({
+    favourite_created: z.number().int(),
+    data_type: z.literal('person'),
+    name_native: z.string().nullable(),
+    name_ua: z.string().nullable(),
+    name_en: z.string().nullable(),
+    image: z.string().nullable(),
+    slug: z.string(),
+    description_ua: z.string().nullable(),
+    synonyms: z.array(z.string()),
+});
 
 /**
  * FavouriteResponse
@@ -551,6 +567,7 @@ export const zFavouriteResponse = z.object({
 export const zFavouriteStatsResponse = z.object({
     collection: z.number().int().optional().default(0),
     character: z.number().int().optional().default(0),
+    person: z.number().int().optional().default(0),
     anime: z.number().int().optional().default(0),
     manga: z.number().int().optional().default(0),
     novel: z.number().int().optional().default(0),
@@ -2377,8 +2394,8 @@ export const zClientFullResponse = z.object({
     user: zUserResponse,
     created: z.number().int(),
     updated: z.number().int(),
-    secret: z.string(),
     endpoint: z.string(),
+    secret: z.string(),
 });
 
 /**
@@ -2956,6 +2973,7 @@ export const zFavouritePaginationResponse = z.object({
             zFavouriteNovelResponse,
             zFavouriteCollectionResponse,
             zFavouriteCharacterResponse,
+            zFavouritePersonResponse,
         ]),
     ),
     pagination: zPaginationResponse,
