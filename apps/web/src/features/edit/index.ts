@@ -17,6 +17,7 @@ export {
     TodoContentCard,
     TodoContentList,
     TodoContentNavbar,
+    TodoContentTabs,
     TodoFilters,
     TodoFiltersModal,
     TodoListSummary,

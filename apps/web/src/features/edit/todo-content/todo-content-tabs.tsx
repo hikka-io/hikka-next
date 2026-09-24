@@ -1,7 +1,5 @@
 import type { FC } from 'react';
 
-import { useNavigate } from '@tanstack/react-router';
-
 import { ContentTypeEnum } from '@hikka/api';
 
 import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
@@ -14,31 +12,41 @@ import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
 import type { TodoContentType } from '../hooks/use-todo-content-list';
 
 // Each tab has its own filter set, so switching drops the rest of the search.
-const CONTENT_TYPE_OPTIONS: ChipTabOption<TodoContentType>[] = [
+const CONTENT_TYPES: ChipTabOption<TodoContentType>[] = [
     {
         label: 'Аніме',
         value: ContentTypeEnum.ANIME,
         icon: MaterialSymbolsAnimatedImages,
+        to: '/edit/content',
+        search: { tab: ContentTypeEnum.ANIME },
     },
     {
         label: 'Манґа',
         value: ContentTypeEnum.MANGA,
         icon: MaterialSymbolsPalette,
+        to: '/edit/content',
+        search: { tab: ContentTypeEnum.MANGA },
     },
     {
         label: 'Ранобе',
         value: ContentTypeEnum.NOVEL,
         icon: MaterialSymbolsMenuBookRounded,
+        to: '/edit/content',
+        search: { tab: ContentTypeEnum.NOVEL },
     },
     {
         label: 'Персонажі',
         value: ContentTypeEnum.CHARACTER,
         icon: MaterialSymbolsFace3,
+        to: '/edit/content',
+        search: { tab: ContentTypeEnum.CHARACTER },
     },
     {
         label: 'Люди',
         value: ContentTypeEnum.PERSON,
         icon: MaterialSymbolsPerson,
+        to: '/edit/content',
+        search: { tab: ContentTypeEnum.PERSON },
     },
 ];
 
@@ -47,23 +55,8 @@ type Props = {
     className?: string;
 };
 
-const TodoTabsSelector: FC<Props> = ({ value, className }) => {
-    const navigate = useNavigate();
+const TodoContentTabs: FC<Props> = ({ value, className }) => (
+    <ChipTabs value={value} className={className} options={CONTENT_TYPES} />
+);
 
-    const handleContentTypeChange = (next: TodoContentType) => {
-        if (next === value) return;
-
-        navigate({ to: '/edit/content', search: { tab: next } });
-    };
-
-    return (
-        <ChipTabs
-            options={CONTENT_TYPE_OPTIONS}
-            value={value}
-            onValueChange={handleContentTypeChange}
-            className={className}
-        />
-    );
-};
-
-export default TodoTabsSelector;
+export default TodoContentTabs;
