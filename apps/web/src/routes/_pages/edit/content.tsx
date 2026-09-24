@@ -6,13 +6,14 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import {
     TodoContentList,
+    TodoContentNavbar,
     TodoContentTabs,
     TodoFilters,
     TodoFiltersModal,
     TodoListSummary,
     useTodoFilters,
 } from '@/features/edit';
-import { FiltersButton, HeaderFiltersButton } from '@/features/filters';
+import { HeaderFiltersButton } from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editContentSearchSchema } from '@/utils/search-schemas';
 
@@ -67,13 +68,11 @@ function ContentPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_30%] lg:items-start lg:gap-x-10 xl:grid-cols-[1fr_25%]">
                 <div className="flex flex-col gap-4">
-                    <div className="flex items-center justify-between gap-4">
-                        <TodoListSummary />
-                        <FiltersButton
-                            className="lg:hidden"
-                            renderModal={renderFiltersModal}
-                        />
-                    </div>
+                    <TodoContentNavbar
+                        contentType={contentType}
+                        renderFilterModal={renderFiltersModal}
+                    />
+                    <TodoListSummary />
                     <TodoContentList />
                 </div>
 

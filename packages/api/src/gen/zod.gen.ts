@@ -436,6 +436,18 @@ export const zEditArgs = z.object({
 export const zEditContentToDoEnum = z.enum(['anime', 'manga', 'novel']);
 
 /**
+ * CharacterTodoArgs
+ */
+export const zCharacterTodoArgs = z.object({
+    page: z.number().int().gt(0).optional().default(1),
+    query: z.string().min(2).max(255).nullish(),
+    fields: z.array(z.string()).optional().default([]),
+    sort: z.array(z.string()).optional().default([]),
+    content_type: zEditContentToDoEnum.nullish(),
+    content_slug: z.string().nullish(),
+});
+
+/**
  * EditContentTypeEnum
  */
 export const zEditContentTypeEnum = z.enum([
@@ -520,10 +532,26 @@ export const zFavouriteCharacterResponse = z.object({
 export const zFavouriteContentTypeEnum = z.enum([
     'collection',
     'character',
+    'person',
     'anime',
     'manga',
     'novel',
 ]);
+
+/**
+ * FavouritePersonResponse
+ */
+export const zFavouritePersonResponse = z.object({
+    favourite_created: z.number().int(),
+    data_type: z.literal('person'),
+    name_native: z.string().nullable(),
+    name_ua: z.string().nullable(),
+    name_en: z.string().nullable(),
+    image: z.string().nullable(),
+    slug: z.string(),
+    description_ua: z.string().nullable(),
+    synonyms: z.array(z.string()),
+});
 
 /**
  * FavouriteResponse
@@ -539,6 +567,7 @@ export const zFavouriteResponse = z.object({
 export const zFavouriteStatsResponse = z.object({
     collection: z.number().int().optional().default(0),
     character: z.number().int().optional().default(0),
+    person: z.number().int().optional().default(0),
     anime: z.number().int().optional().default(0),
     manga: z.number().int().optional().default(0),
     novel: z.number().int().optional().default(0),
@@ -895,6 +924,25 @@ export const zMangaSearchArgs = z.object({
 });
 
 /**
+ * MangaTodoArgs
+ */
+export const zMangaTodoArgs = z.object({
+    page: z.number().int().gt(0).optional().default(1),
+    query: z.string().min(2).max(255).nullish(),
+    media_type: z.array(zMangaMediaEnum).optional().default([]),
+    mal_id: z.number().int().nullish(),
+    fields: z.array(z.string()).optional().default([]),
+    sort: z.array(z.string()).optional().default([]),
+    status: z.array(zContentStatusEnum).optional().default([]),
+    years: z
+        .tuple([z.number().int().nullable(), z.number().int().nullable()])
+        .optional()
+        .default([null, null]),
+    genres: z.array(z.string()).optional().default([]),
+    magazines: z.array(z.string()).optional().default([]),
+});
+
+/**
  * NotificationTypeEnum
  */
 export const zNotificationTypeEnum = z.enum([
@@ -984,6 +1032,25 @@ export const zNovelSearchArgs = z.object({
         .array(z.string())
         .optional()
         .default(['score:desc', 'scored_by:desc']),
+});
+
+/**
+ * NovelTodoArgs
+ */
+export const zNovelTodoArgs = z.object({
+    page: z.number().int().gt(0).optional().default(1),
+    query: z.string().min(2).max(255).nullish(),
+    media_type: z.array(zNovelMediaEnum).optional().default([]),
+    mal_id: z.number().int().nullish(),
+    fields: z.array(z.string()).optional().default([]),
+    sort: z.array(z.string()).optional().default([]),
+    status: z.array(zContentStatusEnum).optional().default([]),
+    years: z
+        .tuple([z.number().int().nullable(), z.number().int().nullable()])
+        .optional()
+        .default([null, null]),
+    genres: z.array(z.string()).optional().default([]),
+    magazines: z.array(z.string()).optional().default([]),
 });
 
 /**
@@ -1098,6 +1165,18 @@ export const zPersonResponse = z.object({
 export const zPersonSearchPaginationResponse = z.object({
     pagination: zPaginationResponse,
     list: z.array(zPersonResponse),
+});
+
+/**
+ * PersonTodoArgs
+ */
+export const zPersonTodoArgs = z.object({
+    page: z.number().int().gt(0).optional().default(1),
+    query: z.string().min(2).max(255).nullish(),
+    fields: z.array(z.string()).optional().default([]),
+    sort: z.array(z.string()).optional().default([]),
+    content_type: zEditContentToDoEnum.nullish(),
+    content_slug: z.string().nullish(),
 });
 
 /**
@@ -1516,6 +1595,27 @@ export const zAnimeScheduleArgs = z.object({
     rating: z.array(zAnimeAgeRatingEnum).optional().default([]),
     status: z.array(zContentStatusEnum).optional().default([]),
     only_watch: z.boolean().optional().default(false),
+});
+
+/**
+ * AnimeTodoArgs
+ */
+export const zAnimeTodoArgs = z.object({
+    page: z.number().int().gt(0).optional().default(1),
+    query: z.string().min(2).max(255).nullish(),
+    media_type: z.array(zAnimeMediaEnum).optional().default([]),
+    mal_id: z.number().int().nullish(),
+    fields: z.array(z.string()).optional().default([]),
+    sort: z.array(z.string()).optional().default([]),
+    season: z.array(zSeasonEnum).optional().default([]),
+    status: z.array(zContentStatusEnum).optional().default([]),
+    rating: z.array(zAnimeAgeRatingEnum).optional().default([]),
+    years: z
+        .tuple([z.number().int().nullable(), z.number().int().nullable()])
+        .optional()
+        .default([null, null]),
+    genres: z.array(z.string()).optional().default([]),
+    studios: z.array(z.string()).optional().default([]),
 });
 
 /**
@@ -2294,8 +2394,8 @@ export const zClientFullResponse = z.object({
     user: zUserResponse,
     created: z.number().int(),
     updated: z.number().int(),
-    secret: z.string(),
     endpoint: z.string(),
+    secret: z.string(),
 });
 
 /**
@@ -2873,6 +2973,7 @@ export const zFavouritePaginationResponse = z.object({
             zFavouriteNovelResponse,
             zFavouriteCollectionResponse,
             zFavouriteCharacterResponse,
+            zFavouritePersonResponse,
         ]),
     ),
     pagination: zPaginationResponse,
@@ -5058,15 +5159,10 @@ export const zGetContentEditTodoResponse = z.union([
     zNovelPaginationResponse,
 ]);
 
+export const zGetTodoAnimeListBody = zAnimeTodoArgs;
+
 export const zGetTodoAnimeListQuery = z.object({
     page: z.number().int().gt(0).lte(10000).optional().default(1),
-    title_ua: z.boolean().nullish(),
-    title_en: z.boolean().nullish(),
-    title_original: z.boolean().nullish(),
-    synopsis_ua: z.boolean().nullish(),
-    synopsis_en: z.boolean().nullish(),
-    media_type: zAnimeMediaEnum.nullish(),
-    mal_id: z.number().int().nullish(),
     size: z.number().int().gte(1).lte(100).optional().default(15),
 });
 
@@ -5075,15 +5171,10 @@ export const zGetTodoAnimeListQuery = z.object({
  */
 export const zGetTodoAnimeListResponse = zTodoAnimeListResponse;
 
+export const zGetTodoMangaListBody = zMangaTodoArgs;
+
 export const zGetTodoMangaListQuery = z.object({
     page: z.number().int().gt(0).lte(10000).optional().default(1),
-    title_ua: z.boolean().nullish(),
-    title_en: z.boolean().nullish(),
-    title_original: z.boolean().nullish(),
-    synopsis_ua: z.boolean().nullish(),
-    synopsis_en: z.boolean().nullish(),
-    media_type: zMangaMediaEnum.nullish(),
-    mal_id: z.number().int().nullish(),
     size: z.number().int().gte(1).lte(100).optional().default(15),
 });
 
@@ -5092,15 +5183,10 @@ export const zGetTodoMangaListQuery = z.object({
  */
 export const zGetTodoMangaListResponse = zTodoMangaListResponse;
 
+export const zGetTodoNovelListBody = zNovelTodoArgs;
+
 export const zGetTodoNovelListQuery = z.object({
     page: z.number().int().gt(0).lte(10000).optional().default(1),
-    title_ua: z.boolean().nullish(),
-    title_en: z.boolean().nullish(),
-    title_original: z.boolean().nullish(),
-    synopsis_ua: z.boolean().nullish(),
-    synopsis_en: z.boolean().nullish(),
-    media_type: zNovelMediaEnum.nullish(),
-    mal_id: z.number().int().nullish(),
     size: z.number().int().gte(1).lte(100).optional().default(15),
 });
 
@@ -5109,14 +5195,10 @@ export const zGetTodoNovelListQuery = z.object({
  */
 export const zGetTodoNovelListResponse = zTodoNovelListResponse;
 
+export const zGetTodoCharacterListBody = zCharacterTodoArgs;
+
 export const zGetTodoCharacterListQuery = z.object({
     page: z.number().int().gt(0).lte(10000).optional().default(1),
-    name_ua: z.boolean().nullish(),
-    name_en: z.boolean().nullish(),
-    name_original: z.boolean().nullish(),
-    description_ua: z.boolean().nullish(),
-    content_type: zEditContentToDoEnum.nullish(),
-    content_slug: z.string().nullish(),
     size: z.number().int().gte(1).lte(100).optional().default(15),
 });
 
@@ -5125,13 +5207,10 @@ export const zGetTodoCharacterListQuery = z.object({
  */
 export const zGetTodoCharacterListResponse = zTodoCharacterListResponse;
 
+export const zGetTodoPersonListBody = zPersonTodoArgs;
+
 export const zGetTodoPersonListQuery = z.object({
     page: z.number().int().gt(0).lte(10000).optional().default(1),
-    name_ua: z.boolean().nullish(),
-    name_en: z.boolean().nullish(),
-    name_original: z.boolean().nullish(),
-    content_type: zEditContentToDoEnum.nullish(),
-    content_slug: z.string().nullish(),
     size: z.number().int().gte(1).lte(100).optional().default(15),
 });
 

@@ -9,7 +9,8 @@ import {
 } from '@/components/ui/responsive-modal';
 import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
 
-import { TodoFiltersBody, type TodoFiltersValue } from './todo-filters';
+import { TodoFiltersBody } from './todo-filters';
+import type { TodoFiltersValue } from './todo-filters-value';
 
 type Props = {
     open: boolean;

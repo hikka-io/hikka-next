@@ -16,6 +16,7 @@ export { QuickEditButton, QuickEditModal } from './quick-edit';
 export {
     TodoContentCard,
     TodoContentList,
+    TodoContentNavbar,
     TodoContentTabs,
     TodoFilters,
     TodoFiltersModal,

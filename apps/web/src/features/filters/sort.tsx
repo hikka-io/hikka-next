@@ -44,7 +44,9 @@ export type SortType =
     | 'read'
     | 'edit'
     | 'article'
-    | 'comment';
+    | 'comment'
+    | 'todo_content'
+    | 'todo_person';
 
 export interface SortOption {
     label: string;
@@ -154,6 +156,44 @@ const SORT_ARTICLELIST: SortOption[] = [
     },
 ];
 
+const SORT_TODO_CONTENT: SortOption[] = [
+    {
+        label: 'Назва українською',
+        value: 'title_ua',
+    },
+    {
+        label: 'Назва англійською',
+        value: 'title_en',
+    },
+    {
+        label: 'Оригінальна назва',
+        value: 'title_original',
+    },
+    {
+        label: 'Тип',
+        value: 'media_type',
+    },
+    {
+        label: 'Дата релізу',
+        value: 'start_date',
+    },
+];
+
+const SORT_TODO_PERSON: SortOption[] = [
+    {
+        label: "Ім'я українською",
+        value: 'name_ua',
+    },
+    {
+        label: "Ім'я англійською",
+        value: 'name_en',
+    },
+    {
+        label: "Оригінальне ім'я",
+        value: 'name_original',
+    },
+];
+
 const SORT_CONFIGS: Record<SortType, SortConfig> = {
     anime: {
         options: SORT_CONTENT,
@@ -194,6 +234,16 @@ const SORT_CONFIGS: Record<SortType, SortConfig> = {
         options: COMMENT_SORT_OPTIONS,
         defaultSort: DEFAULT_COMMENT_SORT,
         defaultOrder: DEFAULT_COMMENT_ORDER,
+    },
+    todo_content: {
+        options: SORT_TODO_CONTENT,
+        defaultSort: 'title_ua',
+        defaultOrder: 'asc',
+    },
+    todo_person: {
+        options: SORT_TODO_PERSON,
+        defaultSort: 'name_ua',
+        defaultOrder: 'asc',
     },
 };
 

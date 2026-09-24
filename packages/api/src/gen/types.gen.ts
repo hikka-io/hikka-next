@@ -756,6 +756,60 @@ export type AnimeStatsResponse = {
 };
 
 /**
+ * AnimeTodoArgs
+ */
+export type AnimeTodoArgs = {
+    /**
+     * Page
+     */
+    page?: number;
+    /**
+     * Query
+     */
+    query?: string | null;
+    /**
+     * Media Type
+     */
+    media_type?: Array<AnimeMediaEnum>;
+    /**
+     * Mal Id
+     */
+    mal_id?: number | null;
+    /**
+     * Fields
+     */
+    fields?: Array<string>;
+    /**
+     * Sort
+     */
+    sort?: Array<string>;
+    /**
+     * Season
+     */
+    season?: Array<SeasonEnum>;
+    /**
+     * Status
+     */
+    status?: Array<ContentStatusEnum>;
+    /**
+     * Rating
+     */
+    rating?: Array<AnimeAgeRatingEnum>;
+    /**
+     * Years
+     */
+    years?: [number | null, number | null];
+    /**
+     * Genres
+     */
+    genres?: Array<string>;
+    /**
+     * Studios
+     */
+    studios?: Array<string>;
+};
+
+/**
  * AnimeVideoResponse
  */
 export type AnimeVideoResponse = {
@@ -1405,6 +1459,33 @@ export type CharacterResponse = {
 };
 
 /**
+ * CharacterTodoArgs
+ */
+export type CharacterTodoArgs = {
+    /**
+     * Page
+     */
+    page?: number;
+    /**
+     * Query
+     */
+    query?: string | null;
+    /**
+     * Fields
+     */
+    fields?: Array<string>;
+    /**
+     * Sort
+     */
+    sort?: Array<string>;
+    content_type?: EditContentToDoEnum | null;
+    /**
+     * Content Slug
+     */
+    content_slug?: string | null;
+};
+
+/**
  * CharacterVoiceResponse
  */
 export type CharacterVoiceResponse = {
@@ -1492,13 +1573,13 @@ export type ClientFullResponse = {
      */
     updated: number;
     /**
-     * Secret
-     */
-    secret: string;
-    /**
      * Endpoint
      */
     endpoint: string;
+    /**
+     * Secret
+     */
+    secret: string;
 };
 
 /**
@@ -2782,6 +2863,7 @@ export type FavouriteCollectionResponse = {
 export const FavouriteContentTypeEnum = {
     COLLECTION: 'collection',
     CHARACTER: 'character',
+    PERSON: 'person',
     ANIME: 'anime',
     MANGA: 'manga',
     NOVEL: 'novel',
@@ -3034,8 +3116,51 @@ export type FavouritePaginationResponse = {
         | FavouriteNovelResponse
         | FavouriteCollectionResponse
         | FavouriteCharacterResponse
+        | FavouritePersonResponse
     >;
     pagination: PaginationResponse;
+};
+
+/**
+ * FavouritePersonResponse
+ */
+export type FavouritePersonResponse = {
+    /**
+     * Favourite Created
+     */
+    favourite_created: number;
+    /**
+     * Data Type
+     */
+    data_type: 'person';
+    /**
+     * Name Native
+     */
+    name_native: string | null;
+    /**
+     * Name Ua
+     */
+    name_ua: string | null;
+    /**
+     * Name En
+     */
+    name_en: string | null;
+    /**
+     * Image
+     */
+    image: string | null;
+    /**
+     * Slug
+     */
+    slug: string;
+    /**
+     * Description Ua
+     */
+    description_ua: string | null;
+    /**
+     * Synonyms
+     */
+    synonyms: Array<string>;
 };
 
 /**
@@ -3064,6 +3189,10 @@ export type FavouriteStatsResponse = {
      * Character
      */
     character?: number;
+    /**
+     * Person
+     */
+    person?: number;
     /**
      * Anime
      */
@@ -4003,6 +4132,52 @@ export type MangaSearchArgs = {
 };
 
 /**
+ * MangaTodoArgs
+ */
+export type MangaTodoArgs = {
+    /**
+     * Page
+     */
+    page?: number;
+    /**
+     * Query
+     */
+    query?: string | null;
+    /**
+     * Media Type
+     */
+    media_type?: Array<MangaMediaEnum>;
+    /**
+     * Mal Id
+     */
+    mal_id?: number | null;
+    /**
+     * Fields
+     */
+    fields?: Array<string>;
+    /**
+     * Sort
+     */
+    sort?: Array<string>;
+    /**
+     * Status
+     */
+    status?: Array<ContentStatusEnum>;
+    /**
+     * Years
+     */
+    years?: [number | null, number | null];
+    /**
+     * Genres
+     */
+    genres?: Array<string>;
+    /**
+     * Magazines
+     */
+    magazines?: Array<string>;
+};
+
+/**
  * NotificationPaginationResponse
  */
 export type NotificationPaginationResponse = {
@@ -4492,6 +4667,52 @@ export type NovelSearchArgs = {
 };
 
 /**
+ * NovelTodoArgs
+ */
+export type NovelTodoArgs = {
+    /**
+     * Page
+     */
+    page?: number;
+    /**
+     * Query
+     */
+    query?: string | null;
+    /**
+     * Media Type
+     */
+    media_type?: Array<NovelMediaEnum>;
+    /**
+     * Mal Id
+     */
+    mal_id?: number | null;
+    /**
+     * Fields
+     */
+    fields?: Array<string>;
+    /**
+     * Sort
+     */
+    sort?: Array<string>;
+    /**
+     * Status
+     */
+    status?: Array<ContentStatusEnum>;
+    /**
+     * Years
+     */
+    years?: [number | null, number | null];
+    /**
+     * Genres
+     */
+    genres?: Array<string>;
+    /**
+     * Magazines
+     */
+    magazines?: Array<string>;
+};
+
+/**
  * OKLCHColor
  */
 export type OklchColor = {
@@ -4731,6 +4952,33 @@ export type PersonSearchPaginationResponse = {
      * List
      */
     list: Array<PersonResponse>;
+};
+
+/**
+ * PersonTodoArgs
+ */
+export type PersonTodoArgs = {
+    /**
+     * Page
+     */
+    page?: number;
+    /**
+     * Query
+     */
+    query?: string | null;
+    /**
+     * Fields
+     */
+    fields?: Array<string>;
+    /**
+     * Sort
+     */
+    sort?: Array<string>;
+    content_type?: EditContentToDoEnum | null;
+    /**
+     * Content Slug
+     */
+    content_slug?: string | null;
 };
 
 /**
@@ -11818,41 +12066,13 @@ export type GetContentEditTodoResponse =
     GetContentEditTodoResponses[keyof GetContentEditTodoResponses];
 
 export type GetTodoAnimeListData = {
-    body?: never;
+    body: AnimeTodoArgs;
     path?: never;
     query?: {
         /**
          * Page
          */
         page?: number;
-        /**
-         * Title Ua
-         */
-        title_ua?: boolean | null;
-        /**
-         * Title En
-         */
-        title_en?: boolean | null;
-        /**
-         * Title Original
-         */
-        title_original?: boolean | null;
-        /**
-         * Synopsis Ua
-         */
-        synopsis_ua?: boolean | null;
-        /**
-         * Synopsis En
-         */
-        synopsis_en?: boolean | null;
-        /**
-         * Media Type
-         */
-        media_type?: AnimeMediaEnum | null;
-        /**
-         * Mal Id
-         */
-        mal_id?: number | null;
         /**
          * Size
          */
@@ -11882,41 +12102,13 @@ export type GetTodoAnimeListResponse =
     GetTodoAnimeListResponses[keyof GetTodoAnimeListResponses];
 
 export type GetTodoMangaListData = {
-    body?: never;
+    body: MangaTodoArgs;
     path?: never;
     query?: {
         /**
          * Page
          */
         page?: number;
-        /**
-         * Title Ua
-         */
-        title_ua?: boolean | null;
-        /**
-         * Title En
-         */
-        title_en?: boolean | null;
-        /**
-         * Title Original
-         */
-        title_original?: boolean | null;
-        /**
-         * Synopsis Ua
-         */
-        synopsis_ua?: boolean | null;
-        /**
-         * Synopsis En
-         */
-        synopsis_en?: boolean | null;
-        /**
-         * Media Type
-         */
-        media_type?: MangaMediaEnum | null;
-        /**
-         * Mal Id
-         */
-        mal_id?: number | null;
         /**
          * Size
          */
@@ -11946,41 +12138,13 @@ export type GetTodoMangaListResponse =
     GetTodoMangaListResponses[keyof GetTodoMangaListResponses];
 
 export type GetTodoNovelListData = {
-    body?: never;
+    body: NovelTodoArgs;
     path?: never;
     query?: {
         /**
          * Page
          */
         page?: number;
-        /**
-         * Title Ua
-         */
-        title_ua?: boolean | null;
-        /**
-         * Title En
-         */
-        title_en?: boolean | null;
-        /**
-         * Title Original
-         */
-        title_original?: boolean | null;
-        /**
-         * Synopsis Ua
-         */
-        synopsis_ua?: boolean | null;
-        /**
-         * Synopsis En
-         */
-        synopsis_en?: boolean | null;
-        /**
-         * Media Type
-         */
-        media_type?: NovelMediaEnum | null;
-        /**
-         * Mal Id
-         */
-        mal_id?: number | null;
         /**
          * Size
          */
@@ -12010,37 +12174,13 @@ export type GetTodoNovelListResponse =
     GetTodoNovelListResponses[keyof GetTodoNovelListResponses];
 
 export type GetTodoCharacterListData = {
-    body?: never;
+    body: CharacterTodoArgs;
     path?: never;
     query?: {
         /**
          * Page
          */
         page?: number;
-        /**
-         * Name Ua
-         */
-        name_ua?: boolean | null;
-        /**
-         * Name En
-         */
-        name_en?: boolean | null;
-        /**
-         * Name Original
-         */
-        name_original?: boolean | null;
-        /**
-         * Description Ua
-         */
-        description_ua?: boolean | null;
-        /**
-         * Content Type
-         */
-        content_type?: EditContentToDoEnum | null;
-        /**
-         * Content Slug
-         */
-        content_slug?: string | null;
         /**
          * Size
          */
@@ -12070,33 +12210,13 @@ export type GetTodoCharacterListResponse =
     GetTodoCharacterListResponses[keyof GetTodoCharacterListResponses];
 
 export type GetTodoPersonListData = {
-    body?: never;
+    body: PersonTodoArgs;
     path?: never;
     query?: {
         /**
          * Page
          */
         page?: number;
-        /**
-         * Name Ua
-         */
-        name_ua?: boolean | null;
-        /**
-         * Name En
-         */
-        name_en?: boolean | null;
-        /**
-         * Name Original
-         */
-        name_original?: boolean | null;
-        /**
-         * Content Type
-         */
-        content_type?: EditContentToDoEnum | null;
-        /**
-         * Content Slug
-         */
-        content_slug?: string | null;
         /**
          * Size
          */

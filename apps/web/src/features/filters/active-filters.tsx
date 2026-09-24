@@ -17,6 +17,8 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import {
     AGE_RATING,
+    CHARACTER_ISSUES,
+    CONTENT_ISSUES,
     CONTENT_TYPES,
     MEDIA_TYPE,
     RELEASE_STATUS,
@@ -55,12 +57,13 @@ const FILTER_REGISTRY: Record<string, FilterDef> = {
     seasons: { kind: 'enum', labelMap: SEASON },
     types: { kind: 'enum', labelMap: MEDIA_TYPE },
     ratings: { kind: 'enum', labelMap: AGE_RATING },
-    media_type: { kind: 'enum', labelMap: MEDIA_TYPE },
     content_type: { kind: 'enum', labelMap: CONTENT_TYPES },
 
     // Enum params with dynamic label maps (fetched from API)
     genres: { kind: 'dynamic', tristate: true },
     studios: { kind: 'dynamic' },
+    // No magazine lookup endpoint, so chips show the raw slug.
+    magazines: { kind: 'dynamic' },
 
     // Range params
     years: { kind: 'range' },
@@ -70,15 +73,11 @@ const FILTER_REGISTRY: Record<string, FilterDef> = {
     only_translated: { kind: 'boolean', label: 'Перекладено українською' },
 
     // Missing-data flags of the /edit/content lists
-    title_ua: { kind: 'boolean', label: 'Без назви українською' },
-    title_en: { kind: 'boolean', label: 'Без назви англійською' },
-    title_original: { kind: 'boolean', label: 'Без оригінальної назви' },
-    synopsis_ua: { kind: 'boolean', label: 'Без опису українською' },
-    synopsis_en: { kind: 'boolean', label: 'Без опису англійською' },
-    name_ua: { kind: 'boolean', label: 'Без імені українською' },
-    name_en: { kind: 'boolean', label: 'Без імені англійською' },
-    name_original: { kind: 'boolean', label: 'Без оригінального імені' },
-    description_ua: { kind: 'boolean', label: 'Без опису українською' },
+    issues: {
+        kind: 'enum',
+        tristate: true,
+        labelMap: { ...CONTENT_ISSUES, ...CHARACTER_ISSUES },
+    },
 
     // Value params (the chip carries the entered value)
     mal_id: { kind: 'value', label: 'MAL ID' },

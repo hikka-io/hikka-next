@@ -111,22 +111,26 @@ export const editContentSearchSchema = z.object({
         .enum(['anime', 'manga', 'novel', 'character', 'person'])
         .optional()
         .catch(undefined),
-    title_ua: coerceBoolean.optional().catch(undefined),
-    title_en: coerceBoolean.optional().catch(undefined),
-    title_original: coerceBoolean.optional().catch(undefined),
-    synopsis_ua: coerceBoolean.optional().catch(undefined),
-    synopsis_en: coerceBoolean.optional().catch(undefined),
-    media_type: z.string().optional().catch(undefined),
+    issues: stringArray.optional().catch(undefined),
+    types: stringArray.optional().catch(undefined),
     mal_id: z.coerce.number().optional().catch(undefined),
-    name_ua: coerceBoolean.optional().catch(undefined),
-    name_en: coerceBoolean.optional().catch(undefined),
-    name_original: coerceBoolean.optional().catch(undefined),
-    description_ua: coerceBoolean.optional().catch(undefined),
+    genres: stringArray.optional().catch(undefined),
+    studios: stringArray.optional().catch(undefined),
+    magazines: stringArray.optional().catch(undefined),
+    seasons: stringArray.optional().catch(undefined),
+    statuses: stringArray.optional().catch(undefined),
+    ratings: stringArray.optional().catch(undefined),
+    years: z
+        .tuple([z.coerce.number().nullable(), z.coerce.number().nullable()])
+        .optional()
+        .catch(undefined),
     content_type: z
         .enum(['anime', 'manga', 'novel'])
         .optional()
         .catch(undefined),
     content_slug: z.string().optional().catch(undefined),
+    ...sortOrderSearch,
+    ...textSearch,
     ...paginationSearch,
 });
 

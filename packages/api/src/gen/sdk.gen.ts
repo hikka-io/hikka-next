@@ -3367,13 +3367,13 @@ export const getContentEditTodo = <ThrowOnError extends boolean = false>(
  * Return list of anime with issues
  */
 export const getTodoAnimeList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetTodoAnimeListData, ThrowOnError>,
+    options: Options<GetTodoAnimeListData, ThrowOnError>,
 ): RequestResult<
     GetTodoAnimeListResponses,
     GetTodoAnimeListErrors,
     ThrowOnError
 > =>
-    (options?.client ?? client).get<
+    (options.client ?? client).post<
         GetTodoAnimeListResponses,
         GetTodoAnimeListErrors,
         ThrowOnError
@@ -3382,19 +3382,23 @@ export const getTodoAnimeList = <ThrowOnError extends boolean = false>(
             await zGetTodoAnimeListResponse.parseAsync(data),
         url: '/edit/todo/anime',
         ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+        },
     });
 
 /**
  * Return list of manga with issues
  */
 export const getTodoMangaList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetTodoMangaListData, ThrowOnError>,
+    options: Options<GetTodoMangaListData, ThrowOnError>,
 ): RequestResult<
     GetTodoMangaListResponses,
     GetTodoMangaListErrors,
     ThrowOnError
 > =>
-    (options?.client ?? client).get<
+    (options.client ?? client).post<
         GetTodoMangaListResponses,
         GetTodoMangaListErrors,
         ThrowOnError
@@ -3403,19 +3407,23 @@ export const getTodoMangaList = <ThrowOnError extends boolean = false>(
             await zGetTodoMangaListResponse.parseAsync(data),
         url: '/edit/todo/manga',
         ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+        },
     });
 
 /**
  * Return list of novel with issues
  */
 export const getTodoNovelList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetTodoNovelListData, ThrowOnError>,
+    options: Options<GetTodoNovelListData, ThrowOnError>,
 ): RequestResult<
     GetTodoNovelListResponses,
     GetTodoNovelListErrors,
     ThrowOnError
 > =>
-    (options?.client ?? client).get<
+    (options.client ?? client).post<
         GetTodoNovelListResponses,
         GetTodoNovelListErrors,
         ThrowOnError
@@ -3424,19 +3432,23 @@ export const getTodoNovelList = <ThrowOnError extends boolean = false>(
             await zGetTodoNovelListResponse.parseAsync(data),
         url: '/edit/todo/novel',
         ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+        },
     });
 
 /**
  * Return list of characters with issues
  */
 export const getTodoCharacterList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetTodoCharacterListData, ThrowOnError>,
+    options: Options<GetTodoCharacterListData, ThrowOnError>,
 ): RequestResult<
     GetTodoCharacterListResponses,
     GetTodoCharacterListErrors,
     ThrowOnError
 > =>
-    (options?.client ?? client).get<
+    (options.client ?? client).post<
         GetTodoCharacterListResponses,
         GetTodoCharacterListErrors,
         ThrowOnError
@@ -3445,19 +3457,23 @@ export const getTodoCharacterList = <ThrowOnError extends boolean = false>(
             await zGetTodoCharacterListResponse.parseAsync(data),
         url: '/edit/todo/characters',
         ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+        },
     });
 
 /**
  * Return list of people with issues
  */
 export const getTodoPersonList = <ThrowOnError extends boolean = false>(
-    options?: Options<GetTodoPersonListData, ThrowOnError>,
+    options: Options<GetTodoPersonListData, ThrowOnError>,
 ): RequestResult<
     GetTodoPersonListResponses,
     GetTodoPersonListErrors,
     ThrowOnError
 > =>
-    (options?.client ?? client).get<
+    (options.client ?? client).post<
         GetTodoPersonListResponses,
         GetTodoPersonListErrors,
         ThrowOnError
@@ -3466,6 +3482,10 @@ export const getTodoPersonList = <ThrowOnError extends boolean = false>(
             await zGetTodoPersonListResponse.parseAsync(data),
         url: '/edit/todo/people',
         ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers,
+        },
     });
 
 /**

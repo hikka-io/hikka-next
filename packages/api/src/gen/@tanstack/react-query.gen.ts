@@ -7180,14 +7180,14 @@ export const getContentEditTodoInfiniteOptions = (
 };
 
 export const getTodoAnimeListQueryKey = (
-    options?: Options<GetTodoAnimeListData>,
+    options: Options<GetTodoAnimeListData>,
 ) => createQueryKey('getTodoAnimeList', options);
 
 /**
  * Return list of anime with issues
  */
 export const getTodoAnimeListOptions = (
-    options?: Options<GetTodoAnimeListData>,
+    options: Options<GetTodoAnimeListData>,
 ) =>
     queryOptions<
         GetTodoAnimeListResponse,
@@ -7208,7 +7208,7 @@ export const getTodoAnimeListOptions = (
     });
 
 export const getTodoAnimeListInfiniteQueryKey = (
-    options?: Options<GetTodoAnimeListData>,
+    options: Options<GetTodoAnimeListData>,
 ): QueryKey<Options<GetTodoAnimeListData>> =>
     createQueryKey('getTodoAnimeList', options, true);
 
@@ -7216,7 +7216,7 @@ export const getTodoAnimeListInfiniteQueryKey = (
  * Return list of anime with issues
  */
 export const getTodoAnimeListInfiniteOptions = (
-    options?: Options<GetTodoAnimeListData>,
+    options: Options<GetTodoAnimeListData>,
 ) => {
     const opts = infiniteQueryOptions<
         GetTodoAnimeListResponse,
@@ -7240,7 +7240,7 @@ export const getTodoAnimeListInfiniteOptions = (
                     typeof pageParam === 'object'
                         ? pageParam
                         : {
-                              query: {
+                              body: {
                                   page: pageParam,
                               },
                           };
@@ -7259,15 +7259,42 @@ export const getTodoAnimeListInfiniteOptions = (
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
+/**
+ * Return list of anime with issues
+ */
+export const getTodoAnimeListMutation = (
+    options?: Partial<Options<GetTodoAnimeListData>>,
+): UseMutationOptions<
+    GetTodoAnimeListResponse,
+    GetTodoAnimeListError,
+    Options<GetTodoAnimeListData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        GetTodoAnimeListResponse,
+        GetTodoAnimeListError,
+        Options<GetTodoAnimeListData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await getTodoAnimeList({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
 export const getTodoMangaListQueryKey = (
-    options?: Options<GetTodoMangaListData>,
+    options: Options<GetTodoMangaListData>,
 ) => createQueryKey('getTodoMangaList', options);
 
 /**
  * Return list of manga with issues
  */
 export const getTodoMangaListOptions = (
-    options?: Options<GetTodoMangaListData>,
+    options: Options<GetTodoMangaListData>,
 ) =>
     queryOptions<
         GetTodoMangaListResponse,
@@ -7288,7 +7315,7 @@ export const getTodoMangaListOptions = (
     });
 
 export const getTodoMangaListInfiniteQueryKey = (
-    options?: Options<GetTodoMangaListData>,
+    options: Options<GetTodoMangaListData>,
 ): QueryKey<Options<GetTodoMangaListData>> =>
     createQueryKey('getTodoMangaList', options, true);
 
@@ -7296,7 +7323,7 @@ export const getTodoMangaListInfiniteQueryKey = (
  * Return list of manga with issues
  */
 export const getTodoMangaListInfiniteOptions = (
-    options?: Options<GetTodoMangaListData>,
+    options: Options<GetTodoMangaListData>,
 ) => {
     const opts = infiniteQueryOptions<
         GetTodoMangaListResponse,
@@ -7320,7 +7347,7 @@ export const getTodoMangaListInfiniteOptions = (
                     typeof pageParam === 'object'
                         ? pageParam
                         : {
-                              query: {
+                              body: {
                                   page: pageParam,
                               },
                           };
@@ -7339,15 +7366,42 @@ export const getTodoMangaListInfiniteOptions = (
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
+/**
+ * Return list of manga with issues
+ */
+export const getTodoMangaListMutation = (
+    options?: Partial<Options<GetTodoMangaListData>>,
+): UseMutationOptions<
+    GetTodoMangaListResponse,
+    GetTodoMangaListError,
+    Options<GetTodoMangaListData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        GetTodoMangaListResponse,
+        GetTodoMangaListError,
+        Options<GetTodoMangaListData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await getTodoMangaList({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
 export const getTodoNovelListQueryKey = (
-    options?: Options<GetTodoNovelListData>,
+    options: Options<GetTodoNovelListData>,
 ) => createQueryKey('getTodoNovelList', options);
 
 /**
  * Return list of novel with issues
  */
 export const getTodoNovelListOptions = (
-    options?: Options<GetTodoNovelListData>,
+    options: Options<GetTodoNovelListData>,
 ) =>
     queryOptions<
         GetTodoNovelListResponse,
@@ -7368,7 +7422,7 @@ export const getTodoNovelListOptions = (
     });
 
 export const getTodoNovelListInfiniteQueryKey = (
-    options?: Options<GetTodoNovelListData>,
+    options: Options<GetTodoNovelListData>,
 ): QueryKey<Options<GetTodoNovelListData>> =>
     createQueryKey('getTodoNovelList', options, true);
 
@@ -7376,7 +7430,7 @@ export const getTodoNovelListInfiniteQueryKey = (
  * Return list of novel with issues
  */
 export const getTodoNovelListInfiniteOptions = (
-    options?: Options<GetTodoNovelListData>,
+    options: Options<GetTodoNovelListData>,
 ) => {
     const opts = infiniteQueryOptions<
         GetTodoNovelListResponse,
@@ -7400,7 +7454,7 @@ export const getTodoNovelListInfiniteOptions = (
                     typeof pageParam === 'object'
                         ? pageParam
                         : {
-                              query: {
+                              body: {
                                   page: pageParam,
                               },
                           };
@@ -7419,15 +7473,42 @@ export const getTodoNovelListInfiniteOptions = (
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
+/**
+ * Return list of novel with issues
+ */
+export const getTodoNovelListMutation = (
+    options?: Partial<Options<GetTodoNovelListData>>,
+): UseMutationOptions<
+    GetTodoNovelListResponse,
+    GetTodoNovelListError,
+    Options<GetTodoNovelListData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        GetTodoNovelListResponse,
+        GetTodoNovelListError,
+        Options<GetTodoNovelListData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await getTodoNovelList({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
 export const getTodoCharacterListQueryKey = (
-    options?: Options<GetTodoCharacterListData>,
+    options: Options<GetTodoCharacterListData>,
 ) => createQueryKey('getTodoCharacterList', options);
 
 /**
  * Return list of characters with issues
  */
 export const getTodoCharacterListOptions = (
-    options?: Options<GetTodoCharacterListData>,
+    options: Options<GetTodoCharacterListData>,
 ) =>
     queryOptions<
         GetTodoCharacterListResponse,
@@ -7448,7 +7529,7 @@ export const getTodoCharacterListOptions = (
     });
 
 export const getTodoCharacterListInfiniteQueryKey = (
-    options?: Options<GetTodoCharacterListData>,
+    options: Options<GetTodoCharacterListData>,
 ): QueryKey<Options<GetTodoCharacterListData>> =>
     createQueryKey('getTodoCharacterList', options, true);
 
@@ -7456,7 +7537,7 @@ export const getTodoCharacterListInfiniteQueryKey = (
  * Return list of characters with issues
  */
 export const getTodoCharacterListInfiniteOptions = (
-    options?: Options<GetTodoCharacterListData>,
+    options: Options<GetTodoCharacterListData>,
 ) => {
     const opts = infiniteQueryOptions<
         GetTodoCharacterListResponse,
@@ -7480,7 +7561,7 @@ export const getTodoCharacterListInfiniteOptions = (
                     typeof pageParam === 'object'
                         ? pageParam
                         : {
-                              query: {
+                              body: {
                                   page: pageParam,
                               },
                           };
@@ -7499,15 +7580,42 @@ export const getTodoCharacterListInfiniteOptions = (
     return opts as Omit<typeof opts, 'initialData'>;
 };
 
+/**
+ * Return list of characters with issues
+ */
+export const getTodoCharacterListMutation = (
+    options?: Partial<Options<GetTodoCharacterListData>>,
+): UseMutationOptions<
+    GetTodoCharacterListResponse,
+    GetTodoCharacterListError,
+    Options<GetTodoCharacterListData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        GetTodoCharacterListResponse,
+        GetTodoCharacterListError,
+        Options<GetTodoCharacterListData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await getTodoCharacterList({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
+};
+
 export const getTodoPersonListQueryKey = (
-    options?: Options<GetTodoPersonListData>,
+    options: Options<GetTodoPersonListData>,
 ) => createQueryKey('getTodoPersonList', options);
 
 /**
  * Return list of people with issues
  */
 export const getTodoPersonListOptions = (
-    options?: Options<GetTodoPersonListData>,
+    options: Options<GetTodoPersonListData>,
 ) =>
     queryOptions<
         GetTodoPersonListResponse,
@@ -7528,7 +7636,7 @@ export const getTodoPersonListOptions = (
     });
 
 export const getTodoPersonListInfiniteQueryKey = (
-    options?: Options<GetTodoPersonListData>,
+    options: Options<GetTodoPersonListData>,
 ): QueryKey<Options<GetTodoPersonListData>> =>
     createQueryKey('getTodoPersonList', options, true);
 
@@ -7536,7 +7644,7 @@ export const getTodoPersonListInfiniteQueryKey = (
  * Return list of people with issues
  */
 export const getTodoPersonListInfiniteOptions = (
-    options?: Options<GetTodoPersonListData>,
+    options: Options<GetTodoPersonListData>,
 ) => {
     const opts = infiniteQueryOptions<
         GetTodoPersonListResponse,
@@ -7560,7 +7668,7 @@ export const getTodoPersonListInfiniteOptions = (
                     typeof pageParam === 'object'
                         ? pageParam
                         : {
-                              query: {
+                              body: {
                                   page: pageParam,
                               },
                           };
@@ -7577,6 +7685,33 @@ export const getTodoPersonListInfiniteOptions = (
         },
     );
     return opts as Omit<typeof opts, 'initialData'>;
+};
+
+/**
+ * Return list of people with issues
+ */
+export const getTodoPersonListMutation = (
+    options?: Partial<Options<GetTodoPersonListData>>,
+): UseMutationOptions<
+    GetTodoPersonListResponse,
+    GetTodoPersonListError,
+    Options<GetTodoPersonListData>
+> => {
+    const mutationOptions: UseMutationOptions<
+        GetTodoPersonListResponse,
+        GetTodoPersonListError,
+        Options<GetTodoPersonListData>
+    > = {
+        mutationFn: async (fnOptions) => {
+            const { data } = await getTodoPersonList({
+                ...options,
+                ...fnOptions,
+                throwOnError: true,
+            });
+            return data;
+        },
+    };
+    return mutationOptions;
 };
 
 export const getVoteQueryKey = (options: Options<GetVoteData>) =>

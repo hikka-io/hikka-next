@@ -3,10 +3,22 @@ import { useNavigate } from '@tanstack/react-router';
 import { ContentTypeEnum } from '@hikka/api';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import type { SortType } from '@/features/filters/sort';
 import type { EditContentSearch } from '@/utils/search-schemas';
 
-import type { TodoFiltersValue } from '../todo-content/todo-filters';
+import type { TodoFiltersValue } from '../todo-content/todo-filters-value';
 import type { TodoContentType } from './use-todo-content-list';
+
+export function getTodoSortType(contentType: TodoContentType): SortType {
+    if (
+        contentType === ContentTypeEnum.CHARACTER ||
+        contentType === ContentTypeEnum.PERSON
+    ) {
+        return 'todo_person';
+    }
+
+    return 'todo_content';
+}
 
 /**
  * Shared by the route, the summary and the list, which each query the same
@@ -18,19 +30,21 @@ export function useTodoFilters() {
 
     const contentType: TodoContentType = search.tab ?? ContentTypeEnum.ANIME;
     const page = search.page || 1;
+    const query = search.search;
+    const sort = search.sort;
+    const order = search.order;
 
     const filters: TodoFiltersValue = {
-        title_ua: search.title_ua,
-        title_en: search.title_en,
-        title_original: search.title_original,
-        synopsis_ua: search.synopsis_ua,
-        synopsis_en: search.synopsis_en,
-        media_type: search.media_type,
+        issues: search.issues,
+        types: search.types,
         mal_id: search.mal_id,
-        name_ua: search.name_ua,
-        name_en: search.name_en,
-        name_original: search.name_original,
-        description_ua: search.description_ua,
+        genres: search.genres,
+        studios: search.studios,
+        magazines: search.magazines,
+        seasons: search.seasons,
+        statuses: search.statuses,
+        ratings: search.ratings,
+        years: search.years,
         content_type: search.content_type,
         content_slug: search.content_slug,
     };
@@ -42,5 +56,5 @@ export function useTodoFilters() {
         });
     };
 
-    return { contentType, page, filters, setFilters };
+    return { contentType, page, filters, setFilters, query, sort, order };
 }
