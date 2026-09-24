@@ -287,6 +287,7 @@ export const zCollectionArgs = z.object({
  * CollectionsListArgs
  */
 export const zCollectionsListArgs = z.object({
+    query: z.string().min(2).max(255).nullish(),
     sort: z
         .array(z.string())
         .optional()

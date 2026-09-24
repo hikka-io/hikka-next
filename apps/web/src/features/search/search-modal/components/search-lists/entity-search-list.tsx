@@ -2,15 +2,6 @@ import { useCallback } from 'react';
 
 import { Ellipsis } from 'lucide-react';
 
-import {
-    ContentTypeEnum,
-    searchAnimeInfiniteOptions,
-    searchCharactersInfiniteOptions,
-    searchMangaInfiniteOptions,
-    searchNovelInfiniteOptions,
-    searchPeopleInfiniteOptions,
-} from '@hikka/api';
-
 import LoadMoreButton from '@/components/load-more-button';
 import { CommandItem } from '@/components/ui/command';
 import { useSearchHistoryStore } from '@/services/stores/search-history-store';
@@ -18,65 +9,30 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 
-import type { SearchContent } from '../../types';
-import SearchCard, { type SearchCardType } from '../cards/search-card';
+import type {
+    SearchEntity,
+    SearchEntityOptionsFn,
+} from '../../search-entities';
+import type { SearchResult, SearchResultVariant } from '../../types';
 import SearchPlaceholders from '../search-placeholders';
 import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
-type OptionsFn = typeof searchAnimeInfiniteOptions;
-
-const LIST_CONFIG: Record<
-    SearchCardType,
-    {
-        options: OptionsFn;
-        href: string;
-        contentType: ContentTypeEnum;
-        hasCatalog: boolean;
-    }
-> = {
-    anime: {
-        options: searchAnimeInfiniteOptions,
-        href: '/anime',
-        contentType: ContentTypeEnum.ANIME,
-        hasCatalog: true,
-    },
-    manga: {
-        options: searchMangaInfiniteOptions as unknown as OptionsFn,
-        href: '/manga',
-        contentType: ContentTypeEnum.MANGA,
-        hasCatalog: true,
-    },
-    novel: {
-        options: searchNovelInfiniteOptions as unknown as OptionsFn,
-        href: '/novel',
-        contentType: ContentTypeEnum.NOVEL,
-        hasCatalog: true,
-    },
-    // Characters/people have no catalog page yet — no "view all" target.
-    character: {
-        options: searchCharactersInfiniteOptions as unknown as OptionsFn,
-        href: '/characters',
-        contentType: ContentTypeEnum.CHARACTER,
-        hasCatalog: false,
-    },
-    person: {
-        options: searchPeopleInfiniteOptions as unknown as OptionsFn,
-        href: '/people',
-        contentType: ContentTypeEnum.PERSON,
-        hasCatalog: false,
-    },
-};
-
 type Props = {
-    contentType: SearchCardType;
-    onDismiss: (content: SearchContent) => void;
+    entity: SearchEntity;
+    /**
+     * `entity.options`, handed over separately so the caller's narrowing of the
+     * optional field survives the prop hop — it does not travel with `entity`.
+     */
+    options: SearchEntityOptionsFn;
+    onDismiss: (content: SearchResult) => void;
     onClose: () => void;
-    type?: 'link' | 'button';
+    type?: SearchResultVariant;
     value?: string;
 };
 
 const EntitySearchList = ({
-    contentType,
+    entity,
+    options,
     onDismiss,
     onClose,
     type,
@@ -84,17 +40,17 @@ const EntitySearchList = ({
 }: Props) => {
     const router = useRouter();
     const addHistoryEntry = useSearchHistoryStore((state) => state.addEntry);
-    const config = LIST_CONFIG[contentType];
 
     const handleSelect = useCallback(
-        (item: SearchContent) => {
+        (item: SearchResult) => {
             onDismiss(item);
 
-            if (type !== 'button') {
-                router.push(`${config.href}/${item.slug}`);
+            const href = entity.getHref(item);
+            if (type !== 'button' && href) {
+                router.push(href);
             }
         },
-        [onDismiss, router, type, config.href],
+        [onDismiss, router, type, entity],
     );
 
     const handleNavigate = useCallback(() => {
@@ -104,10 +60,10 @@ const EntitySearchList = ({
 
         onClose();
         router.push(
-            config.href,
+            entity.routePrefix,
             value ? { search: { search: value } } : undefined,
         );
-    }, [addHistoryEntry, onClose, router, value, config.href]);
+    }, [addHistoryEntry, onClose, router, value, entity]);
 
     const {
         list,
@@ -118,7 +74,7 @@ const EntitySearchList = ({
         isFetchingNextPage,
         hasNextPage,
     } = useInfiniteList(
-        config.options({
+        options({
             body: { query: value },
             query: { size: 30 },
         }),
@@ -136,22 +92,24 @@ const EntitySearchList = ({
             />
             {list && list.length > 0 && (
                 <SearchGroup>
-                    {list.map((item) => (
-                        <SearchItem
-                            key={item.slug}
-                            value={item.slug}
-                            onSelect={() => handleSelect(item)}
-                        >
-                            <SearchCard
-                                content={item}
-                                contentType={contentType}
-                                type={type}
-                            />
-                        </SearchItem>
-                    ))}
-                    {config.hasCatalog && type !== 'button' && (
+                    {list.map((item) => {
+                        const href = entity.getHref(item);
+                        // No href means nothing to link to or key on.
+                        if (!href) return null;
+
+                        return (
+                            <SearchItem
+                                key={href}
+                                value={href}
+                                onSelect={() => handleSelect(item)}
+                            >
+                                {entity.renderCard(item, href, type)}
+                            </SearchItem>
+                        );
+                    })}
+                    {entity.hasCatalog && type !== 'button' && (
                         <CommandItem
-                            value={`view-all-${contentType}`}
+                            value={`view-all-${entity.type}`}
                             onSelect={handleNavigate}
                             className="justify-center rounded-none border-y text-muted-foreground"
                         >
