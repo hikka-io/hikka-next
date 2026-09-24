@@ -17,7 +17,6 @@ import Franchise from './franchise';
 import ContentHero from './hero';
 import ContentHeroPoster from './hero-poster';
 import ContentLinks from './links';
-import Notes from './notes';
 import ContentScores from './scores';
 import ContentStaff from './staff';
 import ContentTitle from './title';
@@ -65,7 +64,6 @@ const ContentDetailPage: FC<Props> = ({
                 <Followings content_type={contentType} />
                 <ContentArticles content_type={contentType} />
                 <Collections content_type={contentType} />
-                <Notes content_type={contentType} />
             </div>
             <div
                 className="contents lg:col-span-2 lg:flex lg:flex-col lg:gap-8"
@@ -105,7 +103,6 @@ const ContentDetailPage: FC<Props> = ({
                 />
                 <ContentStats content_type={contentType} />
                 <div className="contents lg:hidden">
-                    <Notes content_type={contentType} />
                     <Followings content_type={contentType} />
                     <Collections content_type={contentType} />
                     <ContentArticles content_type={contentType} />
