@@ -12,6 +12,7 @@ import SpoilerPreview from './components/spoiler-preview';
 import remarkDisableTokenizer from './plugins/remark-disable-tokenizer';
 import remarkMentions from './plugins/remark-mentions';
 import remarkSpoiler from './plugins/remark-spoiler';
+import remarkStrikethrough from './plugins/remark-strikethrough';
 
 type Props = Options & {
     preview?: boolean;
@@ -88,6 +89,7 @@ const MDViewer = ({
                 remarkPlugins={[
                     remarkDisableTokenizer,
                     remarkDirective,
+                    remarkStrikethrough,
                     remarkSpoiler,
                     [
                         remarkMentions,

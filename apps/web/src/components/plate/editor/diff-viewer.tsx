@@ -29,6 +29,7 @@ import { BaseLinkKit } from './plugins/link-base-kit';
 import { BaseListKit } from './plugins/list-classic-base-kit';
 import { MarkdownKit } from './plugins/markdown-kit';
 import { BaseSpoilerKit } from './plugins/spoiler-base-kit';
+import { BaseStrikethroughKit } from './plugins/strikethrough-base-kit';
 
 const diffOperationColors: Record<DiffOperation['type'], string> = {
     delete: 'bg-destructive text-destructive-foreground',
@@ -152,6 +153,7 @@ const plugins = [
     ...BaseLinkKit,
     ...BaseSpoilerKit,
     ...BaseBasicMarksKit,
+    ...BaseStrikethroughKit,
     ...BaseListKit,
     ...MarkdownKit,
     DiffPlugin,

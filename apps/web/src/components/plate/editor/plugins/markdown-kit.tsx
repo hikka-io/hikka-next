@@ -8,6 +8,7 @@ import {
     remarkMention,
     type SerializeMdOptions,
 } from '@platejs/markdown';
+import type { Delete } from 'mdast';
 import type {
     ContainerDirective,
     LeafDirective,
@@ -16,11 +17,14 @@ import type {
 import { KEYS, type TElement } from 'platejs';
 import remarkDirective from 'remark-directive';
 
+import remarkStrikethrough from '@/components/markdown/viewer/plugins/remark-strikethrough';
 import { isMentionLabel, isUserUrl, userMentionUrl } from '@/utils/mentions';
 
 import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from './spoiler-kit';
 
 type DirectiveNode = ContainerDirective | TextDirective | LeafDirective;
+
+type Deco = Parameters<typeof convertChildrenDeserialize>[1];
 
 // Per directive type: `:::name` blocks and `:name[text]` inlines
 type DirectiveConfig = {
@@ -28,7 +32,7 @@ type DirectiveConfig = {
     kind: 'container' | 'text';
     deserialize: (
         mdastNode: DirectiveNode,
-        deco: Parameters<typeof convertChildrenDeserialize>[1],
+        deco: Deco,
         options: DeserializeMdOptions,
     ) => TElement;
     serialize: (
@@ -86,27 +90,50 @@ const configFor = (name: string, kind: DirectiveConfig['kind']) =>
         (config) => config.name === name && config.kind === kind,
     );
 
-const deserializeTextDirective = (
-    mdastNode: TextDirective | LeafDirective,
-    deco: Parameters<typeof convertChildrenDeserialize>[1],
+// An unknown `:::name` block keeps its content, as the viewer's `div` fallback does
+const deserializeContainerDirective = (
+    mdastNode: ContainerDirective,
+    deco: Deco,
     options: DeserializeMdOptions,
-) => {
-    const config = configFor(mdastNode.name, 'text');
-
-    if (!config) return undefined;
-
-    // `:spoiler` with no bracket is text the user typed, not a directive
-    if (mdastNode.children.length === 0)
-        return [{ text: `:${mdastNode.name}` }];
-
-    const children = convertChildrenDeserialize(
-        mdastNode.children as TextDirective['children'],
+) =>
+    configFor(mdastNode.name, 'container')?.deserialize(
+        mdastNode,
         deco,
         options,
-    );
+    ) ?? convertChildrenDeserialize(mdastNode.children, deco, options);
 
-    // Editors without the inline plugin (articles) keep the text, not the node
-    if (!options.editor?.plugins[ELEMENT_SPOILER_INLINE]) return children;
+// `:name` with no bracket, or a name no rule owns, is text the user typed
+const deserializeLiteral = (
+    mdastNode: TextDirective | LeafDirective,
+    deco: Deco,
+    options: DeserializeMdOptions,
+) => {
+    const marker = `${mdastNode.type === 'leafDirective' ? '::' : ':'}${mdastNode.name}`;
+
+    if (mdastNode.children.length === 0) return [{ ...deco, text: marker }];
+
+    return [
+        { ...deco, text: `${marker}[` },
+        ...convertChildrenDeserialize(mdastNode.children, deco, options),
+        { ...deco, text: ']' },
+    ];
+};
+
+const deserializeTextDirective = (
+    mdastNode: TextDirective | LeafDirective,
+    deco: Deco,
+    options: DeserializeMdOptions,
+) => {
+    if (mdastNode.children.length === 0)
+        return deserializeLiteral(mdastNode, deco, options);
+
+    const config = configFor(mdastNode.name, 'text');
+
+    if (!config) return deserializeLiteral(mdastNode, deco, options);
+
+    // Editors without the inline plugin keep the text, not the node
+    if (!options.editor?.plugins[ELEMENT_SPOILER_INLINE])
+        return convertChildrenDeserialize(mdastNode.children, deco, options);
 
     return config.deserialize(mdastNode, deco, options);
 };
@@ -127,6 +154,24 @@ const paragraphRule = {
                 : false,
         }),
 };
+
+const strikethroughRules = {
+    [KEYS.strikethrough]: {
+        mark: true,
+        deserialize: (
+            mdastNode: Delete,
+            deco: Deco,
+            options: DeserializeMdOptions,
+        ) =>
+            options.editor?.plugins[KEYS.strikethrough]
+                ? defaultRules.strikethrough?.deserialize?.(
+                      mdastNode,
+                      deco,
+                      options,
+                  )
+                : convertChildrenDeserialize(mdastNode.children, deco, options),
+    },
+} as unknown as MdRules;
 
 const MENTION_MDAST_TYPE = 'userLink';
 
@@ -211,25 +256,25 @@ export const createMarkdownKit = ({
         options: {
             disallowedNodes: [KEYS.suggestion, KEYS.codeBlock, KEYS.code],
             remarkPlugins: mentions
-                ? [remarkDirective, remarkMention]
-                : [remarkDirective],
+                ? [remarkDirective, remarkStrikethrough, remarkMention]
+                : [remarkDirective, remarkStrikethrough],
 
             remarkStringifyOptions: {
                 resourceLink: true,
+                // `a:` before `:spoiler[x]` would read as `a::spoiler[x]`, which never parses
+                unsafe: [
+                    { character: ':', after: ':', inConstruct: 'phrasing' },
+                ],
                 ...(mentions && { handlers: mentionHandlers }),
             },
 
             rules: {
                 p: paragraphRule,
+                ...strikethroughRules,
                 ...(mentions && mentionRules),
                 // Markdown -> Plate: one entry point per directive shape
                 containerDirective: {
-                    deserialize: (mdastNode, deco, options) =>
-                        configFor(mdastNode.name, 'container')?.deserialize(
-                            mdastNode,
-                            deco,
-                            options,
-                        ),
+                    deserialize: deserializeContainerDirective,
                 },
                 textDirective: { deserialize: deserializeTextDirective },
                 leafDirective: { deserialize: deserializeTextDirective },

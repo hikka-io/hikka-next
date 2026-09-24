@@ -1,37 +1,59 @@
-import type { Parent, Root } from 'mdast';
+import type { Parent, Root, RootContent, Text } from 'mdast';
+import type {
+    Directives,
+    LeafDirective,
+    TextDirective,
+} from 'mdast-util-directive';
 
-const SPOILER_TAGS: Record<string, string> = {
-    containerDirective: 'spoiler',
-    leafDirective: 'spoiler-inline',
-    textDirective: 'spoiler-inline',
-};
+const DIRECTIVE_TYPES = new Set<string>([
+    'containerDirective',
+    'leafDirective',
+    'textDirective',
+]);
 
-// Directives with no hName carry no hast handler, and their text is dropped
-const FALLBACK_TAGS: Record<string, string> = {
-    containerDirective: 'div',
-    leafDirective: 'span',
-    textDirective: 'span',
-};
+const isDirective = (node: RootContent): node is Directives =>
+    DIRECTIVE_TYPES.has(node.type);
 
 const isParent = (node: unknown): node is Parent =>
     Array.isArray((node as Parent).children);
 
+const text = (value: string): Text => ({ type: 'text', value });
+
+const withHName = (directive: Directives, hName: string) => {
+    directive.data = { ...directive.data, hName };
+
+    return [directive];
+};
+
+// Unknown or label-less inline directives are text the user typed, e.g. `Re:Zero`
+const toLiteral = (directive: LeafDirective | TextDirective): RootContent[] => {
+    const marker = `${directive.type === 'leafDirective' ? '::' : ':'}${directive.name}`;
+    const children =
+        directive.children.length > 0
+            ? [text(`${marker}[`), ...directive.children, text(']')]
+            : [text(marker)];
+
+    return directive.type === 'leafDirective'
+        ? [{ type: 'paragraph', children }]
+        : children;
+};
+
 const tagDirectives = (node: Parent) => {
-    for (const child of node.children as any[]) {
-        const fallback = FALLBACK_TAGS[child.type];
-
-        if (fallback) {
-            child.data = {
-                ...child.data,
-                hName:
-                    child.name === 'spoiler'
-                        ? SPOILER_TAGS[child.type]
-                        : fallback,
-            };
-        }
-
+    node.children = node.children.flatMap((child): RootContent[] => {
         if (isParent(child)) tagDirectives(child);
-    }
+        if (!isDirective(child)) return [child];
+
+        // Directives with no hName carry no hast handler, and their text is dropped
+        if (child.type === 'containerDirective')
+            return withHName(
+                child,
+                child.name === 'spoiler' ? 'spoiler' : 'div',
+            );
+
+        return child.name === 'spoiler' && child.children.length > 0
+            ? withHName(child, 'spoiler-inline')
+            : toLiteral(child);
+    });
 };
 
 export default function remarkSpoiler() {
