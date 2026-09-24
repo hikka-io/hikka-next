@@ -181,15 +181,15 @@ const SORT_TODO_CONTENT: SortOption[] = [
 
 const SORT_TODO_PERSON: SortOption[] = [
     {
-        label: 'Ім’я українською',
+        label: "Ім'я українською",
         value: 'name_ua',
     },
     {
-        label: 'Ім’я англійською',
+        label: "Ім'я англійською",
         value: 'name_en',
     },
     {
-        label: 'Оригінальне ім’я',
+        label: "Оригінальне ім'я",
         value: 'name_original',
     },
 ];
