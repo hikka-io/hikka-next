@@ -17,6 +17,8 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import {
     AGE_RATING,
+    CHARACTER_ISSUES,
+    CONTENT_ISSUES,
     CONTENT_TYPES,
     MEDIA_TYPE,
     RELEASE_STATUS,
@@ -70,21 +72,11 @@ const FILTER_REGISTRY: Record<string, FilterDef> = {
     // Boolean params
     only_translated: { kind: 'boolean', label: 'Перекладено українською' },
 
-    // Missing-data flags of the /edit/content lists (media + person/character issues)
+    // Missing-data flags of the /edit/content lists
     issues: {
         kind: 'enum',
         tristate: true,
-        labelMap: {
-            title_ua: { title_ua: 'Назва (укр)' },
-            title_en: { title_ua: 'Назва (англ)' },
-            title_original: { title_ua: 'Назва (ориг)' },
-            synopsis_ua: { title_ua: 'Опис (укр)' },
-            synopsis_en: { title_ua: 'Опис (англ)' },
-            name_ua: { title_ua: "Ім'я (укр)" },
-            name_en: { title_ua: "Ім'я (англ)" },
-            name_original: { title_ua: "Ім'я (ориг)" },
-            description_ua: { title_ua: 'Опис (укр)' },
-        },
+        labelMap: { ...CONTENT_ISSUES, ...CHARACTER_ISSUES },
     },
 
     // Value params (the chip carries the entered value)

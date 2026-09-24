@@ -5,19 +5,9 @@ import { ContentTypeEnum } from '@hikka/api';
 import ContentSlug from '@/features/filters/content-slug';
 import ContentType from '@/features/filters/content-type';
 import Issues from '@/features/filters/issues';
+import { CHARACTER_ISSUES, PERSON_ISSUES } from '@/utils/constants/common';
 
 import type { TodoFiltersValue } from './todo-filters-value';
-
-const PERSON_ISSUES: Hikka.FilterProperty<string> = {
-    name_ua: { title_ua: "Ім'я (укр)", title_en: 'Name (ua)' },
-    name_en: { title_ua: "Ім'я (англ)", title_en: 'Name (en)' },
-    name_original: { title_ua: "Ім'я (ориг)", title_en: 'Name (original)' },
-};
-
-const CHARACTER_ISSUES: Hikka.FilterProperty<string> = {
-    ...PERSON_ISSUES,
-    description_ua: { title_ua: 'Опис (укр)', title_en: 'Description (ua)' },
-};
 
 const MEDIA_CONTENT_TYPES = [
     ContentTypeEnum.ANIME,

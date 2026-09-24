@@ -397,3 +397,22 @@ export const ARTICLE_CATEGORY_OPTIONS: Hikka.FilterProperty<
         icon: MaterialSymbolsStarsRounded,
     },
 };
+
+export const CONTENT_ISSUES: Hikka.FilterProperty<string> = {
+    title_ua: { title_ua: 'Назва (укр)', title_en: 'Title (ua)' },
+    title_en: { title_ua: 'Назва (англ)', title_en: 'Title (en)' },
+    title_original: { title_ua: 'Назва (ориг)', title_en: 'Title (original)' },
+    synopsis_ua: { title_ua: 'Опис (укр)', title_en: 'Synopsis (ua)' },
+    synopsis_en: { title_ua: 'Опис (англ)', title_en: 'Synopsis (en)' },
+};
+
+export const PERSON_ISSUES: Hikka.FilterProperty<string> = {
+    name_ua: { title_ua: "Ім'я (укр)", title_en: 'Name (ua)' },
+    name_en: { title_ua: "Ім'я (англ)", title_en: 'Name (en)' },
+    name_original: { title_ua: "Ім'я (ориг)", title_en: 'Name (original)' },
+};
+
+export const CHARACTER_ISSUES: Hikka.FilterProperty<string> = {
+    ...PERSON_ISSUES,
+    description_ua: { title_ua: 'Опис (укр)', title_en: 'Description (ua)' },
+};

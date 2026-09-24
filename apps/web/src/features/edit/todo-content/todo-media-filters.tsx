@@ -12,16 +12,9 @@ import ReleaseStatus from '@/features/filters/release-status';
 import Season from '@/features/filters/season';
 import Studio from '@/features/filters/studio';
 import Year from '@/features/filters/year';
+import { CONTENT_ISSUES } from '@/utils/constants/common';
 
 import type { TodoFiltersValue } from './todo-filters-value';
-
-const CONTENT_ISSUES: Hikka.FilterProperty<string> = {
-    title_ua: { title_ua: 'Назва (укр)', title_en: 'Title (ua)' },
-    title_en: { title_ua: 'Назва (англ)', title_en: 'Title (en)' },
-    title_original: { title_ua: 'Назва (ориг)', title_en: 'Title (original)' },
-    synopsis_ua: { title_ua: 'Опис (укр)', title_en: 'Synopsis (ua)' },
-    synopsis_en: { title_ua: 'Опис (англ)', title_en: 'Synopsis (en)' },
-};
 
 type Props = {
     contentType:
