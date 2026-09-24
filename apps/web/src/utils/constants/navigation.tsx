@@ -1,11 +1,15 @@
 import type { FC, SVGProps } from 'react';
 
-import { ChartLine, FilePenLine, MessageCircle, UsersIcon } from 'lucide-react';
+import {
+    ChartLine,
+    FilePenLine,
+    Info,
+    MessageCircle,
+    UsersIcon,
+} from 'lucide-react';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
-import BxBxlMastadon from '@/components/icons/bx/BxBxlMastadon';
 import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
@@ -248,6 +252,13 @@ const MODERATION_GROUP: Hikka.NavRoute[] = [
 
 const OTHER_GROUP: Hikka.NavRoute[] = [
     {
+        title_ua: 'Про нас',
+        url: '/about',
+        icon: () => <Info />,
+        visible: true,
+        slug: 'about',
+    },
+    {
         title_ua: 'Налаштування',
         url: '/settings',
         icon: () => <MaterialSymbolsSettingsOutlineRounded />,
@@ -351,6 +362,13 @@ export const APP_NAV_MORE: { title_ua: string; items: Hikka.NavRoute[] }[] = [
     {
         title_ua: 'Інше',
         items: [
+            {
+                title_ua: 'Про нас',
+                url: '/about',
+                icon: () => <Info />,
+                visible: true,
+                slug: 'about',
+            },
             {
                 title_ua: 'Календар',
                 url: '/schedule',
@@ -542,6 +560,10 @@ export const PROFILE_MENU: Hikka.NavRoute[] = [
 ];
 
 export const FOOTER_LINKS = {
+    about: {
+        title: 'Про нас',
+        href: '/about',
+    },
     rules: {
         title: 'Правила',
         href: '/articles/pravyla-saytu-9bcf83',
@@ -551,34 +573,3 @@ export const FOOTER_LINKS = {
         href: '/articles/pravovlasnykam-a76512',
     },
 } as const;
-
-export const DONATION_LINKS = [
-    {
-        title: 'Donatello',
-        href: 'https://donatello.to/hikka.io',
-        icon: BxBxsDonateHeart,
-    },
-    {
-        title: 'Монобанка',
-        href: 'https://send.monobank.ua/jar/UejmZHk4B',
-        icon: PhTipJarFill,
-    },
-] as const;
-
-export const SOCIAL_LINKS = [
-    {
-        title: 'GitHub',
-        href: 'https://github.com/hikka-io',
-        icon: BxBxlGithub,
-    },
-    {
-        title: 'Telegram',
-        href: 'https://t.me/hikka_io',
-        icon: BxBxlTelegram,
-    },
-    {
-        title: 'Mastadon',
-        href: 'https://social.noleron.com/@hikka',
-        icon: BxBxlMastadon,
-    },
-] as const;

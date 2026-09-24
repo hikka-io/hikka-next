@@ -10,12 +10,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
-import {
-    DONATION_LINKS,
-    FOOTER_LINKS,
-    SOCIAL_LINKS,
-} from '@/utils/constants/navigation';
+import { FOOTER_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
+import { DONATION_LINKS, SOCIAL_LINKS } from '@/utils/constants/external-links';
 
 type Props = {
     className?: string;
