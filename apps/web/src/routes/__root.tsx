@@ -24,6 +24,7 @@ import {
     getUiPrefsCookieFn,
     refreshAuthCookieFn,
 } from '@/utils/cookies';
+import { usePlausiblePageviews } from '@/utils/plausible';
 import { backdropVars, DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getUserStyles } from '@/utils/ui/server';
 
@@ -49,13 +50,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         links: [
             { rel: 'icon', href: '/favicon.ico' },
             { rel: 'apple-touch-icon', href: '/apple-icon.png' },
-        ],
-        scripts: [
-            {
-                defer: true,
-                'data-domain': 'hikka.io',
-                src: '/js/plausible.local.js',
-            },
         ],
     }),
     loader: async ({ context }) => {
@@ -84,6 +78,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 function RootLayout() {
     const { userStylesCSS, theme, backdrop, uiPrefs } = Route.useLoaderData();
     const router = useRouter();
+    usePlausiblePageviews();
 
     return (
         <html
