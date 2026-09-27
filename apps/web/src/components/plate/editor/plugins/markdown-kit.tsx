@@ -145,14 +145,37 @@ type DefaultParagraphRule = {
     serialize: NonNullable<NonNullable<typeof defaultRules.p>['serialize']>;
 };
 
+const TRAILING_NEWLINES = /\n+$/;
+
+const trimTrailingBreaks = (node: TElement): TElement => {
+    const children = [...node.children];
+
+    for (let i = children.length - 1; i >= 0; i--) {
+        const child = children[i];
+
+        if (!('text' in child) || typeof child.text !== 'string') break;
+
+        const text = child.text.replace(TRAILING_NEWLINES, '');
+
+        children[i] = { ...child, text };
+
+        if (text !== '') break;
+    }
+
+    return { ...node, children };
+};
+
 const paragraphRule = {
-    serialize: (node: TElement, options: SerializeMdOptions) =>
-        (defaultRules.p as DefaultParagraphRule).serialize(node, {
+    serialize: (node: TElement, options: SerializeMdOptions) => {
+        const trimmed = trimTrailingBreaks(node);
+
+        return (defaultRules.p as DefaultParagraphRule).serialize(trimmed, {
             ...options,
-            preserveEmptyParagraphs: isBlankParagraph(node)
+            preserveEmptyParagraphs: isBlankParagraph(trimmed)
                 ? options.preserveEmptyParagraphs
                 : false,
-        }),
+        });
+    },
 };
 
 const strikethroughRules = {
