@@ -7,17 +7,7 @@
     },
     "files": {
         "ignoreUnknown": true,
-        "includes": [
-            "**",
-            "!**/dist",
-            "!**/.output",
-            "!**/.nitro",
-            "!**/.vinxi",
-            "!**/.turbo",
-            "!**/coverage",
-            "!**/public",
-            "!**/routeTree.gen.ts"
-        ]
+        "includes": ["**", "!**/.nitro", "!**/public", "!**/routeTree.gen.ts"]
     },
     "formatter": {
         "enabled": true,
@@ -103,7 +93,6 @@
                             ["@/features/**"],
                             ["@/services/**"],
                             ["@/utils/**"],
-                            ["@/types/**"],
                             [":ALIAS:"],
                             ":BLANK_LINE:",
                             [":PATH:"]

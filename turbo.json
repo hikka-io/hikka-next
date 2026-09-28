@@ -18,6 +18,11 @@
             "cache": false,
             "persistent": true
         },
+        "@hikka/web#dev": {
+            "dependsOn": ["@hikka/api#build"],
+            "cache": false,
+            "persistent": true
+        },
         "clean": {
             "cache": false
         },

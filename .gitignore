@@ -6,10 +6,6 @@ node_modules
 # Testing
 coverage
 
-# Production
-build
-out
-
 # Misc
 .DS_Store
 *.pem
@@ -20,9 +16,6 @@ npm-debug.log*
 
 # Local env files
 .env*.local
-
-# Vercel
-.vercel
 
 # TypeScript
 *.tsbuildinfo
@@ -35,7 +28,8 @@ npm-debug.log*
 .idea_modules/
 
 # VS Code
-.vscode/
+.vscode/*
+!.vscode/settings.json
 *.code-workspace
 
 # Logs
@@ -43,46 +37,30 @@ logs
 **/*.backup.*
 **/*.back.*
 
-# Storybook
-*storybook.log
-
 .turbo
 CLAUDE.md
 
 *.log
-dev-debug.log
-# Dependency directories
-node_modules/
 # Environment variables
 .env
 # Editor directories and files
-.idea
-.vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-# OS specific
-
-# Task files
-tasks.json
-tasks/ 
 
 .claude
 .cursor
-.taskmaster
 .mcp.json
 
 # Devenv
 .devenv*
 .direnv
 devenv.local.nix
-# TanStack Start / Vinxi
+# TanStack Start
 .output
-.vinxi
 .tanstack
 dist
 # Superpowers (Claude Code plugin artifacts)
-docs/superpowers/
 docs
