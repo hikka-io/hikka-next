@@ -14,14 +14,6 @@ export function HeadingElement({
     );
 }
 
-export function H1Element(props: PlateElementProps) {
-    return <HeadingElement variant="h1" {...props} />;
-}
-
-export function H2Element(props: PlateElementProps) {
-    return <HeadingElement variant="h2" {...props} />;
-}
-
 export function H3Element(props: PlateElementProps) {
     return <HeadingElement variant="h3" {...props} />;
 }

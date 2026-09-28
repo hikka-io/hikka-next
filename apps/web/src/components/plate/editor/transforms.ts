@@ -1,11 +1,5 @@
 import { toggleList } from '@platejs/list-classic';
-import {
-    KEYS,
-    type NodeEntry,
-    type Path,
-    PathApi,
-    type TElement,
-} from 'platejs';
+import { KEYS, type Path, PathApi, type TElement } from 'platejs';
 import type { PlateEditor } from 'platejs/react';
 
 // Containers need a paragraph child, not bare text
@@ -187,53 +181,4 @@ export const toggleSpoiler = (
     }
 
     toggleContainerBlock(editor, block);
-};
-
-const setBlockMap: Record<string, (editor: PlateEditor, type: string) => void> =
-    {
-        [KEYS.olClassic]: (editor) =>
-            toggleList(editor, { type: editor.getType(KEYS.olClassic) }),
-        [KEYS.taskList]: (editor) =>
-            toggleList(editor, { type: editor.getType(KEYS.taskList) }),
-        [KEYS.ulClassic]: (editor) =>
-            toggleList(editor, { type: editor.getType(KEYS.ulClassic) }),
-    };
-
-export const setBlockType = (
-    editor: PlateEditor,
-    type: string,
-    { at }: { at?: Path } = {},
-) => {
-    editor.tf.withoutNormalizing(() => {
-        const setEntry = (entry: NodeEntry<TElement>) => {
-            const [node, path] = entry;
-
-            if (type in setBlockMap) {
-                return setBlockMap[type](editor, type);
-            }
-            if (node.type !== type) {
-                editor.tf.setNodes({ type }, { at: path });
-            }
-        };
-
-        if (at) {
-            const entry = editor.api.node<TElement>(at);
-
-            if (entry) {
-                setEntry(entry);
-
-                return;
-            }
-        }
-
-        const entries = editor.api.blocks({ mode: 'lowest' });
-
-        entries.forEach((entry) => {
-            setEntry(entry);
-        });
-    });
-};
-
-export const getBlockType = (block: TElement) => {
-    return block.type;
 };
