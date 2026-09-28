@@ -1,4 +1,3 @@
-import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -15,8 +14,9 @@ import {
 import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
 
+import Captcha from './captcha';
 import { handleAuthSuccess } from './handle-auth-success';
-import { CAPTCHA_SITE_KEY, useCaptcha } from './hooks/use-captcha';
+import { useCaptcha } from './hooks/use-captcha';
 import OAuthLogin from './oauth-login';
 
 const formSchema = z
@@ -138,11 +138,7 @@ const SignupForm = () => {
                 )}
             />
 
-            <Turnstile
-                ref={captchaRef}
-                siteKey={CAPTCHA_SITE_KEY}
-                className="flex justify-center"
-            />
+            <Captcha ref={captchaRef} />
 
             <SubmitButton
                 className="w-full"

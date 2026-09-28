@@ -77,6 +77,18 @@ packages/api/         → Generated API client + TanStack Query options (@hikka/
 
 This starts all packages in dev/watch mode. The web app will be available at `http://localhost:3000`.
 
+### Local backend
+
+To run against a local backend without Cloudflare Turnstile, add to `apps/web/.env.development.local`:
+
+```sh
+VITE_API_URL=http://localhost:8888
+API_URL=http://localhost:8888
+VITE_CAPTCHA_BYPASS=fake_captcha
+```
+
+`VITE_CAPTCHA_BYPASS` must match `captcha.test` in the backend's `settings.toml`.
+
 ### Scripts
 
 ```bash

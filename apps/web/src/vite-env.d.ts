@@ -6,6 +6,8 @@ declare module '@fontsource-variable/geist';
 
 interface ImportMetaEnv {
     readonly VITE_IMGPROXY_URL?: string;
+    /** Local development only: see `utils/captcha.ts`. */
+    readonly VITE_CAPTCHA_BYPASS?: string;
 }
 
 interface ImportMeta {

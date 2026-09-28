@@ -9,7 +9,7 @@ export const CAPTCHA_SITE_KEY = '0x4AAAAAAANXs8kaCqjo_FLF';
 /**
  * Turnstile captcha wiring shared by the login and signup forms: owns the
  * widget ref and exposes helpers to read the current token and reset it.
- * Render `<Turnstile ref={captchaRef} siteKey={CAPTCHA_SITE_KEY} />`.
+ * Render `<Captcha ref={captchaRef} />`.
  */
 export function useCaptcha() {
     const captchaRef = useRef<TurnstileInstance>(undefined);
