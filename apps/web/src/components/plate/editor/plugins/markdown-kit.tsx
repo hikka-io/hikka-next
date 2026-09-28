@@ -14,7 +14,7 @@ import type {
     LeafDirective,
     TextDirective,
 } from 'mdast-util-directive';
-import { KEYS, type TElement } from 'platejs';
+import { KEYS, type TElement, TextApi } from 'platejs';
 import remarkDirective from 'remark-directive';
 
 import remarkStrikethrough from '@/components/markdown/viewer/plugins/remark-strikethrough';
@@ -145,14 +145,46 @@ type DefaultParagraphRule = {
     serialize: NonNullable<NonNullable<typeof defaultRules.p>['serialize']>;
 };
 
+const stripTrailingBreak = (text: string) => {
+    const trimmed = text.trimEnd();
+
+    return text.slice(trimmed.length).includes('\n') ? trimmed : text;
+};
+
+// Markdown has no syntax for a paragraph-final soft break, so Plate writes raw `<br />`
+const trimTrailingBreaks = (node: TElement): TElement => {
+    const children = [...node.children];
+    let last = children.at(-1);
+
+    while (last && TextApi.isText(last)) {
+        const text = stripTrailingBreak(last.text);
+
+        if (text !== '') {
+            children[children.length - 1] = { ...last, text };
+            break;
+        }
+
+        children.pop();
+        last = children.at(-1);
+    }
+
+    return {
+        ...node,
+        children: children.length > 0 ? children : [{ text: '' }],
+    };
+};
+
 const paragraphRule = {
-    serialize: (node: TElement, options: SerializeMdOptions) =>
-        (defaultRules.p as DefaultParagraphRule).serialize(node, {
+    serialize: (node: TElement, options: SerializeMdOptions) => {
+        const trimmed = trimTrailingBreaks(node);
+
+        return (defaultRules.p as DefaultParagraphRule).serialize(trimmed, {
             ...options,
-            preserveEmptyParagraphs: isBlankParagraph(node)
+            preserveEmptyParagraphs: isBlankParagraph(trimmed)
                 ? options.preserveEmptyParagraphs
                 : false,
-        }),
+        });
+    },
 };
 
 const strikethroughRules = {
