@@ -7,7 +7,7 @@ import {
     MediaTooltip,
     PersonTooltip,
     UserTooltip,
-} from '@/components/content-card';
+} from '@/components/content-card/tooltips';
 import {
     AlertDialog,
     AlertDialogAction,

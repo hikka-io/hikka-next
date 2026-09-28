@@ -4,7 +4,6 @@ import { BadgeFilterField } from './form-badge-filter';
 import { fieldContext, formContext } from './form-context';
 import { DatePickerField } from './form-date-picker';
 import { TextField } from './form-input';
-import { MarkdownField } from './form-markdown';
 import { PasswordField } from './form-password';
 import { SelectField } from './form-select';
 import { SliderField } from './form-slider';
@@ -21,7 +20,6 @@ export const { useAppForm, useTypedAppFormContext } = createFormHook({
         SliderField,
         DatePickerField,
         BadgeFilterField,
-        MarkdownField,
     },
     formComponents: {},
     fieldContext,
