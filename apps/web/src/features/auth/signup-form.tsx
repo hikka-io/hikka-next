@@ -1,28 +1,31 @@
 import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useHydrated } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
 import { signupMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
+import {
+    emailSchema,
+    passwordSchema,
+    usernameSchema,
+} from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
 
 import { handleAuthSuccess } from './handle-auth-success';
 import { CAPTCHA_SITE_KEY, useCaptcha } from './hooks/use-captcha';
 import OAuthLogin from './oauth-login';
-import PasswordInput from './password-input';
 
 const formSchema = z
     .object({
-        email: z.string().email(),
-        password: z.string().min(8),
-        username: z.string().min(3),
-        passwordConfirmation: z.string().min(8),
+        email: emailSchema,
+        password: passwordSchema,
+        username: usernameSchema,
+        passwordConfirmation: z.string(),
     })
     .refine((data) => data.password === data.passwordConfirmation, {
         message: 'Паролі не збігаються',
@@ -30,6 +33,9 @@ const formSchema = z
     });
 
 const SignupForm = () => {
+    // Until hydration the form is plain HTML: a click would submit it
+    // natively (GET, reload, fields in the address bar), so wait for React.
+    const hydrated = useHydrated();
     const queryClient = useQueryClient();
     const { captchaRef, getToken, reset } = useCaptcha();
     const router = useRouter();
@@ -63,7 +69,9 @@ const SignupForm = () => {
             username: '',
             passwordConfirmation: '',
         },
-        validators: { onSubmit: formSchema },
+        // Checked as the user types (shown once a field is left): the API
+        // would refuse the same values, only after the captcha and a request.
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             mutationSignup.mutate({
                 body: {
@@ -87,77 +95,52 @@ const SignupForm = () => {
             }}
             className="space-y-4"
         >
-            <form.Field
+            <form.AppField
                 name="username"
                 children={(field) => (
-                    <Field>
-                        <FieldLabel htmlFor={field.name}>
-                            Ім&apos;я користувача (нікнейм)
-                        </FieldLabel>
-                        <Input
-                            id={field.name}
-                            type="text"
-                            placeholder="Введіть Ваше ім'я"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={(e) => field.handleChange(e.target.value)}
-                        />
-                        <FieldError errors={field.state.meta.errors} />
-                    </Field>
+                    <field.TextField
+                        type="text"
+                        label="Ім'я користувача (нікнейм)"
+                        placeholder="Введіть Ваше ім'я"
+                        description="Латинські літери, цифри та _, від 5 до 64 символів"
+                        autoComplete="username"
+                        autoCapitalize="none"
+                        spellCheck={false}
+                    />
                 )}
             />
 
-            <form.Field
+            <form.AppField
                 name="email"
                 children={(field) => (
-                    <Field>
-                        <FieldLabel htmlFor={field.name}>Email</FieldLabel>
-                        <Input
-                            id={field.name}
-                            type="email"
-                            placeholder="Введіть ваш email"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={(e) => field.handleChange(e.target.value)}
-                        />
-                        <FieldError errors={field.state.meta.errors} />
-                    </Field>
+                    <field.TextField
+                        type="email"
+                        label="Email"
+                        placeholder="Введіть ваш email"
+                        autoComplete="email"
+                    />
                 )}
             />
 
-            <form.Field
+            <form.AppField
                 name="password"
                 children={(field) => (
-                    <Field>
-                        <FieldLabel htmlFor={field.name}>Пароль</FieldLabel>
-                        <PasswordInput
-                            id={field.name}
-                            placeholder="Введіть пароль"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={field.handleChange}
-                        />
-                        <FieldError errors={field.state.meta.errors} />
-                    </Field>
+                    <field.PasswordField
+                        label="Пароль"
+                        placeholder="Введіть пароль"
+                        autoComplete="new-password"
+                    />
                 )}
             />
 
-            <form.Field
+            <form.AppField
                 name="passwordConfirmation"
                 children={(field) => (
-                    <Field>
-                        <FieldLabel htmlFor={field.name}>
-                            Підтвердження паролю
-                        </FieldLabel>
-                        <PasswordInput
-                            id={field.name}
-                            placeholder="Повторіть пароль"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={field.handleChange}
-                        />
-                        <FieldError errors={field.state.meta.errors} />
-                    </Field>
+                    <field.PasswordField
+                        label="Підтвердження паролю"
+                        placeholder="Повторіть пароль"
+                        autoComplete="new-password"
+                    />
                 )}
             />
 
@@ -170,7 +153,11 @@ const SignupForm = () => {
             <Button
                 type="submit"
                 className="w-full"
-                disabled={mutationSignup.isPending || mutationSignup.isSuccess}
+                disabled={
+                    !hydrated ||
+                    mutationSignup.isPending ||
+                    mutationSignup.isSuccess
+                }
             >
                 {mutationSignup.isPending && <Spinner className="mr-2" />}
                 Зареєструватись

@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useHydrated } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
 import { changeUsernameMutation } from '@hikka/api';
@@ -7,14 +8,18 @@ import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
+import { usernameSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
 
 const formSchema = z.object({
-    username: z.string().min(2).max(50),
+    username: usernameSchema,
 });
 
 const ProfileUsername = () => {
+    // Until hydration the form is plain HTML: a click would submit it
+    // natively (GET, reload, fields in the address bar), so wait for React.
+    const hydrated = useHydrated();
     const router = useRouter();
     const queryClient = useQueryClient();
 
@@ -31,7 +36,7 @@ const ProfileUsername = () => {
         defaultValues: {
             username: '',
         },
-        validators: { onSubmit: formSchema },
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             mutationChangeUsername.mutate({
                 body: { username: value.username },
@@ -55,13 +60,17 @@ const ProfileUsername = () => {
                         type="text"
                         label="Нове ім'я користувача"
                         placeholder="Введіть нове імʼя"
+                        description="Латинські літери, цифри та _, від 5 до 64 символів"
+                        autoComplete="username"
+                        autoCapitalize="none"
+                        spellCheck={false}
                         className="w-full"
                     />
                 )}
             />
             <Button
                 size="md"
-                disabled={mutationChangeUsername.isPending}
+                disabled={!hydrated || mutationChangeUsername.isPending}
                 variant="default"
                 type="submit"
             >

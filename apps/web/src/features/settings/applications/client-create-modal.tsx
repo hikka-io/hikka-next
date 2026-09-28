@@ -8,12 +8,17 @@ import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
 import { invalidateUserClients } from '@/utils/api/invalidate-content-state';
+import {
+    clientDescriptionSchema,
+    clientNameSchema,
+    endpointSchema,
+} from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
-    name: z.coerce.string().min(3).max(128),
-    description: z.coerce.string().min(3).max(512),
-    endpoint: z.coerce.string().min(3).max(128),
+    name: clientNameSchema,
+    description: clientDescriptionSchema,
+    endpoint: endpointSchema,
 });
 
 type Props = {
@@ -39,7 +44,7 @@ const ClientCreateModal = ({ onClose }: Props) => {
             description: '',
             endpoint: '',
         },
-        validators: { onSubmit: formSchema },
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             createClient({ body: value });
         },
@@ -80,7 +85,11 @@ const ClientCreateModal = ({ onClose }: Props) => {
                         <field.TextField
                             label="Посилання переспрямування"
                             placeholder="https://example.com/"
-                            type="string"
+                            description="Сюди Hikka поверне користувача після входу: повна адреса зі схемою — https://… або власна схема застосунку, як myapp://auth"
+                            type="text"
+                            inputMode="url"
+                            autoCapitalize="none"
+                            spellCheck={false}
                         />
                     )}
                 />

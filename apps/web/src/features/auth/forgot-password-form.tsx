@@ -1,21 +1,24 @@
 import { useMutation } from '@tanstack/react-query';
+import { useHydrated } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
 import { resetPasswordMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
 import Spinner from '@/components/ui/spinner';
+import { emailSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 import { Link } from '@/utils/navigation';
 
 const formSchema = z.object({
-    email: z.string().email(),
+    email: emailSchema,
 });
 
 const ForgotPasswordForm = () => {
+    // Until hydration the form is plain HTML: a click would submit it
+    // natively (GET, reload, fields in the address bar), so wait for React.
+    const hydrated = useHydrated();
     const mutationRequestPasswordReset = useMutation({
         ...resetPasswordMutation(),
         onSuccess: (data) => {
@@ -35,7 +38,7 @@ const ForgotPasswordForm = () => {
         defaultValues: {
             email: '',
         },
-        validators: { onSubmit: formSchema },
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             mutationRequestPasswordReset.mutate({ body: value });
         },
@@ -50,28 +53,22 @@ const ForgotPasswordForm = () => {
             }}
             className="space-y-4"
         >
-            <form.Field
+            <form.AppField
                 name="email"
                 children={(field) => (
-                    <Field>
-                        <FieldLabel htmlFor={field.name}>Email</FieldLabel>
-                        <Input
-                            id={field.name}
-                            type="email"
-                            placeholder="Введіть ваш email"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={(e) => field.handleChange(e.target.value)}
-                        />
-                        <FieldError errors={field.state.meta.errors} />
-                    </Field>
+                    <field.TextField
+                        type="email"
+                        label="Email"
+                        placeholder="Введіть ваш email"
+                        autoComplete="email"
+                    />
                 )}
             />
 
             <Button
                 type="submit"
                 className="w-full"
-                disabled={mutationRequestPasswordReset.isPending}
+                disabled={!hydrated || mutationRequestPasswordReset.isPending}
             >
                 {mutationRequestPasswordReset.isPending && (
                     <Spinner className="mr-2" />

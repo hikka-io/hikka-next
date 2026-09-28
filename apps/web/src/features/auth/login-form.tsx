@@ -1,5 +1,6 @@
 import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useHydrated } from '@tanstack/react-router';
 
 import { loginMutation } from '@hikka/api';
 
@@ -7,6 +8,7 @@ import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import PasswordInput from '@/components/ui/password-input';
 import Spinner from '@/components/ui/spinner';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { z } from '@/utils/i18n/zod';
@@ -16,7 +18,6 @@ import { validateRedirectUrl } from '@/utils/url';
 import { handleAuthSuccess } from './handle-auth-success';
 import { CAPTCHA_SITE_KEY, useCaptcha } from './hooks/use-captcha';
 import OAuthLogin from './oauth-login';
-import PasswordInput from './password-input';
 
 const formSchema = z.object({
     identifier: z.string().min(5),
@@ -25,6 +26,9 @@ const formSchema = z.object({
 });
 
 const LoginForm = () => {
+    // Until hydration the form is plain HTML: a click would submit it
+    // natively (GET, reload, fields in the address bar), so wait for React.
+    const hydrated = useHydrated();
     const queryClient = useQueryClient();
     const { callbackUrl: callbackUrlParam } = useFilterSearch<{
         callbackUrl?: string;
@@ -133,7 +137,11 @@ const LoginForm = () => {
             <Button
                 type="submit"
                 className="w-full"
-                disabled={mutationLogin.isPending || mutationLogin.isSuccess}
+                disabled={
+                    !hydrated ||
+                    mutationLogin.isPending ||
+                    mutationLogin.isSuccess
+                }
             >
                 {mutationLogin.isPending && <Spinner className="mr-2" />}
                 Увійти

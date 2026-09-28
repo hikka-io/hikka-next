@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { useHydrated } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
 import { changePasswordMutation } from '@hikka/api';
@@ -6,12 +7,13 @@ import { changePasswordMutation } from '@hikka/api';
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
+import { passwordSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z
     .object({
-        password: z.string().min(6),
-        passwordConfirmation: z.string().min(6),
+        password: passwordSchema,
+        passwordConfirmation: z.string(),
     })
     .refine((data) => data.password === data.passwordConfirmation, {
         message: 'Паролі не збігаються',
@@ -19,6 +21,9 @@ const formSchema = z
     });
 
 const PasswordSettings = () => {
+    // Until hydration the form is plain HTML: a click would submit it
+    // natively (GET, reload, fields in the address bar), so wait for React.
+    const hydrated = useHydrated();
     const mutationChangePassword = useMutation({
         ...changePasswordMutation(),
         onSuccess: async () => {
@@ -31,7 +36,7 @@ const PasswordSettings = () => {
             password: '',
             passwordConfirmation: '',
         },
-        validators: { onSubmit: formSchema },
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             mutationChangePassword.mutate({
                 body: { password: value.password },
@@ -51,9 +56,9 @@ const PasswordSettings = () => {
             <form.AppField
                 name="password"
                 children={(field) => (
-                    <field.TextField
-                        type="password"
+                    <field.PasswordField
                         placeholder="Введіть новий пароль"
+                        autoComplete="new-password"
                         label="Новий пароль"
                         className="w-full"
                     />
@@ -62,9 +67,9 @@ const PasswordSettings = () => {
             <form.AppField
                 name="passwordConfirmation"
                 children={(field) => (
-                    <field.TextField
-                        type="password"
+                    <field.PasswordField
                         placeholder="Підтвердіть новий пароль"
+                        autoComplete="new-password"
                         label="Підтвердити пароль"
                         className="w-full"
                     />
@@ -72,7 +77,7 @@ const PasswordSettings = () => {
             />
             <Button
                 size="md"
-                disabled={mutationChangePassword.isPending}
+                disabled={!hydrated || mutationChangePassword.isPending}
                 variant="default"
                 type="submit"
             >
