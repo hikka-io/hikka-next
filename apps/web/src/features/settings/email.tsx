@@ -3,19 +3,19 @@ import { toast } from 'sonner';
 
 import { changeEmailMutation } from '@hikka/api';
 
+import SubmitButton from '@/components/form/submit-button';
 import { useAppForm } from '@/components/form/use-app-form';
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
+import { emailSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z
     .object({
-        email: z.string().email(),
-        emailConfirmation: z.string().email(),
+        email: emailSchema,
+        emailConfirmation: z.string(),
     })
     .refine((data) => data.email === data.emailConfirmation, {
-        message: 'Пошти не збігаються',
+        message: 'Адреси не збігаються',
         path: ['emailConfirmation'],
     });
 
@@ -35,7 +35,7 @@ const EmailSettings = () => {
             email: '',
             emailConfirmation: '',
         },
-        validators: { onSubmit: formSchema },
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             mutationChangeEmail.mutate({
                 body: { email: value.email },
@@ -59,6 +59,7 @@ const EmailSettings = () => {
                         type="email"
                         label="Новий email"
                         placeholder="Введіть новий email"
+                        autoComplete="email"
                         className="w-full"
                     />
                 )}
@@ -74,15 +75,13 @@ const EmailSettings = () => {
                     />
                 )}
             />
-            <Button
+            <SubmitButton
                 size="md"
-                disabled={mutationChangeEmail.isPending}
                 variant="default"
-                type="submit"
+                loading={mutationChangeEmail.isPending}
             >
-                {mutationChangeEmail.isPending && <Spinner />}
                 Зберегти
-            </Button>
+            </SubmitButton>
         </form>
     );
 };

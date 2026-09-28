@@ -3,15 +3,15 @@ import { toast } from 'sonner';
 
 import { changeUsernameMutation } from '@hikka/api';
 
+import SubmitButton from '@/components/form/submit-button';
 import { useAppForm } from '@/components/form/use-app-form';
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
+import { USERNAME_HINT, usernameSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
 
 const formSchema = z.object({
-    username: z.string().min(2).max(50),
+    username: usernameSchema,
 });
 
 const ProfileUsername = () => {
@@ -23,7 +23,7 @@ const ProfileUsername = () => {
         onSuccess: async () => {
             invalidateSession(queryClient);
             router.push(`/u/${form.getFieldValue('username')}`);
-            toast.success('Ви успішно змінили імʼя користвача.');
+            toast.success("Ви успішно змінили ім'я користувача.");
         },
     });
 
@@ -31,7 +31,7 @@ const ProfileUsername = () => {
         defaultValues: {
             username: '',
         },
-        validators: { onSubmit: formSchema },
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             mutationChangeUsername.mutate({
                 body: { username: value.username },
@@ -54,20 +54,22 @@ const ProfileUsername = () => {
                     <field.TextField
                         type="text"
                         label="Нове ім'я користувача"
-                        placeholder="Введіть нове імʼя"
+                        placeholder="Введіть новий нікнейм"
+                        description={USERNAME_HINT}
+                        autoComplete="username"
+                        autoCapitalize="none"
+                        spellCheck={false}
                         className="w-full"
                     />
                 )}
             />
-            <Button
+            <SubmitButton
                 size="md"
-                disabled={mutationChangeUsername.isPending}
                 variant="default"
-                type="submit"
+                loading={mutationChangeUsername.isPending}
             >
-                {mutationChangeUsername.isPending && <Spinner />}
                 Зберегти
-            </Button>
+            </SubmitButton>
         </form>
     );
 };

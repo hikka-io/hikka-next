@@ -3,20 +3,18 @@ import { toast } from 'sonner';
 
 import { passwordResetMutation } from '@hikka/api';
 
+import SubmitButton from '@/components/form/submit-button';
 import { useAppForm } from '@/components/form/use-app-form';
-import { Button } from '@/components/ui/button';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import Spinner from '@/components/ui/spinner';
+import { passwordSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 import { useParams, useRouter } from '@/utils/navigation';
 
 import { handleAuthSuccess } from './handle-auth-success';
-import PasswordInput from './password-input';
 
 const formSchema = z
     .object({
-        password: z.string().min(6),
-        passwordConfirmation: z.string().min(6),
+        password: passwordSchema,
+        passwordConfirmation: z.string(),
     })
     .refine((data) => data.password === data.passwordConfirmation, {
         message: 'Паролі не збігаються',
@@ -45,7 +43,7 @@ const PasswordConfirmForm = () => {
             password: '',
             passwordConfirmation: '',
         },
-        validators: { onSubmit: formSchema },
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             mutationConfirmPasswordReset.mutate({
                 body: {
@@ -65,55 +63,35 @@ const PasswordConfirmForm = () => {
             }}
             className="space-y-4"
         >
-            <form.Field
+            <form.AppField
                 name="password"
                 children={(field) => (
-                    <Field>
-                        <FieldLabel htmlFor={field.name}>Пароль</FieldLabel>
-                        <PasswordInput
-                            id={field.name}
-                            placeholder="Введіть пароль"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={field.handleChange}
-                        />
-                        <FieldError errors={field.state.meta.errors} />
-                    </Field>
+                    <field.PasswordField
+                        label="Пароль"
+                        placeholder="Введіть пароль"
+                        autoComplete="new-password"
+                    />
                 )}
             />
 
-            <form.Field
+            <form.AppField
                 name="passwordConfirmation"
                 children={(field) => (
-                    <Field>
-                        <FieldLabel htmlFor={field.name}>
-                            Підтвердження паролю
-                        </FieldLabel>
-                        <PasswordInput
-                            id={field.name}
-                            placeholder="Повторіть пароль"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={field.handleChange}
-                        />
-                        <FieldError errors={field.state.meta.errors} />
-                    </Field>
+                    <field.PasswordField
+                        label="Підтвердження паролю"
+                        placeholder="Повторіть пароль"
+                        autoComplete="new-password"
+                    />
                 )}
             />
 
-            <Button
-                type="submit"
+            <SubmitButton
                 className="w-full"
-                disabled={
-                    mutationConfirmPasswordReset.isPending ||
-                    mutationConfirmPasswordReset.isSuccess
-                }
+                loading={mutationConfirmPasswordReset.isPending}
+                disabled={mutationConfirmPasswordReset.isSuccess}
             >
-                {mutationConfirmPasswordReset.isPending && (
-                    <Spinner className="mr-2" />
-                )}
                 Відновити
-            </Button>
+            </SubmitButton>
         </form>
     );
 };

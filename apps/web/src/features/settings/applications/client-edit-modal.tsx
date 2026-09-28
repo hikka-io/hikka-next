@@ -17,12 +17,18 @@ import { Label } from '@/components/ui/label';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
 import { invalidateUserClients } from '@/utils/api/invalidate-content-state';
+import {
+    clientDescriptionSchema,
+    clientNameSchema,
+    ENDPOINT_HINT,
+    endpointSchema,
+} from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
-    name: z.coerce.string().min(3).max(128),
-    description: z.coerce.string().min(3).max(512),
-    endpoint: z.coerce.string().min(3).max(128),
+    name: clientNameSchema,
+    description: clientDescriptionSchema,
+    endpoint: endpointSchema,
     revoke_secret: z.coerce.boolean(),
     reference: z.coerce.string().max(128),
     secret: z.coerce.string().min(128).max(128),
@@ -69,7 +75,7 @@ const ClientEditModal = ({ client, onClose }: Props) => {
             secret: '',
             revoke_secret: false,
         },
-        validators: { onSubmit: formSchema },
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             const { reference, secret, ...rest } = value;
             updateClient({
@@ -138,7 +144,11 @@ const ClientEditModal = ({ client, onClose }: Props) => {
                         <field.TextField
                             label="Посилання переспрямування"
                             placeholder="https://example.com/"
-                            type="string"
+                            description={ENDPOINT_HINT}
+                            type="text"
+                            inputMode="url"
+                            autoCapitalize="none"
+                            spellCheck={false}
                         />
                     )}
                 />

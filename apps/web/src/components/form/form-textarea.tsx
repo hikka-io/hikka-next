@@ -1,7 +1,5 @@
 import type { ComponentProps, FC } from 'react';
 
-import { useStore } from '@tanstack/react-form';
-
 import {
     Field,
     FieldDescription,
@@ -11,6 +9,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 
 import { useFieldContext } from './form-context';
+import { useVisibleErrors } from './use-visible-errors';
 
 export type Props = Omit<
     ComponentProps<'textarea'>,
@@ -28,7 +27,7 @@ export const TextareaField: FC<Props> = ({
     ...props
 }) => {
     const field = useFieldContext<string>();
-    const errors = useStore(field.store, (state) => state.meta.errors);
+    const errors = useVisibleErrors();
     const isInvalid = errors.length > 0;
 
     return (
@@ -46,8 +45,13 @@ export const TextareaField: FC<Props> = ({
                 onChange={(e) => field.handleChange(e.target.value)}
                 aria-invalid={isInvalid}
             />
-            {description && <FieldDescription>{description}</FieldDescription>}
-            <FieldError errors={errors} />
+            {isInvalid ? (
+                <FieldError errors={errors} />
+            ) : (
+                description && (
+                    <FieldDescription>{description}</FieldDescription>
+                )
+            )}
         </Field>
     );
 };

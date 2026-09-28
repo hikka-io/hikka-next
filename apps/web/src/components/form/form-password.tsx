@@ -6,30 +6,24 @@ import {
     FieldError,
     FieldLabel,
 } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
+import PasswordInput from '@/components/ui/password-input';
 
 import { useFieldContext } from './form-context';
 import { useVisibleErrors } from './use-visible-errors';
 
 export type Props = Omit<
-    ComponentProps<'input'>,
+    ComponentProps<typeof PasswordInput>,
     'value' | 'onChange' | 'onBlur'
 > & {
     label?: string;
     description?: string;
-    valueRenderer?: (value: string | string[]) => string;
-    inputClassName?: string;
-    onChangeValidator?: (value: string) => boolean;
 };
 
-export const TextField: FC<Props> = ({
+export const PasswordField: FC<Props> = ({
     label,
     description,
     children,
     className,
-    valueRenderer,
-    inputClassName,
-    onChangeValidator,
     ...props
 }) => {
     const field = useFieldContext<string>();
@@ -42,25 +36,12 @@ export const TextField: FC<Props> = ({
                 {label && <FieldLabel htmlFor={field.name}>{label}</FieldLabel>}
                 {children}
             </div>
-            <Input
+            <PasswordInput
                 id={field.name}
                 {...props}
-                className={inputClassName}
-                value={
-                    valueRenderer
-                        ? valueRenderer(field.state.value)
-                        : (field.state.value ?? '')
-                }
+                value={field.state.value ?? ''}
                 onBlur={field.handleBlur}
-                onChange={(e) => {
-                    if (onChangeValidator) {
-                        if (onChangeValidator(e.target.value)) {
-                            field.handleChange(e.target.value);
-                        }
-                    } else {
-                        field.handleChange(e.target.value);
-                    }
-                }}
+                onChange={field.handleChange}
                 aria-invalid={isInvalid}
             />
             {isInvalid ? (
@@ -74,4 +55,4 @@ export const TextField: FC<Props> = ({
     );
 };
 
-export default TextField;
+export default PasswordField;
