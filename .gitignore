@@ -28,8 +28,8 @@ npm-debug.log*
 .idea_modules/
 
 # VS Code
-.vscode/*
-!.vscode/settings.json
+**/.vscode/*
+!/.vscode/settings.json
 *.code-workspace
 
 # Logs
@@ -62,5 +62,5 @@ devenv.local.nix
 .output
 .tanstack
 dist
-# Superpowers (Claude Code plugin artifacts)
+# Local docs
 docs
