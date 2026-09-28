@@ -34,10 +34,6 @@
     },
     "devDependencies": {
         "@biomejs/biome": "2.5.1",
-        "@csstools/postcss-oklab-function": "^5.0.4",
-        "@tailwindcss/postcss": "^4.2.2",
-        "postcss": "8.4.47",
-        "tailwindcss": "^4.2.2",
         "turbo": "^2.9.18",
         "typescript": "6.0.3"
     }
