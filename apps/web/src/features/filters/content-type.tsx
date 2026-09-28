@@ -15,9 +15,9 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { CONTENT_TYPES } from '@/utils/constants/common';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
@@ -25,7 +25,7 @@ type Props = {
 };
 
 const ContentType: FC<Props> = ({ contentTypes }) => {
-    const { content_type } = useFilterSearch<{ content_type?: string }>();
+    const { content_type } = useRouteSearch<{ content_type?: string }>();
 
     const handleChangeParam = useChangeParam();
 

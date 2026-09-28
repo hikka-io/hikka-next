@@ -15,16 +15,16 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { EDIT_STATUS } from '@/utils/constants/edit';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
 };
 
 const EditStatusFilter: FC<Props> = () => {
-    const { edit_status } = useFilterSearch<{ edit_status?: string }>();
+    const { edit_status } = useRouteSearch<{ edit_status?: string }>();
 
     const handleChangeParam = useChangeParam();
 

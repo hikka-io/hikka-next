@@ -5,8 +5,8 @@ import {
     searchMangaInfiniteOptions,
 } from '@hikka/api';
 
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { useRouteSearch } from '@/utils/navigation';
 import type { MangaSearch } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
 
@@ -41,7 +41,7 @@ export function buildMangaSearchArgs(search: MangaSearch) {
  * same URL-derived args so the query cache is reused — no duplicate requests.
  */
 export function useMangaSearchQuery(size?: number) {
-    const search = useFilterSearch<MangaSearch>();
+    const search = useRouteSearch<MangaSearch>();
     const { args, page } = buildMangaSearchArgs(search);
 
     const options = paginatedInfiniteOptions(

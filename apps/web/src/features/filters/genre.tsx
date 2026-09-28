@@ -23,16 +23,16 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { GENRE_TYPES } from '@/utils/constants/common';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
 };
 
 const Genre: FC<Props> = () => {
-    const { genres = [] } = useFilterSearch<{ genres?: string[] }>();
+    const { genres = [] } = useRouteSearch<{ genres?: string[] }>();
 
     const handleChangeParam = useChangeParam();
     const { data: genreList } = useQuery({

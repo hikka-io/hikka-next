@@ -10,16 +10,16 @@ import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 import { RELEASE_STATUS } from '@/utils/constants/common';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
 };
 
 const ReleaseStatus: FC<Props> = () => {
-    const { statuses = [] } = useFilterSearch<{ statuses?: string[] }>();
+    const { statuses = [] } = useRouteSearch<{ statuses?: string[] }>();
 
     const handleChangeParam = useChangeParam();
 

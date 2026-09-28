@@ -26,10 +26,10 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
+import { useRouteSearch } from '@/utils/navigation';
 import { getSort, type SortType } from '@/utils/sort';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 export type SortSize = 'sm' | 'md';
 
@@ -76,7 +76,7 @@ const Sort: FC<Props> = ({
     onSortChange,
     onOrderChange,
 }) => {
-    const search = useFilterSearch<{
+    const search = useRouteSearch<{
         order?: string;
         sort?: string;
     }>();

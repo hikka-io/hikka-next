@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import { useRouter, useRouterState } from '@tanstack/react-router';
+import { useRouter } from '@tanstack/react-router';
 
 import type { ContentTypeEnum } from '@hikka/api';
 
@@ -18,6 +18,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
+import { useRouteSearch } from '@/utils/navigation';
 
 // Deep import (not the @/features/content barrel) avoids a module-init cycle that broke hydration.
 import FilterPresetEditModal from './presets/filter-preset-edit-modal';
@@ -40,9 +41,7 @@ const FiltersFooter: FC<FiltersFooterProps> = ({
     const [open, setOpen] = useState(false);
     const [currentFilters, setCurrentFilters] =
         useState<Partial<Hikka.FilterPreset> | null>(null);
-    const search = useRouterState({
-        select: (s) => (s.resolvedLocation ?? s.location).search,
-    }) as Record<string, unknown>;
+    const search = useRouteSearch();
 
     const clearFilters = () => {
         // Clear filters only — keep the text query and sort, matching the

@@ -1,10 +1,11 @@
 import type { FC } from 'react';
 
-import { useRouter, useRouterState } from '@tanstack/react-router';
+import { useRouter } from '@tanstack/react-router';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
+import { useRouteSearch } from '@/utils/navigation';
 
 type Props = {
     className?: string;
@@ -17,9 +18,7 @@ type Props = {
 /** Footer for the filter panels that have no presets — schedule, articles, edits. */
 const ClearFiltersFooter: FC<Props> = ({ className, onDone, preserve }) => {
     const router = useRouter();
-    const search = useRouterState({
-        select: (s) => (s.resolvedLocation ?? s.location).search,
-    }) as Record<string, unknown>;
+    const search = useRouteSearch();
 
     const clearFilters = () => {
         const next: Record<string, unknown> = {};

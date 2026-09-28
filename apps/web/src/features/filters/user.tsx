@@ -17,9 +17,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
@@ -28,7 +28,7 @@ type Props = {
 };
 
 const User: FC<Props> = ({ paramKey, title }) => {
-    const search = useFilterSearch();
+    const search = useRouteSearch();
     const user = search[paramKey] as string | undefined;
     const [userSearch, setUserSearch] = useState<string>();
     const { data: users, isFetching: isUsersFetching } = useQuery({

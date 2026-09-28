@@ -22,16 +22,16 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
 };
 
 const Studio: FC<Props> = () => {
-    const { studios = [] } = useFilterSearch<{ studios?: string[] }>();
+    const { studios = [] } = useRouteSearch<{ studios?: string[] }>();
 
     const [studioSearch, setStudioSearch] = useState<string>();
     const { list, isFetching: isStudioListFetching } = useInfiniteList(

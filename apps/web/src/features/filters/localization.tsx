@@ -9,16 +9,16 @@ import {
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
 };
 
 const Localization: FC<Props> = () => {
-    const { only_translated } = useFilterSearch<{
+    const { only_translated } = useRouteSearch<{
         only_translated?: boolean;
     }>();
 

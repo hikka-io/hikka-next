@@ -11,8 +11,8 @@ import FiltersNotFound from '@/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Table, TableBody } from '@/components/ui/table';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { useRouteSearch } from '@/utils/navigation';
 import type { EditSearch } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
 
@@ -23,7 +23,7 @@ import EditSkeleton from './components/edit-skeleton';
 type Props = {};
 
 const EditList: FC<Props> = () => {
-    const search = useFilterSearch<EditSearch>();
+    const search = useRouteSearch<EditSearch>();
 
     const page = search.page || 1;
     const content_type =

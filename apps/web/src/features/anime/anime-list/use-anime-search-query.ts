@@ -7,8 +7,8 @@ import {
     searchAnimeInfiniteOptions,
 } from '@hikka/api';
 
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { useRouteSearch } from '@/utils/navigation';
 import type { AnimeSearch } from '@/utils/search-schemas';
 import { getSeasonByOffset } from '@/utils/season';
 import { expandSort } from '@/utils/sort';
@@ -59,7 +59,7 @@ export function buildAnimeSearchArgs(search: AnimeSearch) {
  * same URL-derived args so the query cache is reused — no duplicate requests.
  */
 export function useAnimeSearchQuery(size?: number) {
-    const search = useFilterSearch<AnimeSearch>();
+    const search = useRouteSearch<AnimeSearch>();
     const { args, page } = buildAnimeSearchArgs(search);
 
     const options = paginatedInfiniteOptions(

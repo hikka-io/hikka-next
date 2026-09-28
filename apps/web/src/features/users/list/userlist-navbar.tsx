@@ -41,7 +41,6 @@ import {
 import { FiltersButton } from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import useChangeParam from '@/features/filters/hooks/use-change-param';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import Sort from '@/features/filters/sort';
 import { cn } from '@/utils/cn';
@@ -50,7 +49,7 @@ import {
     READ_STATUS,
     WATCH_STATUS,
 } from '@/utils/constants/common';
-import { useParams } from '@/utils/navigation';
+import { useParams, useRouteSearch } from '@/utils/navigation';
 
 import UserlistFiltersModal from './userlist-filters-modal';
 
@@ -65,7 +64,7 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
     const router = useRouter();
     const queryClient = useQueryClient();
     const params = useParams();
-    const search = useFilterSearch<{ status?: string }>();
+    const search = useRouteSearch<{ status?: string }>();
     const handleChangeParam = useChangeParam();
     const { visible: sidebarVisible, toggle: toggleSidebar } =
         useFiltersSidebar('userlist_filters_sidebar');

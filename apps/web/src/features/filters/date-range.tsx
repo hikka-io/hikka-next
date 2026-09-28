@@ -17,9 +17,9 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
@@ -53,7 +53,7 @@ const DATE_RANGES: Record<DateRangeEnum, string> = {
 
 const DateRange = (_props: Props) => {
     const router = useRouter();
-    const { date_range_enabled, date_range = [] } = useFilterSearch<{
+    const { date_range_enabled, date_range = [] } = useRouteSearch<{
         date_range_enabled?: boolean;
         date_range?: number[];
     }>();

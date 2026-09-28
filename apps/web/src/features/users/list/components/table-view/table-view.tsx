@@ -18,8 +18,7 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-import { useParams } from '@/utils/navigation';
+import { useParams, useRouteSearch } from '@/utils/navigation';
 
 import ChaptersCell from './chapters-cell';
 import DetailsCell from './details-cell';
@@ -36,7 +35,7 @@ type Props = {
 };
 
 const TableView: FC<Props> = ({ data, content_type }) => {
-    const search = useFilterSearch<{
+    const search = useRouteSearch<{
         order?: string;
         sort?: string | string[];
     }>();

@@ -2,7 +2,7 @@ import { useNavigate } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { useRouteSearch } from '@/utils/navigation';
 import type { EditContentSearch } from '@/utils/search-schemas';
 import type { SortType } from '@/utils/sort';
 
@@ -26,7 +26,7 @@ export function getTodoSortType(contentType: TodoContentType): SortType {
  */
 export function useTodoFilters() {
     const navigate = useNavigate();
-    const search = useFilterSearch<EditContentSearch>();
+    const search = useRouteSearch<EditContentSearch>();
 
     const contentType: TodoContentType = search.tab ?? ContentTypeEnum.ANIME;
     const page = search.page || 1;

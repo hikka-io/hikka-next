@@ -5,8 +5,8 @@ import {
     searchNovelInfiniteOptions,
 } from '@hikka/api';
 
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { useRouteSearch } from '@/utils/navigation';
 import type { NovelSearch } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
 
@@ -41,7 +41,7 @@ export function buildNovelSearchArgs(search: NovelSearch) {
  * same URL-derived args so the query cache is reused — no duplicate requests.
  */
 export function useNovelSearchQuery(size?: number) {
-    const search = useFilterSearch<NovelSearch>();
+    const search = useRouteSearch<NovelSearch>();
     const { args, page } = buildNovelSearchArgs(search);
 
     const options = paginatedInfiniteOptions(

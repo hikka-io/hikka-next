@@ -103,3 +103,11 @@ export function useCurrentUrl() {
         },
     });
 }
+
+export function useRouteSearch<
+    T extends Record<string, unknown> = Record<string, unknown>,
+>(): T {
+    return useRouterState({
+        select: (s) => (s.resolvedLocation ?? s.location).search,
+    }) as unknown as T;
+}

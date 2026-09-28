@@ -16,9 +16,9 @@ import {
     MANGA_MEDIA_TYPE,
     NOVEL_MEDIA_TYPE,
 } from '@/utils/constants/common';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
@@ -39,7 +39,7 @@ const getMediaType = (content_type: ContentTypeEnum) => {
 };
 
 const MediaType: FC<Props> = ({ content_type }) => {
-    const { types = [] } = useFilterSearch<{ types?: string[] }>();
+    const { types = [] } = useRouteSearch<{ types?: string[] }>();
 
     const handleChangeParam = useChangeParam();
 

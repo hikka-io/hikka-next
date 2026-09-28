@@ -10,16 +10,16 @@ import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 import { SEASON } from '@/utils/constants/common';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
 };
 
 const Season: FC<Props> = () => {
-    const { seasons = [], date_range_enabled } = useFilterSearch<{
+    const { seasons = [], date_range_enabled } = useRouteSearch<{
         seasons?: string[];
         date_range_enabled?: boolean;
     }>();

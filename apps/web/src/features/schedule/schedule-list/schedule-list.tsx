@@ -12,15 +12,15 @@ import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { useRouteSearch } from '@/utils/navigation';
 import type { ScheduleSearch } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
 
 import ScheduleItem from './components/schedule-item';
 
 const ScheduleList = () => {
-    const search = useFilterSearch<ScheduleSearch>();
+    const search = useRouteSearch<ScheduleSearch>();
 
     const only_watch = search.only_watch ?? undefined;
     const season = (search.season as SeasonEnum) || getCurrentSeason()!;

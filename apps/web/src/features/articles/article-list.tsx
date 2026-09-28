@@ -14,12 +14,11 @@ import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import { Link } from '@/utils/navigation';
+import { Link, useRouteSearch } from '@/utils/navigation';
 import type { ArticlesSearch } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
 
@@ -32,7 +31,7 @@ type Props = {};
 const ArticleList: FC<Props> = () => {
     const titleAnchor = usePageTitleAnchor();
     const { user } = useSession();
-    const search = useFilterSearch<ArticlesSearch>();
+    const search = useRouteSearch<ArticlesSearch>();
 
     const author = search.author || undefined;
     const tags = search.tags || undefined;

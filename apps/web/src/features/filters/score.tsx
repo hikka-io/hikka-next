@@ -10,9 +10,9 @@ import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 const SCORE_RANGE: [number, number] = [1, 10];
 const DEFAULT_SCORE_MIN = SCORE_RANGE[0];
@@ -24,7 +24,7 @@ type Props = {
 };
 
 const Score: FC<Props> = ({ score_type }) => {
-    const search = useFilterSearch<Record<string, unknown>>();
+    const search = useRouteSearch<Record<string, unknown>>();
     const scores = (search[score_type] as number[] | undefined) ?? [];
 
     const [selectingScores, setSelectingScores] = useState<number[]>(

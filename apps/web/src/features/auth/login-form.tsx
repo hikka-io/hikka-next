@@ -7,9 +7,8 @@ import { useAppForm } from '@/components/form/use-app-form';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import PasswordInput from '@/components/ui/password-input';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { z } from '@/utils/i18n/zod';
-import { Link, useRouter } from '@/utils/navigation';
+import { Link, useRouter, useRouteSearch } from '@/utils/navigation';
 import { validateRedirectUrl } from '@/utils/url';
 
 import Captcha from './captcha';
@@ -25,7 +24,7 @@ const formSchema = z.object({
 
 const LoginForm = () => {
     const queryClient = useQueryClient();
-    const { callbackUrl: callbackUrlParam } = useFilterSearch<{
+    const { callbackUrl: callbackUrlParam } = useRouteSearch<{
         callbackUrl?: string;
     }>();
     const { captchaRef, getToken, reset } = useCaptcha();

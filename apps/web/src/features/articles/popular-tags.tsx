@@ -9,13 +9,13 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import useChangeParam from '@/features/filters/hooks/use-change-param';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
+import { useRouteSearch } from '@/utils/navigation';
 
 type Props = {};
 
 const PopularTags: FC<Props> = () => {
     const { data: articleTop } = useQuery(getArticleTopOptions());
-    const search = useFilterSearch<{ tags?: string | string[] }>();
+    const search = useRouteSearch<{ tags?: string | string[] }>();
     const tags = search.tags
         ? Array.isArray(search.tags)
             ? search.tags

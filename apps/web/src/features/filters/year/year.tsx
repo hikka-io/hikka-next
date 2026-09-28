@@ -11,9 +11,9 @@ import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from '../hooks/use-change-param';
-import { useFilterSearch } from '../hooks/use-filter-search';
 import YearFilterInput from './components/year-filter-input';
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
@@ -30,7 +30,7 @@ type Props = {
 };
 
 const Year: FC<Props> = () => {
-    const { years: yearsParam = [], date_range_enabled } = useFilterSearch<{
+    const { years: yearsParam = [], date_range_enabled } = useRouteSearch<{
         years?: number[];
         date_range_enabled?: boolean;
     }>();

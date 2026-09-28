@@ -6,9 +6,8 @@ import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { cn } from '@/utils/cn';
-import { useParams } from '@/utils/navigation';
+import { useParams, useRouteSearch } from '@/utils/navigation';
 
 import FollowingHistory from './components/following-history';
 import History from './components/history';
@@ -20,7 +19,7 @@ type Props = {
 const UserHistory: FC<Props> = ({ className }) => {
     const params = useParams();
     const router = useRouter();
-    const { type: searchType } = useFilterSearch<{ type?: string }>();
+    const { type: searchType } = useRouteSearch<{ type?: string }>();
     const { user: loggedUser } = useSession();
 
     const type = searchType || 'user';

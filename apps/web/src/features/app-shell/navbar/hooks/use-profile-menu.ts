@@ -1,5 +1,4 @@
 import { useQueries } from '@tanstack/react-query';
-import { useRouterState } from '@tanstack/react-router';
 
 import {
     type AppReadSchemasReadStatsResponse,
@@ -10,6 +9,7 @@ import {
 
 import { useSession } from '@/features/auth/hooks/use-session';
 import { PROFILE_MENU } from '@/utils/constants/navigation';
+import { useCurrentUrl } from '@/utils/navigation';
 
 export type ProfileMenuItem = Hikka.NavRoute & { count?: number };
 
@@ -31,12 +31,7 @@ export function useProfileMenu({ enabled = true }: { enabled?: boolean } = {}) {
     const { user } = useSession();
     const username = user?.username;
 
-    const currentUrl = useRouterState({
-        select: (state) => {
-            const location = state.resolvedLocation ?? state.location;
-            return location.pathname + location.searchStr;
-        },
-    });
+    const currentUrl = useCurrentUrl();
 
     const [anime, manga, novel] = useQueries({
         queries: [

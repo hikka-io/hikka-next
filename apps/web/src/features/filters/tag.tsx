@@ -4,16 +4,16 @@ import { Tag as TagIcon } from 'lucide-react';
 
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
 };
 
 const Tag: FC<Props> = () => {
-    const { tags = [] } = useFilterSearch<{ tags?: string[] }>();
+    const { tags = [] } = useRouteSearch<{ tags?: string[] }>();
 
     const handleChangeParam = useChangeParam();
 

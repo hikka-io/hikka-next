@@ -1,7 +1,5 @@
 import type { FC } from 'react';
 
-import { useRouterState } from '@tanstack/react-router';
-
 import { ContentTypeEnum } from '@hikka/api';
 
 import CustomCopyAddRounded from '@/components/icons/custom/CustomCopyAddRounded';
@@ -13,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import Link from '@/components/ui/link';
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { CONTENT_TYPES } from '@/utils/constants/common';
+import { usePathname, useRouteSearch } from '@/utils/navigation';
 
 type Props = {
     onClose?: () => void;
@@ -28,16 +27,8 @@ const FilterPresetModal: FC<Props> = ({
     onCreateFromCurrent,
 }) => {
     const { filterPresets, setFilterPresets } = useSettingsStore();
-    const pathname = useRouterState({
-        select: (s) => (s.resolvedLocation ?? s.location).pathname,
-    });
-    const search = useRouterState({
-        select: (s) =>
-            (s.resolvedLocation ?? s.location).search as Record<
-                string,
-                unknown
-            >,
-    });
+    const pathname = usePathname();
+    const search = useRouteSearch();
 
     const handleCreatePreset = () => {
         onCreatePreset?.();

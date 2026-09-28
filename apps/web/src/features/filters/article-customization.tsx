@@ -4,16 +4,16 @@ import { Eye } from 'lucide-react';
 
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { useRouteSearch } from '@/utils/navigation';
 
 import useChangeParam from './hooks/use-change-param';
-import { useFilterSearch } from './hooks/use-filter-search';
 
 type Props = {
     className?: string;
 };
 
 const ArticleCustomization: FC<Props> = () => {
-    const { draft } = useFilterSearch<{ draft?: boolean }>();
+    const { draft } = useRouteSearch<{ draft?: boolean }>();
 
     const handleChangeParam = useChangeParam();
 

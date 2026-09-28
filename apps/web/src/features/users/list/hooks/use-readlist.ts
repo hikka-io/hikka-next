@@ -7,14 +7,13 @@ import {
     userReadListInfiniteOptions,
 } from '@hikka/api';
 
-import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { useParams } from '@/utils/navigation';
+import { useParams, useRouteSearch } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
 
 export const useReadList = (options?: { enabled?: boolean }) => {
-    const search = useFilterSearch<UserlistSearch>();
+    const search = useRouteSearch<UserlistSearch>();
     const params = useParams();
 
     const readStatus = search.status as ReadStatusEnum | 'all';

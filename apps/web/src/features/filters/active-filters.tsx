@@ -1,7 +1,7 @@
 import { type FC, type ReactElement, type SVGProps, useMemo } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { useRouter, useRouterState } from '@tanstack/react-router';
+import { useRouter } from '@tanstack/react-router';
 import { XIcon } from 'lucide-react';
 
 import {
@@ -24,6 +24,7 @@ import {
     RELEASE_STATUS,
     SEASON,
 } from '@/utils/constants/common';
+import { useRouteSearch } from '@/utils/navigation';
 
 type FilterDef =
     | {
@@ -102,13 +103,7 @@ export interface ActiveFilter {
 /** Derives human-readable active filters (+ count, clearAll) from URL params and dynamic label maps. */
 export function useActiveFilters() {
     const router = useRouter();
-    const search = useRouterState({
-        select: (s) =>
-            (s.resolvedLocation ?? s.location).search as Record<
-                string,
-                unknown
-            >,
-    });
+    const search = useRouteSearch();
 
     const hasGenres = 'genres' in search;
     const hasStudios = 'studios' in search;
