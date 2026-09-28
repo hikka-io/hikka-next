@@ -20,7 +20,7 @@ import remarkDirective from 'remark-directive';
 import remarkStrikethrough from '@/components/markdown/viewer/plugins/remark-strikethrough';
 import { isMentionLabel, isUserUrl, userMentionUrl } from '@/utils/mentions';
 
-import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from './spoiler-kit';
+import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from './spoiler-base-kit';
 
 type DirectiveNode = ContainerDirective | TextDirective | LeafDirective;
 
