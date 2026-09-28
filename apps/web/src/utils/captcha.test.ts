@@ -10,6 +10,14 @@ afterEach(() => {
 });
 
 describe('captcha without Cloudflare', () => {
+    it('ignores the bypass outside development builds', () => {
+        vi.stubEnv('DEV', false);
+        vi.stubEnv('VITE_CAPTCHA_BYPASS', 'fake_captcha');
+
+        expect(getCaptchaBypass()).toBeUndefined();
+        expect(getCaptchaToken(widget)).toBe('turnstile-token');
+    });
+
     it('uses the Turnstile token when no bypass is configured', () => {
         vi.stubEnv('VITE_CAPTCHA_BYPASS', '');
 

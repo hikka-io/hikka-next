@@ -88,7 +88,7 @@ API_URL=http://localhost:8888
 VITE_CAPTCHA_BYPASS=fake_captcha
 ```
 
-The value must equal `captcha.test` in the backend's `settings.toml` (`fake_captcha` by default): the backend then accepts it without asking Cloudflare. With the variable set the app sends it as the captcha token and does not render the Turnstile widget at all. Leave it unset for production builds.
+The value must equal `captcha.test` in the backend's `settings.toml` (`fake_captcha` by default): the backend then accepts it without asking Cloudflare. With the variable set the app sends it as the captcha token and does not render the Turnstile widget at all. It works only on the dev server (`import.meta.env.DEV`); production builds ignore it and always use Turnstile.
 
 ### Scripts
 
