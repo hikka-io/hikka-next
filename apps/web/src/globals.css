@@ -11,12 +11,12 @@
 @source inline("bg-announced bg-announced-foreground text-announced-foreground border-announced-border");
 @source inline("bg-discontinued bg-discontinued-foreground text-discontinued-foreground border-discontinued-border");
 @source inline("bg-paused bg-paused-foreground text-paused-foreground border-paused-border");
-@source inline("bg-planned bg-planned-foreground text-planned-foreground text-planned border-planned-border");
+@source inline("bg-planned bg-planned-foreground text-planned-foreground border-planned-border");
 @source inline("bg-completed bg-completed-foreground text-completed-foreground border-completed-border");
-@source inline("bg-on_hold bg-on_hold-foreground text-on_hold-foreground text-on_hold border-on_hold-border");
-@source inline("bg-dropped bg-dropped-foreground text-dropped-foreground text-dropped border-dropped-border");
-@source inline("bg-reading bg-reading-foreground text-reading-foreground text-reading border-reading-border");
-@source inline("bg-watching bg-watching-foreground text-watching-foreground text-watching border-watching-border");
+@source inline("bg-on_hold bg-on_hold-foreground text-on_hold-foreground border-on_hold-border");
+@source inline("bg-dropped bg-dropped-foreground text-dropped-foreground border-dropped-border");
+@source inline("bg-reading bg-reading-foreground text-reading-foreground border-reading-border");
+@source inline("bg-watching bg-watching-foreground text-watching-foreground border-watching-border");
 @source inline("gradient-mask-t-90 gradient-mask-t-90-d");
 @source inline("gradient-mask-b-90 gradient-mask-b-90-d");
 @source inline("gradient-mask-l-90 gradient-mask-l-90-d");
@@ -99,7 +99,6 @@
     --color-role-moderator: var(--role-moderator);
 
     /* feed entry types */
-    --color-feed-history: var(--feed-history);
     --color-feed-article: var(--feed-article);
     --color-feed-collection: var(--feed-collection);
     --color-feed-comment: var(--feed-comment);
@@ -351,7 +350,6 @@
     --role-admin: #d0bfff;
     --role-moderator: #ffc9c9;
 
-    --feed-history: #e891c0;
     --feed-article: #78c98d;
     --feed-collection: #6fa8dc;
     --feed-comment: #e8a87c;

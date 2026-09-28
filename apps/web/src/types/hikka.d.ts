@@ -18,9 +18,7 @@ declare global {
                 title_ua: string;
                 title_en: string;
                 icon?: (props: any) => ReactElement;
-                color?: string;
                 description?: string;
-                params?: Record<string, any>;
             } & ExtraProps
         >;
 
@@ -173,7 +171,6 @@ declare global {
 
         type PlausibleEvents = {
             'movie-banner-click': never;
-            'year-summary-banner-click': never;
         };
 
         type EventTheme = {

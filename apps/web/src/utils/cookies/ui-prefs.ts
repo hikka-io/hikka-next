@@ -1,7 +1,7 @@
 import { writeHostCookie } from './ui-cookie';
 
 export const UI_PREFS_COOKIE = 'ui-prefs';
-export const UI_PREFS_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
+const UI_PREFS_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
 
 export type UiPreferences = {
     /** View preferences by context key (e.g., 'catalog', 'userlist', 'franchise') */

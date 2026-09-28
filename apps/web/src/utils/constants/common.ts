@@ -5,16 +5,12 @@ export {
 } from './collection-options';
 // Content configuration
 export { CONTENT_CONFIG, CONTENT_TYPES } from './content-config';
-// Errors
-export { ERRORS } from './errors';
 export {
     AGE_RATING,
     ANIME_MEDIA_TYPE,
     ARTICLE_CATEGORY_OPTIONS,
     CHARACTER_ISSUES,
     CONTENT_ISSUES,
-    DATE_RANGES,
-    DateRangeEnum,
     GENRE_TYPES,
     MANGA_MEDIA_TYPE,
     MEDIA_TYPE,
@@ -24,7 +20,6 @@ export {
     READ_STATUS,
     RELEASE_STATUS,
     SEASON,
-    SOURCE,
     VIDEO,
     WATCH_STATUS,
 } from './filter-properties';

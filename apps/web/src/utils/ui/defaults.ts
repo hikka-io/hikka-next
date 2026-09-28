@@ -9,7 +9,7 @@ import {
 export const DEFAULT_BRAND: OklchColor = { l: 0.7, c: 0.18, h: 343 };
 
 /** The default ambient-glow hue — a violet distinct from the pink brand. */
-export const DEFAULT_BACKDROP_COLOR: OklchColor = {
+const DEFAULT_BACKDROP_COLOR: OklchColor = {
     l: 0.637,
     c: 0.186,
     h: 304.8,

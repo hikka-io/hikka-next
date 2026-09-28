@@ -10,7 +10,6 @@ import {
     NovelMediaEnum,
     ReadStatusEnum,
     type SeasonEnum,
-    SourceEnum,
     WatchStatusEnum,
 } from '@hikka/api';
 
@@ -29,30 +28,18 @@ export const SEASON: Hikka.FilterProperty<SeasonEnum> = {
     winter: {
         title_ua: 'Зима',
         title_en: 'Winter',
-        params: {
-            months: [1, 2, 3],
-        },
     },
     spring: {
         title_ua: 'Весна',
         title_en: 'Spring',
-        params: {
-            months: [4, 5, 6],
-        },
     },
     summer: {
         title_ua: 'Літо',
         title_en: 'Summer',
-        params: {
-            months: [7, 8, 9],
-        },
     },
     fall: {
         title_ua: 'Осінь',
         title_en: 'Fall',
-        params: {
-            months: [10, 11, 12],
-        },
     },
 };
 
@@ -203,69 +190,6 @@ export const OST: Hikka.FilterProperty<AnimeOstTypeEnum> = {
     },
 };
 
-export const SOURCE: Hikka.FilterProperty<SourceEnum> = {
-    [SourceEnum.DIGITAL_MANGA]: {
-        title_ua: 'Цифрова Манґа',
-        title_en: 'Digital Manga',
-    },
-    [SourceEnum.PICTURE_BOOK]: {
-        title_ua: 'Книга з Ілюстраціями',
-        title_en: 'Picture Book',
-    },
-    [SourceEnum.VISUAL_NOVEL]: {
-        title_ua: 'Візуальна Новала',
-        title_en: 'Visual Novel',
-    },
-    [SourceEnum['4_KOMA_MANGA']]: {
-        title_ua: 'Чотирьохпанельна Манґа',
-        title_en: 'Yonkoma manga',
-    },
-    [SourceEnum.LIGHT_NOVEL]: {
-        title_ua: 'Ранобе',
-        title_en: 'Light Novel',
-    },
-    [SourceEnum.CARD_GAME]: {
-        title_ua: 'Карткова Гра',
-        title_en: 'Card Game',
-    },
-    [SourceEnum.WEB_MANGA]: {
-        title_ua: 'Веб-манга',
-        title_en: 'Web Manga',
-    },
-    [SourceEnum.ORIGINAL]: {
-        title_ua: 'Оригінальний Твір',
-        title_en: 'Original',
-    },
-    [SourceEnum.MANGA]: {
-        title_ua: 'Манґа',
-        title_en: 'Manga',
-    },
-    [SourceEnum.MUSIC]: {
-        title_ua: 'Музика',
-        title_en: 'Music',
-    },
-    [SourceEnum.NOVEL]: {
-        title_ua: 'Новела',
-        title_en: 'Novel',
-    },
-    [SourceEnum.OTHER]: {
-        title_ua: 'Інше',
-        title_en: 'Other',
-    },
-    [SourceEnum.RADIO]: {
-        title_ua: 'Радіо',
-        title_en: 'Radio',
-    },
-    [SourceEnum.GAME]: {
-        title_ua: 'Гра',
-        title_en: 'Game',
-    },
-    [SourceEnum.BOOK]: {
-        title_ua: 'Книга',
-        title_en: 'Book',
-    },
-};
-
 export const GENRE_TYPES: Hikka.FilterProperty<GenreTypeEnum> = {
     [GenreTypeEnum.THEME]: {
         title_ua: 'Тематичне',
@@ -282,37 +206,6 @@ export const GENRE_TYPES: Hikka.FilterProperty<GenreTypeEnum> = {
     [GenreTypeEnum.DEMOGRAPHIC]: {
         title_ua: 'Демографічне',
         title_en: 'Demographic',
-    },
-};
-
-export enum DateRangeEnum {
-    CURRENT_SEASON = 'current_season',
-    SEASON_1 = 'season_1',
-    SEASON_2 = 'season_2',
-    SEASON_3 = 'season_3',
-    YEAR = 'year',
-}
-
-export const DATE_RANGES: Hikka.FilterProperty<DateRangeEnum> = {
-    [DateRangeEnum.CURRENT_SEASON]: {
-        title_ua: 'Поточний сезон',
-        title_en: 'Current season',
-    },
-    [DateRangeEnum.SEASON_1]: {
-        title_ua: 'Один сезон',
-        title_en: 'One season',
-    },
-    [DateRangeEnum.SEASON_2]: {
-        title_ua: 'Два сезони',
-        title_en: 'Two seasons',
-    },
-    [DateRangeEnum.SEASON_3]: {
-        title_ua: 'Три сезони',
-        title_en: 'Three seasons',
-    },
-    [DateRangeEnum.YEAR]: {
-        title_ua: 'Рік',
-        title_en: 'Year',
     },
 };
 

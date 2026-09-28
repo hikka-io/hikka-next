@@ -1,5 +1,5 @@
 /** Cards shown in the collapsed (profile) favourites stack. */
-export const FAVORITE_PREVIEW_SIZE = 6;
+const FAVORITE_PREVIEW_SIZE = 6;
 
 /**
  * Slices a favourites list for the collapsed stack. When there is more than a

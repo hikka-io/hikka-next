@@ -184,7 +184,6 @@ export type MangaSearch = z.infer<typeof mangaSearchSchema>;
 export type NovelSearch = z.infer<typeof novelSearchSchema>;
 export type ScheduleSearch = z.infer<typeof scheduleSearchSchema>;
 export type ArticlesSearch = z.infer<typeof articlesSearchSchema>;
-export type CommentsSearch = z.infer<typeof commentsSearchSchema>;
 export type EditSearch = z.infer<typeof editSearchSchema>;
 export type EditContentSearch = z.infer<typeof editContentSearchSchema>;
 export type UserlistSearch = z.infer<typeof userlistSearchSchema>;

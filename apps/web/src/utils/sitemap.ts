@@ -32,7 +32,7 @@ export async function fetchSitemapEntries(
     return data;
 }
 
-export const URLS_PER_SITEMAP = 10_000;
+const URLS_PER_SITEMAP = 10_000;
 
 export interface SitemapIndexEntry {
     loc: string;

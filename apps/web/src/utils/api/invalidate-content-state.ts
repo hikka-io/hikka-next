@@ -421,7 +421,7 @@ export function invalidateUserClients(
 }
 
 /** Invalidate the favourite lists after toggling a favourite. */
-export function invalidateFavourites(
+function invalidateFavourites(
     queryClient: QueryClient,
     options?: InvalidateOptions,
 ): Promise<void> {

@@ -2,7 +2,7 @@ import type { ReviewResponse, ReviewStatsResponse } from '@hikka/api';
 
 export type Verdict = ReviewResponse['recommended'];
 
-export const REVIEW_CONTENT_TYPES = ['anime', 'manga', 'novel'] as const;
+const REVIEW_CONTENT_TYPES = ['anime', 'manga', 'novel'] as const;
 
 export function supportsReviews(contentType: string): boolean {
     return (REVIEW_CONTENT_TYPES as readonly string[]).includes(contentType);
@@ -77,7 +77,7 @@ export function getReviewTotal(stats: ReviewStatsResponse | undefined): number {
     return (stats.yes ?? 0) + (stats.maybe ?? 0) + (stats.no ?? 0);
 }
 
-export const REVIEW_MAJORITY_SHARE = 0.6;
+const REVIEW_MAJORITY_SHARE = 0.6;
 
 /** Headline sentiment for a title's reviews. */
 export function getReviewVerdict(

@@ -10,8 +10,6 @@ import { cn } from '@/utils/cn';
 
 import { useVote } from './use-vote';
 
-export { useVote } from './use-vote';
-
 type Props = {
     contentType: VoteContentTypeEnum;
     slug: string;
