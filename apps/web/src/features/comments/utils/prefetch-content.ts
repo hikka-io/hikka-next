@@ -14,6 +14,8 @@ import {
     userProfileOptions,
 } from '@hikka/api';
 
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
+
 interface PrefetchContentParams {
     slug: string;
     content_type: ContentTypeEnum;
@@ -29,49 +31,67 @@ export default async function prefetchContent({
 }: PrefetchContentParams) {
     switch (content_type) {
         case ContentTypeEnum.ANIME:
-            return await queryClient.ensureQueryData(
-                animeSlugOptions({ path: { slug }, client: apiClient }),
+            return await ensureOr404(() =>
+                queryClient.ensureQueryData(
+                    animeSlugOptions({ path: { slug }, client: apiClient }),
+                ),
             );
         case ContentTypeEnum.MANGA:
-            return await queryClient.ensureQueryData(
-                mangaInfoOptions({ path: { slug }, client: apiClient }),
+            return await ensureOr404(() =>
+                queryClient.ensureQueryData(
+                    mangaInfoOptions({ path: { slug }, client: apiClient }),
+                ),
             );
         case ContentTypeEnum.NOVEL:
-            return await queryClient.ensureQueryData(
-                novelInfoOptions({ path: { slug }, client: apiClient }),
+            return await ensureOr404(() =>
+                queryClient.ensureQueryData(
+                    novelInfoOptions({ path: { slug }, client: apiClient }),
+                ),
             );
         case ContentTypeEnum.CHARACTER:
-            return await queryClient.ensureQueryData(
-                characterInfoOptions({ path: { slug }, client: apiClient }),
+            return await ensureOr404(() =>
+                queryClient.ensureQueryData(
+                    characterInfoOptions({ path: { slug }, client: apiClient }),
+                ),
             );
         case ContentTypeEnum.PERSON:
-            return await queryClient.ensureQueryData(
-                personInfoOptions({ path: { slug }, client: apiClient }),
+            return await ensureOr404(() =>
+                queryClient.ensureQueryData(
+                    personInfoOptions({ path: { slug }, client: apiClient }),
+                ),
             );
         case ContentTypeEnum.COLLECTION:
-            return await queryClient.ensureQueryData(
-                getCollectionOptions({
-                    path: { reference: slug },
-                    client: apiClient,
-                }),
+            return await ensureOr404(() =>
+                queryClient.ensureQueryData(
+                    getCollectionOptions({
+                        path: { reference: slug },
+                        client: apiClient,
+                    }),
+                ),
             );
         case ContentTypeEnum.EDIT:
-            return await queryClient.ensureQueryData(
-                getEditOptions({
-                    path: { edit_id: Number(slug) },
-                    client: apiClient,
-                }),
+            return await ensureOr404(() =>
+                queryClient.ensureQueryData(
+                    getEditOptions({
+                        path: { edit_id: Number(slug) },
+                        client: apiClient,
+                    }),
+                ),
             );
         case ContentTypeEnum.ARTICLE:
-            return await queryClient.ensureQueryData(
-                getArticleOptions({ path: { slug }, client: apiClient }),
+            return await ensureOr404(() =>
+                queryClient.ensureQueryData(
+                    getArticleOptions({ path: { slug }, client: apiClient }),
+                ),
             );
         case ContentTypeEnum.USER:
-            return await queryClient.ensureQueryData(
-                userProfileOptions({
-                    path: { username: slug },
-                    client: apiClient,
-                }),
+            return await ensureOr404(() =>
+                queryClient.ensureQueryData(
+                    userProfileOptions({
+                        path: { username: slug },
+                        client: apiClient,
+                    }),
+                ),
             );
         default:
             return null;
