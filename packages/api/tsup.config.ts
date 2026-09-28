@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
     entry: ['src/index.ts'],
-    format: ['cjs', 'esm'],
+    format: ['esm'],
     dts: true,
     splitting: false,
     sourcemap: true,
@@ -11,7 +11,4 @@ export default defineConfig({
     minify: true,
     treeshake: true,
     tsconfig: './tsconfig.build.json',
-    outExtension({ format }) {
-        return { js: format === 'cjs' ? '.js' : '.mjs' };
-    },
 });

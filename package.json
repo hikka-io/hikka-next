@@ -12,6 +12,7 @@
         "clean": "turbo run clean",
         "dev": "turbo run dev",
         "build": "turbo run build",
+        "test": "turbo run test",
         "dev:web": "turbo run dev --filter=@hikka/web",
         "build:web": "turbo run build --filter=@hikka/web",
         "start:web": "turbo run start --filter=@hikka/web",

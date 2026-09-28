@@ -4,7 +4,6 @@
         "noEmit": true,
         "incremental": true,
         "jsx": "react-jsx",
-        "allowJs": true,
         "paths": {
             "@/features/*": ["./src/features/*"],
             "@/components/*": ["./src/components/*"],
@@ -12,7 +11,6 @@
             "@/services/*": ["./src/services/*"]
         }
     },
-    "include": ["src", "vite.config.ts"],
-    "exclude": ["node_modules", ".output", "dist"],
-    "references": [{ "path": "../../packages/api" }]
+    "include": ["src", "vite.config.ts", "vitest.config.ts", "vitest.setup.ts"],
+    "exclude": ["node_modules", ".output", "dist"]
 }

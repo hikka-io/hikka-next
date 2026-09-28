@@ -115,8 +115,9 @@ pnpm format           # Biome format all files
 pnpm format:check     # Check formatting without writing
 
 # Tests
+pnpm test                       # All packages
 pnpm --filter @hikka/web test   # Web app (Vitest)
-pnpm --filter @hikka/api test   # API client (Jest)
+pnpm --filter @hikka/api test   # API client (Vitest)
 ```
 
 ## Contributing
