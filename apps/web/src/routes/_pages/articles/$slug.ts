@@ -1,4 +1,4 @@
-import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
+import { createFileRoute, notFound } from '@tanstack/react-router';
 
 import { type ArticleCategoryEnum, getArticleOptions } from '@hikka/api';
 
@@ -39,9 +39,4 @@ export const Route = createFileRoute('/_pages/articles/$slug')({
             canonical: `https://hikka.io/articles/${article.slug}`,
         });
     },
-    component: ArticleSlugLayout,
 });
-
-function ArticleSlugLayout() {
-    return <Outlet />;
-}

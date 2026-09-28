@@ -68,7 +68,6 @@ import { Route as PagesCollectionsReferenceIndexRouteImport } from './routes/_pa
 import { Route as PagesCharactersSlugIndexRouteImport } from './routes/_pages/characters/$slug/index'
 import { Route as PagesArticlesSlugIndexRouteImport } from './routes/_pages/articles/$slug/index'
 import { Route as PagesAnimeSlugIndexRouteImport } from './routes/_pages/anime/$slug/index'
-import { Route as PagesUUsernameListRouteImport } from './routes/_pages/u/$username/list'
 import { Route as PagesUUsernameHistoryRouteImport } from './routes/_pages/u/$username/history'
 import { Route as PagesUUsernameFavoritesRouteImport } from './routes/_pages/u/$username/favorites'
 import { Route as PagesSettingsListImportRouteImport } from './routes/_pages/settings/list/import'
@@ -404,11 +403,6 @@ const PagesAnimeSlugIndexRoute = PagesAnimeSlugIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PagesAnimeSlugRoute,
 } as any)
-const PagesUUsernameListRoute = PagesUUsernameListRouteImport.update({
-  id: '/list',
-  path: '/list',
-  getParentRoute: () => PagesUUsernameRoute,
-} as any)
 const PagesUUsernameHistoryRoute = PagesUUsernameHistoryRouteImport.update({
   id: '/history',
   path: '/history',
@@ -579,9 +573,9 @@ const PagesAuthResetTokenRoute = PagesAuthResetTokenRouteImport.update({
   getParentRoute: () => PagesAuthRoute,
 } as any)
 const PagesUUsernameListIndexRoute = PagesUUsernameListIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PagesUUsernameListRoute,
+  id: '/list/',
+  path: '/list/',
+  getParentRoute: () => PagesUUsernameRoute,
 } as any)
 const PagesCommentsContent_typeSlugIndexRoute =
   PagesCommentsContent_typeSlugIndexRouteImport.update({
@@ -591,9 +585,9 @@ const PagesCommentsContent_typeSlugIndexRoute =
   } as any)
 const PagesUUsernameListContent_typeRoute =
   PagesUUsernameListContent_typeRouteImport.update({
-    id: '/$content_type',
-    path: '/$content_type',
-    getParentRoute: () => PagesUUsernameListRoute,
+    id: '/list/$content_type',
+    path: '/list/$content_type',
+    getParentRoute: () => PagesUUsernameRoute,
   } as any)
 const PagesCommentsContent_typeSlugSplatRoute =
   PagesCommentsContent_typeSlugSplatRouteImport.update({
@@ -679,7 +673,6 @@ export interface FileRoutesByFullPath {
   '/settings/list/import': typeof PagesSettingsListImportRoute
   '/u/$username/favorites': typeof PagesUUsernameFavoritesRoute
   '/u/$username/history': typeof PagesUUsernameHistoryRoute
-  '/u/$username/list': typeof PagesUUsernameListRouteWithChildren
   '/anime/$slug/': typeof PagesAnimeSlugIndexRoute
   '/articles/$slug/': typeof PagesArticlesSlugIndexRoute
   '/characters/$slug/': typeof PagesCharactersSlugIndexRoute
@@ -861,7 +854,6 @@ export interface FileRoutesById {
   '/_pages/settings/list/import': typeof PagesSettingsListImportRoute
   '/_pages/u/$username/favorites': typeof PagesUUsernameFavoritesRoute
   '/_pages/u/$username/history': typeof PagesUUsernameHistoryRoute
-  '/_pages/u/$username/list': typeof PagesUUsernameListRouteWithChildren
   '/_pages/anime/$slug/': typeof PagesAnimeSlugIndexRoute
   '/_pages/articles/$slug/': typeof PagesArticlesSlugIndexRoute
   '/_pages/characters/$slug/': typeof PagesCharactersSlugIndexRoute
@@ -958,7 +950,6 @@ export interface FileRouteTypes {
     | '/settings/list/import'
     | '/u/$username/favorites'
     | '/u/$username/history'
-    | '/u/$username/list'
     | '/anime/$slug/'
     | '/articles/$slug/'
     | '/characters/$slug/'
@@ -1139,7 +1130,6 @@ export interface FileRouteTypes {
     | '/_pages/settings/list/import'
     | '/_pages/u/$username/favorites'
     | '/_pages/u/$username/history'
-    | '/_pages/u/$username/list'
     | '/_pages/anime/$slug/'
     | '/_pages/articles/$slug/'
     | '/_pages/characters/$slug/'
@@ -1588,13 +1578,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesAnimeSlugIndexRouteImport
       parentRoute: typeof PagesAnimeSlugRoute
     }
-    '/_pages/u/$username/list': {
-      id: '/_pages/u/$username/list'
-      path: '/list'
-      fullPath: '/u/$username/list'
-      preLoaderRoute: typeof PagesUUsernameListRouteImport
-      parentRoute: typeof PagesUUsernameRoute
-    }
     '/_pages/u/$username/history': {
       id: '/_pages/u/$username/history'
       path: '/history'
@@ -1814,10 +1797,10 @@ declare module '@tanstack/react-router' {
     }
     '/_pages/u/$username/list/': {
       id: '/_pages/u/$username/list/'
-      path: '/'
+      path: '/list'
       fullPath: '/u/$username/list/'
       preLoaderRoute: typeof PagesUUsernameListIndexRouteImport
-      parentRoute: typeof PagesUUsernameListRoute
+      parentRoute: typeof PagesUUsernameRoute
     }
     '/_pages/comments/$content_type/$slug/': {
       id: '/_pages/comments/$content_type/$slug/'
@@ -1828,10 +1811,10 @@ declare module '@tanstack/react-router' {
     }
     '/_pages/u/$username/list/$content_type': {
       id: '/_pages/u/$username/list/$content_type'
-      path: '/$content_type'
+      path: '/list/$content_type'
       fullPath: '/u/$username/list/$content_type'
       preLoaderRoute: typeof PagesUUsernameListContent_typeRouteImport
-      parentRoute: typeof PagesUUsernameListRoute
+      parentRoute: typeof PagesUUsernameRoute
     }
     '/_pages/comments/$content_type/$slug/$': {
       id: '/_pages/comments/$content_type/$slug/$'
@@ -2041,31 +2024,20 @@ const PagesPeopleSlugRouteWithChildren = PagesPeopleSlugRoute._addFileChildren(
   PagesPeopleSlugRouteChildren,
 )
 
-interface PagesUUsernameListRouteChildren {
-  PagesUUsernameListContent_typeRoute: typeof PagesUUsernameListContent_typeRoute
-  PagesUUsernameListIndexRoute: typeof PagesUUsernameListIndexRoute
-}
-
-const PagesUUsernameListRouteChildren: PagesUUsernameListRouteChildren = {
-  PagesUUsernameListContent_typeRoute: PagesUUsernameListContent_typeRoute,
-  PagesUUsernameListIndexRoute: PagesUUsernameListIndexRoute,
-}
-
-const PagesUUsernameListRouteWithChildren =
-  PagesUUsernameListRoute._addFileChildren(PagesUUsernameListRouteChildren)
-
 interface PagesUUsernameRouteChildren {
   PagesUUsernameFavoritesRoute: typeof PagesUUsernameFavoritesRoute
   PagesUUsernameHistoryRoute: typeof PagesUUsernameHistoryRoute
-  PagesUUsernameListRoute: typeof PagesUUsernameListRouteWithChildren
   PagesUUsernameIndexRoute: typeof PagesUUsernameIndexRoute
+  PagesUUsernameListContent_typeRoute: typeof PagesUUsernameListContent_typeRoute
+  PagesUUsernameListIndexRoute: typeof PagesUUsernameListIndexRoute
 }
 
 const PagesUUsernameRouteChildren: PagesUUsernameRouteChildren = {
   PagesUUsernameFavoritesRoute: PagesUUsernameFavoritesRoute,
   PagesUUsernameHistoryRoute: PagesUUsernameHistoryRoute,
-  PagesUUsernameListRoute: PagesUUsernameListRouteWithChildren,
   PagesUUsernameIndexRoute: PagesUUsernameIndexRoute,
+  PagesUUsernameListContent_typeRoute: PagesUUsernameListContent_typeRoute,
+  PagesUUsernameListIndexRoute: PagesUUsernameListIndexRoute,
 }
 
 const PagesUUsernameRouteWithChildren = PagesUUsernameRoute._addFileChildren(

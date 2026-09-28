@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import { getCollectionOptions } from '@hikka/api';
 
@@ -35,9 +35,4 @@ export const Route = createFileRoute('/_pages/collections/$reference')({
             url: `https://hikka.io/collections/${collection.reference}`,
         });
     },
-    component: CollectionReferenceLayout,
 });
-
-function CollectionReferenceLayout() {
-    return <Outlet />;
-}
