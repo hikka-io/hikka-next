@@ -211,8 +211,10 @@ function activeSubFilterCount(value: FeedSubTypeFilters): number {
 
                 return (
                     groupCount +
-                    group.options.filter((o) => !selected.includes(o.value))
-                        .length
+                    group.options.filter(
+                        (o) =>
+                            !(selected as readonly string[]).includes(o.value),
+                    ).length
                 );
             }, 0)
         );
