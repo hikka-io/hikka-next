@@ -24,6 +24,7 @@ import {
     getUiPrefsCookieFn,
     refreshAuthCookieFn,
 } from '@/utils/cookies';
+import { serializeJsonLd } from '@/utils/json-ld';
 import { usePlausiblePageviews } from '@/utils/plausible';
 import { backdropVars, DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
 import { getUserStyles } from '@/utils/ui/server';
@@ -100,9 +101,9 @@ function RootLayout() {
                 <HeadContent />
                 <script
                     type="application/ld+json"
-                    // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD structured data, no user input.
+                    // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD, escaped by serializeJsonLd.
                     dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
+                        __html: serializeJsonLd({
                             '@context': 'https://schema.org',
                             '@type': 'WebSite',
                             name: 'Hikka',

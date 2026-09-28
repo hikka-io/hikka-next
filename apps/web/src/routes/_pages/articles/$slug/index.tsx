@@ -15,6 +15,7 @@ import {
     ArticleTitle,
 } from '@/features/articles';
 import { CommentList as Comments } from '@/features/comments';
+import { serializeJsonLd } from '@/utils/json-ld';
 
 export const Route = createFileRoute('/_pages/articles/$slug/')({
     component: ArticlePage,
@@ -59,9 +60,9 @@ function ArticlePage() {
             {jsonLd && (
                 <script
                     type="application/ld+json"
-                    // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD structured data, no user input.
+                    // biome-ignore lint/security/noDangerouslySetInnerHtml: user-authored JSON-LD, escaped by serializeJsonLd so it cannot close the script tag.
                     dangerouslySetInnerHTML={{
-                        __html: JSON.stringify(jsonLd),
+                        __html: serializeJsonLd(jsonLd),
                     }}
                 />
             )}

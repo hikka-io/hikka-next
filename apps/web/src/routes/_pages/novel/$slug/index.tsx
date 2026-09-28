@@ -5,6 +5,7 @@ import { ContentTypeEnum, novelInfoOptions } from '@hikka/api';
 
 import { ContentDetailPage } from '@/features/content';
 import contentJsonSchema from '@/utils/content-schema';
+import { serializeJsonLd } from '@/utils/json-ld';
 
 export const Route = createFileRoute('/_pages/novel/$slug/')({
     component: NovelDetailPage,
@@ -22,9 +23,9 @@ function NovelDetailPage() {
                 novel ? (
                     <script
                         type="application/ld+json"
-                        // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD structured data, no user input.
+                        // biome-ignore lint/security/noDangerouslySetInnerHtml: user-editable JSON-LD, escaped by serializeJsonLd so it cannot close the script tag.
                         dangerouslySetInnerHTML={{
-                            __html: JSON.stringify(
+                            __html: serializeJsonLd(
                                 contentJsonSchema({
                                     content: novel,
                                     contentType: 'novel',
