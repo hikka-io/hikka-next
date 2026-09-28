@@ -45,8 +45,13 @@ export const TextareaField: FC<Props> = ({
                 onChange={(e) => field.handleChange(e.target.value)}
                 aria-invalid={isInvalid}
             />
-            {description && <FieldDescription>{description}</FieldDescription>}
-            <FieldError errors={errors} />
+            {isInvalid ? (
+                <FieldError errors={errors} />
+            ) : (
+                description && (
+                    <FieldDescription>{description}</FieldDescription>
+                )
+            )}
         </Field>
     );
 };

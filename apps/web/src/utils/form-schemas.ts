@@ -1,14 +1,7 @@
+import { getDeclensionWord } from '@/utils/i18n/declension';
 import { z } from '@/utils/i18n/zod';
 
-/**
- * Field rules shared by the account and client forms.
- *
- * Each schema mirrors the backend validator for the same field
- * (hikka-io/hikka: `app/schemas.py`, `app/client/schemas.py`), so a form
- * rejects exactly what the API would answer with a 400
- * "Invalid field … in request body" — before the request is sent, with a
- * message that says what to fix.
- */
+// Each schema mirrors the backend validator for its field (hikka-io/hikka `app/schemas.py`, `app/client/schemas.py`).
 
 /** `UsernameArgs.username`: `^[A-Za-z][A-Za-z0-9_]{4,63}$`. */
 export const USERNAME_MIN_LENGTH = 5;
@@ -25,57 +18,66 @@ export const CLIENT_DESCRIPTION_MIN_LENGTH = 3;
 export const CLIENT_DESCRIPTION_MAX_LENGTH = 512;
 export const CLIENT_ENDPOINT_MAX_LENGTH = 128;
 
+export const USERNAME_HINT = `Латинські літери, цифри та _, від ${USERNAME_MIN_LENGTH} до ${USERNAME_MAX_LENGTH} символів`;
+
+export const ENDPOINT_HINT = 'Куди Hikka поверне користувача після входу';
+
 const USERNAME_ALLOWED = /^[A-Za-z0-9_]*$/;
 const USERNAME_FIRST = /^[A-Za-z]/;
 
-/** Distinct characters the username may not contain, in input order. */
+const atLeast = (min: number) =>
+    `Щонайменше ${min} ${getDeclensionWord(min, ['символ', 'символи', 'символів'])}`;
+
+const atMost = (max: number) => `Не більше ${max} символів`;
+
 export const invalidUsernameCharacters = (value: string): string[] => [
     ...new Set([...value].filter((char) => !USERNAME_ALLOWED.test(char))),
 ];
 
-/**
- * One message at a time, most actionable first: a wrong character is the
- * thing the user has to go back and fix, the length they see as they type.
- */
+const SHOWN_INVALID_CHARACTERS = 3;
+
+const showCharacter = (char: string) =>
+    /\s/.test(char) ? 'пробіл' : `«${char}»`;
+
 export const usernameSchema = z.string().superRefine((value, ctx) => {
     const issue = (message: string) =>
         ctx.addIssue({ code: z.ZodIssueCode.custom, message });
 
     if (value.length === 0) {
-        return issue("Вкажіть ім'я користувача");
+        return issue('Вкажіть нікнейм');
     }
 
-    const invalid = invalidUsernameCharacters(value);
+    const invalid = [
+        ...new Set(invalidUsernameCharacters(value).map(showCharacter)),
+    ];
 
     if (invalid.length > 0) {
-        const shown = invalid.map((char) => `«${char}»`).join(', ');
+        const subject =
+            invalid.length === 1
+                ? 'Недопустимий символ'
+                : 'Недопустимі символи';
+        const shown = invalid.slice(0, SHOWN_INVALID_CHARACTERS).join(', ');
+        const more = invalid.length > SHOWN_INVALID_CHARACTERS ? '…' : '';
 
-        return issue(
-            `Недопустимі символи: ${shown}. Можна лише латинські літери, цифри та _`,
-        );
+        return issue(`${subject}: ${shown}${more}`);
     }
 
     if (!USERNAME_FIRST.test(value)) {
-        return issue("Ім'я має починатися з латинської літери");
+        return issue('Має починатися з літери');
     }
 
     if (value.length < USERNAME_MIN_LENGTH) {
-        return issue(`Щонайменше ${USERNAME_MIN_LENGTH} символів`);
+        return issue(atLeast(USERNAME_MIN_LENGTH));
     }
 
     if (value.length > USERNAME_MAX_LENGTH) {
-        return issue(`Не більше ${USERNAME_MAX_LENGTH} символів`);
+        return issue(atMost(USERNAME_MAX_LENGTH));
     }
 });
 
-/**
- * `EmailArgs.email`: a valid address; the API also refuses a `+` in it.
- * One message at a time, like the username: an empty field is only "enter an
- * email", not also "check the address" — zod's `.min(1).email()` reported
- * both at once.
- */
 const EMAIL_FORMAT = z.string().email();
 
+/** `EmailArgs.email`: the API also refuses any address with a `+` (`check_email`). */
 export const emailSchema = z.string().superRefine((value, ctx) => {
     const issue = (message: string) =>
         ctx.addIssue({ code: z.ZodIssueCode.custom, message });
@@ -85,27 +87,21 @@ export const emailSchema = z.string().superRefine((value, ctx) => {
     }
 
     if (!EMAIL_FORMAT.safeParse(value).success) {
-        return issue(
-            'Перевірте адресу: вона має бути на кшталт name@example.com',
-        );
+        return issue('Некоректний email');
     }
 
     if (value.includes('+')) {
-        return issue('Hikka не приймає адреси із символом «+»');
+        return issue('Адреси з «+» не підтримуються');
     }
 });
 
 export const passwordSchema = z
     .string()
-    .min(PASSWORD_MIN_LENGTH, `Щонайменше ${PASSWORD_MIN_LENGTH} символів`)
-    .max(PASSWORD_MAX_LENGTH, `Не більше ${PASSWORD_MAX_LENGTH} символів`);
+    .min(PASSWORD_MIN_LENGTH, atLeast(PASSWORD_MIN_LENGTH))
+    .max(PASSWORD_MAX_LENGTH, atMost(PASSWORD_MAX_LENGTH));
 
-/**
- * The API strips surrounding whitespace and a couple of invisible characters
- * (Braille blank U+2800, U+FFF4) from client names and descriptions before it
- * checks the length, so "  a " counts as one character.
- */
-const BAD_CHARACTERS = /[\u2800\ufff4]/g; // `utils.remove_bad_characters` in the backend
+// The API runs `utils.remove_bad_characters` and `.strip()` before checking the length.
+const BAD_CHARACTERS = /[\u2800\ufff4]/g;
 
 const trimmedText = (min: number, max: number) =>
     z.string().superRefine((value, ctx) => {
@@ -113,12 +109,12 @@ const trimmedText = (min: number, max: number) =>
         if (length < min) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: `Щонайменше ${min} символи`,
+                message: atLeast(min),
             });
         } else if (length > max) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: `Не більше ${max} символів`,
+                message: atMost(max),
             });
         }
     });
@@ -133,13 +129,6 @@ export const clientDescriptionSchema = trimmedText(
     CLIENT_DESCRIPTION_MAX_LENGTH,
 );
 
-/**
- * `ClientCreate.endpoint`: pydantic `AnyUrl`, i.e. an absolute URL with any
- * scheme (`https://…`, `http://localhost/…`, `myapp://auth`), at most 128
- * characters long *after* normalisation — the API measures `str(AnyUrl)`,
- * which, like the WHATWG `URL.href`, adds the trailing slash to a bare
- * origin.
- */
 export const parseEndpoint = (value: string): URL | null => {
     try {
         return new URL(value);
@@ -148,7 +137,6 @@ export const parseEndpoint = (value: string): URL | null => {
     }
 };
 
-/** Four dot-separated numbers, each 0–255 — anything else is not an IPv4 address. */
 const ipv4 = (host: string): number[] | null => {
     const parts = host.split('.');
     if (parts.length !== 4 || !parts.every((p) => /^\d{1,3}$/.test(p)))
@@ -157,11 +145,6 @@ const ipv4 = (host: string): number[] | null => {
     return nums.every((n) => n <= 255) ? nums : null;
 };
 
-/**
- * Hosts a redirect usually points to during development, served over plain
- * HTTP: localhost, `*.localhost`, and loopback, private and link-local
- * addresses (IPv4 by numeric range; IPv6 `::1`, `fc00::/7`, `fe80::/10`).
- */
 const isLocalHost = (host: string): boolean => {
     const h = host.toLowerCase();
     if (h === 'localhost' || h.endsWith('.localhost')) return true;
@@ -169,8 +152,8 @@ const isLocalHost = (host: string): boolean => {
         const v6 = h.slice(1, -1);
         return (
             v6 === '::1' ||
-            /^f[cd][0-9a-f]{0,2}:/.test(v6) ||
-            /^fe[89ab][0-9a-f]?:/.test(v6)
+            /^f[cd][0-9a-f]{2}:/.test(v6) ||
+            /^fe[89ab][0-9a-f]:/.test(v6)
         );
     }
     const n = ipv4(h);
@@ -185,24 +168,14 @@ const isLocalHost = (host: string): boolean => {
     );
 };
 
-/** A real domain: dot-separated labels ending in a letters-only TLD (IDN included). */
+/** Dot-separated labels ending in a letters-only TLD (IDN included). */
 const DOMAIN = /^(?:[\p{L}\p{N}](?:[\p{L}\p{N}-]*[\p{L}\p{N}])?\.)+\p{L}{2,}$/u;
 
-/**
- * The address the user most likely meant when they typed a host without a
- * scheme — `http://` for localhost and private addresses (a dev server rarely
- * has TLS), `https://` for a real domain — or `null` when the value does not
- * start with a bare host (a path, or a custom scheme such as `myapp:auth`).
- *
- * Both kinds need catching: `example.com/callback` is not a URL at all, while
- * `localhost:3000/callback` is a *valid* one with the scheme "localhost", so
- * the API would store it and every login would bounce to nowhere.
- */
+// `localhost:3000/cb` parses as a valid URL with the scheme "localhost", so a missing scheme is caught before parsing.
 export const suggestEndpoint = (value: string): string | null => {
     if (value.includes('://')) return null;
 
-    // A bracketed IPv6 literal, or a host without `:`, `/`, `?`, `#`; then an
-    // optional port.
+    // A bracketed IPv6 literal or a bare host, then an optional port.
     const host = /^(\[[0-9a-f:.]+\]|[^/?#:\s[\]]+)(?::\d+)?(?=$|[/?#])/i.exec(
         value,
     )?.[1];
@@ -216,37 +189,34 @@ export const suggestEndpoint = (value: string): string | null => {
           : null;
     const suggestion = scheme && `${scheme}${value}`;
 
-    // Only suggest what is itself a valid address: `192.168.999.999` looks
-    // like a private IP but is not one, and no scheme would make it valid.
     return suggestion && parseEndpoint(suggestion) ? suggestion : null;
 };
 
+// The API measures `str(AnyUrl)`, which normalises like `URL.href` (a bare origin gains a trailing slash).
 export const endpointSchema = z.string().superRefine((raw, ctx) => {
     const issue = (message: string) =>
         ctx.addIssue({ code: z.ZodIssueCode.custom, message });
     const value = raw.trim();
 
     if (value.length === 0) {
-        return issue('Вкажіть адресу, куди повертати користувача');
+        return issue('Вкажіть посилання');
     }
 
     const suggestion = suggestEndpoint(value);
 
     if (suggestion) {
-        return issue(`Схоже, бракує схеми — мабуть, ${suggestion}`);
+        return issue(`Додайте схему: ${suggestion}`);
     }
 
-    const url = /\s/.test(raw) ? null : parseEndpoint(value);
+    const url = parseEndpoint(raw);
 
     if (!url) {
-        return issue(
-            'Потрібна повна адреса зі схемою: https://example.com/callback або myapp://auth',
-        );
+        return issue('Потрібне повне посилання: https://… або myapp://…');
     }
 
     if (url.href.length > CLIENT_ENDPOINT_MAX_LENGTH) {
         return issue(
-            `Адреса задовга: ${url.href.length} із ${CLIENT_ENDPOINT_MAX_LENGTH} символів`,
+            `${atMost(CLIENT_ENDPOINT_MAX_LENGTH)} (зараз ${url.href.length})`,
         );
     }
 });

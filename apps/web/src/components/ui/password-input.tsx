@@ -23,17 +23,11 @@ const PasswordInput = ({ className, value, onChange, ...props }: Props) => {
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
             />
-            {/*
-             * Out of the tab order: Tab from a password goes to the next
-             * field, not to this icon. It stays a real button for the
-             * pointer and for assistive tech, hence the label and state.
-             */}
             <Button
                 type="button"
                 variant="ghost"
                 size="icon-sm"
-                tabIndex={-1}
-                aria-label={show ? 'Приховати пароль' : 'Показати пароль'}
+                aria-label="Показати пароль"
                 aria-pressed={show}
                 className="absolute top-1/2 right-2 size-8 -translate-y-1/2"
                 onClick={() => setShow(!show)}

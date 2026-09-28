@@ -1,12 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useHydrated } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
 import { passwordResetMutation } from '@hikka/api';
 
+import SubmitButton from '@/components/form/submit-button';
 import { useAppForm } from '@/components/form/use-app-form';
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
 import { passwordSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 import { useParams, useRouter } from '@/utils/navigation';
@@ -24,9 +22,6 @@ const formSchema = z
     });
 
 const PasswordConfirmForm = () => {
-    // Until hydration the form is plain HTML: a click would submit it
-    // natively (GET, reload, fields in the address bar), so wait for React.
-    const hydrated = useHydrated();
     const queryClient = useQueryClient();
     const params = useParams();
     const router = useRouter();
@@ -90,20 +85,13 @@ const PasswordConfirmForm = () => {
                 )}
             />
 
-            <Button
-                type="submit"
+            <SubmitButton
                 className="w-full"
-                disabled={
-                    !hydrated ||
-                    mutationConfirmPasswordReset.isPending ||
-                    mutationConfirmPasswordReset.isSuccess
-                }
+                loading={mutationConfirmPasswordReset.isPending}
+                disabled={mutationConfirmPasswordReset.isSuccess}
             >
-                {mutationConfirmPasswordReset.isPending && (
-                    <Spinner className="mr-2" />
-                )}
                 Відновити
-            </Button>
+            </SubmitButton>
         </form>
     );
 };

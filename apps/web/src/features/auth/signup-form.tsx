@@ -1,16 +1,15 @@
 import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useHydrated } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
 import { signupMutation } from '@hikka/api';
 
+import SubmitButton from '@/components/form/submit-button';
 import { useAppForm } from '@/components/form/use-app-form';
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
 import {
     emailSchema,
     passwordSchema,
+    USERNAME_HINT,
     usernameSchema,
 } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
@@ -33,9 +32,6 @@ const formSchema = z
     });
 
 const SignupForm = () => {
-    // Until hydration the form is plain HTML: a click would submit it
-    // natively (GET, reload, fields in the address bar), so wait for React.
-    const hydrated = useHydrated();
     const queryClient = useQueryClient();
     const { captchaRef, getToken, reset } = useCaptcha();
     const router = useRouter();
@@ -69,8 +65,6 @@ const SignupForm = () => {
             username: '',
             passwordConfirmation: '',
         },
-        // Checked as the user types (shown once a field is left): the API
-        // would refuse the same values, only after the captcha and a request.
         validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             mutationSignup.mutate({
@@ -101,8 +95,8 @@ const SignupForm = () => {
                     <field.TextField
                         type="text"
                         label="Ім'я користувача (нікнейм)"
-                        placeholder="Введіть Ваше ім'я"
-                        description="Латинські літери, цифри та _, від 5 до 64 символів"
+                        placeholder="Введіть нікнейм"
+                        description={USERNAME_HINT}
                         autoComplete="username"
                         autoCapitalize="none"
                         spellCheck={false}
@@ -150,18 +144,13 @@ const SignupForm = () => {
                 className="flex justify-center"
             />
 
-            <Button
-                type="submit"
+            <SubmitButton
                 className="w-full"
-                disabled={
-                    !hydrated ||
-                    mutationSignup.isPending ||
-                    mutationSignup.isSuccess
-                }
+                loading={mutationSignup.isPending}
+                disabled={mutationSignup.isSuccess}
             >
-                {mutationSignup.isPending && <Spinner className="mr-2" />}
                 Зареєструватись
-            </Button>
+            </SubmitButton>
 
             <OAuthLogin
                 disabled={mutationSignup.isPending || mutationSignup.isSuccess}

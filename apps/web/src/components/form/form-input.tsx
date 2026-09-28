@@ -63,8 +63,13 @@ export const TextField: FC<Props> = ({
                 }}
                 aria-invalid={isInvalid}
             />
-            {description && <FieldDescription>{description}</FieldDescription>}
-            <FieldError errors={errors} />
+            {isInvalid ? (
+                <FieldError errors={errors} />
+            ) : (
+                description && (
+                    <FieldDescription>{description}</FieldDescription>
+                )
+            )}
         </Field>
     );
 };

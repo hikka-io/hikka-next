@@ -49,7 +49,9 @@ function SignupLike({ onSubmit }: { onSubmit: () => void }) {
         >
             <form.AppField
                 name="username"
-                children={(field) => <field.TextField label="Нікнейм" />}
+                children={(field) => (
+                    <field.TextField label="Нікнейм" description="Підказка" />
+                )}
             />
             <form.AppField
                 name="password"
@@ -78,8 +80,13 @@ async function mount() {
         input(name)
             .closest('[data-slot="field"]')
             ?.querySelector('[role="alert"]')?.textContent ?? null;
+    const hintOf = (name: string) =>
+        input(name)
+            .closest('[data-slot="field"]')
+            ?.querySelector('[data-slot="field-description"]')?.textContent ??
+        null;
 
-    return { container, input, errorOf, onSubmit };
+    return { container, input, errorOf, hintOf, onSubmit };
 }
 
 // React tracks the last value it rendered; going through the native setter
@@ -122,13 +129,26 @@ describe('live form validation', () => {
         expect(input('username').getAttribute('aria-invalid')).toBe('true');
 
         await type(input('username'), 'abcdе'); // the last letter is Cyrillic
-        expect(errorOf('username')).toBe(
-            'Недопустимі символи: «е». Можна лише латинські літери, цифри та _',
-        );
+        expect(errorOf('username')).toBe('Недопустимий символ: «е»');
 
         await type(input('username'), 'abcde');
         expect(errorOf('username')).toBeNull();
         expect(input('username').getAttribute('aria-invalid')).toBe('false');
+    });
+
+    it('shows the error in place of the hint, then brings the hint back', async () => {
+        const { input, errorOf, hintOf } = await mount();
+
+        expect(hintOf('username')).toBe('Підказка');
+
+        await type(input('username'), 'ab');
+        await leave(input('username'));
+        expect(hintOf('username')).toBeNull();
+        expect(errorOf('username')).toBe('Щонайменше 5 символів');
+
+        await type(input('username'), 'abcde');
+        expect(errorOf('username')).toBeNull();
+        expect(hintOf('username')).toBe('Підказка');
     });
 
     it('does not submit an invalid form and shows every problem at once', async () => {
@@ -141,7 +161,7 @@ describe('live form validation', () => {
         });
 
         expect(onSubmit).not.toHaveBeenCalled();
-        expect(errorOf('username')).toBe("Вкажіть ім'я користувача");
+        expect(errorOf('username')).toBe('Вкажіть нікнейм');
         expect(errorOf('password')).toBe('Щонайменше 8 символів');
     });
 
@@ -161,7 +181,7 @@ describe('live form validation', () => {
 });
 
 describe('password field', () => {
-    it('keeps the show/hide toggle out of the tab order', async () => {
+    it('exposes the show/hide toggle as a keyboard-reachable toggle button', async () => {
         const { input } = await mount();
         const toggle = must(
             input('password')
@@ -170,15 +190,15 @@ describe('password field', () => {
             'password toggle',
         );
 
-        // Tab from the password goes straight to the next control.
-        expect(toggle.tabIndex).toBe(-1);
+        expect(toggle.tabIndex).toBe(0);
         expect(toggle.getAttribute('aria-label')).toBe('Показати пароль');
+        expect(toggle.getAttribute('aria-pressed')).toBe('false');
         expect(input('password').type).toBe('password');
 
         await act(async () => toggle.click());
 
         expect(input('password').type).toBe('text');
-        expect(toggle.getAttribute('aria-label')).toBe('Приховати пароль');
+        expect(toggle.getAttribute('aria-label')).toBe('Показати пароль');
         expect(toggle.getAttribute('aria-pressed')).toBe('true');
     });
 });

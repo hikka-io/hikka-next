@@ -1,12 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
-import { useHydrated } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
 import { resetPasswordMutation } from '@hikka/api';
 
+import SubmitButton from '@/components/form/submit-button';
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
 import { emailSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 import { Link } from '@/utils/navigation';
@@ -16,9 +15,6 @@ const formSchema = z.object({
 });
 
 const ForgotPasswordForm = () => {
-    // Until hydration the form is plain HTML: a click would submit it
-    // natively (GET, reload, fields in the address bar), so wait for React.
-    const hydrated = useHydrated();
     const mutationRequestPasswordReset = useMutation({
         ...resetPasswordMutation(),
         onSuccess: (data) => {
@@ -65,16 +61,12 @@ const ForgotPasswordForm = () => {
                 )}
             />
 
-            <Button
-                type="submit"
+            <SubmitButton
                 className="w-full"
-                disabled={!hydrated || mutationRequestPasswordReset.isPending}
+                loading={mutationRequestPasswordReset.isPending}
             >
-                {mutationRequestPasswordReset.isPending && (
-                    <Spinner className="mr-2" />
-                )}
                 Відновити
-            </Button>
+            </SubmitButton>
 
             <Button
                 variant="secondary"

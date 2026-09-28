@@ -1,12 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
-import { useHydrated } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
 import { changePasswordMutation } from '@hikka/api';
 
+import SubmitButton from '@/components/form/submit-button';
 import { useAppForm } from '@/components/form/use-app-form';
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
 import { passwordSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 
@@ -21,9 +19,6 @@ const formSchema = z
     });
 
 const PasswordSettings = () => {
-    // Until hydration the form is plain HTML: a click would submit it
-    // natively (GET, reload, fields in the address bar), so wait for React.
-    const hydrated = useHydrated();
     const mutationChangePassword = useMutation({
         ...changePasswordMutation(),
         onSuccess: async () => {
@@ -75,15 +70,13 @@ const PasswordSettings = () => {
                     />
                 )}
             />
-            <Button
+            <SubmitButton
                 size="md"
-                disabled={!hydrated || mutationChangePassword.isPending}
                 variant="default"
-                type="submit"
+                loading={mutationChangePassword.isPending}
             >
-                {mutationChangePassword.isPending && <Spinner />}
                 Зберегти
-            </Button>
+            </SubmitButton>
         </form>
     );
 };

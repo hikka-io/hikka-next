@@ -11,6 +11,7 @@ import { invalidateUserClients } from '@/utils/api/invalidate-content-state';
 import {
     clientDescriptionSchema,
     clientNameSchema,
+    ENDPOINT_HINT,
     endpointSchema,
 } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
@@ -85,7 +86,7 @@ const ClientCreateModal = ({ onClose }: Props) => {
                         <field.TextField
                             label="Посилання переспрямування"
                             placeholder="https://example.com/"
-                            description="Сюди Hikka поверне користувача після входу: повна адреса зі схемою — https://… або власна схема застосунку, як myapp://auth"
+                            description={ENDPOINT_HINT}
                             type="text"
                             inputMode="url"
                             autoCapitalize="none"

@@ -68,14 +68,20 @@ describe('usernameSchema', () => {
 
     it('names the offending characters before anything else', () => {
         expect(messages(usernameSchema, 'хі')).toEqual([
-            'Недопустимі символи: «х», «і». Можна лише латинські літери, цифри та _',
+            'Недопустимі символи: «х», «і»',
+        ]);
+        expect(messages(usernameSchema, 'hikka io')).toEqual([
+            'Недопустимий символ: пробіл',
+        ]);
+        expect(messages(usernameSchema, 'олександр')).toEqual([
+            'Недопустимі символи: «о», «л», «е»…',
         ]);
         expect(invalidUsernameCharacters('a.b.c-d')).toEqual(['.', '-']);
     });
 
     it('explains the first-letter rule and the length', () => {
         expect(messages(usernameSchema, '_hikka')).toEqual([
-            "Ім'я має починатися з латинської літери",
+            'Має починатися з літери',
         ]);
         expect(messages(usernameSchema, 'abc')).toEqual([
             'Щонайменше 5 символів',
@@ -83,9 +89,7 @@ describe('usernameSchema', () => {
         expect(messages(usernameSchema, 'a'.repeat(65))).toEqual([
             'Не більше 64 символів',
         ]);
-        expect(messages(usernameSchema, '')).toEqual([
-            "Вкажіть ім'я користувача",
-        ]);
+        expect(messages(usernameSchema, '')).toEqual(['Вкажіть нікнейм']);
     });
 });
 
@@ -96,15 +100,13 @@ describe('emailSchema', () => {
 
     it('refuses a plus sign, as EmailArgs.check_email does', () => {
         expect(messages(emailSchema, 'name+tag@email.com')).toEqual([
-            'Hikka не приймає адреси із символом «+»',
+            'Адреси з «+» не підтримуються',
         ]);
     });
 
     it('asks for the address when it is empty or malformed', () => {
         expect(messages(emailSchema, '')).toEqual(['Вкажіть email']);
-        expect(messages(emailSchema, 'hikka@')).toEqual([
-            'Перевірте адресу: вона має бути на кшталт name@example.com',
-        ]);
+        expect(messages(emailSchema, 'hikka@')).toEqual(['Некоректний email']);
     });
 });
 
@@ -150,13 +152,20 @@ describe('endpointSchema', () => {
     });
 
     it.each([
+        ' https://example.com/cb ',
+        'https://example.com/a b',
+    ])('accepts %j, which the API normalises', (value) => {
+        expect(messages(endpointSchema, value)).toEqual([]);
+    });
+
+    it.each([
         '/auth/confirm',
         'callback',
         'http://',
         'https://exa mple.com',
     ])('rejects %j before the API answers "Invalid field endpoint"', (value) => {
         expect(messages(endpointSchema, value)).toEqual([
-            'Потрібна повна адреса зі схемою: https://example.com/callback або myapp://auth',
+            'Потрібне повне посилання: https://… або myapp://…',
         ]);
     });
 
@@ -177,7 +186,7 @@ describe('endpointSchema', () => {
     ])('suggests the missing scheme for %j', (value, suggestion) => {
         expect(suggestEndpoint(value)).toBe(suggestion);
         expect(messages(endpointSchema, value)).toEqual([
-            `Схоже, бракує схеми — мабуть, ${suggestion}`,
+            `Додайте схему: ${suggestion}`,
         ]);
     });
 
@@ -197,7 +206,7 @@ describe('endpointSchema', () => {
     ])('does not suggest an invalid address for %j', (value) => {
         expect(suggestEndpoint(value)).toBeNull();
         expect(messages(endpointSchema, value)).toEqual([
-            'Потрібна повна адреса зі схемою: https://example.com/callback або myapp://auth',
+            'Потрібне повне посилання: https://… або myapp://…',
         ]);
     });
 
@@ -207,6 +216,8 @@ describe('endpointSchema', () => {
         '/auth/confirm',
         'v1.2',
         'callback',
+        '[fc::1]/cb',
+        '[fe8::1]/cb',
     ])('does not guess a scheme for %j', (value) => {
         expect(suggestEndpoint(value)).toBeNull();
     });
@@ -221,13 +232,11 @@ describe('endpointSchema', () => {
         const bareOrigin = `https://${'a'.repeat(60)}.${'b'.repeat(55)}.com`;
         expect(bareOrigin.length).toBe(128);
         expect(messages(endpointSchema, bareOrigin)).toEqual([
-            'Адреса задовга: 129 із 128 символів',
+            'Не більше 128 символів (зараз 129)',
         ]);
     });
 
     it('asks for an address when the field is empty', () => {
-        expect(messages(endpointSchema, '  ')).toEqual([
-            'Вкажіть адресу, куди повертати користувача',
-        ]);
+        expect(messages(endpointSchema, '  ')).toEqual(['Вкажіть посилання']);
     });
 });
