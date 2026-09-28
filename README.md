@@ -77,18 +77,17 @@ packages/api/         → Generated API client + TanStack Query options (@hikka/
 
 This starts all packages in dev/watch mode. The web app will be available at `http://localhost:3000`.
 
-### Running without Cloudflare
+### Local backend
 
-Login and signup are protected by Cloudflare Turnstile: the widget loads from `challenges.cloudflare.com`, and the backend verifies its token with Cloudflare. For local development against your own backend you can run without it:
+To run against a local backend without Cloudflare Turnstile, add to `apps/web/.env.development.local`:
 
 ```sh
-# apps/web/.env.development.local
 VITE_API_URL=http://localhost:8888
 API_URL=http://localhost:8888
 VITE_CAPTCHA_BYPASS=fake_captcha
 ```
 
-The value must equal `captcha.test` in the backend's `settings.toml` (`fake_captcha` by default): the backend then accepts it without asking Cloudflare. With the variable set the app sends it as the captcha token and does not render the Turnstile widget at all. It works only on the dev server (`import.meta.env.DEV`); production builds ignore it and always use Turnstile.
+`VITE_CAPTCHA_BYPASS` must match `captcha.test` in the backend's `settings.toml`.
 
 ### Scripts
 

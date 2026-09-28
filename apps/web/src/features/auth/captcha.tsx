@@ -10,10 +10,6 @@ type Props = {
     ref: Ref<TurnstileInstance | undefined>;
 };
 
-/**
- * The Turnstile widget, or nothing when the captcha is bypassed for local
- * development (see `utils/captcha.ts`): no Cloudflare script, no iframe.
- */
 const Captcha = ({ ref }: Props) => {
     if (getCaptchaBypass()) return null;
 

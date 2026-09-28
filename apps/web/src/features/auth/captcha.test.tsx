@@ -42,6 +42,7 @@ const cloudflareScripts = () =>
 
 describe('Captcha', () => {
     it('renders nothing and loads nothing from Cloudflare when bypassed', async () => {
+        vi.stubEnv('DEV', true);
         vi.stubEnv('VITE_CAPTCHA_BYPASS', 'fake_captcha');
 
         const container = await render();
@@ -52,6 +53,16 @@ describe('Captcha', () => {
 
     it('renders the Turnstile widget otherwise', async () => {
         vi.stubEnv('VITE_CAPTCHA_BYPASS', '');
+
+        const container = await render();
+
+        expect(container.innerHTML).not.toBe('');
+        expect(cloudflareScripts().length).toBeGreaterThan(0);
+    });
+
+    it('ignores the bypass outside development builds', async () => {
+        vi.stubEnv('DEV', false);
+        vi.stubEnv('VITE_CAPTCHA_BYPASS', 'fake_captcha');
 
         const container = await render();
 
