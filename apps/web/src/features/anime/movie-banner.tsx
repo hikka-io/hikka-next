@@ -11,13 +11,13 @@ import { Label } from '@/components/ui/label';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { MOVIE_BANNERS } from '@/utils/constants/banners';
 import { Link, useParams } from '@/utils/navigation';
-import { usePlausible } from '@/utils/plausible';
+import { type PlausibleEvents, usePlausible } from '@/utils/plausible';
 
 type Props = {};
 
 const MovieBanner: FC<Props> = () => {
     const { user } = useSession();
-    const plausible = usePlausible<Hikka.PlausibleEvents>();
+    const plausible = usePlausible<PlausibleEvents>();
     const params = useParams();
     const { data: anime } = useQuery(
         animeSlugOptions({ path: { slug: String(params.slug) } }),

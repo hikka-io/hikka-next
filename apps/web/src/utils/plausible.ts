@@ -104,6 +104,10 @@ export function usePlausiblePageviews() {
     }, [href]);
 }
 
+export type PlausibleEvents = {
+    'movie-banner-click': never;
+};
+
 export function usePlausible<
     T extends Record<string, never> = Record<string, never>,
 >() {

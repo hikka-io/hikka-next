@@ -1,7 +1,7 @@
 import type { TurnstileInstance } from '@marsidev/react-turnstile';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { getCaptchaBypass, getCaptchaToken } from './captcha';
+import { getCaptchaBypass, getCaptchaToken } from './captcha-config';
 
 const widget = { getResponse: () => 'turnstile-token' } as TurnstileInstance;
 

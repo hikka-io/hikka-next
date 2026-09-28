@@ -20,11 +20,12 @@ import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import Spinner from '@/components/ui/spinner';
 import { useCommentsContext } from '@/services/providers/comments-provider';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
-import { MAX_COMMENT_DEPTH } from '@/utils/constants/common';
 import { getCommentText, getCommentValue } from '@/utils/plate';
 
 import type { Verdict } from './utils/review';
 import { toReviewArgs } from './utils/review';
+
+const MAX_COMMENT_DEPTH = 5;
 
 type Props = {
     slug: string;

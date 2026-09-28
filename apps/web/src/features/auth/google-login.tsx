@@ -12,7 +12,7 @@ type Props = {
     buttonText?: string;
 };
 
-const OAuthLogin = ({
+const GoogleLogin = ({
     disabled = false,
     buttonText = 'Увійти з Google',
 }: Props) => {
@@ -59,4 +59,4 @@ const OAuthLogin = ({
     );
 };
 
-export default OAuthLogin;
+export default GoogleLogin;

@@ -1,5 +1,7 @@
 import type { TurnstileInstance } from '@marsidev/react-turnstile';
 
+export const CAPTCHA_SITE_KEY = '0x4AAAAAAANXs8kaCqjo_FLF';
+
 // The backend skips Turnstile when the token equals its `captcha.test` setting;
 // gated on DEV so a production build never ships the bypass.
 export const getCaptchaBypass = (): string | undefined =>

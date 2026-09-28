@@ -2,9 +2,7 @@ import type { Ref } from 'react';
 
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
-import { getCaptchaBypass } from '@/utils/captcha';
-
-import { CAPTCHA_SITE_KEY } from './hooks/use-captcha';
+import { CAPTCHA_SITE_KEY, getCaptchaBypass } from './captcha-config';
 
 type Props = {
     ref: Ref<TurnstileInstance | undefined>;

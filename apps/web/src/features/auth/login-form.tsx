@@ -13,9 +13,9 @@ import { Link, useRouter } from '@/utils/navigation';
 import { validateRedirectUrl } from '@/utils/url';
 
 import Captcha from './captcha';
+import GoogleLogin from './google-login';
 import { handleAuthSuccess } from './handle-auth-success';
 import { useCaptcha } from './hooks/use-captcha';
-import OAuthLogin from './oauth-login';
 
 const formSchema = z.object({
     identifier: z.string().min(5),
@@ -133,7 +133,7 @@ const LoginForm = () => {
                 Увійти
             </SubmitButton>
 
-            <OAuthLogin
+            <GoogleLogin
                 disabled={mutationLogin.isPending || mutationLogin.isSuccess}
             />
         </form>

@@ -9,7 +9,7 @@ interface ImportMetaEnv {
     readonly VITE_SITE_URL?: string;
     readonly VITE_COOKIE_DOMAIN?: string;
     readonly VITE_IMGPROXY_URL?: string;
-    /** Local development only: see `utils/captcha.ts`. */
+    /** Local development only: see `features/auth/captcha-config.ts`. */
     readonly VITE_CAPTCHA_BYPASS?: string;
 }
 

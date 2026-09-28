@@ -15,9 +15,9 @@ import { z } from '@/utils/i18n/zod';
 import { useRouter } from '@/utils/navigation';
 
 import Captcha from './captcha';
+import GoogleLogin from './google-login';
 import { handleAuthSuccess } from './handle-auth-success';
 import { useCaptcha } from './hooks/use-captcha';
-import OAuthLogin from './oauth-login';
 
 const formSchema = z
     .object({
@@ -148,7 +148,7 @@ const SignupForm = () => {
                 Зареєструватись
             </SubmitButton>
 
-            <OAuthLogin
+            <GoogleLogin
                 disabled={mutationSignup.isPending || mutationSignup.isSuccess}
                 buttonText="Зареєструватись з Google"
             />

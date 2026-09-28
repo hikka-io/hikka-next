@@ -169,10 +169,6 @@ declare global {
             date_range?: number[] | null;
         };
 
-        type PlausibleEvents = {
-            'movie-banner-click': never;
-        };
-
         type EventTheme = {
             id: string;
             name: string;
