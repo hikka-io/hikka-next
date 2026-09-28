@@ -22,8 +22,8 @@ import {
 } from '@/features/filters';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import SearchInput from '@/features/filters/search-input';
-import type { SortType } from '@/features/filters/sort';
 import Sort from '@/features/filters/sort';
+import type { SortType } from '@/utils/sort';
 
 import { useCatalogView } from '../filters/hooks/use-catalog-view';
 

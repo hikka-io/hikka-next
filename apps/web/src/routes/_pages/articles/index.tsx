@@ -15,9 +15,9 @@ import {
     PopularAuthors,
     PopularTags,
 } from '@/features/articles';
-import { expandSort } from '@/features/filters/sort';
 import { generateHeadMeta } from '@/utils/metadata';
 import { articlesSearchSchema } from '@/utils/search-schemas';
+import { expandSort } from '@/utils/sort';
 
 export const Route = createFileRoute('/_pages/articles/')({
     validateSearch: zodValidator(articlesSearchSchema),

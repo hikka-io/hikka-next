@@ -26,12 +26,12 @@ import Sort from '@/features/filters/sort';
 import CommentsProvider from '@/services/providers/comments-provider';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
+import { getCommentSort } from '@/utils/sort';
 
 import { COMMENT_TYPE_OPTIONS, type CommentType } from './comment-list';
 import { CommentListSkeleton } from './comment-skeleton';
 import { type CommentSortProps, useCommentSort } from './hooks';
 import UserComment from './user-comment';
-import { getCommentSort } from './utils/comment-sort';
 
 type Props = {
     username: string;

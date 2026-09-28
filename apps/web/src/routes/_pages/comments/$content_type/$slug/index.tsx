@@ -19,17 +19,17 @@ import {
     useContentTitle,
 } from '@/features/comments';
 import ContentHeader from '@/features/comments/content-header';
-import { getCommentSort } from '@/features/comments/utils/comment-sort';
 import type { Verdict } from '@/features/comments/utils/review';
 import { useChangeParam } from '@/features/filters';
+import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { generateHeadMeta } from '@/utils/metadata';
+import { commentsSearchSchema } from '@/utils/search-schemas';
 import {
     type CommentOrder,
     DEFAULT_COMMENT_ORDER,
     DEFAULT_COMMENT_SORT,
-} from '@/utils/constants/comment-sort';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
-import { generateHeadMeta } from '@/utils/metadata';
-import { commentsSearchSchema } from '@/utils/search-schemas';
+    getCommentSort,
+} from '@/utils/sort';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
     validateSearch: zodValidator(commentsSearchSchema),

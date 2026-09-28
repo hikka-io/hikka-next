@@ -26,11 +26,11 @@ import type { StackSize } from '@/components/ui/stack';
 import { AnimeFilters, ReadFilters } from '@/features/filters';
 import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
-import { expandSort } from '@/features/filters/sort';
 import { Userlist, UserlistNavbar } from '@/features/users';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { userlistSearchSchema } from '@/utils/search-schemas';
+import { expandSort } from '@/utils/sort';
 
 const TITLES: Record<string, string> = {
     [ContentTypeEnum.ANIME]: 'аніме',

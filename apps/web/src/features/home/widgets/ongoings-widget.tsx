@@ -29,12 +29,12 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import Stack from '@/components/ui/stack';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { getOngoingsSort } from '@/features/filters/sort';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
+import { getOngoingsSort } from '@/utils/sort';
 import { getTitle } from '@/utils/title/get-title';
 
 import type { WidgetProps } from '../constants';

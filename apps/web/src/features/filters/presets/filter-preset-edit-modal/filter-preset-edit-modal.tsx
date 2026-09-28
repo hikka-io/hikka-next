@@ -14,12 +14,13 @@ import { FormMediaType } from '@/features/filters/media-type';
 import { FormReleaseStatus } from '@/features/filters/release-status';
 import { FormScore } from '@/features/filters/score';
 import { FormSeason } from '@/features/filters/season';
-import { FormSort, type SortType } from '@/features/filters/sort';
+import { FormSort } from '@/features/filters/sort';
 import { FormStudio } from '@/features/filters/studio';
 import { FormYear } from '@/features/filters/year';
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
 import { z } from '@/utils/i18n/zod';
+import type { SortType } from '@/utils/sort';
 
 import ContentTypeSelect from './components/content-type-select';
 

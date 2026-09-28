@@ -24,11 +24,11 @@ import {
 import CoverImage from '@/components/cover-image';
 import { usePageHeader } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { getOngoingsSort } from '@/features/filters/sort';
 import { FeedLayout, HomeHeaderActions } from '@/features/home';
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
+import { getOngoingsSort } from '@/utils/sort';
 
 const HeaderWordmark = () => (
     <span

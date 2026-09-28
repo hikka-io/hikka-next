@@ -1,4 +1,4 @@
-import { expandSort } from '@/features/filters/sort';
+import { expandSort } from '@/utils/sort';
 
 import { useTodoContentList } from './use-todo-content-list';
 import { getTodoSortType, useTodoFilters } from './use-todo-filters';

@@ -21,9 +21,9 @@ import {
     EditTopStats,
     EditFilters as Filters,
 } from '@/features/edit';
-import { expandSort } from '@/features/filters/sort';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editSearchSchema } from '@/utils/search-schemas';
+import { expandSort } from '@/utils/sort';
 
 export const Route = createFileRoute('/_pages/edit/')({
     validateSearch: zodValidator(editSearchSchema),

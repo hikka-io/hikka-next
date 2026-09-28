@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { COMMENT_SORT_VALUES } from '@/utils/constants/comment-sort';
+import { COMMENT_SORT_VALUES } from '@/utils/sort';
 
 // Helpers: normalize URL search param values
 // TanStack Router parses ?key=a&key=b → ['a','b'] but ?key=a → 'a' (string, not array)

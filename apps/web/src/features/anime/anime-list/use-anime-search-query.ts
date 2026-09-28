@@ -8,10 +8,10 @@ import {
 } from '@hikka/api';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-import { expandSort } from '@/features/filters/sort';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import type { AnimeSearch } from '@/utils/search-schemas';
 import { getSeasonByOffset } from '@/utils/season';
+import { expandSort } from '@/utils/sort';
 
 /** Converts URL search params into the Hikka anime search API args shape. */
 export function buildAnimeSearchArgs(search: AnimeSearch) {

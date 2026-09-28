@@ -12,9 +12,9 @@ import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Table, TableBody } from '@/components/ui/table';
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-import { expandSort } from '@/features/filters/sort';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import type { EditSearch } from '@/utils/search-schemas';
+import { expandSort } from '@/utils/sort';
 
 import EditHead from './components/edit-head';
 import EditRow from './components/edit-row';

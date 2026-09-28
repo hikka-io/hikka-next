@@ -16,7 +16,6 @@ import {
     readGetOptions,
 } from '@hikka/api';
 
-import { getCommentSort } from '@/features/comments/utils/comment-sort';
 import { ContentDetailLayout } from '@/features/content';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
@@ -25,6 +24,7 @@ import { getAuthTokenFn } from '@/utils/cookies';
 import { getNsfwConsentFn } from '@/utils/cookies/server';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
+import { getCommentSort } from '@/utils/sort';
 import { truncateText } from '@/utils/text';
 
 export const Route = createFileRoute('/_pages/novel/$slug')({

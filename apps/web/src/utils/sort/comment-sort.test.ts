@@ -1,15 +1,15 @@
 import { describe, expect, it } from 'vitest';
 
-import { getSort } from '@/features/filters/sort';
+import { commentsSearchSchema } from '@/utils/search-schemas';
+
 import {
     COMMENT_SORT_OPTIONS,
     COMMENT_SORT_VALUES,
     DEFAULT_COMMENT_ORDER,
     DEFAULT_COMMENT_SORT,
-} from '@/utils/constants/comment-sort';
-import { commentsSearchSchema } from '@/utils/search-schemas';
-
-import { getCommentSort } from './comment-sort';
+    getCommentSort,
+} from './comment-sort';
+import { getSort } from './config';
 
 describe('getCommentSort', () => {
     // Loaders pass nothing, components pass resolved state — same query key.

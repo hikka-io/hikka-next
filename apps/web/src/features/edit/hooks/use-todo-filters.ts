@@ -3,8 +3,8 @@ import { useNavigate } from '@tanstack/react-router';
 import { ContentTypeEnum } from '@hikka/api';
 
 import { useFilterSearch } from '@/features/filters/hooks/use-filter-search';
-import type { SortType } from '@/features/filters/sort';
 import type { EditContentSearch } from '@/utils/search-schemas';
+import type { SortType } from '@/utils/sort';
 
 import type { TodoFiltersValue } from '../todo-content/todo-filters-value';
 import type { TodoContentType } from './use-todo-content-list';

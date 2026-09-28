@@ -29,6 +29,7 @@ import CommentsProvider from '@/services/providers/comments-provider';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
+import { getCommentSort } from '@/utils/sort';
 
 import CommentInput from './comment-input';
 import { CommentListSkeleton } from './comment-skeleton';
@@ -41,7 +42,6 @@ import {
 } from './hooks';
 import ReviewStatsCard from './review-stats-card';
 import { buildCommentTree, type CommentNode } from './utils/build-comment-tree';
-import { getCommentSort } from './utils/comment-sort';
 import { getReviewTotal, supportsReviews, type Verdict } from './utils/review';
 
 export type CommentType = 'all' | 'comment' | 'review';
