@@ -20,10 +20,6 @@
         "api:generate": "turbo run api:generate --filter=@hikka/api"
     },
     "packageManager": "pnpm@10.33.4",
-    "syncpack": {
-        "filter": "^(?!@hikka).*",
-        "semverRange": ""
-    },
     "pnpm": {
         "overrides": {
             "@types/react": "19.2.7",
@@ -40,17 +36,9 @@
         "@biomejs/biome": "2.5.1",
         "@csstools/postcss-oklab-function": "^5.0.4",
         "@tailwindcss/postcss": "^4.2.2",
-        "@types/node": "20.9.0",
-        "@types/react": "19.2.7",
-        "@types/react-dom": "19.2.3",
         "postcss": "8.4.47",
-        "rimraf": "^5.0.1",
         "tailwindcss": "^4.2.2",
-        "tsup": "^8.5.1",
         "turbo": "^2.9.18",
         "typescript": "6.0.3"
-    },
-    "dependencies": {
-        "react-colorful": "^5.6.1"
     }
 }
