@@ -11,15 +11,26 @@ import {
     watchGetQueryKey,
 } from '@hikka/api';
 
+type ApiExport = keyof typeof import('@hikka/api');
+
+// Generated `xxxQueryKey` builders set `_id: 'xxx'`; infinite builders reuse the base id.
+type QueryId = {
+    [K in ApiExport]: K extends `${string}InfiniteQueryKey`
+        ? never
+        : K extends `${infer Id}QueryKey`
+          ? Id
+          : never;
+}[ApiExport];
+
 // The user's own watch list — refetched on every change so the entry reorders
 // (sorted by updated-at). Its status is top-level, so the patcher below skips it.
-const WATCH_LIST_IDS = ['userWatchList'];
+const WATCH_LIST_IDS: readonly QueryId[] = ['userWatchList'];
 
 // Every other query that embeds the user's `.watch` per content item (catalog,
 // collections, character/person, franchise, favourites). Patched in place by
 // `writeWatchToCaches` and only stale-marked — never refetched, so one toggle
 // never reloads a large grid.
-const WATCH_EMBED_IDS = [
+const WATCH_EMBED_IDS: readonly QueryId[] = [
     'searchAnime',
     'animeRecommendations',
     'characterAnime',
@@ -31,9 +42,9 @@ const WATCH_EMBED_IDS = [
 ];
 
 // Same split for `.read` status.
-const READ_LIST_IDS = ['userReadList'];
+const READ_LIST_IDS: readonly QueryId[] = ['userReadList'];
 
-const READ_EMBED_IDS = [
+const READ_EMBED_IDS: readonly QueryId[] = [
     'searchManga',
     'searchNovel',
     'characterManga',
@@ -47,7 +58,7 @@ const READ_EMBED_IDS = [
 ];
 
 /** Comment lists + content-list queries that embed a comments count/preview. */
-const COMMENT_IDS = [
+const COMMENT_IDS: readonly QueryId[] = [
     'commentsList',
     'getCommentsList',
     'getCommentsUser',
@@ -59,16 +70,24 @@ const COMMENT_IDS = [
 ];
 
 /** Community-edit list queries (the `/edit` index, top stats, content todo). */
-const EDIT_LIST_IDS = ['getEdits', 'editsTop', 'getContentEditTodo'];
+const EDIT_LIST_IDS: readonly QueryId[] = [
+    'getEdits',
+    'editsTop',
+    'getContentEditTodo',
+];
 
 /** Collection list + detail queries. */
-const COLLECTION_IDS = ['getCollections', 'getCollection'];
+const COLLECTION_IDS: readonly QueryId[] = ['getCollections', 'getCollection'];
 
 /** Article list + detail queries. */
-const ARTICLE_IDS = ['getArticles', 'getArticleTop', 'getArticle'];
+const ARTICLE_IDS: readonly QueryId[] = [
+    'getArticles',
+    'getArticleTop',
+    'getArticle',
+];
 
 /** Follow lists/stats + the personalised "following" feed. */
-const FOLLOW_IDS = [
+const FOLLOW_IDS: readonly QueryId[] = [
     'followingList',
     'followersList',
     'followStats',
@@ -79,7 +98,7 @@ const FOLLOW_IDS = [
 ];
 
 /** Content-detail queries keyed by slug (used when an accepted edit mutates content). */
-const CONTENT_DETAIL_IDS = [
+const CONTENT_DETAIL_IDS: readonly QueryId[] = [
     'animeSlug',
     'mangaInfo',
     'novelInfo',
@@ -94,6 +113,29 @@ const CONTENT_DETAIL_IDS = [
     'characterVoices',
     'personVoices',
 ];
+
+const VOTE_IDS: readonly QueryId[] = [
+    'getArticle',
+    'getCollection',
+    ...COMMENT_IDS,
+];
+
+const SESSION_IDS: readonly QueryId[] = ['profile'];
+
+const NOTIFICATION_IDS: readonly QueryId[] = [
+    'notifications',
+    'unseenNotificationsCount',
+];
+
+const IGNORED_NOTIFICATION_IDS: readonly QueryId[] = [
+    'getIgnoredNotifications',
+];
+
+const USER_CLIENT_IDS: readonly QueryId[] = ['listUserClients'];
+
+const FAVOURITE_IDS: readonly QueryId[] = ['favouriteList'];
+
+const USER_PROFILE_ID: QueryId = 'userProfile';
 
 /** Read the generated query key's leading `_id` discriminator (`[{ _id, ... }]`). */
 export function queryId(queryKey: readonly unknown[]): string | undefined {
@@ -389,7 +431,7 @@ export function invalidateSession(
     queryClient: QueryClient,
     options?: InvalidateOptions,
 ): Promise<void> {
-    return invalidateByIds(queryClient, ['profile'], options);
+    return invalidateByIds(queryClient, SESSION_IDS, options);
 }
 
 /** Invalidate the notification list + unseen-count after marking seen. */
@@ -397,11 +439,7 @@ export function invalidateNotifications(
     queryClient: QueryClient,
     options?: InvalidateOptions,
 ): Promise<void> {
-    return invalidateByIds(
-        queryClient,
-        ['notifications', 'unseenNotificationsCount'],
-        options,
-    );
+    return invalidateByIds(queryClient, NOTIFICATION_IDS, options);
 }
 
 /** Invalidate the ignored-notification settings query after saving toggles. */
@@ -409,7 +447,7 @@ export function invalidateIgnoredNotifications(
     queryClient: QueryClient,
     options?: InvalidateOptions,
 ): Promise<void> {
-    return invalidateByIds(queryClient, ['getIgnoredNotifications'], options);
+    return invalidateByIds(queryClient, IGNORED_NOTIFICATION_IDS, options);
 }
 
 /** Invalidate the user's OAuth client list after create/update/delete. */
@@ -417,7 +455,7 @@ export function invalidateUserClients(
     queryClient: QueryClient,
     options?: InvalidateOptions,
 ): Promise<void> {
-    return invalidateByIds(queryClient, ['listUserClients'], options);
+    return invalidateByIds(queryClient, USER_CLIENT_IDS, options);
 }
 
 /** Invalidate the favourite lists after toggling a favourite. */
@@ -425,7 +463,7 @@ function invalidateFavourites(
     queryClient: QueryClient,
     options?: InvalidateOptions,
 ): Promise<void> {
-    return invalidateByIds(queryClient, ['favouriteList'], options);
+    return invalidateByIds(queryClient, FAVOURITE_IDS, options);
 }
 
 /** Write an added favourite into the per-content cache, then invalidate the lists. */
@@ -471,7 +509,7 @@ export function invalidateFollow(
         [...FOLLOW_IDS, ...ARTICLE_IDS, ...COLLECTION_IDS],
         options,
         (query) =>
-            queryId(query.queryKey) === 'userProfile' &&
+            queryId(query.queryKey) === USER_PROFILE_ID &&
             JSON.stringify(query.queryKey).includes(targetUsername),
     );
 }
@@ -486,11 +524,7 @@ export function invalidateVote(
     queryClient: QueryClient,
     options?: InvalidateOptions,
 ): Promise<void> {
-    return invalidateByIds(
-        queryClient,
-        ['getArticle', 'getCollection', ...COMMENT_IDS],
-        options,
-    );
+    return invalidateByIds(queryClient, VOTE_IDS, options);
 }
 
 /**
@@ -504,7 +538,7 @@ export function invalidateContentBySlug(
     slug: string,
     options?: InvalidateOptions,
 ): Promise<void> {
-    const idSet = new Set(CONTENT_DETAIL_IDS);
+    const idSet = new Set<string>(CONTENT_DETAIL_IDS);
     return queryClient.invalidateQueries({
         predicate: (query) => {
             const id = queryId(query.queryKey);
