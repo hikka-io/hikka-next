@@ -3,11 +3,8 @@ import { createFileRoute } from '@tanstack/react-router';
 import { HikkaApiError, oauthToken } from '@hikka/api';
 
 import { firstForwardedIp } from '@/utils/api/client-ip';
-import { COOKIE } from '@/utils/cookies';
-import {
-    createServerHikkaClient,
-    makeCookieHeader,
-} from '@/utils/cookies/headers';
+import { createServerHikkaClient } from '@/utils/api/server-client';
+import { COOKIE, makeCookieHeader } from '@/utils/cookies';
 import { getSiteUrl } from '@/utils/url';
 
 const resolveRedirectBase = (state: string, siteUrl: string): URL => {

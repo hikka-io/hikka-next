@@ -1,6 +1,6 @@
 import { ImageResponse } from '@takumi-rs/image-response';
 
-import { createServerHikkaClient } from '@/utils/cookies/headers';
+import { createServerHikkaClient } from '@/utils/api/server-client';
 import { renderOgCard } from '@/utils/og/og-image';
 import type { OgContentCardData } from '@/utils/og/og-utils';
 

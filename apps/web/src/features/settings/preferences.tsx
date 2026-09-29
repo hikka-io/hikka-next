@@ -16,8 +16,8 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
-import { clearNsfwConsent } from '@/features/content/nsfw-consent';
 import { useTheme } from '@/services/theme-provider';
+import { clearNsfwConsent } from '@/utils/cookies';
 
 const PreferencesSettings = () => {
     const { preferences } = useSessionUI();

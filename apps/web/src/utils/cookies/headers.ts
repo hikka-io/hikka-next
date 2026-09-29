@@ -1,7 +1,3 @@
-import { type Client, createRequestClient } from '@hikka/api';
-
-import { getInternalApiUrl, PUBLIC_API_URL } from '@/utils/api/base-url';
-
 import { COOKIE } from './constants';
 import { getCookieDomain, isSecureCookieDomain } from './domain';
 
@@ -45,12 +41,4 @@ export function clearCookieHeader(
     ]
         .filter(Boolean)
         .join('; ');
-}
-
-export function createServerHikkaClient(clientIp?: string): Client {
-    return createRequestClient({
-        baseUrl: PUBLIC_API_URL,
-        internalBaseUrl: getInternalApiUrl(),
-        clientIp,
-    });
 }

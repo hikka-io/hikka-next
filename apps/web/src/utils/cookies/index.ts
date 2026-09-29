@@ -1,16 +1,20 @@
 export { COOKIE } from './constants';
 export { getCookieDomain, isSecureCookieDomain } from './domain';
+export { clearCookieHeader, makeCookieHeader } from './headers';
 export {
-    clearCookieHeader,
-    createServerHikkaClient,
-    makeCookieHeader,
-} from './headers';
+    clearNsfwConsent,
+    grantNsfwSessionConsent,
+    hasNsfwSessionConsent,
+} from './nsfw-consent';
 export {
+    clearNsfwConsentFn,
     getAuthTokenFn,
-    getClientIpFn,
+    getNsfwConsentFn,
     getThemeCookieFn,
     getUiPrefsCookieFn,
     refreshAuthCookieFn,
+    setAuthCookieFn,
+    setNsfwConsentFn,
 } from './server';
 export { writeHostCookie } from './ui-cookie';
 export {

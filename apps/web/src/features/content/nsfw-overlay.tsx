@@ -6,11 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from '@/components/ui/image';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
-import { COOKIE } from '@/utils/cookies';
-import { setNsfwConsentFn } from '@/utils/cookies/server';
+import {
+    COOKIE,
+    grantNsfwSessionConsent,
+    hasNsfwSessionConsent,
+    setNsfwConsentFn,
+} from '@/utils/cookies';
 import { useRouter } from '@/utils/navigation';
-
-import { grantNsfwSessionConsent, hasNsfwSessionConsent } from './nsfw-consent';
 
 const NsfwOverlay: FC = () => {
     const router = useRouter();

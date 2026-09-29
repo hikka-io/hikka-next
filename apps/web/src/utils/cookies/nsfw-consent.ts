@@ -1,4 +1,4 @@
-import { clearNsfwConsentFn } from '@/utils/cookies/server';
+import { clearNsfwConsentFn } from './server';
 
 let sessionConsented = false;
 

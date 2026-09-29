@@ -14,10 +14,11 @@ import {
 
 import ErrorPage from '@/components/error-page';
 import { getInternalApiUrl, PUBLIC_API_URL } from '@/utils/api/base-url';
+import { getClientIpFn } from '@/utils/api/client-ip';
 import { shouldSkipGlobalErrorToast } from '@/utils/api/mutation-meta';
+import { getAuthTokenFn } from '@/utils/cookies';
 
 import { routeTree } from './routeTree.gen';
-import { getAuthTokenFn, getClientIpFn } from './utils/cookies';
 
 export interface RouterContext {
     queryClient: QueryClient;

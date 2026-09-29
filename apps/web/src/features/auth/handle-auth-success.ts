@@ -2,7 +2,7 @@ import type { QueryClient } from '@tanstack/react-query';
 
 import { authInfoQueryKey, profileQueryKey, setAuthToken } from '@hikka/api';
 
-import { setAuthCookieFn } from '@/utils/auth';
+import { setAuthCookieFn } from '@/utils/cookies';
 
 /**
  * Shared success path for the login / signup / password-reset forms: persist

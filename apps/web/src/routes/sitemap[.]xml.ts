@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
-import { createServerHikkaClient } from '@/utils/cookies/headers';
+import { createServerHikkaClient } from '@/utils/api/server-client';
 import {
     buildSitemapIndexXml,
     fetchSitemapEntries,

@@ -1,6 +1,6 @@
 import type { Client, MainContentTypeEnum } from '@hikka/api';
 
-import { createServerHikkaClient } from './cookies/headers';
+import { createServerHikkaClient } from './api/server-client';
 import { getSiteUrl } from './url';
 
 /**
