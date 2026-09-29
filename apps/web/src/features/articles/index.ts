@@ -1,8 +1,4 @@
-export { default as ArticleEditDocument } from './article-edit/article-document';
-export { default as ArticleProvider } from './article-edit/article-provider';
-export { default as ArticleEditSettings } from './article-edit/article-settings';
-export type { ArticleState } from './article-edit/article-store';
-export { default as ArticleEditTitle } from './article-edit/article-title';
+export { default as ArticleEditorPage } from './article-editor-page';
 export { default as ArticleListFilters } from './article-list/article-filters';
 export { default as ArticleList } from './article-list/article-list';
 export { default as ArticleListPopularAuthors } from './article-list/popular-authors';
