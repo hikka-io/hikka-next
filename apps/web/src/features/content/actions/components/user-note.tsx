@@ -4,6 +4,7 @@ import { StickyNote } from 'lucide-react';
 
 import { API_LIMITS } from '@hikka/api';
 
+import CharacterCounter from '@/components/character-counter';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { MaterialSymbolsCheckRounded } from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
@@ -13,8 +14,6 @@ import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
-
-const COUNTER_THRESHOLD = API_LIMITS.listNote.max - 200;
 
 const placeCaretAtEnd = (el: HTMLTextAreaElement | null) =>
     el?.setSelectionRange(el.value.length, el.value.length);
@@ -70,11 +69,11 @@ const UserNote: FC<Props> = ({ note, isSaving, onSave }) => {
                     onChange={(e) => setDraft(e.target.value)}
                     onKeyDown={handleKeyDown}
                 />
-                {draft.length >= COUNTER_THRESHOLD && (
-                    <span className="text-right text-muted-foreground text-xs tabular-nums">
-                        {draft.length}/{API_LIMITS.listNote.max}
-                    </span>
-                )}
+                <CharacterCounter
+                    className="text-right"
+                    length={draft.length}
+                    max={API_LIMITS.listNote.max}
+                />
                 <div className="flex gap-2">
                     <Button
                         variant="secondary"

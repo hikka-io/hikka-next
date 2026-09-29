@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { PlateElementProps } from 'platejs/react';
 import { PlateElement } from 'platejs/react';
 
-import { searchUsersOptions } from '@hikka/api';
+import { API_LIMITS, searchUsersOptions } from '@hikka/api';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
@@ -21,8 +21,7 @@ import {
     InlineComboboxItem,
 } from './inline-combobox';
 
-const USER_SEARCH_MIN_LENGTH = 2;
-const TOO_SHORT_MESSAGE = `Введіть щонайменше ${USER_SEARCH_MIN_LENGTH} ${getDeclensionWord(USER_SEARCH_MIN_LENGTH, SYMBOL_FORMS)}`;
+const TOO_SHORT_MESSAGE = `Введіть щонайменше ${API_LIMITS.userSearchQuery.min} ${getDeclensionWord(API_LIMITS.userSearchQuery.min, SYMBOL_FORMS)}`;
 
 export function UserSearchInputElement(props: PlateElementProps) {
     const { children, editor, element } = props;
@@ -32,7 +31,8 @@ export function UserSearchInputElement(props: PlateElementProps) {
         delay: DEBOUNCE_MS.input,
     });
 
-    const isTooShort = debouncedSearch.trim().length < USER_SEARCH_MIN_LENGTH;
+    const isTooShort =
+        debouncedSearch.trim().length < API_LIMITS.userSearchQuery.min;
     const isPending = search !== debouncedSearch;
 
     const { data: users, isFetching } = useQuery({

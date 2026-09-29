@@ -115,8 +115,10 @@ const CollectionEditSettings: FC<Props> = ({ mode = 'create' }) => {
     const canSubmit =
         !!title &&
         title.trim().length >= API_LIMITS.collectionTitle.min &&
+        title.length <= API_LIMITS.collectionTitle.max &&
         !!description &&
-        description.trim().length >= API_LIMITS.collectionDescription.min;
+        description.trim().length >= API_LIMITS.collectionDescription.min &&
+        description.length <= API_LIMITS.collectionDescription.max;
 
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">

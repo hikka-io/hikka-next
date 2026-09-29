@@ -5,12 +5,14 @@ import { Minimize2, Send } from 'lucide-react';
 import { useEditorRef, useEditorSelector } from 'platejs/react';
 
 import {
+    API_LIMITS,
     type CommentResponse,
     type CommentContentTypeEnum as CommentsContentType,
     editCommentMutation,
     writeCommentMutation,
 } from '@hikka/api';
 
+import CharacterCounter from '@/components/character-counter';
 import {
     getCommentText,
     getCommentValue,
@@ -63,6 +65,17 @@ const CommentInputBottomBar: FC<Props> = ({
         (editor) => getCommentValue(editor).length > 0,
         [],
     );
+
+    const replyMention =
+        !isEdit && comment?.depth && comment.depth >= MAX_COMMENT_DEPTH
+            ? `@${comment.author.username} `
+            : '';
+    const textLength = useEditorSelector(
+        (editor) => getCommentText(editor).length,
+        [],
+    );
+    const sentLength = replyMention.length + textLength;
+    const isTooLong = sentLength > API_LIMITS.commentText.max;
 
     const onEditSuccess = async (data: CommentResponse) => {
         editor.tf.reset();
@@ -124,6 +137,10 @@ const CommentInputBottomBar: FC<Props> = ({
             return;
         }
 
+        if (replyMention.length + text.length > API_LIMITS.commentText.max) {
+            return;
+        }
+
         if (isReview && !verdict) {
             return;
         }
@@ -150,10 +167,7 @@ const CommentInputBottomBar: FC<Props> = ({
                             ? comment?.reference
                             : comment.parent!
                         : undefined,
-                    text:
-                        comment?.depth && comment?.depth >= MAX_COMMENT_DEPTH
-                            ? `@${comment.author.username} ${text}`
-                            : text,
+                    text: `${replyMention}${text}`,
                     review: toReviewArgs(isReview, verdict),
                 },
             });
@@ -195,12 +209,18 @@ const CommentInputBottomBar: FC<Props> = ({
                     </FieldLabel>
                 )}
 
+                <CharacterCounter
+                    length={sentLength}
+                    max={API_LIMITS.commentText.max}
+                />
+
                 <Button
                     onClick={onSubmit}
                     disabled={
                         isAddPending ||
                         isEditPending ||
                         !hasContent ||
+                        isTooLong ||
                         (isReview && !verdict)
                     }
                     size="sm"

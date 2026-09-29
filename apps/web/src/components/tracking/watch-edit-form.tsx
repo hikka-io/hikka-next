@@ -12,6 +12,7 @@ import {
     watchGetOptions,
 } from '@hikka/api';
 
+import CharacterCounter from '@/components/character-counter';
 import { useAppForm } from '@/components/form';
 import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
@@ -39,12 +40,23 @@ import { useAddWatch, useDeleteWatch } from './use-tracking-mutations';
 const formSchema = z.object({
     score: z.coerce
         .number()
+        .int()
         .min(API_LIMITS.listScore.min)
         .max(API_LIMITS.listScore.max)
         .optional(),
-    episodes: z.coerce.number().min(0).optional(),
-    rewatches: z.coerce.number().min(0).optional(),
-    note: z.string().nullable().optional(),
+    episodes: z.coerce
+        .number()
+        .int()
+        .min(0)
+        .max(API_LIMITS.listProgress.max)
+        .optional(),
+    rewatches: z.coerce
+        .number()
+        .int()
+        .min(0)
+        .max(API_LIMITS.listRepeats.max)
+        .optional(),
+    note: z.string().max(API_LIMITS.listNote.max).nullable().optional(),
     start_date: z.coerce.number().nullable().optional(),
     end_date: z.coerce.number().nullable().optional(),
 });
@@ -109,6 +121,7 @@ const WatchEditForm = ({ slug, watch: watchProp, onClose }: Props) => {
     });
 
     const startDate = useStore(form.store, (s) => s.values.start_date);
+    const note = useStore(form.store, (s) => s.values.note);
 
     // Depend on the status, not the `watch` identity, so a background refetch
     // doesn't clobber an unsaved dropdown change.
@@ -236,7 +249,13 @@ const WatchEditForm = ({ slug, watch: watchProp, onClose }: Props) => {
                             <field.TextareaField
                                 label="Нотатки"
                                 placeholder="Залиште нотатку"
-                            />
+                                maxLength={API_LIMITS.listNote.max}
+                            >
+                                <CharacterCounter
+                                    length={note?.length ?? 0}
+                                    max={API_LIMITS.listNote.max}
+                                />
+                            </field.TextareaField>
                         )}
                     />
                 </div>

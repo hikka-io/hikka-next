@@ -3,7 +3,11 @@ import { type FC, useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { type ArticleContentEnum, createArticleMutation } from '@hikka/api';
+import {
+    API_LIMITS,
+    type ArticleContentEnum,
+    createArticleMutation,
+} from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
@@ -28,6 +32,11 @@ const CreateActions: FC<Props> = () => {
     const category = useArticleContext((state) => state.category);
     const content = useArticleContext((state) => state.content);
     const getDocument = useArticleContext((state) => state.getDocument);
+
+    const hasValidTitle =
+        !!title &&
+        title.trim().length >= API_LIMITS.articleTitle.min &&
+        title.length <= API_LIMITS.articleTitle.max;
 
     const {
         mutate: mutateCreateArticle,
@@ -80,7 +89,7 @@ const CreateActions: FC<Props> = () => {
     return (
         <FooterBar>
             <Button
-                disabled={!title || isPending || isSuccess}
+                disabled={!hasValidTitle || isPending || isSuccess}
                 variant="secondary"
                 size="md"
                 onClick={() => handleCreateArticle(true)}
@@ -90,7 +99,7 @@ const CreateActions: FC<Props> = () => {
 
             <Button
                 size="md"
-                disabled={!title || isPending || isSuccess}
+                disabled={!hasValidTitle || isPending || isSuccess}
                 onClick={() => handleCreateArticle()}
             >
                 <MaterialSymbolsAddRounded />

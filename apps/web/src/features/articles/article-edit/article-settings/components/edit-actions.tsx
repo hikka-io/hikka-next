@@ -3,7 +3,11 @@ import { type FC, useCallback } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { type ArticleContentEnum, updateArticleMutation } from '@hikka/api';
+import {
+    API_LIMITS,
+    type ArticleContentEnum,
+    updateArticleMutation,
+} from '@hikka/api';
 
 import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -35,6 +39,11 @@ const EditActions: FC<Props> = () => {
     const getDocument = useArticleContext((state) => state.getDocument);
     const setArticle = useArticleContext((state) => state.setArticle);
     const queryClient = useQueryClient();
+
+    const hasValidTitle =
+        !!title &&
+        title.trim().length >= API_LIMITS.articleTitle.min &&
+        title.length <= API_LIMITS.articleTitle.max;
 
     const { mutate: mutateUpdateArticle, isPending } = useMutation({
         ...updateArticleMutation(),
@@ -107,7 +116,7 @@ const EditActions: FC<Props> = () => {
                 <Button
                     className="flex-1"
                     size="md"
-                    disabled={!title || isPending}
+                    disabled={!hasValidTitle || isPending}
                     onClick={() => handleUpdateArticle()}
                 >
                     <MaterialSymbolsRefreshRounded className="size-4" />
@@ -121,7 +130,7 @@ const EditActions: FC<Props> = () => {
                         render={
                             <Button
                                 size="icon-md"
-                                disabled={!title || isPending}
+                                disabled={!hasValidTitle || isPending}
                                 variant="secondary"
                                 onClick={() => handleUpdateArticle(true)}
                             />
@@ -137,7 +146,7 @@ const EditActions: FC<Props> = () => {
                 <Button
                     size="md"
                     className="flex-1"
-                    disabled={!title || isPending}
+                    disabled={!hasValidTitle || isPending}
                     onClick={() => handleUpdateArticle()}
                 >
                     <MaterialSymbolsPublishRounded className="size-4" />
