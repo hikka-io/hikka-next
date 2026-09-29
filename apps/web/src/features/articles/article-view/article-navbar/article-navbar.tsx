@@ -1,20 +1,17 @@
 import { type FC, Fragment } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { MessageCircle } from 'lucide-react';
 
-import { getArticleOptions } from '@hikka/api';
+import { getArticleOptions, VoteContentTypeEnum } from '@hikka/api';
 
-import { Button } from '@/components/ui/button';
+import CommentsCountButton from '@/components/action-buttons/comments-count-button';
+import VoteButton from '@/components/action-buttons/vote-button';
 import Card from '@/components/ui/card';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { cn } from '@/utils/cn';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
-import { Link, useParams } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
 
 import ArticleViewActionsMenu from '../article-actions-menu';
-import ArticleVote from './article-vote';
 
 type Props = {};
 
@@ -34,6 +31,8 @@ const ArticleViewNavbar: FC<Props> = () => {
         }
     }
 
+    const { slug, my_score: myScore, vote_score: voteScore } = article!;
+
     return (
         <div
             className={cn(
@@ -44,25 +43,18 @@ const ArticleViewNavbar: FC<Props> = () => {
             <Card variant="glass" className="flex-row gap-2 px-3 py-2">
                 {!isSystem && (
                     <Fragment>
-                        <ArticleVote article={article!} />
-                        <Button
-                            size="md"
-                            variant="ghost"
-                            render={
-                                <Link to={`/comments/article/${params.slug}`} />
-                            }
-                        >
-                            <MessageCircle className="size-4" />
-                            <span>
-                                {article?.comments_count}{' '}
-                                <span className="hidden sm:inline">
-                                    {getDeclensionWord(
-                                        article?.comments_count ?? 0,
-                                        COMMENT_FORMS,
-                                    )}
-                                </span>
-                            </span>
-                        </Button>
+                        <VoteButton
+                            variant="card"
+                            contentType={VoteContentTypeEnum.ARTICLE}
+                            slug={slug}
+                            myScore={myScore}
+                            voteScore={voteScore}
+                        />
+                        <CommentsCountButton
+                            to={`/comments/article/${params.slug}`}
+                            count={article?.comments_count}
+                            iconClassName="size-4"
+                        />
                         <div className="hidden h-full w-px bg-border md:block" />
                     </Fragment>
                 )}

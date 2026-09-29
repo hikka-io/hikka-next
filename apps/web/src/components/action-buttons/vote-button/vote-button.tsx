@@ -4,7 +4,8 @@ import { ArrowBigDown, ArrowBigUp } from 'lucide-react';
 
 import type { VoteContentTypeEnum } from '@hikka/api';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
+import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
 
@@ -16,6 +17,7 @@ type Props = {
     myScore: number;
     voteScore: number;
     size?: 'icon-xs' | 'icon-sm' | 'icon-md';
+    variant?: 'card';
 };
 
 const VoteButton: FC<Props> = ({
@@ -24,6 +26,7 @@ const VoteButton: FC<Props> = ({
     myScore,
     voteScore,
     size = 'icon-md',
+    variant,
 }) => {
     const { currentMyScore, optimisticVoteScore, handleVote } = useVote({
         contentType,
@@ -32,7 +35,7 @@ const VoteButton: FC<Props> = ({
         voteScore,
     });
 
-    return (
+    const buttons = (
         <>
             <Button
                 onClick={() => handleVote(1)}
@@ -82,6 +85,22 @@ const VoteButton: FC<Props> = ({
                 />
             </Button>
         </>
+    );
+
+    if (variant !== 'card') {
+        return buttons;
+    }
+
+    return (
+        <Card
+            className={buttonVariants({
+                variant: 'secondary',
+                size: 'md',
+                className: 'flex-row gap-0 overflow-hidden border-none p-0',
+            })}
+        >
+            {buttons}
+        </Card>
     );
 };
 

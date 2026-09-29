@@ -1,11 +1,13 @@
 import type { ComponentProps, FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
-import { MessageCircle, TableOfContents } from 'lucide-react';
+import { TableOfContents } from 'lucide-react';
 
 import { ContentTypeEnum, getCollectionOptions } from '@hikka/api';
 
+import CommentsCountButton from '@/components/action-buttons/comments-count-button';
 import FavoriteButton from '@/components/action-buttons/favorite-button';
+import VoteButton from '@/components/action-buttons/vote-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {
@@ -13,13 +15,10 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import { getDeclensionWord } from '@/utils/i18n/declension';
-import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
-import { Link, useParams } from '@/utils/navigation';
+import { useParams } from '@/utils/navigation';
 
 import CollectionViewActionsMenu from '../collection-actions-menu';
 import CollectionToc from '../collection-toc';
-import CollectionVote from './collection-vote';
 
 type Props = {};
 
@@ -30,10 +29,18 @@ const CollectionViewNavbar: FC<Props> = () => {
         getCollectionOptions({ path: { reference: String(params.reference) } }),
     );
 
+    const { reference, my_score: myScore, vote_score: voteScore } = collection!;
+
     return (
         <div className="sticky bottom-[calc(var(--tab-bar-height)+1rem)] z-10 mx-auto flex w-fit">
             <Card variant="glass" className="flex-row gap-2 px-3 py-2">
-                <CollectionVote collection={collection!} />
+                <VoteButton
+                    variant="card"
+                    contentType={ContentTypeEnum.COLLECTION}
+                    slug={reference}
+                    myScore={myScore}
+                    voteScore={voteScore}
+                />
                 {collection && (
                     <FavoriteButton
                         size="icon-md"
@@ -47,24 +54,10 @@ const CollectionViewNavbar: FC<Props> = () => {
                     />
                 )}
 
-                <Button
-                    size="md"
-                    variant="ghost"
-                    render={
-                        <Link to={`/comments/collection/${params.reference}`} />
-                    }
-                >
-                    <MessageCircle />
-                    <span>
-                        {collection?.comments_count}{' '}
-                        <span className="hidden sm:inline">
-                            {getDeclensionWord(
-                                collection?.comments_count ?? 0,
-                                COMMENT_FORMS,
-                            )}
-                        </span>
-                    </span>
-                </Button>
+                <CommentsCountButton
+                    to={`/comments/collection/${params.reference}`}
+                    count={collection?.comments_count}
+                />
 
                 {collection?.labels_order.length !== 0 && (
                     <Popover>
