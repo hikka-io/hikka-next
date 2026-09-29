@@ -45,7 +45,7 @@ const EditCard = ({ edit, href, to, className, ...props }: Props) => {
                     <HorizontalCardTitle href={`/u/${edit.author?.username}`}>
                         {edit.author?.username}
                     </HorizontalCardTitle>
-                    <HorizontalCardDescription>
+                    <HorizontalCardDescription className="line-clamp-1 leading-relaxed">
                         {format(edit.created * 1000, 'd MMM yyyy H:mm')}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>

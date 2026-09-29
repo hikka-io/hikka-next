@@ -23,7 +23,7 @@ export type Notification = {
     seen: boolean;
 
     title: string;
-    description: ReactNode;
+    description: string;
     href: string;
     typeIcon: ReactNode;
     accent: NotificationAccent;

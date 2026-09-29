@@ -5,11 +5,11 @@ import type { HistoryResponse } from '@hikka/api';
 import {
     HorizontalCard,
     HorizontalCardContainer,
-    HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import RelativeTime from '@/components/relative-time';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -80,9 +80,12 @@ const HistoryItem: FC<Props> = (props) => {
                     {title || 'Загальне'}
                 </HorizontalCardTitle>
                 {activity.length > 0 && (
-                    <HorizontalCardDescription className="line-clamp-2">
+                    <MDViewer
+                        className="prose-inline line-clamp-2 text-muted-foreground text-xs!"
+                        preview
+                    >
                         {activity.join(', ')}
-                    </HorizontalCardDescription>
+                    </MDViewer>
                 )}
                 <RelativeTime value={data.created} className="opacity-60" />
             </HorizontalCardContainer>

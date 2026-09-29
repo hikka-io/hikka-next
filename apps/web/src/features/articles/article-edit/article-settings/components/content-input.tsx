@@ -41,7 +41,7 @@ const ContentInput: FC<Props> = () => {
                         >
                             {contentTitle}
                         </HorizontalCardTitle>
-                        <HorizontalCardDescription>
+                        <HorizontalCardDescription className="line-clamp-1 leading-relaxed">
                             {
                                 CONTENT_TYPES[
                                     content.data_type as keyof typeof CONTENT_TYPES

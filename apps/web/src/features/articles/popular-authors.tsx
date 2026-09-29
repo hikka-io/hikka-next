@@ -8,10 +8,10 @@ import FollowButton from '@/components/action-buttons/follow-button';
 import {
     HorizontalCard,
     HorizontalCardContainer,
-    HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
@@ -44,9 +44,12 @@ const PopularAuthors: FC<Props> = () => {
                                 >
                                     {author.user.username}
                                 </HorizontalCardTitle>
-                                <HorizontalCardDescription className="line-clamp-1">
+                                <MDViewer
+                                    className="prose-inline line-clamp-1 text-muted-foreground text-xs!"
+                                    preview
+                                >
                                     {author.user.description}
-                                </HorizontalCardDescription>
+                                </MDViewer>
                             </HorizontalCardContainer>
                             <FollowButton
                                 size="icon-md"

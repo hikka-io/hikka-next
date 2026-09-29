@@ -4,7 +4,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { notificationSeenMutation } from '@hikka/api';
 
-import { HorizontalCardDescription } from '@/components/horizontal-card';
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import RelativeTime from '@/components/relative-time';
 import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
@@ -89,9 +88,12 @@ const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
                         </span>
                     )}
                 </div>
-                <HorizontalCardDescription className="line-clamp-2 group-hover/item:text-foreground">
+                <MDViewer
+                    preview
+                    className="prose-inline line-clamp-2 text-muted-foreground text-xs! group-hover/item:text-foreground"
+                >
                     {data.description}
-                </HorizontalCardDescription>
+                </MDViewer>
                 {data.preview && (
                     <blockquote className="mt-0.5 border-muted-foreground/20 border-l-2 pl-2">
                         <MDViewer

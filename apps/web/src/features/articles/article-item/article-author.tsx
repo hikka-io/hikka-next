@@ -56,7 +56,11 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                         </Link>
                     </HorizontalCardDescription>
                     <div className="size-1 rounded-full bg-muted-foreground" />
-                    <HorizontalCardDescription>
+                    <HorizontalCardDescription
+                        className={cn(
+                            article.draft && 'line-clamp-1 leading-relaxed',
+                        )}
+                    >
                         {article.draft ? (
                             'Чернетка'
                         ) : (

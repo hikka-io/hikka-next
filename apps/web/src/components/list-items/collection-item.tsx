@@ -7,10 +7,10 @@ import type { CollectionContentResponse, CollectionResponse } from '@hikka/api';
 import {
     HorizontalCard,
     HorizontalCardContainer,
-    HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { cn } from '@/utils/cn';
 
@@ -45,11 +45,15 @@ const CollectionItem: FC<Props> = ({ data, className }) => {
                         <div className="size-2 rounded-full bg-destructive-foreground" />
                     )}
                 </div>
-                <HorizontalCardDescription
-                    className={cn(data.spoiler && 'spoiler-blur-sm')}
+                <MDViewer
+                    className={cn(
+                        'prose-inline line-clamp-1 text-muted-foreground text-xs!',
+                        data.spoiler && 'spoiler-blur-sm',
+                    )}
+                    preview
                 >
                     {data.description}
-                </HorizontalCardDescription>
+                </MDViewer>
                 <StatItemGroup size="sm">
                     <StatItem size="sm">
                         <Layers />

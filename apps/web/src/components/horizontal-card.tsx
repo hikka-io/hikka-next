@@ -8,7 +8,6 @@ import type {
 } from 'react';
 
 import PosterCard from '@/components/content-card/poster-card';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
 import { labelVariants } from '@/components/ui/label';
 import Link from '@/components/ui/link';
 import { cn } from '@/utils/cn';
@@ -55,20 +54,6 @@ type HorizontalCardDescriptionProps = {
 const HorizontalCardDescription: FC<
     PropsWithChildren<HorizontalCardDescriptionProps>
 > = ({ children, className }) => {
-    if (typeof children === 'string') {
-        return (
-            <MDViewer
-                className={cn(
-                    'prose-inline line-clamp-1 text-muted-foreground text-xs!',
-                    className,
-                )}
-                preview
-            >
-                {children}
-            </MDViewer>
-        );
-    }
-
     return (
         <div
             className={cn(
