@@ -5,8 +5,15 @@ import type { UserResponse } from '@hikka/api';
 import PosterCard from '@/components/content-card/poster-card';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/utils/cn';
 import { USER_ROLE } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
+
+const ROLE_BADGE_CLASSES = {
+    admin: 'border-role-admin/40 bg-role-admin/15 text-role-admin',
+    moderator:
+        'border-role-moderator/40 bg-role-moderator/15 text-role-moderator',
+} as const;
 
 type Props = {
     user: UserResponse;
@@ -36,9 +43,11 @@ const UserCard = ({ user, type }: Props) => {
 
                     {(user.role === 'admin' || user.role === 'moderator') && (
                         <Badge
-                            className="text-xs"
+                            className={cn(
+                                'text-xs',
+                                ROLE_BADGE_CLASSES[user.role],
+                            )}
                             variant="status"
-                            bgColor={USER_ROLE[user.role].color}
                         >
                             {USER_ROLE[user.role].label}
                         </Badge>
