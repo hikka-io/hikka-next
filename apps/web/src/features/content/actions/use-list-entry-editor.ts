@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import {
     ContentTypeEnum,
     type MainContentTypeEnum,
@@ -9,18 +7,13 @@ import {
     type ReadContentTypeEnum,
     type ReadResponse,
     ReadStatusEnum,
-    readAddMutation,
     type WatchArgs,
     type WatchResponse,
     WatchStatusEnum,
-    watchAddMutation,
 } from '@hikka/api';
 
+import { useAddRead, useAddWatch } from '@/components/tracking';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
-import {
-    applyReadMutation,
-    applyWatchMutation,
-} from '@/utils/api/invalidate-content-state';
 import {
     carryOverReadArgs,
     carryOverWatchArgs,
@@ -112,21 +105,9 @@ export const useListEntryEditor = ({
         delay: DEBOUNCE_MS.commit,
     });
 
-    const queryClient = useQueryClient();
-
     const { mutate: mutateCreateWatch, isPending: isWatchPending } =
-        useMutation({
-            ...watchAddMutation(),
-            onSuccess: (data) => {
-                applyWatchMutation(queryClient, data);
-            },
-        });
-    const { mutate: mutateCreateRead, isPending: isReadPending } = useMutation({
-        ...readAddMutation(),
-        onSuccess: (data) => {
-            applyReadMutation(queryClient, data);
-        },
-    });
+        useAddWatch();
+    const { mutate: mutateCreateRead, isPending: isReadPending } = useAddRead();
 
     const mappedListItem = mapListItem({ listItem, content_type });
 

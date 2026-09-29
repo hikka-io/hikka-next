@@ -14,8 +14,8 @@ import {
 } from '@/components/ui/responsive-modal';
 import { useTitle } from '@/features/auth/hooks/use-title';
 
-import ReadEditModal from './read-edit-modal';
-import WatchEditModal from './watch-edit-modal';
+import ReadEditForm from './read-edit-form';
+import WatchEditForm from './watch-edit-form';
 
 type Props = {
     open: boolean;
@@ -41,13 +41,13 @@ const ListEntryEditDialog: FC<Props> = (props) => {
         <ResponsiveModal open={open} onOpenChange={onOpenChange} mobile="page">
             <ResponsiveModalContent className="md:max-w-xl" title={title}>
                 {props.contentType === ContentTypeEnum.ANIME ? (
-                    <WatchEditModal
+                    <WatchEditForm
                         slug={slug}
                         watch={props.watch}
                         onClose={() => onOpenChange(false)}
                     />
                 ) : (
-                    <ReadEditModal
+                    <ReadEditForm
                         slug={slug}
                         content_type={props.contentType}
                         read={props.read}

@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import {
     type MangaInfoResponse,
@@ -11,7 +11,6 @@ import {
     type ReadContentTypeEnum,
     type ReadResponseBase,
     ReadStatusEnum,
-    readAddMutation,
     readGetOptions,
 } from '@hikka/api';
 
@@ -25,7 +24,6 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
-import { applyReadMutation } from '@/utils/api/invalidate-content-state';
 import { carryOverReadArgs } from '@/utils/api/tracking-args';
 
 import IconReadStatusButton from './icon-read-status-button';
@@ -33,6 +31,7 @@ import ListEntryEditDialog from './list-entry-edit-dialog';
 import NewReadStatusTrigger from './new-read-status-trigger';
 import ReadStatusTrigger from './read-status-trigger';
 import { READ_STATUS_OPTIONS } from './status-options';
+import { useAddRead } from './use-tracking-mutations';
 
 type Props = {
     slug: string;
@@ -71,7 +70,6 @@ const ReadListButton = ({
     buttonProps,
 }: Props) => {
     const [editOpen, setEditOpen] = useState(false);
-    const queryClient = useQueryClient();
 
     const { data: readQuery, isError: readError } = useQuery({
         ...readGetOptions({ path: { content_type, slug } }),
@@ -79,12 +77,7 @@ const ReadListButton = ({
         enabled: !disabled && !readProp && readProp !== null,
     });
 
-    const { mutate: createRead, isPending: isChangingStatus } = useMutation({
-        ...readAddMutation(),
-        onSuccess: (data) => {
-            applyReadMutation(queryClient, data);
-        },
-    });
+    const { mutate: createRead, isPending: isChangingStatus } = useAddRead();
 
     const read = useMemo(
         () => readProp || (readQuery && !readError ? readQuery : undefined),

@@ -1,22 +1,20 @@
-import { createElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useStore } from '@tanstack/react-form';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import {
     API_LIMITS,
-    deleteReadMutation,
-    type ReadArgs,
-    type ReadContentTypeEnum,
-    type ReadResponseBase,
-    type ReadStatusEnum,
-    readAddMutation,
-    readGetOptions,
+    type WatchArgs,
+    type WatchResponse,
+    type WatchResponseBase,
+    type WatchStatusEnum,
+    watchGetOptions,
 } from '@hikka/api';
 
 import { useAppForm } from '@/components/form';
-import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
+import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Button } from '@/components/ui/button';
@@ -32,14 +30,12 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-import {
-    applyReadDeletion,
-    applyReadMutation,
-} from '@/utils/api/invalidate-content-state';
-import { cn } from '@/utils/cn';
 import { z } from '@/utils/i18n/zod';
-import { READ_STATUS } from '@/utils/labels/enum-labels';
+import { WATCH_STATUS } from '@/utils/labels/enum-labels';
 import { getTitle } from '@/utils/title/get-title';
+
+import { StatusIconChip } from './status-options';
+import { useAddWatch, useDeleteWatch } from './use-tracking-mutations';
 
 const formSchema = z.object({
     score: z.coerce
@@ -47,9 +43,8 @@ const formSchema = z.object({
         .min(API_LIMITS.listScore.min)
         .max(API_LIMITS.listScore.max)
         .optional(),
-    volumes: z.coerce.number().min(0).optional(),
-    chapters: z.coerce.number().min(0).optional(),
-    rereads: z.coerce.number().min(0).optional(),
+    episodes: z.coerce.number().min(0).optional(),
+    rewatches: z.coerce.number().min(0).optional(),
     note: z.string().nullable().optional(),
     start_date: z.coerce.number().nullable().optional(),
     end_date: z.coerce.number().nullable().optional(),
@@ -57,33 +52,23 @@ const formSchema = z.object({
 
 type Props = {
     slug: string;
-    content_type: ReadContentTypeEnum;
-    read?: ReadResponseBase;
+    watch?: WatchResponse | WatchResponseBase;
     onClose?: () => void;
 };
 
-const ReadEditModal = ({
-    slug,
-    content_type,
-    read: readProp,
-    onClose,
-}: Props) => {
-    const queryClient = useQueryClient();
-
-    const { data: readQuery } = useQuery({
-        ...readGetOptions({ path: { content_type, slug } }),
-        enabled: !readProp,
+const WatchEditForm = ({ slug, watch: watchProp, onClose }: Props) => {
+    const { data: watchQuery } = useQuery({
+        ...watchGetOptions({ path: { slug } }),
+        enabled: !watchProp,
     });
 
-    const read = readProp || readQuery;
+    const watch = watchProp || watchQuery;
 
-    const { mutate: createRead, isPending: addToListLoading } = useMutation({
-        ...readAddMutation(),
+    const { mutate: createWatch, isPending: addToListLoading } = useAddWatch({
         onSuccess: (data) => {
-            applyReadMutation(queryClient, data);
-            toast.success(
+            toast.info(
                 <span>
-                    <span className="font-bold">{getTitle(data.content)}</span>{' '}
+                    <span className="font-bold">{getTitle(data.anime)}</span>{' '}
                     успішно оновлено.
                 </span>,
             );
@@ -91,57 +76,54 @@ const ReadEditModal = ({
         },
     });
 
-    const { mutate: deleteRead, isPending: deleteFromListLoading } =
-        useMutation({
-            ...deleteReadMutation(),
-            onSuccess: (_data, { path }) => {
-                applyReadDeletion(queryClient, path.content_type, path.slug);
-                toast.success('Контент успішно видалено.');
+    const { mutate: deleteWatch, isPending: deleteFromListLoading } =
+        useDeleteWatch({
+            onSuccess: () => {
+                toast.success('Аніме успішно видалено.');
                 onClose?.();
             },
         });
 
     const [selectedStatus, setSelectedStatus] = useState<
-        ReadStatusEnum | undefined
-    >(read?.status as ReadStatusEnum | undefined);
+        WatchStatusEnum | undefined
+    >(watch?.status as WatchStatusEnum | undefined);
 
     const form = useAppForm({
         defaultValues: {
-            score: read?.score ?? 0,
-            volumes: read?.volumes ?? 0,
-            chapters: read?.chapters ?? 0,
-            rereads: read?.rereads ?? 0,
-            note: read?.note ?? null,
+            score: watch?.score ?? 0,
+            episodes: watch?.episodes ?? 0,
+            rewatches: watch?.rewatches ?? 0,
+            note: watch?.note ?? null,
             start_date:
-                (read as { start_date?: number | null })?.start_date ?? null,
-            end_date: (read as { end_date?: number | null })?.end_date ?? null,
+                (watch as { start_date?: number | null })?.start_date ?? null,
+            end_date: (watch as { end_date?: number | null })?.end_date ?? null,
         },
         validators: { onSubmit: formSchema as never },
         onSubmit: async ({ value }) => {
-            createRead({
-                path: { content_type, slug },
+            createWatch({
+                path: { slug },
                 // Load-bearing cast: the API accepts Unix-timestamp numbers for
-                // start_date/end_date, but generated ReadArgs mistypes them as
+                // start_date/end_date, but generated WatchArgs mistypes them as
                 // `string | null` (OpenAPI inaccuracy). Do not convert to ISO.
                 body: {
                     status: selectedStatus!,
                     ...value,
-                } as unknown as ReadArgs,
+                } as unknown as WatchArgs,
             });
         },
     });
 
     const startDate = useStore(form.store, (s) => s.values.start_date);
 
-    // Depend on the status, not the `read` identity, so a background refetch
+    // Depend on the status, not the `watch` identity, so a background refetch
     // doesn't clobber an unsaved dropdown change.
     useEffect(() => {
-        if (read?.status) {
-            setSelectedStatus(read.status as ReadStatusEnum);
+        if (watch?.status) {
+            setSelectedStatus(watch.status as WatchStatusEnum);
         }
-    }, [read?.status]);
+    }, [watch?.status]);
 
-    if (!read) return null;
+    if (!watch) return null;
 
     return (
         <form.AppForm>
@@ -152,30 +134,24 @@ const ReadEditModal = ({
                         <Select
                             value={selectedStatus && [selectedStatus]}
                             onValueChange={(value) => {
-                                setSelectedStatus(value[0] as ReadStatusEnum);
+                                setSelectedStatus(value[0] as WatchStatusEnum);
                             }}
                         >
                             <SelectTrigger size="md">
                                 <div className="flex items-center gap-2">
                                     {selectedStatus && (
-                                        <div
-                                            className={cn(
-                                                'w-fit rounded-sm border border-white p-1 text-white',
-                                                `bg-${selectedStatus} text-${selectedStatus}-foreground border-${selectedStatus}-border`,
-                                            )}
-                                        >
-                                            {createElement(
-                                                READ_STATUS_ICONS[
+                                        <StatusIconChip
+                                            status={selectedStatus}
+                                            icon={
+                                                WATCH_STATUS_ICONS[
                                                     selectedStatus
-                                                ],
-                                                {
-                                                    className: 'size-3!',
-                                                },
-                                            )}
-                                        </div>
+                                                ]
+                                            }
+                                        />
                                     )}
                                     {(selectedStatus &&
-                                        READ_STATUS[selectedStatus].title_ua) ||
+                                        WATCH_STATUS[selectedStatus]
+                                            .title_ua) ||
                                         'Виберіть список'}
                                 </div>
                                 <SelectIcon />
@@ -185,44 +161,20 @@ const ReadEditModal = ({
                                     <SelectGroup>
                                         {(
                                             Object.keys(
-                                                READ_STATUS,
-                                            ) as ReadStatusEnum[]
+                                                WATCH_STATUS,
+                                            ) as WatchStatusEnum[]
                                         ).map((status) => (
                                             <SelectItem
                                                 value={status}
                                                 key={status}
                                             >
-                                                {READ_STATUS[status].title_ua}
+                                                {WATCH_STATUS[status].title_ua}
                                             </SelectItem>
                                         ))}
                                     </SelectGroup>
                                 </SelectList>
                             </SelectContent>
                         </Select>
-                    </div>
-                    <div className="flex w-full gap-8">
-                        <form.AppField
-                            name="volumes"
-                            children={(field) => (
-                                <field.TextField
-                                    label="Томи"
-                                    placeholder="Введіть к-сть прочитаних томів"
-                                    type="number"
-                                    className="flex-1"
-                                />
-                            )}
-                        />
-                        <form.AppField
-                            name="chapters"
-                            children={(field) => (
-                                <field.TextField
-                                    label="Розділи"
-                                    placeholder="Введіть к-сть прочитаних розділів"
-                                    type="number"
-                                    className="flex-1"
-                                />
-                            )}
-                        />
                     </div>
                     <div className="flex w-full gap-8">
                         <form.AppField
@@ -233,22 +185,35 @@ const ReadEditModal = ({
                                     placeholder="Введіть оцінку"
                                     type="number"
                                     className="flex-1"
+                                    min={API_LIMITS.listScore.min}
+                                    max={API_LIMITS.listScore.max}
                                 />
                             )}
                         />
                         <form.AppField
-                            name="rereads"
+                            name="episodes"
                             children={(field) => (
                                 <field.TextField
-                                    label="Повторні читання"
-                                    placeholder="Введіть к-сть повторних читань"
+                                    label="Епізоди"
+                                    placeholder="Введіть к-сть переглянутих епізодів"
                                     type="number"
                                     className="flex-1"
+                                    min={0}
                                 />
                             )}
                         />
                     </div>
-
+                    <form.AppField
+                        name="rewatches"
+                        children={(field) => (
+                            <field.TextField
+                                label="Повторні перегляди"
+                                placeholder="Введіть к-сть повторних переглядів"
+                                type="number"
+                                min={0}
+                            />
+                        )}
+                    />
                     <div className="flex w-full gap-8">
                         <form.AppField
                             name="start_date"
@@ -285,11 +250,7 @@ const ReadEditModal = ({
                         type="button"
                         variant="destructive"
                         size="md"
-                        onClick={() =>
-                            deleteRead({
-                                path: { content_type, slug },
-                            })
-                        }
+                        onClick={() => deleteWatch({ path: { slug } })}
                         disabled={addToListLoading || deleteFromListLoading}
                     >
                         {deleteFromListLoading ? (
@@ -318,4 +279,4 @@ const ReadEditModal = ({
     );
 };
 
-export default ReadEditModal;
+export default WatchEditForm;

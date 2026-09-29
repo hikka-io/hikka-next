@@ -18,8 +18,8 @@ import { useTitle } from '@/features/auth/hooks/use-title';
 import { getTitle } from '@/utils/title/get-title';
 
 import ListEntryEditDialog from './list-entry-edit-dialog';
-import ReadEditModal from './read-edit-modal';
-import WatchEditModal from './watch-edit-modal';
+import ReadEditForm from './read-edit-form';
+import WatchEditForm from './watch-edit-form';
 
 const { PREFERENCES, stubForm } = vi.hoisted(() => ({
     PREFERENCES: {
@@ -43,8 +43,8 @@ vi.mock('@/services/hooks/use-back-close', () => ({ useBackClose: () => {} }));
 vi.mock('@/features/auth/hooks/use-session-ui', () => ({
     useSessionUI: () => ({ preferences: PREFERENCES }),
 }));
-vi.mock('./watch-edit-modal', () => ({ default: stubForm('watch') }));
-vi.mock('./read-edit-modal', () => ({ default: stubForm('read') }));
+vi.mock('./watch-edit-form', () => ({ default: stubForm('watch') }));
+vi.mock('./read-edit-form', () => ({ default: stubForm('read') }));
 
 const anime = { slug: 'anime-slug', title_ua: 'Аніме', title_en: 'Anime' };
 const manga = { slug: 'manga-slug', title_ua: 'Манґа', title_en: 'Manga' };
@@ -63,7 +63,7 @@ const LegacyWatchListShell = ({
     return (
         <ResponsiveModal open={open} onOpenChange={onOpenChange} mobile="page">
             <ResponsiveModalContent className="md:max-w-xl" title={title}>
-                <WatchEditModal
+                <WatchEditForm
                     slug="anime-slug"
                     watch={watch}
                     onClose={() => onOpenChange(false)}
@@ -79,7 +79,7 @@ const LegacyReadListShell = ({ open, onOpenChange }: ShellProps) => {
     return (
         <ResponsiveModal open={open} onOpenChange={onOpenChange} mobile="page">
             <ResponsiveModalContent className="md:max-w-xl" title={title}>
-                <ReadEditModal
+                <ReadEditForm
                     slug="manga-slug"
                     content_type={ContentTypeEnum.MANGA}
                     read={read}
@@ -100,7 +100,7 @@ const LegacyHomeTrackerShell = ({ open, onOpenChange }: ShellProps) => (
                 PREFERENCES.name_language,
             )}
         >
-            <WatchEditModal
+            <WatchEditForm
                 watch={watch}
                 slug="anime-slug"
                 onClose={() => onOpenChange(false)}

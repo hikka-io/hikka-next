@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import {
     type AnimeInfoResponse,
@@ -9,7 +9,6 @@ import {
     type WatchArgs,
     type WatchResponseBase,
     WatchStatusEnum,
-    watchAddMutation,
     watchGetOptions,
 } from '@hikka/api';
 
@@ -23,13 +22,13 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
-import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 
 import IconWatchStatusButton from './icon-watch-status-button';
 import ListEntryEditDialog from './list-entry-edit-dialog';
 import NewWatchStatusTrigger from './new-watch-status-trigger';
 import { WATCH_STATUS_OPTIONS } from './status-options';
+import { useAddWatch } from './use-tracking-mutations';
 import WatchStatusTrigger from './watch-status-trigger';
 
 type Props = {
@@ -62,7 +61,6 @@ const WatchListButton = ({
     buttonProps,
 }: Props) => {
     const [editOpen, setEditOpen] = useState(false);
-    const queryClient = useQueryClient();
 
     const { data: watchQuery, isError: watchError } = useQuery({
         ...watchGetOptions({ path: { slug } }),
@@ -70,12 +68,7 @@ const WatchListButton = ({
         enabled: !disabled && !watchProp && watchProp !== null,
     });
 
-    const { mutate: addWatch, isPending: isChangingStatus } = useMutation({
-        ...watchAddMutation(),
-        onSuccess: (data) => {
-            applyWatchMutation(queryClient, data);
-        },
-    });
+    const { mutate: addWatch, isPending: isChangingStatus } = useAddWatch();
 
     const watch = useMemo(
         () => watchProp || (watchQuery && !watchError ? watchQuery : undefined),

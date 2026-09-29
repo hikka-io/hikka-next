@@ -1,21 +1,16 @@
 import type * as React from 'react';
 import { createElement, type FC } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import {
-    type ReadContentTypeEnum,
-    ReadStatusEnum,
-    readAddMutation,
-} from '@hikka/api';
+import { type ReadContentTypeEnum, ReadStatusEnum } from '@hikka/api';
 
 import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-import { applyReadMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
+
+import { useAddRead } from './use-tracking-mutations';
 
 type NewReadStatusTriggerProps = {
     disabled?: boolean;
@@ -32,14 +27,7 @@ const NewReadStatusTrigger: FC<NewReadStatusTriggerProps> = ({
     size,
     isLoading,
 }) => {
-    const queryClient = useQueryClient();
-
-    const { mutate: createRead } = useMutation({
-        ...readAddMutation(),
-        onSuccess: (data) => {
-            applyReadMutation(queryClient, data);
-        },
-    });
+    const { mutate: createRead } = useAddRead();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();

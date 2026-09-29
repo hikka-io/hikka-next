@@ -1,7 +1,5 @@
 import { createElement, type FC } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import {
     type MangaInfoResponse,
     type MangaResponse,
@@ -11,14 +9,14 @@ import {
     type ReadResponseBase,
     type ReadStatusEnum,
     ReadStatusEnum as ReadStatusEnumValue,
-    readAddMutation,
 } from '@hikka/api';
 
 import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-import { applyReadMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
+
+import { useAddRead } from './use-tracking-mutations';
 
 type IconReadStatusButtonProps = Omit<ButtonProps, 'content'> & {
     read?: ReadResponseBase;
@@ -46,14 +44,7 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
     onOpenModal,
     ...props
 }) => {
-    const queryClient = useQueryClient();
-
-    const { mutate: createRead } = useMutation({
-        ...readAddMutation(),
-        onSuccess: (data) => {
-            applyReadMutation(queryClient, data);
-        },
-    });
+    const { mutate: createRead } = useAddRead();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();

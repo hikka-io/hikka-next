@@ -1,7 +1,5 @@
 import { createElement, type FC } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import {
     type AnimeInfoResponse,
     type AnimeResponse,
@@ -9,14 +7,14 @@ import {
     type WatchResponseBase,
     type WatchStatusEnum,
     WatchStatusEnum as WatchStatusEnumValue,
-    watchAddMutation,
 } from '@hikka/api';
 
 import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
+
+import { useAddWatch } from './use-tracking-mutations';
 
 type IconWatchStatusButtonProps = ButtonProps & {
     watch?: WatchResponse | WatchResponseBase;
@@ -38,14 +36,7 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
     onOpenModal,
     ...props
 }) => {
-    const queryClient = useQueryClient();
-
-    const { mutate: createWatch } = useMutation({
-        ...watchAddMutation(),
-        onSuccess: (data) => {
-            applyWatchMutation(queryClient, data);
-        },
-    });
+    const { mutate: createWatch } = useAddWatch();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();

@@ -7,8 +7,6 @@ import {
     useState,
 } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import {
     type AnimeResponse,
     type AnimeResponseWithWatch,
@@ -20,11 +18,9 @@ import {
     type ReadArgs,
     type ReadResponseBase,
     ReadStatusEnum,
-    readAddMutation,
     type WatchArgs,
     type WatchResponseBase,
     WatchStatusEnum,
-    watchAddMutation,
 } from '@hikka/api';
 
 import {
@@ -45,10 +41,6 @@ import {
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
 import {
-    applyReadMutation,
-    applyWatchMutation,
-} from '@/utils/api/invalidate-content-state';
-import {
     carryOverReadArgs,
     carryOverWatchArgs,
 } from '@/utils/api/tracking-args';
@@ -61,6 +53,7 @@ import {
     type StatusOption,
     WATCH_STATUS_OPTIONS,
 } from './status-options';
+import { useAddRead, useAddWatch } from './use-tracking-mutations';
 import WatchStatusTrigger from './watch-status-trigger';
 
 /** `default` keeps the Button primitive's own height; `sm`/`md` shrink it. */
@@ -260,12 +253,10 @@ function WatchTrackingButtons({
     item: AnimeResponse | AnimeResponseWithWatch;
     watch?: WatchResponseBase | null;
 }) {
-    const queryClient = useQueryClient();
     const [editOpen, setEditOpen] = useState(false);
 
-    const { mutate: addWatch, isPending } = useMutation({
-        ...watchAddMutation(),
-        onSuccess: (data) => applyWatchMutation(queryClient, data),
+    const { mutate: addWatch, isPending } = useAddWatch({
+        awaitInvalidation: true,
     });
 
     const tracking =
@@ -347,12 +338,10 @@ function ReadTrackingButtons({
         | NovelResponseWithRead;
     read?: ReadResponseBase | null;
 }) {
-    const queryClient = useQueryClient();
     const [editOpen, setEditOpen] = useState(false);
 
-    const { mutate: addRead, isPending } = useMutation({
-        ...readAddMutation(),
-        onSuccess: (data) => applyReadMutation(queryClient, data),
+    const { mutate: addRead, isPending } = useAddRead({
+        awaitInvalidation: true,
     });
 
     const tracking =

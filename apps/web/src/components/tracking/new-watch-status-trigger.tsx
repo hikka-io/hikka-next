@@ -1,17 +1,16 @@
 import type * as React from 'react';
 import { createElement, type FC } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import { WatchStatusEnum, watchAddMutation } from '@hikka/api';
+import { WatchStatusEnum } from '@hikka/api';
 
 import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
+
+import { useAddWatch } from './use-tracking-mutations';
 
 type NewWatchStatusTriggerProps = {
     disabled?: boolean;
@@ -26,14 +25,7 @@ const NewWatchStatusTrigger: FC<NewWatchStatusTriggerProps> = ({
     size,
     isLoading,
 }) => {
-    const queryClient = useQueryClient();
-
-    const { mutate: createWatch } = useMutation({
-        ...watchAddMutation(),
-        onSuccess: (data) => {
-            applyWatchMutation(queryClient, data);
-        },
-    });
+    const { mutate: createWatch } = useAddWatch();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
