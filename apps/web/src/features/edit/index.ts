@@ -14,7 +14,7 @@ export {
     TodoContentNavbar,
     TodoContentTabs,
     TodoFilters,
-    TodoFiltersModal,
+    TodoFiltersBody,
     TodoListSummary,
 } from './todo-content';
 export { useTodoFilters } from './todo-content/use-todo-filters';

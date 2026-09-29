@@ -2,14 +2,9 @@ import type { FC } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-    ResponsiveModalFooter,
-} from '@/components/ui/responsive-modal';
-
 import { AnimeFiltersBody } from './anime-filters';
 import FiltersFooter from './filters-footer';
+import FiltersModal from './filters-modal';
 
 type Props = {
     open: boolean;
@@ -26,32 +21,29 @@ const AnimeFiltersModal: FC<Props> = ({
     sort_type,
 }) => {
     return (
-        <ResponsiveModal
-            type="sheet"
-            mobile="page"
+        <FiltersModal
             open={open}
             onOpenChange={onOpenChange}
-        >
-            <ResponsiveModalContent className="md:max-w-xl" title="Фільтри">
-                {/* -m-4 p-4 cancels parent padding so the scroll area fills edge-to-edge */}
+            body={
+                // -m-4 p-4 cancels parent padding so the scroll area fills edge-to-edge
                 <AnimeFiltersBody
                     className="-m-4 flex-1 overflow-hidden overflow-y-auto p-4"
                     content_type={content_type}
                     sort_type={sort_type}
                 />
-                <ResponsiveModalFooter>
-                    <FiltersFooter
-                        className="w-full"
-                        contentType={
-                            sort_type === 'anime'
-                                ? ContentTypeEnum.ANIME
-                                : undefined
-                        }
-                        onDone={() => onOpenChange(false)}
-                    />
-                </ResponsiveModalFooter>
-            </ResponsiveModalContent>
-        </ResponsiveModal>
+            }
+            footer={
+                <FiltersFooter
+                    className="w-full"
+                    contentType={
+                        sort_type === 'anime'
+                            ? ContentTypeEnum.ANIME
+                            : undefined
+                    }
+                    onDone={() => onOpenChange(false)}
+                />
+            }
+        />
     );
 };
 

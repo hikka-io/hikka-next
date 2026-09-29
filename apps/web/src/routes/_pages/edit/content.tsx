@@ -9,11 +9,17 @@ import {
     TodoContentNavbar,
     TodoContentTabs,
     TodoFilters,
-    TodoFiltersModal,
+    TodoFiltersBody,
     TodoListSummary,
     useTodoFilters,
 } from '@/features/edit';
-import { FiltersSidebarLayout, HeaderFiltersButton } from '@/features/filters';
+import {
+    ClearFiltersFooter,
+    FiltersModal,
+    FiltersSidebarLayout,
+    HeaderFiltersButton,
+    type RenderFiltersModal,
+} from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editContentSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
@@ -34,15 +40,25 @@ function ContentPage() {
     const titleAnchor = usePageTitleAnchor();
     const { contentType, filters, setFilters } = useTodoFilters();
 
-    const renderFiltersModal = (props: {
-        open: boolean;
-        onOpenChange: (open: boolean) => void;
-    }) => (
-        <TodoFiltersModal
-            {...props}
-            contentType={contentType}
-            value={filters}
-            onChange={setFilters}
+    const renderFiltersModal: RenderFiltersModal = ({ open, onOpenChange }) => (
+        <FiltersModal
+            open={open}
+            onOpenChange={onOpenChange}
+            body={
+                <TodoFiltersBody
+                    className="-m-4 flex-1 overflow-hidden overflow-y-auto p-4"
+                    contentType={contentType}
+                    value={filters}
+                    onChange={setFilters}
+                />
+            }
+            footer={
+                <ClearFiltersFooter
+                    className="w-full"
+                    preserve={['tab']}
+                    onDone={() => onOpenChange(false)}
+                />
+            }
         />
     );
 

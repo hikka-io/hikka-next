@@ -10,13 +10,27 @@ import {
 import ClearFiltersFooter from './clear-filters-footer';
 
 type Props = {
-    children: ReactElement;
     body: ReactNode;
     footer?: ReactNode;
-};
+} & (
+    | { children: ReactElement; open?: never; onOpenChange?: never }
+    | {
+          children?: never;
+          open: boolean;
+          onOpenChange: (open: boolean) => void;
+      }
+);
 
-const FiltersModal: FC<Props> = ({ children, body, footer }) => {
-    const [open, setOpen] = useState(false);
+const FiltersModal: FC<Props> = ({
+    children,
+    body,
+    footer,
+    open: controlledOpen,
+    onOpenChange,
+}) => {
+    const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+    const open = controlledOpen ?? uncontrolledOpen;
+    const setOpen = onOpenChange ?? setUncontrolledOpen;
 
     return (
         <ResponsiveModal
@@ -25,7 +39,7 @@ const FiltersModal: FC<Props> = ({ children, body, footer }) => {
             open={open}
             onOpenChange={setOpen}
         >
-            <ResponsiveModalTrigger render={children} />
+            {children && <ResponsiveModalTrigger render={children} />}
             <ResponsiveModalContent className="md:max-w-xl" title="Фільтри">
                 {body}
                 <ResponsiveModalFooter>
