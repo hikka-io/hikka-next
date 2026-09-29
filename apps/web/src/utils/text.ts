@@ -15,5 +15,5 @@ export function truncateText(str: string, n: number, useWordBoundary: boolean) {
         useWordBoundary
             ? subString.slice(0, subString.lastIndexOf(' '))
             : subString
-    }&hellip;`;
+    }\u2026`;
 }

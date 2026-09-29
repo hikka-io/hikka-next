@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { BLANK_CHARS, POSITIVE_INTEGER_PATTERN } from './text';
+import { BLANK_CHARS, POSITIVE_INTEGER_PATTERN, truncateText } from './text';
 
 const ZWSP = '\u200B';
 const BOM = '\uFEFF';
@@ -50,6 +50,32 @@ describe('BLANK_CHARS', () => {
                 sample.replace(literal, ''),
             );
         }
+    });
+});
+
+describe('truncateText', () => {
+    const ELLIPSIS = '\u2026';
+
+    it('ends a cut text with the ellipsis character, not an HTML entity', () => {
+        const result = truncateText('abcdefghij', 5, false);
+
+        expect(result).toBe(`abcd${ELLIPSIS}`);
+        expect(result).not.toContain('&');
+    });
+
+    it('cuts at the last word boundary', () => {
+        expect(truncateText('one two three four', 12, true)).toBe(
+            `one two${ELLIPSIS}`,
+        );
+    });
+
+    it('returns a text that fits unchanged', () => {
+        expect(truncateText('short', 5, true)).toBe('short');
+        expect(truncateText('short', 10, false)).toBe('short');
+    });
+
+    it('returns null for an empty text', () => {
+        expect(truncateText('', 5, true)).toBeNull();
     });
 });
 
