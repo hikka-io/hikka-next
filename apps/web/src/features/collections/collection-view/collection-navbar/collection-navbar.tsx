@@ -5,9 +5,11 @@ import { TableOfContents } from 'lucide-react';
 
 import { ContentTypeEnum, getCollectionOptions } from '@hikka/api';
 
-import CommentsCountButton from '@/components/action-buttons/comments-count-button';
-import FavoriteButton from '@/components/action-buttons/favorite-button';
-import VoteButton from '@/components/action-buttons/vote-button';
+import {
+    CommentsCountButton,
+    FavoriteButton,
+    VoteButton,
+} from '@/components/action-buttons';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {

@@ -1,6 +1,5 @@
 JsModuleSource() as $source where {
-    $source <: r"[\x27\"]@/components/(action-buttons|badges|content-card|form|list-items|markdown|tracking)/.+"($group),
-    not $source <: r"[\x27\"]@/components/content-card/tooltips[\x27\"]",
+    $source <: r"[\x27\"]@/components/(action-buttons|badges|form|list-items|markdown|tracking)/.+"($group),
     not and {
         $filename <: r".*/src/components/plate/.+",
         $source <: r"[\x27\"]@/components/markdown/(?:link|spoiler-reveal|spoiler-inline|remark/[^\x27\"]+)[\x27\"]"
@@ -9,5 +8,5 @@ JsModuleSource() as $source where {
         $filename <: r".*/src/components/([a-z-]+)/.+"($own),
         $own <: $group
     },
-    register_diagnostic(span=$source, message="[D10] Import a component group through its barrel (@/components/<group>) from outside the group; @/components/content-card/tooltips and plate's markdown paths are named entries.", severity="warn")
+    register_diagnostic(span=$source, message="[D10] Import a component group through its barrel (@/components/<group>) from outside the group; plate's markdown paths are named entries.", severity="error")
 }

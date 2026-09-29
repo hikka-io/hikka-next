@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
-import ArticleItemCompact from '@/components/list-items/article-item-compact';
+import { ArticleItemCompact } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import {

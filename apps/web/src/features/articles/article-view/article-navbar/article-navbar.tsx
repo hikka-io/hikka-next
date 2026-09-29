@@ -4,8 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getArticleOptions, VoteContentTypeEnum } from '@hikka/api';
 
-import CommentsCountButton from '@/components/action-buttons/comments-count-button';
-import VoteButton from '@/components/action-buttons/vote-button';
+import { CommentsCountButton, VoteButton } from '@/components/action-buttons';
 import Card from '@/components/ui/card';
 import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';

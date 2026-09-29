@@ -5,7 +5,7 @@ import { MessageCircle } from 'lucide-react';
 
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
-import FavoriteButton from '@/components/action-buttons/favorite-button';
+import { FavoriteButton } from '@/components/action-buttons';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { usePageTitleReveal } from '@/features/app-shell';

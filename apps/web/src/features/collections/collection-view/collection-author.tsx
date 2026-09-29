@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getCollectionOptions } from '@hikka/api';
 
-import FollowButton from '@/components/action-buttons/follow-button';
+import { FollowButton } from '@/components/action-buttons';
 import {
     HorizontalCard,
     HorizontalCardContainer,

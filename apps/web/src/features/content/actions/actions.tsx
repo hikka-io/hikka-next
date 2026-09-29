@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
-import FavoriteButton from '@/components/action-buttons/favorite-button';
+import { FavoriteButton } from '@/components/action-buttons';
 import { useSession } from '@/services/session';
 import {
     contentInfoOptions,

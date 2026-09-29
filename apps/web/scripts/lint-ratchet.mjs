@@ -35,7 +35,7 @@ const CANARIES = [
     ],
     [
         'features/x/canary.ts',
-        "import '@/features/y/deep';\nimport '../y';\nimport '@/components/content-card/x';",
+        "import '@/features/y/deep';\nimport '../y';\nimport '@/components/action-buttons/x';",
         ['D7', 'D9', 'D10'],
     ],
     ...LEAVES.map((f) => [

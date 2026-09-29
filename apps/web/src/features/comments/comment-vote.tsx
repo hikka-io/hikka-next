@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { type CommentResponse, ContentTypeEnum } from '@hikka/api';
 
-import VoteButton from '@/components/action-buttons/vote-button';
+import { VoteButton } from '@/components/action-buttons';
 import { statItemVariants } from '@/components/ui/stat-item';
 import { cn } from '@/utils/cn';
 

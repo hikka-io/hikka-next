@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import type { FollowUserResponse } from '@hikka/api';
 
-import FollowButton from '@/components/action-buttons/follow-button';
+import { FollowButton } from '@/components/action-buttons';
 import {
     HorizontalCard,
     HorizontalCardContainer,

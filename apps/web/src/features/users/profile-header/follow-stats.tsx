@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { followStatsOptions } from '@hikka/api';
 
-import FollowButton from '@/components/action-buttons/follow-button';
+import { FollowButton } from '@/components/action-buttons';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';

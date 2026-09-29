@@ -4,7 +4,7 @@ import { ArrowBigUp, MessageCircle } from 'lucide-react';
 
 import type { CollectionResponse } from '@hikka/api';
 
-import FollowButton from '@/components/action-buttons/follow-button';
+import { FollowButton } from '@/components/action-buttons';
 import { contentEntity } from '@/components/content-card';
 import EntityCard from '@/components/content-card/entity-card';
 import PosterCard from '@/components/content-card/poster-card';
