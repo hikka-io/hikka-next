@@ -1,4 +1,4 @@
-import { createElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useStore } from '@tanstack/react-form';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -36,10 +36,11 @@ import {
     applyWatchDeletion,
     applyWatchMutation,
 } from '@/utils/api/invalidate-content-state';
-import { cn } from '@/utils/cn';
 import { z } from '@/utils/i18n/zod';
 import { WATCH_STATUS } from '@/utils/labels/enum-labels';
 import { getTitle } from '@/utils/title/get-title';
+
+import { StatusIconChip } from './status-options';
 
 const formSchema = z.object({
     score: z.coerce
@@ -150,21 +151,14 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
                             <SelectTrigger size="md">
                                 <div className="flex items-center gap-2">
                                     {selectedStatus && (
-                                        <div
-                                            className={cn(
-                                                'w-fit rounded-sm border p-1',
-                                                `bg-${selectedStatus} text-${selectedStatus}-foreground border-${selectedStatus}-border`,
-                                            )}
-                                        >
-                                            {createElement(
+                                        <StatusIconChip
+                                            status={selectedStatus}
+                                            icon={
                                                 WATCH_STATUS_ICONS[
                                                     selectedStatus
-                                                ],
-                                                {
-                                                    className: 'size-3!',
-                                                },
-                                            )}
-                                        </div>
+                                                ]
+                                            }
+                                        />
                                     )}
                                     {(selectedStatus &&
                                         WATCH_STATUS[selectedStatus]

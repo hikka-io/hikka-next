@@ -56,11 +56,15 @@ import {
     carryOverReadArgs,
     carryOverWatchArgs,
 } from '@/utils/api/tracking-args';
-import { cn } from '@/utils/cn';
-import { READ_STATUS, WATCH_STATUS } from '@/utils/labels/enum-labels';
+import { resolveTrackingEntry } from '@/utils/api/tracking-entry';
 
 import ReadEditModal from './read-edit-modal';
 import ReadStatusTrigger from './read-status-trigger';
+import {
+    READ_STATUS_OPTIONS,
+    type StatusOption,
+    WATCH_STATUS_OPTIONS,
+} from './status-options';
 import WatchEditModal from './watch-edit-modal';
 import WatchStatusTrigger from './watch-status-trigger';
 
@@ -93,44 +97,7 @@ type Props = { size?: TrackingSize } & (
       }
 );
 
-const resolveTracking = <T,>(
-    supplied: T | null | undefined,
-    embedded: T | undefined,
-): T | undefined =>
-    supplied === undefined ? embedded : (supplied ?? undefined);
-
-type StatusConfig = typeof WATCH_STATUS | typeof READ_STATUS;
-type StatusIcons = typeof WATCH_STATUS_ICONS | typeof READ_STATUS_ICONS;
 type StatusIcon = (props: { className?: string }) => ReactElement;
-
-const buildStatusOptions = (config: StatusConfig, icons: StatusIcons) =>
-    Object.keys(config).map((status) => ({
-        value: status,
-        title: config[status as keyof StatusConfig].title_ua,
-        label: (
-            <div className="flex items-center gap-2">
-                <div
-                    className={cn(
-                        'w-fit rounded-sm border p-1',
-                        `bg-${status} text-${status}-foreground border-${status}-border`,
-                    )}
-                >
-                    {createElement(icons[status as keyof StatusIcons], {
-                        className: 'size-3!',
-                    })}
-                </div>
-                {config[status as keyof StatusConfig].title_ua}
-            </div>
-        ),
-    }));
-
-type StatusOption = ReturnType<typeof buildStatusOptions>[number];
-
-const WATCH_STATUS_OPTIONS = buildStatusOptions(
-    WATCH_STATUS,
-    WATCH_STATUS_ICONS,
-);
-const READ_STATUS_OPTIONS = buildStatusOptions(READ_STATUS, READ_STATUS_ICONS);
 
 const buildWatchArgs = (
     item: AnimeResponse | AnimeResponseWithWatch,
@@ -325,10 +292,11 @@ function WatchTrackingButtons({
         onSuccess: (data) => applyWatchMutation(queryClient, data),
     });
 
-    const tracking = resolveTracking(
-        watch,
-        'watch' in item ? item.watch?.[0] : undefined,
-    );
+    const tracking =
+        resolveTrackingEntry(
+            watch,
+            'watch' in item ? item.watch?.[0] : undefined,
+        ) ?? undefined;
 
     const handleChangeStatus = (options: string[]) => {
         const selected = options[0];
@@ -413,10 +381,11 @@ function ReadTrackingButtons({
         onSuccess: (data) => applyReadMutation(queryClient, data),
     });
 
-    const tracking = resolveTracking(
-        read,
-        'read' in item ? item.read?.[0] : undefined,
-    );
+    const tracking =
+        resolveTrackingEntry(
+            read,
+            'read' in item ? item.read?.[0] : undefined,
+        ) ?? undefined;
 
     const handleChangeStatus = (options: string[]) => {
         const selected = options[0];

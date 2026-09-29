@@ -1,4 +1,4 @@
-import { createElement, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -15,7 +15,6 @@ import {
     readGetOptions,
 } from '@hikka/api';
 
-import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import type { ButtonProps } from '@/components/ui/button';
 import {
@@ -33,13 +32,12 @@ import {
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { applyReadMutation } from '@/utils/api/invalidate-content-state';
 import { carryOverReadArgs } from '@/utils/api/tracking-args';
-import { cn } from '@/utils/cn';
-import { READ_STATUS } from '@/utils/labels/enum-labels';
 
 import IconReadStatusButton from './icon-read-status-button';
 import NewReadStatusTrigger from './new-read-status-trigger';
 import ReadEditModal from './read-edit-modal';
 import ReadStatusTrigger from './read-status-trigger';
+import { READ_STATUS_OPTIONS } from './status-options';
 
 type Props = {
     slug: string;
@@ -67,26 +65,6 @@ const SETTINGS_BUTTON = {
     disableCheckbox: true,
     title: 'Налаштування',
 };
-
-const STATUS_OPTIONS = Object.keys(READ_STATUS).map((status) => ({
-    value: status,
-    title: READ_STATUS[status as ReadStatusEnum].title_ua,
-    label: (
-        <div className="flex items-center gap-2">
-            <div
-                className={cn(
-                    'w-fit rounded-sm border p-1',
-                    `bg-${status} text-${status}-foreground border-${status}-border`,
-                )}
-            >
-                {createElement(READ_STATUS_ICONS[status as ReadStatusEnum], {
-                    className: 'size-3!',
-                })}
-            </div>
-            {READ_STATUS[status as ReadStatusEnum].title_ua}
-        </div>
-    ),
-}));
 
 const ReadListButton = ({
     slug,
@@ -214,7 +192,7 @@ const ReadListButton = ({
                     <SelectContent>
                         <SelectList>
                             <SelectGroup>
-                                {STATUS_OPTIONS.map((option) => (
+                                {READ_STATUS_OPTIONS.map((option) => (
                                     <SelectItem
                                         key={option.value}
                                         value={option.value}

@@ -1,4 +1,4 @@
-import { createElement, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -12,7 +12,6 @@ import {
     watchGetOptions,
 } from '@hikka/api';
 
-import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import type { ButtonProps } from '@/components/ui/button';
 import {
@@ -30,11 +29,10 @@ import {
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { carryOverWatchArgs } from '@/utils/api/tracking-args';
-import { cn } from '@/utils/cn';
-import { WATCH_STATUS } from '@/utils/labels/enum-labels';
 
 import IconWatchStatusButton from './icon-watch-status-button';
 import NewWatchStatusTrigger from './new-watch-status-trigger';
+import { WATCH_STATUS_OPTIONS } from './status-options';
 import WatchEditModal from './watch-edit-modal';
 import WatchStatusTrigger from './watch-status-trigger';
 
@@ -58,26 +56,6 @@ const SETTINGS_BUTTON = {
     disableCheckbox: true,
     title: 'Налаштування',
 };
-
-const STATUS_OPTIONS = Object.keys(WATCH_STATUS).map((status) => ({
-    value: status,
-    title: WATCH_STATUS[status as WatchStatusEnum].title_ua,
-    label: (
-        <div className="flex items-center gap-2">
-            <div
-                className={cn(
-                    'w-fit rounded-sm border p-1',
-                    `bg-${status} text-${status}-foreground border-${status}-border`,
-                )}
-            >
-                {createElement(WATCH_STATUS_ICONS[status as WatchStatusEnum], {
-                    className: 'size-3!',
-                })}
-            </div>
-            {WATCH_STATUS[status as WatchStatusEnum].title_ua}
-        </div>
-    ),
-}));
 
 const WatchListButton = ({
     slug,
@@ -188,7 +166,7 @@ const WatchListButton = ({
                     <SelectContent>
                         <SelectList>
                             <SelectGroup>
-                                {STATUS_OPTIONS.map((option) => (
+                                {WATCH_STATUS_OPTIONS.map((option) => (
                                     <SelectItem
                                         key={option.value}
                                         value={option.value}
