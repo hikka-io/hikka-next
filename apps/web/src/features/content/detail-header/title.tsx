@@ -1,11 +1,13 @@
+import { useQuery } from '@tanstack/react-query';
+
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import ContentGenres from '@/components/content-genres';
 import { useTitle } from '@/features/auth/hooks/use-title';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from '../content-config';
 import { getOriginalTitle } from './get-original-title';
 
 type TitleProps = {
@@ -15,7 +17,9 @@ type TitleProps = {
 
 const ContentTitle = ({ className, content_type }: TitleProps) => {
     const params = useParams();
-    const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
+    const { data } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
+    );
     const title = useTitle(data);
 
     if (!data) {

@@ -1,14 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
-import {
-    animeSlugOptions,
-    ContentTypeEnum,
-    characterInfoOptions,
-    type EditContentTypeEnum,
-    mangaInfoOptions,
-    novelInfoOptions,
-    personInfoOptions,
-} from '@hikka/api';
+import { ContentTypeEnum, type EditContentTypeEnum } from '@hikka/api';
+
+import { contentInfoOptions } from '@/utils/api/content-queries';
 
 import type { EditMainContent } from './types';
 
@@ -22,23 +16,23 @@ export function useContentBySlug(
     slug: string,
 ): EditMainContent | undefined {
     const anime = useQuery({
-        ...animeSlugOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.ANIME, slug),
         enabled: contentType === ContentTypeEnum.ANIME,
     });
     const manga = useQuery({
-        ...mangaInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.MANGA, slug),
         enabled: contentType === ContentTypeEnum.MANGA,
     });
     const novel = useQuery({
-        ...novelInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.NOVEL, slug),
         enabled: contentType === ContentTypeEnum.NOVEL,
     });
     const character = useQuery({
-        ...characterInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.CHARACTER, slug),
         enabled: contentType === ContentTypeEnum.CHARACTER,
     });
     const person = useQuery({
-        ...personInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.PERSON, slug),
         enabled: contentType === ContentTypeEnum.PERSON,
     });
 

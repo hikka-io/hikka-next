@@ -1,17 +1,38 @@
-import { type FetchQueryOptions, QueryClient } from '@tanstack/react-query';
-import { beforeAll, describe, expect, it } from 'vitest';
+import {
+    CancelledError,
+    type FetchQueryOptions,
+    QueryClient,
+} from '@tanstack/react-query';
+import { isNotFound } from '@tanstack/react-router';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 import {
+    animeSlugOptions,
     type Client,
+    ContentTypeEnum,
+    characterInfoOptions,
     configureBrowserClient,
     createRequestClient,
+    getArticleOptions,
     getBrowserClient,
+    getCollectionOptions,
+    getEditOptions,
+    HikkaApiError,
+    mangaInfoOptions,
+    novelInfoOptions,
+    personInfoOptions,
     ReadContentTypeEnum,
     readGetOptions,
+    userProfileOptions,
     watchGetOptions,
 } from '@hikka/api';
 
-import { listEntryOptions } from './content-queries';
+import {
+    type ContentInfoType,
+    contentInfoOptions,
+    fetchContentForLoader,
+    listEntryOptions,
+} from './content-queries';
 
 const BASE_URL = 'https://api.example.test';
 const slug = 'cowboy-bebop-f6f0ab';
@@ -129,5 +150,219 @@ describe.each([
         expect(await requestedUrl(LEGACY_HOOK_OPTIONS[type]())).toBe(
             EXPECTED[type].url,
         );
+    });
+});
+
+const editId = '12345';
+
+const INFO_CASES = {
+    [ContentTypeEnum.ANIME]: {
+        slug,
+        key: [{ _id: 'animeSlug', baseUrl: BASE_URL, path: { slug } }],
+        url: `${BASE_URL}/anime/${slug}`,
+        legacy: () => animeSlugOptions({ path: { slug } }),
+        loader: (client: Client) =>
+            animeSlugOptions({ path: { slug }, client }),
+    },
+    [ContentTypeEnum.MANGA]: {
+        slug,
+        key: [{ _id: 'mangaInfo', baseUrl: BASE_URL, path: { slug } }],
+        url: `${BASE_URL}/manga/${slug}`,
+        legacy: () => mangaInfoOptions({ path: { slug } }),
+        loader: (client: Client) =>
+            mangaInfoOptions({ path: { slug }, client }),
+    },
+    [ContentTypeEnum.NOVEL]: {
+        slug,
+        key: [{ _id: 'novelInfo', baseUrl: BASE_URL, path: { slug } }],
+        url: `${BASE_URL}/novel/${slug}`,
+        legacy: () => novelInfoOptions({ path: { slug } }),
+        loader: (client: Client) =>
+            novelInfoOptions({ path: { slug }, client }),
+    },
+    [ContentTypeEnum.CHARACTER]: {
+        slug,
+        key: [{ _id: 'characterInfo', baseUrl: BASE_URL, path: { slug } }],
+        url: `${BASE_URL}/characters/${slug}`,
+        legacy: () => characterInfoOptions({ path: { slug } }),
+        loader: (client: Client) =>
+            characterInfoOptions({ path: { slug }, client }),
+    },
+    [ContentTypeEnum.PERSON]: {
+        slug,
+        key: [{ _id: 'personInfo', baseUrl: BASE_URL, path: { slug } }],
+        url: `${BASE_URL}/people/${slug}`,
+        legacy: () => personInfoOptions({ path: { slug } }),
+        loader: (client: Client) =>
+            personInfoOptions({ path: { slug }, client }),
+    },
+    [ContentTypeEnum.COLLECTION]: {
+        slug,
+        key: [
+            {
+                _id: 'getCollection',
+                baseUrl: BASE_URL,
+                path: { reference: slug },
+            },
+        ],
+        url: `${BASE_URL}/collections/${slug}`,
+        legacy: () => getCollectionOptions({ path: { reference: slug } }),
+        loader: (client: Client) =>
+            getCollectionOptions({ path: { reference: slug }, client }),
+    },
+    [ContentTypeEnum.EDIT]: {
+        slug: editId,
+        key: [
+            {
+                _id: 'getEdit',
+                baseUrl: BASE_URL,
+                path: { edit_id: Number(editId) },
+            },
+        ],
+        url: `${BASE_URL}/edit/${editId}`,
+        legacy: () => getEditOptions({ path: { edit_id: Number(editId) } }),
+        loader: (client: Client) =>
+            getEditOptions({ path: { edit_id: Number(editId) }, client }),
+    },
+    [ContentTypeEnum.ARTICLE]: {
+        slug,
+        key: [{ _id: 'getArticle', baseUrl: BASE_URL, path: { slug } }],
+        url: `${BASE_URL}/articles/${slug}`,
+        legacy: () => getArticleOptions({ path: { slug } }),
+        loader: (client: Client) =>
+            getArticleOptions({ path: { slug }, client }),
+    },
+    [ContentTypeEnum.USER]: {
+        slug,
+        key: [
+            { _id: 'userProfile', baseUrl: BASE_URL, path: { username: slug } },
+        ],
+        url: `${BASE_URL}/user/${slug}`,
+        legacy: () => userProfileOptions({ path: { username: slug } }),
+        loader: (client: Client) =>
+            userProfileOptions({ path: { username: slug }, client }),
+    },
+} satisfies Record<ContentInfoType, unknown>;
+
+const INFO_TYPES = Object.keys(INFO_CASES) as ContentInfoType[];
+
+describe.each(INFO_TYPES)('contentInfoOptions(%s)', (type) => {
+    const infoCase = INFO_CASES[type];
+
+    it('keeps the key and shape of the legacy component query', () => {
+        const options = contentInfoOptions(type, infoCase.slug);
+        const legacy = infoCase.legacy();
+
+        expect(options.queryKey).toEqual(infoCase.key);
+        expect(options.queryKey).toEqual(legacy.queryKey);
+        expect(Object.keys(options)).toEqual(Object.keys(legacy));
+    });
+
+    it('shares the key between the SSR loader and the component', () => {
+        const client = ssrRequestClient();
+        const loaderKey = contentInfoOptions(
+            type,
+            infoCase.slug,
+            client,
+        ).queryKey;
+
+        expect(loaderKey).toEqual(infoCase.loader(client).queryKey);
+        expect(loaderKey).toEqual(
+            contentInfoOptions(type, infoCase.slug).queryKey,
+        );
+        expect(loaderKey).toEqual(infoCase.legacy().queryKey);
+    });
+
+    it('requests the same URL as the legacy component query', async () => {
+        expect(
+            await requestedUrl(contentInfoOptions(type, infoCase.slug)),
+        ).toBe(infoCase.url);
+        expect(await requestedUrl(infoCase.legacy())).toBe(infoCase.url);
+    });
+});
+
+const apiClient = createRequestClient({ baseUrl: 'https://api.hikka.io' });
+
+function createQueryClient(ensureQueryData: ReturnType<typeof vi.fn>) {
+    return { ensureQueryData } as unknown as QueryClient;
+}
+
+describe('fetchContentForLoader', () => {
+    it('retries a fetch cancelled by an unmounting observer and resolves', async () => {
+        const ensureQueryData = vi
+            .fn()
+            .mockRejectedValueOnce(new CancelledError())
+            .mockResolvedValueOnce({ slug });
+
+        await expect(
+            fetchContentForLoader(ContentTypeEnum.ANIME, slug, {
+                queryClient: createQueryClient(ensureQueryData),
+                apiClient,
+            }),
+        ).resolves.toEqual({ slug });
+        expect(ensureQueryData).toHaveBeenCalledTimes(2);
+        expect(ensureQueryData.mock.lastCall?.[0].queryKey).toEqual(
+            animeSlugOptions({ path: { slug }, client: apiClient }).queryKey,
+        );
+    });
+
+    it('turns a 404 from the API into the router not-found', async () => {
+        const ensureQueryData = vi
+            .fn()
+            .mockRejectedValue(
+                new HikkaApiError('Not found', 404, 'not_found'),
+            );
+
+        const error = await fetchContentForLoader(ContentTypeEnum.MANGA, slug, {
+            queryClient: createQueryClient(ensureQueryData),
+            apiClient,
+        }).catch((reason: unknown) => reason);
+
+        expect(isNotFound(error)).toBe(true);
+        expect(ensureQueryData).toHaveBeenCalledTimes(1);
+    });
+
+    it('rethrows any other API error unchanged', async () => {
+        const apiError = new HikkaApiError('Server error', 500, 'server_error');
+        const ensureQueryData = vi.fn().mockRejectedValue(apiError);
+
+        await expect(
+            fetchContentForLoader(ContentTypeEnum.USER, slug, {
+                queryClient: createQueryClient(ensureQueryData),
+                apiClient,
+            }),
+        ).rejects.toBe(apiError);
+    });
+
+    it.each(INFO_TYPES)('ensures the loader query of %s', async (type) => {
+        const infoCase = INFO_CASES[type];
+        const ensureQueryData = vi.fn().mockResolvedValue({ type });
+
+        await expect(
+            fetchContentForLoader(type, infoCase.slug, {
+                queryClient: createQueryClient(ensureQueryData),
+                apiClient,
+            }),
+        ).resolves.toEqual({ type });
+        expect(ensureQueryData).toHaveBeenCalledTimes(1);
+        expect(ensureQueryData.mock.lastCall?.[0].queryKey).toEqual(
+            infoCase.loader(apiClient).queryKey,
+        );
+    });
+
+    it.each([
+        ContentTypeEnum.COMMENT,
+        ContentTypeEnum.HISTORY,
+        'toString' as ContentTypeEnum,
+    ])('resolves null without fetching for %s', async (type) => {
+        const ensureQueryData = vi.fn();
+
+        await expect(
+            fetchContentForLoader(type, slug, {
+                queryClient: createQueryClient(ensureQueryData),
+                apiClient,
+            }),
+        ).resolves.toBeNull();
+        expect(ensureQueryData).not.toHaveBeenCalled();
     });
 });

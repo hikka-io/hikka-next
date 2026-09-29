@@ -4,13 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     type AnimeInfoResponse,
-    animeSlugOptions,
     ContentTypeEnum,
     type MainContentTypeEnum,
     type MangaInfoResponse,
-    mangaInfoOptions,
     type NovelInfoResponse,
-    novelInfoOptions,
     type ReadContentTypeEnum,
     type ReadResponseBase,
     type WatchResponseBase,
@@ -23,6 +20,7 @@ import {
 } from '@/components/action-buttons';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useTitle } from '@/features/auth/hooks/use-title';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { getMediaTypeLabel } from '@/utils/labels';
 
@@ -50,15 +48,15 @@ function useMediaInfo(
     enabled: boolean,
 ): MediaBody | undefined {
     const anime = useQuery({
-        ...animeSlugOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.ANIME, slug),
         enabled: enabled && type === ContentTypeEnum.ANIME,
     });
     const manga = useQuery({
-        ...mangaInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.MANGA, slug),
         enabled: enabled && type === ContentTypeEnum.MANGA,
     });
     const novel = useQuery({
-        ...novelInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.NOVEL, slug),
         enabled: enabled && type === ContentTypeEnum.NOVEL,
     });
 

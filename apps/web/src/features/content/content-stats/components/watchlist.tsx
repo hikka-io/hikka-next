@@ -1,16 +1,24 @@
 import { createElement } from 'react';
 
-import type { AnimeStatsResponse, WatchStatusEnum } from '@hikka/api';
+import { useQuery } from '@tanstack/react-query';
+
+import {
+    type AnimeStatsResponse,
+    ContentTypeEnum,
+    type WatchStatusEnum,
+} from '@hikka/api';
 
 import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from '../../content-config';
 import Stats from './stats';
 
 const Watchlist = () => {
     const params = useParams();
-    const { data } = CONTENT_CONFIG.anime.useInfo(String(params.slug));
+    const { data } = useQuery(
+        contentInfoOptions(ContentTypeEnum.ANIME, String(params.slug)),
+    );
 
     if (!data) {
         return null;

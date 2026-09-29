@@ -1,5 +1,9 @@
 import { type FC, useState } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
+
+import { ContentTypeEnum } from '@hikka/api';
+
 import Block from '@/components/ui/block';
 import {
     Header,
@@ -8,9 +12,9 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from '../content-config';
 import Ost from './components/ost';
 import Video from './components/video';
 
@@ -20,7 +24,9 @@ type Props = {
 
 const ContentMedia: FC<Props> = ({ extended }) => {
     const params = useParams();
-    const { data: anime } = CONTENT_CONFIG.anime.useInfo(String(params.slug));
+    const { data: anime } = useQuery(
+        contentInfoOptions(ContentTypeEnum.ANIME, String(params.slug)),
+    );
     const [active, setActive] = useState<'video' | 'music'>('video');
 
     if (!anime || (anime.ost.length === 0 && anime.videos.length === 0)) {

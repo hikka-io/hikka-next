@@ -1,14 +1,15 @@
+import { useQuery } from '@tanstack/react-query';
+
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import Hikka from '@/components/icons/custom/Hikka';
 import MAL from '@/components/icons/custom/MAL';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Separator } from '@/components/ui/separator';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
 import { formatCompactNumber } from '@/utils/i18n/number';
 import { useParams } from '@/utils/navigation';
-
-import { CONTENT_CONFIG } from './content-config';
 
 type ScoresProps = {
     className?: string;
@@ -17,7 +18,9 @@ type ScoresProps = {
 
 const ContentScores = ({ className, content_type }: ScoresProps) => {
     const params = useParams();
-    const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
+    const { data } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
+    );
 
     if (!data || (data.score === 0 && data.native_score === 0)) {
         return null;

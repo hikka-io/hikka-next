@@ -1,4 +1,8 @@
+import { useQuery } from '@tanstack/react-query';
+
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+
+import { contentInfoOptions } from '@/utils/api/content-queries';
 
 import { CONTENT_CONFIG } from '../content-config';
 
@@ -14,7 +18,7 @@ export const useStaff = ({ content_type, slug }: StaffProps) => {
     }
 
     // biome-ignore lint/correctness/useHookAtTopLevel: content_type is stable for a content page's lifetime, so the hook dispatch is consistent across renders.
-    const query = CONTENT_CONFIG[content_type].useInfo(slug);
+    const query = useQuery(contentInfoOptions(content_type, slug));
 
     return {
         list: query.data?.authors,

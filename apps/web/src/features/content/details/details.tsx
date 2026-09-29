@@ -1,3 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
+
 import {
     type AnimeInfoResponse,
     type CharacterResponse,
@@ -8,9 +10,9 @@ import {
     type PersonResponse,
 } from '@hikka/api';
 
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from '../content-config';
 import EntityDetails from './components/entity-details';
 import ReadDetails from './components/read-details';
 import WatchDetails from './components/watch-details';
@@ -23,13 +25,15 @@ type Props = {
 const ContentDetails = ({ className, content_type }: Props) => {
     const params = useParams();
 
-    const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
+    const { data } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
+    );
 
     if (!data) {
         return null;
     }
 
-    // `data` is the union of every CONTENT_CONFIG info type; the content_type
+    // `data` is the union of every content info type; the content_type
     // switch can't narrow it (the lookup key is generic), so each branch
     // asserts the matching response type.
     switch (content_type) {

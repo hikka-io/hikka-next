@@ -1,10 +1,11 @@
+import { useQuery } from '@tanstack/react-query';
+
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import PosterCard from '@/components/content-card/poster-card';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
-
-import { CONTENT_CONFIG } from '../content-config';
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -13,7 +14,9 @@ type Props = {
 
 const ContentHeroPoster = ({ content_type, className }: Props) => {
     const params = useParams();
-    const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
+    const { data } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
+    );
 
     if (!data) {
         return null;

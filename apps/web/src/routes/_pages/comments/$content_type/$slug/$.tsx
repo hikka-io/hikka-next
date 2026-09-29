@@ -7,20 +7,20 @@ import {
 } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
-import { CommentList, prefetchContent } from '@/features/comments';
+import { CommentList } from '@/features/comments';
 import { commentThreadInfiniteOptions } from '@/features/comments/use-comment-thread';
 import { ContentSubpage, useContentTitle } from '@/features/content';
+import { fetchContentForLoader } from '@/utils/api/content-queries';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { content_type, slug, _splat: commentReference } = params;
 
-        const content = await prefetchContent({
-            content_type: content_type as CommentsContentType,
+        const content = await fetchContentForLoader(
+            content_type as CommentsContentType,
             slug,
-            queryClient,
-            apiClient,
-        });
+            { queryClient, apiClient },
+        );
 
         if (!content) throw redirect({ to: '/' });
 

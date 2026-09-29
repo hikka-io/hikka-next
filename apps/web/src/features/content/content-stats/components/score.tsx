@@ -1,12 +1,14 @@
+import { useQuery } from '@tanstack/react-query';
+
 import type {
     AnimeStatsResponse,
     MainContentTypeEnum,
     AppSchemasReadStatsResponse as ReadStatsResponse,
 } from '@hikka/api';
 
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from '../../content-config';
 import Stats from './stats';
 
 type Props = {
@@ -15,7 +17,9 @@ type Props = {
 
 const Score = ({ content_type }: Props) => {
     const params = useParams();
-    const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
+    const { data } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
+    );
 
     if (!data) {
         return null;

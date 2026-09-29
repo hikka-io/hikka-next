@@ -1,21 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 
 import {
-    animeSlugOptions,
     type CommentContentTypeEnum as CommentsContentType,
     ContentTypeEnum,
-    characterInfoOptions,
     type EditContentTypeEnum as EditContentType,
-    getArticleOptions,
-    getCollectionOptions,
-    getEditOptions,
-    mangaInfoOptions,
-    novelInfoOptions,
-    personInfoOptions,
-    userProfileOptions,
 } from '@hikka/api';
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { getContentTitle } from '@/utils/title/get-content-title';
 
 interface UseContentParams {
@@ -32,7 +24,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
     const nameLang = preferences.name_language;
 
     const animeQuery = useQuery({
-        ...animeSlugOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.ANIME, slug),
         enabled: content_type === ContentTypeEnum.ANIME,
         select: (data) => ({
             content_type: ContentTypeEnum.ANIME,
@@ -42,7 +34,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
     });
 
     const mangaQuery = useQuery({
-        ...mangaInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.MANGA, slug),
         enabled: content_type === ContentTypeEnum.MANGA,
         select: (data) => ({
             content_type: ContentTypeEnum.MANGA,
@@ -52,7 +44,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
     });
 
     const novelQuery = useQuery({
-        ...novelInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.NOVEL, slug),
         enabled: content_type === ContentTypeEnum.NOVEL,
         select: (data) => ({
             content_type: ContentTypeEnum.NOVEL,
@@ -62,7 +54,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
     });
 
     const characterQuery = useQuery({
-        ...characterInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.CHARACTER, slug),
         enabled: content_type === ContentTypeEnum.CHARACTER,
         select: (data) => ({
             content_type: ContentTypeEnum.CHARACTER,
@@ -72,7 +64,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
     });
 
     const personQuery = useQuery({
-        ...personInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.PERSON, slug),
         enabled: content_type === ContentTypeEnum.PERSON,
         select: (data) => ({
             content_type: ContentTypeEnum.PERSON,
@@ -82,7 +74,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
     });
 
     const collectionQuery = useQuery({
-        ...getCollectionOptions({ path: { reference: slug } }),
+        ...contentInfoOptions(ContentTypeEnum.COLLECTION, slug),
         enabled: content_type === ContentTypeEnum.COLLECTION,
         select: (data) => ({
             content_type: ContentTypeEnum.COLLECTION,
@@ -92,7 +84,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
     });
 
     const editQuery = useQuery({
-        ...getEditOptions({ path: { edit_id: Number(slug) } }),
+        ...contentInfoOptions(ContentTypeEnum.EDIT, slug),
         enabled: content_type === ContentTypeEnum.EDIT,
         select: (data) => ({
             content_type: ContentTypeEnum.EDIT,
@@ -102,7 +94,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
     });
 
     const articleQuery = useQuery({
-        ...getArticleOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.ARTICLE, slug),
         enabled: content_type === ContentTypeEnum.ARTICLE,
         select: (data) => ({
             title: getContentTitle(content_type, data),
@@ -112,7 +104,7 @@ export function useContent({ content_type, slug }: UseContentParams) {
     });
 
     const userQuery = useQuery({
-        ...userProfileOptions({ path: { username: slug } }),
+        ...contentInfoOptions(ContentTypeEnum.USER, slug),
         enabled: content_type === ContentTypeEnum.USER,
         select: (data) => ({
             content_type: ContentTypeEnum.USER,

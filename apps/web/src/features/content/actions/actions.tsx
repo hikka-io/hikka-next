@@ -8,11 +8,13 @@ import FavoriteButton from '@/components/action-buttons/favorite-button';
 import ReadListButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { listEntryOptions } from '@/utils/api/content-queries';
+import {
+    contentInfoOptions,
+    listEntryOptions,
+} from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from '../content-config';
 import UserContentStats from './components/user-content-stats';
 
 type Props = {
@@ -27,8 +29,8 @@ const ContentActions: FC<Props> = ({ content_type, className }) => {
     const { data: userlist, isError } = useQuery(
         listEntryOptions(content_type, String(params.slug)),
     );
-    const { data: content } = CONTENT_CONFIG[content_type].useInfo(
-        String(params.slug),
+    const { data: content } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
     );
 
     const hasList = !!userlist && !isError;

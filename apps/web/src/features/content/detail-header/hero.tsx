@@ -1,11 +1,13 @@
+import { useQuery } from '@tanstack/react-query';
+
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import ContentGenres from '@/components/content-genres';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from '../content-config';
 import { getOriginalTitle } from './get-original-title';
 
 type Props = {
@@ -14,7 +16,9 @@ type Props = {
 
 const ContentHero = ({ content_type }: Props) => {
     const params = useParams();
-    const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
+    const { data } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
+    );
     const title = useTitle(data);
     const titleAnchor = usePageTitleAnchor();
 

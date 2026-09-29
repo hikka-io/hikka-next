@@ -1,13 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
 import {
-    animeSlugOptions,
     type CommentContentTypeEnum as CommentsContentType,
     ContentTypeEnum,
-    mangaInfoOptions,
-    novelInfoOptions,
     type ReviewStatsResponse,
 } from '@hikka/api';
+
+import { contentInfoOptions } from '@/utils/api/content-queries';
 
 type Params = {
     content_type: CommentsContentType;
@@ -33,19 +32,19 @@ const EMPTY: Result = { stats: undefined, commentsCount: undefined };
 
 export function useReviewStats({ content_type, slug }: Params): Result {
     const animeQuery = useQuery({
-        ...animeSlugOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.ANIME, slug),
         enabled: content_type === ContentTypeEnum.ANIME,
         select,
     });
 
     const mangaQuery = useQuery({
-        ...mangaInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.MANGA, slug),
         enabled: content_type === ContentTypeEnum.MANGA,
         select,
     });
 
     const novelQuery = useQuery({
-        ...novelInfoOptions({ path: { slug } }),
+        ...contentInfoOptions(ContentTypeEnum.NOVEL, slug),
         enabled: content_type === ContentTypeEnum.NOVEL,
         select,
     });

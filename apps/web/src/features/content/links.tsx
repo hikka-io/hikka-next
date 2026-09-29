@@ -1,5 +1,7 @@
 import { type FC, useState } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
+
 import { ExternalTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import {
@@ -16,9 +18,9 @@ import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from './content-config';
 import { getPlatformIcon } from './platform-icons';
 
 type Props = {
@@ -32,8 +34,8 @@ const ContentLinks: FC<Props> = ({ content_type }) => {
     );
     const { user } = useSession();
     const params = useParams();
-    const { data: content } = CONTENT_CONFIG[content_type].useInfo(
-        String(params.slug),
+    const { data: content } = useQuery(
+        contentInfoOptions(content_type, String(params.slug)),
     );
 
     if (!content) {

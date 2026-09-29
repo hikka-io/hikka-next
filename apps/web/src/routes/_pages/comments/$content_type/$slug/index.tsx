@@ -13,12 +13,12 @@ import {
 import { usePageHeader } from '@/features/app-shell';
 import {
     CommentList,
-    prefetchContent,
     UserCommentList,
     type Verdict,
 } from '@/features/comments';
 import { ContentSubpage, useContentTitle } from '@/features/content';
 import { useChangeParam } from '@/features/filters';
+import { fetchContentForLoader } from '@/utils/api/content-queries';
 import { contentPath } from '@/utils/content-paths';
 import { generateHeadMeta } from '@/utils/metadata';
 import { commentsSearchSchema } from '@/utils/search-schemas';
@@ -40,12 +40,11 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
         const recommended =
             commentType === 'review' ? deps.recommended : undefined;
 
-        const content = await prefetchContent({
-            content_type: content_type as ContentTypeEnum,
+        const content = await fetchContentForLoader(
+            content_type as ContentTypeEnum,
             slug,
-            queryClient,
-            apiClient,
-        });
+            { queryClient, apiClient },
+        );
 
         if (!content) throw redirect({ to: '/' });
 
