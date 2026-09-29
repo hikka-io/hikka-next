@@ -103,21 +103,27 @@ const ANILIST_QUERY = `
     }
 `;
 
-export enum AnilistTypeEnum {
-    ANIME = 'ANIME',
-    MANGA = 'MANGA',
-}
+export const AnilistTypeEnum = {
+    ANIME: 'ANIME',
+    MANGA: 'MANGA',
+} as const;
 
-enum AnilistStatusEnum {
-    CURRENT = 'Current',
-    REPEATING = 'Repeating',
-    COMPLETED = 'Completed',
-    PLANNING = 'Planning',
-    DROPPED = 'Dropped',
-    PAUSED = 'Paused',
-    WATCHING = 'Watching',
-    REWATCHING = 'Rewatching',
-}
+export type AnilistTypeEnum =
+    (typeof AnilistTypeEnum)[keyof typeof AnilistTypeEnum];
+
+const AnilistStatusEnum = {
+    CURRENT: 'Current',
+    REPEATING: 'Repeating',
+    COMPLETED: 'Completed',
+    PLANNING: 'Planning',
+    DROPPED: 'Dropped',
+    PAUSED: 'Paused',
+    WATCHING: 'Watching',
+    REWATCHING: 'Rewatching',
+} as const;
+
+type AnilistStatusEnum =
+    (typeof AnilistStatusEnum)[keyof typeof AnilistStatusEnum];
 
 export interface AnilistParams {
     username: string;

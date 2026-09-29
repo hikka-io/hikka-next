@@ -3,12 +3,8 @@ import { type FC, useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/utils/cn';
 
-enum RANGE {
-    MIN = 'min',
-    MAX = 'max',
-}
+import { YEAR_RANGE, YEARS } from '../filter-ranges';
 
-const YEARS: [number, number] = [1965, new Date().getFullYear()];
 const DEFAULT_YEAR_START = YEARS[0].toString();
 const DEFAULT_YEAR_END = YEARS[1].toString();
 
@@ -19,7 +15,7 @@ type YearFilterInputProps = {
         name: string,
         value: string | string[] | boolean,
     ) => void;
-    range: RANGE;
+    range: YEAR_RANGE;
 };
 
 const YearFilterInput: FC<YearFilterInputProps> = ({
@@ -29,7 +25,7 @@ const YearFilterInput: FC<YearFilterInputProps> = ({
     range,
 }) => {
     const [yearValue, setYearValue] = useState<string>(
-        range === RANGE.MIN ? years[0] : years[1],
+        range === YEAR_RANGE.MIN ? years[0] : years[1],
     );
 
     const changeYearsParams = (value: string[]) => {
@@ -58,7 +54,7 @@ const YearFilterInput: FC<YearFilterInputProps> = ({
         ) {
             setYearValue(defaultYear);
             debouncedChangeYearsParams(
-                range === RANGE.MIN
+                range === YEAR_RANGE.MIN
                     ? [defaultYear, years[1]]
                     : [years[0], defaultYear],
             );
@@ -73,18 +69,18 @@ const YearFilterInput: FC<YearFilterInputProps> = ({
             Number(value) <= Number(DEFAULT_YEAR_END);
 
         if (!digitsOnlyRegex.test(value)) {
-            if (range === RANGE.MIN && !value) {
+            if (range === YEAR_RANGE.MIN && !value) {
                 debouncedChangeYearsParams([DEFAULT_YEAR_START, years[1]]);
             }
 
-            if (range === RANGE.MAX && !value) {
+            if (range === YEAR_RANGE.MAX && !value) {
                 debouncedChangeYearsParams([years[0], DEFAULT_YEAR_END]);
             }
 
             return setYearValue('');
         }
 
-        if (range === RANGE.MIN) {
+        if (range === YEAR_RANGE.MIN) {
             if (isInRange) {
                 if (Number(value) > Number(years[1])) {
                     return debouncedChangeYearsParams([years[1], value]);
@@ -94,7 +90,7 @@ const YearFilterInput: FC<YearFilterInputProps> = ({
             }
         }
 
-        if (range === RANGE.MAX) {
+        if (range === YEAR_RANGE.MAX) {
             if (isInRange) {
                 if (Number(value) < Number(years[0])) {
                     return debouncedChangeYearsParams([value, years[0]]);
@@ -108,17 +104,18 @@ const YearFilterInput: FC<YearFilterInputProps> = ({
     };
 
     const handleBlur = () => {
-        if (range === RANGE.MIN) {
+        if (range === YEAR_RANGE.MIN) {
             resetYearIfInvalid(yearValue, DEFAULT_YEAR_START, years);
         }
 
-        if (range === RANGE.MAX) {
+        if (range === YEAR_RANGE.MAX) {
             resetYearIfInvalid(yearValue, DEFAULT_YEAR_END, years);
         }
     };
 
     useEffect(() => {
-        if (yearValue) setYearValue(range === RANGE.MIN ? years[0] : years[1]);
+        if (yearValue)
+            setYearValue(range === YEAR_RANGE.MIN ? years[0] : years[1]);
     }, [years]);
 
     return (

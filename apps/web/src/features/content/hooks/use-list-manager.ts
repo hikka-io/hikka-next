@@ -62,13 +62,13 @@ const mapListItem = ({
     }
 };
 
-enum CommonStatusEnum {
-    COMPLETED = 'completed',
-    ON_PROGRESS = 'on_progress',
-    PLANNED = 'planned',
-    ON_HOLD = 'on_hold',
-    DROPPED = 'dropped',
-}
+const CommonStatusEnum = {
+    COMPLETED: 'completed',
+    ON_PROGRESS: 'on_progress',
+    PLANNED: 'planned',
+    ON_HOLD: 'on_hold',
+    DROPPED: 'dropped',
+} as const;
 
 const statuses = {
     [ContentTypeEnum.ANIME]: {

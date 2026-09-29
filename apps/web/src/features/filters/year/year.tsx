@@ -13,17 +13,12 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useRouteSearch } from '@/utils/navigation';
 
+import { YEAR_RANGE, YEARS } from '../filter-ranges';
 import { useChangeParam } from '../use-change-param';
 import YearFilterInput from './year-filter-input';
 
-const YEARS: [number, number] = [1965, new Date().getFullYear()];
 const DEFAULT_YEAR_START = YEARS[0].toString();
 const DEFAULT_YEAR_END = YEARS[1].toString();
-
-enum RANGE {
-    MIN = 'min',
-    MAX = 'max',
-}
 
 type Props = {
     className?: string;
@@ -65,7 +60,7 @@ const Year: FC<Props> = () => {
                 <YearFilterInput
                     years={selectingYears}
                     setSelectingYears={setSelectingYears}
-                    range={RANGE.MIN}
+                    range={YEAR_RANGE.MIN}
                     handleChangeParam={handleChangeParam}
                 />
                 <Slider
@@ -87,7 +82,7 @@ const Year: FC<Props> = () => {
                 <YearFilterInput
                     years={selectingYears}
                     setSelectingYears={setSelectingYears}
-                    range={RANGE.MAX}
+                    range={YEAR_RANGE.MAX}
                     handleChangeParam={handleChangeParam}
                 />
             </div>

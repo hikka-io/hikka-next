@@ -7,6 +7,8 @@ const SEASON_MONTHS: Record<SeasonEnum, number[]> = {
     fall: [10, 11, 12],
 };
 
+export const DATE_RANGE: [number, number] = [-4, 4];
+
 export function getCurrentSeason() {
     const adjustedDate = new Date();
     adjustedDate.setDate(adjustedDate.getDate() - 1);
@@ -22,7 +24,7 @@ export function getCurrentSeason() {
  * @returns [season, year] tuple
  */
 export function getSeasonByOffset(offset: number): [SeasonEnum, number] {
-    offset = Math.max(-4, Math.min(4, offset));
+    offset = Math.max(DATE_RANGE[0], Math.min(DATE_RANGE[1], offset));
 
     const adjustedDate = new Date();
     adjustedDate.setDate(adjustedDate.getDate() - 7);

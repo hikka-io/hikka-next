@@ -12,9 +12,9 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useRouteSearch } from '@/utils/navigation';
 
+import { SCORE_RANGE } from './filter-ranges';
 import { useChangeParam } from './use-change-param';
 
-const SCORE_RANGE: [number, number] = [1, 10];
 const DEFAULT_SCORE_MIN = SCORE_RANGE[0];
 const DEFAULT_SCORE_MAX = SCORE_RANGE[1];
 

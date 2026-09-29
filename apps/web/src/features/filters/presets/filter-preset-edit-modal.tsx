@@ -8,10 +8,12 @@ import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import { cn } from '@/utils/cn';
 import { z } from '@/utils/i18n/zod';
+import { DATE_RANGE } from '@/utils/season';
 import type { SortType } from '@/utils/sort';
 
 import { FormAgeRating } from '../age-rating';
 import { FormDateRange } from '../date-range';
+import { SCORE_RANGE, YEARS } from '../filter-ranges';
 import { FormGenre } from '../genre';
 import { FormLocalization } from '../localization';
 import { FormMediaType } from '../media-type';
@@ -43,10 +45,6 @@ const formSchema = z.object({
     date_range_enabled: z.boolean().optional(),
     date_range: z.array(z.number()).nullable().optional(),
 });
-
-const YEARS: [number, number] = [1965, new Date().getFullYear()];
-const DATE_RANGE: [number, number] = [-4, 4];
-const SCORE_RANGE: [number, number] = [1, 10];
 
 const DEFAULT_VALUES = {
     years: YEARS,

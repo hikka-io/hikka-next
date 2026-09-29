@@ -18,6 +18,7 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useRouteSearch } from '@/utils/navigation';
+import { DATE_RANGE } from '@/utils/season';
 
 import { useChangeParam } from './use-change-param';
 
@@ -25,19 +26,19 @@ type Props = {
     className?: string;
 };
 
-const DEFAULT_DATE_RANGE: [number, number] = [-4, 4];
+const DateRangeEnum = {
+    PREVIOUS_4_SEASONS: -4,
+    PREVIOUS_3_SEASONS: -3,
+    PREVIOUS_2_SEASONS: -2,
+    PREVIOUS_1_SEASON: -1,
+    CURRENT_SEASON: 0,
+    NEXT_1_SEASON: 1,
+    NEXT_2_SEASONS: 2,
+    NEXT_3_SEASONS: 3,
+    NEXT_4_SEASONS: 4,
+} as const;
 
-enum DateRangeEnum {
-    PREVIOUS_4_SEASONS = -4,
-    PREVIOUS_3_SEASONS = -3,
-    PREVIOUS_2_SEASONS = -2,
-    PREVIOUS_1_SEASON = -1,
-    CURRENT_SEASON = 0,
-    NEXT_1_SEASON = 1,
-    NEXT_2_SEASONS = 2,
-    NEXT_3_SEASONS = 3,
-    NEXT_4_SEASONS = 4,
-}
+type DateRangeEnum = (typeof DateRangeEnum)[keyof typeof DateRangeEnum];
 
 const DATE_RANGES: Record<DateRangeEnum, string> = {
     [DateRangeEnum.PREVIOUS_4_SEASONS]: 'Попередні 4 сезони',
@@ -59,7 +60,7 @@ const DateRange = (_props: Props) => {
     }>();
 
     const [selectingDateRange, setSelectingDateRange] = useState<number[]>(
-        date_range.length > 0 ? date_range : DEFAULT_DATE_RANGE,
+        date_range.length > 0 ? date_range : DATE_RANGE,
     );
 
     const handleChangeParam = useChangeParam();
@@ -83,9 +84,7 @@ const DateRange = (_props: Props) => {
     const dateRangeKey = JSON.stringify(date_range);
     // biome-ignore lint/correctness/useExhaustiveDependencies: re-sync only when the serialized date range changes, not on new array identity
     useEffect(() => {
-        setSelectingDateRange(
-            date_range.length > 0 ? date_range : DEFAULT_DATE_RANGE,
-        );
+        setSelectingDateRange(date_range.length > 0 ? date_range : DATE_RANGE);
     }, [dateRangeKey]);
 
     return (
@@ -132,8 +131,8 @@ const DateRange = (_props: Props) => {
                             onValueChange={(value) =>
                                 setSelectingDateRange(value as number[])
                             }
-                            min={Number(DEFAULT_DATE_RANGE[0])}
-                            max={Number(DEFAULT_DATE_RANGE[1])}
+                            min={Number(DATE_RANGE[0])}
+                            max={Number(DATE_RANGE[1])}
                             minStepsBetweenValues={0}
                             value={selectingDateRange.map((y) => Number(y))}
                         />
@@ -176,11 +175,9 @@ export const FormDateRange: FC<
                             name={'date_range' as never}
                             children={() => (
                                 <SliderField
-                                    defaultValue={
-                                        dateRange ?? DEFAULT_DATE_RANGE
-                                    }
-                                    min={Number(DEFAULT_DATE_RANGE[0])}
-                                    max={Number(DEFAULT_DATE_RANGE[1])}
+                                    defaultValue={dateRange ?? DATE_RANGE}
+                                    min={Number(DATE_RANGE[0])}
+                                    max={Number(DATE_RANGE[1])}
                                     minStepsBetweenValues={0}
                                     className="flex-1"
                                 />
