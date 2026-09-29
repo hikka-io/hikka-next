@@ -1,172 +1,22 @@
-import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
+import { ContentTypeEnum } from '@hikka/api';
+
+import { ContentDetailLayout } from '@/features/content';
 import {
-    ContentTypeEnum,
-    contentFranchiseOptions,
-    getArticlesInfiniteOptions,
-    getCollectionsInfiniteOptions,
-    getCommentsListInfiniteOptions,
-    getFavouriteOptions,
-    getReadFollowingInfiniteOptions,
-    mangaCharactersInfiniteOptions,
-    mangaInfoOptions,
-    paginationPageParam,
-    ReadContentTypeEnum,
-    RelatedContentTypeEnum,
-    readGetOptions,
-} from '@hikka/api';
-
-import { commentListPrefetchBody } from '@/features/comments/queries';
-import { ContentDetailLayout, MANGA_NAV_ROUTES } from '@/features/content';
-import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { stripRestrictedExternal } from '@/utils/api/strip-restricted-external';
-import { getAuthTokenFn, getNsfwConsentFn } from '@/utils/cookies';
-import { parseTextFromMarkDown } from '@/utils/markdown';
-import { generateHeadMeta } from '@/utils/metadata';
-import { truncateText } from '@/utils/text';
-import { getPublicSiteUrl, SITE_ORIGIN } from '@/utils/url';
+    contentDetailHead,
+    contentDetailTitle,
+    loadContentDetail,
+} from '@/features/content/detail-route';
 
 export const Route = createFileRoute('/_pages/manga/$slug')({
-    loader: async ({ params, context: { queryClient, apiClient } }) => {
-        const mangaOptions = mangaInfoOptions({
-            path: { slug: params.slug },
-            client: apiClient,
-        });
-        let manga = await ensureOr404(() =>
-            queryClient.ensureQueryData(mangaOptions),
-        );
-
-        if (!manga) throw notFound();
-
-        const authToken = await getAuthTokenFn();
-
-        if (!authToken) {
-            manga = stripRestrictedExternal(manga);
-            queryClient.setQueryData(mangaOptions.queryKey, manga);
-        }
-
-        const nsfwConsented = manga.nsfw ? !!(await getNsfwConsentFn()) : false;
-
-        const prefetches: Promise<unknown>[] = [
-            // Match the component-body call (no `query`) to share a cache key.
-            queryClient.ensureInfiniteQueryData({
-                ...mangaCharactersInfiniteOptions({
-                    path: { slug: params.slug },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            queryClient.ensureQueryData(
-                contentFranchiseOptions({
-                    path: {
-                        slug: params.slug,
-                        content_type: RelatedContentTypeEnum.MANGA,
-                    },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.ensureInfiniteQueryData({
-                ...getArticlesInfiniteOptions({
-                    body: {
-                        content_slug: params.slug,
-                        content_type: ContentTypeEnum.MANGA,
-                    },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            queryClient.ensureInfiniteQueryData({
-                ...getCommentsListInfiniteOptions({
-                    path: {
-                        content_type: ContentTypeEnum.MANGA,
-                        slug: params.slug,
-                    },
-                    body: commentListPrefetchBody(),
-                    query: { size: 3 },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            queryClient.ensureInfiniteQueryData({
-                ...getCollectionsInfiniteOptions({
-                    body: {
-                        content: [params.slug],
-                        content_type: ContentTypeEnum.MANGA,
-                    },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-        ];
-
-        // Only prefetch user-specific data when authed; anon just 401s.
-        if (authToken) {
-            prefetches.push(
-                queryClient.ensureQueryData(
-                    readGetOptions({
-                        path: {
-                            slug: params.slug,
-                            content_type: ReadContentTypeEnum.MANGA,
-                        },
-                        client: apiClient,
-                    }),
-                ),
-                queryClient.ensureQueryData(
-                    getFavouriteOptions({
-                        path: {
-                            slug: params.slug,
-                            content_type: ContentTypeEnum.MANGA,
-                        },
-                        client: apiClient,
-                    }),
-                ),
-                queryClient.ensureInfiniteQueryData({
-                    ...getReadFollowingInfiniteOptions({
-                        path: {
-                            slug: params.slug,
-                            content_type: ReadContentTypeEnum.MANGA,
-                        },
-                        client: apiClient,
-                    }),
-                    ...paginationPageParam(),
-                }),
-            );
-        }
-
-        await Promise.allSettled(prefetches);
-
-        return { manga, nsfwConsented };
-    },
-    head: ({ loaderData }) => {
-        const manga = loaderData?.manga;
-        if (!manga) return {};
-
-        const startDate = manga.start_date
-            ? new Date(manga.start_date * 1000).getFullYear()
-            : null;
-        const title =
-            (manga.title_ua || manga.title_en || manga.title_original || '') +
-            (startDate ? ` (${startDate})` : '');
-        const synopsis = truncateText(
-            parseTextFromMarkDown(manga.synopsis_ua || manga.synopsis_en || ''),
-            150,
-            true,
-        );
-
-        return generateHeadMeta({
-            title,
-            description: synopsis,
-            image: `${getPublicSiteUrl()}/api/og/manga?slug=${manga.slug}&v=${manga.updated}`,
-            imageWidth: 1200,
-            imageHeight: 630,
-            imageType: 'image/jpeg',
-            url: `${SITE_ORIGIN}/manga/${manga.slug}`,
-            other: {
-                ...(manga.mal_id ? { 'mal-id': manga.mal_id } : {}),
-            },
-            robots: { index: !manga.nsfw },
-        });
-    },
+    loader: ({ params, context }) =>
+        loadContentDetail(ContentTypeEnum.MANGA, {
+            slug: params.slug,
+            ...context,
+        }),
+    head: ({ loaderData }) =>
+        contentDetailHead(ContentTypeEnum.MANGA, loaderData),
     component: MangaDetailLayout,
 });
 
@@ -177,11 +27,7 @@ function MangaDetailLayout() {
         <ContentDetailLayout
             slug={manga.slug}
             contentType={ContentTypeEnum.MANGA}
-            navRoutes={MANGA_NAV_ROUTES}
-            urlPrefix="/manga"
-            title={
-                manga.title_ua || manga.title_en || manga.title_original || ''
-            }
+            title={contentDetailTitle(ContentTypeEnum.MANGA, manga)}
             nsfw={manga.nsfw}
             nsfwConsented={nsfwConsented}
         >

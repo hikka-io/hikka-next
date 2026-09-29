@@ -1,8 +1,13 @@
 import type { FC, ReactNode } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
+
 import type { MainContentTypeEnum } from '@hikka/api';
 
+import JsonLd from '@/components/json-ld';
 import { CommentList } from '@/features/comments';
+import { contentInfoOptions } from '@/utils/api/content-queries';
+import { contentJsonLd } from '@/utils/json-ld';
 
 import ContentActions from './actions';
 import ContentArticles from './articles';
@@ -26,7 +31,6 @@ type Props = {
     slug: string;
     afterDescription?: ReactNode;
     afterFranchise?: ReactNode;
-    jsonLd?: ReactNode;
 };
 
 const ContentDetailPage: FC<Props> = ({
@@ -34,11 +38,14 @@ const ContentDetailPage: FC<Props> = ({
     slug,
     afterDescription,
     afterFranchise,
-    jsonLd,
 }) => {
+    const { data: content } = useQuery(contentInfoOptions(contentType, slug));
+
     return (
         <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-4">
-            {jsonLd}
+            {content && (
+                <JsonLd data={contentJsonLd({ content, contentType })} />
+            )}
             <div
                 className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6 lg:hidden"
                 id="content-header-mobile"

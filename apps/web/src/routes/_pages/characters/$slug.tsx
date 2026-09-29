@@ -1,101 +1,23 @@
-import { createFileRoute, notFound, Outlet } from '@tanstack/react-router';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import {
-    ContentTypeEnum,
-    characterAnimeInfiniteOptions,
-    characterInfoOptions,
-    characterMangaInfiniteOptions,
-    characterNovelInfiniteOptions,
-    characterVoicesInfiniteOptions,
-    getFavouriteOptions,
-    paginationPageParam,
-} from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { ContentDetailLayout } from '@/features/content';
+import {
+    entityDetailHead,
+    loadEntityDetail,
+} from '@/features/content/detail-route';
 import { CHARACTER_NAV_ROUTES } from '@/features/entities';
-import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { getAuthTokenFn } from '@/utils/cookies';
-import { generateHeadMeta } from '@/utils/metadata';
-import { getTitle } from '@/utils/title/get-title';
-import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/characters/$slug')({
-    loader: async ({ params, context: { queryClient, apiClient } }) => {
-        const character = await ensureOr404(() =>
-            queryClient.ensureQueryData(
-                characterInfoOptions({
-                    path: { slug: params.slug },
-                    client: apiClient,
-                }),
-            ),
-        );
-
-        if (!character) throw notFound();
-
-        const prefetches: Promise<unknown>[] = [
-            queryClient.ensureInfiniteQueryData({
-                ...characterAnimeInfiniteOptions({
-                    path: { slug: params.slug },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            queryClient.ensureInfiniteQueryData({
-                ...characterMangaInfiniteOptions({
-                    path: { slug: params.slug },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            queryClient.ensureInfiniteQueryData({
-                ...characterNovelInfiniteOptions({
-                    path: { slug: params.slug },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-            queryClient.ensureInfiniteQueryData({
-                ...characterVoicesInfiniteOptions({
-                    path: { slug: params.slug },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-        ];
-
-        // Favourite status is user-specific; only prefetch when authenticated.
-        if (await getAuthTokenFn()) {
-            prefetches.push(
-                queryClient.ensureQueryData(
-                    getFavouriteOptions({
-                        path: {
-                            slug: params.slug,
-                            content_type: ContentTypeEnum.CHARACTER,
-                        },
-                        client: apiClient,
-                    }),
-                ),
-            );
-        }
-
-        await Promise.allSettled(prefetches);
-
-        return { character };
-    },
-    head: ({ loaderData }) => {
-        const character = loaderData?.character;
-        if (!character) return {};
-
-        const title = getTitle(character) || '';
-
-        return generateHeadMeta({
-            title,
-            description: character.description_ua,
-            image: character.image,
-            url: `${SITE_ORIGIN}/characters/${character.slug}`,
-        });
-    },
+    loader: ({ params, context }) =>
+        loadEntityDetail(ContentTypeEnum.CHARACTER, {
+            slug: params.slug,
+            ...context,
+        }),
+    head: ({ loaderData }) =>
+        entityDetailHead(ContentTypeEnum.CHARACTER, loaderData),
     component: CharacterDetailLayout,
 });
 
@@ -108,7 +30,6 @@ function CharacterDetailLayout() {
             slug={character.slug}
             contentType={ContentTypeEnum.CHARACTER}
             navRoutes={CHARACTER_NAV_ROUTES}
-            urlPrefix="/characters"
             title={title}
         >
             <Outlet />
