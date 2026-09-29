@@ -8,10 +8,6 @@ import { followStatsOptions } from '@hikka/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
 import { LoginButton } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { FollowListModal } from '@/features/users';
@@ -110,19 +106,12 @@ const ProfileWidget: FC<WidgetProps> = () => {
                     </button>
                 </div>
             </Card>
-            <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent
-                    side="right"
-                    title={
-                        followType === 'followers' ? 'Стежать' : 'Відстежується'
-                    }
-                >
-                    <FollowListModal
-                        type={followType}
-                        username={user.username}
-                    />
-                </ResponsiveModalContent>
-            </ResponsiveModal>
+            <FollowListModal
+                open={open}
+                onOpenChange={setOpen}
+                type={followType}
+                username={user.username}
+            />
         </>
     );
 };

@@ -21,14 +21,12 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
 
-import ChaptersCell from './chapters-cell';
 import DetailsCell from './details-cell';
-import EpisodesCell from './episodes-cell';
 import MediaCell from './media-cell';
 import NumberCell from './number-cell';
+import ProgressCell from './progress-cell';
 import ScoreCell from './score-cell';
 import SortableHead from './sortable-head';
-import VolumesCell from './volumes-cell';
 
 type Props = {
     data: ReadResponse[] | WatchResponse[];
@@ -163,8 +161,8 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                                 <ScoreCell score={res.score} />
                                 {content_type !== ContentTypeEnum.ANIME && (
                                     <Fragment>
-                                        <ChaptersCell
-                                            chapters={
+                                        <ProgressCell
+                                            value={
                                                 (res as ReadResponse).chapters
                                             }
                                             total={
@@ -172,27 +170,29 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                                                     .chapters
                                             }
                                         />
-                                        <VolumesCell
-                                            volumes={
+                                        <ProgressCell
+                                            value={
                                                 (res as ReadResponse).volumes
                                             }
                                             total={
                                                 (res as ReadResponse).content
                                                     .volumes
                                             }
+                                            className="max-md:pr-4!"
                                         />
                                     </Fragment>
                                 )}
                                 {content_type === ContentTypeEnum.ANIME && (
                                     <Fragment>
-                                        <EpisodesCell
-                                            episodes={
+                                        <ProgressCell
+                                            value={
                                                 (res as WatchResponse).episodes
                                             }
                                             total={
                                                 (res as WatchResponse).anime
                                                     .episodes_total
                                             }
+                                            className="max-md:pr-4!"
                                         />
                                         <MediaCell
                                             media_type={

@@ -7,10 +7,6 @@ import { followStatsOptions } from '@hikka/api';
 import FollowButton from '@/components/action-buttons/follow-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
 import { Separator } from '@/components/ui/separator';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
@@ -98,16 +94,11 @@ const FollowStats: FC<Props> = ({ className }) => {
                     </div>
                 )}
             </Card>
-            <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent
-                    side="right"
-                    title={
-                        followType === 'followers' ? 'Стежать' : 'Відстежується'
-                    }
-                >
-                    <FollowListModal type={followType} />
-                </ResponsiveModalContent>
-            </ResponsiveModal>
+            <FollowListModal
+                open={open}
+                onOpenChange={setOpen}
+                type={followType}
+            />
         </>
     );
 };

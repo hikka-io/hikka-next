@@ -10,8 +10,7 @@ import { cn } from '@/utils/cn';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 import type { HistorySearch } from '@/utils/search-schemas';
 
-import FollowingHistory from './following-history';
-import History from './history';
+import HistoryGrid from './history-grid';
 
 type Props = {
     className?: string;
@@ -58,8 +57,8 @@ const UserHistoryPage: FC<Props> = ({ className }) => {
                     </Tabs>
                 </HeaderContainer>
             </Header>
-            {type === 'user' && <History />}
-            {type === 'following' && <FollowingHistory />}
+            {type === 'user' && <HistoryGrid source="user" />}
+            {type === 'following' && <HistoryGrid source="following" />}
         </Block>
     );
 };

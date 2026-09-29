@@ -1,6 +1,9 @@
-import { Fragment } from 'react';
+import { type FC, Fragment } from 'react';
 
-import { followingHistoryInfiniteOptions } from '@hikka/api';
+import {
+    followingHistoryInfiniteOptions,
+    userHistoryInfiniteOptions,
+} from '@hikka/api';
 
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
 import { HistoryItem } from '@/components/list-items';
@@ -10,10 +13,23 @@ import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
 import Stack from '@/components/ui/stack';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
+import { useParams } from '@/utils/navigation';
 
-const FollowingHistory = () => {
+type Props = {
+    source: 'user' | 'following';
+};
+
+const HistoryGrid: FC<Props> = ({ source }) => {
+    const params = useParams();
+    const isFollowing = source === 'following';
     const { list, fetchNextPage, isFetchingNextPage, hasNextPage, ref } =
-        useInfiniteList(followingHistoryInfiniteOptions());
+        useInfiniteList(
+            isFollowing
+                ? followingHistoryInfiniteOptions()
+                : userHistoryInfiniteOptions({
+                      path: { username: String(params.username) },
+                  }),
+        );
 
     return (
         <Fragment>
@@ -31,7 +47,15 @@ const FollowingHistory = () => {
                         >
                             #{index + 1}
                         </Badge>
-                        <HistoryItem data={item} withUser className="flex-1" />
+                        {isFollowing ? (
+                            <HistoryItem
+                                data={item}
+                                withUser
+                                className="flex-1"
+                            />
+                        ) : (
+                            <HistoryItem data={item} />
+                        )}
                     </Card>
                 ))}
                 {list?.length === 0 && (
@@ -53,4 +77,4 @@ const FollowingHistory = () => {
     );
 };
 
-export default FollowingHistory;
+export default HistoryGrid;

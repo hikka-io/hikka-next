@@ -24,12 +24,7 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import { CONTENT_TYPES } from '@/utils/labels';
 import { useParams } from '@/utils/navigation';
 
-import Anime from './components/favorite-anime';
-import Character from './components/favorite-characters';
-import Collections from './components/favorite-collections';
-import Manga from './components/favorite-manga';
-import Novel from './components/favorite-novel';
-import People from './components/favorite-people';
+import FavoriteSection from './components/favorite-section';
 
 const CONTENT_OPTIONS: ChipTabOption<FavouriteContentTypeEnum>[] = [
     {
@@ -118,25 +113,6 @@ const Favorites: FC<Props> = ({ extended, type }) => {
         }
     };
 
-    const getComponent = () => {
-        switch (activeContent) {
-            case ContentTypeEnum.ANIME:
-                return <Anime extended={extended} />;
-            case ContentTypeEnum.CHARACTER:
-                return <Character extended={extended} />;
-            case ContentTypeEnum.MANGA:
-                return <Manga extended={extended} />;
-            case ContentTypeEnum.NOVEL:
-                return <Novel extended={extended} />;
-            case ContentTypeEnum.PERSON:
-                return <People extended={extended} />;
-            case ContentTypeEnum.COLLECTION:
-                return <Collections extended={extended} />;
-            default:
-                return null;
-        }
-    };
-
     if (!activeContent) {
         if (!extended) return null;
 
@@ -175,7 +151,11 @@ const Favorites: FC<Props> = ({ extended, type }) => {
                 value={activeContent}
                 onValueChange={handleContentChange}
             />
-            {getComponent()}
+            <FavoriteSection
+                key={activeContent}
+                type={activeContent}
+                extended={extended}
+            />
         </Block>
     );
 };

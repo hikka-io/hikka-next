@@ -16,10 +16,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
-import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { Link, useParams } from '@/utils/navigation';
 
@@ -142,20 +138,12 @@ const UserAvatar = () => {
             {user.active && (
                 <div className="absolute -right-2 -bottom-2 z-1 size-6 rounded-full border-4 border-success bg-success-foreground" />
             )}
-            <ResponsiveModal open={open} onOpenChange={setOpen} mobile="page">
-                <ResponsiveModalContent
-                    className="md:max-w-lg!"
-                    title="Редагувати медіафайл"
-                >
-                    {uploadFile && (
-                        <CropEditorModal
-                            file={uploadFile}
-                            type={uploadType}
-                            onClose={() => setOpen(false)}
-                        />
-                    )}
-                </ResponsiveModalContent>
-            </ResponsiveModal>
+            <CropEditorModal
+                open={open}
+                onOpenChange={setOpen}
+                file={uploadFile}
+                type={uploadType}
+            />
         </div>
     );
 };

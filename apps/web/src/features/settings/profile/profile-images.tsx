@@ -11,10 +11,6 @@ import Card from '@/components/ui/card';
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { CropEditorModal } from '@/features/users';
@@ -155,24 +151,12 @@ const ProfileImages = () => {
                     </Avatar>
                 </div>
             </div>
-            <ResponsiveModal
+            <CropEditorModal
                 open={cropOpen}
                 onOpenChange={setCropOpen}
-                mobile="page"
-            >
-                <ResponsiveModalContent
-                    className="md:max-w-lg!"
-                    title="Редагувати медіафайл"
-                >
-                    {cropFile && (
-                        <CropEditorModal
-                            file={cropFile}
-                            type={cropType}
-                            onClose={() => setCropOpen(false)}
-                        />
-                    )}
-                </ResponsiveModalContent>
-            </ResponsiveModal>
+                file={cropFile}
+                type={cropType}
+            />
         </>
     );
 };
