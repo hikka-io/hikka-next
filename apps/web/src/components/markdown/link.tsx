@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren, ReactElement, ReactNode } from 'react';
 
-import { ContentTypeEnum } from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import {
     CharacterTooltip,
@@ -56,7 +56,7 @@ const INTERNAL_TOOLTIPS: {
             ContentTypeEnum.ANIME,
             ContentTypeEnum.MANGA,
             ContentTypeEnum.NOVEL,
-        ] as const
+        ] as const satisfies readonly MainContentTypeEnum[]
     ).map((type) => ({
         pattern: new RegExp(`^${CONTENT_TYPE_LINKS[type]}/([^/?#]+)`),
         wrap: (slug: string, link: ReactNode) => (

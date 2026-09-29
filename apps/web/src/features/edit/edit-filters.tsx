@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { ContentTypeEnum } from '@hikka/api';
+import { ContentTypeEnum, type EditContentTypeEnum } from '@hikka/api';
 
 import {
     ClearFiltersFooter,
@@ -22,13 +22,15 @@ export const EditFiltersBody: FC<Props> = ({ className }) => {
             <Sort sort_type="edit" />
             <EditStatusFilter />
             <ContentTypeFilter
-                contentTypes={[
-                    ContentTypeEnum.ANIME,
-                    ContentTypeEnum.MANGA,
-                    ContentTypeEnum.NOVEL,
-                    ContentTypeEnum.CHARACTER,
-                    ContentTypeEnum.PERSON,
-                ]}
+                contentTypes={
+                    [
+                        ContentTypeEnum.ANIME,
+                        ContentTypeEnum.MANGA,
+                        ContentTypeEnum.NOVEL,
+                        ContentTypeEnum.CHARACTER,
+                        ContentTypeEnum.PERSON,
+                    ] satisfies readonly EditContentTypeEnum[]
+                }
             />
             <UserFilter title="Автор" paramKey="author" />
             <UserFilter title="Модератор" paramKey="moderator" />

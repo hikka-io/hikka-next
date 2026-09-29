@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+import {
+    EditContentToDoEnum,
+    EditContentTypeEnum,
+    FavouriteContentTypeEnum,
+} from '@hikka/api';
+
 import { COMMENT_SORT_VALUES } from '@/utils/sort';
 
 // Helpers: normalize URL search param values
@@ -107,10 +113,7 @@ export const editSearchSchema = z.object({
 });
 
 export const editContentSearchSchema = z.object({
-    tab: z
-        .enum(['anime', 'manga', 'novel', 'character', 'person'])
-        .optional()
-        .catch(undefined),
+    tab: z.nativeEnum(EditContentTypeEnum).optional().catch(undefined),
     issues: stringArray.optional().catch(undefined),
     types: stringArray.optional().catch(undefined),
     mal_id: z.coerce.number().optional().catch(undefined),
@@ -124,10 +127,7 @@ export const editContentSearchSchema = z.object({
         .tuple([z.coerce.number().nullable(), z.coerce.number().nullable()])
         .optional()
         .catch(undefined),
-    content_type: z
-        .enum(['anime', 'manga', 'novel'])
-        .optional()
-        .catch(undefined),
+    content_type: z.nativeEnum(EditContentToDoEnum).optional().catch(undefined),
     content_slug: z.string().optional().catch(undefined),
     ...sortOrderSearch,
     ...textSearch,
@@ -187,10 +187,7 @@ export const historySearchSchema = z.object({
 });
 
 export const favoritesSearchSchema = z.object({
-    type: z
-        .enum(['anime', 'manga', 'novel', 'character', 'person', 'collection'])
-        .optional()
-        .catch(undefined),
+    type: z.nativeEnum(FavouriteContentTypeEnum).optional().catch(undefined),
 });
 
 // Type exports for consumers

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { ContentTypeEnum } from '@hikka/api';
+import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import { ContentSlug, ContentTypeFilter, Issues } from '@/features/filters';
 import { CHARACTER_ISSUES, PERSON_ISSUES } from '@/utils/constants/common';
@@ -11,7 +11,7 @@ const MEDIA_CONTENT_TYPES = [
     ContentTypeEnum.ANIME,
     ContentTypeEnum.MANGA,
     ContentTypeEnum.NOVEL,
-];
+] satisfies readonly MainContentTypeEnum[];
 
 type Props = {
     contentType:

@@ -25,7 +25,7 @@ const SEARCHABLE_TYPES = [
     ContentTypeEnum.NOVEL,
     ContentTypeEnum.CHARACTER,
     ContentTypeEnum.PERSON,
-];
+] satisfies readonly ContentTypeEnum[];
 
 export function useContentSearchModal() {
     const editor = useEditorRef();

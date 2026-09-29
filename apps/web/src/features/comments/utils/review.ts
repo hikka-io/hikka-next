@@ -1,8 +1,16 @@
-import type { ReviewResponse, ReviewStatsResponse } from '@hikka/api';
+import {
+    MainContentTypeEnum,
+    type ReviewResponse,
+    type ReviewStatsResponse,
+} from '@hikka/api';
 
 export type Verdict = ReviewResponse['recommended'];
 
-const REVIEW_CONTENT_TYPES = ['anime', 'manga', 'novel'] as const;
+const REVIEW_CONTENT_TYPES = [
+    MainContentTypeEnum.ANIME,
+    MainContentTypeEnum.MANGA,
+    MainContentTypeEnum.NOVEL,
+] as const satisfies readonly MainContentTypeEnum[];
 
 export function supportsReviews(contentType: string): boolean {
     return (REVIEW_CONTENT_TYPES as readonly string[]).includes(contentType);

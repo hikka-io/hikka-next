@@ -3,7 +3,11 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { exportListMutation } from '@hikka/api';
+import {
+    exportListMutation,
+    ImportReadStatusEnum,
+    ImportWatchStatusEnum,
+} from '@hikka/api';
 
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 
@@ -46,33 +50,33 @@ const wrapCdata = (value: unknown): string => {
     return `<![CDATA[${String(value)}]]>`;
 };
 
-const mapAnimeStatusToMal = (status: string): string => {
+const mapAnimeStatusToMal = (status: string): ImportWatchStatusEnum => {
     switch (status) {
         case 'watching':
-            return 'Watching';
+            return ImportWatchStatusEnum.WATCHING;
         case 'completed':
-            return 'Completed';
+            return ImportWatchStatusEnum.COMPLETED;
         case 'on_hold':
-            return 'On-Hold';
+            return ImportWatchStatusEnum.ON_HOLD;
         case 'dropped':
-            return 'Dropped';
+            return ImportWatchStatusEnum.DROPPED;
         default:
-            return 'Plan to Watch';
+            return ImportWatchStatusEnum.PLAN_TO_WATCH;
     }
 };
 
-const mapMangaStatusToMal = (status: string): string => {
+const mapMangaStatusToMal = (status: string): ImportReadStatusEnum => {
     switch (status) {
         case 'reading':
-            return 'Reading';
+            return ImportReadStatusEnum.READING;
         case 'completed':
-            return 'Completed';
+            return ImportReadStatusEnum.COMPLETED;
         case 'on_hold':
-            return 'On-Hold';
+            return ImportReadStatusEnum.ON_HOLD;
         case 'dropped':
-            return 'Dropped';
+            return ImportReadStatusEnum.DROPPED;
         default:
-            return 'Plan to Read';
+            return ImportReadStatusEnum.PLAN_TO_READ;
     }
 };
 
