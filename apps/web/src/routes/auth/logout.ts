@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { clearCookieHeader, getCookieDomain } from '@/utils/cookies';
+import { COOKIE, clearCookieHeader, getCookieDomain } from '@/utils/cookies';
 
 export const Route = createFileRoute('/auth/logout')({
     server: {
@@ -22,10 +22,13 @@ export const Route = createFileRoute('/auth/logout')({
                     'Cache-Control': 'no-store',
                 });
                 // Clear host-only cookies (in case they were set without Domain)
-                headers.append('Set-Cookie', clearCookieHeader('auth'));
                 headers.append(
                     'Set-Cookie',
-                    clearCookieHeader('username', undefined, {
+                    clearCookieHeader(COOKIE.auth.name),
+                );
+                headers.append(
+                    'Set-Cookie',
+                    clearCookieHeader(COOKIE.legacyUsername.name, undefined, {
                         httpOnly: false,
                     }),
                 );
@@ -33,11 +36,11 @@ export const Route = createFileRoute('/auth/logout')({
                 if (domain) {
                     headers.append(
                         'Set-Cookie',
-                        clearCookieHeader('auth', domain),
+                        clearCookieHeader(COOKIE.auth.name, domain),
                     );
                     headers.append(
                         'Set-Cookie',
-                        clearCookieHeader('username', domain, {
+                        clearCookieHeader(COOKIE.legacyUsername.name, domain, {
                             httpOnly: false,
                         }),
                     );

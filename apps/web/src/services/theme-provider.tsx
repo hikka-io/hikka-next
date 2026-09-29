@@ -9,7 +9,7 @@ import {
     useState,
 } from 'react';
 
-import { writeHostCookie } from '@/utils/cookies';
+import { COOKIE, writeHostCookie } from '@/utils/cookies';
 import { syncThemeColorMeta } from '@/utils/ui';
 
 type Theme = 'light' | 'dark' | 'system';
@@ -27,9 +27,10 @@ interface ThemeContextValue {
     resolvedTheme: 'light' | 'dark';
 }
 
-const COOKIE_NAME = 'theme';
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
 const MEDIA_QUERY = '(prefers-color-scheme: dark)';
+const THEME_COOKIE_PATTERN = new RegExp(
+    `(?:^|;\\s*)${COOKIE.theme.name}=([^;]*)`,
+);
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
@@ -40,12 +41,12 @@ function getSystemTheme(): 'light' | 'dark' {
 
 function getThemeCookie(): string | null {
     if (typeof document === 'undefined') return null;
-    const match = document.cookie.match(/(?:^|;\s*)theme=([^;]*)/);
+    const match = document.cookie.match(THEME_COOKIE_PATTERN);
     return match ? decodeURIComponent(match[1]) : null;
 }
 
 function setThemeCookie(value: Theme): void {
-    writeHostCookie(COOKIE_NAME, value, COOKIE_MAX_AGE);
+    writeHostCookie(COOKIE.theme, value);
 }
 
 function applyTheme(

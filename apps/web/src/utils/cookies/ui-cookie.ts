@@ -1,3 +1,4 @@
+import type { HostCookie } from './constants';
 import { getCookieDomain } from './domain';
 
 /**
@@ -22,7 +23,7 @@ function expireLegacyDomainCookie(name: string) {
 }
 
 /** Host-only cookie write; drops any legacy domain-scoped twin first. */
-export function writeHostCookie(name: string, value: string, maxAge: number) {
+export function writeHostCookie({ name, maxAge }: HostCookie, value: string) {
     if (typeof document === 'undefined') return;
 
     expireLegacyDomainCookie(name);

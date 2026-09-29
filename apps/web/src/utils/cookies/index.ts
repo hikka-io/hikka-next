@@ -1,3 +1,4 @@
+export { COOKIE } from './constants';
 export { getCookieDomain, isSecureCookieDomain } from './domain';
 export {
     clearCookieHeader,
@@ -14,7 +15,6 @@ export {
 export { writeHostCookie } from './ui-cookie';
 export {
     parseUiPrefs,
-    UI_PREFS_COOKIE,
     type UiPreferences,
     writeUiPrefsCookie,
 } from './ui-prefs';

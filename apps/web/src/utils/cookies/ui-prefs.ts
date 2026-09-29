@@ -1,7 +1,5 @@
+import { COOKIE } from './constants';
 import { writeHostCookie } from './ui-cookie';
-
-export const UI_PREFS_COOKIE = 'ui-prefs';
-const UI_PREFS_MAX_AGE = 60 * 60 * 24 * 365; // 1 year
 
 export type UiPreferences = {
     /** View preferences by context key (e.g., 'catalog', 'userlist', 'franchise') */
@@ -43,5 +41,5 @@ export function parseUiPrefs(
 
 /** Host-only write; the browser is the sole writer, see `ui-cookie.ts`. */
 export function writeUiPrefsCookie(value: UiPreferences) {
-    writeHostCookie(UI_PREFS_COOKIE, JSON.stringify(value), UI_PREFS_MAX_AGE);
+    writeHostCookie(COOKIE.uiPrefs, JSON.stringify(value));
 }

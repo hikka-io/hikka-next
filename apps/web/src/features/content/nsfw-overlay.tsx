@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from '@/components/ui/image';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
+import { COOKIE } from '@/utils/cookies';
 import { setNsfwConsentFn } from '@/utils/cookies/server';
 import { useRouter } from '@/utils/navigation';
 
@@ -17,7 +18,7 @@ const NsfwOverlay: FC = () => {
     const [dismissed, setDismissed] = useState(() => {
         if (hasNsfwSessionConsent()) return true;
         if (typeof document === 'undefined') return false;
-        return document.cookie.includes('nsfw_confirmed=');
+        return document.cookie.includes(`${COOKIE.nsfwConsent.name}=`);
     });
     const [remember, setRemember] = useState(false);
 
