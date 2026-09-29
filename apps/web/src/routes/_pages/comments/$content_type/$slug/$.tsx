@@ -8,7 +8,7 @@ import {
 
 import { usePageHeader } from '@/features/app-shell';
 import { CommentList } from '@/features/comments';
-import { commentThreadInfiniteOptions } from '@/features/comments/use-comment-thread';
+import { commentThreadInfiniteOptions } from '@/features/comments/queries';
 import { ContentSubpage, useContentTitle } from '@/features/content';
 import { fetchContentForLoader } from '@/utils/api/content-queries';
 

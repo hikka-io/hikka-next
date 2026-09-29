@@ -16,13 +16,13 @@ import {
     readGetOptions,
 } from '@hikka/api';
 
+import { commentListPrefetchBody } from '@/features/comments/queries';
 import { ContentDetailLayout, MANGA_NAV_ROUTES } from '@/features/content';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
 import { getAuthTokenFn, getNsfwConsentFn } from '@/utils/cookies';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
-import { getCommentSort } from '@/utils/sort';
 import { truncateText } from '@/utils/text';
 import { getPublicSiteUrl, SITE_ORIGIN } from '@/utils/url';
 
@@ -81,7 +81,7 @@ export const Route = createFileRoute('/_pages/manga/$slug')({
                         content_type: ContentTypeEnum.MANGA,
                         slug: params.slug,
                     },
-                    body: { comment_type: 'all', sort: getCommentSort() },
+                    body: commentListPrefetchBody(),
                     query: { size: 3 },
                     client: apiClient,
                 }),

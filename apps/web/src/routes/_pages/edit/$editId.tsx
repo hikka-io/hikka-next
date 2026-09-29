@@ -10,10 +10,10 @@ import {
 import Block from '@/components/ui/block';
 import { usePageHeader } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
+import { commentListPrefetchBody } from '@/features/comments/queries';
 import { EditContent, EditTimeline } from '@/features/edit';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { usePathname } from '@/utils/navigation';
-import { getCommentSort } from '@/utils/sort';
 
 export const Route = createFileRoute('/_pages/edit/$editId')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -36,7 +36,7 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
                     content_type: 'edit' as CommentsContentType,
                     slug: params.editId,
                 },
-                body: { comment_type: 'all', sort: getCommentSort() },
+                body: commentListPrefetchBody(),
                 client: apiClient,
             }),
             ...paginationPageParam(),
