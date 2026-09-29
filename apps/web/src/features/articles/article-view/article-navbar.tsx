@@ -10,7 +10,7 @@ import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
-import ArticleViewActionsMenu from '../article-actions-menu';
+import ArticleViewActionsMenu from './article-actions-menu';
 
 type Props = {};
 

@@ -17,7 +17,7 @@ import { useRouteSearch } from '@/utils/navigation';
 import type { ScheduleSearch } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
 
-import ScheduleItem from './components/schedule-item';
+import ScheduleItem from './schedule-item';
 
 const ScheduleList = () => {
     const search = useRouteSearch<ScheduleSearch>();

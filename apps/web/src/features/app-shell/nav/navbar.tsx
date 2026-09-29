@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { LoginButton } from '@/features/auth';
 import { NotificationsMenu } from '@/features/notifications';
 import { SearchModal } from '@/features/search';
-import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
+import { useScrollTrigger } from '@/services/hooks/use-scroll-trigger';
 import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';

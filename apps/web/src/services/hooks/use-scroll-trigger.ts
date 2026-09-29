@@ -31,9 +31,7 @@ function defaultTrigger(store: any, options: UseScrollTriggerOptions) {
 
 const defaultTarget = typeof window !== 'undefined' ? window : null;
 
-export default function useScrollTrigger(
-    options: UseScrollTriggerOptions = {},
-) {
+export function useScrollTrigger(options: UseScrollTriggerOptions = {}) {
     const pathname = usePathname();
     const {
         getTrigger = defaultTrigger,

@@ -19,8 +19,8 @@ import {
 } from '@/components/ui/popover';
 import { useParams } from '@/utils/navigation';
 
-import CollectionViewActionsMenu from '../collection-actions-menu';
-import CollectionToc from '../collection-toc';
+import CollectionViewActionsMenu from './collection-actions-menu';
+import CollectionToc from './collection-toc';
 
 type Props = {};
 

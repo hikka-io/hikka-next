@@ -9,6 +9,7 @@
         "check": "biome check --write .",
         "check:ci": "biome check .",
         "lint:ratchet": "biome lint --reporter=json --max-diagnostics=none apps/web/src | node apps/web/scripts/lint-ratchet.mjs",
+        "check:structure": "node apps/web/scripts/check-structure.mjs --self-test && node apps/web/scripts/check-structure.mjs",
         "typecheck": "turbo run typecheck",
         "clean": "turbo run clean",
         "dev": "turbo run dev",

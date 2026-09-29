@@ -42,7 +42,7 @@ export function getYouTubeThumbnail(
 }
 
 /** Extracts the video ID from a URL and returns its thumbnail URL. */
-export default function parseYouTubeThumbnail(
+export function parseYouTubeThumbnail(
     url: string,
     quality: YouTubeThumbnailQuality = 'medium',
 ): string | null {

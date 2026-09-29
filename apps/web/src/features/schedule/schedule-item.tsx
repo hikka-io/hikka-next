@@ -7,7 +7,7 @@ import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
 
-import ScheduleCard, { type ScheduleCardProps } from '../../schedule-card';
+import ScheduleCard, { type ScheduleCardProps } from './schedule-card';
 
 type Props = Omit<ScheduleCardProps, 'title' | 'href'> & {
     item: AnimeScheduleResponse;
