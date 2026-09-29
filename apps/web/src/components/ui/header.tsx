@@ -1,9 +1,9 @@
 import React, { type FC, type PropsWithChildren } from 'react';
 
+import { MaterialSymbolsArrowRightAltRounded } from '@/components/icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-import { MaterialSymbolsArrowRightAltRounded } from '../icons/material-symbols/MaterialSymbolsArrowRightAltRounded';
 import { Button } from './button';
 
 type HorizontalCardContextProps = {

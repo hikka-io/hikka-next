@@ -1,9 +1,8 @@
 import { type ForwardedRef, forwardRef } from 'react';
 
+import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-
-import AntDesignArrowDownOutlined from './icons/ant-design/AntDesignArrowDownOutlined';
 
 type Props = ButtonProps & {
     fetchNextPage: () => void;

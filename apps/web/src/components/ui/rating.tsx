@@ -9,8 +9,8 @@ import {
     useState,
 } from 'react';
 
-import MaterialSymbolsStarOutlineRounded from '../icons/material-symbols/MaterialSymbolsStarOutlineRounded';
-import MaterialSymbolsStarRounded from '../icons/material-symbols/MaterialSymbolsStarRounded';
+import MaterialSymbolsStarOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsStarOutlineRounded';
+import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 
 type Props = {
     value: number;

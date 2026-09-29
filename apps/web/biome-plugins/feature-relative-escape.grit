@@ -74,5 +74,5 @@ or {
             $source <: r"[\x27\"](?:\.\./|\./[^/]+/).*"
         }
     },
-    register_diagnostic(span=$source, message="[D9] Relative import leaves its unit (a feature, a component group, a root component file, utils/, services/ or routes/); use the @/ alias (and the target's barrel).", severity="warn")
+    register_diagnostic(span=$source, message="[D9] Relative import leaves its unit (a feature, a component group, a root component file, utils/, services/ or routes/); use the @/ alias (and the target's barrel).", severity="error")
 }

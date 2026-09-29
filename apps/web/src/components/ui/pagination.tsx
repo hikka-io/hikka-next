@@ -8,12 +8,12 @@ import {
 
 import { range } from '@antfu/utils';
 
+import AntDesignArrowLeftOutlined from '@/components/icons/ant-design/AntDesignArrowLeftOutlined';
+import AntDesignArrowRightOutlined from '@/components/icons/ant-design/AntDesignArrowRightOutlined';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { POSITIVE_INTEGER_PATTERN } from '@/utils/text';
 
-import AntDesignArrowLeftOutlined from '../icons/ant-design/AntDesignArrowLeftOutlined';
-import AntDesignArrowRightOutlined from '../icons/ant-design/AntDesignArrowRightOutlined';
 import { Button } from './button';
 import Card from './card';
 import { Input } from './input';

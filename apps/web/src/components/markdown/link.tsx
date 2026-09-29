@@ -8,6 +8,7 @@ import {
     PersonTooltip,
     UserTooltip,
 } from '@/components/content-card/tooltips';
+import MaterialSymbolsLinkRounded from '@/components/icons/material-symbols/MaterialSymbolsLinkRounded';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -24,8 +25,6 @@ import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link as TanstackLink } from '@/utils/navigation';
 import { SITE_ORIGIN } from '@/utils/url';
-
-import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
 
 type Props = {
     href: string;
