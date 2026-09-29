@@ -3,15 +3,15 @@ import { useQuery } from '@tanstack/react-query';
 import { getCollectionOptions } from '@hikka/api';
 
 import FollowButton from '@/components/action-buttons/follow-button';
-import RelativeTime from '@/components/relative-time';
-import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import RelativeTime from '@/components/relative-time';
+import Card from '@/components/ui/card';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { useParams } from '@/utils/navigation';
 

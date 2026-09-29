@@ -8,10 +8,10 @@ import type { CommentResponse, ContentTypeEnum } from '@hikka/api';
 
 import AuthorMetaRow from '@/components/author-meta-row';
 import { ReviewBadge } from '@/components/badges';
+import { HorizontalCardImage } from '@/components/horizontal-card';
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import TextExpand from '@/components/text-expand';
 import { Chip } from '@/components/ui/chip';
-import { HorizontalCardImage } from '@/components/ui/horizontal-card';
 import { StatItemGroup } from '@/components/ui/stat-item';
 import FeedContentRef from '@/features/home/widgets/feed-widget/components/feed-content-ref';
 import { Link } from '@/utils/navigation';

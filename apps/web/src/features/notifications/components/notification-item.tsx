@@ -4,9 +4,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { notificationSeenMutation } from '@hikka/api';
 
+import { HorizontalCardDescription } from '@/components/horizontal-card';
 import MDViewer from '@/components/markdown/viewer/md-viewer';
 import RelativeTime from '@/components/relative-time';
-import { HorizontalCardDescription } from '@/components/ui/horizontal-card';
 import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';

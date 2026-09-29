@@ -2,16 +2,16 @@ import { format } from 'date-fns';
 
 import { type EditSimpleResponse, EditStatusEnum } from '@hikka/api';
 
-import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 import { EDIT_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';

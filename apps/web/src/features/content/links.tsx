@@ -2,18 +2,18 @@ import { type FC, useState } from 'react';
 
 import { ExternalTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
+import {
+    HorizontalCard,
+    HorizontalCardContainer,
+    HorizontalCardImage,
+    HorizontalCardTitle,
+} from '@/components/horizontal-card';
 import MaterialSymbolsInfoIRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoIRounded';
 import MaterialSymbolsPlayArrowRounded from '@/components/icons/material-symbols/MaterialSymbolsPlayArrowRounded';
 import TextExpand from '@/components/text-expand';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import {
-    HorizontalCard,
-    HorizontalCardContainer,
-    HorizontalCardImage,
-    HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { CONTENT_CONFIG } from '@/utils/constants/common';

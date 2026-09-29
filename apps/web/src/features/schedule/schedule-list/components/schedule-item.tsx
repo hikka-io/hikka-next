@@ -3,14 +3,13 @@ import { type FC, memo } from 'react';
 import type { AnimeScheduleResponse } from '@hikka/api';
 
 import WatchlistButton from '@/components/action-buttons/watchlist-button';
-import HorizontalContentCard, {
-    type Props as HorizontalContentCardProps,
-} from '@/components/ui/horizontal-content-card';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
 
-type Props = Omit<HorizontalContentCardProps, 'title' | 'href'> & {
+import ScheduleCard, { type ScheduleCardProps } from '../../schedule-card';
+
+type Props = Omit<ScheduleCardProps, 'title' | 'href'> & {
     item: AnimeScheduleResponse;
 };
 
@@ -18,7 +17,7 @@ const ScheduleItem: FC<Props> = ({ item, ...props }) => {
     const title = useTitle(item.anime);
 
     return (
-        <HorizontalContentCard
+        <ScheduleCard
             title={title}
             href={`/anime/${item.anime.slug}`}
             description={
@@ -51,7 +50,7 @@ const ScheduleItem: FC<Props> = ({ item, ...props }) => {
                     size={'icon-sm'}
                 />
             </div>
-        </HorizontalContentCard>
+        </ScheduleCard>
     );
 };
 

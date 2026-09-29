@@ -11,12 +11,12 @@ import { TrackingButtonsGroup } from '@/components/action-buttons';
 import CompanyTitleLink from '@/components/company-title-link';
 import { PosterCard } from '@/components/content-card';
 import ContentGenres from '@/components/content-genres';
-import { InlineScores } from '@/components/inline-scores';
-import MagazineTitleLink from '@/components/magazine-title-link';
 import {
     HorizontalCardDescription,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import { InlineScores } from '@/components/inline-scores';
+import MagazineTitleLink from '@/components/magazine-title-link';
 import { Separator } from '@/components/ui/separator';
 import { useTitle } from '@/features/auth';
 import {

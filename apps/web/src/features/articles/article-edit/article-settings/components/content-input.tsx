@@ -2,15 +2,15 @@ import type { FC } from 'react';
 
 import { ArticleContentEnum } from '@hikka/api';
 
-import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
-import { Button } from '@/components/ui/button';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { SearchModal } from '@/features/search';

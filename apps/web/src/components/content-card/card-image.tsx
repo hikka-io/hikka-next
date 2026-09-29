@@ -2,9 +2,9 @@ import type { FC, ReactNode } from 'react';
 
 import Image from '@/components/ui/image';
 import { cn } from '@/utils/cn';
-import { IMAGE_PRESETS } from '@/utils/constants/image-presets';
 
 import MaterialSymbolsImageNotSupportedOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
+import { IMAGE_PRESETS } from './image-presets';
 
 export type CardImageProps = {
     priority?: boolean;

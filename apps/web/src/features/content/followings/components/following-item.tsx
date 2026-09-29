@@ -8,15 +8,15 @@ import type {
     WatchStatusEnum,
 } from '@hikka/api';
 
-import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
-import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
+import { Badge } from '@/components/ui/badge';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 
 type Props = {

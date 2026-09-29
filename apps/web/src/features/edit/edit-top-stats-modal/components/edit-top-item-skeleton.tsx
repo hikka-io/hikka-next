@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import HorizontalCardSkeleton from '@/components/ui/horizontal-card-skeleton';
+import HorizontalCardSkeleton from '@/components/horizontal-card-skeleton';
 
 const EditTopItemSkeleton: FC = () => <HorizontalCardSkeleton imageRatio={1} />;
 

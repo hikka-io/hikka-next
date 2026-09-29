@@ -10,7 +10,7 @@ import {
     type VoteContentTypeEnum,
 } from '@hikka/api';
 
-import { HorizontalCardImage } from '@/components/ui/horizontal-card';
+import { HorizontalCardImage } from '@/components/horizontal-card';
 import { useTitle } from '@/features/auth/hooks/use-title';
 
 import FeedItemArticle from './feed-item-article';

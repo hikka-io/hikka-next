@@ -8,16 +8,16 @@ import FollowButton from '@/components/action-buttons/follow-button';
 import { contentEntity } from '@/components/content-card';
 import EntityCard from '@/components/content-card/entity-card';
 import PosterCard from '@/components/content-card/poster-card';
-import RelativeTime from '@/components/relative-time';
-import { Badge } from '@/components/ui/badge';
-import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import RelativeTime from '@/components/relative-time';
+import { Badge } from '@/components/ui/badge';
+import Card from '@/components/ui/card';
 import Image from '@/components/ui/image';
 import { Label } from '@/components/ui/label';
 import Stack, { type StackSize } from '@/components/ui/stack';

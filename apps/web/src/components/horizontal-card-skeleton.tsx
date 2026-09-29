@@ -1,11 +1,11 @@
 import type { FC, PropsWithChildren, ReactNode } from 'react';
 
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/poster-card';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import {
     HorizontalCard,
     HorizontalCardContainer,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/utils/cn';
 

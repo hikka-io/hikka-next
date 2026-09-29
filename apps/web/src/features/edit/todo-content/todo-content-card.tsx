@@ -14,6 +14,10 @@ import type {
 
 import CompanyTitleLink from '@/components/company-title-link';
 import { contentEntity, EntityCard } from '@/components/content-card';
+import {
+    HorizontalCardDescription,
+    HorizontalCardTitle,
+} from '@/components/horizontal-card';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
@@ -27,10 +31,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-    HorizontalCardDescription,
-    HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
 import { useSession, useTitle } from '@/features/auth';
 import { cn } from '@/utils/cn';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';

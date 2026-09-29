@@ -10,7 +10,7 @@ import {
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { cn } from '@/utils/cn';
 

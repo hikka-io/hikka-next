@@ -2,15 +2,15 @@ import type { FC } from 'react';
 
 import { EditStatusEnum, type UserResponse } from '@hikka/api';
 
-import MaterialSymbolsKidStar from '@/components/icons/material-symbols/MaterialSymbolsKidStar';
-import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import MaterialSymbolsKidStar from '@/components/icons/material-symbols/MaterialSymbolsKidStar';
+import Card from '@/components/ui/card';
 import {
     Tooltip,
     TooltipContent,

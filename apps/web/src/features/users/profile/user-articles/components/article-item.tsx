@@ -4,13 +4,13 @@ import { ArrowBigUp, Eye, MessageCircle } from 'lucide-react';
 
 import type { ArticlePreviewResponse } from '@hikka/api';
 
-import RelativeTime from '@/components/relative-time';
-import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import RelativeTime from '@/components/relative-time';
+import Card from '@/components/ui/card';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 

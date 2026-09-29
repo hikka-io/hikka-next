@@ -7,14 +7,14 @@ import type {
 } from '@hikka/api';
 
 import { FollowButton } from '@/components/action-buttons';
-import RelativeTime from '@/components/relative-time';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import RelativeTime from '@/components/relative-time';
 import Link from '@/components/ui/link';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';

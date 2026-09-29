@@ -5,16 +5,16 @@ import { useQuery } from '@tanstack/react-query';
 import { getArticleTopOptions } from '@hikka/api';
 
 import FollowButton from '@/components/action-buttons/follow-button';
-import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import Block from '@/components/ui/block';
+import Card from '@/components/ui/card';
+import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 type Props = {};
 

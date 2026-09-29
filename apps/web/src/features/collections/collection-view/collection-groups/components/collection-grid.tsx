@@ -6,7 +6,7 @@ import type { CollectionContentResponse } from '@hikka/api';
 
 import { contentEntity } from '@/components/content-card';
 import EntityCard from '@/components/content-card/entity-card';
-import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/poster-card';
+import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
     Popover,

@@ -4,9 +4,8 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Check, Trash2, X } from 'lucide-react';
 
-import PosterCard, {
-    DEFAULT_CONTAINER_RATIO,
-} from '@/components/content-card/poster-card';
+import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
+import PosterCard from '@/components/content-card/poster-card';
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
 import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
 import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';

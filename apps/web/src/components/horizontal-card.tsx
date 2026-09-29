@@ -7,12 +7,11 @@ import type {
     ReactNode,
 } from 'react';
 
+import PosterCard from '@/components/content-card/poster-card';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { labelVariants } from '@/components/ui/label';
+import Link from '@/components/ui/link';
 import { cn } from '@/utils/cn';
-
-import PosterCard from '../content-card/poster-card';
-import MDViewer from '../markdown/viewer/md-viewer';
-import { Label, labelVariants } from './label';
-import Link from './link';
 
 type HorizontalCardTitleProps = ComponentPropsWithoutRef<'div'> & {
     className?: string;

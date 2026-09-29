@@ -5,16 +5,16 @@ import { ArrowBigUp } from 'lucide-react';
 
 import type { CommentResponse } from '@hikka/api';
 
-import MDViewer from '@/components/markdown/viewer/md-viewer';
-import RelativeTime from '@/components/relative-time';
-import { Badge } from '@/components/ui/badge';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import MDViewer from '@/components/markdown/viewer/md-viewer';
+import RelativeTime from '@/components/relative-time';
+import { Badge } from '@/components/ui/badge';
 import { StatItem } from '@/components/ui/stat-item';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';

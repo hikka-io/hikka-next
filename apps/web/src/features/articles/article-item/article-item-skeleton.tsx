@@ -1,11 +1,11 @@
-import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import Card from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const ArticleItemSkeleton = () => {

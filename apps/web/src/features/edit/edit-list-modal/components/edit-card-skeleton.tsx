@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import HorizontalCardSkeleton from '@/components/ui/horizontal-card-skeleton';
+import HorizontalCardSkeleton from '@/components/horizontal-card-skeleton';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const EditCardSkeleton: FC = () => (

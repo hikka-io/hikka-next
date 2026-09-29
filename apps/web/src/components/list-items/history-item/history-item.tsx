@@ -2,16 +2,16 @@ import { type FC, memo } from 'react';
 
 import type { HistoryResponse } from '@hikka/api';
 
-import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
-import RelativeTime from '@/components/relative-time';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
+import RelativeTime from '@/components/relative-time';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     Tooltip,
     TooltipContent,

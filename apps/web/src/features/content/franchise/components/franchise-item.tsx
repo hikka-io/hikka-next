@@ -8,14 +8,14 @@ import type {
 
 import ReadlistButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';
-import Card from '@/components/ui/card';
 import {
     HorizontalCard,
     HorizontalCardContainer,
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
+import Card from '@/components/ui/card';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { MEDIA_TYPE } from '@/utils/constants/common';

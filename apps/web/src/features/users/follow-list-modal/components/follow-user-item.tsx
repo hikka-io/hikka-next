@@ -9,7 +9,7 @@ import {
     HorizontalCardDescription,
     HorizontalCardImage,
     HorizontalCardTitle,
-} from '@/components/ui/horizontal-card';
+} from '@/components/horizontal-card';
 
 type Props = {
     user: FollowUserResponse;

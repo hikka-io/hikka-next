@@ -1,3 +1,5 @@
+import type { ImagePreset } from '@/components/ui/image-preset-context';
+
 export const IMAGE_PRESETS = {
     // Default: 5-col list pages with sidebar (~200px max card width, 2x retina)
     card: {
@@ -23,6 +25,9 @@ export const IMAGE_PRESETS = {
         height: 160,
         sizes: '56px',
     },
-} as const;
+} as const satisfies Record<
+    ImagePreset,
+    { width: number; height: number; sizes: string }
+>;
 
-export type ImagePreset = keyof typeof IMAGE_PRESETS;
+export const DEFAULT_CONTAINER_RATIO = 0.7;
