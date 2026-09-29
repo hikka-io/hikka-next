@@ -183,7 +183,7 @@ export const loginSearchSchema = z.object({
 });
 
 export const historySearchSchema = z.object({
-    type: z.string().optional().catch(undefined),
+    type: z.enum(['user', 'following']).optional().catch(undefined),
 });
 
 export const favoritesSearchSchema = z.object({

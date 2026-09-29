@@ -50,17 +50,21 @@ describe('loginSearchSchema', () => {
 });
 
 describe('historySearchSchema', () => {
-    it('keeps any string type, known or not', () => {
+    it('keeps a known type', () => {
         expect(parse(historySearchSchema, '?type=following')).toEqual({
             type: 'following',
         });
         expect(parse(historySearchSchema, '?type=user')).toEqual({
             type: 'user',
         });
-        expect(parse(historySearchSchema, '?type=garbage')).toEqual({
-            type: 'garbage',
-        });
-        expect(parse(historySearchSchema, '?type=')).toEqual({ type: '' });
+    });
+
+    it('drops an unknown string type instead of failing the route', () => {
+        expect(parse(historySearchSchema, '?type=garbage').type).toBe(
+            undefined,
+        );
+        expect(parse(historySearchSchema, '?type=User').type).toBe(undefined);
+        expect(parse(historySearchSchema, '?type=').type).toBe(undefined);
     });
 
     it('drops a non-string type instead of failing the route', () => {
