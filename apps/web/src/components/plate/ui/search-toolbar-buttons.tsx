@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { createLinkNode } from '@platejs/link';
 import { AtSignIcon, SearchIcon } from 'lucide-react';
 import { useEditorRef } from 'platejs/react';
 
@@ -9,11 +8,13 @@ import { ContentTypeEnum, type UserResponse } from '@hikka/api';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { type SearchContent, SearchModal } from '@/features/search';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
-import { userMentionUrl } from '@/utils/mentions';
 import { getTitle } from '@/utils/title/get-title';
-import { getSiteUrl } from '@/utils/url';
 
-import { restoreSelection } from '../editor/transforms';
+import {
+    insertContentLink,
+    insertMentionLink,
+    restoreSelection,
+} from '../editor/transforms';
 import { ToolbarButton } from './toolbar';
 
 export const CONTENT_SEARCH_LABEL = 'Пошук контенту';
@@ -32,25 +33,24 @@ export function useContentSearchModal() {
     const { preferences } = useSessionUI();
     const [open, setOpen] = React.useState(false);
 
-    const insertContentLink = (content: SearchContent | UserResponse) => {
+    const insertContent = (content: SearchContent | UserResponse) => {
         if (!('slug' in content)) return;
 
-        const path = CONTENT_TYPE_LINKS[content.data_type as ContentTypeEnum];
+        const type = content.data_type as ContentTypeEnum;
 
-        if (!path) return;
+        if (!CONTENT_TYPE_LINKS[type]) return;
 
         restoreSelection(editor);
 
-        editor.tf.insertNodes(
-            createLinkNode(editor, {
-                url: `${getSiteUrl()}${path}/${content.slug}`,
-                text: getTitle(
-                    content,
-                    preferences?.title_language ?? 'title_ua',
-                    preferences?.name_language ?? 'name_ua',
-                ),
-            }),
-        );
+        insertContentLink(editor, {
+            type,
+            slug: content.slug,
+            text: getTitle(
+                content,
+                preferences?.title_language ?? 'title_ua',
+                preferences?.name_language ?? 'name_ua',
+            ),
+        });
         editor.tf.focus();
     };
 
@@ -59,7 +59,7 @@ export function useContentSearchModal() {
             open={open}
             onOpenChange={setOpen}
             allowedTypes={SEARCHABLE_TYPES}
-            onClick={insertContentLink}
+            onClick={insertContent}
             type="button"
             disableHotkey
         />
@@ -91,12 +91,7 @@ export function useUserSearchModal() {
 
         restoreSelection(editor);
 
-        editor.tf.insertNodes(
-            createLinkNode(editor, {
-                url: userMentionUrl(content.reference),
-                text: `@${content.username}`,
-            }),
-        );
+        insertMentionLink(editor, content);
         editor.tf.focus();
     };
 

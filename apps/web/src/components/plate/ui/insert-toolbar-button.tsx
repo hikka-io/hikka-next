@@ -18,10 +18,6 @@ import {
 } from 'platejs/react';
 
 import {
-    insertBlock,
-    isInsideBlock,
-} from '@/components/plate/editor/transforms';
-import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
@@ -29,6 +25,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { ELEMENT_SPOILER } from '../editor/plate-types';
+import { insertBlock, isInsideBlock } from '../editor/transforms';
 import { ToolbarButton, ToolbarMenuGroup } from './toolbar';
 
 // Cannot be nested inside themselves

@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import { createLinkNode } from '@platejs/link';
 import { useQuery } from '@tanstack/react-query';
 import { Ellipsis } from 'lucide-react';
 import type { PlateEditor, PlateElementProps } from 'platejs/react';
@@ -24,13 +23,12 @@ import {
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { SYMBOL_FORMS } from '@/utils/i18n/word-forms';
 import { CONTENT_TYPES } from '@/utils/labels';
 import { getTitle } from '@/utils/title/get-title';
-import { getSiteUrl } from '@/utils/url';
 
+import { insertContentLink } from '../editor/transforms';
 import {
     InlineCombobox,
     InlineComboboxContent,
@@ -139,12 +137,11 @@ function ContentGroup({
                         key={`${contentType}-${item.slug}`}
                         value={`${contentType}-${item.slug}`}
                         onClick={() =>
-                            editor.tf.insertNodes(
-                                createLinkNode(editor, {
-                                    url: `${getSiteUrl()}${CONTENT_TYPE_LINKS[contentType]}/${item.slug}`,
-                                    text: title,
-                                }),
-                            )
+                            insertContentLink(editor, {
+                                type: contentType,
+                                slug: item.slug,
+                                text: title,
+                            })
                         }
                     >
                         <ContentRow item={item} title={title} />

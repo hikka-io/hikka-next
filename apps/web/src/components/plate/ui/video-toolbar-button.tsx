@@ -4,7 +4,6 @@ import { Film } from 'lucide-react';
 import { useEditorRef } from 'platejs/react';
 
 import { useAppForm } from '@/components/form';
-import { VideoPlugin } from '@/components/plate/editor/plugins/video-kit';
 import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
@@ -13,6 +12,7 @@ import {
 } from '@/components/ui/responsive-modal';
 import { z } from '@/utils/i18n/zod';
 
+import { VideoPlugin } from '../editor/plugins/video-kit';
 import { ToolbarButton } from './toolbar';
 
 const urlSchema = z

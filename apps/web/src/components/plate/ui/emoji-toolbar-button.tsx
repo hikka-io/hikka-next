@@ -29,7 +29,6 @@ import {
     XIcon,
 } from 'lucide-react';
 
-import { ToolbarButton } from '@/components/plate/ui/toolbar';
 import { Button } from '@/components/ui/button';
 import { STAY_ON_AXIS } from '@/components/ui/popup-positioning';
 import { usePortalContainer } from '@/components/ui/portal-container-context';
@@ -40,6 +39,8 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
+
+import { ToolbarButton } from './toolbar';
 
 const i18n = {
     search: 'Пошук',

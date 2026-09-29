@@ -1,6 +1,13 @@
+import { createLinkNode } from '@platejs/link';
 import { toggleList } from '@platejs/list-classic';
 import { KEYS, type Path, PathApi, type TElement } from 'platejs';
 import type { PlateEditor } from 'platejs/react';
+
+import type { ContentTypeEnum, UserResponse } from '@hikka/api';
+
+import { contentPath } from '@/utils/content-paths';
+import { userMentionUrl } from '@/utils/mentions';
+import { getSiteUrl } from '@/utils/url';
 
 import { CONTAINER_BLOCK_TYPES } from './plate-types';
 
@@ -181,4 +188,28 @@ export const toggleSpoiler = (
     }
 
     toggleContainerBlock(editor, block);
+};
+
+export const insertContentLink = (
+    editor: PlateEditor,
+    { type, slug, text }: { type: ContentTypeEnum; slug: string; text: string },
+) => {
+    editor.tf.insertNodes(
+        createLinkNode(editor, {
+            url: `${getSiteUrl()}${contentPath(type, slug)}`,
+            text,
+        }),
+    );
+};
+
+export const insertMentionLink = (
+    editor: PlateEditor,
+    { reference, username }: Pick<UserResponse, 'reference' | 'username'>,
+) => {
+    editor.tf.insertNodes(
+        createLinkNode(editor, {
+            url: userMentionUrl(reference),
+            text: `@${username}`,
+        }),
+    );
 };

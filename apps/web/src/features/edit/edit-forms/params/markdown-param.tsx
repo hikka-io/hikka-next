@@ -8,7 +8,7 @@ import { getEditOptions } from '@hikka/api';
 import { useFormContext } from '@/components/form';
 import { MDViewer } from '@/components/markdown';
 import { DiffViewer } from '@/components/plate/editor/diff-viewer';
-import { PlateMarkdownEditor } from '@/components/plate/editor/plate-editor';
+import { PlateMarkdownEditor } from '@/components/plate/editor/markdown-editor';
 import { FIELD_BASE } from '@/components/ui/field-base';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';

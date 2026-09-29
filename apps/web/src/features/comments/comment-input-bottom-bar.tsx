@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Minimize2, Send } from 'lucide-react';
-import { useEditorSelector } from 'platejs/react';
+import { useEditorRef, useEditorSelector } from 'platejs/react';
 
 import {
     type CommentResponse,
@@ -11,7 +11,6 @@ import {
     writeCommentMutation,
 } from '@hikka/api';
 
-import { useMarkdownEditor } from '@/components/plate/editor/markdown-editor-kit';
 import {
     getCommentText,
     getCommentValue,
@@ -57,7 +56,7 @@ const CommentInputBottomBar: FC<Props> = ({
     const { clearActive, addPendingReply, updatePendingReply } =
         useCommentsContext();
     const queryClient = useQueryClient();
-    const editor = useMarkdownEditor();
+    const editor = useEditorRef();
 
     // Mirrors the onSubmit guard so send stays disabled until there is content.
     const hasContent = useEditorSelector(
