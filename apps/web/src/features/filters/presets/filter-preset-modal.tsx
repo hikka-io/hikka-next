@@ -53,25 +53,6 @@ const FilterPresetModal: FC<Props> = ({
         );
     };
 
-    const buildFilterPresetLink = (preset: FilterPreset) => {
-        const params = new URLSearchParams();
-        Object.entries(presetToSearch(preset)).forEach(([key, val]) => {
-            if (val === undefined || val === null) return;
-            if (Array.isArray(val)) {
-                val.forEach((item) => {
-                    if (item !== undefined && item !== null) {
-                        params.append(key, String(item));
-                    }
-                });
-            } else {
-                params.set(key, String(val));
-            }
-        });
-
-        const query = params.toString();
-        return query ? `${pathname}?${query}` : pathname;
-    };
-
     return (
         <>
             <div className="flex flex-col gap-4">
@@ -119,7 +100,8 @@ const FilterPresetModal: FC<Props> = ({
                             <div className="flex items-center gap-2">
                                 <TextLink
                                     onClick={() => onClose?.()}
-                                    to={buildFilterPresetLink(preset)}
+                                    to={pathname}
+                                    search={presetToSearch(preset)}
                                     className="font-medium text-sm"
                                 >
                                     {preset.name}

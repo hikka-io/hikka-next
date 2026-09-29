@@ -9,7 +9,7 @@ import { SCORE_RANGE, YEARS } from '../filter-ranges';
 
 const filterPresetFormSchema = z.object({
     name: z.string().min(1).max(255),
-    description: z.string().min(1).max(500).optional(),
+    description: z.string().max(500).optional(),
     content_types: z.array(z.nativeEnum(ContentTypeEnum)),
     statuses: z.array(z.string()).optional(),
     seasons: z.array(z.string()).optional(),
