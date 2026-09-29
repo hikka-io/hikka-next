@@ -7,7 +7,7 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 
-import LayoutSettingsContent from '../layout-settings-modal';
+import LayoutSettings from '../layout-settings/layout-settings';
 
 export const useOpenLayoutSettings = (): {
     openSettings: () => void;
@@ -26,7 +26,7 @@ export const useOpenLayoutSettings = (): {
                 title="Налаштувати макет сторінки"
                 description="Оберіть тип макету, налаштуйте віджети та їх порядок"
             >
-                <LayoutSettingsContent />
+                <LayoutSettings />
                 <ResponsiveModalFooter>
                     <Button size="md" onClick={() => setOpen(false)}>
                         Готово

@@ -29,7 +29,7 @@ import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 import { getTitle } from '@/utils/title/get-title';
 
-import type { WidgetProps } from '../constants';
+import type { WidgetProps } from '../types';
 
 const ScheduleWidget: FC<WidgetProps> = () => {
     const { user } = useSession();

@@ -5,8 +5,9 @@ import type { UiFeedWidget } from '@hikka/api';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 
-import { type SupportedWidgetSlug, WIDGET_REGISTRY } from '../constants';
-import { groupBySide } from '../utils';
+import { groupBySide } from './layout';
+import type { SupportedWidgetSlug } from './types';
+import { WIDGET_REGISTRY } from './widgets/registry';
 
 export interface FeedLayoutData {
     left: UiFeedWidget[];

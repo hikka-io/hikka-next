@@ -14,7 +14,7 @@ import { FollowListModal } from '@/features/users';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { Link } from '@/utils/navigation';
 
-import type { WidgetProps } from '../constants';
+import type { WidgetProps } from '../types';
 
 const ProfileWidget: FC<WidgetProps> = () => {
     const [open, setOpen] = useState(false);

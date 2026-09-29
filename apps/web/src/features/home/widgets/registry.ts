@@ -10,11 +10,14 @@ import {
     User,
 } from 'lucide-react';
 
-import type { UiFeedWidget } from '@hikka/api';
-
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 
+import type {
+    SupportedWidgetSlug,
+    UIFeedWidgetSide,
+    WidgetProps,
+} from '../types';
 import {
     ArticlesWidget,
     CollectionsWidget,
@@ -25,28 +28,7 @@ import {
     ProfileWidget,
     ScheduleWidget,
     TrackerWidget,
-} from './widgets';
-
-type UIFeedWidgetSide = UiFeedWidget['side'];
-
-/** Slugs this app renders; excludes server-only `top_anime`, which has no widget yet. */
-export type SupportedWidgetSlug = Extract<
-    UiFeedWidget['slug'],
-    | 'profile'
-    | 'list'
-    | 'ongoings'
-    | 'tracker'
-    | 'history'
-    | 'schedule'
-    | 'feed'
-    | 'collections'
-    | 'articles'
->;
-
-export type WidgetProps = {
-    side: UIFeedWidgetSide;
-    isLast?: boolean;
-};
+} from './index';
 
 export interface WidgetMeta {
     title: string;

@@ -8,7 +8,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { ListTabContent } from '@/features/users';
 
-import type { WidgetProps } from '../constants';
+import type { WidgetProps } from '../types';
 
 // @hikka/api has no CommonContentType enum; this local union covers the content types this widget handles.
 type CommonContentType =

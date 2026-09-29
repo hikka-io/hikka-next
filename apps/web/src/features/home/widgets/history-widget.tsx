@@ -16,7 +16,7 @@ import {
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import type { WidgetProps } from '../constants';
+import type { WidgetProps } from '../types';
 
 const HISTORY_SIZE = 3;
 const HISTORY_REFETCH_INTERVAL_MS = 30_000;

@@ -22,7 +22,7 @@ import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { cn } from '@/utils/cn';
 
-import type { WidgetProps } from '../../constants';
+import type { WidgetProps } from '../../types';
 import FeedItem, { type FeedItemResponse } from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
 import FeedQuickFilters from './components/feed-quick-filters';

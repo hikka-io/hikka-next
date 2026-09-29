@@ -26,7 +26,7 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
-import type { WidgetProps } from '../../constants';
+import type { WidgetProps } from '../types';
 
 const SIZE = 3;
 

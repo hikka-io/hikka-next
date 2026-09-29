@@ -39,14 +39,10 @@ import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { cn } from '@/utils/cn';
 
-import {
-    ALL_WIDGET_SLUGS,
-    type SupportedWidgetSlug,
-    WIDGET_REGISTRY,
-} from './constants';
-import { COLUMNS, groupBySide } from './utils';
+import { COLUMNS, groupBySide } from '../layout';
+import type { SupportedWidgetSlug, UIFeedWidgetSide } from '../types';
+import { ALL_WIDGET_SLUGS, WIDGET_REGISTRY } from '../widgets/registry';
 
-type UIFeedWidgetSide = UiFeedWidget['side'];
 type UIFeedWidgetSlug = UiFeedWidget['slug'];
 
 // --- Preset types & helpers ---
@@ -378,7 +374,7 @@ const DroppableColumn: FC<{
 
 // --- Main Content ---
 
-const LayoutSettingsContent = () => {
+const LayoutSettings = () => {
     const { preferences } = useSessionUI();
     const { update } = useUpdateSessionUI();
 
@@ -559,4 +555,4 @@ const LayoutSettingsContent = () => {
     );
 };
 
-export default LayoutSettingsContent;
+export default LayoutSettings;

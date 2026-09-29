@@ -21,7 +21,7 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link } from '@/utils/navigation';
 
-import type { WidgetProps } from '../../constants';
+import type { WidgetProps } from '../../types';
 import CollectionWidgetItem from './components/collection-widget-item';
 import CollectionWidgetSkeleton from './components/collection-widget-skeleton';
 

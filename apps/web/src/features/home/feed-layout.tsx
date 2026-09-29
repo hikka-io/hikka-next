@@ -10,9 +10,10 @@ import { SELECTED_TINT } from '@/components/ui/selected-tint';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { cn } from '@/utils/cn';
 
-import { type SupportedWidgetSlug, WIDGET_REGISTRY } from './constants';
-import { useFeedLayout } from './hooks/use-feed-layout';
 import { useOpenLayoutSettings } from './hooks/use-open-layout-settings';
+import type { SupportedWidgetSlug } from './types';
+import { useFeedLayout } from './use-feed-layout';
+import { WIDGET_REGISTRY } from './widgets/registry';
 
 const WidgetRenderer: FC<{ widget: UiFeedWidget; isLast?: boolean }> = ({
     widget,
