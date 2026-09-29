@@ -6,7 +6,6 @@ import { ContentTypeEnum } from '@hikka/api';
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
-import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
 import { z } from '@/utils/i18n/zod';
 import type { SortType } from '@/utils/sort';
@@ -23,6 +22,8 @@ import { FormSort } from '../sort';
 import { FormStudio } from '../studio';
 import { FormYear } from '../year';
 import ContentTypeSelect from './content-type-select';
+import { useFilterPresetsStore } from './filter-presets-store';
+import type { FilterPreset } from './types';
 
 const formSchema = z.object({
     name: z.string().min(1).max(255),
@@ -67,13 +68,13 @@ const arraysEqual = (a: unknown[] | undefined, b: unknown[] | undefined) =>
     JSON.stringify(a) === JSON.stringify(b);
 
 type Props = {
-    filterPreset?: Hikka.FilterPreset;
+    filterPreset?: FilterPreset;
     onClose?: () => void;
     onBack?: () => void;
 };
 
 const FilterPresetEditModal = ({ filterPreset, onClose, onBack }: Props) => {
-    const { filterPresets, setFilterPresets } = useSettingsStore();
+    const { filterPresets, setFilterPresets } = useFilterPresetsStore();
 
     const form = useAppForm({
         defaultValues: {
@@ -104,7 +105,7 @@ const FilterPresetEditModal = ({ filterPreset, onClose, onBack }: Props) => {
                 ),
             );
 
-            const newFilterPreset: Hikka.FilterPreset = {
+            const newFilterPreset: FilterPreset = {
                 name: value.name,
                 description: value.description,
                 content_types: value.content_types,

@@ -1,7 +1,6 @@
 import { ReactElement, ReactNode, SVGProps } from 'react';
 
 import type {
-    ContentTypeEnum,
     UiPreferencesOutput,
     UiStylesOutput,
     UserRoleEnum,
@@ -147,26 +146,6 @@ declare global {
         type ScopeLevel = {
             icon: (props: SVGProps<SVGSVGElement>) => ReactElement;
             color: string;
-        };
-
-        type FilterPreset = {
-            id: string;
-            name: string;
-            description?: string;
-            content_types: ContentTypeEnum[];
-            statuses?: string[];
-            seasons?: string[];
-            types?: string[];
-            genres?: string[];
-            only_translated?: boolean;
-            sort?: string;
-            order?: string;
-            ratings?: string[];
-            studios?: string[];
-            years?: number[];
-            score?: number[];
-            date_range_enabled?: boolean;
-            date_range?: number[] | null;
         };
 
         type EventTheme = {

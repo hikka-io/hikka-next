@@ -21,6 +21,7 @@ import { cn } from '@/utils/cn';
 import { useRouteSearch } from '@/utils/navigation';
 
 import FilterPresetEditModal from './presets/filter-preset-edit-modal';
+import type { FilterPreset } from './presets/types';
 
 export type FiltersFooterProps = {
     className?: string;
@@ -39,7 +40,7 @@ const FiltersFooter: FC<FiltersFooterProps> = ({
     const router = useRouter();
     const [open, setOpen] = useState(false);
     const [currentFilters, setCurrentFilters] =
-        useState<Partial<Hikka.FilterPreset> | null>(null);
+        useState<Partial<FilterPreset> | null>(null);
     const search = useRouteSearch();
 
     const clearFilters = () => {
@@ -59,7 +60,7 @@ const FiltersFooter: FC<FiltersFooterProps> = ({
     };
 
     const handleCreateFromCurrent = () => {
-        const next: Partial<Hikka.FilterPreset> = {
+        const next: Partial<FilterPreset> = {
             name: '',
             description: '',
         };
@@ -87,7 +88,7 @@ const FiltersFooter: FC<FiltersFooterProps> = ({
             if (Array.isArray(values) && values.length > 0) {
                 const numberValues = values.map((v: unknown) => Number(v));
                 next[key] = numberValues as unknown as NonNullable<
-                    Hikka.FilterPreset[typeof key]
+                    FilterPreset[typeof key]
                 >;
             }
         });
@@ -169,9 +170,7 @@ const FiltersFooter: FC<FiltersFooterProps> = ({
                     >
                         {currentFilters && (
                             <FilterPresetEditModal
-                                filterPreset={
-                                    currentFilters as Hikka.FilterPreset
-                                }
+                                filterPreset={currentFilters as FilterPreset}
                                 onClose={() => setOpen(false)}
                             />
                         )}

@@ -9,8 +9,8 @@ import {
 } from '@/components/ui/responsive-modal';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
-import { useSettingsStore } from '@/services/stores/settings-store';
 
+import { useEditTagsStore } from '../edit-tags-store';
 import TagsModal from './tags-modal';
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
 const EditDescription: FC<Props> = ({ mode, className }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const form = useFormContext() as any;
-    const settings = useSettingsStore();
+    const settings = useEditTagsStore();
     const [open, setOpen] = useState(false);
 
     const descriptionValue = form.getFieldValue('description') as string;

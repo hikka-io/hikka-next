@@ -11,6 +11,7 @@ import { cn } from '@/utils/cn';
 
 import FilterPresetEditModal from './filter-preset-edit-modal';
 import FilterPresetModal from './filter-preset-modal';
+import type { FilterPreset } from './types';
 
 type Props = {
     className?: string;
@@ -19,22 +20,22 @@ type Props = {
 const FilterPresetButton: FC<Props> = ({ className }) => {
     const [presetsOpen, setPresetsOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
-    const [editPreset, setEditPreset] = useState<
-        Hikka.FilterPreset | undefined
-    >(undefined);
+    const [editPreset, setEditPreset] = useState<FilterPreset | undefined>(
+        undefined,
+    );
 
     // The editor stacks over the list, so dismissing it uncovers the list again.
-    const openEditor = (preset?: Hikka.FilterPreset) => {
+    const openEditor = (preset?: FilterPreset) => {
         setEditPreset(preset);
         setEditOpen(true);
     };
 
     const handleCreatePreset = () => openEditor(undefined);
 
-    const handleEditPreset = (preset: Hikka.FilterPreset) => openEditor(preset);
+    const handleEditPreset = (preset: FilterPreset) => openEditor(preset);
 
-    const handleCreateFromCurrent = (filters: Partial<Hikka.FilterPreset>) =>
-        openEditor(filters as Hikka.FilterPreset);
+    const handleCreateFromCurrent = (filters: Partial<FilterPreset>) =>
+        openEditor(filters as FilterPreset);
 
     const handleEditBack = () => {
         setEditOpen(false);

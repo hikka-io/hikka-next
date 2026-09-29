@@ -12,8 +12,10 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
+
+import { useFilterPresetsStore } from './filter-presets-store';
+import type { FilterPreset } from './types';
 
 type Props = {
     className?: string;
@@ -21,10 +23,10 @@ type Props = {
 };
 
 const FilterPresets: FC<Props> = ({ className, content_type }) => {
-    const { filterPresets, _hasHydrated } = useSettingsStore();
+    const { filterPresets, _hasHydrated } = useFilterPresetsStore();
     const router = useRouter();
 
-    const handleApplyFilterPreset = (preset: Hikka.FilterPreset) => {
+    const handleApplyFilterPreset = (preset: FilterPreset) => {
         const { id, name, description, content_types, ...rest } = preset;
 
         router.navigate({

@@ -9,15 +9,17 @@ import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/Mate
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from '@/components/ui/link';
-import { useSettingsStore } from '@/services/stores/settings-store';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { usePathname, useRouteSearch } from '@/utils/navigation';
+
+import { useFilterPresetsStore } from './filter-presets-store';
+import type { FilterPreset } from './types';
 
 type Props = {
     onClose?: () => void;
     onCreatePreset?: () => void;
-    onEditPreset?: (preset: Hikka.FilterPreset) => void;
-    onCreateFromCurrent?: (filters: Partial<Hikka.FilterPreset>) => void;
+    onEditPreset?: (preset: FilterPreset) => void;
+    onCreateFromCurrent?: (filters: Partial<FilterPreset>) => void;
 };
 
 const FilterPresetModal: FC<Props> = ({
@@ -26,7 +28,7 @@ const FilterPresetModal: FC<Props> = ({
     onEditPreset,
     onCreateFromCurrent,
 }) => {
-    const { filterPresets, setFilterPresets } = useSettingsStore();
+    const { filterPresets, setFilterPresets } = useFilterPresetsStore();
     const pathname = usePathname();
     const search = useRouteSearch();
 
@@ -35,7 +37,7 @@ const FilterPresetModal: FC<Props> = ({
     };
 
     const handleCreateFromCurrentFilters = () => {
-        const currentFilters: Partial<Hikka.FilterPreset> = {
+        const currentFilters: Partial<FilterPreset> = {
             name: '',
             description: '',
         };
@@ -71,7 +73,7 @@ const FilterPresetModal: FC<Props> = ({
                     : [Number(rawValue)];
                 if (values.length > 0) {
                     currentFilters[key] = values as unknown as NonNullable<
-                        Hikka.FilterPreset[typeof key]
+                        FilterPreset[typeof key]
                     >;
                 }
             }
@@ -109,7 +111,7 @@ const FilterPresetModal: FC<Props> = ({
         onCreateFromCurrent?.(currentFilters);
     };
 
-    const handleEditPreset = (preset: Hikka.FilterPreset) => {
+    const handleEditPreset = (preset: FilterPreset) => {
         onEditPreset?.(preset);
     };
 
@@ -119,7 +121,7 @@ const FilterPresetModal: FC<Props> = ({
         );
     };
 
-    const buildFilterPresetLink = (preset: Hikka.FilterPreset) => {
+    const buildFilterPresetLink = (preset: FilterPreset) => {
         const { id, name, description, ...rest } = preset;
 
         const params = new URLSearchParams();

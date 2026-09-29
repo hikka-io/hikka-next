@@ -1,22 +1,21 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export interface SettingsState {
-    editTags: string[];
-    filterPresets: Hikka.FilterPreset[];
+import type { FilterPreset } from './types';
+
+export interface FilterPresetsState {
+    filterPresets: FilterPreset[];
     _hasHydrated: boolean;
 }
 
-export interface SettingsActions {
+export interface FilterPresetsActions {
     setHasHydrated: (hasHydrated: boolean) => void;
-    setEditTags: (editTags: string[]) => void;
-    setFilterPresets: (filterPresets: Hikka.FilterPreset[]) => void;
+    setFilterPresets: (filterPresets: FilterPreset[]) => void;
     reset: () => void;
 }
 
-const DEFAULT_SETTINGS: SettingsState = {
+const DEFAULT_FILTER_PRESETS: FilterPresetsState = {
     _hasHydrated: false,
-    editTags: ['Додано назву', 'Додано синоніми', 'Додано опис', 'Додано імʼя'],
     filterPresets: [
         {
             name: 'Нещодавно завершені',
@@ -30,32 +29,45 @@ const DEFAULT_SETTINGS: SettingsState = {
     ],
 };
 
-export type SettingsStore = SettingsState & SettingsActions;
+// Pre-split 'settings' key; never remove it, the edit-tags store also migrates from it.
+const readLegacyFilterPresets = (): FilterPreset[] | undefined => {
+    try {
+        return JSON.parse(window.localStorage.getItem('settings') ?? 'null')
+            ?.state?.filterPresets;
+    } catch {
+        return undefined;
+    }
+};
 
-export const useSettingsStore = create<SettingsStore>()(
+export type FilterPresetsStore = FilterPresetsState & FilterPresetsActions;
+
+export const useFilterPresetsStore = create<FilterPresetsStore>()(
     persist(
         (set) => ({
-            ...DEFAULT_SETTINGS,
+            ...DEFAULT_FILTER_PRESETS,
             setHasHydrated: (state) => {
                 set({
                     _hasHydrated: state,
                 });
             },
-            setEditTags: (editTags) => set({ editTags }),
             setFilterPresets: (filterPresets) => set({ filterPresets }),
-            reset: () => set(DEFAULT_SETTINGS),
+            reset: () => set(DEFAULT_FILTER_PRESETS),
         }),
         {
-            name: 'settings', // localStorage key
+            name: 'filter-presets', // localStorage key
             onRehydrateStorage: (state) => {
                 return () => state.setHasHydrated(true);
             },
             merge: (persistedState, currentState) => {
-                const persisted = persistedState as Partial<SettingsState>;
+                const persisted = persistedState as
+                    | Partial<FilterPresetsState>
+                    | undefined;
 
                 // Migrate filter presets: sort was string[], now string
                 const filterPresets = (
-                    persisted?.filterPresets ?? currentState.filterPresets
+                    persisted?.filterPresets ??
+                    readLegacyFilterPresets() ??
+                    currentState.filterPresets
                 ).map((preset) => ({
                     ...preset,
                     sort: Array.isArray(preset.sort)
