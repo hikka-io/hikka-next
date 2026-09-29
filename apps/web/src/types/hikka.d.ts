@@ -33,61 +33,6 @@ declare global {
             linkProps?: Record<string, any>;
         };
 
-        type EditParamType = 'input' | 'markdown' | 'list';
-
-        type EditParam = {
-            title: string;
-            slug: string;
-            placeholder?: string;
-            type: EditParamType;
-        };
-
-        type AnimeEditParams = {
-            title_ua?: string;
-            title_en?: string;
-            title_ja?: string;
-            synopsis_en?: string;
-            synopsis_ua?: string;
-            synonyms?: {
-                value: string;
-            }[];
-        };
-
-        type MangaEditParams = {
-            title_ua?: string;
-            title_en?: string;
-            title_original?: string;
-            synopsis_en?: string;
-            synopsis_ua?: string;
-            synonyms?: {
-                value: string;
-            }[];
-        };
-
-        type NovelEditParams = {
-            title_ua?: string;
-            title_en?: string;
-            title_original?: string;
-            synopsis_en?: string;
-            synopsis_ua?: string;
-            synonyms?: {
-                value: string;
-            }[];
-        };
-
-        type CharacterEditParams = {
-            name_ua: string;
-            name_en: string;
-            name_ja: string;
-            description_ua: string;
-        };
-
-        type PersonEditParams = {
-            name_ua: string;
-            name_en: string;
-            name_native: string;
-        };
-
         type ListStat = {
             percentage: number;
             value: number;

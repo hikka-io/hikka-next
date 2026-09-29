@@ -20,7 +20,7 @@ import {
     invalidateEdits,
 } from '@/utils/api/invalidate-content-state';
 
-import EditFormFields from '../edit-forms/components/edit-form-fields';
+import EditFormFields from '../edit-forms/edit-form-fields';
 import {
     getEditFormDefaults,
     getEditGroups,
@@ -28,7 +28,7 @@ import {
     getEditParams,
     getFilteredEditParams,
     isNativeTitleMissing,
-} from '../edit-forms/utils/edit-param-utils';
+} from '../edit-forms/params/edit-param-utils';
 import { useContentBySlug } from '../hooks/use-content-by-slug';
 import type { EditMainContent } from '../types';
 

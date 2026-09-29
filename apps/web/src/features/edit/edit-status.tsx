@@ -5,7 +5,9 @@ import { useQuery } from '@tanstack/react-query';
 import { getEditOptions } from '@hikka/api';
 
 import { Badge } from '@/components/ui/badge';
-import { EDIT_STATUS } from '@/utils/constants/edit';
+import { EDIT_STATUS } from '@/utils/constants/common';
+
+import { EDIT_STATUS_STYLE } from './edit-status-style';
 
 type Props = {
     editId: string;
@@ -20,16 +22,11 @@ const EditStatusBadge: FC<Props> = ({ editId }) => {
         return null;
     }
 
-    const variant =
-        edit.status === 'pending'
-            ? 'warning'
-            : edit.status === 'accepted'
-              ? 'success'
-              : edit.status === 'denied'
-                ? 'destructive'
-                : 'secondary';
-
-    return <Badge variant={variant}>{EDIT_STATUS[edit.status].title_ua}</Badge>;
+    return (
+        <Badge variant={EDIT_STATUS_STYLE[edit.status].variant}>
+            {EDIT_STATUS[edit.status].title_ua}
+        </Badge>
+    );
 };
 
 export default EditStatusBadge;

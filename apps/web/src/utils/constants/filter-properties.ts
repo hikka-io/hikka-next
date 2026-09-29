@@ -5,6 +5,7 @@ import {
     AnimeVideoTypeEnum,
     ArticleCategoryEnum,
     ContentStatusEnum,
+    type EditStatusEnum,
     GenreTypeEnum,
     MangaMediaEnum,
     NovelMediaEnum,
@@ -308,4 +309,23 @@ export const PERSON_ISSUES: Hikka.FilterProperty<string> = {
 export const CHARACTER_ISSUES: Hikka.FilterProperty<string> = {
     ...PERSON_ISSUES,
     description_ua: { title_ua: 'Опис (укр)', title_en: 'Description (ua)' },
+};
+
+export const EDIT_STATUS: Hikka.FilterProperty<EditStatusEnum> = {
+    pending: {
+        title_ua: 'На Розгляді',
+        title_en: 'Pending',
+    },
+    accepted: {
+        title_ua: 'Прийнято',
+        title_en: 'Accepted',
+    },
+    denied: {
+        title_ua: 'Відхилено',
+        title_en: 'Denied',
+    },
+    closed: {
+        title_ua: 'Закрито',
+        title_en: 'Closed',
+    },
 };

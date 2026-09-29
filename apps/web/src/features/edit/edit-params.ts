@@ -1,6 +1,13 @@
-import type { EditStatusEnum } from '@hikka/api';
+import type {
+    AnimeEditParams,
+    CharacterEditParams,
+    EditParam,
+    MangaEditParams,
+    NovelEditParams,
+    PersonEditParams,
+} from './types';
 
-export const ANIME_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
+export const ANIME_EDIT_PARAMS: Record<string, EditParam[]> = {
     title: [
         {
             slug: 'title_ua',
@@ -52,7 +59,7 @@ export const ANIME_EDIT_GROUPS: Record<string, string> = {
     synonyms: 'Синоніми',
 };
 
-export const MANGA_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
+export const MANGA_EDIT_PARAMS: Record<string, EditParam[]> = {
     title: [
         {
             slug: 'title_ua',
@@ -104,7 +111,7 @@ export const MANGA_EDIT_GROUPS: Record<string, string> = {
     synonyms: 'Синоніми',
 };
 
-export const NOVEL_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
+export const NOVEL_EDIT_PARAMS: Record<string, EditParam[]> = {
     title: [
         {
             slug: 'title_ua',
@@ -157,11 +164,11 @@ export const NOVEL_EDIT_GROUPS: Record<string, string> = {
 };
 
 export const EDIT_PARAMS: Record<
-    | keyof Hikka.AnimeEditParams
-    | keyof Hikka.MangaEditParams
-    | keyof Hikka.NovelEditParams
-    | keyof Hikka.CharacterEditParams
-    | keyof Hikka.PersonEditParams,
+    | keyof AnimeEditParams
+    | keyof MangaEditParams
+    | keyof NovelEditParams
+    | keyof CharacterEditParams
+    | keyof PersonEditParams,
     string
 > = {
     name_ua: 'Імʼя UA',
@@ -178,7 +185,7 @@ export const EDIT_PARAMS: Record<
     name_native: 'Оригінальна назва',
 };
 
-export const CHARACTER_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
+export const CHARACTER_EDIT_PARAMS: Record<string, EditParam[]> = {
     title: [
         {
             slug: 'name_ua',
@@ -225,7 +232,7 @@ export const CHARACTER_EDIT_GROUPS: Record<string, string> = {
     synonyms: 'Синоніми',
 };
 
-export const PERSON_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
+export const PERSON_EDIT_PARAMS: Record<string, EditParam[]> = {
     title: [
         {
             slug: 'name_ua',
@@ -260,22 +267,4 @@ export const PERSON_EDIT_PARAMS: Record<string, Hikka.EditParam[]> = {
 export const PERSON_EDIT_GROUPS: Record<string, string> = {
     title: 'Імʼя',
     synonyms: 'Синоніми',
-};
-export const EDIT_STATUS: Hikka.FilterProperty<EditStatusEnum> = {
-    pending: {
-        title_ua: 'На Розгляді',
-        title_en: 'Pending',
-    },
-    accepted: {
-        title_ua: 'Прийнято',
-        title_en: 'Accepted',
-    },
-    denied: {
-        title_ua: 'Відхилено',
-        title_en: 'Denied',
-    },
-    closed: {
-        title_ua: 'Закрито',
-        title_en: 'Closed',
-    },
 };

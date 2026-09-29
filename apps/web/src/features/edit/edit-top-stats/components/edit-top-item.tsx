@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { UserResponse } from '@hikka/api';
+import { EditStatusEnum, type UserResponse } from '@hikka/api';
 
 import MaterialSymbolsKidStar from '@/components/icons/material-symbols/MaterialSymbolsKidStar';
 import Card from '@/components/ui/card';
@@ -17,6 +17,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
+import { EDIT_STATUS } from '@/utils/constants/common';
 
 type Props = {
     user: UserResponse;
@@ -62,7 +63,9 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                                     <small>{accepted}</small>
                                 </div>
                             </TooltipTrigger>
-                            <TooltipContent>Прийнято</TooltipContent>
+                            <TooltipContent>
+                                {EDIT_STATUS[EditStatusEnum.ACCEPTED].title_ua}
+                            </TooltipContent>
                         </Tooltip>
                         <Tooltip delay={0}>
                             <TooltipTrigger>
@@ -71,7 +74,9 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                                     <small>{denied}</small>
                                 </div>
                             </TooltipTrigger>
-                            <TooltipContent>Відхилено</TooltipContent>
+                            <TooltipContent>
+                                {EDIT_STATUS[EditStatusEnum.DENIED].title_ua}
+                            </TooltipContent>
                         </Tooltip>
 
                         <Tooltip delay={0}>
@@ -81,7 +86,9 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
                                     <small>{closed}</small>
                                 </div>
                             </TooltipTrigger>
-                            <TooltipContent>Закрито</TooltipContent>
+                            <TooltipContent>
+                                {EDIT_STATUS[EditStatusEnum.CLOSED].title_ua}
+                            </TooltipContent>
                         </Tooltip>
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>

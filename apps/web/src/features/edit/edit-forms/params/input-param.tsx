@@ -11,8 +11,10 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams } from '@/utils/navigation';
 
+import type { EditParam } from '../../types';
+
 type Props = {
-    param: Hikka.EditParam;
+    param: EditParam;
     mode: 'view' | 'edit';
 };
 

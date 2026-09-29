@@ -14,7 +14,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { EDIT_STATUS } from '@/utils/constants/edit';
+import { EDIT_STATUS } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
 
 import { useChangeParam } from './use-change-param';

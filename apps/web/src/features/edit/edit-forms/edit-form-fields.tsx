@@ -1,11 +1,12 @@
 import { cn } from '@/utils/cn';
 
-import EditDescription from './edit-description';
-import EditGroup from './edit-group';
-import NativeTitleWarning from './native-title-warning';
+import type { EditParam } from '../types';
+import EditDescription from './components/edit-description';
+import EditGroup from './components/edit-group';
+import NativeTitleWarning from './components/native-title-warning';
 
 type Props = {
-    params: Record<string, Hikka.EditParam[]>;
+    params: Record<string, EditParam[]>;
     groups: Record<string, string>;
     mode: 'view' | 'edit' | 'update';
     nativeTitleMissing: boolean;

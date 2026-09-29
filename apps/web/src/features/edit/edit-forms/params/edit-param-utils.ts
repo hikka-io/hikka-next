@@ -13,14 +13,14 @@ import {
     NOVEL_EDIT_PARAMS,
     PERSON_EDIT_GROUPS,
     PERSON_EDIT_PARAMS,
-} from '../../../../utils/constants/edit';
-import type { EditMainContent } from '../../types';
-import InputParam from '../components/params/input-param';
-import ListParam from '../components/params/list-param';
-import MarkdownParam from '../components/params/markdown-param';
+} from '../../edit-params';
+import type { EditMainContent, EditParam, EditParamType } from '../../types';
+import InputParam from './input-param';
+import ListParam from './list-param';
+import MarkdownParam from './markdown-param';
 
 export const getEditParamComponent = (
-    type: Hikka.EditParamType,
+    type: EditParamType,
 ): ComponentType<any> => {
     switch (type) {
         case 'input':
@@ -36,7 +36,7 @@ export const getEditParams = (
     content_type: EditContentTypeEnum,
     filter?: string[],
 ) => {
-    let params: Record<string, Hikka.EditParam[]> = {};
+    let params: Record<string, EditParam[]> = {};
 
     switch (content_type) {
         case ContentTypeEnum.ANIME:
@@ -116,9 +116,7 @@ export const isNativeTitleMissing = (
     return typeof value !== 'string' || value.trim().length === 0;
 };
 
-export const getEditParamSlugs = (
-    params: Record<string, Hikka.EditParam[]>,
-) => {
+export const getEditParamSlugs = (params: Record<string, EditParam[]>) => {
     return Object.values(params)
         .flat()
         .map((param) => param.slug);

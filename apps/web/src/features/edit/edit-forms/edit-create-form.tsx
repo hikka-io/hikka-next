@@ -12,7 +12,7 @@ import { useRouter } from '@/utils/navigation';
 
 import type { EditMainContent } from '../types';
 import AutoButton from './components/auto-button';
-import EditFormFields from './components/edit-form-fields';
+import EditFormFields from './edit-form-fields';
 import {
     getEditFormDefaults,
     getEditGroups,
@@ -20,7 +20,7 @@ import {
     getEditParams,
     getFilteredEditParams,
     isNativeTitleMissing,
-} from './utils/edit-param-utils';
+} from './params/edit-param-utils';
 
 type Props = {
     slug: string;

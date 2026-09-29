@@ -2,11 +2,7 @@ import { format } from 'date-fns';
 
 import { type EditSimpleResponse, EditStatusEnum } from '@hikka/api';
 
-import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
-import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
-import MaterialSymbolsHourglassEmptyRounded from '@/components/icons/material-symbols/MaterialSymbolsHourglassEmptyRounded';
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
-import Closed from '@/components/icons/watch-status/dropped';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,8 +13,11 @@ import {
     HorizontalCardTitle,
 } from '@/components/ui/horizontal-card';
 import { cn } from '@/utils/cn';
-import { EDIT_PARAMS, EDIT_STATUS } from '@/utils/constants/edit';
+import { EDIT_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
+
+import { EDIT_PARAMS } from '../../edit-params';
+import { EDIT_STATUS_STYLE } from '../../edit-status-style';
 
 type Props = {
     edit: EditSimpleResponse;
@@ -29,6 +28,10 @@ type Props = {
 
 const EditCard = ({ edit, href, to, className, ...props }: Props) => {
     const resolvedHref = to ?? href ?? '';
+    const statusStyle = EDIT_STATUS_STYLE[edit.status];
+    const StatusIcon =
+        statusStyle?.icon ?? MaterialSymbolsVisibilityOutlineRounded;
+
     return (
         <div className={cn('flex flex-col gap-4', className)}>
             <HorizontalCard>
@@ -50,27 +53,13 @@ const EditCard = ({ edit, href, to, className, ...props }: Props) => {
                 <Button
                     size="md"
                     variant={
-                        edit.status === EditStatusEnum.ACCEPTED
-                            ? 'success'
-                            : edit.status === EditStatusEnum.DENIED
-                              ? 'destructive'
-                              : edit.status === EditStatusEnum.CLOSED
-                                ? 'outline'
-                                : 'warning'
+                        edit.status === EditStatusEnum.CLOSED
+                            ? 'outline'
+                            : (statusStyle?.variant ?? 'warning')
                     }
                     render={<Link to={resolvedHref} />}
                 >
-                    {edit.status === EditStatusEnum.ACCEPTED ? (
-                        <MaterialSymbolsCheckRounded />
-                    ) : edit.status === EditStatusEnum.DENIED ? (
-                        <MaterialSymbolsCloseRounded />
-                    ) : edit.status === EditStatusEnum.CLOSED ? (
-                        <Closed />
-                    ) : edit.status === EditStatusEnum.PENDING ? (
-                        <MaterialSymbolsHourglassEmptyRounded />
-                    ) : (
-                        <MaterialSymbolsVisibilityOutlineRounded />
-                    )}
+                    <StatusIcon />
                     <span className="hidden md:block">
                         {EDIT_STATUS[edit.status].title_ua}
                     </span>

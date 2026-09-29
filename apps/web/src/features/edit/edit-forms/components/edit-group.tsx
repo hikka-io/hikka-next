@@ -17,12 +17,13 @@ import {
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
 
-import { getEditParamComponent } from '../utils/edit-param-utils';
+import type { EditParam } from '../../types';
+import { getEditParamComponent } from '../params/edit-param-utils';
 
 type Props = {
     title: string;
     groupKey: string;
-    params: Hikka.EditParam[];
+    params: EditParam[];
     mode: 'view' | 'edit' | 'update';
     warning?: ReactNode;
     /** Start expanded in `edit` mode (view/update are always open). */

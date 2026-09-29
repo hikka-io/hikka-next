@@ -14,14 +14,14 @@ import {
 import { useRouter } from '@/utils/navigation';
 
 import AutoButton from './components/auto-button';
-import EditFormFields from './components/edit-form-fields';
+import EditFormFields from './edit-form-fields';
 import {
     getEditGroups,
     getEditParamSlugs,
     getEditParams,
     getFilteredEditParams,
     isNativeTitleMissing,
-} from './utils/edit-param-utils';
+} from './params/edit-param-utils';
 
 type Props = {
     mode?: 'view' | 'edit' | 'update';

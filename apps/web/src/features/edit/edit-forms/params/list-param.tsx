@@ -8,8 +8,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
 
+import type { EditParam } from '../../types';
+
 type Props = {
-    param: Hikka.EditParam;
+    param: EditParam;
     mode: 'edit' | 'view';
 };
 
