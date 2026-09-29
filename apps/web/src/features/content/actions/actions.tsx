@@ -2,10 +2,9 @@ import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import type { MainContentTypeEnum } from '@hikka/api';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
-import { ReadListButton, WatchListButton } from '@/components/tracking';
 import { useSession } from '@/features/auth/hooks/use-session';
 import {
     contentInfoOptions,
@@ -14,6 +13,7 @@ import {
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
+import ListEntryButton from '../list-entry-button';
 import UserContentStats from './components/user-content-stats';
 
 type Props = {
@@ -38,29 +38,11 @@ const ContentActions: FC<Props> = ({ content_type, className }) => {
         <div className={cn('flex flex-col gap-4', className)}>
             <div className="flex gap-4">
                 <div className="min-w-0 flex-1">
-                    {content_type === ContentTypeEnum.ANIME ? (
-                        <WatchListButton
-                            disabled={!user}
-                            slug={String(params.slug)}
-                            anime={
-                                content?.data_type === 'anime'
-                                    ? content
-                                    : undefined
-                            }
-                        />
-                    ) : (
-                        <ReadListButton
-                            content_type={content_type}
-                            disabled={!user}
-                            slug={String(params.slug)}
-                            content={
-                                content?.data_type === 'manga' ||
-                                content?.data_type === 'novel'
-                                    ? content
-                                    : undefined
-                            }
-                        />
-                    )}
+                    <ListEntryButton
+                        content_type={content_type}
+                        content={content}
+                        disabled={!user}
+                    />
                 </div>
                 <FavoriteButton
                     slug={String(params.slug)}

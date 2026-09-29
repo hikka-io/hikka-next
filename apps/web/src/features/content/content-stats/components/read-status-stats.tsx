@@ -2,22 +2,26 @@ import { createElement } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import {
-    type AnimeStatsResponse,
-    ContentTypeEnum,
-    type WatchStatusEnum,
+import type {
+    AppSchemasReadStatsResponse as ReadStatsResponse,
+    ReadStatusEnum,
 } from '@hikka/api';
 
-import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
+import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
+import type { ListStat } from '../types';
 import Stats from './stats';
 
-const Watchlist = () => {
+type Props = {
+    content_type: 'manga' | 'novel';
+};
+
+const ReadStatusStats = ({ content_type }: Props) => {
     const params = useParams();
     const { data } = useQuery(
-        contentInfoOptions(ContentTypeEnum.ANIME, String(params.slug)),
+        contentInfoOptions(content_type, String(params.slug)),
     );
 
     if (!data) {
@@ -29,24 +33,19 @@ const Watchlist = () => {
         (data.stats.on_hold ?? 0) +
         (data.stats.dropped ?? 0) +
         (data.stats.planned ?? 0) +
-        (data.stats.watching ?? 0);
+        (data.stats.reading ?? 0);
 
-    const stats: Hikka.ListStat[] = Object.keys(data.stats)
+    const stats: ListStat[] = Object.keys(data.stats)
         .filter((stat) => !stat.includes('score'))
         .map((stat) => {
             const percentage =
-                (100 * (data.stats[stat as keyof AnimeStatsResponse] ?? 0)) /
+                (100 * (data.stats[stat as keyof ReadStatsResponse] ?? 0)) /
                 sumStats;
 
             return {
                 percentage,
-                value: data.stats[stat as keyof AnimeStatsResponse] ?? 0,
-                icon: createElement(
-                    WATCH_STATUS_ICONS[stat as WatchStatusEnum],
-                    {
-                        className: 'size-3!',
-                    },
-                ),
+                value: data.stats[stat as keyof ReadStatsResponse] ?? 0,
+                icon: createElement(READ_STATUS_ICONS[stat as ReadStatusEnum]),
                 name: stat,
             };
         });
@@ -54,4 +53,4 @@ const Watchlist = () => {
     return <Stats stats={stats} />;
 };
 
-export default Watchlist;
+export default ReadStatusStats;

@@ -14,7 +14,7 @@ import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
 import { CHAPTER_FORMS, EPISODE_FORMS } from '@/utils/i18n/word-forms';
 
-import { useUserlistManager } from '../../hooks/use-list-manager';
+import { useListEntryEditor } from '../use-list-entry-editor';
 import UserNote from './user-note';
 
 const UserContentStats = ({
@@ -33,7 +33,7 @@ const UserContentStats = ({
         score,
         progress,
         total,
-    } = useUserlistManager({
+    } = useListEntryEditor({
         listItem,
         content_type,
     });

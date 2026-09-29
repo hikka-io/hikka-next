@@ -9,6 +9,7 @@ import type {
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
+import type { ListStat } from '../types';
 import Stats from './stats';
 
 type Props = {
@@ -37,7 +38,7 @@ const Score = ({ content_type }: Props) => {
         (data.stats.score_9 ?? 0) +
         (data.stats.score_10 ?? 0);
 
-    const stats: Hikka.ListStat[] = Object.keys(data.stats)
+    const stats: ListStat[] = Object.keys(data.stats)
         .filter(
             (stat) =>
                 stat.includes('score') &&

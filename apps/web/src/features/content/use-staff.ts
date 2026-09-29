@@ -4,7 +4,7 @@ import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import { contentInfoOptions } from '@/utils/api/content-queries';
 
-import { CONTENT_CONFIG } from '../content-config';
+import { CONTENT_CONFIG } from './content-config';
 
 type StaffProps = {
     content_type: MainContentTypeEnum;

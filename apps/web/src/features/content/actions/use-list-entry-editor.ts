@@ -99,7 +99,7 @@ type ListManagerProps = {
     content_type: MainContentTypeEnum;
 };
 
-export const useUserlistManager = ({
+export const useListEntryEditor = ({
     listItem,
     content_type,
 }: ListManagerProps) => {

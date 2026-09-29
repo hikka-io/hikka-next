@@ -15,7 +15,7 @@ import Stack from '@/components/ui/stack';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useParams } from '@/utils/navigation';
 
-import { useStaff } from './hooks/use-staff';
+import { useStaff } from './use-staff';
 
 type Props = {
     extended?: boolean;

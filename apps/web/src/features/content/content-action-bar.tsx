@@ -6,68 +6,22 @@ import { MessageCircle } from 'lucide-react';
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
-import { ReadListButton, WatchListButton } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { usePageTitleReveal } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { ContentEditsButton } from '@/features/edit';
-import {
-    type ContentInfo,
-    contentInfoOptions,
-} from '@/utils/api/content-queries';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
 import { Link, useParams } from '@/utils/navigation';
 
+import ListEntryButton from './list-entry-button';
+
 type Props = {
     className?: string;
     content_type: MainContentTypeEnum | 'character' | 'person';
-};
-
-const UserlistButton = ({
-    content_type,
-    content,
-    disabled,
-}: Props & {
-    content?: ContentInfo<Props['content_type']>;
-    disabled?: boolean;
-}) => {
-    const params = useParams();
-
-    switch (content_type) {
-        case ContentTypeEnum.ANIME:
-            return (
-                <WatchListButton
-                    slug={String(params.slug)}
-                    size="icon-md"
-                    anime={content?.data_type === 'anime' ? content : undefined}
-                    disabled={disabled}
-                />
-            );
-        case ContentTypeEnum.MANGA:
-        case ContentTypeEnum.NOVEL:
-            return (
-                <ReadListButton
-                    slug={String(params.slug)}
-                    size="icon-md"
-                    content_type={content_type}
-                    content={
-                        content?.data_type === 'manga' ||
-                        content?.data_type === 'novel'
-                            ? content
-                            : undefined
-                    }
-                    disabled={disabled}
-                />
-            );
-        case ContentTypeEnum.PERSON:
-        case ContentTypeEnum.CHARACTER:
-            return null;
-        default:
-            return null;
-    }
 };
 
 const ContentActionBar: FC<Props> = ({ className, content_type }) => {
@@ -99,10 +53,11 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
                 className="flex-row gap-2 px-3 py-2"
                 id="navbar-card"
             >
-                <UserlistButton
+                <ListEntryButton
                     content_type={content_type}
                     content={data}
                     disabled={!loggedUser}
+                    size="icon-md"
                 />
                 <FavoriteButton
                     slug={String(params.slug)}

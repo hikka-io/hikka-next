@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement } from 'react';
 
 import type { UserRoleEnum } from '@hikka/api';
 
@@ -26,14 +26,6 @@ declare global {
             visible?: boolean;
             items?: NavRoute[];
             linkProps?: Record<string, any>;
-        };
-
-        type ListStat = {
-            percentage: number;
-            value: number;
-            icon?: ReactNode;
-            color?: string;
-            name?: string;
         };
 
         type View = 'table' | 'grid' | 'list';

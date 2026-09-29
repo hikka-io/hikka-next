@@ -2,25 +2,23 @@ import { createElement } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import type {
-    AppSchemasReadStatsResponse as ReadStatsResponse,
-    ReadStatusEnum,
+import {
+    type AnimeStatsResponse,
+    ContentTypeEnum,
+    type WatchStatusEnum,
 } from '@hikka/api';
 
-import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
+import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
+import type { ListStat } from '../types';
 import Stats from './stats';
 
-type Props = {
-    content_type: 'manga' | 'novel';
-};
-
-const Readlist = ({ content_type }: Props) => {
+const WatchStatusStats = () => {
     const params = useParams();
     const { data } = useQuery(
-        contentInfoOptions(content_type, String(params.slug)),
+        contentInfoOptions(ContentTypeEnum.ANIME, String(params.slug)),
     );
 
     if (!data) {
@@ -32,19 +30,24 @@ const Readlist = ({ content_type }: Props) => {
         (data.stats.on_hold ?? 0) +
         (data.stats.dropped ?? 0) +
         (data.stats.planned ?? 0) +
-        (data.stats.reading ?? 0);
+        (data.stats.watching ?? 0);
 
-    const stats: Hikka.ListStat[] = Object.keys(data.stats)
+    const stats: ListStat[] = Object.keys(data.stats)
         .filter((stat) => !stat.includes('score'))
         .map((stat) => {
             const percentage =
-                (100 * (data.stats[stat as keyof ReadStatsResponse] ?? 0)) /
+                (100 * (data.stats[stat as keyof AnimeStatsResponse] ?? 0)) /
                 sumStats;
 
             return {
                 percentage,
-                value: data.stats[stat as keyof ReadStatsResponse] ?? 0,
-                icon: createElement(READ_STATUS_ICONS[stat as ReadStatusEnum]),
+                value: data.stats[stat as keyof AnimeStatsResponse] ?? 0,
+                icon: createElement(
+                    WATCH_STATUS_ICONS[stat as WatchStatusEnum],
+                    {
+                        className: 'size-3!',
+                    },
+                ),
                 name: stat,
             };
         });
@@ -52,4 +55,4 @@ const Readlist = ({ content_type }: Props) => {
     return <Stats stats={stats} />;
 };
 
-export default Readlist;
+export default WatchStatusStats;
