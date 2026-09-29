@@ -5,8 +5,6 @@ import {
     AnimeStatusEnum,
     animeScheduleInfiniteOptions,
     ContentTypeEnum,
-    type FeedArgs,
-    FeedContentTypeEnum,
     feedPageParam,
     followingHistoryInfiniteOptions,
     followStatsOptions,
@@ -22,7 +20,7 @@ import {
 
 import { CoverImage, usePageHeader } from '@/features/app-shell';
 import { FeedLayout, HomeHeaderActions } from '@/features/home';
-import { ongoingsOptions } from '@/features/home/queries';
+import { initialFeedArgs, ongoingsOptions } from '@/features/home/queries';
 import { useSession } from '@/services/session';
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
@@ -37,26 +35,14 @@ const HeaderWordmark = () => (
     />
 );
 
-const FEED_TYPE_TO_CONTENT_TYPE: Record<
-    string,
-    FeedArgs['feed_content_types']
-> = {
-    comments: [FeedContentTypeEnum.COMMENT],
-    articles: [FeedContentTypeEnum.ARTICLE],
-    collections: [FeedContentTypeEnum.COLLECTION],
-    all: undefined,
-};
-
 export const Route = createFileRoute('/_pages/')({
     validateSearch: zodValidator(feedSearchSchema),
-    loaderDeps: ({ search }) => ({ type: search.type }),
     head: () =>
         generateHeadMeta({
             title: 'Hikka - енциклопедія аніме, манґи та ранобе українською',
             url: SITE_ORIGIN,
         }),
-    loader: async ({ context: { queryClient, apiClient }, deps }) => {
-        const { type } = deps;
+    loader: async ({ context: { queryClient, apiClient } }) => {
         const season = getCurrentSeason()!;
         const year = Number(new Date().getFullYear());
 
@@ -116,18 +102,19 @@ export const Route = createFileRoute('/_pages/')({
             );
         }
 
-        promises.push(
-            queryClient.ensureInfiniteQueryData({
-                ...getFeedInfiniteOptions({
-                    body: {
-                        feed_content_types:
-                            FEED_TYPE_TO_CONTENT_TYPE[type ?? 'all'],
-                    },
-                    client: apiClient,
+        const feedArgs = initialFeedArgs(queryClient);
+
+        if (feedArgs) {
+            promises.push(
+                queryClient.ensureInfiniteQueryData({
+                    ...getFeedInfiniteOptions({
+                        body: feedArgs,
+                        client: apiClient,
+                    }),
+                    ...feedPageParam(),
                 }),
-                ...feedPageParam(),
-            }),
-        );
+            );
+        }
 
         promises.push(
             queryClient.ensureInfiniteQueryData({

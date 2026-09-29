@@ -5,7 +5,6 @@ import { useInView } from 'react-intersection-observer';
 
 import {
     ContentTypeEnum,
-    type FeedArgs,
     feedPageParam,
     getFeedInfiniteOptions,
 } from '@hikka/api';
@@ -24,6 +23,7 @@ import {
 } from '@/services/session';
 import { cn } from '@/utils/cn';
 
+import { buildFeedArgs, isFeedDisabled } from '../../queries';
 import type { WidgetProps } from '../../types';
 import FeedItem, { type FeedItemResponse } from './components/feed-item';
 import FeedItemSkeleton from './components/feed-item-skeleton';
@@ -81,36 +81,14 @@ const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
         }
     };
 
-    const feedArgs = useMemo((): FeedArgs => {
-        const args: FeedArgs = {};
-
-        if (onlyFollowed) args.only_followed = true;
-
-        if (filters.feed_content_types !== null)
-            args.feed_content_types =
-                filters.feed_content_types as FeedArgs['feed_content_types'];
-        if (filters.comment_content_types?.length)
-            args.comment_content_types =
-                filters.comment_content_types as FeedArgs['comment_content_types'];
-        if (filters.article_content_types?.length)
-            args.article_content_types =
-                filters.article_content_types as FeedArgs['article_content_types'];
-        if (filters.article_categories?.length)
-            args.article_categories =
-                filters.article_categories as FeedArgs['article_categories'];
-        if (filters.collection_content_types?.length)
-            args.collection_content_types =
-                filters.collection_content_types as FeedArgs['collection_content_types'];
-        if (filters.review_content_types?.length)
-            args.review_content_types =
-                filters.review_content_types as FeedArgs['review_content_types'];
-
-        return args;
-    }, [onlyFollowed, filters]);
+    const feedArgs = useMemo(
+        () => buildFeedArgs(filters, onlyFollowed),
+        [onlyFollowed, filters],
+    );
 
     const { ref: feedRef, inView } = useInView();
 
-    const allSectionsDisabled = filters.feed_content_types?.length === 0;
+    const allSectionsDisabled = isFeedDisabled(filters);
 
     const feedQuery = useInfiniteQuery({
         ...getFeedInfiniteOptions({ body: feedArgs }),

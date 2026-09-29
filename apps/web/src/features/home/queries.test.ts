@@ -18,24 +18,59 @@ import {
     type Client,
     configureBrowserClient,
     createRequestClient,
+    type FeedArgs,
+    FeedArticleCategoryEnum,
+    FeedArticleContentTypeEnum,
+    FeedCollectionContentTypeEnum,
+    FeedCommentContentTypeEnum,
+    FeedContentTypeEnum,
     getBrowserClient,
+    getFeedInfiniteOptions,
     type ProfileResponse,
     paginationPageParam,
     profileQueryKey,
+    profileUiQueryKey,
     type SeasonEnum,
     searchAnimeInfiniteOptions,
+    type UiFeedSettingsOutput,
+    type UserCustomizationResponse,
 } from '@hikka/api';
 
+import { DEFAULT_USER_UI } from '@/utils/customization';
 import { getCurrentSeason } from '@/utils/season';
 import { getOngoingsSort } from '@/utils/sort';
 
 import { Route as HomeRoute } from '../../routes/_pages/index';
-import { ongoingsOptions } from './queries';
+import { buildFeedArgs, isFeedDisabled, ongoingsOptions } from './queries';
 import type { UIFeedWidgetSide } from './types';
+import FeedWidget from './widgets/feed-widget';
 import OngoingsWidget from './widgets/ongoings-widget';
+
+type FeedQuery = { queryKey: readonly unknown[]; enabled?: boolean };
 
 const mocks = vi.hoisted(() => ({
     infiniteListCalls: [] as unknown[][],
+    feedQueries: [] as FeedQuery[],
+    user: undefined as ProfileResponse | undefined,
+    ui: undefined as UserCustomizationResponse | undefined,
+}));
+
+vi.mock('@tanstack/react-query', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+    useInfiniteQuery: (options: FeedQuery) => {
+        mocks.feedQueries.push(options);
+        return { data: undefined, isPending: true, hasNextPage: false };
+    },
+}));
+
+vi.mock('@/services/hooks/use-back-close', () => ({ useBackClose: () => {} }));
+
+vi.mock('@/services/session/use-session', () => ({
+    useSession: () => ({ user: mocks.user }),
+}));
+
+vi.mock('@/services/session/use-update-session-ui', () => ({
+    useUpdateSessionUI: () => ({ update: () => {} }),
 }));
 
 vi.mock('@/utils/navigation', async (importOriginal) => ({
@@ -56,7 +91,14 @@ vi.mock('@/services/session/use-session-ui', async (importOriginal) => ({
         typeof import('@/services/session/use-session-ui')
     >()),
     useSessionUI: () => ({
-        preferences: { title_language: 'title_ua', name_language: 'name_ua' },
+        preferences: {
+            title_language: 'title_ua',
+            name_language: 'name_ua',
+            feed: {
+                widgets: [],
+                ...(mocks.ui ?? DEFAULT_USER_UI).preferences.feed,
+            },
+        },
     }),
 }));
 
@@ -119,13 +161,21 @@ async function sentRequest(options: CapturedOptions, client: Client) {
     };
 }
 
-async function runHomeLoader(type: string | undefined, loggedIn: boolean) {
+const loaderOptions: RecordedOptions[] = [];
+
+async function runHomeLoader(
+    type: string | undefined,
+    loggedIn: boolean,
+    ui?: UserCustomizationResponse,
+) {
     const queryClient = new QueryClient();
     const calls: string[] = [];
 
     if (loggedIn) queryClient.setQueryData(profileQueryKey(), PROFILE);
+    if (ui) queryClient.setQueryData(profileUiQueryKey(), ui);
 
     const record = (method: string) => async (options: RecordedOptions) => {
+        loaderOptions.push(options);
         calls.push(
             `${method} ${Object.keys(options).join(',')} ${serialize(options.initialPageParam)} ${serialize(options.queryKey)}`,
         );
@@ -189,6 +239,10 @@ beforeAll(() => {
 
 beforeEach(() => {
     mocks.infiniteListCalls = [];
+    mocks.feedQueries = [];
+    mocks.user = undefined;
+    mocks.ui = undefined;
+    loaderOptions.length = 0;
 });
 
 afterEach(() => {
@@ -236,12 +290,12 @@ const HOME_CASES = [
 
 const EXPECTED_HOME_CALLS: Record<string, string[]> = {
     'anonymous, september': [
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{"feed_content_types":"<undefined>"}}]',
+        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"]}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
     ],
     'anonymous, comments feed': [
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{"feed_content_types":["comment"]}}]',
+        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"]}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
     ],
@@ -252,24 +306,24 @@ const EXPECTED_HOME_CALLS: Record<string, string[]> = {
         'ensureQueryData queryFn,queryKey "<undefined>" [{"_id":"userReadStats","baseUrl":"https://api.example.test","path":{"content_type":"manga","username":"tester"}}]',
         'ensureQueryData queryFn,queryKey "<undefined>" [{"_id":"userReadStats","baseUrl":"https://api.example.test","path":{"content_type":"novel","username":"tester"}}]',
         'ensureQueryData queryFn,queryKey "<undefined>" [{"_id":"followStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{"feed_content_types":"<undefined>"}}]',
+        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"]}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
     ],
     'anonymous, new year': [
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{"feed_content_types":"<undefined>"}}]',
+        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["fall",2027],"status":["ongoing","announced"]}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["fall"],"media_type":["tv"],"years":[2027,2027],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
     ],
     'anonymous, spring': [
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{"feed_content_types":["article"]}}]',
+        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["spring",2027],"status":["ongoing","announced"]}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["spring"],"media_type":["tv"],"years":[2027,2027],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
     ],
 };
 
 describe('home loader', () => {
-    it.each(HOME_CASES)('keeps the HEAD calls: $name', async ({
+    it.each(HOME_CASES)('makes the expected calls: $name', async ({
         name,
         date,
         type,
@@ -371,5 +425,248 @@ describe('ongoingsOptions', () => {
         expect(fromLoader.method).toBe('POST');
         expect(fromLoader.path).toBe('/anime?size=5&page=1');
         expect(fromLoader).toEqual(fromWidget);
+    });
+});
+
+type FeedFilters = Required<
+    Omit<UiFeedSettingsOutput, 'only_followed' | 'widgets'>
+>;
+
+const NO_FILTERS: FeedFilters = {
+    feed_content_types: null,
+    comment_content_types: null,
+    article_content_types: null,
+    article_categories: null,
+    collection_content_types: null,
+    review_content_types: null,
+};
+
+// Copy of the feed args builder in HEAD feed-widget.tsx.
+function headWidgetFeedArgs(
+    onlyFollowed: boolean,
+    filters: FeedFilters,
+): FeedArgs {
+    const args: FeedArgs = {};
+
+    if (onlyFollowed) args.only_followed = true;
+
+    if (filters.feed_content_types !== null)
+        args.feed_content_types = filters.feed_content_types;
+    if (filters.comment_content_types?.length)
+        args.comment_content_types = filters.comment_content_types;
+    if (filters.article_content_types?.length)
+        args.article_content_types = filters.article_content_types;
+    if (filters.article_categories?.length)
+        args.article_categories = filters.article_categories;
+    if (filters.collection_content_types?.length)
+        args.collection_content_types = filters.collection_content_types;
+    if (filters.review_content_types?.length)
+        args.review_content_types = filters.review_content_types;
+
+    return args;
+}
+
+const CUSTOM_FEED: UiFeedSettingsOutput = {
+    only_followed: true,
+    feed_content_types: [
+        FeedContentTypeEnum.COMMENT,
+        FeedContentTypeEnum.ARTICLE,
+    ],
+    comment_content_types: [
+        FeedCommentContentTypeEnum.ANIME,
+        FeedCommentContentTypeEnum.MANGA,
+    ],
+    article_content_types: null,
+    article_categories: [],
+    collection_content_types: [FeedCollectionContentTypeEnum.ANIME],
+    review_content_types: [],
+};
+
+const FEED_ARGS_CASES: {
+    name: string;
+    onlyFollowed: boolean;
+    filters: FeedFilters;
+}[] = [
+    { name: 'no filters', onlyFollowed: false, filters: NO_FILTERS },
+    { name: 'only followed', onlyFollowed: true, filters: NO_FILTERS },
+    {
+        name: 'every section off',
+        onlyFollowed: false,
+        filters: { ...NO_FILTERS, feed_content_types: [] },
+    },
+    {
+        name: 'custom sections',
+        onlyFollowed: true,
+        filters: { ...NO_FILTERS, ...CUSTOM_FEED } as FeedFilters,
+    },
+    {
+        name: 'every group set',
+        onlyFollowed: false,
+        filters: {
+            feed_content_types: [FeedContentTypeEnum.ARTICLE],
+            comment_content_types: [FeedCommentContentTypeEnum.EDIT],
+            article_content_types: [FeedArticleContentTypeEnum.NO_CONTENT],
+            article_categories: [FeedArticleCategoryEnum.NEWS],
+            collection_content_types: [FeedCollectionContentTypeEnum.NOVEL],
+            review_content_types: null,
+        },
+    },
+];
+
+describe('buildFeedArgs', () => {
+    it.each(FEED_ARGS_CASES)('equals the HEAD widget args: $name', ({
+        onlyFollowed,
+        filters,
+    }) => {
+        expect(buildFeedArgs(filters, onlyFollowed)).toStrictEqual(
+            headWidgetFeedArgs(onlyFollowed, filters),
+        );
+    });
+
+    it('reads unset groups like null ones', () => {
+        expect(buildFeedArgs({}, false)).toStrictEqual({});
+        expect(
+            buildFeedArgs(
+                { comment_content_types: [FeedCommentContentTypeEnum.ANIME] },
+                false,
+            ),
+        ).toStrictEqual({
+            comment_content_types: [FeedCommentContentTypeEnum.ANIME],
+        });
+    });
+
+    it('disables the feed only when every section is off', () => {
+        expect(isFeedDisabled({ feed_content_types: [] })).toBe(true);
+        expect(isFeedDisabled({ feed_content_types: null })).toBe(false);
+        expect(isFeedDisabled({})).toBe(false);
+        expect(
+            isFeedDisabled({
+                feed_content_types: [FeedContentTypeEnum.REVIEW],
+            }),
+        ).toBe(false);
+    });
+});
+
+const uiWithFeed = (feed: UiFeedSettingsOutput): UserCustomizationResponse => ({
+    ...DEFAULT_USER_UI,
+    preferences: {
+        ...DEFAULT_USER_UI.preferences,
+        feed: { ...DEFAULT_USER_UI.preferences.feed, ...feed },
+    },
+});
+
+const isFeedQuery = (queryKey: readonly unknown[]) =>
+    (queryKey[0] as { _id: string })._id === 'getFeed';
+
+async function loaderFeedKey(
+    loggedIn: boolean,
+    ui?: UserCustomizationResponse,
+) {
+    loaderOptions.length = 0;
+    await runHomeLoader(undefined, loggedIn, ui);
+
+    return loaderOptions.find((options) => isFeedQuery(options.queryKey))
+        ?.queryKey;
+}
+
+function widgetFeedQuery(loggedIn: boolean, ui?: UserCustomizationResponse) {
+    mocks.user = loggedIn ? PROFILE : undefined;
+    mocks.ui = ui;
+    mocks.feedQueries = [];
+
+    renderToStaticMarkup(createElement(FeedWidget, { side: 'center' }));
+
+    const [query] = mocks.feedQueries;
+    if (!query) throw new Error('the feed widget made no query');
+
+    return query;
+}
+
+const FEED_PREFETCH_CASES = [
+    { name: 'anonymous', loggedIn: false, ui: undefined },
+    { name: 'logged in, no cached ui', loggedIn: true, ui: undefined },
+    { name: 'logged in, no feed prefs', loggedIn: true, ui: uiWithFeed({}) },
+    {
+        name: 'logged in, only followed',
+        loggedIn: true,
+        ui: uiWithFeed({ only_followed: true }),
+    },
+    {
+        name: 'logged in, custom sections',
+        loggedIn: true,
+        ui: uiWithFeed(CUSTOM_FEED),
+    },
+    {
+        name: 'anonymous with a stale cached ui',
+        loggedIn: false,
+        ui: uiWithFeed(CUSTOM_FEED),
+    },
+];
+
+describe('home feed prefetch', () => {
+    beforeEach(() => {
+        useFakeDate(DATES.september);
+    });
+
+    it.each(
+        FEED_PREFETCH_CASES,
+    )('prefetches the widget feed key: $name', async ({ loggedIn, ui }) => {
+        const loader = await loaderFeedKey(loggedIn, ui);
+        const widget = widgetFeedQuery(loggedIn, ui);
+
+        expect(widget.enabled).toBe(true);
+        expect(loader).toStrictEqual(widget.queryKey);
+        expect(hashKey(loader ?? [])).toBe(hashKey(widget.queryKey));
+    });
+
+    it('sends the preferences as the body', async () => {
+        expect(await loaderFeedKey(true, uiWithFeed(CUSTOM_FEED))).toEqual([
+            {
+                _id: 'getFeed',
+                baseUrl: BASE_URL,
+                _infinite: true,
+                body: {
+                    only_followed: true,
+                    feed_content_types: ['comment', 'article'],
+                    comment_content_types: ['anime', 'manga'],
+                    collection_content_types: ['anime'],
+                },
+            },
+        ]);
+    });
+
+    it('keeps the anonymous key of the HEAD loader', async () => {
+        const head = getFeedInfiniteOptions({
+            body: { feed_content_types: undefined },
+            client: ssrRequestClient(),
+        }).queryKey;
+
+        expect(hashKey((await loaderFeedKey(false)) ?? [])).toBe(hashKey(head));
+    });
+
+    it('ignores the dead ?type param', async () => {
+        await runHomeLoader('comments', false);
+
+        const feed = loaderOptions.find((options) =>
+            isFeedQuery(options.queryKey),
+        );
+
+        expect(feed?.queryKey).toStrictEqual(await loaderFeedKey(false));
+    });
+
+    it('skips the prefetch when every section is off, like the widget', async () => {
+        const ui = uiWithFeed({ feed_content_types: [] });
+
+        expect(await loaderFeedKey(true, ui)).toBeUndefined();
+        expect(widgetFeedQuery(true, ui).enabled).toBe(false);
+    });
+
+    it('still prefetches for an anonymous visitor with every section off in a stale ui', async () => {
+        const ui = uiWithFeed({ feed_content_types: [] });
+
+        expect(await loaderFeedKey(false, ui)).toStrictEqual(
+            widgetFeedQuery(false, ui).queryKey,
+        );
+        expect(widgetFeedQuery(false, ui).enabled).toBe(true);
     });
 });
