@@ -14,8 +14,8 @@ import {
     clearLivePreview,
     DEFAULT_BRAND,
     setLiveVar,
-} from '@/utils/ui';
-import { oklchEqual, oklchToCss } from '@/utils/ui/color';
+} from '@/utils/customization';
+import { oklchEqual, oklchToCss } from '@/utils/customization/color';
 
 import ColorField from './components/color-field';
 

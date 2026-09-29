@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { applyBackdrop } from '@/utils/ui/backdrop';
-import { applyStyles } from '@/utils/ui/inject-styles';
+import { applyBackdrop } from '@/utils/customization/backdrop';
+import { applyStyles } from '@/utils/customization/inject-styles';
 
 /**
  * Injects user UI styles as CSS variables and applies the backdrop attribute.

@@ -3,7 +3,7 @@ import { Check, Link2 } from 'lucide-react';
 import type { OklchColor } from '@hikka/api';
 
 import type { AccentPreset } from '@/utils/constants/styles';
-import { oklchToCss, oklchToHex } from '@/utils/ui/color';
+import { oklchToCss, oklchToHex } from '@/utils/customization/color';
 
 import ColorPicker from './color-picker';
 import Swatch from './swatch';

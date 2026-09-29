@@ -10,7 +10,7 @@ import {
     type UserCustomizationResponse,
 } from '@hikka/api';
 
-import { DEFAULT_USER_UI, diffStyles } from '@/utils/ui';
+import { DEFAULT_USER_UI, diffStyles } from '@/utils/customization';
 
 type SessionUIPatch = {
     styles?: UserCustomizationResponse['styles'];

@@ -12,7 +12,6 @@ import {
 } from '@hikka/api';
 
 import { getActiveEventTheme } from '@/utils/constants/event-themes';
-import type { NameLanguage, TitleLanguage } from '@/utils/title/get-title';
 import {
     DEFAULT_USER_UI,
     mergeEffects,
@@ -20,7 +19,8 @@ import {
     mergeStyles,
     type ResolvedBackdrop,
     resolveBackdrop,
-} from '@/utils/ui';
+} from '@/utils/customization';
+import type { NameLanguage, TitleLanguage } from '@/utils/title/get-title';
 
 import { useSession } from './use-session';
 
@@ -67,8 +67,9 @@ export function useSessionUI(): SessionUI {
             userUI.styles,
         );
         // Layer defaults < event theme < user's sparse styles (matches SSR in
-        // utils/ui/server.ts): event theme applies only where the user hasn't
-        // customized. Merging it under the densified resolvedStyles would mask it.
+        // utils/customization/user-styles.ts): event theme applies only where
+        // the user hasn't customized. Merging it under the densified
+        // resolvedStyles would mask it.
         const eventTheme = getActiveEventTheme();
         const mergedStyles = mergeStyles(
             mergeStyles(DEFAULT_USER_UI.styles, eventTheme?.styles),

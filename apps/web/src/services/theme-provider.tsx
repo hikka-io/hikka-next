@@ -10,7 +10,7 @@ import {
 } from 'react';
 
 import { COOKIE, writeHostCookie } from '@/utils/cookies';
-import { syncThemeColorMeta } from '@/utils/ui';
+import { syncThemeColorMeta } from '@/utils/customization';
 
 type Theme = 'light' | 'dark' | 'system';
 

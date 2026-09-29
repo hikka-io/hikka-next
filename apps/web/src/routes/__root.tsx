@@ -24,10 +24,14 @@ import {
     getUiPrefsCookieFn,
     refreshAuthCookieFn,
 } from '@/utils/cookies';
+import {
+    backdropVars,
+    DEFAULT_USER_UI,
+    STYLE_ELEMENT_ID,
+} from '@/utils/customization';
+import { getUserStyles } from '@/utils/customization/user-styles';
 import { serializeJsonLd } from '@/utils/json-ld';
 import { usePlausiblePageviews } from '@/utils/plausible';
-import { backdropVars, DEFAULT_USER_UI, STYLE_ELEMENT_ID } from '@/utils/ui';
-import { getUserStyles } from '@/utils/ui/server';
 
 import '../globals.css';
 import type { RouterContext } from '../router';

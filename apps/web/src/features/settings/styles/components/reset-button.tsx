@@ -4,7 +4,11 @@ import { Button } from '@/components/ui/button';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { cn } from '@/utils/cn';
-import { clearLivePreview, DEFAULT_STYLES, diffStyles } from '@/utils/ui';
+import {
+    clearLivePreview,
+    DEFAULT_STYLES,
+    diffStyles,
+} from '@/utils/customization';
 
 /**
  * Resets appearance styles (brand, radius, backdrop, overrides) to defaults.

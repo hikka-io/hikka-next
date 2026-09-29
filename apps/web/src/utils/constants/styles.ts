@@ -1,6 +1,6 @@
 import type { OklchColor } from '@hikka/api';
 
-import { DEFAULT_BRAND } from '@/utils/ui';
+import { DEFAULT_BRAND } from '@/utils/customization';
 
 export type AccentPreset = {
     name: string;
