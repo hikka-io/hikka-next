@@ -2,7 +2,6 @@ import { createElement, type FC } from 'react';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
-import { PanelRightClose, PanelRightOpen } from 'lucide-react';
 
 import {
     ContentTypeEnum,
@@ -20,8 +19,6 @@ import {
 
 import FeRandom from '@/components/icons/fe/FeRandom';
 import { LIST_STATUS_ICONS } from '@/components/icons/list-status-icons';
-import MaterialSymbolsEventList from '@/components/icons/material-symbols/MaterialSymbolsEventList';
-import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import { Button } from '@/components/ui/button';
 import {
     Select,
@@ -33,18 +30,17 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useCatalogView } from '@/features/catalog';
+import { ViewToggle } from '@/features/catalog';
 import {
     FiltersButton,
+    FiltersSidebarToggle,
     Sort,
     useChangeParam,
-    useFiltersSidebar,
 } from '@/features/filters';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPES, LIST_STATUS } from '@/utils/labels';
@@ -67,9 +63,6 @@ const UserListNavbar: FC<Props> = ({ content_type }) => {
     const params = useParams();
     const search = useRouteSearch<Pick<UserlistSearch, 'status'>>();
     const handleChangeParam = useChangeParam();
-    const { visible: sidebarVisible, toggle: toggleSidebar } =
-        useFiltersSidebar('userlist_filters_sidebar');
-    const { view, setView } = useCatalogView('userlist');
 
     const status = (search.status || 'completed') as
         | ReadStatusEnum
@@ -129,11 +122,6 @@ const UserListNavbar: FC<Props> = ({ content_type }) => {
         router.navigate({
             to: `/${content_type}/${data.slug}` as '/',
         });
-    };
-
-    const handleChangeView = ([value]: string[]) => {
-        if (!value) return;
-        setView(value as Hikka.View);
     };
 
     return (
@@ -212,41 +200,7 @@ const UserListNavbar: FC<Props> = ({ content_type }) => {
                         orientation="vertical"
                         className="hidden h-6 md:block"
                     />
-                    <ToggleGroup
-                        value={[view]}
-                        onValueChange={handleChangeView}
-                    >
-                        <Tooltip>
-                            <TooltipTrigger
-                                render={
-                                    <ToggleGroupItem
-                                        value="table"
-                                        aria-label="Таблиця"
-                                    />
-                                }
-                            >
-                                <MaterialSymbolsEventList />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>Таблиця</p>
-                            </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                            <TooltipTrigger
-                                render={
-                                    <ToggleGroupItem
-                                        value="grid"
-                                        aria-label="Сітка"
-                                    />
-                                }
-                            >
-                                <MaterialSymbolsGridViewRounded />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>Сітка</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </ToggleGroup>
+                    <ViewToggle viewKey="userlist" views={['table', 'grid']} />
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -294,38 +248,7 @@ const UserListNavbar: FC<Props> = ({ content_type }) => {
                         )}
                     />
 
-                    <Tooltip>
-                        <TooltipTrigger
-                            render={
-                                <Button
-                                    variant={
-                                        sidebarVisible ? 'default' : 'outline'
-                                    }
-                                    size="icon-md"
-                                    onClick={toggleSidebar}
-                                    className="hidden shrink-0 lg:inline-flex"
-                                    aria-label={
-                                        sidebarVisible
-                                            ? 'Приховати фільтри'
-                                            : 'Показати фільтри'
-                                    }
-                                />
-                            }
-                        >
-                            {sidebarVisible ? (
-                                <PanelRightClose className="size-4" />
-                            ) : (
-                                <PanelRightOpen className="size-4" />
-                            )}
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>
-                                {sidebarVisible
-                                    ? 'Приховати панель фільтрів'
-                                    : 'Показати панель фільтрів'}
-                            </p>
-                        </TooltipContent>
-                    </Tooltip>
+                    <FiltersSidebarToggle storageKey="userlist_filters_sidebar" />
                 </div>
             </div>
         </>

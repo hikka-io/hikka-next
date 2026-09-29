@@ -1,8 +1,7 @@
 export { default as ContentEditsButton } from './content-edits/content-edits-button';
 export { default as EditActions } from './edit-actions/edit-actions';
 export { default as EditContent } from './edit-content';
-export { default as EditFilters } from './edit-filters';
-export { default as EditFiltersModal } from './edit-filters-modal';
+export { default as EditFilters, EditFiltersBody } from './edit-filters';
 export { default as EditCreateForm } from './edit-forms/edit-create-form';
 export { default as EditViewForm } from './edit-forms/edit-view-form';
 export { default as EditList } from './edit-list';

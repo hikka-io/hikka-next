@@ -1,5 +1,4 @@
-export { default as CatalogList } from './catalog-list';
-export { default as CatalogListSummary } from './catalog-list-summary';
-export { default as CatalogNavbar } from './catalog-navbar';
+export { default as CatalogPage } from './catalog-page';
 export { default as CatalogSummary } from './catalog-summary';
 export { useCatalogView } from './use-catalog-view';
+export { default as ViewToggle } from './view-toggle';

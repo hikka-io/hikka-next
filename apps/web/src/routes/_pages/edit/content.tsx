@@ -13,7 +13,7 @@ import {
     TodoListSummary,
     useTodoFilters,
 } from '@/features/edit';
-import { HeaderFiltersButton } from '@/features/filters';
+import { FiltersSidebarLayout, HeaderFiltersButton } from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editContentSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
@@ -67,24 +67,24 @@ function ContentPage() {
             </Header>
             <TodoContentTabs value={contentType} />
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_30%] lg:items-start lg:gap-x-10 xl:grid-cols-[1fr_25%]">
-                <div className="flex flex-col gap-4">
-                    <TodoContentNavbar
-                        contentType={contentType}
-                        renderFilterModal={renderFiltersModal}
-                    />
-                    <TodoListSummary />
-                    <TodoContentList />
-                </div>
-
-                <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
+            <FiltersSidebarLayout
+                collapsible={false}
+                className="grid grid-cols-1 lg:grid-cols-[1fr_30%] lg:items-start lg:gap-x-10 xl:grid-cols-[1fr_25%]"
+                sidebar={
                     <TodoFilters
                         contentType={contentType}
                         value={filters}
                         onChange={setFilters}
                     />
-                </div>
-            </div>
+                }
+            >
+                <TodoContentNavbar
+                    contentType={contentType}
+                    renderFilterModal={renderFiltersModal}
+                />
+                <TodoListSummary />
+                <TodoContentList />
+            </FiltersSidebarLayout>
         </Block>
     );
 }

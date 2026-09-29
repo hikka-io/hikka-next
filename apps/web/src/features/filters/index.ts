@@ -13,6 +13,9 @@ export {
     HeaderFiltersButton,
     type RenderFiltersModal,
 } from './filters-button';
+export { default as FiltersModal } from './filters-modal';
+export { default as FiltersSidebarLayout } from './filters-sidebar-layout';
+export { default as FiltersSidebarToggle } from './filters-sidebar-toggle';
 export { default as Genre } from './genre';
 export { default as Issues } from './issues';
 export { default as Magazine } from './magazine';

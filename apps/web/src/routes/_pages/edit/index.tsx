@@ -17,10 +17,11 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import {
     EditFilters,
-    EditFiltersModal,
+    EditFiltersBody,
     EditList,
     EditTopStats,
 } from '@/features/edit';
+import { FiltersModal, FiltersSidebarLayout } from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editSearchSchema } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
@@ -80,34 +81,38 @@ function EditListPage() {
     return (
         <div className="flex flex-col gap-12 lg:gap-12">
             <EditTopStats />
-            <div className="grid grid-cols-1 justify-center gap-x-10 gap-y-8 lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between">
-                <div className="flex min-w-0 flex-col gap-12">
-                    <Block>
-                        <div className="flex items-center justify-between">
-                            <Header>
-                                <HeaderContainer>
-                                    <HeaderTitle ref={titleAnchor} variant="h2">
-                                        Правки
-                                    </HeaderTitle>
-                                </HeaderContainer>
-                            </Header>
-                            <EditFiltersModal>
-                                <Button
-                                    size="md"
-                                    variant="outline"
-                                    className="flex lg:hidden"
-                                >
-                                    <AntDesignFilterFilled /> Фільтри
-                                </Button>
-                            </EditFiltersModal>
-                        </div>
-                        <EditList />
-                    </Block>
-                </div>
-                <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
-                    <EditFilters />
-                </div>
-            </div>
+            <FiltersSidebarLayout
+                collapsible={false}
+                className="grid grid-cols-1 justify-center gap-x-10 gap-y-8 lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between"
+                contentClassName="flex min-w-0 flex-col gap-12"
+                sidebar={<EditFilters />}
+            >
+                <Block>
+                    <div className="flex items-center justify-between">
+                        <Header>
+                            <HeaderContainer>
+                                <HeaderTitle ref={titleAnchor} variant="h2">
+                                    Правки
+                                </HeaderTitle>
+                            </HeaderContainer>
+                        </Header>
+                        <FiltersModal
+                            body={
+                                <EditFiltersBody className="-m-4 flex-1 overflow-y-auto p-4" />
+                            }
+                        >
+                            <Button
+                                size="md"
+                                variant="outline"
+                                className="flex lg:hidden"
+                            >
+                                <AntDesignFilterFilled /> Фільтри
+                            </Button>
+                        </FiltersModal>
+                    </div>
+                    <EditList />
+                </Block>
+            </FiltersSidebarLayout>
         </div>
     );
 }

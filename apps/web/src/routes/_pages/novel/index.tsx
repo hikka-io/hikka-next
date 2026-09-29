@@ -3,24 +3,7 @@ import { zodValidator } from '@tanstack/zod-adapter';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import ContentTypeTabs from '@/components/content-type-tabs';
-import Block from '@/components/ui/block';
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import type { StackSize } from '@/components/ui/stack';
-import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
-import {
-    CatalogList,
-    CatalogListSummary,
-    CatalogNavbar,
-    useCatalogView,
-} from '@/features/catalog';
-import {
-    HeaderFiltersButton,
-    ReadFilters,
-    ReadFiltersModal,
-    useFiltersSidebar,
-} from '@/features/filters';
-import { cn } from '@/utils/cn';
+import { CatalogPage } from '@/features/catalog';
 import { generateHeadMeta } from '@/utils/metadata';
 import { novelSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
@@ -38,90 +21,11 @@ export const Route = createFileRoute('/_pages/novel/')({
 });
 
 function NovelListPage() {
-    const titleAnchor = usePageTitleAnchor();
-
-    usePageHeader({
-        title: 'Каталог ранобе',
-        parent: '/',
-        anchored: true,
-        actionsAnchored: true,
-        hideBack: true,
-        actionsComponent: () => (
-            <HeaderFiltersButton
-                renderModal={(props) => (
-                    <ReadFiltersModal
-                        {...props}
-                        content_type={ContentTypeEnum.NOVEL}
-                        sort_type="novel"
-                    />
-                )}
-            />
-        ),
-    });
-
-    const { visible: sidebarVisible } = useFiltersSidebar();
-    const { view } = useCatalogView('catalog');
-
-    const extendedSize: StackSize =
-        view === 'list' ? 1 : sidebarVisible ? 5 : 7;
-    const pageSize = view === 'list' ? undefined : extendedSize * 4;
-
     return (
-        <Block>
-            <Header>
-                <HeaderContainer>
-                    <HeaderTitle ref={titleAnchor} variant="h2">
-                        Каталог ранобе
-                    </HeaderTitle>
-                </HeaderContainer>
-            </Header>
-            <ContentTypeTabs
-                value={ContentTypeEnum.NOVEL}
-                urlFor={(contentType) => `/${contentType}`}
-                className="md:hidden"
-            />
-
-            <div
-                className={cn(
-                    'grid grid-cols-1 lg:items-start lg:gap-x-10',
-                    sidebarVisible &&
-                        'lg:grid-cols-[1fr_30%] xl:grid-cols-[1fr_25%]',
-                )}
-            >
-                <div className="flex flex-col gap-4">
-                    <CatalogNavbar
-                        sort_type="novel"
-                        content_type={ContentTypeEnum.NOVEL}
-                        searchPlaceholder="Введіть назву ранобе..."
-                        renderFilterModal={({ open, onOpenChange }) => (
-                            <ReadFiltersModal
-                                open={open}
-                                onOpenChange={onOpenChange}
-                                content_type={ContentTypeEnum.NOVEL}
-                                sort_type="novel"
-                            />
-                        )}
-                    />
-                    <CatalogListSummary
-                        contentType={ContentTypeEnum.NOVEL}
-                        pageSize={pageSize}
-                    />
-                    <CatalogList
-                        contentType={ContentTypeEnum.NOVEL}
-                        extendedSize={extendedSize}
-                        pageSize={pageSize}
-                    />
-                </div>
-
-                {sidebarVisible && (
-                    <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
-                        <ReadFilters
-                            content_type={ContentTypeEnum.NOVEL}
-                            sort_type="novel"
-                        />
-                    </div>
-                )}
-            </div>
-        </Block>
+        <CatalogPage
+            contentType={ContentTypeEnum.NOVEL}
+            title="Каталог ранобе"
+            searchPlaceholder="Введіть назву ранобе..."
+        />
     );
 }

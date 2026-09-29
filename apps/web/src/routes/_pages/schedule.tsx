@@ -14,9 +14,10 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
+import { FiltersModal } from '@/features/filters';
 import {
     ScheduleFilters,
-    ScheduleFiltersModal,
+    ScheduleFiltersBody,
     ScheduleList,
 } from '@/features/schedule';
 import { generateHeadMeta } from '@/utils/metadata';
@@ -74,7 +75,11 @@ function ScheduleListPage() {
                             </HeaderTitle>
                         </HeaderContainer>
                     </Header>
-                    <ScheduleFiltersModal>
+                    <FiltersModal
+                        body={
+                            <ScheduleFiltersBody className="-m-4 flex-1 overflow-y-auto p-4" />
+                        }
+                    >
                         <Button
                             size="md"
                             variant="outline"
@@ -82,7 +87,7 @@ function ScheduleListPage() {
                         >
                             <AntDesignFilterFilled /> Фільтри
                         </Button>
-                    </ScheduleFiltersModal>
+                    </FiltersModal>
                 </div>
                 <Card className="hidden w-full lg:block">
                     <ScheduleFilters />

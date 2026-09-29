@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { FiltersModal } from '@/features/filters';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
@@ -22,7 +23,7 @@ import { Link, useRouteSearch } from '@/utils/navigation';
 import type { ArticlesSearch } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
 
-import ArticleFiltersModal from '../article-filters-modal';
+import { ArticleFiltersBody } from './article-filters';
 import ArticleItem from './article-item';
 import ArticleItemSkeleton from './article-item-skeleton';
 
@@ -83,7 +84,11 @@ const ArticleList: FC<Props> = () => {
                         </Button>
                     )}
                 </HeaderContainer>
-                <ArticleFiltersModal>
+                <FiltersModal
+                    body={
+                        <ArticleFiltersBody className="-m-4 flex-1 overflow-y-auto p-4" />
+                    }
+                >
                     <Button
                         variant="outline"
                         size="md"
@@ -91,7 +96,7 @@ const ArticleList: FC<Props> = () => {
                     >
                         <AntDesignFilterFilled /> Фільтри
                     </Button>
-                </ArticleFiltersModal>
+                </FiltersModal>
             </Header>
             <div
                 className={cn(
