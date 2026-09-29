@@ -13,6 +13,7 @@ import {
 import { SubmitButton, useAppForm } from '@/components/form';
 import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/MaterialSymbolsContentCopy';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
@@ -30,8 +31,6 @@ const formSchema = z.object({
     description: clientDescriptionSchema,
     endpoint: endpointSchema,
     revoke_secret: z.coerce.boolean(),
-    reference: z.coerce.string().max(128),
-    secret: z.coerce.string().min(128).max(128),
 });
 
 type Props = {
@@ -71,18 +70,13 @@ const ClientEditModal = ({ client, onClose }: Props) => {
             name: client.name,
             description: client.description,
             endpoint: '',
-            reference: client.reference,
-            secret: '',
             revoke_secret: false,
         },
         validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
-            const { reference, secret, ...rest } = value;
             updateClient({
-                path: { client_reference: reference },
-                body: {
-                    ...rest,
-                },
+                path: { client_reference: client.reference },
+                body: { ...value },
             });
         },
     });
@@ -93,8 +87,6 @@ const ClientEditModal = ({ client, onClose }: Props) => {
                 name: data.name,
                 description: data.description,
                 endpoint: data.endpoint,
-                reference: data.reference,
-                secret: data.secret,
                 revoke_secret: false,
             });
         }
@@ -104,8 +96,11 @@ const ClientEditModal = ({ client, onClose }: Props) => {
         deleteClient({ path: { client_reference: client.reference } });
     };
 
-    const onCopy = async (field: 'reference' | 'secret') => {
-        navigator.clipboard.writeText(form.getFieldValue(field));
+    const reference = data?.reference ?? client.reference;
+    const secret = data?.secret ?? '';
+
+    const onCopy = async (value: string) => {
+        navigator.clipboard.writeText(value);
         toast.success('Ви успішно скопіювали рядок.');
     };
 
@@ -148,20 +143,16 @@ const ClientEditModal = ({ client, onClose }: Props) => {
                     />
                     <div>
                         <Label>Референс</Label>
-                        <div className="flex w-full items-end gap-2">
-                            <form.AppField
-                                name="reference"
-                                children={(field) => (
-                                    <field.TextField
-                                        placeholder="123123-123123-123123-123123"
-                                        disabled
-                                        className="w-full"
-                                    />
-                                )}
+                        <div className="mt-2 flex w-full items-end gap-2">
+                            <Input
+                                id="reference"
+                                value={reference}
+                                placeholder="123123-123123-123123-123123"
+                                disabled
                             />
                             <Button
                                 variant="outline"
-                                onClick={() => onCopy('reference')}
+                                onClick={() => onCopy(reference)}
                             >
                                 <MaterialSymbolsContentCopy />
                                 Скопіювати
@@ -170,21 +161,17 @@ const ClientEditModal = ({ client, onClose }: Props) => {
                     </div>
                     <div>
                         <Label>Ключ</Label>
-                        <div className="flex w-full items-end gap-2">
-                            <form.AppField
-                                name="secret"
-                                children={(field) => (
-                                    <field.TextField
-                                        placeholder="h1Kk@--H3l1o1tsl0rgoN- ..."
-                                        disabled
-                                        type="password"
-                                        className="w-full"
-                                    />
-                                )}
+                        <div className="mt-2 flex w-full items-end gap-2">
+                            <Input
+                                id="secret"
+                                value={secret}
+                                placeholder="h1Kk@--H3l1o1tsl0rgoN- ..."
+                                disabled
+                                type="password"
                             />
                             <Button
                                 variant="outline"
-                                onClick={() => onCopy('secret')}
+                                onClick={() => onCopy(secret)}
                             >
                                 <MaterialSymbolsContentCopy />
                                 Скопіювати
