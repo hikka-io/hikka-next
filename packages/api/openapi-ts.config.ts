@@ -5,6 +5,9 @@ import { transformSpec } from './scripts/transform-spec';
 const SPEC_URL =
     process.env.HIKKA_OPENAPI_URL ?? 'https://api.hikka.io/openapi.json';
 
+const TIMESTAMP_DATE_SCHEMAS = new Set(['WatchArgs', 'ReadArgs']);
+const TIMESTAMP_DATE_FIELDS = ['start_date', 'end_date'];
+
 /**
  * Hikka list/search endpoints are POST (filters in the body, `page`/`size` in
  * the query) but are semantically queries. hey-api defaults POST -> mutation,
@@ -49,6 +52,21 @@ export default defineConfig({
                 transformSpec(
                     spec as unknown as Parameters<typeof transformSpec>[0],
                 );
+            },
+            // The API takes these list dates as Unix timestamps; the spec mistypes them as date-time strings.
+            schemas: (name, schema) => {
+                if (!TIMESTAMP_DATE_SCHEMAS.has(name)) return;
+
+                for (const field of TIMESTAMP_DATE_FIELDS) {
+                    const property = schema.properties?.[field];
+
+                    if (typeof property === 'object' && 'anyOf' in property) {
+                        property.anyOf = [
+                            { type: 'integer' },
+                            { type: 'null' },
+                        ];
+                    }
+                }
             },
         },
         hooks: {

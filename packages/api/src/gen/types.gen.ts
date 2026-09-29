@@ -5048,11 +5048,11 @@ export type ReadArgs = {
     /**
      * Start Date
      */
-    start_date?: string | null;
+    start_date?: number | null;
     /**
      * End Date
      */
-    end_date?: string | null;
+    end_date?: number | null;
     status: ReadStatusEnum;
 };
 
@@ -6616,11 +6616,11 @@ export type WatchArgs = {
     /**
      * Start Date
      */
-    start_date?: string | null;
+    start_date?: number | null;
     /**
      * End Date
      */
-    end_date?: string | null;
+    end_date?: number | null;
     status: WatchStatusEnum;
 };
 

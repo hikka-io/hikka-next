@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 
 import {
     API_LIMITS,
-    type ReadArgs,
     type ReadContentTypeEnum,
     type ReadResponseBase,
     type ReadStatusEnum,
@@ -102,21 +101,17 @@ const ReadEditForm = ({
             chapters: read?.chapters ?? 0,
             rereads: read?.rereads ?? 0,
             note: read?.note ?? null,
-            start_date:
-                (read as { start_date?: number | null })?.start_date ?? null,
-            end_date: (read as { end_date?: number | null })?.end_date ?? null,
+            start_date: read?.start_date ?? null,
+            end_date: read?.end_date ?? null,
         },
         validators: { onSubmit: formSchema as never },
         onSubmit: async ({ value }) => {
             createRead({
                 path: { content_type, slug },
-                // Load-bearing cast: the API accepts Unix-timestamp numbers for
-                // start_date/end_date, but generated ReadArgs mistypes them as
-                // `string | null` (OpenAPI inaccuracy). Do not convert to ISO.
                 body: {
                     status: selectedStatus!,
                     ...value,
-                } as unknown as ReadArgs,
+                },
             });
         },
     });

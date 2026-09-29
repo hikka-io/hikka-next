@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 
 import {
     API_LIMITS,
-    type WatchArgs,
     type WatchResponse,
     type WatchResponseBase,
     type WatchStatusEnum,
@@ -94,21 +93,17 @@ const WatchEditForm = ({ slug, watch: watchProp, onClose }: Props) => {
             episodes: watch?.episodes ?? 0,
             rewatches: watch?.rewatches ?? 0,
             note: watch?.note ?? null,
-            start_date:
-                (watch as { start_date?: number | null })?.start_date ?? null,
-            end_date: (watch as { end_date?: number | null })?.end_date ?? null,
+            start_date: watch?.start_date ?? null,
+            end_date: watch?.end_date ?? null,
         },
         validators: { onSubmit: formSchema as never },
         onSubmit: async ({ value }) => {
             createWatch({
                 path: { slug },
-                // Load-bearing cast: the API accepts Unix-timestamp numbers for
-                // start_date/end_date, but generated WatchArgs mistypes them as
-                // `string | null` (OpenAPI inaccuracy). Do not convert to ISO.
                 body: {
                     status: selectedStatus!,
                     ...value,
-                } as unknown as WatchArgs,
+                },
             });
         },
     });

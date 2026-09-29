@@ -1458,8 +1458,8 @@ export const zReadArgs = z.object({
     volumes: z.number().int().gte(0).lte(10000).optional().default(0),
     rereads: z.number().int().gte(0).lte(100).optional().default(0),
     score: z.number().int().gte(0).lte(10).optional().default(0),
-    start_date: z.string().datetime().nullish(),
-    end_date: z.string().datetime().nullish(),
+    start_date: z.number().int().nullish(),
+    end_date: z.number().int().nullish(),
     status: zReadStatusEnum,
 });
 
@@ -3096,8 +3096,8 @@ export const zWatchArgs = z.object({
     episodes: z.number().int().gte(0).lte(10000).optional().default(0),
     rewatches: z.number().int().gte(0).lte(100).optional().default(0),
     score: z.number().int().gte(0).lte(10).optional().default(0),
-    start_date: z.string().datetime().nullish(),
-    end_date: z.string().datetime().nullish(),
+    start_date: z.number().int().nullish(),
+    end_date: z.number().int().nullish(),
     status: zWatchStatusEnum,
 });
 
