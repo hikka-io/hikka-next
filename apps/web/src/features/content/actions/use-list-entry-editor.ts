@@ -108,6 +108,12 @@ export const useListEntryEditor = ({
     const { mutate: mutateCreateWatch, isPending: isWatchPending } =
         useAddWatch();
     const { mutate: mutateCreateRead, isPending: isReadPending } = useAddRead();
+    const { mutate: mutateNoteWatch, isPending: isNoteWatchPending } =
+        useAddWatch();
+    const { mutate: mutateNoteRead, isPending: isNoteReadPending } =
+        useAddRead();
+
+    const isSavingNote = isNoteWatchPending || isNoteReadPending;
 
     const mappedListItem = mapListItem({ listItem, content_type });
 
@@ -123,6 +129,9 @@ export const useListEntryEditor = ({
     const updateListItem = (
         fields: Partial<Pick<MappedListItem, 'score' | 'progress' | 'status'>>,
     ) => {
+        // A snapshot taken mid-save would carry the old note into the full-replace PUT.
+        if (isSavingNote) return;
+
         setPendingUpdate({
             slug: mappedListItem.slug,
             total: mappedListItem.total,
@@ -203,7 +212,7 @@ export const useListEntryEditor = ({
 
         switch (content_type) {
             case ContentTypeEnum.ANIME:
-                mutateCreateWatch(
+                mutateNoteWatch(
                     {
                         path: { slug: mappedListItem.slug },
                         body: {
@@ -218,7 +227,7 @@ export const useListEntryEditor = ({
                 break;
             case ContentTypeEnum.MANGA:
             case ContentTypeEnum.NOVEL:
-                mutateCreateRead(
+                mutateNoteRead(
                     {
                         path: {
                             content_type: content_type as ReadContentTypeEnum,
@@ -288,7 +297,8 @@ export const useListEntryEditor = ({
         removeProgress,
         setScore,
         setNote,
-        isSaving: isWatchPending || isReadPending,
+        isSaving: isWatchPending || isReadPending || isSavingNote,
+        isSavingNote,
         score: currentScore,
         progress: currentProgress,
         total: mappedListItem.total,

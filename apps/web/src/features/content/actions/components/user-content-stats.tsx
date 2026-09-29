@@ -30,6 +30,7 @@ const UserContentStats = ({
         setScore,
         setNote,
         isSaving,
+        isSavingNote,
         score,
         progress,
         total,
@@ -64,6 +65,7 @@ const UserContentStats = ({
                     totalStars={5}
                     precision={0.5}
                     value={score ? score / 2 : 0}
+                    disabled={isSavingNote}
                 />
             </div>
             <div className="flex items-center justify-between gap-4 p-4">
@@ -91,6 +93,7 @@ const UserContentStats = ({
                         variant="secondary"
                         size="icon-md"
                         onClick={removeProgress}
+                        disabled={isSavingNote}
                         aria-label={`Прибрати ${unit}`}
                         className="rounded-r-none"
                     >
@@ -100,6 +103,7 @@ const UserContentStats = ({
                         variant="secondary"
                         size="icon-md"
                         onClick={addProgress}
+                        disabled={isSavingNote}
                         aria-label={`Додати ${unit}`}
                         className="rounded-l-none"
                     >
