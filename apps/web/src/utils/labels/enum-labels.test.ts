@@ -1,11 +1,27 @@
 import { describe, expect, it } from 'vitest';
 
-import { AnimeMediaEnum, MangaMediaEnum, NovelMediaEnum } from '@hikka/api';
+import {
+    AnimeAgeRatingEnum,
+    AnimeMediaEnum,
+    AnimeOstTypeEnum,
+    AnimeVideoTypeEnum,
+    ArticleCategoryEnum,
+    ContentStatusEnum,
+    EditStatusEnum,
+    GenreTypeEnum,
+    MangaMediaEnum,
+    NovelMediaEnum,
+    ReadStatusEnum,
+    SeasonEnum,
+    WatchStatusEnum,
+} from '@hikka/api';
 
 import {
     AGE_RATING,
     ANIME_MEDIA_TYPE,
     ARTICLE_CATEGORY,
+    CHARACTER_ISSUES,
+    CONTENT_ISSUES,
     EDIT_STATUS,
     GENRE_TYPES,
     getMediaTypeLabel,
@@ -14,9 +30,12 @@ import {
     MEDIA_TYPE,
     MEDIA_TYPE_BY_CONTENT_TYPE,
     NOVEL_MEDIA_TYPE,
+    OST,
+    PERSON_ISSUES,
     READ_STATUS,
     RELEASE_STATUS,
     SEASON,
+    VIDEO,
     WATCH_STATUS,
 } from './enum-labels';
 
@@ -266,5 +285,86 @@ describe('LIST_STATUS', () => {
         expect(merged.completed).toBe(READ_STATUS.completed);
         expect(merged.dropped).toBe(READ_STATUS.dropped);
         expect(merged.watching).toBe(WATCH_STATUS.watching);
+    });
+});
+
+describe('enum label coverage', () => {
+    it.each([
+        ['SEASON', SEASON, SeasonEnum],
+        ['RELEASE_STATUS', RELEASE_STATUS, ContentStatusEnum],
+        ['ANIME_MEDIA_TYPE', ANIME_MEDIA_TYPE, AnimeMediaEnum],
+        ['MANGA_MEDIA_TYPE', MANGA_MEDIA_TYPE, MangaMediaEnum],
+        ['NOVEL_MEDIA_TYPE', NOVEL_MEDIA_TYPE, NovelMediaEnum],
+        ['AGE_RATING', AGE_RATING, AnimeAgeRatingEnum],
+        ['VIDEO', VIDEO, AnimeVideoTypeEnum],
+        ['OST', OST, AnimeOstTypeEnum],
+        ['GENRE_TYPES', GENRE_TYPES, GenreTypeEnum],
+        ['READ_STATUS', READ_STATUS, ReadStatusEnum],
+        ['WATCH_STATUS', WATCH_STATUS, WatchStatusEnum],
+        ['ARTICLE_CATEGORY', ARTICLE_CATEGORY, ArticleCategoryEnum],
+        ['EDIT_STATUS', EDIT_STATUS, EditStatusEnum],
+    ] as [
+        string,
+        Dictionary,
+        Record<string, string>,
+    ][])('%s has a Ukrainian title for every enum value', (_, dictionary, values) => {
+        for (const value of Object.values(values)) {
+            expect(dictionary[value]?.title_ua).toEqual(expect.any(String));
+            expect(dictionary[value].title_ua).not.toBe('');
+        }
+    });
+});
+
+describe('English titles', () => {
+    it.each([
+        ['SEASON', SEASON],
+        ['RELEASE_STATUS', RELEASE_STATUS],
+        ['MEDIA_TYPE', MEDIA_TYPE],
+        ['AGE_RATING', AGE_RATING],
+        ['GENRE_TYPES', GENRE_TYPES],
+        ['ARTICLE_CATEGORY', ARTICLE_CATEGORY],
+        ['CONTENT_ISSUES', CONTENT_ISSUES],
+        ['PERSON_ISSUES', PERSON_ISSUES],
+        ['CHARACTER_ISSUES', CHARACTER_ISSUES],
+        ['EDIT_STATUS', EDIT_STATUS],
+    ] as [
+        string,
+        Dictionary,
+    ][])('%s carries no English title', (_, dictionary) => {
+        for (const entry of Object.values(dictionary)) {
+            expect(entry).not.toHaveProperty('title_en');
+            expect(entry.title_ua).toEqual(expect.any(String));
+        }
+    });
+
+    it.each([
+        ['VIDEO', VIDEO],
+        ['OST', OST],
+        ['READ_STATUS', READ_STATUS],
+        ['WATCH_STATUS', WATCH_STATUS],
+    ] as [
+        string,
+        Record<string, { title_en: string }>,
+    ][])('%s keeps the English fallback title', (_, dictionary) => {
+        for (const entry of Object.values(dictionary)) {
+            expect(entry.title_en).toEqual(expect.any(String));
+            expect(entry.title_en).not.toBe('');
+        }
+    });
+
+    it('keeps the issue keys the todo filters send', () => {
+        expect(Object.keys(CONTENT_ISSUES)).toEqual([
+            'title_ua',
+            'title_en',
+            'title_original',
+            'synopsis_ua',
+            'synopsis_en',
+        ]);
+        expect(Object.keys(CHARACTER_ISSUES)).toEqual([
+            'name_ua',
+            'name_en',
+            'name_original',
+            'description_ua',
+        ]);
     });
 });

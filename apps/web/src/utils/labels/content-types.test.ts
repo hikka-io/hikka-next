@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
+import { ContentTypeEnum } from '@hikka/api';
+
 import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
     CONTENT_TYPES,
@@ -73,6 +75,17 @@ describe('content type labels', () => {
             plural: 'Люди',
             collectionOption: 'Людина',
         });
+    });
+
+    it('has a Ukrainian title and no English title for every content type', () => {
+        expect(Object.keys(CONTENT_TYPES).sort()).toEqual(
+            [...new Set([...Object.values(ContentTypeEnum), 'user'])].sort(),
+        );
+
+        for (const entry of Object.values(CONTENT_TYPES)) {
+            expect(entry.title_ua).toEqual(expect.any(String));
+            expect(entry).not.toHaveProperty('title_en');
+        }
     });
 
     it('keeps the collection content type options in order', () => {
