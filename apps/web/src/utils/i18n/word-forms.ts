@@ -61,3 +61,9 @@ export const VIEW_FORMS = [
     'перегляди',
     'переглядів',
 ] as const satisfies WordForms;
+
+export const REREAD_FORMS = [
+    'перечитування',
+    'перечитування',
+    'перечитувань',
+] as const satisfies WordForms;

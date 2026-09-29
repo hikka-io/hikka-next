@@ -9,6 +9,7 @@ import {
     HOUR_FORMS,
     MONTH_FORMS,
     REPLY_FORMS,
+    REREAD_FORMS,
     SYMBOL_FORMS,
     TIMES_FORMS,
     VIEW_FORMS,
@@ -32,6 +33,11 @@ describe('word forms', () => {
         ['HOUR_FORMS', HOUR_FORMS, ['година', 'години', 'годин']],
         ['SYMBOL_FORMS', SYMBOL_FORMS, ['символ', 'символи', 'символів']],
         ['VIEW_FORMS', VIEW_FORMS, ['перегляд', 'перегляди', 'переглядів']],
+        [
+            'REREAD_FORMS',
+            REREAD_FORMS,
+            ['перечитування', 'перечитування', 'перечитувань'],
+        ],
     ])('%s keeps its exact forms', (_name, forms, expected) => {
         expect(forms).toEqual(expected);
     });
@@ -51,6 +57,20 @@ describe('word forms', () => {
             '22 епізоди',
             '25 епізодів',
             '111 епізодів',
+        ]);
+    });
+
+    it('declines rereads by the Ukrainian plural rule', () => {
+        expect(
+            [1, 2, 5, 11, 21].map(
+                (n) => `${n} ${getDeclensionWord(n, REREAD_FORMS)}`,
+            ),
+        ).toEqual([
+            '1 перечитування',
+            '2 перечитування',
+            '5 перечитувань',
+            '11 перечитувань',
+            '21 перечитування',
         ]);
     });
 });
