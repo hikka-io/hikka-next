@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { loginMutation } from '@hikka/api';
+import { API_LIMITS, loginMutation } from '@hikka/api';
 
 import SubmitButton from '@/components/form/submit-button';
 import { useAppForm } from '@/components/form/use-app-form';
@@ -18,7 +18,10 @@ import { useCaptcha } from './hooks/use-captcha';
 
 const formSchema = z.object({
     identifier: z.string().min(5),
-    password: z.string().min(8).max(256),
+    password: z
+        .string()
+        .min(API_LIMITS.password.min)
+        .max(API_LIMITS.password.max),
     rememberMe: z.boolean(),
 });
 

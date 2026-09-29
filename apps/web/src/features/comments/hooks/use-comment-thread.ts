@@ -1,11 +1,11 @@
 import { skipToken } from '@tanstack/react-query';
 
 import type { Client, CommentListResponse } from '@hikka/api';
-import { threadInfiniteOptions } from '@hikka/api';
+import { API_LIMITS, threadInfiniteOptions } from '@hikka/api';
 
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-export const THREAD_PAGE_SIZE = 100;
+const THREAD_PAGE_SIZE = API_LIMITS.pageSize.max;
 
 export function commentThreadInfiniteOptions(
     reference: string,

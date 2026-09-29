@@ -36,7 +36,7 @@ function isWithinAttachmentSize(size: number): boolean {
 }
 
 export const UPLOAD_VALIDATION_MESSAGES = {
-    'too-large': 'Зображення завелике (максимум 2 МБ).',
+    'too-large': `Зображення завелике (максимум ${ATTACHMENT_MAX_BYTES / 1024 / 1024} МБ).`,
     'unsupported-type': 'Непідтримуваний формат зображення.',
     'decode-failed': 'Не вдалося обробити зображення.',
 } as const;

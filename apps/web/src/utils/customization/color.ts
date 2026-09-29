@@ -1,4 +1,4 @@
-import type { OklchColor } from '@hikka/api';
+import { API_LIMITS, type OklchColor } from '@hikka/api';
 
 const round = (value: number, digits: number): number => {
     const factor = 10 ** digits;
@@ -63,20 +63,19 @@ const oklchToRgb = ({ l, c, h }: OklchColor): [number, number, number] => {
     ];
 };
 
+const withinRange = (
+    value: number,
+    { min, max }: { min: number; max: number },
+) => Number.isFinite(value) && value >= min && value <= max;
+
 /** Validate an OklchColor: l∈[0,1], c∈[0,0.4], h∈[0,360], all finite. */
 export const isValidOklch = (
     color: OklchColor | null | undefined,
 ): color is OklchColor =>
     !!color &&
-    Number.isFinite(color.l) &&
-    color.l >= 0 &&
-    color.l <= 1 &&
-    Number.isFinite(color.c) &&
-    color.c >= 0 &&
-    color.c <= 0.4 &&
-    Number.isFinite(color.h) &&
-    color.h >= 0 &&
-    color.h <= 360;
+    withinRange(color.l, API_LIMITS.oklch.l) &&
+    withinRange(color.c, API_LIMITS.oklch.c) &&
+    withinRange(color.h, API_LIMITS.oklch.h);
 
 /** Format an OklchColor as a CSS `oklch(l c h)` string. */
 export const oklchToCss = ({ l, c, h }: OklchColor): string =>

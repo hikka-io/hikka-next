@@ -22,5 +22,3 @@ export {
     VIDEO,
     WATCH_STATUS,
 } from '@/utils/labels/enum-labels';
-
-export const MIN_SEARCH_LENGTH = 2;

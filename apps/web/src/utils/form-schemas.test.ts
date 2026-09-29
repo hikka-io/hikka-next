@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
+import { API_LIMITS } from '@hikka/api';
+
 import {
     clientDescriptionSchema,
     clientNameSchema,
@@ -8,6 +10,7 @@ import {
     invalidUsernameCharacters,
     passwordSchema,
     suggestEndpoint,
+    USERNAME_HINT,
     usernameSchema,
 } from './form-schemas';
 
@@ -238,5 +241,54 @@ describe('endpointSchema', () => {
 
     it('asks for an address when the field is empty', () => {
         expect(messages(endpointSchema, '  ')).toEqual(['Вкажіть посилання']);
+    });
+});
+
+describe('bounds follow API_LIMITS', () => {
+    it('the backend username pattern carries API_LIMITS.username', () => {
+        const { min, max } = API_LIMITS.username;
+
+        expect(BACKEND_USERNAME.source).toBe(
+            `^[A-Za-z][A-Za-z0-9_]{${min - 1},${max - 1}}$`,
+        );
+    });
+
+    it.each([
+        ['usernameSchema', usernameSchema, API_LIMITS.username, 'a'],
+        ['passwordSchema', passwordSchema, API_LIMITS.password, 'x'],
+        ['clientNameSchema', clientNameSchema, API_LIMITS.clientName, 'x'],
+        [
+            'clientDescriptionSchema',
+            clientDescriptionSchema,
+            API_LIMITS.clientDescription,
+            'x',
+        ],
+    ] as const)('%s accepts exactly min..max characters', (_, schema, limits, char) => {
+        expect(schema.safeParse(char.repeat(limits.min - 1)).success).toBe(
+            false,
+        );
+        expect(schema.safeParse(char.repeat(limits.min)).success).toBe(true);
+        expect(schema.safeParse(char.repeat(limits.max)).success).toBe(true);
+        expect(schema.safeParse(char.repeat(limits.max + 1)).success).toBe(
+            false,
+        );
+    });
+
+    it('states the bounds in the same words', () => {
+        expect(USERNAME_HINT).toBe(
+            'Латинські літери, цифри та _, від 5 до 64 символів',
+        );
+        expect(messages(passwordSchema, 'x'.repeat(7))).toEqual([
+            'Щонайменше 8 символів',
+        ]);
+        expect(messages(passwordSchema, 'x'.repeat(257))).toEqual([
+            'Не більше 256 символів',
+        ]);
+        expect(messages(clientNameSchema, 'xx')).toEqual([
+            'Щонайменше 3 символи',
+        ]);
+        expect(messages(clientDescriptionSchema, 'x'.repeat(513))).toEqual([
+            'Не більше 512 символів',
+        ]);
     });
 });

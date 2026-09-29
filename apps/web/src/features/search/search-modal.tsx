@@ -10,11 +10,11 @@ import {
 import { CircleX } from 'lucide-react';
 
 import type { ContentTypeEnum, UserResponse } from '@hikka/api';
+import { API_LIMITS } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
-import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 
 import SearchButton from './components/search-button';
 import SearchToggle from './components/search-toggle';
@@ -85,7 +85,10 @@ const SearchModal: FC<Props> = ({
 
     const onDismiss = useCallback(
         (content: SearchContent | UserResponse) => {
-            if (searchValue && searchValue.trim().length >= MIN_SEARCH_LENGTH) {
+            if (
+                searchValue &&
+                searchValue.trim().length >= API_LIMITS.searchQuery.min
+            ) {
                 addHistoryEntry(searchValue);
             }
 

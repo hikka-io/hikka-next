@@ -3,7 +3,7 @@ import { type FC, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { User as UserIcon } from 'lucide-react';
 
-import { searchUsersOptions } from '@hikka/api';
+import { API_LIMITS, searchUsersOptions } from '@hikka/api';
 
 import { Label } from '@/components/ui/label';
 import {
@@ -43,7 +43,7 @@ const UserFilter: FC<Props> = ({ paramKey, title }) => {
     const handleChangeParam = useChangeParam();
 
     const handleUserSearch = (keyword: string) => {
-        if (keyword.length < 3) {
+        if (keyword.length < API_LIMITS.userSearchQuery.min) {
             setUserSearch(undefined);
             return;
         }

@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import {
+    API_LIMITS,
     deleteWatchMutation,
     type WatchArgs,
     type WatchResponse,
@@ -41,7 +42,11 @@ import { z } from '@/utils/i18n/zod';
 import { getTitle } from '@/utils/title/get-title';
 
 const formSchema = z.object({
-    score: z.coerce.number().min(0).max(10).optional(),
+    score: z.coerce
+        .number()
+        .min(API_LIMITS.listScore.min)
+        .max(API_LIMITS.listScore.max)
+        .optional(),
     episodes: z.coerce.number().min(0).optional(),
     rewatches: z.coerce.number().min(0).optional(),
     note: z.string().nullable().optional(),
@@ -197,8 +202,8 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
                                 placeholder="Введіть оцінку"
                                 type="number"
                                 className="flex-1"
-                                min={0}
-                                max={10}
+                                min={API_LIMITS.listScore.min}
+                                max={API_LIMITS.listScore.max}
                             />
                         )}
                     />

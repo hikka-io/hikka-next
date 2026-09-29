@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { changeDescriptionMutation } from '@hikka/api';
+import { API_LIMITS, changeDescriptionMutation } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,7 @@ import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z.object({
-    description: z.string().max(140).nullable(),
+    description: z.string().max(API_LIMITS.profileDescription.max).nullable(),
 });
 
 const ProfileDescription = () => {

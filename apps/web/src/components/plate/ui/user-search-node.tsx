@@ -9,6 +9,8 @@ import { searchUsersOptions } from '@hikka/api';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
+import { getDeclensionWord } from '@/utils/i18n/declension';
+import { SYMBOL_FORMS } from '@/utils/i18n/word-forms';
 import { userMentionUrl } from '@/utils/mentions';
 
 import {
@@ -20,7 +22,8 @@ import {
     InlineComboboxItem,
 } from './inline-combobox';
 
-const MIN_SEARCH_LENGTH = 2;
+const USER_SEARCH_MIN_LENGTH = 2;
+const TOO_SHORT_MESSAGE = `Введіть щонайменше ${USER_SEARCH_MIN_LENGTH} ${getDeclensionWord(USER_SEARCH_MIN_LENGTH, SYMBOL_FORMS)}`;
 
 export function UserSearchInputElement(props: PlateElementProps) {
     const { children, editor, element } = props;
@@ -30,7 +33,7 @@ export function UserSearchInputElement(props: PlateElementProps) {
         delay: DEBOUNCE_MS.input,
     });
 
-    const isTooShort = debouncedSearch.trim().length < MIN_SEARCH_LENGTH;
+    const isTooShort = debouncedSearch.trim().length < USER_SEARCH_MIN_LENGTH;
     const isPending = search !== debouncedSearch;
 
     const { data: users, isFetching } = useQuery({
@@ -55,7 +58,7 @@ export function UserSearchInputElement(props: PlateElementProps) {
                 <InlineComboboxContent>
                     <InlineComboboxEmpty>
                         {isTooShort
-                            ? 'Введіть щонайменше 2 символи'
+                            ? TOO_SHORT_MESSAGE
                             : isFetching || isPending
                               ? 'Завантаження...'
                               : 'Користувачів не знайдено'}

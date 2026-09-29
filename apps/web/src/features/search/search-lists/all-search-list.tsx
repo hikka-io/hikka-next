@@ -3,6 +3,7 @@ import { type ReactNode, useCallback } from 'react';
 import { Ellipsis } from 'lucide-react';
 
 import {
+    API_LIMITS,
     ContentTypeEnum,
     searchAnimeInfiniteOptions,
     searchCharactersInfiniteOptions,
@@ -13,7 +14,6 @@ import {
 
 import { CommandItem } from '@/components/ui/command';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS, contentPath } from '@/utils/content-paths';
 import { CONTENT_TYPES } from '@/utils/labels';
 import { useRouter } from '@/utils/navigation';
@@ -108,7 +108,8 @@ const AllSearchList = ({
 }: Props) => {
     const router = useRouter();
     const addHistoryEntry = useSearchHistoryStore((state) => state.addEntry);
-    const enabled = value !== undefined && value.length >= MIN_SEARCH_LENGTH;
+    const enabled =
+        value !== undefined && value.length >= API_LIMITS.searchQuery.min;
 
     const anime = useInfiniteList(
         searchAnimeInfiniteOptions({
@@ -201,7 +202,7 @@ const AllSearchList = ({
                 return;
             }
 
-            if (value && value.trim().length >= MIN_SEARCH_LENGTH) {
+            if (value && value.trim().length >= API_LIMITS.searchQuery.min) {
                 addHistoryEntry(value);
             }
 

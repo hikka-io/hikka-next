@@ -4,7 +4,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import type { CollectionArgs, CollectionVisibilityEnum } from '@hikka/api';
-import { createCollectionMutation, updateCollectionMutation } from '@hikka/api';
+import {
+    API_LIMITS,
+    createCollectionMutation,
+    updateCollectionMutation,
+} from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
@@ -138,7 +142,7 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         Теги
                     </Label>
                     <InputTags
-                        disabled={tags.length === 3}
+                        disabled={tags.length === API_LIMITS.tags.max}
                         id="tags"
                         value={tags}
                         onChange={(tags) => setTags(tags as string[])}
@@ -252,9 +256,11 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                         disabled={
                             isUpdatePending ||
                             !title ||
-                            title.trim().length < 3 ||
+                            title.trim().length <
+                                API_LIMITS.collectionTitle.min ||
                             !description ||
-                            description.trim().length < 3
+                            description.trim().length <
+                                API_LIMITS.collectionDescription.min
                         }
                         variant="default"
                         onClick={() =>
@@ -279,9 +285,11 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                             isSuccess ||
                             isCreatePending ||
                             !title ||
-                            title.trim().length < 3 ||
+                            title.trim().length <
+                                API_LIMITS.collectionTitle.min ||
                             !description ||
-                            description.trim().length < 3
+                            description.trim().length <
+                                API_LIMITS.collectionDescription.min
                         }
                         size="md"
                         variant="default"

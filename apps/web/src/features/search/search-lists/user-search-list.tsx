@@ -4,12 +4,13 @@ import { useQuery } from '@tanstack/react-query';
 
 import { searchUsersOptions, type UserResponse } from '@hikka/api';
 
-import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 
 import SearchPlaceholders from '../components/search-placeholders';
 import { SearchGroup, SearchItem, SearchList } from '../components/search-ui';
 import UserCard from '../components/user-card';
+
+const USER_SEARCH_MIN_LENGTH = 2;
 
 type Props = {
     onDismiss: (user: UserResponse) => void;
@@ -32,7 +33,7 @@ const UserSearchList = ({ onDismiss, type, value }: Props) => {
     );
     const { data, isFetching, isRefetching } = useQuery({
         ...searchUsersOptions({ body: { query: value || '' } }),
-        enabled: value !== undefined && value.length >= MIN_SEARCH_LENGTH,
+        enabled: value !== undefined && value.length >= USER_SEARCH_MIN_LENGTH,
     });
 
     return (

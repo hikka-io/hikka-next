@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { getArticleTopOptions } from '@hikka/api';
+import { API_LIMITS, getArticleTopOptions } from '@hikka/api';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import Block from '@/components/ui/block';
@@ -32,7 +32,7 @@ const PopularTags: FC<Props> = () => {
                     </HeaderContainer>
                 </Header>
                 <BadgeFilter
-                    disabled={tags.length >= 3}
+                    disabled={tags.length >= API_LIMITS.tags.max}
                     properties={articleTop?.tags?.map((tag) => tag.name) || []}
                     selected={tags}
                     property="tags"

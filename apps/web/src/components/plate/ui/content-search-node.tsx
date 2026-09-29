@@ -8,6 +8,7 @@ import { PlateElement } from 'platejs/react';
 
 import {
     type AnimeResponse,
+    API_LIMITS,
     type CharacterResponse,
     ContentTypeEnum,
     type MainContentTypeEnum,
@@ -23,8 +24,9 @@ import {
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
-import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
+import { getDeclensionWord } from '@/utils/i18n/declension';
+import { SYMBOL_FORMS } from '@/utils/i18n/word-forms';
 import { CONTENT_TYPES } from '@/utils/labels';
 import { getTitle } from '@/utils/title/get-title';
 import { getSiteUrl } from '@/utils/url';
@@ -53,6 +55,7 @@ type SearchContentType =
     | typeof ContentTypeEnum.PERSON;
 
 const GROUP_SIZE = 3;
+const TOO_SHORT_MESSAGE = `Введіть щонайменше ${API_LIMITS.searchQuery.min} ${getDeclensionWord(API_LIMITS.searchQuery.min, SYMBOL_FORMS)}`;
 
 // The title already follows the viewer's language preference, so the subtitle
 // picks the first alternate that differs from it rather than a fixed field.
@@ -173,7 +176,8 @@ export function ContentSearchInputElement(props: PlateElementProps) {
     });
     const { preferences } = useSessionUI();
 
-    const isTooShort = debouncedSearch.trim().length < MIN_SEARCH_LENGTH;
+    const isTooShort =
+        debouncedSearch.trim().length < API_LIMITS.searchQuery.min;
     const isPending = search !== debouncedSearch;
     const body = { query: debouncedSearch };
     const enabled = !isTooShort;
@@ -288,7 +292,7 @@ export function ContentSearchInputElement(props: PlateElementProps) {
                 <InlineComboboxContent>
                     <InlineComboboxEmpty>
                         {isTooShort
-                            ? 'Введіть щонайменше 2 символи'
+                            ? TOO_SHORT_MESSAGE
                             : isFetching || isPending
                               ? 'Завантаження...'
                               : 'Нічого не знайдено'}

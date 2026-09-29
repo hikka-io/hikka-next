@@ -2,6 +2,8 @@ import type { FC } from 'react';
 
 import { Tag as TagIcon } from 'lucide-react';
 
+import { API_LIMITS } from '@hikka/api';
+
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 import { useRouteSearch } from '@/utils/navigation';
@@ -24,7 +26,7 @@ const TagFilter: FC<Props> = () => {
                 <Label>Теги</Label>
             </div>
             <InputTags
-                disabled={tags.length === 3}
+                disabled={tags.length === API_LIMITS.tags.max}
                 id="tags"
                 value={tags}
                 onChange={(tags) => handleChangeParam('tags', tags as string[])}

@@ -2,6 +2,8 @@ import { type FC, type KeyboardEvent, useState } from 'react';
 
 import { StickyNote } from 'lucide-react';
 
+import { API_LIMITS } from '@hikka/api';
+
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { MaterialSymbolsCheckRounded } from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
@@ -12,8 +14,7 @@ import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { Textarea } from '@/components/ui/textarea';
 
-const MAX_LENGTH = 2048;
-const COUNTER_THRESHOLD = MAX_LENGTH - 200;
+const COUNTER_THRESHOLD = API_LIMITS.listNote.max - 200;
 
 const placeCaretAtEnd = (el: HTMLTextAreaElement | null) =>
     el?.setSelectionRange(el.value.length, el.value.length);
@@ -63,7 +64,7 @@ const UserNote: FC<Props> = ({ note, isSaving, onSave }) => {
                     autoFocus
                     aria-label="Нотатка"
                     className="field-sizing-content max-h-72 min-h-24 resize-none"
-                    maxLength={MAX_LENGTH}
+                    maxLength={API_LIMITS.listNote.max}
                     placeholder="Враження, улюблені моменти або на чому зупинились"
                     value={draft}
                     onChange={(e) => setDraft(e.target.value)}
@@ -71,7 +72,7 @@ const UserNote: FC<Props> = ({ note, isSaving, onSave }) => {
                 />
                 {draft.length >= COUNTER_THRESHOLD && (
                     <span className="text-right text-muted-foreground text-xs tabular-nums">
-                        {draft.length}/{MAX_LENGTH}
+                        {draft.length}/{API_LIMITS.listNote.max}
                     </span>
                 )}
                 <div className="flex gap-2">

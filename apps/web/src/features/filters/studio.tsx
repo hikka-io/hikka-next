@@ -26,6 +26,8 @@ import { useRouteSearch } from '@/utils/navigation';
 
 import { useChangeParam } from './use-change-param';
 
+const STUDIO_SEARCH_MIN_LENGTH = 3;
+
 type Props = {
     className?: string;
 };
@@ -53,7 +55,7 @@ const Studio: FC<Props> = () => {
     const handleChangeParam = useChangeParam();
 
     const handleStudioSearch = (keyword: string) => {
-        if (keyword.length < 3) {
+        if (keyword.length < STUDIO_SEARCH_MIN_LENGTH) {
             setStudioSearch(undefined);
             return;
         }
@@ -122,7 +124,7 @@ export const FormStudio: FC<Props & Partial<SelectFieldProps>> = (props) => {
     }, [list]);
 
     const handleStudioSearch = (keyword: string) => {
-        if (keyword.length < 3) {
+        if (keyword.length < STUDIO_SEARCH_MIN_LENGTH) {
             setStudioSearch(undefined);
             return;
         }

@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { Ellipsis } from 'lucide-react';
 
 import {
+    API_LIMITS,
     ContentTypeEnum,
     searchAnimeInfiniteOptions,
     searchCharactersInfiniteOptions,
@@ -14,7 +15,6 @@ import {
 import LoadMoreButton from '@/components/load-more-button';
 import { CommandItem } from '@/components/ui/command';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 
 import SearchCard, { type SearchCardType } from '../components/search-card';
@@ -98,7 +98,7 @@ const EntitySearchList = ({
     );
 
     const handleNavigate = useCallback(() => {
-        if (value && value.trim().length >= MIN_SEARCH_LENGTH) {
+        if (value && value.trim().length >= API_LIMITS.searchQuery.min) {
             addHistoryEntry(value);
         }
 
@@ -123,7 +123,9 @@ const EntitySearchList = ({
             query: { size: 30 },
         }),
         {
-            enabled: value !== undefined && value.length >= MIN_SEARCH_LENGTH,
+            enabled:
+                value !== undefined &&
+                value.length >= API_LIMITS.searchQuery.min,
         },
     );
 

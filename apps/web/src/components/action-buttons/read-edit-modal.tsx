@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import {
+    API_LIMITS,
     deleteReadMutation,
     type ReadArgs,
     type ReadContentTypeEnum,
@@ -41,7 +42,11 @@ import { z } from '@/utils/i18n/zod';
 import { getTitle } from '@/utils/title/get-title';
 
 const formSchema = z.object({
-    score: z.coerce.number().min(0).max(10).optional(),
+    score: z.coerce
+        .number()
+        .min(API_LIMITS.listScore.min)
+        .max(API_LIMITS.listScore.max)
+        .optional(),
     volumes: z.coerce.number().min(0).optional(),
     chapters: z.coerce.number().min(0).optional(),
     rereads: z.coerce.number().min(0).optional(),
