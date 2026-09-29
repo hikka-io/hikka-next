@@ -2,12 +2,10 @@ import type { ReactNode } from 'react';
 
 import { range } from '@antfu/utils';
 import type { QueryKey } from '@tanstack/react-query';
-import { useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from '@tanstack/react-router';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
-import { StickyPagination } from '@/components/ui/pagination';
+import PagePagination from '@/components/page-pagination';
 import Stack, { type StackSize } from '@/components/ui/stack';
 import type { View } from '@/utils/cookies';
 
@@ -43,20 +41,6 @@ function CatalogListView<T>({
     renderListItem,
     extendedSize = 5,
 }: Props<T>) {
-    const queryClient = useQueryClient();
-    const navigate = useNavigate();
-
-    const handlePageChange = (newPage: number) => {
-        if (hasMultiplePages) {
-            queryClient.removeQueries({ queryKey: removeQueryKey });
-        }
-
-        navigate({
-            to: '.',
-            search: (prev) => ({ ...prev, page: newPage }),
-        });
-    };
-
     if (isLoading && !isFetchingNextPage) {
         if (view === 'list') {
             return (
@@ -92,10 +76,11 @@ function CatalogListView<T>({
                 />
             )}
             {pagination && (
-                <StickyPagination
-                    page={pagination.page}
-                    pages={pagination.pages}
-                    setPage={handlePageChange}
+                <PagePagination
+                    pagination={pagination}
+                    resetQueryKey={
+                        hasMultiplePages ? removeQueryKey : undefined
+                    }
                 />
             )}
         </div>
