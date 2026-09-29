@@ -8,17 +8,18 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
+import { USER_ROLE } from '@/utils/labels';
 
 const ROLE = {
     admin: {
         icon: MaterialSymbolsSecurity,
         className: 'text-role-admin',
-        label: 'Адміністратор',
+        label: USER_ROLE.admin.label,
     },
     moderator: {
         icon: MaterialSymbolsShieldPerson,
         className: 'text-role-moderator',
-        label: 'Модератор',
+        label: USER_ROLE.moderator.label,
     },
 } as const;
 

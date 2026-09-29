@@ -24,3 +24,4 @@ export {
     VIDEO,
     WATCH_STATUS,
 } from './enum-labels';
+export { USER_ROLE } from './user-roles';

@@ -5,7 +5,7 @@ import type { UserResponse } from '@hikka/api';
 import PosterCard from '@/components/content-card/poster-card';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { USER_ROLE } from '@/utils/constants/common';
+import { USER_ROLE } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 type Props = {

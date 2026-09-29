@@ -23,9 +23,6 @@ export {
     WATCH_STATUS,
 } from '@/utils/labels/enum-labels';
 
-// User roles
-export { USER_ROLE } from './user-role';
-
 export const COMMENT_DECLENSIONS: [string, string, string] = [
     'коментар',
     'коментарі',
