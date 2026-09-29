@@ -1,7 +1,5 @@
 import type { FC } from 'react';
 
-import { getArticlesInfiniteOptions } from '@hikka/api';
-
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import ArticleItemCompact from '@/components/list-items/article-item-compact';
 import Block from '@/components/ui/block';
@@ -22,16 +20,15 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link, useParams } from '@/utils/navigation';
 
+import { userArticlesPreviewOptions } from '../queries';
+
 type Props = {};
 
 const UserArticles: FC<Props> = () => {
     const { user } = useSession();
     const params = useParams();
     const { list: availableArticles } = useInfiniteList(
-        getArticlesInfiniteOptions({
-            body: { author: String(params.username) },
-            query: { size: 3 },
-        }),
+        userArticlesPreviewOptions(String(params.username)),
     );
 
     if (!availableArticles || availableArticles.length === 0) return null;

@@ -1,10 +1,5 @@
 import { type FC, useState } from 'react';
 
-import {
-    type CollectionsListArgs,
-    getCollectionsInfiniteOptions,
-} from '@hikka/api';
-
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import { CollectionItem } from '@/components/list-items';
@@ -29,6 +24,11 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';
 
+import {
+    userCollectionsPreviewBody,
+    userCollectionsPreviewOptions,
+} from '../queries';
+
 type Props = {
     className?: string;
 };
@@ -40,14 +40,10 @@ const UserCollections: FC<Props> = ({ className }) => {
 
     const { user: loggedUser } = useSession();
 
-    const body: CollectionsListArgs = {
-        author: String(params.username),
-        sort: ['created:desc'],
-        only_public: false,
-    };
+    const body = userCollectionsPreviewBody(String(params.username));
 
     const { list: collections } = useInfiniteList(
-        getCollectionsInfiniteOptions({ body }),
+        userCollectionsPreviewOptions(String(params.username)),
     );
 
     if (!collections) {

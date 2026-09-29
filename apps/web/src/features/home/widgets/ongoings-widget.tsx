@@ -2,13 +2,7 @@ import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
 
-import {
-    AnimeMediaEnum,
-    AnimeStatusEnum,
-    ContentTypeEnum,
-    type SeasonEnum,
-    searchAnimeInfiniteOptions,
-} from '@hikka/api';
+import { ContentTypeEnum, type SeasonEnum } from '@hikka/api';
 
 import { MediaTooltip } from '@/components/content-card';
 import AnimeCard from '@/components/content-card/anime-card';
@@ -35,9 +29,9 @@ import { getDeclensionWord } from '@/utils/i18n/declension';
 import { EPISODE_FORMS } from '@/utils/i18n/word-forms';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
-import { getOngoingsSort } from '@/utils/sort';
 import { getTitle } from '@/utils/title/get-title';
 
+import { ongoingsOptions } from '../queries';
 import type { WidgetProps } from '../types';
 
 const SIDEBAR_SIZE = 5;
@@ -61,19 +55,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
     const isCenter = side === 'center';
 
     const { list, isLoading } = useInfiniteList(
-        searchAnimeInfiniteOptions({
-            body: {
-                season: [currentSeason!],
-                media_type: [AnimeMediaEnum.TV],
-                years: [year, year],
-                genres: ['-ecchi', '-hentai'],
-                status: [AnimeStatusEnum.ONGOING],
-                sort: getOngoingsSort(),
-            },
-            query: {
-                size: isCenter ? CENTER_SIZE : SIDEBAR_SIZE,
-            },
-        }),
+        ongoingsOptions({ size: isCenter ? CENTER_SIZE : SIDEBAR_SIZE }),
     );
 
     const search = {

@@ -2,21 +2,10 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import {
-    type AnimeAgeRatingEnum,
-    type AnimeMediaEnum,
-    type AnimeStatusEnum,
-    type ContentStatusEnum,
     ContentTypeEnum,
     type MainContentTypeEnum,
-    type MangaMediaEnum,
-    type NovelMediaEnum,
     paginationPageParam,
     type ReadContentTypeEnum,
-    type ReadStatusEnum,
-    type SeasonEnum,
-    userReadListInfiniteOptions,
-    userWatchListInfiniteOptions,
-    type WatchStatusEnum,
 } from '@hikka/api';
 
 import ContentTypeTabs from '@/components/content-type-tabs';
@@ -30,11 +19,14 @@ import {
     useFiltersSidebar,
 } from '@/features/filters';
 import { UserList, UserListNavbar } from '@/features/users';
+import {
+    userReadListOptions,
+    userWatchListOptions,
+} from '@/features/users/queries';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPES } from '@/utils/labels';
 import { generateHeadMeta } from '@/utils/metadata';
 import { userlistSearchSchema } from '@/utils/search-schemas';
-import { expandSort } from '@/utils/sort';
 
 export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
     validateSearch: zodValidator(userlistSearchSchema),
@@ -56,83 +48,19 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
             });
         }
 
-        const sort = expandSort(
-            isAnime ? 'watch' : 'read',
-            sortParam,
-            deps.order,
-        );
-
         if (isAnime) {
-            const media_type = (deps.types ?? []) as AnimeMediaEnum[];
-            const animeStatus = (deps.statuses ?? []) as AnimeStatusEnum[];
-            const season = (deps.seasons ?? []) as SeasonEnum[];
-            const rating = (deps.ratings ?? []) as AnimeAgeRatingEnum[];
-            const years = (deps.years ?? []) as [number | null, number | null];
-            const genres = deps.genres ?? [];
-            const studios = deps.studios ?? [];
-            const score = deps.score?.length
-                ? (deps.score as [number, number])
-                : undefined;
-
             await queryClient.prefetchInfiniteQuery({
-                ...userWatchListInfiniteOptions({
-                    path: { username },
-                    body: {
-                        watch_status:
-                            status !== 'all'
-                                ? (status as WatchStatusEnum)
-                                : undefined,
-                        media_type,
-                        status: animeStatus,
-                        season,
-                        rating,
-                        years,
-                        genres,
-                        studios,
-                        score,
-                        sort,
-                    },
-                    client: apiClient,
-                }),
+                ...userWatchListOptions(username, deps, apiClient),
                 ...paginationPageParam(),
             });
         } else {
-            // Generated ReadSearchArgs.media_type is typed MangaMediaEnum[];
-            // novel media values are valid at runtime.
-            const media_type = (deps.types ?? []) as (
-                | NovelMediaEnum
-                | MangaMediaEnum
-            )[] as MangaMediaEnum[];
-            const readContentStatus = (deps.statuses ??
-                []) as ContentStatusEnum[];
-            const years = (deps.years ?? []) as [number | null, number | null];
-            const genres = deps.genres ?? [];
-            const magazines = deps.magazines ?? [];
-            const score = deps.score?.length
-                ? (deps.score as [number, number])
-                : undefined;
-
             await queryClient.prefetchInfiniteQuery({
-                ...userReadListInfiniteOptions({
-                    path: {
-                        username,
-                        content_type: content_type as ReadContentTypeEnum,
-                    },
-                    body: {
-                        read_status:
-                            status !== 'all'
-                                ? (status as ReadStatusEnum)
-                                : undefined,
-                        media_type,
-                        status: readContentStatus,
-                        years,
-                        genres,
-                        magazines,
-                        score,
-                        sort,
-                    },
-                    client: apiClient,
-                }),
+                ...userReadListOptions(
+                    username,
+                    content_type as ReadContentTypeEnum,
+                    deps,
+                    apiClient,
+                ),
                 ...paginationPageParam(),
             });
         }

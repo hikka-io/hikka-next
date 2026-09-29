@@ -2,7 +2,6 @@ import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import {
-    AnimeMediaEnum,
     AnimeStatusEnum,
     animeScheduleInfiniteOptions,
     ContentTypeEnum,
@@ -13,7 +12,6 @@ import {
     getFeedInfiniteOptions,
     paginationPageParam,
     profileQueryKey,
-    searchAnimeInfiniteOptions,
     type UserResponse,
     userReadStatsOptions,
     userWatchListInfiniteOptions,
@@ -24,10 +22,10 @@ import {
 import { CoverImage, usePageHeader } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { FeedLayout, HomeHeaderActions } from '@/features/home';
+import { ongoingsOptions } from '@/features/home/queries';
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
-import { getOngoingsSort } from '@/utils/sort';
 import { SITE_ORIGIN } from '@/utils/url';
 
 const HeaderWordmark = () => (
@@ -148,18 +146,7 @@ export const Route = createFileRoute('/_pages/')({
 
         promises.push(
             queryClient.ensureInfiniteQueryData({
-                ...searchAnimeInfiniteOptions({
-                    body: {
-                        season: [season],
-                        media_type: [AnimeMediaEnum.TV],
-                        years: [year, year],
-                        genres: ['-ecchi', '-hentai'],
-                        status: [AnimeStatusEnum.ONGOING],
-                        sort: getOngoingsSort(),
-                    },
-                    query: { size: 5 },
-                    client: apiClient,
-                }),
+                ...ongoingsOptions({ size: 5, client: apiClient }),
                 ...paginationPageParam(),
             }),
         );

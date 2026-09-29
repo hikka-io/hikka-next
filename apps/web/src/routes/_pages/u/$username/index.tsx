@@ -3,8 +3,6 @@ import { createFileRoute } from '@tanstack/react-router';
 import {
     ContentTypeEnum,
     favouriteListInfiniteOptions,
-    getArticlesInfiniteOptions,
-    getCollectionsInfiniteOptions,
     paginationPageParam,
     serviceUserActivityOptions,
     userHistoryInfiniteOptions,
@@ -18,6 +16,10 @@ import {
     UserHistory,
     UserListStats,
 } from '@/features/users';
+import {
+    userArticlesPreviewOptions,
+    userCollectionsPreviewOptions,
+} from '@/features/users/queries';
 
 export const Route = createFileRoute('/_pages/u/$username/')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -48,22 +50,11 @@ export const Route = createFileRoute('/_pages/u/$username/')({
                 }),
             ),
             queryClient.ensureInfiniteQueryData({
-                ...getArticlesInfiniteOptions({
-                    body: { author: username },
-                    query: { size: 3 },
-                    client: apiClient,
-                }),
+                ...userArticlesPreviewOptions(username, apiClient),
                 ...paginationPageParam(),
             }),
             queryClient.ensureInfiniteQueryData({
-                ...getCollectionsInfiniteOptions({
-                    body: {
-                        author: username,
-                        sort: ['created:desc'],
-                        only_public: false,
-                    },
-                    client: apiClient,
-                }),
+                ...userCollectionsPreviewOptions(username, apiClient),
                 ...paginationPageParam(),
             }),
         ]);
