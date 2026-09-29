@@ -1,4 +1,4 @@
-import { useUiPreferences } from '@/services/stores/ui-preferences-store';
+import { useUiPreferences } from '@/services/ui-preferences-store';
 
 const DEFAULT_KEY = 'catalog_filters_sidebar';
 

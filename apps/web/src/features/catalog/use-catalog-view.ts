@@ -1,7 +1,7 @@
 import {
     UI_PREFS_DEFAULTS,
     useUiPreferences,
-} from '@/services/stores/ui-preferences-store';
+} from '@/services/ui-preferences-store';
 
 const DEFAULT_KEY = 'catalog';
 const DEFAULT_VIEW: Hikka.View = 'grid';

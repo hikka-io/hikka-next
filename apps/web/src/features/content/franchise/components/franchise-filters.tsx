@@ -15,7 +15,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {
     UI_PREFS_DEFAULTS,
     useUiPreferences,
-} from '@/services/stores/ui-preferences-store';
+} from '@/services/ui-preferences-store';
 
 const FranchiseFilters: FC = () => {
     const view = useUiPreferences(

@@ -18,7 +18,7 @@ import { profileUiQueryKey, type UserCustomizationResponse } from '@hikka/api';
 import NotFoundPage from '@/components/not-found-page';
 import RouterProgressBar from '@/components/router-progress-bar';
 import { Providers } from '@/features/app-shell';
-import { UiPreferencesProvider } from '@/services/stores/ui-preferences-store';
+import { UiPreferencesProvider } from '@/services/ui-preferences-store';
 import {
     getThemeCookieFn,
     getUiPrefsCookieFn,

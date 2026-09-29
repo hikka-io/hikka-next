@@ -22,7 +22,7 @@ import { useMediaQuery } from '@/services/hooks/use-media-query';
 import {
     UI_PREFS_DEFAULTS,
     useUiPreferences,
-} from '@/services/stores/ui-preferences-store';
+} from '@/services/ui-preferences-store';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useParams } from '@/utils/navigation';
 

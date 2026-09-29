@@ -5,7 +5,7 @@ import { setDefaultOptions } from 'date-fns/setDefaultOptions';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
 import EffectsManager from '@/features/effects/effects-manager';
-import ThemeProvider from '@/services/providers/theme-provider';
+import ThemeProvider from '@/services/theme-provider';
 
 import UIStylesSyncer from './ui-styles-syncer';
 import VisualViewportSyncer from './visual-viewport-syncer';
