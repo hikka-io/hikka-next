@@ -4,7 +4,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 import { useArticleContext } from './article-provider';
 
-const ArticleTitle = () => {
+const ArticleEditTitle = () => {
     const title = useArticleContext((state) => state.title);
 
     return (
@@ -16,4 +16,4 @@ const ArticleTitle = () => {
     );
 };
 
-export default memo(ArticleTitle);
+export default memo(ArticleEditTitle);

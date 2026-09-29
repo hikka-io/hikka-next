@@ -5,9 +5,9 @@ import { getCollectionOptions } from '@hikka/api';
 
 import { useParams } from '@/utils/navigation';
 
-import CollectionDisplayGrid from './components/collection-grid';
+import CollectionDisplayGrid from './collection-grid';
 
-const CollectionGroups = () => {
+const CollectionViewGroups = () => {
     const params = useParams();
 
     const { data: collection } = useQuery(
@@ -53,4 +53,4 @@ const CollectionGroups = () => {
     ));
 };
 
-export default CollectionGroups;
+export default CollectionViewGroups;

@@ -26,7 +26,7 @@ type Props = {
     className?: string;
 };
 
-const Author: FC<Props> = ({ article, preview, className }) => {
+const ArticleAuthorCard: FC<Props> = ({ article, preview, className }) => {
     const isDesktop = useIsDesktop();
 
     // Generated responses type `category` as a plain string; narrow to the enum.
@@ -78,4 +78,4 @@ const Author: FC<Props> = ({ article, preview, className }) => {
     );
 };
 
-export default Author;
+export default ArticleAuthorCard;

@@ -14,7 +14,7 @@ import type { ArticlesSearch } from '@/utils/search-schemas';
 
 type Props = {};
 
-const PopularTags: FC<Props> = () => {
+const ArticleListPopularTags: FC<Props> = () => {
     const { data: articleTop } = useQuery(getArticleTopOptions());
     const search = useRouteSearch<Pick<ArticlesSearch, 'tags'>>();
     const tags = search.tags
@@ -44,4 +44,4 @@ const PopularTags: FC<Props> = () => {
     );
 };
 
-export default PopularTags;
+export default ArticleListPopularTags;

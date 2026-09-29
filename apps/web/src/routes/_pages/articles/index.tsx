@@ -10,10 +10,10 @@ import {
 
 import { usePageHeader } from '@/features/app-shell';
 import {
-    ArticleFilters,
     ArticleList,
-    PopularAuthors,
-    PopularTags,
+    ArticleListFilters,
+    ArticleListPopularAuthors,
+    ArticleListPopularTags,
 } from '@/features/articles';
 import { generateHeadMeta } from '@/utils/metadata';
 import { articlesSearchSchema } from '@/utils/search-schemas';
@@ -60,12 +60,12 @@ function ArticlesPage() {
     return (
         <div className="grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-[1fr_20rem] xl:grid-cols-[20rem_1fr_20rem]">
             <div className="sticky top-20 hidden flex-col gap-4 self-start xl:flex">
-                <PopularAuthors />
-                <PopularTags />
+                <ArticleListPopularAuthors />
+                <ArticleListPopularTags />
             </div>
             <ArticleList />
             <div className="sticky top-20 hidden max-h-[calc(100vh-9rem)] w-full self-start overflow-hidden rounded-lg border border-border surface sm:flex">
-                <ArticleFilters />
+                <ArticleListFilters />
             </div>
         </div>
     );

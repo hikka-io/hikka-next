@@ -10,7 +10,7 @@ import TitleInput from './components/title-input';
 
 type Props = {};
 
-const ArticleSettings: FC<Props> = () => {
+const ArticleEditSettings: FC<Props> = () => {
     const slug = useArticleContext((state) => state.slug);
 
     return (
@@ -27,4 +27,4 @@ const ArticleSettings: FC<Props> = () => {
     );
 };
 
-export default ArticleSettings;
+export default ArticleEditSettings;

@@ -29,7 +29,7 @@ type Props = {
     className?: string;
 };
 
-const CollectionActionsMenu: FC<Props> = ({ className }) => {
+const CollectionViewActionsMenu: FC<Props> = ({ className }) => {
     const params = useParams();
     const reference = String(params.reference);
     const router = useRouter();
@@ -113,4 +113,4 @@ const CollectionActionsMenu: FC<Props> = ({ className }) => {
     );
 };
 
-export default CollectionActionsMenu;
+export default CollectionViewActionsMenu;

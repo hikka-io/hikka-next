@@ -12,7 +12,7 @@ import { Link, useParams } from '@/utils/navigation';
 
 type Props = {};
 
-const ArticleTitle: FC<Props> = () => {
+const ArticleViewTitle: FC<Props> = () => {
     const params = useParams();
 
     const { data: article } = useQuery(
@@ -43,4 +43,4 @@ const ArticleTitle: FC<Props> = () => {
     );
 };
 
-export default ArticleTitle;
+export default ArticleViewTitle;

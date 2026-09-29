@@ -62,7 +62,7 @@ type Props = {
     mode?: 'create' | 'edit';
 };
 
-const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
+const CollectionEditSettings: FC<Props> = ({ mode = 'create' }) => {
     const router = useRouter();
     const params = useParams();
     const queryClient = useQueryClient();
@@ -322,4 +322,4 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
     );
 };
 
-export default CollectionSettings;
+export default CollectionEditSettings;

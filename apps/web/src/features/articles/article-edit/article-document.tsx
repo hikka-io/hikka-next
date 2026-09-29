@@ -7,7 +7,7 @@ import { hasPlateContent } from '@/utils/plate';
 
 import { useArticleContext } from './article-provider';
 
-const ArticleDocumentEditor = () => {
+const ArticleEditDocument = () => {
     const document = useArticleContext((state) => state.document);
     const title = useArticleContext((state) => state.title);
     const setDocument = useArticleContext((state) => state.setDocument);
@@ -33,4 +33,4 @@ const ArticleDocumentEditor = () => {
     );
 };
 
-export default memo(ArticleDocumentEditor);
+export default memo(ArticleEditDocument);

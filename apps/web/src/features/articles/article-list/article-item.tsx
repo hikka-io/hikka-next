@@ -15,7 +15,7 @@ import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
-import Author from './article-author';
+import ArticleAuthorCard from '../article-author-card';
 
 type Props = {
     article: ArticlePreviewResponse;
@@ -33,7 +33,7 @@ const ArticleItem: FC<Props> = ({ article, className }) => {
                 className,
             )}
         >
-            <Author article={article} />
+            <ArticleAuthorCard article={article} />
             <div className="relative flex flex-col gap-4 p-4 py-0">
                 <Link
                     to={`${CONTENT_TYPE_LINKS.article}/${article.slug}`}

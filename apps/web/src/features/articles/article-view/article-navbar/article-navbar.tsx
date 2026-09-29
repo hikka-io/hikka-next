@@ -13,12 +13,12 @@ import { getDeclensionWord } from '@/utils/i18n/declension';
 import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
 import { Link, useParams } from '@/utils/navigation';
 
-import ArticleActionsMenu from '../article-actions-menu';
-import ArticleVote from './components/article-vote';
+import ArticleViewActionsMenu from '../article-actions-menu';
+import ArticleVote from './article-vote';
 
 type Props = {};
 
-const ArticleNavbar: FC<Props> = () => {
+const ArticleViewNavbar: FC<Props> = () => {
     const params = useParams();
     const { user: loggedUser } = useSession();
 
@@ -67,10 +67,10 @@ const ArticleNavbar: FC<Props> = () => {
                     </Fragment>
                 )}
 
-                <ArticleActionsMenu className="hidden md:flex" />
+                <ArticleViewActionsMenu className="hidden md:flex" />
             </Card>
         </div>
     );
 };
 
-export default ArticleNavbar;
+export default ArticleViewNavbar;

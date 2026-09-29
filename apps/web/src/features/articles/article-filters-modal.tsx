@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/responsive-modal';
 import { ClearFiltersFooter } from '@/features/filters';
 
-import { ArticleFiltersBody } from './article-filters';
+import { ArticleFiltersBody } from './article-list/article-filters';
 
 type Props = {
     children?: ReactElement;

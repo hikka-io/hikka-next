@@ -9,7 +9,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { useParams } from '@/utils/navigation';
 
-const CollectionTitle = () => {
+const CollectionViewTitle = () => {
     const params = useParams();
     const { data: collection } = useQuery(
         getCollectionOptions({ path: { reference: String(params.reference) } }),
@@ -51,4 +51,4 @@ const CollectionTitle = () => {
     );
 };
 
-export default CollectionTitle;
+export default CollectionViewTitle;

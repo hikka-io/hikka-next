@@ -11,7 +11,7 @@ import { cn } from '@/utils/cn';
 
 import { useCollectionContext } from '../collection-provider';
 import type { Group, Item } from '../collection-store';
-import SortableCard from './components/sortable-card';
+import SortableCard from './sortable-card';
 
 type Props = {
     group: Group;

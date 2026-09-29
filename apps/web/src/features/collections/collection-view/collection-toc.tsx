@@ -14,7 +14,7 @@ type Props = {
     className?: string;
 };
 
-function TableOfContents({ className }: Props) {
+function CollectionToc({ className }: Props) {
     const params = useParams();
     const { data: collection } = useQuery(
         getCollectionOptions({ path: { reference: String(params.reference) } }),
@@ -113,4 +113,4 @@ function TableOfContents({ className }: Props) {
     );
 }
 
-export default TableOfContents;
+export default CollectionToc;

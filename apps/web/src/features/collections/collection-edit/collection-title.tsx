@@ -5,7 +5,7 @@ import { useParams } from '@/utils/navigation';
 
 import { useCollectionContext } from './collection-provider';
 
-const CollectionTitle = () => {
+const CollectionEditTitle = () => {
     const { reference } = useParams();
 
     const title = useCollectionContext((state) => state.title);
@@ -44,4 +44,4 @@ const CollectionTitle = () => {
     );
 };
 
-export default CollectionTitle;
+export default CollectionEditTitle;

@@ -31,7 +31,7 @@ export const ArticleFiltersBody: FC<Props> = ({ className }) => {
 };
 
 /** Side-panel composition: scrollable filter body + sticky footer. */
-const ArticleFilters: FC<Props> = ({ className }) => {
+const ArticleListFilters: FC<Props> = ({ className }) => {
     return (
         <div className={cn('flex flex-1 flex-col lg:w-full', className)}>
             <ArticleFiltersBody className="flex-1 overflow-y-auto p-4 py-8" />
@@ -40,4 +40,4 @@ const ArticleFilters: FC<Props> = ({ className }) => {
     );
 };
 
-export default ArticleFilters;
+export default ArticleListFilters;

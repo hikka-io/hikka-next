@@ -10,7 +10,7 @@ import { useParams } from '@/utils/navigation';
 
 type Props = {};
 
-const ArticleDocumentView: FC<Props> = () => {
+const ArticleViewDocument: FC<Props> = () => {
     const params = useParams();
 
     const { data: article } = useQuery(
@@ -33,4 +33,4 @@ const ArticleDocumentView: FC<Props> = () => {
     return <StaticViewer value={document as Value} />;
 };
 
-export default ArticleDocumentView;
+export default ArticleViewDocument;

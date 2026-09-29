@@ -14,7 +14,7 @@ type Props = {
     mode?: 'create' | 'edit';
 };
 
-const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
+const CollectionEditGroups: FC<Props> = ({ mode = 'create' }) => {
     const params = useParams();
 
     const groups = useCollectionContext((state) => state.groups);
@@ -46,4 +46,4 @@ const CollectionGroups: FC<Props> = ({ mode = 'create' }) => {
     );
 };
 
-export default CollectionGroups;
+export default CollectionEditGroups;

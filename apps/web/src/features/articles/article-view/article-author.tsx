@@ -6,18 +6,18 @@ import { getArticleOptions } from '@hikka/api';
 
 import { useParams } from '@/utils/navigation';
 
-import Author from '../article-item/article-author';
+import ArticleAuthorCard from '../article-author-card';
 
 type Props = {};
 
-const ArticleAuthor: FC<Props> = () => {
+const ArticleViewAuthor: FC<Props> = () => {
     const params = useParams();
 
     const { data: article } = useQuery(
         getArticleOptions({ path: { slug: String(params.slug) } }),
     );
 
-    return <Author article={article!} className="surface" />;
+    return <ArticleAuthorCard article={article!} className="surface" />;
 };
 
-export default ArticleAuthor;
+export default ArticleViewAuthor;

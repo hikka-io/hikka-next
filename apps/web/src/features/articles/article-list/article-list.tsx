@@ -22,9 +22,9 @@ import { Link, useRouteSearch } from '@/utils/navigation';
 import type { ArticlesSearch } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
 
-import ArticleFiltersModal from './article-filters-modal';
-import ArticleItem from './article-item/article-item';
-import ArticleItemSkeleton from './article-item/article-item-skeleton';
+import ArticleFiltersModal from '../article-filters-modal';
+import ArticleItem from './article-item';
+import ArticleItemSkeleton from './article-item-skeleton';
 
 type Props = {};
 

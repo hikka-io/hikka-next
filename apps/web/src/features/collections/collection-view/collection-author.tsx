@@ -15,7 +15,7 @@ import Card from '@/components/ui/card';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useParams } from '@/utils/navigation';
 
-const CollectionAuthor = () => {
+const CollectionViewAuthor = () => {
     const params = useParams();
     const isDesktop = useIsDesktop();
 
@@ -51,4 +51,4 @@ const CollectionAuthor = () => {
     );
 };
 
-export default CollectionAuthor;
+export default CollectionViewAuthor;

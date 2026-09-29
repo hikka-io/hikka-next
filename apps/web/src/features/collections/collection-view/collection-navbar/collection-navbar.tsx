@@ -17,13 +17,13 @@ import { getDeclensionWord } from '@/utils/i18n/declension';
 import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
 import { Link, useParams } from '@/utils/navigation';
 
-import TableOfContentsComponent from '../../table-of-contents';
-import CollectionActionsMenu from '../collection-actions-menu';
-import CollectionVote from './components/collection-vote';
+import CollectionViewActionsMenu from '../collection-actions-menu';
+import CollectionToc from '../collection-toc';
+import CollectionVote from './collection-vote';
 
 type Props = {};
 
-const CollectionNavbar: FC<Props> = () => {
+const CollectionViewNavbar: FC<Props> = () => {
     const params = useParams();
 
     const { data: collection } = useQuery(
@@ -85,16 +85,16 @@ const CollectionNavbar: FC<Props> = () => {
                             side="top"
                             className="w-64 p-0"
                         >
-                            <TableOfContentsComponent className="max-h-96 border-none" />
+                            <CollectionToc className="max-h-96 border-none" />
                         </PopoverContent>
                     </Popover>
                 )}
 
                 <div className="hidden h-full w-px bg-border md:block" />
-                <CollectionActionsMenu className="hidden md:flex" />
+                <CollectionViewActionsMenu className="hidden md:flex" />
             </Card>
         </div>
     );
 };
 
-export default CollectionNavbar;
+export default CollectionViewNavbar;

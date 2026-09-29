@@ -8,14 +8,14 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { usePageHeader } from '@/features/app-shell';
 import {
-    ArticleActionsMenu,
-    ArticleAuthor,
-    ArticleDocumentView,
-    ArticleNavbar,
-    ArticleTags,
-    ArticleTitle,
+    ArticleViewActionsMenu,
+    ArticleViewAuthor,
+    ArticleViewDocument,
+    ArticleViewNavbar,
+    ArticleViewTags,
+    ArticleViewTitle,
 } from '@/features/articles';
-import { CommentList as Comments } from '@/features/comments';
+import { CommentList } from '@/features/comments';
 import { articleJsonLd } from '@/utils/json-ld';
 
 export const Route = createFileRoute('/_pages/articles/$slug/')({
@@ -31,7 +31,7 @@ function ArticlePage() {
         subtitle: article?.author.username,
         parent: '/articles',
         anchored: true,
-        actionsComponent: ArticleActionsMenu,
+        actionsComponent: ArticleViewActionsMenu,
     });
 
     return (
@@ -40,16 +40,16 @@ function ArticlePage() {
             <div className="isolate mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
                 {article?.category !== 'system' && (
                     <Card className="gap-0 overflow-hidden p-0">
-                        <ArticleAuthor />
+                        <ArticleViewAuthor />
                     </Card>
                 )}
                 <Block className="isolate">
-                    <ArticleTitle />
-                    <ArticleDocumentView />
-                    <ArticleTags />
-                    <Comments preview slug={slug} content_type="article" />
+                    <ArticleViewTitle />
+                    <ArticleViewDocument />
+                    <ArticleViewTags />
+                    <CommentList preview slug={slug} content_type="article" />
                 </Block>
-                <ArticleNavbar />
+                <ArticleViewNavbar />
             </div>
         </>
     );

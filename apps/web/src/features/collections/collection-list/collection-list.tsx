@@ -7,7 +7,7 @@ import {
 
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import CollectionCard from './components/collection-card';
+import CollectionCard from './collection-card';
 
 type Props = {
     page: number;

@@ -18,7 +18,7 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 
 type Props = {};
 
-const PopularAuthors: FC<Props> = () => {
+const ArticleListPopularAuthors: FC<Props> = () => {
     const { data: articleTop } = useQuery(getArticleTopOptions());
 
     return (
@@ -64,4 +64,4 @@ const PopularAuthors: FC<Props> = () => {
     );
 };
 
-export default PopularAuthors;
+export default ArticleListPopularAuthors;

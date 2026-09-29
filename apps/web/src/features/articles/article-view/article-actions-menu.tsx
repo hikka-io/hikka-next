@@ -12,13 +12,13 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link, useParams } from '@/utils/navigation';
 
-import DeleteArticle from './components/delete-article';
+import DeleteArticle from './delete-article';
 
 type Props = {
     className?: string;
 };
 
-const ArticleActionsMenu: FC<Props> = ({ className }) => {
+const ArticleViewActionsMenu: FC<Props> = ({ className }) => {
     const params = useParams();
     const slug = String(params.slug);
     const { user: loggedUser, isAdmin, isModerator } = useSession();
@@ -65,4 +65,4 @@ const ArticleActionsMenu: FC<Props> = ({ className }) => {
     );
 };
 
-export default ArticleActionsMenu;
+export default ArticleViewActionsMenu;
