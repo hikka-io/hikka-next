@@ -18,7 +18,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
 import {
     UI_PREFS_DEFAULTS,
     useUiPreferences,
@@ -35,7 +35,7 @@ type Props = {
 };
 
 const Franchise: FC<Props> = ({ extended, content_type }) => {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const isDesktop = useIsDesktop();
 
     const params = useParams();
     const franchiseView = useUiPreferences(

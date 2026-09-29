@@ -21,7 +21,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { getTitle } from '@/utils/title/get-title';
 
@@ -42,7 +42,7 @@ const ScrollableComment: FC<{ comment: string }> = ({ comment }) => {
 };
 
 const CommentButton: FC<{ comment: string }> = ({ comment }) => {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const isDesktop = useIsDesktop();
 
     const trigger = (
         <button

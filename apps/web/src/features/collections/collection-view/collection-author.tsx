@@ -12,12 +12,12 @@ import {
 } from '@/components/horizontal-card';
 import RelativeTime from '@/components/relative-time';
 import Card from '@/components/ui/card';
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useParams } from '@/utils/navigation';
 
 const CollectionAuthor = () => {
     const params = useParams();
-    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const isDesktop = useIsDesktop();
 
     const { data: collection } = useQuery(
         getCollectionOptions({ path: { reference: String(params.reference) } }),

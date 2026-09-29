@@ -22,7 +22,7 @@ import {
 } from '@hikka/api';
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import useDebounce from '@/services/hooks/use-debounce';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { CONTENT_TYPES } from '@/utils/labels';
@@ -167,7 +167,10 @@ function ContentGroup({
 export function ContentSearchInputElement(props: PlateElementProps) {
     const { children, editor, element } = props;
     const [search, setSearch] = React.useState('');
-    const [debouncedSearch] = useDebounce({ value: search, delay: 300 });
+    const [debouncedSearch] = useDebounce({
+        value: search,
+        delay: DEBOUNCE_MS.input,
+    });
     const { preferences } = useSessionUI();
 
     const isTooShort = debouncedSearch.trim().length < MIN_SEARCH_LENGTH;

@@ -16,7 +16,7 @@ import {
 } from '@/components/horizontal-card';
 import RelativeTime from '@/components/relative-time';
 import TextLink from '@/components/ui/text-link';
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY } from '@/utils/constants/common';
 
@@ -27,7 +27,7 @@ type Props = {
 };
 
 const Author: FC<Props> = ({ article, preview, className }) => {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const isDesktop = useIsDesktop();
 
     // Generated responses type `category` as a plain string; narrow to the enum.
     const category = article.category as ArticleCategoryEnum;

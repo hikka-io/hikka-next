@@ -8,7 +8,7 @@ import { PlateElement } from 'platejs/react';
 import { searchUsersOptions } from '@hikka/api';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import useDebounce from '@/services/hooks/use-debounce';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { userMentionUrl } from '@/utils/mentions';
 
 import {
@@ -25,7 +25,10 @@ const MIN_SEARCH_LENGTH = 2;
 export function UserSearchInputElement(props: PlateElementProps) {
     const { children, editor, element } = props;
     const [search, setSearch] = React.useState('');
-    const [debouncedSearch] = useDebounce({ value: search, delay: 300 });
+    const [debouncedSearch] = useDebounce({
+        value: search,
+        delay: DEBOUNCE_MS.input,
+    });
 
     const isTooShort = debouncedSearch.trim().length < MIN_SEARCH_LENGTH;
     const isPending = search !== debouncedSearch;

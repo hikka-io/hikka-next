@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import useDebounce from '@/services/hooks/use-debounce';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import {
     invalidateReadState,
     writeReadToCaches,
@@ -84,7 +84,10 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
     const selectedRead =
         list?.find((item) => item.content.slug === selectedSlug) || list?.[0];
 
-    const [debouncedPending] = useDebounce({ value: pending, delay: 500 });
+    const [debouncedPending] = useDebounce({
+        value: pending,
+        delay: DEBOUNCE_MS.commit,
+    });
 
     const invalidateReadLists = useCallback(
         (refetch: boolean) => invalidateReadState(queryClient, { refetch }),

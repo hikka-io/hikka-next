@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const MOBILE_BREAKPOINT = 768;
+import { maxWidth } from '@/utils/breakpoints';
 
 export function useIsMobile(): boolean | undefined {
     // Start undefined to prevent hydration mismatches; resolve on client
@@ -11,8 +11,7 @@ export function useIsMobile(): boolean | undefined {
     React.useEffect(() => {
         if (typeof window === 'undefined') return;
 
-        const mediaQuery = `(max-width: ${MOBILE_BREAKPOINT - 1}px)`;
-        const mql = window.matchMedia(mediaQuery);
+        const mql = window.matchMedia(maxWidth('md'));
 
         const updateMobileState = () => {
             setIsMobile(mql.matches);

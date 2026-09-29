@@ -3,7 +3,7 @@ import { type FC, useEffect, useRef, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 
 import { Input } from '@/components/ui/input';
-import useDebounce from '@/services/hooks/use-debounce';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { useRouteSearch } from '@/utils/navigation';
 
 type Props = {
@@ -15,7 +15,10 @@ const SearchInput: FC<Props> = ({ placeholder }) => {
     const { search: query } = useRouteSearch<{ search?: string }>();
 
     const [search, setSearch] = useState(query);
-    const [debouncedSearch] = useDebounce({ value: search, delay: 300 });
+    const [debouncedSearch] = useDebounce({
+        value: search,
+        delay: DEBOUNCE_MS.input,
+    });
 
     const queryRef = useRef(query);
     queryRef.current = query;

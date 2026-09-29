@@ -13,7 +13,7 @@ import type { ContentTypeEnum, UserResponse } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
-import useDebounce from '@/services/hooks/use-debounce';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 
 import SearchButton from './components/search-button';
@@ -75,7 +75,7 @@ const SearchModal: FC<Props> = ({
     );
     const [value, setDebouncedValue] = useDebounce({
         value: searchValue,
-        delay: 500,
+        delay: DEBOUNCE_MS.commit,
     });
 
     const addHistoryEntry = useSearchHistoryStore((state) => state.addEntry);

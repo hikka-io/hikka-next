@@ -24,7 +24,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
@@ -40,7 +40,7 @@ type Props = {
 };
 
 const NotificationsMenu: FC<Props> = ({ trigger }) => {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const isDesktop = useIsDesktop();
     const [isOpen, setIsOpen] = useState(false);
     const [isBulkMarking, setIsBulkMarking] = useState(false);
 

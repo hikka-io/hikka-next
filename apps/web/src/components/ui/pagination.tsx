@@ -8,7 +8,7 @@ import {
 
 import { range } from '@antfu/utils';
 
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 
 import AntDesignArrowLeftOutlined from '../icons/ant-design/AntDesignArrowLeftOutlined';
@@ -118,7 +118,7 @@ const PaginationInput: FC<PaginationInputProps> = ({
 };
 
 const Pagination = ({ page, pages, setPage }: Props) => {
-    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const isDesktop = useIsDesktop();
 
     const generatePaginationArr = useCallback(() => {
         const pagArr: PaginationType[] = [1];

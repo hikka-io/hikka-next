@@ -4,7 +4,7 @@ import { Link2 } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import useDebounce from '@/services/hooks/use-debounce';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 
 type Props = {
     resetKey: unknown;
@@ -15,7 +15,10 @@ type Props = {
 // Character/person todo endpoints have no mal_id filter; the parent content slug stands in.
 const ContentSlug: FC<Props> = ({ resetKey, value, onChange }) => {
     const [input, setInput] = useState(value ?? '');
-    const [debounced] = useDebounce({ value: input, delay: 500 });
+    const [debounced] = useDebounce({
+        value: input,
+        delay: DEBOUNCE_MS.commit,
+    });
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: resetKey discards an in-flight edit on tab switch
     useEffect(() => {

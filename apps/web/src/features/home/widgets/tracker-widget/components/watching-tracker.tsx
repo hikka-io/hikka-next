@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import useDebounce from '@/services/hooks/use-debounce';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import {
     invalidateWatchState,
     writeWatchToCaches,
@@ -60,7 +60,10 @@ const WatchingTracker = () => {
     const selectedWatch =
         list?.find((item) => item.anime.slug === selectedSlug) || list?.[0];
 
-    const [debouncedPending] = useDebounce({ value: pending, delay: 500 });
+    const [debouncedPending] = useDebounce({
+        value: pending,
+        delay: DEBOUNCE_MS.commit,
+    });
 
     const invalidateWatchLists = useCallback(
         (refetch: boolean) => invalidateWatchState(queryClient, { refetch }),

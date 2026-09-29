@@ -16,7 +16,7 @@ import {
     watchAddMutation,
 } from '@hikka/api';
 
-import useDebounce from '@/services/hooks/use-debounce';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import {
     applyReadMutation,
     applyWatchMutation,
@@ -109,7 +109,7 @@ export const useUserlistManager = ({
 
     const [debouncedUpdate] = useDebounce({
         value: pendingUpdate,
-        delay: 500,
+        delay: DEBOUNCE_MS.commit,
     });
 
     const queryClient = useQueryClient();

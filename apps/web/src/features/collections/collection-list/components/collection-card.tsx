@@ -23,7 +23,7 @@ import { Label } from '@/components/ui/label';
 import Stack, { type StackSize } from '@/components/ui/stack';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { useMediaQuery } from '@/services/hooks/use-media-query';
+import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
@@ -46,7 +46,7 @@ const CollectionCard: FC<Props> = ({
     variant = 'default',
 }) => {
     const isCompact = variant === 'compact';
-    const isDesktop = useMediaQuery('(min-width: 768px)');
+    const isDesktop = useIsDesktop();
     const { preferences } = useSessionUI();
     const previewItems = collection.collection.slice(0, maxPreviewItems);
     const remainingCount = collection.entries - maxPreviewItems;
