@@ -12,7 +12,7 @@ import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link } from '@/utils/navigation';
 
-import { QuickEditButton } from '../quick-edit';
+import QuickEditButton from '../quick-edit/quick-edit-button';
 import EditCard from './components/edit-card';
 import EditCardSkeleton from './components/edit-card-skeleton';
 

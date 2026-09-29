@@ -1,13 +1,12 @@
-import { type FC, Fragment, useState } from 'react';
+import { type FC, Fragment } from 'react';
 
 import { Zap } from 'lucide-react';
 
 import type { EditContentTypeEnum } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
-import { useSession } from '@/features/auth/hooks/use-session';
 
-import QuickEditModal from './quick-edit-modal';
+import { useQuickEdit } from './use-quick-edit';
 
 type Props = {
     slug: string;
@@ -15,10 +14,12 @@ type Props = {
 };
 
 const QuickEditButton: FC<Props> = ({ slug, content_type }) => {
-    const { isModerator } = useSession();
-    const [open, setOpen] = useState(false);
+    const { canQuickEdit, preload, openDeferred, modal } = useQuickEdit(
+        content_type,
+        slug,
+    );
 
-    if (!isModerator()) return null;
+    if (!canQuickEdit) return null;
 
     return (
         <Fragment>
@@ -28,16 +29,12 @@ const QuickEditButton: FC<Props> = ({ slug, content_type }) => {
                 size="icon-md"
                 aria-label="Швидка правка"
                 title="Швидка правка"
-                onClick={() => setOpen(true)}
+                onPointerEnter={preload}
+                onClick={openDeferred}
             >
                 <Zap />
             </Button>
-            <QuickEditModal
-                slug={slug}
-                content_type={content_type}
-                open={open}
-                onOpenChange={setOpen}
-            />
+            {modal}
         </Fragment>
     );
 };

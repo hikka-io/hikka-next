@@ -12,7 +12,9 @@ export { default as EditTimeline } from './edit-timeline';
 export { default as EditTopStats } from './edit-top-stats';
 export { useContentBySlug } from './hooks/use-content-by-slug';
 export { useTodoFilters } from './hooks/use-todo-filters';
-export { QuickEditButton, QuickEditModal } from './quick-edit';
+export { default as QuickEditButton } from './quick-edit/quick-edit-button';
+export { default as QuickEditModal } from './quick-edit/quick-edit-modal';
+export { useQuickEdit } from './quick-edit/use-quick-edit';
 export {
     TodoContentCard,
     TodoContentList,

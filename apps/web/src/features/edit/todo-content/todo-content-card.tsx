@@ -37,7 +37,7 @@ import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 
-import { QuickEditButton } from '../quick-edit';
+import QuickEditButton from '../quick-edit/quick-edit-button';
 
 type TodoContentItem =
     | AnimeResponse
