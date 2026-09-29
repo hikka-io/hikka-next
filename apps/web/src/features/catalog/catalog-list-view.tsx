@@ -5,12 +5,13 @@ import type { QueryKey } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
-import CatalogListSkeleton from '@/components/catalog-list-skeleton';
-import { ContentListItemSkeleton } from '@/components/content-list';
 import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import { StickyPagination } from '@/components/ui/pagination';
 import Stack, { type StackSize } from '@/components/ui/stack';
+
+import CatalogListItemSkeleton from './catalog-list-item-skeleton';
+import CatalogListSkeleton from './catalog-list-skeleton';
 
 type Props<T> = {
     list: T[] | undefined;
@@ -60,7 +61,7 @@ function CatalogListView<T>({
             return (
                 <div className="flex flex-col max-md:[&>*+*]:-mt-px md:gap-6">
                     {range(1, 7).map((v) => (
-                        <ContentListItemSkeleton key={v} />
+                        <CatalogListItemSkeleton key={v} />
                     ))}
                 </div>
             );

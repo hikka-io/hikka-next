@@ -7,25 +7,24 @@ import type {
     NovelResponseWithRead,
 } from '@hikka/api';
 
+import { TrackingButtonsGroup } from '@/components/action-buttons';
+import CompanyTitleLink from '@/components/company-title-link';
+import { PosterCard } from '@/components/content-card';
+import ContentGenres from '@/components/content-genres';
+import { InlineScores } from '@/components/inline-scores';
+import MagazineTitleLink from '@/components/magazine-title-link';
+import {
+    HorizontalCardDescription,
+    HorizontalCardTitle,
+} from '@/components/ui/horizontal-card';
+import { Separator } from '@/components/ui/separator';
 import { useTitle } from '@/features/auth';
-import { ContentGenres } from '@/features/content';
 import {
     ANIME_MEDIA_TYPE,
     MANGA_MEDIA_TYPE,
     NOVEL_MEDIA_TYPE,
     RELEASE_STATUS,
 } from '@/utils/constants/filter-properties';
-
-import { TrackingButtonsGroup } from '../action-buttons';
-import { PosterCard } from '../content-card';
-import { InlineScores } from '../inline-scores';
-import {
-    HorizontalCardDescription,
-    HorizontalCardTitle,
-} from '../ui/horizontal-card';
-import { Separator } from '../ui/separator';
-import { CompanyTitleLink } from './company-title-link';
-import { MagazineTitleLink } from './magazine-title-link';
 
 const MEDIA_TYPE_ENUM = Object.assign(
     {},
@@ -51,7 +50,7 @@ type Props =
           title?: string;
       };
 
-export function ContentListItem(props: Props) {
+export default function CatalogListItem(props: Props) {
     const { item, type } = props;
     const title = useTitle(item);
     const href = `/${type}/${item.slug}`;

@@ -6,7 +6,7 @@ type Props = {
     studio: CompanyResponse;
 };
 
-export function CompanyTitleLink({ studio }: Props) {
+export default function CompanyTitleLink({ studio }: Props) {
     if (!studio) return null;
 
     return (

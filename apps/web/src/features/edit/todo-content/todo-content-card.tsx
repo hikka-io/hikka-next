@@ -12,13 +12,13 @@ import type {
     TodoPersonIssuesInfo,
 } from '@hikka/api';
 
+import CompanyTitleLink from '@/components/company-title-link';
 import { contentEntity, EntityCard } from '@/components/content-card';
-import { CompanyTitleLink } from '@/components/content-list/company-title-link';
-import { MagazineTitleLink } from '@/components/content-list/magazine-title-link';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
+import MagazineTitleLink from '@/components/magazine-title-link';
 import { badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {

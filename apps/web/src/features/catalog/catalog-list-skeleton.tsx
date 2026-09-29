@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
 
-import SkeletonCard from '@/components/content-card/poster-card-skeleton';
+import { PosterCardSkeleton } from '@/components/content-card';
 import Stack, { type StackSize } from '@/components/ui/stack';
 
 type Props = {
@@ -13,7 +13,7 @@ const CatalogListSkeleton: FC<Props> = ({ extendedSize = 5 }) => {
     return (
         <Stack extended size={5} extendedSize={extendedSize}>
             {range(1, 20).map((v) => (
-                <SkeletonCard key={v} />
+                <PosterCardSkeleton key={v} />
             ))}
         </Stack>
     );

@@ -7,7 +7,7 @@ type Props = {
     type: Extract<ContentTypeEnum, 'manga' | 'novel'>;
 };
 
-export function MagazineTitleLink({ type, magazine }: Props) {
+export default function MagazineTitleLink({ type, magazine }: Props) {
     if (!magazine) return null;
 
     return (

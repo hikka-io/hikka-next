@@ -3,10 +3,9 @@ import type { FC } from 'react';
 import { ContentTypeEnum } from '@hikka/api';
 
 import { MangaCard as MangaCardItem } from '@/components/content-card';
-import { ContentListItem } from '@/components/content-list';
 import type { StackSize } from '@/components/ui/stack';
 import { useSessionUI } from '@/features/auth';
-import { useCatalogView } from '@/features/catalog';
+import { CatalogListItem, useCatalogView } from '@/features/catalog';
 import CatalogListView from '@/features/catalog/catalog-list-view';
 import { getTitle } from '@/utils/title/get-title';
 
@@ -50,7 +49,7 @@ const MangaList: FC<Props> = ({ extendedSize = 5, pageSize }) => {
                 <MangaCardItem key={item.slug} item={item} />
             )}
             renderListItem={(item) => (
-                <ContentListItem
+                <CatalogListItem
                     key={item.slug}
                     item={item}
                     title={getTitle(

@@ -1,11 +1,11 @@
 import type { MainContentTypeEnum } from '@hikka/api';
 
+import ContentGenres from '@/components/content-genres';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
-import ContentGenres from './content-genres';
 import { getOriginalTitle } from './get-original-title';
 
 type TitleProps = {

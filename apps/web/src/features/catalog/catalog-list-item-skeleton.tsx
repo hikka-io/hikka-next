@@ -1,11 +1,10 @@
 import type { FC } from 'react';
 
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 
-import { Separator } from '../ui/separator';
-
-const ContentListItemSkeleton: FC = () => {
+const CatalogListItemSkeleton: FC = () => {
     return (
         <div className="surface -mx-4 flex flex-col gap-4 rounded-none border border-border border-x-0 p-4 md:mx-0 md:rounded-(--base-radius) md:border-x">
             <div className="flex gap-4">
@@ -38,4 +37,4 @@ const ContentListItemSkeleton: FC = () => {
     );
 };
 
-export default ContentListItemSkeleton;
+export default CatalogListItemSkeleton;
