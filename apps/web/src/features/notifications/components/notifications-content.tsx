@@ -2,13 +2,14 @@ import { type FC, Fragment, type Ref } from 'react';
 
 import LoadMoreButton from '@/components/load-more-button';
 
+import type { Notification } from '../types';
 import type { GroupedNotifications } from '../utils/group-notifications-by-day';
 import NotFoundNotifications from './not-found-notifications';
 import NotificationItem from './notification-item';
 import NotificationItemSkeleton from './notification-item-skeleton';
 
 type Props = {
-    normalized: Hikka.Notification[] | undefined;
+    normalized: Notification[] | undefined;
     grouped: GroupedNotifications;
     hasNextPage: boolean | undefined;
     isFetchingNextPage: boolean;

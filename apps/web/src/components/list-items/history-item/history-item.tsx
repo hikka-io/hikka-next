@@ -18,9 +18,10 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useTitle } from '@/features/auth/hooks/use-title';
-import { convertActivity } from '@/utils/adapters/convert-activity';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
+
+import { convertActivity } from './convert-activity';
 
 type Props = {
     data: HistoryResponse;

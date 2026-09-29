@@ -3,13 +3,14 @@ import type { FC, ReactNode } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/utils/cn';
 
-import { accentBadgeClasses } from '../utils/notification-accents';
+import type { NotificationAccent, NotificationActor } from '../types';
+import { ACCENT_BADGE_CLASSES } from '../utils/notification-accents';
 
 type Props = {
-    actor?: Hikka.NotificationActor;
+    actor?: NotificationActor;
     contentImage?: string;
     typeIcon: ReactNode;
-    accent: Hikka.NotificationAccent;
+    accent: NotificationAccent;
 };
 
 const NotificationLeadingVisual: FC<Props> = ({
@@ -41,7 +42,7 @@ const NotificationLeadingVisual: FC<Props> = ({
                 <div
                     className={cn(
                         'absolute -right-0.5 -bottom-0.5 flex size-4 items-center justify-center rounded-sm border [&_svg]:size-2.5',
-                        accentBadgeClasses[accent],
+                        ACCENT_BADGE_CLASSES[accent],
                     )}
                 >
                     {typeIcon}

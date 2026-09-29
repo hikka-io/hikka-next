@@ -4,11 +4,11 @@ import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/M
 import { Button } from '@/components/ui/button';
 import { CommandItem } from '@/components/ui/command';
 
+import { SearchGroup, SearchItem, SearchList } from '../components/search-ui';
 import {
     type SearchHistoryEntry,
     useSearchHistoryStore,
-} from '../../../search-history-store';
-import { SearchGroup, SearchItem, SearchList } from '../search-ui';
+} from '../search-history-store';
 
 const MAX_HISTORY_SUGGESTIONS = 3;
 

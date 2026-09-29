@@ -25,13 +25,14 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
-import { convertNotification } from '@/utils/adapters/convert-notification';
 import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import NotificationCountBadge from '../notification-count-badge';
 import NotificationsContent from './components/notifications-content';
 import NotificationsHeader from './components/notifications-header';
+import NotificationCountBadge from './notification-count-badge';
+import type { Notification } from './types';
+import { convertNotification } from './utils/convert-notification';
 import { groupNotificationsByDay } from './utils/group-notifications-by-day';
 
 type Props = {
@@ -58,7 +59,7 @@ const NotificationsMenu: FC<Props> = ({ trigger }) => {
     const { normalized, grouped } = useMemo(() => {
         const items = (list as NotificationResponse[] | undefined)
             ?.map((n) => convertNotification(n))
-            .filter((n): n is Hikka.Notification => n !== null);
+            .filter((n): n is Notification => n !== null);
         return {
             normalized: items,
             grouped: groupNotificationsByDay(items ?? []),

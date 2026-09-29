@@ -18,7 +18,7 @@ import {
 } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
-import type { SearchContent } from '../../types';
+import type { SearchContent } from '../types';
 
 export type SearchCardType =
     | 'anime'

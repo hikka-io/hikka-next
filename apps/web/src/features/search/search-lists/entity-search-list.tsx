@@ -17,11 +17,11 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 
-import { useSearchHistoryStore } from '../../../search-history-store';
-import type { SearchContent } from '../../types';
-import SearchCard, { type SearchCardType } from '../cards/search-card';
-import SearchPlaceholders from '../search-placeholders';
-import { SearchGroup, SearchItem, SearchList } from '../search-ui';
+import SearchCard, { type SearchCardType } from '../components/search-card';
+import SearchPlaceholders from '../components/search-placeholders';
+import { SearchGroup, SearchItem, SearchList } from '../components/search-ui';
+import { useSearchHistoryStore } from '../search-history-store';
+import type { SearchContent } from '../types';
 
 type OptionsFn = typeof searchAnimeInfiniteOptions;
 

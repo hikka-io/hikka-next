@@ -7,9 +7,9 @@ import { searchUsersOptions, type UserResponse } from '@hikka/api';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 
-import UserCard from '../cards/user-card';
-import SearchPlaceholders from '../search-placeholders';
-import { SearchGroup, SearchItem, SearchList } from '../search-ui';
+import SearchPlaceholders from '../components/search-placeholders';
+import { SearchGroup, SearchItem, SearchList } from '../components/search-ui';
+import UserCard from '../components/user-card';
 
 type Props = {
     onDismiss: (user: UserResponse) => void;

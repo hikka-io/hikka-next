@@ -5,7 +5,7 @@ import { type AnimeResponse, ContentTypeEnum } from '@hikka/api';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { usePathname } from '@/utils/navigation';
 
-import type { SearchTypeValue } from '../types';
+import type { SearchTypeValue } from './types';
 
 type Props = {
     open: boolean;
@@ -25,7 +25,7 @@ const ALLOWED_SEARCH_TYPES: ContentTypeEnum[] = [
     ContentTypeEnum.USER,
 ];
 
-const useSearchModal = ({
+export const useSearchModal = ({
     onClick,
     open,
     setOpen,
@@ -78,5 +78,3 @@ const useSearchModal = ({
         }
     }, [open, content_type, pathname, setSearchType]);
 };
-
-export default useSearchModal;

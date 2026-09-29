@@ -17,11 +17,11 @@ import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useRouter } from '@/utils/navigation';
 
-import { useSearchHistoryStore } from '../../../search-history-store';
-import type { SearchContent, SearchTypeValue } from '../../types';
-import SearchCard from '../cards/search-card';
-import SearchPlaceholders from '../search-placeholders';
-import { SearchGroup, SearchItem, SearchList } from '../search-ui';
+import SearchCard from '../components/search-card';
+import SearchPlaceholders from '../components/search-placeholders';
+import { SearchGroup, SearchItem, SearchList } from '../components/search-ui';
+import { useSearchHistoryStore } from '../search-history-store';
+import type { SearchContent, SearchTypeValue } from '../types';
 
 const ALL_SEARCH_SIZE = 3;
 

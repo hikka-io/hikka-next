@@ -88,38 +88,6 @@ declare global {
             name_native: string;
         };
 
-        type NotificationActor = {
-            username?: string;
-            avatar?: string;
-            href?: string;
-        };
-
-        type NotificationAccent =
-            | 'primary'
-            | 'success'
-            | 'warning'
-            | 'destructive'
-            | 'info'
-            | 'neutral';
-
-        type Notification = {
-            reference: string;
-            type: import('@hikka/api').NotificationTypeEnum;
-            created: number;
-            seen: boolean;
-
-            title: string;
-            description: ReactNode;
-            href: string;
-            typeIcon: ReactNode;
-            accent: NotificationAccent;
-
-            actor?: NotificationActor;
-            preview?: string;
-            scoreSign?: 1 | -1;
-            contentImage?: string;
-        };
-
         type ListStat = {
             percentage: number;
             value: number;

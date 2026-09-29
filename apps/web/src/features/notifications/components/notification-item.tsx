@@ -11,11 +11,12 @@ import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-import { accentBadgeClasses } from '../utils/notification-accents';
+import type { Notification } from '../types';
+import { ACCENT_BADGE_CLASSES } from '../utils/notification-accents';
 import NotificationLeadingVisual from './notification-leading-visual';
 
 type Props = {
-    data: Hikka.Notification;
+    data: Notification;
     onNavigate?: () => void;
 };
 
@@ -80,8 +81,8 @@ const NotificationItem: FC<Props> = ({ data, onNavigate }) => {
                             className={cn(
                                 'shrink-0 rounded-sm border px-1 font-bold text-xs',
                                 data.scoreSign > 0
-                                    ? accentBadgeClasses.success
-                                    : accentBadgeClasses.destructive,
+                                    ? ACCENT_BADGE_CLASSES.success
+                                    : ACCENT_BADGE_CLASSES.destructive,
                             )}
                         >
                             {data.scoreSign > 0 ? '+1' : '-1'}

@@ -1,13 +1,15 @@
 import { isToday, isYesterday } from 'date-fns';
 
+import type { Notification } from '../types';
+
 export interface GroupedNotifications {
-    today: Hikka.Notification[];
-    yesterday: Hikka.Notification[];
-    earlier: Hikka.Notification[];
+    today: Notification[];
+    yesterday: Notification[];
+    earlier: Notification[];
 }
 
 export const groupNotificationsByDay = (
-    items: Hikka.Notification[],
+    items: Notification[],
 ): GroupedNotifications => {
     const result: GroupedNotifications = {
         today: [],

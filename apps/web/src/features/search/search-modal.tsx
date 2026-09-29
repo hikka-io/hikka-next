@@ -16,22 +16,22 @@ import { CommandDialog, CommandInput } from '@/components/ui/command';
 import useDebounce from '@/services/hooks/use-debounce';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 
+import SearchButton from './components/search-button';
+import SearchToggle from './components/search-toggle';
 import {
     type SearchHistoryEntry,
     useSearchHistoryStore,
-} from '../search-history-store';
-import SearchButton from './components/search-button';
-import AllSearchList from './components/search-lists/all-search-list';
-import EntitySearchList from './components/search-lists/entity-search-list';
-import SearchHistoryList from './components/search-lists/search-history-list';
-import UserSearchList from './components/search-lists/user-search-list';
-import SearchToggle from './components/search-toggle';
-import useSearchModal from './hooks/use-search-modal';
+} from './search-history-store';
+import AllSearchList from './search-lists/all-search-list';
+import EntitySearchList from './search-lists/entity-search-list';
+import SearchHistoryList from './search-lists/search-history-list';
+import UserSearchList from './search-lists/user-search-list';
 import {
     SEARCH_TYPE_ALL,
     type SearchContent,
     type SearchTypeValue,
 } from './types';
+import { useSearchModal } from './use-search-modal';
 
 type Props = {
     onClick?: (content: SearchContent | UserResponse) => void;

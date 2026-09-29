@@ -21,6 +21,12 @@ import MaterialSymbolsLockOpenRightOutlineRounded from '@/components/icons/mater
 import MaterialSymbolsPersonAddRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddRounded';
 import { getTitle } from '@/utils/title/get-title';
 
+import type {
+    Notification,
+    NotificationAccent,
+    NotificationActor,
+} from '../types';
+
 // @hikka/api types `NotificationResponse.data` as a loose `{ [key]: unknown }`.
 // `NotificationOf<T>` re-attaches a concrete per-type `data` shape so the
 // helpers below can keep their narrow signatures; the dispatcher narrows
@@ -152,10 +158,7 @@ const NOTIFICATION_ICONS: Record<NotificationTypeEnum, ReactNode> = {
 };
 
 // Vote types are `neutral` here and overridden by vote handlers based on score sign.
-const NOTIFICATION_ACCENTS: Record<
-    NotificationTypeEnum,
-    Hikka.NotificationAccent
-> = {
+const NOTIFICATION_ACCENTS: Record<NotificationTypeEnum, NotificationAccent> = {
     [NotificationTypeEnum.EDIT_ACCEPTED]: 'success',
     [NotificationTypeEnum.EDIT_DENIED]: 'destructive',
     [NotificationTypeEnum.EDIT_UPDATED]: 'info',
@@ -184,7 +187,7 @@ const getCommentLink = (
 // downvoter's identity.
 const resolveActor = (
     notification: NotificationOf<NotificationData>,
-): Hikka.NotificationActor | undefined => {
+): NotificationActor | undefined => {
     const data = notification.data;
     const dataUsername =
         'username' in data && typeof data.username === 'string'
@@ -209,7 +212,7 @@ const getVoteIcon = (score: number): ReactNode =>
 
 const getBaseNotification = (
     notification: NotificationOf<NotificationData>,
-): Omit<Hikka.Notification, 'description' | 'href'> => {
+): Omit<Notification, 'description' | 'href'> => {
     // @hikka/api types `notification_type` as a loose `string`; narrow to the
     // enum so the keyed lookup tables below index correctly.
     const type = notification.notification_type as NotificationTypeEnum;
@@ -233,7 +236,7 @@ interface ActorCopy {
 const createCommentNotification = (
     notification: NotificationOf<NotificationCommentData>,
     copy: ActorCopy,
-): Hikka.Notification => {
+): Notification => {
     const { slug, content_type, base_comment_reference, comment_text } =
         notification.data;
     const actor = resolveActor(notification);
@@ -253,7 +256,7 @@ const createVoteNotification = (
     notification: NotificationOf<NotificationVoteData>,
     copy: ActorCopy,
     href: string,
-): Hikka.Notification => {
+): Notification => {
     const { user_score } = notification.data;
     const actor = resolveActor(notification);
     const scoreSign: 1 | -1 = user_score > 0 ? 1 : -1;
@@ -322,7 +325,7 @@ const EDIT_ACTION_COPY: Record<EditActionType, ActorCopy> = {
 
 const createCommentVoteNotification = (
     notification: NotificationOf<NotificationCommentVoteData>,
-): Hikka.Notification => {
+): Notification => {
     const { slug, content_type, base_comment_reference, comment_text } =
         notification.data;
     return {
@@ -338,7 +341,7 @@ const createCommentVoteNotification = (
 const createEditActionNotification = (
     notification: NotificationOf<NotificationEditData>,
     type: EditActionType,
-): Hikka.Notification => {
+): Notification => {
     const { edit_id, description } = notification.data;
     const actor = resolveActor(notification);
     const copy = EDIT_ACTION_COPY[type];
@@ -356,7 +359,7 @@ const createEditActionNotification = (
 
 const createHikkaUpdateNotification = (
     notification: NotificationOf<NotificationHikkaData>,
-): Hikka.Notification => {
+): Notification => {
     const { title, description, link } = notification.data;
 
     return {
@@ -369,7 +372,7 @@ const createHikkaUpdateNotification = (
 
 const createScheduleAnimeNotification = (
     notification: NotificationOf<NotificationScheduleAnimeData>,
-): Hikka.Notification => {
+): Notification => {
     const { slug, image, after } = notification.data;
 
     return {
@@ -383,7 +386,7 @@ const createScheduleAnimeNotification = (
 
 const createFollowNotification = (
     notification: NotificationOf<NotificationFollowData>,
-): Hikka.Notification => {
+): Notification => {
     const actor = resolveActor(notification);
 
     return {
@@ -398,7 +401,7 @@ const createFollowNotification = (
 
 const createThirdpartyLoginNotification = (
     notification: NotificationOf<NotificationThirdpartyLoginData>,
-): Hikka.Notification => {
+): Notification => {
     const { client } = notification.data;
 
     return {
@@ -410,7 +413,7 @@ const createThirdpartyLoginNotification = (
 
 export const convertNotification = (
     response: NotificationResponse,
-): Hikka.Notification | null => {
+): Notification | null => {
     // The generated `data` is a broad untyped shape; refine it once to the
     // discriminated union so each branch can narrow by notification_type.
     const notification =

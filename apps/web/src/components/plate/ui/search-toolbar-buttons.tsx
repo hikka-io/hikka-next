@@ -7,8 +7,7 @@ import { useEditorRef } from 'platejs/react';
 import { ContentTypeEnum, type UserResponse } from '@hikka/api';
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { SearchModal } from '@/features/search';
-import type { SearchContent } from '@/features/search/search-modal/types';
+import { type SearchContent, SearchModal } from '@/features/search';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { userMentionUrl } from '@/utils/mentions';
 import { getTitle } from '@/utils/title/get-title';
