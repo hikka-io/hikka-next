@@ -25,9 +25,10 @@ const ContentActions: FC<Props> = ({ content_type, className }) => {
     const params = useParams();
     const { user } = useSession();
 
-    const { data: userlist, isError } = useQuery(
-        listEntryOptions(content_type, String(params.slug)),
-    );
+    const { data: userlist, isError } = useQuery({
+        ...listEntryOptions(content_type, String(params.slug)),
+        enabled: !!user,
+    });
     const { data: content } = useQuery(
         contentInfoOptions(content_type, String(params.slug)),
     );
