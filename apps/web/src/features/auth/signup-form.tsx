@@ -6,6 +6,7 @@ import { signupMutation } from '@hikka/api';
 import { SubmitButton, useAppForm } from '@/components/form';
 import {
     emailSchema,
+    matchFields,
     passwordSchema,
     USERNAME_HINT,
     usernameSchema,
@@ -25,10 +26,13 @@ const formSchema = z
         username: usernameSchema,
         passwordConfirmation: z.string(),
     })
-    .refine((data) => data.password === data.passwordConfirmation, {
-        message: 'Паролі не збігаються',
-        path: ['passwordConfirmation'],
-    });
+    .refine(
+        ...matchFields(
+            'password',
+            'passwordConfirmation',
+            'Паролі не збігаються',
+        ),
+    );
 
 const SignupForm = () => {
     const queryClient = useQueryClient();
@@ -80,78 +84,75 @@ const SignupForm = () => {
     });
 
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            className="space-y-4"
-        >
-            <form.AppField
-                name="username"
-                children={(field) => (
-                    <field.TextField
-                        type="text"
-                        label="Ім'я користувача (нікнейм)"
-                        placeholder="Введіть нікнейм"
-                        description={USERNAME_HINT}
-                        autoComplete="username"
-                        autoCapitalize="none"
-                        spellCheck={false}
-                    />
-                )}
-            />
+        <form.AppForm>
+            <form.Form className="space-y-4">
+                <form.AppField
+                    name="username"
+                    children={(field) => (
+                        <field.TextField
+                            type="text"
+                            label="Ім'я користувача (нікнейм)"
+                            placeholder="Введіть нікнейм"
+                            description={USERNAME_HINT}
+                            autoComplete="username"
+                            autoCapitalize="none"
+                            spellCheck={false}
+                        />
+                    )}
+                />
 
-            <form.AppField
-                name="email"
-                children={(field) => (
-                    <field.TextField
-                        type="email"
-                        label="Email"
-                        placeholder="Введіть ваш email"
-                        autoComplete="email"
-                    />
-                )}
-            />
+                <form.AppField
+                    name="email"
+                    children={(field) => (
+                        <field.TextField
+                            type="email"
+                            label="Email"
+                            placeholder="Введіть ваш email"
+                            autoComplete="email"
+                        />
+                    )}
+                />
 
-            <form.AppField
-                name="password"
-                children={(field) => (
-                    <field.PasswordField
-                        label="Пароль"
-                        placeholder="Введіть пароль"
-                        autoComplete="new-password"
-                    />
-                )}
-            />
+                <form.AppField
+                    name="password"
+                    children={(field) => (
+                        <field.PasswordField
+                            label="Пароль"
+                            placeholder="Введіть пароль"
+                            autoComplete="new-password"
+                        />
+                    )}
+                />
 
-            <form.AppField
-                name="passwordConfirmation"
-                children={(field) => (
-                    <field.PasswordField
-                        label="Підтвердження паролю"
-                        placeholder="Повторіть пароль"
-                        autoComplete="new-password"
-                    />
-                )}
-            />
+                <form.AppField
+                    name="passwordConfirmation"
+                    children={(field) => (
+                        <field.PasswordField
+                            label="Підтвердження паролю"
+                            placeholder="Повторіть пароль"
+                            autoComplete="new-password"
+                        />
+                    )}
+                />
 
-            <Captcha ref={captchaRef} />
+                <Captcha ref={captchaRef} />
 
-            <SubmitButton
-                className="w-full"
-                loading={mutationSignup.isPending}
-                disabled={mutationSignup.isSuccess}
-            >
-                Зареєструватись
-            </SubmitButton>
+                <SubmitButton
+                    className="w-full"
+                    loading={mutationSignup.isPending}
+                    disabled={mutationSignup.isSuccess}
+                >
+                    Зареєструватись
+                </SubmitButton>
 
-            <GoogleLogin
-                disabled={mutationSignup.isPending || mutationSignup.isSuccess}
-                buttonText="Зареєструватись з Google"
-            />
-        </form>
+                <GoogleLogin
+                    disabled={
+                        mutationSignup.isPending || mutationSignup.isSuccess
+                    }
+                    buttonText="Зареєструватись з Google"
+                />
+            </form.Form>
+        </form.AppForm>
     );
 };
 

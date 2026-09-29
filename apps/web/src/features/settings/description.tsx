@@ -3,9 +3,7 @@ import { toast } from 'sonner';
 
 import { API_LIMITS, changeDescriptionMutation } from '@hikka/api';
 
-import { useAppForm } from '@/components/form';
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
+import { SubmitButton, useAppForm } from '@/components/form';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
@@ -39,34 +37,27 @@ const ProfileDescription = () => {
     });
 
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            className="flex flex-col items-start gap-6"
-        >
-            <form.AppField
-                name="description"
-                children={(field) => (
-                    <field.TextareaField
-                        placeholder="Введіть опис"
-                        label="Опис"
-                        className="w-full"
-                    />
-                )}
-            />
-            <Button
-                size="md"
-                disabled={mutationChangeDescription.isPending}
-                variant="default"
-                type="submit"
-            >
-                {mutationChangeDescription.isPending && <Spinner />}
-                Зберегти
-            </Button>
-        </form>
+        <form.AppForm>
+            <form.Form className="flex flex-col items-start gap-6">
+                <form.AppField
+                    name="description"
+                    children={(field) => (
+                        <field.TextareaField
+                            placeholder="Введіть опис"
+                            label="Опис"
+                            className="w-full"
+                        />
+                    )}
+                />
+                <SubmitButton
+                    size="md"
+                    loading={mutationChangeDescription.isPending}
+                    variant="default"
+                >
+                    Зберегти
+                </SubmitButton>
+            </form.Form>
+        </form.AppForm>
     );
 };
 

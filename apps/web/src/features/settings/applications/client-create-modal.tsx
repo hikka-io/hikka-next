@@ -52,56 +52,51 @@ const ClientCreateModal = ({ onClose }: Props) => {
     });
 
     return (
-        <form
-            className="contents"
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-        >
-            <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-                <form.AppField
-                    name="name"
-                    children={(field) => (
-                        <field.TextField
-                            label="Назва застосунку"
-                            placeholder="Введіть назву застосунку"
-                            type="string"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="description"
-                    children={(field) => (
-                        <field.TextareaField
-                            label="Опис"
-                            placeholder="Залиште опис до застосунку"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="endpoint"
-                    children={(field) => (
-                        <field.TextField
-                            label="Посилання переспрямування"
-                            placeholder="https://example.com/"
-                            description={ENDPOINT_HINT}
-                            type="text"
-                            inputMode="url"
-                            autoCapitalize="none"
-                            spellCheck={false}
-                        />
-                    )}
-                />
-            </div>
-            <ResponsiveModalFooter>
-                <Button variant="default" size="md" type="submit">
-                    {createClientLoading && <Spinner />}
-                    Створити
-                </Button>
-            </ResponsiveModalFooter>
-        </form>
+        <form.AppForm>
+            <form.Form className="contents">
+                <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
+                    <form.AppField
+                        name="name"
+                        children={(field) => (
+                            <field.TextField
+                                label="Назва застосунку"
+                                placeholder="Введіть назву застосунку"
+                                type="string"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="description"
+                        children={(field) => (
+                            <field.TextareaField
+                                label="Опис"
+                                placeholder="Залиште опис до застосунку"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="endpoint"
+                        children={(field) => (
+                            <field.TextField
+                                label="Посилання переспрямування"
+                                placeholder="https://example.com/"
+                                description={ENDPOINT_HINT}
+                                type="text"
+                                inputMode="url"
+                                autoCapitalize="none"
+                                spellCheck={false}
+                            />
+                        )}
+                    />
+                </div>
+                <ResponsiveModalFooter>
+                    <Button variant="default" size="md" type="submit">
+                        {createClientLoading && <Spinner />}
+                        Створити
+                    </Button>
+                </ResponsiveModalFooter>
+            </form.Form>
+        </form.AppForm>
     );
 };
 

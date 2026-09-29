@@ -2,12 +2,15 @@ import { describe, expect, it } from 'vitest';
 
 import { API_LIMITS } from '@hikka/api';
 
+import { z } from '@/utils/i18n/zod';
+
 import {
     clientDescriptionSchema,
     clientNameSchema,
     emailSchema,
     endpointSchema,
     invalidUsernameCharacters,
+    matchFields,
     passwordSchema,
     suggestEndpoint,
     USERNAME_HINT,
@@ -121,6 +124,61 @@ describe('passwordSchema', () => {
         ['x'.repeat(257), false],
     ])('%j -> %s (PasswordArgs: 8..256)', (value, ok) => {
         expect(passwordSchema.safeParse(value).success).toBe(ok);
+    });
+});
+
+describe('matchFields', () => {
+    const schema = z
+        .object({ password: z.string(), passwordConfirmation: z.string() })
+        .refine(
+            ...matchFields(
+                'password',
+                'passwordConfirmation',
+                'Паролі не збігаються',
+            ),
+        );
+
+    it('accepts equal fields', () => {
+        expect(
+            schema.safeParse({ password: 'abc', passwordConfirmation: 'abc' })
+                .success,
+        ).toBe(true);
+    });
+
+    it('reports a mismatch on the confirmation field with the given message', () => {
+        const result = schema.safeParse({
+            password: 'abc',
+            passwordConfirmation: 'abd',
+        });
+
+        expect(result.success).toBe(false);
+        expect(
+            result.error?.issues.map(({ message, path }) => ({
+                message,
+                path,
+            })),
+        ).toEqual([
+            { message: 'Паролі не збігаються', path: ['passwordConfirmation'] },
+        ]);
+    });
+
+    it('compares any pair of fields', () => {
+        const [check, params] = matchFields(
+            'email',
+            'emailConfirmation',
+            'Адреси не збігаються',
+        );
+
+        expect(check({ email: 'a@b.c', emailConfirmation: 'a@b.c' })).toBe(
+            true,
+        );
+        expect(check({ email: 'a@b.c', emailConfirmation: 'A@b.c' })).toBe(
+            false,
+        );
+        expect(params).toEqual({
+            message: 'Адреси не збігаються',
+            path: ['emailConfirmation'],
+        });
     });
 });
 

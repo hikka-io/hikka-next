@@ -10,7 +10,7 @@ import {
     updateUserClientMutation,
 } from '@hikka/api';
 
-import { useAppForm } from '@/components/form';
+import { SubmitButton, useAppForm } from '@/components/form';
 import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/MaterialSymbolsContentCopy';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -110,125 +110,119 @@ const ClientEditModal = ({ client, onClose }: Props) => {
     };
 
     return (
-        <form
-            className="contents"
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-        >
-            <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-                <form.AppField
-                    name="name"
-                    children={(field) => (
-                        <field.TextField
-                            label="Назва застосунку"
-                            placeholder="Введіть назву застосунку"
-                            type="string"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="description"
-                    children={(field) => (
-                        <field.TextareaField
-                            label="Опис"
-                            placeholder="Залиште опис до застосунку"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="endpoint"
-                    children={(field) => (
-                        <field.TextField
-                            label="Посилання переспрямування"
-                            placeholder="https://example.com/"
-                            description={ENDPOINT_HINT}
-                            type="text"
-                            inputMode="url"
-                            autoCapitalize="none"
-                            spellCheck={false}
-                        />
-                    )}
-                />
-                <div>
-                    <Label>Референс</Label>
-                    <div className="flex w-full items-end gap-2">
-                        <form.AppField
-                            name="reference"
-                            children={(field) => (
-                                <field.TextField
-                                    placeholder="123123-123123-123123-123123"
-                                    disabled
-                                    className="w-full"
-                                />
-                            )}
-                        />
-                        <Button
-                            variant="outline"
-                            onClick={() => onCopy('reference')}
-                        >
-                            <MaterialSymbolsContentCopy />
-                            Скопіювати
-                        </Button>
+        <form.AppForm>
+            <form.Form className="contents">
+                <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
+                    <form.AppField
+                        name="name"
+                        children={(field) => (
+                            <field.TextField
+                                label="Назва застосунку"
+                                placeholder="Введіть назву застосунку"
+                                type="string"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="description"
+                        children={(field) => (
+                            <field.TextareaField
+                                label="Опис"
+                                placeholder="Залиште опис до застосунку"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="endpoint"
+                        children={(field) => (
+                            <field.TextField
+                                label="Посилання переспрямування"
+                                placeholder="https://example.com/"
+                                description={ENDPOINT_HINT}
+                                type="text"
+                                inputMode="url"
+                                autoCapitalize="none"
+                                spellCheck={false}
+                            />
+                        )}
+                    />
+                    <div>
+                        <Label>Референс</Label>
+                        <div className="flex w-full items-end gap-2">
+                            <form.AppField
+                                name="reference"
+                                children={(field) => (
+                                    <field.TextField
+                                        placeholder="123123-123123-123123-123123"
+                                        disabled
+                                        className="w-full"
+                                    />
+                                )}
+                            />
+                            <Button
+                                variant="outline"
+                                onClick={() => onCopy('reference')}
+                            >
+                                <MaterialSymbolsContentCopy />
+                                Скопіювати
+                            </Button>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <Label>Ключ</Label>
-                    <div className="flex w-full items-end gap-2">
-                        <form.AppField
-                            name="secret"
-                            children={(field) => (
-                                <field.TextField
-                                    placeholder="h1Kk@--H3l1o1tsl0rgoN- ..."
-                                    disabled
-                                    type="password"
-                                    className="w-full"
-                                />
-                            )}
-                        />
-                        <Button
-                            variant="outline"
-                            onClick={() => onCopy('secret')}
-                        >
-                            <MaterialSymbolsContentCopy />
-                            Скопіювати
-                        </Button>
+                    <div>
+                        <Label>Ключ</Label>
+                        <div className="flex w-full items-end gap-2">
+                            <form.AppField
+                                name="secret"
+                                children={(field) => (
+                                    <field.TextField
+                                        placeholder="h1Kk@--H3l1o1tsl0rgoN- ..."
+                                        disabled
+                                        type="password"
+                                        className="w-full"
+                                    />
+                                )}
+                            />
+                            <Button
+                                variant="outline"
+                                onClick={() => onCopy('secret')}
+                            >
+                                <MaterialSymbolsContentCopy />
+                                Скопіювати
+                            </Button>
+                        </div>
                     </div>
+                    <form.AppField
+                        name="revoke_secret"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Перестворити секрет"
+                                className="w-full"
+                            />
+                        )}
+                    />
                 </div>
-                <form.AppField
-                    name="revoke_secret"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Перестворити секрет"
-                            className="w-full"
-                        />
-                    )}
-                />
-            </div>
-            <ResponsiveModalFooter className="flex-row">
-                <Button
-                    size="md"
-                    type="button"
-                    variant="destructive"
-                    onClick={onDelete}
-                    disabled={deleteClientLoading || updateClientLoading}
-                >
-                    {deleteClientLoading && <Spinner />}
-                    Видалити
-                </Button>
-                <Button
-                    size="md"
-                    type="submit"
-                    className="flex-1 md:flex-none"
-                    disabled={deleteClientLoading || updateClientLoading}
-                >
-                    {updateClientLoading && <Spinner />}
-                    Оновити
-                </Button>
-            </ResponsiveModalFooter>
-        </form>
+                <ResponsiveModalFooter className="flex-row">
+                    <Button
+                        size="md"
+                        type="button"
+                        variant="destructive"
+                        onClick={onDelete}
+                        disabled={deleteClientLoading || updateClientLoading}
+                    >
+                        {deleteClientLoading && <Spinner />}
+                        Видалити
+                    </Button>
+                    <SubmitButton
+                        size="md"
+                        className="flex-1 md:flex-none"
+                        loading={updateClientLoading}
+                        disabled={deleteClientLoading}
+                    >
+                        Оновити
+                    </SubmitButton>
+                </ResponsiveModalFooter>
+            </form.Form>
+        </form.AppForm>
     );
 };
 

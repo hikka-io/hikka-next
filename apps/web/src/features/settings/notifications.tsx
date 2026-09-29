@@ -8,10 +8,8 @@ import {
     getIgnoredNotificationsOptions,
 } from '@hikka/api';
 
-import { useAppForm } from '@/components/form';
-import { Button } from '@/components/ui/button';
+import { SubmitButton, useAppForm } from '@/components/form';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import Spinner from '@/components/ui/spinner';
 import { invalidateIgnoredNotifications } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 
@@ -75,196 +73,185 @@ const NotificationsSettings = () => {
     });
 
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            className="flex flex-col items-start gap-8"
-        >
-            <div className="flex w-full flex-col gap-6">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Коментарі</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <form.AppField
-                    name="comment_reply"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Відповідь на коментар"
-                            description="Ви отримаєте сповіщення, коли на ваш коментар відповіли"
-                            className="w-full"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="comment_tag"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Згадка в коментарі"
-                            description="Ви отримаєте сповіщення, коли вас згадали(@) в коментарі"
-                            className="w-full"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="collection_comment"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Коментар у колекції"
-                            description="Ви отримаєте сповіщення, коли у вашій колекції залишили коментар"
-                            className="w-full"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="article_comment"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Коментар у статті"
-                            description="Ви отримаєте сповіщення, коли у вашій статті залишили коментар"
-                            className="w-full"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="edit_comment"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Коментар у правці"
-                            description="Ви отримаєте сповіщення, коли вам залишать коментар у правці"
-                            className="w-full"
-                        />
-                    )}
-                />
-            </div>
-            <div className="flex w-full flex-col gap-6">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Оцінки</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <form.AppField
-                    name="comment_vote"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Оцінка коментаря"
-                            description="Ви отримаєте сповіщення, коли ваш коментар оцінили"
-                            className="w-full"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="collection_vote"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Оцінка колекції"
-                            description="Ви отримаєте сповіщення, коли вашу колекцію оцінили"
-                            className="w-full"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="article_vote"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Оцінка статті"
-                            description="Ви отримаєте сповіщення, коли вашу статтю оцінили"
-                            className="w-full"
-                        />
-                    )}
-                />
-            </div>
-            <div className="flex w-full flex-col gap-6">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Правки</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <form.AppField
-                    name="edit_accepted"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Прийнята правка"
-                            description="Ви отримаєте сповіщення, коли ваша правка прийнята"
-                            className="w-full"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="edit_denied"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Відхилена правка"
-                            description="Ви отримаєте сповіщення, коли ваша правка відхилена"
-                            className="w-full"
-                        />
-                    )}
-                />
-            </div>
-            <div className="flex w-full flex-col gap-6">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Аніме</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <form.AppField
-                    name="schedule_anime"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Оновлення аніме"
-                            description="Ви отримаєте сповіщення про вихід нових епізодів аніме"
-                            className="w-full"
-                        />
-                    )}
-                />
-            </div>
-            <div className="flex w-full flex-col gap-6">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Користувачі</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <form.AppField
-                    name="follow"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Підписка на користувача"
-                            description="Ви отримаєте сповіщення, коли хтось підписався на Вас"
-                            className="w-full"
-                        />
-                    )}
-                />
-            </div>
-            <div className="flex w-full flex-col gap-6">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Інше</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <form.AppField
-                    name="hikka_update"
-                    children={(field) => (
-                        <field.SwitchField
-                            label="Системні сповіщення"
-                            description="Ви отримаєте сповіщення про системні зміни"
-                            className="w-full"
-                        />
-                    )}
-                />
-            </div>
-            <Button
-                size="md"
-                disabled={isPending}
-                variant="default"
-                type="submit"
-            >
-                {isPending && <Spinner />}
-                Зберегти
-            </Button>
-        </form>
+        <form.AppForm>
+            <form.Form className="flex flex-col items-start gap-8">
+                <div className="flex w-full flex-col gap-6">
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Коментарі</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
+                    <form.AppField
+                        name="comment_reply"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Відповідь на коментар"
+                                description="Ви отримаєте сповіщення, коли на ваш коментар відповіли"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="comment_tag"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Згадка в коментарі"
+                                description="Ви отримаєте сповіщення, коли вас згадали(@) в коментарі"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="collection_comment"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Коментар у колекції"
+                                description="Ви отримаєте сповіщення, коли у вашій колекції залишили коментар"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="article_comment"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Коментар у статті"
+                                description="Ви отримаєте сповіщення, коли у вашій статті залишили коментар"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="edit_comment"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Коментар у правці"
+                                description="Ви отримаєте сповіщення, коли вам залишать коментар у правці"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                </div>
+                <div className="flex w-full flex-col gap-6">
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Оцінки</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
+                    <form.AppField
+                        name="comment_vote"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Оцінка коментаря"
+                                description="Ви отримаєте сповіщення, коли ваш коментар оцінили"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="collection_vote"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Оцінка колекції"
+                                description="Ви отримаєте сповіщення, коли вашу колекцію оцінили"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="article_vote"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Оцінка статті"
+                                description="Ви отримаєте сповіщення, коли вашу статтю оцінили"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                </div>
+                <div className="flex w-full flex-col gap-6">
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Правки</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
+                    <form.AppField
+                        name="edit_accepted"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Прийнята правка"
+                                description="Ви отримаєте сповіщення, коли ваша правка прийнята"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="edit_denied"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Відхилена правка"
+                                description="Ви отримаєте сповіщення, коли ваша правка відхилена"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                </div>
+                <div className="flex w-full flex-col gap-6">
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Аніме</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
+                    <form.AppField
+                        name="schedule_anime"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Оновлення аніме"
+                                description="Ви отримаєте сповіщення про вихід нових епізодів аніме"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                </div>
+                <div className="flex w-full flex-col gap-6">
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Користувачі</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
+                    <form.AppField
+                        name="follow"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Підписка на користувача"
+                                description="Ви отримаєте сповіщення, коли хтось підписався на Вас"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                </div>
+                <div className="flex w-full flex-col gap-6">
+                    <Header>
+                        <HeaderContainer>
+                            <HeaderTitle variant="h4">Інше</HeaderTitle>
+                        </HeaderContainer>
+                    </Header>
+                    <form.AppField
+                        name="hikka_update"
+                        children={(field) => (
+                            <field.SwitchField
+                                label="Системні сповіщення"
+                                description="Ви отримаєте сповіщення про системні зміни"
+                                className="w-full"
+                            />
+                        )}
+                    />
+                </div>
+                <SubmitButton size="md" loading={isPending} variant="default">
+                    Зберегти
+                </SubmitButton>
+            </form.Form>
+        </form.AppForm>
     );
 };
 

@@ -70,74 +70,75 @@ const LoginForm = () => {
     });
 
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            className="space-y-4"
-        >
-            <form.Field
-                name="identifier"
-                children={(field) => (
-                    <Field>
-                        <FieldLabel htmlFor={field.name}>
-                            Ваш юзернейм або пошта
-                        </FieldLabel>
-                        <Input
-                            id={field.name}
-                            type="text"
-                            placeholder="Введіть ваш юзернейм або пошту"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={(e) => field.handleChange(e.target.value)}
-                        />
-                        <FieldError errors={field.state.meta.errors} />
-                    </Field>
-                )}
-            />
+        <form.AppForm>
+            <form.Form className="space-y-4">
+                <form.Field
+                    name="identifier"
+                    children={(field) => (
+                        <Field>
+                            <FieldLabel htmlFor={field.name}>
+                                Ваш юзернейм або пошта
+                            </FieldLabel>
+                            <Input
+                                id={field.name}
+                                type="text"
+                                placeholder="Введіть ваш юзернейм або пошту"
+                                value={field.state.value}
+                                onBlur={field.handleBlur}
+                                onChange={(e) =>
+                                    field.handleChange(e.target.value)
+                                }
+                            />
+                            <FieldError errors={field.state.meta.errors} />
+                        </Field>
+                    )}
+                />
 
-            <form.Field
-                name="password"
-                children={(field) => (
-                    <Field>
-                        <div className="flex items-center justify-between">
-                            <FieldLabel htmlFor={field.name}>Пароль</FieldLabel>
-                            <Link
-                                to="/reset"
-                                className="text-primary-foreground text-sm hover:underline"
-                            >
-                                Забули пароль?
-                            </Link>
-                        </div>
+                <form.Field
+                    name="password"
+                    children={(field) => (
+                        <Field>
+                            <div className="flex items-center justify-between">
+                                <FieldLabel htmlFor={field.name}>
+                                    Пароль
+                                </FieldLabel>
+                                <Link
+                                    to="/reset"
+                                    className="text-primary-foreground text-sm hover:underline"
+                                >
+                                    Забули пароль?
+                                </Link>
+                            </div>
 
-                        <PasswordInput
-                            id={field.name}
-                            placeholder="Введіть ваш пароль"
-                            value={field.state.value}
-                            onBlur={field.handleBlur}
-                            onChange={field.handleChange}
-                        />
-                        <FieldError errors={field.state.meta.errors} />
-                    </Field>
-                )}
-            />
+                            <PasswordInput
+                                id={field.name}
+                                placeholder="Введіть ваш пароль"
+                                value={field.state.value}
+                                onBlur={field.handleBlur}
+                                onChange={field.handleChange}
+                            />
+                            <FieldError errors={field.state.meta.errors} />
+                        </Field>
+                    )}
+                />
 
-            <Captcha ref={captchaRef} />
+                <Captcha ref={captchaRef} />
 
-            <SubmitButton
-                className="w-full"
-                loading={mutationLogin.isPending}
-                disabled={mutationLogin.isSuccess}
-            >
-                Увійти
-            </SubmitButton>
+                <SubmitButton
+                    className="w-full"
+                    loading={mutationLogin.isPending}
+                    disabled={mutationLogin.isSuccess}
+                >
+                    Увійти
+                </SubmitButton>
 
-            <GoogleLogin
-                disabled={mutationLogin.isPending || mutationLogin.isSuccess}
-            />
-        </form>
+                <GoogleLogin
+                    disabled={
+                        mutationLogin.isPending || mutationLogin.isSuccess
+                    }
+                />
+            </form.Form>
+        </form.AppForm>
     );
 };
 

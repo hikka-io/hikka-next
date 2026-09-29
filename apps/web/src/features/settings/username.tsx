@@ -39,37 +39,32 @@ const ProfileUsername = () => {
     });
 
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            className="flex flex-col items-start gap-6"
-        >
-            <form.AppField
-                name="username"
-                children={(field) => (
-                    <field.TextField
-                        type="text"
-                        label="Нове ім'я користувача"
-                        placeholder="Введіть новий нікнейм"
-                        description={USERNAME_HINT}
-                        autoComplete="username"
-                        autoCapitalize="none"
-                        spellCheck={false}
-                        className="w-full"
-                    />
-                )}
-            />
-            <SubmitButton
-                size="md"
-                variant="default"
-                loading={mutationChangeUsername.isPending}
-            >
-                Зберегти
-            </SubmitButton>
-        </form>
+        <form.AppForm>
+            <form.Form className="flex flex-col items-start gap-6">
+                <form.AppField
+                    name="username"
+                    children={(field) => (
+                        <field.TextField
+                            type="text"
+                            label="Нове ім'я користувача"
+                            placeholder="Введіть новий нікнейм"
+                            description={USERNAME_HINT}
+                            autoComplete="username"
+                            autoCapitalize="none"
+                            spellCheck={false}
+                            className="w-full"
+                        />
+                    )}
+                />
+                <SubmitButton
+                    size="md"
+                    variant="default"
+                    loading={mutationChangeUsername.isPending}
+                >
+                    Зберегти
+                </SubmitButton>
+            </form.Form>
+        </form.AppForm>
     );
 };
 

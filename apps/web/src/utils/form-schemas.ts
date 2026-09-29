@@ -91,6 +91,18 @@ export const passwordSchema = z
     .min(API_LIMITS.password.min, atLeast(API_LIMITS.password.min))
     .max(API_LIMITS.password.max, atMost(API_LIMITS.password.max));
 
+export const matchFields = <Field extends string>(
+    field: Field,
+    confirmation: Field,
+    message: string,
+): [
+    (data: Record<Field, unknown>) => boolean,
+    { message: string; path: [Field] },
+] => [
+    (data) => data[field] === data[confirmation],
+    { message, path: [confirmation] },
+];
+
 // The API runs `utils.remove_bad_characters` and `.strip()` before checking the length.
 const BAD_CHARACTERS = /[\u2800\ufff4]/g;
 

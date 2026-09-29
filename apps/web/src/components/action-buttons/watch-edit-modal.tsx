@@ -136,162 +136,163 @@ const WatchEditModal = ({ slug, watch: watchProp, onClose }: Props) => {
     if (!watch) return null;
 
     return (
-        <form
-            className="contents"
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-        >
-            <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-                <div className="flex w-full flex-col gap-2">
-                    <Label>Список</Label>
-                    <Select
-                        value={selectedStatus && [selectedStatus]}
-                        onValueChange={(value) => {
-                            setSelectedStatus(value[0] as WatchStatusEnum);
-                        }}
-                    >
-                        <SelectTrigger size="md">
-                            <div className="flex items-center gap-2">
-                                {selectedStatus && (
-                                    <div
-                                        className={cn(
-                                            'w-fit rounded-sm border p-1',
-                                            `bg-${selectedStatus} text-${selectedStatus}-foreground border-${selectedStatus}-border`,
-                                        )}
-                                    >
-                                        {createElement(
-                                            WATCH_STATUS_ICONS[selectedStatus],
-                                            {
-                                                className: 'size-3!',
-                                            },
-                                        )}
-                                    </div>
-                                )}
-                                {(selectedStatus &&
-                                    WATCH_STATUS[selectedStatus].title_ua) ||
-                                    'Виберіть список'}
-                            </div>
-                            <SelectIcon />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectList>
-                                <SelectGroup>
-                                    {(
-                                        Object.keys(
-                                            WATCH_STATUS,
-                                        ) as WatchStatusEnum[]
-                                    ).map((status) => (
-                                        <SelectItem value={status} key={status}>
-                                            {WATCH_STATUS[status].title_ua}
-                                        </SelectItem>
-                                    ))}
-                                </SelectGroup>
-                            </SelectList>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="flex w-full gap-8">
+        <form.AppForm>
+            <form.Form className="contents">
+                <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
+                    <div className="flex w-full flex-col gap-2">
+                        <Label>Список</Label>
+                        <Select
+                            value={selectedStatus && [selectedStatus]}
+                            onValueChange={(value) => {
+                                setSelectedStatus(value[0] as WatchStatusEnum);
+                            }}
+                        >
+                            <SelectTrigger size="md">
+                                <div className="flex items-center gap-2">
+                                    {selectedStatus && (
+                                        <div
+                                            className={cn(
+                                                'w-fit rounded-sm border p-1',
+                                                `bg-${selectedStatus} text-${selectedStatus}-foreground border-${selectedStatus}-border`,
+                                            )}
+                                        >
+                                            {createElement(
+                                                WATCH_STATUS_ICONS[
+                                                    selectedStatus
+                                                ],
+                                                {
+                                                    className: 'size-3!',
+                                                },
+                                            )}
+                                        </div>
+                                    )}
+                                    {(selectedStatus &&
+                                        WATCH_STATUS[selectedStatus]
+                                            .title_ua) ||
+                                        'Виберіть список'}
+                                </div>
+                                <SelectIcon />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectList>
+                                    <SelectGroup>
+                                        {(
+                                            Object.keys(
+                                                WATCH_STATUS,
+                                            ) as WatchStatusEnum[]
+                                        ).map((status) => (
+                                            <SelectItem
+                                                value={status}
+                                                key={status}
+                                            >
+                                                {WATCH_STATUS[status].title_ua}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectList>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="flex w-full gap-8">
+                        <form.AppField
+                            name="score"
+                            children={(field) => (
+                                <field.TextField
+                                    label="Оцінка"
+                                    placeholder="Введіть оцінку"
+                                    type="number"
+                                    className="flex-1"
+                                    min={API_LIMITS.listScore.min}
+                                    max={API_LIMITS.listScore.max}
+                                />
+                            )}
+                        />
+                        <form.AppField
+                            name="episodes"
+                            children={(field) => (
+                                <field.TextField
+                                    label="Епізоди"
+                                    placeholder="Введіть к-сть переглянутих епізодів"
+                                    type="number"
+                                    className="flex-1"
+                                    min={0}
+                                />
+                            )}
+                        />
+                    </div>
                     <form.AppField
-                        name="score"
+                        name="rewatches"
                         children={(field) => (
                             <field.TextField
-                                label="Оцінка"
-                                placeholder="Введіть оцінку"
+                                label="Повторні перегляди"
+                                placeholder="Введіть к-сть повторних переглядів"
                                 type="number"
-                                className="flex-1"
-                                min={API_LIMITS.listScore.min}
-                                max={API_LIMITS.listScore.max}
-                            />
-                        )}
-                    />
-                    <form.AppField
-                        name="episodes"
-                        children={(field) => (
-                            <field.TextField
-                                label="Епізоди"
-                                placeholder="Введіть к-сть переглянутих епізодів"
-                                type="number"
-                                className="flex-1"
                                 min={0}
                             />
                         )}
                     />
-                </div>
-                <form.AppField
-                    name="rewatches"
-                    children={(field) => (
-                        <field.TextField
-                            label="Повторні перегляди"
-                            placeholder="Введіть к-сть повторних переглядів"
-                            type="number"
-                            min={0}
+                    <div className="flex w-full gap-8">
+                        <form.AppField
+                            name="start_date"
+                            children={(field) => (
+                                <field.DatePickerField
+                                    className="flex-1"
+                                    label="Дата початку"
+                                />
+                            )}
                         />
-                    )}
-                />
-                <div className="flex w-full gap-8">
+                        <form.AppField
+                            name="end_date"
+                            children={(field) => (
+                                <field.DatePickerField
+                                    className="flex-1"
+                                    label="Дата завершення"
+                                    minDate={startDate ?? undefined}
+                                />
+                            )}
+                        />
+                    </div>
                     <form.AppField
-                        name="start_date"
+                        name="note"
                         children={(field) => (
-                            <field.DatePickerField
-                                className="flex-1"
-                                label="Дата початку"
-                            />
-                        )}
-                    />
-                    <form.AppField
-                        name="end_date"
-                        children={(field) => (
-                            <field.DatePickerField
-                                className="flex-1"
-                                label="Дата завершення"
-                                minDate={startDate ?? undefined}
+                            <field.TextareaField
+                                label="Нотатки"
+                                placeholder="Залиште нотатку"
                             />
                         )}
                     />
                 </div>
-                <form.AppField
-                    name="note"
-                    children={(field) => (
-                        <field.TextareaField
-                            label="Нотатки"
-                            placeholder="Залиште нотатку"
-                        />
-                    )}
-                />
-            </div>
-            <ResponsiveModalFooter className="flex-row">
-                <Button
-                    type="button"
-                    variant="destructive"
-                    size="md"
-                    onClick={() => deleteWatch({ path: { slug } })}
-                    disabled={addToListLoading || deleteFromListLoading}
-                >
-                    {deleteFromListLoading ? (
-                        <Spinner />
-                    ) : (
-                        <MaterialSymbolsDeleteForeverRounded className="size-4" />
-                    )}
-                    Видалити
-                </Button>
-                <Button
-                    size="md"
-                    type="submit"
-                    className="flex-1 md:flex-none"
-                    disabled={addToListLoading || deleteFromListLoading}
-                >
-                    {addToListLoading ? (
-                        <Spinner />
-                    ) : (
-                        <MaterialSymbolsCheckRounded className="size-4" />
-                    )}
-                    Зберегти
-                </Button>
-            </ResponsiveModalFooter>
-        </form>
+                <ResponsiveModalFooter className="flex-row">
+                    <Button
+                        type="button"
+                        variant="destructive"
+                        size="md"
+                        onClick={() => deleteWatch({ path: { slug } })}
+                        disabled={addToListLoading || deleteFromListLoading}
+                    >
+                        {deleteFromListLoading ? (
+                            <Spinner />
+                        ) : (
+                            <MaterialSymbolsDeleteForeverRounded className="size-4" />
+                        )}
+                        Видалити
+                    </Button>
+                    <Button
+                        size="md"
+                        type="submit"
+                        className="flex-1 md:flex-none"
+                        disabled={addToListLoading || deleteFromListLoading}
+                    >
+                        {addToListLoading ? (
+                            <Spinner />
+                        ) : (
+                            <MaterialSymbolsCheckRounded className="size-4" />
+                        )}
+                        Зберегти
+                    </Button>
+                </ResponsiveModalFooter>
+            </form.Form>
+        </form.AppForm>
     );
 };
 

@@ -4,9 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { createEditMutation, type EditContentTypeEnum } from '@hikka/api';
 
-import { useAppForm } from '@/components/form';
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
+import { SubmitButton, useAppForm } from '@/components/form';
 import { invalidateEdits } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
@@ -77,14 +75,7 @@ const EditForm: FC<Props> = ({
 
     return (
         <form.AppForm>
-            <form
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    form.handleSubmit();
-                }}
-                className="flex flex-col gap-6"
-            >
+            <form.Form className="flex flex-col gap-6">
                 <EditFormFields
                     params={params}
                     groups={groups}
@@ -94,18 +85,16 @@ const EditForm: FC<Props> = ({
                 />
                 {mode === 'edit' && (
                     <div className="flex items-center gap-2">
-                        <Button
-                            disabled={mutationAddEdit.isPending}
-                            type="submit"
+                        <SubmitButton
+                            loading={mutationAddEdit.isPending}
                             className="w-fit"
                         >
-                            {mutationAddEdit.isPending && <Spinner />}
                             Створити
-                        </Button>
+                        </SubmitButton>
                         <AutoButton />
                     </div>
                 )}
-            </form>
+            </form.Form>
         </form.AppForm>
     );
 };

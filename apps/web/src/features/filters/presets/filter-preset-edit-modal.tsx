@@ -146,14 +146,7 @@ const FilterPresetEditModal = ({ filterPreset, onClose, onBack }: Props) => {
 
     return (
         <form.AppForm>
-            <form
-                className="contents"
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    form.handleSubmit();
-                }}
-            >
+            <form.Form className="contents">
                 <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
                     <form.AppField
                         name="name"
@@ -222,7 +215,7 @@ const FilterPresetEditModal = ({ filterPreset, onClose, onBack }: Props) => {
                         Зберегти
                     </Button>
                 </ResponsiveModalFooter>
-            </form>
+            </form.Form>
         </form.AppForm>
     );
 };

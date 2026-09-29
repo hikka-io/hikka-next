@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import type { CollectionArgs, CollectionVisibilityEnum } from '@hikka/api';
+import type { CollectionVisibilityEnum } from '@hikka/api';
 import {
     API_LIMITS,
     createCollectionMutation,
@@ -111,6 +111,12 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                 toast.success('Ви успішно оновили колекцію.');
             },
         });
+
+    const canSubmit =
+        !!title &&
+        title.trim().length >= API_LIMITS.collectionTitle.min &&
+        !!description &&
+        description.trim().length >= API_LIMITS.collectionDescription.min;
 
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">
@@ -253,20 +259,12 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                     <Button
                         size="md"
                         className="flex-1"
-                        disabled={
-                            isUpdatePending ||
-                            !title ||
-                            title.trim().length <
-                                API_LIMITS.collectionTitle.min ||
-                            !description ||
-                            description.trim().length <
-                                API_LIMITS.collectionDescription.min
-                        }
+                        disabled={isUpdatePending || !canSubmit}
                         variant="default"
                         onClick={() =>
                             mutateUpdateCollection({
                                 path: { reference: String(params.reference) },
-                                body: getApiData() as CollectionArgs,
+                                body: getApiData(),
                             })
                         }
                     >
@@ -281,21 +279,12 @@ const CollectionSettings: FC<Props> = ({ mode = 'create' }) => {
                 {mode === 'create' && (
                     <Button
                         className="flex-1"
-                        disabled={
-                            isSuccess ||
-                            isCreatePending ||
-                            !title ||
-                            title.trim().length <
-                                API_LIMITS.collectionTitle.min ||
-                            !description ||
-                            description.trim().length <
-                                API_LIMITS.collectionDescription.min
-                        }
+                        disabled={isSuccess || isCreatePending || !canSubmit}
                         size="md"
                         variant="default"
                         onClick={() =>
                             mutateCreateCollection({
-                                body: getApiData() as CollectionArgs,
+                                body: getApiData(),
                             })
                         }
                     >

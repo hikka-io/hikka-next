@@ -3,6 +3,7 @@ import { createFormHook } from '@tanstack/react-form';
 import { BadgeFilterField } from './badge-filter-field';
 import { DatePickerField } from './date-picker-field';
 import { fieldContext, formContext } from './form-context';
+import { Form } from './form-shell';
 import { PasswordField } from './password-field';
 import { SelectField } from './select-field';
 import { SliderField } from './slider-field';
@@ -21,7 +22,9 @@ export const { useAppForm, useTypedAppFormContext } = createFormHook({
         DatePickerField,
         BadgeFilterField,
     },
-    formComponents: {},
+    formComponents: {
+        Form,
+    },
     fieldContext,
     formContext,
 });

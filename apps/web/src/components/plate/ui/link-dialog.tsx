@@ -136,48 +136,43 @@ const LinkDialogForm: FC<LinkDialogFormProps> = ({
     });
 
     return (
-        <form
-            className="contents"
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-        >
-            <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-                <form.AppField
-                    name="url"
-                    children={(field) => (
-                        <field.TextField
-                            label="Посилання"
-                            placeholder="https://example.com"
-                        />
-                    )}
-                />
-                <form.AppField
-                    name="text"
-                    children={(field) => (
-                        <field.TextField
-                            label="Текст відображення"
-                            placeholder="Введіть текст"
-                        />
-                    )}
-                />
-            </div>
-            <ResponsiveModalFooter>
-                <Button
-                    onClick={onClose}
-                    type="button"
-                    variant="outline"
-                    size="md"
-                >
-                    Скасувати
-                </Button>
-                <Button type="submit" size="md">
-                    Прийняти
-                </Button>
-            </ResponsiveModalFooter>
-        </form>
+        <form.AppForm>
+            <form.Form className="contents">
+                <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
+                    <form.AppField
+                        name="url"
+                        children={(field) => (
+                            <field.TextField
+                                label="Посилання"
+                                placeholder="https://example.com"
+                            />
+                        )}
+                    />
+                    <form.AppField
+                        name="text"
+                        children={(field) => (
+                            <field.TextField
+                                label="Текст відображення"
+                                placeholder="Введіть текст"
+                            />
+                        )}
+                    />
+                </div>
+                <ResponsiveModalFooter>
+                    <Button
+                        onClick={onClose}
+                        type="button"
+                        variant="outline"
+                        size="md"
+                    >
+                        Скасувати
+                    </Button>
+                    <Button type="submit" size="md">
+                        Прийняти
+                    </Button>
+                </ResponsiveModalFooter>
+            </form.Form>
+        </form.AppForm>
     );
 };
 

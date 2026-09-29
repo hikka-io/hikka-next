@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { changePasswordMutation } from '@hikka/api';
 
 import { SubmitButton, useAppForm } from '@/components/form';
-import { passwordSchema } from '@/utils/form-schemas';
+import { matchFields, passwordSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 
 const formSchema = z
@@ -12,10 +12,13 @@ const formSchema = z
         password: passwordSchema,
         passwordConfirmation: z.string(),
     })
-    .refine((data) => data.password === data.passwordConfirmation, {
-        message: 'Паролі не збігаються',
-        path: ['passwordConfirmation'],
-    });
+    .refine(
+        ...matchFields(
+            'password',
+            'passwordConfirmation',
+            'Паролі не збігаються',
+        ),
+    );
 
 const PasswordSettings = () => {
     const mutationChangePassword = useMutation({
@@ -39,44 +42,39 @@ const PasswordSettings = () => {
     });
 
     return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                form.handleSubmit();
-            }}
-            className="flex flex-col items-start gap-6"
-        >
-            <form.AppField
-                name="password"
-                children={(field) => (
-                    <field.PasswordField
-                        placeholder="Введіть новий пароль"
-                        autoComplete="new-password"
-                        label="Новий пароль"
-                        className="w-full"
-                    />
-                )}
-            />
-            <form.AppField
-                name="passwordConfirmation"
-                children={(field) => (
-                    <field.PasswordField
-                        placeholder="Підтвердіть новий пароль"
-                        autoComplete="new-password"
-                        label="Підтвердити пароль"
-                        className="w-full"
-                    />
-                )}
-            />
-            <SubmitButton
-                size="md"
-                variant="default"
-                loading={mutationChangePassword.isPending}
-            >
-                Зберегти
-            </SubmitButton>
-        </form>
+        <form.AppForm>
+            <form.Form className="flex flex-col items-start gap-6">
+                <form.AppField
+                    name="password"
+                    children={(field) => (
+                        <field.PasswordField
+                            placeholder="Введіть новий пароль"
+                            autoComplete="new-password"
+                            label="Новий пароль"
+                            className="w-full"
+                        />
+                    )}
+                />
+                <form.AppField
+                    name="passwordConfirmation"
+                    children={(field) => (
+                        <field.PasswordField
+                            placeholder="Підтвердіть новий пароль"
+                            autoComplete="new-password"
+                            label="Підтвердити пароль"
+                            className="w-full"
+                        />
+                    )}
+                />
+                <SubmitButton
+                    size="md"
+                    variant="default"
+                    loading={mutationChangePassword.isPending}
+                >
+                    Зберегти
+                </SubmitButton>
+            </form.Form>
+        </form.AppForm>
     );
 };
 
