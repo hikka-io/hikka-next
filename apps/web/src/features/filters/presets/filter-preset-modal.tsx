@@ -12,6 +12,7 @@ import TextLink from '@/components/ui/text-link';
 import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import { usePathname, useRouteSearch } from '@/utils/navigation';
 
+import { presetFromSearch, presetToSearch } from '../preset-search-mapper';
 import { useFilterPresetsStore } from './filter-presets-store';
 import type { FilterPreset } from './types';
 
@@ -39,72 +40,7 @@ const FilterPresetModal: FC<Props> = ({
     };
 
     const handleCreateFromCurrentFilters = () => {
-        const currentFilters: Partial<FilterPreset> = {
-            name: '',
-            description: '',
-        };
-
-        const arrayStringKeys = [
-            'content_types',
-            'statuses',
-            'seasons',
-            'types',
-            'genres',
-            'ratings',
-            'studios',
-        ] as const;
-
-        arrayStringKeys.forEach((key) => {
-            const rawValue = search[key];
-            if (rawValue !== undefined && rawValue !== null) {
-                const values = Array.isArray(rawValue)
-                    ? rawValue.map(String)
-                    : [String(rawValue)];
-                if (values.length > 0) {
-                    (currentFilters as Record<string, unknown>)[key] = values;
-                }
-            }
-        });
-
-        const arrayNumberKeys = ['years', 'date_range'] as const;
-        arrayNumberKeys.forEach((key) => {
-            const rawValue = search[key];
-            if (rawValue !== undefined && rawValue !== null) {
-                const values = Array.isArray(rawValue)
-                    ? rawValue.map(Number)
-                    : [Number(rawValue)];
-                if (values.length > 0) {
-                    currentFilters[key] = values as unknown as NonNullable<
-                        FilterPreset[typeof key]
-                    >;
-                }
-            }
-        });
-
-        if (search.only_translated !== undefined) {
-            currentFilters.only_translated =
-                search.only_translated === true ||
-                search.only_translated === 'true';
-        }
-        if (search.date_range_enabled !== undefined) {
-            currentFilters.date_range_enabled =
-                search.date_range_enabled === true ||
-                search.date_range_enabled === 'true';
-        }
-
-        const sortRaw = search.sort;
-        if (sortRaw !== undefined && sortRaw !== null) {
-            currentFilters.sort = String(sortRaw);
-        }
-
-        const order = search.order;
-        if (order) currentFilters.order = String(order);
-
-        if (!currentFilters.content_types) {
-            currentFilters.content_types = [contentType];
-        }
-
-        onCreateFromCurrent?.(currentFilters);
+        onCreateFromCurrent?.(presetFromSearch(search, contentType));
     };
 
     const handleEditPreset = (preset: FilterPreset) => {
@@ -118,10 +54,8 @@ const FilterPresetModal: FC<Props> = ({
     };
 
     const buildFilterPresetLink = (preset: FilterPreset) => {
-        const { id, name, description, ...rest } = preset;
-
         const params = new URLSearchParams();
-        Object.entries(rest).forEach(([key, val]) => {
+        Object.entries(presetToSearch(preset)).forEach(([key, val]) => {
             if (val === undefined || val === null) return;
             if (Array.isArray(val)) {
                 val.forEach((item) => {

@@ -18,6 +18,7 @@ import {
 import { cn } from '@/utils/cn';
 import { useRouteSearch } from '@/utils/navigation';
 
+import { presetFromSearch } from './preset-search-mapper';
 import FilterPresetEditModal from './presets/filter-preset-edit-modal';
 import type { FilterPreset } from './presets/types';
 import { useClearFilters } from './use-clear-filters';
@@ -46,64 +47,7 @@ const FiltersFooter: FC<FiltersFooterProps> = ({
     });
 
     const handleCreateFromCurrent = () => {
-        const next: Partial<FilterPreset> = {
-            name: '',
-            description: '',
-        };
-
-        const arrayStringKeys = [
-            'content_types',
-            'statuses',
-            'seasons',
-            'types',
-            'genres',
-            'ratings',
-            'studios',
-        ] as const;
-
-        arrayStringKeys.forEach((key) => {
-            const values = search[key];
-            if (Array.isArray(values) && values.length > 0) {
-                (next as Record<string, unknown>)[key] = values;
-            }
-        });
-
-        const arrayNumberKeys = ['years', 'date_range'] as const;
-        arrayNumberKeys.forEach((key) => {
-            const values = search[key];
-            if (Array.isArray(values) && values.length > 0) {
-                const numberValues = values.map((v: unknown) => Number(v));
-                next[key] = numberValues as unknown as NonNullable<
-                    FilterPreset[typeof key]
-                >;
-            }
-        });
-
-        if ('only_translated' in search && search.only_translated != null) {
-            next.only_translated =
-                search.only_translated === true ||
-                search.only_translated === 'true';
-        }
-        if (
-            'date_range_enabled' in search &&
-            search.date_range_enabled != null
-        ) {
-            next.date_range_enabled =
-                search.date_range_enabled === true ||
-                search.date_range_enabled === 'true';
-        }
-
-        const sort = search.sort;
-        if (typeof sort === 'string' && sort) next.sort = sort;
-
-        const order = search.order;
-        if (order) next.order = order as string;
-
-        if (!next.content_types && contentType) {
-            next.content_types = [contentType];
-        }
-
-        setCurrentFilters(next);
+        setCurrentFilters(presetFromSearch(search, contentType));
         setOpen(true);
     };
 

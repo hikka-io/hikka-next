@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 
+import { presetToSearch } from '../preset-search-mapper';
 import { useFilterPresetsStore } from './filter-presets-store';
 import type { FilterPreset } from './types';
 
@@ -27,12 +28,10 @@ const FilterPresets: FC<Props> = ({ className, content_type }) => {
     const router = useRouter();
 
     const handleApplyFilterPreset = (preset: FilterPreset) => {
-        const { id, name, description, content_types, ...rest } = preset;
-
         router.navigate({
             to: '.',
             search: (prev: Record<string, unknown>) => {
-                const next: Record<string, unknown> = { ...rest };
+                const next = presetToSearch(preset);
                 // Keep the active text query; presets define filters/sort only.
                 // `page` is intentionally dropped (reset to the first page).
                 if (prev.search) next.search = prev.search;

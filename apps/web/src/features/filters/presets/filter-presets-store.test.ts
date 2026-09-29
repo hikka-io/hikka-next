@@ -124,6 +124,98 @@ describe('useFilterPresetsStore', () => {
         expect(state.filterPresets[1].sort).toBeUndefined();
     });
 
+    it('loads a preset saved before score was copied unchanged', async () => {
+        const legacy = {
+            id: 'legacy',
+            name: 'Legacy',
+            description: 'Old preset',
+            content_types: ['anime', 'manga'],
+            statuses: ['finished'],
+            seasons: ['winter'],
+            types: ['tv'],
+            genres: ['action'],
+            ratings: ['pg_13'],
+            studios: ['studio'],
+            years: [2000, 2010],
+            only_translated: true,
+            date_range_enabled: false,
+            sort: 'score',
+            order: 'desc',
+        };
+        writeKey('filter-presets', { filterPresets: [legacy] });
+
+        const state = await loadStore();
+
+        expect(state.filterPresets).toEqual([legacy]);
+    });
+
+    it('keeps a saved score range and unknown keys', async () => {
+        writeKey('filter-presets', {
+            filterPresets: [
+                { ...preset('a'), score: [6, 9], future_key: { x: 1 } },
+            ],
+        });
+
+        const state = await loadStore();
+
+        expect(state.filterPresets[0]).toMatchObject({
+            score: [6, 9],
+            future_key: { x: 1 },
+        });
+    });
+
+    it('survives malformed stored presets without dropping the others', async () => {
+        writeKey('filter-presets', {
+            filterPresets: [
+                preset('a'),
+                null,
+                'junk',
+                {
+                    id: 'b',
+                    name: 'b',
+                    content_types: 'anime',
+                    score: 'high',
+                    genres: ['action'],
+                },
+                { name: 'no id' },
+                preset('c'),
+            ],
+        });
+
+        const state = await loadStore();
+
+        expect(state._hasHydrated).toBe(true);
+        expect(state.filterPresets.map((p) => p.name)).toEqual([
+            'a',
+            'b',
+            'no id',
+            'c',
+        ]);
+        expect(state.filterPresets[1]).toEqual({
+            id: 'b',
+            name: 'b',
+            content_types: [],
+            genres: ['action'],
+        });
+        expect(state.filterPresets[2].id).toEqual(expect.any(String));
+        expect(state.filterPresets[2].content_types).toEqual([]);
+        expect(
+            readKey('filter-presets').state.filterPresets.map(
+                (p: FilterPreset) => p.name,
+            ),
+        ).toEqual(['a', 'b', 'no id', 'c']);
+    });
+
+    it('falls back to the default when the stored list is not a list', async () => {
+        writeKey('filter-presets', { filterPresets: 'junk' });
+
+        const state = await loadStore();
+
+        expect(state.filterPresets.map((p) => p.id)).toEqual([
+            DEFAULT_PRESET_ID,
+        ]);
+    });
+
     it('falls back to the default on corrupt legacy JSON', async () => {
         localStorage.setItem('settings', '{not json');
 

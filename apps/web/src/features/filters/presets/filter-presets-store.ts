@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -39,6 +40,44 @@ const readLegacyFilterPresets = (): FilterPreset[] | undefined => {
     }
 };
 
+const stringList = z.array(z.string()).optional().catch(undefined);
+const numberList = z.array(z.number()).optional().catch(undefined);
+const flag = z.boolean().optional().catch(undefined);
+
+const storedFilterPresetSchema = z
+    .object({
+        id: z.string().catch(() => crypto.randomUUID()),
+        name: z.string().catch(''),
+        description: z.string().optional().catch(undefined),
+        content_types: z.array(z.string()).catch([]),
+        statuses: stringList,
+        seasons: stringList,
+        types: stringList,
+        genres: stringList,
+        ratings: stringList,
+        studios: stringList,
+        only_translated: flag,
+        // Migrate filter presets: sort was string[], now string
+        sort: z
+            .preprocess(
+                (sort) => (Array.isArray(sort) ? sort[0] : sort),
+                z.string().optional(),
+            )
+            .catch(undefined),
+        order: z.string().optional().catch(undefined),
+        years: numberList,
+        score: numberList,
+        date_range_enabled: flag,
+        date_range: z.array(z.number()).nullable().optional().catch(undefined),
+    })
+    .passthrough();
+
+const parseStoredFilterPresets = (presets: unknown[]): FilterPreset[] =>
+    presets.flatMap((preset) => {
+        const parsed = storedFilterPresetSchema.safeParse(preset);
+        return parsed.success ? [parsed.data as FilterPreset] : [];
+    });
+
 export type FilterPresetsStore = FilterPresetsState & FilterPresetsActions;
 
 export const useFilterPresetsStore = create<FilterPresetsStore>()(
@@ -63,17 +102,13 @@ export const useFilterPresetsStore = create<FilterPresetsStore>()(
                     | Partial<FilterPresetsState>
                     | undefined;
 
-                // Migrate filter presets: sort was string[], now string
-                const filterPresets = (
+                const stored: unknown =
                     persisted?.filterPresets ??
                     readLegacyFilterPresets() ??
-                    currentState.filterPresets
-                ).map((preset) => ({
-                    ...preset,
-                    sort: Array.isArray(preset.sort)
-                        ? (preset.sort[0] as string | undefined)
-                        : preset.sort,
-                }));
+                    currentState.filterPresets;
+                const filterPresets = Array.isArray(stored)
+                    ? parseStoredFilterPresets(stored)
+                    : currentState.filterPresets;
 
                 return {
                     ...currentState,
