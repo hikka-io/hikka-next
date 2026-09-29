@@ -19,7 +19,7 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { invalidateCollections } from '@/utils/api/invalidate-content-state';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';

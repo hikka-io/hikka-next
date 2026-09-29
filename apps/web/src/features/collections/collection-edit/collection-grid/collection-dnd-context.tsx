@@ -15,7 +15,7 @@ import {
 } from '@dnd-kit/core';
 
 import PosterCard from '@/components/content-card/poster-card';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 
 import { useCollectionStore } from '../collection-provider';
 import type { Group, Item } from '../collection-store';

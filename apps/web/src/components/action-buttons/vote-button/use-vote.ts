@@ -6,7 +6,7 @@ import {
     type VoteContentTypeEnum,
 } from '@hikka/api';
 
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { invalidateVote } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 

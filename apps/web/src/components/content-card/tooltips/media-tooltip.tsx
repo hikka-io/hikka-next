@@ -18,8 +18,7 @@ import {
     TrackingButtonsGroup,
     WatchListButton,
 } from '@/components/tracking';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useSession, useTitle } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { getMediaTypeLabel } from '@/utils/labels';

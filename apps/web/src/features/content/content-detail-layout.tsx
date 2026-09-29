@@ -3,7 +3,7 @@ import type { FC, PropsWithChildren } from 'react';
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useSessionUI } from '@/services/session';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { type NavRoute, usePathname } from '@/utils/navigation';
 

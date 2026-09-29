@@ -17,9 +17,11 @@ import { Checkbox } from '@/components/ui/checkbox';
 import EmptyState from '@/components/ui/empty-state';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
+import {
+    useSession,
+    useSessionUI,
+    useUpdateSessionUI,
+} from '@/services/session';
 import { cn } from '@/utils/cn';
 
 import type { WidgetProps } from '../../types';

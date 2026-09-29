@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { Link, useParams } from '@/utils/navigation';
 
 import CropEditorModal from '../crop-editor-modal';

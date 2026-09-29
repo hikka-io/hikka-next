@@ -14,7 +14,7 @@ import { validateRedirectUrl } from '@/utils/url';
 import Captcha from './captcha';
 import GoogleLogin from './google-login';
 import { handleAuthSuccess } from './handle-auth-success';
-import { useCaptcha } from './hooks/use-captcha';
+import { useCaptcha } from './use-captcha';
 
 const formSchema = z.object({
     identifier: z.string().min(5),

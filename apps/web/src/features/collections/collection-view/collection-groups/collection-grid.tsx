@@ -20,9 +20,9 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
+import { useSessionUI } from '@/services/session';
 import { getTitle } from '@/utils/title/get-title';
 
 const ASPECT_RATIO = String(DEFAULT_CONTAINER_RATIO);

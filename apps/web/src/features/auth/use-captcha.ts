@@ -2,7 +2,7 @@ import { useRef } from 'react';
 
 import type { TurnstileInstance } from '@marsidev/react-turnstile';
 
-import { getCaptchaToken } from '../captcha-config';
+import { getCaptchaToken } from './captcha-config';
 
 /**
  * Turnstile captcha wiring shared by the login and signup forms: owns the

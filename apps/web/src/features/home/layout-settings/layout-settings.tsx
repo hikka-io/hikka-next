@@ -25,8 +25,7 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 import { Separator } from '@/components/ui/separator';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
+import { useSessionUI, useUpdateSessionUI } from '@/services/session';
 import { cn } from '@/utils/cn';
 
 import {

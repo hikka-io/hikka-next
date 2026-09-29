@@ -7,7 +7,7 @@ import { requestTokenMutation } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 
 type Props = {};
 

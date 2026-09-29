@@ -3,7 +3,7 @@ import { type FC, memo } from 'react';
 import type { AnimeScheduleResponse } from '@hikka/api';
 
 import { WatchListButton } from '@/components/tracking';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
 

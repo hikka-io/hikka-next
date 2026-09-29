@@ -14,8 +14,8 @@ import {
     ContextMenuSeparator,
     ContextMenuTrigger,
 } from '@/components/ui/context-menu';
-import { useSession } from '@/features/auth/hooks/use-session';
 import { useQuickEdit } from '@/features/edit/quick-edit';
+import { useSession } from '@/services/session';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 

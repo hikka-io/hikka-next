@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
+import { useSessionUI, useUpdateSessionUI } from '@/services/session';
 import {
     applyBackdrop,
     clearLivePreview,

@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { characterAnimeOptions, characterInfoOptions } from '@hikka/api';
 
 import { MDViewer } from '@/components/markdown';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 
 import PosterCard from '../poster-card';
 import HoverCardWrapper from './hover-card-wrapper';

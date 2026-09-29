@@ -15,8 +15,7 @@ import {
 } from '@/components/horizontal-card';
 import { ReadListButton, WatchListButton } from '@/components/tracking';
 import Card from '@/components/ui/card';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useSession, useTitle } from '@/services/session';
 import { getMediaTypeLabel } from '@/utils/labels';
 
 type Props = {

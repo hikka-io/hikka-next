@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react';
 
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useSessionUI } from '@/services/session';
 import type { UIEffect } from '@/utils/customization';
 
 const SnowfallEffect = lazy(() => import('./snowfall-effect'));

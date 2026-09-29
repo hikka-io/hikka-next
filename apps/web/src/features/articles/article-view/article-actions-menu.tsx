@@ -8,7 +8,7 @@ import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-sym
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import PageActionsMenu from '@/components/page-actions-menu';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link, useParams } from '@/utils/navigation';
 

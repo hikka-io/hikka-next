@@ -12,7 +12,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 
 import { useArticleContext } from '../../article-provider';

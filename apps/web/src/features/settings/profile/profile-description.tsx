@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { API_LIMITS, changeDescriptionMutation } from '@hikka/api';
 
 import { SubmitButton, useAppForm } from '@/components/form';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { z } from '@/utils/i18n/zod';
 

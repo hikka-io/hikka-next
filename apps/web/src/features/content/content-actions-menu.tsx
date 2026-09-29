@@ -7,8 +7,8 @@ import type { EditContentTypeEnum } from '@hikka/api';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import PageActionsMenu from '@/components/page-actions-menu';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { useSession } from '@/features/auth/hooks/use-session';
 import { useQuickEdit } from '@/features/edit';
+import { useSession } from '@/services/session';
 import { Link } from '@/utils/navigation';
 
 type Props = {

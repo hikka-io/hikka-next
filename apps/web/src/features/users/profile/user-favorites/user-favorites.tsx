@@ -20,7 +20,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { CONTENT_TYPES } from '@/utils/labels';
 import { useParams } from '@/utils/navigation';
 

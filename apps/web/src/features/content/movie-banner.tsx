@@ -8,7 +8,7 @@ import { animeSlugOptions } from '@hikka/api';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { Link, useParams } from '@/utils/navigation';
 import { type PlausibleEvents, usePlausible } from '@/utils/plausible';
 

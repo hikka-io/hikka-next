@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import Image from '@/components/ui/image';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useSessionUI } from '@/services/session';
 
 type Props = {
     cover?: string | null;

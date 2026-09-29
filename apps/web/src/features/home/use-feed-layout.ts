@@ -2,8 +2,7 @@ import { useMemo } from 'react';
 
 import type { UiFeedWidget } from '@hikka/api';
 
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useSession, useSessionUI } from '@/services/session';
 
 import { groupBySide } from './layout';
 import type { SupportedWidgetSlug } from './types';

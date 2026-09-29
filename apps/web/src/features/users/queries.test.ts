@@ -68,9 +68,9 @@ vi.mock('@/utils/api/use-infinite-list', () => ({
     },
 }));
 
-vi.mock('@/features/auth/hooks/use-session', async (importOriginal) => ({
+vi.mock('@/services/session/use-session', async (importOriginal) => ({
     ...(await importOriginal<
-        typeof import('@/features/auth/hooks/use-session')
+        typeof import('@/services/session/use-session')
     >()),
     useSession: () => ({ user: undefined }),
 }));

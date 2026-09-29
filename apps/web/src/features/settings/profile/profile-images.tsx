@@ -12,8 +12,8 @@ import Image from '@/components/ui/image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
-import { useSession } from '@/features/auth/hooks/use-session';
 import { CropEditorModal } from '@/features/users';
+import { useSession } from '@/services/session';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 

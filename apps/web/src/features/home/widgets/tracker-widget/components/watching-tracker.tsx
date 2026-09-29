@@ -14,9 +14,8 @@ import StatusWatching from '@/components/icons/list-status/StatusWatching';
 import { ListEntryEditDialog } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
-import { useSession } from '@/features/auth/hooks/use-session';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
+import { useSession, useSessionUI } from '@/services/session';
 import {
     invalidateWatchState,
     writeWatchToCaches,

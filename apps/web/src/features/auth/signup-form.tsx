@@ -17,7 +17,7 @@ import { useRouter } from '@/utils/navigation';
 import Captcha from './captcha';
 import GoogleLogin from './google-login';
 import { handleAuthSuccess } from './handle-auth-success';
-import { useCaptcha } from './hooks/use-captcha';
+import { useCaptcha } from './use-captcha';
 
 const formSchema = z
     .object({

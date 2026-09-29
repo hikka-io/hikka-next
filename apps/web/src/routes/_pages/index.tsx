@@ -21,9 +21,9 @@ import {
 } from '@hikka/api';
 
 import { CoverImage, usePageHeader } from '@/features/app-shell';
-import { useSession } from '@/features/auth/hooks/use-session';
 import { FeedLayout, HomeHeaderActions } from '@/features/home';
 import { ongoingsOptions } from '@/features/home/queries';
+import { useSession } from '@/services/session';
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';

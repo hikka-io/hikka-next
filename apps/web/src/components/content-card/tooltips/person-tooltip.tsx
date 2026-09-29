@@ -12,7 +12,7 @@ import {
 
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import { MDViewer } from '@/components/markdown';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 
 import { contentEntity } from '../entity';
 import EntityCard from '../entity-card';

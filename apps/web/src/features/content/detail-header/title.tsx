@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import ContentGenres from '@/components/content-genres';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';

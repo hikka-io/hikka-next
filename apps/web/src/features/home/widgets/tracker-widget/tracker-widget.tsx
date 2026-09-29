@@ -11,7 +11,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 
 import type { WidgetProps } from '../../types';
 import ReadingTracker from './components/reading-tracker';

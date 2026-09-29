@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 
-import { useSession } from '@/features/auth/hooks/use-session';
 import {
     ArticleCategoryFilter,
     ArticleDraftsFilter,
@@ -9,6 +8,7 @@ import {
     TagFilter,
     UserFilter,
 } from '@/features/filters';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 
 type Props = {

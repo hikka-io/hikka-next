@@ -7,7 +7,7 @@ import type { MangaInfoResponse, NovelInfoResponse } from '@hikka/api';
 import { ReleaseStatusBadge } from '@/components/badges';
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { getMediaTypeLabel } from '@/utils/labels';
 import { Link } from '@/utils/navigation';

@@ -8,8 +8,8 @@ import FollowButton from '@/components/action-buttons/follow-button';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { useSession } from '@/features/auth/hooks/use-session';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 

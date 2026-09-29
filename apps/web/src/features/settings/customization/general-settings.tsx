@@ -14,8 +14,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
+import { useSessionUI, useUpdateSessionUI } from '@/services/session';
 import { useTheme } from '@/services/theme-provider';
 import { clearNsfwConsent } from '@/utils/cookies';
 

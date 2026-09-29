@@ -8,7 +8,7 @@ import PosterCard from '@/components/content-card/poster-card';
 import { MaterialSymbolsStarRounded } from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { getMediaTypeLabel, RELEASE_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';

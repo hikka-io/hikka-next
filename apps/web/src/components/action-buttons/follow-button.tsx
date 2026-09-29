@@ -15,7 +15,7 @@ import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-
 import MaterialSymbolsPersonRemoveOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonRemoveOutlineRounded';
 import { Button, type buttonVariants } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { invalidateFollow } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';

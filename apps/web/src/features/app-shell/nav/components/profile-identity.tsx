@@ -3,7 +3,7 @@ import type { FC, MouseEvent } from 'react';
 import { ChevronRight } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import type { SessionUser } from '@/features/auth/hooks/use-session';
+import type { SessionUser } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { USER_ROLE } from '@/utils/labels';
 import { Link } from '@/utils/navigation';

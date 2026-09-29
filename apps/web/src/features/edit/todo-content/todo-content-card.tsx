@@ -31,7 +31,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSession, useTitle } from '@/features/auth';
+import { useSession, useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { contentPath } from '@/utils/content-paths';
 import { getMediaTypeLabel, RELEASE_STATUS } from '@/utils/labels';

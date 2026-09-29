@@ -6,12 +6,12 @@ import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/Materi
 import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
 import MaterialSymbolsSearchRounded from '@/components/icons/material-symbols/MaterialSymbolsSearchRounded';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useSession } from '@/features/auth/hooks/use-session';
 import {
     NotificationCountBadge,
     NotificationsMenu,
 } from '@/features/notifications';
 import { SearchModal } from '@/features/search';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { Link, usePathname } from '@/utils/navigation';
 

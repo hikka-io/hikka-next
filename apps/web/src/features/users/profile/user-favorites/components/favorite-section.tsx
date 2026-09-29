@@ -26,7 +26,7 @@ import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-sy
 import LoadMoreButton from '@/components/load-more-button';
 import EmptyState from '@/components/ui/empty-state';
 import Stack from '@/components/ui/stack';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useSessionUI } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';

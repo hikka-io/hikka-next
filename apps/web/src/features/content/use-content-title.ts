@@ -1,6 +1,6 @@
 import type { ContentTypeEnum } from '@hikka/api';
 
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useSessionUI } from '@/services/session';
 import { getContentTitle } from '@/utils/title/get-content-title';
 
 /**

@@ -12,7 +12,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 
 import ReadEditForm from './read-edit-form';
 import WatchEditForm from './watch-edit-form';

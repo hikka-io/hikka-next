@@ -9,9 +9,9 @@ import {
 
 import Block from '@/components/ui/block';
 import { usePageHeader } from '@/features/app-shell';
-import { useTitle } from '@/features/auth/hooks/use-title';
 import { commentListPrefetchBody } from '@/features/comments/queries';
 import { EditContent, EditTimeline } from '@/features/edit';
+import { useTitle } from '@/services/session';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { usePathname } from '@/utils/navigation';
 

@@ -15,7 +15,7 @@ import { ListEntryEditDialog } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { TableCell } from '@/components/ui/table';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 

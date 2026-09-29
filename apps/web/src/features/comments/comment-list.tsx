@@ -23,8 +23,8 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { LoginButton } from '@/features/auth';
-import { useSession } from '@/features/auth/hooks/use-session';
 import { Sort } from '@/features/filters';
+import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';

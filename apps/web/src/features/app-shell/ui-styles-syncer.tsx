@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
+import { useSessionUI } from '@/services/session';
 import { applyBackdrop, applyStyles } from '@/utils/customization';
 
 /**

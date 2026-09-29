@@ -14,8 +14,8 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { useSession } from '@/features/auth/hooks/use-session';
 import { ClearFiltersFooter } from '@/features/filters';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { RELEASE_STATUS, SEASON } from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';

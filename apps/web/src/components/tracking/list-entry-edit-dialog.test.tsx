@@ -14,7 +14,7 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 import { getTitle } from '@/utils/title/get-title';
 
 import ListEntryEditDialog from './list-entry-edit-dialog';
@@ -40,7 +40,7 @@ const { PREFERENCES, stubForm } = vi.hoisted(() => ({
 }));
 
 vi.mock('@/services/hooks/use-back-close', () => ({ useBackClose: () => {} }));
-vi.mock('@/features/auth/hooks/use-session-ui', () => ({
+vi.mock('@/services/session/use-session-ui', () => ({
     useSessionUI: () => ({ preferences: PREFERENCES }),
 }));
 vi.mock('./watch-edit-form', () => ({ default: stubForm('watch') }));

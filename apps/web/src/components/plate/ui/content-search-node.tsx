@@ -21,8 +21,8 @@ import {
     searchPeopleOptions,
 } from '@hikka/api';
 
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
+import { useSessionUI } from '@/services/session';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { SYMBOL_FORMS } from '@/utils/i18n/word-forms';
 import { CONTENT_TYPES } from '@/utils/labels';

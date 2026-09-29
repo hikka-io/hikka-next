@@ -45,7 +45,7 @@ vi.mock('@/utils/api/use-infinite-list', () => ({
     },
 }));
 
-vi.mock('@/features/auth/hooks/use-session-ui', () => ({
+vi.mock('@/services/session/use-session-ui', () => ({
     useSessionUI: () => ({
         preferences: { title_language: 'title_en', name_language: 'name_en' },
     }),

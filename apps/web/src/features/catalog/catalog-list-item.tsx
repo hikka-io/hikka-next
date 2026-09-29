@@ -18,7 +18,7 @@ import { InlineScores } from '@/components/inline-scores';
 import MagazineTitleLink from '@/components/magazine-title-link';
 import { TrackingButtonsGroup } from '@/components/tracking';
 import { Separator } from '@/components/ui/separator';
-import { useTitle } from '@/features/auth';
+import { useTitle } from '@/services/session';
 import { getMediaTypeLabel, RELEASE_STATUS } from '@/utils/labels';
 
 type Props =

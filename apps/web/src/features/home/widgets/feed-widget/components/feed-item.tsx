@@ -11,7 +11,7 @@ import {
 } from '@hikka/api';
 
 import { HorizontalCardImage } from '@/components/horizontal-card';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 
 import FeedItemArticle from './feed-item-article';
 import FeedItemCollection from './feed-item-collection';

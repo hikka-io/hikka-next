@@ -14,7 +14,7 @@ import type { UiFeedWidget } from '@hikka/api';
 import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/ui/chip';
 import { SELECTED_TINT } from '@/components/ui/selected-tint';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 
 import LayoutSettings from './layout-settings/layout-settings';

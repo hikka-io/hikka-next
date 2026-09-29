@@ -22,7 +22,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
 import { AGE_RATING, getMediaTypeLabel, SEASON } from '@/utils/labels';

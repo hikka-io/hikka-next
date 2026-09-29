@@ -9,7 +9,7 @@ import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import Spinner from '@/components/ui/spinner';
 import { StatItem } from '@/components/ui/stat-item';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { REPLY_FORMS } from '@/utils/i18n/word-forms';

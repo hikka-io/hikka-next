@@ -4,7 +4,7 @@ import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import { AnimeCard, MangaCard, NovelCard } from '@/components/content-card';
 import type { StackSize } from '@/components/ui/stack';
-import { useSessionUI } from '@/features/auth';
+import { useSessionUI } from '@/services/session';
 import { getTitle } from '@/utils/title/get-title';
 
 import CatalogListItem from './catalog-list-item';

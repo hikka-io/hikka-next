@@ -17,7 +17,7 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 import { Textarea } from '@/components/ui/textarea';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 import { cn } from '@/utils/cn';
 
 import type { Item } from '../collection-store';

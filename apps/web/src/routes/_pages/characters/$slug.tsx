@@ -2,13 +2,13 @@ import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import { useTitle } from '@/features/auth/hooks/use-title';
 import { ContentDetailLayout } from '@/features/content';
 import {
     entityDetailHead,
     loadEntityDetail,
 } from '@/features/content/detail-route';
 import { CHARACTER_NAV_ROUTES } from '@/features/entities';
+import { useTitle } from '@/services/session';
 
 export const Route = createFileRoute('/_pages/characters/$slug')({
     loader: ({ params, context }) =>

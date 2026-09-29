@@ -5,7 +5,7 @@ import { useRouter } from '@tanstack/react-router';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 import type { HistorySearch } from '@/utils/search-schemas';

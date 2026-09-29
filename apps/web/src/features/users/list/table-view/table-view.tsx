@@ -17,7 +17,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
 

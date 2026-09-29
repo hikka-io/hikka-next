@@ -5,7 +5,7 @@ import { getAuthToken } from '@hikka/api';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from '@/components/ui/image';
-import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
+import { useUpdateSessionUI } from '@/services/session';
 import {
     COOKIE,
     grantNsfwSessionConsent,

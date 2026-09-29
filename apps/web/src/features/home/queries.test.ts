@@ -51,9 +51,9 @@ vi.mock('@/utils/api/use-infinite-list', () => ({
     },
 }));
 
-vi.mock('@/features/auth/hooks/use-session-ui', async (importOriginal) => ({
+vi.mock('@/services/session/use-session-ui', async (importOriginal) => ({
     ...(await importOriginal<
-        typeof import('@/features/auth/hooks/use-session-ui')
+        typeof import('@/services/session/use-session-ui')
     >()),
     useSessionUI: () => ({
         preferences: { title_language: 'title_ua', name_language: 'name_ua' },

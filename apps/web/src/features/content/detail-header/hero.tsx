@@ -4,7 +4,7 @@ import type { MainContentTypeEnum } from '@hikka/api';
 
 import ContentGenres from '@/components/content-genres';
 import { usePageTitleAnchor } from '@/features/app-shell';
-import { useTitle } from '@/features/auth/hooks/use-title';
+import { useTitle } from '@/services/session';
 import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 

@@ -1,8 +1,7 @@
 import { RotateCcw } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
+import { useSessionUI, useUpdateSessionUI } from '@/services/session';
 import { cn } from '@/utils/cn';
 import {
     clearLivePreview,

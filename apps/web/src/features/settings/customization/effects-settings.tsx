@@ -1,8 +1,7 @@
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
 import { EFFECT_IDS, EFFECTS } from '@/features/effects';
+import { useSessionUI, useUpdateSessionUI } from '@/services/session';
 import type { UIEffect } from '@/utils/customization';
 
 const EffectsSettings = () => {

@@ -2,7 +2,7 @@ import { lazy, Suspense, useState } from 'react';
 
 import { type ContentTypeEnum, EditContentTypeEnum } from '@hikka/api';
 
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 
 const QuickEditModal = lazy(() => import('./quick-edit-modal'));
 

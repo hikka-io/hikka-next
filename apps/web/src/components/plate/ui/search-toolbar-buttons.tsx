@@ -5,8 +5,8 @@ import { useEditorRef } from 'platejs/react';
 
 import { ContentTypeEnum, type UserResponse } from '@hikka/api';
 
-import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { type SearchContent, SearchModal } from '@/features/search';
+import { useSessionUI } from '@/services/session';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { getTitle } from '@/utils/title/get-title';
 

@@ -13,7 +13,7 @@ import { useQuickEdit } from './use-quick-edit';
 
 const session = vi.hoisted(() => ({ moderator: false }));
 
-vi.mock('@/features/auth/hooks/use-session', () => ({
+vi.mock('@/services/session/use-session', () => ({
     useSession: () => ({ isModerator: () => session.moderator }),
 }));
 

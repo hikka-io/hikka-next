@@ -7,7 +7,7 @@ import { getArticleOptions, VoteContentTypeEnum } from '@hikka/api';
 import CommentsCountButton from '@/components/action-buttons/comments-count-button';
 import VoteButton from '@/components/action-buttons/vote-button';
 import Card from '@/components/ui/card';
-import { useSession } from '@/features/auth/hooks/use-session';
+import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 

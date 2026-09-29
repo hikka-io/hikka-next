@@ -17,9 +17,9 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { useSession } from '@/features/auth/hooks/use-session';
 import { CollectionListModal } from '@/features/collections';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';
