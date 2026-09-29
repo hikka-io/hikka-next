@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
+import type { EditSearch } from '@/utils/search-schemas';
 
 import { useChangeParam } from './use-change-param';
 
@@ -25,7 +26,7 @@ type Props = {
 };
 
 const ContentTypeFilter: FC<Props> = ({ contentTypes }) => {
-    const { content_type } = useRouteSearch<{ content_type?: string }>();
+    const { content_type } = useRouteSearch<Pick<EditSearch, 'content_type'>>();
 
     const handleChangeParam = useChangeParam();
 

@@ -2,10 +2,11 @@ import { useRouter } from '@tanstack/react-router';
 
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { useRouteSearch } from '@/utils/navigation';
+import type { CollectionsSearch } from '@/utils/search-schemas';
 
 const CollectionSort = () => {
     const router = useRouter();
-    const search = useRouteSearch<{ sort?: string | string[] }>();
+    const search = useRouteSearch<Pick<CollectionsSearch, 'sort'>>();
 
     const sortRaw = search.sort;
     const sort = sortRaw

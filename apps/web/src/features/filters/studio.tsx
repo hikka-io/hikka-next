@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/select';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useRouteSearch } from '@/utils/navigation';
+import type { AnimeFilterSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
@@ -34,7 +35,8 @@ type Props = {
 };
 
 const Studio: FC<Props> = () => {
-    const { studios = [] } = useRouteSearch<{ studios?: string[] }>();
+    const { studios = [] } =
+        useRouteSearch<Pick<AnimeFilterSearch, 'studios'>>();
 
     const [studioSearch, setStudioSearch] = useState<string>();
     const { list, isFetching: isStudioListFetching } = useInfiniteList(

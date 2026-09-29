@@ -11,6 +11,7 @@ import LoadMoreButton from '@/components/load-more-button';
 import type { StackSize } from '@/components/ui/stack';
 import { CatalogSummary, useCatalogView } from '@/features/catalog';
 import { useRouteSearch } from '@/utils/navigation';
+import type { UserlistSearch } from '@/utils/search-schemas';
 
 import GridView from './components/grid-view';
 import RecordsNotFound from './components/records-not-found';
@@ -24,7 +25,7 @@ type Props = {
 };
 
 const List: FC<Props> = ({ content_type, extendedSize }) => {
-    const search = useRouteSearch<{ status?: string }>();
+    const search = useRouteSearch<Pick<UserlistSearch, 'status'>>();
     const { view } = useCatalogView('userlist');
     const isAnime = content_type === ContentTypeEnum.ANIME;
 

@@ -5,6 +5,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { Input } from '@/components/ui/input';
 import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { useRouteSearch } from '@/utils/navigation';
+import type { TextSearch } from '@/utils/search-schemas';
 
 type Props = {
     placeholder: string;
@@ -12,7 +13,7 @@ type Props = {
 
 const SearchInput: FC<Props> = ({ placeholder }) => {
     const navigate = useNavigate();
-    const { search: query } = useRouteSearch<{ search?: string }>();
+    const { search: query } = useRouteSearch<TextSearch>();
 
     const [search, setSearch] = useState(query);
     const [debouncedSearch] = useDebounce({

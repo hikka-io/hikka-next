@@ -11,6 +11,7 @@ import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/Mate
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useRouteSearch } from '@/utils/navigation';
+import type { ContentFilterSearch } from '@/utils/search-schemas';
 
 import { SCORE_RANGE } from './filter-ranges';
 import { filterPresetFormOptions } from './presets/filter-preset-form';
@@ -25,8 +26,11 @@ type Props = {
 };
 
 const Score: FC<Props> = ({ score_type }) => {
-    const search = useRouteSearch<Record<string, unknown>>();
-    const scores = (search[score_type] as number[] | undefined) ?? [];
+    const search =
+        useRouteSearch<
+            Record<Props['score_type'], ContentFilterSearch['score']>
+        >();
+    const scores = search[score_type] ?? [];
 
     const [selectingScores, setSelectingScores] = useState<number[]>(
         scores.length > 0 ? scores : [DEFAULT_SCORE_MIN, DEFAULT_SCORE_MAX],

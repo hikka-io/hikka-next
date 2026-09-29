@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/select';
 import { GENRE_TYPES } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
+import type { ContentFilterSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
@@ -33,7 +34,8 @@ type Props = {
 };
 
 const Genre: FC<Props> = () => {
-    const { genres = [] } = useRouteSearch<{ genres?: string[] }>();
+    const { genres = [] } =
+        useRouteSearch<Pick<ContentFilterSearch, 'genres'>>();
 
     const handleChangeParam = useChangeParam();
     const { data: genreList } = useQuery({

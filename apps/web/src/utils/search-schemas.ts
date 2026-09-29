@@ -178,7 +178,28 @@ export const oauthSearchSchema = z.object({
     scope: z.string().optional().catch(undefined),
 });
 
+export const loginSearchSchema = z.object({
+    callbackUrl: z.string().optional().catch(undefined),
+});
+
+export const historySearchSchema = z.object({
+    type: z.string().optional().catch(undefined),
+});
+
+export const favoritesSearchSchema = z.object({
+    type: z
+        .enum(['anime', 'manga', 'novel', 'character', 'person', 'collection'])
+        .optional()
+        .catch(undefined),
+});
+
 // Type exports for consumers
+export type SortOrderSearch = z.infer<z.ZodObject<typeof sortOrderSearch>>;
+export type TextSearch = z.infer<z.ZodObject<typeof textSearch>>;
+export type ContentFilterSearch = z.infer<
+    z.ZodObject<typeof contentFilterSearch>
+>;
+export type AnimeFilterSearch = z.infer<z.ZodObject<typeof animeFilterSearch>>;
 export type AnimeSearch = z.infer<typeof animeSearchSchema>;
 export type MangaSearch = z.infer<typeof mangaSearchSchema>;
 export type NovelSearch = z.infer<typeof novelSearchSchema>;
@@ -186,4 +207,7 @@ export type ScheduleSearch = z.infer<typeof scheduleSearchSchema>;
 export type ArticlesSearch = z.infer<typeof articlesSearchSchema>;
 export type EditSearch = z.infer<typeof editSearchSchema>;
 export type EditContentSearch = z.infer<typeof editContentSearchSchema>;
+export type CollectionsSearch = z.infer<typeof collectionsSearchSchema>;
 export type UserlistSearch = z.infer<typeof userlistSearchSchema>;
+export type LoginSearch = z.infer<typeof loginSearchSchema>;
+export type HistorySearch = z.infer<typeof historySearchSchema>;

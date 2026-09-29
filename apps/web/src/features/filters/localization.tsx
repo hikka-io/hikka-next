@@ -10,6 +10,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useRouteSearch } from '@/utils/navigation';
+import type { ContentFilterSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
@@ -19,9 +20,8 @@ type Props = {
 };
 
 const Localization: FC<Props> = () => {
-    const { only_translated } = useRouteSearch<{
-        only_translated?: boolean;
-    }>();
+    const { only_translated } =
+        useRouteSearch<Pick<ContentFilterSearch, 'only_translated'>>();
 
     const handleChangeParam = useChangeParam();
 

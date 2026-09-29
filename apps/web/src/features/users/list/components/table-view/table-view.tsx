@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/table';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useParams, useRouteSearch } from '@/utils/navigation';
+import type { UserlistSearch } from '@/utils/search-schemas';
 
 import ChaptersCell from './chapters-cell';
 import DetailsCell from './details-cell';
@@ -35,10 +36,7 @@ type Props = {
 };
 
 const TableView: FC<Props> = ({ data, content_type }) => {
-    const search = useRouteSearch<{
-        order?: string;
-        sort?: string | string[];
-    }>();
+    const search = useRouteSearch<Pick<UserlistSearch, 'order' | 'sort'>>();
     const router = useRouter();
     const params = useParams();
     const { user } = useSession();

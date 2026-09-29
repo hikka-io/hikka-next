@@ -16,6 +16,7 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useRouteSearch } from '@/utils/navigation';
+import type { AnimeFilterSearch } from '@/utils/search-schemas';
 import { DATE_RANGE } from '@/utils/season';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
@@ -53,10 +54,10 @@ const DATE_RANGES: Record<DateRangeEnum, string> = {
 
 const DateRange = (_props: Props) => {
     const router = useRouter();
-    const { date_range_enabled, date_range = [] } = useRouteSearch<{
-        date_range_enabled?: boolean;
-        date_range?: number[];
-    }>();
+    const { date_range_enabled, date_range = [] } =
+        useRouteSearch<
+            Pick<AnimeFilterSearch, 'date_range_enabled' | 'date_range'>
+        >();
 
     const [selectingDateRange, setSelectingDateRange] = useState<number[]>(
         date_range.length > 0 ? date_range : DATE_RANGE,

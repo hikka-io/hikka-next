@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import PasswordInput from '@/components/ui/password-input';
 import { z } from '@/utils/i18n/zod';
 import { Link, useRouter, useRouteSearch } from '@/utils/navigation';
+import type { LoginSearch } from '@/utils/search-schemas';
 import { validateRedirectUrl } from '@/utils/url';
 
 import Captcha from './captcha';
@@ -26,9 +27,7 @@ const formSchema = z.object({
 
 const LoginForm = () => {
     const queryClient = useQueryClient();
-    const { callbackUrl: callbackUrlParam } = useRouteSearch<{
-        callbackUrl?: string;
-    }>();
+    const { callbackUrl: callbackUrlParam } = useRouteSearch<LoginSearch>();
     const { captchaRef, getToken, reset } = useCaptcha();
     const router = useRouter();
 

@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 import { useRouteSearch } from '@/utils/navigation';
+import type { SortOrderSearch } from '@/utils/search-schemas';
 import { getSort, type SortType } from '@/utils/sort';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
@@ -77,10 +78,7 @@ const Sort: FC<Props> = ({
     onSortChange,
     onOrderChange,
 }) => {
-    const search = useRouteSearch<{
-        order?: string;
-        sort?: string;
-    }>();
+    const search = useRouteSearch<Pick<SortOrderSearch, 'order' | 'sort'>>();
 
     const handleChangeParam = useChangeParam();
 

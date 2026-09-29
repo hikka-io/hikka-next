@@ -11,6 +11,7 @@ import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 import { AGE_RATING } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
+import type { AnimeFilterSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
@@ -20,7 +21,8 @@ type Props = {
 };
 
 const AgeRating: FC<Props> = () => {
-    const { ratings = [] } = useRouteSearch<{ ratings?: string[] }>();
+    const { ratings = [] } =
+        useRouteSearch<Pick<AnimeFilterSearch, 'ratings'>>();
 
     const handleChangeParam = useChangeParam();
 

@@ -11,6 +11,7 @@ import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 import { SEASON } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
+import type { AnimeFilterSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
@@ -20,10 +21,10 @@ type Props = {
 };
 
 const Season: FC<Props> = () => {
-    const { seasons = [], date_range_enabled } = useRouteSearch<{
-        seasons?: string[];
-        date_range_enabled?: boolean;
-    }>();
+    const { seasons = [], date_range_enabled } =
+        useRouteSearch<
+            Pick<AnimeFilterSearch, 'seasons' | 'date_range_enabled'>
+        >();
 
     const handleChangeParam = useChangeParam();
 

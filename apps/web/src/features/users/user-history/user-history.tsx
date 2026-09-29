@@ -8,6 +8,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { cn } from '@/utils/cn';
 import { useParams, useRouteSearch } from '@/utils/navigation';
+import type { HistorySearch } from '@/utils/search-schemas';
 
 import FollowingHistory from './components/following-history';
 import History from './components/history';
@@ -19,7 +20,7 @@ type Props = {
 const UserHistory: FC<Props> = ({ className }) => {
     const params = useParams();
     const router = useRouter();
-    const { type: searchType } = useRouteSearch<{ type?: string }>();
+    const { type: searchType } = useRouteSearch<HistorySearch>();
     const { user: loggedUser } = useSession();
 
     const type = searchType || 'user';
@@ -29,7 +30,7 @@ const UserHistory: FC<Props> = ({ className }) => {
             to: '.',
             search: { type: value },
             replace: true,
-        } as any);
+        });
     };
 
     return (

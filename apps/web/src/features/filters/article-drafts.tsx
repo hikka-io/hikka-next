@@ -5,6 +5,7 @@ import { Eye } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useRouteSearch } from '@/utils/navigation';
+import type { ArticlesSearch } from '@/utils/search-schemas';
 
 import { useChangeParam } from './use-change-param';
 
@@ -13,7 +14,7 @@ type Props = {
 };
 
 const ArticleDraftsFilter: FC<Props> = () => {
-    const { draft } = useRouteSearch<{ draft?: boolean }>();
+    const { draft } = useRouteSearch<Pick<ArticlesSearch, 'draft'>>();
 
     const handleChangeParam = useChangeParam();
 

@@ -13,6 +13,7 @@ import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 import { ANIME_MEDIA_TYPE, MEDIA_TYPE_BY_CONTENT_TYPE } from '@/utils/labels';
 import { useRouteSearch } from '@/utils/navigation';
+import type { ContentFilterSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
@@ -23,7 +24,7 @@ type Props = {
 };
 
 const MediaType: FC<Props> = ({ content_type }) => {
-    const { types = [] } = useRouteSearch<{ types?: string[] }>();
+    const { types = [] } = useRouteSearch<Pick<ContentFilterSearch, 'types'>>();
 
     const handleChangeParam = useChangeParam();
 

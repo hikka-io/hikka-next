@@ -10,12 +10,13 @@ import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { useChangeParam } from '@/features/filters';
 import { useRouteSearch } from '@/utils/navigation';
+import type { ArticlesSearch } from '@/utils/search-schemas';
 
 type Props = {};
 
 const PopularTags: FC<Props> = () => {
     const { data: articleTop } = useQuery(getArticleTopOptions());
-    const search = useRouteSearch<{ tags?: string | string[] }>();
+    const search = useRouteSearch<Pick<ArticlesSearch, 'tags'>>();
     const tags = search.tags
         ? Array.isArray(search.tags)
             ? search.tags

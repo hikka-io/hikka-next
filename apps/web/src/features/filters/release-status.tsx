@@ -11,6 +11,7 @@ import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 import { RELEASE_STATUS } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
+import type { ContentFilterSearch } from '@/utils/search-schemas';
 
 import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
@@ -20,7 +21,8 @@ type Props = {
 };
 
 const ReleaseStatus: FC<Props> = () => {
-    const { statuses = [] } = useRouteSearch<{ statuses?: string[] }>();
+    const { statuses = [] } =
+        useRouteSearch<Pick<ContentFilterSearch, 'statuses'>>();
 
     const handleChangeParam = useChangeParam();
 

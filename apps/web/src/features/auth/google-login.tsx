@@ -5,6 +5,7 @@ import { providerUrlOptions } from '@hikka/api';
 import BxBxlGoogle from '@/components/icons/bx/BxBxlGoogle';
 import { Button } from '@/components/ui/button';
 import { useRouteSearch } from '@/utils/navigation';
+import type { LoginSearch } from '@/utils/search-schemas';
 import { getSiteUrl } from '@/utils/url';
 
 type Props = {
@@ -16,7 +17,7 @@ const GoogleLogin = ({
     disabled = false,
     buttonText = 'Увійти з Google',
 }: Props) => {
-    const { callbackUrl } = useRouteSearch<{ callbackUrl?: string }>();
+    const { callbackUrl } = useRouteSearch<LoginSearch>();
 
     const { data: oauthUrl } = useQuery({
         ...providerUrlOptions({ path: { provider: 'google' } }),

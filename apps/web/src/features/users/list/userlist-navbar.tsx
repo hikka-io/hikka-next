@@ -49,6 +49,7 @@ import {
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPES, LIST_STATUS } from '@/utils/labels';
 import { useParams, useRouteSearch } from '@/utils/navigation';
+import type { UserlistSearch } from '@/utils/search-schemas';
 
 import UserlistFiltersModal from './userlist-filters-modal';
 
@@ -64,7 +65,7 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
     const router = useRouter();
     const queryClient = useQueryClient();
     const params = useParams();
-    const search = useRouteSearch<{ status?: string }>();
+    const search = useRouteSearch<Pick<UserlistSearch, 'status'>>();
     const handleChangeParam = useChangeParam();
     const { visible: sidebarVisible, toggle: toggleSidebar } =
         useFiltersSidebar('userlist_filters_sidebar');

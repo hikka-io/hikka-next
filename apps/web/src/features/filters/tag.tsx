@@ -7,6 +7,7 @@ import { API_LIMITS } from '@hikka/api';
 import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 import { useRouteSearch } from '@/utils/navigation';
+import type { ArticlesSearch } from '@/utils/search-schemas';
 
 import { useChangeParam } from './use-change-param';
 
@@ -15,7 +16,7 @@ type Props = {
 };
 
 const TagFilter: FC<Props> = () => {
-    const { tags = [] } = useRouteSearch<{ tags?: string[] }>();
+    const { tags = [] } = useRouteSearch<Pick<ArticlesSearch, 'tags'>>();
 
     const handleChangeParam = useChangeParam();
 

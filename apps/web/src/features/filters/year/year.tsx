@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useRouteSearch } from '@/utils/navigation';
+import type { AnimeFilterSearch } from '@/utils/search-schemas';
 
 import { YEAR_RANGE, YEARS } from '../filter-ranges';
 import { filterPresetFormOptions } from '../presets/filter-preset-form';
@@ -26,10 +27,10 @@ type Props = {
 };
 
 const Year: FC<Props> = () => {
-    const { years: yearsParam = [], date_range_enabled } = useRouteSearch<{
-        years?: number[];
-        date_range_enabled?: boolean;
-    }>();
+    const { years: yearsParam = [], date_range_enabled } =
+        useRouteSearch<
+            Pick<AnimeFilterSearch, 'years' | 'date_range_enabled'>
+        >();
 
     const years = yearsParam.map(String);
 

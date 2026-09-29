@@ -1,16 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
-import { z } from 'zod';
 
 import { UserFavorites as Favorites } from '@/features/users';
 import { generateHeadMeta } from '@/utils/metadata';
-
-const favoritesSearchSchema = z.object({
-    type: z
-        .enum(['anime', 'manga', 'novel', 'character', 'person', 'collection'])
-        .optional()
-        .catch(undefined),
-});
+import { favoritesSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/u/$username/favorites')({
     validateSearch: zodValidator(favoritesSearchSchema),

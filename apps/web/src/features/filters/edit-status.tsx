@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select';
 import { EDIT_STATUS } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
+import type { EditSearch } from '@/utils/search-schemas';
 
 import { useChangeParam } from './use-change-param';
 
@@ -24,7 +25,7 @@ type Props = {
 };
 
 const EditStatusFilter: FC<Props> = () => {
-    const { edit_status } = useRouteSearch<{ edit_status?: string }>();
+    const { edit_status } = useRouteSearch<Pick<EditSearch, 'edit_status'>>();
 
     const handleChangeParam = useChangeParam();
 

@@ -7,6 +7,7 @@ import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 import { ARTICLE_CATEGORY } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
+import type { ArticlesSearch } from '@/utils/search-schemas';
 
 import { useChangeParam } from './use-change-param';
 
@@ -15,7 +16,8 @@ type Props = {
 };
 
 const ArticleCategoryFilter: FC<Props> = () => {
-    const { categories = [] } = useRouteSearch<{ categories?: string[] }>();
+    const { categories = [] } =
+        useRouteSearch<Pick<ArticlesSearch, 'categories'>>();
 
     const handleChangeParam = useChangeParam();
 
