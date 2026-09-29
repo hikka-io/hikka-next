@@ -9,11 +9,12 @@ import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/Mater
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
 import { Button } from '@/components/ui/button';
 import { FooterBar } from '@/components/ui/footer-bar';
-import { useArticleContext } from '@/services/providers/article-provider';
 import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useRouter } from '@/utils/navigation';
 import { getArticleDocument, hasPendingUploads } from '@/utils/plate';
+
+import { useArticleContext } from '../../article-provider';
 
 type Props = {};
 

@@ -14,8 +14,6 @@ import {
     TableOfContents,
 } from '@/features/collections';
 import { CommentList as Comments } from '@/features/comments';
-import CollectionProvider from '@/services/providers/collection-provider';
-import type { CollectionState } from '@/services/stores/collection-store';
 
 export const Route = createFileRoute('/_pages/collections/$reference/')({
     component: CollectionPage,
@@ -36,9 +34,7 @@ function CollectionPage() {
     });
 
     return (
-        <CollectionProvider
-            initialState={collection as Partial<CollectionState>}
-        >
+        <>
             <div className="mb-12 flex flex-col gap-12 lg:grid lg:grid-cols-[auto_1fr_auto] lg:gap-4">
                 {/* left spacer balances the TOC column so the content stays centered */}
                 <div className="hidden min-w-52 max-w-56 lg:block" />
@@ -65,6 +61,6 @@ function CollectionPage() {
                 </div>
             </div>
             <CollectionNavbar />
-        </CollectionProvider>
+        </>
     );
 }

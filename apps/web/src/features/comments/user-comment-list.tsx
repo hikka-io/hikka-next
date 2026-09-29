@@ -23,13 +23,13 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { Sort } from '@/features/filters';
-import CommentsProvider from '@/services/providers/comments-provider';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { getCommentSort } from '@/utils/sort';
 
 import { COMMENT_TYPE_OPTIONS, type CommentType } from './comment-list';
 import { CommentListSkeleton } from './comment-skeleton';
+import CommentsProvider from './comments-provider';
 import { type CommentSortProps, useCommentSort } from './hooks';
 import UserComment from './user-comment';
 

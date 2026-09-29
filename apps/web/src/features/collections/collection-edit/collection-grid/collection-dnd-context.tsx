@@ -16,8 +16,9 @@ import {
 
 import PosterCard from '@/components/content-card/poster-card';
 import { useTitle } from '@/features/auth/hooks/use-title';
-import { useCollectionStore } from '@/services/providers/collection-provider';
-import type { Group, Item } from '@/services/stores/collection-store';
+
+import { useCollectionStore } from '../collection-provider';
+import type { Group, Item } from '../collection-store';
 
 type Props = {
     children: ReactNode;

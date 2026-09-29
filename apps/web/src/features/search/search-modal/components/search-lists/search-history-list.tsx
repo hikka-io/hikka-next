@@ -3,11 +3,11 @@ import { Trash2, X } from 'lucide-react';
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
 import { Button } from '@/components/ui/button';
 import { CommandItem } from '@/components/ui/command';
+
 import {
     type SearchHistoryEntry,
     useSearchHistoryStore,
-} from '@/services/stores/search-history-store';
-
+} from '../../../search-history-store';
 import { SearchGroup, SearchItem, SearchList } from '../search-ui';
 
 const MAX_HISTORY_SUGGESTIONS = 3;

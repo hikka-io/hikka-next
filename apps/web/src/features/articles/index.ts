@@ -1,5 +1,7 @@
 export { default as ArticleDocumentEditor } from './article-edit/article-document';
+export { default as ArticleProvider } from './article-edit/article-provider';
 export { default as ArticleSettings } from './article-edit/article-settings';
+export type { ArticleState } from './article-edit/article-store';
 export { default as ArticleEditTitle } from './article-edit/article-title';
 export { default as ArticleFilters } from './article-filters';
 export { default as ArticleFiltersModal } from './article-filters-modal';

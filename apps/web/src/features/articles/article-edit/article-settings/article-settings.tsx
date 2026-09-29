@@ -1,7 +1,6 @@
 import { type FC, Fragment } from 'react';
 
-import { useArticleContext } from '@/services/providers/article-provider';
-
+import { useArticleContext } from '../article-provider';
 import CategorySelect from './components/category-select';
 import ContentInput from './components/content-input';
 import CreateActions from './components/create-actions';

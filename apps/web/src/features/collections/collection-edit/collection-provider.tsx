@@ -6,7 +6,7 @@ import {
     type CollectionState,
     type CollectionStore,
     createCollectionStore,
-} from '../stores/collection-store';
+} from './collection-store';
 
 type CollectionProviderProps = React.PropsWithChildren<{
     initialState?: Partial<CollectionState>;

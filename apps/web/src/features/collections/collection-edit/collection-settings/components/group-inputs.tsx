@@ -9,8 +9,7 @@ import {
 } from '@dnd-kit/core';
 import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 
-import { useCollectionContext } from '@/services/providers/collection-provider';
-
+import { useCollectionContext } from '../../collection-provider';
 import SortableInput from './sortable-input';
 
 const GroupInputs = () => {

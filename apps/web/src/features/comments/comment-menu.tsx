@@ -31,10 +31,10 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { useCommentsContext } from '@/services/providers/comments-provider';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 
+import { useCommentsContext } from './comments-provider';
 import ConvertReviewDialog from './convert-review-dialog';
 import DemoteReviewDialog from './demote-review-dialog';
 import { canConvertReview, canDemoteReview } from './utils/review';

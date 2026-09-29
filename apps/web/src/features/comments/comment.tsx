@@ -10,7 +10,6 @@ import { HorizontalCardImage } from '@/components/ui/horizontal-card';
 import Spinner from '@/components/ui/spinner';
 import { StatItem } from '@/components/ui/stat-item';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { useCommentsContext } from '@/services/providers/comments-provider';
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 
@@ -18,6 +17,7 @@ import CommentFooter from './comment-footer';
 import CommentHeader from './comment-header';
 import CommentInput from './comment-input';
 import Comments from './comments';
+import { useCommentsContext } from './comments-provider';
 import { useCommentThread } from './hooks';
 import {
     buildCommentTree,

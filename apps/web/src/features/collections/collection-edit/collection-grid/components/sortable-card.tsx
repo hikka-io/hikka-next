@@ -19,8 +19,9 @@ import {
 } from '@/components/ui/responsive-modal';
 import { Textarea } from '@/components/ui/textarea';
 import { useTitle } from '@/features/auth/hooks/use-title';
-import type { Item } from '@/services/stores/collection-store';
 import { cn } from '@/utils/cn';
+
+import type { Item } from '../../collection-store';
 
 type Props = {
     id: string;

@@ -14,12 +14,12 @@ import type { ContentTypeEnum, UserResponse } from '@hikka/api';
 import { Button } from '@/components/ui/button';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
 import useDebounce from '@/services/hooks/use-debounce';
+import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
+
 import {
     type SearchHistoryEntry,
     useSearchHistoryStore,
-} from '@/services/stores/search-history-store';
-import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
-
+} from '../search-history-store';
 import SearchButton from './components/search-button';
 import AllSearchList from './components/search-lists/all-search-list';
 import EntitySearchList from './components/search-lists/entity-search-list';

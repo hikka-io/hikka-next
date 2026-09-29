@@ -9,11 +9,11 @@ import Card from '@/components/ui/card';
 import { usePageHeader } from '@/features/app-shell';
 import {
     ArticleDocumentEditor as ArticleDocument,
+    ArticleProvider,
     ArticleSettings,
+    type ArticleState,
     ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';
-import ArticleProvider from '@/services/providers/article-provider';
-import type { ArticleState } from '@/services/stores/article-store';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { requireOwner } from '@/utils/auth';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';

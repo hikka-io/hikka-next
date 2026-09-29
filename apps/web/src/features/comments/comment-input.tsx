@@ -17,11 +17,11 @@ import {
     PageSheetTrigger,
 } from '@/components/ui/page-sheet';
 import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
-import { useCommentsContext } from '@/services/providers/comments-provider';
 import { cn } from '@/utils/cn';
 
 import CommentInputBottomBar from './comment-input-bottom-bar';
 import CommentVerdictPicker from './comment-verdict-picker';
+import { useCommentsContext } from './comments-provider';
 import type { Verdict } from './utils/review';
 import { canToggleReview, getPlainTextLength } from './utils/review';
 

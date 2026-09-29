@@ -9,11 +9,11 @@ import Card from '@/components/ui/card';
 import { usePageHeader } from '@/features/app-shell';
 import {
     CollectionEditGroups as CollectionGroups,
+    CollectionProvider,
     CollectionEditSettings as CollectionSettings,
+    type CollectionState,
     CollectionEditTitle as CollectionTitle,
 } from '@/features/collections';
-import CollectionProvider from '@/services/providers/collection-provider';
-import type { CollectionState } from '@/services/stores/collection-store';
 import { requireOwner } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 

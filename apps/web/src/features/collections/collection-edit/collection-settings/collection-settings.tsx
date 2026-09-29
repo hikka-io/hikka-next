@@ -31,7 +31,6 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useCollectionContext } from '@/services/providers/collection-provider';
 import { invalidateCollections } from '@/utils/api/invalidate-content-state';
 import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
@@ -40,6 +39,7 @@ import {
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link, useParams, useRouter } from '@/utils/navigation';
 
+import { useCollectionContext } from '../collection-provider';
 import GroupInputs from './components/group-inputs';
 
 type Props = {

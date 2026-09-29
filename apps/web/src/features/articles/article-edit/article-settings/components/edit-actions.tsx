@@ -15,11 +15,12 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { useArticleContext } from '@/services/providers/article-provider';
 import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
 import { getArticleDocument, hasPendingUploads } from '@/utils/plate';
+
+import { useArticleContext } from '../../article-provider';
 
 type Props = {};
 

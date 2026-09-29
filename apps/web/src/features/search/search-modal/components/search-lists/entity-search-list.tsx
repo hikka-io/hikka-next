@@ -13,11 +13,11 @@ import {
 
 import LoadMoreButton from '@/components/load-more-button';
 import { CommandItem } from '@/components/ui/command';
-import { useSearchHistoryStore } from '@/services/stores/search-history-store';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { useRouter } from '@/utils/navigation';
 
+import { useSearchHistoryStore } from '../../../search-history-store';
 import type { SearchContent } from '../../types';
 import SearchCard, { type SearchCardType } from '../cards/search-card';
 import SearchPlaceholders from '../search-placeholders';

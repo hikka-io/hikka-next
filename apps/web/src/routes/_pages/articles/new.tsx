@@ -4,11 +4,11 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { usePageHeader } from '@/features/app-shell';
 import {
+    ArticleProvider,
     ArticleSettings,
     ArticleDocumentEditor as ArticleText,
     ArticleEditTitle as ArticleTitle,
 } from '@/features/articles';
-import ArticleProvider from '@/services/providers/article-provider';
 import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 

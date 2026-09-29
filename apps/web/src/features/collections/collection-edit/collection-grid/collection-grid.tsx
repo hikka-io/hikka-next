@@ -7,10 +7,10 @@ import PosterCard from '@/components/content-card/poster-card';
 import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { SearchModal } from '@/features/search';
-import { useCollectionContext } from '@/services/providers/collection-provider';
-import type { Group, Item } from '@/services/stores/collection-store';
 import { cn } from '@/utils/cn';
 
+import { useCollectionContext } from '../collection-provider';
+import type { Group, Item } from '../collection-store';
 import SortableCard from './components/sortable-card';
 
 type Props = {

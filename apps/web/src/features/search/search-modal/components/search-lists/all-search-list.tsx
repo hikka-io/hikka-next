@@ -12,12 +12,12 @@ import {
 } from '@hikka/api';
 
 import { CommandItem } from '@/components/ui/command';
-import { useSearchHistoryStore } from '@/services/stores/search-history-store';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { useRouter } from '@/utils/navigation';
 
+import { useSearchHistoryStore } from '../../../search-history-store';
 import type { SearchContent, SearchTypeValue } from '../../types';
 import SearchCard from '../cards/search-card';
 import SearchPlaceholders from '../search-placeholders';

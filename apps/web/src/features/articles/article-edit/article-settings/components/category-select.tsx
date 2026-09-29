@@ -13,8 +13,9 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { useArticleContext } from '@/services/providers/article-provider';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+
+import { useArticleContext } from '../../article-provider';
 
 type Props = {};
 

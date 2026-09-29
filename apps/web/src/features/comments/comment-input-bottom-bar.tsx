@@ -18,10 +18,10 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import Spinner from '@/components/ui/spinner';
-import { useCommentsContext } from '@/services/providers/comments-provider';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
 import { getCommentText, getCommentValue } from '@/utils/plate';
 
+import { useCommentsContext } from './comments-provider';
 import type { Verdict } from './utils/review';
 import { toReviewArgs } from './utils/review';
 

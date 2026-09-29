@@ -1,7 +1,8 @@
 import { memo } from 'react';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { useArticleContext } from '@/services/providers/article-provider';
+
+import { useArticleContext } from './article-provider';
 
 const ArticleTitle = () => {
     const title = useArticleContext((state) => state.title);

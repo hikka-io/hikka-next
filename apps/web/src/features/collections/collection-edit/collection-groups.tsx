@@ -4,11 +4,11 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getCollectionOptions } from '@hikka/api';
 
-import { useCollectionContext } from '@/services/providers/collection-provider';
 import { useParams } from '@/utils/navigation';
 
 import CollectionEditGrid from './collection-grid';
 import CollectionDndContext from './collection-grid/collection-dnd-context';
+import { useCollectionContext } from './collection-provider';
 
 type Props = {
     mode?: 'create' | 'edit';

@@ -5,10 +5,10 @@ import Card from '@/components/ui/card';
 import { usePageHeader } from '@/features/app-shell';
 import {
     CollectionEditGroups as CollectionGroups,
+    CollectionProvider,
     CollectionEditSettings as CollectionSettings,
     CollectionEditTitle as CollectionTitle,
 } from '@/features/collections';
-import CollectionProvider from '@/services/providers/collection-provider';
 import { requireAuth } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
