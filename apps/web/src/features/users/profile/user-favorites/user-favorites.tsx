@@ -21,6 +21,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { CONTENT_TYPES } from '@/utils/labels';
 import { useParams } from '@/utils/navigation';
 
 import Anime from './components/favorite-anime';
@@ -32,32 +33,32 @@ import People from './components/favorite-people';
 
 const CONTENT_OPTIONS: ChipTabOption<FavouriteContentTypeEnum>[] = [
     {
-        label: 'Аніме',
+        label: CONTENT_TYPES[ContentTypeEnum.ANIME].plural,
         value: ContentTypeEnum.ANIME,
         icon: CONTENT_TYPE_ICONS[ContentTypeEnum.ANIME],
     },
     {
-        label: 'Манґа',
+        label: CONTENT_TYPES[ContentTypeEnum.MANGA].plural,
         value: ContentTypeEnum.MANGA,
         icon: CONTENT_TYPE_ICONS[ContentTypeEnum.MANGA],
     },
     {
-        label: 'Ранобе',
+        label: CONTENT_TYPES[ContentTypeEnum.NOVEL].plural,
         value: ContentTypeEnum.NOVEL,
         icon: CONTENT_TYPE_ICONS[ContentTypeEnum.NOVEL],
     },
     {
-        label: 'Персонажі',
+        label: CONTENT_TYPES[ContentTypeEnum.CHARACTER].plural,
         value: ContentTypeEnum.CHARACTER,
         icon: CONTENT_TYPE_ICONS[ContentTypeEnum.CHARACTER],
     },
     {
-        label: 'Люди',
+        label: CONTENT_TYPES[ContentTypeEnum.PERSON].plural,
         value: ContentTypeEnum.PERSON,
         icon: CONTENT_TYPE_ICONS[ContentTypeEnum.PERSON],
     },
     {
-        label: 'Колекції',
+        label: CONTENT_TYPES[ContentTypeEnum.COLLECTION].plural,
         value: ContentTypeEnum.COLLECTION,
         icon: CONTENT_TYPE_ICONS[ContentTypeEnum.COLLECTION],
     },

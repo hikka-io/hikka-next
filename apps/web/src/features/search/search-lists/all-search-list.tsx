@@ -15,6 +15,7 @@ import { CommandItem } from '@/components/ui/command';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS, contentPath } from '@/utils/content-paths';
+import { CONTENT_TYPES } from '@/utils/labels';
 import { useRouter } from '@/utils/navigation';
 
 import SearchCard from '../components/search-card';
@@ -224,7 +225,7 @@ const AllSearchList = ({
 
             <SearchResultGroup
                 list={anime.list}
-                heading="Аніме"
+                heading={CONTENT_TYPES[ContentTypeEnum.ANIME].plural}
                 contentType={ContentTypeEnum.ANIME}
                 onSelect={(item) => handleSelect(item, ContentTypeEnum.ANIME)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.ANIME)}
@@ -242,7 +243,7 @@ const AllSearchList = ({
 
             <SearchResultGroup
                 list={manga.list}
-                heading="Манґа"
+                heading={CONTENT_TYPES[ContentTypeEnum.MANGA].plural}
                 contentType={ContentTypeEnum.MANGA}
                 onSelect={(item) => handleSelect(item, ContentTypeEnum.MANGA)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.MANGA)}
@@ -260,7 +261,7 @@ const AllSearchList = ({
 
             <SearchResultGroup
                 list={novel.list}
-                heading="Ранобе"
+                heading={CONTENT_TYPES[ContentTypeEnum.NOVEL].plural}
                 contentType={ContentTypeEnum.NOVEL}
                 onSelect={(item) => handleSelect(item, ContentTypeEnum.NOVEL)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.NOVEL)}
@@ -278,7 +279,7 @@ const AllSearchList = ({
 
             <SearchResultGroup
                 list={characters.list}
-                heading="Персонажі"
+                heading={CONTENT_TYPES[ContentTypeEnum.CHARACTER].plural}
                 contentType={ContentTypeEnum.CHARACTER}
                 onSelect={(item) =>
                     handleSelect(item, ContentTypeEnum.CHARACTER)
@@ -298,7 +299,7 @@ const AllSearchList = ({
 
             <SearchResultGroup
                 list={people.list}
-                heading="Люди"
+                heading={CONTENT_TYPES[ContentTypeEnum.PERSON].plural}
                 contentType={ContentTypeEnum.PERSON}
                 onSelect={(item) => handleSelect(item, ContentTypeEnum.PERSON)}
                 onNavigate={() => handleNavigate(ContentTypeEnum.PERSON)}

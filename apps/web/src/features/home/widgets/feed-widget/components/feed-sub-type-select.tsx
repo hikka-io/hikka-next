@@ -19,7 +19,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/utils/cn';
 import {
-    ARTICLE_CATEGORY_OPTIONS,
+    ARTICLE_CATEGORY,
     COLLECTION_CONTENT_TYPE_OPTIONS,
     CONTENT_TYPES,
 } from '@/utils/constants/common';
@@ -91,10 +91,10 @@ const ARTICLE_CONTENT_OPTIONS: SubTypeOption[] = [
 ];
 
 const FEED_ARTICLE_CATEGORY_OPTIONS: SubTypeOption[] = (
-    Object.keys(ARTICLE_CATEGORY_OPTIONS) as ArticleCategoryEnum[]
+    Object.keys(ARTICLE_CATEGORY) as ArticleCategoryEnum[]
 )
     .filter((k) => k !== ArticleCategoryEnum.SYSTEM)
-    .map((k) => ({ value: k, label: ARTICLE_CATEGORY_OPTIONS[k].title_ua }));
+    .map((k) => ({ value: k, label: ARTICLE_CATEGORY[k].title_ua }));
 
 const REVIEW_CONTENT_OPTIONS: SubTypeOption[] = [
     { value: ContentTypeEnum.ANIME, label: CONTENT_TYPES.anime.title_ua },

@@ -24,7 +24,7 @@ import {
     MANGA_MEDIA_TYPE,
     NOVEL_MEDIA_TYPE,
     RELEASE_STATUS,
-} from '@/utils/constants/filter-properties';
+} from '@/utils/labels/enum-labels';
 
 const MEDIA_TYPE_ENUM = Object.assign(
     {},

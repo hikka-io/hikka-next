@@ -10,15 +10,10 @@ import { ReviewBadge } from '@/components/badges';
 import ContentTypeIcon from '@/components/content-type-icon';
 import { chipVariants } from '@/components/ui/chip';
 import { cn } from '@/utils/cn';
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/filter-properties';
+import { CONTENT_TYPES } from '@/utils/labels';
+import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 
 type FeedDataType = 'comment' | 'article' | 'collection';
-
-const TYPE_LABELS: Record<FeedDataType, string> = {
-    comment: 'Коментар',
-    article: 'Стаття',
-    collection: 'Колекція',
-};
 
 // token text color + faint same-color tint background
 const TYPE_STYLES: Record<FeedDataType, string> = {
@@ -50,7 +45,7 @@ const FeedTypeChip: FC<Props> = ({ dataType, review, category }) => {
     }
 
     if (dataType === 'article' && category) {
-        const option = ARTICLE_CATEGORY_OPTIONS[category];
+        const option = ARTICLE_CATEGORY[category];
         if (option) {
             const Icon = option.icon;
             return (
@@ -68,7 +63,7 @@ const FeedTypeChip: FC<Props> = ({ dataType, review, category }) => {
                 contentType={dataType as ContentTypeEnum}
                 className="size-3.5"
             />
-            {TYPE_LABELS[dataType]}
+            {CONTENT_TYPES[dataType].title_ua}
         </span>
     );
 };

@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { novelInfo } from '@hikka/api';
 
-import { NOVEL_MEDIA_TYPE } from '@/utils/constants/filter-properties';
+import { NOVEL_MEDIA_TYPE } from '@/utils/labels/enum-labels';
 import { createOgImageHandler } from '@/utils/og/create-og-handler';
 import {
     resolveGenres,

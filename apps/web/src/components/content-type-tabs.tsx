@@ -5,7 +5,7 @@ import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
 
-const CONTENT_TYPES: Omit<ChipTabOption<MainContentTypeEnum>, 'to'>[] = [
+const TAB_OPTIONS: Omit<ChipTabOption<MainContentTypeEnum>, 'to'>[] = [
     {
         label: 'Аніме',
         value: ContentTypeEnum.ANIME,
@@ -33,7 +33,7 @@ const ContentTypeTabs: FC<Props> = ({ value, urlFor, className }) => (
     <ChipTabs
         value={value}
         className={className}
-        options={CONTENT_TYPES.map((option) => ({
+        options={TAB_OPTIONS.map((option) => ({
             ...option,
             to: urlFor(option.value),
         }))}

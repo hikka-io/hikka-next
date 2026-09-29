@@ -31,15 +31,10 @@ import {
 } from '@/features/filters';
 import { Userlist, UserlistNavbar } from '@/features/users';
 import { cn } from '@/utils/cn';
+import { CONTENT_TYPES } from '@/utils/labels';
 import { generateHeadMeta } from '@/utils/metadata';
 import { userlistSearchSchema } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
-
-const TITLES: Record<string, string> = {
-    [ContentTypeEnum.ANIME]: 'аніме',
-    [ContentTypeEnum.MANGA]: 'манґи',
-    [ContentTypeEnum.NOVEL]: 'ранобе',
-};
 
 export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
     validateSearch: zodValidator(userlistSearchSchema),
@@ -163,7 +158,7 @@ function ListPage() {
             <Header>
                 <HeaderContainer>
                     <HeaderTitle variant="h2">
-                        Список {TITLES[content_type]}
+                        Список {CONTENT_TYPES[content_type].genitive}
                     </HeaderTitle>
                 </HeaderContainer>
             </Header>

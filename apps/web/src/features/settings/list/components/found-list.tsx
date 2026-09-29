@@ -1,5 +1,7 @@
 import { ContentTypeEnum } from '@hikka/api';
 
+import { CONTENT_TYPES } from '@/utils/labels';
+
 type Props = {
     list: Record<string, any>[];
     type: ContentTypeEnum;
@@ -7,7 +9,9 @@ type Props = {
 
 const FoundList = ({ list, type }: Props) => {
     const typeName =
-        type === ContentTypeEnum.ANIME ? 'аніме' : 'манґи та ранобе';
+        type === ContentTypeEnum.ANIME
+            ? CONTENT_TYPES[ContentTypeEnum.ANIME].genitive
+            : `${CONTENT_TYPES[ContentTypeEnum.MANGA].genitive} та ${CONTENT_TYPES[ContentTypeEnum.NOVEL].genitive}`;
 
     return (
         <div>

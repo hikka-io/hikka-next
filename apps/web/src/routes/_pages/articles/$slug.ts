@@ -3,7 +3,7 @@ import { createFileRoute, notFound } from '@tanstack/react-router';
 import { type ArticleCategoryEnum, getArticleOptions } from '@hikka/api';
 
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { ARTICLE_CATEGORY } from '@/utils/constants/common';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/articles/$slug')({
@@ -25,7 +25,7 @@ export const Route = createFileRoute('/_pages/articles/$slug')({
         if (!article) return generateHeadMeta({ title: 'Статті' });
 
         const categoryTitle =
-            ARTICLE_CATEGORY_OPTIONS[article.category as ArticleCategoryEnum]
+            ARTICLE_CATEGORY[article.category as ArticleCategoryEnum]
                 ?.title_ua || '';
 
         return generateHeadMeta({

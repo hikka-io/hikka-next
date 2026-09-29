@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import type { CollectionArgs } from '@hikka/api';
+import type { CollectionArgs, CollectionVisibilityEnum } from '@hikka/api';
 import { createCollectionMutation, updateCollectionMutation } from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -32,15 +32,27 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { invalidateCollections } from '@/utils/api/invalidate-content-state';
-import {
-    COLLECTION_CONTENT_TYPE_OPTIONS,
-    COLLECTION_VISIBILITY_OPTIONS,
-} from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
+import { COLLECTION_CONTENT_TYPE_OPTIONS } from '@/utils/labels';
 import { Link, useParams, useRouter } from '@/utils/navigation';
 
 import { useCollectionContext } from '../collection-provider';
 import GroupInputs from './components/group-inputs';
+
+const COLLECTION_VISIBILITY_OPTIONS = [
+    {
+        value: 'public',
+        label: 'Публічна',
+    },
+    {
+        value: 'private',
+        label: 'Приватна',
+    },
+    {
+        value: 'unlisted',
+        label: 'Лише у профілі',
+    },
+] satisfies { value: CollectionVisibilityEnum; label: string }[];
 
 type Props = {
     mode?: 'create' | 'edit';

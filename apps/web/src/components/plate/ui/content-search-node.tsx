@@ -10,6 +10,7 @@ import {
     type AnimeResponse,
     type CharacterResponse,
     ContentTypeEnum,
+    type MainContentTypeEnum,
     type MangaResponse,
     type NovelResponse,
     type PersonResponse,
@@ -24,6 +25,7 @@ import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import useDebounce from '@/services/hooks/use-debounce';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
+import { CONTENT_TYPES } from '@/utils/labels';
 import { getTitle } from '@/utils/title/get-title';
 import { getSiteUrl } from '@/utils/url';
 
@@ -45,15 +47,12 @@ type SearchContent =
     | CharacterResponse
     | PersonResponse;
 
-const GROUP_SIZE = 3;
+type SearchContentType =
+    | MainContentTypeEnum
+    | typeof ContentTypeEnum.CHARACTER
+    | typeof ContentTypeEnum.PERSON;
 
-const GROUP_LABELS: Record<string, string> = {
-    [ContentTypeEnum.ANIME]: 'Аніме',
-    [ContentTypeEnum.MANGA]: 'Манґа',
-    [ContentTypeEnum.NOVEL]: 'Ранобе',
-    [ContentTypeEnum.CHARACTER]: 'Персонажі',
-    [ContentTypeEnum.PERSON]: 'Люди',
-};
+const GROUP_SIZE = 3;
 
 // The title already follows the viewer's language preference, so the subtitle
 // picks the first alternate that differs from it rather than a fixed field.
@@ -105,7 +104,7 @@ function ContentRow({ item, title }: ContentRowProps) {
 }
 
 type GroupProps = {
-    contentType: ContentTypeEnum;
+    contentType: SearchContentType;
     items: SearchContent[] | undefined;
     hasMore: boolean;
     onShowMore: () => void;
@@ -126,7 +125,7 @@ function ContentGroup({
     return (
         <InlineComboboxGroup>
             <InlineComboboxGroupLabel>
-                {GROUP_LABELS[contentType]}
+                {CONTENT_TYPES[contentType].plural}
             </InlineComboboxGroupLabel>
 
             {items.map((item) => {
@@ -256,7 +255,7 @@ export function ContentSearchInputElement(props: PlateElementProps) {
             },
             { contentType: ContentTypeEnum.PERSON, result: people.data },
         ] as {
-            contentType: ContentTypeEnum;
+            contentType: SearchContentType;
             result?: {
                 list: SearchContent[];
                 pagination: { total: number };

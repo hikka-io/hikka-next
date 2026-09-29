@@ -8,7 +8,7 @@ import RelativeTime from '@/components/relative-time';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { ARTICLE_CATEGORY } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
@@ -42,7 +42,7 @@ const ArticlePreviewCard: FC<Props> = ({ article }) => {
 
     // Generated responses type `category` as a plain string; narrow to the enum.
     const category = article.category as ArticleCategoryEnum;
-    const categoryOption = ARTICLE_CATEGORY_OPTIONS[category];
+    const categoryOption = ARTICLE_CATEGORY[category];
 
     return (
         <div className="group before:-top-px relative flex flex-col gap-2 rounded-sm px-2 py-2 transition-colors duration-100 before:pointer-events-none before:absolute before:right-0 before:left-0 before:h-px before:bg-border/60 first:before:hidden hover:bg-accent">

@@ -14,16 +14,16 @@ import {
     WatchStatusEnum,
 } from '@hikka/api';
 
-import MaterialSymbolsBookmarkFlagOutlineRounded from '../../components/icons/material-symbols/MaterialSymbolsBookmarkFlagOutlineRounded';
-import MaterialSymbolsBookmarkOutline from '../../components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
-import MaterialSymbolsNewsmodeRounded from '../../components/icons/material-symbols/MaterialSymbolsNewsmodeRounded';
-import MaterialSymbolsReviewsRounded from '../../components/icons/material-symbols/MaterialSymbolsReviewsRounded';
-import MaterialSymbolsStarsRounded from '../../components/icons/material-symbols/MaterialSymbolsStarsRounded';
-import Completed from '../../components/icons/watch-status/completed';
-import Dropped from '../../components/icons/watch-status/dropped';
-import OnHold from '../../components/icons/watch-status/on-hold';
-import Planned from '../../components/icons/watch-status/planned';
-import Watching from '../../components/icons/watch-status/watching';
+import MaterialSymbolsBookmarkFlagOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsBookmarkFlagOutlineRounded';
+import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
+import MaterialSymbolsNewsmodeRounded from '@/components/icons/material-symbols/MaterialSymbolsNewsmodeRounded';
+import MaterialSymbolsReviewsRounded from '@/components/icons/material-symbols/MaterialSymbolsReviewsRounded';
+import MaterialSymbolsStarsRounded from '@/components/icons/material-symbols/MaterialSymbolsStarsRounded';
+import Completed from '@/components/icons/watch-status/completed';
+import Dropped from '@/components/icons/watch-status/dropped';
+import OnHold from '@/components/icons/watch-status/on-hold';
+import Planned from '@/components/icons/watch-status/planned';
+import Watching from '@/components/icons/watch-status/watching';
 
 export const SEASON: Hikka.FilterProperty<SeasonEnum> = {
     winter: {
@@ -266,7 +266,7 @@ export const WATCH_STATUS: Hikka.FilterProperty<WatchStatusEnum> = {
     },
 };
 
-export const ARTICLE_CATEGORY_OPTIONS: Hikka.FilterProperty<
+export const ARTICLE_CATEGORY: Hikka.FilterProperty<
     ArticleCategoryEnum,
     { admin?: boolean }
 > = {

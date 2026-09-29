@@ -16,7 +16,7 @@ import { usePageTitleAnchor } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { ARTICLE_CATEGORY } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link, useRouteSearch } from '@/utils/navigation';
 import type { ArticlesSearch } from '@/utils/search-schemas';
@@ -66,8 +66,7 @@ const ArticleList: FC<Props> = () => {
                 <HeaderContainer>
                     <HeaderTitle ref={titleAnchor} variant="h2">
                         {selectedCategory
-                            ? ARTICLE_CATEGORY_OPTIONS[selectedCategory]
-                                  ?.title_ua
+                            ? ARTICLE_CATEGORY[selectedCategory]?.title_ua
                             : 'Статті'}
                     </HeaderTitle>
                     {user && (

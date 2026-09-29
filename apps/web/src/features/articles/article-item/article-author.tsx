@@ -18,7 +18,7 @@ import RelativeTime from '@/components/relative-time';
 import Link from '@/components/ui/link';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { ARTICLE_CATEGORY } from '@/utils/constants/common';
 
 type Props = {
     article: ArticlePreviewResponse | ArticleDocumentResponse;
@@ -52,7 +52,7 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                             rel="author"
                             className="hover:underline"
                         >
-                            {ARTICLE_CATEGORY_OPTIONS[category].title_ua}
+                            {ARTICLE_CATEGORY[category].title_ua}
                         </Link>
                     </HorizontalCardDescription>
                     <div className="size-1 rounded-full bg-muted-foreground" />

@@ -1,15 +1,12 @@
 // Content configuration
-export { CONTENT_TYPES } from '@/utils/labels/content-types';
-
-// Collection options
 export {
     COLLECTION_CONTENT_TYPE_OPTIONS,
-    COLLECTION_VISIBILITY_OPTIONS,
-} from './collection-options';
+    CONTENT_TYPES,
+} from '@/utils/labels/content-types';
 export {
     AGE_RATING,
     ANIME_MEDIA_TYPE,
-    ARTICLE_CATEGORY_OPTIONS,
+    ARTICLE_CATEGORY,
     CHARACTER_ISSUES,
     CONTENT_ISSUES,
     EDIT_STATUS,
@@ -24,7 +21,8 @@ export {
     SEASON,
     VIDEO,
     WATCH_STATUS,
-} from './filter-properties';
+} from '@/utils/labels/enum-labels';
+
 // User roles
 export { USER_ROLE } from './user-role';
 

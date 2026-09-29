@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { animeSlug, CompanyTypeEnum } from '@hikka/api';
 
-import { ANIME_MEDIA_TYPE } from '@/utils/constants/filter-properties';
+import { ANIME_MEDIA_TYPE } from '@/utils/labels/enum-labels';
 import { createOgImageHandler } from '@/utils/og/create-og-handler';
 import {
     resolveGenres,

@@ -4,7 +4,7 @@ import { SquareLibrary } from 'lucide-react';
 
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { ARTICLE_CATEGORY } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
 
 import { useChangeParam } from './use-change-param';
@@ -26,7 +26,7 @@ const ArticleCategoryFilter: FC<Props> = () => {
             </div>
             <BadgeFilter
                 properties={Object.fromEntries(
-                    Object.entries(ARTICLE_CATEGORY_OPTIONS).filter(
+                    Object.entries(ARTICLE_CATEGORY).filter(
                         ([, value]) => !value.admin,
                     ),
                 )}

@@ -13,7 +13,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
+import { ARTICLE_CATEGORY } from '@/utils/constants/common';
 
 import { useArticleContext } from '../../article-provider';
 
@@ -27,13 +27,9 @@ const CategorySelect: FC<Props> = () => {
     const setCategory = useArticleContext((state) => state.setCategory);
 
     const filteredCategories = (
-        Object.keys(ARTICLE_CATEGORY_OPTIONS) as Array<
-            keyof typeof ARTICLE_CATEGORY_OPTIONS
-        >
+        Object.keys(ARTICLE_CATEGORY) as Array<keyof typeof ARTICLE_CATEGORY>
     ).filter((category) =>
-        ARTICLE_CATEGORY_OPTIONS[category].admin
-            ? isAdmin() || isModerator()
-            : true,
+        ARTICLE_CATEGORY[category].admin ? isAdmin() || isModerator() : true,
     );
 
     return (
@@ -42,7 +38,7 @@ const CategorySelect: FC<Props> = () => {
                 Категорія
             </Label>
             {!draft && category && (
-                <Label>{ARTICLE_CATEGORY_OPTIONS[category].title_ua}</Label>
+                <Label>{ARTICLE_CATEGORY[category].title_ua}</Label>
             )}
             {draft && (
                 <Select
@@ -61,10 +57,7 @@ const CategorySelect: FC<Props> = () => {
                             <SelectGroup>
                                 {filteredCategories.map((category) => (
                                     <SelectItem key={category} value={category}>
-                                        {
-                                            ARTICLE_CATEGORY_OPTIONS[category]
-                                                .title_ua
-                                        }
+                                        {ARTICLE_CATEGORY[category].title_ua}
                                     </SelectItem>
                                 ))}
                             </SelectGroup>
