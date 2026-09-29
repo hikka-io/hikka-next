@@ -14,7 +14,7 @@ import {
     HorizontalCardDescription,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
-import { InlineScores } from '@/components/inline-scores';
+import InlineScores from '@/components/inline-scores';
 import MagazineTitleLink from '@/components/magazine-title-link';
 import { TrackingButtonsGroup } from '@/components/tracking';
 import { Separator } from '@/components/ui/separator';

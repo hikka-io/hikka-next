@@ -64,7 +64,7 @@ type Props = {
     type?: FavouriteContentTypeEnum;
 };
 
-const Favorites: FC<Props> = ({ extended, type }) => {
+const UserFavorites: FC<Props> = ({ extended, type }) => {
     const [content, setContent] = useState<FavouriteContentTypeEnum>(
         type ?? ContentTypeEnum.ANIME,
     );
@@ -160,4 +160,4 @@ const Favorites: FC<Props> = ({ extended, type }) => {
     );
 };
 
-export default Favorites;
+export default UserFavorites;

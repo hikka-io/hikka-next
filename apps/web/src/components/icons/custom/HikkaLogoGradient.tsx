@@ -1,6 +1,6 @@
 import { type SVGProps, useId } from 'react';
 
-export function Hikka(props: SVGProps<SVGSVGElement>) {
+export function HikkaLogoGradient(props: SVGProps<SVGSVGElement>) {
     const gradientId = useId();
 
     return (
@@ -32,4 +32,4 @@ export function Hikka(props: SVGProps<SVGSVGElement>) {
         </svg>
     );
 }
-export default Hikka;
+export default HikkaLogoGradient;

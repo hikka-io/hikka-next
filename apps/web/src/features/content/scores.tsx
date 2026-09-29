@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import type { MainContentTypeEnum } from '@hikka/api';
 
-import Hikka from '@/components/icons/custom/Hikka';
+import HikkaLogoGradient from '@/components/icons/custom/HikkaLogoGradient';
 import MAL from '@/components/icons/custom/MAL';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Separator } from '@/components/ui/separator';
@@ -61,7 +61,7 @@ const ContentScores = ({ className, content_type }: ScoresProps) => {
 
             {!!data.native_score && (
                 <div className="flex flex-1 items-center justify-center gap-4">
-                    <Hikka className="h-4 w-4 shrink-0" />
+                    <HikkaLogoGradient className="h-4 w-4 shrink-0" />
                     <div className="flex flex-col items-start justify-start">
                         <div className="flex items-center gap-1">
                             <p className="font-bold font-display">

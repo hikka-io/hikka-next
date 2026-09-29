@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
-import Hikka from '@/components/icons/custom/Hikka';
+import HikkaLogoGradient from '@/components/icons/custom/HikkaLogoGradient';
 import MAL from '@/components/icons/custom/MAL';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Separator } from '@/components/ui/separator';
@@ -36,7 +36,7 @@ type Props = {
     className?: string;
 };
 
-export function InlineScores({
+function InlineScores({
     hikkaScore,
     hikkaScoreCount,
     malScore,
@@ -62,7 +62,7 @@ export function InlineScores({
             )}
             {hasHikka && (
                 <ScoreSource
-                    icon={<Hikka className="h-4 w-4 shrink-0" />}
+                    icon={<HikkaLogoGradient className="h-4 w-4 shrink-0" />}
                     score={hikkaScore as number}
                     scoredBy={hikkaScoreCount}
                 />
@@ -70,3 +70,5 @@ export function InlineScores({
         </div>
     );
 }
+
+export default InlineScores;

@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 
 import { ReleaseStatusBadge } from '@/components/badges';
-import { InlineScores } from '@/components/inline-scores';
+import InlineScores from '@/components/inline-scores';
 import { MDViewer } from '@/components/markdown';
 import { Link } from '@/utils/navigation';
 

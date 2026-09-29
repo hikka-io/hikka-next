@@ -8,7 +8,7 @@ type Props = {
     pagination: PaginationResponse;
 };
 
-const Component = ({ pagination }: Props) => {
+const PagePagination = ({ pagination }: Props) => {
     const router = useRouter();
 
     const updatePage = (newPage: number) => {
@@ -31,4 +31,4 @@ const Component = ({ pagination }: Props) => {
     );
 };
 
-export default Component;
+export default PagePagination;

@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
 import {
-    type CommentContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum,
     type ContentTypeEnum,
     paginationPageParam,
 } from '@hikka/api';
@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
         const { content_type, slug, _splat: commentReference } = params;
 
         const content = await fetchContentForLoader(
-            content_type as CommentsContentType,
+            content_type as CommentContentTypeEnum,
             slug,
             { queryClient, apiClient },
         );
@@ -56,12 +56,12 @@ function CommentsThreadPage() {
     return (
         <ContentSubpage
             slug={slug}
-            contentType={content_type as CommentsContentType}
+            contentType={content_type as CommentContentTypeEnum}
         >
             <CommentList
                 comment_reference={commentReference}
                 slug={slug}
-                content_type={content_type as CommentsContentType}
+                content_type={content_type as CommentContentTypeEnum}
             />
         </ContentSubpage>
     );

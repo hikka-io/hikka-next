@@ -4,7 +4,7 @@ import { ContentTypeEnum } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
-import { CommentList as Comments } from '@/features/comments';
+import { CommentList } from '@/features/comments';
 import { EditActions, EditViewForm } from '@/features/edit';
 
 export const Route = createFileRoute('/_pages/edit/$editId/')({
@@ -28,7 +28,7 @@ function EditPage() {
                 <EditViewForm editId={editId} mode="view" />
             </div>
             <EditActions editId={editId} />
-            <Comments slug={editId} content_type={ContentTypeEnum.EDIT} />
+            <CommentList slug={editId} content_type={ContentTypeEnum.EDIT} />
         </div>
     );
 }

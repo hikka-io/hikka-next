@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { UserFavorites as Favorites } from '@/features/users';
+import { UserFavorites } from '@/features/users';
 import { generateHeadMeta } from '@/utils/metadata';
 import { favoritesSearchSchema } from '@/utils/search-schemas';
 
@@ -17,7 +17,7 @@ function FavoritesPage() {
 
     return (
         <div className="flex flex-col gap-12">
-            <Favorites extended type={type} />
+            <UserFavorites extended type={type} />
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import type { FC, MouseEvent, ReactNode } from 'react';
 
-import HikkaIcon from '@/components/icons/custom/HikkaIcon';
+import HikkaLogoMono from '@/components/icons/custom/HikkaLogoMono';
 import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import MaterialSymbolsMoreHoriz from '@/components/icons/material-symbols/MaterialSymbolsMoreHoriz';
 import MaterialSymbolsNotificationsRounded from '@/components/icons/material-symbols/MaterialSymbolsNotificationsRounded';
@@ -76,7 +76,7 @@ const MobileTabBar = () => {
                     onClick={scrollToTopIfCurrent('/')}
                 >
                     <Tab label="Головна">
-                        <HikkaIcon />
+                        <HikkaLogoMono />
                     </Tab>
                 </Link>
 

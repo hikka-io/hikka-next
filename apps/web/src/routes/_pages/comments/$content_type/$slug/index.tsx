@@ -2,7 +2,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import {
-    type CommentContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum,
     ContentTypeEnum,
     getCommentsListInfiniteOptions,
     getCommentsUserInfiniteOptions,
@@ -74,7 +74,7 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
             await queryClient.prefetchInfiniteQuery({
                 ...getCommentsListInfiniteOptions({
                     path: {
-                        content_type: content_type as CommentsContentType,
+                        content_type: content_type as CommentContentTypeEnum,
                         slug,
                     },
                     body: { comment_type: commentType, sort, recommended },
@@ -158,7 +158,7 @@ function CommentsPage() {
             slug={slug}
             contentType={
                 content_type as
-                    | CommentsContentType
+                    | CommentContentTypeEnum
                     | typeof ContentTypeEnum.USER
             }
         >
@@ -176,7 +176,7 @@ function CommentsPage() {
             ) : (
                 <CommentList
                     slug={slug}
-                    content_type={content_type as CommentsContentType}
+                    content_type={content_type as CommentContentTypeEnum}
                     contentTitle={contentTitle}
                     commentType={commentType}
                     onCommentTypeChange={handleCommentTypeChange}

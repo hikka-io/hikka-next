@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import {
-    type CommentContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum,
     getCommentsListInfiniteOptions,
     getEditOptions,
     paginationPageParam,
@@ -33,7 +33,7 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
         await queryClient.prefetchInfiniteQuery({
             ...getCommentsListInfiniteOptions({
                 path: {
-                    content_type: 'edit' as CommentsContentType,
+                    content_type: 'edit' as CommentContentTypeEnum,
                     slug: params.editId,
                 },
                 body: commentListPrefetchBody(),

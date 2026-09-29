@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export function HikkaIcon(props: SVGProps<SVGSVGElement>) {
+export function HikkaLogoMono(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -17,4 +17,4 @@ export function HikkaIcon(props: SVGProps<SVGSVGElement>) {
         </svg>
     );
 }
-export default HikkaIcon;
+export default HikkaLogoMono;
