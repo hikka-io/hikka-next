@@ -12,20 +12,14 @@ export type EventTheme = {
 };
 
 /** Event themes activated within their date ranges. */
-export const EVENT_THEMES: EventTheme[] = [
-    {
-        id: 'new-year',
-        name: 'New Year',
-        effects: ['snowfall'],
-        startDate: new Date('2024-12-05'),
-        endDate: new Date('2025-01-15'),
-    },
-];
+export const EVENT_THEMES: EventTheme[] = [];
 
-export function getActiveEventTheme(): EventTheme | null {
+export function getActiveEventTheme(
+    themes: readonly EventTheme[] = EVENT_THEMES,
+): EventTheme | null {
     const now = new Date();
 
-    for (const theme of EVENT_THEMES) {
+    for (const theme of themes) {
         if (now >= theme.startDate && now <= theme.endDate) {
             return theme;
         }

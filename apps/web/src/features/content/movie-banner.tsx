@@ -12,7 +12,7 @@ import { useSession } from '@/services/session';
 import { Link, useParams } from '@/utils/navigation';
 import { type PlausibleEvents, usePlausible } from '@/utils/plausible';
 
-import { MOVIE_BANNERS } from './movie-banners';
+import { findMovieBanner } from './movie-banners';
 
 type Props = {};
 
@@ -25,12 +25,7 @@ const ContentMovieBanner: FC<Props> = () => {
     );
     const currentTimestamp = Math.floor(Date.now() / 1000);
 
-    const banner = MOVIE_BANNERS.find(
-        (mb) =>
-            mb.slug === params.slug &&
-            mb.duration[0] <= currentTimestamp &&
-            mb.duration[1] >= currentTimestamp,
-    );
+    const banner = findMovieBanner(params.slug, currentTimestamp);
 
     if (!anime || !banner) return null;
 
