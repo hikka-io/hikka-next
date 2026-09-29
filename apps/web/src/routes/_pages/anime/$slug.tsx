@@ -19,7 +19,7 @@ import {
 import { commentListPrefetchBody } from '@/features/comments/queries';
 import { ANIME_NAV_ROUTES, ContentDetailLayout } from '@/features/content';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
+import { stripRestrictedExternal } from '@/utils/api/strip-restricted-external';
 import { getAuthTokenFn, getNsfwConsentFn } from '@/utils/cookies';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
