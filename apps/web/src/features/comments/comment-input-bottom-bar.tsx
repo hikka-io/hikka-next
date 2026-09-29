@@ -12,6 +12,10 @@ import {
 } from '@hikka/api';
 
 import { useMarkdownEditor } from '@/components/plate/editor/markdown-editor-kit';
+import {
+    getCommentText,
+    getCommentValue,
+} from '@/components/plate/editor/value/submit-value';
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
 import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';
 import { Button } from '@/components/ui/button';
@@ -19,7 +23,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import Spinner from '@/components/ui/spinner';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
-import { getCommentText, getCommentValue } from '@/utils/plate';
 
 import { useCommentsContext } from './comments-provider';
 import type { Verdict } from './review/review';

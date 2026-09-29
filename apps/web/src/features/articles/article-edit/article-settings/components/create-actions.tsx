@@ -7,12 +7,13 @@ import { type ArticleContentEnum, createArticleMutation } from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
+import { hasPendingUploads } from '@/components/plate/editor/value/has-pending-uploads';
+import { getArticleDocument } from '@/components/plate/editor/value/submit-value';
 import { Button } from '@/components/ui/button';
 import { FooterBar } from '@/components/ui/footer-bar';
 import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useRouter } from '@/utils/navigation';
-import { getArticleDocument, hasPendingUploads } from '@/utils/plate';
 
 import { useArticleContext } from '../../article-provider';
 

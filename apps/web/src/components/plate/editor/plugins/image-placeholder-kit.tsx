@@ -6,7 +6,7 @@ import { ImagePlaceholderElement } from '@/components/plate/ui/image-placeholder
 import { deleteUpload, getUpload, setUpload } from '../upload-store';
 import { ELEMENT_IMAGE, type TImageElement } from './image-kit';
 
-// Keep in sync with the literal in utils/plate/strip-upload-placeholders.ts
+// Keep in sync with the literal in components/plate/editor/value/strip-upload-placeholders.ts
 export const ELEMENT_IMAGE_PLACEHOLDER = 'image_placeholder';
 
 export type ImagePlaceholderStatus = 'uploading' | 'error';
