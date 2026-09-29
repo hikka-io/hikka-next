@@ -11,5 +11,6 @@ export { default as ContentSubpage } from './content-subpage';
 export { default as ContentDetails } from './details';
 export { default as Franchise } from './franchise';
 export { default as ContentMedia } from './media';
+export { default as ContentMovieBanner } from './movie-banner';
 export { default as ContentStaff } from './staff';
 export { useContentTitle } from './use-content-title';

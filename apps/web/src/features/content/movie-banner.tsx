@@ -9,13 +9,14 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { MOVIE_BANNERS } from '@/utils/constants/banners';
 import { Link, useParams } from '@/utils/navigation';
 import { type PlausibleEvents, usePlausible } from '@/utils/plausible';
 
+import { MOVIE_BANNERS } from './movie-banners';
+
 type Props = {};
 
-const MovieBanner: FC<Props> = () => {
+const ContentMovieBanner: FC<Props> = () => {
     const { user } = useSession();
     const plausible = usePlausible<PlausibleEvents>();
     const params = useParams();
@@ -64,4 +65,4 @@ const MovieBanner: FC<Props> = () => {
     );
 };
 
-export default MovieBanner;
+export default ContentMovieBanner;

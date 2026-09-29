@@ -4,8 +4,11 @@ import { createFileRoute } from '@tanstack/react-router';
 import { animeSlugOptions, ContentTypeEnum } from '@hikka/api';
 
 import JsonLd from '@/components/json-ld';
-import { MovieBanner } from '@/features/anime';
-import { ContentDetailPage, ContentMedia } from '@/features/content';
+import {
+    ContentDetailPage,
+    ContentMedia,
+    ContentMovieBanner,
+} from '@/features/content';
 import { contentJsonLd } from '@/utils/json-ld';
 
 export const Route = createFileRoute('/_pages/anime/$slug/')({
@@ -20,7 +23,7 @@ function AnimeDetailPage() {
         <ContentDetailPage
             contentType={ContentTypeEnum.ANIME}
             slug={slug}
-            afterDescription={<MovieBanner />}
+            afterDescription={<ContentMovieBanner />}
             afterFranchise={<ContentMedia />}
             jsonLd={
                 anime ? (
