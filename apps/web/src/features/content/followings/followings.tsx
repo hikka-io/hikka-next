@@ -21,6 +21,7 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
@@ -33,6 +34,7 @@ type Props = {
 
 const Followings: FC<Props> = ({ content_type }) => {
     const params = useParams();
+    const { user } = useSession();
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
 
@@ -40,7 +42,7 @@ const Followings: FC<Props> = ({ content_type }) => {
         getWatchFollowingInfiniteOptions({
             path: { slug: String(params.slug) },
         }),
-        { enabled: content_type === ContentTypeEnum.ANIME },
+        { enabled: !!user && content_type === ContentTypeEnum.ANIME },
     );
 
     const readListQuery = useInfiniteList(
@@ -50,7 +52,7 @@ const Followings: FC<Props> = ({ content_type }) => {
                 content_type: content_type as ReadContentTypeEnum,
             },
         }),
-        { enabled: content_type !== ContentTypeEnum.ANIME },
+        { enabled: !!user && content_type !== ContentTypeEnum.ANIME },
     );
 
     const list =
