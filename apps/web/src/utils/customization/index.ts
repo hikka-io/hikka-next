@@ -13,6 +13,7 @@ export {
     oklchToHex,
 } from './color';
 export { DEFAULT_BRAND, DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
+export { type EventTheme, getActiveEventTheme } from './event-themes';
 export {
     applyStyles,
     injectStyles,
@@ -32,4 +33,9 @@ export {
     mergePreferences,
     mergeStyles,
 } from './merge';
-export { syncThemeColorMeta, THEME_COLOR } from './theme-color';
+export {
+    syncThemeColorMeta,
+    THEME_BOOTSTRAP_SCRIPT,
+    THEME_COLOR,
+} from './theme-color';
+export { getUserStyles, mergeUserStyles } from './user-styles';

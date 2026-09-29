@@ -11,12 +11,13 @@ import {
     type UserCustomizationResponse,
 } from '@hikka/api';
 
-import { getActiveEventTheme } from '@/utils/constants/event-themes';
 import {
     DEFAULT_USER_UI,
+    getActiveEventTheme,
     mergeEffects,
     mergePreferences,
     mergeStyles,
+    mergeUserStyles,
     type ResolvedBackdrop,
     resolveBackdrop,
 } from '@/utils/customization';
@@ -66,13 +67,11 @@ export function useSessionUI(): SessionUI {
             DEFAULT_USER_UI.styles,
             userUI.styles,
         );
-        // Layer defaults < event theme < user's sparse styles (matches SSR in
-        // utils/customization/user-styles.ts): event theme applies only where
-        // the user hasn't customized. Merging it under the densified
-        // resolvedStyles would mask it.
         const eventTheme = getActiveEventTheme();
-        const mergedStyles = mergeStyles(
-            mergeStyles(DEFAULT_USER_UI.styles, eventTheme?.styles),
+        // Sparse styles on purpose: resolvedStyles would mask the event theme.
+        const mergedStyles = mergeUserStyles(
+            DEFAULT_USER_UI.styles,
+            eventTheme,
             userUI.styles,
         );
         const activeEffects = mergeEffects(

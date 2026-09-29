@@ -1,5 +1,16 @@
+import type { UiPreferencesOutput, UiStylesOutput } from '@hikka/api';
+
+export type EventTheme = {
+    id: string;
+    name: string;
+    styles?: UiStylesOutput;
+    effects?: NonNullable<UiPreferencesOutput['effect']>[];
+    startDate: Date;
+    endDate: Date;
+};
+
 /** Event themes activated within their date ranges. */
-export const EVENT_THEMES: Hikka.EventTheme[] = [
+export const EVENT_THEMES: EventTheme[] = [
     {
         id: 'new-year',
         name: 'New Year',
@@ -9,7 +20,7 @@ export const EVENT_THEMES: Hikka.EventTheme[] = [
     },
 ];
 
-export function getActiveEventTheme(): Hikka.EventTheme | null {
+export function getActiveEventTheme(): EventTheme | null {
     const now = new Date();
 
     for (const theme of EVENT_THEMES) {

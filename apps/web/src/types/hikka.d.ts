@@ -1,10 +1,6 @@
 import { ReactElement, ReactNode } from 'react';
 
-import type {
-    UiPreferencesOutput,
-    UiStylesOutput,
-    UserRoleEnum,
-} from '@hikka/api';
+import type { UserRoleEnum } from '@hikka/api';
 
 declare global {
     namespace Hikka {
@@ -42,14 +38,5 @@ declare global {
         };
 
         type View = 'table' | 'grid' | 'list';
-
-        type EventTheme = {
-            id: string;
-            name: string;
-            styles?: UiStylesOutput;
-            effects?: NonNullable<UiPreferencesOutput['effect']>[];
-            startDate: Date;
-            endDate: Date;
-        };
     }
 }

@@ -1,11 +1,18 @@
-import type { UserCustomizationResponse } from '@hikka/api';
-
-import { getActiveEventTheme } from '@/utils/constants/event-themes';
+import type { UiStylesOutput, UserCustomizationResponse } from '@hikka/api';
 
 import { type ResolvedBackdrop, resolveBackdrop } from './backdrop';
 import { DEFAULT_USER_UI } from './defaults';
+import { type EventTheme, getActiveEventTheme } from './event-themes';
 import { stylesToCSS } from './inject-styles';
 import { mergeStyles } from './merge';
+
+export function mergeUserStyles(
+    defaults: UiStylesOutput | undefined,
+    eventTheme: EventTheme | null,
+    user: UiStylesOutput | undefined,
+): UiStylesOutput {
+    return mergeStyles(mergeStyles(defaults, eventTheme?.styles), user);
+}
 
 /**
  * Resolve a UserCustomizationResponse into the SSR-injectable CSS string and
@@ -15,9 +22,9 @@ export function getUserStyles(userUI: UserCustomizationResponse): {
     css: string;
     backdrop: ResolvedBackdrop;
 } {
-    const eventTheme = getActiveEventTheme();
-    const mergedStyles = mergeStyles(
-        mergeStyles(DEFAULT_USER_UI.styles, eventTheme?.styles),
+    const mergedStyles = mergeUserStyles(
+        DEFAULT_USER_UI.styles,
+        getActiveEventTheme(),
         userUI.styles,
     );
     return {

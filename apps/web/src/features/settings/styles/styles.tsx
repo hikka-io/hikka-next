@@ -13,9 +13,10 @@ import {
     applyBackdrop,
     clearLivePreview,
     DEFAULT_BRAND,
+    oklchEqual,
+    oklchToCss,
     setLiveVar,
 } from '@/utils/customization';
-import { oklchEqual, oklchToCss } from '@/utils/customization/color';
 
 import ColorField from './components/color-field';
 

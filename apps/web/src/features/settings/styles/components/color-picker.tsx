@@ -12,7 +12,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import { hexToOklch, oklchToHex } from '@/utils/customization/color';
+import { hexToOklch, oklchToHex } from '@/utils/customization';
 
 import Swatch from './swatch';
 

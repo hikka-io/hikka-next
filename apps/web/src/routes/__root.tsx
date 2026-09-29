@@ -27,9 +27,10 @@ import {
 import {
     backdropVars,
     DEFAULT_USER_UI,
+    getUserStyles,
     STYLE_ELEMENT_ID,
+    THEME_BOOTSTRAP_SCRIPT,
 } from '@/utils/customization';
-import { getUserStyles } from '@/utils/customization/user-styles';
 import { serializeJsonLd } from '@/utils/json-ld';
 import { usePlausiblePageviews } from '@/utils/plausible';
 
@@ -94,13 +95,11 @@ function RootLayout() {
         >
             <head>
                 <script
-                    // Also creates the theme-color meta (hexes must match
-                    // THEME_COLOR): head() must not own it, or HeadContent
-                    // reverts theme switches on client navigation.
+                    // Also creates the theme-color meta: head() must not own
+                    // it, or HeadContent reverts theme switches on client
+                    // navigation.
                     // biome-ignore lint/security/noDangerouslySetInnerHtml: static inline theme script to prevent FOUC; contains no user input.
-                    dangerouslySetInnerHTML={{
-                        __html: `(function(){var t='dark';try{var c=document.cookie.match(/(?:^|;\\s*)theme=([^;]*)/);t=c?decodeURIComponent(c[1]):'dark';if(t==='system'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}}catch(e){t='dark';}if(t!=='light'&&t!=='dark'){t='dark';}document.documentElement.classList.add(t);document.documentElement.style.colorScheme=t;var m=document.createElement('meta');m.name='theme-color';m.content=t==='light'?'#ffffff':'#000000';document.head.appendChild(m);})();`,
-                    }}
+                    dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }}
                 />
                 <HeadContent />
                 <script
