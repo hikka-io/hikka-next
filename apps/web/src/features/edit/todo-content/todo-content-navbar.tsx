@@ -1,9 +1,12 @@
 import { type FC, Suspense } from 'react';
 
 import { Separator } from '@/components/ui/separator';
-import { FiltersButton, type RenderFiltersModal } from '@/features/filters';
-import SearchInput from '@/features/filters/search-input';
-import Sort from '@/features/filters/sort';
+import {
+    FiltersButton,
+    type RenderFiltersModal,
+    SearchInput,
+    Sort,
+} from '@/features/filters';
 import { cn } from '@/utils/cn';
 
 import type { TodoContentType } from '../hooks/use-todo-content-list';

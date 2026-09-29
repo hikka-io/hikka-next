@@ -1,12 +1,14 @@
 import type { FC } from 'react';
 
 import { useSession } from '@/features/auth/hooks/use-session';
-import ArticleCategory from '@/features/filters/article-category';
-import ArticleCustomization from '@/features/filters/article-customization';
-import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
-import Sort from '@/features/filters/sort';
-import Tag from '@/features/filters/tag';
-import User from '@/features/filters/user';
+import {
+    ArticleCategoryFilter,
+    ArticleDraftsFilter,
+    ClearFiltersFooter,
+    Sort,
+    TagFilter,
+    UserFilter,
+} from '@/features/filters';
 import { cn } from '@/utils/cn';
 
 type Props = {
@@ -19,11 +21,11 @@ export const ArticleFiltersBody: FC<Props> = ({ className }) => {
 
     return (
         <div className={cn('flex flex-col gap-8', className)}>
-            <ArticleCategory />
+            <ArticleCategoryFilter />
             <Sort sort_type="article" />
-            <User title="Автор" paramKey="author" />
-            <Tag />
-            {user && <ArticleCustomization />}
+            <UserFilter title="Автор" paramKey="author" />
+            <TagFilter />
+            {user && <ArticleDraftsFilter />}
         </div>
     );
 };

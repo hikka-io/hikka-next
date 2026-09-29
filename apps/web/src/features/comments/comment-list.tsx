@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/header';
 import { LoginButton } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
-import Sort from '@/features/filters/sort';
+import { Sort } from '@/features/filters';
 import CommentsProvider from '@/services/providers/comments-provider';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';

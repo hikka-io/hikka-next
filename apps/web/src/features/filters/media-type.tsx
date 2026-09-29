@@ -18,7 +18,7 @@ import {
 } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
 
-import useChangeParam from './hooks/use-change-param';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;

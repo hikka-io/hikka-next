@@ -13,8 +13,8 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useRouteSearch } from '@/utils/navigation';
 
-import useChangeParam from '../hooks/use-change-param';
-import YearFilterInput from './components/year-filter-input';
+import { useChangeParam } from '../use-change-param';
+import YearFilterInput from './year-filter-input';
 
 const YEARS: [number, number] = [1965, new Date().getFullYear()];
 const DEFAULT_YEAR_START = YEARS[0].toString();

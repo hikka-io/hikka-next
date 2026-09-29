@@ -17,14 +17,14 @@ import {
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
 
-import useChangeParam from './hooks/use-change-param';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
     contentTypes: ContentTypeEnum[];
 };
 
-const ContentType: FC<Props> = ({ contentTypes }) => {
+const ContentTypeFilter: FC<Props> = ({ contentTypes }) => {
     const { content_type } = useRouteSearch<{ content_type?: string }>();
 
     const handleChangeParam = useChangeParam();
@@ -60,4 +60,4 @@ const ContentType: FC<Props> = ({ contentTypes }) => {
     );
 };
 
-export default ContentType;
+export default ContentTypeFilter;

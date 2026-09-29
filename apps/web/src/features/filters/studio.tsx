@@ -24,7 +24,7 @@ import {
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useRouteSearch } from '@/utils/navigation';
 
-import useChangeParam from './hooks/use-change-param';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;

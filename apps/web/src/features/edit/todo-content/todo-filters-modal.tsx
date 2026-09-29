@@ -7,7 +7,7 @@ import {
     ResponsiveModalContent,
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
-import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
+import { ClearFiltersFooter } from '@/features/filters';
 
 import { TodoFiltersBody } from './todo-filters';
 import type { TodoFiltersValue } from './todo-filters-value';

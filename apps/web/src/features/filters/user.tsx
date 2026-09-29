@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/select';
 import { useRouteSearch } from '@/utils/navigation';
 
-import useChangeParam from './hooks/use-change-param';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
@@ -27,7 +27,7 @@ type Props = {
     title: string;
 };
 
-const User: FC<Props> = ({ paramKey, title }) => {
+const UserFilter: FC<Props> = ({ paramKey, title }) => {
     const search = useRouteSearch();
     const user = search[paramKey] as string | undefined;
     const [userSearch, setUserSearch] = useState<string>();
@@ -92,4 +92,4 @@ const User: FC<Props> = ({ paramKey, title }) => {
     );
 };
 
-export default User;
+export default UserFilter;

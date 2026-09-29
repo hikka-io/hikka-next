@@ -6,13 +6,13 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useRouteSearch } from '@/utils/navigation';
 
-import useChangeParam from './hooks/use-change-param';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
-const ArticleCustomization: FC<Props> = () => {
+const ArticleDraftsFilter: FC<Props> = () => {
     const { draft } = useRouteSearch<{ draft?: boolean }>();
 
     const handleChangeParam = useChangeParam();
@@ -32,4 +32,4 @@ const ArticleCustomization: FC<Props> = () => {
     );
 };
 
-export default ArticleCustomization;
+export default ArticleDraftsFilter;

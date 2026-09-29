@@ -10,7 +10,7 @@ import {
 import { cn } from '@/utils/cn';
 
 import FilterPresetEditModal from './filter-preset-edit-modal';
-import FilterPresetModal from './filter-preset-edit-modal/filter-preset-modal';
+import FilterPresetModal from './filter-preset-modal';
 
 type Props = {
     className?: string;

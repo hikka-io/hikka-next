@@ -1,6 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 
-const useChangeParam = () => {
+export const useChangeParam = () => {
     const navigate = useNavigate();
 
     const handleChangeParam = (
@@ -36,5 +36,3 @@ const useChangeParam = () => {
 
     return handleChangeParam;
 };
-
-export default useChangeParam;

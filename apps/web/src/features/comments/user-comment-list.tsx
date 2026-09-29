@@ -22,7 +22,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import Sort from '@/features/filters/sort';
+import { Sort } from '@/features/filters';
 import CommentsProvider from '@/services/providers/comments-provider';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';

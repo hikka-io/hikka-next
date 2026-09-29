@@ -5,8 +5,11 @@ import { ContentTypeEnum } from '@hikka/api';
 import { MangaCard as MangaCardItem } from '@/components/content-card';
 import type { StackSize } from '@/components/ui/stack';
 import { useSessionUI } from '@/features/auth';
-import { CatalogListItem, useCatalogView } from '@/features/catalog';
-import CatalogListView from '@/features/catalog/catalog-list-view';
+import {
+    CatalogListItem,
+    CatalogListView,
+    useCatalogView,
+} from '@/features/catalog';
 import { getTitle } from '@/utils/title/get-title';
 
 import { useMangaSearchQuery } from './use-manga-search-query';

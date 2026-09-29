@@ -39,10 +39,12 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useCatalogView } from '@/features/catalog';
-import { FiltersButton } from '@/features/filters';
-import useChangeParam from '@/features/filters/hooks/use-change-param';
-import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
-import Sort from '@/features/filters/sort';
+import {
+    FiltersButton,
+    Sort,
+    useChangeParam,
+    useFiltersSidebar,
+} from '@/features/filters';
 import { cn } from '@/utils/cn';
 import {
     CONTENT_TYPES,

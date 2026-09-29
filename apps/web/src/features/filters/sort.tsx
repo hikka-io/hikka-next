@@ -29,7 +29,7 @@ import { cn } from '@/utils/cn';
 import { useRouteSearch } from '@/utils/navigation';
 import { getSort, type SortType } from '@/utils/sort';
 
-import useChangeParam from './hooks/use-change-param';
+import { useChangeParam } from './use-change-param';
 
 export type SortSize = 'sm' | 'md';
 

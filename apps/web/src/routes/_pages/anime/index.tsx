@@ -14,8 +14,8 @@ import {
     AnimeFilters,
     AnimeFiltersModal,
     HeaderFiltersButton,
+    useFiltersSidebar,
 } from '@/features/filters';
-import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { animeSearchSchema } from '@/utils/search-schemas';

@@ -5,14 +5,15 @@ import {
     type ReadContentTypeEnum as ReadContentType,
 } from '@hikka/api';
 
-import FiltersFooter from '@/features/filters/filters-footer';
-import Genre from '@/features/filters/genre';
-import Localization from '@/features/filters/localization';
-import MediaType from '@/features/filters/media-type';
-import ReleaseStatus from '@/features/filters/release-status';
-import Score from '@/features/filters/score';
-import Year from '@/features/filters/year';
 import { cn } from '@/utils/cn';
+
+import FiltersFooter from './filters-footer';
+import Genre from './genre';
+import Localization from './localization';
+import MediaType from './media-type';
+import ReleaseStatus from './release-status';
+import Score from './score';
+import Year from './year';
 
 type BodyProps = {
     className?: string;

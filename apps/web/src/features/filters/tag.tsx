@@ -6,13 +6,13 @@ import { InputTags } from '@/components/ui/input-tags';
 import { Label } from '@/components/ui/label';
 import { useRouteSearch } from '@/utils/navigation';
 
-import useChangeParam from './hooks/use-change-param';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
-const Tag: FC<Props> = () => {
+const TagFilter: FC<Props> = () => {
     const { tags = [] } = useRouteSearch<{ tags?: string[] }>();
 
     const handleChangeParam = useChangeParam();
@@ -33,4 +33,4 @@ const Tag: FC<Props> = () => {
     );
 };
 
-export default Tag;
+export default TagFilter;

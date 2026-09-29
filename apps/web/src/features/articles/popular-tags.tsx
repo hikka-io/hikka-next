@@ -8,7 +8,7 @@ import { BadgeFilter } from '@/components/ui/badge-filter';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import useChangeParam from '@/features/filters/hooks/use-change-param';
+import { useChangeParam } from '@/features/filters';
 import { useRouteSearch } from '@/utils/navigation';
 
 type Props = {};

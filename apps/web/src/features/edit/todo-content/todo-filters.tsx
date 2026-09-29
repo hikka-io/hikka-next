@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
+import { ClearFiltersFooter } from '@/features/filters';
 import { cn } from '@/utils/cn';
 
 import type { TodoFiltersValue } from './todo-filters-value';

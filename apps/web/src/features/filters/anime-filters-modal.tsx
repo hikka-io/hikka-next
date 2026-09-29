@@ -7,9 +7,9 @@ import {
     ResponsiveModalContent,
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
-import FiltersFooter from '@/features/filters/filters-footer';
 
 import { AnimeFiltersBody } from './anime-filters';
+import FiltersFooter from './filters-footer';
 
 type Props = {
     open: boolean;

@@ -13,8 +13,8 @@ import {
     HeaderFiltersButton,
     ReadFilters,
     ReadFiltersModal,
+    useFiltersSidebar,
 } from '@/features/filters';
-import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { NovelList, NovelListSummary } from '@/features/novel';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';

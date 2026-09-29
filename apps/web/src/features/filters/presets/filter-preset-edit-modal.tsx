@@ -6,23 +6,23 @@ import { ContentTypeEnum } from '@hikka/api';
 import { useAppForm } from '@/components/form/use-app-form';
 import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
-import { FormAgeRating } from '@/features/filters/age-rating';
-import { FormDateRange } from '@/features/filters/date-range';
-import { FormGenre } from '@/features/filters/genre';
-import { FormLocalization } from '@/features/filters/localization';
-import { FormMediaType } from '@/features/filters/media-type';
-import { FormReleaseStatus } from '@/features/filters/release-status';
-import { FormScore } from '@/features/filters/score';
-import { FormSeason } from '@/features/filters/season';
-import { FormSort } from '@/features/filters/sort';
-import { FormStudio } from '@/features/filters/studio';
-import { FormYear } from '@/features/filters/year';
 import { useSettingsStore } from '@/services/stores/settings-store';
 import { cn } from '@/utils/cn';
 import { z } from '@/utils/i18n/zod';
 import type { SortType } from '@/utils/sort';
 
-import ContentTypeSelect from './components/content-type-select';
+import { FormAgeRating } from '../age-rating';
+import { FormDateRange } from '../date-range';
+import { FormGenre } from '../genre';
+import { FormLocalization } from '../localization';
+import { FormMediaType } from '../media-type';
+import { FormReleaseStatus } from '../release-status';
+import { FormScore } from '../score';
+import { FormSeason } from '../season';
+import { FormSort } from '../sort';
+import { FormStudio } from '../studio';
+import { FormYear } from '../year';
+import ContentTypeSelect from './content-type-select';
 
 const formSchema = z.object({
     name: z.string().min(1).max(255),

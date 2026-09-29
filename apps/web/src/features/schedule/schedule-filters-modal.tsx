@@ -8,7 +8,7 @@ import {
     ResponsiveModalFooter,
     ResponsiveModalTrigger,
 } from '@/components/ui/responsive-modal';
-import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
+import { ClearFiltersFooter } from '@/features/filters';
 
 import { ScheduleFiltersBody } from './schedule-filters';
 

@@ -2,16 +2,18 @@ import type { FC } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import AgeRating from '@/features/filters/age-rating';
-import Genre from '@/features/filters/genre';
-import Issues from '@/features/filters/issues';
-import Magazine from '@/features/filters/magazine';
-import MalId from '@/features/filters/mal-id';
-import MediaType from '@/features/filters/media-type';
-import ReleaseStatus from '@/features/filters/release-status';
-import Season from '@/features/filters/season';
-import Studio from '@/features/filters/studio';
-import Year from '@/features/filters/year';
+import {
+    AgeRating,
+    Genre,
+    Issues,
+    Magazine,
+    MalId,
+    MediaType,
+    ReleaseStatus,
+    Season,
+    Studio,
+    Year,
+} from '@/features/filters';
 import { CONTENT_ISSUES } from '@/utils/constants/common';
 
 import type { TodoFiltersValue } from './todo-filters-value';

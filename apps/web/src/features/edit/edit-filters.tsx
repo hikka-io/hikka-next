@@ -2,11 +2,13 @@ import type { FC } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
-import ContentType from '@/features/filters/content-type';
-import EditStatusFilter from '@/features/filters/edit-status';
-import Sort from '@/features/filters/sort';
-import User from '@/features/filters/user';
+import {
+    ClearFiltersFooter,
+    ContentTypeFilter,
+    EditStatusFilter,
+    Sort,
+    UserFilter,
+} from '@/features/filters';
 import { cn } from '@/utils/cn';
 
 type Props = {
@@ -19,7 +21,7 @@ export const EditFiltersBody: FC<Props> = ({ className }) => {
         <div className={cn('flex flex-col gap-8', className)}>
             <Sort sort_type="edit" />
             <EditStatusFilter />
-            <ContentType
+            <ContentTypeFilter
                 contentTypes={[
                     ContentTypeEnum.ANIME,
                     ContentTypeEnum.MANGA,
@@ -28,8 +30,8 @@ export const EditFiltersBody: FC<Props> = ({ className }) => {
                     ContentTypeEnum.PERSON,
                 ]}
             />
-            <User title="Автор" paramKey="author" />
-            <User title="Модератор" paramKey="moderator" />
+            <UserFilter title="Автор" paramKey="author" />
+            <UserFilter title="Модератор" paramKey="moderator" />
         </div>
     );
 };

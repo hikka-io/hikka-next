@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { useSession } from '@/features/auth/hooks/use-session';
-import ClearFiltersFooter from '@/features/filters/clear-filters-footer';
+import { ClearFiltersFooter } from '@/features/filters';
 import { cn } from '@/utils/cn';
 import { RELEASE_STATUS, SEASON } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';

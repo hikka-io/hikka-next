@@ -20,7 +20,6 @@ import {
 import { cn } from '@/utils/cn';
 import { useRouteSearch } from '@/utils/navigation';
 
-// Deep import (not the @/features/content barrel) avoids a module-init cycle that broke hydration.
 import FilterPresetEditModal from './presets/filter-preset-edit-modal';
 
 export type FiltersFooterProps = {

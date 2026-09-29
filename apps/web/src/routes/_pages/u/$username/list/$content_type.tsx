@@ -24,8 +24,11 @@ import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
 import { useCatalogView } from '@/features/catalog';
-import { AnimeFilters, ReadFilters } from '@/features/filters';
-import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
+import {
+    AnimeFilters,
+    ReadFilters,
+    useFiltersSidebar,
+} from '@/features/filters';
 import { Userlist, UserlistNavbar } from '@/features/users';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';

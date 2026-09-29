@@ -2,18 +2,19 @@ import type { FC } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import AgeRating from '@/features/filters/age-rating';
-import DateRange from '@/features/filters/date-range';
-import FiltersFooter from '@/features/filters/filters-footer';
-import Genre from '@/features/filters/genre';
-import Localization from '@/features/filters/localization';
-import MediaType from '@/features/filters/media-type';
-import ReleaseStatus from '@/features/filters/release-status';
-import Score from '@/features/filters/score';
-import Season from '@/features/filters/season';
-import Studio from '@/features/filters/studio';
-import Year from '@/features/filters/year';
 import { cn } from '@/utils/cn';
+
+import AgeRating from './age-rating';
+import DateRange from './date-range';
+import FiltersFooter from './filters-footer';
+import Genre from './genre';
+import Localization from './localization';
+import MediaType from './media-type';
+import ReleaseStatus from './release-status';
+import Score from './score';
+import Season from './season';
+import Studio from './studio';
+import Year from './year';
 
 type BodyProps = {
     className?: string;

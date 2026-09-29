@@ -7,13 +7,13 @@ import { Label } from '@/components/ui/label';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
 
-import useChangeParam from './hooks/use-change-param';
+import { useChangeParam } from './use-change-param';
 
 type Props = {
     className?: string;
 };
 
-const ArticleCategory: FC<Props> = () => {
+const ArticleCategoryFilter: FC<Props> = () => {
     const { categories = [] } = useRouteSearch<{ categories?: string[] }>();
 
     const handleChangeParam = useChangeParam();
@@ -38,4 +38,4 @@ const ArticleCategory: FC<Props> = () => {
     );
 };
 
-export default ArticleCategory;
+export default ArticleCategoryFilter;

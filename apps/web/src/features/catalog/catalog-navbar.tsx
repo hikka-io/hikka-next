@@ -19,10 +19,10 @@ import {
     FilterPresets,
     FiltersButton,
     type RenderFiltersModal,
+    SearchInput,
+    Sort,
+    useFiltersSidebar,
 } from '@/features/filters';
-import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
-import SearchInput from '@/features/filters/search-input';
-import Sort from '@/features/filters/sort';
 import type { SortType } from '@/utils/sort';
 
 import { useCatalogView } from './use-catalog-view';
