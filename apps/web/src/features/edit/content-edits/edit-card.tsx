@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-import { type EditSimpleResponse, EditStatusEnum } from '@hikka/api';
+import type { EditSimpleResponse } from '@hikka/api';
 
 import {
     HorizontalCard,
@@ -52,11 +52,7 @@ const EditCard = ({ edit, href, to, className, ...props }: Props) => {
 
                 <Button
                     size="md"
-                    variant={
-                        edit.status === EditStatusEnum.CLOSED
-                            ? 'outline'
-                            : (statusStyle?.variant ?? 'warning')
-                    }
+                    variant={statusStyle?.variant ?? 'warning'}
                     render={<Link to={resolvedHref} />}
                 >
                     <StatusIcon />
