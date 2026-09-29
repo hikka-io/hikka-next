@@ -25,7 +25,7 @@ import SearchInput from '@/features/filters/search-input';
 import Sort from '@/features/filters/sort';
 import type { SortType } from '@/utils/sort';
 
-import { useCatalogView } from '../filters/hooks/use-catalog-view';
+import { useCatalogView } from './use-catalog-view';
 
 type Props = {
     sort_type: SortType;

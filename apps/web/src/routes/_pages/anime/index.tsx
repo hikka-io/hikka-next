@@ -9,13 +9,12 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
 import { AnimeList, AnimeListSummary } from '@/features/anime';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
-import { CatalogNavbar } from '@/features/catalog';
+import { CatalogNavbar, useCatalogView } from '@/features/catalog';
 import {
     AnimeFilters,
     AnimeFiltersModal,
     HeaderFiltersButton,
 } from '@/features/filters';
-import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';

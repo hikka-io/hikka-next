@@ -9,8 +9,7 @@ import {
 
 import LoadMoreButton from '@/components/load-more-button';
 import type { StackSize } from '@/components/ui/stack';
-import { CatalogSummary } from '@/features/catalog';
-import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
+import { CatalogSummary, useCatalogView } from '@/features/catalog';
 import { useRouteSearch } from '@/utils/navigation';
 
 import GridView from './components/grid-view';

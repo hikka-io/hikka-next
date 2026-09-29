@@ -5,11 +5,11 @@ import { ContentTypeEnum } from '@hikka/api';
 import { NovelCard as NovelCardItem } from '@/components/content-card';
 import { ContentListItem } from '@/components/content-list';
 import type { StackSize } from '@/components/ui/stack';
+import { useSessionUI } from '@/features/auth';
+import { useCatalogView } from '@/features/catalog';
 import CatalogListView from '@/features/catalog/catalog-list-view';
 import { getTitle } from '@/utils/title/get-title';
 
-import { useSessionUI } from '../../auth';
-import { useCatalogView } from '../../filters/hooks/use-catalog-view';
 import { useNovelSearchQuery } from './use-novel-search-query';
 
 type Props = {

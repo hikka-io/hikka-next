@@ -38,8 +38,8 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useCatalogView } from '@/features/catalog';
 import { FiltersButton } from '@/features/filters';
-import { useCatalogView } from '@/features/filters/hooks/use-catalog-view';
 import useChangeParam from '@/features/filters/hooks/use-change-param';
 import { useFiltersSidebar } from '@/features/filters/hooks/use-filters-sidebar';
 import Sort from '@/features/filters/sort';
