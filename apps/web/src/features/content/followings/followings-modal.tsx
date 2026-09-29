@@ -1,25 +1,23 @@
 import type { FC } from 'react';
 
-import { range } from '@antfu/utils';
-
 import {
     ContentTypeEnum,
     getReadFollowingInfiniteOptions,
     getWatchFollowingInfiniteOptions,
     type MainContentTypeEnum,
     type ReadContentTypeEnum,
+    type UserResponseWithRead,
+    type UserResponseWithWatch,
 } from '@hikka/api';
 
 import MaterialSymbolsPerson2OutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPerson2OutlineRounded';
-import LoadMoreButton from '@/components/load-more-button';
+import InfiniteListSheet from '@/components/infinite-list-sheet';
 import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
 import FollowingItem from './components/following-item';
 import FollowingItemSkeleton from './components/following-item-skeleton';
-
-const SKELETON_COUNT = 5;
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -55,12 +53,16 @@ const FollowingsModal: FC<Props> = ({ content_type }) => {
     } = content_type === 'anime' ? watchListQuery : readListQuery;
 
     return (
-        <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-            {isLoading &&
-                range(0, SKELETON_COUNT).map((index) => (
-                    <FollowingItemSkeleton key={index} />
-                ))}
-            {list?.map((item) => (
+        <InfiniteListSheet<UserResponseWithWatch | UserResponseWithRead>
+            className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4"
+            list={list}
+            isLoading={isLoading}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            fetchNextPage={fetchNextPage}
+            loadMoreRef={ref}
+            skeleton={FollowingItemSkeleton}
+            renderItem={(item) => (
                 <FollowingItem
                     data={{
                         type: 'watch' in item ? 'watch' : 'read',
@@ -69,22 +71,15 @@ const FollowingsModal: FC<Props> = ({ content_type }) => {
                     }}
                     key={item.reference}
                 />
-            ))}
-            {!isLoading && list?.length === 0 && (
+            )}
+            emptyState={
                 <EmptyState
                     icon={<MaterialSymbolsPerson2OutlineRounded />}
                     title="Тут поки порожньо"
                     description="Ніхто з користувачів, за якими ви стежите, ще не додав цей тайтл до списку"
                 />
-            )}
-            {hasNextPage && (
-                <LoadMoreButton
-                    isFetchingNextPage={isFetchingNextPage}
-                    fetchNextPage={fetchNextPage}
-                    ref={ref}
-                />
-            )}
-        </div>
+            }
+        />
     );
 };
 

@@ -1,6 +1,9 @@
 import { type FC, useState } from 'react';
 
-import { getCollectionsInfiniteOptions } from '@hikka/api';
+import {
+    type CollectionsListArgs,
+    getCollectionsInfiniteOptions,
+} from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsGridViewRounded from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
@@ -20,12 +23,11 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { CollectionListModal } from '@/features/collections';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';
-
-import CollectionsModal from './components/collections-modal';
 
 type Props = {
     className?: string;
@@ -38,14 +40,14 @@ const UserCollections: FC<Props> = ({ className }) => {
 
     const { user: loggedUser } = useSession();
 
+    const body: CollectionsListArgs = {
+        author: String(params.username),
+        sort: ['created:desc'],
+        only_public: false,
+    };
+
     const { list: collections } = useInfiniteList(
-        getCollectionsInfiniteOptions({
-            body: {
-                author: String(params.username),
-                sort: ['created:desc'],
-                only_public: false,
-            },
-        }),
+        getCollectionsInfiniteOptions({ body }),
     );
 
     if (!collections) {
@@ -110,7 +112,16 @@ const UserCollections: FC<Props> = ({ className }) => {
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Колекції">
-                    <CollectionsModal />
+                    <CollectionListModal
+                        body={body}
+                        emptyState={
+                            <EmptyState
+                                icon={<MaterialSymbolsGridViewRounded />}
+                                title="Колекції відсутні"
+                                description="Тут з’являться колекції цього користувача"
+                            />
+                        }
+                    />
                 </ResponsiveModalContent>
             </ResponsiveModal>
         </>

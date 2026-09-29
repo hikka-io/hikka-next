@@ -2,12 +2,15 @@ import { type FC, useState } from 'react';
 
 import {
     type CollectionContentTypeEnum,
+    type CollectionsListArgs,
     getCollectionsInfiniteOptions,
 } from '@hikka/api';
 
+import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import { CollectionItem } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
+import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
     HeaderContainer,
@@ -18,11 +21,10 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
+import { CollectionListModal } from '@/features/collections';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
-
-import CollectionsModal from './collections-modal';
 
 type Props = {
     content_type: CollectionContentTypeEnum;
@@ -33,14 +35,12 @@ const Collections: FC<Props> = ({ content_type }) => {
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
 
-    const { list } = useInfiniteList(
-        getCollectionsInfiniteOptions({
-            body: {
-                content_type,
-                content: [String(params.slug)],
-            },
-        }),
-    );
+    const body: CollectionsListArgs = {
+        content_type,
+        content: [String(params.slug)],
+    };
+
+    const { list } = useInfiniteList(getCollectionsInfiniteOptions({ body }));
 
     if (!list || list.length === 0) return null;
 
@@ -68,7 +68,16 @@ const Collections: FC<Props> = ({ content_type }) => {
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="left" title="Колекції">
-                    <CollectionsModal content_type={content_type} />
+                    <CollectionListModal
+                        body={body}
+                        emptyState={
+                            <EmptyState
+                                icon={<MaterialSymbolsStack />}
+                                title="Колекцій не знайдено"
+                                description="Цей тайтл ще не додано до жодної колекції"
+                            />
+                        }
+                    />
                 </ResponsiveModalContent>
             </ResponsiveModal>
         </>
