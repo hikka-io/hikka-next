@@ -5,17 +5,7 @@ import { HikkaApiError, oauthToken } from '@hikka/api';
 import { firstForwardedIp } from '@/utils/api/client-ip';
 import { createServerHikkaClient } from '@/utils/api/server-client';
 import { COOKIE, makeCookieHeader } from '@/utils/cookies';
-import { getSiteUrl } from '@/utils/url';
-
-const resolveRedirectBase = (state: string, siteUrl: string): URL => {
-    try {
-        const target = new URL(state, siteUrl);
-        if (target.origin === new URL(siteUrl).origin) return target;
-    } catch {
-        // ignore
-    }
-    return new URL(siteUrl);
-};
+import { getSiteUrl, resolveSameOriginUrl } from '@/utils/url';
 
 export const Route = createFileRoute('/auth/google')({
     server: {
@@ -24,7 +14,9 @@ export const Route = createFileRoute('/auth/google')({
                 const url = new URL(request.url);
                 const code = url.searchParams.get('code');
                 const state = url.searchParams.get('state') ?? '/';
-                const redirectBase = resolveRedirectBase(state, getSiteUrl());
+                const siteUrl = getSiteUrl();
+                const redirectBase =
+                    resolveSameOriginUrl(state, siteUrl) ?? new URL(siteUrl);
 
                 try {
                     const client = createServerHikkaClient(

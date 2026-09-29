@@ -10,20 +10,25 @@ export const getSiteUrl = (): string => {
     return 'http://localhost:3000';
 };
 
+export const resolveSameOriginUrl = (
+    target: string,
+    base: string,
+): URL | null => {
+    try {
+        const url = new URL(target, base);
+
+        return url.origin === new URL(base).origin ? url : null;
+    } catch {
+        return null;
+    }
+};
+
 /**
  * Sanitizes a redirect URL to prevent open-redirect attacks: only same-origin
  * paths pass through; anything invalid or external falls back to '/'.
  */
 export const validateRedirectUrl = (url: string): string => {
-    try {
-        const parsed = new URL(url, window.location.origin);
+    const parsed = resolveSameOriginUrl(url, window.location.origin);
 
-        if (parsed.origin === window.location.origin) {
-            return parsed.pathname + parsed.search;
-        }
-    } catch (e) {
-        console.error(e);
-    }
-
-    return '/';
+    return parsed ? parsed.pathname + parsed.search : '/';
 };
