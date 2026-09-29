@@ -6,6 +6,10 @@ import { getArticlesInfiniteOptions } from '@hikka/api';
 
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
+import {
+    ArticlePreviewCard,
+    ArticlePreviewCardSkeleton,
+} from '@/components/list-items';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -17,10 +21,6 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-    ArticlePreviewCard,
-    ArticlePreviewCardSkeleton,
-} from '@/features/articles';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';

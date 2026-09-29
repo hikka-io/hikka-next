@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { getArticlesInfiniteOptions } from '@hikka/api';
 
 import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/MaterialSymbolsDraftRounded';
+import ArticleItemCompact from '@/components/list-items/article-item-compact';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,8 +21,6 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link, useParams } from '@/utils/navigation';
-
-import ArticleItem from './components/article-item';
 
 type Props = {};
 
@@ -71,7 +70,7 @@ const UserArticles: FC<Props> = () => {
             </Header>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 {availableArticles?.map((article) => (
-                    <ArticleItem key={article.slug} article={article} />
+                    <ArticleItemCompact key={article.slug} article={article} />
                 ))}
             </div>
         </Block>

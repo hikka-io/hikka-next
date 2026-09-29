@@ -18,7 +18,7 @@ type Props = {
     article: ArticlePreviewResponse;
 };
 
-const ArticleItem: FC<Props> = ({ article }) => {
+const ArticleItemCompact: FC<Props> = ({ article }) => {
     return (
         <Card className="gap-2">
             <HorizontalCard>
@@ -57,4 +57,4 @@ const ArticleItem: FC<Props> = ({ article }) => {
     );
 };
 
-export default ArticleItem;
+export default ArticleItemCompact;

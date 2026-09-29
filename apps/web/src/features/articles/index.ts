@@ -7,8 +7,6 @@ export { default as ArticleListFilters } from './article-list/article-filters';
 export { default as ArticleList } from './article-list/article-list';
 export { default as ArticleListPopularAuthors } from './article-list/popular-authors';
 export { default as ArticleListPopularTags } from './article-list/popular-tags';
-export { default as ArticlePreviewCard } from './article-preview-card/article-preview-card';
-export { default as ArticlePreviewCardSkeleton } from './article-preview-card/article-preview-card-skeleton';
 export { default as ArticleViewActionsMenu } from './article-view/article-actions-menu';
 export { default as ArticleViewAuthor } from './article-view/article-author';
 export { default as ArticleViewDocument } from './article-view/article-document';

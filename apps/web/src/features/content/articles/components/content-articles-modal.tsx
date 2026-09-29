@@ -8,12 +8,12 @@ import {
 } from '@hikka/api';
 
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
-import LoadMoreButton from '@/components/load-more-button';
-import EmptyState from '@/components/ui/empty-state';
 import {
     ArticlePreviewCard,
     ArticlePreviewCardSkeleton,
-} from '@/features/articles';
+} from '@/components/list-items';
+import LoadMoreButton from '@/components/load-more-button';
+import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 

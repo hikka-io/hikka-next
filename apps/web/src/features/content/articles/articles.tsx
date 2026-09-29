@@ -5,6 +5,7 @@ import {
     type MainContentTypeEnum,
 } from '@hikka/api';
 
+import { ArticlePreviewCard } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import {
@@ -17,7 +18,6 @@ import {
     ResponsiveModal,
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
-import { ArticlePreviewCard } from '@/features/articles';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
