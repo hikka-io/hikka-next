@@ -36,6 +36,29 @@ type TodoContentListParams = {
     sort: string[];
 };
 
+// The generated todo options put the page param into the body, but the backend pages on ?page=.
+function todoPageOptions<TOptions extends { queryKey: readonly unknown[] }>(
+    options: TOptions,
+    page: number,
+): TOptions {
+    const paginated = paginatedInfiniteOptions(options, page) as TOptions & {
+        queryFn: (context: { pageParam: unknown }) => unknown;
+    };
+    const { queryFn } = paginated;
+
+    return {
+        ...paginated,
+        queryFn: (context: { pageParam: number }) =>
+            queryFn({
+                ...context,
+                pageParam: {
+                    body: { page: context.pageParam },
+                    query: { page: context.pageParam },
+                },
+            }),
+    };
+}
+
 function toAnimeTodoArgs(filters: TodoFiltersValue): AnimeTodoArgs {
     return {
         media_type: filters.types as AnimeMediaEnum[] | undefined,
@@ -83,14 +106,14 @@ export function useTodoContentList(
 ) {
     const shared = { query, sort };
 
-    const animeOptions = paginatedInfiniteOptions(
+    const animeOptions = todoPageOptions(
         getTodoAnimeListInfiniteOptions({
             body: { ...toAnimeTodoArgs(filters), ...shared },
             query: { size },
         }),
         page,
     );
-    const mangaOptions = paginatedInfiniteOptions(
+    const mangaOptions = todoPageOptions(
         getTodoMangaListInfiniteOptions({
             body: {
                 ...toReadTodoArgs(filters),
@@ -101,7 +124,7 @@ export function useTodoContentList(
         }),
         page,
     );
-    const novelOptions = paginatedInfiniteOptions(
+    const novelOptions = todoPageOptions(
         getTodoNovelListInfiniteOptions({
             body: {
                 ...toReadTodoArgs(filters),
@@ -112,14 +135,14 @@ export function useTodoContentList(
         }),
         page,
     );
-    const characterOptions = paginatedInfiniteOptions(
+    const characterOptions = todoPageOptions(
         getTodoCharacterListInfiniteOptions({
             body: { ...toPersonTodoArgs(filters), ...shared },
             query: { size },
         }),
         page,
     );
-    const personOptions = paginatedInfiniteOptions(
+    const personOptions = todoPageOptions(
         getTodoPersonListInfiniteOptions({
             body: { ...toPersonTodoArgs(filters), ...shared },
             query: { size },
