@@ -13,6 +13,7 @@ import { Slider } from '@/components/ui/slider';
 import { useRouteSearch } from '@/utils/navigation';
 
 import { SCORE_RANGE } from './filter-ranges';
+import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
 
 const DEFAULT_SCORE_MIN = SCORE_RANGE[0];
@@ -73,11 +74,10 @@ const Score: FC<Props> = ({ score_type }) => {
     );
 };
 
-export const FormScore: FC<Props & Partial<SliderFieldProps>> = ({
-    score_type,
-    ...props
-}) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+export const FormScore: FC<
+    Partial<SliderFieldProps> & { score_type: 'score' }
+> = ({ score_type, ...props }) => {
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
@@ -86,7 +86,7 @@ export const FormScore: FC<Props & Partial<SliderFieldProps>> = ({
 
             <div className="flex items-center gap-2">
                 <form.AppField
-                    name={score_type as never}
+                    name={score_type}
                     children={() => (
                         <SliderField
                             {...props}

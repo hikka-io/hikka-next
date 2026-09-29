@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useRouteSearch } from '@/utils/navigation';
 
+import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
 
 type Props = {
@@ -44,10 +45,10 @@ const Localization: FC<Props> = () => {
 export const FormLocalization: FC<Props & Partial<SwitchFieldProps>> = (
     props,
 ) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <form.AppField
-            name={'only_translated' as never}
+            name="only_translated"
             children={() => (
                 <SwitchField {...props} label="Перекладено українською" />
             )}

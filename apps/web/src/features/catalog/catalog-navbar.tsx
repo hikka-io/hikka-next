@@ -154,7 +154,7 @@ const CatalogNavbar: FC<Props> = ({
                 <FilterPresets content_type={content_type} />
                 <Separator orientation="vertical" className="h-6" />
                 <div className="flex items-center gap-2">
-                    <FilterPresetButton />
+                    <FilterPresetButton contentType={content_type} />
                 </div>
             </div>
         </>

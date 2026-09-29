@@ -1,7 +1,5 @@
 import { type FC, useState } from 'react';
 
-import { useRouter } from '@tanstack/react-router';
-
 import type { ContentTypeEnum } from '@hikka/api';
 
 import AntDesignClearOutlined from '@/components/icons/ant-design/AntDesignClearOutlined';
@@ -22,6 +20,7 @@ import { useRouteSearch } from '@/utils/navigation';
 
 import FilterPresetEditModal from './presets/filter-preset-edit-modal';
 import type { FilterPreset } from './presets/types';
+import { useClearFilters } from './use-clear-filters';
 
 export type FiltersFooterProps = {
     className?: string;
@@ -37,27 +36,14 @@ const FiltersFooter: FC<FiltersFooterProps> = ({
     contentType,
     onDone,
 }) => {
-    const router = useRouter();
     const [open, setOpen] = useState(false);
     const [currentFilters, setCurrentFilters] =
         useState<Partial<FilterPreset> | null>(null);
     const search = useRouteSearch();
 
-    const clearFilters = () => {
-        // Clear filters only — keep the text query and sort, matching the
-        // "Очистити все" action in active-filters.
-        router.navigate({
-            to: '.',
-            search: (prev: Record<string, unknown>) => {
-                const next: Record<string, unknown> = {};
-                if (prev.search) next.search = prev.search;
-                if (prev.sort) next.sort = prev.sort;
-                if (prev.order) next.order = prev.order;
-                return next;
-            },
-            replace: true,
-        } as any);
-    };
+    const clearFilters = useClearFilters({
+        preserve: ['search', 'sort', 'order'],
+    });
 
     const handleCreateFromCurrent = () => {
         const next: Partial<FilterPreset> = {

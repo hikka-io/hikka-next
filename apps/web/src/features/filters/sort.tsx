@@ -29,6 +29,7 @@ import { cn } from '@/utils/cn';
 import { useRouteSearch } from '@/utils/navigation';
 import { getSort, type SortType } from '@/utils/sort';
 
+import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
 
 export type SortSize = 'sm' | 'md';
@@ -175,15 +176,15 @@ const Sort: FC<Props> = ({
 };
 
 export const FormSort: FC<Props & Partial<SelectFieldProps>> = (props) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
-    const order = useStore(form.store, (s) => (s.values as any).order);
+    const form = useTypedAppFormContext(filterPresetFormOptions);
+    const order = useStore(form.store, (s) => s.values.order);
 
     return (
         <div className="flex flex-col gap-2">
             <Label>Сортування</Label>
             <div className="flex gap-2">
                 <form.AppField
-                    name={'sort' as never}
+                    name="sort"
                     children={() => (
                         <SelectField
                             className="flex-1"
@@ -213,8 +214,8 @@ export const FormSort: FC<Props & Partial<SelectFieldProps>> = (props) => {
                     variant="outline"
                     onClick={() =>
                         form.setFieldValue(
-                            'order' as never,
-                            (order === 'asc' ? 'desc' : 'asc') as never,
+                            'order',
+                            order === 'asc' ? 'desc' : 'asc',
                         )
                     }
                 >

@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { SEASON } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
 
+import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
 
 type Props = {
@@ -49,10 +50,10 @@ const Season: FC<Props> = () => {
 export const FormSeason: FC<Props & Partial<BadgeFilterFieldProps>> = (
     props,
 ) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <form.AppField
-            name={'seasons' as never}
+            name="seasons"
             children={() => (
                 <BadgeFilterField
                     {...props}

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { ContentTypeEnum } from '@hikka/api';
+import type { ContentTypeEnum } from '@hikka/api';
 
 import CustomCopyAddRounded from '@/components/icons/custom/CustomCopyAddRounded';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
@@ -16,6 +16,7 @@ import { useFilterPresetsStore } from './filter-presets-store';
 import type { FilterPreset } from './types';
 
 type Props = {
+    contentType: ContentTypeEnum;
     onClose?: () => void;
     onCreatePreset?: () => void;
     onEditPreset?: (preset: FilterPreset) => void;
@@ -23,6 +24,7 @@ type Props = {
 };
 
 const FilterPresetModal: FC<Props> = ({
+    contentType,
     onClose,
     onCreatePreset,
     onEditPreset,
@@ -99,13 +101,7 @@ const FilterPresetModal: FC<Props> = ({
         if (order) currentFilters.order = String(order);
 
         if (!currentFilters.content_types) {
-            if (pathname.includes('/anime')) {
-                currentFilters.content_types = [ContentTypeEnum.ANIME];
-            } else if (pathname.includes('/manga')) {
-                currentFilters.content_types = [ContentTypeEnum.MANGA];
-            } else if (pathname.includes('/novel')) {
-                currentFilters.content_types = [ContentTypeEnum.NOVEL];
-            }
+            currentFilters.content_types = [contentType];
         }
 
         onCreateFromCurrent?.(currentFilters);

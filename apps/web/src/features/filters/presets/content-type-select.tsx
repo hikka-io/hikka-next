@@ -9,6 +9,8 @@ import {
 } from '@/components/ui/select';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 
+import { filterPresetFormOptions } from './filter-preset-form';
+
 // `@hikka/api` enums are const objects, so members are values — not usable in
 // type positions. Build the union from the literal value types instead.
 type FilterPresetContentType =
@@ -23,23 +25,23 @@ const FILTER_PRESET_CONTENT_TYPES: FilterPresetContentType[] = [
 ];
 
 const ContentTypeSelect = ({ disabled }: { disabled?: boolean }) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
 
     const handleResetForm = () => {
         setTimeout(() => {
-            const contentTypes = form.getFieldValue('content_types' as never);
-            const name = form.getFieldValue('name' as never);
-            const description = form.getFieldValue('description' as never);
+            const contentTypes = form.getFieldValue('content_types');
+            const name = form.getFieldValue('name');
+            const description = form.getFieldValue('description');
             form.reset();
-            form.setFieldValue('content_types' as never, contentTypes as never);
-            form.setFieldValue('name' as never, name as never);
-            form.setFieldValue('description' as never, description as never);
+            form.setFieldValue('content_types', contentTypes);
+            form.setFieldValue('name', name);
+            form.setFieldValue('description', description);
         }, 0);
     };
 
     return (
         <form.AppField
-            name={'content_types' as never}
+            name="content_types"
             children={() => (
                 <SelectField
                     label="Тип контенту"

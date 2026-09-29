@@ -24,6 +24,7 @@ import {
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useRouteSearch } from '@/utils/navigation';
 
+import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
 
 const STUDIO_SEARCH_MIN_LENGTH = 3;
@@ -132,10 +133,10 @@ export const FormStudio: FC<Props & Partial<SelectFieldProps>> = (props) => {
         setStudioSearch(keyword);
     };
 
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <form.AppField
-            name={'studios' as never}
+            name="studios"
             children={() => (
                 <SelectField
                     {...props}

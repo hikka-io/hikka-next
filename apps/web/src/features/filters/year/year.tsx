@@ -14,6 +14,7 @@ import { Slider } from '@/components/ui/slider';
 import { useRouteSearch } from '@/utils/navigation';
 
 import { YEAR_RANGE, YEARS } from '../filter-ranges';
+import { filterPresetFormOptions } from '../presets/filter-preset-form';
 import { useChangeParam } from '../use-change-param';
 import YearFilterInput from './year-filter-input';
 
@@ -91,8 +92,8 @@ const Year: FC<Props> = () => {
 };
 
 export const FormYear: FC<Props & Partial<SliderFieldProps>> = () => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
-    const years = useStore(form.store, (s) => (s.values as any).years);
+    const form = useTypedAppFormContext(filterPresetFormOptions);
+    const years = useStore(form.store, (s) => s.values.years);
 
     return (
         <div className="flex flex-col gap-2">
@@ -109,7 +110,7 @@ export const FormYear: FC<Props & Partial<SliderFieldProps>> = () => {
 
             <div className="flex items-center gap-2">
                 <form.AppField
-                    name={'years' as never}
+                    name="years"
                     children={() => (
                         <SliderField
                             min={Number(DEFAULT_YEAR_START)}

@@ -2,6 +2,8 @@ import { type FC, useState } from 'react';
 
 import { ListFilter } from 'lucide-react';
 
+import type { ContentTypeEnum } from '@hikka/api';
+
 import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,
@@ -15,9 +17,10 @@ import type { FilterPreset } from './types';
 
 type Props = {
     className?: string;
+    contentType: ContentTypeEnum;
 };
 
-const FilterPresetButton: FC<Props> = ({ className }) => {
+const FilterPresetButton: FC<Props> = ({ className, contentType }) => {
     const [presetsOpen, setPresetsOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
     const [editPreset, setEditPreset] = useState<FilterPreset | undefined>(
@@ -64,6 +67,7 @@ const FilterPresetButton: FC<Props> = ({ className }) => {
             >
                 <ResponsiveModalContent className="md:max-w-xl" title="Пресети">
                     <FilterPresetModal
+                        contentType={contentType}
                         onClose={() => setPresetsOpen(false)}
                         onCreatePreset={handleCreatePreset}
                         onEditPreset={handleEditPreset}

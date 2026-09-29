@@ -25,6 +25,7 @@ import {
 import { GENRE_TYPES } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
 
+import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
 
 type Props = {
@@ -92,10 +93,10 @@ export const FormGenre: FC<Props & Partial<SelectFieldProps>> = (props) => {
         return genreList && renderSelectOptions(groupOptions(genreList));
     }, [genreList]);
 
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <form.AppField
-            name={'genres' as never}
+            name="genres"
             children={() => (
                 <SelectField
                     {...props}

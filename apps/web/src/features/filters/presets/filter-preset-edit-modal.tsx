@@ -7,7 +7,6 @@ import { useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import { cn } from '@/utils/cn';
-import { z } from '@/utils/i18n/zod';
 import { DATE_RANGE } from '@/utils/season';
 import type { SortType } from '@/utils/sort';
 
@@ -24,43 +23,12 @@ import { FormSort } from '../sort';
 import { FormStudio } from '../studio';
 import { FormYear } from '../year';
 import ContentTypeSelect from './content-type-select';
+import {
+    type FilterPresetFormValues,
+    filterPresetFormOptions,
+} from './filter-preset-form';
 import { useFilterPresetsStore } from './filter-presets-store';
 import type { FilterPreset } from './types';
-
-const formSchema = z.object({
-    name: z.string().min(1).max(255),
-    description: z.string().min(1).max(500).optional(),
-    content_types: z.array(z.nativeEnum(ContentTypeEnum)),
-    statuses: z.array(z.string()).optional(),
-    seasons: z.array(z.string()).optional(),
-    types: z.array(z.string()).optional(),
-    genres: z.array(z.string()).optional(),
-    only_translated: z.boolean().optional(),
-    sort: z.string().nullable().optional(),
-    order: z.string().nullable().optional(),
-    ratings: z.array(z.string()).optional(),
-    studios: z.array(z.string()).optional(),
-    years: z.array(z.number()).optional(),
-    score: z.array(z.number()).optional(),
-    date_range_enabled: z.boolean().optional(),
-    date_range: z.array(z.number()).nullable().optional(),
-});
-
-const DEFAULT_VALUES = {
-    years: YEARS,
-    statuses: [],
-    seasons: [],
-    types: [],
-    genres: [],
-    only_translated: false,
-    sort: undefined,
-    order: null,
-    ratings: [],
-    studios: [],
-    date_range_enabled: false,
-    date_range: DATE_RANGE,
-    score: SCORE_RANGE,
-};
 
 const arraysEqual = (a: unknown[] | undefined, b: unknown[] | undefined) =>
     JSON.stringify(a) === JSON.stringify(b);
@@ -74,12 +42,14 @@ type Props = {
 const FilterPresetEditModal = ({ filterPreset, onClose, onBack }: Props) => {
     const { filterPresets, setFilterPresets } = useFilterPresetsStore();
 
+    const defaultValues: FilterPresetFormValues = {
+        ...filterPresetFormOptions.defaultValues,
+        ...(filterPreset ?? {}),
+    };
+
     const form = useAppForm({
-        defaultValues: {
-            ...DEFAULT_VALUES,
-            ...(filterPreset ?? {}),
-        } as z.infer<typeof formSchema>,
-        validators: { onSubmit: formSchema },
+        ...filterPresetFormOptions,
+        defaultValues,
         onSubmit: async ({ value }) => {
             const filteredData = Object.fromEntries(
                 Object.entries(value).filter(

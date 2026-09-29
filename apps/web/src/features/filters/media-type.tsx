@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { ANIME_MEDIA_TYPE, MEDIA_TYPE_BY_CONTENT_TYPE } from '@/utils/labels';
 import { useRouteSearch } from '@/utils/navigation';
 
+import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
 
 type Props = {
@@ -48,10 +49,10 @@ export const FormMediaType: FC<Props & Partial<BadgeFilterFieldProps>> = ({
     content_type,
     ...props
 }) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <form.AppField
-            name={'types' as never}
+            name="types"
             children={() => (
                 <BadgeFilterField
                     {...props}

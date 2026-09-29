@@ -18,6 +18,7 @@ import { Switch } from '@/components/ui/switch';
 import { useRouteSearch } from '@/utils/navigation';
 import { DATE_RANGE } from '@/utils/season';
 
+import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
 
 type Props = {
@@ -144,17 +145,17 @@ const DateRange = (_props: Props) => {
 export const FormDateRange: FC<
     Props & Partial<SwitchFieldProps & SliderFieldProps>
 > = () => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     const dateRangeEnabled = useStore(
         form.store,
-        (s) => (s.values as any).date_range_enabled,
+        (s) => s.values.date_range_enabled,
     );
-    const dateRange = useStore(form.store, (s) => (s.values as any).date_range);
+    const dateRange = useStore(form.store, (s) => s.values.date_range);
 
     return (
         <div className="flex flex-col gap-2">
             <form.AppField
-                name={'date_range_enabled' as never}
+                name="date_range_enabled"
                 children={() => <SwitchField label="Часовий проміжок" />}
             />
 
@@ -170,7 +171,7 @@ export const FormDateRange: FC<
                     )}
                     <div className="flex items-center gap-2">
                         <form.AppField
-                            name={'date_range' as never}
+                            name="date_range"
                             children={() => (
                                 <SliderField
                                     defaultValue={dateRange ?? DATE_RANGE}

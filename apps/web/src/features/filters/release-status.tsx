@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { RELEASE_STATUS } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
 
+import { filterPresetFormOptions } from './presets/filter-preset-form';
 import { useChangeParam } from './use-change-param';
 
 type Props = {
@@ -42,10 +43,10 @@ const ReleaseStatus: FC<Props> = () => {
 export const FormReleaseStatus: FC<Props & Partial<BadgeFilterFieldProps>> = (
     props,
 ) => {
-    const form = useTypedAppFormContext({ defaultValues: {} as never });
+    const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
         <form.AppField
-            name={'statuses' as never}
+            name="statuses"
             children={() => (
                 <BadgeFilterField
                     {...props}

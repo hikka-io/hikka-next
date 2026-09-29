@@ -26,6 +26,8 @@ import {
 } from '@/utils/constants/common';
 import { useRouteSearch } from '@/utils/navigation';
 
+import { useClearFilters } from './use-clear-filters';
+
 type FilterDef =
     | {
           kind: 'enum';
@@ -295,20 +297,9 @@ export function useActiveFilters() {
         } as any);
     };
 
-    const clearAll = () => {
-        router.navigate({
-            to: '.',
-            search: (prev: Record<string, unknown>) => {
-                const next: Record<string, unknown> = {};
-                if (prev.search) next.search = prev.search;
-                if (prev.sort) next.sort = prev.sort;
-                if (prev.order) next.order = prev.order;
-                if (prev.tab) next.tab = prev.tab;
-                return next;
-            },
-            replace: true,
-        } as any);
-    };
+    const clearAll = useClearFilters({
+        preserve: ['search', 'sort', 'order', 'tab'],
+    });
 
     return { filters, count: filters.length, removeFilter, clearAll };
 }
