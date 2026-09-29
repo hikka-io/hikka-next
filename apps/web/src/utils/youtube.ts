@@ -16,6 +16,59 @@ export function extractYouTubeVideoId(url: string): string | null {
     return null;
 }
 
+const YOUTUBE_HOSTS = new Set([
+    'youtube.com',
+    'www.youtube.com',
+    'm.youtube.com',
+]);
+const VIDEO_ID = /^[A-Za-z0-9_-]{11}$/;
+const START_TIME = /^(?=\d)(?:\d+h)?(?:\d+m)?(?:\d+s?)?$/;
+const EMBED_PATH = '/embed/';
+
+const parseUrl = (value: string): URL | null => {
+    const trimmed = value.trim();
+
+    try {
+        return new URL(trimmed.startsWith('//') ? `https:${trimmed}` : trimmed);
+    } catch {
+        return null;
+    }
+};
+
+const pathVideoId = (url: URL): string | null => {
+    if (url.hostname === 'youtu.be') return url.pathname.slice(1);
+    if (!YOUTUBE_HOSTS.has(url.hostname)) return null;
+    if (url.pathname === '/watch') return url.searchParams.get('v');
+    if (url.pathname.startsWith(EMBED_PATH)) {
+        return url.pathname.slice(EMBED_PATH.length);
+    }
+
+    return null;
+};
+
+/** One YouTube video as a youtube.com watch url (article save rejects youtu.be), or null. */
+export function normalizeYouTubeVideoUrl(value: string): string | null {
+    const url = parseUrl(value);
+
+    if (!url || (url.protocol !== 'https:' && url.protocol !== 'http:')) {
+        return null;
+    }
+
+    const videoId = pathVideoId(url);
+
+    if (!videoId || !VIDEO_ID.test(videoId)) return null;
+
+    const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
+    const start = url.searchParams.get('t') ?? url.searchParams.get('start');
+
+    return start && START_TIME.test(start)
+        ? `${watchUrl}&t=${start}`
+        : watchUrl;
+}
+
+export const isYouTubeVideoUrl = (value: string) =>
+    normalizeYouTubeVideoUrl(value) !== null;
+
 export type YouTubeThumbnailQuality =
     | 'default' // 120x90
     | 'medium' // 320x180

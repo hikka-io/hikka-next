@@ -11,29 +11,14 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 import { z } from '@/utils/i18n/zod';
+import { isYouTubeVideoUrl, normalizeYouTubeVideoUrl } from '@/utils/youtube';
 
 import { VideoPlugin } from '../editor/plugins/video-kit';
 import { ToolbarButton } from './toolbar';
 
-const urlSchema = z
-    .string()
-    .url()
-    .refine(
-        (url) => {
-            try {
-                const parsedUrl = new URL(url);
-                return (
-                    parsedUrl.hostname.includes('youtube.com') ||
-                    parsedUrl.hostname.includes('youtu.be')
-                );
-            } catch {
-                return false;
-            }
-        },
-        {
-            message: 'Невірне посилання на YouTube',
-        },
-    );
+const urlSchema = z.string().url().refine(isYouTubeVideoUrl, {
+    message: 'Невірне посилання на YouTube',
+});
 
 const formSchema = z.object({
     url: urlSchema,
@@ -51,11 +36,11 @@ const AddVideoModal: FC<AddVideoModalProps> = ({ editor, onClose }) => {
         },
         validators: { onSubmit: formSchema },
         onSubmit: async ({ value }) => {
-            if (!value.url.trim()) return;
+            const url = normalizeYouTubeVideoUrl(value.url);
 
-            editor
-                .getTransforms(VideoPlugin)
-                .insert.video({ url: value.url.trim() });
+            if (!url) return;
+
+            editor.getTransforms(VideoPlugin).insert.video({ url });
             editor.tf.focus();
 
             onClose();
