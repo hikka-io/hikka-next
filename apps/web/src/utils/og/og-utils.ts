@@ -38,13 +38,3 @@ export function resolveGenres(
         .map((g) => g.name_ua || g.name_en || g.slug)
         .filter(Boolean);
 }
-
-export function resolveMediaTypeLabel<T extends string>(
-    mediaType: string,
-    mediaTypeMap: Hikka.FilterProperty<T>,
-): string | null {
-    const entry = (mediaTypeMap as Record<string, { title_ua: string }>)[
-        mediaType
-    ];
-    return entry ? entry.title_ua : null;
-}

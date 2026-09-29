@@ -2,13 +2,9 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { novelInfo } from '@hikka/api';
 
-import { NOVEL_MEDIA_TYPE } from '@/utils/labels/enum-labels';
+import { getMediaTypeLabel } from '@/utils/labels';
 import { createOgImageHandler } from '@/utils/og/create-og-handler';
-import {
-    resolveGenres,
-    resolveMediaTypeLabel,
-    resolveTitle,
-} from '@/utils/og/og-utils';
+import { resolveGenres, resolveTitle } from '@/utils/og/og-utils';
 
 export const Route = createFileRoute('/api/og/novel')({
     server: {
@@ -34,12 +30,7 @@ export const Route = createFileRoute('/api/og/novel')({
                         subtitle,
                         image: novel.image,
                         score: novel.score,
-                        mediaType: novel.media_type
-                            ? resolveMediaTypeLabel(
-                                  novel.media_type,
-                                  NOVEL_MEDIA_TYPE,
-                              )
-                            : null,
+                        mediaType: getMediaTypeLabel(novel.media_type) ?? null,
                         year: novel.year,
                         genres: resolveGenres(novel.genres),
                         contentTypeLabel: 'Ранобе',

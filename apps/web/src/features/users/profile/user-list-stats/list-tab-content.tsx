@@ -22,8 +22,8 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
-import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { LIST_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import StatusProgressBar from './components/status-progress-bar';
@@ -76,7 +76,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
     if (!isAnime && !readData) return null;
 
     const statuses = isAnime ? WATCH_ORDER : READ_ORDER;
-    const statusMap = isAnime ? WATCH_STATUS : READ_STATUS;
+    const statusMap = LIST_STATUS[isAnime ? 'watch' : 'read'];
     const data = isAnime ? watchData! : readData!;
 
     const total = statuses.reduce(

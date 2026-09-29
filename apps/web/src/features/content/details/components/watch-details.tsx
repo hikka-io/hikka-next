@@ -14,7 +14,7 @@ import {
 
 import { type AnimeInfoResponse, AnimeStatusEnum } from '@hikka/api';
 
-import { Badge } from '@/components/ui/badge';
+import { ReleaseStatusBadge } from '@/components/badges';
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -24,13 +24,8 @@ import {
 } from '@/components/ui/tooltip';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
-import {
-    AGE_RATING,
-    ANIME_MEDIA_TYPE,
-    RELEASE_STATUS,
-    SEASON,
-} from '@/utils/constants/common';
 import { getScheduleDuration } from '@/utils/i18n';
+import { AGE_RATING, getMediaTypeLabel, SEASON } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import DetailItem from './detail-item';
@@ -114,17 +109,6 @@ const StudioDetail = ({
     </DetailItem>
 );
 
-const StatusBadge = ({ status }: { status: string }) => (
-    <Badge
-        variant="status"
-        className={cn(
-            `bg-${status} text-${status}-foreground border-${status}-border`,
-        )}
-    >
-        {RELEASE_STATUS[status as keyof typeof RELEASE_STATUS]?.title_ua}
-    </Badge>
-);
-
 const WatchDetails = ({
     className,
     data,
@@ -155,20 +139,14 @@ const WatchDetails = ({
                 <DetailItem
                     icon={<Play className="size-4" />}
                     title="Тип"
-                    value={
-                        data.media_type
-                            ? ANIME_MEDIA_TYPE[
-                                  data.media_type as keyof typeof ANIME_MEDIA_TYPE
-                              ].title_ua
-                            : undefined
-                    }
+                    value={getMediaTypeLabel(data.media_type)}
                 />
 
                 <DetailItem
                     title="Статус"
                     icon={<CircleDashed className="size-4" />}
                 >
-                    {data.status && <StatusBadge status={data.status} />}
+                    {data.status && <ReleaseStatusBadge status={data.status} />}
                 </DetailItem>
 
                 {seasonLabel && (

@@ -19,19 +19,7 @@ import { InlineScores } from '@/components/inline-scores';
 import MagazineTitleLink from '@/components/magazine-title-link';
 import { Separator } from '@/components/ui/separator';
 import { useTitle } from '@/features/auth';
-import {
-    ANIME_MEDIA_TYPE,
-    MANGA_MEDIA_TYPE,
-    NOVEL_MEDIA_TYPE,
-    RELEASE_STATUS,
-} from '@/utils/labels/enum-labels';
-
-const MEDIA_TYPE_ENUM = Object.assign(
-    {},
-    ANIME_MEDIA_TYPE,
-    MANGA_MEDIA_TYPE,
-    NOVEL_MEDIA_TYPE,
-);
+import { getMediaTypeLabel, RELEASE_STATUS } from '@/utils/labels';
 
 type Props =
     | {
@@ -72,10 +60,7 @@ export default function CatalogListItem(props: Props) {
         }
     }
 
-    const mediaType = item.media_type
-        ? MEDIA_TYPE_ENUM[item.media_type as keyof typeof MEDIA_TYPE_ENUM]
-              ?.title_ua
-        : undefined;
+    const mediaType = getMediaTypeLabel(item.media_type);
 
     const status = item.status
         ? RELEASE_STATUS[item.status as keyof typeof RELEASE_STATUS]?.title_ua

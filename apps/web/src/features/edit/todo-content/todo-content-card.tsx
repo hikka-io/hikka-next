@@ -33,8 +33,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useSession, useTitle } from '@/features/auth';
 import { cn } from '@/utils/cn';
-import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
 import { contentPath } from '@/utils/content-paths';
+import { getMediaTypeLabel, RELEASE_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import QuickEditButton from '../quick-edit/quick-edit-button';
@@ -221,9 +221,7 @@ export function TodoContentCard(props: Props) {
             }
         }
 
-        mediaType = item.media_type
-            ? MEDIA_TYPE[item.media_type as keyof typeof MEDIA_TYPE]?.title_ua
-            : undefined;
+        mediaType = getMediaTypeLabel(item.media_type);
         year = item.year;
         status = item.status
             ? RELEASE_STATUS[item.status as keyof typeof RELEASE_STATUS]

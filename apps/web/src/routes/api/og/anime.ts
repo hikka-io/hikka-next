@@ -2,13 +2,9 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { animeSlug, CompanyTypeEnum } from '@hikka/api';
 
-import { ANIME_MEDIA_TYPE } from '@/utils/labels/enum-labels';
+import { getMediaTypeLabel } from '@/utils/labels';
 import { createOgImageHandler } from '@/utils/og/create-og-handler';
-import {
-    resolveGenres,
-    resolveMediaTypeLabel,
-    resolveTitle,
-} from '@/utils/og/og-utils';
+import { resolveGenres, resolveTitle } from '@/utils/og/og-utils';
 
 export const Route = createFileRoute('/api/og/anime')({
     server: {
@@ -38,12 +34,7 @@ export const Route = createFileRoute('/api/og/anime')({
                         subtitle,
                         image: anime.image,
                         score: anime.score,
-                        mediaType: anime.media_type
-                            ? resolveMediaTypeLabel(
-                                  anime.media_type,
-                                  ANIME_MEDIA_TYPE,
-                              )
-                            : null,
+                        mediaType: getMediaTypeLabel(anime.media_type) ?? null,
                         year: anime.year,
                         genres: resolveGenres(anime.genres),
                         contentTypeLabel: 'Аніме',

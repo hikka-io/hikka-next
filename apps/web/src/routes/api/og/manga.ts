@@ -2,13 +2,9 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { mangaInfo } from '@hikka/api';
 
-import { MANGA_MEDIA_TYPE } from '@/utils/labels/enum-labels';
+import { getMediaTypeLabel } from '@/utils/labels';
 import { createOgImageHandler } from '@/utils/og/create-og-handler';
-import {
-    resolveGenres,
-    resolveMediaTypeLabel,
-    resolveTitle,
-} from '@/utils/og/og-utils';
+import { resolveGenres, resolveTitle } from '@/utils/og/og-utils';
 
 export const Route = createFileRoute('/api/og/manga')({
     server: {
@@ -34,12 +30,7 @@ export const Route = createFileRoute('/api/og/manga')({
                         subtitle,
                         image: manga.image,
                         score: manga.score,
-                        mediaType: manga.media_type
-                            ? resolveMediaTypeLabel(
-                                  manga.media_type,
-                                  MANGA_MEDIA_TYPE,
-                              )
-                            : null,
+                        mediaType: getMediaTypeLabel(manga.media_type) ?? null,
                         year: manga.year,
                         genres: resolveGenres(manga.genres),
                         contentTypeLabel: 'Манґа',

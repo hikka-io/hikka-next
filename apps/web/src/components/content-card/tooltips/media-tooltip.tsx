@@ -23,12 +23,8 @@ import {
 } from '@/components/action-buttons';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useTitle } from '@/features/auth/hooks/use-title';
-import {
-    ANIME_MEDIA_TYPE,
-    MANGA_MEDIA_TYPE,
-    NOVEL_MEDIA_TYPE,
-} from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
+import { getMediaTypeLabel } from '@/utils/labels';
 
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent, {
@@ -68,15 +64,6 @@ function useMediaInfo(
 
     return anime.data ?? manga.data ?? novel.data;
 }
-
-const MEDIA_TYPE_MAP: Record<
-    MainContentTypeEnum,
-    Record<string, { title_ua: string }>
-> = {
-    [ContentTypeEnum.ANIME]: ANIME_MEDIA_TYPE,
-    [ContentTypeEnum.MANGA]: MANGA_MEDIA_TYPE,
-    [ContentTypeEnum.NOVEL]: NOVEL_MEDIA_TYPE,
-};
 
 function progressRows(data: MediaBody): MediaTooltipRow[] {
     if (data.data_type === 'anime') {
@@ -204,11 +191,7 @@ const MediaTooltipData: FC<TooltipDataProps> = ({
             native_scored_by={data.native_scored_by}
             synopsis_ua={data.synopsis_ua}
             synopsis_en={data.synopsis_en}
-            media_type_label={
-                data.media_type
-                    ? MEDIA_TYPE_MAP[type][data.media_type]?.title_ua
-                    : null
-            }
+            media_type_label={getMediaTypeLabel(data.media_type)}
             status={data.status}
             genres={data.genres}
             genreBasePath={CONTENT_TYPE_LINKS[type]}

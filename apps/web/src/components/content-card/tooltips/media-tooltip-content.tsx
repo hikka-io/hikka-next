@@ -1,10 +1,8 @@
 import type { FC, ReactNode } from 'react';
 
+import { ReleaseStatusBadge } from '@/components/badges';
 import { InlineScores } from '@/components/inline-scores';
 import { MDViewer } from '@/components/markdown';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/utils/cn';
-import { RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
 interface GenreItem {
@@ -87,20 +85,7 @@ const MediaTooltipContent: FC<Props> = ({
                             {media_type_label}
                         </span>
                     )}
-                    {status && (
-                        <Badge
-                            variant="status"
-                            className={cn(
-                                `bg-${status} text-${status}-foreground border-${status}-border`,
-                            )}
-                        >
-                            {
-                                RELEASE_STATUS[
-                                    status as keyof typeof RELEASE_STATUS
-                                ]?.title_ua
-                            }
-                        </Badge>
-                    )}
+                    {status && <ReleaseStatusBadge status={status} />}
                 </TooltipRow>
                 {progressRows?.map((row) => (
                     <TooltipRow key={row.label} label={row.label}>

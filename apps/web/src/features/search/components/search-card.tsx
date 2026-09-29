@@ -10,12 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
-import {
-    ANIME_MEDIA_TYPE,
-    MANGA_MEDIA_TYPE,
-    NOVEL_MEDIA_TYPE,
-    RELEASE_STATUS,
-} from '@/utils/constants/common';
+import { getMediaTypeLabel, RELEASE_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import type { SearchContent } from '../types';
@@ -27,12 +22,9 @@ export type SearchCardType =
     | 'character'
     | 'person';
 
-type MediaTypeMap = Record<string, { title_ua: string }>;
-
 type CardConfig = {
     href: string;
     subtitleKey: 'title_ja' | 'title_original' | 'name_ja' | 'name_native';
-    mediaTypeMap?: MediaTypeMap;
     track?: 'watch' | 'read';
 };
 
@@ -40,19 +32,16 @@ const CARD_CONFIG: Record<SearchCardType, CardConfig> = {
     anime: {
         href: '/anime',
         subtitleKey: 'title_ja',
-        mediaTypeMap: ANIME_MEDIA_TYPE as MediaTypeMap,
         track: 'watch',
     },
     manga: {
         href: '/manga',
         subtitleKey: 'title_original',
-        mediaTypeMap: MANGA_MEDIA_TYPE as MediaTypeMap,
         track: 'read',
     },
     novel: {
         href: '/novel',
         subtitleKey: 'title_original',
-        mediaTypeMap: NOVEL_MEDIA_TYPE as MediaTypeMap,
         track: 'read',
     },
     character: { href: '/characters', subtitleKey: 'name_ja' },
@@ -73,8 +62,7 @@ const SearchCard = ({ content, contentType, type }: Props) => {
     const subtitle = (
         content as unknown as Record<string, string | null | undefined>
     )[config.subtitleKey];
-    const mediaTypeMap = config.mediaTypeMap;
-    const isContent = mediaTypeMap !== undefined;
+    const isContent = config.track !== undefined;
     // `meta` fields (year/media_type/status/score) only exist on the
     // anime/manga/novel responses; guarded by `isContent` before access.
     const meta = content as AnimeResponse;
@@ -126,14 +114,10 @@ const SearchCard = ({ content, contentType, type }: Props) => {
                                 </>
                             )}
 
-                            {mediaTypeMap && meta.media_type && (
+                            {meta.media_type && (
                                 <>
                                     <Label className="text-muted-foreground text-xs">
-                                        {
-                                            mediaTypeMap[
-                                                meta.media_type as string
-                                            ].title_ua
-                                        }
+                                        {getMediaTypeLabel(meta.media_type)}
                                     </Label>
                                     <div className="size-1 rounded-full bg-muted-foreground" />
                                 </>

@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { ContentTypeEnum, type ReadResponseBase } from '@hikka/api';
 
-import { MANGA_MEDIA_TYPE } from '@/utils/constants/common';
+import { getMediaTypeLabel } from '@/utils/labels';
 
 import EntityCard, { type EntityCardProps } from './entity-card';
 import type { MediaTooltipItemOf } from './tooltips';
@@ -17,13 +17,7 @@ const MangaCard: FC<Props> = ({ item, read, ...props }) => (
         entity={{ type: ContentTypeEnum.MANGA, data: item, read }}
         withContextMenu
         leftSubtitle={item.year ? String(item.year) : undefined}
-        rightSubtitle={
-            item.media_type
-                ? MANGA_MEDIA_TYPE[
-                      item.media_type as keyof typeof MANGA_MEDIA_TYPE
-                  ]?.title_ua
-                : undefined
-        }
+        rightSubtitle={getMediaTypeLabel(item.media_type)}
         {...props}
     />
 );

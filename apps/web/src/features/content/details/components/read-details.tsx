@@ -2,37 +2,18 @@ import { Fragment } from 'react';
 
 import { Building2, Calendar, CircleDashed, Hash, Play } from 'lucide-react';
 
-import {
-    ContentTypeEnum,
-    type MangaInfoResponse,
-    type NovelInfoResponse,
-} from '@hikka/api';
+import type { MangaInfoResponse, NovelInfoResponse } from '@hikka/api';
 
-import { Badge } from '@/components/ui/badge';
+import { ReleaseStatusBadge } from '@/components/badges';
 import Card from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
-import {
-    MANGA_MEDIA_TYPE,
-    NOVEL_MEDIA_TYPE,
-    RELEASE_STATUS,
-} from '@/utils/constants/common';
+import { getMediaTypeLabel } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
 import DetailItem from './detail-item';
 import SynonymsTrigger from './synonyms-trigger';
-
-const StatusBadge = ({ status }: { status: string }) => (
-    <Badge
-        variant="status"
-        className={cn(
-            `bg-${status} text-${status}-foreground border-${status}-border`,
-        )}
-    >
-        {RELEASE_STATUS[status as keyof typeof RELEASE_STATUS]?.title_ua}
-    </Badge>
-);
 
 const ReadDetails = ({
     className,
@@ -49,24 +30,14 @@ const ReadDetails = ({
                 <DetailItem
                     icon={<Play className="size-4" />}
                     title="Тип"
-                    value={
-                        data.media_type
-                            ? data.data_type === ContentTypeEnum.MANGA
-                                ? MANGA_MEDIA_TYPE[
-                                      data.media_type as keyof typeof MANGA_MEDIA_TYPE
-                                  ].title_ua
-                                : NOVEL_MEDIA_TYPE[
-                                      data.media_type as keyof typeof NOVEL_MEDIA_TYPE
-                                  ].title_ua
-                            : undefined
-                    }
+                    value={getMediaTypeLabel(data.media_type)}
                 />
 
                 <DetailItem
                     title="Статус"
                     icon={<CircleDashed className="size-4" />}
                 >
-                    {data.status && <StatusBadge status={data.status} />}
+                    {data.status && <ReleaseStatusBadge status={data.status} />}
                 </DetailItem>
 
                 {!!data.year && (

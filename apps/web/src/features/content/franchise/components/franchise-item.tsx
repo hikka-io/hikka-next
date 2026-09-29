@@ -18,7 +18,7 @@ import {
 import Card from '@/components/ui/card';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useTitle } from '@/features/auth/hooks/use-title';
-import { MEDIA_TYPE } from '@/utils/constants/common';
+import { getMediaTypeLabel } from '@/utils/labels';
 
 type Props = {
     content:
@@ -51,13 +51,7 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                             <div className="size-1 rounded-full bg-muted-foreground" />
                         )}
                         {content.media_type && (
-                            <p>
-                                {
-                                    MEDIA_TYPE[
-                                        content.media_type as keyof typeof MEDIA_TYPE
-                                    ].title_ua
-                                }
-                            </p>
+                            <p>{getMediaTypeLabel(content.media_type)}</p>
                         )}
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>

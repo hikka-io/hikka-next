@@ -5,14 +5,10 @@ import {
     type WatchStatusEnum,
 } from '@hikka/api';
 
-import {
-    READ_STATUS_ICONS,
-    WATCH_STATUS_ICONS,
-} from '@/components/icons/list-status-icons';
+import { LIST_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
 import EmptyState from '@/components/ui/empty-state';
-import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
-import { CONTENT_TYPES } from '@/utils/labels';
+import { CONTENT_TYPES, LIST_STATUS } from '@/utils/labels';
 
 type Props = {
     status: ReadStatusEnum | WatchStatusEnum | 'all';
@@ -20,19 +16,13 @@ type Props = {
 };
 
 const RecordsNotFound = ({ status, content_type }: Props) => {
-    const statusProperty =
-        status === 'all'
-            ? undefined
-            : content_type === ContentTypeEnum.ANIME
-              ? WATCH_STATUS[status as WatchStatusEnum]
-              : READ_STATUS[status as ReadStatusEnum];
+    const kind = content_type === ContentTypeEnum.ANIME ? 'watch' : 'read';
+    const statusKey = status as keyof (typeof LIST_STATUS)[typeof kind];
 
+    const statusProperty =
+        status === 'all' ? undefined : LIST_STATUS[kind][statusKey];
     const statusIcon =
-        status === 'all'
-            ? undefined
-            : content_type === ContentTypeEnum.ANIME
-              ? WATCH_STATUS_ICONS[status as WatchStatusEnum]
-              : READ_STATUS_ICONS[status as ReadStatusEnum];
+        status === 'all' ? undefined : LIST_STATUS_ICONS[kind][statusKey];
 
     const statusTitle = statusProperty?.title_ua;
     const StatusIcon = statusIcon ?? MaterialSymbolsBookmarkOutline;

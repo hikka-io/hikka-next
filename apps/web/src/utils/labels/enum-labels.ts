@@ -5,6 +5,7 @@ import {
     AnimeVideoTypeEnum,
     ArticleCategoryEnum,
     ContentStatusEnum,
+    ContentTypeEnum,
     type EditStatusEnum,
     GenreTypeEnum,
     MangaMediaEnum,
@@ -125,6 +126,25 @@ export const MEDIA_TYPE: Hikka.FilterProperty<
     ...NOVEL_MEDIA_TYPE,
 };
 
+export const MEDIA_TYPE_BY_CONTENT_TYPE: Partial<
+    Record<ContentTypeEnum, Hikka.FilterProperty<string>>
+> = {
+    [ContentTypeEnum.ANIME]: ANIME_MEDIA_TYPE,
+    [ContentTypeEnum.MANGA]: MANGA_MEDIA_TYPE,
+    [ContentTypeEnum.NOVEL]: NOVEL_MEDIA_TYPE,
+};
+
+const isMediaType = (
+    mediaType?: string | null,
+): mediaType is keyof typeof MEDIA_TYPE =>
+    mediaType != null && Object.hasOwn(MEDIA_TYPE, mediaType);
+
+export function getMediaTypeLabel(
+    mediaType?: string | null,
+): string | undefined {
+    return isMediaType(mediaType) ? MEDIA_TYPE[mediaType].title_ua : undefined;
+}
+
 export const AGE_RATING: Hikka.FilterProperty<AnimeAgeRatingEnum> = {
     [AnimeAgeRatingEnum.G]: {
         title_ua: 'G',
@@ -244,6 +264,11 @@ export const WATCH_STATUS: Hikka.FilterProperty<WatchStatusEnum> = {
         title_en: 'Dropped',
     },
 };
+
+export const LIST_STATUS = {
+    watch: WATCH_STATUS,
+    read: READ_STATUS,
+} as const;
 
 export const ARTICLE_CATEGORY: Hikka.FilterProperty<
     ArticleCategoryEnum,

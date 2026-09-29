@@ -19,10 +19,7 @@ import {
 } from '@hikka/api';
 
 import FeRandom from '@/components/icons/fe/FeRandom';
-import {
-    READ_STATUS_ICONS,
-    WATCH_STATUS_ICONS,
-} from '@/components/icons/list-status-icons';
+import { LIST_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsEventList from '@/components/icons/material-symbols/MaterialSymbolsEventList';
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import { Button } from '@/components/ui/button';
@@ -50,17 +47,13 @@ import {
     useFiltersSidebar,
 } from '@/features/filters';
 import { cn } from '@/utils/cn';
-import {
-    CONTENT_TYPES,
-    READ_STATUS,
-    WATCH_STATUS,
-} from '@/utils/constants/common';
+import { CONTENT_TYPES, LIST_STATUS } from '@/utils/labels';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 
 import UserlistFiltersModal from './userlist-filters-modal';
 
-const STATUSES = { ...WATCH_STATUS, ...READ_STATUS };
-const STATUS_ICONS = { ...WATCH_STATUS_ICONS, ...READ_STATUS_ICONS };
+const STATUSES = { ...LIST_STATUS.watch, ...LIST_STATUS.read };
+const STATUS_ICONS = { ...LIST_STATUS_ICONS.watch, ...LIST_STATUS_ICONS.read };
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -98,7 +91,7 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
         enabled: !isAnime,
     });
     const listData = isAnime ? watchData : readData;
-    const statuses = isAnime ? WATCH_STATUS : READ_STATUS;
+    const statuses = LIST_STATUS[isAnime ? 'watch' : 'read'];
 
     const allAmount = listData
         ? listData.completed +

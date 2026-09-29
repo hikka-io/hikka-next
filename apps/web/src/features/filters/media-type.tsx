@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { Play } from 'lucide-react';
 
-import { ContentTypeEnum } from '@hikka/api';
+import type { ContentTypeEnum } from '@hikka/api';
 
 import {
     BadgeFilterField,
@@ -11,11 +11,7 @@ import {
 import { useTypedAppFormContext } from '@/components/form/use-app-form';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-import {
-    ANIME_MEDIA_TYPE,
-    MANGA_MEDIA_TYPE,
-    NOVEL_MEDIA_TYPE,
-} from '@/utils/constants/common';
+import { ANIME_MEDIA_TYPE, MEDIA_TYPE_BY_CONTENT_TYPE } from '@/utils/labels';
 import { useRouteSearch } from '@/utils/navigation';
 
 import { useChangeParam } from './use-change-param';
@@ -23,19 +19,6 @@ import { useChangeParam } from './use-change-param';
 type Props = {
     className?: string;
     content_type: ContentTypeEnum;
-};
-
-const getMediaType = (content_type: ContentTypeEnum) => {
-    switch (content_type) {
-        case ContentTypeEnum.ANIME:
-            return ANIME_MEDIA_TYPE;
-        case ContentTypeEnum.MANGA:
-            return MANGA_MEDIA_TYPE;
-        case ContentTypeEnum.NOVEL:
-            return NOVEL_MEDIA_TYPE;
-        default:
-            return ANIME_MEDIA_TYPE;
-    }
 };
 
 const MediaType: FC<Props> = ({ content_type }) => {
@@ -50,7 +33,9 @@ const MediaType: FC<Props> = ({ content_type }) => {
                 <Label>Тип</Label>
             </div>
             <BadgeFilter
-                properties={getMediaType(content_type)}
+                properties={
+                    MEDIA_TYPE_BY_CONTENT_TYPE[content_type] ?? ANIME_MEDIA_TYPE
+                }
                 selected={types}
                 property="types"
                 onParamChange={handleChangeParam}
@@ -70,7 +55,10 @@ export const FormMediaType: FC<Props & Partial<BadgeFilterFieldProps>> = ({
             children={() => (
                 <BadgeFilterField
                     {...props}
-                    properties={getMediaType(content_type)}
+                    properties={
+                        MEDIA_TYPE_BY_CONTENT_TYPE[content_type] ??
+                        ANIME_MEDIA_TYPE
+                    }
                     property="types"
                     label="Тип"
                 />

@@ -22,8 +22,8 @@ import {
 } from '@/utils/api/invalidate-content-state';
 import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { ANIME_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { getMediaTypeLabel } from '@/utils/labels';
 import { Link, useRouter } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
@@ -214,12 +214,9 @@ const WatchingTracker = () => {
                               preferences.name_language,
                           ),
                           year: selectedWatch.anime.year,
-                          mediaTypeLabel: selectedWatch.anime.media_type
-                              ? ANIME_MEDIA_TYPE[
-                                    selectedWatch.anime
-                                        .media_type as keyof typeof ANIME_MEDIA_TYPE
-                                ]?.title_ua
-                              : undefined,
+                          mediaTypeLabel: getMediaTypeLabel(
+                              selectedWatch.anime.media_type,
+                          ),
                           total: totalEpisodes ?? undefined,
                           totalDeclension: totalEpisodes
                               ? getDeclensionWord(

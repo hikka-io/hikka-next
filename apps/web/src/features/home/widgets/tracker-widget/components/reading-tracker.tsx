@@ -24,8 +24,8 @@ import {
 } from '@/utils/api/invalidate-content-state';
 import { carryOverReadArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
-import { MANGA_MEDIA_TYPE, NOVEL_MEDIA_TYPE } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { getMediaTypeLabel } from '@/utils/labels';
 import { Link, useRouter } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
@@ -40,12 +40,10 @@ const CHAPTERS_DECLENSION: [string, string, string] = [
 const CONTENT_TYPE_CONFIG = {
     [ContentTypeEnum.MANGA]: {
         route: '/manga',
-        mediaTypeMap: MANGA_MEDIA_TYPE,
         emptyDescription: 'Додайте манґу у список Читаю',
     },
     [ContentTypeEnum.NOVEL]: {
         route: '/novel',
-        mediaTypeMap: NOVEL_MEDIA_TYPE,
         emptyDescription: 'Додайте ранобе у список Читаю',
     },
 } as const;
@@ -249,14 +247,9 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                               preferences.name_language,
                           ),
                           year: selectedRead.content.year,
-                          mediaTypeLabel: selectedRead.content.media_type
-                              ? (
-                                    config.mediaTypeMap as Record<
-                                        string,
-                                        { title_ua: string }
-                                    >
-                                )[selectedRead.content.media_type]?.title_ua
-                              : undefined,
+                          mediaTypeLabel: getMediaTypeLabel(
+                              selectedRead.content.media_type,
+                          ),
                           total: totalChapters ?? undefined,
                           totalDeclension: totalChapters
                               ? getDeclensionWord(
