@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { Styles, StylesResetButton } from '@/features/settings';
+import { AppearanceResetButton, AppearanceSettings } from '@/features/settings';
 
 export const Route = createFileRoute(
     '/_pages/settings/customization/appearance',
@@ -20,13 +20,13 @@ function CustomizationAppearancePage() {
                     <HeaderContainer>
                         <HeaderTitle>Вигляд</HeaderTitle>
                     </HeaderContainer>
-                    <StylesResetButton />
+                    <AppearanceResetButton />
                 </Header>
                 <p className="text-muted-foreground text-sm">
                     Налаштуйте теми, кольори та відображення
                 </p>
             </div>
-            <Styles />
+            <AppearanceSettings />
         </div>
     );
 }

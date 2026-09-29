@@ -2,8 +2,8 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import {
-    ProfileAppearance,
     ProfileDescription,
+    ProfileImages,
     ProfileUsername,
 } from '@/features/settings';
 
@@ -27,7 +27,7 @@ function ProfileSettingsPage() {
                     Налаштуйте вигляд та деталі свого профілю
                 </p>
             </div>
-            <ProfileAppearance />
+            <ProfileImages />
             <ProfileUsername />
             <ProfileDescription />
         </div>

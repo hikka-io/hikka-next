@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { AnilistTypeEnum } from './use-anilist';
+import { AnilistTypeEnum } from './anilist-enums';
 
 describe('AnilistTypeEnum', () => {
     it('keeps the AniList media type values', () => {

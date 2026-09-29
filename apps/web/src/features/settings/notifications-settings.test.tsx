@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { getIgnoredNotificationsOptions } from '@hikka/api';
 
-import NotificationsSettings from './notifications';
+import NotificationsSettings from './notifications-settings';
 
 (
     globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }

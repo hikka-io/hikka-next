@@ -1,32 +1,30 @@
 import { type Dispatch, type SetStateAction, useState } from 'react';
 
-import { ContentTypeEnum, type ImportWatchArgs } from '@hikka/api';
+import { ContentTypeEnum, type ImportReadArgs } from '@hikka/api';
 
 import MaterialSymbolsCheckSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckSmallRounded';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
-import {
-    AnilistTypeEnum,
-    useAnilist,
-} from '@/features/settings/list/use-anilist';
 
-import FoundList from '../components/found-list';
+import { AnilistTypeEnum } from './anilist-enums';
+import FoundList from './found-list';
+import { useAnilist } from './use-anilist';
 
 type Props = {
-    watchList: ImportWatchArgs[];
-    setWatchList: Dispatch<SetStateAction<ImportWatchArgs[]>>;
+    readList: ImportReadArgs[];
+    setReadList: Dispatch<SetStateAction<ImportReadArgs[]>>;
     importing: boolean;
 };
 
-const AnilistWatchlist = ({ watchList, setWatchList, importing }: Props) => {
+const AnilistReadListImport = ({ readList, setReadList, importing }: Props) => {
     const [aniListUsername, setAniListUsername] = useState('');
     const { mutate: fetchAnilist, isPending: aniListLoading } = useAnilist({
         options: {
             onSuccess: (data) => {
-                // useAnilist returns ImportWatchArgs[] | ImportReadArgs[]; this importer requested the watch variant.
-                setWatchList(data as unknown as ImportWatchArgs[]);
+                // useAnilist returns ImportWatchArgs[] | ImportReadArgs[]; this importer requested the read variant.
+                setReadList(data as unknown as ImportReadArgs[]);
             },
         },
     });
@@ -34,7 +32,7 @@ const AnilistWatchlist = ({ watchList, setWatchList, importing }: Props) => {
     const getFromAniList = async () => {
         fetchAnilist({
             username: aniListUsername,
-            type: AnilistTypeEnum.ANIME,
+            type: AnilistTypeEnum.MANGA,
         });
     };
 
@@ -67,11 +65,11 @@ const AnilistWatchlist = ({ watchList, setWatchList, importing }: Props) => {
                     </Button>
                 </div>
             </div>
-            {watchList.length > 0 && (
-                <FoundList list={watchList} type={ContentTypeEnum.ANIME} />
+            {readList.length > 0 && (
+                <FoundList list={readList} type={ContentTypeEnum.MANGA} />
             )}
         </div>
     );
 };
 
-export default AnilistWatchlist;
+export default AnilistReadListImport;

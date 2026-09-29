@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/responsive-modal';
 import { useSession } from '@/features/auth/hooks/use-session';
 
-import ClientCreateModal from './applications/client-create-modal';
+import ClientCreateModal from '../client-create-modal';
 
 const ClientCreateButton: FC = () => {
     const { user: loggedUser } = useSession();

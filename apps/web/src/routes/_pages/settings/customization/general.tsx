@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { Preferences } from '@/features/settings';
+import { GeneralSettings } from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/customization/general')({
     head: () => ({
@@ -23,7 +23,7 @@ function CustomizationGeneralPage() {
                     Налаштуйте відображення контенту та інше
                 </p>
             </div>
-            <Preferences />
+            <GeneralSettings />
         </div>
     );
 }

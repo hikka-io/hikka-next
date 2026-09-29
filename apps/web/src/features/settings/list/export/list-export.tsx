@@ -11,7 +11,7 @@ import {
 
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 
-import ListExportItem from './components/list-export-item';
+import ListExportItem from './list-export-item';
 
 type ExportAnimeItem = {
     note: string | null;

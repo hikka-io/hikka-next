@@ -25,7 +25,7 @@ type AvatarOrCoverType =
     | typeof UploadTypeEnum.AVATAR
     | typeof UploadTypeEnum.COVER;
 
-const Appearance = () => {
+const ProfileImages = () => {
     const router = useRouter();
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
     const uploadCoverRef = useRef<HTMLInputElement>(null);
@@ -177,4 +177,4 @@ const Appearance = () => {
     );
 };
 
-export default Appearance;
+export default ProfileImages;

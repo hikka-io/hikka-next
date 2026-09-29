@@ -4,7 +4,7 @@ import MaterialSymbolsAppsRounded from '@/components/icons/material-symbols/Mate
 import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import ApplicationItem from './components/application-item';
+import ClientItem from './components/client-item';
 
 const ClientApps = () => {
     const { list } = useInfiniteList(listUserClientsInfiniteOptions());
@@ -23,7 +23,7 @@ const ClientApps = () => {
     return (
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
             {list.map((item) => (
-                <ApplicationItem key={item.reference} client={item} />
+                <ClientItem key={item.reference} client={item} />
             ))}
         </div>
     );

@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { ReadlistSettings, WatchlistSettings } from '@/features/settings';
+import { ReadListImport, WatchListImport } from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/list/import')({
     head: () => ({
@@ -29,7 +29,7 @@ function ListImportPage() {
                         <HeaderTitle variant="h4">Імпорт аніме</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <WatchlistSettings />
+                <WatchListImport />
             </div>
             <div className="flex flex-col gap-4">
                 <Header>
@@ -39,7 +39,7 @@ function ListImportPage() {
                         </HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <ReadlistSettings />
+                <ReadListImport />
             </div>
         </div>
     );

@@ -8,7 +8,6 @@ import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
-import { ACCENT_PRESETS } from '@/utils/constants/styles';
 import {
     applyBackdrop,
     clearLivePreview,
@@ -18,6 +17,7 @@ import {
     setLiveVar,
 } from '@/utils/customization';
 
+import { ACCENT_PRESETS } from './accent-presets';
 import ColorField from './components/color-field';
 
 const RADIUS_OPTIONS: { value: string; label: string }[] = [
@@ -47,7 +47,7 @@ const Field = ({
     </div>
 );
 
-const StylesSettings = () => {
+const AppearanceSettings = () => {
     const { styles, backdrop } = useSessionUI();
     const { update } = useUpdateSessionUI();
 
@@ -273,4 +273,4 @@ const StylesSettings = () => {
     );
 };
 
-export default StylesSettings;
+export default AppearanceSettings;

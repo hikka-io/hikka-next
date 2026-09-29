@@ -18,7 +18,7 @@ type Props = {
     client: ClientResponse;
 };
 
-const ApplicationItem: FC<Props> = ({ client }) => {
+const ClientItem: FC<Props> = ({ client }) => {
     return (
         <Card className="justify-between gap-6">
             <div className="flex flex-col gap-2">
@@ -55,4 +55,4 @@ const ApplicationItem: FC<Props> = ({ client }) => {
     );
 };
 
-export default ApplicationItem;
+export default ClientItem;

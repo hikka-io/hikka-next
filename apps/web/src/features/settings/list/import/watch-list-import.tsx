@@ -16,10 +16,10 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { invalidateWatchState } from '@/utils/api/invalidate-content-state';
 
-import General from '../components/import-list';
-import Anilist from './anilist';
+import AnilistWatchListImport from './anilist-watch-list-import';
+import ImportList from './import-list';
 
-const WatchlistSettings = () => {
+const WatchListImport = () => {
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
     const [rewrite, setRewrite] = useState(true);
     const [watchList, setWatchList] = useState<ImportWatchArgs[]>([]);
@@ -71,14 +71,14 @@ const WatchlistSettings = () => {
                     <TabsTrigger value="aniList">AniList</TabsTrigger>
                 </TabsList>
                 <TabsContent value="general">
-                    <General
+                    <ImportList
                         list={watchList}
                         content_type={ContentTypeEnum.ANIME}
                         setList={setWatchList}
                     />
                 </TabsContent>
                 <TabsContent value="aniList">
-                    <Anilist
+                    <AnilistWatchListImport
                         watchList={watchList}
                         setWatchList={setWatchList}
                         importing={importing}
@@ -111,4 +111,4 @@ const WatchlistSettings = () => {
     );
 };
 
-export default WatchlistSettings;
+export default WatchListImport;

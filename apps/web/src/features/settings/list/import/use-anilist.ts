@@ -7,6 +7,8 @@ import {
     ImportWatchStatusEnum,
 } from '@hikka/api';
 
+import { AnilistStatusEnum, AnilistTypeEnum } from './anilist-enums';
+
 export interface Response {
     data: {
         MediaListCollection: {
@@ -102,28 +104,6 @@ const ANILIST_QUERY = `
         id mediaId status score(format: POINT_10_DECIMAL) progress progressVolumes repeat priority private hiddenFromStatusLists customLists advancedScores notes updatedAt startedAt{year month day}completedAt{year month day}media{id idMal title{userPreferred romaji english native}coverImage{extraLarge large}type format status(version:2)episodes volumes chapters averageScore popularity isAdult countryOfOrigin genres bannerImage startDate{year month day}}
     }
 `;
-
-export const AnilistTypeEnum = {
-    ANIME: 'ANIME',
-    MANGA: 'MANGA',
-} as const;
-
-export type AnilistTypeEnum =
-    (typeof AnilistTypeEnum)[keyof typeof AnilistTypeEnum];
-
-const AnilistStatusEnum = {
-    CURRENT: 'Current',
-    REPEATING: 'Repeating',
-    COMPLETED: 'Completed',
-    PLANNING: 'Planning',
-    DROPPED: 'Dropped',
-    PAUSED: 'Paused',
-    WATCHING: 'Watching',
-    REWATCHING: 'Rewatching',
-} as const;
-
-type AnilistStatusEnum =
-    (typeof AnilistStatusEnum)[keyof typeof AnilistStatusEnum];
 
 export interface AnilistParams {
     username: string;

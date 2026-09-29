@@ -16,10 +16,10 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { invalidateReadState } from '@/utils/api/invalidate-content-state';
 
-import General from '../components/import-list';
-import Anilist from './anilist';
+import AnilistReadListImport from './anilist-read-list-import';
+import ImportList from './import-list';
 
-const ReadlistSettings = () => {
+const ReadListImport = () => {
     const [tab, setTab] = useState<'general' | 'aniList'>('general');
     const [rewrite, setRewrite] = useState(true);
     const [readList, setReadList] = useState<ImportReadArgs[]>([]);
@@ -69,14 +69,14 @@ const ReadlistSettings = () => {
                     <TabsTrigger value="aniList">AniList</TabsTrigger>
                 </TabsList>
                 <TabsContent value="general">
-                    <General
+                    <ImportList
                         list={readList}
                         content_type={ContentTypeEnum.MANGA}
                         setList={setReadList}
                     />
                 </TabsContent>
                 <TabsContent value="aniList">
-                    <Anilist
+                    <AnilistReadListImport
                         readList={readList}
                         setReadList={setReadList}
                         importing={importing}
@@ -109,4 +109,4 @@ const ReadlistSettings = () => {
     );
 };
 
-export default ReadlistSettings;
+export default ReadListImport;

@@ -15,7 +15,7 @@ import {
  * Always rendered so it never shifts the section header height — it's just
  * hidden (space reserved) until the user has customized something.
  */
-const StylesResetButton = () => {
+const AppearanceResetButton = () => {
     const { styles } = useSessionUI();
     const { update } = useUpdateSessionUI();
 
@@ -42,4 +42,4 @@ const StylesResetButton = () => {
     );
 };
 
-export default StylesResetButton;
+export default AppearanceResetButton;

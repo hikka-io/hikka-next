@@ -12,7 +12,7 @@ import {
     invalidateWatchState,
 } from '@/utils/api/invalidate-content-state';
 
-import ListRemovalItem from './components/list-removal-item';
+import ListRemovalItem from './list-removal-item';
 
 const ListRemoval = () => {
     const queryClient = useQueryClient();

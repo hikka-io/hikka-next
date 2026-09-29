@@ -19,7 +19,7 @@ import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui'
 import { useTheme } from '@/services/theme-provider';
 import { clearNsfwConsent } from '@/utils/cookies';
 
-const PreferencesSettings = () => {
+const GeneralSettings = () => {
     const { preferences } = useSessionUI();
     const { update } = useUpdateSessionUI();
     const router = useRouter();
@@ -179,4 +179,4 @@ const PreferencesSettings = () => {
     );
 };
 
-export default PreferencesSettings;
+export default GeneralSettings;

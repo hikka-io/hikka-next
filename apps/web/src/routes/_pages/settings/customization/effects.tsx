@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { Effects } from '@/features/settings';
+import { EffectsSettings } from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/customization/effects')({
     head: () => ({
@@ -23,7 +23,7 @@ function CustomizationEffectsPage() {
                     Керуйте візуальними ефектами інтерфейсу
                 </p>
             </div>
-            <Effects />
+            <EffectsSettings />
         </div>
     );
 }
