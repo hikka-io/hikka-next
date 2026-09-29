@@ -10,6 +10,7 @@ import { range } from '@antfu/utils';
 
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
+import { POSITIVE_INTEGER_PATTERN } from '@/utils/text';
 
 import AntDesignArrowLeftOutlined from '../icons/ant-design/AntDesignArrowLeftOutlined';
 import AntDesignArrowRightOutlined from '../icons/ant-design/AntDesignArrowRightOutlined';
@@ -82,9 +83,8 @@ const PaginationInput: FC<PaginationInputProps> = ({
 
     const handleMoveToPage = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        const digitsOnlyRegex = /^(?!0)\d+$/;
 
-        if (!digitsOnlyRegex.test(value)) return setPageToMove('');
+        if (!POSITIVE_INTEGER_PATTERN.test(value)) return setPageToMove('');
 
         if (parseInt(value, 10) > pages) return;
 

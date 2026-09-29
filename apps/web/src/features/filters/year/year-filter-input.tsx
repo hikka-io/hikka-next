@@ -2,6 +2,7 @@ import { type FC, useEffect, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { cn } from '@/utils/cn';
+import { POSITIVE_INTEGER_PATTERN } from '@/utils/text';
 
 import { YEAR_RANGE, YEARS } from '../filter-ranges';
 
@@ -63,12 +64,11 @@ const YearFilterInput: FC<YearFilterInputProps> = ({
 
     const handleYearChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        const digitsOnlyRegex = /^(?!0)\d+$/;
         const isInRange =
             Number(value) >= Number(DEFAULT_YEAR_START) &&
             Number(value) <= Number(DEFAULT_YEAR_END);
 
-        if (!digitsOnlyRegex.test(value)) {
+        if (!POSITIVE_INTEGER_PATTERN.test(value)) {
             if (range === YEAR_RANGE.MIN && !value) {
                 debouncedChangeYearsParams([DEFAULT_YEAR_START, years[1]]);
             }

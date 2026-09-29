@@ -1,3 +1,9 @@
+// U+200B and U+FEFF survive String.trim(), and the markdown serializer writes
+// U+200B for every blank paragraph.
+export const BLANK_CHARS = /[\s\u200B\uFEFF]/g;
+
+export const POSITIVE_INTEGER_PATTERN = /^(?!0)\d+$/;
+
 export function truncateText(str: string, n: number, useWordBoundary: boolean) {
     if (!str) return null;
 

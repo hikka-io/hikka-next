@@ -25,18 +25,16 @@ import {
     UserTitle,
 } from '@/features/users';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
+import { isUserReference } from '@/utils/mentions';
 import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
 import { SITE_ORIGIN } from '@/utils/url';
-
-const UUID_RE =
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export const Route = createFileRoute('/_pages/u/$username')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { username } = params;
 
-        if (UUID_RE.test(username)) {
+        if (isUserReference(username)) {
             const user = await ensureOr404(() =>
                 queryClient.ensureQueryData(
                     userReferenceOptions({

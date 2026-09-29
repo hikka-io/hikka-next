@@ -1,10 +1,8 @@
 import { ElementApi, NodeApi, type TElement, TextApi } from 'platejs';
 
-import { CONTAINER_BLOCK_TYPES } from '../plate-types';
+import { BLANK_CHARS } from '@/utils/text';
 
-// U+200B and U+FEFF survive String.trim(), and the markdown serializer writes
-// U+200B for every blank paragraph.
-const BLANK_CHARS = /[\s​﻿]/g;
+import { CONTAINER_BLOCK_TYPES } from '../plate-types';
 
 const isBlankBlock = (node: TElement): boolean => {
     if (!ElementApi.isElement(node)) return false;
