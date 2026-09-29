@@ -6,47 +6,126 @@ import { toast } from 'sonner';
 import {
     changeIgnoredNotificationsMutation,
     getIgnoredNotificationsOptions,
+    NotificationTypeEnum,
 } from '@hikka/api';
 
 import { SubmitButton, useAppForm } from '@/components/form';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { invalidateIgnoredNotifications } from '@/utils/api/invalidate-content-state';
-import { z } from '@/utils/i18n/zod';
 
-const formSchema = z.object({
-    comment_reply: z.boolean().default(true),
-    comment_vote: z.boolean().default(true),
-    comment_tag: z.boolean().default(true),
-    collection_comment: z.boolean().default(true),
-    article_comment: z.boolean().default(true),
-    collection_vote: z.boolean().default(true),
-    article_vote: z.boolean().default(true),
-    edit_comment: z.boolean().default(true),
-    edit_accepted: z.boolean().default(true),
-    edit_denied: z.boolean().default(true),
-    edit_updated: z.boolean().default(true),
-    hikka_update: z.boolean().default(true),
-    schedule_anime: z.boolean().default(true),
-    follow: z.boolean().default(true),
-    thirdparty_login: z.boolean().optional().nullable().default(true),
-});
+const GROUPS = [
+    { id: 'comments', title: 'Коментарі' },
+    { id: 'votes', title: 'Оцінки' },
+    { id: 'edits', title: 'Правки' },
+    { id: 'anime', title: 'Аніме' },
+    { id: 'users', title: 'Користувачі' },
+    { id: 'other', title: 'Інше' },
+] as const;
+
+type Setting = {
+    group: (typeof GROUPS)[number]['id'];
+    label: string;
+    description: string;
+};
+
+const NOTIFICATION_SETTINGS = {
+    comment_reply: {
+        group: 'comments',
+        label: 'Відповідь на коментар',
+        description: 'Ви отримаєте сповіщення, коли на ваш коментар відповіли',
+    },
+    comment_vote: {
+        group: 'votes',
+        label: 'Оцінка коментаря',
+        description: 'Ви отримаєте сповіщення, коли ваш коментар оцінили',
+    },
+    comment_tag: {
+        group: 'comments',
+        label: 'Згадка в коментарі',
+        description: 'Ви отримаєте сповіщення, коли вас згадали(@) в коментарі',
+    },
+    collection_comment: {
+        group: 'comments',
+        label: 'Коментар у колекції',
+        description:
+            'Ви отримаєте сповіщення, коли у вашій колекції залишили коментар',
+    },
+    article_comment: {
+        group: 'comments',
+        label: 'Коментар у статті',
+        description:
+            'Ви отримаєте сповіщення, коли у вашій статті залишили коментар',
+    },
+    collection_vote: {
+        group: 'votes',
+        label: 'Оцінка колекції',
+        description: 'Ви отримаєте сповіщення, коли вашу колекцію оцінили',
+    },
+    article_vote: {
+        group: 'votes',
+        label: 'Оцінка статті',
+        description: 'Ви отримаєте сповіщення, коли вашу статтю оцінили',
+    },
+    edit_comment: {
+        group: 'comments',
+        label: 'Коментар у правці',
+        description:
+            'Ви отримаєте сповіщення, коли вам залишать коментар у правці',
+    },
+    edit_accepted: {
+        group: 'edits',
+        label: 'Прийнята правка',
+        description: 'Ви отримаєте сповіщення, коли ваша правка прийнята',
+    },
+    edit_denied: {
+        group: 'edits',
+        label: 'Відхилена правка',
+        description: 'Ви отримаєте сповіщення, коли ваша правка відхилена',
+    },
+    edit_updated: null,
+    hikka_update: {
+        group: 'other',
+        label: 'Системні сповіщення',
+        description: 'Ви отримаєте сповіщення про системні зміни',
+    },
+    schedule_anime: {
+        group: 'anime',
+        label: 'Оновлення аніме',
+        description: 'Ви отримаєте сповіщення про вихід нових епізодів аніме',
+    },
+    follow: {
+        group: 'users',
+        label: 'Підписка на користувача',
+        description: 'Ви отримаєте сповіщення, коли хтось підписався на Вас',
+    },
+    thirdparty_login: null,
+} satisfies Record<NotificationTypeEnum, Setting | null>;
+
+const NOTIFICATION_TYPES = Object.values(NotificationTypeEnum);
+
+const NOTIFICATION_GROUPS = GROUPS.map(({ id, title }) => ({
+    id,
+    title,
+    items: NOTIFICATION_TYPES.flatMap((type) => {
+        const setting = NOTIFICATION_SETTINGS[type];
+
+        return setting?.group === id ? [{ type, ...setting }] : [];
+    }),
+}));
 
 const NotificationsSettings = () => {
     const queryClient = useQueryClient();
     const { data } = useQuery(getIgnoredNotificationsOptions());
 
     const formValues = useMemo(() => {
-        const defaults = formSchema.parse({});
+        const values: Record<string, boolean> = {};
 
-        if (!data?.ignored_notifications) return defaults;
+        for (const type of NOTIFICATION_TYPES) values[type] = true;
+        for (const type of data?.ignored_notifications ?? []) {
+            values[type] = false;
+        }
 
-        return data.ignored_notifications.reduce(
-            (acc, key) => {
-                acc[key as keyof z.infer<typeof formSchema>] = false;
-                return acc;
-            },
-            { ...defaults },
-        );
+        return values;
     }, [data?.ignored_notifications]);
 
     const { mutate: changeIgnoredNotifications, isPending } = useMutation({
@@ -59,14 +138,12 @@ const NotificationsSettings = () => {
 
     const form = useAppForm({
         defaultValues: formValues,
-        validators: { onSubmit: formSchema as never },
         onSubmit: async ({ value }) => {
             changeIgnoredNotifications({
                 body: {
-                    ignored_notifications: Object.keys(value).filter(
-                        (key) =>
-                            !value[key as keyof z.infer<typeof formSchema>],
-                    ),
+                    ignored_notifications: Object.entries(value)
+                        .filter(([, enabled]) => !enabled)
+                        .map(([type]) => type),
                 },
             });
         },
@@ -75,178 +152,28 @@ const NotificationsSettings = () => {
     return (
         <form.AppForm>
             <form.Form className="flex flex-col items-start gap-8">
-                <div className="flex w-full flex-col gap-6">
-                    <Header>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Коментарі</HeaderTitle>
-                        </HeaderContainer>
-                    </Header>
-                    <form.AppField
-                        name="comment_reply"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Відповідь на коментар"
-                                description="Ви отримаєте сповіщення, коли на ваш коментар відповіли"
-                                className="w-full"
+                {NOTIFICATION_GROUPS.map(({ id, title, items }) => (
+                    <div key={id} className="flex w-full flex-col gap-6">
+                        <Header>
+                            <HeaderContainer>
+                                <HeaderTitle variant="h4">{title}</HeaderTitle>
+                            </HeaderContainer>
+                        </Header>
+                        {items.map(({ type, label, description }) => (
+                            <form.AppField
+                                key={type}
+                                name={type}
+                                children={(field) => (
+                                    <field.SwitchField
+                                        label={label}
+                                        description={description}
+                                        className="w-full"
+                                    />
+                                )}
                             />
-                        )}
-                    />
-                    <form.AppField
-                        name="comment_tag"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Згадка в коментарі"
-                                description="Ви отримаєте сповіщення, коли вас згадали(@) в коментарі"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                    <form.AppField
-                        name="collection_comment"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Коментар у колекції"
-                                description="Ви отримаєте сповіщення, коли у вашій колекції залишили коментар"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                    <form.AppField
-                        name="article_comment"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Коментар у статті"
-                                description="Ви отримаєте сповіщення, коли у вашій статті залишили коментар"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                    <form.AppField
-                        name="edit_comment"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Коментар у правці"
-                                description="Ви отримаєте сповіщення, коли вам залишать коментар у правці"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                </div>
-                <div className="flex w-full flex-col gap-6">
-                    <Header>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Оцінки</HeaderTitle>
-                        </HeaderContainer>
-                    </Header>
-                    <form.AppField
-                        name="comment_vote"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Оцінка коментаря"
-                                description="Ви отримаєте сповіщення, коли ваш коментар оцінили"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                    <form.AppField
-                        name="collection_vote"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Оцінка колекції"
-                                description="Ви отримаєте сповіщення, коли вашу колекцію оцінили"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                    <form.AppField
-                        name="article_vote"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Оцінка статті"
-                                description="Ви отримаєте сповіщення, коли вашу статтю оцінили"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                </div>
-                <div className="flex w-full flex-col gap-6">
-                    <Header>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Правки</HeaderTitle>
-                        </HeaderContainer>
-                    </Header>
-                    <form.AppField
-                        name="edit_accepted"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Прийнята правка"
-                                description="Ви отримаєте сповіщення, коли ваша правка прийнята"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                    <form.AppField
-                        name="edit_denied"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Відхилена правка"
-                                description="Ви отримаєте сповіщення, коли ваша правка відхилена"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                </div>
-                <div className="flex w-full flex-col gap-6">
-                    <Header>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Аніме</HeaderTitle>
-                        </HeaderContainer>
-                    </Header>
-                    <form.AppField
-                        name="schedule_anime"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Оновлення аніме"
-                                description="Ви отримаєте сповіщення про вихід нових епізодів аніме"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                </div>
-                <div className="flex w-full flex-col gap-6">
-                    <Header>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Користувачі</HeaderTitle>
-                        </HeaderContainer>
-                    </Header>
-                    <form.AppField
-                        name="follow"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Підписка на користувача"
-                                description="Ви отримаєте сповіщення, коли хтось підписався на Вас"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                </div>
-                <div className="flex w-full flex-col gap-6">
-                    <Header>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Інше</HeaderTitle>
-                        </HeaderContainer>
-                    </Header>
-                    <form.AppField
-                        name="hikka_update"
-                        children={(field) => (
-                            <field.SwitchField
-                                label="Системні сповіщення"
-                                description="Ви отримаєте сповіщення про системні зміни"
-                                className="w-full"
-                            />
-                        )}
-                    />
-                </div>
+                        ))}
+                    </div>
+                ))}
                 <SubmitButton size="md" loading={isPending} variant="default">
                     Зберегти
                 </SubmitButton>
