@@ -21,7 +21,7 @@ const OAuthAuthNeeded: FC<Props> = () => {
                         </HeaderContainer>
                     </Header>
                     <p className="line-clamp-2 text-muted-foreground text-sm">
-                        Вам необіхдно авторизуватись, перш ніж надати доступ
+                        Вам необхідно авторизуватись, перш ніж надати доступ
                     </p>
                 </div>
             </div>
