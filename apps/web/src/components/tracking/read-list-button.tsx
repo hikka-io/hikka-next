@@ -28,9 +28,9 @@ import { carryOverReadArgs } from '@/utils/api/tracking-args';
 
 import IconReadStatusButton from './icon-read-status-button';
 import ListEntryEditDialog from './list-entry-edit-dialog';
-import NewReadStatusTrigger from './new-read-status-trigger';
-import ReadStatusTrigger from './read-status-trigger';
+import NewStatusTrigger from './new-status-trigger';
 import { READ_STATUS_OPTIONS } from './status-options';
+import StatusTrigger from './status-trigger';
 import { useAddRead } from './use-tracking-mutations';
 
 type Props = {
@@ -158,16 +158,17 @@ const ReadListButton = ({
                     onValueChange={handleChangeStatus}
                 >
                     {hasValidRead ? (
-                        <ReadStatusTrigger
-                            read={read}
+                        <StatusTrigger
+                            contentType={content_type}
+                            entry={read}
                             disabled={disabled}
                             size={size as 'sm' | 'md'}
                             isLoading={isChangingStatus}
                             onOpenModal={() => setEditOpen(true)}
                         />
                     ) : (
-                        <NewReadStatusTrigger
-                            content_type={content_type}
+                        <NewStatusTrigger
+                            contentType={content_type}
                             slug={slug}
                             disabled={disabled}
                             size={size as 'sm' | 'md'}

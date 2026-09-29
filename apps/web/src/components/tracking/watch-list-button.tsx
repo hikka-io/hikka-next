@@ -26,10 +26,10 @@ import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 
 import IconWatchStatusButton from './icon-watch-status-button';
 import ListEntryEditDialog from './list-entry-edit-dialog';
-import NewWatchStatusTrigger from './new-watch-status-trigger';
+import NewStatusTrigger from './new-status-trigger';
 import { WATCH_STATUS_OPTIONS } from './status-options';
+import StatusTrigger from './status-trigger';
 import { useAddWatch } from './use-tracking-mutations';
-import WatchStatusTrigger from './watch-status-trigger';
 
 type Props = {
     slug: string;
@@ -134,15 +134,17 @@ const WatchListButton = ({
                     onValueChange={handleChangeStatus}
                 >
                     {watch ? (
-                        <WatchStatusTrigger
-                            watch={watch}
+                        <StatusTrigger
+                            contentType={ContentTypeEnum.ANIME}
+                            entry={watch}
                             disabled={disabled}
                             size={size as 'sm' | 'md'}
                             isLoading={isChangingStatus}
                             onOpenModal={() => setEditOpen(true)}
                         />
                     ) : (
-                        <NewWatchStatusTrigger
+                        <NewStatusTrigger
+                            contentType={ContentTypeEnum.ANIME}
                             size={size as 'sm' | 'md'}
                             slug={slug}
                             disabled={disabled}

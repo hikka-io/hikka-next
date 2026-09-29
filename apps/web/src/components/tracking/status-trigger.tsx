@@ -1,46 +1,67 @@
 import { createElement, type FC } from 'react';
 
-import type {
-    WatchResponse,
-    WatchResponseBase,
-    WatchStatusEnum,
+import {
+    ContentTypeEnum,
+    type ReadContentTypeEnum,
+    type ReadResponseBase,
+    type WatchResponse,
+    type WatchResponseBase,
 } from '@hikka/api';
 
-import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
+import { LIST_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
-import { WATCH_STATUS } from '@/utils/labels/enum-labels';
+import { LIST_STATUS } from '@/utils/labels/enum-labels';
 
-type WatchStatusTriggerProps = {
-    watch: WatchResponse | WatchResponseBase;
+type Props = {
     disabled?: boolean;
     size?: 'sm' | 'md';
     isLoading?: boolean;
     onOpenModal?: () => void;
+} & (
+    | {
+          contentType: typeof ContentTypeEnum.ANIME;
+          entry: WatchResponse | WatchResponseBase;
+      }
+    | {
+          contentType: ReadContentTypeEnum;
+          entry: ReadResponseBase;
+      }
+);
+
+const SELECT_TRIGGER_CLASS_NAMES: Record<
+    keyof typeof LIST_STATUS,
+    string | undefined
+> = {
+    watch: undefined,
+    read: 'gap-0 border-none p-0',
 };
 
-const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
-    watch,
+const StatusTrigger: FC<Props> = ({
+    contentType,
+    entry,
     disabled,
     size,
     isLoading,
     onOpenModal,
 }) => {
-    const watchStatus = WATCH_STATUS[watch.status as WatchStatusEnum];
+    const kind = contentType === ContentTypeEnum.ANIME ? 'watch' : 'read';
+    const statusKey = entry.status as keyof (typeof LIST_STATUS)[typeof kind];
+    const entryStatus = LIST_STATUS[kind][statusKey];
 
     return (
-        <SelectTrigger asChild>
-            <div className={cn('flex w-full')}>
+        <SelectTrigger asChild className={SELECT_TRIGGER_CLASS_NAMES[kind]}>
+            <div className="flex w-full">
                 <Button
                     size={size}
                     variant="secondary"
                     disabled={disabled}
                     className={cn(
                         'flex-1 flex-nowrap overflow-hidden rounded-r-none border border-r-0',
-                        `bg-${watch.status} text-${watch.status}-foreground border-${watch.status}-border`,
+                        `bg-${entry.status} text-${entry.status}-foreground border-${entry.status}-border`,
                     )}
                 >
                     {isLoading ? (
@@ -49,26 +70,21 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                         <div
                             className={cn(
                                 'rounded-sm border p-1',
-                                `bg-${watch.status} text-${watch.status}-foreground border-${watch.status}-border`,
+                                `bg-${entry.status} text-${entry.status}-foreground border-${entry.status}-border`,
                             )}
                         >
-                            {createElement(
-                                WATCH_STATUS_ICONS[
-                                    watch.status as WatchStatusEnum
-                                ],
-                                {
-                                    className: 'size-3!',
-                                },
-                            )}
+                            {createElement(LIST_STATUS_ICONS[kind][statusKey], {
+                                className: 'size-3!',
+                            })}
                         </div>
                     )}
                     <span className="truncate rounded-none">
-                        {watchStatus.title_ua || watchStatus.title_en}
+                        {entryStatus.title_ua || entryStatus.title_en}
                     </span>
-                    {watch.score > 0 && (
+                    {entry.score > 0 && (
                         <>
                             <span className="opacity-60">-</span>
-                            <span className="opacity-60">{watch.score}</span>
+                            <span className="opacity-60">{entry.score}</span>
                         </>
                     )}
                 </Button>
@@ -80,7 +96,7 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                     disabled={disabled}
                     className={cn(
                         'rounded-l-none border border-l-0',
-                        `bg-${watch.status} text-${watch.status}-foreground border-${watch.status}-border`,
+                        `bg-${entry.status} text-${entry.status}-foreground border-${entry.status}-border`,
                     )}
                 >
                     <MaterialSymbolsSettingsOutlineRounded />
@@ -90,4 +106,4 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
     );
 };
 
-export default WatchStatusTrigger;
+export default StatusTrigger;

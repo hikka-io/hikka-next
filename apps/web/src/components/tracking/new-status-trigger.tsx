@@ -1,41 +1,74 @@
 import type * as React from 'react';
 import { createElement, type FC } from 'react';
 
-import { WatchStatusEnum } from '@hikka/api';
+import {
+    ContentTypeEnum,
+    type MainContentTypeEnum,
+    type Options,
+    type ReadAddData,
+    ReadStatusEnum,
+    type WatchAddData,
+    WatchStatusEnum,
+} from '@hikka/api';
 
-import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
+import { LIST_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 
-import { useAddWatch } from './use-tracking-mutations';
+import { useAddRead, useAddWatch } from './use-tracking-mutations';
 
-type NewWatchStatusTriggerProps = {
+type Props = {
     disabled?: boolean;
     slug: string;
+    contentType: MainContentTypeEnum;
     size?: 'sm' | 'md';
     isLoading?: boolean;
 };
 
-const NewWatchStatusTrigger: FC<NewWatchStatusTriggerProps> = ({
+type AddMutation = {
+    mutate(variables: Options<WatchAddData> | Options<ReadAddData>): void;
+};
+
+// Keep the hook-named property: the React Compiler memoizes `MAP[kind]()` as a plain call.
+const ADD_MUTATIONS: Record<
+    keyof typeof LIST_STATUS_ICONS,
+    { useAdd: () => AddMutation }
+> = {
+    watch: { useAdd: useAddWatch },
+    read: { useAdd: useAddRead },
+};
+
+const NewStatusTrigger: FC<Props> = ({
     disabled,
     slug,
+    contentType,
     size,
     isLoading,
 }) => {
-    const { mutate: createWatch } = useAddWatch();
+    const kind = contentType === ContentTypeEnum.ANIME ? 'watch' : 'read';
+    const { mutate: addEntry } = ADD_MUTATIONS[kind].useAdd();
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        createWatch({
-            path: { slug },
-            body: {
-                status: WatchStatusEnum.PLANNED,
-            },
-        });
+        addEntry(
+            contentType === ContentTypeEnum.ANIME
+                ? {
+                      path: { slug },
+                      body: {
+                          status: WatchStatusEnum.PLANNED,
+                      },
+                  }
+                : {
+                      path: { content_type: contentType, slug },
+                      body: {
+                          status: ReadStatusEnum.PLANNED,
+                      },
+                  },
+        );
     };
 
     return (
@@ -65,7 +98,7 @@ const NewWatchStatusTrigger: FC<NewWatchStatusTriggerProps> = ({
                                 'rounded-sm border border-secondary-foreground/20 p-1',
                             )}
                         >
-                            {createElement(WATCH_STATUS_ICONS.planned, {
+                            {createElement(LIST_STATUS_ICONS[kind].planned, {
                                 className: 'size-3!',
                             })}
                         </div>
@@ -88,4 +121,4 @@ const NewWatchStatusTrigger: FC<NewWatchStatusTriggerProps> = ({
     );
 };
 
-export default NewWatchStatusTrigger;
+export default NewStatusTrigger;

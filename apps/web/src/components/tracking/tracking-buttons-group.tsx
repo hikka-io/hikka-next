@@ -47,14 +47,13 @@ import {
 import { resolveTrackingEntry } from '@/utils/api/tracking-entry';
 
 import ListEntryEditDialog from './list-entry-edit-dialog';
-import ReadStatusTrigger from './read-status-trigger';
 import {
     READ_STATUS_OPTIONS,
     type StatusOption,
     WATCH_STATUS_OPTIONS,
 } from './status-options';
+import StatusTrigger from './status-trigger';
 import { useAddRead, useAddWatch } from './use-tracking-mutations';
-import WatchStatusTrigger from './watch-status-trigger';
 
 /** `default` keeps the Button primitive's own height; `sm`/`md` shrink it. */
 type TrackingSize = 'sm' | 'md' | 'default';
@@ -299,8 +298,9 @@ function WatchTrackingButtons({
             hasTracking={Boolean(tracking)}
             trigger={
                 tracking && (
-                    <WatchStatusTrigger
-                        watch={tracking}
+                    <StatusTrigger
+                        contentType={ContentTypeEnum.ANIME}
+                        entry={tracking}
                         size={size === 'default' ? undefined : size}
                         isLoading={isPending}
                         onOpenModal={() => setEditOpen(true)}
@@ -384,8 +384,9 @@ function ReadTrackingButtons({
             hasTracking={Boolean(tracking)}
             trigger={
                 tracking && (
-                    <ReadStatusTrigger
-                        read={tracking}
+                    <StatusTrigger
+                        contentType={type}
+                        entry={tracking}
                         size={size === 'default' ? undefined : size}
                         isLoading={isPending}
                         onOpenModal={() => setEditOpen(true)}
