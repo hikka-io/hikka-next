@@ -32,6 +32,7 @@ export {
     mergeEffects,
     mergePreferences,
     mergeStyles,
+    type UIEffect,
 } from './merge';
 export {
     syncThemeColorMeta,

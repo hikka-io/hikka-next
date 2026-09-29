@@ -1,10 +1,12 @@
-import type { UiPreferencesOutput, UiStylesOutput } from '@hikka/api';
+import type { UiStylesOutput } from '@hikka/api';
+
+import type { UIEffect } from './merge';
 
 export type EventTheme = {
     id: string;
     name: string;
     styles?: UiStylesOutput;
-    effects?: NonNullable<UiPreferencesOutput['effect']>[];
+    effects?: UIEffect[];
     startDate: Date;
     endDate: Date;
 };

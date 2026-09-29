@@ -11,7 +11,7 @@ import { oklchEqual } from './color';
 import { DEFAULT_STYLES, DEFAULT_USER_UI } from './defaults';
 import { SURFACE_OVERRIDE_TOKENS } from './inject-styles';
 
-type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
+export type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 
 /**
  * Strip null/undefined values from an object so they don't overwrite

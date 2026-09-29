@@ -1,7 +1,7 @@
 import type { FC, PropsWithChildren } from 'react';
 
 import { TooltipProvider } from '@/components/ui/tooltip';
-import EffectsManager from '@/features/effects/effects-manager';
+import { EffectsManager } from '@/features/effects';
 import ThemeProvider from '@/services/theme-provider';
 import { applyDefaultLocale } from '@/utils/i18n/locale';
 

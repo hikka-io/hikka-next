@@ -6,7 +6,6 @@ import {
     profileUiOptions,
     type UiFeedSettingsOutput,
     type UiFeedWidget,
-    type UiPreferencesOutput,
     type UiStylesOutput,
     type UserCustomizationResponse,
 } from '@hikka/api';
@@ -20,12 +19,11 @@ import {
     mergeUserStyles,
     type ResolvedBackdrop,
     resolveBackdrop,
+    type UIEffect,
 } from '@/utils/customization';
 import type { NameLanguage, TitleLanguage } from '@/utils/title/get-title';
 
 import { useSession } from './use-session';
-
-type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
 
 /** Merge layer guarantees `feed`/`widgets` are present; required here though the API marks them optional. */
 type SessionFeedSettings = UiFeedSettingsOutput & {

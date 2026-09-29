@@ -1,24 +1,9 @@
-import type { UiPreferencesOutput } from '@hikka/api';
-
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useUpdateSessionUI } from '@/features/auth/hooks/use-update-session-ui';
-
-type UIEffect = NonNullable<UiPreferencesOutput['effect']>;
-
-const EFFECTS: { value: UIEffect; label: string; description: string }[] = [
-    {
-        value: 'snowfall',
-        label: 'Сніжинки ❄️',
-        description: 'Включити анімацію сніжинок на сайті',
-    },
-    {
-        value: 'sakura',
-        label: 'Сакура 🌸',
-        description: 'Включити анімацію пелюсток сакури на сайті',
-    },
-];
+import { EFFECT_IDS, EFFECTS } from '@/features/effects';
+import type { UIEffect } from '@/utils/customization';
 
 const EffectsSettings = () => {
     const { preferences } = useSessionUI();
@@ -31,15 +16,15 @@ const EffectsSettings = () => {
 
     return (
         <div className="flex w-full flex-col gap-6">
-            {EFFECTS.map(({ value, label, description }) => (
+            {EFFECT_IDS.map((value) => (
                 <div
                     key={value}
                     className="flex w-full flex-row items-center justify-between gap-2"
                 >
                     <div className="flex flex-col">
-                        <Label>{label}</Label>
+                        <Label>{EFFECTS[value].label}</Label>
                         <small className="text-muted-foreground">
-                            {description}
+                            {EFFECTS[value].description}
                         </small>
                     </div>
                     <Switch
