@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-export default function IcRoundCheck(props: SVGProps<SVGSVGElement>) {
+export function StatusDropped(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -11,8 +11,9 @@ export default function IcRoundCheck(props: SVGProps<SVGSVGElement>) {
         >
             <path
                 fill="currentColor"
-                d="M9 16.17L5.53 12.7a.996.996 0 1 0-1.41 1.41l4.18 4.18c.39.39 1.02.39 1.41 0L20.29 7.71a.996.996 0 1 0-1.41-1.41L9 16.17z"
+                d="M18 12.998H6a1 1 0 0 1 0-2h12a1 1 0 0 1 0 2z"
             ></path>
         </svg>
     );
 }
+export default StatusDropped;

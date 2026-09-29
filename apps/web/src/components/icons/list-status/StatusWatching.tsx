@@ -1,8 +1,6 @@
 import type { SVGProps } from 'react';
 
-export default function MaterialSymbolsAutoplayRounded(
-    props: SVGProps<SVGSVGElement>,
-) {
+export function StatusWatching(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -18,3 +16,4 @@ export default function MaterialSymbolsAutoplayRounded(
         </svg>
     );
 }
+export default StatusWatching;

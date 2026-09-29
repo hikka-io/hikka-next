@@ -8,7 +8,7 @@ import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-sym
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import Link from '@/components/ui/link';
+import TextLink from '@/components/ui/text-link';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { usePathname, useRouteSearch } from '@/utils/navigation';
 
@@ -187,13 +187,13 @@ const FilterPresetModal: FC<Props> = ({
                     >
                         <div className="flex-1 space-y-1">
                             <div className="flex items-center gap-2">
-                                <Link
+                                <TextLink
                                     onClick={() => onClose?.()}
                                     to={buildFilterPresetLink(preset)}
                                     className="font-medium text-sm"
                                 >
                                     {preset.name}
-                                </Link>
+                                </TextLink>
                                 <div className="flex items-center gap-2">
                                     <Badge variant="secondary">
                                         {

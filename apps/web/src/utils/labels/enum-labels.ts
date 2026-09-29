@@ -14,16 +14,16 @@ import {
     WatchStatusEnum,
 } from '@hikka/api';
 
+import StatusCompleted from '@/components/icons/list-status/StatusCompleted';
+import StatusDropped from '@/components/icons/list-status/StatusDropped';
+import StatusOnHold from '@/components/icons/list-status/StatusOnHold';
+import StatusPlanned from '@/components/icons/list-status/StatusPlanned';
+import StatusWatching from '@/components/icons/list-status/StatusWatching';
 import MaterialSymbolsBookmarkFlagOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsBookmarkFlagOutlineRounded';
 import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
 import MaterialSymbolsNewsmodeRounded from '@/components/icons/material-symbols/MaterialSymbolsNewsmodeRounded';
 import MaterialSymbolsReviewsRounded from '@/components/icons/material-symbols/MaterialSymbolsReviewsRounded';
 import MaterialSymbolsStarsRounded from '@/components/icons/material-symbols/MaterialSymbolsStarsRounded';
-import Completed from '@/components/icons/watch-status/completed';
-import Dropped from '@/components/icons/watch-status/dropped';
-import OnHold from '@/components/icons/watch-status/on-hold';
-import Planned from '@/components/icons/watch-status/planned';
-import Watching from '@/components/icons/watch-status/watching';
 
 export const SEASON: Hikka.FilterProperty<SeasonEnum> = {
     winter: {
@@ -214,12 +214,12 @@ export const READ_STATUS: Hikka.FilterProperty<ReadStatusEnum> = {
     [ReadStatusEnum.PLANNED]: {
         title_ua: 'Заплановано',
         title_en: 'Planned',
-        icon: Planned,
+        icon: StatusPlanned,
     },
     [ReadStatusEnum.COMPLETED]: {
         title_ua: 'Завершено',
         title_en: 'Completed',
-        icon: Completed,
+        icon: StatusCompleted,
     },
     [ReadStatusEnum.ON_HOLD]: {
         title_ua: 'Відкладено',
@@ -229,7 +229,7 @@ export const READ_STATUS: Hikka.FilterProperty<ReadStatusEnum> = {
     [ReadStatusEnum.DROPPED]: {
         title_ua: 'Закинуто',
         title_en: 'Dropped',
-        icon: Dropped,
+        icon: StatusDropped,
     },
     [ReadStatusEnum.READING]: {
         title_ua: 'Читаю',
@@ -242,27 +242,27 @@ export const WATCH_STATUS: Hikka.FilterProperty<WatchStatusEnum> = {
     [WatchStatusEnum.PLANNED]: {
         title_ua: 'Заплановано',
         title_en: 'Planned',
-        icon: Planned,
+        icon: StatusPlanned,
     },
     [WatchStatusEnum.WATCHING]: {
         title_ua: 'Дивлюсь',
         title_en: 'Watching',
-        icon: Watching,
+        icon: StatusWatching,
     },
     [WatchStatusEnum.COMPLETED]: {
         title_ua: 'Завершено',
         title_en: 'Completed',
-        icon: Completed,
+        icon: StatusCompleted,
     },
     [WatchStatusEnum.ON_HOLD]: {
         title_ua: 'Відкладено',
         title_en: 'On Hold',
-        icon: OnHold,
+        icon: StatusOnHold,
     },
     [WatchStatusEnum.DROPPED]: {
         title_ua: 'Закинуто',
         title_en: 'Dropped',
-        icon: Dropped,
+        icon: StatusDropped,
     },
 };
 

@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getCollectionOptions } from '@hikka/api';
 
 import Card from '@/components/ui/card';
-import Link from '@/components/ui/link';
+import TextLink from '@/components/ui/text-link';
 import { useScrollGradientMask } from '@/services/hooks/use-scroll-position';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
@@ -95,7 +95,7 @@ function TableOfContents({ className }: Props) {
                 {collection?.labels_order.map((label, index) => {
                     return (
                         <li key={`${index}-${label}`}>
-                            <Link
+                            <TextLink
                                 to={`#${label}`}
                                 className={cn(
                                     'line-clamp-2 text-muted-foreground',
@@ -104,7 +104,7 @@ function TableOfContents({ className }: Props) {
                                 )}
                             >
                                 {label}
-                            </Link>
+                            </TextLink>
                         </li>
                     );
                 })}

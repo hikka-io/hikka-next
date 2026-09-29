@@ -15,7 +15,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
 import RelativeTime from '@/components/relative-time';
-import Link from '@/components/ui/link';
+import TextLink from '@/components/ui/text-link';
 import { useMediaQuery } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY } from '@/utils/constants/common';
@@ -46,14 +46,14 @@ const Author: FC<Props> = ({ article, preview, className }) => {
                 </HorizontalCardTitle>
                 <HorizontalCardContainer className="flex-row items-center">
                     <HorizontalCardDescription>
-                        <Link
+                        <TextLink
                             to="/articles"
                             search={{ categories: category }}
                             rel="author"
                             className="hover:underline"
                         >
                             {ARTICLE_CATEGORY[category].title_ua}
-                        </Link>
+                        </TextLink>
                     </HorizontalCardDescription>
                     <div className="size-1 rounded-full bg-muted-foreground" />
                     <HorizontalCardDescription

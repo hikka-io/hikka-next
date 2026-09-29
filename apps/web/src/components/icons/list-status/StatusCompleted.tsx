@@ -1,8 +1,6 @@
 import type { SVGProps } from 'react';
 
-export default function MaterialSymbolsAddRounded(
-    props: SVGProps<SVGSVGElement>,
-) {
+export function StatusCompleted(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -13,8 +11,9 @@ export default function MaterialSymbolsAddRounded(
         >
             <path
                 fill="currentColor"
-                d="M11 13H6q-.425 0-.713-.288T5 12q0-.425.288-.713T6 11h5V6q0-.425.288-.713T12 5q.425 0 .713.288T13 6v5h5q.425 0 .713.288T19 12q0 .425-.288.713T18 13h-5v5q0 .425-.288.713T12 19q-.425 0-.713-.288T11 18v-5Z"
+                d="M9 16.17L5.53 12.7a.996.996 0 1 0-1.41 1.41l4.18 4.18c.39.39 1.02.39 1.41 0L20.29 7.71a.996.996 0 1 0-1.41-1.41L9 16.17z"
             ></path>
         </svg>
     );
 }
+export default StatusCompleted;

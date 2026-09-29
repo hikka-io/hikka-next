@@ -11,7 +11,7 @@ import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import Link from '@/components/ui/link';
+import TextLink from '@/components/ui/text-link';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { CollectionList, CollectionSort } from '@/features/collections';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
@@ -72,7 +72,7 @@ function CollectionsPage() {
                         <Button
                             size="icon-sm"
                             variant="outline"
-                            render={<Link to="/collections/new" />}
+                            render={<TextLink to="/collections/new" />}
                         >
                             <MaterialSymbolsAddRounded />
                         </Button>

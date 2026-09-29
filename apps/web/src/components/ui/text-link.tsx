@@ -11,7 +11,7 @@ type Props = Omit<ComponentPropsWithRef<'a'>, 'href'> & {
     children?: React.ReactNode;
 };
 
-const Link: FC<Props> = ({
+const TextLink: FC<Props> = ({
     href,
     to,
     search,
@@ -39,4 +39,4 @@ const Link: FC<Props> = ({
     return <div className={className}>{children}</div>;
 };
 
-export default Link;
+export default TextLink;

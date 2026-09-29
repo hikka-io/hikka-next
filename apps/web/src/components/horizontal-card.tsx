@@ -9,7 +9,7 @@ import type {
 
 import PosterCard from '@/components/content-card/poster-card';
 import { labelVariants } from '@/components/ui/label';
-import Link from '@/components/ui/link';
+import TextLink from '@/components/ui/text-link';
 import { cn } from '@/utils/cn';
 
 type HorizontalCardTitleProps = ComponentPropsWithoutRef<'div'> & {
@@ -30,7 +30,7 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
 }) => {
     return (
         <div className="flex min-w-0 items-center justify-between gap-2">
-            <Link
+            <TextLink
                 title={children as string}
                 href={to ?? href}
                 target={target}
@@ -41,7 +41,7 @@ const HorizontalCardTitle: FC<HorizontalCardTitleProps> = ({
                 )}
             >
                 {children}
-            </Link>
+            </TextLink>
             {titleMeta}
         </div>
     );

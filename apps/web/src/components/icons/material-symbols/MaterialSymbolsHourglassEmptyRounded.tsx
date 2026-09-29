@@ -1,6 +1,8 @@
 import type { SVGProps } from 'react';
 
-export function MaterialSymbolsAddRounded(props: SVGProps<SVGSVGElement>) {
+export function MaterialSymbolsHourglassEmptyRounded(
+    props: SVGProps<SVGSVGElement>,
+) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -16,4 +18,4 @@ export function MaterialSymbolsAddRounded(props: SVGProps<SVGSVGElement>) {
         </svg>
     );
 }
-export default MaterialSymbolsAddRounded;
+export default MaterialSymbolsHourglassEmptyRounded;

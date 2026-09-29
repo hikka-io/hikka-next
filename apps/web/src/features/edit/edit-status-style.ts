@@ -2,10 +2,10 @@ import type { ComponentType, SVGProps } from 'react';
 
 import type { EditStatusEnum } from '@hikka/api';
 
+import StatusDropped from '@/components/icons/list-status/StatusDropped';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
 import MaterialSymbolsHourglassEmptyRounded from '@/components/icons/material-symbols/MaterialSymbolsHourglassEmptyRounded';
-import Closed from '@/components/icons/watch-status/dropped';
 import type { BadgeProps } from '@/components/ui/badge';
 
 export const EDIT_STATUS_STYLE = {
@@ -23,7 +23,7 @@ export const EDIT_STATUS_STYLE = {
     },
     closed: {
         variant: 'secondary',
-        icon: Closed,
+        icon: StatusDropped,
     },
 } as const satisfies Record<
     EditStatusEnum,
