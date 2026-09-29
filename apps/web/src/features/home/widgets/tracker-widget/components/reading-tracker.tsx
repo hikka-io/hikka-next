@@ -203,7 +203,7 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                     >
                         Знайти{' '}
                         {contentType === ContentTypeEnum.MANGA
-                            ? 'мангу'
+                            ? 'манґу'
                             : 'ранобе'}
                     </Button>
                 }

@@ -15,7 +15,7 @@ describe('content type labels', () => {
         ).toEqual([
             ['anime', 'Аніме'],
             ['character', 'Персонаж'],
-            ['person', 'Автор'],
+            ['person', 'Людина'],
             ['edit', 'Правка'],
             ['comment', 'Коментар'],
             ['collection', 'Колекція'],
@@ -58,6 +58,20 @@ describe('content type labels', () => {
             ],
             genitive: ['аніме', 'манґи', 'ранобе'],
             accusative: ['аніме', 'манґу', 'ранобе'],
+        });
+    });
+
+    it('labels the person content type as Людина and Люди', () => {
+        expect({
+            singular: CONTENT_TYPES.person.title_ua,
+            plural: CONTENT_TYPES.person.plural,
+            collectionOption: COLLECTION_CONTENT_TYPE_OPTIONS.find(
+                ({ value }) => value === 'person',
+            )?.label,
+        }).toEqual({
+            singular: 'Людина',
+            plural: 'Люди',
+            collectionOption: 'Людина',
         });
     });
 

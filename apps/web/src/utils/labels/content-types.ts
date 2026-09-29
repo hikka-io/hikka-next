@@ -22,7 +22,7 @@ export const CONTENT_TYPES = {
         plural: 'Персонажі',
     },
     [ContentTypeEnum.PERSON]: {
-        title_ua: 'Автор',
+        title_ua: 'Людина',
         title_en: 'Person',
         plural: 'Люди',
     },

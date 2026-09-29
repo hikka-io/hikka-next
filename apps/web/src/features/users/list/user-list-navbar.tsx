@@ -86,6 +86,7 @@ const UserListNavbar: FC<Props> = ({ content_type }) => {
     });
     const listData = isAnime ? watchData : readData;
     const statuses = LIST_STATUS[isAnime ? 'watch' : 'read'];
+    const randomLabel = `${content_type === ContentTypeEnum.MANGA ? 'Випадкова' : 'Випадкове'} ${CONTENT_TYPES[content_type].title_ua.toLowerCase()}`;
 
     const allAmount = listData
         ? listData.completed +
@@ -219,19 +220,14 @@ const UserListNavbar: FC<Props> = ({ content_type }) => {
                                         variant="outline"
                                         size="icon-md"
                                         onClick={handleRandom}
-                                        aria-label={`Випадкове ${CONTENT_TYPES[content_type].title_ua.toLowerCase()}`}
+                                        aria-label={randomLabel}
                                     />
                                 }
                             >
                                 <FeRandom className="size-4" />
                             </TooltipTrigger>
                             <TooltipContent>
-                                <p>
-                                    Випадкове{' '}
-                                    {CONTENT_TYPES[
-                                        content_type
-                                    ].title_ua.toLowerCase()}
-                                </p>
+                                <p>{randomLabel}</p>
                             </TooltipContent>
                         </Tooltip>
                     </div>
