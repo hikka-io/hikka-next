@@ -6,8 +6,8 @@ import { Calendar } from 'lucide-react';
 import {
     SliderField,
     type SliderFieldProps,
-} from '@/components/form/form-slider';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';

@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 
 import { API_LIMITS, changeDescriptionMutation } from '@hikka/api';
 
-import { useAppForm } from '@/components/form/use-app-form';
+import { useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { useSession } from '@/features/auth/hooks/use-session';

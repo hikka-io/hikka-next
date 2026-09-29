@@ -5,8 +5,8 @@ import { Languages } from 'lucide-react';
 import {
     SwitchField,
     type SwitchFieldProps,
-} from '@/components/form/form-switch';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useRouteSearch } from '@/utils/navigation';

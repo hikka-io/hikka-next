@@ -2,8 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { API_LIMITS, loginMutation } from '@hikka/api';
 
-import SubmitButton from '@/components/form/submit-button';
-import { useAppForm } from '@/components/form/use-app-form';
+import { SubmitButton, useAppForm } from '@/components/form';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import PasswordInput from '@/components/ui/password-input';

@@ -6,7 +6,7 @@ import type { PlateEditor } from 'platejs/react';
 import { useEditorRef } from 'platejs/react';
 import type { BaseRange } from 'slate';
 
-import { useAppForm } from '@/components/form/use-app-form';
+import { useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import {
     ResponsiveModal,

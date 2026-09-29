@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getEditOptions } from '@hikka/api';
 
-import { useFormContext } from '@/components/form/form-context';
+import { useFormContext } from '@/components/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';

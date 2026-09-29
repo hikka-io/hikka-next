@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 
 import { createEditMutation, type EditContentTypeEnum } from '@hikka/api';
 
-import { useAppForm } from '@/components/form/use-app-form';
+import { useAppForm } from '@/components/form';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
 import { Button } from '@/components/ui/button';

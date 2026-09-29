@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { createEditMutation, type EditContentTypeEnum } from '@hikka/api';
 
-import { useAppForm } from '@/components/form/use-app-form';
+import { useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { invalidateEdits } from '@/utils/api/invalidate-content-state';

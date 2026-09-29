@@ -1,7 +1,6 @@
 import { ContentTypeEnum } from '@hikka/api';
 
-import { SelectField } from '@/components/form/form-select';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+import { SelectField, useTypedAppFormContext } from '@/components/form';
 import {
     SelectContent,
     SelectGroup,

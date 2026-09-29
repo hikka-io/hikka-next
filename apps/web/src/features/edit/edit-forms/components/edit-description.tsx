@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import { useFormContext } from '@/components/form/form-context';
+import { useFormContext } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import {

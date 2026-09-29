@@ -1,14 +1,14 @@
 import { createFormHook } from '@tanstack/react-form';
 
-import { BadgeFilterField } from './form-badge-filter';
+import { BadgeFilterField } from './badge-filter-field';
+import { DatePickerField } from './date-picker-field';
 import { fieldContext, formContext } from './form-context';
-import { DatePickerField } from './form-date-picker';
-import { TextField } from './form-input';
-import { PasswordField } from './form-password';
-import { SelectField } from './form-select';
-import { SliderField } from './form-slider';
-import { SwitchField } from './form-switch';
-import { TextareaField } from './form-textarea';
+import { PasswordField } from './password-field';
+import { SelectField } from './select-field';
+import { SliderField } from './slider-field';
+import { SwitchField } from './switch-field';
+import { TextField } from './text-field';
+import { TextareaField } from './textarea-field';
 
 export const { useAppForm, useTypedAppFormContext } = createFormHook({
     fieldComponents: {

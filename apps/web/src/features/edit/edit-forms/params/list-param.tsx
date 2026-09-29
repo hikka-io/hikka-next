@@ -1,6 +1,6 @@
 import { type FC, useState } from 'react';
 
-import { useFormContext } from '@/components/form/form-context';
+import { useFormContext } from '@/components/form';
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsCloseSmallRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseSmallRounded';
 import { Button } from '@/components/ui/button';

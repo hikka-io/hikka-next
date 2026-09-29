@@ -10,7 +10,7 @@ import {
     updateUserClientMutation,
 } from '@hikka/api';
 
-import { useAppForm } from '@/components/form/use-app-form';
+import { useAppForm } from '@/components/form';
 import MaterialSymbolsContentCopy from '@/components/icons/material-symbols/MaterialSymbolsContentCopy';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';

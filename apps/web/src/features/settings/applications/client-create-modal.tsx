@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 
 import { createUserClientMutation } from '@hikka/api';
 
-import { useAppForm } from '@/components/form/use-app-form';
+import { useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';

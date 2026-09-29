@@ -8,8 +8,8 @@ import { type GenreTypeEnum, genresOptions } from '@hikka/api';
 import {
     SelectField,
     type SelectFieldProps,
-} from '@/components/form/form-select';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import { Label } from '@/components/ui/label';
 import {
     groupOptions,

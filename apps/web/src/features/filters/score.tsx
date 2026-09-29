@@ -5,8 +5,8 @@ import { Star } from 'lucide-react';
 import {
     SliderField,
     type SliderFieldProps,
-} from '@/components/form/form-slider';
-import { useTypedAppFormContext } from '@/components/form/use-app-form';
+    useTypedAppFormContext,
+} from '@/components/form';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';

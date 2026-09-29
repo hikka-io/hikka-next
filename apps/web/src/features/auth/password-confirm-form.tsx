@@ -3,8 +3,7 @@ import { toast } from 'sonner';
 
 import { passwordResetMutation } from '@hikka/api';
 
-import SubmitButton from '@/components/form/submit-button';
-import { useAppForm } from '@/components/form/use-app-form';
+import { SubmitButton, useAppForm } from '@/components/form';
 import { passwordSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 import { useParams, useRouter } from '@/utils/navigation';

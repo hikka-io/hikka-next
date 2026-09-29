@@ -8,7 +8,7 @@ import {
     getIgnoredNotificationsOptions,
 } from '@hikka/api';
 
-import { useAppForm } from '@/components/form/use-app-form';
+import { useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Spinner from '@/components/ui/spinner';

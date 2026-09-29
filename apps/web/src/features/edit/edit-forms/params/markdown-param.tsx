@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getEditOptions } from '@hikka/api';
 
-import { useFormContext } from '@/components/form/form-context';
+import { useFormContext } from '@/components/form';
 import { MDViewer } from '@/components/markdown';
 import { DiffViewer } from '@/components/plate/editor/diff-viewer';
 import { PlateMarkdownEditor } from '@/components/plate/editor/plate-editor';

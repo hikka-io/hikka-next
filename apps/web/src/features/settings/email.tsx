@@ -3,8 +3,7 @@ import { toast } from 'sonner';
 
 import { changeEmailMutation } from '@hikka/api';
 
-import SubmitButton from '@/components/form/submit-button';
-import { useAppForm } from '@/components/form/use-app-form';
+import { SubmitButton, useAppForm } from '@/components/form';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { emailSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
