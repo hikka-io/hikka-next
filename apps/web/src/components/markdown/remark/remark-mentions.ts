@@ -1,10 +1,14 @@
 import type { Link, Parent, PhrasingContent, Root } from 'mdast';
 import { findAndReplace } from 'mdast-util-find-and-replace';
 
+import { API_LIMITS } from '@hikka/api';
+
 import { isUserReference, userUrlTarget } from '@/utils/mentions';
 
-const userGroup = '[\\da-z][-\\da-z_]{0,38}';
-const mentionRegex = new RegExp(`(?:^|\\s)@(${userGroup})`, 'gi');
+const { min, max } = API_LIMITS.username;
+const userGroup = `[a-z][\\da-z_]{${min - 1},${max - 1}}`;
+const tokenEnd = '(?![-\\da-z_])';
+const mentionRegex = new RegExp(`(?:^|\\s)@(${userGroup})${tokenEnd}`, 'gi');
 
 const isParent = (node: unknown): node is Parent =>
     Array.isArray((node as Parent).children);
