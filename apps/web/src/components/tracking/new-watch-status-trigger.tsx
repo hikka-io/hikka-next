@@ -3,51 +3,45 @@ import { createElement, type FC } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import {
-    type ReadContentTypeEnum,
-    ReadStatusEnum,
-    readAddMutation,
-} from '@hikka/api';
+import { WatchStatusEnum, watchAddMutation } from '@hikka/api';
 
-import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
+import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
-import { applyReadMutation } from '@/utils/api/invalidate-content-state';
+import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
 
-type NewStatusTriggerProps = {
+type NewWatchStatusTriggerProps = {
     disabled?: boolean;
     slug: string;
-    content_type: ReadContentTypeEnum;
     size?: 'sm' | 'md';
     isLoading?: boolean;
 };
 
-const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
+const NewWatchStatusTrigger: FC<NewWatchStatusTriggerProps> = ({
     disabled,
     slug,
-    content_type,
     size,
     isLoading,
 }) => {
     const queryClient = useQueryClient();
 
-    const { mutate: createRead } = useMutation({
-        ...readAddMutation(),
+    const { mutate: createWatch } = useMutation({
+        ...watchAddMutation(),
         onSuccess: (data) => {
-            applyReadMutation(queryClient, data);
+            applyWatchMutation(queryClient, data);
         },
     });
 
     const handleAddToPlanned = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        createRead({
-            path: { content_type, slug },
+        createWatch({
+            path: { slug },
             body: {
-                status: ReadStatusEnum.PLANNED,
+                status: WatchStatusEnum.PLANNED,
             },
         });
     };
@@ -63,8 +57,8 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
         >
             <div className="flex w-full">
                 <Button
-                    size={size}
                     variant="secondary"
+                    size={size}
                     disabled={disabled}
                     onClick={handleAddToPlanned}
                     className={cn(
@@ -79,7 +73,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                                 'rounded-sm border border-secondary-foreground/20 p-1',
                             )}
                         >
-                            {createElement(READ_STATUS_ICONS.planned, {
+                            {createElement(WATCH_STATUS_ICONS.planned, {
                                 className: 'size-3!',
                             })}
                         </div>
@@ -102,4 +96,4 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
     );
 };
 
-export default NewStatusTrigger;
+export default NewWatchStatusTrigger;

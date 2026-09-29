@@ -11,8 +11,8 @@ import {
     userReadListInfiniteOptions,
 } from '@hikka/api';
 
-import { ReadEditModal } from '@/components/action-buttons';
 import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
+import { ReadEditModal } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { useSession } from '@/features/auth/hooks/use-session';

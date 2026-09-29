@@ -2,7 +2,7 @@ import { type FC, memo } from 'react';
 
 import type { AnimeScheduleResponse } from '@hikka/api';
 
-import WatchlistButton from '@/components/action-buttons/watchlist-button';
+import { WatchListButton } from '@/components/tracking';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { getScheduleDuration } from '@/utils/i18n';
@@ -43,7 +43,7 @@ const ScheduleItem: FC<Props> = ({ item, ...props }) => {
                     </h5>
                 </div>
 
-                <WatchlistButton
+                <WatchListButton
                     slug={item.anime.slug}
                     anime={item.anime}
                     watch={item.anime.watch[0] ?? null}

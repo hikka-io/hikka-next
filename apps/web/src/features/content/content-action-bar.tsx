@@ -6,8 +6,7 @@ import { MessageCircle } from 'lucide-react';
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
-import ReadlistButton from '@/components/action-buttons/readlist-button';
-import WatchlistButton from '@/components/action-buttons/watchlist-button';
+import { ReadListButton, WatchListButton } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { usePageTitleReveal } from '@/features/app-shell';
@@ -40,7 +39,7 @@ const UserlistButton = ({
     switch (content_type) {
         case ContentTypeEnum.ANIME:
             return (
-                <WatchlistButton
+                <WatchListButton
                     slug={String(params.slug)}
                     size="icon-md"
                     anime={content?.data_type === 'anime' ? content : undefined}
@@ -50,7 +49,7 @@ const UserlistButton = ({
         case ContentTypeEnum.MANGA:
         case ContentTypeEnum.NOVEL:
             return (
-                <ReadlistButton
+                <ReadListButton
                     slug={String(params.slug)}
                     size="icon-md"
                     content_type={content_type}

@@ -33,10 +33,10 @@ import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 import { cn } from '@/utils/cn';
 import { WATCH_STATUS } from '@/utils/labels/enum-labels';
 
-import WatchEditModal from '../watch-edit-modal';
-import IconWatchStatusButton from './components/icon-watch-status-button';
-import NewStatusTrigger from './components/new-status-trigger';
-import WatchStatusTrigger from './components/watch-status-trigger';
+import IconWatchStatusButton from './icon-watch-status-button';
+import NewWatchStatusTrigger from './new-watch-status-trigger';
+import WatchEditModal from './watch-edit-modal';
+import WatchStatusTrigger from './watch-status-trigger';
 
 type Props = {
     slug: string;
@@ -79,7 +79,7 @@ const STATUS_OPTIONS = Object.keys(WATCH_STATUS).map((status) => ({
     ),
 }));
 
-const WatchlistButton = ({
+const WatchListButton = ({
     slug,
     disabled,
     watch: watchProp,
@@ -177,7 +177,7 @@ const WatchlistButton = ({
                             onOpenModal={() => setEditOpen(true)}
                         />
                     ) : (
-                        <NewStatusTrigger
+                        <NewWatchStatusTrigger
                             size={size as 'sm' | 'md'}
                             slug={slug}
                             disabled={disabled}
@@ -231,4 +231,4 @@ const WatchlistButton = ({
     );
 };
 
-export default WatchlistButton;
+export default WatchListButton;

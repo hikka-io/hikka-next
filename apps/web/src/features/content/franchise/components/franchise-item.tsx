@@ -6,8 +6,6 @@ import type {
     NovelResponseWithRead,
 } from '@hikka/api';
 
-import ReadlistButton from '@/components/action-buttons/readlist-button';
-import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import {
     HorizontalCard,
     HorizontalCardContainer,
@@ -15,6 +13,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
+import { ReadListButton, WatchListButton } from '@/components/tracking';
 import Card from '@/components/ui/card';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useTitle } from '@/features/auth/hooks/use-title';
@@ -57,7 +56,7 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                 </HorizontalCardContainer>
             </HorizontalCard>
             {content.data_type === 'anime' && !preview && (
-                <WatchlistButton
+                <WatchListButton
                     slug={content.slug}
                     anime={content}
                     watch={content.watch?.[0] ?? null}
@@ -66,7 +65,7 @@ const FranchiseItem: FC<Props> = ({ content, preview }) => {
                 />
             )}
             {content.data_type !== 'anime' && !preview && (
-                <ReadlistButton
+                <ReadListButton
                     content_type={content.data_type}
                     slug={content.slug}
                     content={content}

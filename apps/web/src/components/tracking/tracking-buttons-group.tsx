@@ -1,6 +1,7 @@
 import type * as React from 'react';
 import {
     createElement,
+    type FC,
     type ReactElement,
     type ReactNode,
     useState,
@@ -59,9 +60,9 @@ import { cn } from '@/utils/cn';
 import { READ_STATUS, WATCH_STATUS } from '@/utils/labels/enum-labels';
 
 import ReadEditModal from './read-edit-modal';
-import ReadStatusTrigger from './readlist-button/components/read-status-trigger';
+import ReadStatusTrigger from './read-status-trigger';
 import WatchEditModal from './watch-edit-modal';
-import WatchStatusTrigger from './watchlist-button/components/watch-status-trigger';
+import WatchStatusTrigger from './watch-status-trigger';
 
 /** `default` keeps the Button primitive's own height; `sm`/`md` shrink it. */
 type TrackingSize = 'sm' | 'md' | 'default';
@@ -476,7 +477,7 @@ function ReadTrackingButtons({
     );
 }
 
-export function TrackingButtonsGroup(props: Props) {
+const TrackingButtonsGroup: FC<Props> = (props) => {
     const size = props.size ?? 'md';
 
     if (props.type === ContentTypeEnum.ANIME) {
@@ -499,4 +500,6 @@ export function TrackingButtonsGroup(props: Props) {
             read={props.read}
         />
     );
-}
+};
+
+export default TrackingButtonsGroup;

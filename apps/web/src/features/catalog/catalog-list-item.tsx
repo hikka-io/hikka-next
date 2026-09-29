@@ -7,7 +7,6 @@ import type {
     NovelResponseWithRead,
 } from '@hikka/api';
 
-import { TrackingButtonsGroup } from '@/components/action-buttons';
 import CompanyTitleLink from '@/components/company-title-link';
 import { PosterCard } from '@/components/content-card';
 import ContentGenres from '@/components/content-genres';
@@ -17,6 +16,7 @@ import {
 } from '@/components/horizontal-card';
 import { InlineScores } from '@/components/inline-scores';
 import MagazineTitleLink from '@/components/magazine-title-link';
+import { TrackingButtonsGroup } from '@/components/tracking';
 import { Separator } from '@/components/ui/separator';
 import { useTitle } from '@/features/auth';
 import { getMediaTypeLabel, RELEASE_STATUS } from '@/utils/labels';

@@ -5,8 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
-import ReadListButton from '@/components/action-buttons/readlist-button';
-import WatchlistButton from '@/components/action-buttons/watchlist-button';
+import { ReadListButton, WatchListButton } from '@/components/tracking';
 import { useSession } from '@/features/auth/hooks/use-session';
 import {
     contentInfoOptions,
@@ -40,7 +39,7 @@ const ContentActions: FC<Props> = ({ content_type, className }) => {
             <div className="flex gap-4">
                 <div className="min-w-0 flex-1">
                     {content_type === ContentTypeEnum.ANIME ? (
-                        <WatchlistButton
+                        <WatchListButton
                             disabled={!user}
                             slug={String(params.slug)}
                             anime={

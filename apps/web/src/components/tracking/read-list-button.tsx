@@ -36,10 +36,10 @@ import { carryOverReadArgs } from '@/utils/api/tracking-args';
 import { cn } from '@/utils/cn';
 import { READ_STATUS } from '@/utils/labels/enum-labels';
 
-import ReadEditModal from '../read-edit-modal';
-import IconReadStatusButton from './components/icon-read-status-button';
-import NewStatusTrigger from './components/new-status-trigger';
-import ReadStatusTrigger from './components/read-status-trigger';
+import IconReadStatusButton from './icon-read-status-button';
+import NewReadStatusTrigger from './new-read-status-trigger';
+import ReadEditModal from './read-edit-modal';
+import ReadStatusTrigger from './read-status-trigger';
 
 type Props = {
     slug: string;
@@ -88,7 +88,7 @@ const STATUS_OPTIONS = Object.keys(READ_STATUS).map((status) => ({
     ),
 }));
 
-const ReadlistButton = ({
+const ReadListButton = ({
     slug,
     content_type,
     disabled,
@@ -202,7 +202,7 @@ const ReadlistButton = ({
                             onOpenModal={() => setEditOpen(true)}
                         />
                     ) : (
-                        <NewStatusTrigger
+                        <NewReadStatusTrigger
                             content_type={content_type}
                             slug={slug}
                             disabled={disabled}
@@ -258,4 +258,4 @@ const ReadlistButton = ({
     );
 };
 
-export default ReadlistButton;
+export default ReadListButton;

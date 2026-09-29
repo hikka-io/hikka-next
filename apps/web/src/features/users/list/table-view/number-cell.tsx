@@ -11,8 +11,8 @@ import {
     type WatchResponseBase,
 } from '@hikka/api';
 
-import { ReadEditModal, WatchEditModal } from '@/components/action-buttons';
 import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
+import { ReadEditModal, WatchEditModal } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {

@@ -9,8 +9,8 @@ import {
     watchAddMutation,
 } from '@hikka/api';
 
-import { WatchEditModal } from '@/components/action-buttons';
 import StatusWatching from '@/components/icons/list-status/StatusWatching';
+import { WatchEditModal } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { useSession } from '@/features/auth/hooks/use-session';

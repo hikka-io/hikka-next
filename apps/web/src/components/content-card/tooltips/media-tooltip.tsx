@@ -14,10 +14,10 @@ import {
 } from '@hikka/api';
 
 import {
-    ReadlistButton,
+    ReadListButton,
     TrackingButtonsGroup,
-    WatchlistButton,
-} from '@/components/action-buttons';
+    WatchListButton,
+} from '@/components/tracking';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { contentInfoOptions } from '@/utils/api/content-queries';
@@ -111,7 +111,7 @@ const WatchAction: FC<{
             watch={watch}
         />
     ) : (
-        <WatchlistButton slug={slug} watch={watch} anime={content} />
+        <WatchListButton slug={slug} watch={watch} anime={content} />
     );
 
 const ReadAction: FC<{
@@ -147,7 +147,7 @@ const ReadAction: FC<{
     }
 
     return (
-        <ReadlistButton
+        <ReadListButton
             slug={slug}
             content_type={type}
             read={read}
