@@ -14,7 +14,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { CONTENT_TYPES } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { contentPath } from '@/utils/content-paths';
 
 import { useContent } from './hooks';
 
@@ -29,7 +29,7 @@ const ContentHeader: FC<Props> = ({ slug, content_type }) => {
         slug,
     });
 
-    const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
+    const link = contentPath(content_type, slug);
 
     return (
         <Card>

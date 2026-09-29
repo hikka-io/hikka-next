@@ -23,7 +23,7 @@ import {
     UI_PREFS_DEFAULTS,
     useUiPreferences,
 } from '@/services/ui-preferences-store';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useParams } from '@/utils/navigation';
 
 import FranchiseFilters from './components/franchise-filters';

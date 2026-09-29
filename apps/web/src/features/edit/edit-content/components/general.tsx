@@ -12,7 +12,7 @@ import {
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import MaterialSymbolsCategoryOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsCategoryOutlineRounded';
 import { CONTENT_TYPES } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { contentPath } from '@/utils/content-paths';
 
 import type { EditMainContent } from '../../types';
 
@@ -23,7 +23,7 @@ type Props = {
 };
 
 const General: FC<Props> = ({ content, content_type, slug }) => {
-    const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
+    const link = contentPath(content_type, slug);
 
     const title_ua = 'title_ua' in content ? content.title_ua : content.name_ua;
     const title_en = 'title_en' in content ? content.title_en : content.name_en;

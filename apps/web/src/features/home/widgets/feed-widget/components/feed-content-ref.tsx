@@ -4,7 +4,7 @@ import type { ContentTypeEnum } from '@hikka/api';
 
 import { Chip } from '@/components/ui/chip';
 import { CONTENT_TYPES } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { contentPath } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
 import FeedContentTypeIcon from './feed-content-type-icon';
@@ -23,7 +23,7 @@ const FeedContentRef: FC<Props> = ({ contentType, slug, title }) => {
     return (
         <Chip
             className="min-w-0 max-w-full shrink bg-secondary/40 text-muted-foreground hover:bg-accent"
-            render={<Link to={`${CONTENT_TYPE_LINKS[contentType]}/${slug}`} />}
+            render={<Link to={contentPath(contentType, slug)} />}
         >
             <FeedContentTypeIcon
                 contentType={contentType}

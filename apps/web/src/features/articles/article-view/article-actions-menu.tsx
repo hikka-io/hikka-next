@@ -9,7 +9,7 @@ import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/Mate
 import PageActionsMenu from '@/components/page-actions-menu';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link, useParams } from '@/utils/navigation';
 
 import DeleteArticle from './components/delete-article';

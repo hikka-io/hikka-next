@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { isNavActive } from './navigation';
+import { isNavActive } from './nav-config';
 
 // The nested /edit entries are the only pair where a prefix match is wrong, so
 // pin the "deepest item wins" rule against a future nested route.

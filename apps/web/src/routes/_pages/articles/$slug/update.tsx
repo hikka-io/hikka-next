@@ -16,7 +16,7 @@ import {
 } from '@/features/articles';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { requireOwner } from '@/utils/auth';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/articles/$slug/update')({

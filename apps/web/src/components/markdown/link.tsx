@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link as TanstackLink } from '@/utils/navigation';
 
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';

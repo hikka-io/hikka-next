@@ -1,9 +1,12 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import { usePageHeader } from '@/features/app-shell';
-import { getActiveTopLevelHref, SettingsSidebar } from '@/features/settings';
+import {
+    getActiveTopLevelHref,
+    SETTINGS_MENU,
+    SettingsSidebar,
+} from '@/features/settings';
 import { requireAuth } from '@/utils/auth';
-import { SETTINGS_MENU } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
 

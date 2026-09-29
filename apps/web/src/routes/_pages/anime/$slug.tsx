@@ -16,9 +16,8 @@ import {
     watchGetOptions,
 } from '@hikka/api';
 
-import { ContentDetailLayout } from '@/features/content';
+import { ANIME_NAV_ROUTES, ContentDetailLayout } from '@/features/content';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { ANIME_NAV_ROUTES } from '@/utils/constants/navigation';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
 import { getAuthTokenFn, getNsfwConsentFn } from '@/utils/cookies';
 import { parseTextFromMarkDown } from '@/utils/markdown';

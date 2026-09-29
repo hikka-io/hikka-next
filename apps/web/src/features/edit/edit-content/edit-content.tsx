@@ -10,7 +10,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { contentPath } from '@/utils/content-paths';
 
 import type { EditMainContent } from '../types';
 import Details from './components/details';
@@ -27,7 +27,7 @@ const EditContent: FC<Props> = ({ slug, content_type, content }) => {
         return null;
     }
 
-    const link = `${CONTENT_TYPE_LINKS[content_type]}/${slug}`;
+    const link = contentPath(content_type, slug);
 
     return (
         <Card className="p-0">

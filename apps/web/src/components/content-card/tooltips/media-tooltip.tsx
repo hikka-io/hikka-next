@@ -28,7 +28,7 @@ import {
     MANGA_MEDIA_TYPE,
     NOVEL_MEDIA_TYPE,
 } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 
 import HoverCardWrapper from './hover-card-wrapper';
 import MediaTooltipContent, {

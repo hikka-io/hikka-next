@@ -13,9 +13,9 @@ import {
 } from '@/features/notifications';
 import { SearchModal } from '@/features/search';
 import { cn } from '@/utils/cn';
-import { CATALOG_ROOT_LINKS, isNavActive } from '@/utils/constants/navigation';
 import { Link, usePathname } from '@/utils/navigation';
 
+import { CATALOG_ROOT_LINKS, isNavActive } from '../../nav-config';
 import MoreSheet from './more-sheet';
 
 const tabClassName =

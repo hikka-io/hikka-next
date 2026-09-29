@@ -7,7 +7,7 @@ import {
 } from '@hikka/api';
 
 import { resolveTrackingEntry } from '@/utils/api/tracking-entry';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { contentPath } from '@/utils/content-paths';
 
 import type { MediaTooltipItem, MediaTooltipItemOf } from './tooltips';
 
@@ -74,7 +74,7 @@ export function resolveEntity(entity: CardEntity): ResolvedEntity {
         slug,
         image,
         content_type: entity.type,
-        href: `${CONTENT_TYPE_LINKS[entity.type]}/${slug}`,
+        href: contentPath(entity.type, slug),
     };
 
     if (

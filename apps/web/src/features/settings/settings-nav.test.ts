@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { SETTINGS_MENU } from '@/utils/constants/navigation';
-
+import { SETTINGS_MENU } from './settings-menu';
 import {
     getActiveTopLevelHref,
     isGroupActive,

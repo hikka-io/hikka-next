@@ -9,10 +9,10 @@ import {
     DrawerTrigger,
 } from '@/components/ui/drawer';
 import { Separator } from '@/components/ui/separator';
-import { isNavActive, MOBILE_SHEET_NAV } from '@/utils/constants/navigation';
 import { Link, usePathname } from '@/utils/navigation';
 
 import LoginButton from '../../login-button';
+import { isNavActive, MOBILE_SHEET_NAV } from '../../nav-config';
 import { navGroupLabelClassName, navRowClassName } from '../../nav-styles';
 import { useProfileMenu } from '../hooks/use-profile-menu';
 import ProfileIdentity from './profile-identity';

@@ -12,7 +12,7 @@ import {
 import RelativeTime from '@/components/relative-time';
 import Card from '@/components/ui/card';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 
 type Props = {
     article: ArticlePreviewResponse;

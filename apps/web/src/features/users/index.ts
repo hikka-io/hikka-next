@@ -6,4 +6,5 @@ export * from './list';
 export * from './profile';
 export { default as UserHistory } from './user-history';
 export { default as UserInfo } from './user-info';
+export { USER_NAV_ROUTES } from './user-nav-routes';
 export { default as UserTitle } from './user-title';

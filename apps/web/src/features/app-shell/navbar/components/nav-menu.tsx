@@ -12,13 +12,14 @@ import {
 } from '@/components/ui/selected-tint';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
+import { Link, usePathname } from '@/utils/navigation';
+
 import {
     APP_NAV_CONTENT,
     APP_NAV_MORE,
     APP_NAV_USER_CONTENT,
     isNavActive,
-} from '@/utils/constants/navigation';
-import { Link, usePathname } from '@/utils/navigation';
+} from '../../nav-config';
 
 const navItemSize = 'h-9 gap-1.5 rounded-md px-2.5';
 

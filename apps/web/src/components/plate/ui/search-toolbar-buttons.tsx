@@ -8,7 +8,7 @@ import { ContentTypeEnum, type UserResponse } from '@hikka/api';
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { type SearchContent, SearchModal } from '@/features/search';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { userMentionUrl } from '@/utils/mentions';
 import { getTitle } from '@/utils/title/get-title';
 import { getSiteUrl } from '@/utils/url';

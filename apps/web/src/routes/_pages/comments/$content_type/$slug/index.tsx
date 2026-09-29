@@ -21,7 +21,7 @@ import {
 import ContentHeader from '@/features/comments/content-header';
 import type { Verdict } from '@/features/comments/utils/review';
 import { useChangeParam } from '@/features/filters';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { contentPath } from '@/utils/content-paths';
 import { generateHeadMeta } from '@/utils/metadata';
 import { commentsSearchSchema } from '@/utils/search-schemas';
 import {
@@ -114,7 +114,7 @@ function CommentsPage() {
     usePageHeader({
         title: contentTitle,
         subtitle: 'Коментарі',
-        parent: `${CONTENT_TYPE_LINKS[content_type as ContentTypeEnum]}/${slug}`,
+        parent: contentPath(content_type as ContentTypeEnum, slug),
     });
 
     const commentType = comment_type ?? 'all';

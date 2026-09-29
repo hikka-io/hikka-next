@@ -16,9 +16,8 @@ import {
     readGetOptions,
 } from '@hikka/api';
 
-import { ContentDetailLayout } from '@/features/content';
+import { ContentDetailLayout, NOVEL_NAV_ROUTES } from '@/features/content';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { NOVEL_NAV_ROUTES } from '@/utils/constants/navigation';
 import { stripRestrictedExternal } from '@/utils/content/strip-restricted-external';
 import { getAuthTokenFn, getNsfwConsentFn } from '@/utils/cookies';
 import { parseTextFromMarkDown } from '@/utils/markdown';

@@ -14,7 +14,7 @@ import {
 import { CommandItem } from '@/components/ui/command';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS, contentPath } from '@/utils/content-paths';
 import { useRouter } from '@/utils/navigation';
 
 import SearchCard from '../components/search-card';
@@ -182,7 +182,7 @@ const AllSearchList = ({
         (item: SearchContent, contentType: ContentTypeEnum) => {
             onDismiss(item);
             if (type !== 'button') {
-                router.push(`${CONTENT_TYPE_LINKS[contentType]}/${item.slug}`);
+                router.push(contentPath(contentType, item.slug));
             }
         },
         [onDismiss, router, type],

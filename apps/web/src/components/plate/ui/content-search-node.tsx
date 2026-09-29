@@ -23,7 +23,7 @@ import {
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import useDebounce from '@/services/hooks/use-debounce';
 import { MIN_SEARCH_LENGTH } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { getTitle } from '@/utils/title/get-title';
 import { getSiteUrl } from '@/utils/url';
 

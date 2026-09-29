@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { SOCIAL_GROUP } from '@/utils/constants/navigation';
+import { SOCIAL_GROUP } from '@/features/app-shell';
 
 const HomeHeaderActions = () =>
     SOCIAL_GROUP.map((social) => (

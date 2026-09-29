@@ -12,6 +12,7 @@ export { default as WatchlistSettings } from './list/watchlist/watchlist';
 export { default as NotificationsSettings } from './notifications';
 export { default as PasswordSettings } from './password';
 export { default as Preferences } from './preferences';
+export { SETTINGS_MENU } from './settings-menu';
 export {
     getActiveTopLevelHref,
     isGroupActive,

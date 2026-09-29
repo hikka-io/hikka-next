@@ -36,7 +36,7 @@ import {
     COLLECTION_CONTENT_TYPE_OPTIONS,
     COLLECTION_VISIBILITY_OPTIONS,
 } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link, useParams, useRouter } from '@/utils/navigation';
 
 import { useCollectionContext } from '../collection-provider';

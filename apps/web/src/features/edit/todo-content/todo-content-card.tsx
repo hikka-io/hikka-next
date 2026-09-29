@@ -34,7 +34,7 @@ import {
 import { useSession, useTitle } from '@/features/auth';
 import { cn } from '@/utils/cn';
 import { MEDIA_TYPE, RELEASE_STATUS } from '@/utils/constants/common';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { contentPath } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
 import QuickEditButton from '../quick-edit/quick-edit-button';
@@ -192,7 +192,7 @@ export function TodoContentCard(props: Props) {
     const { user } = useSession();
     const title = useTitle(item);
     const contentType: EditContentTypeEnum = item.data_type;
-    const href = `${CONTENT_TYPE_LINKS[contentType]}/${item.slug}`;
+    const href = contentPath(contentType, item.slug);
 
     let CompanyView: ReactNode;
     let mediaType: string | undefined;

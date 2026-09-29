@@ -13,8 +13,8 @@ import {
 
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { ContentDetailLayout } from '@/features/content';
+import { PERSON_NAV_ROUTES } from '@/features/entities';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { PERSON_NAV_ROUTES } from '@/utils/constants/navigation';
 import { getAuthTokenFn } from '@/utils/cookies';
 import { generateHeadMeta } from '@/utils/metadata';
 import { getTitle } from '@/utils/title/get-title';

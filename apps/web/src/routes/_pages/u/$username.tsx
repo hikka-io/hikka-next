@@ -20,12 +20,12 @@ import { usePageHeader } from '@/features/app-shell';
 import {
     ActivationAlert,
     FollowStats,
+    USER_NAV_ROUTES,
     UserInfo,
     UserlistHeaderFilters,
     UserTitle,
 } from '@/features/users';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { USER_NAV_ROUTES } from '@/utils/constants/navigation';
 import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
 

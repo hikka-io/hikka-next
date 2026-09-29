@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/context-menu';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useQuickEdit } from '@/features/edit/quick-edit';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
 type Props = {

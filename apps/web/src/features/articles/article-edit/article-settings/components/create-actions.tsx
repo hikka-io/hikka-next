@@ -10,7 +10,7 @@ import MaterialSymbolsDraftRounded from '@/components/icons/material-symbols/Mat
 import { Button } from '@/components/ui/button';
 import { FooterBar } from '@/components/ui/footer-bar';
 import { invalidateArticles } from '@/utils/api/invalidate-content-state';
-import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
+import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useRouter } from '@/utils/navigation';
 import { getArticleDocument, hasPendingUploads } from '@/utils/plate';
 

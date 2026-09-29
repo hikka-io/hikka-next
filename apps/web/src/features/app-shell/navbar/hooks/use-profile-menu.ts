@@ -8,8 +8,9 @@ import {
 } from '@hikka/api';
 
 import { useSession } from '@/features/auth/hooks/use-session';
-import { PROFILE_MENU } from '@/utils/constants/navigation';
 import { useCurrentUrl } from '@/utils/navigation';
+
+import { PROFILE_MENU } from '../../nav-config';
 
 export type ProfileMenuItem = Hikka.NavRoute & { count?: number };
 

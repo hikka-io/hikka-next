@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/collapsible';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { cn } from '@/utils/cn';
-import { SETTINGS_MENU } from '@/utils/constants/navigation';
 import { Link, usePathname } from '@/utils/navigation';
 
+import { SETTINGS_MENU } from './settings-menu';
 import {
     getActiveTopLevelHref,
     isGroupActive,
