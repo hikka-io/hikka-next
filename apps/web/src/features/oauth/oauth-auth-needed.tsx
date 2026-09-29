@@ -8,7 +8,7 @@ import { Link, useCurrentUrl } from '@/utils/navigation';
 
 type Props = {};
 
-const AuthNeeded: FC<Props> = () => {
+const OAuthAuthNeeded: FC<Props> = () => {
     const currentUrl = useCurrentUrl();
 
     return (
@@ -41,4 +41,4 @@ const AuthNeeded: FC<Props> = () => {
     );
 };
 
-export default AuthNeeded;
+export default OAuthAuthNeeded;

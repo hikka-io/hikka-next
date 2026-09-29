@@ -7,11 +7,11 @@ import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useCurrentUrl } from '@/utils/navigation';
 
-import AuthNeeded from './components/auth-needed';
+import OAuthAuthNeeded from './oauth-auth-needed';
 
 type Props = {};
 
-const Profile: FC<Props> = () => {
+const OAuthProfile: FC<Props> = () => {
     const { user } = useSession();
     const currentUrl = useCurrentUrl();
 
@@ -19,7 +19,7 @@ const Profile: FC<Props> = () => {
         window.location.href = `/auth/logout?callbackUrl=${encodeURIComponent(currentUrl)}`;
     };
 
-    if (!user) return <AuthNeeded />;
+    if (!user) return <OAuthAuthNeeded />;
 
     return (
         <Card className="w-full flex-row items-center justify-between">
@@ -50,4 +50,4 @@ const Profile: FC<Props> = () => {
     );
 };
 
-export default Profile;
+export default OAuthProfile;

@@ -2,11 +2,13 @@ import type { FC } from 'react';
 
 import { cn } from '@/utils/cn';
 
+import type { Scope } from './oauth-scopes';
+
 type Props = {
-    scope: Hikka.Scope;
+    scope: Scope;
 };
 
-const Scope: FC<Props> = ({ scope }) => {
+const OAuthScope: FC<Props> = ({ scope }) => {
     if (!scope) return null;
 
     return (
@@ -19,4 +21,4 @@ const Scope: FC<Props> = ({ scope }) => {
     );
 };
 
-export default Scope;
+export default OAuthScope;

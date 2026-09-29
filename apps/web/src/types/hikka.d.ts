@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, SVGProps } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 import type {
     UiPreferencesOutput,
@@ -97,24 +97,6 @@ declare global {
         };
 
         type View = 'table' | 'grid' | 'list';
-
-        type Scope = {
-            slug: string;
-            level: ScopeLevel;
-            title_ua: string;
-        };
-
-        type ScopeGroup = {
-            slug: string;
-            title_ua: string;
-            level: ScopeLevel;
-            scopes: typeof SCOPES;
-        };
-
-        type ScopeLevel = {
-            icon: (props: SVGProps<SVGSVGElement>) => ReactElement;
-            color: string;
-        };
 
         type EventTheme = {
             id: string;

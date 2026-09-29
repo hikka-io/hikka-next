@@ -4,10 +4,10 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import { getClientByReferenceOptions } from '@hikka/api';
 
 import {
-    OAuthClient as Client,
-    OAuthConfirm as Confirm,
-    OAuthHeader as Header,
-    OAuthProfile as Profile,
+    OAuthClient,
+    OAuthConfirm,
+    OAuthHeader,
+    OAuthProfile,
 } from '@/features/oauth';
 import { generateHeadMeta } from '@/utils/metadata';
 import { oauthSearchSchema } from '@/utils/search-schemas';
@@ -40,10 +40,10 @@ function OAuthPage() {
     return (
         <div className="mx-auto my-8 min-h-screen w-full max-w-xl px-4 lg:my-16">
             <div className="flex h-full flex-col items-center justify-start gap-8">
-                <Header />
-                <Profile />
-                <Client />
-                <Confirm />
+                <OAuthHeader />
+                <OAuthProfile />
+                <OAuthClient />
+                <OAuthConfirm />
             </div>
         </div>
     );

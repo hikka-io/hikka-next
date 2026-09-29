@@ -13,7 +13,7 @@ type Props = {};
 
 const routeApi = getRouteApi('/_pages/oauth');
 
-const Confirm: FC<Props> = () => {
+const OAuthConfirm: FC<Props> = () => {
     const { reference, scope } = routeApi.useSearch();
 
     const scopes = scope?.split(',');
@@ -48,4 +48,4 @@ const Confirm: FC<Props> = () => {
     );
 };
 
-export default Confirm;
+export default OAuthConfirm;

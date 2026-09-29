@@ -9,15 +9,15 @@ import Card from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
-import { SCOPE_GROUPS, SCOPES } from '@/utils/constants/oauth';
 
-import Scope from './components/scope';
+import OAuthScope from './oauth-scope';
+import { SCOPE_GROUPS, SCOPES } from './oauth-scopes';
 
 type Props = {};
 
 const routeApi = getRouteApi('/_pages/oauth');
 
-const Client: FC<Props> = () => {
+const OAuthClient: FC<Props> = () => {
     const { reference, scope } = routeApi.useSearch();
 
     const scopes =
@@ -56,11 +56,11 @@ const Client: FC<Props> = () => {
             <Separator className="-mx-4 w-auto" />
             <div className="gradient-mask-b-90-d -m-4 flex max-h-60 flex-col gap-4 overflow-scroll p-4">
                 {scopes.map((s) => (
-                    <Scope key={s.slug} scope={s} />
+                    <OAuthScope key={s.slug} scope={s} />
                 ))}
             </div>
         </Card>
     );
 };
 
-export default Client;
+export default OAuthClient;
