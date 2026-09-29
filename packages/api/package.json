@@ -10,8 +10,6 @@
         "dev": "tsup --watch",
         "api:generate": "openapi-ts && biome format --write src/gen",
         "test": "vitest run",
-        "lint": "biome lint .",
-        "format": "biome format --write .",
         "typecheck": "tsc --noEmit"
     },
     "exports": {
