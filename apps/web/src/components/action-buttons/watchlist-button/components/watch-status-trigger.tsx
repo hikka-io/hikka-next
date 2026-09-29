@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
-import { WATCH_STATUS } from '@/utils/constants/common';
+import { WATCH_STATUS } from '@/utils/labels/enum-labels';
 
 type WatchStatusTriggerProps = {
     watch: WatchResponse | WatchResponseBase;

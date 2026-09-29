@@ -14,7 +14,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { EDIT_STATUS } from '@/utils/constants/common';
+import { EDIT_STATUS } from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';
 import type { EditSearch } from '@/utils/search-schemas';
 

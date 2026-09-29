@@ -5,7 +5,7 @@ import { SquareLibrary } from 'lucide-react';
 import { ARTICLE_CATEGORY_ICONS } from '@/components/icons/article-category-icons';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
-import { ARTICLE_CATEGORY } from '@/utils/constants/common';
+import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';
 import type { ArticlesSearch } from '@/utils/search-schemas';
 

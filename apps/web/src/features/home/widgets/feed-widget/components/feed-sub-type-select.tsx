@@ -19,10 +19,10 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/utils/cn';
 import {
-    ARTICLE_CATEGORY,
     COLLECTION_CONTENT_TYPE_OPTIONS,
     CONTENT_TYPES,
-} from '@/utils/constants/common';
+} from '@/utils/labels/content-types';
+import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 
 type FeedContentType = NonNullable<
     UiFeedSettingsOutput['feed_content_types']

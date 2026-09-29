@@ -1,8 +1,8 @@
 import { HistoryTypeEnum, type WatchStatusEnum } from '@hikka/api';
 
-import { WATCH_STATUS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { EPISODE_FORMS, TIMES_FORMS } from '@/utils/i18n/word-forms';
+import { WATCH_STATUS } from '@/utils/labels/enum-labels';
 
 import { convertScore, convertStatus } from './convert-shared';
 

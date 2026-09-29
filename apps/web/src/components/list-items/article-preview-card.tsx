@@ -8,8 +8,8 @@ import RelativeTime from '@/components/relative-time';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
-import { ARTICLE_CATEGORY } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
+import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 import { Link } from '@/utils/navigation';
 
 type Props = {

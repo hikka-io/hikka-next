@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getEditOptions } from '@hikka/api';
 
 import { Badge } from '@/components/ui/badge';
-import { EDIT_STATUS } from '@/utils/constants/common';
+import { EDIT_STATUS } from '@/utils/labels/enum-labels';
 
 import { EDIT_STATUS_STYLE } from './edit-status-style';
 

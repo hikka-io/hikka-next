@@ -22,7 +22,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { GENRE_TYPES } from '@/utils/constants/common';
+import { GENRE_TYPES } from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';
 import type { ContentFilterSearch } from '@/utils/search-schemas';
 

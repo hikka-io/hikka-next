@@ -17,7 +17,7 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
-import { EDIT_STATUS } from '@/utils/constants/common';
+import { EDIT_STATUS } from '@/utils/labels/enum-labels';
 
 type Props = {
     user: UserResponse;

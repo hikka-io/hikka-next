@@ -13,7 +13,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { ARTICLE_CATEGORY } from '@/utils/constants/common';
+import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 
 import { useArticleContext } from '../../article-provider';
 

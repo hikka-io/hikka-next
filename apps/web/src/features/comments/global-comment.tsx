@@ -15,8 +15,8 @@ import { MDViewer } from '@/components/markdown';
 import RelativeTime from '@/components/relative-time';
 import { Badge } from '@/components/ui/badge';
 import { StatItem } from '@/components/ui/stat-item';
-import { CONTENT_TYPES } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import { Link } from '@/utils/navigation';
 
 type Props = {

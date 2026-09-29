@@ -9,7 +9,7 @@ import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/Mate
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import TextLink from '@/components/ui/text-link';
-import { CONTENT_TYPES } from '@/utils/constants/common';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import { usePathname, useRouteSearch } from '@/utils/navigation';
 
 import { useFilterPresetsStore } from './filter-presets-store';

@@ -10,8 +10,9 @@ import { Label } from '@/components/ui/label';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
-import { CONTENT_TYPES, EDIT_STATUS } from '@/utils/constants/common';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
+import { EDIT_STATUS } from '@/utils/labels/enum-labels';
 import { Link, useRouter } from '@/utils/navigation';
 
 import { EDIT_PARAMS } from '../../edit-params';

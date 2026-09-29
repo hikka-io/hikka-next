@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { SearchModal } from '@/features/search';
-import { CONTENT_TYPES } from '@/utils/constants/common';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
 
 import { useArticleContext } from '../../article-provider';
 

@@ -56,7 +56,7 @@ import {
     carryOverWatchArgs,
 } from '@/utils/api/tracking-args';
 import { cn } from '@/utils/cn';
-import { READ_STATUS, WATCH_STATUS } from '@/utils/constants/common';
+import { READ_STATUS, WATCH_STATUS } from '@/utils/labels/enum-labels';
 
 import ReadEditModal from './read-edit-modal';
 import ReadStatusTrigger from './readlist-button/components/read-status-trigger';

@@ -4,7 +4,7 @@ import type { AnimeVideoResponse } from '@hikka/api';
 
 import PosterCard from '@/components/content-card/poster-card';
 import Stack from '@/components/ui/stack';
-import { VIDEO } from '@/utils/constants/common';
+import { VIDEO } from '@/utils/labels/enum-labels';
 import parseYouTubeThumbnail from '@/utils/youtube';
 
 type Props = {

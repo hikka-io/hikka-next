@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
-import { READ_STATUS } from '@/utils/constants/common';
+import { READ_STATUS } from '@/utils/labels/enum-labels';
 
 type ReadStatusTriggerProps = {
     read: ReadResponseBase;

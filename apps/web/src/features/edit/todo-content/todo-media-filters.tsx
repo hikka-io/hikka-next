@@ -14,7 +14,7 @@ import {
     Studio,
     Year,
 } from '@/features/filters';
-import { CONTENT_ISSUES } from '@/utils/constants/common';
+import { CONTENT_ISSUES } from '@/utils/labels/enum-labels';
 
 import type { TodoFiltersValue } from './todo-filters-value';
 

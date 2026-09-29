@@ -13,8 +13,8 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
-import { CONTENT_TYPES } from '@/utils/constants/common';
 import { contentPath } from '@/utils/content-paths';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
 
 import { useContent } from './use-content';
 

@@ -18,7 +18,7 @@ import RelativeTime from '@/components/relative-time';
 import TextLink from '@/components/ui/text-link';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
 import { cn } from '@/utils/cn';
-import { ARTICLE_CATEGORY } from '@/utils/constants/common';
+import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 
 type Props = {
     article: ArticlePreviewResponse | ArticleDocumentResponse;

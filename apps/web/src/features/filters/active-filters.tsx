@@ -15,15 +15,15 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import {
     AGE_RATING,
     CHARACTER_ISSUES,
     CONTENT_ISSUES,
-    CONTENT_TYPES,
     MEDIA_TYPE,
     RELEASE_STATUS,
     SEASON,
-} from '@/utils/constants/common';
+} from '@/utils/labels/enum-labels';
 import { useRouteSearch } from '@/utils/navigation';
 
 import { useClearFilters } from './use-clear-filters';

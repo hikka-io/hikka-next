@@ -3,7 +3,7 @@ import { createFileRoute, notFound } from '@tanstack/react-router';
 import { type ArticleCategoryEnum, getArticleOptions } from '@hikka/api';
 
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
-import { ARTICLE_CATEGORY } from '@/utils/constants/common';
+import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 import { generateHeadMeta } from '@/utils/metadata';
 import { SITE_ORIGIN } from '@/utils/url';
 

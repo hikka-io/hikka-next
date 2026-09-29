@@ -1,12 +1,12 @@
 import type { HistoryTypeEnum, ReadStatusEnum } from '@hikka/api';
 
-import { READ_STATUS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import {
     CHAPTER_FORMS,
     TIMES_FORMS,
     VOLUME_FORMS,
 } from '@/utils/i18n/word-forms';
+import { READ_STATUS } from '@/utils/labels/enum-labels';
 
 import { convertScore, convertStatus } from './convert-shared';
 

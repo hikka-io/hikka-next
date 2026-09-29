@@ -34,7 +34,7 @@ import { useTitle } from '@/features/auth/hooks/use-title';
 import { applyReadMutation } from '@/utils/api/invalidate-content-state';
 import { carryOverReadArgs } from '@/utils/api/tracking-args';
 import { cn } from '@/utils/cn';
-import { READ_STATUS } from '@/utils/constants/common';
+import { READ_STATUS } from '@/utils/labels/enum-labels';
 
 import ReadEditModal from '../read-edit-modal';
 import IconReadStatusButton from './components/icon-read-status-button';

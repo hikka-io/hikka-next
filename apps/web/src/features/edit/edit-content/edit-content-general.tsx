@@ -11,8 +11,8 @@ import {
 } from '@/components/horizontal-card';
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
 import MaterialSymbolsCategoryOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsCategoryOutlineRounded';
-import { CONTENT_TYPES } from '@/utils/constants/common';
 import { contentPath } from '@/utils/content-paths';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
 
 import type { EditMainContent } from '../types';
 

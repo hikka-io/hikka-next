@@ -4,8 +4,8 @@ import type { ContentTypeEnum } from '@hikka/api';
 
 import ContentTypeIcon from '@/components/content-type-icon';
 import { Chip } from '@/components/ui/chip';
-import { CONTENT_TYPES } from '@/utils/constants/common';
 import { contentPath } from '@/utils/content-paths';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import { Link } from '@/utils/navigation';
 
 type Props = {

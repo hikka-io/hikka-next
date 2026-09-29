@@ -7,7 +7,7 @@ import {
     SelectItem,
     SelectList,
 } from '@/components/ui/select';
-import { CONTENT_TYPES } from '@/utils/constants/common';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
 
 import { filterPresetFormOptions } from './filter-preset-form';
 

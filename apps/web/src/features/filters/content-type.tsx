@@ -14,7 +14,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { CONTENT_TYPES } from '@/utils/constants/common';
+import { CONTENT_TYPES } from '@/utils/labels/content-types';
 import { useRouteSearch } from '@/utils/navigation';
 import type { EditSearch } from '@/utils/search-schemas';
 

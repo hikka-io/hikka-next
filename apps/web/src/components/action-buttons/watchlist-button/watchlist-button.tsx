@@ -31,7 +31,7 @@ import { useTitle } from '@/features/auth/hooks/use-title';
 import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 import { cn } from '@/utils/cn';
-import { WATCH_STATUS } from '@/utils/constants/common';
+import { WATCH_STATUS } from '@/utils/labels/enum-labels';
 
 import WatchEditModal from '../watch-edit-modal';
 import IconWatchStatusButton from './components/icon-watch-status-button';

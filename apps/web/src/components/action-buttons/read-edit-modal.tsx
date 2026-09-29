@@ -37,8 +37,8 @@ import {
     applyReadMutation,
 } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
-import { READ_STATUS } from '@/utils/constants/common';
 import { z } from '@/utils/i18n/zod';
+import { READ_STATUS } from '@/utils/labels/enum-labels';
 import { getTitle } from '@/utils/title/get-title';
 
 const formSchema = z.object({
