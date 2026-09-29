@@ -13,6 +13,7 @@ import { commentListPrefetchBody } from '@/features/comments/queries';
 import { EditContent, EditTimeline } from '@/features/edit';
 import { useTitle } from '@/services/session';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
+import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
 
 export const Route = createFileRoute('/_pages/edit/$editId')({
@@ -44,15 +45,15 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
 
         return { edit };
     },
-    head: ({ loaderData }) => ({
-        meta: [
-            {
-                title: loaderData?.edit
-                    ? `#${loaderData.edit.edit_id} / Правки / Hikka`
-                    : 'Правки / Hikka',
-            },
-        ],
-    }),
+    head: ({ loaderData }) =>
+        generateHeadMeta({
+            title: loaderData?.edit
+                ? `#${loaderData.edit.edit_id} / Правки`
+                : 'Правки',
+            description: loaderData?.edit
+                ? `Правка #${loaderData.edit.edit_id} у системі правок спільноти Hikka`
+                : 'Система правок спільноти Hikka',
+        }),
     component: EditLayout,
 });
 

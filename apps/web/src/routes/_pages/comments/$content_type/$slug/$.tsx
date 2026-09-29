@@ -11,6 +11,7 @@ import { CommentList } from '@/features/comments';
 import { commentThreadInfiniteOptions } from '@/features/comments/queries';
 import { ContentSubpage, useContentTitle } from '@/features/content';
 import { fetchContentForLoader } from '@/utils/api/content-queries';
+import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -33,9 +34,11 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
 
         return { content, commentReference };
     },
-    head: () => ({
-        meta: [{ title: 'Коментарі / Hikka' }],
-    }),
+    head: () =>
+        generateHeadMeta({
+            title: 'Коментарі',
+            description: 'Гілка коментарів спільноти на Hikka',
+        }),
     component: CommentsThreadPage,
 });
 
