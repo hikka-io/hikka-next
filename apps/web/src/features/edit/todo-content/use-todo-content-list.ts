@@ -19,7 +19,7 @@ import {
 
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import type { TodoFiltersValue } from '../todo-content/todo-filters-value';
+import type { TodoFiltersValue } from './todo-filters-value';
 
 export type TodoContentType =
     | typeof ContentTypeEnum.ANIME

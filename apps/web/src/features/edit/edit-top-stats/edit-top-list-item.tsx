@@ -20,7 +20,13 @@ type Props = {
     denied: number;
 };
 
-const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
+const EditTopListItem: FC<Props> = ({
+    user,
+    rank,
+    accepted,
+    denied,
+    closed,
+}) => {
     return (
         <HorizontalCard>
             <HorizontalCardImage
@@ -63,4 +69,4 @@ const EditTopItem: FC<Props> = ({ user, rank, accepted, denied, closed }) => {
     );
 };
 
-export default EditTopItem;
+export default EditTopListItem;

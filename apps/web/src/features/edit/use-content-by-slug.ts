@@ -10,7 +10,7 @@ import {
     personInfoOptions,
 } from '@hikka/api';
 
-import type { EditMainContent } from '../types';
+import type { EditMainContent } from './types';
 
 /**
  * Fetch the editable content for a slug via the type-appropriate detail endpoint.

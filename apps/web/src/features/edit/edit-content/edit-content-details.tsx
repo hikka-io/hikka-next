@@ -2,13 +2,13 @@ import type { FC } from 'react';
 
 import { Label } from '@/components/ui/label';
 
-import type { EditMainContent } from '../../types';
+import type { EditMainContent } from '../types';
 
 type Props = {
     content: EditMainContent;
 };
 
-const Details: FC<Props> = ({ content }) => {
+const EditContentDetails: FC<Props> = ({ content }) => {
     const title_en = 'title_en' in content ? content.title_en : content.name_en;
     const title_original =
         'title_ja' in content
@@ -40,4 +40,4 @@ const Details: FC<Props> = ({ content }) => {
     );
 };
 
-export default Details;
+export default EditContentDetails;

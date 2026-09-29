@@ -12,7 +12,7 @@ import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { Link } from '@/utils/navigation';
 
-import EditStatusBadge from './edit-status';
+import EditStatusBadge from './edit-status-badge';
 
 type Props = {
     editId: string;

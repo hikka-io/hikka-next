@@ -26,7 +26,7 @@ type Props = {
     editId: string;
 };
 
-const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
+const EditViewForm: FC<Props> = ({ editId, mode = 'view' }) => {
     const { data: edit } = useQuery(
         getEditOptions({ path: { edit_id: Number(editId) } }),
     );
@@ -114,4 +114,4 @@ const EditView: FC<Props> = ({ editId, mode = 'view' }) => {
     );
 };
 
-export default EditView;
+export default EditViewForm;

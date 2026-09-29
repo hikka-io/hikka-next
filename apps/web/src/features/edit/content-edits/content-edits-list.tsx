@@ -13,8 +13,8 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link } from '@/utils/navigation';
 
 import QuickEditButton from '../quick-edit/quick-edit-button';
-import EditCard from './components/edit-card';
-import EditCardSkeleton from './components/edit-card-skeleton';
+import EditCard from './edit-card';
+import EditCardSkeleton from './edit-card-skeleton';
 
 const SKELETON_COUNT = 5;
 
@@ -23,7 +23,7 @@ type Props = {
     slug: string;
 };
 
-const EditListModal = ({ content_type, slug }: Props) => {
+const ContentEditsList = ({ content_type, slug }: Props) => {
     const {
         ref,
         list,
@@ -88,4 +88,4 @@ const EditListModal = ({ content_type, slug }: Props) => {
     );
 };
 
-export default EditListModal;
+export default ContentEditsList;

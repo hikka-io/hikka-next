@@ -9,8 +9,8 @@ import {
 } from '@/features/filters';
 import { cn } from '@/utils/cn';
 
-import type { TodoContentType } from '../hooks/use-todo-content-list';
-import { getTodoSortType } from '../hooks/use-todo-filters';
+import type { TodoContentType } from './use-todo-content-list';
+import { getTodoSortType } from './use-todo-filters';
 
 type Props = {
     contentType: TodoContentType;

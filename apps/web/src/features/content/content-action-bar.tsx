@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { usePageTitleReveal } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
-import EditButton from '@/features/edit/edit-button';
+import { ContentEditsButton } from '@/features/edit';
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
@@ -140,7 +140,7 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
                 {loggedUser && (
                     <>
                         <div className="h-full w-px bg-border" />
-                        <EditButton
+                        <ContentEditsButton
                             key={String(params.slug)}
                             slug={String(params.slug)}
                             content_type={content_type}

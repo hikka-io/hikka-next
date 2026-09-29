@@ -15,9 +15,9 @@ import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader } from '@/features/app-shell';
 import {
-    EditContent as Content,
-    EditCreateForm as EditForm,
-    EditRulesAlert as RulesAlert,
+    EditContent,
+    EditCreateForm,
+    EditRulesAlert,
     useContentBySlug,
 } from '@/features/edit';
 import { generateHeadMeta } from '@/utils/metadata';
@@ -96,15 +96,15 @@ function EditNewPage() {
                         <HeaderTitle>Нова правка</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <RulesAlert />
-                <EditForm
+                <EditRulesAlert />
+                <EditCreateForm
                     slug={slug}
                     content_type={content_type}
                     content={content}
                 />
             </Block>
             <div className="flex flex-col gap-12">
-                <Content
+                <EditContent
                     slug={slug}
                     content_type={content_type}
                     content={content}

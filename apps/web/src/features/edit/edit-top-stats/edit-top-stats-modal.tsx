@@ -7,8 +7,8 @@ import LoadMoreButton from '@/components/load-more-button';
 import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import EditTopItem from './components/edit-top-item';
-import EditTopItemSkeleton from './components/edit-top-item-skeleton';
+import EditTopListItem from './edit-top-list-item';
+import EditTopListItemSkeleton from './edit-top-list-item-skeleton';
 
 const SKELETON_COUNT = 5;
 
@@ -26,11 +26,11 @@ const EditTopStatsModal = () => {
         <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
             {isLoading &&
                 range(0, SKELETON_COUNT).map((index) => (
-                    <EditTopItemSkeleton key={index} />
+                    <EditTopListItemSkeleton key={index} />
                 ))}
             {list?.map((stat, index) => {
                 return (
-                    <EditTopItem
+                    <EditTopListItem
                         key={stat.user.reference}
                         user={stat.user}
                         rank={index + 1}

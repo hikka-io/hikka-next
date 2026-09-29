@@ -16,7 +16,7 @@ import {
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { cn } from '@/utils/cn';
 
-import EditListModal from './edit-list-modal';
+import ContentEditsList from './content-edits-list';
 
 type Props = ButtonProps & {
     slug: string;
@@ -24,7 +24,12 @@ type Props = ButtonProps & {
     className?: string;
 };
 
-const EditButton: FC<Props> = ({ className, slug, content_type, ...props }) => {
+const ContentEditsButton: FC<Props> = ({
+    className,
+    slug,
+    content_type,
+    ...props
+}) => {
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
 
@@ -48,11 +53,11 @@ const EditButton: FC<Props> = ({ className, slug, content_type, ...props }) => {
             </Tooltip>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Список правок">
-                    <EditListModal content_type={content_type} slug={slug} />
+                    <ContentEditsList content_type={content_type} slug={slug} />
                 </ResponsiveModalContent>
             </ResponsiveModal>
         </>
     );
 };
 
-export default EditButton;
+export default ContentEditsButton;

@@ -4,7 +4,7 @@ import { type GetEditResponse, getEditQueryKey } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
-import { EditViewForm as EditView } from '@/features/edit';
+import { EditViewForm } from '@/features/edit';
 import { requireOwner } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
@@ -41,7 +41,7 @@ function EditUpdatePage() {
                     </HeaderTitle>
                 </HeaderContainer>
             </Header>
-            <EditView editId={editId} mode="update" />
+            <EditViewForm editId={editId} mode="update" />
         </div>
     );
 }

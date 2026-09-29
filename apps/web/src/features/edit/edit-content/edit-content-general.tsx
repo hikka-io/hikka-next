@@ -14,7 +14,7 @@ import MaterialSymbolsCategoryOutlineRounded from '@/components/icons/material-s
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { contentPath } from '@/utils/content-paths';
 
-import type { EditMainContent } from '../../types';
+import type { EditMainContent } from '../types';
 
 type Props = {
     content: EditMainContent;
@@ -22,7 +22,7 @@ type Props = {
     slug: string;
 };
 
-const General: FC<Props> = ({ content, content_type, slug }) => {
+const EditContentGeneral: FC<Props> = ({ content, content_type, slug }) => {
     const link = contentPath(content_type, slug);
 
     const title_ua = 'title_ua' in content ? content.title_ua : content.name_ua;
@@ -72,4 +72,4 @@ const General: FC<Props> = ({ content, content_type, slug }) => {
     );
 };
 
-export default General;
+export default EditContentGeneral;

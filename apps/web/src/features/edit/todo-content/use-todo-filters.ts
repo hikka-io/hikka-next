@@ -6,7 +6,7 @@ import { useRouteSearch } from '@/utils/navigation';
 import type { EditContentSearch } from '@/utils/search-schemas';
 import type { SortType } from '@/utils/sort';
 
-import type { TodoFiltersValue } from '../todo-content/todo-filters-value';
+import type { TodoFiltersValue } from './todo-filters-value';
 import type { TodoContentType } from './use-todo-content-list';
 
 export function getTodoSortType(contentType: TodoContentType): SortType {

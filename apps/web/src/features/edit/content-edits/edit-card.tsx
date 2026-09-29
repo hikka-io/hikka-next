@@ -16,8 +16,8 @@ import { cn } from '@/utils/cn';
 import { EDIT_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
-import { EDIT_PARAMS } from '../../edit-params';
-import { EDIT_STATUS_STYLE } from '../../edit-status-style';
+import { EDIT_PARAMS } from '../edit-params';
+import { EDIT_STATUS_STYLE } from '../edit-status-style';
 
 type Props = {
     edit: EditSimpleResponse;

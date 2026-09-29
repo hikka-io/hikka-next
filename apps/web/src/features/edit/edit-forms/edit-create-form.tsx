@@ -27,7 +27,7 @@ type Props = {
     content: EditMainContent;
 };
 
-const EditForm: FC<Props> = ({
+const EditCreateForm: FC<Props> = ({
     slug,
     content_type,
     content,
@@ -99,4 +99,4 @@ const EditForm: FC<Props> = ({
     );
 };
 
-export default EditForm;
+export default EditCreateForm;

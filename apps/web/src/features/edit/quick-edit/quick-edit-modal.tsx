@@ -29,8 +29,8 @@ import {
     getFilteredEditParams,
     isNativeTitleMissing,
 } from '../edit-forms/params/edit-param-utils';
-import { useContentBySlug } from '../hooks/use-content-by-slug';
 import type { EditMainContent } from '../types';
+import { useContentBySlug } from '../use-content-by-slug';
 
 type Props = {
     slug: string;

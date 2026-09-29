@@ -10,7 +10,7 @@ import {
 import Block from '@/components/ui/block';
 import { usePageHeader } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
-import { EditContent as Content, EditTimeline } from '@/features/edit';
+import { EditContent, EditTimeline } from '@/features/edit';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { usePathname } from '@/utils/navigation';
 import { getCommentSort } from '@/utils/sort';
@@ -77,7 +77,7 @@ function EditLayout() {
             </Block>
             <div className="flex flex-col gap-6 [&>*:first-child]:backdrop-blur">
                 <EditTimeline editId={editId} />
-                <Content
+                <EditContent
                     slug={edit.content.slug as string}
                     content_type={edit.content_type}
                     content={edit.content}

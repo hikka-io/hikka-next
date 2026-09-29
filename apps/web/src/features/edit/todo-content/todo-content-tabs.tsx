@@ -6,7 +6,7 @@ import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
 import { CONTENT_TYPES } from '@/utils/labels';
 
-import type { TodoContentType } from '../hooks/use-todo-content-list';
+import type { TodoContentType } from './use-todo-content-list';
 
 // Each tab has its own filter set, so switching drops the rest of the search.
 const TAB_OPTIONS: ChipTabOption<TodoContentType>[] = [

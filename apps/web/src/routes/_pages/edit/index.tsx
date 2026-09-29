@@ -16,10 +16,10 @@ import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import {
+    EditFilters,
     EditFiltersModal,
     EditList,
     EditTopStats,
-    EditFilters as Filters,
 } from '@/features/edit';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editSearchSchema } from '@/utils/search-schemas';
@@ -105,7 +105,7 @@ function EditListPage() {
                     </Block>
                 </div>
                 <div className="sticky top-20 order-1 hidden max-h-[calc(100vh-9rem)] w-full overflow-hidden rounded-lg border border-border surface lg:order-2 lg:flex">
-                    <Filters />
+                    <EditFilters />
                 </div>
             </div>
         </div>

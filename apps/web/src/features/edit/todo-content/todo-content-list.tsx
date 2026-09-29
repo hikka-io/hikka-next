@@ -8,10 +8,10 @@ import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import { StickyPagination } from '@/components/ui/pagination';
 
-import { useTodoContentQuery } from '../hooks/use-todo-content-query';
-import { useTodoFilters } from '../hooks/use-todo-filters';
 import { TodoContentCard } from './todo-content-card';
 import TodoContentCardSkeleton from './todo-content-card-skeleton';
+import { useTodoContentQuery } from './use-todo-content-query';
+import { useTodoFilters } from './use-todo-filters';
 
 const LIST_CLASSNAME =
     'grid grid-cols-1 max-md:[&>*+*]:-mt-px md:grid-cols-2 md:gap-6';
