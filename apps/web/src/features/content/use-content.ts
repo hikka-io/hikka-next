@@ -16,8 +16,7 @@ import {
 } from '@hikka/api';
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-
-import getContentTitle from '../utils/get-content-title';
+import { getContentTitle } from '@/utils/title/get-content-title';
 
 interface UseContentParams {
     content_type:

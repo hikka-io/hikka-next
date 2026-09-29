@@ -16,7 +16,7 @@ import {
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { contentPath } from '@/utils/content-paths';
 
-import { useContent } from './hooks';
+import { useContent } from './use-content';
 
 type Props = {
     slug: string;

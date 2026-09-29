@@ -12,6 +12,7 @@ export {
     NOVEL_NAV_ROUTES,
 } from './content-nav-routes';
 export { default as ContentStats } from './content-stats';
+export { default as ContentSubpage } from './content-subpage';
 export { default as ContentCover } from './cover';
 export { default as ContentDescription } from './description';
 export { default as ContentDetails } from './details';
@@ -24,3 +25,4 @@ export { default as ContentMedia } from './media';
 export { default as ContentScores } from './scores';
 export { default as ContentStaff } from './staff';
 export { default as ContentTitle } from './title';
+export { useContentTitle } from './use-content-title';

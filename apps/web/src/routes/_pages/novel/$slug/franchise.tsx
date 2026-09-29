@@ -2,8 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import ContentHeader from '@/features/comments/content-header';
-import { Franchise } from '@/features/content';
+import { ContentSubpage, Franchise } from '@/features/content';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/novel/$slug/franchise')({
@@ -16,14 +15,8 @@ function NovelFranchisePage() {
     const { slug } = Route.useParams();
 
     return (
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
-            <div className="flex flex-col gap-12">
-                <ContentHeader
-                    slug={slug}
-                    content_type={ContentTypeEnum.NOVEL}
-                />
-                <Franchise content_type={ContentTypeEnum.NOVEL} extended />
-            </div>
-        </div>
+        <ContentSubpage slug={slug} contentType={ContentTypeEnum.NOVEL}>
+            <Franchise content_type={ContentTypeEnum.NOVEL} extended />
+        </ContentSubpage>
     );
 }

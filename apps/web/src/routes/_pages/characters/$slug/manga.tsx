@@ -2,8 +2,8 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import ContentHeader from '@/features/comments/content-header';
-import { CharacterManga as Manga } from '@/features/entities';
+import { ContentSubpage } from '@/features/content';
+import { CharacterManga } from '@/features/entities';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/characters/$slug/manga')({
@@ -15,14 +15,8 @@ function CharacterMangaPage() {
     const { slug } = Route.useParams();
 
     return (
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
-            <div className="flex flex-col gap-12">
-                <ContentHeader
-                    slug={slug}
-                    content_type={ContentTypeEnum.CHARACTER}
-                />
-                <Manga extended />
-            </div>
-        </div>
+        <ContentSubpage slug={slug} contentType={ContentTypeEnum.CHARACTER}>
+            <CharacterManga extended />
+        </ContentSubpage>
     );
 }

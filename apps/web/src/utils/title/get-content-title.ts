@@ -10,7 +10,7 @@ import {
  * `getTitle` handles none of these: collections/articles carry a plain `title`,
  * users a `username`, edits only an id.
  */
-export default function getContentTitle(
+export function getContentTitle(
     content_type: ContentTypeEnum,
     content: Record<string, unknown> | object | null | undefined,
     titleLang?: TitleLanguage,

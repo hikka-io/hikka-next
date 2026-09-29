@@ -12,14 +12,12 @@ import {
 
 import { usePageHeader } from '@/features/app-shell';
 import {
-    CommentList as Comments,
-    getContentTitle,
+    CommentList,
     prefetchContent,
     UserCommentList,
-    useContentTitle,
 } from '@/features/comments';
-import ContentHeader from '@/features/comments/content-header';
 import type { Verdict } from '@/features/comments/utils/review';
+import { ContentSubpage, useContentTitle } from '@/features/content';
 import { useChangeParam } from '@/features/filters';
 import { contentPath } from '@/utils/content-paths';
 import { generateHeadMeta } from '@/utils/metadata';
@@ -30,6 +28,7 @@ import {
     DEFAULT_COMMENT_SORT,
     getCommentSort,
 } from '@/utils/sort';
+import { getContentTitle } from '@/utils/title/get-content-title';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
     validateSearch: zodValidator(commentsSearchSchema),
@@ -156,46 +155,41 @@ function CommentsPage() {
     };
 
     return (
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
-            <div className="flex flex-col gap-12">
-                <ContentHeader
-                    slug={slug}
-                    content_type={
-                        content_type as
-                            | CommentsContentType
-                            | typeof ContentTypeEnum.USER
+        <ContentSubpage
+            slug={slug}
+            contentType={
+                content_type as
+                    | CommentsContentType
+                    | typeof ContentTypeEnum.USER
+            }
+        >
+            {isUser ? (
+                <UserCommentList
+                    username={slug}
+                    commentType={commentType}
+                    onCommentTypeChange={handleCommentTypeChange}
+                    firstLevelOnly={first_level_only}
+                    onFirstLevelOnlyChange={(value) =>
+                        changeParam('first_level_only', value)
                     }
+                    {...sortProps}
                 />
-                {isUser ? (
-                    <UserCommentList
-                        username={slug}
-                        commentType={commentType}
-                        onCommentTypeChange={handleCommentTypeChange}
-                        firstLevelOnly={first_level_only}
-                        onFirstLevelOnlyChange={(value) =>
-                            changeParam('first_level_only', value)
-                        }
-                        {...sortProps}
-                    />
-                ) : (
-                    <Comments
-                        slug={slug}
-                        content_type={content_type as CommentsContentType}
-                        contentTitle={contentTitle}
-                        commentType={commentType}
-                        onCommentTypeChange={handleCommentTypeChange}
-                        // Gated like the query body: a bare `?recommended` with
-                        // no review tab must not render as an active filter.
-                        verdict={
-                            commentType === 'review'
-                                ? (recommended ?? null)
-                                : null
-                        }
-                        onVerdictChange={handleVerdictChange}
-                        {...sortProps}
-                    />
-                )}
-            </div>
-        </div>
+            ) : (
+                <CommentList
+                    slug={slug}
+                    content_type={content_type as CommentsContentType}
+                    contentTitle={contentTitle}
+                    commentType={commentType}
+                    onCommentTypeChange={handleCommentTypeChange}
+                    // Gated like the query body: a bare `?recommended` with
+                    // no review tab must not render as an active filter.
+                    verdict={
+                        commentType === 'review' ? (recommended ?? null) : null
+                    }
+                    onVerdictChange={handleVerdictChange}
+                    {...sortProps}
+                />
+            )}
+        </ContentSubpage>
     );
 }

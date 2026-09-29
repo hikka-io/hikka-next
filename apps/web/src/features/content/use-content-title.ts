@@ -1,8 +1,7 @@
 import type { ContentTypeEnum } from '@hikka/api';
 
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
-
-import getContentTitle from '../utils/get-content-title';
+import { getContentTitle } from '@/utils/title/get-content-title';
 
 /**
  * `useTitle` for entities with no `title_*`/`name_*` field — collections,

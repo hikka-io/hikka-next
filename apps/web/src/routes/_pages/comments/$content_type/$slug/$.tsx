@@ -7,13 +7,9 @@ import {
 } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
-import {
-    CommentList as Comments,
-    prefetchContent,
-    useContentTitle,
-} from '@/features/comments';
-import ContentHeader from '@/features/comments/content-header';
+import { CommentList, prefetchContent } from '@/features/comments';
 import { commentThreadInfiniteOptions } from '@/features/comments/hooks/use-comment-thread';
+import { ContentSubpage, useContentTitle } from '@/features/content';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -58,18 +54,15 @@ function CommentsThreadPage() {
     });
 
     return (
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-12 p-0">
-            <div className="flex flex-col gap-12">
-                <ContentHeader
-                    slug={slug}
-                    content_type={content_type as CommentsContentType}
-                />
-                <Comments
-                    comment_reference={commentReference}
-                    slug={slug}
-                    content_type={content_type as CommentsContentType}
-                />
-            </div>
-        </div>
+        <ContentSubpage
+            slug={slug}
+            contentType={content_type as CommentsContentType}
+        >
+            <CommentList
+                comment_reference={commentReference}
+                slug={slug}
+                content_type={content_type as CommentsContentType}
+            />
+        </ContentSubpage>
     );
 }
