@@ -1,4 +1,6 @@
-export const USER_NAV_ROUTES: Hikka.NavRoute[] = [
+import type { NavRoute } from '@/utils/navigation';
+
+export const USER_NAV_ROUTES: NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',

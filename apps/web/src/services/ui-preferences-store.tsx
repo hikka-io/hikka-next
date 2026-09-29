@@ -11,14 +11,18 @@ import { createStore, useStore } from 'zustand';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import { type UiPreferences, writeUiPrefsCookie } from '@/utils/cookies';
+import {
+    type UiPreferences,
+    type View,
+    writeUiPrefsCookie,
+} from '@/utils/cookies';
 
 // Fallbacks applied at read time; the cookie stores only explicit choices.
 export const UI_PREFS_DEFAULTS = {
     views: {
         franchise: 'list',
         userlist: 'table',
-    } as Record<string, Hikka.View>,
+    } as Record<string, View>,
     filters: {
         franchiseContentTypes: [
             ContentTypeEnum.ANIME,
@@ -29,7 +33,7 @@ export const UI_PREFS_DEFAULTS = {
 };
 
 export type UiPreferencesActions = {
-    setView: (key: string, view: Hikka.View) => void;
+    setView: (key: string, view: View) => void;
     setFilter: (key: string, values: string[]) => void;
     setCollapsible: (key: string, open: boolean) => void;
 };

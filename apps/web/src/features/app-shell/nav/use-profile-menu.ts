@@ -8,11 +8,11 @@ import {
 } from '@hikka/api';
 
 import { useSession } from '@/features/auth/hooks/use-session';
-import { useCurrentUrl } from '@/utils/navigation';
+import { type NavRoute, useCurrentUrl } from '@/utils/navigation';
 
 import { PROFILE_MENU } from '../nav-config';
 
-export type ProfileMenuItem = Hikka.NavRoute & { count?: number };
+export type ProfileMenuItem = NavRoute & { count?: number };
 
 const watchTotal = (stats: WatchStatsResponse) =>
     stats.completed +

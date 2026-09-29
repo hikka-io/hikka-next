@@ -5,7 +5,7 @@ import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 import { usePageHeader } from '@/features/app-shell';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
-import { usePathname } from '@/utils/navigation';
+import { type NavRoute, usePathname } from '@/utils/navigation';
 
 import ContentActionBar from './content-action-bar';
 import ContentActionsMenu from './content-actions-menu';
@@ -20,7 +20,7 @@ const CONTENT_NAV_ROUTES = {
     [ContentTypeEnum.ANIME]: ANIME_NAV_ROUTES,
     [ContentTypeEnum.MANGA]: MANGA_NAV_ROUTES,
     [ContentTypeEnum.NOVEL]: NOVEL_NAV_ROUTES,
-} satisfies Record<MainContentTypeEnum, Hikka.NavRoute[]>;
+} satisfies Record<MainContentTypeEnum, NavRoute[]>;
 
 type Props = PropsWithChildren & {
     slug: string;
@@ -33,7 +33,7 @@ type Props = PropsWithChildren & {
               contentType:
                   | typeof ContentTypeEnum.CHARACTER
                   | typeof ContentTypeEnum.PERSON;
-              navRoutes: Hikka.NavRoute[];
+              navRoutes: NavRoute[];
           }
     );
 

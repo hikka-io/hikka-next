@@ -9,13 +9,14 @@ import FiltersNotFound from '@/components/filters-not-found';
 import LoadMoreButton from '@/components/load-more-button';
 import { StickyPagination } from '@/components/ui/pagination';
 import Stack, { type StackSize } from '@/components/ui/stack';
+import type { View } from '@/utils/cookies';
 
 import CatalogListItemSkeleton from './catalog-list-item-skeleton';
 import CatalogListSkeleton from './catalog-list-skeleton';
 
 type Props<T> = {
     list: T[] | undefined;
-    view: Hikka.View;
+    view: View;
     isLoading: boolean;
     isFetchingNextPage: boolean;
     hasNextPage: boolean;

@@ -11,11 +11,13 @@ import {
     useState,
 } from 'react';
 
+import type { NavRoute } from '@/utils/navigation';
+
 export type PageHeaderConfig = {
     title?: string | null;
     subtitle?: string | null;
     parent?: string;
-    navRoutes?: Hikka.NavRoute[];
+    navRoutes?: NavRoute[];
     navUrlPrefix?: string;
     titleComponent?: ComponentType;
     actionsComponent?: ComponentType;

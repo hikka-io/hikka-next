@@ -15,7 +15,19 @@ import {
     WatchStatusEnum,
 } from '@hikka/api';
 
-export const SEASON: Hikka.FilterProperty<SeasonEnum> = {
+export type FilterProperty<
+    T extends string,
+    ExtraProps extends Record<string, any> = Record<string, any>,
+> = Record<
+    T,
+    {
+        title_ua: string;
+        title_en: string;
+        description?: string;
+    } & ExtraProps
+>;
+
+export const SEASON: FilterProperty<SeasonEnum> = {
     winter: {
         title_ua: 'Зима',
         title_en: 'Winter',
@@ -34,7 +46,7 @@ export const SEASON: Hikka.FilterProperty<SeasonEnum> = {
     },
 };
 
-export const RELEASE_STATUS: Hikka.FilterProperty<ContentStatusEnum> = {
+export const RELEASE_STATUS: FilterProperty<ContentStatusEnum> = {
     [ContentStatusEnum.DISCONTINUED]: {
         title_ua: 'Припинено',
         title_en: 'Discontinued',
@@ -57,7 +69,7 @@ export const RELEASE_STATUS: Hikka.FilterProperty<ContentStatusEnum> = {
     },
 };
 
-export const ANIME_MEDIA_TYPE: Hikka.FilterProperty<AnimeMediaEnum> = {
+export const ANIME_MEDIA_TYPE: FilterProperty<AnimeMediaEnum> = {
     [AnimeMediaEnum.SPECIAL]: {
         title_ua: 'Спешл',
         title_en: 'Special',
@@ -84,7 +96,7 @@ export const ANIME_MEDIA_TYPE: Hikka.FilterProperty<AnimeMediaEnum> = {
     },
 };
 
-export const MANGA_MEDIA_TYPE: Hikka.FilterProperty<MangaMediaEnum> = {
+export const MANGA_MEDIA_TYPE: FilterProperty<MangaMediaEnum> = {
     [MangaMediaEnum.ONE_SHOT]: {
         title_ua: 'Ваншот',
         title_en: 'One Shot',
@@ -107,7 +119,7 @@ export const MANGA_MEDIA_TYPE: Hikka.FilterProperty<MangaMediaEnum> = {
     },
 };
 
-export const NOVEL_MEDIA_TYPE: Hikka.FilterProperty<NovelMediaEnum> = {
+export const NOVEL_MEDIA_TYPE: FilterProperty<NovelMediaEnum> = {
     [NovelMediaEnum.LIGHT_NOVEL]: {
         title_ua: 'Ранобе',
         title_en: 'Light Novel',
@@ -118,7 +130,7 @@ export const NOVEL_MEDIA_TYPE: Hikka.FilterProperty<NovelMediaEnum> = {
     },
 };
 
-export const MEDIA_TYPE: Hikka.FilterProperty<
+export const MEDIA_TYPE: FilterProperty<
     NovelMediaEnum | MangaMediaEnum | AnimeMediaEnum
 > = {
     ...ANIME_MEDIA_TYPE,
@@ -127,7 +139,7 @@ export const MEDIA_TYPE: Hikka.FilterProperty<
 };
 
 export const MEDIA_TYPE_BY_CONTENT_TYPE: Partial<
-    Record<ContentTypeEnum, Hikka.FilterProperty<string>>
+    Record<ContentTypeEnum, FilterProperty<string>>
 > = {
     [ContentTypeEnum.ANIME]: ANIME_MEDIA_TYPE,
     [ContentTypeEnum.MANGA]: MANGA_MEDIA_TYPE,
@@ -145,7 +157,7 @@ export function getMediaTypeLabel(
     return isMediaType(mediaType) ? MEDIA_TYPE[mediaType].title_ua : undefined;
 }
 
-export const AGE_RATING: Hikka.FilterProperty<AnimeAgeRatingEnum> = {
+export const AGE_RATING: FilterProperty<AnimeAgeRatingEnum> = {
     [AnimeAgeRatingEnum.G]: {
         title_ua: 'G',
         title_en: 'G',
@@ -178,7 +190,7 @@ export const AGE_RATING: Hikka.FilterProperty<AnimeAgeRatingEnum> = {
     },
 };
 
-export const VIDEO: Hikka.FilterProperty<AnimeVideoTypeEnum> = {
+export const VIDEO: FilterProperty<AnimeVideoTypeEnum> = {
     [AnimeVideoTypeEnum.VIDEO_PROMO]: {
         title_ua: 'Промо-відео',
         title_en: 'Promo Video',
@@ -189,7 +201,7 @@ export const VIDEO: Hikka.FilterProperty<AnimeVideoTypeEnum> = {
     },
 };
 
-export const OST: Hikka.FilterProperty<AnimeOstTypeEnum> = {
+export const OST: FilterProperty<AnimeOstTypeEnum> = {
     [AnimeOstTypeEnum.OPENING]: {
         title_ua: 'Опенінґ',
         title_en: 'Opening',
@@ -200,7 +212,7 @@ export const OST: Hikka.FilterProperty<AnimeOstTypeEnum> = {
     },
 };
 
-export const GENRE_TYPES: Hikka.FilterProperty<GenreTypeEnum> = {
+export const GENRE_TYPES: FilterProperty<GenreTypeEnum> = {
     [GenreTypeEnum.THEME]: {
         title_ua: 'Тематичне',
         title_en: 'Theme',
@@ -219,7 +231,7 @@ export const GENRE_TYPES: Hikka.FilterProperty<GenreTypeEnum> = {
     },
 };
 
-export const READ_STATUS: Hikka.FilterProperty<ReadStatusEnum> = {
+export const READ_STATUS: FilterProperty<ReadStatusEnum> = {
     [ReadStatusEnum.PLANNED]: {
         title_ua: 'Заплановано',
         title_en: 'Planned',
@@ -242,7 +254,7 @@ export const READ_STATUS: Hikka.FilterProperty<ReadStatusEnum> = {
     },
 };
 
-export const WATCH_STATUS: Hikka.FilterProperty<WatchStatusEnum> = {
+export const WATCH_STATUS: FilterProperty<WatchStatusEnum> = {
     [WatchStatusEnum.PLANNED]: {
         title_ua: 'Заплановано',
         title_en: 'Planned',
@@ -270,7 +282,7 @@ export const LIST_STATUS = {
     read: READ_STATUS,
 } as const;
 
-export const ARTICLE_CATEGORY: Hikka.FilterProperty<
+export const ARTICLE_CATEGORY: FilterProperty<
     ArticleCategoryEnum,
     { admin?: boolean }
 > = {
@@ -293,7 +305,7 @@ export const ARTICLE_CATEGORY: Hikka.FilterProperty<
     },
 };
 
-export const CONTENT_ISSUES: Hikka.FilterProperty<string> = {
+export const CONTENT_ISSUES: FilterProperty<string> = {
     title_ua: { title_ua: 'Назва (укр)', title_en: 'Title (ua)' },
     title_en: { title_ua: 'Назва (англ)', title_en: 'Title (en)' },
     title_original: { title_ua: 'Назва (ориг)', title_en: 'Title (original)' },
@@ -301,18 +313,18 @@ export const CONTENT_ISSUES: Hikka.FilterProperty<string> = {
     synopsis_en: { title_ua: 'Опис (англ)', title_en: 'Synopsis (en)' },
 };
 
-export const PERSON_ISSUES: Hikka.FilterProperty<string> = {
+export const PERSON_ISSUES: FilterProperty<string> = {
     name_ua: { title_ua: "Ім'я (укр)", title_en: 'Name (ua)' },
     name_en: { title_ua: "Ім'я (англ)", title_en: 'Name (en)' },
     name_original: { title_ua: "Ім'я (ориг)", title_en: 'Name (original)' },
 };
 
-export const CHARACTER_ISSUES: Hikka.FilterProperty<string> = {
+export const CHARACTER_ISSUES: FilterProperty<string> = {
     ...PERSON_ISSUES,
     description_ua: { title_ua: 'Опис (укр)', title_en: 'Description (ua)' },
 };
 
-export const EDIT_STATUS: Hikka.FilterProperty<EditStatusEnum> = {
+export const EDIT_STATUS: FilterProperty<EditStatusEnum> = {
     pending: {
         title_ua: 'На Розгляді',
         title_en: 'Pending',

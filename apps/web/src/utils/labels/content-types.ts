@@ -1,5 +1,7 @@
 import { ContentTypeEnum } from '@hikka/api';
 
+import type { FilterProperty } from './enum-labels';
+
 type ContentTypeForms = {
     plural?: string;
     genitive?: string;
@@ -63,7 +65,7 @@ export const CONTENT_TYPES = {
         title_ua: 'Активність',
         title_en: 'History',
     },
-} satisfies Hikka.FilterProperty<ContentTypeEnum | 'user', ContentTypeForms>;
+} satisfies FilterProperty<ContentTypeEnum | 'user', ContentTypeForms>;
 
 export const COLLECTION_CONTENT_TYPE_OPTIONS = [
     {

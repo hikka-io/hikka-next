@@ -12,9 +12,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import type { FilterProperty } from '@/utils/labels/enum-labels';
 
 type Props = {
-    properties: Hikka.FilterProperty<string>;
+    properties: FilterProperty<string>;
     value: string[] | undefined;
     onChange: (value: string[] | undefined) => void;
 };

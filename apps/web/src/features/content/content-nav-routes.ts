@@ -1,4 +1,6 @@
-export const NOVEL_NAV_ROUTES: Hikka.NavRoute[] = [
+import type { NavRoute } from '@/utils/navigation';
+
+export const NOVEL_NAV_ROUTES: NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',
@@ -21,7 +23,7 @@ export const NOVEL_NAV_ROUTES: Hikka.NavRoute[] = [
     },
 ];
 
-export const MANGA_NAV_ROUTES: Hikka.NavRoute[] = [
+export const MANGA_NAV_ROUTES: NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',
@@ -44,7 +46,7 @@ export const MANGA_NAV_ROUTES: Hikka.NavRoute[] = [
     },
 ];
 
-export const ANIME_NAV_ROUTES: Hikka.NavRoute[] = [
+export const ANIME_NAV_ROUTES: NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',

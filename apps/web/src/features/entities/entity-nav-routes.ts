@@ -1,4 +1,6 @@
-export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
+import type { NavRoute } from '@/utils/navigation';
+
+export const CHARACTER_NAV_ROUTES: NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',
@@ -26,7 +28,7 @@ export const CHARACTER_NAV_ROUTES: Hikka.NavRoute[] = [
     },
 ];
 
-export const PERSON_NAV_ROUTES: Hikka.NavRoute[] = [
+export const PERSON_NAV_ROUTES: NavRoute[] = [
     {
         slug: 'general',
         title_ua: 'Загальне',

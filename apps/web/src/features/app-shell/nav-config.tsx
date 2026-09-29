@@ -15,11 +15,12 @@ import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/Mat
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import PhTipJarFill from '@/components/icons/ph/PhTipJarFill';
+import type { NavRoute } from '@/utils/navigation';
 
 const TELEGRAM_URL = 'https://t.me/hikka_io';
 const DONATELLO_URL = 'https://donatello.to/hikka.io';
 
-const CONTENT_GROUP: Hikka.NavRoute[] = [
+const CONTENT_GROUP: NavRoute[] = [
     {
         title_ua: 'Аніме',
         url: '/anime',
@@ -43,7 +44,7 @@ const CONTENT_GROUP: Hikka.NavRoute[] = [
     },
 ];
 
-const COMMUNITY_GROUP: Hikka.NavRoute[] = [
+const COMMUNITY_GROUP: NavRoute[] = [
     {
         title_ua: 'Статті',
         url: '/articles',
@@ -60,7 +61,7 @@ const COMMUNITY_GROUP: Hikka.NavRoute[] = [
     },
 ];
 
-const MODERATION_GROUP: Hikka.NavRoute[] = [
+const MODERATION_GROUP: NavRoute[] = [
     {
         title_ua: 'Правки',
         url: '/edit',
@@ -77,7 +78,7 @@ const MODERATION_GROUP: Hikka.NavRoute[] = [
     },
 ];
 
-const OTHER_GROUP: Hikka.NavRoute[] = [
+const OTHER_GROUP: NavRoute[] = [
     {
         title_ua: 'Налаштування',
         url: '/settings',
@@ -157,7 +158,7 @@ const OTHER_GROUP: Hikka.NavRoute[] = [
     },
 ];
 
-export const SOCIAL_GROUP: Hikka.NavRoute[] = [
+export const SOCIAL_GROUP: NavRoute[] = [
     {
         title_ua: 'Telegram',
         url: TELEGRAM_URL,
@@ -174,11 +175,11 @@ export const SOCIAL_GROUP: Hikka.NavRoute[] = [
     },
 ];
 
-export const APP_NAV_CONTENT: Hikka.NavRoute[] = [...CONTENT_GROUP];
+export const APP_NAV_CONTENT: NavRoute[] = [...CONTENT_GROUP];
 
-export const APP_NAV_USER_CONTENT: Hikka.NavRoute[] = [...COMMUNITY_GROUP];
+export const APP_NAV_USER_CONTENT: NavRoute[] = [...COMMUNITY_GROUP];
 
-export const APP_NAV_MORE: { title_ua: string; items: Hikka.NavRoute[] }[] = [
+export const APP_NAV_MORE: { title_ua: string; items: NavRoute[] }[] = [
     {
         title_ua: 'Інше',
         items: [
@@ -202,25 +203,24 @@ export const APP_NAV_MORE: { title_ua: string; items: Hikka.NavRoute[] }[] = [
 ];
 
 /** The mobile tab bar owns anime/manga/novel, so the sheet omits Контент. */
-export const MOBILE_SHEET_NAV: { title_ua: string; items: Hikka.NavRoute[] }[] =
-    [
-        {
-            title_ua: 'Спільнота',
-            items: COMMUNITY_GROUP,
-        },
-        {
-            title_ua: 'Модерація',
-            items: MODERATION_GROUP,
-        },
-        {
-            title_ua: 'Інше',
-            items: OTHER_GROUP,
-        },
-        {
-            items: SOCIAL_GROUP,
-            title_ua: 'Соцмережі',
-        },
-    ];
+export const MOBILE_SHEET_NAV: { title_ua: string; items: NavRoute[] }[] = [
+    {
+        title_ua: 'Спільнота',
+        items: COMMUNITY_GROUP,
+    },
+    {
+        title_ua: 'Модерація',
+        items: MODERATION_GROUP,
+    },
+    {
+        title_ua: 'Інше',
+        items: OTHER_GROUP,
+    },
+    {
+        items: SOCIAL_GROUP,
+        title_ua: 'Соцмережі',
+    },
+];
 
 const NAV_URLS = [
     ...CONTENT_GROUP,
@@ -252,7 +252,7 @@ export function isNavActive(pathname: string, url: string): boolean {
 /** Catalog roots reachable from the mobile tab bar's Каталог tab. */
 export const CATALOG_ROOT_LINKS = ['/anime', '/manga', '/novel'] as const;
 
-export const PROFILE_MENU: Hikka.NavRoute[] = [
+export const PROFILE_MENU: NavRoute[] = [
     {
         icon: CONTENT_TYPE_ICONS[ContentTypeEnum.ANIME],
         title_ua: 'Список аніме',

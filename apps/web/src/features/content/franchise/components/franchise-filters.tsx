@@ -16,6 +16,7 @@ import {
     UI_PREFS_DEFAULTS,
     useUiPreferences,
 } from '@/services/ui-preferences-store';
+import type { View } from '@/utils/cookies';
 
 const FranchiseFilters: FC = () => {
     const view = useUiPreferences(
@@ -31,7 +32,7 @@ const FranchiseFilters: FC = () => {
 
     const handleChangeView = ([value]: string[]) => {
         if (!value) return;
-        setView('franchise', value as Hikka.View);
+        setView('franchise', value as View);
     };
 
     const handleChangeContentTypes = (value: string[]) => {

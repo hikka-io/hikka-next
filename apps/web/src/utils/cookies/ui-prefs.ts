@@ -1,9 +1,11 @@
 import { COOKIE } from './constants';
 import { writeHostCookie } from './ui-cookie';
 
+export type View = 'table' | 'grid' | 'list';
+
 export type UiPreferences = {
     /** View preferences by context key (e.g., 'catalog', 'userlist', 'franchise') */
-    views: Record<string, Hikka.View>;
+    views: Record<string, View>;
     /** Filter preferences by context key (e.g., 'franchiseContentTypes') */
     filters: Record<string, string[]>;
     /** Collapsible state by context key (e.g., 'catalog_filters_sidebar') */
@@ -25,7 +27,7 @@ export function parseUiPrefs(
 
         return {
             views: isRecord(parsed.views)
-                ? (parsed.views as Record<string, Hikka.View>)
+                ? (parsed.views as Record<string, View>)
                 : {},
             filters: isRecord(parsed.filters)
                 ? (parsed.filters as Record<string, string[]>)

@@ -8,11 +8,12 @@ import {
     TooltipPortal,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import type { FilterProperty } from '@/utils/labels/enum-labels';
 
 export type BadgeFilterProps = {
     property: string;
     title?: string;
-    properties: Hikka.FilterProperty<string> | string[];
+    properties: FilterProperty<string> | string[];
     icons?: Record<string, ComponentType | null>;
     selected: string[];
     disabled?: boolean;

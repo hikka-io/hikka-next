@@ -2,9 +2,10 @@ import {
     UI_PREFS_DEFAULTS,
     useUiPreferences,
 } from '@/services/ui-preferences-store';
+import type { View } from '@/utils/cookies';
 
 const DEFAULT_KEY = 'catalog';
-const DEFAULT_VIEW: Hikka.View = 'grid';
+const DEFAULT_VIEW: View = 'grid';
 
 /** Persisted view mode for a catalog page (grid | list | table). */
 export function useCatalogView(key: string = DEFAULT_KEY) {
@@ -16,6 +17,6 @@ export function useCatalogView(key: string = DEFAULT_KEY) {
 
     return {
         view,
-        setView: (next: Hikka.View) => setView(key, next),
+        setView: (next: View) => setView(key, next),
     };
 }

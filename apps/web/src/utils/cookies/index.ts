@@ -20,5 +20,6 @@ export { writeHostCookie } from './ui-cookie';
 export {
     parseUiPrefs,
     type UiPreferences,
+    type View,
     writeUiPrefsCookie,
 } from './ui-prefs';

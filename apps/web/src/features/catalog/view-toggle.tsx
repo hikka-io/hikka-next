@@ -8,6 +8,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import type { View } from '@/utils/cookies';
 
 import { useCatalogView } from './use-catalog-view';
 
@@ -15,11 +16,11 @@ const VIEW_OPTIONS = {
     grid: { label: 'Сітка', icon: MaterialSymbolsGridViewRounded },
     list: { label: 'Список', icon: MaterialSymbolsEventList },
     table: { label: 'Таблиця', icon: MaterialSymbolsEventList },
-} satisfies Record<Hikka.View, { label: string; icon: ComponentType }>;
+} satisfies Record<View, { label: string; icon: ComponentType }>;
 
 type Props = {
     viewKey: string;
-    views: Hikka.View[];
+    views: View[];
 };
 
 const ViewToggle: FC<Props> = ({ viewKey, views }) => {
@@ -27,7 +28,7 @@ const ViewToggle: FC<Props> = ({ viewKey, views }) => {
 
     const handleChangeView = ([value]: string[]) => {
         if (!value) return;
-        setView(value as Hikka.View);
+        setView(value as View);
     };
 
     return (
