@@ -1,11 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { API_LIMITS, loginMutation } from '@hikka/api';
+import { loginMutation } from '@hikka/api';
 
 import { SubmitButton, useAppForm } from '@/components/form';
-import { Field, FieldError, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import PasswordInput from '@/components/ui/password-input';
+import { passwordSchema } from '@/utils/form-schemas';
 import { z } from '@/utils/i18n/zod';
 import { Link, useRouter, useRouteSearch } from '@/utils/navigation';
 import type { LoginSearch } from '@/utils/search-schemas';
@@ -18,10 +16,7 @@ import { useCaptcha } from './use-captcha';
 
 const formSchema = z.object({
     identifier: z.string().min(5),
-    password: z
-        .string()
-        .min(API_LIMITS.password.min)
-        .max(API_LIMITS.password.max),
+    password: passwordSchema,
     rememberMe: z.boolean(),
 });
 
@@ -51,7 +46,7 @@ const LoginForm = () => {
             password: '',
             rememberMe: false,
         },
-        validators: { onSubmit: formSchema },
+        validators: { onChange: formSchema },
         onSubmit: async ({ value }) => {
             const isEmail = value.identifier.includes('@');
 
@@ -71,53 +66,31 @@ const LoginForm = () => {
     return (
         <form.AppForm>
             <form.Form className="space-y-4">
-                <form.Field
+                <form.AppField
                     name="identifier"
                     children={(field) => (
-                        <Field>
-                            <FieldLabel htmlFor={field.name}>
-                                Ваш юзернейм або пошта
-                            </FieldLabel>
-                            <Input
-                                id={field.name}
-                                type="text"
-                                placeholder="Введіть ваш юзернейм або пошту"
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={(e) =>
-                                    field.handleChange(e.target.value)
-                                }
-                            />
-                            <FieldError errors={field.state.meta.errors} />
-                        </Field>
+                        <field.TextField
+                            type="text"
+                            label="Ваш юзернейм або пошта"
+                            placeholder="Введіть ваш юзернейм або пошту"
+                        />
                     )}
                 />
 
-                <form.Field
+                <form.AppField
                     name="password"
                     children={(field) => (
-                        <Field>
-                            <div className="flex items-center justify-between">
-                                <FieldLabel htmlFor={field.name}>
-                                    Пароль
-                                </FieldLabel>
-                                <Link
-                                    to="/reset"
-                                    className="text-primary-foreground text-sm hover:underline"
-                                >
-                                    Забули пароль?
-                                </Link>
-                            </div>
-
-                            <PasswordInput
-                                id={field.name}
-                                placeholder="Введіть ваш пароль"
-                                value={field.state.value}
-                                onBlur={field.handleBlur}
-                                onChange={field.handleChange}
-                            />
-                            <FieldError errors={field.state.meta.errors} />
-                        </Field>
+                        <field.PasswordField
+                            label="Пароль"
+                            placeholder="Введіть ваш пароль"
+                        >
+                            <Link
+                                to="/reset"
+                                className="text-primary-foreground text-sm hover:underline"
+                            >
+                                Забули пароль?
+                            </Link>
+                        </field.PasswordField>
                     )}
                 />
 
