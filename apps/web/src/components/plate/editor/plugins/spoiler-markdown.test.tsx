@@ -5,8 +5,8 @@ import { describe, expect, it } from 'vitest';
 
 import { ArticleKit } from '../article-kit';
 import { MarkdownEditorKit } from '../markdown-editor-kit';
+import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from '../plate-types';
 import { BaseSpoilerKit } from './spoiler-base-kit';
-import { ELEMENT_SPOILER, ELEMENT_SPOILER_INLINE } from './spoiler-kit';
 
 const makeEditor = (value: Value = []) =>
     createPlateEditor({ plugins: MarkdownEditorKit, value }) as any;

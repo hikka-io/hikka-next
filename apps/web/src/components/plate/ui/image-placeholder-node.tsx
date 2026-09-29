@@ -7,11 +7,9 @@ import { Progress } from '@/components/ui/progress';
 import Spinner from '@/components/ui/spinner';
 import { cn } from '@/utils/cn';
 
-import { ImageGroupPlugin } from '../editor/plugins/image-group-kit';
-import {
-    ImagePlaceholderPlugin,
-    type TImagePlaceholderElement,
-} from '../editor/plugins/image-placeholder-kit';
+import type { TImagePlaceholderElement } from '../editor/plate-types';
+import { ImageGroupPlugin } from '../editor/plugins/image-group-plugin';
+import { ImagePlaceholderPlugin } from '../editor/plugins/image-placeholder-plugin';
 
 export type ImagePlaceholderElementProps =
     PlateElementProps<TImagePlaceholderElement> & {

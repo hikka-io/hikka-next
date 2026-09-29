@@ -8,8 +8,8 @@ import { type ArticleContentEnum, updateArticleMutation } from '@hikka/api';
 import MaterialSymbolsPublishRounded from '@/components/icons/material-symbols/MaterialSymbolsPublishRounded';
 import MaterialSymbolsRefreshRounded from '@/components/icons/material-symbols/MaterialSymbolsRefreshRounded';
 import MaterialSymbolsVisibilityOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsVisibilityOutlineRounded';
-import { hasPendingUploads } from '@/components/plate/editor/value/has-pending-uploads';
 import { getArticleDocument } from '@/components/plate/editor/value/submit-value';
+import { hasPendingUploads } from '@/components/plate/editor/value/upload-placeholders';
 import { Button } from '@/components/ui/button';
 import { FooterBar } from '@/components/ui/footer-bar';
 import {

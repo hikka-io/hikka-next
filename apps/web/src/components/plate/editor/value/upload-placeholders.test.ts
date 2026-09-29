@@ -1,8 +1,10 @@
 import type { Value } from 'platejs';
 import { describe, expect, it } from 'vitest';
 
-import { hasPendingUploads } from './has-pending-uploads';
-import { stripUploadPlaceholders } from './strip-upload-placeholders';
+import {
+    hasPendingUploads,
+    stripUploadPlaceholders,
+} from './upload-placeholders';
 
 const doc = (): Value => [
     {

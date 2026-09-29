@@ -1,15 +1,10 @@
-import type { Path, TElement } from 'platejs';
+import type { Path } from 'platejs';
 import { createPlatePlugin } from 'platejs/react';
 
 import { VideoElement } from '@/components/plate/ui/video-node';
 import { extractYouTubeVideoId } from '@/utils/youtube';
 
-export const ELEMENT_VIDEO = 'video';
-
-export interface TVideoElement extends TElement {
-    type: typeof ELEMENT_VIDEO;
-    url: string;
-}
+import { ELEMENT_VIDEO, type TVideoElement } from '../plate-types';
 
 export const VideoPlugin = createPlatePlugin({
     key: ELEMENT_VIDEO,

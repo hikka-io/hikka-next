@@ -2,14 +2,14 @@ import { toggleList } from '@platejs/list-classic';
 import { KEYS, type Path, PathApi, type TElement } from 'platejs';
 import type { PlateEditor } from 'platejs/react';
 
-// Containers need a paragraph child, not bare text
-const CONTAINER_TYPES: Set<string> = new Set(['spoiler', KEYS.blockquote]);
+import { CONTAINER_BLOCK_TYPES } from './plate-types';
 
 // These use toggleList instead of insertNodes
 const LIST_TYPES: Set<string> = new Set([KEYS.ulClassic, KEYS.olClassic]);
 
 const createBlockNode = (editor: PlateEditor, type: string): TElement => {
-    if (CONTAINER_TYPES.has(type)) {
+    // Containers need a paragraph child, not bare text
+    if (CONTAINER_BLOCK_TYPES.has(type)) {
         return {
             type,
             children: [{ type: KEYS.p, children: [{ text: '' }] } as TElement],
@@ -72,7 +72,7 @@ export const insertBlock = (editor: PlateEditor, type: string) => {
     restoreSelection(editor);
     if (!editor.selection) return;
 
-    const isContainer = CONTAINER_TYPES.has(type);
+    const isContainer = CONTAINER_BLOCK_TYPES.has(type);
 
     // Prevent nesting containers of the same type (e.g. spoiler inside spoiler)
     if (isContainer && isInsideBlock(editor, type)) {

@@ -1,8 +1,8 @@
 import { MarkdownPlugin } from '@platejs/markdown';
 import type { SlateEditor, TElement, Value } from 'platejs';
 
-import { stripUploadPlaceholders } from './strip-upload-placeholders';
 import { trimEmptyBlocks } from './trim-empty-blocks';
+import { stripUploadPlaceholders } from './upload-placeholders';
 
 export function getCommentValue(editor: SlateEditor): TElement[] {
     return trimEmptyBlocks(editor.children as TElement[]);

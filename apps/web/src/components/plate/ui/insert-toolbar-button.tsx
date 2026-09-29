@@ -28,7 +28,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { ELEMENT_SPOILER } from '../editor/plugins/spoiler-kit';
+import { ELEMENT_SPOILER } from '../editor/plate-types';
 import { ToolbarButton, ToolbarMenuGroup } from './toolbar';
 
 // Cannot be nested inside themselves

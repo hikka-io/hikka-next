@@ -7,7 +7,8 @@ vi.mock('sonner', () => ({
 
 import { toast } from 'sonner';
 
-import { ImageGroupKit, ImageGroupPlugin } from './image-group-kit';
+import { ImageGroupKit } from './image-group-kit';
+import { ImageGroupPlugin } from './image-group-plugin';
 
 const jpeg = (name = 'a.jpg') => new File(['x'], name, { type: 'image/jpeg' });
 
@@ -27,10 +28,6 @@ function makeEditor(uploadImage: (file: File) => Promise<{ url: string }>) {
 
 describe('image group upload pipeline (headless)', () => {
     beforeEach(() => vi.clearAllMocks());
-
-    it('constructs the kit without throwing (import cycle is safe)', () => {
-        expect(() => makeEditor(async () => ({ url: 'x' }))).not.toThrow();
-    });
 
     it('inserts a placeholder then replaces it with an image on success', async () => {
         const editor = makeEditor(async () => ({

@@ -5,7 +5,7 @@ import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import { cn } from '@/utils/cn';
 import { extractYouTubeVideoId } from '@/utils/youtube';
 
-import type { TVideoElement } from '../editor/plugins/video-kit';
+import type { TVideoElement } from '../editor/plate-types';
 
 export type VideoElementStaticProps = SlateElementProps<TVideoElement> & {
     className?: string;

@@ -5,7 +5,7 @@ import { PhotoView } from 'react-photo-view';
 import Image from '@/components/ui/image';
 import { cn } from '@/utils/cn';
 
-import type { TImageElement } from '../editor/plugins/image-kit';
+import type { TImageElement } from '../editor/plate-types';
 
 export type ImageElementStaticProps = SlateElementProps<TImageElement> & {
     className?: string;

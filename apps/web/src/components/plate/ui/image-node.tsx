@@ -5,7 +5,7 @@ import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/Ma
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 
-import type { TImageElement } from '../editor/plugins/image-kit';
+import type { TImageElement } from '../editor/plate-types';
 
 export type ImageElementProps = PlateElementProps<TImageElement> & {
     className?: string;

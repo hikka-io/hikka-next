@@ -28,7 +28,7 @@ import { cn } from '@/utils/cn';
 
 import { ArticleKit } from './article-kit';
 import { usePlateMarkdownSetup } from './markdown-editor-kit';
-import { ImageGroupPlugin } from './plugins/image-group-kit';
+import { ImageGroupPlugin } from './plugins/image-group-plugin';
 import { withoutTriggerPlugins } from './plugins/trigger-plugins';
 import { StaticViewer } from './static-viewer';
 import { uploadAttachmentImage } from './upload-image';
@@ -286,7 +286,7 @@ export function ArticlePlateEditor({
         shouldNormalizeEditor: true,
     });
 
-    // Enables drag-and-drop image upload (see image-group-kit insertData)
+    // Enables drag-and-drop image upload (see image-group-plugin insertData)
     useEffect(() => {
         editor.setOption(
             ImageGroupPlugin,

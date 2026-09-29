@@ -6,7 +6,7 @@ import { cn } from '@/utils/cn';
 import {
     MAX_IMAGE_COUNT,
     type TImageGroupElement,
-} from '../editor/plugins/image-group-kit';
+} from '../editor/plate-types';
 import { ImageGroupAddImage } from './image-group-add-image';
 
 export type ImageGroupElementProps = PlateElementProps<TImageGroupElement> & {
