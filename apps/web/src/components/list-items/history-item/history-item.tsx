@@ -9,7 +9,7 @@ import {
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import RelativeTime from '@/components/relative-time';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {

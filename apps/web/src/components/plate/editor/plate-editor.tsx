@@ -10,7 +10,7 @@ import {
 import type { Value } from 'platejs';
 import { Plate, type PlateEditor, usePlateEditor } from 'platejs/react';
 
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import { Editor, EditorContainer } from '@/components/plate/ui/editor';
 import { FixedToolbar } from '@/components/plate/ui/fixed-toolbar';
 import { FixedMarkdownToolbarButtons } from '@/components/plate/ui/fixed-toolbar-buttons';

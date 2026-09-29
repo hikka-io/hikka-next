@@ -8,7 +8,7 @@ import type {
 } from '@hikka/api';
 
 import PosterCard from '@/components/content-card/poster-card';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 import { useTitle } from '@/features/auth/hooks/use-title';

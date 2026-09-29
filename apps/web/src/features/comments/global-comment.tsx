@@ -12,7 +12,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import RelativeTime from '@/components/relative-time';
 import { Badge } from '@/components/ui/badge';
 import { StatItem } from '@/components/ui/stat-item';

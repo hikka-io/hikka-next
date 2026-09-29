@@ -9,7 +9,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 
 type Props = {
     user: FollowUserResponse;

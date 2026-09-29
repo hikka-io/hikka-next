@@ -11,7 +11,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';

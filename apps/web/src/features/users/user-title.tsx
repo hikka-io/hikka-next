@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { userProfileOptions } from '@hikka/api';
 
 import { RoleBadge } from '@/components/badges';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { Link, useParams } from '@/utils/navigation';
 

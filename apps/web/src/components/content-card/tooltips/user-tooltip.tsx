@@ -13,14 +13,14 @@ import {
 
 import { FollowButton } from '@/components/action-buttons';
 import { RoleBadge } from '@/components/badges';
+import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
+import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
+import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
+import { MDViewer } from '@/components/markdown';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { isUserReference } from '@/utils/mentions';
 
-import MaterialSymbolsAnimatedImages from '../../icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsMenuBookRounded from '../../icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '../../icons/material-symbols/MaterialSymbolsPalette';
-import MDViewer from '../../markdown/viewer/md-viewer';
 import HoverCardWrapper from './hover-card-wrapper';
 import { UserTooltipSkeleton } from './tooltip-skeleton';
 

@@ -9,7 +9,7 @@ import type { CommentResponse, ContentTypeEnum } from '@hikka/api';
 import AuthorMetaRow from '@/components/author-meta-row';
 import { ReviewBadge } from '@/components/badges';
 import { HorizontalCardImage } from '@/components/horizontal-card';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import { Chip } from '@/components/ui/chip';
 import { StatItemGroup } from '@/components/ui/stat-item';

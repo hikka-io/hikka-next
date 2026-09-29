@@ -1,12 +1,11 @@
 import type { FC, ReactNode } from 'react';
 
 import { InlineScores } from '@/components/inline-scores';
+import { MDViewer } from '@/components/markdown';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/utils/cn';
 import { RELEASE_STATUS } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
-
-import MDViewer from '../../markdown/viewer/md-viewer';
 
 interface GenreItem {
     slug: string;

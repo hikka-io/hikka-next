@@ -1,7 +1,7 @@
 import { type ComponentProps, type FC, memo } from 'react';
 
 import PosterCard from '@/components/content-card/poster-card';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';

@@ -4,6 +4,9 @@ import { Copy, Zap } from 'lucide-react';
 
 import type { ContentTypeEnum } from '@hikka/api';
 
+import { MaterialSymbolsEditRounded } from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
+import MaterialSymbolsImageOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageOutlineRounded';
+import MaterialSymbolsOpenInNewRounded from '@/components/icons/material-symbols/MaterialSymbolsOpenInNewRounded';
 import {
     ContextMenu,
     ContextMenuContent,
@@ -15,10 +18,6 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import { useQuickEdit } from '@/features/edit/quick-edit';
 import { CONTENT_TYPE_LINKS } from '@/utils/constants/navigation';
 import { Link } from '@/utils/navigation';
-
-import { MaterialSymbolsEditRounded } from '../icons/material-symbols/MaterialSymbolsEditRounded';
-import MaterialSymbolsImageOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageOutlineRounded';
-import MaterialSymbolsOpenInNewRounded from '../icons/material-symbols/MaterialSymbolsOpenInNewRounded';
 
 type Props = {
     children: ReactNode;

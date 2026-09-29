@@ -5,7 +5,7 @@ import { CirclePlus } from 'lucide-react';
 import type { CommentContentTypeEnum as CommentsContentType } from '@hikka/api';
 
 import { HorizontalCardImage } from '@/components/horizontal-card';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import Spinner from '@/components/ui/spinner';
 import { StatItem } from '@/components/ui/stat-item';

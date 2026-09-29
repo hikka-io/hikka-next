@@ -10,7 +10,7 @@ import {
     HorizontalCardImage,
     HorizontalCardTitle,
 } from '@/components/horizontal-card';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import { StatItem, StatItemGroup } from '@/components/ui/stat-item';
 import { cn } from '@/utils/cn';
 

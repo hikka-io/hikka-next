@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { notificationSeenMutation } from '@hikka/api';
 
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import RelativeTime from '@/components/relative-time';
 import { invalidateNotifications } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';

@@ -4,9 +4,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { characterAnimeOptions, characterInfoOptions } from '@hikka/api';
 
+import { MDViewer } from '@/components/markdown';
 import { useTitle } from '@/features/auth/hooks/use-title';
 
-import MDViewer from '../../markdown/viewer/md-viewer';
 import PosterCard from '../poster-card';
 import HoverCardWrapper from './hover-card-wrapper';
 import { CharacterTooltipSkeleton } from './tooltip-skeleton';

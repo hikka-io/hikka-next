@@ -1,9 +1,9 @@
 import type { FC, ReactNode } from 'react';
 
+import MaterialSymbolsImageNotSupportedOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
 import Image from '@/components/ui/image';
 import { cn } from '@/utils/cn';
 
-import MaterialSymbolsImageNotSupportedOutlineRounded from '../icons/material-symbols/MaterialSymbolsImageNotSupportedOutlineRounded';
 import { IMAGE_PRESETS } from './image-presets';
 
 export type CardImageProps = {

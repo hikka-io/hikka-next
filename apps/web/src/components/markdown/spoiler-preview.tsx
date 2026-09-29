@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react';
 
-import SpoilerReveal from '../../spoiler-reveal';
+import SpoilerReveal from './spoiler-reveal';
 
 type Props = {
     children: ReactNode;

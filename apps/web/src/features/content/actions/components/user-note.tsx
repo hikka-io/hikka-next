@@ -6,7 +6,7 @@ import { MaterialSymbolsAddRounded } from '@/components/icons/material-symbols/M
 import { MaterialSymbolsCheckRounded } from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsCloseRounded from '@/components/icons/material-symbols/MaterialSymbolsCloseRounded';
 import { MaterialSymbolsEditRounded } from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import { Button } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';

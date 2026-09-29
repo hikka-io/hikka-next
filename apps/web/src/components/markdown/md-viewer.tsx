@@ -3,16 +3,16 @@ import remarkDirective from 'remark-directive';
 
 import { cn } from '@/utils/cn';
 
-import Link from '../link';
-import Spoiler from '../spoiler';
-import Mention from './components/mention';
-import NoSpoiler from './components/no-spoiler';
-import SpoilerInline from './components/spoiler-inline';
-import SpoilerPreview from './components/spoiler-preview';
-import remarkDisableTokenizer from './plugins/remark-disable-tokenizer';
-import remarkMentions from './plugins/remark-mentions';
-import remarkSpoiler from './plugins/remark-spoiler';
-import remarkStrikethrough from './plugins/remark-strikethrough';
+import Link from './link';
+import Mention from './mention';
+import NoSpoiler from './no-spoiler';
+import remarkDisableTokenizer from './remark/remark-disable-tokenizer';
+import remarkMentions from './remark/remark-mentions';
+import remarkSpoiler from './remark/remark-spoiler';
+import remarkStrikethrough from './remark/remark-strikethrough';
+import Spoiler from './spoiler';
+import SpoilerInline from './spoiler-inline';
+import SpoilerPreview from './spoiler-preview';
 
 type Props = Options & {
     preview?: boolean;

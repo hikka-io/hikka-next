@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getCollectionOptions } from '@hikka/api';
 
-import MDViewer from '@/components/markdown/viewer/md-viewer';
+import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import { Badge } from '@/components/ui/badge';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
