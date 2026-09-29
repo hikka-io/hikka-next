@@ -30,7 +30,7 @@ type Props = {
     content_type: CollectionContentTypeEnum;
 };
 
-const Collections: FC<Props> = ({ content_type }) => {
+const ContentCollections: FC<Props> = ({ content_type }) => {
     const params = useParams();
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
@@ -84,4 +84,4 @@ const Collections: FC<Props> = ({ content_type }) => {
     );
 };
 
-export default Collections;
+export default ContentCollections;

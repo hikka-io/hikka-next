@@ -22,7 +22,7 @@ type Props = {
     content_type: MainContentTypeEnum;
 };
 
-const Staff: FC<Props> = ({ extended, content_type }) => {
+const ContentStaff: FC<Props> = ({ extended, content_type }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useStaff({ content_type, slug: String(params.slug) });
@@ -73,4 +73,4 @@ const Staff: FC<Props> = ({ extended, content_type }) => {
     );
 };
 
-export default Staff;
+export default ContentStaff;

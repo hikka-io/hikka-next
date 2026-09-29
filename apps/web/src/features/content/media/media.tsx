@@ -18,7 +18,7 @@ type Props = {
     extended?: boolean;
 };
 
-const Media: FC<Props> = ({ extended }) => {
+const ContentMedia: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { data: anime } = CONTENT_CONFIG.anime.useInfo(String(params.slug));
     const [active, setActive] = useState<'video' | 'music'>('video');
@@ -77,4 +77,4 @@ const Media: FC<Props> = ({ extended }) => {
     );
 };
 
-export default Media;
+export default ContentMedia;

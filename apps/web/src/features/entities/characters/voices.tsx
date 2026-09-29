@@ -3,15 +3,16 @@ import type { FC } from 'react';
 import { characterVoicesInfiniteOptions } from '@hikka/api';
 
 import VoiceCard from '@/components/content-card/voice-card';
-import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
+
+import AppearanceGrid from '../appearance-grid';
 
 type Props = {
     extended?: boolean;
 };
 
-const Voices: FC<Props> = ({ extended }) => {
+const CharacterVoices: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useInfiniteList(
@@ -43,4 +44,4 @@ const Voices: FC<Props> = ({ extended }) => {
     );
 };
 
-export default Voices;
+export default CharacterVoices;

@@ -1,3 +1,11 @@
-export * from './characters';
+export { default as CharacterDetailPage } from './character-detail-page';
+export { default as CharacterAnime } from './characters/anime';
+export { default as CharacterManga } from './characters/manga';
+export { default as CharacterNovel } from './characters/novel';
+export { default as CharacterVoices } from './characters/voices';
 export { CHARACTER_NAV_ROUTES, PERSON_NAV_ROUTES } from './entity-nav-routes';
-export * from './people';
+export { default as PersonAnime } from './people/anime';
+export { default as PersonCharacters } from './people/characters';
+export { default as PersonManga } from './people/manga';
+export { default as PersonNovel } from './people/novel';
+export { default as PersonDetailPage } from './person-detail-page';

@@ -20,7 +20,7 @@ type Props = {
     content_type: MainContentTypeEnum | 'character' | 'person';
 };
 
-const Details = ({ className, content_type }: Props) => {
+const ContentDetails = ({ className, content_type }: Props) => {
     const params = useParams();
 
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
@@ -67,4 +67,4 @@ const Details = ({ className, content_type }: Props) => {
     }
 };
 
-export default Details;
+export default ContentDetails;

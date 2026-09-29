@@ -3,13 +3,13 @@ import type { MainContentTypeEnum } from '@hikka/api';
 import PosterCard from '@/components/content-card/poster-card';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from './content-config';
+import { CONTENT_CONFIG } from '../content-config';
 
 type Props = {
     content_type: MainContentTypeEnum;
 };
 
-const Cover = ({ content_type }: Props) => {
+const ContentCover = ({ content_type }: Props) => {
     const params = useParams();
     const { data: content } = CONTENT_CONFIG[content_type].useInfo(
         String(params.slug),
@@ -25,4 +25,4 @@ const Cover = ({ content_type }: Props) => {
     );
 };
 
-export default Cover;
+export default ContentCover;

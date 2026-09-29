@@ -8,7 +8,7 @@ import { usePageTitleAnchor } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { useParams } from '@/utils/navigation';
 
-const Title = () => {
+const PersonTitle = () => {
     const divRef = useRef<HTMLDivElement>(null);
     const params = useParams();
     const { data: person } = useQuery(
@@ -35,4 +35,4 @@ const Title = () => {
     );
 };
 
-export default Title;
+export default PersonTitle;

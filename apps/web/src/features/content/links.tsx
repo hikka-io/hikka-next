@@ -25,7 +25,7 @@ type Props = {
     content_type: MainContentTypeEnum;
 };
 
-const Links: FC<Props> = ({ content_type }) => {
+const ContentLinks: FC<Props> = ({ content_type }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [active, setActive] = useState<ExternalTypeEnum>(
         ExternalTypeEnum.GENERAL,
@@ -135,4 +135,4 @@ const Links: FC<Props> = ({ content_type }) => {
     );
 };
 
-export default Links;
+export default ContentLinks;

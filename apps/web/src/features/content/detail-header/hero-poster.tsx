@@ -4,14 +4,14 @@ import PosterCard from '@/components/content-card/poster-card';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from './content-config';
+import { CONTENT_CONFIG } from '../content-config';
 
 type Props = {
     content_type: MainContentTypeEnum;
     className?: string;
 };
 
-const HeroPoster = ({ content_type, className }: Props) => {
+const ContentHeroPoster = ({ content_type, className }: Props) => {
     const params = useParams();
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
 
@@ -29,4 +29,4 @@ const HeroPoster = ({ content_type, className }: Props) => {
     );
 };
 
-export default HeroPoster;
+export default ContentHeroPoster;

@@ -20,7 +20,7 @@ type Props = {
     className?: string;
 };
 
-const Actions: FC<Props> = ({ content_type, className }) => {
+const ContentActions: FC<Props> = ({ content_type, className }) => {
     const params = useParams();
     const { user } = useSession();
 
@@ -77,4 +77,4 @@ const Actions: FC<Props> = ({ content_type, className }) => {
     );
 };
 
-export default Actions;
+export default ContentActions;

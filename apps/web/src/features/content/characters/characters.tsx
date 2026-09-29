@@ -14,7 +14,7 @@ type Props = {
     content_type: MainContentTypeEnum;
 };
 
-const Characters: FC<Props> = ({ extended, content_type }) => {
+const ContentCharacters: FC<Props> = ({ extended, content_type }) => {
     const params = useParams();
     const { fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         CONTENT_CONFIG[content_type].useCharacters(String(params.slug));
@@ -39,4 +39,4 @@ const Characters: FC<Props> = ({ extended, content_type }) => {
     );
 };
 
-export default Characters;
+export default ContentCharacters;

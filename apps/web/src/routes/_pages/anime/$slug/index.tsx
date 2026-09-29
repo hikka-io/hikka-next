@@ -5,7 +5,7 @@ import { animeSlugOptions, ContentTypeEnum } from '@hikka/api';
 
 import JsonLd from '@/components/json-ld';
 import { MovieBanner } from '@/features/anime';
-import { ContentDetailPage, ContentMedia as Media } from '@/features/content';
+import { ContentDetailPage, ContentMedia } from '@/features/content';
 import { contentJsonLd } from '@/utils/json-ld';
 
 export const Route = createFileRoute('/_pages/anime/$slug/')({
@@ -21,7 +21,7 @@ function AnimeDetailPage() {
             contentType={ContentTypeEnum.ANIME}
             slug={slug}
             afterDescription={<MovieBanner />}
-            afterFranchise={<Media />}
+            afterFranchise={<ContentMedia />}
             jsonLd={
                 anime ? (
                     <JsonLd

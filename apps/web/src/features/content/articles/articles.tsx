@@ -22,7 +22,7 @@ import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-chang
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
-import ContentNewsModal from './components/content-articles-modal';
+import ContentArticlesModal from './content-articles-modal';
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -68,7 +68,7 @@ const ContentArticles: FC<Props> = ({ content_type }) => {
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="left" title="Статті">
-                    <ContentNewsModal content_type={content_type} />
+                    <ContentArticlesModal content_type={content_type} />
                 </ResponsiveModalContent>
             </ResponsiveModal>
         </>

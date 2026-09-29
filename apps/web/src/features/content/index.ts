@@ -1,9 +1,5 @@
-export { default as ContentActions } from './actions';
-export { default as ContentArticles } from './articles';
 export { default as ContentCharacters } from './characters';
-export * from './collections';
-export { default as ContentActionBar } from './content-action-bar';
-export { default as ContentActionsMenu } from './content-actions-menu';
+export { default as ContentCollections } from './collections';
 export { default as ContentDetailLayout } from './content-detail-layout';
 export { default as ContentDetailPage } from './content-detail-page';
 export {
@@ -11,18 +7,9 @@ export {
     MANGA_NAV_ROUTES,
     NOVEL_NAV_ROUTES,
 } from './content-nav-routes';
-export { default as ContentStats } from './content-stats';
 export { default as ContentSubpage } from './content-subpage';
-export { default as ContentCover } from './cover';
-export { default as ContentDescription } from './description';
 export { default as ContentDetails } from './details';
-export * from './followings';
 export { default as Franchise } from './franchise';
-export { default as ContentHero } from './hero';
-export { default as ContentHeroPoster } from './hero-poster';
-export { default as ContentLinks } from './links';
 export { default as ContentMedia } from './media';
-export { default as ContentScores } from './scores';
 export { default as ContentStaff } from './staff';
-export { default as ContentTitle } from './title';
 export { useContentTitle } from './use-content-title';

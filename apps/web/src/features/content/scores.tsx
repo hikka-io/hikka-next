@@ -15,7 +15,7 @@ type ScoresProps = {
     content_type: MainContentTypeEnum;
 };
 
-const Scores = ({ className, content_type }: ScoresProps) => {
+const ContentScores = ({ className, content_type }: ScoresProps) => {
     const params = useParams();
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
 
@@ -77,4 +77,4 @@ const Scores = ({ className, content_type }: ScoresProps) => {
     );
 };
 
-export default Scores;
+export default ContentScores;

@@ -5,7 +5,7 @@ import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from './content-config';
+import { CONTENT_CONFIG } from '../content-config';
 import { getOriginalTitle } from './get-original-title';
 
 type TitleProps = {
@@ -13,7 +13,7 @@ type TitleProps = {
     content_type: MainContentTypeEnum;
 };
 
-const Title = ({ className, content_type }: TitleProps) => {
+const ContentTitle = ({ className, content_type }: TitleProps) => {
     const params = useParams();
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
     const title = useTitle(data);
@@ -43,4 +43,4 @@ const Title = ({ className, content_type }: TitleProps) => {
     );
 };
 
-export default Title;
+export default ContentTitle;

@@ -3,16 +3,17 @@ import type { FC } from 'react';
 import { personMangaInfiniteOptions } from '@hikka/api';
 
 import MangaCard from '@/components/content-card/manga-card';
-import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
+
+import AppearanceGrid from '../appearance-grid';
 
 type Props = {
     extended?: boolean;
 };
 
-const Manga: FC<Props> = ({ extended }) => {
+const PersonManga: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useInfiniteList(
@@ -44,4 +45,4 @@ const Manga: FC<Props> = ({ extended }) => {
     );
 };
 
-export default Manga;
+export default PersonManga;

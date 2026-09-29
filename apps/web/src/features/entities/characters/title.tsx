@@ -6,7 +6,7 @@ import { usePageTitleAnchor } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { useParams } from '@/utils/navigation';
 
-const Title = () => {
+const CharacterTitle = () => {
     const params = useParams();
     const { data: character } = useQuery(
         characterInfoOptions({ path: { slug: String(params.slug) } }),
@@ -32,4 +32,4 @@ const Title = () => {
     );
 };
 
-export default Title;
+export default CharacterTitle;

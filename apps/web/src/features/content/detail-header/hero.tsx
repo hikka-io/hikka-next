@@ -5,14 +5,14 @@ import { usePageTitleAnchor } from '@/features/app-shell';
 import { useTitle } from '@/features/auth/hooks/use-title';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from './content-config';
+import { CONTENT_CONFIG } from '../content-config';
 import { getOriginalTitle } from './get-original-title';
 
 type Props = {
     content_type: MainContentTypeEnum;
 };
 
-const Hero = ({ content_type }: Props) => {
+const ContentHero = ({ content_type }: Props) => {
     const params = useParams();
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
     const title = useTitle(data);
@@ -48,4 +48,4 @@ const Hero = ({ content_type }: Props) => {
     );
 };
 
-export default Hero;
+export default ContentHero;

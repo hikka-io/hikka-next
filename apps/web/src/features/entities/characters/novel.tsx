@@ -3,15 +3,16 @@ import type { FC } from 'react';
 import { characterNovelInfiniteOptions } from '@hikka/api';
 
 import NovelCard from '@/components/content-card/novel-card';
-import AppearanceGrid from '@/features/entities/appearance-grid';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
+
+import AppearanceGrid from '../appearance-grid';
 
 type Props = {
     extended?: boolean;
 };
 
-const Novel: FC<Props> = ({ extended }) => {
+const CharacterNovel: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useInfiniteList(
@@ -37,4 +38,4 @@ const Novel: FC<Props> = ({ extended }) => {
     );
 };
 
-export default Novel;
+export default CharacterNovel;
