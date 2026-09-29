@@ -1,9 +1,9 @@
 import { PlateMarkdownEditor } from '@/components/plate/editor/plate-editor';
+import RulesAlert from '@/components/rules-alert';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { useParams } from '@/utils/navigation';
 
 import { useCollectionContext } from './collection-provider';
-import RulesAlert from './collection-rules-alert';
 
 const CollectionTitle = () => {
     const { reference } = useParams();
@@ -24,7 +24,12 @@ const CollectionTitle = () => {
                     </HeaderTitle>
                 </HeaderContainer>
             </Header>
-            <RulesAlert />
+            <RulesAlert
+                rulesFile="COLLECTION_RULES.md"
+                before="Перш ніж створювати колекції, рекомендуємо ознайомитись з"
+                after="створення колекцій."
+                modalTitle="Правила колекцій"
+            />
             {((reference && description !== undefined) || !reference) && (
                 <PlateMarkdownEditor
                     onValueChange={setDescription}

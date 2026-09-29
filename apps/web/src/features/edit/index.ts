@@ -6,7 +6,6 @@ export { default as EditFiltersModal } from './edit-filters-modal';
 export { default as EditCreateForm } from './edit-forms/edit-create-form';
 export { default as EditViewForm } from './edit-forms/edit-view-form';
 export { default as EditList } from './edit-list';
-export { default as EditRulesAlert } from './edit-rules-alert';
 export { default as EditTimeline } from './edit-timeline';
 export { default as EditTopStats } from './edit-top-stats';
 export { default as QuickEditModal } from './quick-edit/quick-edit-modal';

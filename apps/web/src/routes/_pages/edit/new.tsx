@@ -11,15 +11,11 @@ import {
     personInfoOptions,
 } from '@hikka/api';
 
+import RulesAlert from '@/components/rules-alert';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader } from '@/features/app-shell';
-import {
-    EditContent,
-    EditCreateForm,
-    EditRulesAlert,
-    useContentBySlug,
-} from '@/features/edit';
+import { EditContent, EditCreateForm, useContentBySlug } from '@/features/edit';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editNewSearchSchema } from '@/utils/search-schemas';
 
@@ -96,7 +92,14 @@ function EditNewPage() {
                         <HeaderTitle>Нова правка</HeaderTitle>
                     </HeaderContainer>
                 </Header>
-                <EditRulesAlert />
+                <div>
+                    <RulesAlert
+                        rulesFile="RULES.md"
+                        before="Перш ніж почати редагування контенту, рекомендуємо ознайомитись з"
+                        after="редагування контенту."
+                        modalTitle="Правила редагування"
+                    />
+                </div>
                 <EditCreateForm
                     slug={slug}
                     content_type={content_type}

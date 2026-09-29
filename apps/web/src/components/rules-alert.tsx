@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { MDViewer } from '@/components/markdown';
@@ -9,24 +8,31 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 
-const CollectionRulesAlert = () => {
-    const [rules, setRules] = React.useState('');
+type Props = {
+    rulesFile: string;
+    before: string;
+    after: string;
+    modalTitle: string;
+};
+
+const RulesAlert: FC<Props> = ({ rulesFile, before, after, modalTitle }) => {
+    const [rules, setRules] = useState('');
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
         fetch(
-            'https://raw.githubusercontent.com/hikka-io/rules/main/COLLECTION_RULES.md',
+            `https://raw.githubusercontent.com/hikka-io/rules/main/${rulesFile}`,
         )
             .then((res) => res.text())
             .then((res) => setRules(res));
-    }, []);
+    }, [rulesFile]);
 
     return (
         <>
             <div className="flex items-center gap-4 rounded-md border border-border surface p-4">
                 <MaterialSymbolsInfoRounded className="text-xl" />
                 <span className="flex-1 text-sm">
-                    Перш ніж створювати колекції, рекомендуємо ознайомитись з{' '}
+                    {before}{' '}
                     <Button
                         onClick={() => setOpen(true)}
                         variant="link"
@@ -34,14 +40,13 @@ const CollectionRulesAlert = () => {
                     >
                         нашими правилами
                     </Button>{' '}
-                    створення колекцій.
+                    {after}
                 </span>
             </div>
-
             <ResponsiveModal open={open} onOpenChange={setOpen}>
                 <ResponsiveModalContent
-                    title="Правила колекцій"
                     className="md:max-w-xl"
+                    title={modalTitle}
                 >
                     <MDViewer className="-m-4 overflow-scroll p-4">
                         {rules}
@@ -52,4 +57,4 @@ const CollectionRulesAlert = () => {
     );
 };
 
-export default CollectionRulesAlert;
+export default RulesAlert;
