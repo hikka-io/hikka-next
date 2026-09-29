@@ -1,4 +1,11 @@
-import { type FC, type KeyboardEvent, useMemo, useRef, useState } from 'react';
+import {
+    type FC,
+    type KeyboardEvent,
+    useCallback,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 
 import { Settings2 } from 'lucide-react';
 
@@ -10,7 +17,7 @@ import { SELECTED_TINT } from '@/components/ui/selected-tint';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { cn } from '@/utils/cn';
 
-import { useOpenLayoutSettings } from './hooks/use-open-layout-settings';
+import LayoutSettings from './layout-settings/layout-settings';
 import type { SupportedWidgetSlug } from './types';
 import { useFeedLayout } from './use-feed-layout';
 import { WIDGET_REGISTRY } from './widgets/registry';
@@ -170,7 +177,11 @@ const SidebarWidgetChips: FC<{
 const FeedLayout: FC<{ className?: string }> = ({ className }) => {
     const { user } = useSession();
     const { left, center, right } = useFeedLayout();
-    const { openSettings, settingsModal } = useOpenLayoutSettings();
+    const [settingsOpen, setSettingsOpen] = useState(false);
+
+    const openSettings = useCallback(() => {
+        setSettingsOpen(true);
+    }, []);
 
     const hasLeft = left.length > 0;
     const hasCenter = center.length > 0;
@@ -213,7 +224,10 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
 
     return (
         <div className={cn(gridClasses, className)}>
-            {settingsModal}
+            <LayoutSettings
+                open={settingsOpen}
+                onOpenChange={setSettingsOpen}
+            />
 
             {layout >= 2 && !isLeftRightOnly && sidebarWidgets.length > 0 && (
                 <aside

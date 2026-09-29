@@ -1,6 +1,7 @@
 import type { UiFeedWidget } from '@hikka/api';
 
 export type UIFeedWidgetSide = UiFeedWidget['side'];
+export type UIFeedWidgetSlug = UiFeedWidget['slug'];
 
 /** Slugs this app renders; excludes server-only `top_anime`, which has no widget yet. */
 export type SupportedWidgetSlug = Extract<
