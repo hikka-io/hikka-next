@@ -5,7 +5,7 @@ import type {
     ReadStatusEnum,
 } from '@hikka/api';
 
-import { READ_STATUS } from '@/utils/constants/common';
+import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import { useParams } from '@/utils/navigation';
 
 import { CONTENT_CONFIG } from '../../content-config';
@@ -33,7 +33,6 @@ const Readlist = ({ content_type }: Props) => {
     const stats: Hikka.ListStat[] = Object.keys(data.stats)
         .filter((stat) => !stat.includes('score'))
         .map((stat) => {
-            const status = READ_STATUS[stat as ReadStatusEnum];
             const percentage =
                 (100 * (data.stats[stat as keyof ReadStatsResponse] ?? 0)) /
                 sumStats;
@@ -41,7 +40,7 @@ const Readlist = ({ content_type }: Props) => {
             return {
                 percentage,
                 value: data.stats[stat as keyof ReadStatsResponse] ?? 0,
-                icon: status.icon && createElement(status.icon),
+                icon: createElement(READ_STATUS_ICONS[stat as ReadStatusEnum]),
                 name: stat,
             };
         });

@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { SquareLibrary } from 'lucide-react';
 
+import { ARTICLE_CATEGORY_ICONS } from '@/components/icons/article-category-icons';
 import { BadgeFilter } from '@/components/ui/badge-filter';
 import { Label } from '@/components/ui/label';
 import { ARTICLE_CATEGORY } from '@/utils/constants/common';
@@ -30,6 +31,7 @@ const ArticleCategoryFilter: FC<Props> = () => {
                         ([, value]) => !value.admin,
                     ),
                 )}
+                icons={ARTICLE_CATEGORY_ICONS}
                 selected={categories}
                 property="categories"
                 onParamChange={handleChangeParam}

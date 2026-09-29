@@ -6,6 +6,7 @@ import type {
     WatchStatusEnum,
 } from '@hikka/api';
 
+import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
@@ -51,9 +52,14 @@ const WatchStatusTrigger: FC<WatchStatusTriggerProps> = ({
                                 `bg-${watch.status} text-${watch.status}-foreground border-${watch.status}-border`,
                             )}
                         >
-                            {createElement(watchStatus.icon!, {
-                                className: 'size-3!',
-                            })}
+                            {createElement(
+                                WATCH_STATUS_ICONS[
+                                    watch.status as WatchStatusEnum
+                                ],
+                                {
+                                    className: 'size-3!',
+                                },
+                            )}
                         </div>
                     )}
                     <span className="truncate rounded-none">

@@ -5,13 +5,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { WatchStatusEnum, watchAddMutation } from '@hikka/api';
 
+import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
 import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
-import { WATCH_STATUS } from '@/utils/constants/common';
 
 type NewStatusTriggerProps = {
     disabled?: boolean;
@@ -73,7 +73,7 @@ const NewStatusTrigger: FC<NewStatusTriggerProps> = ({
                                 'rounded-sm border border-secondary-foreground/20 p-1',
                             )}
                         >
-                            {createElement(WATCH_STATUS.planned.icon!, {
+                            {createElement(WATCH_STATUS_ICONS.planned, {
                                 className: 'size-3!',
                             })}
                         </div>

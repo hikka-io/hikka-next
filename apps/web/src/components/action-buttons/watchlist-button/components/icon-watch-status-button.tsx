@@ -12,11 +12,11 @@ import {
     watchAddMutation,
 } from '@hikka/api';
 
+import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
-import { WATCH_STATUS } from '@/utils/constants/common';
 
 type IconWatchStatusButtonProps = ButtonProps & {
     watch?: WatchResponse | WatchResponseBase;
@@ -64,11 +64,11 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
         }
     };
 
-    const watchStatus = watch
-        ? WATCH_STATUS[watch.status as WatchStatusEnum]
+    const StatusIcon = watch
+        ? WATCH_STATUS_ICONS[watch.status as WatchStatusEnum]
         : null;
 
-    if (!watch || !watchStatus) {
+    if (!watch || !StatusIcon) {
         return (
             <Button
                 size={size}
@@ -77,7 +77,7 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
                 onClick={handleAddToPlanned}
                 {...props}
             >
-                {createElement(WATCH_STATUS.planned.icon!)}
+                {createElement(WATCH_STATUS_ICONS.planned)}
             </Button>
         );
     }
@@ -93,7 +93,7 @@ const IconWatchStatusButton: FC<IconWatchStatusButtonProps> = ({
             )}
             {...props}
         >
-            {isLoading ? <Spinner /> : createElement(watchStatus.icon!)}
+            {isLoading ? <Spinner /> : createElement(StatusIcon)}
         </Button>
     );
 };

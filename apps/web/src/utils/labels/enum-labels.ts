@@ -14,17 +14,6 @@ import {
     WatchStatusEnum,
 } from '@hikka/api';
 
-import StatusCompleted from '@/components/icons/list-status/StatusCompleted';
-import StatusDropped from '@/components/icons/list-status/StatusDropped';
-import StatusOnHold from '@/components/icons/list-status/StatusOnHold';
-import StatusPlanned from '@/components/icons/list-status/StatusPlanned';
-import StatusWatching from '@/components/icons/list-status/StatusWatching';
-import MaterialSymbolsBookmarkFlagOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsBookmarkFlagOutlineRounded';
-import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
-import MaterialSymbolsNewsmodeRounded from '@/components/icons/material-symbols/MaterialSymbolsNewsmodeRounded';
-import MaterialSymbolsReviewsRounded from '@/components/icons/material-symbols/MaterialSymbolsReviewsRounded';
-import MaterialSymbolsStarsRounded from '@/components/icons/material-symbols/MaterialSymbolsStarsRounded';
-
 export const SEASON: Hikka.FilterProperty<SeasonEnum> = {
     winter: {
         title_ua: 'Зима',
@@ -214,27 +203,22 @@ export const READ_STATUS: Hikka.FilterProperty<ReadStatusEnum> = {
     [ReadStatusEnum.PLANNED]: {
         title_ua: 'Заплановано',
         title_en: 'Planned',
-        icon: StatusPlanned,
     },
     [ReadStatusEnum.COMPLETED]: {
         title_ua: 'Завершено',
         title_en: 'Completed',
-        icon: StatusCompleted,
     },
     [ReadStatusEnum.ON_HOLD]: {
         title_ua: 'Відкладено',
         title_en: 'On Hold',
-        icon: MaterialSymbolsBookmarkFlagOutlineRounded,
     },
     [ReadStatusEnum.DROPPED]: {
         title_ua: 'Закинуто',
         title_en: 'Dropped',
-        icon: StatusDropped,
     },
     [ReadStatusEnum.READING]: {
         title_ua: 'Читаю',
         title_en: 'Reading',
-        icon: MaterialSymbolsBookmarkOutline,
     },
 };
 
@@ -242,27 +226,22 @@ export const WATCH_STATUS: Hikka.FilterProperty<WatchStatusEnum> = {
     [WatchStatusEnum.PLANNED]: {
         title_ua: 'Заплановано',
         title_en: 'Planned',
-        icon: StatusPlanned,
     },
     [WatchStatusEnum.WATCHING]: {
         title_ua: 'Дивлюсь',
         title_en: 'Watching',
-        icon: StatusWatching,
     },
     [WatchStatusEnum.COMPLETED]: {
         title_ua: 'Завершено',
         title_en: 'Completed',
-        icon: StatusCompleted,
     },
     [WatchStatusEnum.ON_HOLD]: {
         title_ua: 'Відкладено',
         title_en: 'On Hold',
-        icon: StatusOnHold,
     },
     [WatchStatusEnum.DROPPED]: {
         title_ua: 'Закинуто',
         title_en: 'Dropped',
-        icon: StatusDropped,
     },
 };
 
@@ -273,7 +252,6 @@ export const ARTICLE_CATEGORY: Hikka.FilterProperty<
     [ArticleCategoryEnum.NEWS]: {
         title_ua: 'Новини',
         title_en: 'News',
-        icon: MaterialSymbolsNewsmodeRounded,
     },
     [ArticleCategoryEnum.SYSTEM]: {
         title_ua: 'Системне',
@@ -283,12 +261,10 @@ export const ARTICLE_CATEGORY: Hikka.FilterProperty<
     [ArticleCategoryEnum.REVIEWS]: {
         title_ua: 'Огляди',
         title_en: 'Reviews',
-        icon: MaterialSymbolsReviewsRounded,
     },
     [ArticleCategoryEnum.ORIGINAL]: {
         title_ua: 'Авторське',
         title_en: 'Original',
-        icon: MaterialSymbolsStarsRounded,
     },
 };
 

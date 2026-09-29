@@ -12,7 +12,6 @@ declare global {
             {
                 title_ua: string;
                 title_en: string;
-                icon?: (props: any) => ReactElement;
                 description?: string;
             } & ExtraProps
         >;

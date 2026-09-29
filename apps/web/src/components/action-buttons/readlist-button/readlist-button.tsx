@@ -15,6 +15,7 @@ import {
     readGetOptions,
 } from '@hikka/api';
 
+import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import type { ButtonProps } from '@/components/ui/button';
 import {
@@ -78,7 +79,7 @@ const STATUS_OPTIONS = Object.keys(READ_STATUS).map((status) => ({
                     `bg-${status} text-${status}-foreground border-${status}-border`,
                 )}
             >
-                {createElement(READ_STATUS[status as ReadStatusEnum].icon!, {
+                {createElement(READ_STATUS_ICONS[status as ReadStatusEnum], {
                     className: 'size-3!',
                 })}
             </div>

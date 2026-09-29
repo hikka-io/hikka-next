@@ -14,11 +14,11 @@ import {
     readAddMutation,
 } from '@hikka/api';
 
+import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import { Button, type ButtonProps } from '@/components/ui/button';
 import Spinner from '@/components/ui/spinner';
 import { applyReadMutation } from '@/utils/api/invalidate-content-state';
 import { cn } from '@/utils/cn';
-import { READ_STATUS } from '@/utils/constants/common';
 
 type IconReadStatusButtonProps = Omit<ButtonProps, 'content'> & {
     read?: ReadResponseBase;
@@ -72,9 +72,11 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
         }
     };
 
-    const readStatus = read ? READ_STATUS[read.status as ReadStatusEnum] : null;
+    const StatusIcon = read
+        ? READ_STATUS_ICONS[read.status as ReadStatusEnum]
+        : null;
 
-    if (!read || !readStatus) {
+    if (!read || !StatusIcon) {
         return (
             <Button
                 {...props}
@@ -83,7 +85,7 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
                 disabled={disabled}
                 onClick={handleAddToPlanned}
             >
-                {createElement(READ_STATUS.planned.icon!)}
+                {createElement(READ_STATUS_ICONS.planned)}
             </Button>
         );
     }
@@ -100,7 +102,7 @@ const IconReadStatusButton: FC<IconReadStatusButtonProps> = ({
                 `bg-${read.status} text-${read.status}-foreground border-${read.status}-border`,
             )}
         >
-            {isLoading ? <Spinner /> : createElement(readStatus.icon!)}
+            {isLoading ? <Spinner /> : createElement(StatusIcon)}
         </Button>
     );
 };

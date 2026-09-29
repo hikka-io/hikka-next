@@ -26,6 +26,10 @@ import {
     watchAddMutation,
 } from '@hikka/api';
 
+import {
+    READ_STATUS_ICONS,
+    WATCH_STATUS_ICONS,
+} from '@/components/icons/list-status-icons';
 import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-symbols/MaterialSymbolsArrowDropDownRounded';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
@@ -95,9 +99,10 @@ const resolveTracking = <T,>(
     supplied === undefined ? embedded : (supplied ?? undefined);
 
 type StatusConfig = typeof WATCH_STATUS | typeof READ_STATUS;
+type StatusIcons = typeof WATCH_STATUS_ICONS | typeof READ_STATUS_ICONS;
 type StatusIcon = (props: { className?: string }) => ReactElement;
 
-const buildStatusOptions = (config: StatusConfig) =>
+const buildStatusOptions = (config: StatusConfig, icons: StatusIcons) =>
     Object.keys(config).map((status) => ({
         value: status,
         title: config[status as keyof StatusConfig].title_ua,
@@ -109,7 +114,7 @@ const buildStatusOptions = (config: StatusConfig) =>
                         `bg-${status} text-${status}-foreground border-${status}-border`,
                     )}
                 >
-                    {createElement(config[status as keyof StatusConfig].icon!, {
+                    {createElement(icons[status as keyof StatusIcons], {
                         className: 'size-3!',
                     })}
                 </div>
@@ -120,8 +125,11 @@ const buildStatusOptions = (config: StatusConfig) =>
 
 type StatusOption = ReturnType<typeof buildStatusOptions>[number];
 
-const WATCH_STATUS_OPTIONS = buildStatusOptions(WATCH_STATUS);
-const READ_STATUS_OPTIONS = buildStatusOptions(READ_STATUS);
+const WATCH_STATUS_OPTIONS = buildStatusOptions(
+    WATCH_STATUS,
+    WATCH_STATUS_ICONS,
+);
+const READ_STATUS_OPTIONS = buildStatusOptions(READ_STATUS, READ_STATUS_ICONS);
 
 const buildWatchArgs = (
     item: AnimeResponse | AnimeResponseWithWatch,
@@ -352,7 +360,7 @@ function WatchTrackingButtons({
             disabled={isPending}
             currentStatus={tracking ? [tracking.status] : []}
             statusOptions={WATCH_STATUS_OPTIONS}
-            plannedIcon={WATCH_STATUS[WatchStatusEnum.PLANNED].icon!}
+            plannedIcon={WATCH_STATUS_ICONS[WatchStatusEnum.PLANNED]}
             hasTracking={Boolean(tracking)}
             trigger={
                 tracking && (
@@ -440,7 +448,7 @@ function ReadTrackingButtons({
             disabled={isPending}
             currentStatus={tracking ? [tracking.status] : []}
             statusOptions={READ_STATUS_OPTIONS}
-            plannedIcon={READ_STATUS[ReadStatusEnum.PLANNED].icon!}
+            plannedIcon={READ_STATUS_ICONS[ReadStatusEnum.PLANNED]}
             hasTracking={Boolean(tracking)}
             trigger={
                 tracking && (

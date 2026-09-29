@@ -2,7 +2,7 @@ import { createElement } from 'react';
 
 import type { AnimeStatsResponse, WatchStatusEnum } from '@hikka/api';
 
-import { WATCH_STATUS } from '@/utils/constants/common';
+import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import { useParams } from '@/utils/navigation';
 
 import { CONTENT_CONFIG } from '../../content-config';
@@ -26,7 +26,6 @@ const Watchlist = () => {
     const stats: Hikka.ListStat[] = Object.keys(data.stats)
         .filter((stat) => !stat.includes('score'))
         .map((stat) => {
-            const status = WATCH_STATUS[stat as WatchStatusEnum];
             const percentage =
                 (100 * (data.stats[stat as keyof AnimeStatsResponse] ?? 0)) /
                 sumStats;
@@ -34,11 +33,12 @@ const Watchlist = () => {
             return {
                 percentage,
                 value: data.stats[stat as keyof AnimeStatsResponse] ?? 0,
-                icon:
-                    status.icon &&
-                    createElement(status.icon, {
+                icon: createElement(
+                    WATCH_STATUS_ICONS[stat as WatchStatusEnum],
+                    {
                         className: 'size-3!',
-                    }),
+                    },
+                ),
                 name: stat,
             };
         });

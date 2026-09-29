@@ -8,6 +8,7 @@ import type {
 
 import { ReviewBadge } from '@/components/badges';
 import ContentTypeIcon from '@/components/content-type-icon';
+import { ARTICLE_CATEGORY_ICONS } from '@/components/icons/article-category-icons';
 import { chipVariants } from '@/components/ui/chip';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPES } from '@/utils/labels';
@@ -47,7 +48,7 @@ const FeedTypeChip: FC<Props> = ({ dataType, review, category }) => {
     if (dataType === 'article' && category) {
         const option = ARTICLE_CATEGORY[category];
         if (option) {
-            const Icon = option.icon;
+            const Icon = ARTICLE_CATEGORY_ICONS[category];
             return (
                 <span className={cn(CHIP, TYPE_STYLES.article)}>
                     {Icon && <Icon className="size-3.5" />}

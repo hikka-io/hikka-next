@@ -2,6 +2,7 @@ import { createElement, type FC } from 'react';
 
 import type { ReadResponseBase, ReadStatusEnum } from '@hikka/api';
 
+import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
 import { SelectTrigger } from '@/components/ui/select';
@@ -48,8 +49,9 @@ const ReadStatusTrigger: FC<ReadStatusTriggerProps> = ({
                             )}
                         >
                             {createElement(
-                                READ_STATUS[read.status as ReadStatusEnum]
-                                    .icon!,
+                                READ_STATUS_ICONS[
+                                    read.status as ReadStatusEnum
+                                ],
                                 {
                                     className: 'size-3!',
                                 },

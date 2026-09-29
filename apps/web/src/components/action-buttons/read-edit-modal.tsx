@@ -15,6 +15,7 @@ import {
 } from '@hikka/api';
 
 import { useAppForm } from '@/components/form/use-app-form';
+import { READ_STATUS_ICONS } from '@/components/icons/list-status-icons';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import { Button } from '@/components/ui/button';
@@ -165,7 +166,7 @@ const ReadEditModal = ({
                                         )}
                                     >
                                         {createElement(
-                                            READ_STATUS[selectedStatus].icon!,
+                                            READ_STATUS_ICONS[selectedStatus],
                                             {
                                                 className: 'size-3!',
                                             },

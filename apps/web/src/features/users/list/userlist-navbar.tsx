@@ -19,6 +19,10 @@ import {
 } from '@hikka/api';
 
 import FeRandom from '@/components/icons/fe/FeRandom';
+import {
+    READ_STATUS_ICONS,
+    WATCH_STATUS_ICONS,
+} from '@/components/icons/list-status-icons';
 import MaterialSymbolsEventList from '@/components/icons/material-symbols/MaterialSymbolsEventList';
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import { Button } from '@/components/ui/button';
@@ -56,6 +60,7 @@ import { useParams, useRouteSearch } from '@/utils/navigation';
 import UserlistFiltersModal from './userlist-filters-modal';
 
 const STATUSES = { ...WATCH_STATUS, ...READ_STATUS };
+const STATUS_ICONS = { ...WATCH_STATUS_ICONS, ...READ_STATUS_ICONS };
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -188,7 +193,7 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                                                         )}
                                                     >
                                                         {createElement(
-                                                            info.icon!,
+                                                            STATUS_ICONS[key],
                                                             {
                                                                 className:
                                                                     'size-3',
