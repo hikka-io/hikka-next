@@ -3,10 +3,10 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { animeSlugOptions, ContentTypeEnum } from '@hikka/api';
 
+import JsonLd from '@/components/json-ld';
 import { MovieBanner } from '@/features/anime';
 import { ContentDetailPage, ContentMedia as Media } from '@/features/content';
-import contentJsonSchema from '@/utils/content-schema';
-import { serializeJsonLd } from '@/utils/json-ld';
+import { contentJsonLd } from '@/utils/json-ld';
 
 export const Route = createFileRoute('/_pages/anime/$slug/')({
     component: AnimeDetailPage,
@@ -24,17 +24,11 @@ function AnimeDetailPage() {
             afterFranchise={<Media />}
             jsonLd={
                 anime ? (
-                    <script
-                        type="application/ld+json"
-                        // biome-ignore lint/security/noDangerouslySetInnerHtml: user-editable JSON-LD, escaped by serializeJsonLd so it cannot close the script tag.
-                        dangerouslySetInnerHTML={{
-                            __html: serializeJsonLd(
-                                contentJsonSchema({
-                                    content: anime,
-                                    contentType: 'anime',
-                                }),
-                            ),
-                        }}
+                    <JsonLd
+                        data={contentJsonLd({
+                            content: anime,
+                            contentType: 'anime',
+                        })}
                     />
                 ) : undefined
             }

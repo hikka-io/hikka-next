@@ -15,6 +15,7 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
 import { profileUiQueryKey, type UserCustomizationResponse } from '@hikka/api';
 
+import JsonLd from '@/components/json-ld';
 import NotFoundPage from '@/components/not-found-page';
 import RouterProgressBar from '@/components/router-progress-bar';
 import { Providers } from '@/features/app-shell';
@@ -31,7 +32,7 @@ import {
     STYLE_ELEMENT_ID,
     THEME_BOOTSTRAP_SCRIPT,
 } from '@/utils/customization';
-import { serializeJsonLd } from '@/utils/json-ld';
+import { websiteJsonLd } from '@/utils/json-ld';
 import { usePlausiblePageviews } from '@/utils/plausible';
 
 import '../globals.css';
@@ -102,36 +103,7 @@ function RootLayout() {
                     dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP_SCRIPT }}
                 />
                 <HeadContent />
-                <script
-                    type="application/ld+json"
-                    // biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD, escaped by serializeJsonLd.
-                    dangerouslySetInnerHTML={{
-                        __html: serializeJsonLd({
-                            '@context': 'https://schema.org',
-                            '@type': 'WebSite',
-                            name: 'Hikka',
-                            url: 'https://hikka.io',
-                            description:
-                                'Українська онлайн енциклопедія аніме, манґи та ранобе',
-                            inLanguage: 'uk',
-                            potentialAction: {
-                                '@type': 'SearchAction',
-                                target: 'https://hikka.io/anime?search={search_term_string}',
-                                'query-input':
-                                    'required name=search_term_string',
-                            },
-                            publisher: {
-                                '@type': 'Organization',
-                                name: 'Hikka',
-                                url: 'https://hikka.io',
-                                logo: {
-                                    '@type': 'ImageObject',
-                                    url: 'https://hikka.io/logo-icon.png',
-                                },
-                            },
-                        }),
-                    }}
-                />
+                <JsonLd data={websiteJsonLd()} />
                 {userStylesCSS && (
                     <style
                         id={STYLE_ELEMENT_ID}

@@ -19,6 +19,7 @@ import { NovelList, NovelListSummary } from '@/features/novel';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { novelSearchSchema } from '@/utils/search-schemas';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/novel/')({
     validateSearch: zodValidator(novelSearchSchema),
@@ -27,7 +28,7 @@ export const Route = createFileRoute('/_pages/novel/')({
             title: 'Ранобе',
             description:
                 'Каталог ранобе — шукайте та фільтруйте ранобе на Hikka',
-            url: 'https://hikka.io/novel',
+            url: `${SITE_ORIGIN}/novel`,
         }),
     component: NovelListPage,
 });

@@ -18,6 +18,7 @@ import {
 import { generateHeadMeta } from '@/utils/metadata';
 import { articlesSearchSchema } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/articles/')({
     validateSearch: zodValidator(articlesSearchSchema),
@@ -48,7 +49,7 @@ export const Route = createFileRoute('/_pages/articles/')({
         generateHeadMeta({
             title: 'Статті',
             description: 'Статті про аніме, манґу та ранобе на Hikka',
-            url: 'https://hikka.io/articles',
+            url: `${SITE_ORIGIN}/articles`,
         }),
     component: ArticlesPage,
 });

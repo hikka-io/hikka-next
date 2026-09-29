@@ -19,6 +19,7 @@ import { MangaList, MangaListSummary } from '@/features/manga';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { mangaSearchSchema } from '@/utils/search-schemas';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/manga/')({
     validateSearch: zodValidator(mangaSearchSchema),
@@ -26,7 +27,7 @@ export const Route = createFileRoute('/_pages/manga/')({
         generateHeadMeta({
             title: 'Манґа',
             description: 'Каталог манґи — шукайте та фільтруйте манґу на Hikka',
-            url: 'https://hikka.io/manga',
+            url: `${SITE_ORIGIN}/manga`,
         }),
     component: MangaListPage,
 });

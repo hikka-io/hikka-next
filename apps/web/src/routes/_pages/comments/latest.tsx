@@ -5,6 +5,7 @@ import { commentsListInfiniteOptions, paginationPageParam } from '@hikka/api';
 import { usePageHeader } from '@/features/app-shell';
 import { LatestComments } from '@/features/comments';
 import { generateHeadMeta } from '@/utils/metadata';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/comments/latest')({
     loader: async ({ context: { queryClient, apiClient } }) => {
@@ -17,7 +18,7 @@ export const Route = createFileRoute('/_pages/comments/latest')({
         generateHeadMeta({
             title: 'Останні коментарі',
             description: 'Останні коментарі спільноти на Hikka',
-            url: 'https://hikka.io/comments/latest',
+            url: `${SITE_ORIGIN}/comments/latest`,
         }),
     component: LatestCommentsPage,
 });

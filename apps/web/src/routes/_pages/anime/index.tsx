@@ -19,6 +19,7 @@ import {
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { animeSearchSchema } from '@/utils/search-schemas';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/anime/')({
     validateSearch: zodValidator(animeSearchSchema),
@@ -27,7 +28,7 @@ export const Route = createFileRoute('/_pages/anime/')({
             title: 'Аніме',
             description:
                 'Каталог аніме — шукайте та фільтруйте аніме серіали на Hikka',
-            url: 'https://hikka.io/anime',
+            url: `${SITE_ORIGIN}/anime`,
         }),
     component: AnimeListPage,
 });

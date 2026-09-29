@@ -24,6 +24,7 @@ import {
 import { generateHeadMeta } from '@/utils/metadata';
 import { editSearchSchema } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/edit/')({
     validateSearch: zodValidator(editSearchSchema),
@@ -66,7 +67,7 @@ export const Route = createFileRoute('/_pages/edit/')({
         generateHeadMeta({
             title: 'Правки',
             description: 'Система правок спільноти Hikka',
-            url: 'https://hikka.io/edit',
+            url: `${SITE_ORIGIN}/edit`,
         }),
     component: EditListPage,
 });

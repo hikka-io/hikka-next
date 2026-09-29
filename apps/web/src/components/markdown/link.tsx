@@ -23,6 +23,7 @@ import { useSession } from '@/features/auth/hooks/use-session';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link as TanstackLink } from '@/utils/navigation';
+import { SITE_ORIGIN } from '@/utils/url';
 
 import MaterialSymbolsLinkRounded from '../icons/material-symbols/MaterialSymbolsLinkRounded';
 
@@ -84,7 +85,7 @@ const INTERNAL_TOOLTIPS: {
 
 const getHostname = (href: string): string | null => {
     try {
-        return new URL(href, 'https://hikka.io').hostname.toLowerCase();
+        return new URL(href, SITE_ORIGIN).hostname.toLowerCase();
     } catch {
         return null;
     }

@@ -18,6 +18,7 @@ import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { getAuthTokenFn } from '@/utils/cookies';
 import { generateHeadMeta } from '@/utils/metadata';
 import { getTitle } from '@/utils/title/get-title';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/characters/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -92,7 +93,7 @@ export const Route = createFileRoute('/_pages/characters/$slug')({
             title,
             description: character.description_ua,
             image: character.image,
-            url: `https://hikka.io/characters/${character.slug}`,
+            url: `${SITE_ORIGIN}/characters/${character.slug}`,
         });
     },
     component: CharacterDetailLayout,

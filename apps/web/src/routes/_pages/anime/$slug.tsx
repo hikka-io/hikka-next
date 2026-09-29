@@ -24,6 +24,7 @@ import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
 import { getCommentSort } from '@/utils/sort';
 import { truncateText } from '@/utils/text';
+import { getPublicSiteUrl, SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/anime/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -156,11 +157,11 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
         return generateHeadMeta({
             title,
             description: synopsis,
-            image: `${import.meta.env.VITE_SITE_URL || 'https://hikka.io'}/api/og/anime?slug=${anime.slug}&v=${anime.updated}`,
+            image: `${getPublicSiteUrl()}/api/og/anime?slug=${anime.slug}&v=${anime.updated}`,
             imageWidth: 1200,
             imageHeight: 630,
             imageType: 'image/jpeg',
-            url: `https://hikka.io/anime/${anime.slug}`,
+            url: `${SITE_ORIGIN}/anime/${anime.slug}`,
             other: {
                 ...(anime.mal_id ? { 'mal-id': anime.mal_id } : {}),
             },

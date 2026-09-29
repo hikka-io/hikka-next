@@ -1,6 +1,8 @@
+import { SITE_ORIGIN } from '@/utils/url';
+
 const DEFAULTS = {
     siteName: 'Hikka',
-    images: 'https://hikka.io/preview.jpg',
+    images: `${SITE_ORIGIN}/preview.jpg`,
     title: {
         default: 'Hikka - енциклопедія аніме, манґи та ранобе українською',
         template: '%s / Hikka',

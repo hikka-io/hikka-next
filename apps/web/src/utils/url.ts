@@ -1,3 +1,8 @@
+export const SITE_ORIGIN = 'https://hikka.io';
+
+export const getPublicSiteUrl = (): string =>
+    import.meta.env.VITE_SITE_URL || SITE_ORIGIN;
+
 /** Resolves the absolute site URL with environment fallback. */
 export const getSiteUrl = (): string => {
     if (import.meta.env.VITE_SITE_URL) return import.meta.env.VITE_SITE_URL;

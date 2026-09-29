@@ -28,6 +28,7 @@ import {
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
+import { SITE_ORIGIN } from '@/utils/url';
 
 const UUID_RE =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -112,7 +113,7 @@ export const Route = createFileRoute('/_pages/u/$username')({
             title: user.username ?? '',
             description: user.description,
             image: `https://preview.hikka.io/u/${user.username}/${user.updated}`,
-            url: `https://hikka.io/u/${user.username}`,
+            url: `${SITE_ORIGIN}/u/${user.username}`,
         });
     },
     component: UserLayout,

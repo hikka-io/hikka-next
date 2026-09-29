@@ -5,6 +5,7 @@ import { type ArticleCategoryEnum, getArticleOptions } from '@hikka/api';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { ARTICLE_CATEGORY } from '@/utils/constants/common';
 import { generateHeadMeta } from '@/utils/metadata';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/articles/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -35,8 +36,8 @@ export const Route = createFileRoute('/_pages/articles/$slug')({
                 type: 'article',
                 authors: [article.author.username ?? ''],
             },
-            url: `https://hikka.io/articles/${article.slug}`,
-            canonical: `https://hikka.io/articles/${article.slug}`,
+            url: `${SITE_ORIGIN}/articles/${article.slug}`,
+            canonical: `${SITE_ORIGIN}/articles/${article.slug}`,
         });
     },
 });

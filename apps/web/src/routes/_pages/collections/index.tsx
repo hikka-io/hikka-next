@@ -17,6 +17,7 @@ import { CollectionList, CollectionSort } from '@/features/collections';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { generateHeadMeta } from '@/utils/metadata';
 import { collectionsSearchSchema } from '@/utils/search-schemas';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/collections/')({
     validateSearch: zodValidator(collectionsSearchSchema),
@@ -49,7 +50,7 @@ export const Route = createFileRoute('/_pages/collections/')({
         generateHeadMeta({
             title: 'Колекції',
             description: 'Колекції аніме, манґи та ранобе від спільноти Hikka',
-            url: 'https://hikka.io/collections',
+            url: `${SITE_ORIGIN}/collections`,
         }),
     component: CollectionsPage,
 });

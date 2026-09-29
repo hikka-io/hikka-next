@@ -16,6 +16,7 @@ import {
 import { HeaderFiltersButton } from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editContentSearchSchema } from '@/utils/search-schemas';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/edit/content')({
     validateSearch: zodValidator(editContentSearchSchema),
@@ -24,7 +25,7 @@ export const Route = createFileRoute('/_pages/edit/content')({
             title: 'Незаповнений контент',
             description:
                 'Аніме, манґа, ранобе, персонажі та люди з незаповненими даними — знайдіть, що можна доповнити правкою',
-            url: 'https://hikka.io/edit/content',
+            url: `${SITE_ORIGIN}/edit/content`,
         }),
     component: ContentPage,
 });

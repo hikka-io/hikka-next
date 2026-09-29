@@ -5,6 +5,7 @@ import { getCollectionOptions } from '@hikka/api';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/collections/$reference')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -32,7 +33,7 @@ export const Route = createFileRoute('/_pages/collections/$reference')({
             description: collection.description
                 ? truncateText(collection.description, 150, true)
                 : undefined,
-            url: `https://hikka.io/collections/${collection.reference}`,
+            url: `${SITE_ORIGIN}/collections/${collection.reference}`,
         });
     },
 });

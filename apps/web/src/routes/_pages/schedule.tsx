@@ -22,6 +22,7 @@ import {
 import { generateHeadMeta } from '@/utils/metadata';
 import { scheduleSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
+import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/schedule')({
     validateSearch: zodValidator(scheduleSearchSchema),
@@ -52,7 +53,7 @@ export const Route = createFileRoute('/_pages/schedule')({
         generateHeadMeta({
             title: 'Календар',
             description: 'Календар виходу нових серій аніме на Hikka',
-            url: 'https://hikka.io/schedule',
+            url: `${SITE_ORIGIN}/schedule`,
         }),
     component: ScheduleListPage,
 });

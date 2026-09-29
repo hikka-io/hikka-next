@@ -29,6 +29,7 @@ import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
 import { getCurrentSeason } from '@/utils/season';
 import { getOngoingsSort } from '@/utils/sort';
+import { SITE_ORIGIN } from '@/utils/url';
 
 const HeaderWordmark = () => (
     <span
@@ -54,7 +55,7 @@ export const Route = createFileRoute('/_pages/')({
     head: () =>
         generateHeadMeta({
             title: 'Hikka - енциклопедія аніме, манґи та ранобе українською',
-            url: 'https://hikka.io',
+            url: SITE_ORIGIN,
         }),
     loader: async ({ context: { queryClient, apiClient }, deps }) => {
         const { type } = deps;

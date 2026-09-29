@@ -24,6 +24,7 @@ import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
 import { getCommentSort } from '@/utils/sort';
 import { truncateText } from '@/utils/text';
+import { getPublicSiteUrl, SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/novel/$slug')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
@@ -155,11 +156,11 @@ export const Route = createFileRoute('/_pages/novel/$slug')({
         return generateHeadMeta({
             title,
             description: synopsis,
-            image: `${import.meta.env.VITE_SITE_URL || 'https://hikka.io'}/api/og/novel?slug=${novel.slug}&v=${novel.updated}`,
+            image: `${getPublicSiteUrl()}/api/og/novel?slug=${novel.slug}&v=${novel.updated}`,
             imageWidth: 1200,
             imageHeight: 630,
             imageType: 'image/jpeg',
-            url: `https://hikka.io/novel/${novel.slug}`,
+            url: `${SITE_ORIGIN}/novel/${novel.slug}`,
             other: {
                 ...(novel.mal_id ? { 'mal-id': novel.mal_id } : {}),
             },
