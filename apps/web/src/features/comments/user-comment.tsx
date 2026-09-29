@@ -8,12 +8,12 @@ import type { CommentResponse, ContentTypeEnum } from '@hikka/api';
 
 import AuthorMetaRow from '@/components/author-meta-row';
 import { ReviewBadge } from '@/components/badges';
+import ContentRefChip from '@/components/content-ref-chip';
 import { HorizontalCardImage } from '@/components/horizontal-card';
 import { MDViewer } from '@/components/markdown';
 import TextExpand from '@/components/text-expand';
 import { Chip } from '@/components/ui/chip';
 import { StatItemGroup } from '@/components/ui/stat-item';
-import FeedContentRef from '@/features/home/widgets/feed-widget/components/feed-content-ref';
 import { Link } from '@/utils/navigation';
 
 import CommentMenu from './comment-menu';
@@ -87,7 +87,7 @@ const UserComment: FC<Props> = ({ comment }) => {
                                 Відповідь
                             </Chip>
                         )}
-                        <FeedContentRef
+                        <ContentRefChip
                             contentType={
                                 comment.content_type as ContentTypeEnum
                             }

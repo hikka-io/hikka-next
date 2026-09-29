@@ -7,11 +7,10 @@ import type {
 } from '@hikka/api';
 
 import { ReviewBadge } from '@/components/badges';
+import ContentTypeIcon from '@/components/content-type-icon';
 import { chipVariants } from '@/components/ui/chip';
 import { cn } from '@/utils/cn';
 import { ARTICLE_CATEGORY_OPTIONS } from '@/utils/constants/filter-properties';
-
-import FeedContentTypeIcon from './feed-content-type-icon';
 
 type FeedDataType = 'comment' | 'article' | 'collection';
 
@@ -65,7 +64,7 @@ const FeedTypeChip: FC<Props> = ({ dataType, review, category }) => {
 
     return (
         <span className={cn(CHIP, TYPE_STYLES[dataType])}>
-            <FeedContentTypeIcon
+            <ContentTypeIcon
                 contentType={dataType as ContentTypeEnum}
                 className="size-3.5"
             />

@@ -1,4 +1,4 @@
-import type { ComponentType, FC } from 'react';
+import type { ComponentType } from 'react';
 
 import { MessageCircle } from 'lucide-react';
 
@@ -15,13 +15,7 @@ import MaterialSymbolsPalette from '@/components/icons/material-symbols/Material
 import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 
-type IconComponent = ComponentType<{ className?: string }>;
-
-// Mirrors the app's canonical content-type icons (navigation + search modal):
-// MaterialSymbols for entities, lucide MessageCircle for comments.
-export const FEED_CONTENT_TYPE_ICONS: Partial<
-    Record<ContentTypeEnum, IconComponent>
-> = {
+export const CONTENT_TYPE_ICONS = {
     [ContentTypeEnum.ANIME]: MaterialSymbolsAnimatedImages,
     [ContentTypeEnum.MANGA]: MaterialSymbolsPalette,
     [ContentTypeEnum.NOVEL]: MaterialSymbolsMenuBookRounded,
@@ -33,17 +27,7 @@ export const FEED_CONTENT_TYPE_ICONS: Partial<
     [ContentTypeEnum.EDIT]: MaterialSymbolsEditRounded,
     [ContentTypeEnum.USER]: MaterialSymbolsAccountBox,
     [ContentTypeEnum.HISTORY]: MaterialSymbolsHistoryRounded,
-};
-
-type Props = {
-    contentType: ContentTypeEnum;
-    className?: string;
-};
-
-const FeedContentTypeIcon: FC<Props> = ({ contentType, className }) => {
-    const Icon = FEED_CONTENT_TYPE_ICONS[contentType];
-    if (!Icon) return null;
-    return <Icon className={className} />;
-};
-
-export default FeedContentTypeIcon;
+} as const satisfies Record<
+    ContentTypeEnum,
+    ComponentType<{ className?: string }>
+>;

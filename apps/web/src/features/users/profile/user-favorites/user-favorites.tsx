@@ -9,11 +9,7 @@ import {
     serviceUserStatsOptions,
 } from '@hikka/api';
 
-import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
-import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
-import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
+import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import Block from '@/components/ui/block';
 import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
@@ -38,32 +34,32 @@ const CONTENT_OPTIONS: ChipTabOption<FavouriteContentTypeEnum>[] = [
     {
         label: 'Аніме',
         value: ContentTypeEnum.ANIME,
-        icon: MaterialSymbolsAnimatedImages,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.ANIME],
     },
     {
         label: 'Манґа',
         value: ContentTypeEnum.MANGA,
-        icon: MaterialSymbolsPalette,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.MANGA],
     },
     {
         label: 'Ранобе',
         value: ContentTypeEnum.NOVEL,
-        icon: MaterialSymbolsMenuBookRounded,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.NOVEL],
     },
     {
         label: 'Персонажі',
         value: ContentTypeEnum.CHARACTER,
-        icon: MaterialSymbolsFace3,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.CHARACTER],
     },
     {
         label: 'Люди',
         value: ContentTypeEnum.PERSON,
-        icon: MaterialSymbolsPerson,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.PERSON],
     },
     {
         label: 'Колекції',
         value: ContentTypeEnum.COLLECTION,
-        icon: MaterialSymbolsStack,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.COLLECTION],
     },
 ];
 

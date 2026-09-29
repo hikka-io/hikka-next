@@ -3,13 +3,8 @@ import { type FC, Fragment, type ReactNode } from 'react';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import MaterialSymbolsAccountBox from '@/components/icons/material-symbols/MaterialSymbolsAccountBox';
-import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
+import ContentTypeIcon from '@/components/content-type-icon';
 import MaterialSymbolsFeatureSearch from '@/components/icons/material-symbols/MaterialSymbolsFeatureSearch';
-import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
-import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
 import { buttonVariants } from '@/components/ui/button';
 import { PortalContainerProvider } from '@/components/ui/portal-container-context';
 import {
@@ -44,6 +39,10 @@ type SearchType = {
     group: 'all' | 'content' | 'community';
 };
 
+const typeIcon = (contentType: ContentTypeEnum) => (
+    <ContentTypeIcon contentType={contentType} className="size-4!" />
+);
+
 const SEARCH_TYPES: SearchType[] = [
     {
         slug: SEARCH_TYPE_ALL,
@@ -52,32 +51,32 @@ const SEARCH_TYPES: SearchType[] = [
     },
     {
         slug: ContentTypeEnum.ANIME,
-        icon: <MaterialSymbolsAnimatedImages className="size-4!" />,
+        icon: typeIcon(ContentTypeEnum.ANIME),
         group: 'content',
     },
     {
         slug: ContentTypeEnum.MANGA,
-        icon: <MaterialSymbolsPalette className="size-4!" />,
+        icon: typeIcon(ContentTypeEnum.MANGA),
         group: 'content',
     },
     {
         slug: ContentTypeEnum.NOVEL,
-        icon: <MaterialSymbolsMenuBookRounded className="size-4!" />,
+        icon: typeIcon(ContentTypeEnum.NOVEL),
         group: 'content',
     },
     {
         slug: ContentTypeEnum.CHARACTER,
-        icon: <MaterialSymbolsFace3 className="size-4!" />,
+        icon: typeIcon(ContentTypeEnum.CHARACTER),
         group: 'content',
     },
     {
         slug: ContentTypeEnum.PERSON,
-        icon: <MaterialSymbolsPerson className="size-4!" />,
+        icon: typeIcon(ContentTypeEnum.PERSON),
         group: 'content',
     },
     {
         slug: ContentTypeEnum.USER,
-        icon: <MaterialSymbolsAccountBox className="size-4!" />,
+        icon: typeIcon(ContentTypeEnum.USER),
         group: 'community',
     },
 ];

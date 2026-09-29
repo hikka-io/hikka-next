@@ -1,24 +1,19 @@
 import { ChartLine, FilePenLine, MessageCircle, UsersIcon } from 'lucide-react';
 
+import { ContentTypeEnum } from '@hikka/api';
+
 import BxBxlGithub from '@/components/icons/bx/BxBxlGithub';
 import BxBxlMastadon from '@/components/icons/bx/BxBxlMastadon';
 import BxBxlTelegram from '@/components/icons/bx/BxBxlTelegram';
 import BxBxsDonateHeart from '@/components/icons/bx/BxBxsDonateHeart';
-import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
+import { CONTENT_TYPE_ICONS } from '@/components/icons/content-type-icons';
 import MaterialSymbolsCalendarClockRounded from '@/components/icons/material-symbols/MaterialSymbolsCalendarClockRounded';
-import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
-import MaterialSymbolsEditRounded from '@/components/icons/material-symbols/MaterialSymbolsEditRounded';
-import MaterialSymbolsFace3 from '@/components/icons/material-symbols/MaterialSymbolsFace3';
 import MaterialSymbolsFavoriteRounded from '@/components/icons/material-symbols/MaterialSymbolsFavoriteRounded';
 import MaterialSymbolsHomeRounded from '@/components/icons/material-symbols/MaterialSymbolsHomeRounded';
 import MaterialSymbolsLockOpenRounded from '@/components/icons/material-symbols/MaterialSymbolsLockOpenRounded';
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
-import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
-import MaterialSymbolsPerson from '@/components/icons/material-symbols/MaterialSymbolsPerson';
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
-import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
 import PhTipJarFill from '@/components/icons/ph/PhTipJarFill';
 
 const TELEGRAM_URL = 'https://t.me/hikka_io';
@@ -28,21 +23,21 @@ const CONTENT_GROUP: Hikka.NavRoute[] = [
     {
         title_ua: 'Аніме',
         url: '/anime',
-        icon: () => <MaterialSymbolsAnimatedImages />,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.ANIME],
         visible: true,
         slug: 'anime',
     },
     {
         title_ua: 'Манґа',
         url: '/manga',
-        icon: () => <MaterialSymbolsPalette />,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.MANGA],
         visible: true,
         slug: 'manga',
     },
     {
         title_ua: 'Ранобе',
         url: '/novel',
-        icon: () => <MaterialSymbolsMenuBookRounded />,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.NOVEL],
         visible: true,
         slug: 'novel',
     },
@@ -52,14 +47,14 @@ const COMMUNITY_GROUP: Hikka.NavRoute[] = [
     {
         title_ua: 'Статті',
         url: '/articles',
-        icon: () => <MaterialSymbolsDynamicFeedRounded />,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.ARTICLE],
         visible: true,
         slug: 'articles',
     },
     {
         title_ua: 'Колекції',
         url: '/collections',
-        icon: () => <MaterialSymbolsStack />,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.COLLECTION],
         visible: true,
         slug: 'collections',
     },
@@ -69,7 +64,7 @@ const MODERATION_GROUP: Hikka.NavRoute[] = [
     {
         title_ua: 'Правки',
         url: '/edit',
-        icon: () => <MaterialSymbolsEditRounded />,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.EDIT],
         visible: true,
         slug: 'edit',
     },
@@ -114,14 +109,14 @@ const OTHER_GROUP: Hikka.NavRoute[] = [
     {
         title_ua: 'Персонажі',
         url: '/characters',
-        icon: () => <MaterialSymbolsFace3 />,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.CHARACTER],
         visible: false,
         slug: 'characters',
     },
     {
         title_ua: 'Люди',
         url: '/people',
-        icon: () => <MaterialSymbolsPerson />,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.PERSON],
         visible: false,
         slug: 'people',
     },
@@ -259,21 +254,21 @@ export const CATALOG_ROOT_LINKS = ['/anime', '/manga', '/novel'] as const;
 
 export const PROFILE_MENU: Hikka.NavRoute[] = [
     {
-        icon: MaterialSymbolsAnimatedImages,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.ANIME],
         title_ua: 'Список аніме',
         slug: 'anime-list',
         url: '/u/{username}/list/anime',
         search: { status: 'planned', sort: 'watch_score' },
     },
     {
-        icon: MaterialSymbolsPalette,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.MANGA],
         title_ua: 'Список манґи',
         slug: 'manga-list',
         url: '/u/{username}/list/manga',
         search: { status: 'planned', sort: 'read_score' },
     },
     {
-        icon: MaterialSymbolsMenuBookRounded,
+        icon: CONTENT_TYPE_ICONS[ContentTypeEnum.NOVEL],
         title_ua: 'Список ранобе',
         slug: 'novel-list',
         url: '/u/{username}/list/novel',

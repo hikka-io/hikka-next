@@ -3,6 +3,7 @@ import { type FC, memo, type PropsWithChildren, type ReactNode } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import {
+    ContentTypeEnum,
     followStatsOptions,
     ReadContentTypeEnum,
     userProfileOptions,
@@ -13,9 +14,7 @@ import {
 
 import { FollowButton } from '@/components/action-buttons';
 import { RoleBadge } from '@/components/badges';
-import MaterialSymbolsAnimatedImages from '@/components/icons/material-symbols/MaterialSymbolsAnimatedImages';
-import MaterialSymbolsMenuBookRounded from '@/components/icons/material-symbols/MaterialSymbolsMenuBookRounded';
-import MaterialSymbolsPalette from '@/components/icons/material-symbols/MaterialSymbolsPalette';
+import ContentTypeIcon from '@/components/content-type-icon';
 import { MDViewer } from '@/components/markdown';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
@@ -136,15 +135,24 @@ const TooltipData: FC<TooltipDataProps> = ({ username: usernameOrRef }) => {
             <Separator className="-mx-4 w-auto" />
             <div className="flex justify-between font-semibold text-sm">
                 <div className="flex flex-1 items-center gap-2">
-                    <MaterialSymbolsAnimatedImages className="text-muted-foreground" />
+                    <ContentTypeIcon
+                        contentType={ContentTypeEnum.ANIME}
+                        className="text-muted-foreground"
+                    />
                     {watchStats?.completed}
                 </div>
                 <div className="flex flex-1 items-center gap-2">
-                    <MaterialSymbolsPalette className="text-muted-foreground" />
+                    <ContentTypeIcon
+                        contentType={ContentTypeEnum.MANGA}
+                        className="text-muted-foreground"
+                    />
                     {mangaStats?.completed}
                 </div>
                 <div className="flex flex-1 items-center gap-2">
-                    <MaterialSymbolsMenuBookRounded className="text-muted-foreground" />
+                    <ContentTypeIcon
+                        contentType={ContentTypeEnum.NOVEL}
+                        className="text-muted-foreground"
+                    />
                     {novelStats?.completed}
                 </div>
             </div>

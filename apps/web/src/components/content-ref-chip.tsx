@@ -2,12 +2,11 @@ import type { FC } from 'react';
 
 import type { ContentTypeEnum } from '@hikka/api';
 
+import ContentTypeIcon from '@/components/content-type-icon';
 import { Chip } from '@/components/ui/chip';
 import { CONTENT_TYPES } from '@/utils/constants/common';
 import { contentPath } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
-
-import FeedContentTypeIcon from './feed-content-type-icon';
 
 type Props = {
     contentType?: ContentTypeEnum;
@@ -15,7 +14,7 @@ type Props = {
     title?: string;
 };
 
-const FeedContentRef: FC<Props> = ({ contentType, slug, title }) => {
+const ContentRefChip: FC<Props> = ({ contentType, slug, title }) => {
     if (!contentType || !slug) return null;
 
     const label = contentType === 'edit' ? `#${slug}` : title;
@@ -25,7 +24,7 @@ const FeedContentRef: FC<Props> = ({ contentType, slug, title }) => {
             className="min-w-0 max-w-full shrink bg-secondary/40 text-muted-foreground hover:bg-accent"
             render={<Link to={contentPath(contentType, slug)} />}
         >
-            <FeedContentTypeIcon
+            <ContentTypeIcon
                 contentType={contentType}
                 className="size-3.5 shrink-0"
             />
@@ -40,4 +39,4 @@ const FeedContentRef: FC<Props> = ({ contentType, slug, title }) => {
     );
 };
 
-export default FeedContentRef;
+export default ContentRefChip;
