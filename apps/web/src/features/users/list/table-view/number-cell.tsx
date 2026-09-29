@@ -6,22 +6,16 @@ import {
     type MainContentTypeEnum,
     type MangaResponse,
     type NovelResponse,
-    type ReadContentTypeEnum,
     type ReadResponseBase,
     type WatchResponseBase,
 } from '@hikka/api';
 
 import { MaterialSymbolsMoreVert } from '@/components/icons/material-symbols/MaterialSymbolsMoreVert';
-import { ReadEditModal, WatchEditModal } from '@/components/tracking';
+import { ListEntryEditDialog } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
 import { TableCell } from '@/components/ui/table';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { useTitle } from '@/features/auth/hooks/use-title';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
@@ -35,7 +29,6 @@ type Props = {
 const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
     const params = useParams();
     const { user: loggedUser } = useSession();
-    const title = useTitle(content);
     const [open, setOpen] = useState(false);
 
     return (
@@ -58,24 +51,21 @@ const NumberCell: FC<Props> = ({ number, content, content_type, record }) => {
             >
                 {number}
             </Label>
-            <ResponsiveModal open={open} onOpenChange={setOpen} mobile="page">
-                <ResponsiveModalContent className="md:max-w-xl" title={title}>
-                    {content_type === ContentTypeEnum.ANIME ? (
-                        <WatchEditModal
-                            watch={record as WatchResponseBase}
-                            slug={content.slug}
-                            onClose={() => setOpen(false)}
-                        />
-                    ) : (
-                        <ReadEditModal
-                            read={record as ReadResponseBase}
-                            content_type={content_type as ReadContentTypeEnum}
-                            slug={content.slug}
-                            onClose={() => setOpen(false)}
-                        />
-                    )}
-                </ResponsiveModalContent>
-            </ResponsiveModal>
+            <ListEntryEditDialog
+                open={open}
+                onOpenChange={setOpen}
+                content={content}
+                slug={content.slug}
+                {...(content_type === ContentTypeEnum.ANIME
+                    ? {
+                          contentType: content_type,
+                          watch: record as WatchResponseBase,
+                      }
+                    : {
+                          contentType: content_type,
+                          read: record as ReadResponseBase,
+                      })}
+            />
         </TableCell>
     );
 };

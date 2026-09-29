@@ -18,10 +18,6 @@ import {
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import type { ButtonProps } from '@/components/ui/button';
 import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
-import {
     Select,
     SelectContent,
     SelectGroup,
@@ -29,13 +25,12 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
-import { useTitle } from '@/features/auth/hooks/use-title';
 import { applyReadMutation } from '@/utils/api/invalidate-content-state';
 import { carryOverReadArgs } from '@/utils/api/tracking-args';
 
 import IconReadStatusButton from './icon-read-status-button';
+import ListEntryEditDialog from './list-entry-edit-dialog';
 import NewReadStatusTrigger from './new-read-status-trigger';
-import ReadEditModal from './read-edit-modal';
 import ReadStatusTrigger from './read-status-trigger';
 import { READ_STATUS_OPTIONS } from './status-options';
 
@@ -95,8 +90,6 @@ const ReadListButton = ({
         () => readProp || (readQuery && !readError ? readQuery : undefined),
         [readProp, readQuery, readError],
     );
-
-    const title = useTitle(content);
 
     const openReadEditModal = useCallback(() => {
         if (content) {
@@ -218,20 +211,14 @@ const ReadListButton = ({
                     </SelectContent>
                 </Select>
             )}
-            <ResponsiveModal
+            <ListEntryEditDialog
                 open={editOpen}
                 onOpenChange={setEditOpen}
-                mobile="page"
-            >
-                <ResponsiveModalContent className="md:max-w-xl" title={title}>
-                    <ReadEditModal
-                        slug={slug}
-                        content_type={content_type}
-                        read={read}
-                        onClose={() => setEditOpen(false)}
-                    />
-                </ResponsiveModalContent>
-            </ResponsiveModal>
+                content={content}
+                slug={slug}
+                contentType={content_type}
+                read={read}
+            />
         </>
     );
 };

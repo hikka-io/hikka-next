@@ -12,7 +12,7 @@ import {
 } from '@hikka/api';
 
 import MaterialSymbolsBookmarkOutline from '@/components/icons/material-symbols/MaterialSymbolsBookmarkOutline';
-import { ReadEditModal } from '@/components/tracking';
+import { ListEntryEditDialog } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { useSession } from '@/features/auth/hooks/use-session';
@@ -262,25 +262,16 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                     : undefined
             }
             editModal={
-                selectedRead
-                    ? {
-                          open,
-                          onOpenChange: setOpen,
-                          title: getTitle(
-                              selectedRead.content,
-                              preferences.title_language,
-                              preferences.name_language,
-                          ),
-                          children: (
-                              <ReadEditModal
-                                  read={selectedRead}
-                                  slug={selectedRead.content.slug}
-                                  content_type={contentType}
-                                  onClose={() => setOpen(false)}
-                              />
-                          ),
-                      }
-                    : undefined
+                selectedRead ? (
+                    <ListEntryEditDialog
+                        open={open}
+                        onOpenChange={setOpen}
+                        content={selectedRead.content}
+                        slug={selectedRead.content.slug}
+                        contentType={contentType}
+                        read={selectedRead}
+                    />
+                ) : undefined
             }
         />
     );

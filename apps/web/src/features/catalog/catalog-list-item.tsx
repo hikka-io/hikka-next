@@ -125,13 +125,13 @@ export default function CatalogListItem(props: Props) {
                             malScoreCount={item.scored_by}
                         />
                         <div className="hidden w-full md:grid">
-                            <TrackingButtonsGroup {...props} title={title} />
+                            <TrackingButtonsGroup {...props} />
                         </div>
                     </div>
                 </div>
             </div>
             <div className="grid w-full md:hidden">
-                <TrackingButtonsGroup {...props} title={title} />
+                <TrackingButtonsGroup {...props} />
             </div>
         </div>
     );

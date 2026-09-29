@@ -97,14 +97,12 @@ function progressRows(data: MediaBody): MediaTooltipRow[] {
  */
 const WatchAction: FC<{
     slug: string;
-    title: string;
     item?: MediaTooltipItemOf<'anime'>;
     content?: AnimeInfoResponse | MediaTooltipItemOf<'anime'>;
     watch?: WatchResponseBase | null;
-}> = ({ slug, title, item, content, watch }) =>
+}> = ({ slug, item, content, watch }) =>
     item && ('watch' in item || watch !== undefined) ? (
         <TrackingButtonsGroup
-            title={title}
             size="default"
             type={ContentTypeEnum.ANIME}
             item={item}
@@ -117,7 +115,6 @@ const WatchAction: FC<{
 const ReadAction: FC<{
     type: ReadContentTypeEnum;
     slug: string;
-    title: string;
     item?: MediaTooltipItemOf<'manga'> | MediaTooltipItemOf<'novel'>;
     content?:
         | MangaInfoResponse
@@ -125,11 +122,10 @@ const ReadAction: FC<{
         | MediaTooltipItemOf<'manga'>
         | MediaTooltipItemOf<'novel'>;
     read?: ReadResponseBase | null;
-}> = ({ type, slug, title, item, content, read }) => {
+}> = ({ type, slug, item, content, read }) => {
     if (item && ('read' in item || read !== undefined)) {
         return item.data_type === 'manga' ? (
             <TrackingButtonsGroup
-                title={title}
                 size="default"
                 type={ContentTypeEnum.MANGA}
                 item={item}
@@ -137,7 +133,6 @@ const ReadAction: FC<{
             />
         ) : (
             <TrackingButtonsGroup
-                title={title}
                 size="default"
                 type={ContentTypeEnum.NOVEL}
                 item={item}
@@ -199,7 +194,6 @@ const MediaTooltipData: FC<TooltipDataProps> = ({
                     type === ContentTypeEnum.ANIME ? (
                         <WatchAction
                             slug={slug}
-                            title={title}
                             item={
                                 item?.data_type === 'anime' ? item : undefined
                             }
@@ -212,7 +206,6 @@ const MediaTooltipData: FC<TooltipDataProps> = ({
                         <ReadAction
                             type={type}
                             slug={slug}
-                            title={title}
                             item={
                                 item?.data_type === 'anime' ? undefined : item
                             }

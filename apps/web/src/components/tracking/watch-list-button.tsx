@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     type AnimeInfoResponse,
     type AnimeResponse,
+    ContentTypeEnum,
     type WatchArgs,
     type WatchResponseBase,
     WatchStatusEnum,
@@ -15,10 +16,6 @@ import {
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import type { ButtonProps } from '@/components/ui/button';
 import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
-import {
     Select,
     SelectContent,
     SelectGroup,
@@ -26,14 +23,13 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
-import { useTitle } from '@/features/auth/hooks/use-title';
 import { applyWatchMutation } from '@/utils/api/invalidate-content-state';
 import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 
 import IconWatchStatusButton from './icon-watch-status-button';
+import ListEntryEditDialog from './list-entry-edit-dialog';
 import NewWatchStatusTrigger from './new-watch-status-trigger';
 import { WATCH_STATUS_OPTIONS } from './status-options';
-import WatchEditModal from './watch-edit-modal';
 import WatchStatusTrigger from './watch-status-trigger';
 
 type Props = {
@@ -85,8 +81,6 @@ const WatchListButton = ({
         () => watchProp || (watchQuery && !watchError ? watchQuery : undefined),
         [watchProp, watchQuery, watchError],
     );
-
-    const title = useTitle(anime);
 
     const openWatchEditModal = useCallback(() => {
         if (anime) {
@@ -192,19 +186,14 @@ const WatchListButton = ({
                     </SelectContent>
                 </Select>
             )}
-            <ResponsiveModal
+            <ListEntryEditDialog
                 open={editOpen}
                 onOpenChange={setEditOpen}
-                mobile="page"
-            >
-                <ResponsiveModalContent className="md:max-w-xl" title={title}>
-                    <WatchEditModal
-                        slug={slug}
-                        watch={watch}
-                        onClose={() => setEditOpen(false)}
-                    />
-                </ResponsiveModalContent>
-            </ResponsiveModal>
+                content={anime}
+                slug={slug}
+                contentType={ContentTypeEnum.ANIME}
+                watch={watch}
+            />
         </>
     );
 };

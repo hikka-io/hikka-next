@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
+    ContentTypeEnum,
     userWatchListInfiniteOptions,
     type WatchArgs,
     WatchStatusEnum,
@@ -10,7 +11,7 @@ import {
 } from '@hikka/api';
 
 import StatusWatching from '@/components/icons/list-status/StatusWatching';
-import { WatchEditModal } from '@/components/tracking';
+import { ListEntryEditDialog } from '@/components/tracking';
 import { Button } from '@/components/ui/button';
 import EmptyState from '@/components/ui/empty-state';
 import { useSession } from '@/features/auth/hooks/use-session';
@@ -229,24 +230,16 @@ const WatchingTracker = () => {
                     : undefined
             }
             editModal={
-                selectedWatch
-                    ? {
-                          open,
-                          onOpenChange: setOpen,
-                          title: getTitle(
-                              selectedWatch.anime,
-                              preferences.title_language,
-                              preferences.name_language,
-                          ),
-                          children: (
-                              <WatchEditModal
-                                  watch={selectedWatch}
-                                  slug={selectedWatch.anime.slug}
-                                  onClose={() => setOpen(false)}
-                              />
-                          ),
-                      }
-                    : undefined
+                selectedWatch ? (
+                    <ListEntryEditDialog
+                        open={open}
+                        onOpenChange={setOpen}
+                        content={selectedWatch.anime}
+                        slug={selectedWatch.anime.slug}
+                        contentType={ContentTypeEnum.ANIME}
+                        watch={selectedWatch}
+                    />
+                ) : undefined
             }
         />
     );

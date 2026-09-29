@@ -35,10 +35,6 @@ import MaterialSymbolsArrowDropDownRounded from '@/components/icons/material-sym
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
 import { Button } from '@/components/ui/button';
 import {
-    ResponsiveModal,
-    ResponsiveModalContent,
-} from '@/components/ui/responsive-modal';
-import {
     Select,
     SelectContent,
     SelectGroup,
@@ -58,14 +54,13 @@ import {
 } from '@/utils/api/tracking-args';
 import { resolveTrackingEntry } from '@/utils/api/tracking-entry';
 
-import ReadEditModal from './read-edit-modal';
+import ListEntryEditDialog from './list-entry-edit-dialog';
 import ReadStatusTrigger from './read-status-trigger';
 import {
     READ_STATUS_OPTIONS,
     type StatusOption,
     WATCH_STATUS_OPTIONS,
 } from './status-options';
-import WatchEditModal from './watch-edit-modal';
 import WatchStatusTrigger from './watch-status-trigger';
 
 /** `default` keeps the Button primitive's own height; `sm`/`md` shrink it. */
@@ -78,19 +73,16 @@ type TrackingSize = 'sm' | 'md' | 'default';
  */
 type Props = { size?: TrackingSize } & (
     | {
-          title: string;
           type: typeof ContentTypeEnum.ANIME;
           item: AnimeResponse | AnimeResponseWithWatch;
           watch?: WatchResponseBase | null;
       }
     | {
-          title: string;
           type: typeof ContentTypeEnum.MANGA;
           item: MangaResponse | MangaResponseWithRead;
           read?: ReadResponseBase | null;
       }
     | {
-          title: string;
           type: typeof ContentTypeEnum.NOVEL;
           item: NovelResponse | NovelResponseWithRead;
           read?: ReadResponseBase | null;
@@ -141,7 +133,6 @@ const buildReadArgs = (
 };
 
 type TrackingSelectProps = {
-    title: string;
     size: TrackingSize;
     disabled: boolean;
     currentStatus: string[];
@@ -149,19 +140,16 @@ type TrackingSelectProps = {
     plannedIcon: StatusIcon;
     hasTracking: boolean;
     trigger: ReactNode;
-    editOpen: boolean;
     modal: ReactNode;
     onValueChange: (options: string[]) => void;
     onAddPlanned: (e: React.MouseEvent | React.TouchEvent) => void;
-    onEditOpenChange: (open: boolean) => void;
 };
 
 /**
  * Presentational shell shared by the watch and read variants: the status
- * `Select`, the "add to planned" split button, and the edit modal frame.
+ * `Select` and the "add to planned" split button.
  */
 function TrackingSelect({
-    title,
     size,
     disabled,
     currentStatus,
@@ -169,11 +157,9 @@ function TrackingSelect({
     plannedIcon,
     hasTracking,
     trigger,
-    editOpen,
     modal,
     onValueChange,
     onAddPlanned,
-    onEditOpenChange,
 }: TrackingSelectProps) {
     return (
         <>
@@ -260,26 +246,16 @@ function TrackingSelect({
                     </SelectList>
                 </SelectContent>
             </Select>
-            <ResponsiveModal
-                open={editOpen}
-                onOpenChange={onEditOpenChange}
-                mobile="page"
-            >
-                <ResponsiveModalContent className="md:max-w-xl" title={title}>
-                    {modal}
-                </ResponsiveModalContent>
-            </ResponsiveModal>
+            {modal}
         </>
     );
 }
 
 function WatchTrackingButtons({
-    title,
     size,
     item,
     watch,
 }: {
-    title: string;
     size: TrackingSize;
     item: AnimeResponse | AnimeResponseWithWatch;
     watch?: WatchResponseBase | null;
@@ -324,7 +300,6 @@ function WatchTrackingButtons({
 
     return (
         <TrackingSelect
-            title={title}
             size={size}
             disabled={isPending}
             currentStatus={tracking ? [tracking.status] : []}
@@ -341,15 +316,16 @@ function WatchTrackingButtons({
                     />
                 )
             }
-            editOpen={editOpen}
             onValueChange={handleChangeStatus}
             onAddPlanned={handleAddToPlanned}
-            onEditOpenChange={setEditOpen}
             modal={
-                <WatchEditModal
+                <ListEntryEditDialog
+                    open={editOpen}
+                    onOpenChange={setEditOpen}
+                    content={item}
                     slug={item.slug}
+                    contentType={ContentTypeEnum.ANIME}
                     watch={tracking}
-                    onClose={() => setEditOpen(false)}
                 />
             }
         />
@@ -357,13 +333,11 @@ function WatchTrackingButtons({
 }
 
 function ReadTrackingButtons({
-    title,
     size,
     type,
     item,
     read,
 }: {
-    title: string;
     size: TrackingSize;
     type: typeof ContentTypeEnum.MANGA | typeof ContentTypeEnum.NOVEL;
     item:
@@ -413,7 +387,6 @@ function ReadTrackingButtons({
 
     return (
         <TrackingSelect
-            title={title}
             size={size}
             disabled={isPending}
             currentStatus={tracking ? [tracking.status] : []}
@@ -430,16 +403,16 @@ function ReadTrackingButtons({
                     />
                 )
             }
-            editOpen={editOpen}
             onValueChange={handleChangeStatus}
             onAddPlanned={handleAddToPlanned}
-            onEditOpenChange={setEditOpen}
             modal={
-                <ReadEditModal
+                <ListEntryEditDialog
+                    open={editOpen}
+                    onOpenChange={setEditOpen}
+                    content={item}
                     slug={item.slug}
-                    content_type={type}
+                    contentType={type}
                     read={tracking}
-                    onClose={() => setEditOpen(false)}
                 />
             }
         />
@@ -452,7 +425,6 @@ const TrackingButtonsGroup: FC<Props> = (props) => {
     if (props.type === ContentTypeEnum.ANIME) {
         return (
             <WatchTrackingButtons
-                title={props.title}
                 size={size}
                 item={props.item}
                 watch={props.watch}
@@ -462,7 +434,6 @@ const TrackingButtonsGroup: FC<Props> = (props) => {
 
     return (
         <ReadTrackingButtons
-            title={props.title}
             size={size}
             type={props.type}
             item={props.item}
