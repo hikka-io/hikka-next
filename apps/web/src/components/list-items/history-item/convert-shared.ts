@@ -1,11 +1,5 @@
 // Shared history-event formatters used by both the read and watch converters.
 
-export const TIMES_DECLENSION: [string, string, string] = [
-    'раз',
-    'рази',
-    'разів',
-];
-
 export const convertScore = (before: number | null, after: number | null) => {
     if (before === null && after !== null) {
         return `Оцінено на **${after}**`;

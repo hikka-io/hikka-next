@@ -1,4 +1,5 @@
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { SYMBOL_FORMS } from '@/utils/i18n/word-forms';
 import { z } from '@/utils/i18n/zod';
 
 // Each schema mirrors the backend validator for its field (hikka-io/hikka `app/schemas.py`, `app/client/schemas.py`).
@@ -26,7 +27,7 @@ const USERNAME_ALLOWED = /^[A-Za-z0-9_]*$/;
 const USERNAME_FIRST = /^[A-Za-z]/;
 
 const atLeast = (min: number) =>
-    `Щонайменше ${min} ${getDeclensionWord(min, ['символ', 'символи', 'символів'])}`;
+    `Щонайменше ${min} ${getDeclensionWord(min, SYMBOL_FORMS)}`;
 
 const atMost = (max: number) => `Не більше ${max} символів`;
 

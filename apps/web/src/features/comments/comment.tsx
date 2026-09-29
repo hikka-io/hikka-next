@@ -12,6 +12,7 @@ import { StatItem } from '@/components/ui/stat-item';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { REPLY_FORMS } from '@/utils/i18n/word-forms';
 
 import CommentFooter from './comment-footer';
 import CommentHeader from './comment-header';
@@ -210,11 +211,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type, contentTitle }) => {
                                     <CirclePlus />
                                 )}
                                 {replyCount}{' '}
-                                {getDeclensionWord(replyCount, [
-                                    'відповідь',
-                                    'відповіді',
-                                    'відповідей',
-                                ])}
+                                {getDeclensionWord(replyCount, REPLY_FORMS)}
                             </StatItem>
                         </div>
                     )}

@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import { ActiveFilters, useActiveFilters } from '@/features/filters';
 import { cn } from '@/utils/cn';
+import { APP_LOCALE_TAG } from '@/utils/i18n/locale';
 
 type Props = {
     total?: number;
@@ -26,7 +27,7 @@ const CatalogSummary: FC<Props> = ({ total, isLoading, className }) => {
                     <>
                         Знайдено{' '}
                         <span className="font-semibold text-foreground">
-                            {(total ?? 0).toLocaleString('uk-UA')}
+                            {(total ?? 0).toLocaleString(APP_LOCALE_TAG)}
                         </span>{' '}
                         результатів
                     </>

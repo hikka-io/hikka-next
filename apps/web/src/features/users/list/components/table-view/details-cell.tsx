@@ -12,14 +12,9 @@ import { MDViewer } from '@/components/markdown';
 import { Badge } from '@/components/ui/badge';
 import { TableCell } from '@/components/ui/table';
 import { useTitle } from '@/features/auth/hooks/use-title';
-import { getDeclensionWord } from '@/utils/i18n';
+import { getDeclensionWord } from '@/utils/i18n/declension';
+import { VIEW_FORMS } from '@/utils/i18n/word-forms';
 import { Link } from '@/utils/navigation';
-
-const REPEAT_DECLENSIONS: [string, string, string] = [
-    'перегляд',
-    'перегляди',
-    'переглядів',
-];
 
 type Props = {
     content: MangaResponse | NovelResponse | AnimeResponse;
@@ -61,7 +56,7 @@ const DetailsCell: FC<Props> = ({ content, content_type, repeats, note }) => {
                     {repeats > 0 && (
                         <Badge variant="warning" className="w-fit">
                             {repeats + 1}{' '}
-                            {getDeclensionWord(repeats + 1, REPEAT_DECLENSIONS)}
+                            {getDeclensionWord(repeats + 1, VIEW_FORMS)}
                         </Badge>
                     )}
                 </div>

@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 
-import { uk } from 'date-fns/locale/uk';
 import { ArrowBigUp } from 'lucide-react';
 
 import type { CommentResponse } from '@hikka/api';
@@ -44,7 +43,7 @@ const GlobalComment: FC<Props> = ({ comment, href }) => {
                         {comment.author.username}
                     </HorizontalCardTitle>
                     <HorizontalCardDescription>
-                        <RelativeTime value={comment.created} locale={uk} />
+                        <RelativeTime value={comment.created} />
                     </HorizontalCardDescription>
                 </HorizontalCardContainer>
                 {comment.vote_score > 0 && (

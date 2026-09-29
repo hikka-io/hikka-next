@@ -23,17 +23,12 @@ import {
 import { carryOverWatchArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { EPISODE_FORMS } from '@/utils/i18n/word-forms';
 import { getMediaTypeLabel } from '@/utils/labels';
 import { Link, useRouter } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
 import ProgressTrackerView from './progress-tracker-view';
-
-const EPISODES_DECLENSION: [string, string, string] = [
-    'епізод',
-    'епізоди',
-    'епізодів',
-];
 
 type PendingWatch = {
     slug: string;
@@ -219,14 +214,11 @@ const WatchingTracker = () => {
                           ),
                           total: totalEpisodes ?? undefined,
                           totalDeclension: totalEpisodes
-                              ? getDeclensionWord(
-                                    totalEpisodes,
-                                    EPISODES_DECLENSION,
-                                )
+                              ? getDeclensionWord(totalEpisodes, EPISODE_FORMS)
                               : undefined,
                           current: currentEpisodes,
-                          progressUnit: 'епізодів',
-                          addUnitLabel: 'епізод',
+                          progressUnit: EPISODE_FORMS[2],
+                          addUnitLabel: EPISODE_FORMS[0],
                           onAdd: handleAddEpisode,
                           onRemove: handleRemoveEpisode,
                           onOpenEdit: openWatchEditModal,

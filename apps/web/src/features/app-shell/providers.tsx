@@ -1,16 +1,14 @@
 import type { FC, PropsWithChildren } from 'react';
 
-import { uk } from 'date-fns/locale';
-import { setDefaultOptions } from 'date-fns/setDefaultOptions';
-
 import { TooltipProvider } from '@/components/ui/tooltip';
 import EffectsManager from '@/features/effects/effects-manager';
 import ThemeProvider from '@/services/theme-provider';
+import { applyDefaultLocale } from '@/utils/i18n/locale';
 
 import UIStylesSyncer from './ui-styles-syncer';
 import VisualViewportSyncer from './visual-viewport-syncer';
 
-setDefaultOptions({ locale: uk });
+applyDefaultLocale();
 
 type Props = PropsWithChildren & {
     serverTheme?: 'light' | 'dark' | 'system' | null;

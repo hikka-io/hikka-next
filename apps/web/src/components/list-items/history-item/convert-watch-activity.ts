@@ -2,12 +2,9 @@ import { HistoryTypeEnum, type WatchStatusEnum } from '@hikka/api';
 
 import { WATCH_STATUS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { EPISODE_FORMS, TIMES_FORMS } from '@/utils/i18n/word-forms';
 
-import {
-    convertScore,
-    convertStatus,
-    TIMES_DECLENSION,
-} from './convert-shared';
+import { convertScore, convertStatus } from './convert-shared';
 
 // Local narrowing for the loose `HistoryResponse.data` (`{ [key]: unknown }`)
 // in @hikka/api. Field shapes match the API history payloads.
@@ -27,28 +24,23 @@ type HistoryWatchData = {
     new_watch: boolean;
 };
 
-const EPISODES_DECLENSION: [string, string, string] = [
-    'епізод',
-    'епізоди',
-    'епізодів',
-];
 export const convertEpisodes = (
     before: number | null,
     after: number | null,
 ) => {
     if (before === null && after !== null) {
-        return `Переглянуто **${after}** ${getDeclensionWord(after, EPISODES_DECLENSION)}`;
+        return `Переглянуто **${after}** ${getDeclensionWord(after, EPISODE_FORMS)}`;
     }
 
     if (before !== null && after !== null) {
         if (before === after) {
-            return `Переглянуто **${after}** ${getDeclensionWord(after, EPISODES_DECLENSION)}`;
+            return `Переглянуто **${after}** ${getDeclensionWord(after, EPISODE_FORMS)}`;
         } else if (after === 0) {
             return null;
         } else if (after - before === 1 || before === 0 || before > after) {
-            return `Переглянуто **${after}** ${EPISODES_DECLENSION[0]}`;
+            return `Переглянуто **${after}** ${EPISODE_FORMS[0]}`;
         } else {
-            return `Переглянуто з **${before + 1}** по **${after}** ${EPISODES_DECLENSION[0]}`;
+            return `Переглянуто з **${before + 1}** по **${after}** ${EPISODE_FORMS[0]}`;
         }
     }
 };
@@ -58,7 +50,7 @@ export const convertRewatches = (
     after: number | null,
 ) => {
     if (after !== null) {
-        return `Повторно переглянуто **${after}** ${getDeclensionWord(after, TIMES_DECLENSION)}`;
+        return `Повторно переглянуто **${after}** ${getDeclensionWord(after, TIMES_FORMS)}`;
     }
 };
 

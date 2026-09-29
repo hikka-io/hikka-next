@@ -23,10 +23,4 @@ export {
     WATCH_STATUS,
 } from '@/utils/labels/enum-labels';
 
-export const COMMENT_DECLENSIONS: [string, string, string] = [
-    'коментар',
-    'коментарі',
-    'коментарів',
-];
-
 export const MIN_SEARCH_LENGTH = 2;

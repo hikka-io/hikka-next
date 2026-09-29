@@ -4,6 +4,8 @@ import {
     intervalToDuration,
 } from 'date-fns';
 
+import { DAY } from './relative-time';
+
 type Tokens = 'xSeconds' | 'xMinutes' | 'xHours' | 'xDays' | 'xMonths';
 
 /** Ukrainian localization for date-fns distance formatting. */
@@ -30,7 +32,7 @@ const UKRAINIAN_FORMAT_DISTANCE_LOCALE = {
 const TIME_CONSTANTS = {
     YEAR: 31536000, // 365 days
     MONTH: 2592000, // 30 days
-    DAY: 86400, // 24 hours
+    DAY,
 };
 
 /** date-fns formatDistance locale config with Ukrainian translations. */
@@ -44,7 +46,7 @@ export const getShortLocale = () => ({
 });
 
 /** Picks duration units to display based on time left (in seconds). */
-export const getFormatUnits = (
+const getFormatUnits = (
     timeLeft: number,
 ): ('years' | 'months' | 'days' | 'hours' | 'minutes')[] => {
     if (timeLeft > TIME_CONSTANTS.YEAR) {

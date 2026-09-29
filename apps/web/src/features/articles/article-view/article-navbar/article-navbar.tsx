@@ -9,8 +9,8 @@ import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { cn } from '@/utils/cn';
-import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
 import { Link, useParams } from '@/utils/navigation';
 
 import ArticleActionsMenu from '../article-actions-menu';
@@ -58,7 +58,7 @@ const ArticleNavbar: FC<Props> = () => {
                                 <span className="hidden sm:inline">
                                     {getDeclensionWord(
                                         article?.comments_count ?? 0,
-                                        COMMENT_DECLENSIONS,
+                                        COMMENT_FORMS,
                                     )}
                                 </span>
                             </span>

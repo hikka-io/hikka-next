@@ -5,6 +5,7 @@ import MAL from '@/components/icons/custom/MAL';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
+import { formatCompactNumber } from '@/utils/i18n/number';
 import { useParams } from '@/utils/navigation';
 
 import { CONTENT_CONFIG } from './content-config';
@@ -17,12 +18,6 @@ type ScoresProps = {
 const Scores = ({ className, content_type }: ScoresProps) => {
     const params = useParams();
     const { data } = CONTENT_CONFIG[content_type].useInfo(String(params.slug));
-
-    const compact = (n: number) =>
-        new Intl.NumberFormat('en', {
-            notation: 'compact',
-            maximumFractionDigits: 1,
-        }).format(n);
 
     if (!data || (data.score === 0 && data.native_score === 0)) {
         return null;
@@ -51,7 +46,7 @@ const Scores = ({ className, content_type }: ScoresProps) => {
                         </div>
 
                         <p className="line-clamp-1 text-muted-foreground text-xs tracking-wider">
-                            {compact(data.scored_by)} оцінок
+                            {formatCompactNumber(data.scored_by)} оцінок
                         </p>
                     </div>
                 </div>
@@ -73,7 +68,7 @@ const Scores = ({ className, content_type }: ScoresProps) => {
                             <MaterialSymbolsStarRounded className="text-lg text-yellow-400" />
                         </div>
                         <p className="line-clamp-1 text-muted-foreground text-xs tracking-wider">
-                            {compact(data.native_scored_by)} оцінок
+                            {formatCompactNumber(data.native_scored_by)} оцінок
                         </p>
                     </div>
                 </div>

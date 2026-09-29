@@ -1,7 +1,6 @@
 import type { FC, MouseEvent } from 'react';
 
 import { useNavigate } from '@tanstack/react-router';
-import { uk } from 'date-fns/locale/uk';
 import { CornerDownRight } from 'lucide-react';
 
 import type { CommentResponse, ContentTypeEnum } from '@hikka/api';
@@ -55,7 +54,6 @@ const UserComment: FC<Props> = ({ comment }) => {
                         username={comment.author.username}
                         role={comment.author.role}
                         created={comment.created}
-                        locale={uk}
                     />
                     {!comment.hidden && (
                         <div className="absolute top-0 right-0">

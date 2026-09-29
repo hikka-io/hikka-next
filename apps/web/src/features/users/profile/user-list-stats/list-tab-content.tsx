@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/tooltip';
 import { cn } from '@/utils/cn';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { DAY_FORMS, HOUR_FORMS, MONTH_FORMS } from '@/utils/i18n/word-forms';
 import { LIST_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
@@ -107,9 +108,9 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
 
     const watchDisplayLabel = [
         watchMonths > 0 &&
-            `${watchMonths} ${getDeclensionWord(watchMonths, ['місяць', 'місяці', 'місяців'])}`,
+            `${watchMonths} ${getDeclensionWord(watchMonths, MONTH_FORMS)}`,
         (watchDays > 0 || watchMonths === 0) &&
-            `${watchDays} ${getDeclensionWord(watchDays, ['день', 'дні', 'днів'])}`,
+            `${watchDays} ${getDeclensionWord(watchDays, DAY_FORMS)}`,
     ]
         .filter(Boolean)
         .join(' ');
@@ -212,11 +213,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                             </TooltipTrigger>
                             <TooltipContent>
                                 {watchHours}{' '}
-                                {getDeclensionWord(watchHours, [
-                                    'година',
-                                    'години',
-                                    'годин',
-                                ])}
+                                {getDeclensionWord(watchHours, HOUR_FORMS)}
                             </TooltipContent>
                         </Tooltip>
                     </div>

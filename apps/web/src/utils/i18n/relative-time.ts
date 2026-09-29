@@ -1,9 +1,10 @@
 import { format, isSameYear, type Locale } from 'date-fns';
-import { uk } from 'date-fns/locale/uk';
+
+import { APP_LOCALE } from './locale';
 
 const MINUTE = 60;
 const HOUR = 60 * MINUTE;
-const DAY = 24 * HOUR;
+export const DAY = 24 * HOUR;
 
 type FormattedTimestamp = {
     /** Short label: compact relative for <24h, absolute date after. */
@@ -25,7 +26,7 @@ type FormattedTimestamp = {
 export const formatTimestamp = (
     unixSeconds: number,
     nowMs: number,
-    locale: Locale = uk,
+    locale: Locale = APP_LOCALE,
 ): FormattedTimestamp => {
     const ms = unixSeconds * 1000;
     const date = new Date(ms);

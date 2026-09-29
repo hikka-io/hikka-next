@@ -31,7 +31,8 @@ import Stack from '@/components/ui/stack';
 import { useSessionUI } from '@/features/auth/hooks/use-session-ui';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
-import { getDeclensionWord } from '@/utils/i18n';
+import { getDeclensionWord } from '@/utils/i18n/declension';
+import { EPISODE_FORMS } from '@/utils/i18n/word-forms';
 import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 import { getOngoingsSort } from '@/utils/sort';
@@ -41,11 +42,6 @@ import type { WidgetProps } from '../constants';
 
 const SIDEBAR_SIZE = 5;
 const CENTER_SIZE = 5;
-const EPISODE_DECLENSIONS: [string, string, string] = [
-    'епізод',
-    'епізоди',
-    'епізодів',
-];
 
 const OngoingItemSkeleton = () => (
     <div className="flex items-center gap-3 rounded-sm px-2 py-1.5">
@@ -117,7 +113,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                                         key={item.slug}
                                         leftSubtitle={`${item.episodes_released ?? 0} / ${item.episodes_total ?? '?'} ${getDeclensionWord(
                                             item.episodes_total ?? 0,
-                                            EPISODE_DECLENSIONS,
+                                            EPISODE_FORMS,
                                         )}`}
                                         rightSubtitle={null}
                                     />
@@ -200,7 +196,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                                                     {getDeclensionWord(
                                                         anime.episodes_total ??
                                                             0,
-                                                        EPISODE_DECLENSIONS,
+                                                        EPISODE_FORMS,
                                                     )}
                                                 </span>
                                             </div>

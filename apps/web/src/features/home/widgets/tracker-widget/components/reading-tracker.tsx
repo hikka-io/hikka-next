@@ -25,17 +25,12 @@ import {
 import { carryOverReadArgs } from '@/utils/api/tracking-args';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { CHAPTER_FORMS } from '@/utils/i18n/word-forms';
 import { getMediaTypeLabel } from '@/utils/labels';
 import { Link, useRouter } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
 import ProgressTrackerView from './progress-tracker-view';
-
-const CHAPTERS_DECLENSION: [string, string, string] = [
-    'розділ',
-    'розділи',
-    'розділів',
-];
 
 const CONTENT_TYPE_CONFIG = {
     [ContentTypeEnum.MANGA]: {
@@ -252,14 +247,11 @@ const ReadingTracker = ({ contentType }: ReadingTrackerProps) => {
                           ),
                           total: totalChapters ?? undefined,
                           totalDeclension: totalChapters
-                              ? getDeclensionWord(
-                                    totalChapters,
-                                    CHAPTERS_DECLENSION,
-                                )
+                              ? getDeclensionWord(totalChapters, CHAPTER_FORMS)
                               : undefined,
                           current: currentChapters,
-                          progressUnit: 'розділів',
-                          addUnitLabel: 'розділ',
+                          progressUnit: CHAPTER_FORMS[2],
+                          addUnitLabel: CHAPTER_FORMS[0],
                           onAdd: handleAddChapter,
                           onRemove: handleRemoveChapter,
                           onOpenEdit: openReadEditModal,

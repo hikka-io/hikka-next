@@ -12,6 +12,7 @@ import MaterialSymbolsRemoveRounded from '@/components/icons/material-symbols/Ma
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import Rating from '@/components/ui/rating';
+import { CHAPTER_FORMS, EPISODE_FORMS } from '@/utils/i18n/word-forms';
 
 import { useUserlistManager } from '../../hooks/use-list-manager';
 import UserNote from './user-note';
@@ -41,7 +42,10 @@ const UserContentStats = ({
         return null;
     }
 
-    const unit = content_type === ContentTypeEnum.ANIME ? 'епізод' : 'розділ';
+    const unit =
+        content_type === ContentTypeEnum.ANIME
+            ? EPISODE_FORMS[0]
+            : CHAPTER_FORMS[0];
 
     return (
         <div className="surface flex flex-col divide-y divide-border overflow-hidden rounded-md border">
@@ -72,8 +76,8 @@ const UserContentStats = ({
                             </span>
                             /{total ?? '?'}{' '}
                             {content_type === ContentTypeEnum.ANIME
-                                ? 'епізодів'
-                                : 'розділів'}
+                                ? EPISODE_FORMS[2]
+                                : CHAPTER_FORMS[2]}
                         </span>
                     </p>
                     <Progress

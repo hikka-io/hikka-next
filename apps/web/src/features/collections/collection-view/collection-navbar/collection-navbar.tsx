@@ -13,8 +13,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
 import { Link, useParams } from '@/utils/navigation';
 
 import TableOfContentsComponent from '../../table-of-contents';
@@ -60,7 +60,7 @@ const CollectionNavbar: FC<Props> = () => {
                         <span className="hidden sm:inline">
                             {getDeclensionWord(
                                 collection?.comments_count ?? 0,
-                                COMMENT_DECLENSIONS,
+                                COMMENT_FORMS,
                             )}
                         </span>
                     </span>

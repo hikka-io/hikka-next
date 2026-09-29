@@ -13,8 +13,8 @@ import { usePageTitleReveal } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
 import EditButton from '@/features/edit/edit-button';
 import { cn } from '@/utils/cn';
-import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
+import { COMMENT_FORMS } from '@/utils/i18n/word-forms';
 import { Link, useParams } from '@/utils/navigation';
 
 import { CONTENT_CONFIG } from './content-config';
@@ -126,7 +126,7 @@ const ContentActionBar: FC<Props> = ({ className, content_type }) => {
                                 <span className="hidden sm:inline">
                                     {getDeclensionWord(
                                         commentsCount ?? 0,
-                                        COMMENT_DECLENSIONS,
+                                        COMMENT_FORMS,
                                     )}
                                 </span>
                             </span>

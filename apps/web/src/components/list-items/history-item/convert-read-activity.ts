@@ -2,12 +2,13 @@ import type { HistoryTypeEnum, ReadStatusEnum } from '@hikka/api';
 
 import { READ_STATUS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
-
 import {
-    convertScore,
-    convertStatus,
-    TIMES_DECLENSION,
-} from './convert-shared';
+    CHAPTER_FORMS,
+    TIMES_FORMS,
+    VOLUME_FORMS,
+} from '@/utils/i18n/word-forms';
+
+import { convertScore, convertStatus } from './convert-shared';
 
 // Local narrowing for the loose `HistoryResponse.data` (`{ [key]: unknown }`)
 // in @hikka/api. Field shapes match the API history payloads.
@@ -29,48 +30,41 @@ type HistoryReadData = {
     new_read: boolean;
 };
 
-const CHAPTERS_DECLENSION: [string, string, string] = [
-    'розділ',
-    'розділи',
-    'розділів',
-];
-const VOLUMES_DECLENSION: [string, string, string] = ['том', 'томи', 'томів'];
-
 export const convertChapters = (
     before: number | null,
     after: number | null,
 ) => {
     if (before === null && after !== null) {
-        return `Прочитано **${after}** ${getDeclensionWord(after, CHAPTERS_DECLENSION)}`;
+        return `Прочитано **${after}** ${getDeclensionWord(after, CHAPTER_FORMS)}`;
     }
 
     if (before !== null && after !== null) {
         if (before === after) {
-            return `Прочитано **${after}** ${getDeclensionWord(after, CHAPTERS_DECLENSION)}`;
+            return `Прочитано **${after}** ${getDeclensionWord(after, CHAPTER_FORMS)}`;
         } else if (after === 0) {
             return null;
         } else if (after - before === 1 || before === 0 || before > after) {
-            return `Прочитано **${after}** ${CHAPTERS_DECLENSION[0]}`;
+            return `Прочитано **${after}** ${CHAPTER_FORMS[0]}`;
         } else {
-            return `Прочитано з **${before + 1}** по **${after}** ${CHAPTERS_DECLENSION[0]}`;
+            return `Прочитано з **${before + 1}** по **${after}** ${CHAPTER_FORMS[0]}`;
         }
     }
 };
 
 export const convertVolumes = (before: number | null, after: number | null) => {
     if (before === null && after !== null) {
-        return `Прочитано **${after}** ${getDeclensionWord(after, VOLUMES_DECLENSION)}`;
+        return `Прочитано **${after}** ${getDeclensionWord(after, VOLUME_FORMS)}`;
     }
 
     if (before !== null && after !== null) {
         if (before === after) {
-            return `Прочитано **${after}** ${getDeclensionWord(after, VOLUMES_DECLENSION)}`;
+            return `Прочитано **${after}** ${getDeclensionWord(after, VOLUME_FORMS)}`;
         } else if (after === 0) {
             return null;
         } else if (after - before === 1 || before === 0 || before > after) {
-            return `Прочитано **${after}** ${VOLUMES_DECLENSION[0]}`;
+            return `Прочитано **${after}** ${VOLUME_FORMS[0]}`;
         } else {
-            return `Прочитано з **${before + 1}** по **${after}** ${VOLUMES_DECLENSION[0]}`;
+            return `Прочитано з **${before + 1}** по **${after}** ${VOLUME_FORMS[0]}`;
         }
     }
 };
@@ -80,7 +74,7 @@ export const convertRereads = (
     after: number | null,
 ) => {
     if (after !== null) {
-        return `Повторно прочитано **${after}** ${getDeclensionWord(after, TIMES_DECLENSION)}`;
+        return `Повторно прочитано **${after}** ${getDeclensionWord(after, TIMES_FORMS)}`;
     }
 };
 

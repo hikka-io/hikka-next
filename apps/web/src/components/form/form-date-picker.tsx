@@ -2,7 +2,6 @@ import type { FC } from 'react';
 
 import { useStore } from '@tanstack/react-form';
 import { format } from 'date-fns';
-import { uk } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
 
 import { Calendar } from '@/components/ui/calendar';
@@ -19,6 +18,7 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/utils/cn';
+import { APP_LOCALE } from '@/utils/i18n/locale';
 
 import { useFieldContext } from './form-context';
 
@@ -76,9 +76,7 @@ export const DatePickerField: FC<Props> = ({
                     }
                 >
                     {dateValue ? (
-                        format(dateValue, 'PPP', {
-                            locale: uk,
-                        })
+                        format(dateValue, 'PPP')
                     ) : (
                         <span>Виберіть дату</span>
                     )}
@@ -86,7 +84,7 @@ export const DatePickerField: FC<Props> = ({
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
-                        locale={uk}
+                        locale={APP_LOCALE}
                         mode="single"
                         selected={dateValue}
                         captionLayout="dropdown"
