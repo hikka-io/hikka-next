@@ -6,6 +6,7 @@ import {
     animeScheduleInfiniteOptions,
     ContentTypeEnum,
     type FeedArgs,
+    FeedContentTypeEnum,
     feedPageParam,
     followingHistoryInfiniteOptions,
     followStatsOptions,
@@ -40,9 +41,9 @@ const FEED_TYPE_TO_CONTENT_TYPE: Record<
     string,
     FeedArgs['feed_content_types']
 > = {
-    comments: [ContentTypeEnum.COMMENT],
-    articles: [ContentTypeEnum.ARTICLE],
-    collections: [ContentTypeEnum.COLLECTION],
+    comments: [FeedContentTypeEnum.COMMENT],
+    articles: [FeedContentTypeEnum.ARTICLE],
+    collections: [FeedContentTypeEnum.COLLECTION],
     all: undefined,
 };
 

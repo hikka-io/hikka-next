@@ -3,9 +3,12 @@ import { type FC, useId, useState } from 'react';
 import { Filter } from 'lucide-react';
 
 import {
-    ArticleCategoryEnum,
-    ContentTypeEnum,
-    type UiFeedSettingsOutput,
+    FeedArticleCategoryEnum,
+    FeedArticleContentTypeEnum,
+    type FeedCollectionContentTypeEnum,
+    FeedCommentContentTypeEnum,
+    FeedContentTypeEnum,
+    FeedReviewContentTypeEnum,
 } from '@hikka/api';
 
 import { Badge } from '@/components/ui/badge';
@@ -24,27 +27,13 @@ import {
 } from '@/utils/labels/content-types';
 import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 
-type FeedContentType = NonNullable<
-    UiFeedSettingsOutput['feed_content_types']
->[number];
-
 export type FeedSubTypeFilters = {
-    feed_content_types: FeedContentType[] | null;
-    comment_content_types: NonNullable<
-        UiFeedSettingsOutput['comment_content_types']
-    > | null;
-    article_content_types: NonNullable<
-        UiFeedSettingsOutput['article_content_types']
-    > | null;
-    article_categories: NonNullable<
-        UiFeedSettingsOutput['article_categories']
-    > | null;
-    collection_content_types: NonNullable<
-        UiFeedSettingsOutput['collection_content_types']
-    > | null;
-    review_content_types: NonNullable<
-        UiFeedSettingsOutput['review_content_types']
-    > | null;
+    feed_content_types: FeedContentTypeEnum[] | null;
+    comment_content_types: FeedCommentContentTypeEnum[] | null;
+    article_content_types: FeedArticleContentTypeEnum[] | null;
+    article_categories: FeedArticleCategoryEnum[] | null;
+    collection_content_types: FeedCollectionContentTypeEnum[] | null;
+    review_content_types: FeedReviewContentTypeEnum[] | null;
 };
 
 type GroupKey = Exclude<keyof FeedSubTypeFilters, 'feed_content_types'>;
@@ -59,53 +48,55 @@ type GroupConfig = {
 
 type SectionConfig = {
     title: string;
-    sectionType: FeedContentType;
+    sectionType: FeedContentTypeEnum;
     groups: GroupConfig[];
 };
 
-const REVIEW: FeedContentType = 'review';
+function toOptions(labels: Record<string, string>): SubTypeOption[] {
+    return Object.entries(labels).map(([value, label]) => ({ value, label }));
+}
 
-const ALL_FEED_CONTENT_TYPES: FeedContentType[] = [
-    ContentTypeEnum.COMMENT,
-    ContentTypeEnum.ARTICLE,
-    ContentTypeEnum.COLLECTION,
-    REVIEW,
-];
+const ALL_FEED_CONTENT_TYPES = [
+    FeedContentTypeEnum.COMMENT,
+    FeedContentTypeEnum.ARTICLE,
+    FeedContentTypeEnum.COLLECTION,
+    FeedContentTypeEnum.REVIEW,
+] as const satisfies readonly FeedContentTypeEnum[];
 
-const COMMENT_OPTIONS: SubTypeOption[] = [
-    ContentTypeEnum.ANIME,
-    ContentTypeEnum.MANGA,
-    ContentTypeEnum.NOVEL,
-    ContentTypeEnum.CHARACTER,
-    ContentTypeEnum.PERSON,
-    ContentTypeEnum.COLLECTION,
-    ContentTypeEnum.ARTICLE,
-    ContentTypeEnum.EDIT,
-].map((v) => ({ value: v, label: CONTENT_TYPES[v].title_ua }));
+const COMMENT_OPTIONS = toOptions({
+    [FeedCommentContentTypeEnum.ANIME]: CONTENT_TYPES.anime.title_ua,
+    [FeedCommentContentTypeEnum.MANGA]: CONTENT_TYPES.manga.title_ua,
+    [FeedCommentContentTypeEnum.NOVEL]: CONTENT_TYPES.novel.title_ua,
+    [FeedCommentContentTypeEnum.CHARACTER]: CONTENT_TYPES.character.title_ua,
+    [FeedCommentContentTypeEnum.PERSON]: CONTENT_TYPES.person.title_ua,
+    [FeedCommentContentTypeEnum.COLLECTION]: CONTENT_TYPES.collection.title_ua,
+    [FeedCommentContentTypeEnum.ARTICLE]: CONTENT_TYPES.article.title_ua,
+    [FeedCommentContentTypeEnum.EDIT]: CONTENT_TYPES.edit.title_ua,
+} satisfies Record<FeedCommentContentTypeEnum, string>);
 
-const ARTICLE_CONTENT_OPTIONS: SubTypeOption[] = [
-    { value: ContentTypeEnum.ANIME, label: CONTENT_TYPES.anime.title_ua },
-    { value: ContentTypeEnum.MANGA, label: CONTENT_TYPES.manga.title_ua },
-    { value: ContentTypeEnum.NOVEL, label: CONTENT_TYPES.novel.title_ua },
-    { value: 'no_content', label: 'Без контенту' },
-];
+const ARTICLE_CONTENT_OPTIONS = toOptions({
+    [FeedArticleContentTypeEnum.ANIME]: CONTENT_TYPES.anime.title_ua,
+    [FeedArticleContentTypeEnum.MANGA]: CONTENT_TYPES.manga.title_ua,
+    [FeedArticleContentTypeEnum.NOVEL]: CONTENT_TYPES.novel.title_ua,
+    [FeedArticleContentTypeEnum.NO_CONTENT]: 'Без контенту',
+} satisfies Record<FeedArticleContentTypeEnum, string>);
 
-const FEED_ARTICLE_CATEGORY_OPTIONS: SubTypeOption[] = (
-    Object.keys(ARTICLE_CATEGORY) as ArticleCategoryEnum[]
-)
-    .filter((k) => k !== ArticleCategoryEnum.SYSTEM)
-    .map((k) => ({ value: k, label: ARTICLE_CATEGORY[k].title_ua }));
+const FEED_ARTICLE_CATEGORY_OPTIONS = toOptions({
+    [FeedArticleCategoryEnum.NEWS]: ARTICLE_CATEGORY.news.title_ua,
+    [FeedArticleCategoryEnum.REVIEWS]: ARTICLE_CATEGORY.reviews.title_ua,
+    [FeedArticleCategoryEnum.ORIGINAL]: ARTICLE_CATEGORY.original.title_ua,
+} satisfies Record<FeedArticleCategoryEnum, string>);
 
-const REVIEW_CONTENT_OPTIONS: SubTypeOption[] = [
-    { value: ContentTypeEnum.ANIME, label: CONTENT_TYPES.anime.title_ua },
-    { value: ContentTypeEnum.MANGA, label: CONTENT_TYPES.manga.title_ua },
-    { value: ContentTypeEnum.NOVEL, label: CONTENT_TYPES.novel.title_ua },
-];
+const REVIEW_CONTENT_OPTIONS = toOptions({
+    [FeedReviewContentTypeEnum.ANIME]: CONTENT_TYPES.anime.title_ua,
+    [FeedReviewContentTypeEnum.MANGA]: CONTENT_TYPES.manga.title_ua,
+    [FeedReviewContentTypeEnum.NOVEL]: CONTENT_TYPES.novel.title_ua,
+} satisfies Record<FeedReviewContentTypeEnum, string>);
 
 const SECTIONS: SectionConfig[] = [
     {
         title: 'Коментарі',
-        sectionType: ContentTypeEnum.COMMENT,
+        sectionType: FeedContentTypeEnum.COMMENT,
         groups: [
             {
                 title: 'Тип контенту',
@@ -116,7 +107,7 @@ const SECTIONS: SectionConfig[] = [
     },
     {
         title: 'Статті',
-        sectionType: ContentTypeEnum.ARTICLE,
+        sectionType: FeedContentTypeEnum.ARTICLE,
         groups: [
             {
                 title: 'Тип контенту',
@@ -132,7 +123,7 @@ const SECTIONS: SectionConfig[] = [
     },
     {
         title: 'Колекції',
-        sectionType: ContentTypeEnum.COLLECTION,
+        sectionType: FeedContentTypeEnum.COLLECTION,
         groups: [
             {
                 title: 'Тип контенту',
@@ -143,7 +134,7 @@ const SECTIONS: SectionConfig[] = [
     },
     {
         title: 'Відгуки',
-        sectionType: REVIEW,
+        sectionType: FeedContentTypeEnum.REVIEW,
         groups: [
             {
                 title: 'Тип контенту',
@@ -155,17 +146,17 @@ const SECTIONS: SectionConfig[] = [
 ];
 
 function isSectionEnabled(
-    feedContentTypes: FeedContentType[] | null,
-    type: FeedContentType,
+    feedContentTypes: FeedContentTypeEnum[] | null,
+    type: FeedContentTypeEnum,
 ): boolean {
     return feedContentTypes === null || feedContentTypes.includes(type);
 }
 
 function toggleSection(
-    feedContentTypes: FeedContentType[] | null,
-    type: FeedContentType,
+    feedContentTypes: FeedContentTypeEnum[] | null,
+    type: FeedContentTypeEnum,
     enabled: boolean,
-): FeedContentType[] | null {
+): FeedContentTypeEnum[] | null {
     const current = feedContentTypes ?? [...ALL_FEED_CONTENT_TYPES];
 
     if (enabled) {
@@ -299,7 +290,10 @@ const FeedSubTypeSelect: FC<{
 }> = ({ value, onChange }) => {
     const [open, setOpen] = useState(false);
 
-    const handleSectionToggle = (type: FeedContentType, enabled: boolean) => {
+    const handleSectionToggle = (
+        type: FeedContentTypeEnum,
+        enabled: boolean,
+    ) => {
         onChange({
             ...value,
             feed_content_types: toggleSection(
@@ -312,7 +306,7 @@ const FeedSubTypeSelect: FC<{
 
     const handleSubTypeToggle = (
         group: GroupConfig,
-        sectionType: FeedContentType,
+        sectionType: FeedContentTypeEnum,
         option: string,
     ) => {
         const next = toggleSubType(

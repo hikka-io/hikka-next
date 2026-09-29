@@ -2081,17 +2081,32 @@ export type CommentTextArgs = {
 };
 
 /**
+ * CommentTypeEnum
+ */
+export const CommentTypeEnum = {
+    ALL: 'all',
+    COMMENT: 'comment',
+    REVIEW: 'review',
+} as const;
+
+/**
+ * CommentTypeEnum
+ */
+export type CommentTypeEnum =
+    (typeof CommentTypeEnum)[keyof typeof CommentTypeEnum];
+
+/**
  * CommentsFilterArgs
  */
 export type CommentsFilterArgs = {
     /**
      * Recommended
      */
-    recommended?: 'yes' | 'no' | 'maybe' | null;
+    recommended?: ReviewRecommendedEnum | null;
     /**
      * Comment Type
      */
-    comment_type?: 'all' | 'comment' | 'review';
+    comment_type?: CommentTypeEnum;
     /**
      * Sort
      */
@@ -3214,42 +3229,27 @@ export type FeedArgs = {
     /**
      * Collection Content Types
      */
-    collection_content_types?: Array<
-        'character' | 'person' | 'anime' | 'manga' | 'novel'
-    > | null;
+    collection_content_types?: Array<FeedCollectionContentTypeEnum> | null;
     /**
      * Comment Content Types
      */
-    comment_content_types?: Array<
-        | 'edit'
-        | 'collection'
-        | 'character'
-        | 'article'
-        | 'person'
-        | 'anime'
-        | 'manga'
-        | 'novel'
-    > | null;
+    comment_content_types?: Array<FeedCommentContentTypeEnum> | null;
     /**
      * Article Content Types
      */
-    article_content_types?: Array<
-        'anime' | 'manga' | 'novel' | 'no_content'
-    > | null;
+    article_content_types?: Array<FeedArticleContentTypeEnum> | null;
     /**
      * Review Content Types
      */
-    review_content_types?: Array<'anime' | 'manga' | 'novel'> | null;
+    review_content_types?: Array<FeedReviewContentTypeEnum> | null;
     /**
      * Article Categories
      */
-    article_categories?: Array<'original' | 'reviews' | 'news'> | null;
+    article_categories?: Array<FeedArticleCategoryEnum> | null;
     /**
      * Feed Content Types
      */
-    feed_content_types?: Array<
-        'collection' | 'article' | 'comment' | 'review'
-    > | null;
+    feed_content_types?: Array<FeedContentTypeEnum> | null;
     /**
      * Before
      */
@@ -3259,6 +3259,105 @@ export type FeedArgs = {
      */
     only_followed?: boolean;
 };
+
+/**
+ * FeedArticleCategoryEnum
+ */
+export const FeedArticleCategoryEnum = {
+    ORIGINAL: 'original',
+    REVIEWS: 'reviews',
+    NEWS: 'news',
+} as const;
+
+/**
+ * FeedArticleCategoryEnum
+ */
+export type FeedArticleCategoryEnum =
+    (typeof FeedArticleCategoryEnum)[keyof typeof FeedArticleCategoryEnum];
+
+/**
+ * FeedArticleContentTypeEnum
+ */
+export const FeedArticleContentTypeEnum = {
+    ANIME: 'anime',
+    MANGA: 'manga',
+    NOVEL: 'novel',
+    NO_CONTENT: 'no_content',
+} as const;
+
+/**
+ * FeedArticleContentTypeEnum
+ */
+export type FeedArticleContentTypeEnum =
+    (typeof FeedArticleContentTypeEnum)[keyof typeof FeedArticleContentTypeEnum];
+
+/**
+ * FeedCollectionContentTypeEnum
+ */
+export const FeedCollectionContentTypeEnum = {
+    CHARACTER: 'character',
+    PERSON: 'person',
+    ANIME: 'anime',
+    MANGA: 'manga',
+    NOVEL: 'novel',
+} as const;
+
+/**
+ * FeedCollectionContentTypeEnum
+ */
+export type FeedCollectionContentTypeEnum =
+    (typeof FeedCollectionContentTypeEnum)[keyof typeof FeedCollectionContentTypeEnum];
+
+/**
+ * FeedCommentContentTypeEnum
+ */
+export const FeedCommentContentTypeEnum = {
+    EDIT: 'edit',
+    COLLECTION: 'collection',
+    CHARACTER: 'character',
+    ARTICLE: 'article',
+    PERSON: 'person',
+    ANIME: 'anime',
+    MANGA: 'manga',
+    NOVEL: 'novel',
+} as const;
+
+/**
+ * FeedCommentContentTypeEnum
+ */
+export type FeedCommentContentTypeEnum =
+    (typeof FeedCommentContentTypeEnum)[keyof typeof FeedCommentContentTypeEnum];
+
+/**
+ * FeedContentTypeEnum
+ */
+export const FeedContentTypeEnum = {
+    COLLECTION: 'collection',
+    ARTICLE: 'article',
+    COMMENT: 'comment',
+    REVIEW: 'review',
+} as const;
+
+/**
+ * FeedContentTypeEnum
+ */
+export type FeedContentTypeEnum =
+    (typeof FeedContentTypeEnum)[keyof typeof FeedContentTypeEnum];
+
+/**
+ * FeedReviewContentTypeEnum
+ */
+export const FeedReviewContentTypeEnum = {
+    ANIME: 'anime',
+    MANGA: 'manga',
+    NOVEL: 'novel',
+} as const;
+
+/**
+ * FeedReviewContentTypeEnum
+ */
+export type FeedReviewContentTypeEnum =
+    (typeof FeedReviewContentTypeEnum)[keyof typeof FeedReviewContentTypeEnum];
 
 /**
  * FollowResponse
@@ -5275,8 +5374,23 @@ export type ReviewArgs = {
     /**
      * Recommended
      */
-    recommended: 'yes' | 'no' | 'maybe';
+    recommended: ReviewRecommendedEnum;
 };
+
+/**
+ * ReviewRecommendedEnum
+ */
+export const ReviewRecommendedEnum = {
+    YES: 'yes',
+    NO: 'no',
+    MAYBE: 'maybe',
+} as const;
+
+/**
+ * ReviewRecommendedEnum
+ */
+export type ReviewRecommendedEnum =
+    (typeof ReviewRecommendedEnum)[keyof typeof ReviewRecommendedEnum];
 
 /**
  * ReviewResponse
@@ -5285,7 +5399,7 @@ export type ReviewResponse = {
     /**
      * Recommended
      */
-    recommended: 'yes' | 'no' | 'maybe';
+    recommended: ReviewRecommendedEnum;
     /**
      * Score
      */
@@ -5678,42 +5792,27 @@ export type UiFeedSettingsInput = {
     /**
      * Collection Content Types
      */
-    collection_content_types?: Array<
-        'character' | 'person' | 'anime' | 'manga' | 'novel'
-    > | null;
+    collection_content_types?: Array<FeedCollectionContentTypeEnum> | null;
     /**
      * Comment Content Types
      */
-    comment_content_types?: Array<
-        | 'edit'
-        | 'collection'
-        | 'character'
-        | 'article'
-        | 'person'
-        | 'anime'
-        | 'manga'
-        | 'novel'
-    > | null;
+    comment_content_types?: Array<FeedCommentContentTypeEnum> | null;
     /**
      * Article Content Types
      */
-    article_content_types?: Array<
-        'anime' | 'manga' | 'novel' | 'no_content'
-    > | null;
+    article_content_types?: Array<FeedArticleContentTypeEnum> | null;
     /**
      * Review Content Types
      */
-    review_content_types?: Array<'anime' | 'manga' | 'novel'> | null;
+    review_content_types?: Array<FeedReviewContentTypeEnum> | null;
     /**
      * Article Categories
      */
-    article_categories?: Array<'original' | 'reviews' | 'news'> | null;
+    article_categories?: Array<FeedArticleCategoryEnum> | null;
     /**
      * Feed Content Types
      */
-    feed_content_types?: Array<
-        'collection' | 'article' | 'comment' | 'review'
-    > | null;
+    feed_content_types?: Array<FeedContentTypeEnum> | null;
     /**
      * Only Followed
      */
@@ -5731,42 +5830,27 @@ export type UiFeedSettingsOutput = {
     /**
      * Collection Content Types
      */
-    collection_content_types?: Array<
-        'character' | 'person' | 'anime' | 'manga' | 'novel'
-    > | null;
+    collection_content_types?: Array<FeedCollectionContentTypeEnum> | null;
     /**
      * Comment Content Types
      */
-    comment_content_types?: Array<
-        | 'edit'
-        | 'collection'
-        | 'character'
-        | 'article'
-        | 'person'
-        | 'anime'
-        | 'manga'
-        | 'novel'
-    > | null;
+    comment_content_types?: Array<FeedCommentContentTypeEnum> | null;
     /**
      * Article Content Types
      */
-    article_content_types?: Array<
-        'anime' | 'manga' | 'novel' | 'no_content'
-    > | null;
+    article_content_types?: Array<FeedArticleContentTypeEnum> | null;
     /**
      * Review Content Types
      */
-    review_content_types?: Array<'anime' | 'manga' | 'novel'> | null;
+    review_content_types?: Array<FeedReviewContentTypeEnum> | null;
     /**
      * Article Categories
      */
-    article_categories?: Array<'original' | 'reviews' | 'news'> | null;
+    article_categories?: Array<FeedArticleCategoryEnum> | null;
     /**
      * Feed Content Types
      */
-    feed_content_types?: Array<
-        'collection' | 'article' | 'comment' | 'review'
-    > | null;
+    feed_content_types?: Array<FeedContentTypeEnum> | null;
     /**
      * Only Followed
      */
@@ -6107,11 +6191,11 @@ export type UserCommentsFilterArgs = {
     /**
      * Recommended
      */
-    recommended?: 'yes' | 'no' | 'maybe' | null;
+    recommended?: ReviewRecommendedEnum | null;
     /**
      * Comment Type
      */
-    comment_type?: 'all' | 'comment' | 'review';
+    comment_type?: CommentTypeEnum;
     /**
      * Sort
      */
@@ -8433,11 +8517,11 @@ export type GetCommentsListLegacyData = {
         /**
          * Recommended
          */
-        recommended?: 'yes' | 'no' | 'maybe' | null;
+        recommended?: ReviewRecommendedEnum | null;
         /**
          * Comment Type
          */
-        comment_type?: 'all' | 'comment' | 'review';
+        comment_type?: CommentTypeEnum;
         /**
          * Page
          */

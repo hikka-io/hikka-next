@@ -313,16 +313,9 @@ export const zCommentContentTypeEnum = z.enum([
 ]);
 
 /**
- * CommentsFilterArgs
+ * CommentTypeEnum
  */
-export const zCommentsFilterArgs = z.object({
-    recommended: z.enum(['yes', 'no', 'maybe']).nullish(),
-    comment_type: z
-        .enum(['all', 'comment', 'review'])
-        .optional()
-        .default('all'),
-    sort: z.array(z.string()).optional().default(['created:desc']),
-});
+export const zCommentTypeEnum = z.enum(['all', 'comment', 'review']);
 
 /**
  * CompanyAnimeTypeEnum
@@ -574,38 +567,70 @@ export const zFavouriteStatsResponse = z.object({
 });
 
 /**
+ * FeedArticleCategoryEnum
+ */
+export const zFeedArticleCategoryEnum = z.enum(['original', 'reviews', 'news']);
+
+/**
+ * FeedArticleContentTypeEnum
+ */
+export const zFeedArticleContentTypeEnum = z.enum([
+    'anime',
+    'manga',
+    'novel',
+    'no_content',
+]);
+
+/**
+ * FeedCollectionContentTypeEnum
+ */
+export const zFeedCollectionContentTypeEnum = z.enum([
+    'character',
+    'person',
+    'anime',
+    'manga',
+    'novel',
+]);
+
+/**
+ * FeedCommentContentTypeEnum
+ */
+export const zFeedCommentContentTypeEnum = z.enum([
+    'edit',
+    'collection',
+    'character',
+    'article',
+    'person',
+    'anime',
+    'manga',
+    'novel',
+]);
+
+/**
+ * FeedContentTypeEnum
+ */
+export const zFeedContentTypeEnum = z.enum([
+    'collection',
+    'article',
+    'comment',
+    'review',
+]);
+
+/**
+ * FeedReviewContentTypeEnum
+ */
+export const zFeedReviewContentTypeEnum = z.enum(['anime', 'manga', 'novel']);
+
+/**
  * FeedArgs
  */
 export const zFeedArgs = z.object({
-    collection_content_types: z
-        .array(z.enum(['character', 'person', 'anime', 'manga', 'novel']))
-        .nullish(),
-    comment_content_types: z
-        .array(
-            z.enum([
-                'edit',
-                'collection',
-                'character',
-                'article',
-                'person',
-                'anime',
-                'manga',
-                'novel',
-            ]),
-        )
-        .nullish(),
-    article_content_types: z
-        .array(z.enum(['anime', 'manga', 'novel', 'no_content']))
-        .nullish(),
-    review_content_types: z
-        .array(z.enum(['anime', 'manga', 'novel']))
-        .nullish(),
-    article_categories: z
-        .array(z.enum(['original', 'reviews', 'news']))
-        .nullish(),
-    feed_content_types: z
-        .array(z.enum(['collection', 'article', 'comment', 'review']))
-        .nullish(),
+    collection_content_types: z.array(zFeedCollectionContentTypeEnum).nullish(),
+    comment_content_types: z.array(zFeedCommentContentTypeEnum).nullish(),
+    article_content_types: z.array(zFeedArticleContentTypeEnum).nullish(),
+    review_content_types: z.array(zFeedReviewContentTypeEnum).nullish(),
+    article_categories: z.array(zFeedArticleCategoryEnum).nullish(),
+    feed_content_types: z.array(zFeedContentTypeEnum).nullish(),
     before: z.string().datetime().nullish(),
     only_followed: z.boolean().optional().default(false),
 });
@@ -1497,10 +1522,24 @@ export const zReadSearchArgs = z.object({
 export const zRelatedContentTypeEnum = z.enum(['anime', 'manga', 'novel']);
 
 /**
+ * ReviewRecommendedEnum
+ */
+export const zReviewRecommendedEnum = z.enum(['yes', 'no', 'maybe']);
+
+/**
+ * CommentsFilterArgs
+ */
+export const zCommentsFilterArgs = z.object({
+    recommended: zReviewRecommendedEnum.nullish(),
+    comment_type: zCommentTypeEnum.optional().default('all'),
+    sort: z.array(z.string()).optional().default(['created:desc']),
+});
+
+/**
  * ReviewArgs
  */
 export const zReviewArgs = z.object({
-    recommended: z.enum(['yes', 'no', 'maybe']),
+    recommended: zReviewRecommendedEnum,
 });
 
 /**
@@ -1524,7 +1563,7 @@ export const zCommentTextArgs = z.object({
  * ReviewResponse
  */
 export const zReviewResponse = z.object({
-    recommended: z.enum(['yes', 'no', 'maybe']),
+    recommended: zReviewRecommendedEnum,
     score: z.number().int(),
 });
 
@@ -2076,35 +2115,12 @@ export const zUiFeedWidget = z.object({
  * UIFeedSettings
  */
 export const zUiFeedSettingsInput = z.object({
-    collection_content_types: z
-        .array(z.enum(['character', 'person', 'anime', 'manga', 'novel']))
-        .nullish(),
-    comment_content_types: z
-        .array(
-            z.enum([
-                'edit',
-                'collection',
-                'character',
-                'article',
-                'person',
-                'anime',
-                'manga',
-                'novel',
-            ]),
-        )
-        .nullish(),
-    article_content_types: z
-        .array(z.enum(['anime', 'manga', 'novel', 'no_content']))
-        .nullish(),
-    review_content_types: z
-        .array(z.enum(['anime', 'manga', 'novel']))
-        .nullish(),
-    article_categories: z
-        .array(z.enum(['original', 'reviews', 'news']))
-        .nullish(),
-    feed_content_types: z
-        .array(z.enum(['collection', 'article', 'comment', 'review']))
-        .nullish(),
+    collection_content_types: z.array(zFeedCollectionContentTypeEnum).nullish(),
+    comment_content_types: z.array(zFeedCommentContentTypeEnum).nullish(),
+    article_content_types: z.array(zFeedArticleContentTypeEnum).nullish(),
+    review_content_types: z.array(zFeedReviewContentTypeEnum).nullish(),
+    article_categories: z.array(zFeedArticleCategoryEnum).nullish(),
+    feed_content_types: z.array(zFeedContentTypeEnum).nullish(),
     only_followed: z.boolean().optional().default(false),
     widgets: z
         .array(zUiFeedWidget)
@@ -2152,35 +2168,12 @@ export const zUiFeedSettingsInput = z.object({
  * UIFeedSettings
  */
 export const zUiFeedSettingsOutput = z.object({
-    collection_content_types: z
-        .array(z.enum(['character', 'person', 'anime', 'manga', 'novel']))
-        .nullish(),
-    comment_content_types: z
-        .array(
-            z.enum([
-                'edit',
-                'collection',
-                'character',
-                'article',
-                'person',
-                'anime',
-                'manga',
-                'novel',
-            ]),
-        )
-        .nullish(),
-    article_content_types: z
-        .array(z.enum(['anime', 'manga', 'novel', 'no_content']))
-        .nullish(),
-    review_content_types: z
-        .array(z.enum(['anime', 'manga', 'novel']))
-        .nullish(),
-    article_categories: z
-        .array(z.enum(['original', 'reviews', 'news']))
-        .nullish(),
-    feed_content_types: z
-        .array(z.enum(['collection', 'article', 'comment', 'review']))
-        .nullish(),
+    collection_content_types: z.array(zFeedCollectionContentTypeEnum).nullish(),
+    comment_content_types: z.array(zFeedCommentContentTypeEnum).nullish(),
+    article_content_types: z.array(zFeedArticleContentTypeEnum).nullish(),
+    review_content_types: z.array(zFeedReviewContentTypeEnum).nullish(),
+    article_categories: z.array(zFeedArticleCategoryEnum).nullish(),
+    feed_content_types: z.array(zFeedContentTypeEnum).nullish(),
     only_followed: z.boolean().optional().default(false),
     widgets: z
         .array(zUiFeedWidget)
@@ -2301,11 +2294,8 @@ export const zArticlesTopResponse = z.object({
  * UserCommentsFilterArgs
  */
 export const zUserCommentsFilterArgs = z.object({
-    recommended: z.enum(['yes', 'no', 'maybe']).nullish(),
-    comment_type: z
-        .enum(['all', 'comment', 'review'])
-        .optional()
-        .default('all'),
+    recommended: zReviewRecommendedEnum.nullish(),
+    comment_type: zCommentTypeEnum.optional().default('all'),
     sort: z.array(z.string()).optional().default(['created:desc']),
     first_level_only: z.boolean().optional().default(false),
 });
@@ -3846,11 +3836,8 @@ export const zGetCommentsListLegacyPath = z.object({
 });
 
 export const zGetCommentsListLegacyQuery = z.object({
-    recommended: z.enum(['yes', 'no', 'maybe']).nullish(),
-    comment_type: z
-        .enum(['all', 'comment', 'review'])
-        .optional()
-        .default('all'),
+    recommended: zReviewRecommendedEnum.nullish(),
+    comment_type: zCommentTypeEnum.optional().default('all'),
     page: z.number().int().gt(0).lte(10000).optional().default(1),
     size: z.number().int().gte(1).lte(100).optional().default(15),
 });
