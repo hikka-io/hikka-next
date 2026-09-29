@@ -7,9 +7,13 @@ import ContentTypeTabs from '@/components/content-type-tabs';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
-import { AnimeList, AnimeListSummary } from '@/features/anime';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
-import { CatalogNavbar, useCatalogView } from '@/features/catalog';
+import {
+    CatalogList,
+    CatalogListSummary,
+    CatalogNavbar,
+    useCatalogView,
+} from '@/features/catalog';
 import {
     AnimeFilters,
     AnimeFiltersModal,
@@ -93,8 +97,12 @@ function AnimeListPage() {
                             />
                         )}
                     />
-                    <AnimeListSummary pageSize={pageSize} />
-                    <AnimeList
+                    <CatalogListSummary
+                        contentType={ContentTypeEnum.ANIME}
+                        pageSize={pageSize}
+                    />
+                    <CatalogList
+                        contentType={ContentTypeEnum.ANIME}
                         extendedSize={extendedSize}
                         pageSize={pageSize}
                     />

@@ -8,14 +8,18 @@ import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
-import { CatalogNavbar, useCatalogView } from '@/features/catalog';
+import {
+    CatalogList,
+    CatalogListSummary,
+    CatalogNavbar,
+    useCatalogView,
+} from '@/features/catalog';
 import {
     HeaderFiltersButton,
     ReadFilters,
     ReadFiltersModal,
     useFiltersSidebar,
 } from '@/features/filters';
-import { MangaList, MangaListSummary } from '@/features/manga';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { mangaSearchSchema } from '@/utils/search-schemas';
@@ -97,8 +101,12 @@ function MangaListPage() {
                             />
                         )}
                     />
-                    <MangaListSummary pageSize={pageSize} />
-                    <MangaList
+                    <CatalogListSummary
+                        contentType={ContentTypeEnum.MANGA}
+                        pageSize={pageSize}
+                    />
+                    <CatalogList
+                        contentType={ContentTypeEnum.MANGA}
                         extendedSize={extendedSize}
                         pageSize={pageSize}
                     />

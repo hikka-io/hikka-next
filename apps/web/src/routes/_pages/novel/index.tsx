@@ -8,14 +8,18 @@ import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import type { StackSize } from '@/components/ui/stack';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
-import { CatalogNavbar, useCatalogView } from '@/features/catalog';
+import {
+    CatalogList,
+    CatalogListSummary,
+    CatalogNavbar,
+    useCatalogView,
+} from '@/features/catalog';
 import {
     HeaderFiltersButton,
     ReadFilters,
     ReadFiltersModal,
     useFiltersSidebar,
 } from '@/features/filters';
-import { NovelList, NovelListSummary } from '@/features/novel';
 import { cn } from '@/utils/cn';
 import { generateHeadMeta } from '@/utils/metadata';
 import { novelSearchSchema } from '@/utils/search-schemas';
@@ -98,8 +102,12 @@ function NovelListPage() {
                             />
                         )}
                     />
-                    <NovelListSummary pageSize={pageSize} />
-                    <NovelList
+                    <CatalogListSummary
+                        contentType={ContentTypeEnum.NOVEL}
+                        pageSize={pageSize}
+                    />
+                    <CatalogList
+                        contentType={ContentTypeEnum.NOVEL}
                         extendedSize={extendedSize}
                         pageSize={pageSize}
                     />
