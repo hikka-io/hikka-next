@@ -1,9 +1,6 @@
 import type { FC } from 'react';
 
-import {
-    type ArticleCategoryEnum,
-    getArticlesInfiniteOptions,
-} from '@hikka/api';
+import type { ArticleCategoryEnum } from '@hikka/api';
 
 import FiltersNotFound from '@/components/filters-not-found';
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
@@ -21,8 +18,8 @@ import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { ARTICLE_CATEGORY } from '@/utils/labels/enum-labels';
 import { Link, useRouteSearch } from '@/utils/navigation';
 import type { ArticlesSearch } from '@/utils/search-schemas';
-import { expandSort } from '@/utils/sort';
 
+import { articleListOptions } from '../queries';
 import { ArticleFiltersBody } from './article-filters';
 import ArticleItem from './article-item';
 import ArticleItemSkeleton from './article-item-skeleton';
@@ -34,9 +31,6 @@ const ArticleList: FC<Props> = () => {
     const { user } = useSession();
     const search = useRouteSearch<ArticlesSearch>();
 
-    const author = search.author || undefined;
-    const tags = search.tags || undefined;
-    const draft = Boolean(search.draft) ?? false;
     const categories = (search.categories as ArticleCategoryEnum[]) || [];
 
     const selectedCategory = categories.length === 1 && categories[0];
@@ -49,17 +43,7 @@ const ArticleList: FC<Props> = () => {
         isFetchingNextPage,
         isPending,
         hasNextPage,
-    } = useInfiniteList(
-        getArticlesInfiniteOptions({
-            body: {
-                categories,
-                author,
-                sort: expandSort('article', search.sort, search.order),
-                tags,
-                draft,
-            },
-        }),
-    );
+    } = useInfiniteList(articleListOptions(search));
 
     return (
         <Block>

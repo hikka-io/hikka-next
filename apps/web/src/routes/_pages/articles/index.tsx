@@ -1,12 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import {
-    type ArticleCategoryEnum,
-    getArticlesInfiniteOptions,
-    getArticleTopOptions,
-    paginationPageParam,
-} from '@hikka/api';
+import { getArticleTopOptions, paginationPageParam } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
 import {
@@ -15,29 +10,18 @@ import {
     ArticleListPopularAuthors,
     ArticleListPopularTags,
 } from '@/features/articles';
+import { articleListOptions } from '@/features/articles/queries';
 import { generateHeadMeta } from '@/utils/metadata';
 import { articlesSearchSchema } from '@/utils/search-schemas';
-import { expandSort } from '@/utils/sort';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/articles/')({
     validateSearch: zodValidator(articlesSearchSchema),
     loaderDeps: ({ search }) => search,
     loader: async ({ context: { queryClient, apiClient }, deps }) => {
-        const { author, tags = [], draft, categories = [] } = deps;
-
         await Promise.allSettled([
             queryClient.ensureInfiniteQueryData({
-                ...getArticlesInfiniteOptions({
-                    body: {
-                        author: author as string,
-                        sort: expandSort('article', deps.sort, deps.order),
-                        tags: tags as string[],
-                        draft: Boolean(draft),
-                        categories: categories as ArticleCategoryEnum[],
-                    },
-                    client: apiClient,
-                }),
+                ...articleListOptions(deps, apiClient),
                 ...paginationPageParam(),
             }),
             queryClient.prefetchQuery(
