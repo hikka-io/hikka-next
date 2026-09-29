@@ -5,8 +5,11 @@ import {
     thirdPartyAuthTokensInfiniteOptions,
 } from '@hikka/api';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { AuthorizedAppsSettings } from '@/features/settings';
+import {
+    AuthorizedAppsSettings,
+    SettingsPage,
+    settingsHead,
+} from '@/features/settings';
 
 export const Route = createFileRoute(
     '/_pages/settings/applications/authorized',
@@ -17,26 +20,17 @@ export const Route = createFileRoute(
             ...paginationPageParam(),
         });
     },
-    head: () => ({
-        meta: [{ title: 'Авторизовані застосунки / Налаштування / Hikka' }],
-    }),
+    head: () => settingsHead('Авторизовані застосунки'),
     component: AuthorizedAppsPage,
 });
 
 function AuthorizedAppsPage() {
     return (
-        <div className="flex flex-col gap-8">
-            <div className="flex flex-col">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle>Авторизовані застосунки</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <p className="text-muted-foreground text-sm">
-                    Застосунки, яким ви надали доступ до свого акаунту
-                </p>
-            </div>
+        <SettingsPage
+            title="Авторизовані застосунки"
+            description="Застосунки, яким ви надали доступ до свого акаунту"
+        >
             <AuthorizedAppsSettings />
-        </div>
+        </SettingsPage>
     );
 }

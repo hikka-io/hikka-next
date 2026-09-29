@@ -15,10 +15,13 @@ export { default as PasswordSettings } from './password-settings';
 export { default as ProfileDescription } from './profile/profile-description';
 export { default as ProfileImages } from './profile/profile-images';
 export { default as ProfileUsername } from './profile/profile-username';
+export { settingsHead } from './settings-head';
 export { SETTINGS_MENU } from './settings-menu';
 export {
     getActiveTopLevelHref,
     isGroupActive,
     isNavLinkActive,
 } from './settings-nav';
+export { default as SettingsPage } from './settings-page';
+export { default as SettingsSection } from './settings-section';
 export { default as SettingsSidebar } from './settings-sidebar';

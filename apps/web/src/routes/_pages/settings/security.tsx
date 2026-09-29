@@ -1,44 +1,30 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { EmailSettings, PasswordSettings } from '@/features/settings';
+import {
+    EmailSettings,
+    PasswordSettings,
+    SettingsPage,
+    SettingsSection,
+    settingsHead,
+} from '@/features/settings';
 
 export const Route = createFileRoute('/_pages/settings/security')({
-    head: () => ({
-        meta: [{ title: 'Безпека / Налаштування / Hikka' }],
-    }),
+    head: () => settingsHead('Безпека'),
     component: SecuritySettingsPage,
 });
 
 function SecuritySettingsPage() {
     return (
-        <div className="flex flex-col gap-8">
-            <div className="flex flex-col">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle>Безпека</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
-                <p className="text-muted-foreground text-sm">
-                    Захистіть свій обліковий запис: змініть пароль чи email
-                </p>
-            </div>
-            <div className="flex flex-col gap-4">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Поштова адреса</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
+        <SettingsPage
+            title="Безпека"
+            description="Захистіть свій обліковий запис: змініть пароль чи email"
+        >
+            <SettingsSection title="Поштова адреса">
                 <EmailSettings />
-            </div>
-            <div className="flex flex-col gap-4">
-                <Header>
-                    <HeaderContainer>
-                        <HeaderTitle variant="h4">Пароль</HeaderTitle>
-                    </HeaderContainer>
-                </Header>
+            </SettingsSection>
+            <SettingsSection title="Пароль">
                 <PasswordSettings />
-            </div>
-        </div>
+            </SettingsSection>
+        </SettingsPage>
     );
 }
