@@ -1,6 +1,6 @@
 import { type LucideIcon, Meh, ThumbsDown, ThumbsUp } from 'lucide-react';
 
-import type { Verdict } from './utils/review';
+import type { Verdict } from './review';
 
 /**
  * The three review verdicts, in display order. The composer and the stats card

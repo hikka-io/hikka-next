@@ -3,8 +3,8 @@ import type { FC } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 
+import type { Verdict } from './review';
 import { REVIEW_VERDICTS } from './review-verdicts';
-import type { Verdict } from './utils/review';
 
 const ACTIVE_CLASS: Record<Verdict, string> = {
     yes: 'border-success-foreground/50 bg-success-foreground/20 text-success-foreground hover:bg-success-foreground/25 hover:text-success-foreground dark:border-success-foreground/50 dark:bg-success-foreground/20 dark:hover:bg-success-foreground/25',
@@ -20,7 +20,7 @@ type Props = {
     bare?: boolean;
 };
 
-const CommentVerdictPicker: FC<Props> = ({
+const VerdictPicker: FC<Props> = ({
     value,
     onChange,
     className,
@@ -63,4 +63,4 @@ const CommentVerdictPicker: FC<Props> = ({
     );
 };
 
-export default CommentVerdictPicker;
+export default VerdictPicker;

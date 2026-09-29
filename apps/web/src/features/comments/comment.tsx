@@ -17,9 +17,9 @@ import { REPLY_FORMS } from '@/utils/i18n/word-forms';
 import CommentFooter from './comment-footer';
 import CommentHeader from './comment-header';
 import CommentInput from './comment-input';
-import Comments from './comments';
+import CommentTree from './comment-tree';
 import { useCommentsContext } from './comments-provider';
-import { useCommentThread } from './hooks';
+import { useCommentThread } from './use-comment-thread';
 import {
     buildCommentTree,
     type CommentNode,
@@ -220,7 +220,7 @@ const Comment: FC<Props> = ({ comment, slug, content_type, contentTitle }) => {
 
             {expand && hasReplies && (
                 <div className="mt-6 ml-4">
-                    <Comments
+                    <CommentTree
                         slug={slug}
                         content_type={content_type}
                         contentTitle={contentTitle}

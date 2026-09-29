@@ -8,7 +8,7 @@ import {
 
 import { usePageHeader } from '@/features/app-shell';
 import { CommentList, prefetchContent } from '@/features/comments';
-import { commentThreadInfiniteOptions } from '@/features/comments/hooks/use-comment-thread';
+import { commentThreadInfiniteOptions } from '@/features/comments/use-comment-thread';
 import { ContentSubpage, useContentTitle } from '@/features/content';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({

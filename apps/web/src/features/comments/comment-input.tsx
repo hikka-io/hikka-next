@@ -20,10 +20,10 @@ import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
 import { cn } from '@/utils/cn';
 
 import CommentInputBottomBar from './comment-input-bottom-bar';
-import CommentVerdictPicker from './comment-verdict-picker';
 import { useCommentsContext } from './comments-provider';
-import type { Verdict } from './utils/review';
-import { canToggleReview, getPlainTextLength } from './utils/review';
+import type { Verdict } from './review/review';
+import { canToggleReview, getPlainTextLength } from './review/review';
+import VerdictPicker from './review/verdict-picker';
 
 type Props = {
     slug: string;
@@ -126,7 +126,7 @@ const CommentInput: FC<Props> = ({
     };
 
     const verdictCard = showVerdictPicker && (
-        <CommentVerdictPicker value={verdict} onChange={setVerdict} />
+        <VerdictPicker value={verdict} onChange={setVerdict} />
     );
 
     return (

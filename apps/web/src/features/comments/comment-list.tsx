@@ -1,6 +1,6 @@
 import { type FC, useMemo, useState } from 'react';
 
-import { LayoutGrid, MessageCircle, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 
 import {
     type CommentContentTypeEnum as CommentsContentType,
@@ -13,7 +13,7 @@ import MaterialSymbolsLockOpenRounded from '@/components/icons/material-symbols/
 import LoadMoreButton from '@/components/load-more-button';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
-import { type ChipTabOption, ChipTabs } from '@/components/ui/chip-tabs';
+import { ChipTabs } from '@/components/ui/chip-tabs';
 import EmptyState from '@/components/ui/empty-state';
 import {
     Header,
@@ -32,41 +32,15 @@ import { getCommentSort } from '@/utils/sort';
 
 import CommentInput from './comment-input';
 import { CommentListSkeleton } from './comment-skeleton';
-import Comments from './comments';
+import CommentTree from './comment-tree';
+import { COMMENT_TYPE_OPTIONS, type CommentType } from './comment-type-options';
 import CommentsProvider from './comments-provider';
-import {
-    type CommentSortProps,
-    useCommentSort,
-    useCommentThread,
-    useReviewStats,
-} from './hooks';
-import ReviewStatsCard from './review-stats-card';
+import { getReviewTotal, supportsReviews, type Verdict } from './review/review';
+import ReviewStatsCard from './review/review-stats-card';
+import { useReviewStats } from './review/use-review-stats';
+import { type CommentSortProps, useCommentSort } from './use-comment-sort';
+import { useCommentThread } from './use-comment-thread';
 import { buildCommentTree, type CommentNode } from './utils/build-comment-tree';
-import { getReviewTotal, supportsReviews, type Verdict } from './utils/review';
-
-export type CommentType = 'all' | 'comment' | 'review';
-
-export const COMMENT_TYPE_OPTIONS: ChipTabOption<CommentType>[] = [
-    {
-        label: 'Усі',
-        value: 'all',
-        icon: LayoutGrid,
-    },
-    {
-        label: 'Коментарі',
-        value: 'comment',
-        icon: MessageCircle,
-        activeClass:
-            'border border-feed-comment/40 bg-feed-comment/15 text-feed-comment',
-    },
-    {
-        label: 'Відгуки',
-        value: 'review',
-        icon: Star,
-        activeClass:
-            'border border-feed-review/40 bg-feed-review/15 text-feed-review',
-    },
-];
 
 type Props = {
     slug: string;
@@ -303,7 +277,7 @@ const CommentList: FC<Props> = ({
                             />
                         ))}
                     {list && (
-                        <Comments
+                        <CommentTree
                             slug={slug}
                             content_type={content_type}
                             contentTitle={contentTitle}

@@ -9,9 +9,9 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 
-import CommentVerdictPicker from './comment-verdict-picker';
-import { useReviewConversion } from './hooks';
-import type { Verdict } from './utils/review';
+import type { Verdict } from './review';
+import { useReviewConversion } from './use-review-conversion';
+import VerdictPicker from './verdict-picker';
 
 type Props = {
     comment: CommentResponse;
@@ -44,11 +44,7 @@ const ConvertReviewDialog: FC<Props> = ({ comment, open, onOpenChange }) => {
                 title="Зробити відгуком"
                 description="Оберіть вашу оцінку — коментар стане відгуком, текст залишиться без змін."
             >
-                <CommentVerdictPicker
-                    value={verdict}
-                    onChange={setVerdict}
-                    bare
-                />
+                <VerdictPicker value={verdict} onChange={setVerdict} bare />
                 <ResponsiveModalFooter>
                     <Button
                         variant="outline"

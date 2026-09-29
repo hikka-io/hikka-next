@@ -18,7 +18,7 @@ type Props = {
     onToggleThread?: () => void;
 };
 
-const Comments: FC<Props> = ({
+const CommentTree: FC<Props> = ({
     comments,
     slug,
     content_type,
@@ -86,4 +86,4 @@ const Comments: FC<Props> = ({
     );
 };
 
-export default Comments;
+export default CommentTree;

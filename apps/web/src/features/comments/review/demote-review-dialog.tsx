@@ -13,7 +13,7 @@ import {
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-import { useReviewConversion } from './hooks';
+import { useReviewConversion } from './use-review-conversion';
 
 type Props = {
     comment: CommentResponse;

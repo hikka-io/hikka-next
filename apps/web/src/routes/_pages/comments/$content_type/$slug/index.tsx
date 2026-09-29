@@ -15,8 +15,8 @@ import {
     CommentList,
     prefetchContent,
     UserCommentList,
+    type Verdict,
 } from '@/features/comments';
-import type { Verdict } from '@/features/comments/utils/review';
 import { ContentSubpage, useContentTitle } from '@/features/content';
 import { useChangeParam } from '@/features/filters';
 import { contentPath } from '@/utils/content-paths';

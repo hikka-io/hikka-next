@@ -27,10 +27,10 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { getCommentSort } from '@/utils/sort';
 
-import { COMMENT_TYPE_OPTIONS, type CommentType } from './comment-list';
 import { CommentListSkeleton } from './comment-skeleton';
+import { COMMENT_TYPE_OPTIONS, type CommentType } from './comment-type-options';
 import CommentsProvider from './comments-provider';
-import { type CommentSortProps, useCommentSort } from './hooks';
+import { type CommentSortProps, useCommentSort } from './use-comment-sort';
 import UserComment from './user-comment';
 
 type Props = {

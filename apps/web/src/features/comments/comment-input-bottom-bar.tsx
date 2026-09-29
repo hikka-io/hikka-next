@@ -22,8 +22,8 @@ import { invalidateComments } from '@/utils/api/invalidate-content-state';
 import { getCommentText, getCommentValue } from '@/utils/plate';
 
 import { useCommentsContext } from './comments-provider';
-import type { Verdict } from './utils/review';
-import { toReviewArgs } from './utils/review';
+import type { Verdict } from './review/review';
+import { toReviewArgs } from './review/review';
 
 const MAX_COMMENT_DEPTH = 5;
 
