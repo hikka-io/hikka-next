@@ -16,7 +16,6 @@ import { Link } from '@/utils/navigation';
 
 type Props = {
     collection: CollectionResponse;
-    hideAuthor?: boolean;
 };
 
 const CollectionWidgetItem: FC<Props> = ({ collection }) => {

@@ -96,7 +96,6 @@ const CollectionsWidget: FC<WidgetProps> = () => {
                             <CollectionWidgetItem
                                 key={collection.reference}
                                 collection={collection}
-                                hideAuthor={isOwn}
                             />
                         ))}
 
