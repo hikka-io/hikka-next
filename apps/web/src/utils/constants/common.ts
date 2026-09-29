@@ -1,10 +1,11 @@
+// Content configuration
+export { CONTENT_TYPES } from '@/utils/labels/content-types';
+
 // Collection options
 export {
     COLLECTION_CONTENT_TYPE_OPTIONS,
     COLLECTION_VISIBILITY_OPTIONS,
 } from './collection-options';
-// Content configuration
-export { CONTENT_CONFIG, CONTENT_TYPES } from './content-config';
 export {
     AGE_RATING,
     ANIME_MEDIA_TYPE,

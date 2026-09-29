@@ -5,8 +5,9 @@ import MAL from '@/components/icons/custom/MAL';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/utils/cn';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
+
+import { CONTENT_CONFIG } from './content-config';
 
 type ScoresProps = {
     className?: string;

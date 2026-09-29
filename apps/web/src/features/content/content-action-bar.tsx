@@ -13,9 +13,11 @@ import { usePageTitleReveal } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
 import EditButton from '@/features/edit/edit-button';
 import { cn } from '@/utils/cn';
-import { COMMENT_DECLENSIONS, CONTENT_CONFIG } from '@/utils/constants/common';
+import { COMMENT_DECLENSIONS } from '@/utils/constants/common';
 import { getDeclensionWord } from '@/utils/i18n/declension';
 import { Link, useParams } from '@/utils/navigation';
+
+import { CONTENT_CONFIG } from './content-config';
 
 type Props = {
     className?: string;

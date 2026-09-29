@@ -1,15 +1,18 @@
 import type { FC } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
+
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import FavoriteButton from '@/components/action-buttons/favorite-button';
 import ReadListButton from '@/components/action-buttons/readlist-button';
 import WatchlistButton from '@/components/action-buttons/watchlist-button';
 import { useSession } from '@/features/auth/hooks/use-session';
+import { listEntryOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
+import { CONTENT_CONFIG } from '../content-config';
 import UserContentStats from './components/user-content-stats';
 
 type Props = {
@@ -21,9 +24,9 @@ const Actions: FC<Props> = ({ content_type, className }) => {
     const params = useParams();
     const { user } = useSession();
 
-    const { data: userlist, isError } = CONTENT_CONFIG[
-        content_type
-    ].useUserlistRecord(String(params.slug));
+    const { data: userlist, isError } = useQuery(
+        listEntryOptions(content_type, String(params.slug)),
+    );
     const { data: content } = CONTENT_CONFIG[content_type].useInfo(
         String(params.slug),
     );

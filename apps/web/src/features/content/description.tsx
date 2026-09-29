@@ -1,8 +1,9 @@
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import DescriptionBlock from '@/components/description-block';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
+
+import { CONTENT_CONFIG } from './content-config';
 
 type Props = {
     className?: string;

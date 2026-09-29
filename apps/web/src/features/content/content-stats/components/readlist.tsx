@@ -5,9 +5,10 @@ import type {
     ReadStatusEnum,
 } from '@hikka/api';
 
-import { CONTENT_CONFIG, READ_STATUS } from '@/utils/constants/common';
+import { READ_STATUS } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
+import { CONTENT_CONFIG } from '../../content-config';
 import Stats from './stats';
 
 type Props = {

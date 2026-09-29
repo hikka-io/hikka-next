@@ -8,9 +8,9 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
+import { CONTENT_CONFIG } from '../content-config';
 import Ost from './components/ost';
 import Video from './components/video';
 

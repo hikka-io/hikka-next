@@ -3,9 +3,9 @@ import type { FC } from 'react';
 import type { MainContentTypeEnum } from '@hikka/api';
 
 import LoadMoreButton from '@/components/load-more-button';
-import { CONTENT_CONFIG } from '@/utils/constants/common';
 import { useParams } from '@/utils/navigation';
 
+import { CONTENT_CONFIG } from '../content-config';
 import MainCharacters from './components/main-characters';
 import OtherCharacters from './components/other-characters';
 
