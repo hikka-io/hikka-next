@@ -8,7 +8,7 @@ import { followStatsOptions } from '@hikka/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
-import { LoginButton } from '@/features/app-shell';
+import { LoginButton } from '@/features/auth';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { FollowListModal } from '@/features/users';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';

@@ -15,8 +15,7 @@ import {
     userWatchStatsOptions,
 } from '@hikka/api';
 
-import CoverImage from '@/components/cover-image';
-import { usePageHeader } from '@/features/app-shell';
+import { CoverImage, usePageHeader } from '@/features/app-shell';
 import {
     ActivationAlert,
     FollowStats,

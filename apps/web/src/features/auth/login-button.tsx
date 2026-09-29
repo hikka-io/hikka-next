@@ -1,15 +1,8 @@
-import { useRouterState } from '@tanstack/react-router';
-
 import { Button, type ButtonProps } from '@/components/ui/button';
-import { Link } from '@/utils/navigation';
+import { Link, useCurrentUrl } from '@/utils/navigation';
 
 const LoginButton = (props: ButtonProps) => {
-    const currentUrl = useRouterState({
-        select: (s) => {
-            const loc = s.resolvedLocation ?? s.location;
-            return loc.pathname + loc.searchStr;
-        },
-    });
+    const currentUrl = useCurrentUrl();
 
     return (
         <Button

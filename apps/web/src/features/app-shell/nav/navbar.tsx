@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { LoginButton } from '@/features/auth';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { NotificationsMenu } from '@/features/notifications';
 import { SearchModal } from '@/features/search';
@@ -6,7 +7,6 @@ import useScrollTrigger from '@/services/hooks/use-scroll-trigger';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
 
-import LoginButton from '../login-button';
 import NavMenu from './components/nav-menu';
 import ProfileMenu from './components/profile-menu';
 

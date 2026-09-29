@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Link } from '@/utils/navigation';
 
-import { useProfileMenu } from '../hooks/use-profile-menu';
+import { useProfileMenu } from '../use-profile-menu';
 import ProfileIdentity from './profile-identity';
 
 const ProfileMenu = () => {

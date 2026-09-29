@@ -10,7 +10,7 @@ import {
 import { useSession } from '@/features/auth/hooks/use-session';
 import { useCurrentUrl } from '@/utils/navigation';
 
-import { PROFILE_MENU } from '../../nav-config';
+import { PROFILE_MENU } from '../nav-config';
 
 export type ProfileMenuItem = Hikka.NavRoute & { count?: number };
 

@@ -16,9 +16,11 @@ import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import { profileUiQueryKey, type UserCustomizationResponse } from '@hikka/api';
 
 import JsonLd from '@/components/json-ld';
-import NotFoundPage from '@/components/not-found-page';
-import RouterProgressBar from '@/components/router-progress-bar';
-import { Providers } from '@/features/app-shell';
+import {
+    NotFoundPage,
+    Providers,
+    RouterProgressBar,
+} from '@/features/app-shell';
 import { UiPreferencesProvider } from '@/services/ui-preferences-store';
 import {
     getThemeCookieFn,

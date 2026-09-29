@@ -12,7 +12,7 @@ import {
     profileUiOptions,
 } from '@hikka/api';
 
-import ErrorPage from '@/components/error-page';
+import { ErrorPage } from '@/features/app-shell';
 import { getInternalApiUrl, PUBLIC_API_URL } from '@/utils/api/base-url';
 import { getClientIpFn } from '@/utils/api/client-ip';
 import { shouldSkipGlobalErrorToast } from '@/utils/api/mutation-meta';

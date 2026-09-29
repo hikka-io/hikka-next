@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/drawer';
 import { Link, usePathname } from '@/utils/navigation';
 
-import { navRowClassName } from '../nav-styles';
+import { NAV_ROW_CLASS_NAME } from '../nav-styles';
 
 type Props = PropsWithChildren & {
     routes: Hikka.NavRoute[];
@@ -45,7 +45,7 @@ const HeaderNavSheet: FC<Props> = ({ routes, urlPrefix, children }) => {
                             to={`${urlPrefix}${route.url}`}
                             search={route.search}
                             onClick={() => setOpen(false)}
-                            className={navRowClassName}
+                            className={NAV_ROW_CLASS_NAME}
                             data-active={isCurrent(route)}
                         >
                             {route.icon && <route.icon />}

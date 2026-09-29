@@ -1,16 +1,13 @@
 import type { FC } from 'react';
 
 import MaterialSymbolsLoginRounded from '@/components/icons/material-symbols/MaterialSymbolsLoginRounded';
-import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import { Link, useCurrentUrl } from '@/utils/navigation';
+import { LoginButton } from '@/features/auth';
 
 type Props = {};
 
 const OAuthAuthNeeded: FC<Props> = () => {
-    const currentUrl = useCurrentUrl();
-
     return (
         <Card className="w-full flex-row items-center justify-between">
             <div className="flex items-center gap-4">
@@ -28,15 +25,7 @@ const OAuthAuthNeeded: FC<Props> = () => {
                     </p>
                 </div>
             </div>
-            <Button
-                size="md"
-                variant="outline"
-                render={
-                    <Link to="/login" search={{ callbackUrl: currentUrl }} />
-                }
-            >
-                Увійти
-            </Button>
+            <LoginButton variant="outline" />
         </Card>
     );
 };

@@ -21,8 +21,7 @@ import {
     WatchStatusEnum,
 } from '@hikka/api';
 
-import CoverImage from '@/components/cover-image';
-import { usePageHeader } from '@/features/app-shell';
+import { CoverImage, usePageHeader } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
 import { FeedLayout, HomeHeaderActions } from '@/features/home';
 import { generateHeadMeta } from '@/utils/metadata';
