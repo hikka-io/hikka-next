@@ -24,13 +24,13 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';
 
-import ActivityModal from './components/history-modal';
+import HistoryModal from './history-modal';
 
 type Props = {
     className?: string;
 };
 
-const History: FC<Props> = ({ className }) => {
+const UserHistory: FC<Props> = ({ className }) => {
     const params = useParams();
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
@@ -86,11 +86,11 @@ const History: FC<Props> = ({ className }) => {
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Активність">
-                    <ActivityModal />
+                    <HistoryModal />
                 </ResponsiveModalContent>
             </ResponsiveModal>
         </>
     );
 };
 
-export default History;
+export default UserHistory;

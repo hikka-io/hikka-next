@@ -11,11 +11,11 @@ import {
 } from '@hikka/api';
 
 import {
-    UserCollections as Collections,
-    UserFavorites as Favorites,
-    UserHistoryProfile as History,
     UserActivity,
     UserArticles,
+    UserCollections,
+    UserFavorites,
+    UserHistory,
     UserListStats,
 } from '@/features/users';
 
@@ -83,7 +83,7 @@ function UserPage() {
                     <UserActivity />
                 </div>
                 <div className="order-3 lg:order-0">
-                    <Favorites />
+                    <UserFavorites />
                 </div>
                 <div className="order-4 lg:order-0">
                     <UserArticles />
@@ -94,10 +94,10 @@ function UserPage() {
                 id="profile-right-side"
             >
                 <div className="order-2 lg:order-0">
-                    <History />
+                    <UserHistory />
                 </div>
                 <div className="order-2 lg:order-0">
-                    <Collections />
+                    <UserCollections />
                 </div>
             </div>
         </div>

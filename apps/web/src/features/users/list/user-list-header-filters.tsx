@@ -3,19 +3,19 @@ import type { MainContentTypeEnum } from '@hikka/api';
 import { HeaderFiltersButton } from '@/features/filters';
 import { useParams } from '@/utils/navigation';
 
-import UserlistFiltersModal from './userlist-filters-modal';
+import UserListFiltersModal from './user-list-filters-modal';
 
-const UserlistHeaderFilters = () => {
+const UserListHeaderFilters = () => {
     const params = useParams();
     const content_type = params.content_type as MainContentTypeEnum;
 
     return (
         <HeaderFiltersButton
             renderModal={(props) => (
-                <UserlistFiltersModal content_type={content_type} {...props} />
+                <UserListFiltersModal content_type={content_type} {...props} />
             )}
         />
     );
 };
 
-export default UserlistHeaderFilters;
+export default UserListHeaderFilters;

@@ -27,7 +27,7 @@ import { DAY_FORMS, HOUR_FORMS, MONTH_FORMS } from '@/utils/i18n/word-forms';
 import { LIST_STATUS } from '@/utils/labels';
 import { Link } from '@/utils/navigation';
 
-import StatusProgressBar from './components/status-progress-bar';
+import StatusProgressBar from './status-progress-bar';
 
 type Props = {
     type: MainContentTypeEnum;

@@ -1,10 +1,10 @@
-export { default as ActivationAlert } from './activation-alert';
 export { default as CropEditorModal } from './crop-editor-modal';
 export { default as FollowListModal } from './follow-list-modal';
-export { default as FollowStats } from './follow-stats';
+export { default as UserHistoryPage } from './history';
 export * from './list';
 export * from './profile';
-export { default as UserHistory } from './user-history';
-export { default as UserInfo } from './user-info';
+export { default as ActivationAlert } from './profile-header/activation-alert';
+export { default as FollowStats } from './profile-header/follow-stats';
+export { default as UserAvatar } from './profile-header/user-avatar';
+export { default as UserTitle } from './profile-header/user-title';
 export { USER_NAV_ROUTES } from './user-nav-routes';
-export { default as UserTitle } from './user-title';

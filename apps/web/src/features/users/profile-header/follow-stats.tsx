@@ -17,7 +17,7 @@ import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-chang
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
-import FollowListModal from './follow-list-modal';
+import FollowListModal from '../follow-list-modal';
 
 type Props = {
     className?: string;

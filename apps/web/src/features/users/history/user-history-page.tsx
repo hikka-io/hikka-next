@@ -10,14 +10,14 @@ import { cn } from '@/utils/cn';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 import type { HistorySearch } from '@/utils/search-schemas';
 
-import FollowingHistory from './components/following-history';
-import History from './components/history';
+import FollowingHistory from './following-history';
+import History from './history';
 
 type Props = {
     className?: string;
 };
 
-const UserHistory: FC<Props> = ({ className }) => {
+const UserHistoryPage: FC<Props> = ({ className }) => {
     const params = useParams();
     const router = useRouter();
     const { type: searchType } = useRouteSearch<HistorySearch>();
@@ -64,4 +64,4 @@ const UserHistory: FC<Props> = ({ className }) => {
     );
 };
 
-export default UserHistory;
+export default UserHistoryPage;

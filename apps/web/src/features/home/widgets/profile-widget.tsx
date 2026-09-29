@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/responsive-modal';
 import { LoginButton } from '@/features/app-shell';
 import { useSession } from '@/features/auth/hooks/use-session';
-import FollowListModal from '@/features/users/follow-list-modal';
+import { FollowListModal } from '@/features/users';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
 import { Link } from '@/utils/navigation';
 

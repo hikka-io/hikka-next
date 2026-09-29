@@ -6,7 +6,7 @@ import Card from '@/components/ui/card';
 import { Header, HeaderTitle } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/features/auth/hooks/use-session';
-import { ListTabContent } from '@/features/users/profile/user-list-stats';
+import { ListTabContent } from '@/features/users';
 
 import type { WidgetProps } from '../constants';
 

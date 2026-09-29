@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import { UserHistory as History } from '@/features/users';
+import { UserHistoryPage } from '@/features/users';
 import { generateHeadMeta } from '@/utils/metadata';
 import { historySearchSchema } from '@/utils/search-schemas';
 
@@ -15,7 +15,7 @@ export const Route = createFileRoute('/_pages/u/$username/history')({
 function HistoryPage() {
     return (
         <div className="flex flex-col gap-12">
-            <History />
+            <UserHistoryPage />
         </div>
     );
 }

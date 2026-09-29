@@ -51,7 +51,7 @@ import { CONTENT_TYPES, LIST_STATUS } from '@/utils/labels';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
 
-import UserlistFiltersModal from './userlist-filters-modal';
+import UserListFiltersModal from './user-list-filters-modal';
 
 const STATUSES = { ...LIST_STATUS.watch, ...LIST_STATUS.read };
 const STATUS_ICONS = { ...LIST_STATUS_ICONS.watch, ...LIST_STATUS_ICONS.read };
@@ -60,7 +60,7 @@ type Props = {
     content_type: MainContentTypeEnum;
 };
 
-const UserlistNavbar: FC<Props> = ({ content_type }) => {
+const UserListNavbar: FC<Props> = ({ content_type }) => {
     const isAnime = content_type === ContentTypeEnum.ANIME;
     const router = useRouter();
     const queryClient = useQueryClient();
@@ -287,7 +287,7 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
                     <FiltersButton
                         className="lg:hidden"
                         renderModal={(props) => (
-                            <UserlistFiltersModal
+                            <UserListFiltersModal
                                 content_type={content_type}
                                 {...props}
                             />
@@ -332,4 +332,4 @@ const UserlistNavbar: FC<Props> = ({ content_type }) => {
     );
 };
 
-export default UserlistNavbar;
+export default UserListNavbar;

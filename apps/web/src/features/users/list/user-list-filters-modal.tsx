@@ -14,7 +14,7 @@ type Props = {
     onOpenChange: (open: boolean) => void;
 };
 
-const UserlistFiltersModal: FC<Props> = ({
+const UserListFiltersModal: FC<Props> = ({
     content_type,
     open,
     onOpenChange,
@@ -34,4 +34,4 @@ const UserlistFiltersModal: FC<Props> = ({
         />
     );
 
-export default UserlistFiltersModal;
+export default UserListFiltersModal;

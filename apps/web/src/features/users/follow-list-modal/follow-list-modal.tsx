@@ -21,7 +21,7 @@ type Props = {
     username?: string;
 };
 
-const FollowlistModal = ({ type, username }: Props) => {
+const FollowListModal = ({ type, username }: Props) => {
     const params = useParams();
     const resolvedUsername = username ?? String(params.username);
 
@@ -83,4 +83,4 @@ const FollowlistModal = ({ type, username }: Props) => {
     );
 };
 
-export default FollowlistModal;
+export default FollowListModal;

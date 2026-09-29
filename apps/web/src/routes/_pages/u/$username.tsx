@@ -21,8 +21,8 @@ import {
     ActivationAlert,
     FollowStats,
     USER_NAV_ROUTES,
-    UserInfo,
-    UserlistHeaderFilters,
+    UserAvatar,
+    UserListHeaderFilters,
     UserTitle,
 } from '@/features/users';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
@@ -134,7 +134,7 @@ function UserLayout() {
         navUrlPrefix: profileUrl,
         anchored: true,
         actionsAnchored: true,
-        actionsComponent: isListRoute ? UserlistHeaderFilters : undefined,
+        actionsComponent: isListRoute ? UserListHeaderFilters : undefined,
     });
 
     return (
@@ -143,7 +143,7 @@ function UserLayout() {
             <CoverImage cover={user?.cover ?? undefined} />
             <div className="flex flex-col gap-4 md:flex-row lg:items-end lg:gap-8">
                 <div className="flex min-w-0 flex-1 gap-4 lg:gap-8">
-                    <UserInfo />
+                    <UserAvatar />
                     <UserTitle />
                 </div>
                 <FollowStats className="shrink-0" />

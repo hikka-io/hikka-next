@@ -23,9 +23,9 @@ import {
 import { useSession } from '@/features/auth/hooks/use-session';
 import { Link, useParams } from '@/utils/navigation';
 
-import CropEditorModal from './crop-editor-modal';
+import CropEditorModal from '../crop-editor-modal';
 
-const UserInfo = () => {
+const UserAvatar = () => {
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
     const uploadCoverRef = useRef<HTMLInputElement>(null);
     const [open, setOpen] = useState(false);
@@ -160,4 +160,4 @@ const UserInfo = () => {
     );
 };
 
-export default UserInfo;
+export default UserAvatar;

@@ -15,8 +15,8 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 
+import { favoritePreview } from '../favorite-preview';
 import FavoriteMoreCard from './favorite-more-card';
-import { favoritePreview } from './favorite-preview';
 import FavoriteSkeleton from './favorite-skeleton';
 
 type Props = {

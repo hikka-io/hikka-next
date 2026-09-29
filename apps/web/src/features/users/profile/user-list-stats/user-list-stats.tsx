@@ -14,8 +14,6 @@ import { useParams } from '@/utils/navigation';
 
 import ListTabContent from './list-tab-content';
 
-export { ListTabContent };
-
 type ListContentType = MainContentTypeEnum;
 
 const TAB_LIST_CONFIG: Record<

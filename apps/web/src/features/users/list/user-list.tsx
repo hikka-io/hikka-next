@@ -15,16 +15,16 @@ import type { UserlistSearch } from '@/utils/search-schemas';
 
 import GridView from './components/grid-view';
 import RecordsNotFound from './components/records-not-found';
-import TableView from './components/table-view';
-import { useReadList } from './hooks/use-readlist';
-import { useWatchList } from './hooks/use-watchlist';
+import TableView from './table-view';
+import { useReadList } from './use-read-list';
+import { useWatchList } from './use-watch-list';
 
 type Props = {
     content_type: MainContentTypeEnum;
     extendedSize?: StackSize;
 };
 
-const List: FC<Props> = ({ content_type, extendedSize }) => {
+const UserList: FC<Props> = ({ content_type, extendedSize }) => {
     const search = useRouteSearch<Pick<UserlistSearch, 'status'>>();
     const { view } = useCatalogView('userlist');
     const isAnime = content_type === ContentTypeEnum.ANIME;
@@ -74,4 +74,4 @@ const List: FC<Props> = ({ content_type, extendedSize }) => {
     );
 };
 
-export default List;
+export default UserList;

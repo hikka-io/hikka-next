@@ -29,7 +29,7 @@ import {
     ReadFilters,
     useFiltersSidebar,
 } from '@/features/filters';
-import { Userlist, UserlistNavbar } from '@/features/users';
+import { UserList, UserListNavbar } from '@/features/users';
 import { cn } from '@/utils/cn';
 import { CONTENT_TYPES } from '@/utils/labels';
 import { generateHeadMeta } from '@/utils/metadata';
@@ -175,8 +175,8 @@ function ListPage() {
                 )}
             >
                 <div className="flex flex-col gap-4">
-                    <UserlistNavbar content_type={content_type} />
-                    <Userlist
+                    <UserListNavbar content_type={content_type} />
+                    <UserList
                         content_type={content_type}
                         extendedSize={
                             view === 'grid' ? extendedSize : undefined
