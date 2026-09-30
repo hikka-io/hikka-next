@@ -5,6 +5,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { API_LIMITS, searchUsersOptions } from '@hikka/api';
 
+import { DEBOUNCE_MS } from '@/services/hooks/use-debounce';
+
 import UserFilter from './user';
 
 (
@@ -63,6 +65,7 @@ const lastOptions = () => mocks.useQuery.mock.calls.at(-1)?.[0] as QueryOptions;
 let root: ReturnType<typeof createRoot> | undefined;
 
 beforeEach(async () => {
+    vi.useFakeTimers();
     mocks.useQuery.mockClear();
     root = createRoot(document.createElement('div'));
     await act(async () => {
@@ -72,10 +75,22 @@ beforeEach(async () => {
 
 afterEach(async () => {
     await act(async () => root?.unmount());
+    vi.useRealTimers();
 });
 
-const search = async (keyword: string) => {
+const type = async (keyword: string) => {
     await act(async () => mocks.onSearch?.(keyword));
+};
+
+const pause = async () => {
+    await act(async () => {
+        vi.advanceTimersByTime(DEBOUNCE_MS.input);
+    });
+};
+
+const search = async (keyword: string) => {
+    await type(keyword);
+    await pause();
 };
 
 describe('UserFilter', () => {
@@ -108,5 +123,30 @@ describe('UserFilter', () => {
         expect(lastOptions().queryKey).toEqual(
             searchUsersOptions({ body: { query: keyword } }).queryKey,
         );
+    });
+
+    it('waits for the typing to pause before searching', async () => {
+        await type('abc');
+
+        expect(lastOptions().enabled).toBe(false);
+
+        await pause();
+
+        expect(lastOptions().enabled).toBe(true);
+    });
+
+    it('searches only the last keyword of a fast burst', async () => {
+        await type('abc');
+        await type('abcd');
+        await pause();
+
+        expect(lastOptions().queryKey).toEqual(
+            searchUsersOptions({ body: { query: 'abcd' } }).queryKey,
+        );
+        expect(
+            mocks.useQuery.mock.calls.filter(
+                ([options]) => (options as QueryOptions).enabled === true,
+            ),
+        ).toHaveLength(1);
     });
 });

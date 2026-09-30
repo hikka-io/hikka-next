@@ -21,6 +21,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
+import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useRouteSearch } from '@/utils/navigation';
 import type { AnimeFilterSearch } from '@/utils/search-schemas';
@@ -34,18 +36,21 @@ type Props = {
     className?: string;
 };
 
-const Studio: FC<Props> = () => {
-    const { studios = [] } =
-        useRouteSearch<Pick<AnimeFilterSearch, 'studios'>>();
-
+const useStudioSearch = (enabled = true) => {
     const [studioSearch, setStudioSearch] = useState<string>();
-    const { list, isFetching: isStudioListFetching } = useInfiniteList(
+    const [debouncedSearch] = useDebounce({
+        value: studioSearch,
+        delay: DEBOUNCE_MS.input,
+    });
+
+    const { list, isFetching } = useInfiniteList(
         searchCompaniesInfiniteOptions({
             body: {
                 type: CompanyTypeEnum.STUDIO,
-                query: studioSearch,
+                query: debouncedSearch,
             },
         }),
+        { enabled },
     );
 
     const options = useMemo(() => {
@@ -54,8 +59,6 @@ const Studio: FC<Props> = () => {
             label: studio.name,
         }));
     }, [list]);
-
-    const handleChangeParam = useChangeParam();
 
     const handleStudioSearch = (keyword: string) => {
         if (keyword.length < STUDIO_SEARCH_MIN_LENGTH) {
@@ -66,8 +69,26 @@ const Studio: FC<Props> = () => {
         setStudioSearch(keyword);
     };
 
+    return {
+        list,
+        options,
+        isStudioListFetching: isFetching || studioSearch !== debouncedSearch,
+        handleStudioSearch,
+    };
+};
+
+const Studio: FC<Props> = () => {
+    const { studios = [] } =
+        useRouteSearch<Pick<AnimeFilterSearch, 'studios'>>();
+
+    const { ref, visible } = useVisibleOnce();
+    const { list, options, isStudioListFetching, handleStudioSearch } =
+        useStudioSearch(visible);
+
+    const handleChangeParam = useChangeParam();
+
     return (
-        <div className="flex flex-col gap-4">
+        <div ref={ref} className="flex flex-col gap-4">
             <div className="flex items-center gap-2 text-muted-foreground">
                 <Building2 className="size-4 shrink-0" />
                 <Label>Студія</Label>
@@ -109,31 +130,8 @@ const Studio: FC<Props> = () => {
 };
 
 export const FormStudio: FC<Props & Partial<SelectFieldProps>> = (props) => {
-    const [studioSearch, setStudioSearch] = useState<string>();
-    const { list, isFetching: isStudioListFetching } = useInfiniteList(
-        searchCompaniesInfiniteOptions({
-            body: {
-                type: CompanyTypeEnum.STUDIO,
-                query: studioSearch,
-            },
-        }),
-    );
-
-    const options = useMemo(() => {
-        return list?.map((studio) => ({
-            value: studio.slug,
-            label: studio.name,
-        }));
-    }, [list]);
-
-    const handleStudioSearch = (keyword: string) => {
-        if (keyword.length < STUDIO_SEARCH_MIN_LENGTH) {
-            setStudioSearch(undefined);
-            return;
-        }
-
-        setStudioSearch(keyword);
-    };
+    const { list, options, isStudioListFetching, handleStudioSearch } =
+        useStudioSearch();
 
     const form = useTypedAppFormContext(filterPresetFormOptions);
     return (
