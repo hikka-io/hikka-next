@@ -1,14 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import {
-    type EditContentTypeEnum,
-    type EditStatusEnum,
-    editsTopInfiniteOptions,
-    getEditsInfiniteOptions,
-    paginatedInfiniteOptions,
-    paginationPageParam,
-} from '@hikka/api';
+import { editsTopInfiniteOptions, paginationPageParam } from '@hikka/api';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Block from '@/components/ui/block';
@@ -21,42 +14,27 @@ import {
     EditList,
     EditTopStats,
 } from '@/features/edit';
+import { editListOptions } from '@/features/edit/queries';
 import { FiltersModal, FiltersSidebarLayout } from '@/features/filters';
 import { generateHeadMeta } from '@/utils/metadata';
 import { editSearchSchema } from '@/utils/search-schemas';
-import { expandSort } from '@/utils/sort';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/edit/')({
     validateSearch: zodValidator(editSearchSchema),
-    loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, apiClient }, deps }) => {
-        const { page, content_type, edit_status } = deps;
-
-        if (!page) {
+    beforeLoad: ({ search }) => {
+        if (!search.page) {
             throw redirect({
                 to: '/edit',
-                search: { ...deps, page: 1 },
+                search: { ...search, page: 1 },
             });
         }
-
+    },
+    loaderDeps: ({ search }) => search,
+    loader: async ({ context: { queryClient, apiClient }, deps }) => {
         await Promise.allSettled([
             queryClient.ensureInfiniteQueryData(
-                paginatedInfiniteOptions(
-                    getEditsInfiniteOptions({
-                        body: {
-                            content_type:
-                                (content_type as EditContentTypeEnum) ||
-                                undefined,
-                            sort: expandSort('edit', deps.sort, deps.order),
-                            status: edit_status
-                                ? (edit_status as EditStatusEnum)
-                                : undefined,
-                        },
-                        client: apiClient,
-                    }),
-                    Number(page),
-                ),
+                editListOptions(deps, apiClient),
             ),
             queryClient.ensureInfiniteQueryData({
                 ...editsTopInfiniteOptions({ client: apiClient }),

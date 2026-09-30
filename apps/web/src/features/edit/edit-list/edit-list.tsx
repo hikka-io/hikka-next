@@ -1,12 +1,5 @@
 import type { FC } from 'react';
 
-import {
-    type EditContentTypeEnum,
-    type EditStatusEnum,
-    getEditsInfiniteOptions,
-    paginatedInfiniteOptions,
-} from '@hikka/api';
-
 import FiltersNotFound from '@/components/filters-not-found';
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
@@ -14,8 +7,8 @@ import { Table, TableBody } from '@/components/ui/table';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useRouteSearch } from '@/utils/navigation';
 import type { EditSearch } from '@/utils/search-schemas';
-import { expandSort } from '@/utils/sort';
 
+import { editListOptions } from '../queries';
 import EditHead from './components/edit-head';
 import EditRow from './components/edit-row';
 import EditSkeleton from './components/edit-skeleton';
@@ -25,26 +18,8 @@ type Props = {};
 const EditList: FC<Props> = () => {
     const search = useRouteSearch<EditSearch>();
 
-    const page = search.page || 1;
-    const content_type =
-        (search.content_type as EditContentTypeEnum) || undefined;
-    const edit_status = (search.edit_status as EditStatusEnum) || undefined;
-    const author = search.author;
-    const moderator = search.moderator;
-
     const { list, isLoading, pagination } = useInfiniteList(
-        paginatedInfiniteOptions(
-            getEditsInfiniteOptions({
-                body: {
-                    content_type,
-                    sort: expandSort('edit', search.sort, search.order),
-                    status: edit_status,
-                    author,
-                    moderator,
-                },
-            }),
-            Number(page),
-        ),
+        editListOptions(search),
     );
 
     if (isLoading) {
