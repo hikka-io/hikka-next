@@ -1,6 +1,6 @@
 import { createElement, type FC } from 'react';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
 
 import {
@@ -9,8 +9,8 @@ import {
     type ReadContentTypeEnum,
     type AppReadSchemasReadStatsResponse as ReadStatsResponse,
     type ReadStatusEnum,
-    randomReadNovelOptions,
-    randomWatchEntryOptions,
+    randomReadNovel,
+    randomWatchEntry,
     userReadStatsOptions,
     userWatchStatsOptions,
     type WatchStatsResponse,
@@ -60,7 +60,6 @@ type Props = {
 const UserListNavbar: FC<Props> = ({ content_type }) => {
     const isAnime = content_type === ContentTypeEnum.ANIME;
     const router = useRouter();
-    const queryClient = useQueryClient();
     const params = useParams();
     const search = useRouteSearch<Pick<UserlistSearch, 'status'>>();
     const handleChangeParam = useChangeParam();
@@ -99,32 +98,32 @@ const UserListNavbar: FC<Props> = ({ content_type }) => {
               : (listData as ReadStatsResponse).reading)
         : undefined;
 
-    const handleRandom = async () => {
-        const data = isAnime
-            ? await queryClient.fetchQuery({
-                  ...randomWatchEntryOptions({
+    const { mutate: pickRandom } = useMutation({
+        mutationFn: async () => {
+            const { data } = isAnime
+                ? await randomWatchEntry({
                       path: {
                           username: String(params.username),
                           status: status as WatchStatusEnum,
                       },
-                  }),
-                  staleTime: 0,
-              })
-            : await queryClient.fetchQuery({
-                  ...randomReadNovelOptions({
+                      throwOnError: true,
+                  })
+                : await randomReadNovel({
                       path: {
                           username: String(params.username),
                           content_type: content_type as ReadContentTypeEnum,
                           status: status as ReadStatusEnum,
                       },
-                  }),
-                  staleTime: 0,
-              });
-
-        router.navigate({
-            to: `/${content_type}/${data.slug}` as '/',
-        });
-    };
+                      throwOnError: true,
+                  });
+            return data;
+        },
+        onSuccess: (data) => {
+            router.navigate({
+                to: `/${content_type}/${data.slug}` as '/',
+            });
+        },
+    });
 
     return (
         <>
@@ -220,7 +219,7 @@ const UserListNavbar: FC<Props> = ({ content_type }) => {
                                     <Button
                                         variant="outline"
                                         size="icon-md"
-                                        onClick={handleRandom}
+                                        onClick={() => pickRandom()}
                                         aria-label={randomLabel}
                                     />
                                 }

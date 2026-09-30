@@ -9,7 +9,7 @@ import UserListNavbar from './user-list-navbar';
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@tanstack/react-query')>()),
     useQuery: () => ({ data: undefined }),
-    useQueryClient: () => ({}),
+    useMutation: () => ({ mutate: vi.fn() }),
 }));
 
 vi.mock('@tanstack/react-router', async (importOriginal) => ({
