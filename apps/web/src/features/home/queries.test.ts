@@ -347,7 +347,6 @@ const EXPECTED_HOME_CALLS: Record<string, string[]> = {
     'logged in, september': [
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userWatchList","baseUrl":"https://api.example.test","_infinite":true,"body":{"watch_status":"watching","sort":["watch_updated:desc"]},"path":{"username":"tester"}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"followingHistory","baseUrl":"https://api.example.test","_infinite":true,"query":{"size":3}}]',
-        'ensureQueryData queryFn,queryKey "<undefined>" [{"_id":"userWatchStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
         'ensureQueryData queryFn,queryKey "<undefined>" [{"_id":"followStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"]}}]',
@@ -821,6 +820,24 @@ describe('homeArticlesOptions', () => {
         );
     });
 
+    it('skips the articles prefetch when the layout has no articles widget', async () => {
+        const ui = uiWithFeed({
+            widgets: DEFAULT_USER_UI.preferences.feed?.widgets?.filter(
+                (widget) => widget.slug !== 'articles',
+            ),
+        });
+        const calls = await runHomeLoader(undefined, true, ui);
+
+        expect(calls.some((call) => call.includes('getArticles'))).toBe(false);
+    });
+
+    it('prefetches the articles of the default layout for a stale anonymous ui', async () => {
+        const ui = uiWithFeed({ widgets: [] });
+        const calls = await runHomeLoader(undefined, false, ui);
+
+        expect(calls.some((call) => call.includes('getArticles'))).toBe(true);
+    });
+
     it('prefetches the newest articles on the server for everyone', async () => {
         for (const loggedIn of [false, true]) {
             const calls = await runHomeLoader(undefined, loggedIn);
@@ -833,14 +850,14 @@ describe('homeArticlesOptions', () => {
 });
 
 describe('home loader stats', () => {
-    it('does not prefetch the manga and novel read stats', async () => {
+    it('does not prefetch any list stats', async () => {
         const calls = await runHomeLoader(undefined, true);
 
         expect(calls.some((call) => call.includes('userReadStats'))).toBe(
             false,
         );
         expect(calls.some((call) => call.includes('userWatchStats'))).toBe(
-            true,
+            false,
         );
     });
 });

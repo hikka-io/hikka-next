@@ -11,13 +11,13 @@ import {
     profileQueryKey,
     type UserResponse,
     userWatchListInfiniteOptions,
-    userWatchStatsOptions,
     WatchStatusEnum,
 } from '@hikka/api';
 
 import { CoverImage, usePageHeader } from '@/features/app-shell';
 import { FeedLayout, HomeHeaderActions } from '@/features/home';
 import {
+    feedHasWidget,
     followingHistoryPreviewOptions,
     HOME_ARTICLES_NEWEST_SORT,
     homeArticlesOptions,
@@ -73,12 +73,6 @@ export const Route = createFileRoute('/_pages/')({
                     ...paginationPageParam(),
                 }),
                 queryClient.ensureQueryData(
-                    userWatchStatsOptions({
-                        path: { username: loggedUser.username },
-                        client: apiClient,
-                    }),
-                ),
-                queryClient.ensureQueryData(
                     followStatsOptions({
                         path: { username: loggedUser.username },
                         client: apiClient,
@@ -124,15 +118,17 @@ export const Route = createFileRoute('/_pages/')({
             }),
         );
 
-        promises.push(
-            queryClient.ensureInfiniteQueryData({
-                ...homeArticlesOptions({
-                    body: { sort: HOME_ARTICLES_NEWEST_SORT },
-                    client: apiClient,
+        if (feedHasWidget(queryClient, 'articles')) {
+            promises.push(
+                queryClient.ensureInfiniteQueryData({
+                    ...homeArticlesOptions({
+                        body: { sort: HOME_ARTICLES_NEWEST_SORT },
+                        client: apiClient,
+                    }),
+                    ...paginationPageParam(),
                 }),
-                ...paginationPageParam(),
-            }),
-        );
+            );
+        }
 
         await Promise.allSettled(promises);
     },

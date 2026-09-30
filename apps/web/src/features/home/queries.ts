@@ -12,6 +12,7 @@ import {
     type SeasonEnum,
     searchAnimeInfiniteOptions,
     type UiFeedSettingsOutput,
+    type UiFeedWidget,
     type UserCustomizationResponse,
 } from '@hikka/api';
 
@@ -105,17 +106,31 @@ export function buildFeedArgs(
 export const isFeedDisabled = (filters: FeedFilters) =>
     filters.feed_content_types?.length === 0;
 
+const cachedFeedSettings = (queryClient: QueryClient) =>
+    mergePreferences(
+        DEFAULT_USER_UI.preferences,
+        queryClient.getQueryData<UserCustomizationResponse>(profileUiQueryKey())
+            ?.preferences,
+    ).feed ?? {};
+
 /** The body the feed widget starts with, from the cached session and UI prefs; null when the widget skips the feed. */
 export function initialFeedArgs(queryClient: QueryClient): FeedArgs | null {
-    const ui = queryClient.getQueryData<UserCustomizationResponse>(
-        profileUiQueryKey(),
-    );
-    const feed =
-        mergePreferences(DEFAULT_USER_UI.preferences, ui?.preferences).feed ??
-        {};
+    const feed = cachedFeedSettings(queryClient);
     const filters = getSessionFromPagesCache(queryClient) ? feed : {};
 
     if (isFeedDisabled(filters)) return null;
 
     return buildFeedArgs(filters, feed.only_followed ?? false);
+}
+
+/** Whether the home layout the session will render includes the widget; anonymous visitors get the default layout. */
+export function feedHasWidget(
+    queryClient: QueryClient,
+    slug: UiFeedWidget['slug'],
+): boolean {
+    const feed = getSessionFromPagesCache(queryClient)
+        ? cachedFeedSettings(queryClient)
+        : DEFAULT_USER_UI.preferences.feed;
+
+    return !!feed?.widgets?.some((widget) => widget.slug === slug);
 }
