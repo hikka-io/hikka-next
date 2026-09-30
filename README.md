@@ -104,20 +104,38 @@ pnpm start:web        # Run production build
 
 # API client
 pnpm api:generate     # Regenerate @hikka/api from the live OpenAPI spec
+HIKKA_OPENAPI_URL=<url> pnpm --filter @hikka/api api:generate   # From another spec URL
 
 # Code Quality
 pnpm typecheck        # Type-check all packages
 pnpm check            # Biome lint, format and import sorting, writing fixes
 pnpm check:ci         # Same checks without writing
-pnpm lint             # Biome lint across all packages
+pnpm lint             # Biome lint across the repo
 pnpm lint:fix         # Biome lint with auto-fix
 pnpm format           # Biome format all files
 pnpm format:check     # Check formatting without writing
+pnpm lint:ratchet     # Layering rules: lock diagnostic counts to the baseline
+pnpm check:structure  # Folder structure rules
 
 # Tests
 pnpm test                       # All packages
 pnpm --filter @hikka/web test   # Web app (Vitest)
 pnpm --filter @hikka/api test   # API client (Vitest)
+```
+
+Lint, format and check scripts run from the root only; the packages have no lint or format scripts of their own.
+
+### Continuous integration
+
+`.github/workflows/ci.yml` runs on pushes to `main` and on pull requests:
+
+- **Lint**: `biome ci` at error level, the layering ratchet and the structure check.
+- **Typecheck, test and build**: Node 22, `pnpm install --frozen-lockfile`, `pnpm turbo run typecheck test` and `pnpm build:web`.
+
+To reproduce it locally:
+
+```sh
+pnpm check:ci && pnpm lint:ratchet && pnpm check:structure && pnpm typecheck && pnpm turbo run test && pnpm build:web
 ```
 
 ## Contributing
