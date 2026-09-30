@@ -162,8 +162,8 @@ async function prefetchWithLoader(search: ArticlesSearch) {
     return { state: dehydrate(queryClient), serverSent };
 }
 
-// Copy of the list query in HEAD article-list.tsx.
-function headComponentOptions(search: ArticlesSearch) {
+// Copy of the list query in article-list.tsx.
+function componentListOptions(search: ArticlesSearch) {
     return getArticlesInfiniteOptions({
         body: {
             categories: (search.categories as ArticleCategoryEnum[]) || [],
@@ -175,16 +175,21 @@ function headComponentOptions(search: ArticlesSearch) {
     });
 }
 
-const CASES: { name: string; search: ArticlesSearch; body: string }[] = [
+const CASES: { name: string; search: ArticlesSearch; body: object }[] = [
     {
         name: 'no filters',
         search: {},
-        body: '{"categories":[],"sort":["created:desc"],"draft":false}',
+        body: { categories: [], sort: ['created:desc'], draft: false },
     },
     {
         name: 'tags',
         search: { tags: ['romance', 'isekai'] },
-        body: '{"categories":[],"sort":["created:desc"],"tags":["romance","isekai"],"draft":false}',
+        body: {
+            categories: [],
+            sort: ['created:desc'],
+            tags: ['romance', 'isekai'],
+            draft: false,
+        },
     },
     {
         name: 'every filter',
@@ -196,7 +201,13 @@ const CASES: { name: string; search: ArticlesSearch; body: string }[] = [
             sort: 'created',
             order: 'asc',
         },
-        body: '{"categories":["news"],"author":"tester","sort":["created:asc"],"tags":["romance"],"draft":true}',
+        body: {
+            categories: ['news'],
+            author: 'tester',
+            sort: ['created:asc'],
+            tags: ['romance'],
+            draft: true,
+        },
     },
 ];
 
@@ -264,21 +275,24 @@ describe('articles loader and ArticleList', () => {
     }) => {
         const { serverSent } = await renderHydrated(search);
 
-        expect(serverSent.filter(({ path }) => path === '/articles')).toEqual([
-            { method: 'POST', path: '/articles', body },
-        ]);
+        expect(
+            serverSent
+                .filter(({ path }) => path === '/articles')
+                .map((request) => ({
+                    ...request,
+                    body: JSON.parse(request.body),
+                })),
+        ).toEqual([{ method: 'POST', path: '/articles', body }]);
     });
 
-    it.each(CASES)('keeps the HEAD component key: $name', async ({
-        search,
-    }) => {
+    it.each(CASES)('keeps the component key: $name', async ({ search }) => {
         const { queryClient } = await renderHydrated(search);
         const [query] = queryClient
             .getQueryCache()
             .findAll({ queryKey: [{ _id: 'getArticles' }] });
 
         expect(query.queryHash).toBe(
-            hashKey(headComponentOptions(search).queryKey),
+            hashKey(componentListOptions(search).queryKey),
         );
     });
 });

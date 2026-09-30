@@ -70,6 +70,24 @@ describe('useEditTagsStore', () => {
         expect(state.editTags).toEqual(['own']);
     });
 
+    it('reads its own key when there is no legacy key', async () => {
+        writeKey('edit-tags', { editTags: ['own'], _hasHydrated: true });
+
+        const state = await loadStore();
+
+        expect(state.editTags).toEqual(['own']);
+        expect(localStorage.getItem('settings')).toBeNull();
+    });
+
+    it('keeps an empty own tag list over the legacy settings key', async () => {
+        writeKey('edit-tags', { editTags: [], _hasHydrated: true });
+        writeKey('settings', { editTags: ['legacy'] });
+
+        const state = await loadStore();
+
+        expect(state.editTags).toEqual([]);
+    });
+
     it('falls back to the default when the legacy key has no tags', async () => {
         writeKey('settings', { filterPresets: [] });
 

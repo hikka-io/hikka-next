@@ -31,6 +31,8 @@ describe('resolveSameOriginUrl', () => {
         'http://hikka.io/anime',
         'https://hikka.io:8443/anime',
         'javascript:alert(1)',
+        '/\\evil.example/anime',
+        'https://hikka.io@evil.example',
     ])('rejects the cross-origin target %s', (target) => {
         expect(resolveSameOriginUrl(target, SITE_URL)).toBeNull();
     });

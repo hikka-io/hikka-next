@@ -240,7 +240,10 @@ describe('kit node components', () => {
     });
 
     it('renders the static viewer nodes', () => {
-        const editor = createSlateEditor({ nodeId: false, plugins: StaticKit });
+        const editor = createSlateEditor({
+            nodeId: false,
+            plugins: [...StaticKit],
+        });
 
         expect(componentsOf(editor as ResolvedEditor)).toEqual([
             'p:ParagraphElementStatic',

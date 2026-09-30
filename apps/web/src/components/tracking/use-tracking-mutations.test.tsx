@@ -7,7 +7,7 @@ import {
     useMutation,
     useQueryClient,
 } from '@tanstack/react-query';
-import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import {
     ContentTypeEnum,
@@ -260,7 +260,6 @@ const run = async ({
     await flush();
 
     if (!unmountBeforeSettle) await act(async () => root.unmount());
-    vi.unstubAllGlobals();
 
     return {
         events,
@@ -389,6 +388,10 @@ const DELETE_READ_FETCH = [
     `${BASE_URL}/read/manga/manga-slug`,
     '',
 ];
+
+afterEach(() => {
+    vi.unstubAllGlobals();
+});
 
 beforeAll(() => {
     configureBrowserClient({ baseUrl: BASE_URL });

@@ -92,8 +92,21 @@ describe.each([
     it('keeps both following query keys', () => {
         render();
 
-        expect(mocks.calls).toHaveLength(2);
-        expect(callsWithKey(watchKey())).toHaveLength(1);
-        expect(callsWithKey(readKey(type))).toHaveLength(1);
+        expect((mocks.calls as ListCall[]).map(([o]) => o.queryKey)).toEqual([
+            [
+                {
+                    _id: 'getWatchFollowing',
+                    _infinite: true,
+                    path: { slug: SLUG },
+                },
+            ],
+            [
+                {
+                    _id: 'getReadFollowing',
+                    _infinite: true,
+                    path: { slug: SLUG, content_type: type },
+                },
+            ],
+        ]);
     });
 });

@@ -42,7 +42,7 @@ export const useEditTagsStore = create<EditTagsStore>()(
             reset: () => set(DEFAULT_EDIT_TAGS),
         }),
         {
-            name: 'edit-tags', // localStorage key
+            name: 'edit-tags',
             onRehydrateStorage: (state) => {
                 return () => state.setHasHydrated(true);
             },

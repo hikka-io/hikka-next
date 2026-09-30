@@ -143,6 +143,7 @@ describe('bare mentions follow the username rule', () => {
         ['.', 'дякую @olexh.'],
         ['!', 'дякую @olexh!'],
         [')', 'дякую (так, @olexh)'],
+        ['a Cyrillic letter', 'дякую @olexhу'],
     ])('ends a mention at %j', (_, text) => {
         expect(mentionsIn(text)).toEqual([
             { username: 'olexh', label: '@olexh' },

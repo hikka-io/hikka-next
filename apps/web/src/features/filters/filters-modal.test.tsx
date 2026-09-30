@@ -2,7 +2,7 @@ import { act, type ReactElement, type ReactNode, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import { Button } from '@/components/ui/button';
@@ -108,6 +108,10 @@ const mountedMarkup = async (element: ReactElement) => {
 };
 
 describe('FiltersModal', () => {
+    afterEach(() => {
+        vi.unstubAllGlobals();
+    });
+
     it('renders the same closed markup as the legacy shell', () => {
         const markup = renderToStaticMarkup(
             <FiltersModal

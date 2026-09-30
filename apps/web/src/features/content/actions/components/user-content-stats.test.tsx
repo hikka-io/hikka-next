@@ -228,6 +228,7 @@ describe.each(CASES)('UserContentStats ($contentType)', ({
         await resolveAll();
         await advance(DEBOUNCE_MS.commit);
 
+        expect(container.querySelector('textarea')).toBeNull();
         expect(mocks.sent.map(({ body }) => body.note)).toEqual(['new note']);
         expect(current.note).toBe('new note');
         expect(disabledDuringSave).toEqual([true, true]);
@@ -263,6 +264,7 @@ describe.each(CASES)('UserContentStats ($contentType)', ({
         await resolveAll();
         await advance(DEBOUNCE_MS.commit);
 
+        expect(container.querySelector('textarea')).toBeNull();
         expect(mocks.sent.map(({ body }) => body.note)).toEqual(['new note']);
         expect(current.note).toBe('new note');
     });

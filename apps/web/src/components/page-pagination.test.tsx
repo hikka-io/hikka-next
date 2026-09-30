@@ -16,7 +16,6 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock('@tanstack/react-router', () => ({
     useNavigate: () => mocks.navigate,
-    useRouter: () => ({ navigate: mocks.navigate }),
 }));
 
 vi.mock('@tanstack/react-query', () => ({
