@@ -1,13 +1,13 @@
 import type { QueryClient } from '@tanstack/react-query';
 
-import { authInfoQueryKey, profileQueryKey, setAuthToken } from '@hikka/api';
+import { profileQueryKey, setAuthToken } from '@hikka/api';
 
 import { setAuthCookieFn } from '@/utils/cookies';
 
 /**
  * Shared success path for the login / signup / password-reset forms: persist
  * the auth secret to the cookie and browser client, then invalidate the
- * profile and auth-info queries so the app reflects the new session.
+ * profile query so the app reflects the new session.
  */
 export async function handleAuthSuccess(
     secret: string,
@@ -15,8 +15,5 @@ export async function handleAuthSuccess(
 ) {
     await setAuthCookieFn({ data: { secret } });
     setAuthToken(secret);
-    await Promise.all([
-        queryClient.invalidateQueries({ queryKey: profileQueryKey() }),
-        queryClient.invalidateQueries({ queryKey: authInfoQueryKey() }),
-    ]);
+    await queryClient.invalidateQueries({ queryKey: profileQueryKey() });
 }
