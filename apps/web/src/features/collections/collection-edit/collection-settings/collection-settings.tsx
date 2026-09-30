@@ -39,6 +39,7 @@ import { invalidateCollections } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { COLLECTION_CONTENT_TYPE_OPTIONS } from '@/utils/labels';
 import { Link, useParams, useRouter } from '@/utils/navigation';
+import { isValidTitleLength } from '@/utils/title-length';
 
 import { useCollectionContext } from '../collection-provider';
 import GroupInputs from './components/group-inputs';
@@ -113,9 +114,7 @@ const CollectionEditSettings: FC<Props> = ({ mode = 'create' }) => {
         });
 
     const canSubmit =
-        !!title &&
-        title.trim().length >= API_LIMITS.collectionTitle.min &&
-        title.length <= API_LIMITS.collectionTitle.max &&
+        isValidTitleLength(title, API_LIMITS.collectionTitle) &&
         !!description &&
         description.trim().length >= API_LIMITS.collectionDescription.min &&
         description.length <= API_LIMITS.collectionDescription.max;
@@ -129,6 +128,7 @@ const CollectionEditSettings: FC<Props> = ({ mode = 'create' }) => {
                     </Label>
                     <Input
                         placeholder="Введіть назву"
+                        maxLength={API_LIMITS.collectionTitle.max}
                         value={title || ''}
                         onChange={(e) => setTitle(e.target.value)}
                     />

@@ -24,6 +24,7 @@ import {
 import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
+import { isValidTitleLength } from '@/utils/title-length';
 
 import { useArticleContext } from '../../article-provider';
 
@@ -40,10 +41,7 @@ const EditActions: FC<Props> = () => {
     const setArticle = useArticleContext((state) => state.setArticle);
     const queryClient = useQueryClient();
 
-    const hasValidTitle =
-        !!title &&
-        title.trim().length >= API_LIMITS.articleTitle.min &&
-        title.length <= API_LIMITS.articleTitle.max;
+    const hasValidTitle = isValidTitleLength(title, API_LIMITS.articleTitle);
 
     const { mutate: mutateUpdateArticle, isPending } = useMutation({
         ...updateArticleMutation(),

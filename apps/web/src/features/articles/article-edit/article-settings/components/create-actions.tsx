@@ -18,6 +18,7 @@ import { FooterBar } from '@/components/ui/footer-bar';
 import { invalidateArticles } from '@/utils/api/invalidate-content-state';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useRouter } from '@/utils/navigation';
+import { isValidTitleLength } from '@/utils/title-length';
 
 import { useArticleContext } from '../../article-provider';
 
@@ -33,10 +34,7 @@ const CreateActions: FC<Props> = () => {
     const content = useArticleContext((state) => state.content);
     const getDocument = useArticleContext((state) => state.getDocument);
 
-    const hasValidTitle =
-        !!title &&
-        title.trim().length >= API_LIMITS.articleTitle.min &&
-        title.length <= API_LIMITS.articleTitle.max;
+    const hasValidTitle = isValidTitleLength(title, API_LIMITS.articleTitle);
 
     const {
         mutate: mutateCreateArticle,

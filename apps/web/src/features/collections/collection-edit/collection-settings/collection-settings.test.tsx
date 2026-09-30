@@ -23,10 +23,7 @@ const DESCRIPTION = API_LIMITS.collectionDescription;
 
 const VALID = { title: 'Колекція', description: 'Опис колекції' };
 
-const isSubmitDisabled = (
-    mode: 'create' | 'edit',
-    state: Partial<CollectionState>,
-) => {
+const render = (mode: 'create' | 'edit', state: Partial<CollectionState>) => {
     const container = document.createElement('div');
     container.innerHTML = renderToStaticMarkup(
         <QueryClientProvider client={new QueryClient()}>
@@ -36,6 +33,14 @@ const isSubmitDisabled = (
         </QueryClientProvider>,
     );
 
+    return container;
+};
+
+const isSubmitDisabled = (
+    mode: 'create' | 'edit',
+    state: Partial<CollectionState>,
+) => {
+    const container = render(mode, state);
     const label = mode === 'create' ? 'Створити' : 'Оновити';
     const button = [
         ...container.querySelectorAll<HTMLButtonElement>('button'),
@@ -88,5 +93,14 @@ describe.each(['create', 'edit'] as const)('%s collection settings', (mode) => {
         ],
     ])('blocks saving with %s', (_, state) => {
         expect(isSubmitDisabled(mode, state)).toBe(true);
+    });
+
+    it('caps the title at the backend limit', () => {
+        const input = render(mode, VALID).querySelector<HTMLInputElement>(
+            'input[placeholder="Введіть назву"]',
+        );
+
+        expect(input?.maxLength).toBe(TITLE.max);
+        expect(input?.value).toBe(VALID.title);
     });
 });
