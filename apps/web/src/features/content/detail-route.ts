@@ -8,7 +8,6 @@ import {
     type CharacterInfoResponse,
     type Client,
     ContentTypeEnum,
-    contentFranchiseOptions,
     type FavouriteContentTypeEnum,
     type MainContentTypeEnum,
     type MangaInfoResponse,
@@ -35,6 +34,8 @@ import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
 import { getTitle } from '@/utils/title/get-title';
 import { getPublicSiteUrl, SITE_ORIGIN } from '@/utils/url';
+
+import { franchiseOptions } from './queries';
 
 type DetailLoaderContext = {
     slug: string;
@@ -82,10 +83,7 @@ const franchise =
     (content_type: MainContentTypeEnum): Prefetch =>
     ({ slug, queryClient, apiClient }) =>
         queryClient.ensureQueryData(
-            contentFranchiseOptions({
-                path: { slug, content_type },
-                client: apiClient,
-            }),
+            franchiseOptions(content_type, slug, apiClient),
         );
 
 const listEntry =

@@ -2,10 +2,7 @@ import type { FC } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import {
-    contentFranchiseOptions,
-    type RelatedContentTypeEnum,
-} from '@hikka/api';
+import type { RelatedContentTypeEnum } from '@hikka/api';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import MangaCard from '@/components/content-card/manga-card';
@@ -27,6 +24,7 @@ import {
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useParams } from '@/utils/navigation';
 
+import { franchiseOptions } from '../queries';
 import FranchiseFilters from './components/franchise-filters';
 import FranchiseItem from './components/franchise-item';
 import FranchiseSkeleton from './components/franchise-skeleton';
@@ -62,9 +60,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
         error,
         isPending,
     } = useQuery({
-        ...contentFranchiseOptions({
-            path: { content_type, slug: String(params.slug) },
-        }),
+        ...franchiseOptions(content_type, String(params.slug)),
         enabled: extended || visible,
         select: (data) => ({
             list: [...data.anime, ...data.manga, ...data.novel],

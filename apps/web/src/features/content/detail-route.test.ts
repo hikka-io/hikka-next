@@ -14,7 +14,6 @@ import {
     type Client,
     ContentTypeEnum,
     configureBrowserClient,
-    contentFranchiseOptions,
     createRequestClient,
     ExternalTypeEnum,
     HikkaApiError,
@@ -45,6 +44,7 @@ import {
     contentDetailTitle,
     entityDetailHead,
 } from './detail-route';
+import { franchiseOptions } from './queries';
 
 const cookies = vi.hoisted(() => ({
     authToken: null as string | null,
@@ -586,12 +586,9 @@ describe('content tab loader keys', () => {
         ContentTypeEnum.MANGA,
         ContentTypeEnum.NOVEL,
     ] as const)('match the %s franchise query', (content_type) => {
-        expect(
-            hashKey(
-                contentFranchiseOptions({ path: { content_type, slug } })
-                    .queryKey,
-            ),
-        ).toBe(loaderKey(franchiseKey(content_type)));
+        expect(hashKey(franchiseOptions(content_type, slug).queryKey)).toBe(
+            loaderKey(franchiseKey(content_type)),
+        );
     });
 });
 

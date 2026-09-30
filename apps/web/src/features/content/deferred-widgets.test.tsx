@@ -1,7 +1,11 @@
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+    hashKey,
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
@@ -15,6 +19,7 @@ import ContentArticles from './articles/articles';
 import ContentCollections from './collections';
 import Followings from './followings/followings';
 import Franchise from './franchise/franchise';
+import { franchiseOptions } from './queries';
 import ContentStaff from './staff';
 
 (
@@ -264,6 +269,19 @@ describe('deferred overview widgets', () => {
         await scrollIntoView();
 
         expect(pathsRequested()).toEqual([`/related/anime/${SLUG}/franchise`]);
+    });
+
+    it('caches the franchise under the loader key', async () => {
+        await render(<Franchise content_type="anime" />);
+        await scrollIntoView();
+        await settle();
+
+        expect(
+            queryClient
+                .getQueryCache()
+                .getAll()
+                .map((query) => query.queryHash),
+        ).toEqual([hashKey(franchiseOptions('anime', SLUG).queryKey)]);
     });
 
     it('requests the staff list once after it becomes visible', async () => {
