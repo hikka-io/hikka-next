@@ -847,23 +847,126 @@ describe.each(KINDS)('$name list status button', (kind) => {
         ]);
     });
 
-    it('shows the add trigger when the entry fetch fails with a server error', async () => {
-        entryStatus = 500;
+    it.each([
+        ['select', undefined],
+        ['icon', 'icon-sm'],
+    ] as const)(
+        'disables the %s button and writes nothing when the entry fetch fails with a server error',
+        async (_name, size) => {
+            entryStatus = 500;
+            const { container, queryClient } = await mount(
+                kind.render({ content: kind.content, size }),
+            );
+
+            expect(reads()).toHaveLength(1);
+            expect(
+                queryClient.getQueryCache().get(kind.entryQueryHash())?.state
+                    .status,
+            ).toBe('error');
+            expect(buttons(container).length).toBeGreaterThan(0);
+            expect(buttons(container).every((button) => button.disabled)).toBe(
+                true,
+            );
+
+            for (const button of buttons(container)) await click(button);
+            await click(
+                document.querySelector('[cmdk-item][data-value="dropped"]'),
+            );
+
+            expect(items()).toEqual([]);
+            expect(writes()).toEqual([]);
+        },
+    );
+
+    it('keeps the fetched entry and carries it over when a refetch fails', async () => {
+        tracked = true;
         const { container, queryClient } = await mount(
             kind.render({ content: kind.content }),
         );
 
-        expect(reads()).toHaveLength(1);
+        tracked = false;
+        entryStatus = 500;
+        await act(async () => {
+            await queryClient.invalidateQueries();
+        });
+        await flush();
+
+        expect(reads()).toHaveLength(2);
         expect(
             queryClient.getQueryCache().get(kind.entryQueryHash())?.state
                 .status,
         ).toBe('error');
-        expect(container.textContent).toBe(ADD_LABEL);
+        const title = kind.titles[kind.statuses.indexOf(kind.full.status)];
+        expect(container.textContent).toBe(`${title}-7`);
 
         await choose(container, 'dropped');
 
         expect(writes()).toEqual([
-            { method: 'PUT', url: kind.url, body: '{"status":"dropped"}' },
+            {
+                method: 'PUT',
+                url: kind.url,
+                body: body('dropped', kind.carried.full),
+            },
+        ]);
+    });
+
+    it('keeps a null entry untracked when a refetch fails', async () => {
+        const { container, queryClient } = await mount(
+            kind.render({ content: kind.content }),
+        );
+
+        entryStatus = 500;
+        await act(async () => {
+            await queryClient.invalidateQueries();
+        });
+        await flush();
+
+        expect(reads()).toHaveLength(2);
+        expect(container.textContent).toBe(ADD_LABEL);
+
+        await click(buttons(container)[0]);
+
+        expect(writes()).toEqual([
+            { method: 'PUT', url: kind.url, body: '{"status":"planned"}' },
+        ]);
+    });
+
+    it('uses a prop entry over a failed entry fetch', async () => {
+        entryStatus = 500;
+        const view = await mount(kind.render({ content: kind.content }));
+        await view.rerender(
+            kind.render({ entry: kind.full, content: kind.content }),
+        );
+
+        expect(reads()).toHaveLength(1);
+        const title = kind.titles[kind.statuses.indexOf(kind.full.status)];
+        expect(view.container.textContent).toBe(`${title}-7`);
+
+        await choose(view.container, 'dropped');
+
+        expect(writes()).toEqual([
+            {
+                method: 'PUT',
+                url: kind.url,
+                body: body('dropped', kind.carried.full),
+            },
+        ]);
+    });
+
+    it('keeps the add flow for a null prop entry after a failed entry fetch', async () => {
+        entryStatus = 500;
+        const view = await mount(kind.render({ content: kind.content }));
+        await view.rerender(
+            kind.render({ entry: null, content: kind.content }),
+        );
+
+        expect(reads()).toHaveLength(1);
+        expect(view.container.textContent).toBe(ADD_LABEL);
+
+        await click(buttons(view.container)[0]);
+
+        expect(writes()).toEqual([
+            { method: 'PUT', url: kind.url, body: '{"status":"planned"}' },
         ]);
     });
 

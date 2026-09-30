@@ -178,13 +178,17 @@ const ListStatusButton: FC<Props> = ({
     const { mutate: addEntry, isPending: isChangingStatus } =
         KINDS[kind].useAdd();
 
-    const entryMissing = entryError || entryQuery === null;
+    const entryUnreadable =
+        entryProp === undefined && entryQuery === undefined && entryError;
+    const blocked = disabled || entryUnreadable;
     const entry = useMemo(
-        () => entryProp || (entryQuery && !entryError ? entryQuery : undefined),
-        [entryProp, entryQuery, entryError],
+        () => entryProp || entryQuery || undefined,
+        [entryProp, entryQuery],
     );
     const trackedEntry =
-        KINDS[kind].dropsEntryWhenMissing && entryMissing ? undefined : entry;
+        KINDS[kind].dropsEntryWhenMissing && entryQuery === null
+            ? undefined
+            : entry;
 
     const openEditModal = useCallback(() => {
         if (content) {
@@ -247,7 +251,7 @@ const ListStatusButton: FC<Props> = ({
                     {...buttonProps}
                     contentType={contentType}
                     entry={entry}
-                    disabled={disabled}
+                    disabled={blocked}
                     size={size as 'icon-sm' | 'icon-md'}
                     slug={slug}
                     content={content}
@@ -256,14 +260,14 @@ const ListStatusButton: FC<Props> = ({
                 />
             ) : (
                 <Select
-                    disabled={disabled || isChangingStatus}
+                    disabled={blocked || isChangingStatus}
                     value={currentStatus}
                     onValueChange={handleChangeStatus}
                 >
                     {trackedEntry ? (
                         <StatusTrigger
                             {...trackedProps}
-                            disabled={disabled}
+                            disabled={blocked}
                             size={size as 'sm' | 'md'}
                             isLoading={isChangingStatus}
                             onOpenModal={() => setEditOpen(true)}
@@ -273,7 +277,7 @@ const ListStatusButton: FC<Props> = ({
                             contentType={contentType}
                             size={size as 'sm' | 'md'}
                             slug={slug}
-                            disabled={disabled}
+                            disabled={blocked}
                             isLoading={isChangingStatus}
                         />
                     )}
