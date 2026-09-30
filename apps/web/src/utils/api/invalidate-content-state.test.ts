@@ -105,6 +105,13 @@ const FOLLOW_EMBED_IDS = [
     'favouriteList',
     'userProfile',
 ];
+const AVATAR_EMBED_IDS = [
+    ...COMMENT_LIST_IDS,
+    ...ARTICLE_IDS,
+    ...COLLECTION_IDS,
+    'followingList',
+    'followersList',
+];
 const CONTENT_DETAIL_IDS = [
     'animeSlug',
     'mangaInfo',
@@ -260,12 +267,12 @@ describe('invalidation helpers', () => {
         [
             'invalidateUserProfile for the profile owner',
             (queryClient) => invalidateUserProfile(queryClient, USERNAME),
-            [expected(['userProfile'])],
+            [expected(['userProfile']), expected(AVATAR_EMBED_IDS, 'none')],
         ],
         [
             'invalidateUserProfile for a username prefix',
             (queryClient) => invalidateUserProfile(queryClient, 'target'),
-            [expected([])],
+            [expected([]), expected(AVATAR_EMBED_IDS, 'none')],
         ],
         [
             'invalidateVote for a comment',

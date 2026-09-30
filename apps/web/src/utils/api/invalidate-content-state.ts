@@ -556,17 +556,34 @@ export function invalidateSession(
     return invalidateByIds(queryClient, SESSION_IDS, options);
 }
 
-/** Refetch one user's public profile (avatar, cover) after they change it. */
+// Queries that embed a user's avatar; stale-marked so a changed avatar shows on the next mount.
+const AVATAR_EMBED_IDS: readonly QueryId[] = [
+    ...COMMENT_LIST_IDS,
+    ...ARTICLE_IDS,
+    ...COLLECTION_IDS,
+    'followingList',
+    'followersList',
+];
+
+/** Refetch one user's public profile (avatar, cover) after they change it and stale-mark the lists that embed the avatar. */
 export function invalidateUserProfile(
     queryClient: QueryClient,
     username: string,
     options?: InvalidateOptions,
 ): Promise<void> {
-    return queryClient.invalidateQueries({
-        predicate: (query) =>
-            matchesPath(query.queryKey, USER_PROFILE_ID, 'username', username),
-        refetchType: refetchTypeFor(options),
-    });
+    return Promise.all([
+        queryClient.invalidateQueries({
+            predicate: (query) =>
+                matchesPath(
+                    query.queryKey,
+                    USER_PROFILE_ID,
+                    'username',
+                    username,
+                ),
+            refetchType: refetchTypeFor(options),
+        }),
+        invalidateByIds(queryClient, AVATAR_EMBED_IDS, { refetch: false }),
+    ]).then(() => undefined);
 }
 
 /** Invalidate the notification list + unseen-count after marking seen. */
