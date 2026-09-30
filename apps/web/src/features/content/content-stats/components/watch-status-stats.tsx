@@ -4,12 +4,11 @@ import { useQuery } from '@tanstack/react-query';
 
 import {
     type AnimeStatsResponse,
-    ContentTypeEnum,
+    animeSlugOptions,
     type WatchStatusEnum,
 } from '@hikka/api';
 
 import { WATCH_STATUS_ICONS } from '@/components/icons/list-status-icons';
-import { contentInfoOptions } from '@/utils/api/content-queries';
 import { useParams } from '@/utils/navigation';
 
 import type { ListStat } from '../types';
@@ -18,7 +17,7 @@ import Stats from './stats';
 const WatchStatusStats = () => {
     const params = useParams();
     const { data } = useQuery(
-        contentInfoOptions(ContentTypeEnum.ANIME, String(params.slug)),
+        animeSlugOptions({ path: { slug: String(params.slug) } }),
     );
 
     if (!data) {
