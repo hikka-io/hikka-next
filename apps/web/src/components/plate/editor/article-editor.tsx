@@ -16,11 +16,12 @@ import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
 import { cn } from '@/utils/cn';
 
 import { ArticleKit } from './article-kit';
-import EditorPreviewFrame, { useClosedSnapshot } from './editor-preview-frame';
+import EditorPreviewFrame from './editor-preview-frame';
 import { ImageGroupPlugin } from './plugins/image-group-plugin';
 import { withoutTriggerPlugins } from './plugins/trigger-plugins';
 import { StaticViewer } from './static-viewer';
 import { uploadAttachmentImage } from './upload-image';
+import { useClosedSnapshot } from './use-closed-snapshot';
 import { useEditorApi } from './use-editor-api';
 
 function ArticleEditorPreview({

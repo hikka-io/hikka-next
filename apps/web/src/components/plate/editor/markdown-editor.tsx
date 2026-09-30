@@ -15,7 +15,8 @@ import {
 import { useVisualViewportOffset } from '@/services/hooks/use-visual-viewport';
 import { cn } from '@/utils/cn';
 
-import EditorPreviewFrame, { useClosedSnapshot } from './editor-preview-frame';
+import EditorPreviewFrame from './editor-preview-frame';
+import { useClosedSnapshot } from './use-closed-snapshot';
 import { usePlateMarkdownSetup } from './use-plate-markdown-setup';
 
 export function EditorPreview({
