@@ -1,9 +1,8 @@
 import { useUiPreferences } from '@/services/ui-preferences-store';
-
-const DEFAULT_KEY = 'catalog_filters_sidebar';
+import { CATALOG_FILTERS_SIDEBAR_KEY } from '@/utils/cookies';
 
 /** Persisted sidebar-visible preference, shared across anime/manga/novel catalog pages. */
-export function useFiltersSidebar(key: string = DEFAULT_KEY) {
+export function useFiltersSidebar(key: string = CATALOG_FILTERS_SIDEBAR_KEY) {
     const visible = useUiPreferences(
         (state) => state.collapsibles[key] ?? true,
     );

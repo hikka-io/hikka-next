@@ -803,6 +803,7 @@
         {
             "includes": [
                 "apps/web/src/features/*/queries.ts",
+                "apps/web/src/features/catalog/search-args.ts",
                 "apps/web/src/features/content/detail-route.ts"
             ],
             "linter": {

@@ -4,12 +4,26 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import { ContentTypeEnum } from '@hikka/api';
 
 import { CatalogPage } from '@/features/catalog';
+import { loadCatalogFirstPage } from '@/features/catalog/queries';
 import { generateHeadMeta } from '@/utils/metadata';
 import { mangaSearchSchema } from '@/utils/search-schemas';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/manga/')({
     validateSearch: zodValidator(mangaSearchSchema),
+    loaderDeps: ({ search }) => ({ search }),
+    loader: ({
+        context: { queryClient, apiClient },
+        deps: { search },
+        preload,
+    }) =>
+        loadCatalogFirstPage({
+            queryClient,
+            apiClient,
+            contentType: ContentTypeEnum.MANGA,
+            search,
+            preload,
+        }),
     head: () =>
         generateHeadMeta({
             title: 'Манґа',

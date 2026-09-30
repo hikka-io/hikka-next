@@ -5,7 +5,6 @@ import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 import ContentTypeTabs from '@/components/content-type-tabs';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
-import type { StackSize } from '@/components/ui/stack';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import {
     AnimeFilters,
@@ -15,13 +14,13 @@ import {
     ReadFilters,
     ReadFiltersModal,
     type RenderFiltersModal,
-    useFiltersSidebar,
 } from '@/features/filters';
+import { useUiPreferences } from '@/services/ui-preferences-store';
 
 import CatalogList from './catalog-list';
 import CatalogListSummary from './catalog-list-summary';
 import CatalogNavbar from './catalog-navbar';
-import { useCatalogView } from './use-catalog-view';
+import { CATALOG_VIEW_KEY, catalogColumns, catalogPageSize } from './queries';
 
 type Props = {
     contentType: MainContentTypeEnum;
@@ -54,12 +53,12 @@ const CatalogPage: FC<Props> = ({ contentType, title, searchPlaceholder }) => {
         ),
     });
 
-    const { visible: sidebarVisible } = useFiltersSidebar();
-    const { view } = useCatalogView('catalog');
-
-    const extendedSize: StackSize =
-        view === 'list' ? 1 : sidebarVisible ? 5 : 7;
-    const pageSize = view === 'list' ? undefined : extendedSize * 4;
+    const extendedSize = useUiPreferences((prefs) =>
+        catalogColumns(prefs, CATALOG_VIEW_KEY),
+    );
+    const pageSize = useUiPreferences((prefs) =>
+        catalogPageSize(prefs, CATALOG_VIEW_KEY),
+    );
 
     return (
         <Block>

@@ -9,10 +9,8 @@ import { getTitle } from '@/utils/title/get-title';
 
 import CatalogListItem from './catalog-list-item';
 import CatalogListView from './catalog-list-view';
-import {
-    type CatalogItems,
-    useCatalogSearchQuery,
-} from './use-catalog-search-query';
+import { CATALOG_VIEW_KEY, type CatalogItems } from './queries';
+import { useCatalogSearchQuery } from './use-catalog-search-query';
 import { useCatalogView } from './use-catalog-view';
 
 type CatalogItemRenderers<T> = {
@@ -81,7 +79,7 @@ const CatalogList: FC<Props> = ({
     } = useCatalogSearchQuery(contentType, pageSize);
 
     const { preferences: prefs } = useSessionUI();
-    const { view } = useCatalogView('catalog');
+    const { view } = useCatalogView(CATALOG_VIEW_KEY);
 
     const renderers: CatalogItemRenderers<CatalogItems[MainContentTypeEnum]> =
         CATALOG_ITEM_RENDERERS[contentType];

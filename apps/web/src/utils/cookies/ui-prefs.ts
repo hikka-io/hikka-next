@@ -3,6 +3,8 @@ import { writeHostCookie } from './ui-cookie';
 
 export type View = 'table' | 'grid' | 'list';
 
+export const CATALOG_FILTERS_SIDEBAR_KEY = 'catalog_filters_sidebar';
+
 export type UiPreferences = {
     /** View preferences by context key (e.g., 'catalog', 'userlist', 'franchise') */
     views: Record<string, View>;
