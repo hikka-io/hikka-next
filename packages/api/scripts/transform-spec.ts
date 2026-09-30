@@ -80,17 +80,15 @@ function refInlineEnum(
     return schema;
 }
 
-/**
- * Moves each named inline enum into `components.schemas` (keeping the sorted
- * order) and points every occurrence at it, so hey-api emits a named enum.
- * Throws when the occurrences disagree, none is left, or the name is taken.
- * Mutates and returns `spec`.
- */
+/** Moves each named inline enum into a sorted, named `components.schemas` entry (mutates `spec`); throws on any mismatch. */
 export function hoistInlineEnums<T extends OpenApiSpec>(
     spec: T,
     names: Record<string, string>,
 ): T {
-    const schemas = spec.components?.schemas ?? {};
+    const schemas = spec.components?.schemas;
+    if (!schemas) {
+        throw new Error('hoistInlineEnums: spec has no components.schemas');
+    }
     const hoisted: Record<string, SchemaObject> = {};
 
     for (const [property, name] of Object.entries(names)) {

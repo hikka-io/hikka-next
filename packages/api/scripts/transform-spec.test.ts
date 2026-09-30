@@ -99,4 +99,12 @@ describe('hoistInlineEnums', () => {
             hoistInlineEnums(makeSpec(), { other: 'OtherEnum' }),
         ).toThrow('no inline enum for other');
     });
+
+    it('throws when the spec has no component schemas', () => {
+        const { paths } = makeSpec();
+
+        expect(() => hoistInlineEnums({ paths }, { kind: 'KindEnum' })).toThrow(
+            'spec has no components.schemas',
+        );
+    });
 });

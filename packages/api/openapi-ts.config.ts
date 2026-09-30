@@ -6,7 +6,7 @@ const SPEC_URL =
     process.env.HIKKA_OPENAPI_URL ?? 'https://api.hikka.io/openapi.json';
 
 const TIMESTAMP_DATE_SCHEMAS = new Set(['WatchArgs', 'ReadArgs']);
-const TIMESTAMP_DATE_FIELDS = ['start_date', 'end_date'];
+const TIMESTAMP_DATE_FIELDS = ['start_date', 'end_date'] as const;
 
 /**
  * Hikka list/search endpoints are POST (filters in the body, `page`/`size` in
