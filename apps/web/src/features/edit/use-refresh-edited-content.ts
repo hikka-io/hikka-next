@@ -12,8 +12,7 @@ export async function refreshEditedContent(
         match.params.slug === slug;
 
     await invalidateContentBySlug(queryClient, slug);
-    // Detail loaders snapshot the content into loaderData, and defaultStaleTime: Infinity never reloads a cached match.
-    router.clearCache({ filter });
+    // Head meta is built from the loader's snapshot, and defaultStaleTime: Infinity never reloads a cached match.
     await router.invalidate({ filter });
 }
 

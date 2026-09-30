@@ -13,6 +13,8 @@ import { refreshEditedContent } from './use-refresh-edited-content';
 
 const SLUG = 'mushishi';
 
+const settle = () => new Promise((resolve) => setTimeout(resolve, 0));
+
 function setup() {
     const server = { title: 'Old' };
     const queryClient = new QueryClient({
@@ -57,10 +59,27 @@ describe('refreshEditedContent', () => {
 
         server.title = 'New';
         await router.navigate({ to: '/anime/$slug', params: { slug: SLUG } });
+        await settle();
+
         expect(loadedTitle()).toBe('Old');
     });
 
-    it('refetches the content and reloads its cached detail match', async () => {
+    it('refetches the content while no detail page is mounted', async () => {
+        const { server, queryClient, router } = setup();
+        await router.load();
+        await router.navigate({ to: '/edit' });
+
+        server.title = 'New';
+        await refreshEditedContent(queryClient, router, SLUG);
+
+        expect(
+            queryClient.getQueryData(
+                animeSlugQueryKey({ path: { slug: SLUG } }),
+            ),
+        ).toEqual({ title: 'New' });
+    });
+
+    it('reuses its cached detail match and reloads it for the head meta', async () => {
         const { server, queryClient, router, loadedTitle } = setup();
         await router.load();
         await router.navigate({ to: '/edit' });
@@ -68,11 +87,14 @@ describe('refreshEditedContent', () => {
         server.title = 'New';
         await refreshEditedContent(queryClient, router, SLUG);
         await router.navigate({ to: '/anime/$slug', params: { slug: SLUG } });
+        expect(loadedTitle()).toBe('Old');
+
+        await settle();
 
         expect(loadedTitle()).toBe('New');
     });
 
-    it('reloads the detail match that is on screen', async () => {
+    it('reloads the detail match that is on screen for the head meta', async () => {
         const { server, queryClient, router, loadedTitle } = setup();
         await router.load();
 
@@ -90,6 +112,7 @@ describe('refreshEditedContent', () => {
         server.title = 'New';
         await refreshEditedContent(queryClient, router, 'other');
         await router.navigate({ to: '/anime/$slug', params: { slug: SLUG } });
+        await settle();
 
         expect(loadedTitle()).toBe('Old');
     });
