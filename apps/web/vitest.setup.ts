@@ -14,3 +14,8 @@ if (typeof globalThis.ResizeObserver !== 'function') {
         disconnect() {}
     };
 }
+
+// jsdom lacks scrollIntoView, which cmdk calls when a list item mounts.
+if (typeof Element.prototype.scrollIntoView !== 'function') {
+    Element.prototype.scrollIntoView = () => {};
+}
