@@ -341,9 +341,35 @@ const interact = async (
     return result;
 };
 
-describe.each(KINDS)('StatusTrigger for $kind', ({ options, pair }) => {
+describe.each(KINDS)('StatusTrigger for $kind', ({ kind, options, pair }) => {
     afterEach(() => {
         vi.unstubAllGlobals();
+    });
+
+    it('falls back to the add label and the planned icon for an unknown status', () => {
+        const icons =
+            kind === ContentTypeEnum.ANIME
+                ? WATCH_STATUS_ICONS
+                : READ_STATUS_ICONS;
+        const planned = renderToStaticMarkup(
+            createElement(icons.planned, { className: 'size-3!' }),
+        );
+
+        for (const variant of VARIANTS) {
+            const html = renderToStaticMarkup(
+                <Harness
+                    options={options}
+                    value={['unknown']}
+                    trigger={
+                        pair({ status: 'unknown', score: 0 }, variant).next
+                    }
+                />,
+            );
+
+            expect(html).toContain('Додати у список');
+            expect(html).not.toContain('bg-unknown');
+            expect(html.includes(planned)).toBe(!variant.isLoading);
+        }
     });
 
     it('renders the legacy markup for every status and prop variant', () => {

@@ -51,6 +51,10 @@ const StatusTrigger: FC<Props> = ({
     const kind = contentType === ContentTypeEnum.ANIME ? 'watch' : 'read';
     const statusKey = entry.status as keyof (typeof LIST_STATUS)[typeof kind];
     const entryStatus = LIST_STATUS[kind][statusKey];
+    const isKnownStatus = Object.hasOwn(LIST_STATUS[kind], entry.status);
+    const statusClassName = isKnownStatus
+        ? `bg-${entry.status} text-${entry.status}-foreground border-${entry.status}-border`
+        : 'border-secondary-foreground/20';
 
     return (
         <SelectTrigger asChild className={SELECT_TRIGGER_CLASS_NAMES[kind]}>
@@ -61,7 +65,7 @@ const StatusTrigger: FC<Props> = ({
                     disabled={disabled}
                     className={cn(
                         'flex-1 flex-nowrap overflow-hidden rounded-r-none border border-r-0',
-                        `bg-${entry.status} text-${entry.status}-foreground border-${entry.status}-border`,
+                        statusClassName,
                     )}
                 >
                     {isLoading ? (
@@ -70,16 +74,21 @@ const StatusTrigger: FC<Props> = ({
                         <div
                             className={cn(
                                 'rounded-sm border p-1',
-                                `bg-${entry.status} text-${entry.status}-foreground border-${entry.status}-border`,
+                                statusClassName,
                             )}
                         >
-                            {createElement(LIST_STATUS_ICONS[kind][statusKey], {
-                                className: 'size-3!',
-                            })}
+                            {createElement(
+                                LIST_STATUS_ICONS[kind][
+                                    isKnownStatus ? statusKey : 'planned'
+                                ],
+                                { className: 'size-3!' },
+                            )}
                         </div>
                     )}
                     <span className="truncate rounded-none">
-                        {entryStatus.title_ua || entryStatus.title_en}
+                        {isKnownStatus
+                            ? entryStatus.title_ua || entryStatus.title_en
+                            : 'Додати у список'}
                     </span>
                     {entry.score > 0 && (
                         <>
@@ -96,7 +105,7 @@ const StatusTrigger: FC<Props> = ({
                     disabled={disabled}
                     className={cn(
                         'rounded-l-none border border-l-0',
-                        `bg-${entry.status} text-${entry.status}-foreground border-${entry.status}-border`,
+                        statusClassName,
                     )}
                 >
                     <MaterialSymbolsSettingsOutlineRounded />
