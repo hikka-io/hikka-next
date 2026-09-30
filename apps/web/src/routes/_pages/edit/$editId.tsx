@@ -24,7 +24,7 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
         context: { queryClient, apiClient },
     }) => {
         const editId = Number(params.editId);
-        const isUpdate = location.pathname.endsWith('/update');
+        const isUpdate = /\/update\/?$/.test(location.pathname);
 
         const [edit] = await Promise.all([
             retryOnCancel(() =>

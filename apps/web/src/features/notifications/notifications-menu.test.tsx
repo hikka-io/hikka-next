@@ -174,7 +174,7 @@ describe('NotificationsMenu', () => {
 
     it('still invalidates once when a request fails', async () => {
         const { trigger, markAll } = await renderMenu();
-        mocks.markSeen.mockRejectedValueOnce(new Error('boom'));
+        mocks.markSeen.mockRejectedValue(new Error('boom'));
         await warm(trigger);
 
         await act(async () => {
