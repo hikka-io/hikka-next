@@ -15,7 +15,8 @@ export function StaticViewer({ value, className }: StaticEditorProps) {
     const editor = useMemo(() => {
         return createSlateEditor({
             nodeId: false,
-            plugins: StaticKit,
+            // createSlateEditor splices core-plugin keys (`p`) out of the array it gets
+            plugins: [...StaticKit],
         });
     }, []);
 
