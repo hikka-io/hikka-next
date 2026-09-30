@@ -19,8 +19,10 @@ type Props = {
 
 const rulesOptions = (rulesFile: string) =>
     queryOptions({
+        // biome-ignore lint/plugin/no-literal-query-key: a GitHub file, not a Hikka API query, so no generated key exists
         queryKey: ['rules', rulesFile],
         queryFn: async ({ signal }) => {
+            // biome-ignore lint/style/noRestrictedGlobals: the rules markdown is served by GitHub, outside the Hikka API
             const res = await fetch(
                 `https://raw.githubusercontent.com/hikka-io/rules/main/${rulesFile}`,
                 { signal },
@@ -28,6 +30,7 @@ const rulesOptions = (rulesFile: string) =>
             if (!res.ok) throw new Error(`Rules request failed: ${res.status}`);
             return res.text();
         },
+        // biome-ignore lint/plugin/no-query-policy: the published rules file does not change within a session
         staleTime: Infinity,
     });
 

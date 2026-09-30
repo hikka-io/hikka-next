@@ -22,6 +22,7 @@ type Props = PropsWithChildren & {
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     const { data } = useQuery(characterInfoOptions({ path: { slug } }));
+    // biome-ignore lint/plugin/no-raw-infinite-query: reads only the first page, under the preview key the character page already fetches
     const { data: characterAnimeData } = useInfiniteQuery(
         entityAppearanceOptions(ContentTypeEnum.CHARACTER, 'anime', slug, {
             preview: true,

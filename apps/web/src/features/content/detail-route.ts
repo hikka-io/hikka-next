@@ -19,7 +19,7 @@ import {
 } from '@/utils/api/content-queries';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import type { LoaderContext } from '@/utils/api/loader-prefetch';
-import { stripRestrictedExternal } from '@/utils/api/strip-restricted-external';
+import { cacheWithoutRestrictedExternal } from '@/utils/api/strip-restricted-external';
 import { getSessionFromPagesCache } from '@/utils/auth';
 import { contentPath } from '@/utils/content-paths';
 import { readNsfwConsent } from '@/utils/cookies';
@@ -122,8 +122,11 @@ export async function loadContentDetail<T extends MainContentTypeEnum>(
     if (!content) throw notFound();
 
     if (!session) {
-        content = stripRestrictedExternal(content);
-        queryClient.setQueryData(options.queryKey, content);
+        content = cacheWithoutRestrictedExternal(
+            queryClient,
+            options.queryKey,
+            content,
+        );
     }
 
     const nsfwConsented = content.nsfw ? !!(await readNsfwConsent()) : false;

@@ -1,0 +1,13 @@
+or {
+    JsPropertyObjectMember(name=$name),
+    JsShorthandPropertyObjectMember(name=$name)
+} as $member where {
+    $name <: r"^(?:staleTime|gcTime|refetchOnWindowFocus|refetchOnMount|retry)$",
+    $member <: within JsCallExpression(callee=$callee) where {
+        $callee <: or {
+            r"^(?:useQuery|useQueries|useInfiniteQuery|useInfiniteList|useSuspenseQuery|useSuspenseQueries|useSuspenseInfiniteQuery|queryOptions|infiniteQueryOptions)$",
+            JsStaticMemberExpression(member=r"^(?:fetch|prefetch|ensure)(?:Infinite)?Query(?:Data)?$")
+        }
+    } ,
+    register_diagnostic(span=$member, message="[R2] Query policy (staleTime, gcTime, retry, refetchOnWindowFocus, refetchOnMount) lives in utils/api/query-defaults.ts, not in a query call or builder.", severity="error")
+}

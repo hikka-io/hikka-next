@@ -28,6 +28,7 @@ import {
     resetPageList,
     writeIgnoredNotifications,
     writeReadToCaches,
+    writeSessionUI,
     writeWatchToCaches,
 } from './invalidate-content-state';
 
@@ -778,6 +779,30 @@ describe('writeIgnoredNotifications', () => {
             ignored_notifications: ['comment_reply'],
         });
         expect(queryClient.getQueryState(key)?.isInvalidated).toBe(false);
+    });
+});
+
+describe('writeSessionUI', () => {
+    it('patches the cached UI and restores a snapshot', () => {
+        const queryClient = new QueryClient();
+        const key = api.profileUiQueryKey();
+        const snapshot = {
+            styles: null,
+            preferences: { title_language: 'title_ua' },
+        } as unknown as api.UserCustomizationResponse;
+        queryClient.setQueryData(key, snapshot);
+
+        writeSessionUI(queryClient, (old) => ({
+            ...(old as api.UserCustomizationResponse),
+            styles: { dark: null } as api.UserCustomizationResponse['styles'],
+        }));
+        expect(queryClient.getQueryData(key)).toEqual({
+            ...snapshot,
+            styles: { dark: null },
+        });
+
+        writeSessionUI(queryClient, snapshot);
+        expect(queryClient.getQueryData(key)).toEqual(snapshot);
     });
 });
 

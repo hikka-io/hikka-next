@@ -1,3 +1,5 @@
+import type { QueryClient, QueryKey } from '@tanstack/react-query';
+
 import { type ExternalResponse, ExternalTypeEnum } from '@hikka/api';
 
 /**
@@ -15,4 +17,12 @@ export function stripRestrictedExternal<
             (link) => link.type === ExternalTypeEnum.GENERAL,
         ),
     };
+}
+
+export function cacheWithoutRestrictedExternal<
+    T extends { external: ExternalResponse[] },
+>(queryClient: QueryClient, queryKey: QueryKey, content: T): T {
+    const stripped = stripRestrictedExternal(content);
+    queryClient.setQueryData(queryKey, stripped);
+    return stripped;
 }

@@ -14,13 +14,14 @@ import { editNewSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/edit/new')({
     validateSearch: zodValidator(editNewSearchSchema),
-    loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, apiClient }, deps }) => {
-        const { content_type, slug } = deps;
+    beforeLoad: ({ search: { content_type, slug } }) => {
+        if (!content_type || !slug) throw redirect({ to: '/edit' });
 
-        if (!content_type || !slug) {
-            throw redirect({ to: '/edit' });
-        }
+        return { newEdit: { content_type, slug } };
+    },
+    loaderDeps: ({ search }) => search,
+    loader: async ({ context: { queryClient, apiClient, newEdit } }) => {
+        const { content_type, slug } = newEdit;
 
         switch (content_type) {
             case ContentTypeEnum.ANIME:

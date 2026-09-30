@@ -15,15 +15,18 @@ import { oauthSearchSchema } from '@/utils/search-schemas';
 export const Route = createFileRoute('/_pages/oauth')({
     staticData: { headerless: true },
     validateSearch: zodValidator(oauthSearchSchema),
-    loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, apiClient }, deps }) => {
-        const { reference, scope } = deps;
-
+    beforeLoad: ({ search: { reference, scope } }) => {
         if (!reference || !scope) throw redirect({ to: '/' });
 
+        return { clientReference: reference };
+    },
+    loaderDeps: ({ search }) => search,
+    loader: async ({
+        context: { queryClient, apiClient, clientReference },
+    }) => {
         await queryClient.prefetchQuery(
             getClientByReferenceOptions({
-                path: { client_reference: reference },
+                path: { client_reference: clientReference },
                 client: apiClient,
             }),
         );

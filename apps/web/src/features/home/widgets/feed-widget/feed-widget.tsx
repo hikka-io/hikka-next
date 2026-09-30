@@ -90,6 +90,7 @@ const FeedWidget: FC<WidgetProps> = ({ isLast, side }) => {
 
     const allSectionsDisabled = isFeedDisabled(filters);
 
+    // biome-ignore lint/plugin/no-raw-infinite-query: cursor pagination (feedPageParam); useInfiniteList assumes page numbers
     const feedQuery = useInfiniteQuery({
         ...getFeedInfiniteOptions({ body: feedArgs }),
         ...feedPageParam(),

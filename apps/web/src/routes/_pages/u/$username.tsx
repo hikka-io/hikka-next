@@ -43,6 +43,7 @@ export const Route = createFileRoute('/_pages/u/$username')({
 
             if (!user.username) throw notFound();
 
+            // biome-ignore lint/plugin/no-loader-redirect: the target username comes from the fetched reference lookup
             throw redirect({
                 to: '/u/$username',
                 params: { username: user.username },

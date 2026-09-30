@@ -76,6 +76,57 @@
         {
             "path": "./apps/web/biome-plugins/no-const-component.grit",
             "includes": ["**/apps/web/src/**/*.tsx", "!**/*.test.tsx"]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-cache-writes.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/apps/web/src/utils/api/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-query-policy.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-literal-query-key.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-raw-infinite-query.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/apps/web/src/utils/api/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-loader-redirect.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
+        },
+        {
+            "path": "./apps/web/biome-plugins/no-page-reload.grit",
+            "includes": [
+                "**/apps/web/src/**",
+                "!**/apps/web/src/utils/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ]
         }
     ],
     "overrides": [
@@ -98,6 +149,28 @@
         {
             "includes": ["apps/web/src/**"],
             "linter": { "rules": { "style": { "noProcessEnv": "error" } } }
+        },
+        {
+            "includes": [
+                "apps/web/src/**",
+                "!apps/web/src/utils/**",
+                "!**/*.test.ts",
+                "!**/*.test.tsx"
+            ],
+            "linter": {
+                "rules": {
+                    "style": {
+                        "noRestrictedGlobals": {
+                            "level": "error",
+                            "options": {
+                                "deniedGlobals": {
+                                    "fetch": "[R6] Requests go through @hikka/api or a utils/ module, not a raw fetch."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         },
         {
             "includes": [

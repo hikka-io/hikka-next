@@ -43,6 +43,16 @@ const CANARIES = [
         "import '@/features/x';",
         ['D8'],
     ]),
+    [
+        'routes/canary-loader.ts',
+        'declare const redirect: any;\nexport const r = {\n    loader: () => {\n        throw redirect({});\n    },\n};',
+        ['R5'],
+    ],
+    [
+        'features/x/canary-requests.ts',
+        "declare const c: any;\nc.invalidateQueries({});\nuseQuery({ ...c(), staleTime: 0 });\nqueryOptions({ queryKey: ['x'] });\nuseInfiniteQuery(c());\nuseSuspenseQuery(c());\nfetch('x');\nc.refresh();",
+        ['R1', 'R2', 'R3', 'R4', 'lint/style/noRestrictedGlobals', 'R7'],
+    ],
     ['features/x/queries.ts', "import 'react';", ['D12']],
     ['features/filters/queries.ts', "import '@/features/x/queries';", ['D8']],
     ['components/x/canary.ts', "import '@/features/x';", ['D2']],

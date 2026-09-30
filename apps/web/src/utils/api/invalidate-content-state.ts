@@ -1,4 +1,4 @@
-import type { QueryClient, QueryKey } from '@tanstack/react-query';
+import type { QueryClient, QueryKey, Updater } from '@tanstack/react-query';
 
 import {
     type FavouriteContentTypeEnum,
@@ -8,9 +8,11 @@ import {
     getIgnoredNotificationsQueryKey,
     getVoteQueryKey,
     type IgnoredNotificationsResponse,
+    profileUiQueryKey,
     type ReadResponse,
     readGetQueryKey,
     type SetVoteData,
+    type UserCustomizationResponse,
     VoteContentTypeEnum,
     type VoteResponse,
     type WatchResponse,
@@ -616,6 +618,17 @@ export function writeIgnoredNotifications(
     saved: IgnoredNotificationsResponse,
 ): void {
     queryClient.setQueryData(getIgnoredNotificationsQueryKey(), saved);
+}
+
+/** Write the viewer's UI customization: an optimistic patch or a rollback snapshot. */
+export function writeSessionUI(
+    queryClient: QueryClient,
+    updater: Updater<
+        UserCustomizationResponse | undefined,
+        UserCustomizationResponse | undefined
+    >,
+): void {
+    queryClient.setQueryData(profileUiQueryKey(), updater);
 }
 
 /** Drop an infinite list with several loaded pages before a page jump restarts it. */

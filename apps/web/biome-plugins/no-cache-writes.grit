@@ -1,0 +1,4 @@
+JsCallExpression(callee=JsStaticMemberExpression(member=$method)) as $call where {
+    $method <: r"^(?:invalidateQueries|setQueryData|setQueriesData|removeQueries|resetQueries|refetchQueries|cancelQueries)$",
+    register_diagnostic(span=$call, message="[R1] Query-cache writes (invalidate/set/remove/reset/refetch/cancel) go through a utils/api helper, not a direct QueryClient call.", severity="error")
+}

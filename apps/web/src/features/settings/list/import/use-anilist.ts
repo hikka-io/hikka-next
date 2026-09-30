@@ -162,6 +162,7 @@ const fetchAnilistData = async ({
         throw new Error('Required arument `type` is missing');
     }
 
+    // biome-ignore lint/style/noRestrictedGlobals: AniList's GraphQL API, not the Hikka API
     const res = await fetch('https://graphql.anilist.co', {
         method: 'POST',
         headers: {

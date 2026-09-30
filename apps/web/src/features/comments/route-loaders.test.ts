@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
-import { isNotFound } from '@tanstack/react-router';
+import { isNotFound, isRedirect } from '@tanstack/react-router';
 import { describe, expect, it, vi } from 'vitest';
 
 import { createRequestClient, HikkaApiError } from '@hikka/api';
@@ -154,4 +154,39 @@ describe('comment thread loader', () => {
         info.resolve({ slug: 'test-slug' });
         await expect(result).resolves.toBeDefined();
     });
+});
+
+describe('comments route guards', () => {
+    type BeforeLoad = (ctx: { params: object }) => unknown;
+
+    const redirectFrom = (
+        route: { options: { beforeLoad?: unknown } },
+        contentType: string,
+    ) => {
+        const beforeLoad = route.options.beforeLoad as BeforeLoad | undefined;
+        try {
+            beforeLoad?.({
+                params: { content_type: contentType, slug: 'test-slug' },
+            });
+        } catch (error) {
+            if (isRedirect(error)) return error.options;
+            throw error;
+        }
+        return undefined;
+    };
+
+    it.each([CommentsRoute, ThreadRoute])(
+        'redirects an unknown content type home from beforeLoad',
+        (route) => {
+            expect(redirectFrom(route, 'unknown')?.to).toBe('/');
+        },
+    );
+
+    it.each([CommentsRoute, ThreadRoute])(
+        'lets a known content type through',
+        (route) => {
+            expect(redirectFrom(route, 'anime')).toBeUndefined();
+            expect(redirectFrom(route, 'user')).toBeUndefined();
+        },
+    );
 });

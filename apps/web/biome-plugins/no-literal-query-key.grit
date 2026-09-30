@@ -1,0 +1,4 @@
+JsPropertyObjectMember(name=$name, value=JsArrayExpression()) as $member where {
+    $name <: r"^queryKey$",
+    register_diagnostic(span=$member, message="[R3] No literal array queryKey; use a generated xxxQueryKey or a builder's options.", severity="error")
+}

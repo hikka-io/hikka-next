@@ -19,7 +19,10 @@ import {
 } from '@/features/comments/queries';
 import { ContentSubpage, useContentTitle } from '@/features/content';
 import { useChangeParam } from '@/features/filters';
-import { loadContentForComments } from '@/utils/api/content-queries';
+import {
+    isContentInfoType,
+    loadContentForComments,
+} from '@/utils/api/content-queries';
 import { contentPath } from '@/utils/content-paths';
 import { generateHeadMeta } from '@/utils/metadata';
 import { commentsSearchSchema } from '@/utils/search-schemas';
@@ -32,6 +35,10 @@ import { getContentTitle } from '@/utils/title/get-content-title';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
     validateSearch: zodValidator(commentsSearchSchema),
+    beforeLoad: ({ params }) => {
+        if (!isContentInfoType(params.content_type))
+            throw redirect({ to: '/' });
+    },
     loaderDeps: ({ search }) => search,
     loader: async ({ params, deps, context }) => {
         const { queryClient, apiClient } = context;
@@ -79,8 +86,6 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
             ),
             prefetchComments,
         ]);
-
-        if (!content) throw redirect({ to: '/' });
 
         return { content };
     },

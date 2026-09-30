@@ -171,7 +171,7 @@ export function contentInfoOptions<T extends ContentInfoType>(
     return CONTENT_INFO_OPTIONS[type](slug, client) as ContentInfoOptions<T>;
 }
 
-const isContentInfoType = (type: string): type is ContentInfoType =>
+export const isContentInfoType = (type: string): type is ContentInfoType =>
     Object.hasOwn(CONTENT_INFO_OPTIONS, type);
 
 export async function loadContentForComments(

@@ -1,0 +1,8 @@
+JsCallExpression(callee=$callee) as $call where {
+    $callee <: r"^redirect$",
+    $call <: within or {
+        JsPropertyObjectMember(name=$key),
+        JsMethodObjectMember(name=$key)
+    } where { $key <: r"^loader$" } ,
+    register_diagnostic(span=$call, message="[R5] Redirects belong in beforeLoad, not in a route loader.", severity="error")
+}

@@ -10,6 +10,7 @@ import {
     type UserCustomizationResponse,
 } from '@hikka/api';
 
+import { writeSessionUI } from '@/utils/api/invalidate-content-state';
 import { DEFAULT_USER_UI, diffStyles } from '@/utils/customization';
 
 type SessionUIPatch = {
@@ -50,7 +51,7 @@ export function useUpdateSessionUI() {
                 onError: () => {
                     inFlightRef.current = false;
                     queuedRef.current = null;
-                    queryClient.setQueryData(queryKey, snapshotRef.current);
+                    writeSessionUI(queryClient, snapshotRef.current);
                     snapshotRef.current = undefined;
                 },
             },
@@ -85,13 +86,10 @@ export function useUpdateSessionUI() {
             preferences: resolvedNext.preferences,
         };
 
-        queryClient.setQueryData<UserCustomizationResponse>(
-            queryKey,
-            (old) => ({
-                ...old,
-                ...resolvedNext,
-            }),
-        );
+        writeSessionUI(queryClient, (old) => ({
+            ...old,
+            ...resolvedNext,
+        }));
 
         if (inFlightRef.current) {
             queuedRef.current = apiPayload;

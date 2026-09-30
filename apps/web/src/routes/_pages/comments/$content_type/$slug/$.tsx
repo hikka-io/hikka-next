@@ -6,10 +6,17 @@ import { usePageHeader } from '@/features/app-shell';
 import { CommentList } from '@/features/comments';
 import { commentThreadOptions } from '@/features/comments/queries';
 import { ContentSubpage, useContentTitle } from '@/features/content';
-import { loadContentForComments } from '@/utils/api/content-queries';
+import {
+    isContentInfoType,
+    loadContentForComments,
+} from '@/utils/api/content-queries';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
+    beforeLoad: ({ params }) => {
+        if (!isContentInfoType(params.content_type))
+            throw redirect({ to: '/' });
+    },
     loader: async ({ params, context }) => {
         const { queryClient, apiClient } = context;
         const { content_type, slug, _splat: commentReference } = params;
@@ -26,8 +33,6 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
                   )
                 : undefined,
         ]);
-
-        if (!content) throw redirect({ to: '/' });
 
         return { content, commentReference };
     },
