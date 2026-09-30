@@ -38,6 +38,9 @@ import { websiteJsonLd } from '@/utils/json-ld';
 import { usePlausiblePageviews } from '@/utils/plausible';
 
 import '../globals.css';
+
+import { isServer } from '@/utils/is-server';
+
 import type { RouterContext } from '../router';
 
 export const Route = createRootRouteWithContext<RouterContext>()({
@@ -69,7 +72,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         const [theme, uiPrefs] = await Promise.all([
             getThemeCookieFn(),
             getUiPrefsCookieFn(),
-            typeof window === 'undefined' ? refreshAuthCookieFn() : undefined,
+            isServer() ? refreshAuthCookieFn() : undefined,
         ]);
 
         // Already prefetched in createRouter; read from cache, no extra call.

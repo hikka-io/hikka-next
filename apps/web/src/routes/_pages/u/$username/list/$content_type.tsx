@@ -4,7 +4,6 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import {
     ContentTypeEnum,
     type MainContentTypeEnum,
-    paginationPageParam,
     type ReadContentTypeEnum,
     userReadStatsOptions,
     userWatchStatsOptions,
@@ -30,6 +29,7 @@ import {
     userReadListOptions,
     userWatchListOptions,
 } from '@/features/users/queries';
+import { awaitOnServer } from '@/utils/api/loader-prefetch';
 import { CONTENT_TYPES } from '@/utils/labels';
 import { generateHeadMeta } from '@/utils/metadata';
 import { userlistSearchSchema } from '@/utils/search-schemas';
@@ -59,13 +59,12 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
     },
     loader: async ({ params, context: { queryClient, apiClient }, deps }) => {
         const { username, content_type } = params;
-        const prefetches = () =>
+        await awaitOnServer(
             content_type === ContentTypeEnum.ANIME
                 ? [
-                      queryClient.prefetchInfiniteQuery({
-                          ...userWatchListOptions(username, deps, apiClient),
-                          ...paginationPageParam(),
-                      }),
+                      queryClient.prefetchInfiniteQuery(
+                          userWatchListOptions(username, deps, apiClient),
+                      ),
                       queryClient.prefetchQuery(
                           userWatchStatsOptions({
                               path: { username },
@@ -74,15 +73,14 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                       ),
                   ]
                 : [
-                      queryClient.prefetchInfiniteQuery({
-                          ...userReadListOptions(
+                      queryClient.prefetchInfiniteQuery(
+                          userReadListOptions(
                               username,
                               content_type as ReadContentTypeEnum,
                               deps,
                               apiClient,
                           ),
-                          ...paginationPageParam(),
-                      }),
+                      ),
                       queryClient.prefetchQuery(
                           userReadStatsOptions({
                               path: {
@@ -93,14 +91,8 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
                               client: apiClient,
                           }),
                       ),
-                  ];
-
-        if (typeof window !== 'undefined') {
-            prefetches();
-            return;
-        }
-
-        await Promise.allSettled(prefetches());
+                  ],
+        );
     },
     head: ({ params }) =>
         generateHeadMeta({ title: `Список / ${params.username}` }),

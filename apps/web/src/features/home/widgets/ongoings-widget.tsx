@@ -31,11 +31,8 @@ import { Link } from '@/utils/navigation';
 import { getCurrentSeason } from '@/utils/season';
 import { getTitle } from '@/utils/title/get-title';
 
-import { ongoingsOptions } from '../queries';
+import { ONGOINGS_SIZE, ongoingsOptions } from '../queries';
 import type { WidgetProps } from '../types';
-
-const SIDEBAR_SIZE = 5;
-const CENTER_SIZE = 5;
 
 const OngoingItemSkeleton = () => (
     <div className="flex items-center gap-3 rounded-sm px-2 py-1.5">
@@ -54,9 +51,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
     const year = new Date().getFullYear();
     const isCenter = side === 'center';
 
-    const { list, isLoading } = useInfiniteList(
-        ongoingsOptions({ size: isCenter ? CENTER_SIZE : SIDEBAR_SIZE }),
-    );
+    const { list, isLoading } = useInfiniteList(ongoingsOptions());
 
     const search = {
         statuses: ['ongoing'],
@@ -79,12 +74,12 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
                     </Header>
                     {((list && list.length > 0) || isLoading) && (
                         <Stack
-                            size={CENTER_SIZE}
+                            size={ONGOINGS_SIZE}
                             imagePreset="cardSm"
                             className="mx-0 px-4"
                         >
                             {isLoading &&
-                                range(0, CENTER_SIZE).map((v) => (
+                                range(0, ONGOINGS_SIZE).map((v) => (
                                     <SkeletonCard key={v} />
                                 ))}
                             {list &&
@@ -126,7 +121,7 @@ const OngoingsWidget: FC<WidgetProps> = ({ side }) => {
 
                 <div className="flex flex-col gap-1 px-2">
                     {isLoading &&
-                        range(0, SIDEBAR_SIZE).map((i) => (
+                        range(0, ONGOINGS_SIZE).map((i) => (
                             <OngoingItemSkeleton key={i} />
                         ))}
 

@@ -4,16 +4,20 @@ import {
     AnimeMediaEnum,
     AnimeStatusEnum,
     type ArticlesListArgs,
+    animeScheduleInfiniteOptions,
     type Client,
     type FeedArgs,
     followingHistoryInfiniteOptions,
     getArticlesInfiniteOptions,
+    paginationPageParam,
     profileUiQueryKey,
     type SeasonEnum,
     searchAnimeInfiniteOptions,
     type UiFeedSettingsOutput,
     type UiFeedWidget,
     type UserCustomizationResponse,
+    userWatchListInfiniteOptions,
+    WatchStatusEnum,
 } from '@hikka/api';
 
 import { getSessionFromPagesCache } from '@/utils/auth';
@@ -23,59 +27,84 @@ import { getOngoingsSort } from '@/utils/sort';
 
 const HISTORY_PREVIEW_SIZE = 3;
 export const HOME_ARTICLES_SIZE = 3;
+export const ONGOINGS_SIZE = 5;
 
 export const HOME_ARTICLES_NEWEST_SORT = ['created:desc'];
 export const HOME_ARTICLES_POPULAR_SORT = ['vote_score:desc'];
 
 type FeedFilters = Omit<UiFeedSettingsOutput, 'only_followed' | 'widgets'>;
 
-export function ongoingsOptions({
-    size,
-    client,
-}: {
-    size: number;
-    client?: Client;
-}) {
+export function ongoingsOptions(client?: Client) {
     const season = getCurrentSeason() as SeasonEnum;
     const year = new Date().getFullYear();
 
-    return searchAnimeInfiniteOptions({
-        body: {
-            season: [season],
-            media_type: [AnimeMediaEnum.TV],
-            years: [year, year],
-            genres: ['-ecchi', '-hentai'],
-            status: [AnimeStatusEnum.ONGOING],
-            sort: getOngoingsSort(),
-        },
-        query: { size },
-        client,
-    });
+    return {
+        ...searchAnimeInfiniteOptions({
+            body: {
+                season: [season],
+                media_type: [AnimeMediaEnum.TV],
+                years: [year, year],
+                genres: ['-ecchi', '-hentai'],
+                status: [AnimeStatusEnum.ONGOING],
+                sort: getOngoingsSort(),
+            },
+            query: { size: ONGOINGS_SIZE },
+            client,
+        }),
+        ...paginationPageParam(),
+    };
 }
 
-export function followingHistoryPreviewOptions({
-    client,
-}: {
-    client?: Client;
-} = {}) {
-    return followingHistoryInfiniteOptions({
-        query: { size: HISTORY_PREVIEW_SIZE },
-        client,
-    });
+export function homeWatchingOptions(username: string, client?: Client) {
+    return {
+        ...userWatchListInfiniteOptions({
+            path: { username },
+            body: {
+                watch_status: WatchStatusEnum.WATCHING,
+                sort: ['watch_updated:desc'],
+            },
+            client,
+        }),
+        ...paginationPageParam(),
+    };
 }
 
-export function homeArticlesOptions({
-    body,
-    client,
-}: {
-    body: ArticlesListArgs;
-    client?: Client;
-}) {
-    return getArticlesInfiniteOptions({
-        body,
-        query: { size: HOME_ARTICLES_SIZE },
-        client,
-    });
+export function homeScheduleOptions(onlyWatch: boolean, client?: Client) {
+    const season = getCurrentSeason() as SeasonEnum;
+    const year = new Date().getFullYear();
+
+    return {
+        ...animeScheduleInfiniteOptions({
+            body: {
+                airing_season: [season, year],
+                status: [AnimeStatusEnum.ONGOING, AnimeStatusEnum.ANNOUNCED],
+                only_watch: onlyWatch || undefined,
+            },
+            client,
+        }),
+        ...paginationPageParam(),
+    };
+}
+
+export function followingHistoryPreviewOptions(client?: Client) {
+    return {
+        ...followingHistoryInfiniteOptions({
+            query: { size: HISTORY_PREVIEW_SIZE },
+            client,
+        }),
+        ...paginationPageParam(),
+    };
+}
+
+export function homeArticlesOptions(body: ArticlesListArgs, client?: Client) {
+    return {
+        ...getArticlesInfiniteOptions({
+            body,
+            query: { size: HOME_ARTICLES_SIZE },
+            client,
+        }),
+        ...paginationPageParam(),
+    };
 }
 
 export function buildFeedArgs(

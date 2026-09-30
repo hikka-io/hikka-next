@@ -3,11 +3,7 @@ import { type FC, useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Star } from 'lucide-react';
 
-import {
-    type CommentTypeEnum,
-    getCommentsUserInfiniteOptions,
-    serviceUserStatsOptions,
-} from '@hikka/api';
+import { type CommentTypeEnum, serviceUserStatsOptions } from '@hikka/api';
 
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
 import LoadMoreButton from '@/components/load-more-button';
@@ -26,11 +22,11 @@ import {
 import { Sort } from '@/features/filters';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
-import { getCommentSort } from '@/utils/sort';
 
 import { CommentListSkeleton } from './comment-skeleton';
 import { COMMENT_TYPE_OPTIONS } from './comment-type-options';
 import CommentsProvider from './comments-provider';
+import { userCommentListOptions } from './queries';
 import { type CommentSortProps, useCommentSort } from './use-comment-sort';
 import UserComment from './user-comment';
 
@@ -92,13 +88,11 @@ const UserCommentList: FC<Props> = ({
         isLoading,
         ref,
     } = useInfiniteList(
-        getCommentsUserInfiniteOptions({
-            path: { username },
-            body: {
-                comment_type: commentType,
-                sort: getCommentSort(sort, order),
-                first_level_only: firstLevelOnly || undefined,
-            },
+        userCommentListOptions(username, {
+            commentType,
+            sort,
+            order,
+            firstLevelOnly,
         }),
     );
 

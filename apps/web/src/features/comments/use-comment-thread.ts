@@ -4,7 +4,7 @@ import type { CommentListResponse } from '@hikka/api';
 
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import { commentThreadInfiniteOptions } from './queries';
+import { commentThreadOptions } from './queries';
 
 /**
  * Full subtree of a comment, led by the comment itself. List responses cap a
@@ -17,7 +17,7 @@ export function useCommentThread(
     return useInfiniteList<CommentListResponse>(
         {
             // `ThreadResponse` is a union; `flat=true` yields the list side.
-            ...commentThreadInfiniteOptions(String(reference)),
+            ...commentThreadOptions(String(reference)),
             // `skipToken` holds through `refetch()`, which ignores `enabled`.
             ...(reference ? undefined : { queryFn: skipToken }),
         } as unknown as Parameters<

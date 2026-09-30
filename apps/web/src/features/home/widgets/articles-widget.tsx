@@ -41,29 +41,23 @@ const ArticlesWidget: FC<WidgetProps> = () => {
     const isOwn = Boolean(user) && tab === 'own';
 
     const { list: published, isLoading: isPublishedLoading } = useInfiniteList(
-        homeArticlesOptions({
-            body:
-                isOwn && user
-                    ? {
-                          sort: HOME_ARTICLES_NEWEST_SORT,
-                          author: user.username,
-                      }
-                    : {
-                          sort:
-                              tab === 'popular'
-                                  ? HOME_ARTICLES_POPULAR_SORT
-                                  : HOME_ARTICLES_NEWEST_SORT,
-                      },
-        }),
+        homeArticlesOptions(
+            isOwn && user
+                ? { sort: HOME_ARTICLES_NEWEST_SORT, author: user.username }
+                : {
+                      sort:
+                          tab === 'popular'
+                              ? HOME_ARTICLES_POPULAR_SORT
+                              : HOME_ARTICLES_NEWEST_SORT,
+                  },
+        ),
     );
 
     const { list: drafts, isLoading: isDraftsLoading } = useInfiniteList(
         homeArticlesOptions({
-            body: {
-                sort: HOME_ARTICLES_NEWEST_SORT,
-                author: user?.username,
-                draft: true,
-            },
+            sort: HOME_ARTICLES_NEWEST_SORT,
+            author: user?.username,
+            draft: true,
         }),
         { enabled: isOwn },
     );

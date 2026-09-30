@@ -32,11 +32,9 @@ export const Route = createFileRoute('/_pages/edit/')({
     },
     loaderDeps: ({ search }) => search,
     loader: async ({ context: { queryClient, apiClient }, deps }) => {
-        await Promise.allSettled([
-            queryClient.ensureInfiniteQueryData(
-                editListOptions(deps, apiClient),
-            ),
-            queryClient.ensureInfiniteQueryData({
+        await Promise.all([
+            queryClient.prefetchInfiniteQuery(editListOptions(deps, apiClient)),
+            queryClient.prefetchInfiniteQuery({
                 ...editsTopInfiniteOptions({ client: apiClient }),
                 ...paginationPageParam(),
             }),

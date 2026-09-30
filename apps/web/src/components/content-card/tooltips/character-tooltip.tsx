@@ -2,11 +2,7 @@ import { type FC, memo, type PropsWithChildren, type ReactNode } from 'react';
 
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
-import {
-    ContentTypeEnum,
-    characterInfoOptions,
-    paginationPageParam,
-} from '@hikka/api';
+import { ContentTypeEnum, characterInfoOptions } from '@hikka/api';
 
 import { MDViewer } from '@/components/markdown';
 import { useTitle } from '@/services/session';
@@ -26,12 +22,11 @@ type Props = PropsWithChildren & {
 
 const TooltipData: FC<TooltipDataProps> = ({ slug }) => {
     const { data } = useQuery(characterInfoOptions({ path: { slug } }));
-    const { data: characterAnimeData } = useInfiniteQuery({
-        ...entityAppearanceOptions(ContentTypeEnum.CHARACTER, 'anime', slug, {
+    const { data: characterAnimeData } = useInfiniteQuery(
+        entityAppearanceOptions(ContentTypeEnum.CHARACTER, 'anime', slug, {
             preview: true,
         }),
-        ...paginationPageParam(),
-    });
+    );
 
     const characterAnime = characterAnimeData?.pages[0]?.list
         .slice()

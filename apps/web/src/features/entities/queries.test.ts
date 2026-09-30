@@ -170,7 +170,7 @@ async function runLoader(
         queryClient.setQueryData(profileQueryKey(), { username: 'tester' });
     }
 
-    queryClient.ensureInfiniteQueryData = (async (options: {
+    queryClient.fetchInfiniteQuery = (async (options: {
         queryKey: readonly [{ _id: string }];
         initialPageParam?: unknown;
         getNextPageParam?: unknown;
@@ -179,7 +179,7 @@ async function runLoader(
             options.initialPageParam === 1 &&
             typeof options.getNextPageParam === 'function';
         calls.push(
-            `ensureInfiniteQueryData${paged ? '+page' : ''} ${JSON.stringify(options.queryKey)}`,
+            `prefetchInfiniteQuery${paged ? '+page' : ''} ${JSON.stringify(options.queryKey)}`,
         );
         if (
             fail &&
@@ -190,7 +190,7 @@ async function runLoader(
             throw fail.error;
         }
         return { pages: [], pageParams: [] };
-    }) as unknown as QueryClient['ensureInfiniteQueryData'];
+    }) as unknown as QueryClient['fetchInfiniteQuery'];
 
     const loader = route.options.loader as (ctx: unknown) => Promise<unknown>;
     const result = await loader({
@@ -205,7 +205,7 @@ async function runLoader(
 }
 
 const appearanceKey = (id: string, preview: boolean) =>
-    `ensureInfiniteQueryData+page [{"_id":"${id}","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}${preview ? ',"query":{"size":4}' : ''}}]`;
+    `prefetchInfiniteQuery+page [{"_id":"${id}","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}${preview ? ',"query":{"size":4}' : ''}}]`;
 
 const ENTITY_CHILD_ROUTES = [
     [
@@ -269,7 +269,7 @@ const ENTITY_CHILD_ROUTES = [
 
 describe.each(ENTITY_CHILD_ROUTES)('%s loader', (_, route, expected) => {
     it.each(['anonymous', 'authenticated'] as const)(
-        'ensures only its own lists (%s)',
+        'prefetches only its own lists (%s)',
         async (auth) => {
             const { calls, result } = await runLoader(route, auth);
 

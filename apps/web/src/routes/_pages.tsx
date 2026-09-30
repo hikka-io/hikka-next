@@ -41,11 +41,9 @@ export const Route = createFileRoute('/_pages')({
     loader: async ({ context: { queryClient, apiClient } }) => {
         if (!(await readAuthToken())) return;
 
-        await Promise.allSettled([
-            queryClient.ensureQueryData(
-                unseenNotificationsCountOptions({ client: apiClient }),
-            ),
-        ]);
+        await queryClient.prefetchQuery(
+            unseenNotificationsCountOptions({ client: apiClient }),
+        );
     },
     component: PagesLayout,
 });

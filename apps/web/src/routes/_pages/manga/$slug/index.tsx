@@ -7,10 +7,7 @@ import { loadContentOverview } from '@/features/content/detail-route';
 
 export const Route = createFileRoute('/_pages/manga/$slug/')({
     loader: ({ params, context }) =>
-        loadContentOverview(ContentTypeEnum.MANGA, {
-            slug: params.slug,
-            ...context,
-        }),
+        loadContentOverview(ContentTypeEnum.MANGA, params.slug, context),
     component: MangaDetailPage,
 });
 

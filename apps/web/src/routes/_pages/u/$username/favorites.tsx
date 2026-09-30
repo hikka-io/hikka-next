@@ -1,15 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import {
-    ContentTypeEnum,
-    paginationPageParam,
-    serviceUserStatsOptions,
-} from '@hikka/api';
+import { ContentTypeEnum, serviceUserStatsOptions } from '@hikka/api';
 
 import { UserFavorites } from '@/features/users';
 import { userFavouritesListOptions } from '@/features/users/queries';
-import { retryOnCancel } from '@/utils/api/retry-on-cancel';
+import { awaitOnServer } from '@/utils/api/loader-prefetch';
 import { generateHeadMeta } from '@/utils/metadata';
 import { favoritesSearchSchema } from '@/utils/search-schemas';
 
@@ -22,24 +18,15 @@ export const Route = createFileRoute('/_pages/u/$username/favorites')({
             path: { username },
             client: apiClient,
         });
-        const list = {
-            ...userFavouritesListOptions(
-                username,
-                deps.type ?? ContentTypeEnum.ANIME,
-                apiClient,
-            ),
-            ...paginationPageParam(),
-        };
+        const list = userFavouritesListOptions(
+            username,
+            deps.type ?? ContentTypeEnum.ANIME,
+            apiClient,
+        );
 
-        if (typeof window !== 'undefined') {
-            void queryClient.prefetchQuery(stats);
-            void queryClient.prefetchInfiniteQuery(list);
-            return;
-        }
-
-        await Promise.allSettled([
+        await awaitOnServer([
             queryClient.prefetchQuery(stats),
-            retryOnCancel(() => queryClient.ensureInfiniteQueryData(list)),
+            queryClient.prefetchInfiniteQuery(list),
         ]);
     },
     head: ({ params }) =>

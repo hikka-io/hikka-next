@@ -6,6 +6,8 @@ import {
     useState,
 } from 'react';
 
+import { isServer } from '@/utils/is-server';
+
 type ScrollDirection = 'vertical' | 'horizontal';
 
 interface ScrollPositionState {
@@ -43,8 +45,7 @@ function computeGradientClassName(
     return '';
 }
 
-const useIsomorphicLayoutEffect =
-    typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+const useIsomorphicLayoutEffect = isServer() ? useEffect : useLayoutEffect;
 
 export function useScrollPosition(
     containerRef: RefObject<HTMLElement | null>,

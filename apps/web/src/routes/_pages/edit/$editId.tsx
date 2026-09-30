@@ -1,16 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import {
-    type CommentContentTypeEnum,
-    getCommentsListInfiniteOptions,
-    getEditOptions,
-    paginationPageParam,
-} from '@hikka/api';
+import { type CommentContentTypeEnum, getEditOptions } from '@hikka/api';
 
 import Block from '@/components/ui/block';
 import { usePageHeader } from '@/features/app-shell';
-import { commentListPrefetchBody } from '@/features/comments/queries';
+import { commentListOptions } from '@/features/comments/queries';
 import { EditContent, EditTimeline } from '@/features/edit';
 import { useTitle } from '@/services/session';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
@@ -37,17 +32,14 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
             ),
             isUpdate
                 ? undefined
-                : queryClient.prefetchInfiniteQuery({
-                      ...getCommentsListInfiniteOptions({
-                          path: {
-                              content_type: 'edit' as CommentContentTypeEnum,
-                              slug: params.editId,
-                          },
-                          body: commentListPrefetchBody(),
-                          client: apiClient,
-                      }),
-                      ...paginationPageParam(),
-                  }),
+                : queryClient.prefetchInfiniteQuery(
+                      commentListOptions(
+                          'edit' as CommentContentTypeEnum,
+                          params.editId,
+                          {},
+                          apiClient,
+                      ),
+                  ),
         ]);
 
         return { edit };

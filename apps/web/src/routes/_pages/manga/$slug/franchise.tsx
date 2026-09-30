@@ -8,10 +8,12 @@ import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/manga/$slug/franchise')({
     loader: ({ params, context }) =>
-        loadContentTab(ContentTypeEnum.MANGA, 'franchise', {
-            slug: params.slug,
-            ...context,
-        }),
+        loadContentTab(
+            ContentTypeEnum.MANGA,
+            'franchise',
+            params.slug,
+            context,
+        ),
     head: () =>
         generateHeadMeta({ title: "Пов'язане", robots: { index: false } }),
     component: MangaFranchisePage,

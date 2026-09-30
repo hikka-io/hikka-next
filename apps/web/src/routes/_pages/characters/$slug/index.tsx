@@ -7,10 +7,7 @@ import { loadEntityOverview } from '@/features/entities/queries';
 
 export const Route = createFileRoute('/_pages/characters/$slug/')({
     loader: ({ params, context }) =>
-        loadEntityOverview(ContentTypeEnum.CHARACTER, {
-            slug: params.slug,
-            ...context,
-        }),
+        loadEntityOverview(ContentTypeEnum.CHARACTER, params.slug, context),
     component: CharacterPage,
 });
 

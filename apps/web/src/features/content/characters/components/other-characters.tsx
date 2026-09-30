@@ -6,9 +6,10 @@ import CharacterCard from '@/components/content-card/character-card';
 import Block from '@/components/ui/block';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
-import { CONTENT_CONFIG } from '../../content-config';
+import { contentCharactersOptions } from '../../queries';
 
 type Props = {
     extended?: boolean;
@@ -17,8 +18,8 @@ type Props = {
 
 const OtherCharacters: FC<Props> = ({ extended, content_type }) => {
     const params = useParams();
-    const { list } = CONTENT_CONFIG[content_type].useCharacters(
-        String(params.slug),
+    const { list } = useInfiniteList(
+        contentCharactersOptions(content_type, String(params.slug)),
     );
 
     if (!list || list.length === 0) {

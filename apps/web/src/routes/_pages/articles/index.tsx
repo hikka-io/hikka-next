@@ -19,11 +19,10 @@ export const Route = createFileRoute('/_pages/articles/')({
     validateSearch: zodValidator(articlesSearchSchema),
     loaderDeps: ({ search }) => search,
     loader: async ({ context: { queryClient, apiClient }, deps }) => {
-        await Promise.allSettled([
-            queryClient.ensureInfiniteQueryData({
-                ...articleListOptions(deps, apiClient),
-                ...paginationPageParam(),
-            }),
+        await Promise.all([
+            queryClient.prefetchInfiniteQuery(
+                articleListOptions(deps, apiClient),
+            ),
             queryClient.prefetchQuery(
                 getArticleTopOptions({ client: apiClient }),
             ),

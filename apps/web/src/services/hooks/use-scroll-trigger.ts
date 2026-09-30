@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { isServer } from '@/utils/is-server';
 import { usePathname } from '@/utils/navigation';
 
 interface UseScrollTriggerOptions {
@@ -29,7 +30,7 @@ function defaultTrigger(store: any, options: UseScrollTriggerOptions) {
     return store.current > threshold;
 }
 
-const defaultTarget = typeof window !== 'undefined' ? window : null;
+const defaultTarget = isServer() ? null : window;
 
 export function useScrollTrigger(options: UseScrollTriggerOptions = {}) {
     const pathname = usePathname();

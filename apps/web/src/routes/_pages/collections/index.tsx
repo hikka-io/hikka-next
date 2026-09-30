@@ -1,11 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import {
-    getCollectionsInfiniteOptions,
-    paginatedInfiniteOptions,
-} from '@hikka/api';
-
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import PagePagination from '@/components/page-pagination';
 import Block from '@/components/ui/block';
@@ -13,6 +8,10 @@ import { Button } from '@/components/ui/button';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageHeader, usePageTitleAnchor } from '@/features/app-shell';
 import { CollectionList, CollectionSort } from '@/features/collections';
+import {
+    collectionListOptions,
+    DEFAULT_COLLECTION_SORT,
+} from '@/features/collections/queries';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { generateHeadMeta } from '@/utils/metadata';
 import { Link } from '@/utils/navigation';
@@ -39,20 +38,14 @@ export const Route = createFileRoute('/_pages/collections/')({
             deps,
             preload,
         }) => {
-            const { page, sort = 'system_ranking' } = deps;
+            const { page, sort = DEFAULT_COLLECTION_SORT } = deps;
 
             if (preload)
                 return { page: Number(page), sort, pagination: undefined };
 
             const collections = await retryOnCancel(() =>
                 queryClient.ensureInfiniteQueryData(
-                    paginatedInfiniteOptions(
-                        getCollectionsInfiniteOptions({
-                            body: { sort: [`${sort}:desc`] },
-                            client: apiClient,
-                        }),
-                        Number(page),
-                    ),
+                    collectionListOptions({ page, sort }, apiClient),
                 ),
             );
 

@@ -1,10 +1,10 @@
 import { getAuthToken } from '@hikka/api';
 
+import { isServer } from '@/utils/is-server';
+
 import { COOKIE } from './constants';
 import { getAuthTokenFn, getNsfwConsentFn, getUiPrefsCookieFn } from './server';
 import { parseUiPrefs, type UiPreferences } from './ui-prefs';
-
-const isServer = () => typeof window === 'undefined';
 
 function readDocumentCookie(name: string): string | null {
     const prefix = `${name}=`;

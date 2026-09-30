@@ -12,10 +12,7 @@ import { useTitle } from '@/services/session';
 
 export const Route = createFileRoute('/_pages/people/$slug')({
     loader: ({ params, context }) =>
-        loadEntityDetail(ContentTypeEnum.PERSON, {
-            slug: params.slug,
-            ...context,
-        }),
+        loadEntityDetail(ContentTypeEnum.PERSON, params.slug, context),
     head: ({ loaderData }) =>
         entityDetailHead(ContentTypeEnum.PERSON, loaderData),
     component: PersonDetailLayout,

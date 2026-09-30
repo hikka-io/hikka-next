@@ -4,9 +4,6 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import {
     type CommentContentTypeEnum,
     ContentTypeEnum,
-    getCommentsListInfiniteOptions,
-    getCommentsUserInfiniteOptions,
-    paginationPageParam,
     serviceUserStatsOptions,
 } from '@hikka/api';
 
@@ -16,9 +13,13 @@ import {
     UserCommentList,
     type Verdict,
 } from '@/features/comments';
+import {
+    commentListOptions,
+    userCommentListOptions,
+} from '@/features/comments/queries';
 import { ContentSubpage, useContentTitle } from '@/features/content';
 import { useChangeParam } from '@/features/filters';
-import { fetchContentForLoader } from '@/utils/api/content-queries';
+import { loadContentForComments } from '@/utils/api/content-queries';
 import { contentPath } from '@/utils/content-paths';
 import { generateHeadMeta } from '@/utils/metadata';
 import { commentsSearchSchema } from '@/utils/search-schemas';
@@ -26,36 +27,34 @@ import {
     type CommentOrder,
     DEFAULT_COMMENT_ORDER,
     DEFAULT_COMMENT_SORT,
-    getCommentSort,
 } from '@/utils/sort';
 import { getContentTitle } from '@/utils/title/get-content-title';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
     validateSearch: zodValidator(commentsSearchSchema),
     loaderDeps: ({ search }) => search,
-    loader: async ({ params, deps, context: { queryClient, apiClient } }) => {
+    loader: async ({ params, deps, context }) => {
+        const { queryClient, apiClient } = context;
         const { content_type, slug } = params;
-        const commentType = deps.comment_type ?? 'all';
-        const sort = getCommentSort(deps.sort, deps.order);
-        const recommended =
-            commentType === 'review' ? deps.recommended : undefined;
+        const filters = {
+            commentType: deps.comment_type,
+            sort: deps.sort,
+            order: deps.order,
+        };
 
         const prefetchComments =
             content_type === ContentTypeEnum.USER
                 ? Promise.all([
-                      queryClient.prefetchInfiniteQuery({
-                          ...getCommentsUserInfiniteOptions({
-                              path: { username: slug },
-                              body: {
-                                  comment_type: commentType,
-                                  sort,
-                                  first_level_only: deps.first_level_only,
+                      queryClient.prefetchInfiniteQuery(
+                          userCommentListOptions(
+                              slug,
+                              {
+                                  ...filters,
+                                  firstLevelOnly: deps.first_level_only,
                               },
-                              client: apiClient,
-                          }),
-                          ...paginationPageParam(),
-                      }),
-
+                              apiClient,
+                          ),
+                      ),
                       queryClient.prefetchQuery(
                           serviceUserStatsOptions({
                               path: { username: slug },
@@ -63,28 +62,21 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
                           }),
                       ),
                   ])
-                : queryClient.prefetchInfiniteQuery({
-                      ...getCommentsListInfiniteOptions({
-                          path: {
-                              content_type:
-                                  content_type as CommentContentTypeEnum,
-                              slug,
-                          },
-                          body: {
-                              comment_type: commentType,
-                              sort,
-                              recommended,
-                          },
-                          client: apiClient,
-                      }),
-                      ...paginationPageParam(),
-                  });
+                : queryClient.prefetchInfiniteQuery(
+                      commentListOptions(
+                          content_type as CommentContentTypeEnum,
+                          slug,
+                          { ...filters, verdict: deps.recommended },
+                          apiClient,
+                      ),
+                  );
 
         const [content] = await Promise.all([
-            fetchContentForLoader(content_type as ContentTypeEnum, slug, {
-                queryClient,
-                apiClient,
-            }),
+            loadContentForComments(
+                content_type as ContentTypeEnum,
+                slug,
+                context,
+            ),
             prefetchComments,
         ]);
 

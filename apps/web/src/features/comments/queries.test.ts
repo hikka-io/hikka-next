@@ -5,16 +5,17 @@ import {
     API_LIMITS,
     type Client,
     type CommentContentTypeEnum,
-    type CommentsFilterArgs,
     type CommentTypeEnum,
     ContentTypeEnum,
     configureBrowserClient,
     createRequestClient,
     getBrowserClient,
     getCommentsListInfiniteOptions,
+    getCommentsUserInfiniteOptions,
     paginationPageParam,
 } from '@hikka/api';
 
+import { commentsSearchSchema } from '@/utils/search-schemas';
 import {
     type CommentOrder,
     DEFAULT_COMMENT_ORDER,
@@ -22,10 +23,13 @@ import {
     getCommentSort,
 } from '@/utils/sort';
 
+import { Route as CommentsRoute } from '../../routes/_pages/comments/$content_type/$slug/index';
+import { Route as EditRoute } from '../../routes/_pages/edit/$editId';
 import {
-    commentListPrefetchBody,
-    commentThreadInfiniteOptions,
+    commentListOptions,
+    commentThreadOptions,
     THREAD_PAGE_SIZE,
+    userCommentListOptions,
 } from './queries';
 import type { Verdict } from './review/review';
 
@@ -53,12 +57,7 @@ function ssrRequestClient() {
     });
 }
 
-const headLoaderBody = (): CommentsFilterArgs => ({
-    comment_type: 'all',
-    sort: getCommentSort(),
-});
-
-// Copy of the list query in comment-list.tsx; the defaults are its local state and useCommentSort's.
+// Copy of the list query in HEAD comment-list.tsx; the defaults are its local state and useCommentSort's.
 function componentListOptions({
     content_type,
     slug,
@@ -80,71 +79,47 @@ function componentListOptions({
     });
 }
 
-const LOADER_CASES = [
+// Copy of the list query in HEAD user-comment-list.tsx.
+function componentUserListOptions({
+    username,
+    commentType = 'all',
+    firstLevelOnly = false,
+    sort = DEFAULT_COMMENT_SORT,
+    order = DEFAULT_COMMENT_ORDER,
+}: {
+    username: string;
+    commentType?: CommentTypeEnum;
+    firstLevelOnly?: boolean;
+    sort?: string;
+    order?: CommentOrder;
+}) {
+    return getCommentsUserInfiniteOptions({
+        path: { username },
+        body: {
+            comment_type: commentType,
+            sort: getCommentSort(sort, order),
+            first_level_only: firstLevelOnly || undefined,
+        },
+    });
+}
+
+const COMPONENT_CASES: ComponentListProps[] = [
+    { content_type: ContentTypeEnum.ANIME, slug, preview: true },
+    { content_type: ContentTypeEnum.MANGA, slug, preview: true },
+    { content_type: ContentTypeEnum.EDIT, slug: editId },
     {
-        route: 'anime/$slug',
-        loader: (body: CommentsFilterArgs, client: Client) =>
-            getCommentsListInfiniteOptions({
-                path: { content_type: ContentTypeEnum.ANIME, slug },
-                body,
-                query: { size: 3 },
-                client,
-            }),
-        component: () =>
-            componentListOptions({
-                content_type: ContentTypeEnum.ANIME,
-                slug,
-                preview: true,
-            }),
+        content_type: ContentTypeEnum.ANIME,
+        slug,
+        commentType: 'review',
+        verdict: 'yes' as Verdict,
     },
     {
-        route: 'manga/$slug',
-        loader: (body: CommentsFilterArgs, client: Client) =>
-            getCommentsListInfiniteOptions({
-                path: { content_type: ContentTypeEnum.MANGA, slug },
-                body,
-                query: { size: 3 },
-                client,
-            }),
-        component: () =>
-            componentListOptions({
-                content_type: ContentTypeEnum.MANGA,
-                slug,
-                preview: true,
-            }),
-    },
-    {
-        route: 'novel/$slug',
-        loader: (body: CommentsFilterArgs, client: Client) =>
-            getCommentsListInfiniteOptions({
-                path: { content_type: ContentTypeEnum.NOVEL, slug },
-                body,
-                query: { size: 3 },
-                client,
-            }),
-        component: () =>
-            componentListOptions({
-                content_type: ContentTypeEnum.NOVEL,
-                slug,
-                preview: true,
-            }),
-    },
-    {
-        route: 'edit/$editId',
-        loader: (body: CommentsFilterArgs, client: Client) =>
-            getCommentsListInfiniteOptions({
-                path: {
-                    content_type: 'edit' as CommentContentTypeEnum,
-                    slug: editId,
-                },
-                body,
-                client,
-            }),
-        component: () =>
-            componentListOptions({
-                content_type: ContentTypeEnum.EDIT,
-                slug: editId,
-            }),
+        content_type: ContentTypeEnum.ANIME,
+        slug,
+        commentType: 'comment',
+        verdict: 'yes' as Verdict,
+        sort: 'created',
+        order: 'asc',
     },
 ];
 
@@ -173,79 +148,190 @@ beforeAll(() => {
     configureBrowserClient({ baseUrl: BASE_URL });
 });
 
-describe('commentListPrefetchBody', () => {
-    it('is exactly the unfiltered loader body', () => {
-        const body = commentListPrefetchBody();
+describe('commentListOptions', () => {
+    it.each(COMPONENT_CASES)(
+        'keeps the HEAD component key: $content_type $commentType $sort',
+        ({ content_type, slug: target, ...filters }) => {
+            const key = commentListOptions(
+                content_type,
+                target,
+                filters,
+            ).queryKey;
+            const head = componentListOptions({
+                content_type,
+                slug: target,
+                ...filters,
+            }).queryKey;
 
-        expect(body).toStrictEqual(headLoaderBody());
-        expect(Object.keys(body)).toEqual(['comment_type', 'sort']);
-        expect(body).not.toHaveProperty('recommended');
+            expect(hashKey(key)).toBe(hashKey(head));
+        },
+    );
+
+    it('keys a verdict-filtered review list apart from the default list', () => {
+        expect(
+            hashKey(
+                commentListOptions(ContentTypeEnum.ANIME, slug, {
+                    commentType: 'review',
+                    verdict: 'yes' as Verdict,
+                }).queryKey,
+            ),
+        ).not.toBe(
+            hashKey(commentListOptions(ContentTypeEnum.ANIME, slug).queryKey),
+        );
     });
 
-    it('does not match a verdict-filtered component key', () => {
-        const loaderKey = getCommentsListInfiniteOptions({
-            path: { content_type: ContentTypeEnum.ANIME, slug },
-            body: commentListPrefetchBody(),
-            query: { size: 3 },
-            client: ssrRequestClient(),
-        }).queryKey;
-        const filtered = componentListOptions({
-            content_type: ContentTypeEnum.ANIME,
-            slug,
-            preview: true,
-            commentType: 'review',
-            verdict: 'yes',
-        }).queryKey;
+    it('sends the HEAD request of the edit comments', async () => {
+        const client = createRequestClient({
+            baseUrl: BASE_URL,
+            authToken: 'token',
+        });
+        const fromLoader = await sentRequest(
+            commentListOptions(ContentTypeEnum.EDIT, editId, {}, client),
+            client,
+        );
+        const fromComponent = await sentRequest(
+            componentListOptions({
+                content_type: ContentTypeEnum.EDIT,
+                slug: editId,
+            }),
+            getBrowserClient(),
+        );
 
-        expect(hashKey(loaderKey)).not.toBe(hashKey(filtered));
+        expect(fromLoader.method).toBe('POST');
+        expect(fromLoader).toEqual(fromComponent);
+        expect(JSON.parse(fromLoader.body)).toEqual({
+            comment_type: 'all',
+            sort: getCommentSort(),
+        });
     });
 });
 
-describe.each(LOADER_CASES)(
-    '$route comments prefetch',
-    ({ loader, component }) => {
-        it('keeps the loader key and options of the inline body', () => {
-            const client = ssrRequestClient();
-            const next = loader(commentListPrefetchBody(), client);
-            const head = loader(headLoaderBody(), client);
+describe('userCommentListOptions', () => {
+    it.each([
+        {},
+        { commentType: 'review' as const },
+        { firstLevelOnly: true, sort: 'created', order: 'asc' as const },
+    ])('keeps the HEAD component key: %o', (filters) => {
+        expect(
+            hashKey(userCommentListOptions('tester', filters).queryKey),
+        ).toBe(
+            hashKey(
+                componentUserListOptions({ username: 'tester', ...filters })
+                    .queryKey,
+            ),
+        );
+    });
+});
 
-            expect(next.queryKey).toStrictEqual(head.queryKey);
-            expect(Object.keys(next)).toEqual(Object.keys(head));
-        });
+type Captured = { queryKey: readonly unknown[] };
 
-        it('hashes equal to the component default key', () => {
-            const loaderKey = loader(
-                commentListPrefetchBody(),
-                ssrRequestClient(),
-            ).queryKey;
-            const componentKey = component().queryKey;
+async function loaderKeys(
+    route: { options: { loader?: unknown } },
+    args: Record<string, unknown>,
+) {
+    const keys: Captured['queryKey'][] = [];
+    const queryClient = new QueryClient();
+    Object.assign(queryClient, {
+        ensureQueryData: async () => ({ slug }),
+        prefetchQuery: async () => {},
+        prefetchInfiniteQuery: async (options: Captured) => {
+            keys.push(options.queryKey);
+        },
+    });
 
-            expect(hashKey(loaderKey)).toBe(hashKey(componentKey));
-            expect(loaderKey).toEqual(componentKey);
-        });
+    await (route.options.loader as (ctx: unknown) => Promise<unknown>)({
+        ...args,
+        context: { queryClient, apiClient: ssrRequestClient() },
+    });
 
-        it('sends the same request as the component query', async () => {
-            const client = createRequestClient({
-                baseUrl: BASE_URL,
-                authToken: 'token',
-            });
-            const fromLoader = await sentRequest(
-                loader(commentListPrefetchBody(), client),
-                client,
-            );
-            const fromComponent = await sentRequest(
-                component(),
-                getBrowserClient(),
-            );
+    return keys;
+}
 
-            expect(fromLoader.method).toBe('POST');
-            expect(fromLoader).toEqual(fromComponent);
-            expect(JSON.parse(fromLoader.body)).toEqual(headLoaderBody());
-        });
+const PAGE_CASES = [
+    { name: 'default', search: {} },
+    {
+        name: 'review with verdict',
+        search: { comment_type: 'review', recommended: 'no' },
     },
-);
+    {
+        name: 'comment ignores verdict',
+        search: { comment_type: 'comment', recommended: 'yes' },
+    },
+    { name: 'sorted', search: { sort: 'created', order: 'asc' } },
+];
 
-describe('commentThreadInfiniteOptions', () => {
+describe('comments page loader keys', () => {
+    it.each(PAGE_CASES)('match the content list: $name', async ({ search }) => {
+        const deps = commentsSearchSchema.parse(search);
+        const commentType = deps.comment_type ?? 'all';
+        const [key] = await loaderKeys(CommentsRoute, {
+            params: { content_type: ContentTypeEnum.ANIME, slug },
+            deps,
+        });
+
+        expect(hashKey(key)).toBe(
+            hashKey(
+                componentListOptions({
+                    content_type: ContentTypeEnum.ANIME,
+                    slug,
+                    commentType,
+                    verdict:
+                        commentType === 'review'
+                            ? (deps.recommended ?? null)
+                            : null,
+                    sort: deps.sort ?? DEFAULT_COMMENT_SORT,
+                    order: deps.order ?? DEFAULT_COMMENT_ORDER,
+                }).queryKey,
+            ),
+        );
+    });
+
+    it.each([
+        { name: 'default', search: {} },
+        { name: 'first level only', search: { first_level_only: 'true' } },
+        { name: 'first level off', search: { first_level_only: 'false' } },
+        {
+            name: 'reviews sorted',
+            search: { comment_type: 'review', sort: 'created' },
+        },
+    ])('match the user list: $name', async ({ search }) => {
+        const deps = commentsSearchSchema.parse(search);
+        const [key] = await loaderKeys(CommentsRoute, {
+            params: { content_type: ContentTypeEnum.USER, slug: 'tester' },
+            deps,
+        });
+
+        expect(hashKey(key)).toBe(
+            hashKey(
+                componentUserListOptions({
+                    username: 'tester',
+                    commentType: deps.comment_type ?? 'all',
+                    firstLevelOnly: deps.first_level_only,
+                    sort: deps.sort ?? DEFAULT_COMMENT_SORT,
+                    order: deps.order ?? DEFAULT_COMMENT_ORDER,
+                }).queryKey,
+            ),
+        );
+    });
+
+    it('match the edit comments', async () => {
+        const [key] = await loaderKeys(EditRoute, {
+            params: { editId },
+            location: { pathname: `/edit/${editId}` },
+        });
+
+        expect(hashKey(key)).toBe(
+            hashKey(
+                componentListOptions({
+                    content_type: ContentTypeEnum.EDIT,
+                    slug: editId,
+                }).queryKey,
+            ),
+        );
+    });
+});
+
+describe('commentThreadOptions', () => {
     const reference = '0d3b8a44-5d69-4f0e-9a3c-2f3e2b1c9d10';
 
     it('pages the thread at the API maximum', () => {
@@ -253,7 +339,7 @@ describe('commentThreadInfiniteOptions', () => {
     });
 
     it('keeps the thread key', () => {
-        expect(commentThreadInfiniteOptions('x').queryKey).toStrictEqual([
+        expect(commentThreadOptions('x').queryKey).toStrictEqual([
             {
                 _id: 'thread',
                 _infinite: true,
@@ -265,11 +351,11 @@ describe('commentThreadInfiniteOptions', () => {
     });
 
     it('shares the key between the thread loader and useCommentThread', () => {
-        const loaderKey = commentThreadInfiniteOptions(
+        const loaderKey = commentThreadOptions(
             reference,
             ssrRequestClient(),
         ).queryKey;
-        const hookKey = commentThreadInfiniteOptions(reference).queryKey;
+        const hookKey = commentThreadOptions(reference).queryKey;
 
         expect(loaderKey).toStrictEqual(hookKey);
         expect(hashKey(loaderKey)).toBe(hashKey(hookKey));

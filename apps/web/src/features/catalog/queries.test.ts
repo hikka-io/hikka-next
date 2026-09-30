@@ -206,34 +206,25 @@ const requestClient = (): Client =>
 
 function fakeQueryClient() {
     const calls: { method: string; hash: string }[] = [];
-    let resolveEnsure!: (value: unknown) => void;
-    const ensure = new Promise((resolve) => {
-        resolveEnsure = resolve;
+    let resolvePrefetch!: () => void;
+    const prefetched = new Promise<void>((resolve) => {
+        resolvePrefetch = resolve;
     });
 
     const queryClient = new QueryClient();
     Object.assign(queryClient, {
-        ensureInfiniteQueryData: vi.fn(
-            (options: { queryKey: readonly unknown[] }) => {
-                calls.push({
-                    method: 'ensure',
-                    hash: hashKey(options.queryKey),
-                });
-                return ensure;
-            },
-        ),
         prefetchInfiniteQuery: vi.fn(
             (options: { queryKey: readonly unknown[] }) => {
                 calls.push({
                     method: 'prefetch',
                     hash: hashKey(options.queryKey),
                 });
-                return new Promise<void>(() => {});
+                return prefetched;
             },
         ),
     });
 
-    return { queryClient, calls, resolveEnsure };
+    return { queryClient, calls, resolvePrefetch };
 }
 
 const runLoader = (
@@ -304,7 +295,7 @@ describe('catalogSearchOptions', () => {
             expect(
                 hashKey(
                     catalogSearchOptions(type, search, size, requestClient())
-                        .options.queryKey,
+                        .queryKey,
                 ),
             ).toBe(hashKey(componentOptions(type, RAW_SEARCH, size).queryKey));
         },
@@ -312,24 +303,21 @@ describe('catalogSearchOptions', () => {
 
     it.each(TYPES)('keys the page and the size: %s', (type) => {
         const search = parseSearch(type, RAW_SEARCH);
-        const key = hashKey(
-            catalogSearchOptions(type, search, 20).options.queryKey,
-        );
+        const key = hashKey(catalogSearchOptions(type, search, 20).queryKey);
 
         expect(
             hashKey(
-                catalogSearchOptions(type, { ...search, page: 4 }, 20).options
-                    .queryKey,
+                catalogSearchOptions(type, { ...search, page: 4 }, 20).queryKey,
             ),
         ).not.toBe(key);
         expect(
-            hashKey(catalogSearchOptions(type, search, 28).options.queryKey),
+            hashKey(catalogSearchOptions(type, search, 28).queryKey),
         ).not.toBe(key);
     });
 
     it.each(TYPES)('starts at the url page: %s', (type) => {
         const search = parseSearch(type, RAW_SEARCH);
-        const { options } = catalogSearchOptions(type, search, 20);
+        const options = catalogSearchOptions(type, search, 20);
 
         expect(options.initialPageParam).toBe(3);
     });
@@ -341,11 +329,11 @@ describe('catalog route loaders', () => {
     );
 
     it.each(cases)(
-        'awaits the component key on the server: $type, $name',
+        'awaits the component key prefetch on the server: $type, $name',
         async ({ type, prefs }) => {
             vi.stubGlobal('window', undefined);
             cookies.uiPrefs = prefs;
-            const { queryClient, calls, resolveEnsure } = fakeQueryClient();
+            const { queryClient, calls, resolvePrefetch } = fakeQueryClient();
             const search = parseSearch(type, RAW_SEARCH);
 
             let settled = false;
@@ -356,7 +344,7 @@ describe('catalog route loaders', () => {
             await flush();
             expect(calls).toEqual([
                 {
-                    method: 'ensure',
+                    method: 'prefetch',
                     hash: hashKey(
                         componentOptions(
                             type,
@@ -368,7 +356,7 @@ describe('catalog route loaders', () => {
             ]);
             expect(settled).toBe(false);
 
-            resolveEnsure({ pages: [], pageParams: [] });
+            resolvePrefetch();
             await result;
             expect(settled).toBe(true);
         },
@@ -380,7 +368,7 @@ describe('catalog route loaders', () => {
             vi.stubGlobal('window', undefined);
             const queryClient = new QueryClient();
             Object.assign(queryClient, {
-                ensureInfiniteQueryData: vi.fn(async () => {
+                fetchInfiniteQuery: vi.fn(async () => {
                     throw new Error('backend down');
                 }),
             });
@@ -407,6 +395,23 @@ describe('catalog route loaders', () => {
                     search: parseSearch(type, RAW_SEARCH),
                 }),
             ).resolves.toBeUndefined();
+            expect(calls).toEqual([]);
+        },
+    );
+
+    it.each(TYPES)(
+        'skips the client prefetch when the ui prefs cannot be read: %s',
+        async (type) => {
+            cookies.unreadable = true;
+            const { queryClient, calls } = fakeQueryClient();
+
+            await expect(
+                runLoader(type, {
+                    queryClient,
+                    search: parseSearch(type, RAW_SEARCH),
+                }),
+            ).resolves.toBeUndefined();
+            await flush();
             expect(calls).toEqual([]);
         },
     );

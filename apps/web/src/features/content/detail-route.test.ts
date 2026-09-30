@@ -11,12 +11,15 @@ import {
 } from 'vitest';
 
 import {
+    animeCharactersInfiniteOptions,
     type Client,
     ContentTypeEnum,
     configureBrowserClient,
     createRequestClient,
     ExternalTypeEnum,
     HikkaApiError,
+    mangaCharactersInfiniteOptions,
+    novelCharactersInfiniteOptions,
     type ProfileResponse,
     profileQueryKey,
 } from '@hikka/api';
@@ -38,13 +41,17 @@ import { Route as NovelCharactersRoute } from '../../routes/_pages/novel/$slug/c
 import { Route as NovelFranchiseRoute } from '../../routes/_pages/novel/$slug/franchise';
 import { Route as NovelOverviewRoute } from '../../routes/_pages/novel/$slug/index';
 import { Route as PersonRoute } from '../../routes/_pages/people/$slug';
-import { CONTENT_CONFIG } from './content-config';
 import {
     contentDetailHead,
     contentDetailTitle,
     entityDetailHead,
 } from './detail-route';
-import { franchiseOptions } from './queries';
+import {
+    animeStaffOptions,
+    contentCharactersOptions,
+    franchiseOptions,
+} from './queries';
+import { useStaff } from './use-staff';
 
 const cookies = vi.hoisted(() => ({
     authToken: null as string | null,
@@ -210,11 +217,18 @@ function recordingQueryClient(
                 : {};
         };
 
+    const prefetch = (method: string) => {
+        const run = record(method);
+        return async (options: Parameters<typeof run>[0]) => {
+            await run(options).catch(() => undefined);
+        };
+    };
+
     Object.assign(queryClient, {
         ensureQueryData: record('ensureQueryData'),
         ensureInfiniteQueryData: record('ensureInfiniteQueryData'),
-        prefetchQuery: record('prefetchQuery'),
-        prefetchInfiniteQuery: record('prefetchInfiniteQuery'),
+        prefetchQuery: prefetch('prefetchQuery'),
+        prefetchInfiniteQuery: prefetch('prefetchInfiniteQuery'),
         fetchQuery: record('fetchQuery'),
         fetchInfiniteQuery: record('fetchInfiniteQuery'),
     });
@@ -307,8 +321,8 @@ const EXPECTED_KEYS: Record<
             'ensureQueryData [{"_id":"animeSlug","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
         authenticated: [
-            'ensureQueryData [{"_id":"watchGet","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
-            'ensureQueryData [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"anime","slug":"test-slug"}}]',
+            'prefetchQuery [{"_id":"watchGet","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
+            'prefetchQuery [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"anime","slug":"test-slug"}}]',
             'ensureQueryData [{"_id":"animeSlug","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
     },
@@ -317,8 +331,8 @@ const EXPECTED_KEYS: Record<
             'ensureQueryData [{"_id":"mangaInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
         authenticated: [
-            'ensureQueryData [{"_id":"readGet","baseUrl":"https://api.example.test","path":{"slug":"test-slug","content_type":"manga"}}]',
-            'ensureQueryData [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"manga","slug":"test-slug"}}]',
+            'prefetchQuery [{"_id":"readGet","baseUrl":"https://api.example.test","path":{"slug":"test-slug","content_type":"manga"}}]',
+            'prefetchQuery [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"manga","slug":"test-slug"}}]',
             'ensureQueryData [{"_id":"mangaInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
     },
@@ -327,8 +341,8 @@ const EXPECTED_KEYS: Record<
             'ensureQueryData [{"_id":"novelInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
         authenticated: [
-            'ensureQueryData [{"_id":"readGet","baseUrl":"https://api.example.test","path":{"slug":"test-slug","content_type":"novel"}}]',
-            'ensureQueryData [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"novel","slug":"test-slug"}}]',
+            'prefetchQuery [{"_id":"readGet","baseUrl":"https://api.example.test","path":{"slug":"test-slug","content_type":"novel"}}]',
+            'prefetchQuery [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"novel","slug":"test-slug"}}]',
             'ensureQueryData [{"_id":"novelInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
     },
@@ -337,7 +351,7 @@ const EXPECTED_KEYS: Record<
             'ensureQueryData [{"_id":"characterInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
         authenticated: [
-            'ensureQueryData [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"character","slug":"test-slug"}}]',
+            'prefetchQuery [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"character","slug":"test-slug"}}]',
             'ensureQueryData [{"_id":"characterInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
     },
@@ -346,7 +360,7 @@ const EXPECTED_KEYS: Record<
             'ensureQueryData [{"_id":"personInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
         authenticated: [
-            'ensureQueryData [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"person","slug":"test-slug"}}]',
+            'prefetchQuery [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"person","slug":"test-slug"}}]',
             'ensureQueryData [{"_id":"personInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
     },
@@ -453,15 +467,18 @@ describe.each(Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[])(
                 releaseEntry = done;
             });
             const recorder = recordingQueryClient(info(), 'authenticated');
-            const record = recorder.queryClient.ensureQueryData;
-            recorder.queryClient.ensureQueryData = (async (options: {
-                queryKey: readonly [{ _id: string }];
-            }) => {
-                const pending = record(options as never);
-                const id = options.queryKey[0]._id;
-                await (INFO_IDS.has(id) ? infoGate : entryGate);
+            const ensure = recorder.queryClient.ensureQueryData;
+            recorder.queryClient.ensureQueryData = (async (options: never) => {
+                const pending = ensure(options);
+                await infoGate;
                 return pending;
             }) as QueryClient['ensureQueryData'];
+            const prefetch = recorder.queryClient.prefetchQuery;
+            recorder.queryClient.prefetchQuery = (async (options: never) => {
+                const pending = prefetch(options);
+                await entryGate;
+                return pending;
+            }) as QueryClient['prefetchQuery'];
             setAuthState('authenticated');
             let settled = false;
             const loading = (
@@ -509,11 +526,11 @@ describe.each(Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[])(
 );
 
 const charactersKey = (type: string) =>
-    `ensureInfiniteQueryData+page [{"_id":"${type}Characters","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]`;
+    `prefetchInfiniteQuery+page [{"_id":"${type}Characters","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]`;
 const franchiseKey = (type: string) =>
-    `ensureQueryData [{"_id":"contentFranchise","baseUrl":"https://api.example.test","path":{"slug":"test-slug","content_type":"${type}"}}]`;
+    `prefetchQuery [{"_id":"contentFranchise","baseUrl":"https://api.example.test","path":{"slug":"test-slug","content_type":"${type}"}}]`;
 const STAFF_KEY =
-    'ensureInfiniteQueryData+page [{"_id":"animeStaff","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]';
+    'prefetchInfiniteQuery+page [{"_id":"animeStaff","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]';
 
 const CHILD_ROUTES = [
     ['anime overview', AnimeOverviewRoute, [charactersKey('anime')]],
@@ -530,7 +547,7 @@ const CHILD_ROUTES = [
 
 describe.each(CHILD_ROUTES)('%s loader', (_, route, expected) => {
     it.each(['anonymous', 'authenticated'] as const)(
-        'ensures only its own list (%s)',
+        'prefetches only its own list (%s)',
         async (auth) => {
             const { calls, result } = await runLoader(route, info(), auth);
 
@@ -565,20 +582,31 @@ describe('content tab loader keys', () => {
         ContentTypeEnum.ANIME,
         ContentTypeEnum.MANGA,
         ContentTypeEnum.NOVEL,
-    ] as const)('match the %s characters hook', (type) => {
-        const options = CONTENT_CONFIG[type].useCharacters(slug) as unknown as {
-            queryKey: unknown[];
-        };
+    ] as const)('match the %s characters list', (type) => {
+        const head = {
+            [ContentTypeEnum.ANIME]: animeCharactersInfiniteOptions,
+            [ContentTypeEnum.MANGA]: mangaCharactersInfiniteOptions,
+            [ContentTypeEnum.NOVEL]: novelCharactersInfiniteOptions,
+        }[type]({ path: { slug } }).queryKey;
 
-        expect(hashKey(options.queryKey)).toBe(loaderKey(charactersKey(type)));
+        expect(hashKey(contentCharactersOptions(type, slug).queryKey)).toBe(
+            loaderKey(charactersKey(type)),
+        );
+        expect(hashKey(head)).toBe(loaderKey(charactersKey(type)));
     });
 
     it('match the anime staff hook', () => {
-        const options = CONTENT_CONFIG.anime.useStaff(slug) as unknown as {
+        const options = useStaff({
+            content_type: ContentTypeEnum.ANIME,
+            slug,
+        }) as unknown as {
             queryKey: unknown[];
         };
 
         expect(hashKey(options.queryKey)).toBe(loaderKey(STAFF_KEY));
+        expect(hashKey(animeStaffOptions(slug).queryKey)).toBe(
+            loaderKey(STAFF_KEY),
+        );
     });
 
     it.each([

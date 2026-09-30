@@ -47,7 +47,10 @@ import {
     HOME_ARTICLES_NEWEST_SORT,
     HOME_ARTICLES_POPULAR_SORT,
     homeArticlesOptions,
+    homeScheduleOptions,
+    homeWatchingOptions,
     isFeedDisabled,
+    ONGOINGS_SIZE,
     ongoingsOptions,
 } from './queries';
 import type { UIFeedWidgetSide } from './types';
@@ -56,6 +59,7 @@ import CollectionsWidget from './widgets/collections-widget';
 import FeedWidget from './widgets/feed-widget';
 import HistoryWidget from './widgets/history-widget';
 import OngoingsWidget from './widgets/ongoings-widget';
+import ScheduleWidget from './widgets/schedule-widget';
 
 type FeedQuery = { queryKey: readonly unknown[]; enabled?: boolean };
 
@@ -333,37 +337,37 @@ const HOME_CASES = [
 
 const EXPECTED_HOME_CALLS: Record<string, string[]> = {
     'anonymous, september': [
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"]}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"],"only_watch":"<undefined>"}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
     ],
     'anonymous, comments feed': [
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"]}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"],"only_watch":"<undefined>"}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
     ],
     'logged in, september': [
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userWatchList","baseUrl":"https://api.example.test","_infinite":true,"body":{"watch_status":"watching","sort":["watch_updated:desc"]},"path":{"username":"tester"}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"followingHistory","baseUrl":"https://api.example.test","_infinite":true,"query":{"size":3}}]',
-        'ensureQueryData queryFn,queryKey "<undefined>" [{"_id":"followStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"]}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userWatchList","baseUrl":"https://api.example.test","_infinite":true,"body":{"watch_status":"watching","sort":["watch_updated:desc"]},"path":{"username":"tester"}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"followingHistory","baseUrl":"https://api.example.test","_infinite":true,"query":{"size":3}}]',
+        'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"followStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"],"only_watch":"<undefined>"}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
     ],
     'anonymous, new year': [
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["fall",2027],"status":["ongoing","announced"]}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["fall"],"media_type":["tv"],"years":[2027,2027],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["fall",2027],"status":["ongoing","announced"],"only_watch":"<undefined>"}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["fall"],"media_type":["tv"],"years":[2027,2027],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
     ],
     'anonymous, spring': [
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["spring",2027],"status":["ongoing","announced"]}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["spring"],"media_type":["tv"],"years":[2027,2027],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["spring",2027],"status":["ongoing","announced"],"only_watch":"<undefined>"}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["spring"],"media_type":["tv"],"years":[2027,2027],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
+        'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
     ],
 };
 
@@ -408,45 +412,39 @@ describe('ongoingsOptions', () => {
         ),
     )('equals the HEAD widget key: $side, $name', ({ date, side }) => {
         useFakeDate(date);
-        const size = side === 'center' ? HEAD_CENTER_SIZE : HEAD_SIDEBAR_SIZE;
-        const component = ongoingsOptions({ size }).queryKey;
+        const component = ongoingsOptions().queryKey;
         const head = headOngoingsWidgetOptions(side).queryKey;
 
         expect(component).toStrictEqual(head);
         expect(hashKey(component)).toBe(hashKey(head));
     });
 
+    it('declares the size once for the loader and both widget sides', () => {
+        expect(ONGOINGS_SIZE).toBe(HEAD_CENTER_SIZE);
+        expect(ONGOINGS_SIZE).toBe(HEAD_SIDEBAR_SIZE);
+    });
+
     it.each(Object.entries(DATES))(
-        'keys the loader size like both widget sizes (%s)',
-        (_, date) => {
+        'keys the loader like both widget sides (%s)',
+        async (_, date) => {
             useFakeDate(date);
-            const loader = ongoingsOptions({
-                size: 5,
-                client: ssrRequestClient(),
-            }).queryKey;
+            const calls = await runHomeLoader(undefined, false);
 
             for (const side of ['center', 'left'] as const) {
                 const head = headOngoingsWidgetOptions(side).queryKey;
-                expect(loader).toStrictEqual(head);
-                expect(hashKey(loader)).toBe(hashKey(head));
+                expect(
+                    calls.find((call) => call.includes('searchAnime')),
+                ).toContain(serialize(head));
             }
         },
     );
 
-    it('hashes another size differently', () => {
-        useFakeDate(DATES.september);
-
-        expect(hashKey(ongoingsOptions({ size: 10 }).queryKey)).not.toBe(
-            hashKey(ongoingsOptions({ size: 5 }).queryKey),
-        );
-    });
-
     it('hashes another season differently', () => {
         useFakeDate(DATES.september);
-        const september = ongoingsOptions({ size: 5 }).queryKey;
+        const september = ongoingsOptions().queryKey;
         vi.setSystemTime(new Date(DATES.spring));
 
-        expect(hashKey(ongoingsOptions({ size: 5 }).queryKey)).not.toBe(
+        expect(hashKey(ongoingsOptions().queryKey)).not.toBe(
             hashKey(september),
         );
     });
@@ -457,10 +455,7 @@ describe('ongoingsOptions', () => {
             baseUrl: BASE_URL,
             authToken: 'token',
         });
-        const fromLoader = await sentRequest(
-            ongoingsOptions({ size: 5, client }),
-            client,
-        );
+        const fromLoader = await sentRequest(ongoingsOptions(client), client);
         const fromWidget = await sentRequest(
             headOngoingsWidgetOptions('center'),
             getBrowserClient(),
@@ -469,6 +464,48 @@ describe('ongoingsOptions', () => {
         expect(fromLoader.method).toBe('POST');
         expect(fromLoader.path).toBe('/anime?size=5&page=1');
         expect(fromLoader).toEqual(fromWidget);
+    });
+});
+
+describe('homeScheduleOptions', () => {
+    it.each(Object.entries(DATES))(
+        'keys the loader like the widget (%s)',
+        async (_, date) => {
+            useFakeDate(date);
+            renderToStaticMarkup(
+                createElement(ScheduleWidget, { side: 'left' }),
+            );
+
+            const [[options]] = mocks.infiniteListCalls as [[CapturedOptions]];
+            const loader = homeScheduleOptions(false, ssrRequestClient());
+            const calls = await runHomeLoader(undefined, false);
+
+            expect(hashKey(loader.queryKey)).toBe(hashKey(options.queryKey));
+            expect(
+                calls.find((call) => call.includes('animeSchedule')),
+            ).toContain(serialize(loader.queryKey));
+        },
+    );
+
+    it('keys the watched-only filter apart', () => {
+        useFakeDate(DATES.september);
+
+        expect(hashKey(homeScheduleOptions(true).queryKey)).not.toBe(
+            hashKey(homeScheduleOptions(false).queryKey),
+        );
+    });
+});
+
+describe('homeWatchingOptions', () => {
+    it('keys the loader like the tracker', async () => {
+        const calls = await runHomeLoader(undefined, true);
+
+        expect(calls.find((call) => call.includes('userWatchList'))).toContain(
+            serialize(homeWatchingOptions('tester').queryKey),
+        );
+        expect(
+            hashKey(homeWatchingOptions('tester', ssrRequestClient()).queryKey),
+        ).toBe(hashKey(homeWatchingOptions('tester').queryKey));
     });
 });
 
@@ -736,9 +773,9 @@ describe('followingHistoryPreviewOptions', () => {
         renderToStaticMarkup(createElement(HistoryWidget, { side }));
 
         const [[options]] = widgetCalls();
-        const loader = followingHistoryPreviewOptions({
-            client: ssrRequestClient('token'),
-        }).queryKey;
+        const loader = followingHistoryPreviewOptions(
+            ssrRequestClient('token'),
+        ).queryKey;
         expect(hashKey(loader)).toBe(hashKey(options.queryKey));
     });
 
@@ -788,7 +825,7 @@ describe('HistoryWidget polling', () => {
 describe('homeArticlesOptions', () => {
     it('asks for 3 items', () => {
         expect(
-            homeArticlesOptions({ body: { sort: HOME_ARTICLES_NEWEST_SORT } })
+            homeArticlesOptions({ sort: HOME_ARTICLES_NEWEST_SORT })
                 .queryKey[0],
         ).toMatchObject({ query: { size: 3 } });
     });
@@ -797,25 +834,23 @@ describe('homeArticlesOptions', () => {
         renderToStaticMarkup(createElement(ArticlesWidget, { side }));
 
         const [[options]] = widgetCalls();
-        const loader = homeArticlesOptions({
-            body: { sort: HOME_ARTICLES_NEWEST_SORT },
-            client: ssrRequestClient(),
-        }).queryKey;
+        const loader = homeArticlesOptions(
+            { sort: HOME_ARTICLES_NEWEST_SORT },
+            ssrRequestClient(),
+        ).queryKey;
         expect(hashKey(loader)).toBe(hashKey(options.queryKey));
     });
 
     it('hashes the popular tab differently from the newest tab', () => {
         expect(
             hashKey(
-                homeArticlesOptions({
-                    body: { sort: HOME_ARTICLES_POPULAR_SORT },
-                }).queryKey,
+                homeArticlesOptions({ sort: HOME_ARTICLES_POPULAR_SORT })
+                    .queryKey,
             ),
         ).not.toBe(
             hashKey(
-                homeArticlesOptions({
-                    body: { sort: HOME_ARTICLES_NEWEST_SORT },
-                }).queryKey,
+                homeArticlesOptions({ sort: HOME_ARTICLES_NEWEST_SORT })
+                    .queryKey,
             ),
         );
     });

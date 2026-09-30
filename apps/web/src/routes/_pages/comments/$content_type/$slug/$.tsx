@@ -1,36 +1,29 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import {
-    type CommentContentTypeEnum,
-    type ContentTypeEnum,
-    paginationPageParam,
-} from '@hikka/api';
+import type { CommentContentTypeEnum, ContentTypeEnum } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
 import { CommentList } from '@/features/comments';
-import { commentThreadInfiniteOptions } from '@/features/comments/queries';
+import { commentThreadOptions } from '@/features/comments/queries';
 import { ContentSubpage, useContentTitle } from '@/features/content';
-import { fetchContentForLoader } from '@/utils/api/content-queries';
+import { loadContentForComments } from '@/utils/api/content-queries';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
-    loader: async ({ params, context: { queryClient, apiClient } }) => {
+    loader: async ({ params, context }) => {
+        const { queryClient, apiClient } = context;
         const { content_type, slug, _splat: commentReference } = params;
 
         const [content] = await Promise.all([
-            fetchContentForLoader(
+            loadContentForComments(
                 content_type as CommentContentTypeEnum,
                 slug,
-                { queryClient, apiClient },
+                context,
             ),
             commentReference
-                ? queryClient.prefetchInfiniteQuery({
-                      ...commentThreadInfiniteOptions(
-                          commentReference,
-                          apiClient,
-                      ),
-                      ...paginationPageParam(),
-                  })
+                ? queryClient.prefetchInfiniteQuery(
+                      commentThreadOptions(commentReference, apiClient),
+                  )
                 : undefined,
         ]);
 

@@ -122,6 +122,20 @@ describe('_pages route on the client', () => {
     });
 });
 
+describe('_pages route unseen count', () => {
+    it('renders the layout when the count request fails', async () => {
+        setAuthToken('session-token');
+        fetchMock.mockImplementationOnce(async () =>
+            Response.json({ code: 'error' }, { status: 500 }),
+        );
+
+        await expect(runLoader()).resolves.toBeUndefined();
+        expect(requestedUrls()).toStrictEqual([
+            `${BASE_URL}/notifications/count`,
+        ]);
+    });
+});
+
 describe('_pages route on the server', () => {
     it('reads the request cookie in process', async () => {
         vi.stubGlobal('window', undefined);

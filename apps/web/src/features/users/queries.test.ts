@@ -474,9 +474,9 @@ const EXPECTED_PROFILE_CALLS = [
     'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"userWatchStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
     'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"serviceUserStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
     'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"serviceUserActivity","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
-    'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"favouriteList","baseUrl":"https://api.example.test","_infinite":true,"path":{"username":"tester","content_type":"anime"},"query":{"size":6}}]',
-    'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userHistory","baseUrl":"https://api.example.test","_infinite":true,"path":{"username":"tester"},"query":{"size":3}}]',
-    'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"author":"tester"},"query":{"size":3}}]',
+    'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"favouriteList","baseUrl":"https://api.example.test","_infinite":true,"path":{"username":"tester","content_type":"anime"},"query":{"size":6}}]',
+    'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userHistory","baseUrl":"https://api.example.test","_infinite":true,"path":{"username":"tester"},"query":{"size":3}}]',
+    'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"author":"tester"},"query":{"size":3}}]',
 ];
 
 const EXPECTED_LAYOUT_CALLS = [
@@ -631,10 +631,29 @@ describe('profile sub-route loaders', () => {
             );
 
             expect(calls).toEqual(
-                favouritesCalls('ensureInfiniteQueryData', expected),
+                favouritesCalls('prefetchInfiniteQuery', expected),
             );
         },
     );
+
+    it('waits for the favourites on the server', async () => {
+        vi.stubGlobal('window', undefined);
+        const { queryClient, calls } = pendingQueryClient();
+        const loader = FavoritesRoute.options.loader as (
+            ctx: unknown,
+        ) => Promise<unknown>;
+
+        const settled = await settlesWithin(
+            loader({
+                params: { username },
+                deps: { type: 'novel' },
+                context: { queryClient, apiClient: ssrRequestClient() },
+            }),
+        );
+
+        expect(settled).toBe(false);
+        expect(calls).toEqual(['serviceUserStats', 'favouriteList']);
+    });
 
     it('keys the favourites loader on the type only', () => {
         const loaderDeps = FavoritesRoute.options.loaderDeps as (ctx: {
@@ -800,19 +819,13 @@ describe('profile loader', () => {
         );
     });
 
-    it('retries every awaited preview after a cancel', async () => {
-        const seen = new Set<string>();
+    it('leaves a cancelled preview to the component', async () => {
         const calls: string[] = [];
         const queryClient = new QueryClient();
         Object.assign(queryClient, {
-            ensureInfiniteQueryData: async (options: RecordedOptions) => {
-                const id = queryId(options);
-                calls.push(id);
-                if (!seen.has(id)) {
-                    seen.add(id);
-                    throw new CancelledError();
-                }
-                return { pages: [], pageParams: [] };
+            fetchInfiniteQuery: async (options: RecordedOptions) => {
+                calls.push(queryId(options));
+                throw new CancelledError();
             },
             prefetchQuery: async () => {},
         });
@@ -820,17 +833,16 @@ describe('profile loader', () => {
             ctx: unknown,
         ) => Promise<unknown>;
 
-        await loader({
-            params: { username },
-            context: { queryClient, apiClient: ssrRequestClient() },
-        });
+        await expect(
+            loader({
+                params: { username },
+                context: { queryClient, apiClient: ssrRequestClient() },
+            }),
+        ).resolves.toBeUndefined();
 
         expect([...calls].sort()).toEqual([
             'favouriteList',
-            'favouriteList',
             'getArticles',
-            'getArticles',
-            'userHistory',
             'userHistory',
         ]);
     });

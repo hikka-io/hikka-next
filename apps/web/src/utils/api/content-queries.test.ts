@@ -34,8 +34,8 @@ import {
     type ContentInfoType,
     contentInfoOptions,
     favouriteEntryOptions,
-    fetchContentForLoader,
     listEntryOptions,
+    loadContentForComments,
 } from './content-queries';
 
 const BASE_URL = 'https://api.example.test';
@@ -397,7 +397,7 @@ function createQueryClient(ensureQueryData: ReturnType<typeof vi.fn>) {
     return { ensureQueryData } as unknown as QueryClient;
 }
 
-describe('fetchContentForLoader', () => {
+describe('loadContentForComments', () => {
     it('retries a fetch cancelled by an unmounting observer and resolves', async () => {
         const ensureQueryData = vi
             .fn()
@@ -405,7 +405,7 @@ describe('fetchContentForLoader', () => {
             .mockResolvedValueOnce({ slug });
 
         await expect(
-            fetchContentForLoader(ContentTypeEnum.ANIME, slug, {
+            loadContentForComments(ContentTypeEnum.ANIME, slug, {
                 queryClient: createQueryClient(ensureQueryData),
                 apiClient,
             }),
@@ -423,10 +423,14 @@ describe('fetchContentForLoader', () => {
                 new HikkaApiError('Not found', 404, 'not_found'),
             );
 
-        const error = await fetchContentForLoader(ContentTypeEnum.MANGA, slug, {
-            queryClient: createQueryClient(ensureQueryData),
-            apiClient,
-        }).catch((reason: unknown) => reason);
+        const error = await loadContentForComments(
+            ContentTypeEnum.MANGA,
+            slug,
+            {
+                queryClient: createQueryClient(ensureQueryData),
+                apiClient,
+            },
+        ).catch((reason: unknown) => reason);
 
         expect(isNotFound(error)).toBe(true);
         expect(ensureQueryData).toHaveBeenCalledTimes(1);
@@ -437,7 +441,7 @@ describe('fetchContentForLoader', () => {
         const ensureQueryData = vi.fn().mockRejectedValue(apiError);
 
         await expect(
-            fetchContentForLoader(ContentTypeEnum.USER, slug, {
+            loadContentForComments(ContentTypeEnum.USER, slug, {
                 queryClient: createQueryClient(ensureQueryData),
                 apiClient,
             }),
@@ -449,7 +453,7 @@ describe('fetchContentForLoader', () => {
         const ensureQueryData = vi.fn().mockResolvedValue({ type });
 
         await expect(
-            fetchContentForLoader(type, infoCase.slug, {
+            loadContentForComments(type, infoCase.slug, {
                 queryClient: createQueryClient(ensureQueryData),
                 apiClient,
             }),
@@ -468,7 +472,7 @@ describe('fetchContentForLoader', () => {
         const ensureQueryData = vi.fn();
 
         await expect(
-            fetchContentForLoader(type, slug, {
+            loadContentForComments(type, slug, {
                 queryClient: createQueryClient(ensureQueryData),
                 apiClient,
             }),

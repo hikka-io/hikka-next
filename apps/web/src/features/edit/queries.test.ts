@@ -121,10 +121,9 @@ describe('edit list route', () => {
             const queryClient = new QueryClient();
             const hashes: string[] = [];
             Object.assign(queryClient, {
-                ensureInfiniteQueryData: vi.fn(
+                prefetchInfiniteQuery: vi.fn(
                     async (options: { queryKey: readonly unknown[] }) => {
                         hashes.push(hashKey(options.queryKey));
-                        return { pages: [], pageParams: [] };
                     },
                 ),
             });

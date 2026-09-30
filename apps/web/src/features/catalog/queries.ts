@@ -1,6 +1,5 @@
 import type {
     InfiniteData,
-    QueryClient,
     UseInfiniteQueryOptions,
 } from '@tanstack/react-query';
 
@@ -18,7 +17,7 @@ import {
     searchNovelInfiniteOptions,
 } from '@hikka/api';
 
-import { retryOnCancel } from '@/utils/api/retry-on-cancel';
+import { awaitOnServer, type LoaderContext } from '@/utils/api/loader-prefetch';
 import {
     CATALOG_FILTERS_SIDEBAR_KEY,
     readUiPrefs,
@@ -80,92 +79,101 @@ export function catalogPageSize(
     return columns === 1 ? undefined : columns * 4;
 }
 
+export function catalogSearchArgs(
+    contentType: MainContentTypeEnum,
+    search: CatalogSearch,
+) {
+    switch (contentType) {
+        case ContentTypeEnum.ANIME:
+            return buildAnimeSearchArgs(search);
+        case ContentTypeEnum.MANGA:
+            return buildMangaSearchArgs(search);
+        case ContentTypeEnum.NOVEL:
+            return buildNovelSearchArgs(search);
+    }
+}
+
 export function catalogSearchOptions(
     contentType: MainContentTypeEnum,
     search: CatalogSearch,
     size?: number,
     client?: Client,
-) {
+): CatalogSearchOptions {
     switch (contentType) {
         case ContentTypeEnum.ANIME: {
             const { args, page } = buildAnimeSearchArgs(search);
 
-            return {
-                args,
-                options: paginatedInfiniteOptions(
-                    searchAnimeInfiniteOptions({
-                        body: args,
-                        query: { size },
-                        client,
-                    }),
-                    page,
-                ) as CatalogSearchOptions,
-            };
+            return paginatedInfiniteOptions(
+                searchAnimeInfiniteOptions({
+                    body: args,
+                    query: { size },
+                    client,
+                }),
+                page,
+            ) as CatalogSearchOptions;
         }
         case ContentTypeEnum.MANGA: {
             const { args, page } = buildMangaSearchArgs(search);
 
-            return {
-                args,
-                options: paginatedInfiniteOptions(
-                    searchMangaInfiniteOptions({
-                        body: args,
-                        query: { size },
-                        client,
-                    }),
-                    page,
-                ) as CatalogSearchOptions,
-            };
+            return paginatedInfiniteOptions(
+                searchMangaInfiniteOptions({
+                    body: args,
+                    query: { size },
+                    client,
+                }),
+                page,
+            ) as CatalogSearchOptions;
         }
         case ContentTypeEnum.NOVEL: {
             const { args, page } = buildNovelSearchArgs(search);
 
-            return {
-                args,
-                options: paginatedInfiniteOptions(
-                    searchNovelInfiniteOptions({
-                        body: args,
-                        query: { size },
-                        client,
-                    }),
-                    page,
-                ) as CatalogSearchOptions,
-            };
+            return paginatedInfiniteOptions(
+                searchNovelInfiniteOptions({
+                    body: args,
+                    query: { size },
+                    client,
+                }),
+                page,
+            ) as CatalogSearchOptions;
         }
     }
 }
 
-export async function loadCatalogFirstPage({
-    queryClient,
-    apiClient,
-    contentType,
-    search,
-    preload,
-}: {
-    queryClient: QueryClient;
-    apiClient: Client;
-    contentType: MainContentTypeEnum;
-    search: CatalogSearch;
-    preload: boolean;
-}) {
-    if (preload) return;
+async function prefetchCatalogFirstPage(
+    contentType: MainContentTypeEnum,
+    search: CatalogSearch,
+    { queryClient, apiClient }: LoaderContext,
+) {
+    let prefs: UiPreferences | null;
+    try {
+        prefs = await readUiPrefs();
+    } catch {
+        return;
+    }
 
-    const loadFirstPage = async () => {
-        const size = catalogPageSize(await readUiPrefs(), CATALOG_VIEW_KEY);
-        const { options } = catalogSearchOptions(
+    await queryClient.prefetchInfiniteQuery(
+        catalogSearchOptions(
             contentType,
             search,
-            size,
+            catalogPageSize(prefs, CATALOG_VIEW_KEY),
             apiClient,
-        );
+        ),
+    );
+}
 
-        if (typeof window !== 'undefined') {
-            void queryClient.prefetchInfiniteQuery(options);
-            return;
-        }
+export async function loadCatalogFirstPage(
+    {
+        contentType,
+        search,
+        preload,
+    }: {
+        contentType: MainContentTypeEnum;
+        search: CatalogSearch;
+        preload: boolean;
+    },
+    ctx: LoaderContext,
+) {
+    if (preload) return;
 
-        await retryOnCancel(() => queryClient.ensureInfiniteQueryData(options));
-    };
-
-    await Promise.allSettled([loadFirstPage()]);
+    await awaitOnServer([prefetchCatalogFirstPage(contentType, search, ctx)]);
 }

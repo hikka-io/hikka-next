@@ -11,10 +11,7 @@ import {
 
 export const Route = createFileRoute('/_pages/anime/$slug')({
     loader: ({ params, context }) =>
-        loadContentDetail(ContentTypeEnum.ANIME, {
-            slug: params.slug,
-            ...context,
-        }),
+        loadContentDetail(ContentTypeEnum.ANIME, params.slug, context),
     head: ({ loaderData }) =>
         contentDetailHead(ContentTypeEnum.ANIME, loaderData),
     component: AnimeDetailLayout,

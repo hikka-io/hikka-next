@@ -2,16 +2,11 @@ import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
 import {
-    AnimeStatusEnum,
-    animeScheduleInfiniteOptions,
     feedPageParam,
     followStatsOptions,
     getFeedInfiniteOptions,
-    paginationPageParam,
     profileQueryKey,
     type UserResponse,
-    userWatchListInfiniteOptions,
-    WatchStatusEnum,
 } from '@hikka/api';
 
 import { CoverImage, usePageHeader } from '@/features/app-shell';
@@ -21,13 +16,14 @@ import {
     followingHistoryPreviewOptions,
     HOME_ARTICLES_NEWEST_SORT,
     homeArticlesOptions,
+    homeScheduleOptions,
+    homeWatchingOptions,
     initialFeedArgs,
     ongoingsOptions,
 } from '@/features/home/queries';
 import { useSession } from '@/services/session';
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
-import { getCurrentSeason } from '@/utils/season';
 import { SITE_ORIGIN } from '@/utils/url';
 
 const HeaderWordmark = () => (
@@ -46,9 +42,6 @@ export const Route = createFileRoute('/_pages/')({
             url: SITE_ORIGIN,
         }),
     loader: async ({ context: { queryClient, apiClient } }) => {
-        const season = getCurrentSeason()!;
-        const year = Number(new Date().getFullYear());
-
         const loggedUser = queryClient.getQueryData(profileQueryKey()) as
             | (UserResponse & { username: string })
             | undefined;
@@ -57,22 +50,13 @@ export const Route = createFileRoute('/_pages/')({
 
         if (loggedUser) {
             promises.push(
-                queryClient.ensureInfiniteQueryData({
-                    ...userWatchListInfiniteOptions({
-                        path: { username: loggedUser.username },
-                        body: {
-                            watch_status: WatchStatusEnum.WATCHING,
-                            sort: ['watch_updated:desc'],
-                        },
-                        client: apiClient,
-                    }),
-                    ...paginationPageParam(),
-                }),
-                queryClient.ensureInfiniteQueryData({
-                    ...followingHistoryPreviewOptions({ client: apiClient }),
-                    ...paginationPageParam(),
-                }),
-                queryClient.ensureQueryData(
+                queryClient.prefetchInfiniteQuery(
+                    homeWatchingOptions(loggedUser.username, apiClient),
+                ),
+                queryClient.prefetchInfiniteQuery(
+                    followingHistoryPreviewOptions(apiClient),
+                ),
+                queryClient.prefetchQuery(
                     followStatsOptions({
                         path: { username: loggedUser.username },
                         client: apiClient,
@@ -85,7 +69,7 @@ export const Route = createFileRoute('/_pages/')({
 
         if (feedArgs) {
             promises.push(
-                queryClient.ensureInfiniteQueryData({
+                queryClient.prefetchInfiniteQuery({
                     ...getFeedInfiniteOptions({
                         body: feedArgs,
                         client: apiClient,
@@ -96,41 +80,24 @@ export const Route = createFileRoute('/_pages/')({
         }
 
         promises.push(
-            queryClient.ensureInfiniteQueryData({
-                ...animeScheduleInfiniteOptions({
-                    body: {
-                        airing_season: [season, year],
-                        status: [
-                            AnimeStatusEnum.ONGOING,
-                            AnimeStatusEnum.ANNOUNCED,
-                        ],
-                    },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            }),
-        );
-
-        promises.push(
-            queryClient.ensureInfiniteQueryData({
-                ...ongoingsOptions({ size: 5, client: apiClient }),
-                ...paginationPageParam(),
-            }),
+            queryClient.prefetchInfiniteQuery(
+                homeScheduleOptions(false, apiClient),
+            ),
+            queryClient.prefetchInfiniteQuery(ongoingsOptions(apiClient)),
         );
 
         if (feedHasWidget(queryClient, 'articles')) {
             promises.push(
-                queryClient.ensureInfiniteQueryData({
-                    ...homeArticlesOptions({
-                        body: { sort: HOME_ARTICLES_NEWEST_SORT },
-                        client: apiClient,
-                    }),
-                    ...paginationPageParam(),
-                }),
+                queryClient.prefetchInfiniteQuery(
+                    homeArticlesOptions(
+                        { sort: HOME_ARTICLES_NEWEST_SORT },
+                        apiClient,
+                    ),
+                ),
             );
         }
 
-        await Promise.allSettled(promises);
+        await Promise.all(promises);
     },
     component: HomePage,
 });

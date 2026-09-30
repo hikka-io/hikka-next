@@ -2,7 +2,6 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import {
     ContentTypeEnum,
-    paginationPageParam,
     serviceUserActivityOptions,
     serviceUserStatsOptions,
     userWatchStatsOptions,
@@ -21,14 +20,13 @@ import {
     userFavouritesPreviewOptions,
     userHistoryPreviewOptions,
 } from '@/features/users/queries';
-import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 
 export const Route = createFileRoute('/_pages/u/$username/')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { username } = params;
         const path = { username };
 
-        await Promise.allSettled([
+        await Promise.all([
             queryClient.prefetchQuery(
                 userWatchStatsOptions({ path, client: apiClient }),
             ),
@@ -38,27 +36,18 @@ export const Route = createFileRoute('/_pages/u/$username/')({
             queryClient.prefetchQuery(
                 serviceUserActivityOptions({ path, client: apiClient }),
             ),
-            retryOnCancel(() =>
-                queryClient.ensureInfiniteQueryData({
-                    ...userFavouritesPreviewOptions(
-                        username,
-                        ContentTypeEnum.ANIME,
-                        apiClient,
-                    ),
-                    ...paginationPageParam(),
-                }),
+            queryClient.prefetchInfiniteQuery(
+                userFavouritesPreviewOptions(
+                    username,
+                    ContentTypeEnum.ANIME,
+                    apiClient,
+                ),
             ),
-            retryOnCancel(() =>
-                queryClient.ensureInfiniteQueryData({
-                    ...userHistoryPreviewOptions(username, apiClient),
-                    ...paginationPageParam(),
-                }),
+            queryClient.prefetchInfiniteQuery(
+                userHistoryPreviewOptions(username, apiClient),
             ),
-            retryOnCancel(() =>
-                queryClient.ensureInfiniteQueryData({
-                    ...userArticlesPreviewOptions(username, apiClient),
-                    ...paginationPageParam(),
-                }),
+            queryClient.prefetchInfiniteQuery(
+                userArticlesPreviewOptions(username, apiClient),
             ),
         ]);
     },

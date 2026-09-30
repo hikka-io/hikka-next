@@ -2,11 +2,7 @@ import { type FC, useMemo, useState } from 'react';
 
 import { Star } from 'lucide-react';
 
-import {
-    type CommentContentTypeEnum,
-    type CommentTypeEnum,
-    getCommentsListInfiniteOptions,
-} from '@hikka/api';
+import type { CommentContentTypeEnum, CommentTypeEnum } from '@hikka/api';
 
 import AntDesignArrowDownOutlined from '@/components/icons/ant-design/AntDesignArrowDownOutlined';
 import MaterialSymbolsAddCommentRounded from '@/components/icons/material-symbols/MaterialSymbolsAddCommentRounded';
@@ -30,13 +26,13 @@ import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link } from '@/utils/navigation';
-import { getCommentSort } from '@/utils/sort';
 
 import CommentInput from './comment-input';
 import { CommentListSkeleton } from './comment-skeleton';
 import CommentTree from './comment-tree';
 import { COMMENT_TYPE_OPTIONS } from './comment-type-options';
 import CommentsProvider from './comments-provider';
+import { commentListOptions } from './queries';
 import { getReviewTotal, supportsReviews, type Verdict } from './review/review';
 import ReviewStatsCard from './review/review-stats-card';
 import { useReviewStats } from './review/use-review-stats';
@@ -132,19 +128,12 @@ const CommentList: FC<Props> = ({
     const deferred = !!preview && !comment_reference;
 
     const listQuery = useInfiniteList(
-        getCommentsListInfiniteOptions({
-            path: { content_type, slug },
-            body: {
-                comment_type: commentType,
-                sort: getCommentSort(sort, order),
-                // `undefined`, never `null`: keeps the unfiltered query key
-                // identical to the one the content-page loaders prefetch.
-                recommended:
-                    commentType === 'review'
-                        ? (verdict ?? undefined)
-                        : undefined,
-            },
-            query: preview ? { size: 3 } : undefined,
+        commentListOptions(content_type, slug, {
+            commentType,
+            sort,
+            order,
+            verdict,
+            preview,
         }),
         { enabled: !comment_reference && (!deferred || visible) },
     );

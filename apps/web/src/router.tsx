@@ -21,6 +21,7 @@ import {
     QUERY_CLIENT_DEFAULTS,
 } from '@/utils/api/query-defaults';
 import { getAuthTokenFn } from '@/utils/cookies';
+import { isServer } from '@/utils/is-server';
 
 import { routeTree } from './routeTree.gen';
 
@@ -28,8 +29,6 @@ export interface RouterContext {
     queryClient: QueryClient;
     apiClient: ApiClient;
 }
-
-const isServer = typeof window === 'undefined';
 
 export async function createRouter() {
     const queryClient = new QueryClient({
@@ -44,14 +43,14 @@ export async function createRouter() {
     applyQueryDefaults(queryClient);
 
     const authToken = await getAuthTokenFn();
-    const clientIp = isServer ? await getClientIpFn() : null;
+    const clientIp = isServer() ? await getClientIpFn() : null;
 
     configureBrowserClient({
         baseUrl: PUBLIC_API_URL,
-        authToken: isServer ? undefined : (authToken ?? undefined),
+        authToken: isServer() ? undefined : (authToken ?? undefined),
     });
 
-    const apiClient = isServer
+    const apiClient = isServer()
         ? createRequestClient({
               baseUrl: PUBLIC_API_URL,
               internalBaseUrl: getInternalApiUrl(),
@@ -75,7 +74,7 @@ export async function createRouter() {
         wrapQueryClient: true,
     });
 
-    if (isServer && authToken) {
+    if (isServer() && authToken) {
         await Promise.all([
             queryClient.prefetchQuery(profileOptions({ client: apiClient })),
             queryClient.prefetchQuery(profileUiOptions({ client: apiClient })),

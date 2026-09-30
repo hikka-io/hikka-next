@@ -11,6 +11,7 @@ import {
 
 import { COOKIE, writeHostCookie } from '@/utils/cookies';
 import { syncThemeColorMeta } from '@/utils/customization';
+import { isServer } from '@/utils/is-server';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -35,7 +36,7 @@ const THEME_COOKIE_PATTERN = new RegExp(
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 function getSystemTheme(): 'light' | 'dark' {
-    if (typeof window === 'undefined') return 'dark';
+    if (isServer()) return 'dark';
     return window.matchMedia(MEDIA_QUERY).matches ? 'dark' : 'light';
 }
 

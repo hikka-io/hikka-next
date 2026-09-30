@@ -3,8 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
 
 import { contentInfoOptions } from '@/utils/api/content-queries';
+import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
-import { CONTENT_CONFIG } from './content-config';
+import { animeStaffOptions } from './queries';
 
 type StaffProps = {
     content_type: MainContentTypeEnum;
@@ -15,7 +16,7 @@ type StaffProps = {
 export const useStaff = ({ content_type, slug, enabled }: StaffProps) => {
     if (content_type === ContentTypeEnum.ANIME) {
         // biome-ignore lint/correctness/useHookAtTopLevel: content_type is stable for a content page's lifetime, so the hook dispatch is consistent across renders.
-        return CONTENT_CONFIG.anime.useStaff(slug, enabled);
+        return useInfiniteList(animeStaffOptions(slug), { enabled });
     }
 
     // biome-ignore lint/correctness/useHookAtTopLevel: content_type is stable for a content page's lifetime, so the hook dispatch is consistent across renders.

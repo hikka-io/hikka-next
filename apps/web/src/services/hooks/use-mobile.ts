@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { maxWidth } from '@/utils/breakpoints';
+import { isServer } from '@/utils/is-server';
 
 export function useIsMobile(): boolean | undefined {
     // Start undefined to prevent hydration mismatches; resolve on client
@@ -9,7 +10,7 @@ export function useIsMobile(): boolean | undefined {
     );
 
     React.useEffect(() => {
-        if (typeof window === 'undefined') return;
+        if (isServer()) return;
 
         const mql = window.matchMedia(maxWidth('md'));
 

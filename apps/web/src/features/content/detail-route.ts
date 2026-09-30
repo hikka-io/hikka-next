@@ -1,21 +1,14 @@
-import type { QueryClient } from '@tanstack/react-query';
 import { notFound } from '@tanstack/react-router';
 
 import {
     type AnimeInfoResponse,
-    animeCharactersInfiniteOptions,
-    animeStaffInfiniteOptions,
     type CharacterInfoResponse,
-    type Client,
     ContentTypeEnum,
     type FavouriteContentTypeEnum,
     type MainContentTypeEnum,
     type MangaInfoResponse,
-    mangaCharactersInfiniteOptions,
     type NovelInfoResponse,
-    novelCharactersInfiniteOptions,
     type PersonInfoResponse,
-    paginationPageParam,
 } from '@hikka/api';
 
 import {
@@ -25,6 +18,7 @@ import {
     listEntryOptions,
 } from '@/utils/api/content-queries';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
+import type { LoaderContext } from '@/utils/api/loader-prefetch';
 import { stripRestrictedExternal } from '@/utils/api/strip-restricted-external';
 import { getSessionFromPagesCache } from '@/utils/auth';
 import { contentPath } from '@/utils/content-paths';
@@ -35,74 +29,42 @@ import { truncateText } from '@/utils/text';
 import { getTitle } from '@/utils/title/get-title';
 import { getPublicSiteUrl, SITE_ORIGIN } from '@/utils/url';
 
-import { franchiseOptions } from './queries';
+import {
+    animeStaffOptions,
+    contentCharactersOptions,
+    franchiseOptions,
+} from './queries';
 
-type DetailLoaderContext = {
-    slug: string;
-    queryClient: QueryClient;
-    apiClient: Client;
-};
+type Prefetch = (slug: string, ctx: LoaderContext) => Promise<void>;
 
-type Prefetch = (ctx: DetailLoaderContext) => Promise<unknown>;
+const characters =
+    (type: MainContentTypeEnum): Prefetch =>
+    (slug, { queryClient, apiClient }) =>
+        queryClient.prefetchInfiniteQuery(
+            contentCharactersOptions(type, slug, apiClient),
+        );
 
-// Characters: match the component-body call (no `query`) to share a cache key.
-const animeCharacters: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...animeCharactersInfiniteOptions({
-            path: { slug },
-            client: apiClient,
-        }),
-        ...paginationPageParam(),
-    });
-
-const mangaCharacters: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...mangaCharactersInfiniteOptions({
-            path: { slug },
-            client: apiClient,
-        }),
-        ...paginationPageParam(),
-    });
-
-const novelCharacters: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...novelCharactersInfiniteOptions({
-            path: { slug },
-            client: apiClient,
-        }),
-        ...paginationPageParam(),
-    });
-
-const animeStaff: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...animeStaffInfiniteOptions({ path: { slug }, client: apiClient }),
-        ...paginationPageParam(),
-    });
+const animeStaff: Prefetch = (slug, { queryClient, apiClient }) =>
+    queryClient.prefetchInfiniteQuery(animeStaffOptions(slug, apiClient));
 
 const franchise =
     (content_type: MainContentTypeEnum): Prefetch =>
-    ({ slug, queryClient, apiClient }) =>
-        queryClient.ensureQueryData(
+    (slug, { queryClient, apiClient }) =>
+        queryClient.prefetchQuery(
             franchiseOptions(content_type, slug, apiClient),
         );
 
 const listEntry =
     (type: MainContentTypeEnum): Prefetch =>
-    ({ slug, queryClient, apiClient }) =>
-        queryClient.ensureQueryData(listEntryOptions(type, slug, apiClient));
+    (slug, { queryClient, apiClient }) =>
+        queryClient.prefetchQuery(listEntryOptions(type, slug, apiClient));
 
 const favourite =
     (content_type: FavouriteContentTypeEnum): Prefetch =>
-    ({ slug, queryClient, apiClient }) =>
-        queryClient.ensureQueryData(
+    (slug, { queryClient, apiClient }) =>
+        queryClient.prefetchQuery(
             favouriteEntryOptions(content_type, slug, apiClient),
         );
-
-const CONTENT_CHARACTERS = {
-    [ContentTypeEnum.ANIME]: animeCharacters,
-    [ContentTypeEnum.MANGA]: mangaCharacters,
-    [ContentTypeEnum.NOVEL]: novelCharacters,
-} satisfies Record<MainContentTypeEnum, Prefetch>;
 
 type ContentTab = 'characters' | 'staff' | 'franchise';
 
@@ -111,22 +73,19 @@ const CONTENT_TAB_PREFETCHES: Record<
     Partial<Record<ContentTab, Prefetch>>
 > = {
     [ContentTypeEnum.ANIME]: {
-        characters: animeCharacters,
+        characters: characters(ContentTypeEnum.ANIME),
         staff: animeStaff,
         franchise: franchise(ContentTypeEnum.ANIME),
     },
     [ContentTypeEnum.MANGA]: {
-        characters: mangaCharacters,
+        characters: characters(ContentTypeEnum.MANGA),
         franchise: franchise(ContentTypeEnum.MANGA),
     },
     [ContentTypeEnum.NOVEL]: {
-        characters: novelCharacters,
+        characters: characters(ContentTypeEnum.NOVEL),
         franchise: franchise(ContentTypeEnum.NOVEL),
     },
 };
-
-const settle = (prefetches: Prefetch[], ctx: DetailLoaderContext) =>
-    Promise.allSettled(prefetches.map((prefetch) => prefetch(ctx)));
 
 type ContentDetail = AnimeInfoResponse | MangaInfoResponse | NovelInfoResponse;
 
@@ -144,9 +103,10 @@ type EntityDetailData<T extends EntityType> = { [K in T]: ContentInfo<K> };
 
 export async function loadContentDetail<T extends MainContentTypeEnum>(
     type: T,
-    ctx: DetailLoaderContext,
+    slug: string,
+    ctx: LoaderContext,
 ): Promise<ContentDetailData<T>> {
-    const { slug, queryClient, apiClient } = ctx;
+    const { queryClient, apiClient } = ctx;
     const options = contentInfoOptions<MainContentTypeEnum>(
         type,
         slug,
@@ -154,7 +114,7 @@ export async function loadContentDetail<T extends MainContentTypeEnum>(
     );
     const session = getSessionFromPagesCache(queryClient);
     const userValues = session
-        ? settle([listEntry(type), favourite(type)], ctx)
+        ? Promise.all([listEntry(type)(slug, ctx), favourite(type)(slug, ctx)])
         : undefined;
 
     let content = await ensureOr404(() => queryClient.ensureQueryData(options));
@@ -175,28 +135,29 @@ export async function loadContentDetail<T extends MainContentTypeEnum>(
 
 export async function loadContentOverview(
     type: MainContentTypeEnum,
-    ctx: DetailLoaderContext,
+    slug: string,
+    ctx: LoaderContext,
 ): Promise<void> {
-    await settle([CONTENT_CHARACTERS[type]], ctx);
+    await characters(type)(slug, ctx);
 }
 
 export async function loadContentTab(
     type: MainContentTypeEnum,
     tab: ContentTab,
-    ctx: DetailLoaderContext,
+    slug: string,
+    ctx: LoaderContext,
 ): Promise<void> {
-    const prefetch = CONTENT_TAB_PREFETCHES[type][tab];
-
-    if (prefetch) await settle([prefetch], ctx);
+    await CONTENT_TAB_PREFETCHES[type][tab]?.(slug, ctx);
 }
 
 export async function loadEntityDetail<T extends EntityType>(
     type: T,
-    ctx: DetailLoaderContext,
+    slug: string,
+    ctx: LoaderContext,
 ): Promise<EntityDetailData<T>> {
-    const { slug, queryClient, apiClient } = ctx;
+    const { queryClient, apiClient } = ctx;
     const userValues = getSessionFromPagesCache(queryClient)
-        ? settle([favourite(type)], ctx)
+        ? favourite(type)(slug, ctx)
         : undefined;
 
     const entity = await ensureOr404(() =>

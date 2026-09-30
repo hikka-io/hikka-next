@@ -1,3 +1,5 @@
+import { isServer } from '@/utils/is-server';
+
 export const SITE_ORIGIN = 'https://hikka.io';
 
 export const getPublicSiteUrl = (): string =>
@@ -6,7 +8,7 @@ export const getPublicSiteUrl = (): string =>
 /** Resolves the absolute site URL with environment fallback. */
 export const getSiteUrl = (): string => {
     if (import.meta.env.VITE_SITE_URL) return import.meta.env.VITE_SITE_URL;
-    if (typeof window !== 'undefined') return window.location.origin;
+    if (!isServer()) return window.location.origin;
     return 'http://localhost:3000';
 };
 

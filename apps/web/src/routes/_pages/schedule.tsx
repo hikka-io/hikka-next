@@ -1,13 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
-import {
-    AnimeStatusEnum,
-    animeScheduleInfiniteOptions,
-    paginationPageParam,
-    type SeasonEnum,
-} from '@hikka/api';
-
 import AntDesignFilterFilled from '@/components/icons/ant-design/AntDesignFilterFilled';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
@@ -20,35 +13,18 @@ import {
     ScheduleFiltersBody,
     ScheduleList,
 } from '@/features/schedule';
+import { scheduleOptions } from '@/features/schedule/queries';
 import { generateHeadMeta } from '@/utils/metadata';
 import { scheduleSearchSchema } from '@/utils/search-schemas';
-import { getCurrentSeason } from '@/utils/season';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/schedule')({
     validateSearch: zodValidator(scheduleSearchSchema),
     loaderDeps: ({ search }) => search,
     loader: async ({ context: { queryClient, apiClient }, deps }) => {
-        const { only_watch, season, year, status } = deps;
-
-        const resolvedSeason = (season as SeasonEnum) || getCurrentSeason()!;
-        const resolvedYear = Number(year) || new Date().getFullYear();
-        const resolvedStatus =
-            status && status.length > 0
-                ? (status as AnimeStatusEnum[])
-                : [AnimeStatusEnum.ONGOING, AnimeStatusEnum.ANNOUNCED];
-
-        await queryClient.prefetchInfiniteQuery({
-            ...animeScheduleInfiniteOptions({
-                body: {
-                    status: resolvedStatus,
-                    only_watch,
-                    airing_season: [resolvedSeason as SeasonEnum, resolvedYear],
-                },
-                client: apiClient,
-            }),
-            ...paginationPageParam(),
-        });
+        await queryClient.prefetchInfiniteQuery(
+            scheduleOptions(deps, apiClient),
+        );
     },
     head: () =>
         generateHeadMeta({

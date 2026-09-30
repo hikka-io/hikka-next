@@ -403,7 +403,11 @@ describe.each(TYPES)('FavoriteSection(%s)', (type) => {
         expect(options.queryKey).toEqual([
             { ...legacyOptions.queryKey[0], query: { size: 6 } },
         ]);
-        expect(Object.keys(options)).toEqual(Object.keys(legacyOptions));
+        expect(Object.keys(options)).toEqual([
+            ...Object.keys(legacyOptions),
+            'initialPageParam',
+            'getNextPageParam',
+        ]);
         expect(extra).toBeUndefined();
         expect(legacyExtra).toEqual(
             type === ContentTypeEnum.MANGA ? { enabled: true } : undefined,
@@ -418,7 +422,11 @@ describe.each(TYPES)('FavoriteSection(%s)', (type) => {
             vi.mocked(useInfiniteList).mock.calls;
 
         expect(options.queryKey).toEqual(legacyOptions.queryKey);
-        expect(Object.keys(options)).toEqual(Object.keys(legacyOptions));
+        expect(Object.keys(options)).toEqual([
+            ...Object.keys(legacyOptions),
+            'initialPageParam',
+            'getNextPageParam',
+        ]);
         expect(extra).toBeUndefined();
     });
 

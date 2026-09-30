@@ -4,7 +4,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
     ContentTypeEnum,
-    userWatchListInfiniteOptions,
     type WatchArgs,
     WatchStatusEnum,
     watchAddMutation,
@@ -28,6 +27,7 @@ import { getMediaTypeLabel } from '@/utils/labels';
 import { Link, useRouter } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
+import { homeWatchingOptions } from '../../../queries';
 import ProgressTrackerView from './progress-tracker-view';
 
 type PendingWatch = {
@@ -47,13 +47,7 @@ const WatchingTracker = () => {
     const [pending, setPending] = useState<PendingWatch | null>(null);
 
     const { list, ref, isFetchingNextPage, hasNextPage } = useInfiniteList(
-        userWatchListInfiniteOptions({
-            path: { username: String(loggedUser?.username) },
-            body: {
-                watch_status: WatchStatusEnum.WATCHING,
-                sort: ['watch_updated:desc'],
-            },
-        }),
+        homeWatchingOptions(String(loggedUser?.username)),
         { enabled: Boolean(loggedUser?.username) },
     );
 

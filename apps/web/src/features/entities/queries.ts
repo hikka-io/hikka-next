@@ -1,13 +1,12 @@
 import type { QueryClient } from '@tanstack/react-query';
 
-import { type Client, paginationPageParam } from '@hikka/api';
-
 import {
     ENTITY_APPEARANCE_LISTS,
     type EntityAppearanceList,
     type EntityType,
     entityAppearanceOptions,
 } from '@/utils/api/content-queries';
+import type { LoaderContext } from '@/utils/api/loader-prefetch';
 
 export {
     ENTITY_APPEARANCE_LISTS,
@@ -17,49 +16,45 @@ export {
     entityAppearanceOptions,
 } from '@/utils/api/content-queries';
 
-type EntityLoaderContext = {
-    slug: string;
-    queryClient: QueryClient;
-    apiClient: Client;
-};
-
 // The appearance lists differ in page type; a prefetch discards the data, so it only needs the common shape.
 type InfinitePrefetchOptions = Parameters<
-    QueryClient['ensureInfiniteQueryData']
+    QueryClient['prefetchInfiniteQuery']
 >[0];
 
-const ensureAppearances = (
+const prefetchAppearance = (
     type: EntityType,
-    lists: readonly EntityAppearanceList[],
+    list: EntityAppearanceList,
     preview: boolean,
-    { slug, queryClient, apiClient }: EntityLoaderContext,
+    slug: string,
+    { queryClient, apiClient }: LoaderContext,
 ) =>
-    Promise.allSettled(
-        lists.map((list) =>
-            queryClient.ensureInfiniteQueryData({
-                ...entityAppearanceOptions(
-                    type,
-                    list,
-                    slug,
-                    { preview },
-                    apiClient,
-                ),
-                ...paginationPageParam(),
-            } as InfinitePrefetchOptions),
-        ),
+    queryClient.prefetchInfiniteQuery(
+        entityAppearanceOptions(
+            type,
+            list,
+            slug,
+            { preview },
+            apiClient,
+        ) as InfinitePrefetchOptions,
     );
 
 export async function loadEntityOverview(
     type: EntityType,
-    ctx: EntityLoaderContext,
+    slug: string,
+    ctx: LoaderContext,
 ): Promise<void> {
-    await ensureAppearances(type, ENTITY_APPEARANCE_LISTS, true, ctx);
+    await Promise.all(
+        ENTITY_APPEARANCE_LISTS.map((list) =>
+            prefetchAppearance(type, list, true, slug, ctx),
+        ),
+    );
 }
 
 export async function loadEntityTab(
     type: EntityType,
     list: EntityAppearanceList,
-    ctx: EntityLoaderContext,
+    slug: string,
+    ctx: LoaderContext,
 ): Promise<void> {
-    await ensureAppearances(type, [list], false, ctx);
+    await prefetchAppearance(type, list, false, slug, ctx);
 }

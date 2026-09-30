@@ -11,10 +11,7 @@ import {
 
 export const Route = createFileRoute('/_pages/manga/$slug')({
     loader: ({ params, context }) =>
-        loadContentDetail(ContentTypeEnum.MANGA, {
-            slug: params.slug,
-            ...context,
-        }),
+        loadContentDetail(ContentTypeEnum.MANGA, params.slug, context),
     head: ({ loaderData }) =>
         contentDetailHead(ContentTypeEnum.MANGA, loaderData),
     component: MangaDetailLayout,

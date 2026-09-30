@@ -12,18 +12,11 @@ import { SITE_ORIGIN } from '@/utils/url';
 export const Route = createFileRoute('/_pages/novel/')({
     validateSearch: zodValidator(novelSearchSchema),
     loaderDeps: ({ search }) => ({ search }),
-    loader: ({
-        context: { queryClient, apiClient },
-        deps: { search },
-        preload,
-    }) =>
-        loadCatalogFirstPage({
-            queryClient,
-            apiClient,
-            contentType: ContentTypeEnum.NOVEL,
-            search,
-            preload,
-        }),
+    loader: ({ context, deps: { search }, preload }) =>
+        loadCatalogFirstPage(
+            { contentType: ContentTypeEnum.NOVEL, search, preload },
+            context,
+        ),
     head: () =>
         generateHeadMeta({
             title: 'Ранобе',
