@@ -1,4 +1,6 @@
-import { type FC, useEffect, useState } from 'react';
+import { type FC, useState } from 'react';
+
+import { queryOptions, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { MDViewer } from '@/components/markdown';
@@ -15,17 +17,32 @@ type Props = {
     modalTitle: string;
 };
 
+const rulesOptions = (rulesFile: string) =>
+    queryOptions({
+        queryKey: ['rules', rulesFile],
+        queryFn: async ({ signal }) => {
+            const res = await fetch(
+                `https://raw.githubusercontent.com/hikka-io/rules/main/${rulesFile}`,
+                { signal },
+            );
+            if (!res.ok) throw new Error(`Rules request failed: ${res.status}`);
+            return res.text();
+        },
+        staleTime: Infinity,
+    });
+
 const RulesAlert: FC<Props> = ({ rulesFile, before, after, modalTitle }) => {
-    const [rules, setRules] = useState('');
+    const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-        fetch(
-            `https://raw.githubusercontent.com/hikka-io/rules/main/${rulesFile}`,
-        )
-            .then((res) => res.text())
-            .then((res) => setRules(res));
-    }, [rulesFile]);
+    const { data: rules } = useQuery({
+        ...rulesOptions(rulesFile),
+        enabled: open,
+    });
+
+    const warmRules = () => {
+        void queryClient.prefetchQuery(rulesOptions(rulesFile));
+    };
 
     return (
         <>
@@ -35,6 +52,8 @@ const RulesAlert: FC<Props> = ({ rulesFile, before, after, modalTitle }) => {
                     {before}{' '}
                     <Button
                         onClick={() => setOpen(true)}
+                        onPointerEnter={warmRules}
+                        onFocus={warmRules}
                         variant="link"
                         className="h-auto p-0 text-primary-foreground hover:underline"
                     >
@@ -49,7 +68,7 @@ const RulesAlert: FC<Props> = ({ rulesFile, before, after, modalTitle }) => {
                     title={modalTitle}
                 >
                     <MDViewer className="-m-4 overflow-scroll p-4">
-                        {rules}
+                        {rules ?? ''}
                     </MDViewer>
                 </ResponsiveModalContent>
             </ResponsiveModal>
