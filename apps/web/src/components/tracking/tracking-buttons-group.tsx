@@ -43,6 +43,7 @@ import Spinner from '@/components/ui/spinner';
 import {
     carryOverReadArgs,
     carryOverWatchArgs,
+    omitUndefined,
 } from '@/utils/api/tracking-args';
 import { resolveTrackingEntry } from '@/utils/api/tracking-entry';
 
@@ -94,7 +95,7 @@ const buildWatchArgs = (
         return {
             status: WatchStatusEnum.COMPLETED,
             ...current,
-            episodes: item.episodes_total || undefined,
+            ...omitUndefined({ episodes: item.episodes_total || undefined }),
         };
     }
 
@@ -116,8 +117,10 @@ const buildReadArgs = (
         return {
             status: ReadStatusEnum.COMPLETED,
             ...current,
-            volumes: item.volumes || undefined,
-            chapters: item.chapters || undefined,
+            ...omitUndefined({
+                volumes: item.volumes || undefined,
+                chapters: item.chapters || undefined,
+            }),
         };
     }
 

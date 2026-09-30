@@ -38,6 +38,7 @@ import {
 import {
     carryOverReadArgs,
     carryOverWatchArgs,
+    omitUndefined,
 } from '@/utils/api/tracking-args';
 
 import IconStatusButton from './icon-status-button';
@@ -204,7 +205,7 @@ const ListStatusButton: FC<Props> = ({
                 status: selectedOption,
                 ...KINDS[kind].carryOver(trackedEntry),
                 ...(selectedOption === 'completed'
-                    ? KINDS[kind].fillCompleted(content, entry)
+                    ? omitUndefined(KINDS[kind].fillCompleted(content, entry))
                     : undefined),
             };
 

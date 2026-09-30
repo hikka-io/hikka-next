@@ -231,12 +231,12 @@ const WATCH_KIND: Kind = {
         [
             'a full entry of unknown length',
             { entry: WATCH_FULL, content: { episodes_total: null } },
-            '{"status":"completed","score":7,"note":"note","rewatches":1,"start_date":1700000000,"end_date":1700100000}',
+            '{"status":"completed","episodes":5,"score":7,"note":"note","rewatches":1,"start_date":1700000000,"end_date":1700100000}',
         ],
         [
             'a full entry without content',
             { entry: WATCH_FULL },
-            '{"status":"completed","score":7,"note":"note","rewatches":1,"start_date":1700000000,"end_date":1700100000}',
+            '{"status":"completed","episodes":5,"score":7,"note":"note","rewatches":1,"start_date":1700000000,"end_date":1700100000}',
         ],
     ],
     path: { slug: 'anime-slug' },
@@ -971,7 +971,7 @@ describe('a prop entry after a failed entry fetch', () => {
             {
                 method: 'PUT',
                 url: WATCH_KIND.url,
-                body: '{"status":"completed","score":7,"note":"note","rewatches":1,"start_date":1700000000,"end_date":1700100000}',
+                body: '{"status":"completed","episodes":5,"score":7,"note":"note","rewatches":1,"start_date":1700000000,"end_date":1700100000}',
             },
         ]);
         expect(lastDialog()?.watch).toEqual(WATCH_FULL);

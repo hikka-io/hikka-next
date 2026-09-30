@@ -35,3 +35,8 @@ export const carryOverReadArgs = (
               end_date: read.end_date,
           }
         : {};
+
+export const omitUndefined = <T extends object>(args: T): Partial<T> =>
+    Object.fromEntries(
+        Object.entries(args).filter(([, value]) => value !== undefined),
+    ) as Partial<T>;
