@@ -88,7 +88,13 @@ const mount = async (element: ReactElement) => {
 
     await act(async () =>
         root.render(
-            <QueryClientProvider client={new QueryClient()}>
+            <QueryClientProvider
+                client={
+                    new QueryClient({
+                        defaultOptions: { queries: { retry: false } },
+                    })
+                }
+            >
                 {element}
             </QueryClientProvider>,
         ),

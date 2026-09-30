@@ -384,7 +384,9 @@ const mount = async (
     element: ReactElement,
     seed?: (queryClient: QueryClient) => void,
 ) => {
-    const queryClient = new QueryClient();
+    const queryClient = new QueryClient({
+        defaultOptions: { queries: { retry: false } },
+    });
     seed?.(queryClient);
     const container = document.body.appendChild(document.createElement('div'));
     const root = createRoot(container);

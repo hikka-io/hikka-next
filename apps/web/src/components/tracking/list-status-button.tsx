@@ -114,7 +114,6 @@ const SETTINGS_BUTTON = {
 const useWatchEntry = (slug: string, enabled: boolean) =>
     useQuery({
         ...listEntryOptions(ContentTypeEnum.ANIME, slug),
-        retry: false,
         enabled,
     });
 
@@ -125,7 +124,6 @@ const useReadEntry = (
 ) =>
     useQuery({
         ...listEntryOptions(contentType, slug),
-        retry: false,
         enabled,
     });
 

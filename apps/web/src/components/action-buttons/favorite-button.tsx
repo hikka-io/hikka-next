@@ -37,7 +37,6 @@ const FavoriteButton = ({
 
     const { data: favorite, isError: favoriteError } = useQuery({
         ...favouriteEntryOptions(content_type, slug),
-        retry: false,
         // Logged-out users (disabled) would just 401 on this authenticated query.
         enabled: !disabled,
     });
