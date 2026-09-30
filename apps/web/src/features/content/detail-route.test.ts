@@ -77,7 +77,7 @@ function mediaInfo(
         title_ua: null,
         title_en: null,
         ...originalTitle,
-        start_date: 915148800,
+        start_date: 930000000,
         updated: 1700000000,
         mal_id: 42,
         synopsis_ua: null,
