@@ -1,8 +1,8 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 
 import { getCollectionOptions } from '@hikka/api';
 
-import { retryOnCancel } from '@/utils/api/retry-on-cancel';
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
 import { SITE_ORIGIN } from '@/utils/url';
@@ -11,7 +11,7 @@ export const Route = createFileRoute('/_pages/collections/$reference')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { reference } = params;
 
-        const collection = await retryOnCancel(() =>
+        const collection = await ensureOr404(() =>
             queryClient.ensureQueryData(
                 getCollectionOptions({
                     path: { reference },
@@ -19,8 +19,6 @@ export const Route = createFileRoute('/_pages/collections/$reference')({
                 }),
             ),
         );
-
-        if (!collection) throw redirect({ to: '/collections' });
 
         return { collection };
     },

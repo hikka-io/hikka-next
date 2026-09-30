@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import {
     type CommentContentTypeEnum,
@@ -13,7 +13,7 @@ import { usePageHeader } from '@/features/app-shell';
 import { commentListPrefetchBody } from '@/features/comments/queries';
 import { EditContent, EditTimeline } from '@/features/edit';
 import { useTitle } from '@/services/session';
-import { retryOnCancel } from '@/utils/api/retry-on-cancel';
+import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
 
@@ -27,7 +27,7 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
         const isUpdate = /\/update\/?$/.test(location.pathname);
 
         const [edit] = await Promise.all([
-            retryOnCancel(() =>
+            ensureOr404(() =>
                 queryClient.ensureQueryData(
                     getEditOptions({
                         path: { edit_id: editId },
@@ -49,8 +49,6 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
                       ...paginationPageParam(),
                   }),
         ]);
-
-        if (!edit) throw redirect({ to: '/edit' });
 
         return { edit };
     },
