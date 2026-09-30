@@ -150,20 +150,22 @@ export async function loadCatalogFirstPage({
 }) {
     if (preload) return;
 
-    const size = catalogPageSize(await readUiPrefs(), CATALOG_VIEW_KEY);
-    const { options } = catalogSearchOptions(
-        contentType,
-        search,
-        size,
-        apiClient,
-    );
+    const loadFirstPage = async () => {
+        const size = catalogPageSize(await readUiPrefs(), CATALOG_VIEW_KEY);
+        const { options } = catalogSearchOptions(
+            contentType,
+            search,
+            size,
+            apiClient,
+        );
 
-    if (typeof window !== 'undefined') {
-        void queryClient.prefetchInfiniteQuery(options);
-        return;
-    }
+        if (typeof window !== 'undefined') {
+            void queryClient.prefetchInfiniteQuery(options);
+            return;
+        }
 
-    await Promise.allSettled([
-        retryOnCancel(() => queryClient.ensureInfiniteQueryData(options)),
-    ]);
+        await retryOnCancel(() => queryClient.ensureInfiniteQueryData(options));
+    };
+
+    await Promise.allSettled([loadFirstPage()]);
 }

@@ -50,11 +50,15 @@ import { useCatalogView } from './use-catalog-view';
 
 const cookies = vi.hoisted(() => ({
     uiPrefs: null as UiPreferences | null,
+    unreadable: false,
 }));
 
 vi.mock('@/utils/cookies/read', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@/utils/cookies/read')>()),
-    readUiPrefs: async () => cookies.uiPrefs,
+    readUiPrefs: async () => {
+        if (cookies.unreadable) throw new Error('cookie read failed');
+        return cookies.uiPrefs;
+    },
 }));
 
 const BASE_URL = 'https://api.example.test';
@@ -65,6 +69,7 @@ beforeAll(() => {
 
 afterEach(() => {
     cookies.uiPrefs = null;
+    cookies.unreadable = false;
     vi.unstubAllGlobals();
 });
 
@@ -386,6 +391,23 @@ describe('catalog route loaders', () => {
                     search: parseSearch(type, RAW_SEARCH),
                 }),
             ).resolves.toBeUndefined();
+        },
+    );
+
+    it.each(TYPES)(
+        'renders the page when the ui prefs cannot be read: %s',
+        async (type) => {
+            vi.stubGlobal('window', undefined);
+            cookies.unreadable = true;
+            const { queryClient, calls } = fakeQueryClient();
+
+            await expect(
+                runLoader(type, {
+                    queryClient,
+                    search: parseSearch(type, RAW_SEARCH),
+                }),
+            ).resolves.toBeUndefined();
+            expect(calls).toEqual([]);
         },
     );
 
