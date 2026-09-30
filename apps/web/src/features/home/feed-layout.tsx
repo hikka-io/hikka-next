@@ -1,6 +1,8 @@
 import {
     type FC,
     type KeyboardEvent,
+    lazy,
+    Suspense,
     useCallback,
     useMemo,
     useRef,
@@ -17,10 +19,11 @@ import { SELECTED_TINT } from '@/components/ui/selected-tint';
 import { useSession } from '@/services/session';
 import { cn } from '@/utils/cn';
 
-import LayoutSettings from './layout-settings/layout-settings';
 import type { SupportedWidgetSlug } from './types';
 import { useFeedLayout } from './use-feed-layout';
 import { WIDGET_REGISTRY } from './widgets/registry';
+
+const LayoutSettings = lazy(() => import('./layout-settings/layout-settings'));
 
 const WidgetRenderer: FC<{ widget: UiFeedWidget; isLast?: boolean }> = ({
     widget,
@@ -178,8 +181,10 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
     const { user } = useSession();
     const { left, center, right } = useFeedLayout();
     const [settingsOpen, setSettingsOpen] = useState(false);
+    const [settingsMounted, setSettingsMounted] = useState(false);
 
     const openSettings = useCallback(() => {
+        setSettingsMounted(true);
         setSettingsOpen(true);
     }, []);
 
@@ -224,10 +229,14 @@ const FeedLayout: FC<{ className?: string }> = ({ className }) => {
 
     return (
         <div className={cn(gridClasses, className)}>
-            <LayoutSettings
-                open={settingsOpen}
-                onOpenChange={setSettingsOpen}
-            />
+            {settingsMounted && (
+                <Suspense fallback={null}>
+                    <LayoutSettings
+                        open={settingsOpen}
+                        onOpenChange={setSettingsOpen}
+                    />
+                </Suspense>
+            )}
 
             {layout >= 2 && !isLeftRightOnly && sidebarWidgets.length > 0 && (
                 <aside
