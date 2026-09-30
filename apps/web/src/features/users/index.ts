@@ -1,6 +1,6 @@
 export { default as CropEditorModal } from './crop-editor-modal';
 export { default as FollowListModal } from './follow-list-modal';
-export { default as UserHistoryPage } from './history';
+export { default as UserHistoryPage } from './history/user-history-page';
 export * from './list';
 export * from './profile';
 export { default as ActivationAlert } from './profile-header/activation-alert';

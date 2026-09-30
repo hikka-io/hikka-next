@@ -14,13 +14,11 @@ import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import { usePageHeader } from '@/features/app-shell';
 
-import {
-    CollectionEditGroups,
-    CollectionEditSettings,
-    CollectionEditTitle,
-    CollectionProvider,
-    type CollectionState,
-} from './collection-edit';
+import CollectionEditGroups from './collection-edit/collection-groups';
+import CollectionProvider from './collection-edit/collection-provider';
+import CollectionEditSettings from './collection-edit/collection-settings';
+import type { CollectionState } from './collection-edit/collection-store';
+import CollectionEditTitle from './collection-edit/collection-title';
 import CollectionEditorPage from './collection-editor-page';
 
 vi.mock('@/features/app-shell', () => ({ usePageHeader: vi.fn() }));

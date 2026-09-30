@@ -2,7 +2,7 @@ import type { FC } from 'react';
 
 import { range } from '@antfu/utils';
 
-import { PosterCardSkeleton } from '@/components/content-card';
+import PosterCardSkeleton from '@/components/content-card/poster-card-skeleton';
 import Stack, { type StackSize } from '@/components/ui/stack';
 
 type Props = {

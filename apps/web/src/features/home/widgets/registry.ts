@@ -18,17 +18,15 @@ import type {
     UIFeedWidgetSide,
     WidgetProps,
 } from '../types';
-import {
-    ArticlesWidget,
-    CollectionsWidget,
-    FeedWidget,
-    HistoryWidget,
-    ListWidget,
-    OngoingsWidget,
-    ProfileWidget,
-    ScheduleWidget,
-    TrackerWidget,
-} from './index';
+import ArticlesWidget from './articles-widget';
+import CollectionsWidget from './collections-widget';
+import FeedWidget from './feed-widget';
+import HistoryWidget from './history-widget';
+import ListWidget from './list-widget';
+import OngoingsWidget from './ongoings-widget';
+import ProfileWidget from './profile-widget';
+import ScheduleWidget from './schedule-widget';
+import TrackerWidget from './tracker-widget';
 
 export interface WidgetMeta {
     title: string;
