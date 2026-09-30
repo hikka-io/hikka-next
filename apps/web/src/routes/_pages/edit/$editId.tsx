@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import {
@@ -59,7 +60,10 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
 
 function EditLayout() {
     const { editId } = Route.useParams();
-    const { edit } = Route.useLoaderData();
+    const { edit: loadedEdit } = Route.useLoaderData();
+    const { data: edit = loadedEdit } = useQuery(
+        getEditOptions({ path: { edit_id: loadedEdit.edit_id } }),
+    );
     const pathname = usePathname();
     const contentTitle = useTitle(edit.content);
     const editUrl = `/edit/${editId}`;

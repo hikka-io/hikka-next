@@ -74,6 +74,11 @@ const EDIT_LIST_IDS: readonly QueryId[] = [
     'getEdits',
     'editsTop',
     'getContentEditTodo',
+    'getTodoAnimeList',
+    'getTodoMangaList',
+    'getTodoNovelList',
+    'getTodoCharacterList',
+    'getTodoPersonList',
 ];
 
 /** Collection list + detail queries. */
@@ -529,7 +534,8 @@ export function invalidateVote(
 
 /**
  * Invalidate the content-detail queries for a slug — used when an accepted edit
- * mutates the underlying content. Matches the slug on the typed `path.slug` key
+ * mutates the underlying content; refetches inactive queries too, since the
+ * detail loaders serve cached data. Matches the slug on the typed `path.slug` key
  * field (not a `JSON.stringify` substring, which both false-matches one slug
  * inside another — `one` in `one-piece` — and re-serializes every cached key).
  */
@@ -547,6 +553,6 @@ export function invalidateContentBySlug(
                 .path;
             return path?.slug === slug;
         },
-        refetchType: refetchTypeFor(options),
+        refetchType: options?.refetch === false ? 'none' : 'all',
     });
 }

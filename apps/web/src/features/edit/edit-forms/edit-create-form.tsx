@@ -2,13 +2,18 @@ import type { FC } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { createEditMutation, type EditContentTypeEnum } from '@hikka/api';
+import {
+    createEditMutation,
+    type EditContentTypeEnum,
+    EditStatusEnum,
+} from '@hikka/api';
 
 import { SubmitButton, useAppForm } from '@/components/form';
 import { invalidateEdits } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
 import type { EditMainContent } from '../types';
+import { useRefreshEditedContent } from '../use-refresh-edited-content';
 import AutoButton from './components/auto-button';
 import EditFormFields from './edit-form-fields';
 import {
@@ -35,6 +40,7 @@ const EditCreateForm: FC<Props> = ({
 }) => {
     const router = useRouter();
     const queryClient = useQueryClient();
+    const refreshEditedContent = useRefreshEditedContent();
 
     const params = getEditParams(content_type)!;
     const groups = getEditGroups(content_type)!;
@@ -50,6 +56,9 @@ const EditCreateForm: FC<Props> = ({
         ...createEditMutation(),
         onSuccess: (data) => {
             invalidateEdits(queryClient);
+            if (data.status === EditStatusEnum.ACCEPTED) {
+                refreshEditedContent(slug);
+            }
             onDismiss(data.edit_id);
         },
     });

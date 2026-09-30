@@ -64,7 +64,16 @@ const COMMENT_IDS = [
     'mangaInfo',
     'novelInfo',
 ];
-const EDIT_LIST_IDS = ['getEdits', 'editsTop', 'getContentEditTodo'];
+const EDIT_LIST_IDS = [
+    'getEdits',
+    'editsTop',
+    'getContentEditTodo',
+    'getTodoAnimeList',
+    'getTodoMangaList',
+    'getTodoNovelList',
+    'getTodoCharacterList',
+    'getTodoPersonList',
+];
 const COLLECTION_IDS = ['getCollections', 'getCollection'];
 const ARTICLE_IDS = ['getArticles', 'getArticleTop', 'getArticle'];
 const FOLLOW_IDS = [
@@ -123,7 +132,7 @@ function summarize({ predicate, refetchType }: Filters) {
     return { ids: new Set(ids), refetchType };
 }
 
-function expected(ids: string[], refetchType?: 'none') {
+function expected(ids: string[], refetchType?: 'none' | 'all') {
     return { ids: new Set(ids), refetchType };
 }
 
@@ -151,7 +160,7 @@ describe('invalidation registry ids', () => {
             (id) => builders[`${id}QueryKey`]?.()[0]._id !== id,
         );
 
-        expect(registered.size).toBe(52);
+        expect(registered.size).toBe(57);
         expect(drifted).toEqual([]);
     });
 });
@@ -260,12 +269,12 @@ describe('invalidation helpers', () => {
         [
             'invalidateContentBySlug',
             (queryClient) => invalidateContentBySlug(queryClient, SLUG),
-            [expected(CONTENT_DETAIL_IDS)],
+            [expected(CONTENT_DETAIL_IDS, 'all')],
         ],
         [
             'invalidateContentBySlug for a slug prefix',
             (queryClient) => invalidateContentBySlug(queryClient, 'one'),
-            [expected([])],
+            [expected([], 'all')],
         ],
     ])('%s matches the same queries', async (_, run, calls) => {
         const { queryClient, invalidations } = createRecordingClient();

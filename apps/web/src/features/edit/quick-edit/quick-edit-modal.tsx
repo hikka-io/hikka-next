@@ -3,7 +3,11 @@ import { type FC, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { createEditMutation, type EditContentTypeEnum } from '@hikka/api';
+import {
+    createEditMutation,
+    type EditContentTypeEnum,
+    EditStatusEnum,
+} from '@hikka/api';
 
 import { useAppForm } from '@/components/form';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
@@ -15,10 +19,7 @@ import {
     ResponsiveModalFooter,
 } from '@/components/ui/responsive-modal';
 import Spinner from '@/components/ui/spinner';
-import {
-    invalidateContentBySlug,
-    invalidateEdits,
-} from '@/utils/api/invalidate-content-state';
+import { invalidateEdits } from '@/utils/api/invalidate-content-state';
 
 import EditFormFields from '../edit-forms/edit-form-fields';
 import {
@@ -31,6 +32,7 @@ import {
 } from '../edit-forms/params/edit-param-utils';
 import type { EditMainContent } from '../types';
 import { useContentBySlug } from '../use-content-by-slug';
+import { useRefreshEditedContent } from '../use-refresh-edited-content';
 
 type Props = {
     slug: string;
@@ -53,6 +55,7 @@ const QuickEditForm: FC<FormProps> = ({
     onSuccess,
 }) => {
     const queryClient = useQueryClient();
+    const refreshEditedContent = useRefreshEditedContent();
     const [pendingAuto, setPendingAuto] = useState<boolean | null>(null);
 
     const params = getEditParams(content_type)!;
@@ -62,14 +65,12 @@ const QuickEditForm: FC<FormProps> = ({
 
     const mutation = useMutation({
         ...createEditMutation(),
-        onSuccess: (_data, variables) => {
-            const accepted =
-                (variables.body as { auto?: boolean } | undefined)?.auto ??
-                false;
+        onSuccess: (data) => {
+            const accepted = data.status === EditStatusEnum.ACCEPTED;
 
             invalidateEdits(queryClient);
             if (accepted) {
-                invalidateContentBySlug(queryClient, slug);
+                refreshEditedContent(slug);
             }
 
             toast.success(
