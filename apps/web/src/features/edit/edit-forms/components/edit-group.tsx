@@ -84,7 +84,10 @@ const EditGroup: FC<Props> = ({
                     <LucideChevronsUpDown className="size-4 shrink-0 text-muted-foreground" />
                 </CollapsibleTrigger>
 
-                <CollapsibleContent className="mt-4 flex w-full flex-col gap-6 overflow-clip data-closed:animate-collapsible-up data-open:animate-collapsible-down">
+                <CollapsibleContent
+                    keepMounted
+                    className="mt-4 flex w-full flex-col gap-6 overflow-clip data-closed:animate-collapsible-up data-open:animate-collapsible-down"
+                >
                     {warning}
 
                     {(mode === 'edit' || mode === 'update') &&
