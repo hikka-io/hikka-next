@@ -6,6 +6,7 @@ import {
     type NotificationResponse,
     notificationSeenMutation,
     notificationsInfiniteOptions,
+    paginationPageParam,
     unseenNotificationsCountOptions,
 } from '@hikka/api';
 
@@ -51,10 +52,15 @@ const NotificationsMenu: FC<Props> = ({ trigger }) => {
     const { list, hasNextPage, isFetchingNextPage, fetchNextPage, ref } =
         useInfiniteList(notificationsInfiniteOptions(), { enabled: isOpen });
 
-    const { mutateAsync: markSeen } = useMutation({
-        ...notificationSeenMutation(),
-        onSuccess: () => invalidateNotifications(queryClient),
-    });
+    const { mutateAsync: markSeen } = useMutation(notificationSeenMutation());
+
+    const warmList = () => {
+        if (isOpen) return;
+        void queryClient.prefetchInfiniteQuery({
+            ...notificationsInfiniteOptions(),
+            ...paginationPageParam(),
+        });
+    };
 
     const { normalized, grouped } = useMemo(() => {
         const items = (list as NotificationResponse[] | undefined)
@@ -81,6 +87,7 @@ const NotificationsMenu: FC<Props> = ({ trigger }) => {
                     }),
                 ),
             );
+            await invalidateNotifications(queryClient);
         } finally {
             setIsBulkMarking(false);
         }
@@ -109,6 +116,8 @@ const NotificationsMenu: FC<Props> = ({ trigger }) => {
             <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
                 <DropdownMenuTrigger
                     render={triggerButton as React.ReactElement}
+                    onPointerEnter={warmList}
+                    onFocus={warmList}
                 />
                 <DropdownMenuContent
                     align="end"
@@ -137,7 +146,11 @@ const NotificationsMenu: FC<Props> = ({ trigger }) => {
 
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
-            <DrawerTrigger render={triggerButton as React.ReactElement} />
+            <DrawerTrigger
+                render={triggerButton as React.ReactElement}
+                onPointerEnter={warmList}
+                onFocus={warmList}
+            />
             <DrawerContent className="max-h-[85dvh]">
                 <DrawerHeader className="border-border border-b p-0">
                     <DrawerTitle className="sr-only">Сповіщення</DrawerTitle>

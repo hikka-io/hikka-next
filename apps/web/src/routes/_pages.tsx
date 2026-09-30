@@ -2,7 +2,6 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import {
     HikkaApiError,
-    notificationsInfiniteOptions,
     profileOptions,
     unseenNotificationsCountOptions,
 } from '@hikka/api';
@@ -16,11 +15,11 @@ import {
     PageHeaderProvider,
 } from '@/features/app-shell';
 import { retryOnCancel } from '@/utils/api/retry-on-cancel';
-import { getAuthTokenFn } from '@/utils/cookies';
+import { readAuthToken } from '@/utils/cookies';
 
 export const Route = createFileRoute('/_pages')({
     beforeLoad: async ({ context: { queryClient, apiClient } }) => {
-        if (!(await getAuthTokenFn())) return;
+        if (!(await readAuthToken())) return;
 
         try {
             const session = await retryOnCancel(() =>
@@ -40,12 +39,9 @@ export const Route = createFileRoute('/_pages')({
         }
     },
     loader: async ({ context: { queryClient, apiClient } }) => {
-        if (!(await getAuthTokenFn())) return;
+        if (!(await readAuthToken())) return;
 
         await Promise.allSettled([
-            queryClient.ensureInfiniteQueryData(
-                notificationsInfiniteOptions({ client: apiClient }),
-            ),
             queryClient.ensureQueryData(
                 unseenNotificationsCountOptions({ client: apiClient }),
             ),
