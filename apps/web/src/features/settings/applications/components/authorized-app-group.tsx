@@ -261,8 +261,8 @@ const AuthorizedAppGroup: FC<Props> = ({
                         </Button>
                     </div>
                 </CollapsibleTrigger>
-                <CollapsibleContent className="mt-4 w-full overflow-hidden data-closed:animate-collapsible-up data-open:animate-collapsible-down">
-                    <div className="flex flex-col">
+                <CollapsibleContent className="w-full overflow-hidden data-closed:animate-collapsible-up data-open:animate-collapsible-down">
+                    <div className="flex flex-col pt-4">
                         {tokens.map((token) => (
                             <AuthorizedAppItem
                                 key={token.reference}

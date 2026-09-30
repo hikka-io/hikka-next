@@ -86,49 +86,53 @@ const EditGroup: FC<Props> = ({
 
                 <CollapsibleContent
                     keepMounted
-                    className="mt-4 flex w-full flex-col gap-6 overflow-clip data-closed:animate-collapsible-up data-open:animate-collapsible-down"
+                    className="w-full overflow-clip data-closed:animate-collapsible-up data-open:animate-collapsible-down"
                 >
-                    {warning}
+                    <div className="flex flex-col gap-6 pt-4">
+                        {warning}
 
-                    {(mode === 'edit' || mode === 'update') &&
-                        params.length > 1 && (
-                            <div className="flex flex-wrap gap-2">
-                                {params.map((param) => (
-                                    <Button
-                                        size="badge"
-                                        variant={
-                                            selected.includes(param.slug)
-                                                ? 'default'
-                                                : 'outline'
-                                        }
-                                        key={param.slug}
-                                        onClick={() => switchParam(param.slug)}
-                                    >
-                                        {param.title}
-                                    </Button>
-                                ))}
-                            </div>
-                        )}
-                    {params.map((param) => {
-                        if (
-                            mode !== 'view' &&
-                            params.length > 1 &&
-                            !selected.includes(param.slug)
-                        )
-                            return null;
+                        {(mode === 'edit' || mode === 'update') &&
+                            params.length > 1 && (
+                                <div className="flex flex-wrap gap-2">
+                                    {params.map((param) => (
+                                        <Button
+                                            size="badge"
+                                            variant={
+                                                selected.includes(param.slug)
+                                                    ? 'default'
+                                                    : 'outline'
+                                            }
+                                            key={param.slug}
+                                            onClick={() =>
+                                                switchParam(param.slug)
+                                            }
+                                        >
+                                            {param.title}
+                                        </Button>
+                                    ))}
+                                </div>
+                            )}
+                        {params.map((param) => {
+                            if (
+                                mode !== 'view' &&
+                                params.length > 1 &&
+                                !selected.includes(param.slug)
+                            )
+                                return null;
 
-                        const ParamComponent = getEditParamComponent(
-                            param.type,
-                        );
+                            const ParamComponent = getEditParamComponent(
+                                param.type,
+                            );
 
-                        return (
-                            <ParamComponent
-                                key={param.slug}
-                                param={param}
-                                mode={mode === 'update' ? 'edit' : mode}
-                            />
-                        );
-                    })}
+                            return (
+                                <ParamComponent
+                                    key={param.slug}
+                                    param={param}
+                                    mode={mode === 'update' ? 'edit' : mode}
+                                />
+                            );
+                        })}
+                    </div>
                 </CollapsibleContent>
             </Collapsible>
         </Card>
