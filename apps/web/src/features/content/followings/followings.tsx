@@ -1,5 +1,7 @@
 import { type FC, useState } from 'react';
 
+import { range } from '@antfu/utils';
+
 import {
     ContentTypeEnum,
     getReadFollowingInfiniteOptions,
@@ -21,12 +23,17 @@ import {
     ResponsiveModalContent,
 } from '@/components/ui/responsive-modal';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
+import ContentRailSkeleton from '../content-rail-skeleton';
 import FollowingItem from './components/following-item';
+import FollowingItemSkeleton from './components/following-item-skeleton';
 import FollowingsModal from './followings-modal';
+
+const PREVIEW_SIZE = 3;
 
 type Props = {
     content_type: MainContentTypeEnum;
@@ -38,11 +45,15 @@ const Followings: FC<Props> = ({ content_type }) => {
     const [open, setOpen] = useState(false);
     useCloseOnRouteChange(setOpen);
 
+    const { ref, visible } = useVisibleOnce();
+    const isAnime = content_type === ContentTypeEnum.ANIME;
+
     const watchListQuery = useInfiniteList(
         getWatchFollowingInfiniteOptions({
             path: { slug: String(params.slug) },
+            query: { size: PREVIEW_SIZE },
         }),
-        { enabled: !!user && content_type === ContentTypeEnum.ANIME },
+        { enabled: !!user && isAnime && visible },
     );
 
     const readListQuery = useInfiniteList(
@@ -51,55 +62,72 @@ const Followings: FC<Props> = ({ content_type }) => {
                 slug: String(params.slug),
                 content_type: content_type as ReadContentTypeEnum,
             },
+            query: { size: PREVIEW_SIZE },
         }),
-        { enabled: !!user && content_type !== ContentTypeEnum.ANIME },
+        { enabled: !!user && !isAnime && visible },
     );
 
-    const list =
-        content_type === 'anime' ? watchListQuery.list : readListQuery.list;
+    const { list, pagination, isPending } = isAnime
+        ? watchListQuery
+        : readListQuery;
 
-    if (!list || list.length === 0) {
-        return null;
+    if (!list) {
+        return user && isPending ? (
+            <div ref={ref}>
+                <ContentRailSkeleton className="gap-6">
+                    {range(0, PREVIEW_SIZE).map((index) => (
+                        <FollowingItemSkeleton key={index} />
+                    ))}
+                </ContentRailSkeleton>
+            </div>
+        ) : null;
     }
 
-    const filteredFollowings = list?.slice(0, 3);
+    if (list.length === 0) {
+        return null;
+    }
 
     const title = (
         <span>
             Відстежується{' '}
-            {list && (
-                <span className="text-muted-foreground">({list.length})</span>
+            {pagination && (
+                <span className="text-muted-foreground">
+                    ({pagination.total})
+                </span>
             )}
         </span>
     );
 
     return (
         <>
-            <Card id="content-followings">
-                <Block>
-                    <Header onClick={() => setOpen(true)}>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">{title}</HeaderTitle>
-                        </HeaderContainer>
-                        <HeaderNavButton />
-                    </Header>
-                    <div className="flex flex-col gap-6">
-                        {filteredFollowings.map((item) => (
-                            <FollowingItem
-                                data={{
-                                    type: 'watch' in item ? 'watch' : 'read',
-                                    content:
-                                        'watch' in item
-                                            ? item.watch
-                                            : item.read,
-                                    ...item,
-                                }}
-                                key={item.reference}
-                            />
-                        ))}
-                    </div>
-                </Block>
-            </Card>
+            <div ref={ref}>
+                <Card id="content-followings">
+                    <Block>
+                        <Header onClick={() => setOpen(true)}>
+                            <HeaderContainer>
+                                <HeaderTitle variant="h4">{title}</HeaderTitle>
+                            </HeaderContainer>
+                            <HeaderNavButton />
+                        </Header>
+                        <div className="flex flex-col gap-6">
+                            {list.map((item) => (
+                                <FollowingItem
+                                    data={{
+                                        type:
+                                            'watch' in item ? 'watch' : 'read',
+                                        content:
+                                            'watch' in item
+                                                ? item.watch
+                                                : item.read,
+                                        ...item,
+                                    }}
+                                    key={item.reference}
+                                />
+                            ))}
+                        </div>
+                    </Block>
+                </Card>
+            </div>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="left" title="Відстежується">
                     <FollowingsModal content_type={content_type} />

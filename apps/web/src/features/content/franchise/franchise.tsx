@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
 import { useIsDesktop } from '@/services/hooks/use-media-query';
+import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import {
     UI_PREFS_DEFAULTS,
     useUiPreferences,
@@ -28,6 +29,7 @@ import { useParams } from '@/utils/navigation';
 
 import FranchiseFilters from './components/franchise-filters';
 import FranchiseItem from './components/franchise-item';
+import FranchiseSkeleton from './components/franchise-skeleton';
 
 type Props = {
     extended?: boolean;
@@ -36,6 +38,7 @@ type Props = {
 
 const Franchise: FC<Props> = ({ extended, content_type }) => {
     const isDesktop = useIsDesktop();
+    const { ref, visible } = useVisibleOnce();
 
     const params = useParams();
     const franchiseView = useUiPreferences(
@@ -52,17 +55,26 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
         ? franchiseContentTypes
         : UI_PREFS_DEFAULTS.filters.franchiseContentTypes;
 
-    const { data: franchise, error } = useQuery({
+    const {
+        data: franchise,
+        error,
+        isPending,
+    } = useQuery({
         ...contentFranchiseOptions({
             path: { content_type, slug: String(params.slug) },
         }),
+        enabled: extended || visible,
         select: (data) => ({
             list: [...data.anime, ...data.manga, ...data.novel],
         }),
     });
 
     if (!franchise) {
-        return null;
+        return !extended && !error && isPending ? (
+            <div ref={ref}>
+                <FranchiseSkeleton />
+            </div>
+        ) : null;
     }
 
     const sortedList = franchise.list.sort((a, b) => {
@@ -85,7 +97,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
         </span>
     );
 
-    return (
+    const block = (
         <Block id="content-franchise">
             <div className="flex items-center justify-between">
                 <Header
@@ -143,6 +155,8 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
             </Stack>
         </Block>
     );
+
+    return extended ? block : <div ref={ref}>{block}</div>;
 };
 
 export default Franchise;

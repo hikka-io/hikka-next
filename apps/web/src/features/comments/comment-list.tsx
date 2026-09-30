@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/header';
 import { LoginButton } from '@/features/auth';
 import { Sort } from '@/features/filters';
+import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
@@ -127,6 +128,9 @@ const CommentList: FC<Props> = ({
             ? stats
             : undefined;
 
+    const { ref: visibleRef, visible } = useVisibleOnce();
+    const deferred = !!preview && !comment_reference;
+
     const listQuery = useInfiniteList(
         getCommentsListInfiniteOptions({
             path: { content_type, slug },
@@ -142,7 +146,7 @@ const CommentList: FC<Props> = ({
             },
             query: preview ? { size: 3 } : undefined,
         }),
-        { enabled: !comment_reference },
+        { enabled: !comment_reference && (!deferred || visible) },
     );
 
     const threadQuery = useCommentThread(
@@ -156,9 +160,10 @@ const CommentList: FC<Props> = ({
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-        isLoading,
+        isLoading: isFetchingList,
         ref,
     } = comment_reference ? threadQuery : listQuery;
+    const isLoading = isFetchingList || (deferred && listQuery.isPending);
 
     // Content types without review chips have no other place to show a total.
     const headerTotal =
@@ -213,7 +218,7 @@ const CommentList: FC<Props> = ({
                 <HeaderNavButton />
             </Header>
             <CommentsProvider lazyThread={!comment_reference}>
-                <div className="flex flex-col gap-4">
+                <div ref={visibleRef} className="flex flex-col gap-4">
                     {showTypeTabs && (
                         <ChipTabs
                             options={chipOptions}

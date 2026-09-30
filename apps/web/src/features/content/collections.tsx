@@ -1,5 +1,7 @@
 import { type FC, useState } from 'react';
 
+import { range } from '@antfu/utils';
+
 import {
     type CollectionContentTypeEnum,
     type CollectionsListArgs,
@@ -7,7 +9,10 @@ import {
 } from '@hikka/api';
 
 import MaterialSymbolsStack from '@/components/icons/material-symbols/MaterialSymbolsStack';
-import { CollectionItem } from '@/components/list-items';
+import {
+    CollectionItem,
+    CollectionItemSkeleton,
+} from '@/components/list-items';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
@@ -23,8 +28,13 @@ import {
 } from '@/components/ui/responsive-modal';
 import { CollectionListModal } from '@/features/collections';
 import { useCloseOnRouteChange } from '@/services/hooks/use-close-on-route-change';
+import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
+
+import ContentRailSkeleton from './content-rail-skeleton';
+
+const PREVIEW_SIZE = 3;
 
 type Props = {
     content_type: CollectionContentTypeEnum;
@@ -40,32 +50,51 @@ const ContentCollections: FC<Props> = ({ content_type }) => {
         content: [String(params.slug)],
     };
 
-    const { list } = useInfiniteList(getCollectionsInfiniteOptions({ body }));
+    const { ref, visible } = useVisibleOnce();
+    const { list, isPending } = useInfiniteList(
+        getCollectionsInfiniteOptions({
+            body,
+            query: { size: PREVIEW_SIZE },
+        }),
+        { enabled: visible },
+    );
 
-    if (!list || list.length === 0) return null;
+    if (!list) {
+        return isPending ? (
+            <div ref={ref}>
+                <ContentRailSkeleton className="gap-6">
+                    {range(0, PREVIEW_SIZE).map((index) => (
+                        <CollectionItemSkeleton key={index} />
+                    ))}
+                </ContentRailSkeleton>
+            </div>
+        ) : null;
+    }
 
-    const filteredCollections = list?.slice(0, 3);
+    if (list.length === 0) return null;
 
     return (
         <>
-            <Card id="content-collections">
-                <Block>
-                    <Header onClick={() => setOpen(true)}>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Колекції</HeaderTitle>
-                        </HeaderContainer>
-                        <HeaderNavButton />
-                    </Header>
-                    <div className="flex flex-col gap-6">
-                        {filteredCollections.map((collection) => (
-                            <CollectionItem
-                                key={collection.reference}
-                                data={collection}
-                            />
-                        ))}
-                    </div>
-                </Block>
-            </Card>
+            <div ref={ref}>
+                <Card id="content-collections">
+                    <Block>
+                        <Header onClick={() => setOpen(true)}>
+                            <HeaderContainer>
+                                <HeaderTitle variant="h4">Колекції</HeaderTitle>
+                            </HeaderContainer>
+                            <HeaderNavButton />
+                        </Header>
+                        <div className="flex flex-col gap-6">
+                            {list.map((collection) => (
+                                <CollectionItem
+                                    key={collection.reference}
+                                    data={collection}
+                                />
+                            ))}
+                        </div>
+                    </Block>
+                </Card>
+            </div>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="left" title="Колекції">
                     <CollectionListModal

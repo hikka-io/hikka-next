@@ -11,8 +11,10 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 const ANIME_CONFIG = {
     useCharacters: (slug: string) =>
         useInfiniteList(animeCharactersInfiniteOptions({ path: { slug } })),
-    useStaff: (slug: string) =>
-        useInfiniteList(animeStaffInfiniteOptions({ path: { slug } })),
+    useStaff: (slug: string, enabled?: boolean) =>
+        useInfiniteList(animeStaffInfiniteOptions({ path: { slug } }), {
+            enabled,
+        }),
 };
 
 const MANGA_CONFIG = {

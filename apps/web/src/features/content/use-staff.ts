@@ -9,12 +9,13 @@ import { CONTENT_CONFIG } from './content-config';
 type StaffProps = {
     content_type: MainContentTypeEnum;
     slug: string;
+    enabled?: boolean;
 };
 
-export const useStaff = ({ content_type, slug }: StaffProps) => {
+export const useStaff = ({ content_type, slug, enabled }: StaffProps) => {
     if (content_type === ContentTypeEnum.ANIME) {
         // biome-ignore lint/correctness/useHookAtTopLevel: content_type is stable for a content page's lifetime, so the hook dispatch is consistent across renders.
-        return CONTENT_CONFIG.anime.useStaff(slug);
+        return CONTENT_CONFIG.anime.useStaff(slug, enabled);
     }
 
     // biome-ignore lint/correctness/useHookAtTopLevel: content_type is stable for a content page's lifetime, so the hook dispatch is consistent across renders.
@@ -22,6 +23,7 @@ export const useStaff = ({ content_type, slug }: StaffProps) => {
 
     return {
         list: query.data?.authors,
+        isPending: query.isPending,
         fetchNextPage: undefined,
         hasNextPage: false,
         isFetchingNextPage: false,

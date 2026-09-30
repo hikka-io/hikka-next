@@ -7,7 +7,6 @@
     "features/content/articles",
     "features/content/characters/components",
     "features/content/followings/components",
-    "features/content/franchise/components",
     "features/content/media/components",
     "features/filters/year",
     "features/home/widgets/collections-widget/components",

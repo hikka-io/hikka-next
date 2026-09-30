@@ -12,9 +12,11 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import Stack from '@/components/ui/stack';
+import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { useParams } from '@/utils/navigation';
 
+import StaffSkeleton from './staff-skeleton';
 import { useStaff } from './use-staff';
 
 type Props = {
@@ -24,16 +26,35 @@ type Props = {
 
 const ContentStaff: FC<Props> = ({ extended, content_type }) => {
     const params = useParams();
-    const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
-        useStaff({ content_type, slug: String(params.slug) });
+    const { ref: visibleRef, visible } = useVisibleOnce();
+    const {
+        list,
+        isPending,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        ref,
+    } = useStaff({
+        content_type,
+        slug: String(params.slug),
+        enabled: extended || visible,
+    });
 
-    if (!list || list.length === 0) {
+    if (!list) {
+        return !extended && isPending ? (
+            <div ref={visibleRef}>
+                <StaffSkeleton />
+            </div>
+        ) : null;
+    }
+
+    if (list.length === 0) {
         return null;
     }
 
     const filteredData = extended ? list : list.slice(0, 5);
 
-    return (
+    const block = (
         <Block id="content-staff">
             <Header
                 href={
@@ -71,6 +92,8 @@ const ContentStaff: FC<Props> = ({ extended, content_type }) => {
             )}
         </Block>
     );
+
+    return extended ? block : <div ref={visibleRef}>{block}</div>;
 };
 
 export default ContentStaff;
