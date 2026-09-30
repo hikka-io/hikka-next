@@ -10,6 +10,8 @@ import {
     ContentTypeEnum,
 } from '@hikka/api';
 
+import { newId } from '@/utils/new-id';
+
 // `@hikka/api` has no single `CollectionContent` alias; the per-item content
 // union (with `slug`/`title`) lives on `CollectionContentResponse['content']`.
 type CollectionContent = CollectionContentResponse['content'];
@@ -98,7 +100,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
         content_type: ContentTypeEnum.ANIME,
         groups: [
             {
-                id: crypto.randomUUID(),
+                id: newId(),
                 title: null,
                 items: [],
             },
@@ -123,7 +125,7 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
         addGroup: () => {
             const { groups } = get();
             const newGroup: Group = {
-                id: crypto.randomUUID(),
+                id: newId(),
                 title: '',
                 items: [],
             };

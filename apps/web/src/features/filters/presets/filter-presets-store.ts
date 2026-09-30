@@ -2,7 +2,8 @@ import { z } from 'zod';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { newId } from './new-id';
+import { newId } from '@/utils/new-id';
+
 import type { FilterPreset } from './types';
 
 export interface FilterPresetsState {

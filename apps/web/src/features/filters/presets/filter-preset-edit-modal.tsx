@@ -7,6 +7,7 @@ import { useAppForm } from '@/components/form';
 import { Button } from '@/components/ui/button';
 import { ResponsiveModalFooter } from '@/components/ui/responsive-modal';
 import { cn } from '@/utils/cn';
+import { newId } from '@/utils/new-id';
 import { DATE_RANGE } from '@/utils/season';
 import type { SortType } from '@/utils/sort';
 
@@ -28,7 +29,6 @@ import {
     filterPresetFormOptions,
 } from './filter-preset-form';
 import { useFilterPresetsStore } from './filter-presets-store';
-import { newId } from './new-id';
 import type { FilterPreset } from './types';
 
 const arraysEqual = (a: unknown[] | undefined, b: unknown[] | undefined) =>
