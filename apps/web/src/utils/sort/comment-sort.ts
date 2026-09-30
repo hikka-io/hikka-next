@@ -36,7 +36,7 @@ export const COMMENT_SORT_OPTIONS: readonly Readonly<{
 export const DEFAULT_COMMENT_SORT: CommentSort = 'created';
 export const DEFAULT_COMMENT_ORDER: CommentOrder = 'desc';
 
-export function isCommentSort(value: unknown): value is CommentSort {
+function isCommentSort(value: unknown): value is CommentSort {
     return COMMENT_SORT_VALUES.includes(value as CommentSort);
 }
 

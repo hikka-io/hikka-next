@@ -1,6 +1,6 @@
 export type { BadgeFilterFieldProps } from './badge-filter-field';
 export { default as BadgeFilterField } from './badge-filter-field';
-export { useFieldContext, useFormContext } from './form-context';
+export { useFormContext } from './form-context';
 export type { SelectFieldProps } from './select-field';
 export { default as SelectField } from './select-field';
 export type { SliderFieldProps } from './slider-field';

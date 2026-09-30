@@ -3,7 +3,7 @@ import type { ReactElement, SVGProps } from 'react';
 import MaterialSymbolsCheckRounded from '@/components/icons/material-symbols/MaterialSymbolsCheckRounded';
 import MaterialSymbolsWarningOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsWarningOutlineRounded';
 
-export type ScopeLevel = {
+type ScopeLevel = {
     icon: (props: SVGProps<SVGSVGElement>) => ReactElement;
     color: string;
 };
@@ -14,7 +14,7 @@ export type Scope = {
     title_ua: string;
 };
 
-export type ScopeGroup = {
+type ScopeGroup = {
     slug: string;
     title_ua: string;
     level: ScopeLevel;

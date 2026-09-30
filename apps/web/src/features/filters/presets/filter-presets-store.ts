@@ -11,7 +11,7 @@ export interface FilterPresetsState {
     _hasHydrated: boolean;
 }
 
-export interface FilterPresetsActions {
+interface FilterPresetsActions {
     setHasHydrated: (hasHydrated: boolean) => void;
     setFilterPresets: (filterPresets: FilterPreset[]) => void;
     reset: () => void;

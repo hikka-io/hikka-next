@@ -6,7 +6,7 @@ export interface EditTagsState {
     _hasHydrated: boolean;
 }
 
-export interface EditTagsActions {
+interface EditTagsActions {
     setHasHydrated: (hasHydrated: boolean) => void;
     setEditTags: (editTags: string[]) => void;
     reset: () => void;

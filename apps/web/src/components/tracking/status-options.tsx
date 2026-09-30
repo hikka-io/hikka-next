@@ -26,7 +26,7 @@ export const StatusIconChip: FC<StatusIconChipProps> = ({ status, icon }) => (
 type StatusConfig = typeof WATCH_STATUS | typeof READ_STATUS;
 type StatusIcons = typeof WATCH_STATUS_ICONS | typeof READ_STATUS_ICONS;
 
-export const buildStatusOptions = (config: StatusConfig, icons: StatusIcons) =>
+const buildStatusOptions = (config: StatusConfig, icons: StatusIcons) =>
     Object.keys(config).map((status) => ({
         value: status,
         title: config[status as keyof StatusConfig].title_ua,

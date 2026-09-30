@@ -1,5 +1,5 @@
 export { COOKIE } from './constants';
-export { getCookieDomain, isSecureCookieDomain } from './domain';
+export { getCookieDomain } from './domain';
 export { clearCookieHeader, makeCookieHeader } from './headers';
 export {
     clearNsfwConsent,
@@ -7,7 +7,6 @@ export {
     hasNsfwSessionConsent,
 } from './nsfw-consent';
 export {
-    clearNsfwConsentFn,
     getAuthTokenFn,
     getNsfwConsentFn,
     getThemeCookieFn,

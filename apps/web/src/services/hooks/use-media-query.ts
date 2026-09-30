@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { minWidth } from '@/utils/breakpoints';
 
-export function useMediaQuery(query: string) {
+function useMediaQuery(query: string) {
     const [value, setValue] = React.useState(false);
 
     React.useEffect(() => {
