@@ -17,19 +17,43 @@ export const SITEMAP_RESPONSE_HEADERS = {
     'Cache-Control': 'public, max-age=3600, s-maxage=3600',
 };
 
+const SITEMAP_ENTRIES_TTL_MS = 60 * 60 * 1000;
+
+const sitemapEntriesCache = new Map<
+    MainContentTypeEnum,
+    { expiresAt: number; entries: Promise<SitemapResponse[]> }
+>();
+
 /**
  * Fetch the static sitemap JSON for a content type via the generated client's
- * low-level request (these endpoints are not part of the OpenAPI spec).
+ * low-level request (these endpoints are not part of the OpenAPI spec). The
+ * slug lists are large, so they are memoized per process for an hour; the
+ * in-flight promise is shared and a failed fetch is never kept.
  */
-export async function fetchSitemapEntries(
+export function fetchSitemapEntries(
     client: Client,
     type: MainContentTypeEnum,
 ): Promise<SitemapResponse[]> {
-    const { data } = await client.get<SitemapResponse[], unknown, true>({
-        url: `/sitemap/sitemap_${type}.json`,
-        throwOnError: true,
+    const cached = sitemapEntriesCache.get(type);
+    if (cached && cached.expiresAt > Date.now()) return cached.entries;
+
+    const entry = {
+        expiresAt: Date.now() + SITEMAP_ENTRIES_TTL_MS,
+        entries: client
+            .get<SitemapResponse[], unknown, true>({
+                url: `/sitemap/sitemap_${type}.json`,
+                throwOnError: true,
+            })
+            .then(({ data }) => data),
+    };
+    sitemapEntriesCache.set(type, entry);
+    entry.entries.catch(() => {
+        if (sitemapEntriesCache.get(type) === entry) {
+            sitemapEntriesCache.delete(type);
+        }
     });
-    return data;
+
+    return entry.entries;
 }
 
 const URLS_PER_SITEMAP = 10_000;
