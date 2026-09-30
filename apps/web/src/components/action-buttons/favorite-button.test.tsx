@@ -180,6 +180,44 @@ describe('FavoriteButton', () => {
         expect(isFilled(container)).toBe(false);
     });
 
+    it('disables the toggle and writes nothing when the fetch fails with another error', async () => {
+        getStatus = 500;
+        const { container } = await mount(button());
+
+        expect(container.querySelector('button')?.disabled).toBe(true);
+
+        await click(container);
+
+        expect(calls).toEqual([{ method: 'GET', url: URL }]);
+    });
+
+    it.each([
+        [200, true, 'DELETE'],
+        [404, false, 'PUT'],
+    ])(
+        'keeps the known state after a failed refetch (GET %s)',
+        async (status, filled, method) => {
+            getStatus = status;
+            const { container, queryClient } = await mount(button());
+
+            getStatus = 500;
+            await act(async () => {
+                await queryClient.invalidateQueries();
+            });
+            await flush();
+
+            expect(
+                queryClient.getQueryCache().get(entryHash())?.state.status,
+            ).toBe('error');
+            expect(isFilled(container)).toBe(filled);
+            expect(container.querySelector('button')?.disabled).toBe(false);
+
+            await click(container);
+
+            expect(calls.at(-1)).toEqual({ method, url: URL });
+        },
+    );
+
     it('does not fetch while disabled', async () => {
         await mount(button({ disabled: true }));
 

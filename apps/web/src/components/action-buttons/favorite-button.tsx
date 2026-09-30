@@ -56,7 +56,8 @@ const FavoriteButton = ({
                 applyFavouriteDeletion(queryClient, content_type, slug),
         });
 
-    const isFavorite = Boolean(favorite) && !favoriteError;
+    const isFavorite = Boolean(favorite);
+    const favoriteUnreadable = favorite === undefined && favoriteError;
 
     return (
         <Tooltip delay={0}>
@@ -67,6 +68,7 @@ const FavoriteButton = ({
                         size="icon-md"
                         disabled={
                             disabled ||
+                            favoriteUnreadable ||
                             addToFavoriteLoading ||
                             deleteFromFavoriteLoading
                         }
