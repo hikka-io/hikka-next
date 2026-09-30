@@ -3,7 +3,8 @@ import { type FC, useMemo, useState } from 'react';
 import { Star } from 'lucide-react';
 
 import {
-    type CommentContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum,
+    type CommentTypeEnum,
     getCommentsListInfiniteOptions,
 } from '@hikka/api';
 
@@ -33,7 +34,7 @@ import { getCommentSort } from '@/utils/sort';
 import CommentInput from './comment-input';
 import { CommentListSkeleton } from './comment-skeleton';
 import CommentTree from './comment-tree';
-import { COMMENT_TYPE_OPTIONS, type CommentType } from './comment-type-options';
+import { COMMENT_TYPE_OPTIONS } from './comment-type-options';
 import CommentsProvider from './comments-provider';
 import { getReviewTotal, supportsReviews, type Verdict } from './review/review';
 import ReviewStatsCard from './review/review-stats-card';
@@ -44,13 +45,13 @@ import { buildCommentTree, type CommentNode } from './utils/build-comment-tree';
 
 type Props = {
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     comment_reference?: string;
     preview?: boolean;
     className?: string;
     contentTitle?: string;
-    commentType?: CommentType;
-    onCommentTypeChange?: (type: CommentType) => void;
+    commentType?: CommentTypeEnum;
+    onCommentTypeChange?: (type: CommentTypeEnum) => void;
     verdict?: Verdict | null;
     onVerdictChange?: (verdict: Verdict | null) => void;
 } & CommentSortProps;
@@ -71,7 +72,7 @@ const CommentList: FC<Props> = ({
     const { user: loggedUser } = useSession();
     const hasReviews = supportsReviews(content_type);
     const [localCommentType, setLocalCommentType] =
-        useState<CommentType>('all');
+        useState<CommentTypeEnum>('all');
     const [localVerdict, setLocalVerdict] = useState<Verdict | null>(null);
     const commentType = controlledCommentType ?? localCommentType;
     // `!== undefined`, not `??`: `null` is a valid controlled value meaning
@@ -79,7 +80,7 @@ const CommentList: FC<Props> = ({
     const verdict =
         controlledVerdict !== undefined ? controlledVerdict : localVerdict;
 
-    const setCommentType = (type: CommentType) => {
+    const setCommentType = (type: CommentTypeEnum) => {
         if (onCommentTypeChange) {
             onCommentTypeChange(type);
         } else {
@@ -107,7 +108,7 @@ const CommentList: FC<Props> = ({
         // `comments_count` already includes reviews, so the plain comment count
         // is the remainder. Clamped: the two numbers come from different
         // snapshots of the same content and can disagree briefly.
-        const counts: Record<CommentType, number> = {
+        const counts: Record<CommentTypeEnum, number> = {
             all: commentsCount,
             comment: Math.max(commentsCount - reviewsTotal, 0),
             review: reviewsTotal,

@@ -4,6 +4,7 @@ import {
     EditContentToDoEnum,
     EditContentTypeEnum,
     FavouriteContentTypeEnum,
+    ReviewRecommendedEnum,
 } from '@hikka/api';
 
 import { COMMENT_SORT_VALUES } from '@/utils/sort';
@@ -141,7 +142,10 @@ export const editNewSearchSchema = z.object({
 
 export const commentsSearchSchema = z.object({
     comment_type: z.enum(['comment', 'review']).optional().catch(undefined),
-    recommended: z.enum(['yes', 'no', 'maybe']).optional().catch(undefined),
+    recommended: z
+        .nativeEnum(ReviewRecommendedEnum)
+        .optional()
+        .catch(undefined),
     first_level_only: optionalTrue.catch(undefined),
     sort: z.enum(COMMENT_SORT_VALUES).optional().catch(undefined),
     order: z.enum(['asc', 'desc']).optional().catch(undefined),

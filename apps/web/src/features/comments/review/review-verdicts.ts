@@ -1,6 +1,6 @@
 import { type LucideIcon, Meh, ThumbsDown, ThumbsUp } from 'lucide-react';
 
-import type { Verdict } from './review';
+import { ReviewRecommendedEnum } from '@hikka/api';
 
 /**
  * The three review verdicts, in display order. The composer and the stats card
@@ -8,7 +8,7 @@ import type { Verdict } from './review';
  * with each consumer — an outline button and a chip tint share nothing.
  */
 export const REVIEW_VERDICTS: {
-    value: Verdict;
+    value: ReviewRecommendedEnum;
     icon: LucideIcon;
     /** First person, for the composer. */
     label: string;
@@ -16,19 +16,19 @@ export const REVIEW_VERDICTS: {
     statsLabel: string;
 }[] = [
     {
-        value: 'yes',
+        value: ReviewRecommendedEnum.YES,
         icon: ThumbsUp,
         label: 'Рекомендую',
         statsLabel: 'Рекомендують',
     },
     {
-        value: 'maybe',
+        value: ReviewRecommendedEnum.MAYBE,
         icon: Meh,
         label: 'Вагаюсь',
         statsLabel: 'Вагаються',
     },
     {
-        value: 'no',
+        value: ReviewRecommendedEnum.NO,
         icon: ThumbsDown,
         label: 'Не рекомендую',
         statsLabel: 'Не рекомендують',

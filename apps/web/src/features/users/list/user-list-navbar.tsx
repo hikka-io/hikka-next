@@ -47,6 +47,7 @@ import { CONTENT_TYPES, LIST_STATUS } from '@/utils/labels';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
 
+import { USER_LIST_FILTERS_SIDEBAR_KEY } from './filters-sidebar-key';
 import UserListFiltersModal from './user-list-filters-modal';
 
 const STATUSES = { ...LIST_STATUS.watch, ...LIST_STATUS.read };
@@ -244,7 +245,9 @@ const UserListNavbar: FC<Props> = ({ content_type }) => {
                         )}
                     />
 
-                    <FiltersSidebarToggle storageKey="userlist_filters_sidebar" />
+                    <FiltersSidebarToggle
+                        storageKey={USER_LIST_FILTERS_SIDEBAR_KEY}
+                    />
                 </div>
             </div>
         </>

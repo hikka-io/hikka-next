@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import {
-    type CommentContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum,
     ContentTypeEnum,
     type ReviewStatsResponse,
 } from '@hikka/api';
@@ -9,7 +9,7 @@ import {
 import { contentInfoOptions } from '@/utils/api/content-queries';
 
 type Params = {
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     slug: string;
 };
 
@@ -49,7 +49,7 @@ export function useReviewStats({ content_type, slug }: Params): Result {
         select,
     });
 
-    const byType: Partial<Record<CommentsContentType, Result>> = {
+    const byType: Partial<Record<CommentContentTypeEnum, Result>> = {
         [ContentTypeEnum.ANIME]: animeQuery.data,
         [ContentTypeEnum.MANGA]: mangaQuery.data,
         [ContentTypeEnum.NOVEL]: novelQuery.data,

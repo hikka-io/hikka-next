@@ -1,9 +1,6 @@
 import type { FC } from 'react';
 
-import type {
-    CommentContentTypeEnum as CommentsContentType,
-    ContentTypeEnum,
-} from '@hikka/api';
+import type { CommentContentTypeEnum, ContentTypeEnum } from '@hikka/api';
 
 import PosterCard from '@/components/content-card/poster-card';
 import Card from '@/components/ui/card';
@@ -20,7 +17,7 @@ import { useContent } from './use-content';
 
 type Props = {
     slug: string;
-    content_type: CommentsContentType | typeof ContentTypeEnum.USER;
+    content_type: CommentContentTypeEnum | typeof ContentTypeEnum.USER;
 };
 
 const ContentHeader: FC<Props> = ({ slug, content_type }) => {

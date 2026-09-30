@@ -10,11 +10,11 @@ import { MarkdownEditorKit } from './markdown-editor-kit';
 import { withoutTriggerPlugins } from './plugins/trigger-plugins';
 import { useEditorApi } from './use-editor-api';
 
-interface UsePlateMarkdownSetupOptions {
+type UsePlateMarkdownSetupOptions = {
     value?: string;
     modalDefaultOpen?: boolean;
     editorId?: string;
-}
+};
 
 export function usePlateMarkdownSetup(options: UsePlateMarkdownSetupOptions) {
     const editor = usePlateEditor({

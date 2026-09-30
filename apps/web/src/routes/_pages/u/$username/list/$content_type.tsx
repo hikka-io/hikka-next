@@ -19,7 +19,11 @@ import {
     ReadFilters,
     useFiltersSidebar,
 } from '@/features/filters';
-import { UserList, UserListNavbar } from '@/features/users';
+import {
+    USER_LIST_FILTERS_SIDEBAR_KEY,
+    UserList,
+    UserListNavbar,
+} from '@/features/users';
 import {
     userReadListOptions,
     userWatchListOptions,
@@ -27,8 +31,6 @@ import {
 import { CONTENT_TYPES } from '@/utils/labels';
 import { generateHeadMeta } from '@/utils/metadata';
 import { userlistSearchSchema } from '@/utils/search-schemas';
-
-const FILTERS_SIDEBAR_KEY = 'userlist_filters_sidebar';
 
 export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
     validateSearch: zodValidator(userlistSearchSchema),
@@ -76,7 +78,9 @@ function ListPage() {
     const { username, content_type: rawContentType } = Route.useParams();
     const content_type = rawContentType as MainContentTypeEnum;
     const isAnime = content_type === ContentTypeEnum.ANIME;
-    const { visible: sidebarVisible } = useFiltersSidebar(FILTERS_SIDEBAR_KEY);
+    const { visible: sidebarVisible } = useFiltersSidebar(
+        USER_LIST_FILTERS_SIDEBAR_KEY,
+    );
     const { view } = useCatalogView('userlist');
 
     const extendedSize: StackSize = sidebarVisible ? 5 : 7;
@@ -96,7 +100,7 @@ function ListPage() {
             />
 
             <FiltersSidebarLayout
-                storageKey={FILTERS_SIDEBAR_KEY}
+                storageKey={USER_LIST_FILTERS_SIDEBAR_KEY}
                 sidebar={
                     isAnime ? (
                         <AnimeFilters

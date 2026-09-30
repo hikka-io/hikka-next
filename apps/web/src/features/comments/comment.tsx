@@ -2,7 +2,7 @@ import { type FC, useMemo, useState } from 'react';
 
 import { CirclePlus } from 'lucide-react';
 
-import type { CommentContentTypeEnum as CommentsContentType } from '@hikka/api';
+import type { CommentContentTypeEnum } from '@hikka/api';
 
 import { HorizontalCardImage } from '@/components/horizontal-card';
 import { MDViewer } from '@/components/markdown';
@@ -31,7 +31,7 @@ import { mergePendingReplies } from './utils/merge-pending-replies';
 type Props = {
     comment: CommentNode;
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     contentTitle?: string;
 };
 

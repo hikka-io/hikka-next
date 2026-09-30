@@ -45,7 +45,7 @@ const DEFAULT_VALUES: Omit<FilterPresetFormValues, 'name' | 'content_types'> = {
 };
 
 export const filterPresetFormOptions = formOptions({
-    // A new preset starts without name and content_types, which only the submit schema requires.
+    // name and content_types are required only by the submit schema
     defaultValues: DEFAULT_VALUES as FilterPresetFormValues,
     validators: { onSubmit: filterPresetFormSchema },
 });

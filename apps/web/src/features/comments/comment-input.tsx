@@ -2,10 +2,7 @@ import { type FC, useEffect, useState } from 'react';
 
 import { Plate } from 'platejs/react';
 
-import type {
-    CommentResponse,
-    CommentContentTypeEnum as CommentsContentType,
-} from '@hikka/api';
+import type { CommentContentTypeEnum, CommentResponse } from '@hikka/api';
 
 import { EditorPreview } from '@/components/plate/editor/markdown-editor';
 import { usePlateMarkdownSetup } from '@/components/plate/editor/use-plate-markdown-setup';
@@ -27,7 +24,7 @@ import VerdictPicker from './review/verdict-picker';
 
 type Props = {
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     comment?: CommentResponse;
     className?: string;
     isEdit?: boolean;

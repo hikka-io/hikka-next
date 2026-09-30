@@ -4,8 +4,9 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import {
     API_LIMITS,
     type Client,
-    type CommentContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum,
     type CommentsFilterArgs,
+    type CommentTypeEnum,
     ContentTypeEnum,
     configureBrowserClient,
     createRequestClient,
@@ -21,7 +22,6 @@ import {
     getCommentSort,
 } from '@/utils/sort';
 
-import type { CommentType } from './comment-type-options';
 import {
     commentListPrefetchBody,
     commentThreadInfiniteOptions,
@@ -36,10 +36,10 @@ const editId = '571627';
 type ListOptions = ReturnType<typeof getCommentsListInfiniteOptions>;
 
 type ComponentListProps = {
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     slug: string;
     preview?: boolean;
-    commentType?: CommentType;
+    commentType?: CommentTypeEnum;
     verdict?: Verdict | null;
     sort?: string;
     order?: CommentOrder;
@@ -134,7 +134,7 @@ const LOADER_CASES = [
         loader: (body: CommentsFilterArgs, client: Client) =>
             getCommentsListInfiniteOptions({
                 path: {
-                    content_type: 'edit' as CommentsContentType,
+                    content_type: 'edit' as CommentContentTypeEnum,
                     slug: editId,
                 },
                 body,

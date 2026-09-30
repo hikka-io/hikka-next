@@ -1,4 +1,4 @@
-import { ContentTypeEnum } from '@hikka/api';
+import { CollectionContentTypeEnum, ContentTypeEnum } from '@hikka/api';
 
 import type { FilterProperty } from './enum-labels';
 
@@ -58,23 +58,23 @@ export const CONTENT_TYPES = {
 
 export const COLLECTION_CONTENT_TYPE_OPTIONS = [
     {
-        value: 'anime',
+        value: CollectionContentTypeEnum.ANIME,
         label: 'Аніме',
     },
     {
-        value: 'manga',
+        value: CollectionContentTypeEnum.MANGA,
         label: 'Манґа',
     },
     {
-        value: 'novel',
+        value: CollectionContentTypeEnum.NOVEL,
         label: 'Ранобе',
     },
     {
-        value: 'character',
+        value: CollectionContentTypeEnum.CHARACTER,
         label: 'Персонаж',
     },
     {
-        value: 'person',
+        value: CollectionContentTypeEnum.PERSON,
         label: 'Людина',
     },
-];
+] satisfies { value: CollectionContentTypeEnum; label: string }[];

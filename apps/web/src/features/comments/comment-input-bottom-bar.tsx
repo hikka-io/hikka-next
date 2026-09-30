@@ -7,8 +7,8 @@ import { useEditorRef, useEditorSelector, useEditorValue } from 'platejs/react';
 
 import {
     API_LIMITS,
+    type CommentContentTypeEnum,
     type CommentResponse,
-    type CommentContentTypeEnum as CommentsContentType,
     editCommentMutation,
     writeCommentMutation,
 } from '@hikka/api';
@@ -37,7 +37,7 @@ const codePointLength = (text: string) => Array.from(text).length;
 
 type Props = {
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     comment?: CommentResponse;
     className?: string;
     isEdit?: boolean;

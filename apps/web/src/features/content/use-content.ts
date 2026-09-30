@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import {
-    type CommentContentTypeEnum as CommentsContentType,
+    type CommentContentTypeEnum,
     ContentTypeEnum,
     type EditContentTypeEnum as EditContentType,
 } from '@hikka/api';
@@ -12,7 +12,7 @@ import { getContentTitle } from '@/utils/title/get-content-title';
 
 interface UseContentParams {
     content_type:
-        | CommentsContentType
+        | CommentContentTypeEnum
         | EditContentType
         | typeof ContentTypeEnum.USER;
     slug: string;

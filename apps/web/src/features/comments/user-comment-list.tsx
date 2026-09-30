@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Star } from 'lucide-react';
 
 import {
+    type CommentTypeEnum,
     getCommentsUserInfiniteOptions,
     serviceUserStatsOptions,
 } from '@hikka/api';
@@ -28,7 +29,7 @@ import { cn } from '@/utils/cn';
 import { getCommentSort } from '@/utils/sort';
 
 import { CommentListSkeleton } from './comment-skeleton';
-import { COMMENT_TYPE_OPTIONS, type CommentType } from './comment-type-options';
+import { COMMENT_TYPE_OPTIONS } from './comment-type-options';
 import CommentsProvider from './comments-provider';
 import { type CommentSortProps, useCommentSort } from './use-comment-sort';
 import UserComment from './user-comment';
@@ -36,8 +37,8 @@ import UserComment from './user-comment';
 type Props = {
     username: string;
     className?: string;
-    commentType?: CommentType;
-    onCommentTypeChange?: (type: CommentType) => void;
+    commentType?: CommentTypeEnum;
+    onCommentTypeChange?: (type: CommentTypeEnum) => void;
     firstLevelOnly?: boolean;
     onFirstLevelOnlyChange?: (value: boolean) => void;
 } & CommentSortProps;
@@ -52,7 +53,7 @@ const UserCommentList: FC<Props> = ({
     ...sortProps
 }) => {
     const [localCommentType, setLocalCommentType] =
-        useState<CommentType>('all');
+        useState<CommentTypeEnum>('all');
     const [localFirstLevelOnly, setLocalFirstLevelOnly] = useState(false);
     const commentType = controlledCommentType ?? localCommentType;
     const setCommentType = onCommentTypeChange ?? setLocalCommentType;
@@ -71,7 +72,7 @@ const UserCommentList: FC<Props> = ({
 
         if (total === 0) return COMMENT_TYPE_OPTIONS;
 
-        const counts: Record<CommentType, number> = {
+        const counts: Record<CommentTypeEnum, number> = {
             all: total,
             comment: comments,
             review: reviews,

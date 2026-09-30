@@ -5,8 +5,8 @@ import { Copy, MessageSquare, Star } from 'lucide-react';
 import { toast } from 'sonner';
 
 import {
+    type CommentContentTypeEnum,
     type CommentResponse,
-    type CommentContentTypeEnum as CommentsContentType,
     hideCommentMutation,
 } from '@hikka/api';
 
@@ -42,7 +42,7 @@ import { canConvertReview, canDemoteReview } from './review/review';
 type Props = {
     comment: CommentResponse;
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     /** Off where no inline editor is mounted to answer `setEdit`. */
     editable?: boolean;
 };

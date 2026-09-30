@@ -9,8 +9,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
     API_LIMITS,
+    type CommentContentTypeEnum,
     type CommentResponse,
-    type CommentContentTypeEnum as CommentsContentType,
 } from '@hikka/api';
 
 import { MarkdownEditorKit } from '@/components/plate/editor/markdown-editor-kit';
@@ -113,7 +113,7 @@ async function mount(
                     <PlateSlate>
                         <CommentInputBottomBar
                             slug="some-slug"
-                            content_type={'anime' as CommentsContentType}
+                            content_type={'anime' as CommentContentTypeEnum}
                             {...props}
                         />
                     </PlateSlate>

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import type { CommentContentTypeEnum as CommentsContentType } from '@hikka/api';
+import type { CommentContentTypeEnum } from '@hikka/api';
 
 import { cn } from '@/utils/cn';
 
@@ -10,7 +10,7 @@ import type { CommentNode } from './utils/build-comment-tree';
 type Props = {
     comments: CommentNode[];
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
     contentTitle?: string;
     nested?: boolean;
     /** Something follows this list inside the same thread (a load-more row). */

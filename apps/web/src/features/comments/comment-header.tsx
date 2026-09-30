@@ -1,9 +1,6 @@
 import type { FC } from 'react';
 
-import type {
-    CommentResponse,
-    CommentContentTypeEnum as CommentsContentType,
-} from '@hikka/api';
+import type { CommentContentTypeEnum, CommentResponse } from '@hikka/api';
 
 import AuthorMetaRow from '@/components/author-meta-row';
 import { ReviewBadge } from '@/components/badges';
@@ -13,7 +10,7 @@ import CommentMenu from './comment-menu';
 type Props = {
     comment: CommentResponse;
     slug: string;
-    content_type: CommentsContentType;
+    content_type: CommentContentTypeEnum;
 };
 
 const CommentHeader: FC<Props> = ({ comment, slug, content_type }) => {
