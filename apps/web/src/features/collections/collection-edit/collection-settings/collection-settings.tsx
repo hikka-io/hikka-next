@@ -41,7 +41,10 @@ import { COLLECTION_CONTENT_TYPE_OPTIONS } from '@/utils/labels';
 import { Link, useParams, useRouter } from '@/utils/navigation';
 import { isValidTitleLength } from '@/utils/title-length';
 
-import { useCollectionContext } from '../collection-provider';
+import {
+    useCollectionContext,
+    useCollectionStore,
+} from '../collection-provider';
 import GroupInputs from './components/group-inputs';
 
 const COLLECTION_VISIBILITY_OPTIONS = [
@@ -67,6 +70,7 @@ const CollectionEditSettings: FC<Props> = ({ mode = 'create' }) => {
     const router = useRouter();
     const params = useParams();
     const queryClient = useQueryClient();
+    const store = useCollectionStore();
 
     const groups = useCollectionContext((state) => state.groups);
     const title = useCollectionContext((state) => state.title);
@@ -107,7 +111,8 @@ const CollectionEditSettings: FC<Props> = ({ mode = 'create' }) => {
     const { mutate: mutateUpdateCollection, isPending: isUpdatePending } =
         useMutation({
             ...updateCollectionMutation(),
-            onSuccess: (_data) => {
+            onSuccess: (data, { body }) => {
+                store.getState().applySaved(body, data);
                 invalidateCollections(queryClient);
                 toast.success('Ви успішно оновили колекцію.');
             },

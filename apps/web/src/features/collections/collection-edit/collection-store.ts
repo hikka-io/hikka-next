@@ -79,7 +79,7 @@ export type CollectionActions = {
         overIndex: number,
     ) => void;
 
-    setApiData: (data: CollectionResponse) => void;
+    applySaved: (sent: CollectionArgs, saved: CollectionResponse) => void;
     getApiData: () => CollectionArgs;
 };
 
@@ -91,6 +91,72 @@ function updateGroup(
     updater: (group: Group) => Group,
 ): Group[] {
     return groups.map((g) => (g.id === groupId ? updater(g) : g));
+}
+
+const sameItems = (a: Item[], b: Item[]) =>
+    a.length === b.length && a.every((item, index) => item === b[index]);
+
+export function groupsFromCollection(
+    collection: CollectionResponse,
+    previous: Group[] = [],
+): Group[] {
+    const previousItems = new Map(
+        previous.flatMap((group) =>
+            group.items.map((item) => [item.id, item] as const),
+        ),
+    );
+    const usedIds = new Set<string>();
+    const groups: Group[] = [];
+
+    for (const entry of collection.collection) {
+        let group = groups.find((g) => g.title === entry.label);
+        if (!group) {
+            const id =
+                previous.find((g) => g.title === entry.label)?.id ??
+                entry.label ??
+                'default';
+            group = {
+                id: usedIds.has(id) ? newId() : id,
+                title: entry.label,
+                items: [],
+            };
+            usedIds.add(group.id);
+            groups.push(group);
+        }
+
+        const comment = entry.comment ?? undefined;
+        const kept = previousItems.get(entry.content.slug);
+        group.items.push(
+            kept && kept.comment === comment
+                ? kept
+                : { id: entry.content.slug, content: entry.content, comment },
+        );
+    }
+
+    return groups.map((group) => {
+        const kept = previous.find((g) => g.id === group.id);
+        return kept &&
+            kept.title === group.title &&
+            sameItems(kept.items, group.items)
+            ? kept
+            : group;
+    });
+}
+
+export function collectionState(
+    collection: CollectionResponse,
+    previousGroups?: Group[],
+): CollectionState {
+    return {
+        title: collection.title,
+        description: collection.description,
+        content_type: collection.content_type,
+        groups: groupsFromCollection(collection, previousGroups),
+        nsfw: collection.nsfw,
+        spoiler: collection.spoiler,
+        visibility: collection.visibility,
+        tags: collection.tags,
+    };
 }
 
 export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
@@ -247,35 +313,12 @@ export const createCollectionStore = (initProps?: Partial<CollectionState>) => {
             });
         },
 
-        setApiData: (data) => {
-            const groups = data.collection.reduce<Group[]>((acc, item) => {
-                let group = acc.find((g) => g.title === item.label);
-                if (!group) {
-                    group = {
-                        id: item.label || 'default',
-                        title: item.label,
-                        items: [],
-                    };
-                    acc.push(group);
-                }
-                group.items.push({
-                    id: item.content.slug,
-                    content: item.content,
-                    comment: item.comment ?? undefined,
-                });
-                return acc;
-            }, []);
-
-            set({
-                title: data.title,
-                description: data.description,
-                content_type: data.content_type,
-                groups,
-                nsfw: data.nsfw,
-                spoiler: data.spoiler,
-                visibility: data.visibility,
-                tags: data.tags,
-            });
+        applySaved: (sent, saved) => {
+            const state = get();
+            if (JSON.stringify(state.getApiData()) !== JSON.stringify(sent)) {
+                return;
+            }
+            set(collectionState(saved, state.groups));
         },
 
         getApiData: () => {

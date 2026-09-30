@@ -1,41 +1,11 @@
-import { type FC, useEffect } from 'react';
-
-import { useQuery } from '@tanstack/react-query';
-
-import { getCollectionOptions } from '@hikka/api';
-
-import { useParams } from '@/utils/navigation';
+import type { FC } from 'react';
 
 import CollectionEditGrid from './collection-grid';
 import CollectionDndContext from './collection-grid/collection-dnd-context';
 import { useCollectionContext } from './collection-provider';
 
-type Props = {
-    mode?: 'create' | 'edit';
-};
-
-const CollectionEditGroups: FC<Props> = ({ mode = 'create' }) => {
-    const params = useParams();
-
+const CollectionEditGroups: FC = () => {
     const groups = useCollectionContext((state) => state.groups);
-    const setApiData = useCollectionContext((state) => state.setApiData);
-
-    const { data } = useQuery({
-        ...getCollectionOptions({
-            path: { reference: String(params.reference) },
-        }),
-        enabled: mode === 'edit',
-    });
-
-    useEffect(() => {
-        if (data) {
-            setApiData(data as Parameters<typeof setApiData>[0]);
-        }
-    }, [data]);
-
-    if (mode === 'edit' && !data) {
-        return null;
-    }
 
     return (
         <CollectionDndContext>

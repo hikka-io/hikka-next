@@ -1,11 +1,9 @@
 import type { ReactNode } from 'react';
+import { act } from 'react';
+import { createRoot } from 'react-dom/client';
 import { renderToString } from 'react-dom/server';
 
-import {
-    QueryClient,
-    QueryClientProvider,
-    useQuery,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { describe, expect, it, vi } from 'vitest';
 
 import { type GetCollectionResponse, getCollectionOptions } from '@hikka/api';
@@ -17,7 +15,6 @@ import { usePageHeader } from '@/features/app-shell';
 import CollectionEditGroups from './collection-edit/collection-groups';
 import CollectionProvider from './collection-edit/collection-provider';
 import CollectionEditSettings from './collection-edit/collection-settings';
-import type { CollectionState } from './collection-edit/collection-store';
 import CollectionEditTitle from './collection-edit/collection-title';
 import CollectionEditorPage from './collection-editor-page';
 
@@ -61,7 +58,10 @@ const COLLECTION = {
     spoiler: false,
     visibility: 'public',
     tags: ['a'],
-    collection: [],
+    collection: [
+        { comment: 'коментар', label: 'Група', content: { slug: 'a' } },
+        { comment: null, label: 'Група', content: { slug: 'b' } },
+    ],
 } as unknown as GetCollectionResponse;
 
 function LegacyCollectionNewPage() {
@@ -88,41 +88,6 @@ function LegacyCollectionNewPage() {
     );
 }
 
-function LegacyCollectionUpdatePage({ reference }: { reference: string }) {
-    const { data: collection } = useQuery(
-        getCollectionOptions({ path: { reference } }),
-    );
-
-    usePageHeader({
-        title: collection?.title,
-        subtitle: 'Редагування',
-        parent: `/collections/${reference}`,
-    });
-
-    if (!collection) return null;
-
-    return (
-        <CollectionProvider
-            initialState={collection as Partial<CollectionState>}
-        >
-            <div>
-                <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-x-10">
-                    <Block>
-                        <CollectionEditTitle />
-                        <Card className="-mx-4 block w-auto rounded-none border-x-0 p-0 lg:hidden">
-                            <CollectionEditSettings mode="edit" />
-                        </Card>
-                        <CollectionEditGroups mode="edit" />
-                    </Block>
-                    <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">
-                        <CollectionEditSettings mode="edit" />
-                    </Card>
-                </div>
-            </div>
-        </CollectionProvider>
-    );
-}
-
 const render = (node: ReactNode, cached: boolean) => {
     const queryClient = new QueryClient();
     if (cached) {
@@ -139,7 +104,7 @@ const render = (node: ReactNode, cached: boolean) => {
 };
 
 describe('CollectionEditorPage', () => {
-    it('renders the new and update routes like the former route bodies', () => {
+    it('renders the new route like the former route body and the update route in edit mode', () => {
         const newPage = render(<CollectionEditorPage />, false);
         expect(newPage).toEqual(render(<LegacyCollectionNewPage />, false));
         expect(newPage.html).toContain('data-mode="default"');
@@ -148,14 +113,92 @@ describe('CollectionEditorPage', () => {
             <CollectionEditorPage reference={REFERENCE} />,
             true,
         );
-        expect(updatePage).toEqual(
-            render(<LegacyCollectionUpdatePage reference={REFERENCE} />, true),
-        );
-        expect(updatePage.html).toContain('data-mode="edit"');
-        expect(updatePage.html).toContain('Колекція');
+        expect(updatePage.header).toEqual([
+            [
+                {
+                    title: 'Колекція',
+                    subtitle: 'Редагування',
+                    parent: `/collections/${REFERENCE}`,
+                },
+            ],
+        ]);
+        expect(
+            updatePage.html.match(/data-stub="settings" data-mode="edit"/g),
+        ).toHaveLength(2);
+        expect(updatePage.html).toContain('data-stub="groups"');
 
         expect(
             render(<CollectionEditorPage reference={REFERENCE} />, false).html,
         ).toBe('');
+    });
+
+    it('starts the editor store from the loaded collection', () => {
+        const { html } = render(
+            <CollectionEditorPage reference={REFERENCE} />,
+            true,
+        );
+        const state = JSON.parse(
+            new DOMParser()
+                .parseFromString(html, 'text/html')
+                .querySelector('pre')?.textContent ?? '',
+        );
+
+        expect(state).toEqual({
+            title: 'Колекція',
+            description: 'Опис',
+            content_type: 'manga',
+            groups: [
+                {
+                    title: 'Група',
+                    items: [
+                        { content: { slug: 'a' }, comment: 'коментар' },
+                        { content: { slug: 'b' } },
+                    ],
+                },
+            ],
+            nsfw: true,
+            spoiler: false,
+            visibility: 'public',
+            tags: ['a'],
+        });
+    });
+
+    it('starts a fresh store when the route switches to another collection', async () => {
+        const OTHER = 'ffffffff-0000-0000-0000-000000000000';
+        const queryClient = new QueryClient();
+        queryClient.setQueryData(
+            getCollectionOptions({ path: { reference: REFERENCE } }).queryKey,
+            COLLECTION,
+        );
+        queryClient.setQueryData(
+            getCollectionOptions({ path: { reference: OTHER } }).queryKey,
+            { ...COLLECTION, reference: OTHER, title: 'Інша колекція' },
+        );
+        const container = document.createElement('div');
+        const root = createRoot(container);
+        const show = (reference: string) =>
+            act(async () => {
+                root.render(
+                    <QueryClientProvider client={queryClient}>
+                        <CollectionEditorPage reference={reference} />
+                    </QueryClientProvider>,
+                );
+            });
+
+        vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);
+        try {
+            await show(REFERENCE);
+            expect(container.querySelector('pre')?.textContent).toContain(
+                '"title":"Колекція"',
+            );
+
+            await show(OTHER);
+            expect(container.querySelector('pre')?.textContent).toContain(
+                '"title":"Інша колекція"',
+            );
+        } finally {
+            await act(async () => root.unmount());
+            vi.unstubAllGlobals();
+        }
     });
 });

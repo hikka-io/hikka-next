@@ -11,7 +11,7 @@ import { usePageHeader } from '@/features/app-shell';
 import CollectionEditGroups from './collection-edit/collection-groups';
 import CollectionProvider from './collection-edit/collection-provider';
 import CollectionEditSettings from './collection-edit/collection-settings';
-import type { CollectionState } from './collection-edit/collection-store';
+import { collectionState } from './collection-edit/collection-store';
 import CollectionEditTitle from './collection-edit/collection-title';
 
 type Props = {
@@ -34,7 +34,7 @@ const CollectionEditorLayout: FC<LayoutProps> = ({ mode }) => {
                 <Card className="-mx-4 block w-auto rounded-none border-x-0 p-0 lg:hidden">
                     <CollectionEditSettings mode={mode} />
                 </Card>
-                <CollectionEditGroups mode={mode} />
+                <CollectionEditGroups />
             </Block>
             <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">
                 <CollectionEditSettings mode={mode} />
@@ -57,9 +57,10 @@ const CollectionEditorNew: FC = () => {
 };
 
 const CollectionEditorUpdate: FC<UpdateProps> = ({ reference }) => {
-    const { data: collection } = useQuery(
-        getCollectionOptions({ path: { reference } }),
-    );
+    const { data: collection } = useQuery({
+        ...getCollectionOptions({ path: { reference } }),
+        refetchOnWindowFocus: false,
+    });
 
     usePageHeader({
         title: collection?.title,
@@ -71,7 +72,8 @@ const CollectionEditorUpdate: FC<UpdateProps> = ({ reference }) => {
 
     return (
         <CollectionProvider
-            initialState={collection as Partial<CollectionState>}
+            key={reference}
+            initialState={collectionState(collection)}
         >
             <div>
                 <CollectionEditorLayout mode="edit" />

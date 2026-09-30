@@ -140,6 +140,7 @@ const CollectionDndContext: FC<Props> = ({ children }) => {
 
     return (
         <DndContext
+            id="collection-cards"
             sensors={sensors}
             collisionDetection={pointerWithin}
             onDragStart={handleDragStart}
