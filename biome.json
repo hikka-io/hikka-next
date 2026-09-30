@@ -771,6 +771,12 @@
                                         "message": "[D8] Leaf feature: imports no other feature."
                                     },
                                     {
+                                        "group": ["@/features/auth"],
+                                        "importNamePattern": "LoginButton",
+                                        "invertImportNamePattern": true,
+                                        "message": "[D8] Leaf feature: from @/features/auth only LoginButton is sanctioned."
+                                    },
+                                    {
                                         "group": [
                                             "@/features/oauth",
                                             "@/features/oauth/**"
@@ -912,8 +918,16 @@
                 "apps/web/src/utils/api/content-queries.ts",
                 "apps/web/src/utils/api/ensure-or-404.ts",
                 "apps/web/src/utils/api/retry-on-cancel.ts",
-                "apps/web/src/utils/auth/require-*.ts",
-                "apps/web/src/utils/auth/session.ts",
+                "apps/web/src/utils/api/strip-restricted-external.ts",
+                "apps/web/src/utils/auth/**",
+                "apps/web/src/utils/cookies/**",
+                "apps/web/src/utils/customization/**",
+                "apps/web/src/utils/title/get-title.ts",
+                "apps/web/src/utils/content-paths.ts",
+                "apps/web/src/utils/markdown.ts",
+                "apps/web/src/utils/metadata.ts",
+                "apps/web/src/utils/text.ts",
+                "apps/web/src/utils/url.ts",
                 "apps/web/src/utils/season.ts",
                 "apps/web/src/utils/search-schemas.ts",
                 "apps/web/src/utils/labels/**"
