@@ -41,9 +41,20 @@ import { getCurrentSeason } from '@/utils/season';
 import { getOngoingsSort } from '@/utils/sort';
 
 import { Route as HomeRoute } from '../../routes/_pages/index';
-import { buildFeedArgs, isFeedDisabled, ongoingsOptions } from './queries';
+import {
+    buildFeedArgs,
+    followingHistoryPreviewOptions,
+    HOME_ARTICLES_NEWEST_SORT,
+    HOME_ARTICLES_POPULAR_SORT,
+    homeArticlesOptions,
+    isFeedDisabled,
+    ongoingsOptions,
+} from './queries';
 import type { UIFeedWidgetSide } from './types';
+import ArticlesWidget from './widgets/articles-widget';
+import CollectionsWidget from './widgets/collections-widget';
 import FeedWidget from './widgets/feed-widget';
+import HistoryWidget from './widgets/history-widget';
 import OngoingsWidget from './widgets/ongoings-widget';
 
 type FeedQuery = { queryKey: readonly unknown[]; enabled?: boolean };
@@ -51,6 +62,8 @@ type FeedQuery = { queryKey: readonly unknown[]; enabled?: boolean };
 const mocks = vi.hoisted(() => ({
     infiniteListCalls: [] as unknown[][],
     feedQueries: [] as FeedQuery[],
+    visible: false,
+    pending: false,
     user: undefined as ProfileResponse | undefined,
     ui: undefined as UserCustomizationResponse | undefined,
 }));
@@ -65,6 +78,14 @@ vi.mock('@tanstack/react-query', async (importOriginal) => ({
 
 vi.mock('@/services/hooks/use-back-close', () => ({ useBackClose: () => {} }));
 
+vi.mock('@/services/hooks/use-visible', () => ({
+    useVisible: () => ({ ref: () => {}, visible: mocks.visible }),
+}));
+
+vi.mock('@/services/hooks/use-visible-once', () => ({
+    useVisibleOnce: () => ({ ref: () => {}, visible: mocks.visible }),
+}));
+
 vi.mock('@/services/session/use-session', () => ({
     useSession: () => ({ user: mocks.user }),
 }));
@@ -75,14 +96,34 @@ vi.mock('@/services/session/use-update-session-ui', () => ({
 
 vi.mock('@/utils/navigation', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@/utils/navigation')>()),
-    Link: ({ to, children }: { to: string; children?: ReactNode }) =>
-        createElement('a', { href: to }, children),
+    Link: ({
+        to,
+        search,
+        children,
+    }: {
+        to: string;
+        search?: Record<string, unknown>;
+        children?: ReactNode;
+    }) =>
+        createElement(
+            'a',
+            {
+                href: search
+                    ? `${to}?${new URLSearchParams(search as Record<string, string>)}`
+                    : to,
+            },
+            children,
+        ),
 }));
 
 vi.mock('@/utils/api/use-infinite-list', () => ({
     useInfiniteList: (...args: unknown[]) => {
         mocks.infiniteListCalls.push(args);
-        return { list: [], isLoading: false };
+        return {
+            list: mocks.pending ? undefined : [],
+            isLoading: false,
+            isPending: mocks.pending,
+        };
     },
 }));
 
@@ -242,6 +283,8 @@ beforeEach(() => {
     mocks.feedQueries = [];
     mocks.user = undefined;
     mocks.ui = undefined;
+    mocks.visible = false;
+    mocks.pending = false;
     loaderOptions.length = 0;
 });
 
@@ -293,32 +336,35 @@ const EXPECTED_HOME_CALLS: Record<string, string[]> = {
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"]}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
+        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
     ],
     'anonymous, comments feed': [
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"]}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
+        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
     ],
     'logged in, september': [
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userWatchList","baseUrl":"https://api.example.test","_infinite":true,"body":{"watch_status":"watching","sort":["watch_updated:desc"]},"path":{"username":"tester"}}]',
-        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"followingHistory","baseUrl":"https://api.example.test","_infinite":true}]',
+        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"followingHistory","baseUrl":"https://api.example.test","_infinite":true,"query":{"size":3}}]',
         'ensureQueryData queryFn,queryKey "<undefined>" [{"_id":"userWatchStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
-        'ensureQueryData queryFn,queryKey "<undefined>" [{"_id":"userReadStats","baseUrl":"https://api.example.test","path":{"content_type":"manga","username":"tester"}}]',
-        'ensureQueryData queryFn,queryKey "<undefined>" [{"_id":"userReadStats","baseUrl":"https://api.example.test","path":{"content_type":"novel","username":"tester"}}]',
         'ensureQueryData queryFn,queryKey "<undefined>" [{"_id":"followStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["summer",2026],"status":["ongoing","announced"]}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["summer"],"media_type":["tv"],"years":[2026,2026],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
+        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
     ],
     'anonymous, new year': [
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["fall",2027],"status":["ongoing","announced"]}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["fall"],"media_type":["tv"],"years":[2027,2027],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
+        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
     ],
     'anonymous, spring': [
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam {"body":{}} [{"_id":"getFeed","baseUrl":"https://api.example.test","_infinite":true,"body":{}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"animeSchedule","baseUrl":"https://api.example.test","_infinite":true,"body":{"airing_season":["spring",2027],"status":["ongoing","announced"]}}]',
         'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"searchAnime","baseUrl":"https://api.example.test","_infinite":true,"body":{"season":["spring"],"media_type":["tv"],"years":[2027,2027],"genres":["-ecchi","-hentai"],"status":["ongoing"],"sort":["score:desc","scored_by:desc","native_score:desc","native_scored_by:desc"]},"query":{"size":5}}]',
+        'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"sort":["created:desc"]},"query":{"size":3}}]',
     ],
 };
 
@@ -668,5 +714,163 @@ describe('home feed prefetch', () => {
             widgetFeedQuery(false, ui).queryKey,
         );
         expect(widgetFeedQuery(false, ui).enabled).toBe(true);
+    });
+});
+
+type WidgetCall = [
+    { queryKey: readonly unknown[]; refetchInterval?: unknown },
+    { enabled?: boolean } | undefined,
+];
+
+const widgetCalls = () => mocks.infiniteListCalls as WidgetCall[];
+const side: UIFeedWidgetSide = 'left';
+
+describe('followingHistoryPreviewOptions', () => {
+    it('asks for 3 items', () => {
+        expect(followingHistoryPreviewOptions().queryKey[0]).toMatchObject({
+            query: { size: 3 },
+        });
+    });
+
+    it('keys the loader like the widget', () => {
+        mocks.user = PROFILE;
+        renderToStaticMarkup(createElement(HistoryWidget, { side }));
+
+        const [[options]] = widgetCalls();
+        const loader = followingHistoryPreviewOptions({
+            client: ssrRequestClient('token'),
+        }).queryKey;
+        expect(hashKey(loader)).toBe(hashKey(options.queryKey));
+    });
+
+    it('keys the loader like the widget for the loader options actually used', async () => {
+        const calls = await runHomeLoader(undefined, true);
+        const used = calls.find((call) => call.includes('followingHistory'));
+
+        expect(used).toContain(
+            serialize(followingHistoryPreviewOptions().queryKey),
+        );
+    });
+});
+
+describe('HistoryWidget polling', () => {
+    it('polls once a minute', () => {
+        mocks.user = PROFILE;
+        mocks.visible = true;
+        renderToStaticMarkup(createElement(HistoryWidget, { side }));
+
+        expect(widgetCalls()[0][0].refetchInterval).toBe(60_000);
+    });
+
+    it('does not fetch or poll while it is not visible', () => {
+        mocks.user = PROFILE;
+        mocks.visible = false;
+        renderToStaticMarkup(createElement(HistoryWidget, { side }));
+
+        expect(widgetCalls()[0][1]).toEqual({ enabled: false });
+    });
+
+    it('does not fetch or poll without a user', () => {
+        mocks.visible = true;
+        renderToStaticMarkup(createElement(HistoryWidget, { side }));
+
+        expect(widgetCalls()[0][1]).toEqual({ enabled: false });
+    });
+
+    it('fetches and polls while visible with a user', () => {
+        mocks.user = PROFILE;
+        mocks.visible = true;
+        renderToStaticMarkup(createElement(HistoryWidget, { side }));
+
+        expect(widgetCalls()[0][1]).toEqual({ enabled: true });
+    });
+});
+
+describe('homeArticlesOptions', () => {
+    it('asks for 3 items', () => {
+        expect(
+            homeArticlesOptions({ body: { sort: HOME_ARTICLES_NEWEST_SORT } })
+                .queryKey[0],
+        ).toMatchObject({ query: { size: 3 } });
+    });
+
+    it('keys the loader like the widget on its default tab', () => {
+        renderToStaticMarkup(createElement(ArticlesWidget, { side }));
+
+        const [[options]] = widgetCalls();
+        const loader = homeArticlesOptions({
+            body: { sort: HOME_ARTICLES_NEWEST_SORT },
+            client: ssrRequestClient(),
+        }).queryKey;
+        expect(hashKey(loader)).toBe(hashKey(options.queryKey));
+    });
+
+    it('hashes the popular tab differently from the newest tab', () => {
+        expect(
+            hashKey(
+                homeArticlesOptions({
+                    body: { sort: HOME_ARTICLES_POPULAR_SORT },
+                }).queryKey,
+            ),
+        ).not.toBe(
+            hashKey(
+                homeArticlesOptions({
+                    body: { sort: HOME_ARTICLES_NEWEST_SORT },
+                }).queryKey,
+            ),
+        );
+    });
+
+    it('prefetches the newest articles on the server for everyone', async () => {
+        for (const loggedIn of [false, true]) {
+            const calls = await runHomeLoader(undefined, loggedIn);
+
+            expect(
+                calls.filter((call) => call.includes('getArticles')),
+            ).toEqual([expect.stringContaining('"query":{"size":3}')]);
+        }
+    });
+});
+
+describe('home loader stats', () => {
+    it('does not prefetch the manga and novel read stats', async () => {
+        const calls = await runHomeLoader(undefined, true);
+
+        expect(calls.some((call) => call.includes('userReadStats'))).toBe(
+            false,
+        );
+        expect(calls.some((call) => call.includes('userWatchStats'))).toBe(
+            true,
+        );
+    });
+});
+
+describe('CollectionsWidget', () => {
+    it('does not fetch until visible', () => {
+        renderToStaticMarkup(createElement(CollectionsWidget, { side }));
+
+        expect(widgetCalls()[0][1]).toEqual({ enabled: false });
+    });
+
+    it('fetches once visible', () => {
+        mocks.visible = true;
+        renderToStaticMarkup(createElement(CollectionsWidget, { side }));
+
+        expect(widgetCalls()[0][1]).toEqual({ enabled: true });
+    });
+
+    it('shows the skeleton, not the empty state, while it has not fetched', () => {
+        mocks.pending = true;
+        const html = renderToStaticMarkup(
+            createElement(CollectionsWidget, { side }),
+        );
+
+        expect(html).not.toContain('Немає колекцій');
+    });
+
+    it('links the header to the canonical first page', () => {
+        expect(
+            renderToStaticMarkup(createElement(CollectionsWidget, { side })),
+        ).toContain('href="/collections?page=1"');
     });
 });

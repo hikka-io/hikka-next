@@ -1,10 +1,10 @@
-import { type ComponentPropsWithoutRef, memo } from 'react';
+import { type ComponentProps, memo } from 'react';
 
 import { cn } from '@/utils/cn';
 
 type Variant = 'surface' | 'inset' | 'glass' | 'plain';
 
-type Props = ComponentPropsWithoutRef<'div'> & { variant?: Variant };
+type Props = ComponentProps<'div'> & { variant?: Variant };
 
 const VARIANTS: Record<Variant, string> = {
     surface: 'surface',

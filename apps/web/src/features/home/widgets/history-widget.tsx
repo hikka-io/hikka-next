@@ -1,6 +1,4 @@
-import { type FC, useMemo } from 'react';
-
-import { followingHistoryInfiniteOptions } from '@hikka/api';
+import type { FC } from 'react';
 
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
 import { HistoryItem } from '@/components/list-items';
@@ -13,30 +11,30 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import { useVisible } from '@/services/hooks/use-visible';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 
+import { followingHistoryPreviewOptions } from '../queries';
 import type { WidgetProps } from '../types';
 
-const HISTORY_SIZE = 3;
-const HISTORY_REFETCH_INTERVAL_MS = 30_000;
+const HISTORY_REFETCH_INTERVAL_MS = 60_000;
 
 const HistoryWidget: FC<WidgetProps> = () => {
     const { user } = useSession();
+    const { ref, visible } = useVisible();
     const { list } = useInfiniteList(
         {
-            ...followingHistoryInfiniteOptions(),
+            ...followingHistoryPreviewOptions(),
             refetchInterval: HISTORY_REFETCH_INTERVAL_MS,
         },
-        { enabled: Boolean(user) },
+        { enabled: visible && Boolean(user) },
     );
-
-    const filteredHistory = useMemo(() => list?.slice(0, HISTORY_SIZE), [list]);
 
     if (!user) return null;
 
     return (
-        <Card className="p-0" id="history">
+        <Card ref={ref} className="p-0" id="history">
             <Block className="w-full gap-4 py-4">
                 <Header
                     href={`/u/${user.username}/history`}
@@ -50,14 +48,14 @@ const HistoryWidget: FC<WidgetProps> = () => {
                 </Header>
 
                 <div className="flex flex-col gap-6 px-4">
-                    {filteredHistory?.map((item) => (
+                    {list?.map((item) => (
                         <HistoryItem
                             data={item}
                             key={item.reference}
                             withUser
                         />
                     ))}
-                    {filteredHistory?.length === 0 && (
+                    {list?.length === 0 && (
                         <EmptyState
                             icon={<MaterialSymbolsHistoryRounded />}
                             title="Історія відсутня"

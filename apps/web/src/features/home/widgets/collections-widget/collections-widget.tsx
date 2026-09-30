@@ -17,6 +17,7 @@ import {
     HeaderTitle,
 } from '@/components/ui/header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useVisibleOnce } from '@/services/hooks/use-visible-once';
 import { useSession } from '@/services/session';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { Link } from '@/utils/navigation';
@@ -38,7 +39,8 @@ const CollectionsWidget: FC<WidgetProps> = () => {
 
     const isOwn = Boolean(user) && tab === 'own';
 
-    const { list, isLoading } = useInfiniteList(
+    const { ref, visible } = useVisibleOnce();
+    const { list, isPending } = useInfiniteList(
         getCollectionsInfiniteOptions({
             body:
                 isOwn && user
@@ -52,12 +54,13 @@ const CollectionsWidget: FC<WidgetProps> = () => {
                       },
             query: { size: SIZE },
         }),
+        { enabled: visible },
     );
 
     return (
-        <Card className="p-0" id="collections">
+        <Card ref={ref} className="p-0" id="collections">
             <Block className="w-full gap-4 py-4">
-                <Header href="/collections" className="px-4">
+                <Header to="/collections" search={{ page: 1 }} className="px-4">
                     <HeaderContainer>
                         <HeaderTitle variant="h4">Колекції</HeaderTitle>
                         {user && (
@@ -86,12 +89,12 @@ const CollectionsWidget: FC<WidgetProps> = () => {
                 </Tabs>
 
                 <div className="flex flex-col gap-1 px-2">
-                    {isLoading &&
+                    {isPending &&
                         range(0, SIZE).map((i) => (
                             <CollectionWidgetSkeleton key={i} />
                         ))}
 
-                    {!isLoading &&
+                    {!isPending &&
                         list?.map((collection) => (
                             <CollectionWidgetItem
                                 key={collection.reference}
@@ -99,7 +102,7 @@ const CollectionsWidget: FC<WidgetProps> = () => {
                             />
                         ))}
 
-                    {!isLoading && (!list || list.length === 0) && (
+                    {!isPending && (!list || list.length === 0) && (
                         <EmptyState
                             size="sm"
                             icon={<MaterialSymbolsStack />}

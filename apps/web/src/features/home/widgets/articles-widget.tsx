@@ -2,8 +2,6 @@ import { type FC, useMemo, useState } from 'react';
 
 import { range } from '@antfu/utils';
 
-import { getArticlesInfiniteOptions } from '@hikka/api';
-
 import MaterialSymbolsAddRounded from '@/components/icons/material-symbols/MaterialSymbolsAddRounded';
 import MaterialSymbolsDynamicFeedRounded from '@/components/icons/material-symbols/MaterialSymbolsDynamicFeedRounded';
 import {
@@ -26,12 +24,13 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
 import { Link } from '@/utils/navigation';
 
+import {
+    HOME_ARTICLES_NEWEST_SORT,
+    HOME_ARTICLES_POPULAR_SORT,
+    HOME_ARTICLES_SIZE,
+    homeArticlesOptions,
+} from '../queries';
 import type { WidgetProps } from '../types';
-
-const SIZE = 3;
-
-const POPULAR_SORT = ['vote_score:desc'];
-const NEWEST_SORT = ['created:desc'];
 
 type ArticlesTab = 'popular' | 'newest' | 'own';
 
@@ -42,28 +41,29 @@ const ArticlesWidget: FC<WidgetProps> = () => {
     const isOwn = Boolean(user) && tab === 'own';
 
     const { list: published, isLoading: isPublishedLoading } = useInfiniteList(
-        getArticlesInfiniteOptions({
+        homeArticlesOptions({
             body:
                 isOwn && user
                     ? {
-                          sort: NEWEST_SORT,
+                          sort: HOME_ARTICLES_NEWEST_SORT,
                           author: user.username,
                       }
                     : {
-                          sort: tab === 'popular' ? POPULAR_SORT : NEWEST_SORT,
+                          sort:
+                              tab === 'popular'
+                                  ? HOME_ARTICLES_POPULAR_SORT
+                                  : HOME_ARTICLES_NEWEST_SORT,
                       },
-            query: { size: SIZE },
         }),
     );
 
     const { list: drafts, isLoading: isDraftsLoading } = useInfiniteList(
-        getArticlesInfiniteOptions({
+        homeArticlesOptions({
             body: {
-                sort: NEWEST_SORT,
+                sort: HOME_ARTICLES_NEWEST_SORT,
                 author: user?.username,
                 draft: true,
             },
-            query: { size: SIZE },
         }),
         { enabled: isOwn },
     );
@@ -71,7 +71,10 @@ const ArticlesWidget: FC<WidgetProps> = () => {
     const list = useMemo(() => {
         if (!isOwn) return published;
 
-        return [...(drafts ?? []), ...(published ?? [])].slice(0, SIZE);
+        return [...(drafts ?? []), ...(published ?? [])].slice(
+            0,
+            HOME_ARTICLES_SIZE,
+        );
     }, [isOwn, published, drafts]);
 
     const isLoading = isPublishedLoading || isDraftsLoading;
@@ -119,7 +122,7 @@ const ArticlesWidget: FC<WidgetProps> = () => {
 
                 <div className="flex flex-col px-2">
                     {isLoading &&
-                        range(0, SIZE).map((i) => (
+                        range(0, HOME_ARTICLES_SIZE).map((i) => (
                             <ArticlePreviewCardSkeleton key={i} />
                         ))}
 

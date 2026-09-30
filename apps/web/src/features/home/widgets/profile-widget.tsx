@@ -69,7 +69,7 @@ const ProfileWidget: FC<WidgetProps> = () => {
                         <Button
                             variant="outline"
                             size="icon-md"
-                            render={<Link to="/settings" />}
+                            render={<Link to="/settings/profile" />}
                         >
                             <Settings />
                         </Button>

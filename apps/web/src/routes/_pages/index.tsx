@@ -4,15 +4,12 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import {
     AnimeStatusEnum,
     animeScheduleInfiniteOptions,
-    ContentTypeEnum,
     feedPageParam,
-    followingHistoryInfiniteOptions,
     followStatsOptions,
     getFeedInfiniteOptions,
     paginationPageParam,
     profileQueryKey,
     type UserResponse,
-    userReadStatsOptions,
     userWatchListInfiniteOptions,
     userWatchStatsOptions,
     WatchStatusEnum,
@@ -20,7 +17,13 @@ import {
 
 import { CoverImage, usePageHeader } from '@/features/app-shell';
 import { FeedLayout, HomeHeaderActions } from '@/features/home';
-import { initialFeedArgs, ongoingsOptions } from '@/features/home/queries';
+import {
+    followingHistoryPreviewOptions,
+    HOME_ARTICLES_NEWEST_SORT,
+    homeArticlesOptions,
+    initialFeedArgs,
+    ongoingsOptions,
+} from '@/features/home/queries';
 import { useSession } from '@/services/session';
 import { generateHeadMeta } from '@/utils/metadata';
 import { feedSearchSchema } from '@/utils/search-schemas';
@@ -66,30 +69,12 @@ export const Route = createFileRoute('/_pages/')({
                     ...paginationPageParam(),
                 }),
                 queryClient.ensureInfiniteQueryData({
-                    ...followingHistoryInfiniteOptions({ client: apiClient }),
+                    ...followingHistoryPreviewOptions({ client: apiClient }),
                     ...paginationPageParam(),
                 }),
                 queryClient.ensureQueryData(
                     userWatchStatsOptions({
                         path: { username: loggedUser.username },
-                        client: apiClient,
-                    }),
-                ),
-                queryClient.ensureQueryData(
-                    userReadStatsOptions({
-                        path: {
-                            content_type: ContentTypeEnum.MANGA,
-                            username: loggedUser.username,
-                        },
-                        client: apiClient,
-                    }),
-                ),
-                queryClient.ensureQueryData(
-                    userReadStatsOptions({
-                        path: {
-                            content_type: ContentTypeEnum.NOVEL,
-                            username: loggedUser.username,
-                        },
                         client: apiClient,
                     }),
                 ),
@@ -135,6 +120,16 @@ export const Route = createFileRoute('/_pages/')({
         promises.push(
             queryClient.ensureInfiniteQueryData({
                 ...ongoingsOptions({ size: 5, client: apiClient }),
+                ...paginationPageParam(),
+            }),
+        );
+
+        promises.push(
+            queryClient.ensureInfiniteQueryData({
+                ...homeArticlesOptions({
+                    body: { sort: HOME_ARTICLES_NEWEST_SORT },
+                    client: apiClient,
+                }),
                 ...paginationPageParam(),
             }),
         );

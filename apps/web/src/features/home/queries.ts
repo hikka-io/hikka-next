@@ -3,8 +3,11 @@ import type { QueryClient } from '@tanstack/react-query';
 import {
     AnimeMediaEnum,
     AnimeStatusEnum,
+    type ArticlesListArgs,
     type Client,
     type FeedArgs,
+    followingHistoryInfiniteOptions,
+    getArticlesInfiniteOptions,
     profileUiQueryKey,
     type SeasonEnum,
     searchAnimeInfiniteOptions,
@@ -16,6 +19,12 @@ import { getSessionFromPagesCache } from '@/utils/auth';
 import { DEFAULT_USER_UI, mergePreferences } from '@/utils/customization';
 import { getCurrentSeason } from '@/utils/season';
 import { getOngoingsSort } from '@/utils/sort';
+
+const HISTORY_PREVIEW_SIZE = 3;
+export const HOME_ARTICLES_SIZE = 3;
+
+export const HOME_ARTICLES_NEWEST_SORT = ['created:desc'];
+export const HOME_ARTICLES_POPULAR_SORT = ['vote_score:desc'];
 
 type FeedFilters = Omit<UiFeedSettingsOutput, 'only_followed' | 'widgets'>;
 
@@ -39,6 +48,31 @@ export function ongoingsOptions({
             sort: getOngoingsSort(),
         },
         query: { size },
+        client,
+    });
+}
+
+export function followingHistoryPreviewOptions({
+    client,
+}: {
+    client?: Client;
+} = {}) {
+    return followingHistoryInfiniteOptions({
+        query: { size: HISTORY_PREVIEW_SIZE },
+        client,
+    });
+}
+
+export function homeArticlesOptions({
+    body,
+    client,
+}: {
+    body: ArticlesListArgs;
+    client?: Client;
+}) {
+    return getArticlesInfiniteOptions({
+        body,
+        query: { size: HOME_ARTICLES_SIZE },
         client,
     });
 }
