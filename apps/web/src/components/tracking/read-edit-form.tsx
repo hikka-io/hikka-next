@@ -134,7 +134,6 @@ const ReadEditForm = ({
     });
 
     const startDate = useStore(form.store, (s) => s.values.start_date);
-    const note = useStore(form.store, (s) => s.values.note);
 
     // Depend on the status, not the `read` identity, so a background refetch
     // doesn't clobber an unsaved dropdown change.
@@ -282,7 +281,7 @@ const ReadEditForm = ({
                                 maxLength={API_LIMITS.listNote.max}
                             >
                                 <CharacterCounter
-                                    length={note?.length ?? 0}
+                                    length={field.state.value?.length ?? 0}
                                     max={API_LIMITS.listNote.max}
                                 />
                             </field.TextareaField>

@@ -121,7 +121,6 @@ const WatchEditForm = ({ slug, watch: watchProp, onClose }: Props) => {
     });
 
     const startDate = useStore(form.store, (s) => s.values.start_date);
-    const note = useStore(form.store, (s) => s.values.note);
 
     // Depend on the status, not the `watch` identity, so a background refetch
     // doesn't clobber an unsaved dropdown change.
@@ -252,7 +251,7 @@ const WatchEditForm = ({ slug, watch: watchProp, onClose }: Props) => {
                                 maxLength={API_LIMITS.listNote.max}
                             >
                                 <CharacterCounter
-                                    length={note?.length ?? 0}
+                                    length={field.state.value?.length ?? 0}
                                     max={API_LIMITS.listNote.max}
                                 />
                             </field.TextareaField>

@@ -18,7 +18,26 @@ import WatchEditForm from './watch-edit-form';
     globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }
 ).IS_REACT_ACT_ENVIRONMENT = true;
 
-const mocks = vi.hoisted(() => ({ mutate: vi.fn() }));
+const mocks = vi.hoisted(() => ({
+    mutate: vi.fn(),
+    renders: new Map<string, number>(),
+}));
+
+vi.mock('@/components/form/text-field', async (importOriginal) => {
+    const actual =
+        await importOriginal<typeof import('@/components/form/text-field')>();
+    const { useFieldContext } = await import('@/components/form/form-context');
+    const Original = actual.TextField;
+
+    const TextField: typeof Original = (props) => {
+        const { name } = useFieldContext();
+        mocks.renders.set(name, (mocks.renders.get(name) ?? 0) + 1);
+
+        return <Original {...props} />;
+    };
+
+    return { ...actual, TextField, default: TextField };
+});
 
 vi.mock('./use-tracking-mutations', () => {
     const add = () => ({ mutate: mocks.mutate, isPending: false });
@@ -78,6 +97,7 @@ afterEach(async () => {
         await act(async () => dispose());
     }
     vi.clearAllMocks();
+    mocks.renders.clear();
     vi.unstubAllGlobals();
     if (!hasScrollIntoView) {
         delete (Element.prototype as Partial<Element>).scrollIntoView;
@@ -261,6 +281,21 @@ describe.each(CASES)('$name edit form', (entry) => {
 
         expect(mocks.mutate).toHaveBeenCalledTimes(1);
         expect(lastBody().note).toBe('x'.repeat(NOTE_MAX));
+    });
+
+    it('re-renders only the note field while typing a note', async () => {
+        const { type, container } = await mount(entry.render());
+        const others = [...entry.progress, entry.repeats, 'score'];
+        const before = others.map((field) => mocks.renders.get(field));
+
+        expect(before.every((count) => count !== undefined)).toBe(true);
+
+        for (const length of [NOTE_MAX - 150, NOTE_MAX - 100, NOTE_MAX]) {
+            await type('note', 'x'.repeat(length));
+        }
+
+        expect(others.map((field) => mocks.renders.get(field))).toEqual(before);
+        expect(container.textContent).toContain(`${NOTE_MAX}/${NOTE_MAX}`);
     });
 
     it('counts the note near the limit like the user note', async () => {
