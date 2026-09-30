@@ -1,16 +1,20 @@
 import type { FC } from 'react';
 
+import { useShallow } from 'zustand/shallow';
+
 import CollectionEditGrid from './collection-grid';
 import CollectionDndContext from './collection-grid/collection-dnd-context';
 import { useCollectionContext } from './collection-provider';
 
 const CollectionEditGroups: FC = () => {
-    const groups = useCollectionContext((state) => state.groups);
+    const groupIds = useCollectionContext(
+        useShallow((state) => state.groups.map((group) => group.id)),
+    );
 
     return (
         <CollectionDndContext>
-            {groups.map((group) => (
-                <CollectionEditGrid key={group.id} group={group} />
+            {groupIds.map((groupId) => (
+                <CollectionEditGrid key={groupId} groupId={groupId} />
             ))}
         </CollectionDndContext>
     );

@@ -66,24 +66,47 @@ type Props = {
     mode?: 'create' | 'edit';
 };
 
+const TitleInput: FC = () => {
+    const title = useCollectionContext((state) => state.title);
+    const setTitle = useCollectionContext((state) => state.setTitle);
+
+    return (
+        <Input
+            placeholder="Введіть назву"
+            maxLength={API_LIMITS.collectionTitle.max}
+            value={title || ''}
+            onChange={(e) => setTitle(e.target.value)}
+        />
+    );
+};
+
 const CollectionEditSettings: FC<Props> = ({ mode = 'create' }) => {
     const router = useRouter();
     const params = useParams();
     const queryClient = useQueryClient();
     const store = useCollectionStore();
 
-    const groups = useCollectionContext((state) => state.groups);
-    const title = useCollectionContext((state) => state.title);
+    const hasLabels = useCollectionContext((state) =>
+        state.groups.some((group) => group.title !== null),
+    );
+    const hasItems = useCollectionContext((state) =>
+        state.groups.some((group) => group.items.length > 0),
+    );
+    const canSubmit = useCollectionContext(
+        ({ title, description }) =>
+            isValidTitleLength(title, API_LIMITS.collectionTitle) &&
+            !!description &&
+            description.trim().length >= API_LIMITS.collectionDescription.min &&
+            description.length <= API_LIMITS.collectionDescription.max,
+    );
     const nsfw = useCollectionContext((state) => state.nsfw);
     const spoiler = useCollectionContext((state) => state.spoiler);
     const visibility = useCollectionContext((state) => state.visibility);
     const content_type = useCollectionContext((state) => state.content_type);
-    const description = useCollectionContext((state) => state.description);
     const tags = useCollectionContext((state) => state.tags);
     const getApiData = useCollectionContext((state) => state.getApiData);
 
     const addGroup = useCollectionContext((state) => state.addGroup);
-    const setTitle = useCollectionContext((state) => state.setTitle);
     const setTags = useCollectionContext((state) => state.setTags);
     const setContentType = useCollectionContext(
         (state) => state.setContentType,
@@ -118,12 +141,6 @@ const CollectionEditSettings: FC<Props> = ({ mode = 'create' }) => {
             },
         });
 
-    const canSubmit =
-        isValidTitleLength(title, API_LIMITS.collectionTitle) &&
-        !!description &&
-        description.trim().length >= API_LIMITS.collectionDescription.min &&
-        description.length <= API_LIMITS.collectionDescription.max;
-
     return (
         <ScrollArea className="flex flex-col items-start gap-8 lg:max-h-[calc(100vh-6rem)]">
             <div className="flex h-full flex-col gap-6 p-4">
@@ -131,20 +148,12 @@ const CollectionEditSettings: FC<Props> = ({ mode = 'create' }) => {
                     <Label className="text-muted-foreground">
                         Назва колекції
                     </Label>
-                    <Input
-                        placeholder="Введіть назву"
-                        maxLength={API_LIMITS.collectionTitle.max}
-                        value={title || ''}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
+                    <TitleInput />
                 </div>
 
                 <div className="flex flex-col gap-4">
                     <Label className="text-muted-foreground">Групи</Label>
-                    {groups.length > 0 &&
-                        groups.some((group) => group.title !== null) && (
-                            <GroupInputs />
-                        )}
+                    {hasLabels && <GroupInputs />}
                     <Button variant="secondary" size="md" onClick={addGroup}>
                         Додати групу
                     </Button>
@@ -171,7 +180,7 @@ const CollectionEditSettings: FC<Props> = ({ mode = 'create' }) => {
                             Тип
                         </Label>
                         <Select
-                            disabled={groups.some((g) => g.items.length > 0)}
+                            disabled={hasItems}
                             value={[content_type]}
                             onValueChange={(value) =>
                                 setContentType(

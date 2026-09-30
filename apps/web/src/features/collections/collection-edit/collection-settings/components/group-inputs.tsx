@@ -1,3 +1,5 @@
+import type { FC } from 'react';
+
 import {
     closestCenter,
     DndContext,
@@ -8,17 +10,44 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
+import { useShallow } from 'zustand/shallow';
 
-import { useCollectionContext } from '../../collection-provider';
+import {
+    useCollectionContext,
+    useCollectionStore,
+} from '../../collection-provider';
 import SortableInput from './sortable-input';
 
-const GroupInputs = () => {
-    const groups = useCollectionContext((state) => state.groups);
-    const reorderGroups = useCollectionContext((state) => state.reorderGroups);
+type GroupTitleInputProps = {
+    groupId: string;
+};
+
+const GroupTitleInput: FC<GroupTitleInputProps> = ({ groupId }) => {
+    const title = useCollectionContext(
+        (state) => state.groups.find((g) => g.id === groupId)?.title ?? '',
+    );
     const updateGroupTitle = useCollectionContext(
         (state) => state.updateGroupTitle,
     );
     const removeGroup = useCollectionContext((state) => state.removeGroup);
+
+    return (
+        <SortableInput
+            placeholder="Введіть назву"
+            value={title}
+            id={groupId}
+            className="flex-1"
+            onChange={(e) => updateGroupTitle(groupId, e.target.value)}
+            onRemove={() => removeGroup(groupId)}
+        />
+    );
+};
+
+const GroupInputs = () => {
+    const store = useCollectionStore();
+    const groupIds = useCollectionContext(
+        useShallow((state) => state.groups.map((group) => group.id)),
+    );
 
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
@@ -26,6 +55,7 @@ const GroupInputs = () => {
         const { active, over } = event;
         if (!over) return;
 
+        const { groups, reorderGroups } = store.getState();
         const activeIndex = groups.findIndex((g) => g.id === active.id);
         const overIndex = groups.findIndex((g) => g.id === over.id);
 
@@ -44,19 +74,9 @@ const GroupInputs = () => {
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
         >
-            <SortableContext items={groups} strategy={rectSortingStrategy}>
-                {groups.map((group) => (
-                    <SortableInput
-                        key={group.id}
-                        placeholder="Введіть назву"
-                        value={group.title ?? ''}
-                        id={group.id}
-                        className="flex-1"
-                        onChange={(e) =>
-                            updateGroupTitle(group.id, e.target.value)
-                        }
-                        onRemove={() => removeGroup(group.id)}
-                    />
+            <SortableContext items={groupIds} strategy={rectSortingStrategy}>
+                {groupIds.map((groupId) => (
+                    <GroupTitleInput key={groupId} groupId={groupId} />
                 ))}
             </SortableContext>
         </DndContext>

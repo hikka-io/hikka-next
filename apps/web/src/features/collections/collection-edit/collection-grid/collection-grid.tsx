@@ -10,20 +10,38 @@ import { SearchModal } from '@/features/search';
 import { cn } from '@/utils/cn';
 
 import { useCollectionContext } from '../collection-provider';
-import type { Group, Item } from '../collection-store';
+import type { Item } from '../collection-store';
 import SortableCard from './sortable-card';
 
 type Props = {
-    group: Group;
+    groupId: string;
 };
 
-const CollectionEditGrid: FC<Props> = ({ group }) => {
-    // Subscribe to only this group's items — Zustand skips re-render
-    // when the reference hasn't changed (unmodified groups keep same ref)
-    const items =
-        useCollectionContext(
-            (state) => state.groups.find((g) => g.id === group.id)?.items,
-        ) ?? [];
+const NO_ITEMS: Item[] = [];
+
+const GroupTitle: FC<Props> = ({ groupId }) => {
+    const title = useCollectionContext(
+        (state) => state.groups.find((g) => g.id === groupId)?.title ?? null,
+    );
+
+    if (title === null) return null;
+
+    return (
+        <Header>
+            <HeaderContainer>
+                <HeaderTitle variant="h5">
+                    {title.trim().length > 0 ? title : 'Нова група'}
+                </HeaderTitle>
+            </HeaderContainer>
+        </Header>
+    );
+};
+
+const CollectionEditGrid: FC<Props> = ({ groupId }) => {
+    const items = useCollectionContext(
+        (state) =>
+            state.groups.find((g) => g.id === groupId)?.items ?? NO_ITEMS,
+    );
     const content_type = useCollectionContext((state) => state.content_type);
     const addItem = useCollectionContext((state) => state.addItem);
     const removeItem = useCollectionContext((state) => state.removeItem);
@@ -32,23 +50,13 @@ const CollectionEditGrid: FC<Props> = ({ group }) => {
     );
 
     const { setNodeRef, isOver } = useDroppable({
-        id: group.id,
+        id: groupId,
     });
 
     return (
         <SortableContext items={items} strategy={rectSortingStrategy}>
             <div className="flex flex-col gap-4">
-                {group.title !== null && (
-                    <Header>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h5">
-                                {group.title && group.title.trim().length > 0
-                                    ? group.title
-                                    : 'Нова група'}
-                            </HeaderTitle>
-                        </HeaderContainer>
-                    </Header>
-                )}
+                <GroupTitle groupId={groupId} />
                 <div
                     ref={setNodeRef}
                     className={cn(
@@ -60,7 +68,7 @@ const CollectionEditGrid: FC<Props> = ({ group }) => {
                         <SortableCard
                             key={item.id}
                             id={String(item.id)}
-                            groupId={group.id}
+                            groupId={groupId}
                             content={item.content}
                             comment={item.comment}
                             onRemove={removeItem}
@@ -71,7 +79,7 @@ const CollectionEditGrid: FC<Props> = ({ group }) => {
                     <SearchModal
                         content_type={content_type}
                         onClick={(value) =>
-                            addItem(group.id, value as Item['content'])
+                            addItem(groupId, value as Item['content'])
                         }
                         type="button"
                     >
