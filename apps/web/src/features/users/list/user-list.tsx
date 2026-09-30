@@ -15,6 +15,7 @@ import type { UserlistSearch } from '@/utils/search-schemas';
 
 import GridView from './components/grid-view';
 import RecordsNotFound from './components/records-not-found';
+import UserListSkeleton from './components/user-list-skeleton';
 import TableView from './table-view';
 import { useReadList } from './use-read-list';
 import { useWatchList } from './use-watch-list';
@@ -37,6 +38,7 @@ const UserList: FC<Props> = ({ content_type, extendedSize }) => {
         list,
         pagination,
         isLoading,
+        isPending,
         fetchNextPage,
         isFetchingNextPage,
         hasNextPage,
@@ -44,7 +46,12 @@ const UserList: FC<Props> = ({ content_type, extendedSize }) => {
     } = isAnime ? watchList : readList;
 
     if (!list || !status) {
-        return null;
+        return isPending && status ? (
+            <div className="flex flex-col gap-6">
+                <CatalogSummary isLoading />
+                <UserListSkeleton view={view} extendedSize={extendedSize} />
+            </div>
+        ) : null;
     }
 
     return (
