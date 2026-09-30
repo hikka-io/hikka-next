@@ -65,7 +65,7 @@ const SettingsSidebar: FC<Props> = ({ className }) => {
                     {SETTINGS_MENU.map((item) => (
                         <div key={item.href} className="flex flex-col gap-1">
                             <Link
-                                to={item.href}
+                                to={item.children?.[0].href ?? item.href}
                                 className={
                                     item.children
                                         ? parentRowClass(

@@ -55,6 +55,7 @@ const COMMUNITY_GROUP: NavRoute[] = [
     {
         title_ua: 'Колекції',
         url: '/collections',
+        search: { page: 1 },
         icon: CONTENT_TYPE_ICONS[ContentTypeEnum.COLLECTION],
         visible: true,
         slug: 'collections',

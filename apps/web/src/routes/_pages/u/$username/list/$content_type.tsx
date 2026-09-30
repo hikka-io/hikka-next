@@ -35,22 +35,29 @@ import { userlistSearchSchema } from '@/utils/search-schemas';
 export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
     validateSearch: zodValidator(userlistSearchSchema),
     loaderDeps: ({ search }) => search,
-    loader: async ({ params, context: { queryClient, apiClient }, deps }) => {
+    beforeLoad: ({ params, search }) => {
         const { username, content_type } = params;
-        const isAnime = content_type === ContentTypeEnum.ANIME;
-        const defaultSort = isAnime ? 'watch_score' : 'read_score';
-        const { status, sort: sortParam } = deps;
+        const { status, sort } = search;
 
-        if (!status || !sortParam) {
+        if (!status || !sort) {
+            const defaultSort =
+                content_type === ContentTypeEnum.ANIME
+                    ? 'watch_score'
+                    : 'read_score';
+
             throw redirect({
                 to: '/u/$username/list/$content_type',
                 params: { username, content_type },
                 search: {
                     status: status || 'completed',
-                    sort: sortParam || defaultSort,
+                    sort: sort || defaultSort,
                 },
             });
         }
+    },
+    loader: async ({ params, context: { queryClient, apiClient }, deps }) => {
+        const { username, content_type } = params;
+        const isAnime = content_type === ContentTypeEnum.ANIME;
 
         if (isAnime) {
             await queryClient.prefetchInfiniteQuery({

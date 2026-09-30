@@ -82,7 +82,7 @@ vi.mock('@/services/hooks/use-close-on-route-change', () => ({
 const BASE_URL = 'https://api.example.test';
 const username = 'tester';
 
-type LoaderRoute = { options: { loader?: unknown } };
+type LoaderRoute = { options: { beforeLoad?: unknown; loader?: unknown } };
 
 type RecordedOptions = {
     queryKey: readonly unknown[];
@@ -161,8 +161,12 @@ async function runLoader(
     deps?: unknown,
 ) {
     const { queryClient, calls } = recordingQueryClient();
+    const beforeLoad = route.options.beforeLoad as
+        | ((ctx: unknown) => unknown)
+        | undefined;
     const loader = route.options.loader as (ctx: unknown) => Promise<unknown>;
     try {
+        beforeLoad?.({ params, search: deps });
         await loader({
             params,
             deps,
@@ -439,6 +443,24 @@ describe('user list loader', () => {
             expect(calls).toEqual(EXPECTED_LIST_CALLS[name]);
         },
     );
+
+    it.each(
+        LIST_CASES.filter(({ name }) =>
+            EXPECTED_LIST_CALLS[name][0].startsWith('redirect'),
+        ),
+    )('redirects only from beforeLoad: $name', async ({ type, raw }) => {
+        const { queryClient, calls } = recordingQueryClient();
+        const loader = ListRoute.options.loader as (
+            ctx: unknown,
+        ) => Promise<unknown>;
+        await loader({
+            params: { username, content_type: type },
+            deps: userlistSearchSchema.parse(raw),
+            context: { queryClient, apiClient: ssrRequestClient() },
+        });
+
+        expect(calls.some((call) => call.startsWith('redirect'))).toBe(false);
+    });
 
     it('ignores the page param', () => {
         expect(EXPECTED_LIST_CALLS['anime, page 2']).toEqual(

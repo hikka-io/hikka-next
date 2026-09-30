@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { isNavActive } from './nav-config';
+import { APP_NAV_USER_CONTENT, isNavActive } from './nav-config';
 
 // The nested /edit entries are the only pair where a prefix match is wrong, so
 // pin the "deepest item wins" rule against a future nested route.
@@ -35,5 +35,13 @@ describe('isNavActive', () => {
     it('matches home only exactly', () => {
         expect(isNavActive('/', '/')).toBe(true);
         expect(isNavActive('/anime', '/')).toBe(false);
+    });
+});
+
+describe('nav links to redirecting routes', () => {
+    it('links the collections item to the canonical first page', () => {
+        expect(
+            APP_NAV_USER_CONTENT.find(({ slug }) => slug === 'collections'),
+        ).toMatchObject({ url: '/collections', search: { page: 1 } });
     });
 });

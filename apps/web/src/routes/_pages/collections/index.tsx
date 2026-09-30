@@ -21,16 +21,17 @@ import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/collections/')({
     validateSearch: zodValidator(collectionsSearchSchema),
+    beforeLoad: ({ search }) => {
+        if (!search.page) {
+            throw redirect({
+                to: '/collections',
+                search: { ...search, page: 1 },
+            });
+        }
+    },
     loaderDeps: ({ search }) => search,
     loader: async ({ context: { queryClient, apiClient }, deps }) => {
         const { page, sort = 'system_ranking' } = deps;
-
-        if (!page) {
-            throw redirect({
-                to: '/collections',
-                search: { ...deps, page: 1 },
-            });
-        }
 
         const collections = await retryOnCancel(() =>
             queryClient.ensureInfiniteQueryData(
@@ -44,7 +45,11 @@ export const Route = createFileRoute('/_pages/collections/')({
             ),
         );
 
-        return { collections, page: Number(page), sort };
+        return {
+            page: Number(page),
+            sort,
+            pagination: collections.pages[0].pagination,
+        };
     },
     head: () =>
         generateHeadMeta({
@@ -56,7 +61,7 @@ export const Route = createFileRoute('/_pages/collections/')({
 });
 
 function CollectionsPage() {
-    const { collections, page, sort } = Route.useLoaderData();
+    const { page, sort, pagination } = Route.useLoaderData();
 
     const titleAnchor = usePageTitleAnchor();
 
@@ -82,9 +87,7 @@ function CollectionsPage() {
                 <CollectionSort />
             </div>
             <CollectionList page={page} sort={sort} />
-            {collections && (
-                <PagePagination pagination={collections.pages[0].pagination} />
-            )}
+            {pagination && <PagePagination pagination={pagination} />}
         </Block>
     );
 }
