@@ -58,8 +58,6 @@ export const QUERY_DEFAULT_TIERS = [
             'personManga',
             'personNovel',
             'personVoices',
-            'getCollection',
-            'getArticle',
         ],
         options: { staleTime: 10 * 60 * 1000 },
     },

@@ -99,12 +99,12 @@ describe('query defaults', () => {
         [
             'getCollection',
             keyOf(getCollectionOptions({ path: { reference: 'ref' }, client })),
-            10 * MINUTE,
+            MINUTE,
         ],
         [
             'getArticle',
             keyOf(getArticleOptions({ path: { slug: 'news' }, client })),
-            10 * MINUTE,
+            MINUTE,
         ],
         [
             'unseenNotificationsCount',
