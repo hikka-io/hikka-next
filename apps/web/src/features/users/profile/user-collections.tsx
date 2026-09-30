@@ -55,85 +55,85 @@ const UserCollections: FC<Props> = ({ className }) => {
         { enabled: visible },
     );
 
-    if (isPending) {
-        return (
-            <Card ref={ref} className={cn(className)} id="user-collections">
-                <Block>
-                    <Header>
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Колекції</HeaderTitle>
-                        </HeaderContainer>
-                    </Header>
-                    <div className="flex flex-col gap-6">
-                        {range(0, COLLECTIONS_PREVIEW_SIZE).map((index) => (
-                            <CollectionItemSkeleton key={index} />
-                        ))}
-                    </div>
-                </Block>
-            </Card>
-        );
-    }
-
-    if (!collections) {
-        return null;
-    }
-
-    if (collections?.length === 0 && loggedUser?.username !== params.username) {
-        return null;
-    }
-
-    const filteredCollections = collections?.slice(0, COLLECTIONS_PREVIEW_SIZE);
+    const isOwner = loggedUser?.username === params.username;
+    const hidden =
+        !isPending && (!collections || (collections.length === 0 && !isOwner));
 
     return (
         <>
-            <Card className={cn(className)} id="user-collections">
-                <Block>
-                    <Header
-                        onClick={
-                            collections && collections?.length > 0
-                                ? () => setOpen(true)
-                                : undefined
-                        }
-                    >
-                        <HeaderContainer>
-                            <HeaderTitle variant="h4">Колекції</HeaderTitle>
-                            {loggedUser?.username === params.username && (
-                                <Button
-                                    size="icon-sm"
-                                    variant="outline"
-                                    render={<Link to="/collections/new" />}
-                                >
-                                    <MaterialSymbolsAddRounded />
-                                </Button>
-                            )}
-                        </HeaderContainer>
-                        <HeaderNavButton />
-                    </Header>
-
-                    <div className="flex flex-col gap-6">
-                        {filteredCollections?.map((item) => (
-                            <CollectionItem data={item} key={item.reference} />
-                        ))}
-                        {collections && collections?.length === 0 && (
-                            <EmptyState
-                                icon={<MaterialSymbolsGridViewRounded />}
-                                title="Колекції відсутні"
-                                description="Створіть свою першу колекцію"
-                                action={
-                                    <Button
-                                        variant="secondary"
-                                        size="md"
-                                        render={<Link to="/collections/new" />}
-                                    >
-                                        <MaterialSymbolsAddRounded />
-                                        Створити колекцію
-                                    </Button>
+            <div ref={ref}>
+                {!hidden && (
+                    <Card className={cn(className)} id="user-collections">
+                        <Block>
+                            <Header
+                                onClick={
+                                    collections && collections.length > 0
+                                        ? () => setOpen(true)
+                                        : undefined
                                 }
-                            />
-                        )}
-                    </div>
-                </Block>
-            </Card>
+                            >
+                                <HeaderContainer>
+                                    <HeaderTitle variant="h4">
+                                        Колекції
+                                    </HeaderTitle>
+                                    {isOwner && collections && (
+                                        <Button
+                                            size="icon-sm"
+                                            variant="outline"
+                                            render={
+                                                <Link to="/collections/new" />
+                                            }
+                                        >
+                                            <MaterialSymbolsAddRounded />
+                                        </Button>
+                                    )}
+                                </HeaderContainer>
+                                {collections && <HeaderNavButton />}
+                            </Header>
+
+                            <div className="flex flex-col gap-6">
+                                {!collections &&
+                                    range(0, COLLECTIONS_PREVIEW_SIZE).map(
+                                        (index) => (
+                                            <CollectionItemSkeleton
+                                                key={index}
+                                            />
+                                        ),
+                                    )}
+                                {collections
+                                    ?.slice(0, COLLECTIONS_PREVIEW_SIZE)
+                                    .map((item) => (
+                                        <CollectionItem
+                                            data={item}
+                                            key={item.reference}
+                                        />
+                                    ))}
+                                {collections?.length === 0 && (
+                                    <EmptyState
+                                        icon={
+                                            <MaterialSymbolsGridViewRounded />
+                                        }
+                                        title="Колекції відсутні"
+                                        description="Створіть свою першу колекцію"
+                                        action={
+                                            <Button
+                                                variant="secondary"
+                                                size="md"
+                                                render={
+                                                    <Link to="/collections/new" />
+                                                }
+                                            >
+                                                <MaterialSymbolsAddRounded />
+                                                Створити колекцію
+                                            </Button>
+                                        }
+                                    />
+                                )}
+                            </div>
+                        </Block>
+                    </Card>
+                )}
+            </div>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
                 <ResponsiveModalContent side="right" title="Колекції">
                     <CollectionListModal

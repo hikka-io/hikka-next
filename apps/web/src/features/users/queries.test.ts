@@ -934,7 +934,7 @@ describe('profile previews', () => {
         mocks.list = [];
 
         expect(renderToStaticMarkup(createElement(UserCollections, {}))).toBe(
-            '',
+            '<div></div>',
         );
     });
 
