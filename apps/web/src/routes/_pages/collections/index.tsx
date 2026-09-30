@@ -30,26 +30,38 @@ export const Route = createFileRoute('/_pages/collections/')({
         }
     },
     loaderDeps: ({ search }) => search,
-    loader: async ({ context: { queryClient, apiClient }, deps }) => {
-        const { page, sort = 'system_ranking' } = deps;
+    // A hover preload skips the list, so a click must rerun the loader and wait for it.
+    preloadStaleTime: 0,
+    loader: {
+        staleReloadMode: 'blocking',
+        handler: async ({
+            context: { queryClient, apiClient },
+            deps,
+            preload,
+        }) => {
+            const { page, sort = 'system_ranking' } = deps;
 
-        const collections = await retryOnCancel(() =>
-            queryClient.ensureInfiniteQueryData(
-                paginatedInfiniteOptions(
-                    getCollectionsInfiniteOptions({
-                        body: { sort: [`${sort}:desc`] },
-                        client: apiClient,
-                    }),
-                    Number(page),
+            if (preload)
+                return { page: Number(page), sort, pagination: undefined };
+
+            const collections = await retryOnCancel(() =>
+                queryClient.ensureInfiniteQueryData(
+                    paginatedInfiniteOptions(
+                        getCollectionsInfiniteOptions({
+                            body: { sort: [`${sort}:desc`] },
+                            client: apiClient,
+                        }),
+                        Number(page),
+                    ),
                 ),
-            ),
-        );
+            );
 
-        return {
-            page: Number(page),
-            sort,
-            pagination: collections.pages[0].pagination,
-        };
+            return {
+                page: Number(page),
+                sort,
+                pagination: collections.pages[0].pagination,
+            };
+        },
     },
     head: () =>
         generateHeadMeta({
