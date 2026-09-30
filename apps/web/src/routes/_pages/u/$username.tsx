@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import {
     createFileRoute,
     notFound,
@@ -83,7 +84,7 @@ export const Route = createFileRoute('/_pages/u/$username')({
 
 function UserLayout() {
     const { username } = Route.useParams();
-    const { user } = Route.useLoaderData();
+    const { data: user } = useQuery(userProfileOptions({ path: { username } }));
     const pathname = usePathname();
     const profileUrl = `/u/${username}`;
 

@@ -58,16 +58,15 @@ export const Route = createFileRoute('/_pages/edit/$editId')({
 
 function EditLayout() {
     const { editId } = Route.useParams();
-    const { edit: loadedEdit } = Route.useLoaderData();
-    const { data: edit = loadedEdit } = useQuery(
-        getEditOptions({ path: { edit_id: loadedEdit.edit_id } }),
+    const { data: edit } = useQuery(
+        getEditOptions({ path: { edit_id: Number(editId) } }),
     );
     const pathname = usePathname();
-    const contentTitle = useTitle(edit.content);
+    const contentTitle = useTitle(edit?.content);
     const editUrl = `/edit/${editId}`;
 
     usePageHeader({
-        title: `Правка #${edit.edit_id}`,
+        title: `Правка #${edit?.edit_id ?? editId}`,
         subtitle: pathname === editUrl ? contentTitle : 'Редагування',
         parent: pathname === editUrl ? '/edit' : editUrl,
         anchored: true,
@@ -80,11 +79,13 @@ function EditLayout() {
             </Block>
             <div className="flex flex-col gap-6 [&>*:first-child]:backdrop-blur">
                 <EditTimeline editId={editId} />
-                <EditContent
-                    slug={edit.content.slug as string}
-                    content_type={edit.content_type}
-                    content={edit.content}
-                />
+                {edit && (
+                    <EditContent
+                        slug={edit.content.slug as string}
+                        content_type={edit.content_type}
+                        content={edit.content}
+                    />
+                )}
             </div>
         </div>
     );

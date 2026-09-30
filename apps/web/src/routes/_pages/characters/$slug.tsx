@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
@@ -9,6 +10,7 @@ import {
 } from '@/features/content/detail-route';
 import { CHARACTER_NAV_ROUTES } from '@/features/entities';
 import { useTitle } from '@/services/session';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 
 export const Route = createFileRoute('/_pages/characters/$slug')({
     loader: ({ params, context }) =>
@@ -19,12 +21,15 @@ export const Route = createFileRoute('/_pages/characters/$slug')({
 });
 
 function CharacterDetailLayout() {
-    const { character } = Route.useLoaderData();
+    const { slug } = Route.useParams();
+    const { data: character } = useQuery(
+        contentInfoOptions(ContentTypeEnum.CHARACTER, slug),
+    );
     const title = useTitle(character);
 
     return (
         <ContentDetailLayout
-            slug={character.slug}
+            slug={character?.slug ?? slug}
             contentType={ContentTypeEnum.CHARACTER}
             navRoutes={CHARACTER_NAV_ROUTES}
             title={title}

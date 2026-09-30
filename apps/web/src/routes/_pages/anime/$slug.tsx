@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
@@ -8,6 +9,7 @@ import {
     contentDetailTitle,
     loadContentDetail,
 } from '@/features/content/detail-route';
+import { contentInfoOptions } from '@/utils/api/content-queries';
 
 export const Route = createFileRoute('/_pages/anime/$slug')({
     loader: ({ params, context }) =>
@@ -18,14 +20,20 @@ export const Route = createFileRoute('/_pages/anime/$slug')({
 });
 
 function AnimeDetailLayout() {
-    const { anime, nsfwConsented } = Route.useLoaderData();
+    const { slug } = Route.useParams();
+    const { nsfwConsented } = Route.useLoaderData();
+    const { data: anime } = useQuery(
+        contentInfoOptions(ContentTypeEnum.ANIME, slug),
+    );
 
     return (
         <ContentDetailLayout
-            slug={anime.slug}
+            slug={anime?.slug ?? slug}
             contentType={ContentTypeEnum.ANIME}
-            title={contentDetailTitle(ContentTypeEnum.ANIME, anime)}
-            nsfw={anime.nsfw}
+            title={
+                anime ? contentDetailTitle(ContentTypeEnum.ANIME, anime) : ''
+            }
+            nsfw={anime?.nsfw}
             nsfwConsented={nsfwConsented}
         >
             <Outlet />
