@@ -379,7 +379,7 @@ export function contentDetailHead<T extends MainContentTypeEnum>(
     if (!content) return {};
 
     const startDate = content.start_date
-        ? new Date(content.start_date * 1000).getFullYear()
+        ? new Date(content.start_date * 1000).getUTCFullYear()
         : null;
     const title =
         contentDetailTitle(type, content) +

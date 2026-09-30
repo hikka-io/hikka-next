@@ -850,6 +850,21 @@ describe('contentDetailHead and entityDetailHead', () => {
     });
 });
 
+describe('contentDetailHead year', () => {
+    it.each([
+        ['just before UTC new year', 946683000, '(1999)'],
+        ['just after UTC new year', 946686600, '(2000)'],
+    ])('reads the UTC year %s', (_, startDate, year) => {
+        const { info } = CONTENT_ROUTES.anime;
+        const head = contentDetailHead('anime', {
+            anime: { ...info(), start_date: startDate },
+            nsfwConsented: false,
+        } as never);
+
+        expect(headLines(head)[0]).toBe(`title=Original JA ${year} / Hikka`);
+    });
+});
+
 describe('contentDetailTitle', () => {
     const titles = {
         title_ua: null,
