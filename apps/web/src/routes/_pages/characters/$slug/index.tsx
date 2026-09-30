@@ -2,8 +2,8 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { ContentTypeEnum } from '@hikka/api';
 
-import { loadEntityOverview } from '@/features/content/detail-route';
 import { CharacterDetailPage } from '@/features/entities';
+import { loadEntityOverview } from '@/features/entities/queries';
 
 export const Route = createFileRoute('/_pages/characters/$slug/')({
     loader: ({ params, context }) =>

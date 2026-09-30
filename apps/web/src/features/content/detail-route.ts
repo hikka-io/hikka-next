@@ -20,12 +20,6 @@ import {
 } from '@hikka/api';
 
 import {
-    ENTITY_APPEARANCE_LISTS,
-    type EntityAppearanceList,
-    type EntityType,
-    entityAppearanceOptions,
-} from '@/features/entities/queries';
-import {
     type ContentInfo,
     contentInfoOptions,
     favouriteEntryOptions,
@@ -49,11 +43,6 @@ type DetailLoaderContext = {
 };
 
 type Prefetch = (ctx: DetailLoaderContext) => Promise<unknown>;
-
-// The entity lists differ in page type; a prefetch discards the data, so it only needs the common shape.
-type InfinitePrefetchOptions = Parameters<
-    QueryClient['ensureInfiniteQueryData']
->[0];
 
 // Characters: match the component-body call (no `query`) to share a cache key.
 const animeCharacters: Prefetch = ({ slug, queryClient, apiClient }) =>
@@ -141,27 +130,13 @@ const CONTENT_TAB_PREFETCHES: Record<
 const settle = (prefetches: Prefetch[], ctx: DetailLoaderContext) =>
     Promise.allSettled(prefetches.map((prefetch) => prefetch(ctx)));
 
-const entityAppearance =
-    (
-        type: EntityType,
-        list: EntityAppearanceList,
-        preview: boolean,
-    ): Prefetch =>
-    ({ slug, queryClient, apiClient }) =>
-        queryClient.ensureInfiniteQueryData({
-            ...entityAppearanceOptions(
-                type,
-                list,
-                slug,
-                { preview },
-                apiClient,
-            ),
-            ...paginationPageParam(),
-        } as InfinitePrefetchOptions);
-
 type ContentDetail = AnimeInfoResponse | MangaInfoResponse | NovelInfoResponse;
 
 type EntityDetail = CharacterInfoResponse | PersonInfoResponse;
+
+type EntityType =
+    | typeof ContentTypeEnum.CHARACTER
+    | typeof ContentTypeEnum.PERSON;
 
 type ContentDetailData<T extends MainContentTypeEnum> = {
     [K in T]: ContentInfo<K>;
@@ -237,26 +212,6 @@ export async function loadEntityDetail<T extends EntityType>(
     await userValues;
 
     return { [type]: entity } as EntityDetailData<T>;
-}
-
-export async function loadEntityOverview(
-    type: EntityType,
-    ctx: DetailLoaderContext,
-): Promise<void> {
-    await settle(
-        ENTITY_APPEARANCE_LISTS.map((list) =>
-            entityAppearance(type, list, true),
-        ),
-        ctx,
-    );
-}
-
-export async function loadEntityTab(
-    type: EntityType,
-    list: EntityAppearanceList,
-    ctx: DetailLoaderContext,
-): Promise<void> {
-    await settle([entityAppearance(type, list, false)], ctx);
 }
 
 export function contentDetailTitle(
