@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useInView } from 'react-intersection-observer';
 
-export const VISIBLE_ROOT_MARGIN = '400px';
+import { VISIBLE_ROOT_MARGIN } from './visibility';
 
 export const useVisibleOnce = () => {
     const [seen, setSeen] = useState(false);
