@@ -1,5 +1,7 @@
 import {
     type QueryClient,
+    type QueryFunction,
+    type QueryKey,
     queryOptions,
     type UseQueryOptions,
 } from '@tanstack/react-query';
@@ -14,13 +16,10 @@ import {
     characterNovelInfiniteOptions,
     characterVoicesInfiniteOptions,
     type FavouriteContentTypeEnum,
-    type GetFavouriteError,
-    type GetFavouriteResponse,
     getArticleOptions,
     getCollectionOptions,
     getEditOptions,
-    getFavourite,
-    getFavouriteQueryKey,
+    getFavouriteOptions,
     HikkaApiError,
     MainContentTypeEnum,
     mangaInfoOptions,
@@ -33,73 +32,43 @@ import {
     type ReadContentTypeEnum,
     type ReadGetError,
     type ReadGetResponse,
-    readGet,
-    readGetQueryKey,
+    readGetOptions,
     userProfileOptions,
     type WatchGetError,
     type WatchGetResponse,
-    watchGet,
-    watchGetQueryKey,
+    watchGetOptions,
 } from '@hikka/api';
 
 import { ensureOr404 } from './ensure-or-404';
 
-async function nullOn404<T>(request: Promise<{ data: T }>): Promise<T | null> {
-    try {
-        return (await request).data;
-    } catch (error) {
-        if (error instanceof HikkaApiError && error.status === 404) return null;
-        throw error;
-    }
-}
+function nullOn404<TData, TError, TKey extends QueryKey>(
+    generated: UseQueryOptions<TData, TError, TData, TKey>,
+) {
+    const queryFn = generated.queryFn as QueryFunction<TData, TKey>;
 
-function watchEntryOptions(slug: string, client?: Client) {
-    const options = { path: { slug }, client };
-
-    return queryOptions<
-        WatchGetResponse | null,
-        WatchGetError,
-        WatchGetResponse | null,
-        ReturnType<typeof watchGetQueryKey>
-    >({
-        queryFn: ({ queryKey, signal }) =>
-            nullOn404(
-                watchGet({
-                    ...options,
-                    ...queryKey[0],
-                    signal,
-                    throwOnError: true,
-                }),
-            ),
-        queryKey: watchGetQueryKey(options),
+    return queryOptions<TData | null, TError, TData | null, TKey>({
+        queryFn: async (context) => {
+            try {
+                return await queryFn(context);
+            } catch (error) {
+                if (error instanceof HikkaApiError && error.status === 404) {
+                    return null;
+                }
+                throw error;
+            }
+        },
+        queryKey: generated.queryKey,
     });
 }
 
-function readEntryOptions(
+const watchEntryOptions = (slug: string, client?: Client) =>
+    nullOn404(watchGetOptions({ path: { slug }, client }));
+
+const readEntryOptions = (
     content_type: ReadContentTypeEnum,
     slug: string,
     client?: Client,
-) {
-    const options = { path: { slug, content_type }, client };
-
-    return queryOptions<
-        ReadGetResponse | null,
-        ReadGetError,
-        ReadGetResponse | null,
-        ReturnType<typeof readGetQueryKey>
-    >({
-        queryFn: ({ queryKey, signal }) =>
-            nullOn404(
-                readGet({
-                    ...options,
-                    ...queryKey[0],
-                    signal,
-                    throwOnError: true,
-                }),
-            ),
-        queryKey: readGetQueryKey(options),
-    });
-}
+) => nullOn404(readGetOptions({ path: { slug, content_type }, client }));
 
 type WatchEntryOptions = ReturnType<typeof watchEntryOptions>;
 type ReadEntryOptions = ReturnType<typeof readEntryOptions>;
@@ -142,25 +111,9 @@ export function favouriteEntryOptions(
     slug: string,
     client?: Client,
 ) {
-    const options = { path: { content_type, slug }, client };
-
-    return queryOptions<
-        GetFavouriteResponse | null,
-        GetFavouriteError,
-        GetFavouriteResponse | null,
-        ReturnType<typeof getFavouriteQueryKey>
-    >({
-        queryFn: ({ queryKey, signal }) =>
-            nullOn404(
-                getFavourite({
-                    ...options,
-                    ...queryKey[0],
-                    signal,
-                    throwOnError: true,
-                }),
-            ),
-        queryKey: getFavouriteQueryKey(options),
-    });
+    return nullOn404(
+        getFavouriteOptions({ path: { content_type, slug }, client }),
+    );
 }
 
 const CONTENT_INFO_OPTIONS = {
