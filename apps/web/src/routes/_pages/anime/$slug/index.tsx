@@ -7,8 +7,14 @@ import {
     ContentMedia,
     ContentMovieBanner,
 } from '@/features/content';
+import { loadContentOverview } from '@/features/content/detail-route';
 
 export const Route = createFileRoute('/_pages/anime/$slug/')({
+    loader: ({ params, context }) =>
+        loadContentOverview(ContentTypeEnum.ANIME, {
+            slug: params.slug,
+            ...context,
+        }),
     component: AnimeDetailPage,
 });
 

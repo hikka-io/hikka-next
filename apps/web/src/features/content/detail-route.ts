@@ -14,11 +14,6 @@ import {
     characterVoicesInfiniteOptions,
     contentFranchiseOptions,
     type FavouriteContentTypeEnum,
-    getArticlesInfiniteOptions,
-    getCollectionsInfiniteOptions,
-    getCommentsListInfiniteOptions,
-    getReadFollowingInfiniteOptions,
-    getWatchFollowingInfiniteOptions,
     type MainContentTypeEnum,
     type MangaInfoResponse,
     mangaCharactersInfiniteOptions,
@@ -30,10 +25,8 @@ import {
     personMangaInfiniteOptions,
     personNovelInfiniteOptions,
     personVoicesInfiniteOptions,
-    ReadContentTypeEnum,
 } from '@hikka/api';
 
-import { commentListPrefetchBody } from '@/features/comments/queries';
 import {
     type ContentInfo,
     contentInfoOptions,
@@ -44,7 +37,7 @@ import { ensureOr404 } from '@/utils/api/ensure-or-404';
 import { stripRestrictedExternal } from '@/utils/api/strip-restricted-external';
 import { getSessionFromPagesCache } from '@/utils/auth';
 import { contentPath } from '@/utils/content-paths';
-import { getNsfwConsentFn } from '@/utils/cookies';
+import { readNsfwConsent } from '@/utils/cookies';
 import { parseTextFromMarkDown } from '@/utils/markdown';
 import { generateHeadMeta } from '@/utils/metadata';
 import { truncateText } from '@/utils/text';
@@ -154,41 +147,6 @@ const franchise =
             }),
         );
 
-const articles =
-    (content_type: MainContentTypeEnum): Prefetch =>
-    ({ slug, queryClient, apiClient }) =>
-        queryClient.ensureInfiniteQueryData({
-            ...getArticlesInfiniteOptions({
-                body: { content_slug: slug, content_type },
-                client: apiClient,
-            }),
-            ...paginationPageParam(),
-        });
-
-const comments =
-    (content_type: MainContentTypeEnum): Prefetch =>
-    ({ slug, queryClient, apiClient }) =>
-        queryClient.ensureInfiniteQueryData({
-            ...getCommentsListInfiniteOptions({
-                path: { content_type, slug },
-                body: commentListPrefetchBody(),
-                query: { size: 3 },
-                client: apiClient,
-            }),
-            ...paginationPageParam(),
-        });
-
-const collections =
-    (content_type: MainContentTypeEnum): Prefetch =>
-    ({ slug, queryClient, apiClient }) =>
-        queryClient.ensureInfiniteQueryData({
-            ...getCollectionsInfiniteOptions({
-                body: { content: [slug], content_type },
-                client: apiClient,
-            }),
-            ...paginationPageParam(),
-        });
-
 const listEntry =
     (type: MainContentTypeEnum): Prefetch =>
     ({ slug, queryClient, apiClient }) =>
@@ -201,74 +159,35 @@ const favourite =
             favouriteEntryOptions(content_type, slug, apiClient),
         );
 
-const watchFollowing: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...getWatchFollowingInfiniteOptions({
-            path: { slug },
-            client: apiClient,
-        }),
-        ...paginationPageParam(),
-    });
+const CONTENT_CHARACTERS = {
+    [ContentTypeEnum.ANIME]: animeCharacters,
+    [ContentTypeEnum.MANGA]: mangaCharacters,
+    [ContentTypeEnum.NOVEL]: novelCharacters,
+} satisfies Record<MainContentTypeEnum, Prefetch>;
 
-const readFollowing =
-    (content_type: ReadContentTypeEnum): Prefetch =>
-    ({ slug, queryClient, apiClient }) =>
-        queryClient.ensureInfiniteQueryData({
-            ...getReadFollowingInfiniteOptions({
-                path: { slug, content_type },
-                client: apiClient,
-            }),
-            ...paginationPageParam(),
-        });
+type ContentTab = 'characters' | 'staff' | 'franchise';
 
-const CONTENT_DETAIL_PREFETCHES = {
+const CONTENT_TAB_PREFETCHES: Record<
+    MainContentTypeEnum,
+    Partial<Record<ContentTab, Prefetch>>
+> = {
     [ContentTypeEnum.ANIME]: {
-        prefetches: [
-            franchise(ContentTypeEnum.ANIME),
-            animeStaff,
-            articles(ContentTypeEnum.ANIME),
-            comments(ContentTypeEnum.ANIME),
-            animeCharacters,
-            collections(ContentTypeEnum.ANIME),
-        ],
-        userPrefetches: [
-            listEntry(ContentTypeEnum.ANIME),
-            favourite(ContentTypeEnum.ANIME),
-            watchFollowing,
-        ],
+        characters: animeCharacters,
+        staff: animeStaff,
+        franchise: franchise(ContentTypeEnum.ANIME),
     },
     [ContentTypeEnum.MANGA]: {
-        prefetches: [
-            mangaCharacters,
-            franchise(ContentTypeEnum.MANGA),
-            articles(ContentTypeEnum.MANGA),
-            comments(ContentTypeEnum.MANGA),
-            collections(ContentTypeEnum.MANGA),
-        ],
-        userPrefetches: [
-            listEntry(ContentTypeEnum.MANGA),
-            favourite(ContentTypeEnum.MANGA),
-            readFollowing(ReadContentTypeEnum.MANGA),
-        ],
+        characters: mangaCharacters,
+        franchise: franchise(ContentTypeEnum.MANGA),
     },
     [ContentTypeEnum.NOVEL]: {
-        prefetches: [
-            novelCharacters,
-            franchise(ContentTypeEnum.NOVEL),
-            articles(ContentTypeEnum.NOVEL),
-            comments(ContentTypeEnum.NOVEL),
-            collections(ContentTypeEnum.NOVEL),
-        ],
-        userPrefetches: [
-            listEntry(ContentTypeEnum.NOVEL),
-            favourite(ContentTypeEnum.NOVEL),
-            readFollowing(ReadContentTypeEnum.NOVEL),
-        ],
+        characters: novelCharacters,
+        franchise: franchise(ContentTypeEnum.NOVEL),
     },
-} satisfies Record<
-    MainContentTypeEnum,
-    { prefetches: Prefetch[]; userPrefetches: Prefetch[] }
->;
+};
+
+const settle = (prefetches: Prefetch[], ctx: DetailLoaderContext) =>
+    Promise.allSettled(prefetches.map((prefetch) => prefetch(ctx)));
 
 type EntityType =
     | typeof ContentTypeEnum.CHARACTER
@@ -309,29 +228,42 @@ export async function loadContentDetail<T extends MainContentTypeEnum>(
         slug,
         apiClient,
     );
+    const session = getSessionFromPagesCache(queryClient);
+    const userValues = session
+        ? settle([listEntry(type), favourite(type)], ctx)
+        : undefined;
+
     let content = await ensureOr404(() => queryClient.ensureQueryData(options));
 
     if (!content) throw notFound();
-
-    const session = getSessionFromPagesCache(queryClient);
 
     if (!session) {
         content = stripRestrictedExternal(content);
         queryClient.setQueryData(options.queryKey, content);
     }
 
-    const nsfwConsented = content.nsfw ? !!(await getNsfwConsentFn()) : false;
+    const nsfwConsented = content.nsfw ? !!(await readNsfwConsent()) : false;
 
-    const { prefetches, userPrefetches } = CONTENT_DETAIL_PREFETCHES[type];
-
-    // Only prefetch user-specific data when authed; anon just 401s.
-    await Promise.allSettled(
-        [...prefetches, ...(session ? userPrefetches : [])].map((prefetch) =>
-            prefetch(ctx),
-        ),
-    );
+    await userValues;
 
     return { [type]: content, nsfwConsented } as ContentDetailData<T>;
+}
+
+export async function loadContentOverview(
+    type: MainContentTypeEnum,
+    ctx: DetailLoaderContext,
+): Promise<void> {
+    await settle([CONTENT_CHARACTERS[type]], ctx);
+}
+
+export async function loadContentTab(
+    type: MainContentTypeEnum,
+    tab: ContentTab,
+    ctx: DetailLoaderContext,
+): Promise<void> {
+    const prefetch = CONTENT_TAB_PREFETCHES[type][tab];
+
+    if (prefetch) await settle([prefetch], ctx);
 }
 
 export async function loadEntityDetail<T extends EntityType>(
