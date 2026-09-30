@@ -80,9 +80,28 @@ export default defineConfig({
     },
     plugins: [
         { name: '@hey-api/client-fetch', baseUrl: false },
-        { name: '@hey-api/typescript', enums: 'javascript' },
+        {
+            name: '@hey-api/typescript',
+            enums: 'javascript',
+            // Each member already declares its `data_type` literal; skip the `{ data_type } &` wrapper a discriminator adds.
+            $resolvers: {
+                union: ({ $, childResults, parentSchema }) =>
+                    parentSchema.discriminator
+                        ? $.type.or(...childResults.map((r) => r.type))
+                        : undefined,
+            },
+        },
         { name: '@hey-api/sdk', validator: { response: 'zod' } },
-        'zod',
+        {
+            name: 'zod',
+            // Zod 3 parseAsync runs every union branch and allocates a promise per node; no schema is async.
+            $resolvers: {
+                validator: {
+                    response: ({ $, symbols }) =>
+                        $(symbols.schema).attr('parse').call('data').return(),
+                },
+            },
+        },
         {
             name: '@tanstack/react-query',
             queryOptions: true,

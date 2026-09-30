@@ -1257,7 +1257,10 @@ export const zReadResponse = z.object({
     score: z.number().int(),
     start_date: z.number().int().nullable(),
     end_date: z.number().int().nullable(),
-    content: z.union([zMangaResponse, zNovelResponse]),
+    content: z.discriminatedUnion('data_type', [
+        zMangaResponse,
+        zNovelResponse,
+    ]),
 });
 
 /**
@@ -2501,7 +2504,7 @@ export const zEditResponse = z.object({
     before: z.record(z.unknown()).nullable(),
     system_edit: z.boolean(),
     after: z.record(z.unknown()),
-    content: z.union([
+    content: z.discriminatedUnion('data_type', [
         zAnimeResponse,
         zMangaResponse,
         zNovelResponse,
@@ -2561,7 +2564,11 @@ export const zEditsTopPaginationResponse = z.object({
  */
 export const zHistoryResponse = z.object({
     content: z
-        .union([zAnimeResponse, zMangaResponse, zNovelResponse])
+        .discriminatedUnion('data_type', [
+            zAnimeResponse,
+            zMangaResponse,
+            zNovelResponse,
+        ])
         .nullish(),
     created: z.number().int(),
     updated: z.number().int(),
@@ -2850,7 +2857,7 @@ export const zCollectionContentResponse = z.object({
     label: z.string().nullable(),
     content_type: zCollectionContentTypeEnum,
     order: z.number().int(),
-    content: z.union([
+    content: z.discriminatedUnion('data_type', [
         zAnimeResponseWithWatch,
         zMangaResponseWithRead,
         zNovelResponseWithRead,
@@ -3346,7 +3353,7 @@ export const zMalContentPath = z.object({
  *
  * Successful Response
  */
-export const zMalContentResponse = z.union([
+export const zMalContentResponse = z.discriminatedUnion('data_type', [
     zAnimeResponse,
     zMangaResponse,
     zNovelResponse,
@@ -4797,7 +4804,7 @@ export const zRandomReadNovelPath = z.object({
  *
  * Successful Response
  */
-export const zRandomReadNovelResponse = z.union([
+export const zRandomReadNovelResponse = z.discriminatedUnion('data_type', [
     zMangaResponse,
     zNovelResponse,
 ]);

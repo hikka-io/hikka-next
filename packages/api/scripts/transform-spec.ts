@@ -152,9 +152,77 @@ export function hoistInlineEnums<T extends OpenApiSpec>(
     return spec;
 }
 
+const DISCRIMINATOR_PROPERTY = 'data_type';
+
+const SCHEMA_REF_PREFIX = '#/components/schemas/';
+
+function discriminatorMapping(
+    members: SchemaObject[],
+    schemas: Record<string, SchemaObject>,
+    property: string,
+): Record<string, string> | undefined {
+    const mapping: Record<string, string> = {};
+
+    for (const member of members) {
+        if (member.type === 'null') continue;
+
+        const ref = member.$ref;
+        if (typeof ref !== 'string' || !ref.startsWith(SCHEMA_REF_PREFIX)) {
+            return undefined;
+        }
+
+        const target = schemas[ref.slice(SCHEMA_REF_PREFIX.length)];
+        const value = target?.properties?.[property]?.const;
+        const required = Array.isArray(target?.required) ? target.required : [];
+
+        if (typeof value !== 'string' || !required.includes(property)) {
+            return undefined;
+        }
+        if (value in mapping) return undefined;
+
+        mapping[value] = ref;
+    }
+
+    return Object.keys(mapping).length > 1 ? mapping : undefined;
+}
+
+/** Marks every anyOf/oneOf whose members all require a distinct `const` of `property` as discriminated (mutates `spec`). */
+export function addDiscriminators<
+    T extends Pick<OpenApiSpec, 'components'> & { paths: unknown },
+>(spec: T, property: string): T {
+    const schemas = spec.components?.schemas ?? {};
+
+    const visit = (node: unknown) => {
+        if (Array.isArray(node)) {
+            for (const child of node) visit(child);
+            return;
+        }
+        if (!node || typeof node !== 'object') return;
+
+        const schema = node as SchemaObject;
+
+        for (const key of ['anyOf', 'oneOf'] as const) {
+            const members = schema[key];
+            if (!Array.isArray(members) || schema.discriminator) continue;
+
+            const mapping = discriminatorMapping(members, schemas, property);
+            if (mapping) {
+                schema.discriminator = { propertyName: property, mapping };
+            }
+        }
+
+        for (const child of Object.values(schema)) visit(child);
+    };
+
+    visit(spec.paths);
+    visit(schemas);
+
+    return spec;
+}
+
 /**
- * Rewrites every operationId to its clean route name and names the repeated
- * inline enums. Mutates and returns `spec`.
+ * Rewrites every operationId to its clean route name, names the repeated
+ * inline enums and discriminates the `data_type` unions. Mutates and returns `spec`.
  */
 export function transformSpec<T extends OpenApiSpec>(spec: T): T {
     for (const [path, methods] of Object.entries(spec.paths)) {
@@ -169,5 +237,7 @@ export function transformSpec<T extends OpenApiSpec>(spec: T): T {
         }
     }
 
-    return hoistInlineEnums(spec, INLINE_ENUM_NAMES);
+    hoistInlineEnums(spec, INLINE_ENUM_NAMES);
+
+    return addDiscriminators(spec, DISCRIMINATOR_PROPERTY);
 }
