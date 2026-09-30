@@ -20,7 +20,7 @@ import ContentHero from './detail-header/hero';
 import ContentHeroPoster from './detail-header/hero-poster';
 import ContentTitle from './detail-header/title';
 import ContentDetails from './details';
-import { Followings } from './followings';
+import Followings from './followings/followings';
 import Franchise from './franchise';
 import ContentLinks from './links';
 import ContentScores from './scores';
