@@ -178,6 +178,7 @@ async function mount(ignored: string[]) {
 
     return {
         container,
+        queryClient,
         switchOf,
         toggle: (name: string) =>
             act(async () => {
@@ -226,7 +227,7 @@ describe('notifications settings', () => {
         expect(mocks.mutationFn.mock.calls[0][0]).toEqual({
             body: { ignored_notifications: [] },
         });
-        expect(mocks.invalidate).toHaveBeenCalledTimes(1);
+        expect(mocks.invalidate).not.toHaveBeenCalled();
         expect(mocks.success).toHaveBeenCalledWith(
             'Ви успішно змінили налаштування сповіщень.',
         );
@@ -274,5 +275,20 @@ describe('notifications settings', () => {
         expect(mocks.mutationFn.mock.calls[0][0]).toEqual({
             body: { ignored_notifications: ['hikka_update'] },
         });
+    });
+
+    it('writes the saved list from the PUT response into the cache', async () => {
+        const saved = { ignored_notifications: ['comment_reply', 'follow'] };
+        mocks.mutationFn.mockResolvedValueOnce(saved);
+        const { queryClient, toggle, submit } = await mount([]);
+
+        await toggle('comment_reply');
+        await toggle('follow');
+        await submit();
+
+        expect(
+            queryClient.getQueryData(getIgnoredNotificationsOptions().queryKey),
+        ).toEqual(saved);
+        expect(mocks.invalidate).not.toHaveBeenCalled();
     });
 });
