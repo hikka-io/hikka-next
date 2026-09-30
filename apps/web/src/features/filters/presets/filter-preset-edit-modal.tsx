@@ -22,7 +22,7 @@ import { FormScore } from '../score';
 import { FormSeason } from '../season';
 import { FormSort } from '../sort';
 import { FormStudio } from '../studio';
-import { FormYear } from '../year';
+import { FormYear } from '../year/year';
 import ContentTypeSelect from './content-type-select';
 import {
     type FilterPresetFormValues,

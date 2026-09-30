@@ -14,7 +14,7 @@ import ReleaseStatus from './release-status';
 import Score from './score';
 import Season from './season';
 import Studio from './studio';
-import Year from './year';
+import Year from './year/year';
 
 type BodyProps = {
     className?: string;

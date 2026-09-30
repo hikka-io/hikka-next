@@ -13,7 +13,7 @@ import Localization from './localization';
 import MediaType from './media-type';
 import ReleaseStatus from './release-status';
 import Score from './score';
-import Year from './year';
+import Year from './year/year';
 
 type BodyProps = {
     className?: string;

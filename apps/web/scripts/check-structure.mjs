@@ -32,7 +32,8 @@ const IGNORED = {
     'features:': 'untracked local stray kept by owner decision O14',
 };
 const REEXPORT =
-    /export\s+(?:type\s+)?(?:\*(?:\s+as\s+[\w$]+)?|\{[^}]*\})\s+from\s+(['"])[^'"\n]+\1\s*;?/g;
+    /export\s+(?:type\s+)?(?:\*\s+as\s+[\w$]+|\{[^}]*\})\s+from\s+(['"])[^'"\n]+\1\s*;?/g;
+const STAR_REEXPORT = /export\s+(?:type\s+)?\*\s+from\s+(['"])[^'"\n]+\1/;
 const COMMENT = /\/\*[\s\S]*?\*\/|(^|\s)\/\/.*$/gm;
 
 const isTracked = (root, path) => {
@@ -168,8 +169,15 @@ const checkFile = (root, rel, report) => {
         report(rel, 'B', 'index.tsx outside routes/ (barrels are index.ts)');
     }
     if (name === 'index.ts') {
-        const rest = source.replace(REEXPORT, '').replace(COMMENT, '$1').trim();
-        if (rest) {
+        const code = source.replace(COMMENT, '$1');
+        const rest = code.replace(REEXPORT, '').trim();
+        if (STAR_REEXPORT.test(code)) {
+            report(
+                rel,
+                'B',
+                'barrel uses export * from (list the exported names explicitly)',
+            );
+        } else if (rest) {
             report(
                 rel,
                 'B',
@@ -285,7 +293,12 @@ const FIXTURE = {
     'features/b/b.tsx': '',
     'features/b/c.tsx': '',
     'features/b/index.ts':
-        "// barrel\nexport { default as A } from './a';\nexport {\n    default as B,\n    type C, // note\n} from './b';\n/* block */\nexport * from './c';\nexport type * as T from './c';",
+        "// barrel\nexport { default as A } from './a';\nexport {\n    default as B,\n    type C, // note\n} from './b';\n/* block */\n// export * from './c';\nexport type * as T from './c';",
+    'features/d/a.tsx': '',
+    'features/d/b.tsx': '',
+    'features/d/c.tsx': '',
+    'features/d/index.ts':
+        "export * from './a';\nexport { default as B } from './b';",
     'features/about/prototype/x.ts': '',
     'features:': 'services-',
     'components/g/a.tsx': '',
@@ -341,6 +354,7 @@ const EXPECTED = [
     'features/a/outer: F',
     'features/a/types: P',
     'features/b: F',
+    'features/d/index.ts: B',
     'services/hooks/use-thing.ts: H',
     'types: P',
     'types/hikka.d.ts: ambient',
