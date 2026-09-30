@@ -25,15 +25,13 @@ const ContentActions: FC<Props> = ({ content_type, className }) => {
     const params = useParams();
     const { user } = useSession();
 
-    const { data: userlist, isError } = useQuery({
+    const { data: userlist } = useQuery({
         ...listEntryOptions(content_type, String(params.slug)),
         enabled: !!user,
     });
     const { data: content } = useQuery(
         contentInfoOptions(content_type, String(params.slug)),
     );
-
-    const hasList = !!userlist && !isError;
 
     return (
         <div className={cn('flex flex-col gap-4', className)}>
@@ -55,7 +53,7 @@ const ContentActions: FC<Props> = ({ content_type, className }) => {
             </div>
             <UserContentStats
                 content_type={content_type}
-                listItem={hasList ? userlist : undefined}
+                listItem={userlist ?? undefined}
             />
         </div>
     );

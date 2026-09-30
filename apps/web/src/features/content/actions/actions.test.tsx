@@ -14,13 +14,15 @@ import ContentActions from './actions';
 type QueryOptions = { queryKey: unknown; enabled?: unknown };
 
 const SLUG = 'some-slug';
+const ENTRY = { reference: 'entry', status: 'watching' };
 
 const mocks = vi.hoisted(() => ({
     user: undefined as { username: string } | undefined,
     useQuery: vi.fn((_options: unknown) => ({
-        data: undefined,
+        data: undefined as unknown,
         isError: false,
     })),
+    statsProps: [] as Record<string, unknown>[],
 }));
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
@@ -42,7 +44,12 @@ vi.mock('@/components/action-buttons', () => ({
 
 vi.mock('../list-entry-button', () => ({ default: () => null }));
 
-vi.mock('./components/user-content-stats', () => ({ default: () => null }));
+vi.mock('./components/user-content-stats', () => ({
+    default: (props: Record<string, unknown>) => {
+        mocks.statsProps.push(props);
+        return null;
+    },
+}));
 
 const queryOptionsWithKey = (queryKey: unknown) =>
     mocks.useQuery.mock.calls
@@ -54,7 +61,12 @@ const queryOptionsWithKey = (queryKey: unknown) =>
 
 beforeEach(() => {
     mocks.useQuery.mockClear();
+    mocks.useQuery.mockImplementation(() => ({
+        data: undefined,
+        isError: false,
+    }));
     mocks.user = undefined;
+    mocks.statsProps.length = 0;
 });
 
 describe.each([
@@ -82,6 +94,24 @@ describe.each([
             listEntryOptions(type, SLUG).queryKey,
         );
         expect(options.enabled).toBe(true);
+    });
+
+    it.each([
+        ['a loaded entry', ENTRY, false, ENTRY],
+        ['a kept entry after a failed refetch', ENTRY, true, ENTRY],
+        ['a failed fetch', undefined, true, undefined],
+        ['a null entry', null, false, undefined],
+    ])('passes the stats %s', (_name, data, isError, listItem) => {
+        mocks.user = { username: 'someone' };
+        const entryKey = JSON.stringify(listEntryOptions(type, SLUG).queryKey);
+        mocks.useQuery.mockImplementation((options) =>
+            JSON.stringify((options as QueryOptions).queryKey) === entryKey
+                ? { data, isError }
+                : { data: undefined, isError: false },
+        );
+        render();
+
+        expect(mocks.statsProps.at(-1)?.listItem).toBe(listItem);
     });
 
     it('keeps the list-entry query key and leaves the content query ungated', () => {
