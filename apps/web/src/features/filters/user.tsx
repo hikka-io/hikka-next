@@ -43,7 +43,7 @@ const UserFilter: FC<Props> = ({ paramKey, title }) => {
     const handleChangeParam = useChangeParam();
 
     const handleUserSearch = (keyword: string) => {
-        if (keyword.length < API_LIMITS.userSearchQuery.min) {
+        if (keyword.trim().length < API_LIMITS.userSearchQuery.min) {
             setUserSearch(undefined);
             return;
         }

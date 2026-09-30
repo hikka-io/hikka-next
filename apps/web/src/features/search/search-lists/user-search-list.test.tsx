@@ -53,6 +53,8 @@ describe('UserSearchList', () => {
         ['an empty value', ''],
         ['one character', 'a'],
         ['two characters', 'ab'],
+        ['two characters after a space', ' ab'],
+        ['two characters padded with spaces', '  ab  '],
     ])('does not search users for %s', (_, value) => {
         render(value);
 
@@ -62,17 +64,18 @@ describe('UserSearchList', () => {
     it.each([
         ['three characters', 'abc'],
         ['a longer query', 'olexh'],
+        ['three characters after spaces', '  abc'],
     ])('searches users for %s', (_, value) => {
         render(value);
 
         expect(lastOptions().enabled).toBe(true);
     });
 
-    it('sends the typed query unchanged', () => {
-        render('abc');
+    it.each(['abc', '  abc'])('sends the typed query %j unchanged', (value) => {
+        render(value);
 
         expect(lastOptions().queryKey).toEqual(
-            searchUsersOptions({ body: { query: 'abc' } }).queryKey,
+            searchUsersOptions({ body: { query: value } }).queryKey,
         );
     });
 

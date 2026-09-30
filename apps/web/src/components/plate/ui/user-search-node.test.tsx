@@ -113,6 +113,7 @@ describe('UserSearchInputElement', () => {
         ['nothing typed', ''],
         ['one character', 'a'],
         ['two characters', 'ab'],
+        ['two characters after a space', ' ab'],
         ['two characters padded with spaces', ' ab '],
     ])('does not search users for %s', async (_, value) => {
         const { search, lastOptions, emptyText } = await mount();
@@ -123,14 +124,17 @@ describe('UserSearchInputElement', () => {
         expect(emptyText()).toBe('Введіть щонайменше 3 символи');
     });
 
-    it('searches users from three characters', async () => {
+    it.each([
+        'abc',
+        '  abc',
+    ])('searches users from three characters in %j', async (value) => {
         const { search, lastOptions, emptyText } = await mount();
 
-        await search('abc');
+        await search(value);
 
         expect(lastOptions().enabled).toBe(true);
         expect(lastOptions().queryKey).toEqual(
-            searchUsersOptions({ body: { query: 'abc' } }).queryKey,
+            searchUsersOptions({ body: { query: value } }).queryKey,
         );
         expect(emptyText()).toBe('Користувачів не знайдено');
     });

@@ -109,7 +109,8 @@ const AllSearchList = ({
     const router = useRouter();
     const addHistoryEntry = useSearchHistoryStore((state) => state.addEntry);
     const enabled =
-        value !== undefined && value.length >= API_LIMITS.searchQuery.min;
+        value !== undefined &&
+        value.trim().length >= API_LIMITS.searchQuery.min;
 
     const anime = useInfiniteList(
         searchAnimeInfiniteOptions({

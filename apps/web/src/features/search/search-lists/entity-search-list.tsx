@@ -125,7 +125,7 @@ const EntitySearchList = ({
         {
             enabled:
                 value !== undefined &&
-                value.length >= API_LIMITS.searchQuery.min,
+                value.trim().length >= API_LIMITS.searchQuery.min,
         },
     );
 

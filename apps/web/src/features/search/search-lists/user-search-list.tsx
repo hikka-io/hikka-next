@@ -33,7 +33,7 @@ const UserSearchList = ({ onDismiss, type, value }: Props) => {
         ...searchUsersOptions({ body: { query: value || '' } }),
         enabled:
             value !== undefined &&
-            value.length >= API_LIMITS.userSearchQuery.min,
+            value.trim().length >= API_LIMITS.userSearchQuery.min,
     });
 
     return (
