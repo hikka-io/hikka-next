@@ -9,7 +9,6 @@ import {
     type ReadContentTypeEnum,
     type ReadResponseBase,
     type ReadStatusEnum,
-    readGetOptions,
 } from '@hikka/api';
 
 import CharacterCounter from '@/components/character-counter';
@@ -30,6 +29,7 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
+import { listEntryOptions } from '@/utils/api/content-queries';
 import { cn } from '@/utils/cn';
 import { z } from '@/utils/i18n/zod';
 import { READ_STATUS } from '@/utils/labels/enum-labels';
@@ -81,7 +81,7 @@ const ReadEditForm = ({
     onClose,
 }: Props) => {
     const { data: readQuery } = useQuery({
-        ...readGetOptions({ path: { content_type, slug } }),
+        ...listEntryOptions(content_type, slug),
         enabled: !readProp,
     });
 

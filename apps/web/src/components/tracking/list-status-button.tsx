@@ -17,12 +17,10 @@ import {
     type ReadContentTypeEnum,
     type ReadResponse,
     type ReadResponseBase,
-    readGetOptions,
     type WatchAddData,
     type WatchArgs,
     type WatchResponse,
     type WatchResponseBase,
-    watchGetOptions,
 } from '@hikka/api';
 
 import MaterialSymbolsSettingsOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsSettingsOutlineRounded';
@@ -35,6 +33,7 @@ import {
     SelectList,
     SelectSeparator,
 } from '@/components/ui/select';
+import { listEntryOptions } from '@/utils/api/content-queries';
 import {
     carryOverReadArgs,
     carryOverWatchArgs,
@@ -86,7 +85,7 @@ type KindConfig = {
         slug: string,
         enabled: boolean,
         contentType: MainContentTypeEnum,
-    ): { data?: WatchResponse | ReadResponse; isError: boolean };
+    ): { data?: WatchResponse | ReadResponse | null; isError: boolean };
     useAdd(): {
         mutate(variables: Options<WatchAddData> | Options<ReadAddData>): void;
         isPending: boolean;
@@ -114,7 +113,7 @@ const SETTINGS_BUTTON = {
 
 const useWatchEntry = (slug: string, enabled: boolean) =>
     useQuery({
-        ...watchGetOptions({ path: { slug } }),
+        ...listEntryOptions(ContentTypeEnum.ANIME, slug),
         retry: false,
         enabled,
     });
@@ -125,7 +124,7 @@ const useReadEntry = (
     contentType: ReadContentTypeEnum,
 ) =>
     useQuery({
-        ...readGetOptions({ path: { content_type: contentType, slug } }),
+        ...listEntryOptions(contentType, slug),
         retry: false,
         enabled,
     });
@@ -179,12 +178,13 @@ const ListStatusButton: FC<Props> = ({
     const { mutate: addEntry, isPending: isChangingStatus } =
         KINDS[kind].useAdd();
 
+    const entryMissing = entryError || entryQuery === null;
     const entry = useMemo(
         () => entryProp || (entryQuery && !entryError ? entryQuery : undefined),
         [entryProp, entryQuery, entryError],
     );
     const trackedEntry =
-        KINDS[kind].dropsEntryOnFetchError && entryError ? undefined : entry;
+        KINDS[kind].dropsEntryOnFetchError && entryMissing ? undefined : entry;
 
     const openEditModal = useCallback(() => {
         if (content) {

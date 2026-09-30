@@ -44,6 +44,7 @@ import {
     applyReadMutation,
     applyWatchMutation,
 } from '@/utils/api/invalidate-content-state';
+import { QUERY_CLIENT_DEFAULTS } from '@/utils/api/query-defaults';
 import { cn } from '@/utils/cn';
 
 import ReadListButton from './read-list-button';
@@ -368,6 +369,7 @@ const json = (body: unknown, status = 200) =>
 
 let calls: Call[] = [];
 let tracked = false;
+let entryStatus = 404;
 let server = { gate: Promise.resolve(), fail: false };
 let unmounts: (() => Promise<void>)[] = [];
 
@@ -378,8 +380,12 @@ const flush = () =>
         }
     });
 
-const mount = async (element: ReactElement) => {
+const mount = async (
+    element: ReactElement,
+    seed?: (queryClient: QueryClient) => void,
+) => {
     const queryClient = new QueryClient();
+    seed?.(queryClient);
     const container = document.body.appendChild(document.createElement('div'));
     const root = createRoot(container);
     const rerender = async (next: ReactElement) => {
@@ -406,6 +412,9 @@ const mount = async (element: ReactElement) => {
 
     return { container, queryClient, rerender, unmount };
 };
+
+const withAppDefaults = (queryClient: QueryClient) =>
+    queryClient.setDefaultOptions({ queries: QUERY_CLIENT_DEFAULTS });
 
 const click = async (element: Element | null | undefined) => {
     await act(async () => (element as HTMLElement | null)?.click());
@@ -474,7 +483,7 @@ beforeEach(() => {
         if (request.method === 'GET') {
             return tracked
                 ? json(response)
-                : json({ message: 'Not found', code: 'not_found' }, 404);
+                : json({ message: 'Error', code: 'error' }, entryStatus);
         }
 
         await server.gate;
@@ -489,6 +498,7 @@ afterEach(async () => {
     unmounts = [];
     calls = [];
     tracked = false;
+    entryStatus = 404;
     server = { gate: Promise.resolve(), fail: false };
     dialogs.length = 0;
     vi.mocked(applyWatchMutation).mockClear();
@@ -764,6 +774,91 @@ describe.each(KINDS)('$name list status button', (kind) => {
         expect(reads()).toHaveLength(1);
         expect(container.textContent).toBe(ADD_LABEL);
         expect(lastDialog()?.[kind.entryProp]).toBe(undefined);
+
+        await choose(container, 'dropped');
+
+        expect(writes()).toEqual([
+            { method: 'PUT', url: kind.url, body: '{"status":"dropped"}' },
+        ]);
+    });
+
+    it('stores an untracked entry as null and does not refetch it for new buttons', async () => {
+        const view = await mount(
+            kind.render({ content: kind.content }),
+            withAppDefaults,
+        );
+
+        expect(reads()).toHaveLength(1);
+        expect(
+            view.queryClient.getQueryCache().get(kind.entryQueryHash())?.state,
+        ).toMatchObject({ status: 'success', data: null });
+
+        await view.rerender(
+            <>
+                {kind.render({ content: kind.content })}
+                {kind.render({ content: kind.content, size: 'icon-sm' })}
+            </>,
+        );
+
+        expect(reads()).toHaveLength(1);
+        expect(view.container.textContent).toContain(ADD_LABEL);
+    });
+
+    it('treats a prefetched null entry as untracked without fetching', async () => {
+        const { container } = await mount(
+            kind.render({ content: kind.content }),
+            (queryClient) => {
+                withAppDefaults(queryClient);
+                queryClient.setQueryData(
+                    JSON.parse(kind.entryQueryHash()),
+                    null,
+                );
+            },
+        );
+
+        expect(reads()).toEqual([]);
+        expect(container.textContent).toBe(ADD_LABEL);
+        expect(lastDialog()?.[kind.entryProp]).toBe(undefined);
+
+        await choose(container, 'dropped');
+
+        expect(writes()).toEqual([
+            { method: 'PUT', url: kind.url, body: '{"status":"dropped"}' },
+        ]);
+    });
+
+    it('sends the same completion body for a null entry as for no entry', async () => {
+        const [, props, expectedBody] = kind.completed[0];
+        const { container } = await mount(
+            kind.render({ content: props.content }),
+            (queryClient) => {
+                withAppDefaults(queryClient);
+                queryClient.setQueryData(
+                    JSON.parse(kind.entryQueryHash()),
+                    null,
+                );
+            },
+        );
+
+        await choose(container, 'completed');
+
+        expect(writes()).toEqual([
+            { method: 'PUT', url: kind.url, body: expectedBody },
+        ]);
+    });
+
+    it('shows the add trigger when the entry fetch fails with a server error', async () => {
+        entryStatus = 500;
+        const { container, queryClient } = await mount(
+            kind.render({ content: kind.content }),
+        );
+
+        expect(reads()).toHaveLength(1);
+        expect(
+            queryClient.getQueryCache().get(kind.entryQueryHash())?.state
+                .status,
+        ).toBe('error');
+        expect(container.textContent).toBe(ADD_LABEL);
 
         await choose(container, 'dropped');
 

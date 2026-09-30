@@ -321,11 +321,7 @@ export function applyWatchDeletion(
     slug: string,
     options?: InvalidateOptions,
 ): Promise<void> {
-    // Invalidate (not remove) the per-content entry so separately-mounted
-    // observers refetch → 404 → hide, rather than keep a stale entry.
-    queryClient.invalidateQueries({
-        queryKey: watchGetQueryKey({ path: { slug } }),
-    });
+    queryClient.setQueryData(watchGetQueryKey({ path: { slug } }), null);
     patchEmbeddedStatusInQueries(
         queryClient,
         WATCH_EMBED_SET,
@@ -374,9 +370,10 @@ export function applyReadDeletion(
     slug: string,
     options?: InvalidateOptions,
 ): Promise<void> {
-    queryClient.invalidateQueries({
-        queryKey: readGetQueryKey({ path: { content_type, slug } }),
-    });
+    queryClient.setQueryData(
+        readGetQueryKey({ path: { content_type, slug } }),
+        null,
+    );
     patchEmbeddedStatusInQueries(
         queryClient,
         READ_EMBED_SET,
@@ -493,9 +490,10 @@ export function applyFavouriteDeletion(
     slug: string,
     options?: InvalidateOptions,
 ): Promise<void> {
-    queryClient.invalidateQueries({
-        queryKey: getFavouriteQueryKey({ path: { content_type, slug } }),
-    });
+    queryClient.setQueryData(
+        getFavouriteQueryKey({ path: { content_type, slug } }),
+        null,
+    );
     return invalidateFavourites(queryClient, options);
 }
 

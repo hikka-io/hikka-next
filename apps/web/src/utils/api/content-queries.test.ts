@@ -1,6 +1,7 @@
 import {
     CancelledError,
     type FetchQueryOptions,
+    hashKey,
     QueryClient,
 } from '@tanstack/react-query';
 import { isNotFound } from '@tanstack/react-router';
@@ -13,10 +14,12 @@ import {
     characterInfoOptions,
     configureBrowserClient,
     createRequestClient,
+    FavouriteContentTypeEnum,
     getArticleOptions,
     getBrowserClient,
     getCollectionOptions,
     getEditOptions,
+    getFavouriteOptions,
     HikkaApiError,
     mangaInfoOptions,
     novelInfoOptions,
@@ -30,6 +33,7 @@ import {
 import {
     type ContentInfoType,
     contentInfoOptions,
+    favouriteEntryOptions,
     fetchContentForLoader,
     listEntryOptions,
 } from './content-queries';
@@ -151,6 +155,113 @@ describe.each(['anime', 'manga', 'novel'] as const)(
         });
     },
 );
+
+async function fetchWithStatus(
+    options: Pick<FetchQueryOptions, 'queryKey'>,
+    status: number,
+): Promise<unknown> {
+    getBrowserClient().setConfig({
+        fetch: async () =>
+            new Response(JSON.stringify({ message: 'Error', code: 'error' }), {
+                status,
+                headers: { 'Content-Type': 'application/json' },
+            }),
+    });
+    return new QueryClient()
+        .fetchQuery(options as FetchQueryOptions)
+        .catch((reason: unknown) => reason);
+}
+
+describe.each(['anime', 'manga', 'novel'] as const)(
+    'listEntryOptions(%s) response mapping',
+    (type) => {
+        it('resolves an untracked entry (404) to null', async () => {
+            expect(
+                await fetchWithStatus(listEntryOptions(type, slug), 404),
+            ).toBeNull();
+        });
+
+        it('keeps any other error an error', async () => {
+            const error = await fetchWithStatus(
+                listEntryOptions(type, slug),
+                500,
+            );
+
+            expect(error).toBeInstanceOf(HikkaApiError);
+            expect((error as HikkaApiError).status).toBe(500);
+        });
+
+        it('hashes to the generated key', () => {
+            expect(hashKey(listEntryOptions(type, slug).queryKey)).toBe(
+                hashKey(LEGACY_HOOK_OPTIONS[type]().queryKey),
+            );
+        });
+    },
+);
+
+const FAVOURITE_CASES = [
+    FavouriteContentTypeEnum.ANIME,
+    FavouriteContentTypeEnum.MANGA,
+    FavouriteContentTypeEnum.NOVEL,
+    FavouriteContentTypeEnum.CHARACTER,
+    FavouriteContentTypeEnum.PERSON,
+    FavouriteContentTypeEnum.COLLECTION,
+];
+
+describe.each(FAVOURITE_CASES)('favouriteEntryOptions(%s)', (content_type) => {
+    const generated = (client?: Client) =>
+        getFavouriteOptions({ path: { content_type, slug }, client });
+
+    it('keeps the key and shape of the generated options', () => {
+        const options = favouriteEntryOptions(content_type, slug);
+
+        expect(options.queryKey).toEqual([
+            {
+                _id: 'getFavourite',
+                baseUrl: BASE_URL,
+                path: { content_type, slug },
+            },
+        ]);
+        expect(hashKey(options.queryKey)).toBe(hashKey(generated().queryKey));
+        expect(Object.keys(options)).toEqual(Object.keys(generated()));
+    });
+
+    it('shares the key with the logged-in loader prefetch', () => {
+        const client = ssrRequestClient();
+
+        expect(
+            hashKey(favouriteEntryOptions(content_type, slug, client).queryKey),
+        ).toBe(hashKey(favouriteEntryOptions(content_type, slug).queryKey));
+    });
+
+    it('requests the generated URL', async () => {
+        const url = `${BASE_URL}/favourite/${content_type}/${slug}`;
+
+        expect(
+            await requestedUrl(favouriteEntryOptions(content_type, slug)),
+        ).toBe(url);
+        expect(await requestedUrl(generated())).toBe(url);
+    });
+
+    it('resolves a missing favourite (404) to null', async () => {
+        expect(
+            await fetchWithStatus(
+                favouriteEntryOptions(content_type, slug),
+                404,
+            ),
+        ).toBeNull();
+    });
+
+    it('keeps any other error an error', async () => {
+        const error = await fetchWithStatus(
+            favouriteEntryOptions(content_type, slug),
+            401,
+        );
+
+        expect(error).toBeInstanceOf(HikkaApiError);
+        expect((error as HikkaApiError).status).toBe(401);
+    });
+});
 
 const editId = '12345';
 

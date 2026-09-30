@@ -1,10 +1,13 @@
-import type { QueryClient } from '@tanstack/react-query';
+import { QueryClient, QueryObserver } from '@tanstack/react-query';
 import { describe, expect, it, vi } from 'vitest';
 
 import * as api from '@hikka/api';
 
 import {
+    applyFavouriteDeletion,
     applyFavouriteMutation,
+    applyReadDeletion,
+    applyWatchDeletion,
     invalidateArticles,
     invalidateCollections,
     invalidateComments,
@@ -302,5 +305,79 @@ describe('invalidation helpers', () => {
         } as api.ReadResponse);
 
         expect(patches.map(summarize)).toEqual([expected(READ_EMBED_IDS)]);
+    });
+});
+
+describe.each([
+    {
+        name: 'applyWatchDeletion',
+        key: api.watchGetQueryKey({ path: { slug: SLUG } }),
+        remove: (queryClient: QueryClient) =>
+            applyWatchDeletion(queryClient, SLUG),
+        lists: [expected(['userWatchList']), expected(WATCH_EMBED_IDS, 'none')],
+        patched: WATCH_EMBED_IDS,
+    },
+    {
+        name: 'applyReadDeletion',
+        key: api.readGetQueryKey({
+            path: { content_type: api.ReadContentTypeEnum.MANGA, slug: SLUG },
+        }),
+        remove: (queryClient: QueryClient) =>
+            applyReadDeletion(queryClient, api.ReadContentTypeEnum.MANGA, SLUG),
+        lists: [expected(['userReadList']), expected(READ_EMBED_IDS, 'none')],
+        patched: READ_EMBED_IDS,
+    },
+    {
+        name: 'applyFavouriteDeletion',
+        key: api.getFavouriteQueryKey({
+            path: {
+                content_type: api.FavouriteContentTypeEnum.ANIME,
+                slug: SLUG,
+            },
+        }),
+        remove: (queryClient: QueryClient) =>
+            applyFavouriteDeletion(
+                queryClient,
+                api.FavouriteContentTypeEnum.ANIME,
+                SLUG,
+            ),
+        lists: [expected(['favouriteList'])],
+        patched: [],
+    },
+])('$name', ({ key, remove, lists, patched }) => {
+    it('stores the per-content entry as null instead of refetching it', async () => {
+        const queryClient = new QueryClient();
+        const queryFn = vi.fn().mockResolvedValue({ reference: 'entry' });
+        const observer = new QueryObserver(queryClient, {
+            queryKey: key,
+            queryFn,
+            staleTime: Infinity,
+        });
+        const unsubscribe = observer.subscribe(() => undefined);
+        await vi.waitFor(() =>
+            expect(queryClient.getQueryData(key)).toEqual({
+                reference: 'entry',
+            }),
+        );
+
+        await remove(queryClient);
+
+        expect(queryClient.getQueryData(key)).toBeNull();
+        expect(queryClient.getQueryState(key)?.isInvalidated).toBe(false);
+        expect(observer.getCurrentResult().data).toBeNull();
+        expect(queryFn).toHaveBeenCalledTimes(1);
+        unsubscribe();
+    });
+
+    it('still invalidates the lists and patches the embeds', async () => {
+        const { queryClient, invalidations, patches } = createRecordingClient();
+
+        await remove(queryClient);
+
+        expect(queryClient.setQueryData).toHaveBeenCalledWith(key, null);
+        expect(invalidations.map(summarize)).toEqual(lists);
+        expect(patches.map(summarize)).toEqual(
+            patched.length ? [expected(patched)] : [],
+        );
     });
 });

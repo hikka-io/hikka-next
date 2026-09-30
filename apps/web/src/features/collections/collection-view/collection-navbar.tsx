@@ -17,6 +17,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
+import { useSession } from '@/services/session';
 import { useParams } from '@/utils/navigation';
 
 import CollectionViewActionsMenu from './collection-actions-menu';
@@ -26,6 +27,7 @@ type Props = {};
 
 const CollectionViewNavbar: FC<Props> = () => {
     const params = useParams();
+    const { user } = useSession();
 
     const { data: collection } = useQuery(
         getCollectionOptions({ path: { reference: String(params.reference) } }),
@@ -53,6 +55,7 @@ const CollectionViewNavbar: FC<Props> = () => {
                             >['content_type']
                         }
                         slug={collection?.reference}
+                        disabled={!user}
                     />
                 )}
 

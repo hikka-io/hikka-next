@@ -17,7 +17,6 @@ import {
     getArticlesInfiniteOptions,
     getCollectionsInfiniteOptions,
     getCommentsListInfiniteOptions,
-    getFavouriteOptions,
     getReadFollowingInfiniteOptions,
     getWatchFollowingInfiniteOptions,
     type MainContentTypeEnum,
@@ -38,6 +37,7 @@ import { commentListPrefetchBody } from '@/features/comments/queries';
 import {
     type ContentInfo,
     contentInfoOptions,
+    favouriteEntryOptions,
     listEntryOptions,
 } from '@/utils/api/content-queries';
 import { ensureOr404 } from '@/utils/api/ensure-or-404';
@@ -198,10 +198,7 @@ const favourite =
     (content_type: FavouriteContentTypeEnum): Prefetch =>
     ({ slug, queryClient, apiClient }) =>
         queryClient.ensureQueryData(
-            getFavouriteOptions({
-                path: { slug, content_type },
-                client: apiClient,
-            }),
+            favouriteEntryOptions(content_type, slug, apiClient),
         );
 
 const watchFollowing: Prefetch = ({ slug, queryClient, apiClient }) =>

@@ -6,10 +6,10 @@ import { toast } from 'sonner';
 
 import {
     API_LIMITS,
+    ContentTypeEnum,
     type WatchResponse,
     type WatchResponseBase,
     type WatchStatusEnum,
-    watchGetOptions,
 } from '@hikka/api';
 
 import CharacterCounter from '@/components/character-counter';
@@ -30,6 +30,7 @@ import {
     SelectTrigger,
 } from '@/components/ui/select';
 import Spinner from '@/components/ui/spinner';
+import { listEntryOptions } from '@/utils/api/content-queries';
 import { z } from '@/utils/i18n/zod';
 import { WATCH_STATUS } from '@/utils/labels/enum-labels';
 import { getTitle } from '@/utils/title/get-title';
@@ -69,7 +70,7 @@ type Props = {
 
 const WatchEditForm = ({ slug, watch: watchProp, onClose }: Props) => {
     const { data: watchQuery } = useQuery({
-        ...watchGetOptions({ path: { slug } }),
+        ...listEntryOptions(ContentTypeEnum.ANIME, slug),
         enabled: !watchProp,
     });
 

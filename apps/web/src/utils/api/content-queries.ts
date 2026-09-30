@@ -1,13 +1,23 @@
-import type { QueryClient, UseQueryOptions } from '@tanstack/react-query';
+import {
+    type QueryClient,
+    queryOptions,
+    type UseQueryOptions,
+} from '@tanstack/react-query';
 
 import {
     animeSlugOptions,
     type Client,
     ContentTypeEnum,
     characterInfoOptions,
+    type FavouriteContentTypeEnum,
+    type GetFavouriteError,
+    type GetFavouriteResponse,
     getArticleOptions,
     getCollectionOptions,
     getEditOptions,
+    getFavourite,
+    getFavouriteQueryKey,
+    HikkaApiError,
     MainContentTypeEnum,
     mangaInfoOptions,
     novelInfoOptions,
@@ -15,22 +25,82 @@ import {
     type ReadContentTypeEnum,
     type ReadGetError,
     type ReadGetResponse,
-    readGetOptions,
+    readGet,
+    readGetQueryKey,
     userProfileOptions,
     type WatchGetError,
     type WatchGetResponse,
-    watchGetOptions,
+    watchGet,
+    watchGetQueryKey,
 } from '@hikka/api';
 
 import { ensureOr404 } from './ensure-or-404';
 
-type WatchEntryOptions = ReturnType<typeof watchGetOptions>;
-type ReadEntryOptions = ReturnType<typeof readGetOptions>;
+async function nullOn404<T>(request: Promise<{ data: T }>): Promise<T | null> {
+    try {
+        return (await request).data;
+    } catch (error) {
+        if (error instanceof HikkaApiError && error.status === 404) return null;
+        throw error;
+    }
+}
+
+function watchEntryOptions(slug: string, client?: Client) {
+    const options = { path: { slug }, client };
+
+    return queryOptions<
+        WatchGetResponse | null,
+        WatchGetError,
+        WatchGetResponse | null,
+        ReturnType<typeof watchGetQueryKey>
+    >({
+        queryFn: ({ queryKey, signal }) =>
+            nullOn404(
+                watchGet({
+                    ...options,
+                    ...queryKey[0],
+                    signal,
+                    throwOnError: true,
+                }),
+            ),
+        queryKey: watchGetQueryKey(options),
+    });
+}
+
+function readEntryOptions(
+    content_type: ReadContentTypeEnum,
+    slug: string,
+    client?: Client,
+) {
+    const options = { path: { slug, content_type }, client };
+
+    return queryOptions<
+        ReadGetResponse | null,
+        ReadGetError,
+        ReadGetResponse | null,
+        ReturnType<typeof readGetQueryKey>
+    >({
+        queryFn: ({ queryKey, signal }) =>
+            nullOn404(
+                readGet({
+                    ...options,
+                    ...queryKey[0],
+                    signal,
+                    throwOnError: true,
+                }),
+            ),
+        queryKey: readGetQueryKey(options),
+    });
+}
+
+type WatchEntryOptions = ReturnType<typeof watchEntryOptions>;
+type ReadEntryOptions = ReturnType<typeof readEntryOptions>;
 type ListEntryOptions = UseQueryOptions<
-    WatchGetResponse | ReadGetResponse,
+    WatchGetResponse | ReadGetResponse | null,
     WatchGetError | ReadGetError
 >;
 
+/** The viewer's list entry for a title; a 404 (not tracked) resolves to `null` instead of an error. */
 export function listEntryOptions(
     contentType: typeof MainContentTypeEnum.ANIME,
     slug: string,
@@ -52,12 +122,36 @@ export function listEntryOptions(
     client?: Client,
 ): WatchEntryOptions | ReadEntryOptions | ListEntryOptions {
     if (contentType === MainContentTypeEnum.ANIME) {
-        return watchGetOptions({ path: { slug }, client });
+        return watchEntryOptions(slug, client);
     }
 
-    return readGetOptions({
-        path: { slug, content_type: contentType },
-        client,
+    return readEntryOptions(contentType, slug, client);
+}
+
+/** The viewer's favourite for an item; a 404 (not a favourite) resolves to `null` instead of an error. */
+export function favouriteEntryOptions(
+    content_type: FavouriteContentTypeEnum,
+    slug: string,
+    client?: Client,
+) {
+    const options = { path: { content_type, slug }, client };
+
+    return queryOptions<
+        GetFavouriteResponse | null,
+        GetFavouriteError,
+        GetFavouriteResponse | null,
+        ReturnType<typeof getFavouriteQueryKey>
+    >({
+        queryFn: ({ queryKey, signal }) =>
+            nullOn404(
+                getFavourite({
+                    ...options,
+                    ...queryKey[0],
+                    signal,
+                    throwOnError: true,
+                }),
+            ),
+        queryKey: getFavouriteQueryKey(options),
     });
 }
 
