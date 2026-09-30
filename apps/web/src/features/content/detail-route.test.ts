@@ -51,15 +51,10 @@ import {
     contentCharactersOptions,
     franchiseOptions,
 } from './queries';
-import { useStaff } from './use-staff';
 
 const cookies = vi.hoisted(() => ({
     authToken: null as string | null,
     nsfwConsent: null as string | null,
-}));
-
-vi.mock('@/utils/api/use-infinite-list', () => ({
-    useInfiniteList: (options: unknown) => options,
 }));
 
 vi.mock('@/utils/cookies', async (importOriginal) => ({
@@ -595,15 +590,7 @@ describe('content tab loader keys', () => {
         expect(hashKey(head)).toBe(loaderKey(charactersKey(type)));
     });
 
-    it('match the anime staff hook', () => {
-        const options = useStaff({
-            content_type: ContentTypeEnum.ANIME,
-            slug,
-        }) as unknown as {
-            queryKey: unknown[];
-        };
-
-        expect(hashKey(options.queryKey)).toBe(loaderKey(STAFF_KEY));
+    it('match the anime staff list', () => {
         expect(hashKey(animeStaffOptions(slug).queryKey)).toBe(
             loaderKey(STAFF_KEY),
         );
