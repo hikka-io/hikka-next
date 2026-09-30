@@ -36,9 +36,13 @@ import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
+import {
+    userFavouritesListOptions,
+    userFavouritesPreviewOptions,
+} from '../../../queries';
 import { favoritePreview } from '../favorite-preview';
 import FavoriteMoreCard from './favorite-more-card';
-import FavoriteSection, { favoriteListOptions } from './favorite-section';
+import FavoriteSection from './favorite-section';
 import FavoriteSkeleton from './favorite-skeleton';
 
 const mocks = vi.hoisted(() => ({
@@ -389,14 +393,16 @@ describe.each(TYPES)('FavoriteSection(%s)', (type) => {
         },
     );
 
-    it('passes the legacy options and a uniform enabled guard', () => {
+    it('sizes the collapsed preview and a uniform enabled guard', () => {
         html(<FavoriteSection type={type} />);
         html(<LegacySection type={type} />);
 
         const [[options, extra], [legacyOptions, legacyExtra]] =
             vi.mocked(useInfiniteList).mock.calls;
 
-        expect(options.queryKey).toEqual(legacyOptions.queryKey);
+        expect(options.queryKey).toEqual([
+            { ...legacyOptions.queryKey[0], query: { size: 6 } },
+        ]);
         expect(Object.keys(options)).toEqual(Object.keys(legacyOptions));
         expect(extra).toEqual({ enabled: true });
         expect(legacyExtra).toEqual(
@@ -404,18 +410,26 @@ describe.each(TYPES)('FavoriteSection(%s)', (type) => {
         );
     });
 
-    it('shares the key with the profile loader prefetch', () => {
+    it('keeps the legacy key on the extended page', () => {
+        html(<FavoriteSection type={type} extended />);
+        html(<LegacySection type={type} extended />);
+
+        const [[options, extra], [legacyOptions]] =
+            vi.mocked(useInfiniteList).mock.calls;
+
+        expect(options.queryKey).toEqual(legacyOptions.queryKey);
+        expect(Object.keys(options)).toEqual(Object.keys(legacyOptions));
+        expect(extra).toEqual({ enabled: true });
+    });
+
+    it('shares the keys with the loader prefetches', () => {
         const client = createRequestClient({
             baseUrl: BASE_URL,
             internalBaseUrl: 'http://backend:8000',
             authToken: 'token',
         });
-        const loader = favouriteListInfiniteOptions({
-            path: { username: 'emp_ua', content_type: type },
-            client,
-        });
 
-        expect(favoriteListOptions(type, 'emp_ua').queryKey).toEqual([
+        expect(userFavouritesListOptions('emp_ua', type).queryKey).toEqual([
             {
                 _id: 'favouriteList',
                 _infinite: true,
@@ -423,8 +437,11 @@ describe.each(TYPES)('FavoriteSection(%s)', (type) => {
                 path: { content_type: type, username: 'emp_ua' },
             },
         ]);
-        expect(favoriteListOptions(type, 'emp_ua').queryKey).toEqual(
-            loader.queryKey,
+        expect(userFavouritesListOptions('emp_ua', type).queryKey).toEqual(
+            userFavouritesListOptions('emp_ua', type, client).queryKey,
+        );
+        expect(userFavouritesPreviewOptions('emp_ua', type).queryKey).toEqual(
+            userFavouritesPreviewOptions('emp_ua', type, client).queryKey,
         );
     });
 });

@@ -1,6 +1,7 @@
 import { Fragment, isValidElement, type ReactNode } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
+import { range } from '@antfu/utils';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
@@ -11,7 +12,7 @@ import {
 } from '@hikka/api';
 
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
-import { HistoryItem } from '@/components/list-items';
+import { HistoryItem, HistoryItemSkeleton } from '@/components/list-items';
 import LoadMoreButton from '@/components/load-more-button';
 import { Badge } from '@/components/ui/badge';
 import Card from '@/components/ui/card';
@@ -26,6 +27,7 @@ const mocks = vi.hoisted(() => ({
     state: {
         list: undefined as unknown[] | undefined,
         hasNextPage: false,
+        isPending: false,
     },
 }));
 
@@ -35,6 +37,7 @@ vi.mock('@/utils/api/use-infinite-list', () => ({
         fetchNextPage: () => {},
         hasNextPage: mocks.state.hasNextPage,
         isFetchingNextPage: false,
+        isPending: mocks.state.isPending,
         ref: () => {},
     })),
 }));
@@ -43,6 +46,7 @@ vi.mock('@/utils/navigation', async (importOriginal) => ({
     useParams: () => ({ username: 'emp_ua' }),
 }));
 vi.mock('@/components/list-items', () => ({
+    HistoryItemSkeleton: () => <div data-stub="history-item-skeleton" />,
     HistoryItem: (props: Record<string, unknown>) => (
         <div data-stub="history-item">
             {Object.entries(props).map(([key, value]) => (
@@ -130,6 +134,7 @@ beforeAll(() => {
 
 beforeEach(() => {
     vi.mocked(useInfiniteList).mockClear();
+    mocks.state.isPending = false;
 });
 
 describe.each(['user', 'following'] as const)('HistoryGrid(%s)', (source) => {
@@ -155,5 +160,30 @@ describe.each(['user', 'following'] as const)('HistoryGrid(%s)', (source) => {
         expect(Object.keys(options)).toEqual(Object.keys(legacyOptions));
         expect(extra).toBeUndefined();
         expect(legacyExtra).toBeUndefined();
+    });
+
+    it('renders a page of skeleton cards while the first page loads', () => {
+        Object.assign(mocks.state, {
+            list: undefined,
+            hasNextPage: false,
+            isPending: true,
+        });
+
+        expect(html(<HistoryGrid source={source} />)).toBe(
+            html(
+                <Stack
+                    size={3}
+                    extended
+                    extendedSize={3}
+                    className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                >
+                    {range(0, 15).map((index) => (
+                        <Card key={index}>
+                            <HistoryItemSkeleton />
+                        </Card>
+                    ))}
+                </Stack>,
+            ),
+        );
     });
 });

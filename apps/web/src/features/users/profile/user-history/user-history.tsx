@@ -1,7 +1,5 @@
 import { type FC, useState } from 'react';
 
-import { userHistoryInfiniteOptions } from '@hikka/api';
-
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
 import { HistoryItem } from '@/components/list-items';
@@ -24,6 +22,7 @@ import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { cn } from '@/utils/cn';
 import { Link, useParams } from '@/utils/navigation';
 
+import { userHistoryPreviewOptions } from '../../queries';
 import HistoryModal from './history-modal';
 
 type Props = {
@@ -36,9 +35,7 @@ const UserHistory: FC<Props> = ({ className }) => {
     useCloseOnRouteChange(setOpen);
 
     const { list: activity } = useInfiniteList(
-        userHistoryInfiniteOptions({
-            path: { username: String(params.username) },
-        }),
+        userHistoryPreviewOptions(String(params.username)),
     );
 
     const filteredActivity = activity?.slice(0, 3);

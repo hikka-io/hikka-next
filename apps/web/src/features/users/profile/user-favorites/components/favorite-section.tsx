@@ -9,7 +9,6 @@ import {
     type FavouriteMangaResponse,
     type FavouriteNovelResponse,
     type FavouritePersonResponse,
-    favouriteListInfiniteOptions,
 } from '@hikka/api';
 
 import AnimeCard from '@/components/content-card/anime-card';
@@ -32,6 +31,10 @@ import { cn } from '@/utils/cn';
 import { useParams } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
+import {
+    userFavouritesListOptions,
+    userFavouritesPreviewOptions,
+} from '../../../queries';
 import { favoritePreview } from '../favorite-preview';
 import FavoriteMoreCard from './favorite-more-card';
 import FavoriteSkeleton from './favorite-skeleton';
@@ -142,14 +145,6 @@ const SECTIONS: {
     },
 };
 
-export const favoriteListOptions = (
-    type: FavouriteContentTypeEnum,
-    username: string,
-) =>
-    favouriteListInfiniteOptions({
-        path: { content_type: type, username },
-    });
-
 type Props = {
     type: FavouriteContentTypeEnum;
     extended?: boolean;
@@ -167,9 +162,12 @@ const FavoriteSection: FC<Props> = ({ type, extended }) => {
         isFetchingNextPage,
         isPending,
         ref,
-    } = useInfiniteList(favoriteListOptions(type, username), {
-        enabled: !!params.username,
-    });
+    } = useInfiniteList(
+        extended
+            ? userFavouritesListOptions(username, type)
+            : userFavouritesPreviewOptions(username, type),
+        { enabled: !!params.username },
+    );
 
     const list = rawList as FavoriteItem[] | undefined;
 

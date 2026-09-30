@@ -5,6 +5,8 @@ import {
     type Client,
     type CollectionsListArgs,
     type ContentStatusEnum,
+    type FavouriteContentTypeEnum,
+    favouriteListInfiniteOptions,
     getArticlesInfiniteOptions,
     getCollectionsInfiniteOptions,
     type MangaMediaEnum,
@@ -12,6 +14,7 @@ import {
     type ReadContentTypeEnum,
     type ReadStatusEnum,
     type SeasonEnum,
+    userHistoryInfiniteOptions,
     userReadListInfiniteOptions,
     userWatchListInfiniteOptions,
     type WatchStatusEnum,
@@ -19,6 +22,10 @@ import {
 
 import type { UserlistSearch } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
+
+const HISTORY_PREVIEW_SIZE = 3;
+export const COLLECTIONS_PREVIEW_SIZE = 3;
+export const FAVORITE_PREVIEW_SIZE = 6;
 
 function listYears(search: UserlistSearch) {
     return (search.years ?? []) as [number | null, number | null];
@@ -109,6 +116,38 @@ export function userCollectionsPreviewOptions(
 ) {
     return getCollectionsInfiniteOptions({
         body: userCollectionsPreviewBody(username),
+        query: { size: COLLECTIONS_PREVIEW_SIZE },
+        client,
+    });
+}
+
+export function userHistoryPreviewOptions(username: string, client?: Client) {
+    return userHistoryInfiniteOptions({
+        path: { username },
+        query: { size: HISTORY_PREVIEW_SIZE },
+        client,
+    });
+}
+
+export function userFavouritesPreviewOptions(
+    username: string,
+    contentType: FavouriteContentTypeEnum,
+    client?: Client,
+) {
+    return favouriteListInfiniteOptions({
+        path: { username, content_type: contentType },
+        query: { size: FAVORITE_PREVIEW_SIZE },
+        client,
+    });
+}
+
+export function userFavouritesListOptions(
+    username: string,
+    contentType: FavouriteContentTypeEnum,
+    client?: Client,
+) {
+    return favouriteListInfiniteOptions({
+        path: { username, content_type: contentType },
         client,
     });
 }

@@ -6,6 +6,8 @@ import {
     type MainContentTypeEnum,
     paginationPageParam,
     type ReadContentTypeEnum,
+    userReadStatsOptions,
+    userWatchStatsOptions,
 } from '@hikka/api';
 
 import ContentTypeTabs from '@/components/content-type-tabs';
@@ -57,24 +59,48 @@ export const Route = createFileRoute('/_pages/u/$username/list/$content_type')({
     },
     loader: async ({ params, context: { queryClient, apiClient }, deps }) => {
         const { username, content_type } = params;
-        const isAnime = content_type === ContentTypeEnum.ANIME;
+        const prefetches = () =>
+            content_type === ContentTypeEnum.ANIME
+                ? [
+                      queryClient.prefetchInfiniteQuery({
+                          ...userWatchListOptions(username, deps, apiClient),
+                          ...paginationPageParam(),
+                      }),
+                      queryClient.prefetchQuery(
+                          userWatchStatsOptions({
+                              path: { username },
+                              client: apiClient,
+                          }),
+                      ),
+                  ]
+                : [
+                      queryClient.prefetchInfiniteQuery({
+                          ...userReadListOptions(
+                              username,
+                              content_type as ReadContentTypeEnum,
+                              deps,
+                              apiClient,
+                          ),
+                          ...paginationPageParam(),
+                      }),
+                      queryClient.prefetchQuery(
+                          userReadStatsOptions({
+                              path: {
+                                  username,
+                                  content_type:
+                                      content_type as ReadContentTypeEnum,
+                              },
+                              client: apiClient,
+                          }),
+                      ),
+                  ];
 
-        if (isAnime) {
-            await queryClient.prefetchInfiniteQuery({
-                ...userWatchListOptions(username, deps, apiClient),
-                ...paginationPageParam(),
-            });
-        } else {
-            await queryClient.prefetchInfiniteQuery({
-                ...userReadListOptions(
-                    username,
-                    content_type as ReadContentTypeEnum,
-                    deps,
-                    apiClient,
-                ),
-                ...paginationPageParam(),
-            });
+        if (typeof window !== 'undefined') {
+            prefetches();
+            return;
         }
+
+        await Promise.allSettled(prefetches());
     },
     head: ({ params }) =>
         generateHeadMeta({ title: `Список / ${params.username}` }),

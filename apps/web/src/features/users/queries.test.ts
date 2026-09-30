@@ -1,9 +1,17 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import { hashKey, QueryClient } from '@tanstack/react-query';
+import { CancelledError, hashKey, QueryClient } from '@tanstack/react-query';
 import { isRedirect } from '@tanstack/react-router';
-import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+    afterEach,
+    beforeAll,
+    beforeEach,
+    describe,
+    expect,
+    it,
+    vi,
+} from 'vitest';
 
 import {
     type AnimeAgeRatingEnum,
@@ -14,6 +22,8 @@ import {
     type ContentStatusEnum,
     configureBrowserClient,
     createRequestClient,
+    type FavouriteContentTypeEnum,
+    favouriteListInfiniteOptions,
     getArticlesInfiniteOptions,
     getBrowserClient,
     getCollectionsInfiniteOptions,
@@ -23,6 +33,7 @@ import {
     type ReadContentTypeEnum,
     type ReadStatusEnum,
     type SeasonEnum,
+    userHistoryInfiniteOptions,
     userReadListInfiniteOptions,
     userWatchListInfiniteOptions,
     type WatchStatusEnum,
@@ -34,16 +45,26 @@ import {
 } from '@/utils/search-schemas';
 import { expandSort } from '@/utils/sort';
 
+import { Route as LayoutRoute } from '../../routes/_pages/u/$username';
+import { Route as FavoritesRoute } from '../../routes/_pages/u/$username/favorites';
+import { Route as HistoryRoute } from '../../routes/_pages/u/$username/history';
 import { Route as ProfileRoute } from '../../routes/_pages/u/$username/index';
 import { Route as ListRoute } from '../../routes/_pages/u/$username/list/$content_type';
 import { useReadList } from './list/use-read-list';
 import { useWatchList } from './list/use-watch-list';
 import UserArticles from './profile/user-articles';
 import UserCollections from './profile/user-collections';
+import FavoriteSection from './profile/user-favorites/components/favorite-section';
+import HistoryModal from './profile/user-history/history-modal';
+import UserHistory from './profile/user-history/user-history';
 import {
+    FAVORITE_PREVIEW_SIZE,
     userArticlesPreviewOptions,
     userCollectionsPreviewBody,
     userCollectionsPreviewOptions,
+    userFavouritesListOptions,
+    userFavouritesPreviewOptions,
+    userHistoryPreviewOptions,
     userReadListOptions,
     userWatchListOptions,
 } from './queries';
@@ -53,10 +74,12 @@ const mocks = vi.hoisted(() => ({
     search: {} as Record<string, unknown>,
     list: undefined as unknown[] | undefined,
     infiniteListCalls: [] as unknown[][],
+    visible: false,
 }));
 
 vi.mock('@/utils/navigation', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@/utils/navigation')>()),
+    Link: ({ children }: { children?: unknown }) => children,
     useParams: () => mocks.params,
     useRouteSearch: () => mocks.search,
 }));
@@ -64,7 +87,7 @@ vi.mock('@/utils/navigation', async (importOriginal) => ({
 vi.mock('@/utils/api/use-infinite-list', () => ({
     useInfiniteList: (...args: unknown[]) => {
         mocks.infiniteListCalls.push(args);
-        return { list: mocks.list };
+        return { list: mocks.list, isPending: mocks.list === undefined };
     },
 }));
 
@@ -77,6 +100,15 @@ vi.mock('@/services/session/use-session', async (importOriginal) => ({
 
 vi.mock('@/services/hooks/use-close-on-route-change', () => ({
     useCloseOnRouteChange: () => {},
+}));
+
+vi.mock('@/components/ui/responsive-modal', () => ({
+    ResponsiveModal: () => null,
+    ResponsiveModalContent: () => null,
+}));
+
+vi.mock('@/services/hooks/use-visible-once', () => ({
+    useVisibleOnce: () => ({ ref: () => {}, visible: mocks.visible }),
 }));
 
 const BASE_URL = 'https://api.example.test';
@@ -159,7 +191,9 @@ async function runLoader(
     route: LoaderRoute,
     params: Record<string, string>,
     deps?: unknown,
+    side: 'server' | 'client' = 'server',
 ) {
+    if (side === 'server') vi.stubGlobal('window', undefined);
     const { queryClient, calls } = recordingQueryClient();
     const beforeLoad = route.options.beforeLoad as
         | ((ctx: unknown) => unknown)
@@ -288,6 +322,11 @@ beforeEach(() => {
     mocks.search = {};
     mocks.list = undefined;
     mocks.infiniteListCalls = [];
+    mocks.visible = false;
+});
+
+afterEach(() => {
+    vi.unstubAllGlobals();
 });
 
 const LIST_CASES = [
@@ -392,43 +431,253 @@ const EXPECTED_LIST_CALLS: Record<string, string[]> = {
     ],
     'anime, default search': [
         'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userWatchList","baseUrl":"https://api.example.test","_infinite":true,"body":{"watch_status":"completed","media_type":[],"status":[],"season":[],"rating":[],"years":[],"genres":[],"studios":[],"score":"<undefined>","sort":["watch_score:desc"]},"path":{"username":"tester"}}]',
+        'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"userWatchStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
     ],
     'anime, page 2': [
         'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userWatchList","baseUrl":"https://api.example.test","_infinite":true,"body":{"watch_status":"completed","media_type":[],"status":[],"season":[],"rating":[],"years":[],"genres":[],"studios":[],"score":"<undefined>","sort":["watch_score:desc"]},"path":{"username":"tester"}}]',
+        'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"userWatchStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
     ],
     'anime, table view ascending': [
         'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userWatchList","baseUrl":"https://api.example.test","_infinite":true,"body":{"watch_status":"completed","media_type":[],"status":[],"season":[],"rating":[],"years":[],"genres":[],"studios":[],"score":"<undefined>","sort":["watch_score:asc"]},"path":{"username":"tester"}}]',
+        'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"userWatchStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
     ],
     'anime, all statuses with every filter': [
         'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userWatchList","baseUrl":"https://api.example.test","_infinite":true,"body":{"watch_status":"<undefined>","media_type":["tv","movie"],"status":["ongoing"],"season":["fall"],"rating":["pg_13"],"years":[2000,2020],"genres":["action","-ecchi"],"studios":["sunrise"],"score":[7,10],"sort":["score:desc","scored_by:desc"]},"path":{"username":"tester"}}]',
+        'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"userWatchStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
     ],
     'anime, empty score': [
         'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userWatchList","baseUrl":"https://api.example.test","_infinite":true,"body":{"watch_status":"on_hold","media_type":[],"status":[],"season":[],"rating":[],"years":[],"genres":[],"studios":[],"score":"<undefined>","sort":["watch_created:desc"]},"path":{"username":"tester"}}]',
+        'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"userWatchStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
     ],
     'manga, no search': [
         'redirect {"to":"/u/$username/list/$content_type","params":{"username":"tester","content_type":"manga"},"search":{"status":"completed","sort":"read_score"},"statusCode":307}',
     ],
     'manga, default search': [
         'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userReadList","baseUrl":"https://api.example.test","_infinite":true,"body":{"read_status":"completed","media_type":[],"status":[],"years":[],"genres":[],"magazines":[],"score":"<undefined>","sort":["read_score:desc"]},"path":{"username":"tester","content_type":"manga"}}]',
+        'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"userReadStats","baseUrl":"https://api.example.test","path":{"username":"tester","content_type":"manga"}}]',
     ],
     'manga, all statuses with every filter': [
         'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userReadList","baseUrl":"https://api.example.test","_infinite":true,"body":{"read_status":"<undefined>","media_type":["manga","manhwa"],"status":["finished"],"years":[1990,2010],"genres":["romance"],"magazines":["shonen-jump"],"score":[5,9],"sort":["read_chapters:asc"]},"path":{"username":"tester","content_type":"manga"}}]',
+        'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"userReadStats","baseUrl":"https://api.example.test","path":{"username":"tester","content_type":"manga"}}]',
     ],
     'novel, default search': [
         'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userReadList","baseUrl":"https://api.example.test","_infinite":true,"body":{"read_status":"completed","media_type":[],"status":[],"years":[],"genres":[],"magazines":[],"score":"<undefined>","sort":["read_score:desc"]},"path":{"username":"tester","content_type":"novel"}}]',
+        'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"userReadStats","baseUrl":"https://api.example.test","path":{"username":"tester","content_type":"novel"}}]',
     ],
     'novel, reading with filters': [
         'prefetchInfiniteQuery queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userReadList","baseUrl":"https://api.example.test","_infinite":true,"body":{"read_status":"reading","media_type":["light_novel"],"status":[],"years":[],"genres":["fantasy"],"magazines":[],"score":"<undefined>","sort":["read_created:desc"]},"path":{"username":"tester","content_type":"novel"}}]',
+        'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"userReadStats","baseUrl":"https://api.example.test","path":{"username":"tester","content_type":"novel"}}]',
     ],
 };
 
 const EXPECTED_PROFILE_CALLS = [
-    'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"favouriteList","baseUrl":"https://api.example.test","_infinite":true,"path":{"username":"tester","content_type":"anime"}}]',
-    'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userHistory","baseUrl":"https://api.example.test","_infinite":true,"path":{"username":"tester"}}]',
+    'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"userWatchStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
+    'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"serviceUserStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
     'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"serviceUserActivity","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
+    'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"favouriteList","baseUrl":"https://api.example.test","_infinite":true,"path":{"username":"tester","content_type":"anime"},"query":{"size":6}}]',
+    'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"userHistory","baseUrl":"https://api.example.test","_infinite":true,"path":{"username":"tester"},"query":{"size":3}}]',
     'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getArticles","baseUrl":"https://api.example.test","_infinite":true,"body":{"author":"tester"},"query":{"size":3}}]',
-    'ensureInfiniteQueryData queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"getCollections","baseUrl":"https://api.example.test","_infinite":true,"body":{"author":"tester","sort":["created:desc"],"only_public":false}}]',
 ];
+
+const EXPECTED_LAYOUT_CALLS = [
+    'ensureQueryData queryFn,queryKey "<undefined>" [{"_id":"userProfile","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
+    'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"followStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
+];
+
+const favouritesCalls = (method: string, type: string) => [
+    'prefetchQuery queryFn,queryKey "<undefined>" [{"_id":"serviceUserStats","baseUrl":"https://api.example.test","path":{"username":"tester"}}]',
+    `${method} queryFn,queryKey,initialPageParam,getNextPageParam 1 [{"_id":"favouriteList","baseUrl":"https://api.example.test","_infinite":true,"path":{"username":"tester","content_type":"${type}"}}]`,
+];
+
+function queryId(options: RecordedOptions) {
+    return (options.queryKey[0] as { _id: string })._id;
+}
+
+function pendingQueryClient() {
+    const queryClient = new QueryClient();
+    const calls: string[] = [];
+    const pending = (options: RecordedOptions) => {
+        calls.push(queryId(options));
+        return new Promise(() => {});
+    };
+
+    Object.assign(queryClient, {
+        ensureQueryData: pending,
+        ensureInfiniteQueryData: pending,
+        prefetchQuery: pending,
+        prefetchInfiniteQuery: pending,
+    });
+
+    return { queryClient, calls };
+}
+
+async function settlesWithin(promise: Promise<unknown>, ms = 20) {
+    return Promise.race([
+        promise.then(() => true),
+        new Promise((resolve) => setTimeout(() => resolve(false), ms)),
+    ]);
+}
+
+describe('user layout loader', () => {
+    it('requests only the profile and the follow stats', async () => {
+        const calls = await runLoader(LayoutRoute, { username });
+
+        expect(calls).toEqual(EXPECTED_LAYOUT_CALLS);
+    });
+
+    it('starts the follow stats before the profile resolves', async () => {
+        let release: (value: unknown) => void = () => {};
+        const profile = new Promise((resolve) => {
+            release = resolve;
+        });
+        const calls: string[] = [];
+        const queryClient = new QueryClient();
+        Object.assign(queryClient, {
+            ensureQueryData: (options: RecordedOptions) => {
+                calls.push(queryId(options));
+                return profile;
+            },
+            prefetchQuery: (options: RecordedOptions) => {
+                calls.push(queryId(options));
+                return Promise.resolve();
+            },
+        });
+        const loader = LayoutRoute.options.loader as (
+            ctx: unknown,
+        ) => Promise<unknown>;
+
+        const result = loader({
+            params: { username },
+            context: { queryClient, apiClient: ssrRequestClient() },
+        });
+        await Promise.resolve();
+
+        expect(calls).toEqual(['userProfile', 'followStats']);
+
+        release({ username });
+        await expect(result).resolves.toEqual({ user: { username } });
+    });
+
+    it('retries the profile after a cancel', async () => {
+        const calls: string[] = [];
+        const queryClient = new QueryClient();
+        Object.assign(queryClient, {
+            ensureQueryData: async (options: RecordedOptions) => {
+                calls.push(queryId(options));
+                if (calls.length === 1) throw new CancelledError();
+                return { username };
+            },
+            prefetchQuery: async (options: RecordedOptions) => {
+                calls.push(queryId(options));
+            },
+        });
+        const loader = LayoutRoute.options.loader as (
+            ctx: unknown,
+        ) => Promise<unknown>;
+
+        await expect(
+            loader({
+                params: { username },
+                context: { queryClient, apiClient: ssrRequestClient() },
+            }),
+        ).resolves.toEqual({ user: { username } });
+        expect(calls).toEqual(['userProfile', 'followStats', 'userProfile']);
+    });
+
+    it('redirects a user reference without the follow stats', async () => {
+        const calls: string[] = [];
+        const queryClient = new QueryClient();
+        Object.assign(queryClient, {
+            ensureQueryData: async (options: RecordedOptions) => {
+                calls.push(queryId(options));
+                return { username };
+            },
+            prefetchQuery: async (options: RecordedOptions) => {
+                calls.push(queryId(options));
+            },
+        });
+        const loader = LayoutRoute.options.loader as (
+            ctx: unknown,
+        ) => Promise<unknown>;
+
+        const error = await loader({
+            params: { username: '0b7c7ef2-6f7a-4a8e-9f7e-2a8d2f3c9b10' },
+            context: { queryClient, apiClient: ssrRequestClient() },
+        }).catch((thrown: unknown) => thrown);
+
+        expect(isRedirect(error)).toBe(true);
+        expect(calls).toEqual(['userReference']);
+    });
+});
+
+describe('profile sub-route loaders', () => {
+    it('has no loader on the history page', () => {
+        expect(HistoryRoute.options.loader).toBeUndefined();
+    });
+
+    it.each([
+        [undefined, 'anime'],
+        ['manga', 'manga'],
+        ['collection', 'collection'],
+    ])(
+        'awaits the stats and the %s favourites on the server',
+        async (type, expected) => {
+            const calls = await runLoader(
+                FavoritesRoute,
+                { username },
+                {
+                    type,
+                },
+            );
+
+            expect(calls).toEqual(
+                favouritesCalls('ensureInfiniteQueryData', expected),
+            );
+        },
+    );
+
+    it('keys the favourites loader on the type only', () => {
+        const loaderDeps = FavoritesRoute.options.loaderDeps as (ctx: {
+            search: unknown;
+        }) => unknown;
+
+        expect(loaderDeps({ search: { type: 'manga' } })).toEqual({
+            type: 'manga',
+        });
+        expect(loaderDeps({ search: {} })).toEqual({ type: undefined });
+    });
+
+    it('prefetches the favourites on the client without waiting', async () => {
+        const { queryClient, calls } = pendingQueryClient();
+        const loader = FavoritesRoute.options.loader as (
+            ctx: unknown,
+        ) => Promise<unknown>;
+
+        const settled = await settlesWithin(
+            loader({
+                params: { username },
+                deps: { type: 'novel' },
+                context: { queryClient, apiClient: ssrRequestClient() },
+            }),
+        );
+
+        expect(settled).toBe(true);
+        expect(calls).toEqual(['serviceUserStats', 'favouriteList']);
+    });
+
+    it('prefetches the favourites on the client with prefetch calls', async () => {
+        const calls = await runLoader(
+            FavoritesRoute,
+            { username },
+            { type: 'person' },
+            'client',
+        );
+
+        expect(calls).toEqual(
+            favouritesCalls('prefetchInfiniteQuery', 'person'),
+        );
+    });
+});
 
 describe('user list loader', () => {
     it.each(LIST_CASES)(
@@ -467,13 +716,123 @@ describe('user list loader', () => {
             EXPECTED_LIST_CALLS['anime, default search'],
         );
     });
+
+    it.each(PREFETCHED_LIST_CASES)(
+        'issues the same calls on the client: $name',
+        async ({ name, type, raw }) => {
+            const calls = await runLoader(
+                ListRoute,
+                { username, content_type: type },
+                userlistSearchSchema.parse(raw),
+                'client',
+            );
+
+            expect(calls).toEqual(EXPECTED_LIST_CALLS[name]);
+        },
+    );
+
+    it.each([
+        ['anime', ['userWatchList', 'userWatchStats']],
+        ['manga', ['userReadList', 'userReadStats']],
+        ['novel', ['userReadList', 'userReadStats']],
+    ])(
+        'does not wait for the %s list on the client',
+        async (type, expected) => {
+            const { queryClient, calls } = pendingQueryClient();
+            const loader = ListRoute.options.loader as (
+                ctx: unknown,
+            ) => Promise<unknown>;
+
+            const settled = await settlesWithin(
+                loader({
+                    params: { username, content_type: type },
+                    deps: userlistSearchSchema.parse({
+                        status: 'completed',
+                        sort: type === 'anime' ? 'watch_score' : 'read_score',
+                    }),
+                    context: { queryClient, apiClient: ssrRequestClient() },
+                }),
+            );
+
+            expect(settled).toBe(true);
+            expect(calls).toEqual(expected);
+        },
+    );
+
+    it('waits for the list on the server', async () => {
+        vi.stubGlobal('window', undefined);
+        const { queryClient, calls } = pendingQueryClient();
+        const loader = ListRoute.options.loader as (
+            ctx: unknown,
+        ) => Promise<unknown>;
+
+        const settled = await settlesWithin(
+            loader({
+                params: { username, content_type: 'anime' },
+                deps: userlistSearchSchema.parse({
+                    status: 'completed',
+                    sort: 'watch_score',
+                }),
+                context: { queryClient, apiClient: ssrRequestClient() },
+            }),
+        );
+
+        expect(settled).toBe(false);
+        expect(calls).toEqual(['userWatchList', 'userWatchStats']);
+    });
 });
 
 describe('profile loader', () => {
-    it('keeps the HEAD calls in order', async () => {
+    it('requests the sized previews and the rendered stats', async () => {
         const calls = await runLoader(ProfileRoute, { username });
 
         expect(calls).toEqual(EXPECTED_PROFILE_CALLS);
+    });
+
+    it('leaves the collections and the read stats to the client', async () => {
+        const calls = await runLoader(ProfileRoute, { username });
+
+        expect(calls.some((call) => call.includes('getCollections'))).toBe(
+            false,
+        );
+        expect(calls.some((call) => call.includes('userReadStats'))).toBe(
+            false,
+        );
+    });
+
+    it('retries every awaited preview after a cancel', async () => {
+        const seen = new Set<string>();
+        const calls: string[] = [];
+        const queryClient = new QueryClient();
+        Object.assign(queryClient, {
+            ensureInfiniteQueryData: async (options: RecordedOptions) => {
+                const id = queryId(options);
+                calls.push(id);
+                if (!seen.has(id)) {
+                    seen.add(id);
+                    throw new CancelledError();
+                }
+                return { pages: [], pageParams: [] };
+            },
+            prefetchQuery: async () => {},
+        });
+        const loader = ProfileRoute.options.loader as (
+            ctx: unknown,
+        ) => Promise<unknown>;
+
+        await loader({
+            params: { username },
+            context: { queryClient, apiClient: ssrRequestClient() },
+        });
+
+        expect([...calls].sort()).toEqual([
+            'favouriteList',
+            'favouriteList',
+            'getArticles',
+            'getArticles',
+            'userHistory',
+            'userHistory',
+        ]);
     });
 });
 
@@ -542,17 +901,88 @@ describe('profile previews', () => {
         );
     });
 
-    it('UserCollections queries the HEAD options', () => {
+    it.each([false, true])(
+        'UserCollections queries the sized preview when visible is %s',
+        (visible) => {
+            mocks.params = { username };
+            mocks.visible = visible;
+
+            renderToStaticMarkup(createElement(UserCollections, {}));
+
+            const [[options, extra]] = mocks.infiniteListCalls as [
+                [CapturedOptions, unknown],
+            ];
+            expect(options.queryKey).toStrictEqual(
+                userCollectionsPreviewOptions(username).queryKey,
+            );
+            expect(extra).toStrictEqual({ enabled: visible });
+        },
+    );
+
+    it('UserCollections renders a skeleton until the preview loads', () => {
         mocks.params = { username };
+
+        const html = renderToStaticMarkup(createElement(UserCollections, {}));
+
+        expect(html).toContain('id="user-collections"');
+        expect(html).toContain('Колекції');
+        expect(html.match(/animate-pulse/g)?.length).toBeGreaterThan(0);
+    });
+
+    it('UserCollections hides an empty preview from visitors', () => {
+        mocks.params = { username };
+        mocks.list = [];
 
         expect(renderToStaticMarkup(createElement(UserCollections, {}))).toBe(
             '',
         );
+    });
+
+    it('UserHistory queries the sized preview', () => {
+        mocks.params = { username };
+        mocks.list = [];
+
+        renderToStaticMarkup(createElement(UserHistory, {}));
 
         const [[options]] = mocks.infiniteListCalls as [[CapturedOptions]];
         expect(options.queryKey).toStrictEqual(
-            headUserCollectionsOptions(mocks.params).queryKey,
+            userHistoryPreviewOptions(username).queryKey,
         );
+    });
+
+    it('HistoryModal keeps the unsized history key', () => {
+        mocks.params = { username };
+        mocks.list = [];
+
+        renderToStaticMarkup(createElement(HistoryModal));
+
+        const [[options]] = mocks.infiniteListCalls as [[CapturedOptions]];
+        expect(options.queryKey).toStrictEqual(
+            userHistoryInfiniteOptions({ path: { username } }).queryKey,
+        );
+    });
+
+    it.each([
+        [false, 'preview'],
+        [true, 'list'],
+    ])('FavoriteSection extended=%s queries the %s key', (extended) => {
+        mocks.params = { username };
+        mocks.list = [];
+        const type = 'manga' as FavouriteContentTypeEnum;
+
+        renderToStaticMarkup(
+            createElement(FavoriteSection, { type, extended }),
+        );
+
+        const [[options, extra]] = mocks.infiniteListCalls as [
+            [CapturedOptions, unknown],
+        ];
+        expect(options.queryKey).toStrictEqual(
+            extended
+                ? userFavouritesListOptions(username, type).queryKey
+                : userFavouritesPreviewOptions(username, type).queryKey,
+        );
+        expect(extra).toStrictEqual({ enabled: true });
     });
 });
 
@@ -804,25 +1234,30 @@ describe('userCollectionsPreviewOptions', () => {
         );
     });
 
-    it('equals the HEAD component key on both sides', () => {
-        const head = headUserCollectionsOptions({ username }).queryKey;
+    it('adds the preview size to the HEAD key', () => {
+        expect(userCollectionsPreviewOptions(username).queryKey).toStrictEqual(
+            getCollectionsInfiniteOptions({
+                body: headUserCollectionsBody({ username }),
+                query: { size: 3 },
+            }).queryKey,
+        );
+    });
+
+    it('keys the loader like the component', () => {
         const component = userCollectionsPreviewOptions(username).queryKey;
         const loader = userCollectionsPreviewOptions(
             username,
             ssrRequestClient(),
         ).queryKey;
 
-        expect(component).toStrictEqual(head);
-        expect(loader).toStrictEqual(head);
-        expect(hashKey(loader)).toBe(hashKey(head));
+        expect(loader).toStrictEqual(component);
+        expect(hashKey(loader)).toBe(hashKey(component));
     });
 
-    it('shares the key with the collection list modal body', () => {
+    it('keeps the collection list modal on its own unsized key', () => {
         expect(
-            getCollectionsInfiniteOptions({
-                body: userCollectionsPreviewBody(username),
-            }).queryKey,
-        ).toStrictEqual(userCollectionsPreviewOptions(username).queryKey);
+            hashKey(headUserCollectionsOptions({ username }).queryKey),
+        ).not.toBe(hashKey(userCollectionsPreviewOptions(username).queryKey));
     });
 
     it('hashes a public-only body differently', () => {
@@ -833,6 +1268,7 @@ describe('userCollectionsPreviewOptions', () => {
                         ...userCollectionsPreviewBody(username),
                         only_public: true,
                     },
+                    query: { size: 3 },
                 }).queryKey,
             ),
         ).not.toBe(hashKey(userCollectionsPreviewOptions(username).queryKey));
@@ -845,14 +1281,137 @@ describe('userCollectionsPreviewOptions', () => {
             client,
         );
         const fromComponent = await sentRequest(
-            headUserCollectionsOptions({ username }),
+            userCollectionsPreviewOptions(username),
             getBrowserClient(),
         );
 
         expect(fromLoader.method).toBe('POST');
+        expect(fromLoader.path).toBe('/collections?size=3&page=1');
         expect(fromLoader).toEqual(fromComponent);
         expect(JSON.parse(fromLoader.body)).toEqual(
             headUserCollectionsBody({ username }),
         );
+    });
+});
+
+describe('userHistoryPreviewOptions', () => {
+    it('adds size 3 to the HEAD history key', () => {
+        expect(userHistoryPreviewOptions(username).queryKey).toStrictEqual(
+            userHistoryInfiniteOptions({
+                path: { username },
+                query: { size: 3 },
+            }).queryKey,
+        );
+    });
+
+    it('keys the loader like the component', () => {
+        const component = userHistoryPreviewOptions(username).queryKey;
+        const loader = userHistoryPreviewOptions(
+            username,
+            ssrRequestClient(),
+        ).queryKey;
+
+        expect(loader).toStrictEqual(component);
+        expect(hashKey(loader)).toBe(hashKey(component));
+    });
+
+    it('keeps the modal and the history page on the unsized key', () => {
+        expect(
+            hashKey(
+                userHistoryInfiniteOptions({ path: { username } }).queryKey,
+            ),
+        ).not.toBe(hashKey(userHistoryPreviewOptions(username).queryKey));
+    });
+
+    it('sends the component request from the loader', async () => {
+        const client = loaderRequestClient();
+        const fromLoader = await sentRequest(
+            userHistoryPreviewOptions(username, client),
+            client,
+        );
+        const fromComponent = await sentRequest(
+            userHistoryPreviewOptions(username),
+            getBrowserClient(),
+        );
+
+        expect(fromLoader.method).toBe('GET');
+        expect(fromLoader.path).toBe(`/history/user/${username}?size=3&page=1`);
+        expect(fromLoader).toEqual(fromComponent);
+    });
+});
+
+describe('userFavouritesPreviewOptions', () => {
+    it('sizes the preview to the collapsed stack', () => {
+        expect(FAVORITE_PREVIEW_SIZE).toBe(6);
+        expect(
+            userFavouritesPreviewOptions(
+                username,
+                'anime' as FavouriteContentTypeEnum,
+            ).queryKey,
+        ).toStrictEqual(
+            favouriteListInfiniteOptions({
+                path: {
+                    username,
+                    content_type: 'anime' as FavouriteContentTypeEnum,
+                },
+                query: { size: 6 },
+            }).queryKey,
+        );
+    });
+
+    it.each(['anime', 'manga', 'novel', 'character', 'person', 'collection'])(
+        'keys the %s loader like the component on both builders',
+        (type) => {
+            const contentType = type as FavouriteContentTypeEnum;
+            for (const build of [
+                userFavouritesPreviewOptions,
+                userFavouritesListOptions,
+            ]) {
+                const component = build(username, contentType).queryKey;
+                const loader = build(
+                    username,
+                    contentType,
+                    ssrRequestClient(),
+                ).queryKey;
+
+                expect(loader).toStrictEqual(component);
+                expect(hashKey(loader)).toBe(hashKey(component));
+            }
+        },
+    );
+
+    it('keeps the favorites page on the HEAD unsized key', () => {
+        const contentType = 'character' as FavouriteContentTypeEnum;
+        const head = favouriteListInfiniteOptions({
+            path: { content_type: contentType, username },
+        }).queryKey;
+
+        expect(
+            userFavouritesListOptions(username, contentType).queryKey,
+        ).toStrictEqual(head);
+        expect(hashKey(head)).not.toBe(
+            hashKey(
+                userFavouritesPreviewOptions(username, contentType).queryKey,
+            ),
+        );
+    });
+
+    it('sends the component request from the loader', async () => {
+        const contentType = 'anime' as FavouriteContentTypeEnum;
+        const client = loaderRequestClient();
+        const fromLoader = await sentRequest(
+            userFavouritesPreviewOptions(username, contentType, client),
+            client,
+        );
+        const fromComponent = await sentRequest(
+            userFavouritesPreviewOptions(username, contentType),
+            getBrowserClient(),
+        );
+
+        expect(fromLoader.method).toBe('POST');
+        expect(fromLoader.path).toBe(
+            `/favourite/anime/${username}/list?size=6&page=1`,
+        );
+        expect(fromLoader).toEqual(fromComponent);
     });
 });

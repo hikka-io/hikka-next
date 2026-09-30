@@ -6,13 +6,9 @@ import {
 } from '@tanstack/react-router';
 
 import {
-    ContentTypeEnum,
     followStatsOptions,
-    serviceUserStatsOptions,
     userProfileOptions,
-    userReadStatsOptions,
     userReferenceOptions,
-    userWatchStatsOptions,
 } from '@hikka/api';
 
 import { CoverImage, usePageHeader } from '@/features/app-shell';
@@ -52,48 +48,17 @@ export const Route = createFileRoute('/_pages/u/$username')({
             });
         }
 
-        const user = await ensureOr404(() =>
-            queryClient.ensureQueryData(
-                userProfileOptions({
-                    path: { username },
-                    client: apiClient,
-                }),
-            ),
-        );
-
-        await Promise.allSettled([
-            queryClient.prefetchQuery(
-                userReadStatsOptions({
-                    path: {
-                        username,
-                        content_type: ContentTypeEnum.MANGA,
-                    },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.prefetchQuery(
-                userReadStatsOptions({
-                    path: {
-                        username,
-                        content_type: ContentTypeEnum.NOVEL,
-                    },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.prefetchQuery(
-                userWatchStatsOptions({
-                    path: { username },
-                    client: apiClient,
-                }),
+        const [user] = await Promise.all([
+            ensureOr404(() =>
+                queryClient.ensureQueryData(
+                    userProfileOptions({
+                        path: { username },
+                        client: apiClient,
+                    }),
+                ),
             ),
             queryClient.prefetchQuery(
                 followStatsOptions({
-                    path: { username },
-                    client: apiClient,
-                }),
-            ),
-            queryClient.prefetchQuery(
-                serviceUserStatsOptions({
                     path: { username },
                     client: apiClient,
                 }),

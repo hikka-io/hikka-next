@@ -1,12 +1,47 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-adapter';
 
+import {
+    ContentTypeEnum,
+    paginationPageParam,
+    serviceUserStatsOptions,
+} from '@hikka/api';
+
 import { UserFavorites } from '@/features/users';
+import { userFavouritesListOptions } from '@/features/users/queries';
+import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { generateHeadMeta } from '@/utils/metadata';
 import { favoritesSearchSchema } from '@/utils/search-schemas';
 
 export const Route = createFileRoute('/_pages/u/$username/favorites')({
     validateSearch: zodValidator(favoritesSearchSchema),
+    loaderDeps: ({ search }) => ({ type: search.type }),
+    loader: async ({ params, deps, context: { queryClient, apiClient } }) => {
+        const { username } = params;
+        const stats = serviceUserStatsOptions({
+            path: { username },
+            client: apiClient,
+        });
+        const list = {
+            ...userFavouritesListOptions(
+                username,
+                deps.type ?? ContentTypeEnum.ANIME,
+                apiClient,
+            ),
+            ...paginationPageParam(),
+        };
+
+        if (typeof window !== 'undefined') {
+            void queryClient.prefetchQuery(stats);
+            void queryClient.prefetchInfiniteQuery(list);
+            return;
+        }
+
+        await Promise.allSettled([
+            queryClient.prefetchQuery(stats),
+            retryOnCancel(() => queryClient.ensureInfiniteQueryData(list)),
+        ]);
+    },
     head: ({ params }) =>
         generateHeadMeta({ title: `Улюблене / ${params.username}` }),
     component: FavoritesPage,
