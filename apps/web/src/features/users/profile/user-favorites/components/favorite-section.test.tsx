@@ -393,7 +393,7 @@ describe.each(TYPES)('FavoriteSection(%s)', (type) => {
         },
     );
 
-    it('sizes the collapsed preview and a uniform enabled guard', () => {
+    it('sizes the collapsed preview and drops the redundant enabled guard', () => {
         html(<FavoriteSection type={type} />);
         html(<LegacySection type={type} />);
 
@@ -404,7 +404,7 @@ describe.each(TYPES)('FavoriteSection(%s)', (type) => {
             { ...legacyOptions.queryKey[0], query: { size: 6 } },
         ]);
         expect(Object.keys(options)).toEqual(Object.keys(legacyOptions));
-        expect(extra).toEqual({ enabled: true });
+        expect(extra).toBeUndefined();
         expect(legacyExtra).toEqual(
             type === ContentTypeEnum.MANGA ? { enabled: true } : undefined,
         );
@@ -419,7 +419,7 @@ describe.each(TYPES)('FavoriteSection(%s)', (type) => {
 
         expect(options.queryKey).toEqual(legacyOptions.queryKey);
         expect(Object.keys(options)).toEqual(Object.keys(legacyOptions));
-        expect(extra).toEqual({ enabled: true });
+        expect(extra).toBeUndefined();
     });
 
     it('shares the keys with the loader prefetches', () => {

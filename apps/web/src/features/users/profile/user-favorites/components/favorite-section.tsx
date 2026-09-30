@@ -166,7 +166,6 @@ const FavoriteSection: FC<Props> = ({ type, extended }) => {
         extended
             ? userFavouritesListOptions(username, type)
             : userFavouritesPreviewOptions(username, type),
-        { enabled: !!params.username },
     );
 
     const list = rawList as FavoriteItem[] | undefined;

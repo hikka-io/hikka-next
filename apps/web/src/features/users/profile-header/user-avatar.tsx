@@ -31,12 +31,11 @@ const UserAvatar = () => {
     );
     const params = useParams();
 
-    const { data: user } = useQuery({
-        ...userProfileOptions({
+    const { data: user } = useQuery(
+        userProfileOptions({
             path: { username: String(params.username) },
         }),
-        enabled: !!params.username,
-    });
+    );
     const { user: loggedUser } = useSession();
 
     const handleUploadImageSelected = (

@@ -30,12 +30,11 @@ const ActivityHeatmap: FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [visibleWeeks, setVisibleWeeks] = useState<number>(0);
 
-    const { data } = useQuery({
-        ...serviceUserActivityOptions({
+    const { data } = useQuery(
+        serviceUserActivityOptions({
             path: { username: String(params.username) },
         }),
-        enabled: !!params.username,
-    });
+    );
 
     useEffect(() => {
         const el = containerRef.current;

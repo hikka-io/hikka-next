@@ -1,9 +1,6 @@
 import { createContext, useContext, useRef } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
 import { useStore } from 'zustand';
-
-import { getArticleOptions } from '@hikka/api';
 
 import {
     type ArticleState,
@@ -38,12 +35,6 @@ export default function ArticleProvider({
 
 export function useArticleContext<T>(selector: (state: ArticleStore) => T): T {
     const store = useContext(ArticleContext);
-    const _articleQuery = useQuery({
-        ...getArticleOptions({
-            path: { slug: String(store?.getState().slug) },
-        }),
-        enabled: false,
-    });
     if (!store) throw new Error('Missing ArticleContext.Provider in the tree');
     return useStore(store, selector);
 }

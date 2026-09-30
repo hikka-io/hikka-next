@@ -38,21 +38,21 @@ export function useProfileMenu({ enabled = true }: { enabled?: boolean } = {}) {
         queries: [
             {
                 ...userWatchStatsOptions({
-                    path: { username: username ?? '' },
+                    path: { username: String(username) },
                 }),
                 enabled: enabled && !!username,
                 select: watchTotal,
             },
             {
                 ...userReadStatsOptions({
-                    path: { content_type: 'manga', username: username ?? '' },
+                    path: { content_type: 'manga', username: String(username) },
                 }),
                 enabled: enabled && !!username,
                 select: readTotal,
             },
             {
                 ...userReadStatsOptions({
-                    path: { content_type: 'novel', username: username ?? '' },
+                    path: { content_type: 'novel', username: String(username) },
                 }),
                 enabled: enabled && !!username,
                 select: readTotal,

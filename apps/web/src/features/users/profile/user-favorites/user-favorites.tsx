@@ -71,12 +71,11 @@ const UserFavorites: FC<Props> = ({ extended, type }) => {
     const params = useParams();
     const navigate = useNavigate();
 
-    const { data: stats } = useQuery({
-        ...serviceUserStatsOptions({
+    const { data: stats } = useQuery(
+        serviceUserStatsOptions({
             path: { username: String(params.username) },
         }),
-        enabled: !!params.username,
-    });
+    );
 
     const { user: loggedUser } = useSession();
     const isOwner =

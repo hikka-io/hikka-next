@@ -17,7 +17,7 @@ export function useCommentThread(
     return useInfiniteList<CommentListResponse>(
         {
             // `ThreadResponse` is a union; `flat=true` yields the list side.
-            ...commentThreadInfiniteOptions(reference ?? 'disabled'),
+            ...commentThreadInfiniteOptions(String(reference)),
             // `skipToken` holds through `refetch()`, which ignores `enabled`.
             ...(reference ? undefined : { queryFn: skipToken }),
         } as unknown as Parameters<

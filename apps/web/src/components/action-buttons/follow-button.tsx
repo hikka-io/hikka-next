@@ -38,7 +38,7 @@ const FollowButton: FC<Props> = ({
     const queryClient = useQueryClient();
 
     const { data: userQuery } = useQuery({
-        ...userProfileOptions({ path: { username: username! } }),
+        ...userProfileOptions({ path: { username: String(username) } }),
         enabled: username !== undefined,
     });
 

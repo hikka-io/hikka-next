@@ -56,10 +56,9 @@ const CollectionEditorNew: FC = () => {
 };
 
 const CollectionEditorUpdate: FC<UpdateProps> = ({ reference }) => {
-    const { data: collection } = useQuery({
-        ...getCollectionOptions({ path: { reference } }),
-        refetchOnWindowFocus: false,
-    });
+    const { data: collection } = useQuery(
+        getCollectionOptions({ path: { reference } }),
+    );
 
     usePageHeader({
         title: collection?.title,

@@ -15,10 +15,7 @@ const ActivityStats: FC = () => {
     const params = useParams();
     const username = String(params.username);
 
-    const { data } = useQuery({
-        ...serviceUserStatsOptions({ path: { username } }),
-        enabled: !!params.username,
-    });
+    const { data } = useQuery(serviceUserStatsOptions({ path: { username } }));
 
     if (!data) return null;
 

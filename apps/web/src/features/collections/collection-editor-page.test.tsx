@@ -3,12 +3,20 @@ import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { renderToString } from 'react-dom/server';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+    focusManager,
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query';
 import { describe, expect, it, vi } from 'vitest';
 
 import { type GetCollectionResponse, getCollectionOptions } from '@hikka/api';
 
 import { usePageHeader } from '@/features/app-shell';
+import {
+    applyQueryDefaults,
+    QUERY_CLIENT_DEFAULTS,
+} from '@/utils/api/query-defaults';
 
 import CollectionEditorPage from './collection-editor-page';
 
@@ -179,6 +187,49 @@ describe('CollectionEditorPage', () => {
                 '"title":"Інша колекція"',
             );
         } finally {
+            await act(async () => root.unmount());
+            vi.unstubAllGlobals();
+        }
+    });
+
+    it('does not refetch the collection being edited on window focus', async () => {
+        const queryClient = new QueryClient({
+            defaultOptions: { queries: QUERY_CLIENT_DEFAULTS },
+        });
+        applyQueryDefaults(queryClient);
+        const { queryKey } = getCollectionOptions({
+            path: { reference: REFERENCE },
+        });
+        queryClient.setQueryData(queryKey, COLLECTION);
+        await queryClient.invalidateQueries({ queryKey, refetchType: 'none' });
+        const container = document.createElement('div');
+        const root = createRoot(container);
+
+        const fetches = vi.fn();
+        queryClient.getQueryCache().subscribe((event) => {
+            if (event.type === 'updated' && event.action.type === 'fetch') {
+                fetches();
+            }
+        });
+        vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);
+        focusManager.setFocused(false);
+        try {
+            await act(async () => {
+                root.render(
+                    <QueryClientProvider client={queryClient}>
+                        <CollectionEditorPage reference={REFERENCE} />
+                    </QueryClientProvider>,
+                );
+            });
+            fetches.mockClear();
+            await act(async () => {
+                focusManager.setFocused(true);
+                await new Promise((resolve) => setTimeout(resolve, 0));
+            });
+
+            expect(fetches).not.toHaveBeenCalled();
+        } finally {
+            focusManager.setFocused(undefined);
             await act(async () => root.unmount());
             vi.unstubAllGlobals();
         }

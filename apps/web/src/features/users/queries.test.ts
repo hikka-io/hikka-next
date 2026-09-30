@@ -982,7 +982,7 @@ describe('profile previews', () => {
                 ? userFavouritesListOptions(username, type).queryKey
                 : userFavouritesPreviewOptions(username, type).queryKey,
         );
-        expect(extra).toStrictEqual({ enabled: true });
+        expect(extra).toBeUndefined();
     });
 });
 
