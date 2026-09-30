@@ -1,18 +1,24 @@
 import { createFileRoute } from '@tanstack/react-router';
 
-import { type GetEditResponse, getEditQueryKey } from '@hikka/api';
+import { getEditOptions } from '@hikka/api';
 
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
 import { usePageTitleAnchor } from '@/features/app-shell';
 import { EditViewForm } from '@/features/edit';
+import { retryOnCancel } from '@/utils/api/retry-on-cancel';
 import { requireOwner } from '@/utils/auth';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/edit/$editId/update')({
-    beforeLoad: async ({ params, context: { queryClient } }) => {
-        const edit = queryClient.getQueryData<GetEditResponse>(
-            getEditQueryKey({ path: { edit_id: Number(params.editId) } }),
-        );
+    beforeLoad: async ({ params, context: { queryClient, apiClient } }) => {
+        const edit = await retryOnCancel(() =>
+            queryClient.ensureQueryData(
+                getEditOptions({
+                    path: { edit_id: Number(params.editId) },
+                    client: apiClient,
+                }),
+            ),
+        ).catch(() => undefined);
 
         requireOwner(
             queryClient,
