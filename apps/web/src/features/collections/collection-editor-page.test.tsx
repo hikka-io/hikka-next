@@ -8,14 +8,8 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { type GetCollectionResponse, getCollectionOptions } from '@hikka/api';
 
-import Block from '@/components/ui/block';
-import Card from '@/components/ui/card';
 import { usePageHeader } from '@/features/app-shell';
 
-import CollectionEditGroups from './collection-edit/collection-groups';
-import CollectionProvider from './collection-edit/collection-provider';
-import CollectionEditSettings from './collection-edit/collection-settings';
-import CollectionEditTitle from './collection-edit/collection-title';
 import CollectionEditorPage from './collection-editor-page';
 
 vi.mock('@/features/app-shell', () => ({ usePageHeader: vi.fn() }));
@@ -64,30 +58,6 @@ const COLLECTION = {
     ],
 } as unknown as GetCollectionResponse;
 
-function LegacyCollectionNewPage() {
-    usePageHeader({
-        title: 'Нова колекція',
-        parent: '/collections',
-    });
-
-    return (
-        <CollectionProvider>
-            <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-x-10">
-                <Block>
-                    <CollectionEditTitle />
-                    <Card className="-mx-4 block w-auto rounded-none border-x-0 p-0 lg:hidden">
-                        <CollectionEditSettings />
-                    </Card>
-                    <CollectionEditGroups />
-                </Block>
-                <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">
-                    <CollectionEditSettings />
-                </Card>
-            </div>
-        </CollectionProvider>
-    );
-}
-
 const render = (node: ReactNode, cached: boolean) => {
     const queryClient = new QueryClient();
     if (cached) {
@@ -104,10 +74,21 @@ const render = (node: ReactNode, cached: boolean) => {
 };
 
 describe('CollectionEditorPage', () => {
-    it('renders the new route like the former route body and the update route in edit mode', () => {
+    const stubs = (html: string) =>
+        [...html.matchAll(/<pre>|data-stub="(\w+)" data-mode="(\w+)"/g)].map(
+            ([, stub, mode]) => (stub ? `${stub}:${mode}` : 'title'),
+        );
+
+    it('renders one settings panel between the title and the groups', () => {
         const newPage = render(<CollectionEditorPage />, false);
-        expect(newPage).toEqual(render(<LegacyCollectionNewPage />, false));
-        expect(newPage.html).toContain('data-mode="default"');
+        expect(newPage.header).toEqual([
+            [{ title: 'Нова колекція', parent: '/collections' }],
+        ]);
+        expect(stubs(newPage.html)).toEqual([
+            'title',
+            'settings:default',
+            'groups:default',
+        ]);
 
         const updatePage = render(
             <CollectionEditorPage reference={REFERENCE} />,
@@ -122,10 +103,11 @@ describe('CollectionEditorPage', () => {
                 },
             ],
         ]);
-        expect(
-            updatePage.html.match(/data-stub="settings" data-mode="edit"/g),
-        ).toHaveLength(2);
-        expect(updatePage.html).toContain('data-stub="groups"');
+        expect(stubs(updatePage.html)).toEqual([
+            'title',
+            'settings:edit',
+            'groups:default',
+        ]);
 
         expect(
             render(<CollectionEditorPage reference={REFERENCE} />, false).html,

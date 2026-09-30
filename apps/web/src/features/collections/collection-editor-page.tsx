@@ -28,17 +28,16 @@ type UpdateProps = {
 
 const CollectionEditorLayout: FC<LayoutProps> = ({ mode }) => {
     return (
-        <div className="grid grid-cols-1 justify-center lg:grid-cols-[1fr_25%] lg:items-start lg:justify-between lg:gap-x-10">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_25%] lg:grid-rows-[auto_1fr] lg:items-start lg:gap-x-10">
             <Block>
                 <CollectionEditTitle />
-                <Card className="-mx-4 block w-auto rounded-none border-x-0 p-0 lg:hidden">
-                    <CollectionEditSettings mode={mode} />
-                </Card>
-                <CollectionEditGroups />
             </Block>
-            <Card className="sticky top-20 order-1 hidden w-full p-0 lg:order-2 lg:block">
+            <Card className="-mx-4 block w-auto rounded-none border-x-0 p-0 lg:sticky lg:top-20 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mx-0 lg:w-full lg:rounded-lg lg:border-x">
                 <CollectionEditSettings mode={mode} />
             </Card>
+            <Block>
+                <CollectionEditGroups />
+            </Block>
         </div>
     );
 };
