@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { FilterPreset } from './types';
 
@@ -22,6 +22,24 @@ async function loadStore() {
 describe('useFilterPresetsStore', () => {
     beforeEach(() => {
         localStorage.clear();
+    });
+
+    afterEach(() => {
+        vi.unstubAllGlobals();
+    });
+
+    it('gives a preset without an id a new one outside a secure context', async () => {
+        vi.stubGlobal('crypto', undefined);
+        writeKey('filter-presets', {
+            filterPresets: [{ name: 'no id', content_types: ['anime'] }],
+        });
+
+        const state = await loadStore();
+
+        expect(state.filterPresets).toEqual([
+            { id: expect.any(String), name: 'no id', content_types: ['anime'] },
+        ]);
+        expect(state.filterPresets[0].id).not.toBe('');
     });
 
     it('gives a fresh user the default preset and persists it', async () => {

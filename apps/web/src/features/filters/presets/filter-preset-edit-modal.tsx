@@ -28,6 +28,7 @@ import {
     filterPresetFormOptions,
 } from './filter-preset-form';
 import { useFilterPresetsStore } from './filter-presets-store';
+import { newId } from './new-id';
 import type { FilterPreset } from './types';
 
 const arraysEqual = (a: unknown[] | undefined, b: unknown[] | undefined) =>
@@ -78,7 +79,7 @@ const FilterPresetEditModal = ({ filterPreset, onClose, onBack }: Props) => {
                 description: value.description,
                 content_types: value.content_types,
                 ...filteredData,
-                id: filterPreset?.id || crypto.randomUUID(),
+                id: filterPreset?.id || newId(),
                 ...(value.date_range_enabled && {
                     years: undefined,
                     seasons: undefined,

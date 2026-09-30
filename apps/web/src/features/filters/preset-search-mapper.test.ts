@@ -144,6 +144,32 @@ describe('presetToSearch', () => {
         ).toEqual({ score: [8, 10] });
     });
 
+    it("follows the preset's own key order", () => {
+        const preset = {
+            sort: 'score',
+            id: 'id',
+            score: [6, 9],
+            name: 'name',
+            genres: ['action'],
+            content_types: [ContentTypeEnum.ANIME],
+            only_translated: true,
+            statuses: ['finished'],
+            future_key: ['kept in storage only'],
+            years: [2010, 2020],
+            order: 'desc',
+        } as FilterPreset;
+
+        expect(Object.keys(presetToSearch(preset))).toEqual([
+            'sort',
+            'score',
+            'genres',
+            'only_translated',
+            'statuses',
+            'years',
+            'order',
+        ]);
+    });
+
     it('drops preset metadata, empty values and unknown keys', () => {
         const preset = {
             id: 'id',

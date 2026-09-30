@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import { newId } from './new-id';
 import type { FilterPreset } from './types';
 
 export interface FilterPresetsState {
@@ -46,7 +47,7 @@ const flag = z.boolean().optional().catch(undefined);
 
 const storedFilterPresetSchema = z
     .object({
-        id: z.string().catch(() => crypto.randomUUID()),
+        id: z.string().catch(newId),
         name: z.string().catch(''),
         description: z.string().optional().catch(undefined),
         content_types: z.array(z.string()).catch([]),

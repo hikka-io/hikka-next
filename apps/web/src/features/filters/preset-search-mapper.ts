@@ -16,12 +16,12 @@ const NUMBER_LIST_KEYS = ['years', 'score', 'date_range'] as const;
 const FLAG_KEYS = ['only_translated', 'date_range_enabled'] as const;
 const TEXT_KEYS = ['sort', 'order'] as const;
 
-const SEARCH_KEYS = [
+const SEARCH_KEYS = new Set<string>([
     ...STRING_LIST_KEYS,
     ...NUMBER_LIST_KEYS,
     ...FLAG_KEYS,
     ...TEXT_KEYS,
-] as const;
+]);
 
 const toList = (value: unknown): unknown[] =>
     value == null ? [] : Array.isArray(value) ? value : [value];
@@ -62,9 +62,8 @@ export const presetFromSearch = (
 export const presetToSearch = (preset: FilterPreset): Search => {
     const search: Search = {};
 
-    for (const key of SEARCH_KEYS) {
-        const value = preset[key];
-        if (value != null) search[key] = value;
+    for (const [key, value] of Object.entries(preset)) {
+        if (SEARCH_KEYS.has(key) && value != null) search[key] = value;
     }
 
     return search;
