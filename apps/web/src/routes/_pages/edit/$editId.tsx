@@ -18,31 +18,39 @@ import { generateHeadMeta } from '@/utils/metadata';
 import { usePathname } from '@/utils/navigation';
 
 export const Route = createFileRoute('/_pages/edit/$editId')({
-    loader: async ({ params, context: { queryClient, apiClient } }) => {
+    loader: async ({
+        params,
+        location,
+        context: { queryClient, apiClient },
+    }) => {
         const editId = Number(params.editId);
+        const isUpdate = location.pathname.endsWith('/update');
 
-        const edit = await retryOnCancel(() =>
-            queryClient.ensureQueryData(
-                getEditOptions({
-                    path: { edit_id: editId },
-                    client: apiClient,
-                }),
+        const [edit] = await Promise.all([
+            retryOnCancel(() =>
+                queryClient.ensureQueryData(
+                    getEditOptions({
+                        path: { edit_id: editId },
+                        client: apiClient,
+                    }),
+                ),
             ),
-        );
+            isUpdate
+                ? undefined
+                : queryClient.prefetchInfiniteQuery({
+                      ...getCommentsListInfiniteOptions({
+                          path: {
+                              content_type: 'edit' as CommentContentTypeEnum,
+                              slug: params.editId,
+                          },
+                          body: commentListPrefetchBody(),
+                          client: apiClient,
+                      }),
+                      ...paginationPageParam(),
+                  }),
+        ]);
 
         if (!edit) throw redirect({ to: '/edit' });
-
-        await queryClient.prefetchInfiniteQuery({
-            ...getCommentsListInfiniteOptions({
-                path: {
-                    content_type: 'edit' as CommentContentTypeEnum,
-                    slug: params.editId,
-                },
-                body: commentListPrefetchBody(),
-                client: apiClient,
-            }),
-            ...paginationPageParam(),
-        });
 
         return { edit };
     },

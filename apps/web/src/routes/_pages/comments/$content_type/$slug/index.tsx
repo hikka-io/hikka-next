@@ -40,49 +40,55 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/')({
         const recommended =
             commentType === 'review' ? deps.recommended : undefined;
 
-        const content = await fetchContentForLoader(
-            content_type as ContentTypeEnum,
-            slug,
-            { queryClient, apiClient },
-        );
+        const prefetchComments =
+            content_type === ContentTypeEnum.USER
+                ? Promise.all([
+                      queryClient.prefetchInfiniteQuery({
+                          ...getCommentsUserInfiniteOptions({
+                              path: { username: slug },
+                              body: {
+                                  comment_type: commentType,
+                                  sort,
+                                  first_level_only: deps.first_level_only,
+                              },
+                              client: apiClient,
+                          }),
+                          ...paginationPageParam(),
+                      }),
+
+                      queryClient.prefetchQuery(
+                          serviceUserStatsOptions({
+                              path: { username: slug },
+                              client: apiClient,
+                          }),
+                      ),
+                  ])
+                : queryClient.prefetchInfiniteQuery({
+                      ...getCommentsListInfiniteOptions({
+                          path: {
+                              content_type:
+                                  content_type as CommentContentTypeEnum,
+                              slug,
+                          },
+                          body: {
+                              comment_type: commentType,
+                              sort,
+                              recommended,
+                          },
+                          client: apiClient,
+                      }),
+                      ...paginationPageParam(),
+                  });
+
+        const [content] = await Promise.all([
+            fetchContentForLoader(content_type as ContentTypeEnum, slug, {
+                queryClient,
+                apiClient,
+            }),
+            prefetchComments,
+        ]);
 
         if (!content) throw redirect({ to: '/' });
-
-        if (content_type === ContentTypeEnum.USER) {
-            await Promise.all([
-                queryClient.prefetchInfiniteQuery({
-                    ...getCommentsUserInfiniteOptions({
-                        path: { username: slug },
-                        body: {
-                            comment_type: commentType,
-                            sort,
-                            first_level_only: deps.first_level_only,
-                        },
-                        client: apiClient,
-                    }),
-                    ...paginationPageParam(),
-                }),
-
-                queryClient.prefetchQuery(
-                    serviceUserStatsOptions({
-                        path: { username: slug },
-                        client: apiClient,
-                    }),
-                ),
-            ]);
-        } else {
-            await queryClient.prefetchInfiniteQuery({
-                ...getCommentsListInfiniteOptions({
-                    path: {
-                        content_type: content_type as CommentContentTypeEnum,
-                        slug,
-                    },
-                    body: { comment_type: commentType, sort, recommended },
-                    client: apiClient,
-                }),
-                ...paginationPageParam(),
-            });
-        }
 
         return { content };
     },

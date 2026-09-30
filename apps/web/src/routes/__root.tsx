@@ -66,10 +66,11 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         // here (not createRouter) so it skips server routes like /auth/logout —
         // otherwise it re-sets the cookie logout is clearing. No-ops without an
         // auth cookie; server-only (client calls become RPCs).
-        await refreshAuthCookieFn();
-
-        const theme = await getThemeCookieFn();
-        const uiPrefs = await getUiPrefsCookieFn();
+        const [theme, uiPrefs] = await Promise.all([
+            getThemeCookieFn(),
+            getUiPrefsCookieFn(),
+            typeof window === 'undefined' ? refreshAuthCookieFn() : undefined,
+        ]);
 
         // Already prefetched in createRouter; read from cache, no extra call.
         const userUI =

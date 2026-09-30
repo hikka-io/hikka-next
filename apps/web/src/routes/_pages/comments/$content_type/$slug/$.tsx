@@ -17,20 +17,24 @@ export const Route = createFileRoute('/_pages/comments/$content_type/$slug/$')({
     loader: async ({ params, context: { queryClient, apiClient } }) => {
         const { content_type, slug, _splat: commentReference } = params;
 
-        const content = await fetchContentForLoader(
-            content_type as CommentContentTypeEnum,
-            slug,
-            { queryClient, apiClient },
-        );
+        const [content] = await Promise.all([
+            fetchContentForLoader(
+                content_type as CommentContentTypeEnum,
+                slug,
+                { queryClient, apiClient },
+            ),
+            commentReference
+                ? queryClient.prefetchInfiniteQuery({
+                      ...commentThreadInfiniteOptions(
+                          commentReference,
+                          apiClient,
+                      ),
+                      ...paginationPageParam(),
+                  })
+                : undefined,
+        ]);
 
         if (!content) throw redirect({ to: '/' });
-
-        if (commentReference) {
-            await queryClient.prefetchInfiniteQuery({
-                ...commentThreadInfiniteOptions(commentReference, apiClient),
-                ...paginationPageParam(),
-            });
-        }
 
         return { content, commentReference };
     },
