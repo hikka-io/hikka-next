@@ -1,3 +1,6 @@
+/* Declared first so it stays the lowest layer, like @dnd-kit/dom's own injection. */
+@layer dnd-kit;
+
 @import "@fontsource-variable/geist";
 
 @import "tailwindcss";
@@ -769,6 +772,71 @@ main {
 [data-slot="sheet-content"] * {
     overscroll-behavior-y: contain;
 }
+
+/* Copy of the @dnd-kit/dom 0.5 Feedback styles (keep in sync on upgrade): injecting
+   them per drag restyles the whole page, so utils/drag-drop-manager.ts disables that. */
+/* biome-ignore-start lint/complexity/noImportantStyles: verbatim library styles */
+:is(:root, :host) [data-dnd-dragging] {
+    position: fixed !important;
+    pointer-events: none !important;
+    touch-action: none;
+    z-index: calc(infinity);
+    will-change: translate;
+    top: var(--dnd-top, 0px) !important;
+    left: var(--dnd-left, 0px) !important;
+    right: unset !important;
+    bottom: unset !important;
+    width: var(--dnd-width, auto);
+    max-width: var(--dnd-width, auto);
+    height: var(--dnd-height, auto);
+    max-height: var(--dnd-height, auto);
+    transform: var(--dnd-transform, none) !important;
+    transition: var(--dnd-transition) !important;
+}
+
+:is(:root, :host) [data-dnd-placeholder] {
+    transition: none;
+}
+
+:is(:root, :host) [data-dnd-placeholder="hidden"] {
+    visibility: hidden;
+}
+
+[data-dnd-dragging] * {
+    pointer-events: none !important;
+}
+
+[data-dnd-dragging]:not([data-dnd-dropping]) {
+    translate: var(--dnd-translate) !important;
+}
+
+[data-dnd-dragging][style*="--dnd-scale"] {
+    scale: var(--dnd-scale) !important;
+    transform-origin: var(--dnd-transform-origin) !important;
+}
+
+@layer dnd-kit {
+    :where([data-dnd-dragging][popover]) {
+        overflow: visible;
+        background: unset;
+        border: unset;
+        margin: unset;
+        padding: unset;
+        color: inherit;
+
+        &:is(input, button) {
+            border: revert;
+            background: revert;
+        }
+    }
+}
+
+[data-dnd-dragging]::backdrop,
+[data-dnd-overlay]:not([data-dnd-dragging]) {
+    display: none;
+    visibility: hidden;
+}
+/* biome-ignore-end lint/complexity/noImportantStyles: verbatim library styles */
 
 table th:first-child,
 td:first-child {

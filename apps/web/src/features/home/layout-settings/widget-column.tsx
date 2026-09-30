@@ -1,12 +1,8 @@
 import type { FC } from 'react';
 
-import { useDroppable } from '@dnd-kit/core';
-import {
-    SortableContext,
-    useSortable,
-    verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import { CollisionPriority } from '@dnd-kit/abstract';
+import { useDroppable } from '@dnd-kit/react';
+import { useSortable } from '@dnd-kit/react/sortable';
 import { GripVertical, Smartphone, X } from 'lucide-react';
 
 import type { UiFeedWidget } from '@hikka/api';
@@ -35,35 +31,24 @@ const COLUMN_LABELS: Record<UIFeedWidgetSide, string> = {
 
 const SortableWidgetItem: FC<{
     widget: UiFeedWidget;
+    index: number;
     onRemove: (slug: UIFeedWidgetSlug) => void;
-}> = ({ widget, onRemove }) => {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging,
-    } = useSortable({ id: widget.slug });
-
-    const style = {
-        transform: CSS.Translate.toString(transform),
-        transition,
-        opacity: isDragging ? 0.5 : 1,
-    };
+}> = ({ widget, index, onRemove }) => {
+    const { ref, isDragging } = useSortable({
+        id: widget.slug,
+        index,
+        group: widget.side,
+    });
 
     const meta = WIDGET_REGISTRY[widget.slug as SupportedWidgetSlug];
 
     return (
         <div
-            ref={setNodeRef}
-            style={style}
+            ref={ref}
             className={cn(
-                'surface flex touch-none items-center gap-2 rounded-lg border p-2',
-                isDragging ? 'cursor-grabbing' : 'cursor-grab',
+                'surface flex cursor-grab touch-none items-center gap-2 rounded-lg border p-2',
+                isDragging && 'opacity-50',
             )}
-            {...attributes}
-            {...listeners}
         >
             <GripVertical className="size-4 shrink-0 text-muted-foreground" />
             <span className="flex-1 font-medium text-xs">
@@ -72,7 +57,6 @@ const SortableWidgetItem: FC<{
             <button
                 type="button"
                 className="flex size-6 shrink-0 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground"
-                onPointerDown={(e) => e.stopPropagation()}
                 onClick={() => onRemove(widget.slug)}
                 aria-label={`Видалити ${meta?.title ?? widget.slug}`}
             >
@@ -99,7 +83,10 @@ type Props = {
 };
 
 const WidgetColumn: FC<Props> = ({ side, widgets, preset, onRemove }) => {
-    const { setNodeRef } = useDroppable({ id: side });
+    const { ref } = useDroppable({
+        id: side,
+        collisionPriority: CollisionPriority.Low,
+    });
     const showTabHint = isSidebarTabbed(side, preset);
 
     return (
@@ -121,28 +108,24 @@ const WidgetColumn: FC<Props> = ({ side, widgets, preset, onRemove }) => {
                     </Tooltip>
                 )}
             </div>
-            <SortableContext
-                items={widgets.map((w) => w.slug)}
-                strategy={verticalListSortingStrategy}
+            <div
+                ref={ref}
+                className="surface-inset flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed p-2 transition-colors"
             >
-                <div
-                    ref={setNodeRef}
-                    className="surface-inset flex min-h-24 flex-col gap-1.5 rounded-lg border border-dashed p-2 transition-colors"
-                >
-                    {widgets.map((widget) => (
-                        <SortableWidgetItem
-                            key={widget.slug}
-                            widget={widget}
-                            onRemove={onRemove}
-                        />
-                    ))}
-                    {widgets.length === 0 && (
-                        <p className="flex flex-1 items-center justify-center text-muted-foreground text-xs">
-                            Перетягніть сюди
-                        </p>
-                    )}
-                </div>
-            </SortableContext>
+                {widgets.map((widget, index) => (
+                    <SortableWidgetItem
+                        key={widget.slug}
+                        widget={widget}
+                        index={index}
+                        onRemove={onRemove}
+                    />
+                ))}
+                {widgets.length === 0 && (
+                    <p className="flex flex-1 items-center justify-center text-muted-foreground text-xs">
+                        Перетягніть сюди
+                    </p>
+                )}
+            </div>
         </div>
     );
 };

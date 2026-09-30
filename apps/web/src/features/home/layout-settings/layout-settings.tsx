@@ -1,18 +1,13 @@
 import { type FC, useRef, useState } from 'react';
 
+import { PointerActivationConstraints } from '@dnd-kit/dom';
+import { arrayMove } from '@dnd-kit/helpers';
 import {
-    type CollisionDetection,
-    closestCenter,
-    DndContext,
+    DragDropProvider,
+    type DragEndEvent,
     type DragOverEvent,
-    type DragStartEvent,
-    MouseSensor,
-    pointerWithin,
-    TouchSensor,
-    useSensor,
-    useSensors,
-} from '@dnd-kit/core';
-import { arrayMove } from '@dnd-kit/sortable';
+    PointerSensor,
+} from '@dnd-kit/react';
 import { Plus } from 'lucide-react';
 
 import type { UiFeedWidget } from '@hikka/api';
@@ -27,6 +22,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { useSessionUI, useUpdateSessionUI } from '@/services/session';
 import { cn } from '@/utils/cn';
+import { createDragDropManager } from '@/utils/drag-drop-manager';
 
 import {
     buildPresetWidgets,
@@ -51,23 +47,19 @@ function isColumnId(id: string | number): id is UIFeedWidgetSide {
     return COLUMNS.includes(id as UIFeedWidgetSide);
 }
 
-const itemPreferringCollision: CollisionDetection = (args) => {
-    const pointerCollisions = pointerWithin(args);
-
-    const itemsUnderPointer = pointerCollisions.filter(
-        (c) => !isColumnId(c.id),
-    );
-    if (itemsUnderPointer.length > 0) return itemsUnderPointer;
-
-    const columnsUnderPointer = pointerCollisions.filter((c) =>
-        isColumnId(c.id),
-    );
-    if (columnsUnderPointer.length > 0) return columnsUnderPointer;
-
-    const closestCollisions = closestCenter(args);
-    const nearestItems = closestCollisions.filter((c) => !isColumnId(c.id));
-    return nearestItems.length > 0 ? nearestItems : closestCollisions;
-};
+const SENSORS = [
+    PointerSensor.configure({
+        activationConstraints: (event) =>
+            event.pointerType === 'touch'
+                ? [
+                      new PointerActivationConstraints.Delay({
+                          value: 200,
+                          tolerance: 5,
+                      }),
+                  ]
+                : [new PointerActivationConstraints.Distance({ value: 5 })],
+    }),
+];
 
 const LayoutSettingsContent = () => {
     const { preferences } = useSessionUI();
@@ -80,6 +72,10 @@ const LayoutSettingsContent = () => {
         derivePreset(preferences.feed.widgets),
     );
 
+    const [manager] = useState(() =>
+        createDragDropManager({ sensors: SENSORS }),
+    );
+
     const widgetsRef = useRef(widgets);
     widgetsRef.current = widgets;
     const preDragRef = useRef<UiFeedWidget[] | null>(null);
@@ -89,13 +85,6 @@ const LayoutSettingsContent = () => {
 
     const hiddenSlugs = ALL_WIDGET_SLUGS.filter(
         (slug) => !widgets.some((w) => w.slug === slug),
-    );
-
-    const sensors = useSensors(
-        useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
-        useSensor(TouchSensor, {
-            activationConstraint: { delay: 200, tolerance: 5 },
-        }),
     );
 
     const persist = (next: UiFeedWidget[]) => {
@@ -119,16 +108,18 @@ const LayoutSettingsContent = () => {
         persist([...widgetsRef.current, { slug, side, order: 0 }]);
     };
 
-    const handleDragStart = (_event: DragStartEvent) => {
+    const handleDragStart = () => {
         preDragRef.current = widgetsRef.current;
     };
 
     const handleDragOver = (event: DragOverEvent) => {
-        const { active, over } = event;
-        if (!over || active.id === over.id) return;
+        event.preventDefault();
 
-        const activeId = active.id as string;
-        const overId = over.id as string;
+        const { source, target } = event.operation;
+        if (!source || !target || source.id === target.id) return;
+
+        const activeId = String(source.id);
+        const overId = String(target.id);
         const current = widgetsRef.current;
 
         const activeWidget = current.find((w) => w.slug === activeId);
@@ -175,9 +166,14 @@ const LayoutSettingsContent = () => {
         }
     };
 
-    const handleDragEnd = () => {
+    const handleDragEnd = (event: DragEndEvent) => {
         const pre = preDragRef.current;
         preDragRef.current = null;
+
+        if (event.canceled) {
+            if (pre) setWidgets(pre);
+            return;
+        }
 
         const current = widgetsRef.current;
         if (pre !== current) {
@@ -191,9 +187,8 @@ const LayoutSettingsContent = () => {
 
             <Separator />
 
-            <DndContext
-                sensors={sensors}
-                collisionDetection={itemPreferringCollision}
+            <DragDropProvider
+                manager={manager}
                 onDragStart={handleDragStart}
                 onDragOver={handleDragOver}
                 onDragEnd={handleDragEnd}
@@ -242,7 +237,7 @@ const LayoutSettingsContent = () => {
                         </div>
                     )}
                 </div>
-            </DndContext>
+            </DragDropProvider>
         </div>
     );
 };

@@ -1,8 +1,7 @@
 import type React from 'react';
 import type { FC } from 'react';
 
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import { useSortable } from '@dnd-kit/react/sortable';
 
 import MaterialSymbolsDeleteForever from '@/components/icons/material-symbols/MaterialSymbolsDeleteForever';
 import MaterialSymbolsDragIndicator from '@/components/icons/material-symbols/MaterialSymbolsDragIndicator';
@@ -11,26 +10,21 @@ import { Input } from '@/components/ui/input';
 
 type Props = React.InputHTMLAttributes<HTMLInputElement> & {
     id: string;
+    index: number;
     value: string;
     onRemove: () => void;
 };
 
-const SortableInput: FC<Props> = ({ id, value, onRemove, ...props }) => {
-    const { attributes, listeners, setNodeRef, transform, transition } =
-        useSortable({ id });
-
-    const style = {
-        transform: CSS.Transform.toString(transform),
-        transition,
-    };
+const SortableInput: FC<Props> = ({ id, index, value, onRemove, ...props }) => {
+    const { ref, handleRef } = useSortable({ id, index });
 
     return (
-        <div ref={setNodeRef} style={style} className="flex items-center gap-2">
+        <div ref={ref} className="flex items-center gap-2">
             <Input value={value} {...props} />
             <Button size="icon-md" variant="outline" onClick={onRemove}>
                 <MaterialSymbolsDeleteForever />
             </Button>
-            <Button size="icon-md" variant="outline" {...listeners}>
+            <Button ref={handleRef} size="icon-md" variant="outline">
                 <MaterialSymbolsDragIndicator />
             </Button>
         </div>

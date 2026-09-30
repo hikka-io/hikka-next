@@ -1,45 +1,50 @@
 import { type FC, memo, type ReactNode, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 
+import type { Plugins, UniqueIdentifier } from '@dnd-kit/abstract';
+import { Accessibility, PointerActivationConstraints } from '@dnd-kit/dom';
 import {
-    DndContext,
+    type DragDropManager,
+    DragDropProvider,
     type DragEndEvent,
     type DragOverEvent,
     DragOverlay,
-    type DragStartEvent,
-    MouseSensor,
-    pointerWithin,
-    TouchSensor,
-    type UniqueIdentifier,
-    useSensor,
-    useSensors,
-} from '@dnd-kit/core';
+    PointerSensor,
+} from '@dnd-kit/react';
+import { isSortable } from '@dnd-kit/react/sortable';
 
 import PosterCard from '@/components/content-card/poster-card';
 import { useTitle } from '@/services/session';
+import { createDragDropManager } from '@/utils/drag-drop-manager';
 
-import { useCollectionStore } from '../collection-provider';
+import {
+    useCollectionContext,
+    useCollectionStore,
+} from '../collection-provider';
 import type { Group, Item } from '../collection-store';
+import { getCrossGroupMove, getDropMove, getItemPositions } from './card-moves';
 
 type Props = {
     children: ReactNode;
 };
 
-function findGroupContainingItem(
-    groups: Group[],
-    itemId: UniqueIdentifier,
-): string | undefined {
-    return groups.find((g) => g.items.some((item) => item.id === itemId))?.id;
-}
+const SENSORS = [
+    PointerSensor.configure({
+        activationConstraints: (event) =>
+            event.pointerType === 'touch'
+                ? [
+                      new PointerActivationConstraints.Delay({
+                          value: 200,
+                          tolerance: 5,
+                      }),
+                  ]
+                : [new PointerActivationConstraints.Distance({ value: 8 })],
+    }),
+];
 
-function findGroupId(
-    groups: Group[],
-    overId: UniqueIdentifier,
-): string | undefined {
-    return (
-        findGroupContainingItem(groups, overId) ??
-        (groups.find((g) => g.id === overId) ? String(overId) : undefined)
-    );
-}
+// Accessibility rescans every draggable on each registration: quadratic on a 200-card mount.
+const PLUGINS = (defaults: Plugins) =>
+    defaults.filter((plugin) => plugin !== Accessibility);
 
 function findItem(groups: Group[], itemId: UniqueIdentifier): Item | undefined {
     for (const group of groups) {
@@ -49,8 +54,27 @@ function findItem(groups: Group[], itemId: UniqueIdentifier): Item | undefined {
     return undefined;
 }
 
-const OverlayCard = memo<{ content: Item['content'] }>(({ content }) => {
+// A sortable copies its index prop only when the prop changes, and optimistic moves rewrite indices behind React.
+function syncSortableIndices(manager: DragDropManager, groups: Group[]) {
+    const positions = getItemPositions(groups);
+    for (const droppable of manager.registry.droppables) {
+        if (!isSortable(droppable)) continue;
+        const { sortable } = droppable;
+        const position = positions.get(String(sortable.id));
+        if (position && position.groupId === sortable.group) {
+            sortable.index = position.index;
+        }
+    }
+}
+
+const OverlayCard = memo<{ id: UniqueIdentifier }>(({ id }) => {
+    const content = useCollectionContext(
+        (state) => findItem(state.groups, id)?.content,
+    );
     const title = useTitle(content);
+
+    if (!content) return null;
+
     return <PosterCard image={content.image} title={title} />;
 });
 
@@ -58,102 +82,93 @@ OverlayCard.displayName = 'OverlayCard';
 
 const CollectionDndContext: FC<Props> = ({ children }) => {
     const store = useCollectionStore();
-    const [activeItem, setActiveItem] = useState<Item | null>(null);
+    const [manager] = useState(() =>
+        createDragDropManager({ sensors: SENSORS, plugins: PLUGINS }),
+    );
 
     // Prevents ping-pong during cross-group drags
     const lastOverContainerRef = useRef<string | null>(null);
+    const initialGroupsRef = useRef<Group[] | null>(null);
 
-    const sensors = useSensors(
-        useSensor(MouseSensor, { activationConstraint: { distance: 8 } }),
-        useSensor(TouchSensor, {
-            activationConstraint: { delay: 200, tolerance: 5 },
-        }),
-    );
-
-    const handleDragStart = (event: DragStartEvent) => {
-        const { groups } = store.getState();
-        setActiveItem(findItem(groups, event.active.id) ?? null);
+    const handleDragStart = () => {
         lastOverContainerRef.current = null;
+        initialGroupsRef.current = store.getState().groups;
     };
 
     const handleDragOver = (event: DragOverEvent) => {
-        const { active, over } = event;
-        if (!over) return;
+        const { source, target } = event.operation;
+        if (!source || !target) return;
 
-        const { groups } = store.getState();
-
-        const activeGroupId = findGroupContainingItem(groups, active.id);
-        const overGroupId = findGroupId(groups, over.id);
-
-        if (!activeGroupId || !overGroupId) return;
-        if (activeGroupId === overGroupId) return;
-
-        if (lastOverContainerRef.current === overGroupId) return;
-        lastOverContainerRef.current = overGroupId;
-
-        const overGroup = groups.find((g) => g.id === overGroupId);
-        if (!overGroup) return;
-
-        const overIndex = overGroup.items.findIndex(
-            (item) => item.id === over.id,
+        const move = getCrossGroupMove(
+            store.getState().groups,
+            source.id,
+            target.id,
         );
-        const insertIndex = overIndex >= 0 ? overIndex : overGroup.items.length;
+        if (!move) return;
+
+        // Cross-group moves go through the store: an optimistic DOM move would reparent a React-owned node.
+        event.preventDefault();
+
+        if (lastOverContainerRef.current === move.toGroupId) return;
+        lastOverContainerRef.current = move.toGroupId;
 
         store
             .getState()
             .moveItemToGroup(
-                active.id,
-                activeGroupId,
-                overGroupId,
-                insertIndex,
+                source.id,
+                move.fromGroupId,
+                move.toGroupId,
+                move.insertIndex,
             );
+        syncSortableIndices(manager, store.getState().groups);
     };
 
     const handleDragEnd = (event: DragEndEvent) => {
-        const { active, over } = event;
-        setActiveItem(null);
         lastOverContainerRef.current = null;
+        const initialGroups = initialGroupsRef.current;
+        initialGroupsRef.current = null;
 
-        if (!over) return;
+        const { source } = event.operation;
+        if (!isSortable(source)) return;
 
-        const { groups } = store.getState();
+        if (event.canceled) {
+            const { groups, removeItem, setGroups } = store.getState();
+            if (!initialGroups || initialGroups === groups) return;
 
-        const activeGroupId = findGroupContainingItem(groups, active.id);
-        const overGroupId = findGroupId(groups, over.id);
-
-        if (!activeGroupId || !overGroupId) return;
-        if (activeGroupId !== overGroupId) return;
-
-        const group = groups.find((g) => g.id === activeGroupId);
-        if (!group) return;
-
-        const activeIndex = group.items.findIndex(
-            (item) => item.id === active.id,
-        );
-        const overIndex = group.items.findIndex((item) => item.id === over.id);
-        if (overIndex === -1) return;
-
-        if (activeIndex !== overIndex) {
-            store.getState().reorderItem(activeGroupId, activeIndex, overIndex);
+            // The sorting plugin reverts a cancel to the index the card recorded when it last mounted: remount it so there is nothing to revert.
+            const position = getItemPositions(groups).get(String(source.id));
+            if (position) {
+                flushSync(() => removeItem(position.groupId, source.id));
+            }
+            setGroups(initialGroups);
+            syncSortableIndices(manager, initialGroups);
+            return;
         }
+
+        const move = getDropMove(
+            store.getState().groups,
+            source.id,
+            source.sortable.group,
+            source.sortable.index,
+        );
+        if (!move) return;
+
+        store.getState().reorderItem(move.groupId, move.from, move.to);
+        syncSortableIndices(manager, store.getState().groups);
     };
 
     return (
-        <DndContext
-            id="collection-cards"
-            sensors={sensors}
-            collisionDetection={pointerWithin}
+        <DragDropProvider
+            manager={manager}
             onDragStart={handleDragStart}
             onDragOver={handleDragOver}
             onDragEnd={handleDragEnd}
         >
             {children}
-            <DragOverlay zIndex={50}>
-                {activeItem ? (
-                    <OverlayCard content={activeItem.content} />
-                ) : null}
+            <DragOverlay>
+                {(source) => <OverlayCard id={source.id} />}
             </DragOverlay>
-        </DndContext>
+        </DragDropProvider>
     );
 };
 

@@ -216,3 +216,90 @@ describe('applySaved', () => {
         expect(store.getState().groups[0].items[0].comment).toBeUndefined();
     });
 });
+
+describe('card and group moves', () => {
+    const item = (id: string): Item => ({ id, content: content(id) });
+    const ids = (groups: Group[]) =>
+        groups.map((group) => group.items.map((i) => i.id));
+    const create = () =>
+        createCollectionStore({
+            groups: [
+                {
+                    id: 'a',
+                    title: 'А',
+                    items: [item('x'), item('y'), item('z')],
+                },
+                { id: 'b', title: 'Б', items: [item('w')] },
+                { id: 'c', title: 'В', items: [] },
+            ],
+        });
+
+    it('moves a card into another group at the insert index', () => {
+        const store = create();
+
+        store.getState().moveItemToGroup('y', 'a', 'b', 0);
+        expect(ids(store.getState().groups)).toEqual([
+            ['x', 'z'],
+            ['y', 'w'],
+            [],
+        ]);
+
+        store.getState().moveItemToGroup('x', 'a', 'b', 2);
+        expect(ids(store.getState().groups)).toEqual([
+            ['z'],
+            ['y', 'w', 'x'],
+            [],
+        ]);
+    });
+
+    it('moves a card into an empty group and the last card out of a group', () => {
+        const store = create();
+        const moved = store.getState().groups[1].items[0];
+
+        store.getState().moveItemToGroup('w', 'b', 'c', 0);
+
+        expect(ids(store.getState().groups)).toEqual([
+            ['x', 'y', 'z'],
+            [],
+            ['w'],
+        ]);
+        expect(store.getState().groups[2].items[0]).toBe(moved);
+    });
+
+    it('ignores a move from a group that does not hold the card', () => {
+        const store = create();
+        const before = store.getState();
+
+        store.getState().moveItemToGroup('w', 'a', 'c', 0);
+        store.getState().moveItemToGroup('w', 'missing', 'c', 0);
+
+        expect(store.getState()).toBe(before);
+    });
+
+    it('reorders cards inside a group and keeps the items for a move in place', () => {
+        const store = create();
+
+        store.getState().reorderItem('a', 0, 2);
+        expect(ids(store.getState().groups)[0]).toEqual(['y', 'z', 'x']);
+
+        const { items } = store.getState().groups[0];
+        store.getState().reorderItem('a', 1, 1);
+        expect(store.getState().groups[0].items).toBe(items);
+        expect(ids(store.getState().groups)[1]).toEqual(['w']);
+    });
+
+    it('reorders groups and keeps them for a move in place', () => {
+        const store = create();
+
+        store.getState().reorderGroups(0, 2);
+        expect(store.getState().groups.map((group) => group.id)).toEqual([
+            'b',
+            'c',
+            'a',
+        ]);
+
+        const { groups } = store.getState();
+        store.getState().reorderGroups(1, 1);
+        expect(store.getState().groups).toBe(groups);
+    });
+});

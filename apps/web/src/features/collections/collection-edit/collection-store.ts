@@ -1,4 +1,4 @@
-import { arrayMove } from '@dnd-kit/sortable';
+import { arrayMove } from '@dnd-kit/helpers';
 import { createStore } from 'zustand';
 
 import {

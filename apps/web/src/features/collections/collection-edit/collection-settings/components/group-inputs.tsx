@@ -1,16 +1,14 @@
-import type { FC } from 'react';
+import { type FC, useState } from 'react';
 
 import {
-    closestCenter,
-    DndContext,
+    DragDropProvider,
     type DragEndEvent,
-    MouseSensor,
-    TouchSensor,
-    useSensor,
-    useSensors,
-} from '@dnd-kit/core';
-import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
+    PointerSensor,
+} from '@dnd-kit/react';
+import { isSortable } from '@dnd-kit/react/sortable';
 import { useShallow } from 'zustand/shallow';
+
+import { createDragDropManager } from '@/utils/drag-drop-manager';
 
 import {
     useCollectionContext,
@@ -18,11 +16,16 @@ import {
 } from '../../collection-provider';
 import SortableInput from './sortable-input';
 
+const SENSORS = [
+    PointerSensor.configure({ activationConstraints: () => undefined }),
+];
+
 type GroupTitleInputProps = {
     groupId: string;
+    index: number;
 };
 
-const GroupTitleInput: FC<GroupTitleInputProps> = ({ groupId }) => {
+const GroupTitleInput: FC<GroupTitleInputProps> = ({ groupId, index }) => {
     const title = useCollectionContext(
         (state) => state.groups.find((g) => g.id === groupId)?.title ?? '',
     );
@@ -36,6 +39,7 @@ const GroupTitleInput: FC<GroupTitleInputProps> = ({ groupId }) => {
             placeholder="Введіть назву"
             value={title}
             id={groupId}
+            index={index}
             className="flex-1"
             onChange={(e) => updateGroupTitle(groupId, e.target.value)}
             onRemove={() => removeGroup(groupId)}
@@ -45,41 +49,36 @@ const GroupTitleInput: FC<GroupTitleInputProps> = ({ groupId }) => {
 
 const GroupInputs = () => {
     const store = useCollectionStore();
+    const [manager] = useState(() =>
+        createDragDropManager({ sensors: SENSORS }),
+    );
     const groupIds = useCollectionContext(
         useShallow((state) => state.groups.map((group) => group.id)),
     );
 
-    const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
-
     const handleDragEnd = (event: DragEndEvent) => {
-        const { active, over } = event;
-        if (!over) return;
+        const { source } = event.operation;
+        if (event.canceled || !isSortable(source)) return;
 
         const { groups, reorderGroups } = store.getState();
-        const activeIndex = groups.findIndex((g) => g.id === active.id);
-        const overIndex = groups.findIndex((g) => g.id === over.id);
+        const activeIndex = groups.findIndex((g) => g.id === source.id);
+        const overIndex = source.sortable.index;
 
-        if (
-            activeIndex !== -1 &&
-            overIndex !== -1 &&
-            activeIndex !== overIndex
-        ) {
+        if (activeIndex !== -1 && activeIndex !== overIndex) {
             reorderGroups(activeIndex, overIndex);
         }
     };
 
     return (
-        <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-        >
-            <SortableContext items={groupIds} strategy={rectSortingStrategy}>
-                {groupIds.map((groupId) => (
-                    <GroupTitleInput key={groupId} groupId={groupId} />
-                ))}
-            </SortableContext>
-        </DndContext>
+        <DragDropProvider manager={manager} onDragEnd={handleDragEnd}>
+            {groupIds.map((groupId, index) => (
+                <GroupTitleInput
+                    key={groupId}
+                    groupId={groupId}
+                    index={index}
+                />
+            ))}
+        </DragDropProvider>
     );
 };
 

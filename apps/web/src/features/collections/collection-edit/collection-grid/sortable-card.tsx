@@ -1,7 +1,7 @@
 import { type FC, memo, useState } from 'react';
 
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import { pointerIntersection } from '@dnd-kit/collision';
+import { useSortable } from '@dnd-kit/react/sortable';
 import { Check, Trash2, X } from 'lucide-react';
 
 import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
@@ -24,6 +24,7 @@ import type { Item } from '../collection-store';
 
 type Props = {
     id: string;
+    index: number;
     groupId: string;
     content: Item['content'];
     comment?: string;
@@ -37,7 +38,6 @@ type Props = {
 
 const ASPECT_RATIO = String(DEFAULT_CONTAINER_RATIO);
 
-// Memoized to skip re-renders during drag (SortableCard re-renders ~60fps)
 const SortableCardContent = memo<{
     id: string;
     groupId: string;
@@ -163,33 +163,22 @@ SortableCardContent.displayName = 'SortableCardContent';
 
 const SortableCard: FC<Props> = ({
     id,
+    index,
     groupId,
     content,
     comment,
     onRemove,
     onCommentChange,
 }) => {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging,
-    } = useSortable({ id, data: { groupId } });
-
-    const style = {
-        transform: CSS.Transform.toString(transform),
-        transition,
-    };
+    const { ref, handleRef, isDragSource } = useSortable({
+        id,
+        index,
+        group: groupId,
+        collisionDetector: pointerIntersection,
+    });
 
     return (
-        <div
-            ref={setNodeRef}
-            style={{ ...style, opacity: isDragging ? 0.3 : 1 }}
-            className="relative"
-            {...attributes}
-        >
+        <div ref={ref} className={cn('relative', isDragSource && 'opacity-30')}>
             <SortableCardContent
                 id={id}
                 groupId={groupId}
@@ -204,7 +193,7 @@ const SortableCard: FC<Props> = ({
                 style={{ aspectRatio: ASPECT_RATIO }}
             >
                 <div className="pointer-events-auto absolute right-2 bottom-2 z-2">
-                    <Button size="icon-sm" variant="secondary" {...listeners}>
+                    <Button ref={handleRef} size="icon-sm" variant="secondary">
                         <MaterialSymbolsDragIndicator />
                     </Button>
                 </div>

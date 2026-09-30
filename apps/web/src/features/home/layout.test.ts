@@ -1,4 +1,4 @@
-import { arrayMove } from '@dnd-kit/sortable';
+import { arrayMove } from '@dnd-kit/helpers';
 import { describe, expect, it } from 'vitest';
 
 import type { UiFeedWidget } from '@hikka/api';
