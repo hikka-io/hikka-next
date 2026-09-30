@@ -30,6 +30,11 @@ import { Route as AnimeFranchiseRoute } from '../../routes/_pages/anime/$slug/fr
 import { Route as AnimeOverviewRoute } from '../../routes/_pages/anime/$slug/index';
 import { Route as AnimeStaffRoute } from '../../routes/_pages/anime/$slug/staff';
 import { Route as CharacterRoute } from '../../routes/_pages/characters/$slug';
+import { Route as CharacterAnimeRoute } from '../../routes/_pages/characters/$slug/anime';
+import { Route as CharacterOverviewRoute } from '../../routes/_pages/characters/$slug/index';
+import { Route as CharacterMangaRoute } from '../../routes/_pages/characters/$slug/manga';
+import { Route as CharacterNovelRoute } from '../../routes/_pages/characters/$slug/novel';
+import { Route as CharacterVoicesRoute } from '../../routes/_pages/characters/$slug/voices';
 import { Route as MangaRoute } from '../../routes/_pages/manga/$slug';
 import { Route as MangaCharactersRoute } from '../../routes/_pages/manga/$slug/characters';
 import { Route as MangaFranchiseRoute } from '../../routes/_pages/manga/$slug/franchise';
@@ -39,6 +44,11 @@ import { Route as NovelCharactersRoute } from '../../routes/_pages/novel/$slug/c
 import { Route as NovelFranchiseRoute } from '../../routes/_pages/novel/$slug/franchise';
 import { Route as NovelOverviewRoute } from '../../routes/_pages/novel/$slug/index';
 import { Route as PersonRoute } from '../../routes/_pages/people/$slug';
+import { Route as PersonAnimeRoute } from '../../routes/_pages/people/$slug/anime';
+import { Route as PersonCharactersRoute } from '../../routes/_pages/people/$slug/characters';
+import { Route as PersonOverviewRoute } from '../../routes/_pages/people/$slug/index';
+import { Route as PersonMangaRoute } from '../../routes/_pages/people/$slug/manga';
+import { Route as PersonNovelRoute } from '../../routes/_pages/people/$slug/novel';
 import { CONTENT_CONFIG } from './content-config';
 import {
     contentDetailHead,
@@ -335,35 +345,19 @@ const EXPECTED_KEYS: Record<
     character: {
         anonymous: [
             'ensureQueryData [{"_id":"characterInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"characterAnime","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"characterManga","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"characterNovel","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"characterVoices","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
         ],
         authenticated: [
-            'ensureQueryData [{"_id":"characterInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"characterAnime","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"characterManga","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"characterNovel","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"characterVoices","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
             'ensureQueryData [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"character","slug":"test-slug"}}]',
+            'ensureQueryData [{"_id":"characterInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
     },
     person: {
         anonymous: [
             'ensureQueryData [{"_id":"personInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"personAnime","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"personManga","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"personNovel","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"personVoices","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
         ],
         authenticated: [
-            'ensureQueryData [{"_id":"personInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"personAnime","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"personManga","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"personNovel","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
-            'ensureInfiniteQueryData+page [{"_id":"personVoices","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}}]',
             'ensureQueryData [{"_id":"getFavourite","baseUrl":"https://api.example.test","path":{"content_type":"person","slug":"test-slug"}}]',
+            'ensureQueryData [{"_id":"personInfo","baseUrl":"https://api.example.test","path":{"slug":"test-slug"}}]',
         ],
     },
 };
@@ -631,8 +625,141 @@ describe.each(Object.keys(ENTITY_ROUTES) as (keyof typeof ENTITY_ROUTES)[])(
                 expect(result).toEqual({ [type]: info() });
             },
         );
+
+        it('starts the favourite before the info fetch settles', async () => {
+            let releaseInfo!: () => void;
+            const infoGate = new Promise<void>((done) => {
+                releaseInfo = done;
+            });
+            const recorder = recordingQueryClient(info(), 'authenticated');
+            const record = recorder.queryClient.ensureQueryData;
+            recorder.queryClient.ensureQueryData = (async (options: {
+                queryKey: readonly [{ _id: string }];
+            }) => {
+                const pending = record(options as never);
+                if (INFO_IDS.has(options.queryKey[0]._id)) await infoGate;
+                return pending;
+            }) as QueryClient['ensureQueryData'];
+            setAuthState('authenticated');
+            const loading = (
+                route.options.loader as (ctx: unknown) => Promise<unknown>
+            )({
+                params: { slug },
+                context: {
+                    queryClient: recorder.queryClient,
+                    apiClient: apiClientFor('authenticated'),
+                },
+            });
+
+            await Promise.resolve();
+            expect(recorder.calls).toEqual(EXPECTED_KEYS[type].authenticated);
+
+            releaseInfo();
+            await expect(loading).resolves.toEqual({ [type]: info() });
+        });
+
+        it('maps a 404 info response to notFound', async () => {
+            const infoKey = EXPECTED_KEYS[type].anonymous[0];
+            const missing = runLoader(route, info(), 'authenticated', {
+                id: JSON.parse(infoKey.slice(infoKey.indexOf(' ') + 1))[0]._id,
+                error: new HikkaApiError('Not found', 404, 'system:not_found'),
+                times: 1,
+            });
+
+            await expect(missing).rejects.toSatisfy(isNotFound);
+        });
     },
 );
+
+const appearanceKey = (id: string, preview: boolean) =>
+    `ensureInfiniteQueryData+page [{"_id":"${id}","baseUrl":"https://api.example.test","_infinite":true,"path":{"slug":"test-slug"}${preview ? ',"query":{"size":4}' : ''}}]`;
+
+const ENTITY_CHILD_ROUTES = [
+    [
+        'character overview',
+        CharacterOverviewRoute,
+        [
+            'characterAnime',
+            'characterManga',
+            'characterNovel',
+            'characterVoices',
+        ].map((id) => appearanceKey(id, true)),
+    ],
+    [
+        'person overview',
+        PersonOverviewRoute,
+        ['personAnime', 'personManga', 'personNovel', 'personVoices'].map(
+            (id) => appearanceKey(id, true),
+        ),
+    ],
+    [
+        'character anime tab',
+        CharacterAnimeRoute,
+        [appearanceKey('characterAnime', false)],
+    ],
+    [
+        'character manga tab',
+        CharacterMangaRoute,
+        [appearanceKey('characterManga', false)],
+    ],
+    [
+        'character novel tab',
+        CharacterNovelRoute,
+        [appearanceKey('characterNovel', false)],
+    ],
+    [
+        'character voices tab',
+        CharacterVoicesRoute,
+        [appearanceKey('characterVoices', false)],
+    ],
+    [
+        'person anime tab',
+        PersonAnimeRoute,
+        [appearanceKey('personAnime', false)],
+    ],
+    [
+        'person characters tab',
+        PersonCharactersRoute,
+        [appearanceKey('personVoices', false)],
+    ],
+    [
+        'person manga tab',
+        PersonMangaRoute,
+        [appearanceKey('personManga', false)],
+    ],
+    [
+        'person novel tab',
+        PersonNovelRoute,
+        [appearanceKey('personNovel', false)],
+    ],
+] as const;
+
+describe.each(ENTITY_CHILD_ROUTES)('%s loader', (_, route, expected) => {
+    it.each(['anonymous', 'authenticated'] as const)(
+        'ensures only its own lists (%s)',
+        async (auth) => {
+            const { calls, result } = await runLoader(
+                route,
+                entityInfo(),
+                auth,
+            );
+
+            expect(calls).toEqual(expected);
+            expect(result).toBeUndefined();
+        },
+    );
+
+    it('resolves when a list fails', async () => {
+        const first = expected[0];
+        const failed = await runLoader(route, entityInfo(), 'anonymous', {
+            id: JSON.parse(first.slice(first.indexOf(' ') + 1))[0]._id,
+            error: new CancelledError(),
+            times: 1,
+        });
+
+        expect(failed.calls).toEqual(expected);
+    });
+});
 
 const HEAD_CASES = {
     fallback: (type: string, info: object) => ({

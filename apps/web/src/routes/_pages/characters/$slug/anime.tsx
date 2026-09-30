@@ -3,10 +3,16 @@ import { createFileRoute } from '@tanstack/react-router';
 import { ContentTypeEnum } from '@hikka/api';
 
 import { ContentSubpage } from '@/features/content';
+import { loadEntityTab } from '@/features/content/detail-route';
 import { CharacterAnime } from '@/features/entities';
 import { generateHeadMeta } from '@/utils/metadata';
 
 export const Route = createFileRoute('/_pages/characters/$slug/anime')({
+    loader: ({ params, context }) =>
+        loadEntityTab(ContentTypeEnum.CHARACTER, 'anime', {
+            slug: params.slug,
+            ...context,
+        }),
     head: () => generateHeadMeta({ title: 'Аніме', robots: { index: false } }),
     component: CharacterAnimePage,
 });

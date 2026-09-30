@@ -8,10 +8,6 @@ import {
     type CharacterInfoResponse,
     type Client,
     ContentTypeEnum,
-    characterAnimeInfiniteOptions,
-    characterMangaInfiniteOptions,
-    characterNovelInfiniteOptions,
-    characterVoicesInfiniteOptions,
     contentFranchiseOptions,
     type FavouriteContentTypeEnum,
     type MainContentTypeEnum,
@@ -21,12 +17,14 @@ import {
     novelCharactersInfiniteOptions,
     type PersonInfoResponse,
     paginationPageParam,
-    personAnimeInfiniteOptions,
-    personMangaInfiniteOptions,
-    personNovelInfiniteOptions,
-    personVoicesInfiniteOptions,
 } from '@hikka/api';
 
+import {
+    ENTITY_APPEARANCE_LISTS,
+    type EntityAppearanceList,
+    type EntityType,
+    entityAppearanceOptions,
+} from '@/features/entities/queries';
 import {
     type ContentInfo,
     contentInfoOptions,
@@ -51,6 +49,11 @@ type DetailLoaderContext = {
 };
 
 type Prefetch = (ctx: DetailLoaderContext) => Promise<unknown>;
+
+// The entity lists differ in page type; a prefetch discards the data, so it only needs the common shape.
+type InfinitePrefetchOptions = Parameters<
+    QueryClient['ensureInfiniteQueryData']
+>[0];
 
 // Characters: match the component-body call (no `query`) to share a cache key.
 const animeCharacters: Prefetch = ({ slug, queryClient, apiClient }) =>
@@ -83,57 +86,6 @@ const novelCharacters: Prefetch = ({ slug, queryClient, apiClient }) =>
 const animeStaff: Prefetch = ({ slug, queryClient, apiClient }) =>
     queryClient.ensureInfiniteQueryData({
         ...animeStaffInfiniteOptions({ path: { slug }, client: apiClient }),
-        ...paginationPageParam(),
-    });
-
-const characterAnime: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...characterAnimeInfiniteOptions({ path: { slug }, client: apiClient }),
-        ...paginationPageParam(),
-    });
-
-const characterManga: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...characterMangaInfiniteOptions({ path: { slug }, client: apiClient }),
-        ...paginationPageParam(),
-    });
-
-const characterNovel: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...characterNovelInfiniteOptions({ path: { slug }, client: apiClient }),
-        ...paginationPageParam(),
-    });
-
-const characterVoices: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...characterVoicesInfiniteOptions({
-            path: { slug },
-            client: apiClient,
-        }),
-        ...paginationPageParam(),
-    });
-
-const personAnime: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...personAnimeInfiniteOptions({ path: { slug }, client: apiClient }),
-        ...paginationPageParam(),
-    });
-
-const personManga: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...personMangaInfiniteOptions({ path: { slug }, client: apiClient }),
-        ...paginationPageParam(),
-    });
-
-const personNovel: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...personNovelInfiniteOptions({ path: { slug }, client: apiClient }),
-        ...paginationPageParam(),
-    });
-
-const personVoices: Prefetch = ({ slug, queryClient, apiClient }) =>
-    queryClient.ensureInfiniteQueryData({
-        ...personVoicesInfiniteOptions({ path: { slug }, client: apiClient }),
         ...paginationPageParam(),
     });
 
@@ -189,24 +141,23 @@ const CONTENT_TAB_PREFETCHES: Record<
 const settle = (prefetches: Prefetch[], ctx: DetailLoaderContext) =>
     Promise.allSettled(prefetches.map((prefetch) => prefetch(ctx)));
 
-type EntityType =
-    | typeof ContentTypeEnum.CHARACTER
-    | typeof ContentTypeEnum.PERSON;
-
-const ENTITY_DETAIL_PREFETCHES = {
-    [ContentTypeEnum.CHARACTER]: [
-        characterAnime,
-        characterManga,
-        characterNovel,
-        characterVoices,
-    ],
-    [ContentTypeEnum.PERSON]: [
-        personAnime,
-        personManga,
-        personNovel,
-        personVoices,
-    ],
-} satisfies Record<EntityType, Prefetch[]>;
+const entityAppearance =
+    (
+        type: EntityType,
+        list: EntityAppearanceList,
+        preview: boolean,
+    ): Prefetch =>
+    ({ slug, queryClient, apiClient }) =>
+        queryClient.ensureInfiniteQueryData({
+            ...entityAppearanceOptions(
+                type,
+                list,
+                slug,
+                { preview },
+                apiClient,
+            ),
+            ...paginationPageParam(),
+        } as InfinitePrefetchOptions);
 
 type ContentDetail = AnimeInfoResponse | MangaInfoResponse | NovelInfoResponse;
 
@@ -271,6 +222,10 @@ export async function loadEntityDetail<T extends EntityType>(
     ctx: DetailLoaderContext,
 ): Promise<EntityDetailData<T>> {
     const { slug, queryClient, apiClient } = ctx;
+    const userValues = getSessionFromPagesCache(queryClient)
+        ? settle([favourite(type)], ctx)
+        : undefined;
+
     const entity = await ensureOr404(() =>
         queryClient.ensureQueryData(
             contentInfoOptions<EntityType>(type, slug, apiClient),
@@ -279,13 +234,29 @@ export async function loadEntityDetail<T extends EntityType>(
 
     if (!entity) throw notFound();
 
-    const prefetches = getSessionFromPagesCache(queryClient)
-        ? [...ENTITY_DETAIL_PREFETCHES[type], favourite(type)]
-        : ENTITY_DETAIL_PREFETCHES[type];
-
-    await Promise.allSettled(prefetches.map((prefetch) => prefetch(ctx)));
+    await userValues;
 
     return { [type]: entity } as EntityDetailData<T>;
+}
+
+export async function loadEntityOverview(
+    type: EntityType,
+    ctx: DetailLoaderContext,
+): Promise<void> {
+    await settle(
+        ENTITY_APPEARANCE_LISTS.map((list) =>
+            entityAppearance(type, list, true),
+        ),
+        ctx,
+    );
+}
+
+export async function loadEntityTab(
+    type: EntityType,
+    list: EntityAppearanceList,
+    ctx: DetailLoaderContext,
+): Promise<void> {
+    await settle([entityAppearance(type, list, false)], ctx);
 }
 
 export function contentDetailTitle(

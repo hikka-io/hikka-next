@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { personAnimeInfiniteOptions } from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
 import AnimeCard from '@/components/content-card/anime-card';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
@@ -8,6 +8,7 @@ import { useParams } from '@/utils/navigation';
 import { getTitle } from '@/utils/title/get-title';
 
 import AppearanceGrid from '../appearance-grid';
+import { entityAppearanceOptions } from '../queries';
 
 type Props = {
     extended?: boolean;
@@ -17,9 +18,12 @@ const PersonAnime: FC<Props> = ({ extended }) => {
     const params = useParams();
     const { list, fetchNextPage, hasNextPage, isFetchingNextPage, ref } =
         useInfiniteList(
-            personAnimeInfiniteOptions({
-                path: { slug: String(params.slug) },
-            }),
+            entityAppearanceOptions(
+                ContentTypeEnum.PERSON,
+                'anime',
+                String(params.slug),
+                { preview: !extended },
+            ),
         );
 
     return (
