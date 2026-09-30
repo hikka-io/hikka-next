@@ -80,7 +80,7 @@ type Props = {
 
 type KindConfig = {
     options: StatusOption[];
-    dropsEntryOnFetchError: boolean;
+    dropsEntryWhenMissing: boolean;
     useEntry(
         slug: string,
         enabled: boolean,
@@ -133,7 +133,7 @@ const useReadEntry = (
 const KINDS: Record<'watch' | 'read', KindConfig> = {
     watch: {
         options: WATCH_STATUS_OPTIONS,
-        dropsEntryOnFetchError: false,
+        dropsEntryWhenMissing: false,
         useEntry: useWatchEntry,
         useAdd: useAddWatch,
         carryOver: carryOverWatchArgs,
@@ -143,7 +143,7 @@ const KINDS: Record<'watch' | 'read', KindConfig> = {
     },
     read: {
         options: READ_STATUS_OPTIONS,
-        dropsEntryOnFetchError: true,
+        dropsEntryWhenMissing: true,
         useEntry: useReadEntry,
         useAdd: useAddRead,
         carryOver: carryOverReadArgs,
@@ -184,7 +184,7 @@ const ListStatusButton: FC<Props> = ({
         [entryProp, entryQuery, entryError],
     );
     const trackedEntry =
-        KINDS[kind].dropsEntryOnFetchError && entryMissing ? undefined : entry;
+        KINDS[kind].dropsEntryWhenMissing && entryMissing ? undefined : entry;
 
     const openEditModal = useCallback(() => {
         if (content) {
