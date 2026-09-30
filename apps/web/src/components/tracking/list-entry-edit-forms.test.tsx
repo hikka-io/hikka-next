@@ -167,9 +167,10 @@ async function mount(form: ReactElement) {
     return { container, input, type, submit };
 }
 
-const lastBody = () =>
-    (mocks.mutate.mock.calls.at(-1)?.[0] as { body: Record<string, unknown> })
-        .body;
+const lastBody = () => {
+    const [variables] = mocks.mutate.mock.calls.at(-1) ?? [];
+    return (variables as { body: Record<string, unknown> }).body;
+};
 
 const CASES = [
     {
@@ -245,17 +246,18 @@ describe.each(CASES)('$name edit form', (entry) => {
         ['score', '7.5'],
     ];
 
-    it.each(
-        invalid(),
-    )('shows a field error instead of saving %s = %s', async (field, value) => {
-        const { type, submit, input } = await mount(entry.render());
+    it.each(invalid())(
+        'shows a field error instead of saving %s = %s',
+        async (field, value) => {
+            const { type, submit, input } = await mount(entry.render());
 
-        await type(field, value);
-        await submit();
+            await type(field, value);
+            await submit();
 
-        expect(mocks.mutate).not.toHaveBeenCalled();
-        expect(input(field).getAttribute('aria-invalid')).toBe('true');
-    });
+            expect(mocks.mutate).not.toHaveBeenCalled();
+            expect(input(field).getAttribute('aria-invalid')).toBe('true');
+        },
+    );
 
     it('caps the note at the backend limit', async () => {
         const { input } = await mount(entry.render());

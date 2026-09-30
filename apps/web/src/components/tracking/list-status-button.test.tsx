@@ -548,52 +548,53 @@ describe.each(KINDS)('$name list status button', (kind) => {
         expect(kind.other).not.toHaveBeenCalled();
     });
 
-    it.each([
-        'none',
-        'empty',
-        'full',
-    ] as const)('carries the %s entry over on every other status', async (which) => {
-        const entry = which === 'none' ? null : kind[which];
+    it.each(['none', 'empty', 'full'] as const)(
+        'carries the %s entry over on every other status',
+        async (which) => {
+            const entry = which === 'none' ? null : kind[which];
 
-        for (const status of kind.statuses) {
-            if (status === 'completed' || status === entry?.status) continue;
+            for (const status of kind.statuses) {
+                if (status === 'completed' || status === entry?.status)
+                    continue;
 
-            calls = [];
-            const view = await mount(
-                kind.render({ entry, content: kind.content }),
+                calls = [];
+                const view = await mount(
+                    kind.render({ entry, content: kind.content }),
+                );
+                await choose(view.container, status);
+
+                expect(writes()).toEqual([
+                    {
+                        method: 'PUT',
+                        url: kind.url,
+                        body: body(status, kind.carried[which]),
+                    },
+                ]);
+                await view.unmount();
+            }
+        },
+    );
+
+    it.each(kind.completed)(
+        'completes %s with the per-kind fill',
+        async (_, props, expected) => {
+            const { container } = await mount(
+                kind.render({
+                    ...props,
+                    content: props.content && {
+                        slug: kind.slug,
+                        ...props.content,
+                    },
+                }),
             );
-            await choose(view.container, status);
+
+            await choose(container, 'completed');
 
             expect(writes()).toEqual([
-                {
-                    method: 'PUT',
-                    url: kind.url,
-                    body: body(status, kind.carried[which]),
-                },
+                { method: 'PUT', url: kind.url, body: expected },
             ]);
-            await view.unmount();
-        }
-    });
-
-    it.each(
-        kind.completed,
-    )('completes %s with the per-kind fill', async (_, props, expected) => {
-        const { container } = await mount(
-            kind.render({
-                ...props,
-                content: props.content && {
-                    slug: kind.slug,
-                    ...props.content,
-                },
-            }),
-        );
-
-        await choose(container, 'completed');
-
-        expect(writes()).toEqual([
-            { method: 'PUT', url: kind.url, body: expected },
-        ]);
-    });
+        },
+    );
 
     it('sends nothing when the current status is picked again', async () => {
         const { container } = await mount(
@@ -672,9 +673,10 @@ describe.each(KINDS)('$name list status button', (kind) => {
         expect(lastDialog()?.open).toBe(true);
         expect(writes()).toEqual([]);
 
-        await act(async () =>
-            (lastDialog()?.onOpenChange as (open: boolean) => void)(false),
-        );
+        const onOpenChange = lastDialog()?.onOpenChange as (
+            open: boolean,
+        ) => void;
+        await act(async () => onOpenChange(false));
         expect(lastDialog()?.open).toBe(false);
         await withContent.unmount();
 
@@ -798,154 +800,174 @@ describe.each(KINDS)('$name list status button', (kind) => {
         [undefined, 'h-12', 'w-12'],
         ['sm', 'h-8', 'w-8'],
         ['md', 'h-10', 'w-10'],
-    ] as const)('sizes the select triggers for size %s', async (size, height, width) => {
-        for (const entry of [kind.full, null]) {
-            const view = await mount(kind.render({ entry, size }));
-            const [main, side] = buttons(view.container);
+    ] as const)(
+        'sizes the select triggers for size %s',
+        async (size, height, width) => {
+            for (const entry of [kind.full, null]) {
+                const view = await mount(kind.render({ entry, size }));
+                const [main, side] = buttons(view.container);
 
-            expect(buttons(view.container)).toHaveLength(2);
-            expect(main.classList).toContain(height);
-            expect(side.classList).toContain(height);
-            expect(side.classList).toContain(width);
-            expect(main.classList).not.toContain(width);
-            await view.unmount();
-        }
-    });
-
-    describe.each([
-        'icon-sm',
-        'icon-md',
-    ] as const)('with the %s icon button', (size) => {
-        it('adds to planned from the icon button', async () => {
-            const { container, queryClient } = await mount(
-                kind.render({ entry: null, content: kind.content, size }),
-            );
-            const [button] = buttons(container);
-
-            expect(buttons(container)).toHaveLength(1);
-            expect(container.querySelector('[aria-disabled]')).toBe(null);
-            expect(button.className).toBe(iconClassName(size));
-            expect(button.innerHTML).toBe(iconMarkup(kind.icons.planned));
-
-            await click(button);
-
-            expect(writes()).toEqual([
-                { method: 'PUT', url: kind.url, body: '{"status":"planned"}' },
-            ]);
-            expect(kind.apply).toHaveBeenCalledTimes(1);
-            expect(kind.apply).toHaveBeenCalledWith(queryClient, kind.response);
-            expect(lastDialog()?.open).toBe(false);
-        });
-
-        it('shows the status icon and colours of a tracked entry', async () => {
-            for (const status of kind.statuses) {
-                const view = await mount(
-                    kind.render({
-                        entry: { ...kind.full, status },
-                        content: kind.content,
-                        size,
-                    }),
-                );
-                const [button] = buttons(view.container);
-
-                expect(buttons(view.container)).toHaveLength(1);
-                expect(button.className).toBe(
-                    iconClassName(
-                        size,
-                        cn(
-                            kind.iconBorder,
-                            `bg-${status} text-${status}-foreground border-${status}-border`,
-                        ),
-                    ),
-                );
-                expect(button.innerHTML).toBe(iconMarkup(kind.icons[status]));
-                expect(button.getAttribute('type')).toBe('button');
-                expect(button.getAttribute('aria-label')).toBe(null);
-                expect(button.getAttribute('title')).toBe(null);
+                expect(buttons(view.container)).toHaveLength(2);
+                expect(main.classList).toContain(height);
+                expect(side.classList).toContain(height);
+                expect(side.classList).toContain(width);
+                expect(main.classList).not.toContain(width);
                 await view.unmount();
             }
-        });
+        },
+    );
 
-        it('opens the edit dialog from a tracked icon only with content', async () => {
-            const withContent = await mount(
-                kind.render({ entry: kind.full, content: kind.content, size }),
-            );
-            await click(buttons(withContent.container)[0]);
-
-            expect(lastDialog()?.open).toBe(true);
-            await withContent.unmount();
-
-            const withoutContent = await mount(
-                kind.render({ entry: kind.full, size }),
-            );
-            await click(buttons(withoutContent.container)[0]);
-
-            expect(lastDialog()?.open).toBe(false);
-            expect(writes()).toEqual([]);
-        });
-
-        it('falls back to the add icon for an unknown status', async () => {
-            const { container } = await mount(
-                kind.render({
-                    entry: { ...kind.full, status: 'unknown' },
-                    content: kind.content,
-                    size,
-                }),
-            );
-            const [button] = buttons(container);
-
-            expect(button.className).toBe(iconClassName(size));
-            expect(button.innerHTML).toBe(iconMarkup(kind.icons.planned));
-
-            await click(button);
-
-            expect(writes()).toEqual([
-                { method: 'PUT', url: kind.url, body: '{"status":"planned"}' },
-            ]);
-        });
-
-        it('forwards button props that do not collide with its own', async () => {
-            for (const entry of [null, kind.full]) {
-                const view = await mount(
-                    kind.render({
-                        entry,
-                        content: kind.content,
-                        size,
-                        buttonProps: {
-                            id: 'list-status',
-                            'aria-label': 'Список',
-                        },
-                    }),
+    describe.each(['icon-sm', 'icon-md'] as const)(
+        'with the %s icon button',
+        (size) => {
+            it('adds to planned from the icon button', async () => {
+                const { container, queryClient } = await mount(
+                    kind.render({ entry: null, content: kind.content, size }),
                 );
-                const [button] = buttons(view.container);
+                const [button] = buttons(container);
 
-                expect(button.id).toBe('list-status');
-                expect(button.getAttribute('aria-label')).toBe('Список');
-                await view.unmount();
-            }
-        });
+                expect(buttons(container)).toHaveLength(1);
+                expect(container.querySelector('[aria-disabled]')).toBe(null);
+                expect(button.className).toBe(iconClassName(size));
+                expect(button.innerHTML).toBe(iconMarkup(kind.icons.planned));
 
-        it('disables the icon button', async () => {
-            for (const entry of [null, kind.full]) {
-                const view = await mount(
-                    kind.render({
-                        entry,
-                        content: kind.content,
-                        size,
-                        disabled: true,
-                    }),
-                );
-                const [button] = buttons(view.container);
-
-                expect(button.disabled).toBe(true);
                 await click(button);
 
-                expect(writes()).toEqual([]);
+                expect(writes()).toEqual([
+                    {
+                        method: 'PUT',
+                        url: kind.url,
+                        body: '{"status":"planned"}',
+                    },
+                ]);
+                expect(kind.apply).toHaveBeenCalledTimes(1);
+                expect(kind.apply).toHaveBeenCalledWith(
+                    queryClient,
+                    kind.response,
+                );
                 expect(lastDialog()?.open).toBe(false);
-                await view.unmount();
-            }
-        });
-    });
+            });
+
+            it('shows the status icon and colours of a tracked entry', async () => {
+                for (const status of kind.statuses) {
+                    const view = await mount(
+                        kind.render({
+                            entry: { ...kind.full, status },
+                            content: kind.content,
+                            size,
+                        }),
+                    );
+                    const [button] = buttons(view.container);
+
+                    expect(buttons(view.container)).toHaveLength(1);
+                    expect(button.className).toBe(
+                        iconClassName(
+                            size,
+                            cn(
+                                kind.iconBorder,
+                                `bg-${status} text-${status}-foreground border-${status}-border`,
+                            ),
+                        ),
+                    );
+                    expect(button.innerHTML).toBe(
+                        iconMarkup(kind.icons[status]),
+                    );
+                    expect(button.getAttribute('type')).toBe('button');
+                    expect(button.getAttribute('aria-label')).toBe(null);
+                    expect(button.getAttribute('title')).toBe(null);
+                    await view.unmount();
+                }
+            });
+
+            it('opens the edit dialog from a tracked icon only with content', async () => {
+                const withContent = await mount(
+                    kind.render({
+                        entry: kind.full,
+                        content: kind.content,
+                        size,
+                    }),
+                );
+                await click(buttons(withContent.container)[0]);
+
+                expect(lastDialog()?.open).toBe(true);
+                await withContent.unmount();
+
+                const withoutContent = await mount(
+                    kind.render({ entry: kind.full, size }),
+                );
+                await click(buttons(withoutContent.container)[0]);
+
+                expect(lastDialog()?.open).toBe(false);
+                expect(writes()).toEqual([]);
+            });
+
+            it('falls back to the add icon for an unknown status', async () => {
+                const { container } = await mount(
+                    kind.render({
+                        entry: { ...kind.full, status: 'unknown' },
+                        content: kind.content,
+                        size,
+                    }),
+                );
+                const [button] = buttons(container);
+
+                expect(button.className).toBe(iconClassName(size));
+                expect(button.innerHTML).toBe(iconMarkup(kind.icons.planned));
+
+                await click(button);
+
+                expect(writes()).toEqual([
+                    {
+                        method: 'PUT',
+                        url: kind.url,
+                        body: '{"status":"planned"}',
+                    },
+                ]);
+            });
+
+            it('forwards button props that do not collide with its own', async () => {
+                for (const entry of [null, kind.full]) {
+                    const view = await mount(
+                        kind.render({
+                            entry,
+                            content: kind.content,
+                            size,
+                            buttonProps: {
+                                id: 'list-status',
+                                'aria-label': 'Список',
+                            },
+                        }),
+                    );
+                    const [button] = buttons(view.container);
+
+                    expect(button.id).toBe('list-status');
+                    expect(button.getAttribute('aria-label')).toBe('Список');
+                    await view.unmount();
+                }
+            });
+
+            it('disables the icon button', async () => {
+                for (const entry of [null, kind.full]) {
+                    const view = await mount(
+                        kind.render({
+                            entry,
+                            content: kind.content,
+                            size,
+                            disabled: true,
+                        }),
+                    );
+                    const [button] = buttons(view.container);
+
+                    expect(button.disabled).toBe(true);
+                    await click(button);
+
+                    expect(writes()).toEqual([]);
+                    expect(lastDialog()?.open).toBe(false);
+                    await view.unmount();
+                }
+            });
+        },
+    );
 });
 
 describe('a prop entry after a failed entry fetch', () => {
@@ -977,35 +999,35 @@ describe('a prop entry after a failed entry fetch', () => {
         expect(lastDialog()?.watch).toEqual(WATCH_FULL);
     });
 
-    it.each([
-        MANGA_KIND,
-        NOVEL_KIND,
-    ])('treats the $name read button as untracked but fills completion from it', async (kind) => {
-        const view = await mount(kind.render({}));
-        await view.rerender(
-            kind.render({ entry: READ_FULL, content: kind.unknownLength }),
-        );
+    it.each([MANGA_KIND, NOVEL_KIND])(
+        'treats the $name read button as untracked but fills completion from it',
+        async (kind) => {
+            const view = await mount(kind.render({}));
+            await view.rerender(
+                kind.render({ entry: READ_FULL, content: kind.unknownLength }),
+            );
 
-        expect(reads()).toHaveLength(1);
-        expect(view.container.textContent).toBe(ADD_LABEL);
+            expect(reads()).toHaveLength(1);
+            expect(view.container.textContent).toBe(ADD_LABEL);
 
-        await openSelect(view.container);
-        expect(items().map((item) => item.getAttribute('data-value'))).toEqual(
-            kind.statuses,
-        );
-        await click(
-            document.querySelector('[cmdk-item][data-value="completed"]'),
-        );
+            await openSelect(view.container);
+            expect(
+                items().map((item) => item.getAttribute('data-value')),
+            ).toEqual(kind.statuses);
+            await click(
+                document.querySelector('[cmdk-item][data-value="completed"]'),
+            );
 
-        expect(writes()).toEqual([
-            {
-                method: 'PUT',
-                url: kind.url,
-                body: '{"status":"completed","volumes":1,"chapters":5}',
-            },
-        ]);
-        expect(lastDialog()?.read).toEqual(READ_FULL);
-    });
+            expect(writes()).toEqual([
+                {
+                    method: 'PUT',
+                    url: kind.url,
+                    body: '{"status":"completed","volumes":1,"chapters":5}',
+                },
+            ]);
+            expect(lastDialog()?.read).toEqual(READ_FULL);
+        },
+    );
 
     it.each(KINDS)('shows the $name icon button as tracked', async (kind) => {
         const view = await mount(kind.render({ size: 'icon-sm' }));
@@ -1044,26 +1066,29 @@ describe('icon button props', () => {
 });
 
 describe('icon button caller props', () => {
-    it.each([
-        MANGA_KIND,
-        NOVEL_KIND,
-    ])('override the $name read defaults like the watch ones', async (kind) => {
-        for (const entry of [null, READ_FULL]) {
-            const view = await mount(
-                kind.render({
-                    entry,
-                    content: kind.content,
-                    size: 'icon-sm',
-                    buttonProps: { className: 'custom', variant: 'outline' },
-                }),
-            );
+    it.each([MANGA_KIND, NOVEL_KIND])(
+        'override the $name read defaults like the watch ones',
+        async (kind) => {
+            for (const entry of [null, READ_FULL]) {
+                const view = await mount(
+                    kind.render({
+                        entry,
+                        content: kind.content,
+                        size: 'icon-sm',
+                        buttonProps: {
+                            className: 'custom',
+                            variant: 'outline',
+                        },
+                    }),
+                );
 
-            expect(buttons(view.container)[0].className).toBe(
-                iconClassName('icon-sm', 'custom', 'outline'),
-            );
-            await view.unmount();
-        }
-    });
+                expect(buttons(view.container)[0].className).toBe(
+                    iconClassName('icon-sm', 'custom', 'outline'),
+                );
+                await view.unmount();
+            }
+        },
+    );
 
     it.each(KINDS)('replace the $name icon click handler', async (kind) => {
         const onClick = vi.fn();

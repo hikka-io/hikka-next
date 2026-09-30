@@ -129,35 +129,39 @@ describe('editor API bridge', () => {
         expect(editor.tf.setValue).not.toHaveBeenCalled();
     });
 
-    it.each([
-        'set',
-        'insert',
-    ])('rejects %s without a value and never touches the editor', (command) => {
-        const editor = createEditor();
+    it.each(['set', 'insert'])(
+        'rejects %s without a value and never touches the editor',
+        (command) => {
+            const editor = createEditor();
 
-        expect(
-            handleEditorApiRequest(editor, request(command), 'article-editor'),
-        ).toMatchObject({ ok: false, error: { code: 'missing_value' } });
-        expect(editor.tf.setValue).not.toHaveBeenCalled();
-        expect(editor.tf.insertNodes).not.toHaveBeenCalled();
-    });
+            expect(
+                handleEditorApiRequest(
+                    editor,
+                    request(command),
+                    'article-editor',
+                ),
+            ).toMatchObject({ ok: false, error: { code: 'missing_value' } });
+            expect(editor.tf.setValue).not.toHaveBeenCalled();
+            expect(editor.tf.insertNodes).not.toHaveBeenCalled();
+        },
+    );
 
-    it.each([
-        'set',
-        'insert',
-    ])('rejects an invalid %s value and never touches the editor', (command) => {
-        const editor = createEditor();
+    it.each(['set', 'insert'])(
+        'rejects an invalid %s value and never touches the editor',
+        (command) => {
+            const editor = createEditor();
 
-        expect(
-            handleEditorApiRequest(
-                editor,
-                request(command, { value: [] as unknown as Value }),
-                'article-editor',
-            ),
-        ).toMatchObject({ ok: false, error: { code: 'invalid_value' } });
-        expect(editor.tf.setValue).not.toHaveBeenCalled();
-        expect(editor.tf.insertNodes).not.toHaveBeenCalled();
-    });
+            expect(
+                handleEditorApiRequest(
+                    editor,
+                    request(command, { value: [] as unknown as Value }),
+                    'article-editor',
+                ),
+            ).toMatchObject({ ok: false, error: { code: 'invalid_value' } });
+            expect(editor.tf.setValue).not.toHaveBeenCalled();
+            expect(editor.tf.insertNodes).not.toHaveBeenCalled();
+        },
+    );
 
     it('reports unknown commands', () => {
         const editor = createEditor();

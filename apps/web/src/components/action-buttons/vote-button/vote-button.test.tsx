@@ -52,9 +52,12 @@ describe('VoteButton card variant', () => {
             myScore: -1,
             voteScore: -2,
         },
-    ] satisfies VoteProps[])('matches the $contentType navbar vote', (props) => {
-        expect(
-            renderToStaticMarkup(<VoteButton variant="card" {...props} />),
-        ).toBe(renderToStaticMarkup(<LegacyNavbarVote {...props} />));
-    });
+    ] satisfies VoteProps[])(
+        'matches the $contentType navbar vote',
+        (props) => {
+            expect(
+                renderToStaticMarkup(<VoteButton variant="card" {...props} />),
+            ).toBe(renderToStaticMarkup(<LegacyNavbarVote {...props} />));
+        },
+    );
 });

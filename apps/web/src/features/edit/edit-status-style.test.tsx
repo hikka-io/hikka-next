@@ -95,46 +95,51 @@ describe('edit status variants', () => {
         expect(EDIT_STATUS_STYLE[status].variant).toBe(variant);
     });
 
-    it.each(
-        VARIANTS,
-    )('renders the %s edit card link as %s', (status, variant) => {
-        const root = mount(
-            renderToStaticMarkup(<EditCard edit={edit(status)} to="/edit/7" />),
-        );
+    it.each(VARIANTS)(
+        'renders the %s edit card link as %s',
+        (status, variant) => {
+            const root = mount(
+                renderToStaticMarkup(
+                    <EditCard edit={edit(status)} to="/edit/7" />,
+                ),
+            );
 
-        expect(root.querySelector('a[href="/edit/7"]')?.className).toBe(
-            cn(buttonVariants({ variant, size: 'md' })),
-        );
-    });
+            expect(root.querySelector('a[href="/edit/7"]')?.className).toBe(
+                cn(buttonVariants({ variant, size: 'md' })),
+            );
+        },
+    );
 
-    it.each(
-        VARIANTS,
-    )('renders the %s edit row badge as %s', (status, variant) => {
-        const root = mount(
-            renderToStaticMarkup(
-                <table>
-                    <tbody>
-                        <EditRow edit={edit(status)} />
-                    </tbody>
-                </table>,
-            ),
-        );
+    it.each(VARIANTS)(
+        'renders the %s edit row badge as %s',
+        (status, variant) => {
+            const root = mount(
+                renderToStaticMarkup(
+                    <table>
+                        <tbody>
+                            <EditRow edit={edit(status)} />
+                        </tbody>
+                    </table>,
+                ),
+            );
 
-        expect(statusBadgeClass(root, status)).toBe(
-            cn(badgeVariants({ variant }), 'size-auto p-0 px-1.5'),
-        );
-    });
+            expect(statusBadgeClass(root, status)).toBe(
+                cn(badgeVariants({ variant }), 'size-auto p-0 px-1.5'),
+            );
+        },
+    );
 
-    it.each(
-        VARIANTS,
-    )('renders the %s edit status badge as %s', (status, variant) => {
-        mocks.edit = edit(status);
-        const root = mount(
-            renderToStaticMarkup(<EditStatusBadge editId="7" />),
-        );
+    it.each(VARIANTS)(
+        'renders the %s edit status badge as %s',
+        (status, variant) => {
+            mocks.edit = edit(status);
+            const root = mount(
+                renderToStaticMarkup(<EditStatusBadge editId="7" />),
+            );
 
-        expect(statusBadgeClass(root, status)).toBe(
-            cn(badgeVariants({ variant })),
-        );
-    });
+            expect(statusBadgeClass(root, status)).toBe(
+                cn(badgeVariants({ variant })),
+            );
+        },
+    );
 });

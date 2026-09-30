@@ -106,14 +106,15 @@ describe('useQuickEdit', () => {
         expect(current().canQuickEdit).toBe(false);
     });
 
-    it.each(
-        Object.values(EditContentTypeEnum),
-    )('allows moderators to quick edit %s', async (contentType) => {
-        session.moderator = true;
-        const { current } = await render(contentType);
+    it.each(Object.values(EditContentTypeEnum))(
+        'allows moderators to quick edit %s',
+        async (contentType) => {
+            session.moderator = true;
+            const { current } = await render(contentType);
 
-        expect(current().canQuickEdit).toBe(true);
-    });
+            expect(current().canQuickEdit).toBe(true);
+        },
+    );
 
     it.each([
         ContentTypeEnum.ARTICLE,

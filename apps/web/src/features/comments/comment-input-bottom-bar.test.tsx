@@ -142,8 +142,10 @@ async function mount(
     return { editor, send, counter, click };
 }
 
-const sentText = (mutation: typeof mocks.write) =>
-    (mutation.mock.calls.at(-1)?.[0] as Sent).body.text;
+const sentText = (mutation: typeof mocks.write) => {
+    const [variables] = mutation.mock.calls.at(-1) ?? [];
+    return (variables as Sent).body.text;
+};
 
 describe('comment length limit', () => {
     it('measures what the backend receives', () => {

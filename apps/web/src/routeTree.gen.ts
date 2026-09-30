@@ -9,108 +9,108 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PagesRouteImport } from './routes/_pages'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PagesIndexRouteImport } from './routes/_pages/index'
-import { Route as NovelSitemapDotxmlRouteImport } from './routes/novel/sitemap[.]xml'
-import { Route as MangaSitemapDotxmlRouteImport } from './routes/manga/sitemap[.]xml'
-import { Route as AuthLogoutRouteImport } from './routes/auth/logout'
-import { Route as AuthGoogleRouteImport } from './routes/auth/google'
-import { Route as AnimeSitemapDotxmlRouteImport } from './routes/anime/sitemap[.]xml'
-import { Route as PagesSettingsRouteImport } from './routes/_pages/settings'
-import { Route as PagesScheduleRouteImport } from './routes/_pages/schedule'
-import { Route as PagesOauthRouteImport } from './routes/_pages/oauth'
 import { Route as PagesAuthRouteImport } from './routes/_pages/_auth'
-import { Route as PagesSettingsIndexRouteImport } from './routes/_pages/settings/index'
-import { Route as PagesPeopleIndexRouteImport } from './routes/_pages/people/index'
-import { Route as PagesNovelIndexRouteImport } from './routes/_pages/novel/index'
-import { Route as PagesMangaIndexRouteImport } from './routes/_pages/manga/index'
-import { Route as PagesEditIndexRouteImport } from './routes/_pages/edit/index'
-import { Route as PagesCollectionsIndexRouteImport } from './routes/_pages/collections/index'
-import { Route as PagesCharactersIndexRouteImport } from './routes/_pages/characters/index'
-import { Route as PagesArticlesIndexRouteImport } from './routes/_pages/articles/index'
-import { Route as PagesAnimeIndexRouteImport } from './routes/_pages/anime/index'
-import { Route as AuthResetTokenRouteImport } from './routes/auth/reset.$token'
-import { Route as AuthActivateTokenRouteImport } from './routes/auth/activate.$token'
-import { Route as ApiOgNovelRouteImport } from './routes/api/og/novel'
-import { Route as ApiOgMangaRouteImport } from './routes/api/og/manga'
-import { Route as ApiOgAnimeRouteImport } from './routes/api/og/anime'
-import { Route as PagesUUsernameRouteImport } from './routes/_pages/u/$username'
-import { Route as PagesSettingsSecurityRouteImport } from './routes/_pages/settings/security'
-import { Route as PagesSettingsProfileRouteImport } from './routes/_pages/settings/profile'
-import { Route as PagesSettingsNotificationsRouteImport } from './routes/_pages/settings/notifications'
-import { Route as PagesPeopleSlugRouteImport } from './routes/_pages/people/$slug'
-import { Route as PagesNovelSlugRouteImport } from './routes/_pages/novel/$slug'
-import { Route as PagesMangaSlugRouteImport } from './routes/_pages/manga/$slug'
-import { Route as PagesEditNewRouteImport } from './routes/_pages/edit/new'
-import { Route as PagesEditContentRouteImport } from './routes/_pages/edit/content'
-import { Route as PagesEditEditIdRouteImport } from './routes/_pages/edit/$editId'
-import { Route as PagesCommentsMyRouteImport } from './routes/_pages/comments/my'
-import { Route as PagesCommentsLatestRouteImport } from './routes/_pages/comments/latest'
-import { Route as PagesCollectionsNewRouteImport } from './routes/_pages/collections/new'
-import { Route as PagesCollectionsReferenceRouteImport } from './routes/_pages/collections/$reference'
-import { Route as PagesCharactersSlugRouteImport } from './routes/_pages/characters/$slug'
-import { Route as PagesArticlesNewRouteImport } from './routes/_pages/articles/new'
-import { Route as PagesArticlesSlugRouteImport } from './routes/_pages/articles/$slug'
-import { Route as PagesAnimeSlugRouteImport } from './routes/_pages/anime/$slug'
-import { Route as PagesAuthSignupRouteImport } from './routes/_pages/_auth/signup'
-import { Route as PagesAuthResetRouteImport } from './routes/_pages/_auth/reset'
+import { Route as PagesOauthRouteImport } from './routes/_pages/oauth'
+import { Route as PagesScheduleRouteImport } from './routes/_pages/schedule'
+import { Route as PagesSettingsRouteImport } from './routes/_pages/settings'
+import { Route as AnimeSitemapDotxmlRouteImport } from './routes/anime/sitemap[.]xml'
+import { Route as AuthGoogleRouteImport } from './routes/auth/google'
+import { Route as AuthLogoutRouteImport } from './routes/auth/logout'
+import { Route as MangaSitemapDotxmlRouteImport } from './routes/manga/sitemap[.]xml'
+import { Route as NovelSitemapDotxmlRouteImport } from './routes/novel/sitemap[.]xml'
 import { Route as PagesAuthLoginRouteImport } from './routes/_pages/_auth/login'
-import { Route as PagesUUsernameIndexRouteImport } from './routes/_pages/u/$username/index'
-import { Route as PagesSettingsListIndexRouteImport } from './routes/_pages/settings/list/index'
-import { Route as PagesSettingsCustomizationIndexRouteImport } from './routes/_pages/settings/customization/index'
-import { Route as PagesSettingsApplicationsIndexRouteImport } from './routes/_pages/settings/applications/index'
-import { Route as PagesPeopleSlugIndexRouteImport } from './routes/_pages/people/$slug/index'
-import { Route as PagesNovelSlugIndexRouteImport } from './routes/_pages/novel/$slug/index'
-import { Route as PagesMangaSlugIndexRouteImport } from './routes/_pages/manga/$slug/index'
-import { Route as PagesEditEditIdIndexRouteImport } from './routes/_pages/edit/$editId/index'
-import { Route as PagesCollectionsReferenceIndexRouteImport } from './routes/_pages/collections/$reference/index'
-import { Route as PagesCharactersSlugIndexRouteImport } from './routes/_pages/characters/$slug/index'
-import { Route as PagesArticlesSlugIndexRouteImport } from './routes/_pages/articles/$slug/index'
-import { Route as PagesAnimeSlugIndexRouteImport } from './routes/_pages/anime/$slug/index'
-import { Route as PagesUUsernameHistoryRouteImport } from './routes/_pages/u/$username/history'
-import { Route as PagesUUsernameFavoritesRouteImport } from './routes/_pages/u/$username/favorites'
-import { Route as PagesSettingsListImportRouteImport } from './routes/_pages/settings/list/import'
-import { Route as PagesSettingsListExportRouteImport } from './routes/_pages/settings/list/export'
-import { Route as PagesSettingsCustomizationGeneralRouteImport } from './routes/_pages/settings/customization/general'
-import { Route as PagesSettingsCustomizationEffectsRouteImport } from './routes/_pages/settings/customization/effects'
-import { Route as PagesSettingsCustomizationAppearanceRouteImport } from './routes/_pages/settings/customization/appearance'
-import { Route as PagesSettingsApplicationsClientsRouteImport } from './routes/_pages/settings/applications/clients'
-import { Route as PagesSettingsApplicationsAuthorizedRouteImport } from './routes/_pages/settings/applications/authorized'
-import { Route as PagesPeopleSlugNovelRouteImport } from './routes/_pages/people/$slug/novel'
-import { Route as PagesPeopleSlugMangaRouteImport } from './routes/_pages/people/$slug/manga'
-import { Route as PagesPeopleSlugCharactersRouteImport } from './routes/_pages/people/$slug/characters'
-import { Route as PagesPeopleSlugAnimeRouteImport } from './routes/_pages/people/$slug/anime'
-import { Route as PagesNovelSlugStaffRouteImport } from './routes/_pages/novel/$slug/staff'
-import { Route as PagesNovelSlugFranchiseRouteImport } from './routes/_pages/novel/$slug/franchise'
-import { Route as PagesNovelSlugCharactersRouteImport } from './routes/_pages/novel/$slug/characters'
-import { Route as PagesMangaSlugStaffRouteImport } from './routes/_pages/manga/$slug/staff'
-import { Route as PagesMangaSlugFranchiseRouteImport } from './routes/_pages/manga/$slug/franchise'
-import { Route as PagesMangaSlugCharactersRouteImport } from './routes/_pages/manga/$slug/characters'
-import { Route as PagesEditEditIdUpdateRouteImport } from './routes/_pages/edit/$editId/update'
-import { Route as PagesCollectionsReferenceUpdateRouteImport } from './routes/_pages/collections/$reference/update'
-import { Route as PagesCharactersSlugVoicesRouteImport } from './routes/_pages/characters/$slug/voices'
-import { Route as PagesCharactersSlugNovelRouteImport } from './routes/_pages/characters/$slug/novel'
-import { Route as PagesCharactersSlugMangaRouteImport } from './routes/_pages/characters/$slug/manga'
-import { Route as PagesCharactersSlugAnimeRouteImport } from './routes/_pages/characters/$slug/anime'
-import { Route as PagesArticlesSlugUpdateRouteImport } from './routes/_pages/articles/$slug/update'
-import { Route as PagesAnimeSlugStaffRouteImport } from './routes/_pages/anime/$slug/staff'
-import { Route as PagesAnimeSlugMediaRouteImport } from './routes/_pages/anime/$slug/media'
-import { Route as PagesAnimeSlugFranchiseRouteImport } from './routes/_pages/anime/$slug/franchise'
-import { Route as PagesAnimeSlugCharactersRouteImport } from './routes/_pages/anime/$slug/characters'
+import { Route as PagesAuthResetRouteImport } from './routes/_pages/_auth/reset'
+import { Route as PagesAuthSignupRouteImport } from './routes/_pages/_auth/signup'
+import { Route as PagesAnimeIndexRouteImport } from './routes/_pages/anime/index'
+import { Route as PagesAnimeSlugRouteImport } from './routes/_pages/anime/$slug'
+import { Route as PagesArticlesIndexRouteImport } from './routes/_pages/articles/index'
+import { Route as PagesArticlesSlugRouteImport } from './routes/_pages/articles/$slug'
+import { Route as PagesArticlesNewRouteImport } from './routes/_pages/articles/new'
+import { Route as PagesCharactersIndexRouteImport } from './routes/_pages/characters/index'
+import { Route as PagesCharactersSlugRouteImport } from './routes/_pages/characters/$slug'
+import { Route as PagesCollectionsIndexRouteImport } from './routes/_pages/collections/index'
+import { Route as PagesCollectionsReferenceRouteImport } from './routes/_pages/collections/$reference'
+import { Route as PagesCollectionsNewRouteImport } from './routes/_pages/collections/new'
+import { Route as PagesCommentsLatestRouteImport } from './routes/_pages/comments/latest'
+import { Route as PagesCommentsMyRouteImport } from './routes/_pages/comments/my'
+import { Route as PagesEditIndexRouteImport } from './routes/_pages/edit/index'
+import { Route as PagesEditEditIdRouteImport } from './routes/_pages/edit/$editId'
+import { Route as PagesEditContentRouteImport } from './routes/_pages/edit/content'
+import { Route as PagesEditNewRouteImport } from './routes/_pages/edit/new'
+import { Route as PagesMangaIndexRouteImport } from './routes/_pages/manga/index'
+import { Route as PagesMangaSlugRouteImport } from './routes/_pages/manga/$slug'
+import { Route as PagesNovelIndexRouteImport } from './routes/_pages/novel/index'
+import { Route as PagesNovelSlugRouteImport } from './routes/_pages/novel/$slug'
+import { Route as PagesPeopleIndexRouteImport } from './routes/_pages/people/index'
+import { Route as PagesPeopleSlugRouteImport } from './routes/_pages/people/$slug'
+import { Route as PagesSettingsIndexRouteImport } from './routes/_pages/settings/index'
+import { Route as PagesSettingsNotificationsRouteImport } from './routes/_pages/settings/notifications'
+import { Route as PagesSettingsProfileRouteImport } from './routes/_pages/settings/profile'
+import { Route as PagesSettingsSecurityRouteImport } from './routes/_pages/settings/security'
+import { Route as PagesUUsernameRouteImport } from './routes/_pages/u/$username'
+import { Route as ApiOgAnimeRouteImport } from './routes/api/og/anime'
+import { Route as ApiOgMangaRouteImport } from './routes/api/og/manga'
+import { Route as ApiOgNovelRouteImport } from './routes/api/og/novel'
+import { Route as AuthActivateTokenRouteImport } from './routes/auth/activate.$token'
+import { Route as AuthResetTokenRouteImport } from './routes/auth/reset.$token'
 import { Route as PagesAuthResetTokenRouteImport } from './routes/_pages/_auth/reset_.$token'
-import { Route as PagesUUsernameListIndexRouteImport } from './routes/_pages/u/$username/list/index'
+import { Route as PagesAnimeSlugIndexRouteImport } from './routes/_pages/anime/$slug/index'
+import { Route as PagesAnimeSlugCharactersRouteImport } from './routes/_pages/anime/$slug/characters'
+import { Route as PagesAnimeSlugFranchiseRouteImport } from './routes/_pages/anime/$slug/franchise'
+import { Route as PagesAnimeSlugMediaRouteImport } from './routes/_pages/anime/$slug/media'
+import { Route as PagesAnimeSlugStaffRouteImport } from './routes/_pages/anime/$slug/staff'
+import { Route as PagesArticlesSlugIndexRouteImport } from './routes/_pages/articles/$slug/index'
+import { Route as PagesArticlesSlugUpdateRouteImport } from './routes/_pages/articles/$slug/update'
+import { Route as PagesCharactersSlugIndexRouteImport } from './routes/_pages/characters/$slug/index'
+import { Route as PagesCharactersSlugAnimeRouteImport } from './routes/_pages/characters/$slug/anime'
+import { Route as PagesCharactersSlugMangaRouteImport } from './routes/_pages/characters/$slug/manga'
+import { Route as PagesCharactersSlugNovelRouteImport } from './routes/_pages/characters/$slug/novel'
+import { Route as PagesCharactersSlugVoicesRouteImport } from './routes/_pages/characters/$slug/voices'
+import { Route as PagesCollectionsReferenceIndexRouteImport } from './routes/_pages/collections/$reference/index'
+import { Route as PagesCollectionsReferenceUpdateRouteImport } from './routes/_pages/collections/$reference/update'
+import { Route as PagesEditEditIdIndexRouteImport } from './routes/_pages/edit/$editId/index'
+import { Route as PagesEditEditIdUpdateRouteImport } from './routes/_pages/edit/$editId/update'
+import { Route as PagesMangaSlugIndexRouteImport } from './routes/_pages/manga/$slug/index'
+import { Route as PagesMangaSlugCharactersRouteImport } from './routes/_pages/manga/$slug/characters'
+import { Route as PagesMangaSlugFranchiseRouteImport } from './routes/_pages/manga/$slug/franchise'
+import { Route as PagesMangaSlugStaffRouteImport } from './routes/_pages/manga/$slug/staff'
+import { Route as PagesNovelSlugIndexRouteImport } from './routes/_pages/novel/$slug/index'
+import { Route as PagesNovelSlugCharactersRouteImport } from './routes/_pages/novel/$slug/characters'
+import { Route as PagesNovelSlugFranchiseRouteImport } from './routes/_pages/novel/$slug/franchise'
+import { Route as PagesNovelSlugStaffRouteImport } from './routes/_pages/novel/$slug/staff'
+import { Route as PagesPeopleSlugIndexRouteImport } from './routes/_pages/people/$slug/index'
+import { Route as PagesPeopleSlugAnimeRouteImport } from './routes/_pages/people/$slug/anime'
+import { Route as PagesPeopleSlugCharactersRouteImport } from './routes/_pages/people/$slug/characters'
+import { Route as PagesPeopleSlugMangaRouteImport } from './routes/_pages/people/$slug/manga'
+import { Route as PagesPeopleSlugNovelRouteImport } from './routes/_pages/people/$slug/novel'
+import { Route as PagesSettingsApplicationsIndexRouteImport } from './routes/_pages/settings/applications/index'
+import { Route as PagesSettingsApplicationsAuthorizedRouteImport } from './routes/_pages/settings/applications/authorized'
+import { Route as PagesSettingsApplicationsClientsRouteImport } from './routes/_pages/settings/applications/clients'
+import { Route as PagesSettingsCustomizationIndexRouteImport } from './routes/_pages/settings/customization/index'
+import { Route as PagesSettingsCustomizationAppearanceRouteImport } from './routes/_pages/settings/customization/appearance'
+import { Route as PagesSettingsCustomizationEffectsRouteImport } from './routes/_pages/settings/customization/effects'
+import { Route as PagesSettingsCustomizationGeneralRouteImport } from './routes/_pages/settings/customization/general'
+import { Route as PagesSettingsListIndexRouteImport } from './routes/_pages/settings/list/index'
+import { Route as PagesSettingsListExportRouteImport } from './routes/_pages/settings/list/export'
+import { Route as PagesSettingsListImportRouteImport } from './routes/_pages/settings/list/import'
+import { Route as PagesUUsernameIndexRouteImport } from './routes/_pages/u/$username/index'
+import { Route as PagesUUsernameFavoritesRouteImport } from './routes/_pages/u/$username/favorites'
+import { Route as PagesUUsernameHistoryRouteImport } from './routes/_pages/u/$username/history'
 import { Route as PagesCommentsContent_typeSlugIndexRouteImport } from './routes/_pages/comments/$content_type/$slug/index'
-import { Route as PagesUUsernameListContent_typeRouteImport } from './routes/_pages/u/$username/list/$content_type'
 import { Route as PagesCommentsContent_typeSlugSplatRouteImport } from './routes/_pages/comments/$content_type/$slug/$'
+import { Route as PagesUUsernameListIndexRouteImport } from './routes/_pages/u/$username/list/index'
+import { Route as PagesUUsernameListContent_typeRouteImport } from './routes/_pages/u/$username/list/$content_type'
 
+const PagesRoute = PagesRouteImport.update({
+  id: '/_pages',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PagesRoute = PagesRouteImport.update({
-  id: '/_pages',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PagesIndexRoute = PagesIndexRouteImport.update({
@@ -118,39 +118,8 @@ const PagesIndexRoute = PagesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PagesRoute,
 } as any)
-const NovelSitemapDotxmlRoute = NovelSitemapDotxmlRouteImport.update({
-  id: '/novel/sitemap.xml',
-  path: '/novel/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MangaSitemapDotxmlRoute = MangaSitemapDotxmlRouteImport.update({
-  id: '/manga/sitemap.xml',
-  path: '/manga/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthLogoutRoute = AuthLogoutRouteImport.update({
-  id: '/auth/logout',
-  path: '/auth/logout',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthGoogleRoute = AuthGoogleRouteImport.update({
-  id: '/auth/google',
-  path: '/auth/google',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AnimeSitemapDotxmlRoute = AnimeSitemapDotxmlRouteImport.update({
-  id: '/anime/sitemap.xml',
-  path: '/anime/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PagesSettingsRoute = PagesSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => PagesRoute,
-} as any)
-const PagesScheduleRoute = PagesScheduleRouteImport.update({
-  id: '/schedule',
-  path: '/schedule',
+const PagesAuthRoute = PagesAuthRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => PagesRoute,
 } as any)
 const PagesOauthRoute = PagesOauthRouteImport.update({
@@ -158,43 +127,64 @@ const PagesOauthRoute = PagesOauthRouteImport.update({
   path: '/oauth',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesAuthRoute = PagesAuthRouteImport.update({
-  id: '/_auth',
+const PagesScheduleRoute = PagesScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesSettingsIndexRoute = PagesSettingsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PagesSettingsRoute,
-} as any)
-const PagesPeopleIndexRoute = PagesPeopleIndexRouteImport.update({
-  id: '/people/',
-  path: '/people/',
+const PagesSettingsRoute = PagesSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesNovelIndexRoute = PagesNovelIndexRouteImport.update({
-  id: '/novel/',
-  path: '/novel/',
+const AnimeSitemapDotxmlRoute = AnimeSitemapDotxmlRouteImport.update({
+  id: '/anime/sitemap.xml',
+  path: '/anime/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthGoogleRoute = AuthGoogleRouteImport.update({
+  id: '/auth/google',
+  path: '/auth/google',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLogoutRoute = AuthLogoutRouteImport.update({
+  id: '/auth/logout',
+  path: '/auth/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MangaSitemapDotxmlRoute = MangaSitemapDotxmlRouteImport.update({
+  id: '/manga/sitemap.xml',
+  path: '/manga/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NovelSitemapDotxmlRoute = NovelSitemapDotxmlRouteImport.update({
+  id: '/novel/sitemap.xml',
+  path: '/novel/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PagesAuthLoginRoute = PagesAuthLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => PagesAuthRoute,
+} as any)
+const PagesAuthResetRoute = PagesAuthResetRouteImport.update({
+  id: '/reset',
+  path: '/reset',
+  getParentRoute: () => PagesAuthRoute,
+} as any)
+const PagesAuthSignupRoute = PagesAuthSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => PagesAuthRoute,
+} as any)
+const PagesAnimeIndexRoute = PagesAnimeIndexRouteImport.update({
+  id: '/anime/',
+  path: '/anime/',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesMangaIndexRoute = PagesMangaIndexRouteImport.update({
-  id: '/manga/',
-  path: '/manga/',
-  getParentRoute: () => PagesRoute,
-} as any)
-const PagesEditIndexRoute = PagesEditIndexRouteImport.update({
-  id: '/edit/',
-  path: '/edit/',
-  getParentRoute: () => PagesRoute,
-} as any)
-const PagesCollectionsIndexRoute = PagesCollectionsIndexRouteImport.update({
-  id: '/collections/',
-  path: '/collections/',
-  getParentRoute: () => PagesRoute,
-} as any)
-const PagesCharactersIndexRoute = PagesCharactersIndexRouteImport.update({
-  id: '/characters/',
-  path: '/characters/',
+const PagesAnimeSlugRoute = PagesAnimeSlugRouteImport.update({
+  id: '/anime/$slug',
+  path: '/anime/$slug',
   getParentRoute: () => PagesRoute,
 } as any)
 const PagesArticlesIndexRoute = PagesArticlesIndexRouteImport.update({
@@ -202,100 +192,29 @@ const PagesArticlesIndexRoute = PagesArticlesIndexRouteImport.update({
   path: '/articles/',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesAnimeIndexRoute = PagesAnimeIndexRouteImport.update({
-  id: '/anime/',
-  path: '/anime/',
+const PagesArticlesSlugRoute = PagesArticlesSlugRouteImport.update({
+  id: '/articles/$slug',
+  path: '/articles/$slug',
   getParentRoute: () => PagesRoute,
 } as any)
-const AuthResetTokenRoute = AuthResetTokenRouteImport.update({
-  id: '/auth/reset/$token',
-  path: '/auth/reset/$token',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthActivateTokenRoute = AuthActivateTokenRouteImport.update({
-  id: '/auth/activate/$token',
-  path: '/auth/activate/$token',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiOgNovelRoute = ApiOgNovelRouteImport.update({
-  id: '/api/og/novel',
-  path: '/api/og/novel',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiOgMangaRoute = ApiOgMangaRouteImport.update({
-  id: '/api/og/manga',
-  path: '/api/og/manga',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiOgAnimeRoute = ApiOgAnimeRouteImport.update({
-  id: '/api/og/anime',
-  path: '/api/og/anime',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PagesUUsernameRoute = PagesUUsernameRouteImport.update({
-  id: '/u/$username',
-  path: '/u/$username',
+const PagesArticlesNewRoute = PagesArticlesNewRouteImport.update({
+  id: '/articles/new',
+  path: '/articles/new',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesSettingsSecurityRoute = PagesSettingsSecurityRouteImport.update({
-  id: '/security',
-  path: '/security',
-  getParentRoute: () => PagesSettingsRoute,
-} as any)
-const PagesSettingsProfileRoute = PagesSettingsProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => PagesSettingsRoute,
-} as any)
-const PagesSettingsNotificationsRoute =
-  PagesSettingsNotificationsRouteImport.update({
-    id: '/notifications',
-    path: '/notifications',
-    getParentRoute: () => PagesSettingsRoute,
-  } as any)
-const PagesPeopleSlugRoute = PagesPeopleSlugRouteImport.update({
-  id: '/people/$slug',
-  path: '/people/$slug',
+const PagesCharactersIndexRoute = PagesCharactersIndexRouteImport.update({
+  id: '/characters/',
+  path: '/characters/',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesNovelSlugRoute = PagesNovelSlugRouteImport.update({
-  id: '/novel/$slug',
-  path: '/novel/$slug',
+const PagesCharactersSlugRoute = PagesCharactersSlugRouteImport.update({
+  id: '/characters/$slug',
+  path: '/characters/$slug',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesMangaSlugRoute = PagesMangaSlugRouteImport.update({
-  id: '/manga/$slug',
-  path: '/manga/$slug',
-  getParentRoute: () => PagesRoute,
-} as any)
-const PagesEditNewRoute = PagesEditNewRouteImport.update({
-  id: '/edit/new',
-  path: '/edit/new',
-  getParentRoute: () => PagesRoute,
-} as any)
-const PagesEditContentRoute = PagesEditContentRouteImport.update({
-  id: '/edit/content',
-  path: '/edit/content',
-  getParentRoute: () => PagesRoute,
-} as any)
-const PagesEditEditIdRoute = PagesEditEditIdRouteImport.update({
-  id: '/edit/$editId',
-  path: '/edit/$editId',
-  getParentRoute: () => PagesRoute,
-} as any)
-const PagesCommentsMyRoute = PagesCommentsMyRouteImport.update({
-  id: '/comments/my',
-  path: '/comments/my',
-  getParentRoute: () => PagesRoute,
-} as any)
-const PagesCommentsLatestRoute = PagesCommentsLatestRouteImport.update({
-  id: '/comments/latest',
-  path: '/comments/latest',
-  getParentRoute: () => PagesRoute,
-} as any)
-const PagesCollectionsNewRoute = PagesCollectionsNewRouteImport.update({
-  id: '/collections/new',
-  path: '/collections/new',
+const PagesCollectionsIndexRoute = PagesCollectionsIndexRouteImport.update({
+  id: '/collections/',
+  path: '/collections/',
   getParentRoute: () => PagesRoute,
 } as any)
 const PagesCollectionsReferenceRoute =
@@ -304,261 +223,130 @@ const PagesCollectionsReferenceRoute =
     path: '/collections/$reference',
     getParentRoute: () => PagesRoute,
   } as any)
-const PagesCharactersSlugRoute = PagesCharactersSlugRouteImport.update({
-  id: '/characters/$slug',
-  path: '/characters/$slug',
+const PagesCollectionsNewRoute = PagesCollectionsNewRouteImport.update({
+  id: '/collections/new',
+  path: '/collections/new',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesArticlesNewRoute = PagesArticlesNewRouteImport.update({
-  id: '/articles/new',
-  path: '/articles/new',
+const PagesCommentsLatestRoute = PagesCommentsLatestRouteImport.update({
+  id: '/comments/latest',
+  path: '/comments/latest',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesArticlesSlugRoute = PagesArticlesSlugRouteImport.update({
-  id: '/articles/$slug',
-  path: '/articles/$slug',
+const PagesCommentsMyRoute = PagesCommentsMyRouteImport.update({
+  id: '/comments/my',
+  path: '/comments/my',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesAnimeSlugRoute = PagesAnimeSlugRouteImport.update({
-  id: '/anime/$slug',
-  path: '/anime/$slug',
+const PagesEditIndexRoute = PagesEditIndexRouteImport.update({
+  id: '/edit/',
+  path: '/edit/',
   getParentRoute: () => PagesRoute,
 } as any)
-const PagesAuthSignupRoute = PagesAuthSignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => PagesAuthRoute,
+const PagesEditEditIdRoute = PagesEditEditIdRouteImport.update({
+  id: '/edit/$editId',
+  path: '/edit/$editId',
+  getParentRoute: () => PagesRoute,
 } as any)
-const PagesAuthResetRoute = PagesAuthResetRouteImport.update({
-  id: '/reset',
-  path: '/reset',
-  getParentRoute: () => PagesAuthRoute,
+const PagesEditContentRoute = PagesEditContentRouteImport.update({
+  id: '/edit/content',
+  path: '/edit/content',
+  getParentRoute: () => PagesRoute,
 } as any)
-const PagesAuthLoginRoute = PagesAuthLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => PagesAuthRoute,
+const PagesEditNewRoute = PagesEditNewRouteImport.update({
+  id: '/edit/new',
+  path: '/edit/new',
+  getParentRoute: () => PagesRoute,
 } as any)
-const PagesUUsernameIndexRoute = PagesUUsernameIndexRouteImport.update({
+const PagesMangaIndexRoute = PagesMangaIndexRouteImport.update({
+  id: '/manga/',
+  path: '/manga/',
+  getParentRoute: () => PagesRoute,
+} as any)
+const PagesMangaSlugRoute = PagesMangaSlugRouteImport.update({
+  id: '/manga/$slug',
+  path: '/manga/$slug',
+  getParentRoute: () => PagesRoute,
+} as any)
+const PagesNovelIndexRoute = PagesNovelIndexRouteImport.update({
+  id: '/novel/',
+  path: '/novel/',
+  getParentRoute: () => PagesRoute,
+} as any)
+const PagesNovelSlugRoute = PagesNovelSlugRouteImport.update({
+  id: '/novel/$slug',
+  path: '/novel/$slug',
+  getParentRoute: () => PagesRoute,
+} as any)
+const PagesPeopleIndexRoute = PagesPeopleIndexRouteImport.update({
+  id: '/people/',
+  path: '/people/',
+  getParentRoute: () => PagesRoute,
+} as any)
+const PagesPeopleSlugRoute = PagesPeopleSlugRouteImport.update({
+  id: '/people/$slug',
+  path: '/people/$slug',
+  getParentRoute: () => PagesRoute,
+} as any)
+const PagesSettingsIndexRoute = PagesSettingsIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => PagesUUsernameRoute,
-} as any)
-const PagesSettingsListIndexRoute = PagesSettingsListIndexRouteImport.update({
-  id: '/list/',
-  path: '/list/',
   getParentRoute: () => PagesSettingsRoute,
 } as any)
-const PagesSettingsCustomizationIndexRoute =
-  PagesSettingsCustomizationIndexRouteImport.update({
-    id: '/customization/',
-    path: '/customization/',
+const PagesSettingsNotificationsRoute =
+  PagesSettingsNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
     getParentRoute: () => PagesSettingsRoute,
   } as any)
-const PagesSettingsApplicationsIndexRoute =
-  PagesSettingsApplicationsIndexRouteImport.update({
-    id: '/applications/',
-    path: '/applications/',
-    getParentRoute: () => PagesSettingsRoute,
-  } as any)
-const PagesPeopleSlugIndexRoute = PagesPeopleSlugIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PagesPeopleSlugRoute,
+const PagesSettingsProfileRoute = PagesSettingsProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => PagesSettingsRoute,
 } as any)
-const PagesNovelSlugIndexRoute = PagesNovelSlugIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PagesNovelSlugRoute,
+const PagesSettingsSecurityRoute = PagesSettingsSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => PagesSettingsRoute,
 } as any)
-const PagesMangaSlugIndexRoute = PagesMangaSlugIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PagesMangaSlugRoute,
+const PagesUUsernameRoute = PagesUUsernameRouteImport.update({
+  id: '/u/$username',
+  path: '/u/$username',
+  getParentRoute: () => PagesRoute,
 } as any)
-const PagesEditEditIdIndexRoute = PagesEditEditIdIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PagesEditEditIdRoute,
+const ApiOgAnimeRoute = ApiOgAnimeRouteImport.update({
+  id: '/api/og/anime',
+  path: '/api/og/anime',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const PagesCollectionsReferenceIndexRoute =
-  PagesCollectionsReferenceIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => PagesCollectionsReferenceRoute,
-  } as any)
-const PagesCharactersSlugIndexRoute =
-  PagesCharactersSlugIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => PagesCharactersSlugRoute,
-  } as any)
-const PagesArticlesSlugIndexRoute = PagesArticlesSlugIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PagesArticlesSlugRoute,
+const ApiOgMangaRoute = ApiOgMangaRouteImport.update({
+  id: '/api/og/manga',
+  path: '/api/og/manga',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOgNovelRoute = ApiOgNovelRouteImport.update({
+  id: '/api/og/novel',
+  path: '/api/og/novel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthActivateTokenRoute = AuthActivateTokenRouteImport.update({
+  id: '/auth/activate/$token',
+  path: '/auth/activate/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthResetTokenRoute = AuthResetTokenRouteImport.update({
+  id: '/auth/reset/$token',
+  path: '/auth/reset/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PagesAuthResetTokenRoute = PagesAuthResetTokenRouteImport.update({
+  id: '/reset_/$token',
+  path: '/reset/$token',
+  getParentRoute: () => PagesAuthRoute,
 } as any)
 const PagesAnimeSlugIndexRoute = PagesAnimeSlugIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => PagesAnimeSlugRoute,
-} as any)
-const PagesUUsernameHistoryRoute = PagesUUsernameHistoryRouteImport.update({
-  id: '/history',
-  path: '/history',
-  getParentRoute: () => PagesUUsernameRoute,
-} as any)
-const PagesUUsernameFavoritesRoute = PagesUUsernameFavoritesRouteImport.update({
-  id: '/favorites',
-  path: '/favorites',
-  getParentRoute: () => PagesUUsernameRoute,
-} as any)
-const PagesSettingsListImportRoute = PagesSettingsListImportRouteImport.update({
-  id: '/list/import',
-  path: '/list/import',
-  getParentRoute: () => PagesSettingsRoute,
-} as any)
-const PagesSettingsListExportRoute = PagesSettingsListExportRouteImport.update({
-  id: '/list/export',
-  path: '/list/export',
-  getParentRoute: () => PagesSettingsRoute,
-} as any)
-const PagesSettingsCustomizationGeneralRoute =
-  PagesSettingsCustomizationGeneralRouteImport.update({
-    id: '/customization/general',
-    path: '/customization/general',
-    getParentRoute: () => PagesSettingsRoute,
-  } as any)
-const PagesSettingsCustomizationEffectsRoute =
-  PagesSettingsCustomizationEffectsRouteImport.update({
-    id: '/customization/effects',
-    path: '/customization/effects',
-    getParentRoute: () => PagesSettingsRoute,
-  } as any)
-const PagesSettingsCustomizationAppearanceRoute =
-  PagesSettingsCustomizationAppearanceRouteImport.update({
-    id: '/customization/appearance',
-    path: '/customization/appearance',
-    getParentRoute: () => PagesSettingsRoute,
-  } as any)
-const PagesSettingsApplicationsClientsRoute =
-  PagesSettingsApplicationsClientsRouteImport.update({
-    id: '/applications/clients',
-    path: '/applications/clients',
-    getParentRoute: () => PagesSettingsRoute,
-  } as any)
-const PagesSettingsApplicationsAuthorizedRoute =
-  PagesSettingsApplicationsAuthorizedRouteImport.update({
-    id: '/applications/authorized',
-    path: '/applications/authorized',
-    getParentRoute: () => PagesSettingsRoute,
-  } as any)
-const PagesPeopleSlugNovelRoute = PagesPeopleSlugNovelRouteImport.update({
-  id: '/novel',
-  path: '/novel',
-  getParentRoute: () => PagesPeopleSlugRoute,
-} as any)
-const PagesPeopleSlugMangaRoute = PagesPeopleSlugMangaRouteImport.update({
-  id: '/manga',
-  path: '/manga',
-  getParentRoute: () => PagesPeopleSlugRoute,
-} as any)
-const PagesPeopleSlugCharactersRoute =
-  PagesPeopleSlugCharactersRouteImport.update({
-    id: '/characters',
-    path: '/characters',
-    getParentRoute: () => PagesPeopleSlugRoute,
-  } as any)
-const PagesPeopleSlugAnimeRoute = PagesPeopleSlugAnimeRouteImport.update({
-  id: '/anime',
-  path: '/anime',
-  getParentRoute: () => PagesPeopleSlugRoute,
-} as any)
-const PagesNovelSlugStaffRoute = PagesNovelSlugStaffRouteImport.update({
-  id: '/staff',
-  path: '/staff',
-  getParentRoute: () => PagesNovelSlugRoute,
-} as any)
-const PagesNovelSlugFranchiseRoute = PagesNovelSlugFranchiseRouteImport.update({
-  id: '/franchise',
-  path: '/franchise',
-  getParentRoute: () => PagesNovelSlugRoute,
-} as any)
-const PagesNovelSlugCharactersRoute =
-  PagesNovelSlugCharactersRouteImport.update({
-    id: '/characters',
-    path: '/characters',
-    getParentRoute: () => PagesNovelSlugRoute,
-  } as any)
-const PagesMangaSlugStaffRoute = PagesMangaSlugStaffRouteImport.update({
-  id: '/staff',
-  path: '/staff',
-  getParentRoute: () => PagesMangaSlugRoute,
-} as any)
-const PagesMangaSlugFranchiseRoute = PagesMangaSlugFranchiseRouteImport.update({
-  id: '/franchise',
-  path: '/franchise',
-  getParentRoute: () => PagesMangaSlugRoute,
-} as any)
-const PagesMangaSlugCharactersRoute =
-  PagesMangaSlugCharactersRouteImport.update({
-    id: '/characters',
-    path: '/characters',
-    getParentRoute: () => PagesMangaSlugRoute,
-  } as any)
-const PagesEditEditIdUpdateRoute = PagesEditEditIdUpdateRouteImport.update({
-  id: '/update',
-  path: '/update',
-  getParentRoute: () => PagesEditEditIdRoute,
-} as any)
-const PagesCollectionsReferenceUpdateRoute =
-  PagesCollectionsReferenceUpdateRouteImport.update({
-    id: '/update',
-    path: '/update',
-    getParentRoute: () => PagesCollectionsReferenceRoute,
-  } as any)
-const PagesCharactersSlugVoicesRoute =
-  PagesCharactersSlugVoicesRouteImport.update({
-    id: '/voices',
-    path: '/voices',
-    getParentRoute: () => PagesCharactersSlugRoute,
-  } as any)
-const PagesCharactersSlugNovelRoute =
-  PagesCharactersSlugNovelRouteImport.update({
-    id: '/novel',
-    path: '/novel',
-    getParentRoute: () => PagesCharactersSlugRoute,
-  } as any)
-const PagesCharactersSlugMangaRoute =
-  PagesCharactersSlugMangaRouteImport.update({
-    id: '/manga',
-    path: '/manga',
-    getParentRoute: () => PagesCharactersSlugRoute,
-  } as any)
-const PagesCharactersSlugAnimeRoute =
-  PagesCharactersSlugAnimeRouteImport.update({
-    id: '/anime',
-    path: '/anime',
-    getParentRoute: () => PagesCharactersSlugRoute,
-  } as any)
-const PagesArticlesSlugUpdateRoute = PagesArticlesSlugUpdateRouteImport.update({
-  id: '/update',
-  path: '/update',
-  getParentRoute: () => PagesArticlesSlugRoute,
-} as any)
-const PagesAnimeSlugStaffRoute = PagesAnimeSlugStaffRouteImport.update({
-  id: '/staff',
-  path: '/staff',
-  getParentRoute: () => PagesAnimeSlugRoute,
-} as any)
-const PagesAnimeSlugMediaRoute = PagesAnimeSlugMediaRouteImport.update({
-  id: '/media',
-  path: '/media',
-  getParentRoute: () => PagesAnimeSlugRoute,
-} as any)
-const PagesAnimeSlugFranchiseRoute = PagesAnimeSlugFranchiseRouteImport.update({
-  id: '/franchise',
-  path: '/franchise',
   getParentRoute: () => PagesAnimeSlugRoute,
 } as any)
 const PagesAnimeSlugCharactersRoute =
@@ -567,14 +355,221 @@ const PagesAnimeSlugCharactersRoute =
     path: '/characters',
     getParentRoute: () => PagesAnimeSlugRoute,
   } as any)
-const PagesAuthResetTokenRoute = PagesAuthResetTokenRouteImport.update({
-  id: '/reset_/$token',
-  path: '/reset/$token',
-  getParentRoute: () => PagesAuthRoute,
+const PagesAnimeSlugFranchiseRoute = PagesAnimeSlugFranchiseRouteImport.update({
+  id: '/franchise',
+  path: '/franchise',
+  getParentRoute: () => PagesAnimeSlugRoute,
 } as any)
-const PagesUUsernameListIndexRoute = PagesUUsernameListIndexRouteImport.update({
+const PagesAnimeSlugMediaRoute = PagesAnimeSlugMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => PagesAnimeSlugRoute,
+} as any)
+const PagesAnimeSlugStaffRoute = PagesAnimeSlugStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => PagesAnimeSlugRoute,
+} as any)
+const PagesArticlesSlugIndexRoute = PagesArticlesSlugIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PagesArticlesSlugRoute,
+} as any)
+const PagesArticlesSlugUpdateRoute = PagesArticlesSlugUpdateRouteImport.update({
+  id: '/update',
+  path: '/update',
+  getParentRoute: () => PagesArticlesSlugRoute,
+} as any)
+const PagesCharactersSlugIndexRoute =
+  PagesCharactersSlugIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => PagesCharactersSlugRoute,
+  } as any)
+const PagesCharactersSlugAnimeRoute =
+  PagesCharactersSlugAnimeRouteImport.update({
+    id: '/anime',
+    path: '/anime',
+    getParentRoute: () => PagesCharactersSlugRoute,
+  } as any)
+const PagesCharactersSlugMangaRoute =
+  PagesCharactersSlugMangaRouteImport.update({
+    id: '/manga',
+    path: '/manga',
+    getParentRoute: () => PagesCharactersSlugRoute,
+  } as any)
+const PagesCharactersSlugNovelRoute =
+  PagesCharactersSlugNovelRouteImport.update({
+    id: '/novel',
+    path: '/novel',
+    getParentRoute: () => PagesCharactersSlugRoute,
+  } as any)
+const PagesCharactersSlugVoicesRoute =
+  PagesCharactersSlugVoicesRouteImport.update({
+    id: '/voices',
+    path: '/voices',
+    getParentRoute: () => PagesCharactersSlugRoute,
+  } as any)
+const PagesCollectionsReferenceIndexRoute =
+  PagesCollectionsReferenceIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => PagesCollectionsReferenceRoute,
+  } as any)
+const PagesCollectionsReferenceUpdateRoute =
+  PagesCollectionsReferenceUpdateRouteImport.update({
+    id: '/update',
+    path: '/update',
+    getParentRoute: () => PagesCollectionsReferenceRoute,
+  } as any)
+const PagesEditEditIdIndexRoute = PagesEditEditIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PagesEditEditIdRoute,
+} as any)
+const PagesEditEditIdUpdateRoute = PagesEditEditIdUpdateRouteImport.update({
+  id: '/update',
+  path: '/update',
+  getParentRoute: () => PagesEditEditIdRoute,
+} as any)
+const PagesMangaSlugIndexRoute = PagesMangaSlugIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PagesMangaSlugRoute,
+} as any)
+const PagesMangaSlugCharactersRoute =
+  PagesMangaSlugCharactersRouteImport.update({
+    id: '/characters',
+    path: '/characters',
+    getParentRoute: () => PagesMangaSlugRoute,
+  } as any)
+const PagesMangaSlugFranchiseRoute = PagesMangaSlugFranchiseRouteImport.update({
+  id: '/franchise',
+  path: '/franchise',
+  getParentRoute: () => PagesMangaSlugRoute,
+} as any)
+const PagesMangaSlugStaffRoute = PagesMangaSlugStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => PagesMangaSlugRoute,
+} as any)
+const PagesNovelSlugIndexRoute = PagesNovelSlugIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PagesNovelSlugRoute,
+} as any)
+const PagesNovelSlugCharactersRoute =
+  PagesNovelSlugCharactersRouteImport.update({
+    id: '/characters',
+    path: '/characters',
+    getParentRoute: () => PagesNovelSlugRoute,
+  } as any)
+const PagesNovelSlugFranchiseRoute = PagesNovelSlugFranchiseRouteImport.update({
+  id: '/franchise',
+  path: '/franchise',
+  getParentRoute: () => PagesNovelSlugRoute,
+} as any)
+const PagesNovelSlugStaffRoute = PagesNovelSlugStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => PagesNovelSlugRoute,
+} as any)
+const PagesPeopleSlugIndexRoute = PagesPeopleSlugIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PagesPeopleSlugRoute,
+} as any)
+const PagesPeopleSlugAnimeRoute = PagesPeopleSlugAnimeRouteImport.update({
+  id: '/anime',
+  path: '/anime',
+  getParentRoute: () => PagesPeopleSlugRoute,
+} as any)
+const PagesPeopleSlugCharactersRoute =
+  PagesPeopleSlugCharactersRouteImport.update({
+    id: '/characters',
+    path: '/characters',
+    getParentRoute: () => PagesPeopleSlugRoute,
+  } as any)
+const PagesPeopleSlugMangaRoute = PagesPeopleSlugMangaRouteImport.update({
+  id: '/manga',
+  path: '/manga',
+  getParentRoute: () => PagesPeopleSlugRoute,
+} as any)
+const PagesPeopleSlugNovelRoute = PagesPeopleSlugNovelRouteImport.update({
+  id: '/novel',
+  path: '/novel',
+  getParentRoute: () => PagesPeopleSlugRoute,
+} as any)
+const PagesSettingsApplicationsIndexRoute =
+  PagesSettingsApplicationsIndexRouteImport.update({
+    id: '/applications/',
+    path: '/applications/',
+    getParentRoute: () => PagesSettingsRoute,
+  } as any)
+const PagesSettingsApplicationsAuthorizedRoute =
+  PagesSettingsApplicationsAuthorizedRouteImport.update({
+    id: '/applications/authorized',
+    path: '/applications/authorized',
+    getParentRoute: () => PagesSettingsRoute,
+  } as any)
+const PagesSettingsApplicationsClientsRoute =
+  PagesSettingsApplicationsClientsRouteImport.update({
+    id: '/applications/clients',
+    path: '/applications/clients',
+    getParentRoute: () => PagesSettingsRoute,
+  } as any)
+const PagesSettingsCustomizationIndexRoute =
+  PagesSettingsCustomizationIndexRouteImport.update({
+    id: '/customization/',
+    path: '/customization/',
+    getParentRoute: () => PagesSettingsRoute,
+  } as any)
+const PagesSettingsCustomizationAppearanceRoute =
+  PagesSettingsCustomizationAppearanceRouteImport.update({
+    id: '/customization/appearance',
+    path: '/customization/appearance',
+    getParentRoute: () => PagesSettingsRoute,
+  } as any)
+const PagesSettingsCustomizationEffectsRoute =
+  PagesSettingsCustomizationEffectsRouteImport.update({
+    id: '/customization/effects',
+    path: '/customization/effects',
+    getParentRoute: () => PagesSettingsRoute,
+  } as any)
+const PagesSettingsCustomizationGeneralRoute =
+  PagesSettingsCustomizationGeneralRouteImport.update({
+    id: '/customization/general',
+    path: '/customization/general',
+    getParentRoute: () => PagesSettingsRoute,
+  } as any)
+const PagesSettingsListIndexRoute = PagesSettingsListIndexRouteImport.update({
   id: '/list/',
   path: '/list/',
+  getParentRoute: () => PagesSettingsRoute,
+} as any)
+const PagesSettingsListExportRoute = PagesSettingsListExportRouteImport.update({
+  id: '/list/export',
+  path: '/list/export',
+  getParentRoute: () => PagesSettingsRoute,
+} as any)
+const PagesSettingsListImportRoute = PagesSettingsListImportRouteImport.update({
+  id: '/list/import',
+  path: '/list/import',
+  getParentRoute: () => PagesSettingsRoute,
+} as any)
+const PagesUUsernameIndexRoute = PagesUUsernameIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PagesUUsernameRoute,
+} as any)
+const PagesUUsernameFavoritesRoute = PagesUUsernameFavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => PagesUUsernameRoute,
+} as any)
+const PagesUUsernameHistoryRoute = PagesUUsernameHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
   getParentRoute: () => PagesUUsernameRoute,
 } as any)
 const PagesCommentsContent_typeSlugIndexRoute =
@@ -583,17 +578,22 @@ const PagesCommentsContent_typeSlugIndexRoute =
     path: '/comments/$content_type/$slug/',
     getParentRoute: () => PagesRoute,
   } as any)
-const PagesUUsernameListContent_typeRoute =
-  PagesUUsernameListContent_typeRouteImport.update({
-    id: '/list/$content_type',
-    path: '/list/$content_type',
-    getParentRoute: () => PagesUUsernameRoute,
-  } as any)
 const PagesCommentsContent_typeSlugSplatRoute =
   PagesCommentsContent_typeSlugSplatRouteImport.update({
     id: '/comments/$content_type/$slug/$',
     path: '/comments/$content_type/$slug/$',
     getParentRoute: () => PagesRoute,
+  } as any)
+const PagesUUsernameListIndexRoute = PagesUUsernameListIndexRouteImport.update({
+  id: '/list/',
+  path: '/list/',
+  getParentRoute: () => PagesUUsernameRoute,
+} as any)
+const PagesUUsernameListContent_typeRoute =
+  PagesUUsernameListContent_typeRouteImport.update({
+    id: '/list/$content_type',
+    path: '/list/$content_type',
+    getParentRoute: () => PagesUUsernameRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -1165,18 +1165,18 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_pages': {
       id: '/_pages'
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof PagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_pages/': {
@@ -1186,53 +1186,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesIndexRouteImport
       parentRoute: typeof PagesRoute
     }
-    '/novel/sitemap.xml': {
-      id: '/novel/sitemap.xml'
-      path: '/novel/sitemap.xml'
-      fullPath: '/novel/sitemap.xml'
-      preLoaderRoute: typeof NovelSitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/manga/sitemap.xml': {
-      id: '/manga/sitemap.xml'
-      path: '/manga/sitemap.xml'
-      fullPath: '/manga/sitemap.xml'
-      preLoaderRoute: typeof MangaSitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/logout': {
-      id: '/auth/logout'
-      path: '/auth/logout'
-      fullPath: '/auth/logout'
-      preLoaderRoute: typeof AuthLogoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth/google': {
-      id: '/auth/google'
-      path: '/auth/google'
-      fullPath: '/auth/google'
-      preLoaderRoute: typeof AuthGoogleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/anime/sitemap.xml': {
-      id: '/anime/sitemap.xml'
-      path: '/anime/sitemap.xml'
-      fullPath: '/anime/sitemap.xml'
-      preLoaderRoute: typeof AnimeSitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_pages/settings': {
-      id: '/_pages/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof PagesSettingsRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/schedule': {
-      id: '/_pages/schedule'
-      path: '/schedule'
-      fullPath: '/schedule'
-      preLoaderRoute: typeof PagesScheduleRouteImport
+    '/_pages/_auth': {
+      id: '/_pages/_auth'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PagesAuthRouteImport
       parentRoute: typeof PagesRoute
     }
     '/_pages/oauth': {
@@ -1242,242 +1200,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesOauthRouteImport
       parentRoute: typeof PagesRoute
     }
-    '/_pages/_auth': {
-      id: '/_pages/_auth'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof PagesAuthRouteImport
+    '/_pages/schedule': {
+      id: '/_pages/schedule'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof PagesScheduleRouteImport
       parentRoute: typeof PagesRoute
     }
-    '/_pages/settings/': {
-      id: '/_pages/settings/'
-      path: '/'
-      fullPath: '/settings/'
-      preLoaderRoute: typeof PagesSettingsIndexRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
-    '/_pages/people/': {
-      id: '/_pages/people/'
-      path: '/people'
-      fullPath: '/people/'
-      preLoaderRoute: typeof PagesPeopleIndexRouteImport
+    '/_pages/settings': {
+      id: '/_pages/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof PagesSettingsRouteImport
       parentRoute: typeof PagesRoute
     }
-    '/_pages/novel/': {
-      id: '/_pages/novel/'
-      path: '/novel'
-      fullPath: '/novel/'
-      preLoaderRoute: typeof PagesNovelIndexRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/manga/': {
-      id: '/_pages/manga/'
-      path: '/manga'
-      fullPath: '/manga/'
-      preLoaderRoute: typeof PagesMangaIndexRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/edit/': {
-      id: '/_pages/edit/'
-      path: '/edit'
-      fullPath: '/edit/'
-      preLoaderRoute: typeof PagesEditIndexRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/collections/': {
-      id: '/_pages/collections/'
-      path: '/collections'
-      fullPath: '/collections/'
-      preLoaderRoute: typeof PagesCollectionsIndexRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/characters/': {
-      id: '/_pages/characters/'
-      path: '/characters'
-      fullPath: '/characters/'
-      preLoaderRoute: typeof PagesCharactersIndexRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/articles/': {
-      id: '/_pages/articles/'
-      path: '/articles'
-      fullPath: '/articles/'
-      preLoaderRoute: typeof PagesArticlesIndexRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/anime/': {
-      id: '/_pages/anime/'
-      path: '/anime'
-      fullPath: '/anime/'
-      preLoaderRoute: typeof PagesAnimeIndexRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/auth/reset/$token': {
-      id: '/auth/reset/$token'
-      path: '/auth/reset/$token'
-      fullPath: '/auth/reset/$token'
-      preLoaderRoute: typeof AuthResetTokenRouteImport
+    '/anime/sitemap.xml': {
+      id: '/anime/sitemap.xml'
+      path: '/anime/sitemap.xml'
+      fullPath: '/anime/sitemap.xml'
+      preLoaderRoute: typeof AnimeSitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth/activate/$token': {
-      id: '/auth/activate/$token'
-      path: '/auth/activate/$token'
-      fullPath: '/auth/activate/$token'
-      preLoaderRoute: typeof AuthActivateTokenRouteImport
+    '/auth/google': {
+      id: '/auth/google'
+      path: '/auth/google'
+      fullPath: '/auth/google'
+      preLoaderRoute: typeof AuthGoogleRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/og/novel': {
-      id: '/api/og/novel'
-      path: '/api/og/novel'
-      fullPath: '/api/og/novel'
-      preLoaderRoute: typeof ApiOgNovelRouteImport
+    '/auth/logout': {
+      id: '/auth/logout'
+      path: '/auth/logout'
+      fullPath: '/auth/logout'
+      preLoaderRoute: typeof AuthLogoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/og/manga': {
-      id: '/api/og/manga'
-      path: '/api/og/manga'
-      fullPath: '/api/og/manga'
-      preLoaderRoute: typeof ApiOgMangaRouteImport
+    '/manga/sitemap.xml': {
+      id: '/manga/sitemap.xml'
+      path: '/manga/sitemap.xml'
+      fullPath: '/manga/sitemap.xml'
+      preLoaderRoute: typeof MangaSitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/og/anime': {
-      id: '/api/og/anime'
-      path: '/api/og/anime'
-      fullPath: '/api/og/anime'
-      preLoaderRoute: typeof ApiOgAnimeRouteImport
+    '/novel/sitemap.xml': {
+      id: '/novel/sitemap.xml'
+      path: '/novel/sitemap.xml'
+      fullPath: '/novel/sitemap.xml'
+      preLoaderRoute: typeof NovelSitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_pages/u/$username': {
-      id: '/_pages/u/$username'
-      path: '/u/$username'
-      fullPath: '/u/$username'
-      preLoaderRoute: typeof PagesUUsernameRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/settings/security': {
-      id: '/_pages/settings/security'
-      path: '/security'
-      fullPath: '/settings/security'
-      preLoaderRoute: typeof PagesSettingsSecurityRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
-    '/_pages/settings/profile': {
-      id: '/_pages/settings/profile'
-      path: '/profile'
-      fullPath: '/settings/profile'
-      preLoaderRoute: typeof PagesSettingsProfileRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
-    '/_pages/settings/notifications': {
-      id: '/_pages/settings/notifications'
-      path: '/notifications'
-      fullPath: '/settings/notifications'
-      preLoaderRoute: typeof PagesSettingsNotificationsRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
-    '/_pages/people/$slug': {
-      id: '/_pages/people/$slug'
-      path: '/people/$slug'
-      fullPath: '/people/$slug'
-      preLoaderRoute: typeof PagesPeopleSlugRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/novel/$slug': {
-      id: '/_pages/novel/$slug'
-      path: '/novel/$slug'
-      fullPath: '/novel/$slug'
-      preLoaderRoute: typeof PagesNovelSlugRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/manga/$slug': {
-      id: '/_pages/manga/$slug'
-      path: '/manga/$slug'
-      fullPath: '/manga/$slug'
-      preLoaderRoute: typeof PagesMangaSlugRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/edit/new': {
-      id: '/_pages/edit/new'
-      path: '/edit/new'
-      fullPath: '/edit/new'
-      preLoaderRoute: typeof PagesEditNewRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/edit/content': {
-      id: '/_pages/edit/content'
-      path: '/edit/content'
-      fullPath: '/edit/content'
-      preLoaderRoute: typeof PagesEditContentRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/edit/$editId': {
-      id: '/_pages/edit/$editId'
-      path: '/edit/$editId'
-      fullPath: '/edit/$editId'
-      preLoaderRoute: typeof PagesEditEditIdRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/comments/my': {
-      id: '/_pages/comments/my'
-      path: '/comments/my'
-      fullPath: '/comments/my'
-      preLoaderRoute: typeof PagesCommentsMyRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/comments/latest': {
-      id: '/_pages/comments/latest'
-      path: '/comments/latest'
-      fullPath: '/comments/latest'
-      preLoaderRoute: typeof PagesCommentsLatestRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/collections/new': {
-      id: '/_pages/collections/new'
-      path: '/collections/new'
-      fullPath: '/collections/new'
-      preLoaderRoute: typeof PagesCollectionsNewRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/collections/$reference': {
-      id: '/_pages/collections/$reference'
-      path: '/collections/$reference'
-      fullPath: '/collections/$reference'
-      preLoaderRoute: typeof PagesCollectionsReferenceRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/characters/$slug': {
-      id: '/_pages/characters/$slug'
-      path: '/characters/$slug'
-      fullPath: '/characters/$slug'
-      preLoaderRoute: typeof PagesCharactersSlugRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/articles/new': {
-      id: '/_pages/articles/new'
-      path: '/articles/new'
-      fullPath: '/articles/new'
-      preLoaderRoute: typeof PagesArticlesNewRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/articles/$slug': {
-      id: '/_pages/articles/$slug'
-      path: '/articles/$slug'
-      fullPath: '/articles/$slug'
-      preLoaderRoute: typeof PagesArticlesSlugRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/anime/$slug': {
-      id: '/_pages/anime/$slug'
-      path: '/anime/$slug'
-      fullPath: '/anime/$slug'
-      preLoaderRoute: typeof PagesAnimeSlugRouteImport
-      parentRoute: typeof PagesRoute
-    }
-    '/_pages/_auth/signup': {
-      id: '/_pages/_auth/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof PagesAuthSignupRouteImport
+    '/_pages/_auth/login': {
+      id: '/_pages/_auth/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof PagesAuthLoginRouteImport
       parentRoute: typeof PagesAuthRoute
     }
     '/_pages/_auth/reset': {
@@ -1487,298 +1263,249 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesAuthResetRouteImport
       parentRoute: typeof PagesAuthRoute
     }
-    '/_pages/_auth/login': {
-      id: '/_pages/_auth/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof PagesAuthLoginRouteImport
+    '/_pages/_auth/signup': {
+      id: '/_pages/_auth/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof PagesAuthSignupRouteImport
       parentRoute: typeof PagesAuthRoute
     }
-    '/_pages/u/$username/': {
-      id: '/_pages/u/$username/'
-      path: '/'
-      fullPath: '/u/$username/'
-      preLoaderRoute: typeof PagesUUsernameIndexRouteImport
-      parentRoute: typeof PagesUUsernameRoute
+    '/_pages/anime/': {
+      id: '/_pages/anime/'
+      path: '/anime'
+      fullPath: '/anime/'
+      preLoaderRoute: typeof PagesAnimeIndexRouteImport
+      parentRoute: typeof PagesRoute
     }
-    '/_pages/settings/list/': {
-      id: '/_pages/settings/list/'
-      path: '/list'
-      fullPath: '/settings/list/'
-      preLoaderRoute: typeof PagesSettingsListIndexRouteImport
+    '/_pages/anime/$slug': {
+      id: '/_pages/anime/$slug'
+      path: '/anime/$slug'
+      fullPath: '/anime/$slug'
+      preLoaderRoute: typeof PagesAnimeSlugRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/articles/': {
+      id: '/_pages/articles/'
+      path: '/articles'
+      fullPath: '/articles/'
+      preLoaderRoute: typeof PagesArticlesIndexRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/articles/$slug': {
+      id: '/_pages/articles/$slug'
+      path: '/articles/$slug'
+      fullPath: '/articles/$slug'
+      preLoaderRoute: typeof PagesArticlesSlugRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/articles/new': {
+      id: '/_pages/articles/new'
+      path: '/articles/new'
+      fullPath: '/articles/new'
+      preLoaderRoute: typeof PagesArticlesNewRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/characters/': {
+      id: '/_pages/characters/'
+      path: '/characters'
+      fullPath: '/characters/'
+      preLoaderRoute: typeof PagesCharactersIndexRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/characters/$slug': {
+      id: '/_pages/characters/$slug'
+      path: '/characters/$slug'
+      fullPath: '/characters/$slug'
+      preLoaderRoute: typeof PagesCharactersSlugRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/collections/': {
+      id: '/_pages/collections/'
+      path: '/collections'
+      fullPath: '/collections/'
+      preLoaderRoute: typeof PagesCollectionsIndexRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/collections/$reference': {
+      id: '/_pages/collections/$reference'
+      path: '/collections/$reference'
+      fullPath: '/collections/$reference'
+      preLoaderRoute: typeof PagesCollectionsReferenceRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/collections/new': {
+      id: '/_pages/collections/new'
+      path: '/collections/new'
+      fullPath: '/collections/new'
+      preLoaderRoute: typeof PagesCollectionsNewRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/comments/latest': {
+      id: '/_pages/comments/latest'
+      path: '/comments/latest'
+      fullPath: '/comments/latest'
+      preLoaderRoute: typeof PagesCommentsLatestRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/comments/my': {
+      id: '/_pages/comments/my'
+      path: '/comments/my'
+      fullPath: '/comments/my'
+      preLoaderRoute: typeof PagesCommentsMyRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/edit/': {
+      id: '/_pages/edit/'
+      path: '/edit'
+      fullPath: '/edit/'
+      preLoaderRoute: typeof PagesEditIndexRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/edit/$editId': {
+      id: '/_pages/edit/$editId'
+      path: '/edit/$editId'
+      fullPath: '/edit/$editId'
+      preLoaderRoute: typeof PagesEditEditIdRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/edit/content': {
+      id: '/_pages/edit/content'
+      path: '/edit/content'
+      fullPath: '/edit/content'
+      preLoaderRoute: typeof PagesEditContentRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/edit/new': {
+      id: '/_pages/edit/new'
+      path: '/edit/new'
+      fullPath: '/edit/new'
+      preLoaderRoute: typeof PagesEditNewRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/manga/': {
+      id: '/_pages/manga/'
+      path: '/manga'
+      fullPath: '/manga/'
+      preLoaderRoute: typeof PagesMangaIndexRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/manga/$slug': {
+      id: '/_pages/manga/$slug'
+      path: '/manga/$slug'
+      fullPath: '/manga/$slug'
+      preLoaderRoute: typeof PagesMangaSlugRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/novel/': {
+      id: '/_pages/novel/'
+      path: '/novel'
+      fullPath: '/novel/'
+      preLoaderRoute: typeof PagesNovelIndexRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/novel/$slug': {
+      id: '/_pages/novel/$slug'
+      path: '/novel/$slug'
+      fullPath: '/novel/$slug'
+      preLoaderRoute: typeof PagesNovelSlugRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/people/': {
+      id: '/_pages/people/'
+      path: '/people'
+      fullPath: '/people/'
+      preLoaderRoute: typeof PagesPeopleIndexRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/people/$slug': {
+      id: '/_pages/people/$slug'
+      path: '/people/$slug'
+      fullPath: '/people/$slug'
+      preLoaderRoute: typeof PagesPeopleSlugRouteImport
+      parentRoute: typeof PagesRoute
+    }
+    '/_pages/settings/': {
+      id: '/_pages/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof PagesSettingsIndexRouteImport
       parentRoute: typeof PagesSettingsRoute
     }
-    '/_pages/settings/customization/': {
-      id: '/_pages/settings/customization/'
-      path: '/customization'
-      fullPath: '/settings/customization/'
-      preLoaderRoute: typeof PagesSettingsCustomizationIndexRouteImport
+    '/_pages/settings/notifications': {
+      id: '/_pages/settings/notifications'
+      path: '/notifications'
+      fullPath: '/settings/notifications'
+      preLoaderRoute: typeof PagesSettingsNotificationsRouteImport
       parentRoute: typeof PagesSettingsRoute
     }
-    '/_pages/settings/applications/': {
-      id: '/_pages/settings/applications/'
-      path: '/applications'
-      fullPath: '/settings/applications/'
-      preLoaderRoute: typeof PagesSettingsApplicationsIndexRouteImport
+    '/_pages/settings/profile': {
+      id: '/_pages/settings/profile'
+      path: '/profile'
+      fullPath: '/settings/profile'
+      preLoaderRoute: typeof PagesSettingsProfileRouteImport
       parentRoute: typeof PagesSettingsRoute
     }
-    '/_pages/people/$slug/': {
-      id: '/_pages/people/$slug/'
-      path: '/'
-      fullPath: '/people/$slug/'
-      preLoaderRoute: typeof PagesPeopleSlugIndexRouteImport
-      parentRoute: typeof PagesPeopleSlugRoute
+    '/_pages/settings/security': {
+      id: '/_pages/settings/security'
+      path: '/security'
+      fullPath: '/settings/security'
+      preLoaderRoute: typeof PagesSettingsSecurityRouteImport
+      parentRoute: typeof PagesSettingsRoute
     }
-    '/_pages/novel/$slug/': {
-      id: '/_pages/novel/$slug/'
-      path: '/'
-      fullPath: '/novel/$slug/'
-      preLoaderRoute: typeof PagesNovelSlugIndexRouteImport
-      parentRoute: typeof PagesNovelSlugRoute
+    '/_pages/u/$username': {
+      id: '/_pages/u/$username'
+      path: '/u/$username'
+      fullPath: '/u/$username'
+      preLoaderRoute: typeof PagesUUsernameRouteImport
+      parentRoute: typeof PagesRoute
     }
-    '/_pages/manga/$slug/': {
-      id: '/_pages/manga/$slug/'
-      path: '/'
-      fullPath: '/manga/$slug/'
-      preLoaderRoute: typeof PagesMangaSlugIndexRouteImport
-      parentRoute: typeof PagesMangaSlugRoute
+    '/api/og/anime': {
+      id: '/api/og/anime'
+      path: '/api/og/anime'
+      fullPath: '/api/og/anime'
+      preLoaderRoute: typeof ApiOgAnimeRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_pages/edit/$editId/': {
-      id: '/_pages/edit/$editId/'
-      path: '/'
-      fullPath: '/edit/$editId/'
-      preLoaderRoute: typeof PagesEditEditIdIndexRouteImport
-      parentRoute: typeof PagesEditEditIdRoute
+    '/api/og/manga': {
+      id: '/api/og/manga'
+      path: '/api/og/manga'
+      fullPath: '/api/og/manga'
+      preLoaderRoute: typeof ApiOgMangaRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_pages/collections/$reference/': {
-      id: '/_pages/collections/$reference/'
-      path: '/'
-      fullPath: '/collections/$reference/'
-      preLoaderRoute: typeof PagesCollectionsReferenceIndexRouteImport
-      parentRoute: typeof PagesCollectionsReferenceRoute
+    '/api/og/novel': {
+      id: '/api/og/novel'
+      path: '/api/og/novel'
+      fullPath: '/api/og/novel'
+      preLoaderRoute: typeof ApiOgNovelRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_pages/characters/$slug/': {
-      id: '/_pages/characters/$slug/'
-      path: '/'
-      fullPath: '/characters/$slug/'
-      preLoaderRoute: typeof PagesCharactersSlugIndexRouteImport
-      parentRoute: typeof PagesCharactersSlugRoute
+    '/auth/activate/$token': {
+      id: '/auth/activate/$token'
+      path: '/auth/activate/$token'
+      fullPath: '/auth/activate/$token'
+      preLoaderRoute: typeof AuthActivateTokenRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_pages/articles/$slug/': {
-      id: '/_pages/articles/$slug/'
-      path: '/'
-      fullPath: '/articles/$slug/'
-      preLoaderRoute: typeof PagesArticlesSlugIndexRouteImport
-      parentRoute: typeof PagesArticlesSlugRoute
+    '/auth/reset/$token': {
+      id: '/auth/reset/$token'
+      path: '/auth/reset/$token'
+      fullPath: '/auth/reset/$token'
+      preLoaderRoute: typeof AuthResetTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_pages/_auth/reset_/$token': {
+      id: '/_pages/_auth/reset_/$token'
+      path: '/reset/$token'
+      fullPath: '/reset/$token'
+      preLoaderRoute: typeof PagesAuthResetTokenRouteImport
+      parentRoute: typeof PagesAuthRoute
     }
     '/_pages/anime/$slug/': {
       id: '/_pages/anime/$slug/'
       path: '/'
       fullPath: '/anime/$slug/'
       preLoaderRoute: typeof PagesAnimeSlugIndexRouteImport
-      parentRoute: typeof PagesAnimeSlugRoute
-    }
-    '/_pages/u/$username/history': {
-      id: '/_pages/u/$username/history'
-      path: '/history'
-      fullPath: '/u/$username/history'
-      preLoaderRoute: typeof PagesUUsernameHistoryRouteImport
-      parentRoute: typeof PagesUUsernameRoute
-    }
-    '/_pages/u/$username/favorites': {
-      id: '/_pages/u/$username/favorites'
-      path: '/favorites'
-      fullPath: '/u/$username/favorites'
-      preLoaderRoute: typeof PagesUUsernameFavoritesRouteImport
-      parentRoute: typeof PagesUUsernameRoute
-    }
-    '/_pages/settings/list/import': {
-      id: '/_pages/settings/list/import'
-      path: '/list/import'
-      fullPath: '/settings/list/import'
-      preLoaderRoute: typeof PagesSettingsListImportRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
-    '/_pages/settings/list/export': {
-      id: '/_pages/settings/list/export'
-      path: '/list/export'
-      fullPath: '/settings/list/export'
-      preLoaderRoute: typeof PagesSettingsListExportRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
-    '/_pages/settings/customization/general': {
-      id: '/_pages/settings/customization/general'
-      path: '/customization/general'
-      fullPath: '/settings/customization/general'
-      preLoaderRoute: typeof PagesSettingsCustomizationGeneralRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
-    '/_pages/settings/customization/effects': {
-      id: '/_pages/settings/customization/effects'
-      path: '/customization/effects'
-      fullPath: '/settings/customization/effects'
-      preLoaderRoute: typeof PagesSettingsCustomizationEffectsRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
-    '/_pages/settings/customization/appearance': {
-      id: '/_pages/settings/customization/appearance'
-      path: '/customization/appearance'
-      fullPath: '/settings/customization/appearance'
-      preLoaderRoute: typeof PagesSettingsCustomizationAppearanceRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
-    '/_pages/settings/applications/clients': {
-      id: '/_pages/settings/applications/clients'
-      path: '/applications/clients'
-      fullPath: '/settings/applications/clients'
-      preLoaderRoute: typeof PagesSettingsApplicationsClientsRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
-    '/_pages/settings/applications/authorized': {
-      id: '/_pages/settings/applications/authorized'
-      path: '/applications/authorized'
-      fullPath: '/settings/applications/authorized'
-      preLoaderRoute: typeof PagesSettingsApplicationsAuthorizedRouteImport
-      parentRoute: typeof PagesSettingsRoute
-    }
-    '/_pages/people/$slug/novel': {
-      id: '/_pages/people/$slug/novel'
-      path: '/novel'
-      fullPath: '/people/$slug/novel'
-      preLoaderRoute: typeof PagesPeopleSlugNovelRouteImport
-      parentRoute: typeof PagesPeopleSlugRoute
-    }
-    '/_pages/people/$slug/manga': {
-      id: '/_pages/people/$slug/manga'
-      path: '/manga'
-      fullPath: '/people/$slug/manga'
-      preLoaderRoute: typeof PagesPeopleSlugMangaRouteImport
-      parentRoute: typeof PagesPeopleSlugRoute
-    }
-    '/_pages/people/$slug/characters': {
-      id: '/_pages/people/$slug/characters'
-      path: '/characters'
-      fullPath: '/people/$slug/characters'
-      preLoaderRoute: typeof PagesPeopleSlugCharactersRouteImport
-      parentRoute: typeof PagesPeopleSlugRoute
-    }
-    '/_pages/people/$slug/anime': {
-      id: '/_pages/people/$slug/anime'
-      path: '/anime'
-      fullPath: '/people/$slug/anime'
-      preLoaderRoute: typeof PagesPeopleSlugAnimeRouteImport
-      parentRoute: typeof PagesPeopleSlugRoute
-    }
-    '/_pages/novel/$slug/staff': {
-      id: '/_pages/novel/$slug/staff'
-      path: '/staff'
-      fullPath: '/novel/$slug/staff'
-      preLoaderRoute: typeof PagesNovelSlugStaffRouteImport
-      parentRoute: typeof PagesNovelSlugRoute
-    }
-    '/_pages/novel/$slug/franchise': {
-      id: '/_pages/novel/$slug/franchise'
-      path: '/franchise'
-      fullPath: '/novel/$slug/franchise'
-      preLoaderRoute: typeof PagesNovelSlugFranchiseRouteImport
-      parentRoute: typeof PagesNovelSlugRoute
-    }
-    '/_pages/novel/$slug/characters': {
-      id: '/_pages/novel/$slug/characters'
-      path: '/characters'
-      fullPath: '/novel/$slug/characters'
-      preLoaderRoute: typeof PagesNovelSlugCharactersRouteImport
-      parentRoute: typeof PagesNovelSlugRoute
-    }
-    '/_pages/manga/$slug/staff': {
-      id: '/_pages/manga/$slug/staff'
-      path: '/staff'
-      fullPath: '/manga/$slug/staff'
-      preLoaderRoute: typeof PagesMangaSlugStaffRouteImport
-      parentRoute: typeof PagesMangaSlugRoute
-    }
-    '/_pages/manga/$slug/franchise': {
-      id: '/_pages/manga/$slug/franchise'
-      path: '/franchise'
-      fullPath: '/manga/$slug/franchise'
-      preLoaderRoute: typeof PagesMangaSlugFranchiseRouteImport
-      parentRoute: typeof PagesMangaSlugRoute
-    }
-    '/_pages/manga/$slug/characters': {
-      id: '/_pages/manga/$slug/characters'
-      path: '/characters'
-      fullPath: '/manga/$slug/characters'
-      preLoaderRoute: typeof PagesMangaSlugCharactersRouteImport
-      parentRoute: typeof PagesMangaSlugRoute
-    }
-    '/_pages/edit/$editId/update': {
-      id: '/_pages/edit/$editId/update'
-      path: '/update'
-      fullPath: '/edit/$editId/update'
-      preLoaderRoute: typeof PagesEditEditIdUpdateRouteImport
-      parentRoute: typeof PagesEditEditIdRoute
-    }
-    '/_pages/collections/$reference/update': {
-      id: '/_pages/collections/$reference/update'
-      path: '/update'
-      fullPath: '/collections/$reference/update'
-      preLoaderRoute: typeof PagesCollectionsReferenceUpdateRouteImport
-      parentRoute: typeof PagesCollectionsReferenceRoute
-    }
-    '/_pages/characters/$slug/voices': {
-      id: '/_pages/characters/$slug/voices'
-      path: '/voices'
-      fullPath: '/characters/$slug/voices'
-      preLoaderRoute: typeof PagesCharactersSlugVoicesRouteImport
-      parentRoute: typeof PagesCharactersSlugRoute
-    }
-    '/_pages/characters/$slug/novel': {
-      id: '/_pages/characters/$slug/novel'
-      path: '/novel'
-      fullPath: '/characters/$slug/novel'
-      preLoaderRoute: typeof PagesCharactersSlugNovelRouteImport
-      parentRoute: typeof PagesCharactersSlugRoute
-    }
-    '/_pages/characters/$slug/manga': {
-      id: '/_pages/characters/$slug/manga'
-      path: '/manga'
-      fullPath: '/characters/$slug/manga'
-      preLoaderRoute: typeof PagesCharactersSlugMangaRouteImport
-      parentRoute: typeof PagesCharactersSlugRoute
-    }
-    '/_pages/characters/$slug/anime': {
-      id: '/_pages/characters/$slug/anime'
-      path: '/anime'
-      fullPath: '/characters/$slug/anime'
-      preLoaderRoute: typeof PagesCharactersSlugAnimeRouteImport
-      parentRoute: typeof PagesCharactersSlugRoute
-    }
-    '/_pages/articles/$slug/update': {
-      id: '/_pages/articles/$slug/update'
-      path: '/update'
-      fullPath: '/articles/$slug/update'
-      preLoaderRoute: typeof PagesArticlesSlugUpdateRouteImport
-      parentRoute: typeof PagesArticlesSlugRoute
-    }
-    '/_pages/anime/$slug/staff': {
-      id: '/_pages/anime/$slug/staff'
-      path: '/staff'
-      fullPath: '/anime/$slug/staff'
-      preLoaderRoute: typeof PagesAnimeSlugStaffRouteImport
-      parentRoute: typeof PagesAnimeSlugRoute
-    }
-    '/_pages/anime/$slug/media': {
-      id: '/_pages/anime/$slug/media'
-      path: '/media'
-      fullPath: '/anime/$slug/media'
-      preLoaderRoute: typeof PagesAnimeSlugMediaRouteImport
-      parentRoute: typeof PagesAnimeSlugRoute
-    }
-    '/_pages/anime/$slug/franchise': {
-      id: '/_pages/anime/$slug/franchise'
-      path: '/franchise'
-      fullPath: '/anime/$slug/franchise'
-      preLoaderRoute: typeof PagesAnimeSlugFranchiseRouteImport
       parentRoute: typeof PagesAnimeSlugRoute
     }
     '/_pages/anime/$slug/characters': {
@@ -1788,18 +1515,284 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesAnimeSlugCharactersRouteImport
       parentRoute: typeof PagesAnimeSlugRoute
     }
-    '/_pages/_auth/reset_/$token': {
-      id: '/_pages/_auth/reset_/$token'
-      path: '/reset/$token'
-      fullPath: '/reset/$token'
-      preLoaderRoute: typeof PagesAuthResetTokenRouteImport
-      parentRoute: typeof PagesAuthRoute
+    '/_pages/anime/$slug/franchise': {
+      id: '/_pages/anime/$slug/franchise'
+      path: '/franchise'
+      fullPath: '/anime/$slug/franchise'
+      preLoaderRoute: typeof PagesAnimeSlugFranchiseRouteImport
+      parentRoute: typeof PagesAnimeSlugRoute
     }
-    '/_pages/u/$username/list/': {
-      id: '/_pages/u/$username/list/'
+    '/_pages/anime/$slug/media': {
+      id: '/_pages/anime/$slug/media'
+      path: '/media'
+      fullPath: '/anime/$slug/media'
+      preLoaderRoute: typeof PagesAnimeSlugMediaRouteImport
+      parentRoute: typeof PagesAnimeSlugRoute
+    }
+    '/_pages/anime/$slug/staff': {
+      id: '/_pages/anime/$slug/staff'
+      path: '/staff'
+      fullPath: '/anime/$slug/staff'
+      preLoaderRoute: typeof PagesAnimeSlugStaffRouteImport
+      parentRoute: typeof PagesAnimeSlugRoute
+    }
+    '/_pages/articles/$slug/': {
+      id: '/_pages/articles/$slug/'
+      path: '/'
+      fullPath: '/articles/$slug/'
+      preLoaderRoute: typeof PagesArticlesSlugIndexRouteImport
+      parentRoute: typeof PagesArticlesSlugRoute
+    }
+    '/_pages/articles/$slug/update': {
+      id: '/_pages/articles/$slug/update'
+      path: '/update'
+      fullPath: '/articles/$slug/update'
+      preLoaderRoute: typeof PagesArticlesSlugUpdateRouteImport
+      parentRoute: typeof PagesArticlesSlugRoute
+    }
+    '/_pages/characters/$slug/': {
+      id: '/_pages/characters/$slug/'
+      path: '/'
+      fullPath: '/characters/$slug/'
+      preLoaderRoute: typeof PagesCharactersSlugIndexRouteImport
+      parentRoute: typeof PagesCharactersSlugRoute
+    }
+    '/_pages/characters/$slug/anime': {
+      id: '/_pages/characters/$slug/anime'
+      path: '/anime'
+      fullPath: '/characters/$slug/anime'
+      preLoaderRoute: typeof PagesCharactersSlugAnimeRouteImport
+      parentRoute: typeof PagesCharactersSlugRoute
+    }
+    '/_pages/characters/$slug/manga': {
+      id: '/_pages/characters/$slug/manga'
+      path: '/manga'
+      fullPath: '/characters/$slug/manga'
+      preLoaderRoute: typeof PagesCharactersSlugMangaRouteImport
+      parentRoute: typeof PagesCharactersSlugRoute
+    }
+    '/_pages/characters/$slug/novel': {
+      id: '/_pages/characters/$slug/novel'
+      path: '/novel'
+      fullPath: '/characters/$slug/novel'
+      preLoaderRoute: typeof PagesCharactersSlugNovelRouteImport
+      parentRoute: typeof PagesCharactersSlugRoute
+    }
+    '/_pages/characters/$slug/voices': {
+      id: '/_pages/characters/$slug/voices'
+      path: '/voices'
+      fullPath: '/characters/$slug/voices'
+      preLoaderRoute: typeof PagesCharactersSlugVoicesRouteImport
+      parentRoute: typeof PagesCharactersSlugRoute
+    }
+    '/_pages/collections/$reference/': {
+      id: '/_pages/collections/$reference/'
+      path: '/'
+      fullPath: '/collections/$reference/'
+      preLoaderRoute: typeof PagesCollectionsReferenceIndexRouteImport
+      parentRoute: typeof PagesCollectionsReferenceRoute
+    }
+    '/_pages/collections/$reference/update': {
+      id: '/_pages/collections/$reference/update'
+      path: '/update'
+      fullPath: '/collections/$reference/update'
+      preLoaderRoute: typeof PagesCollectionsReferenceUpdateRouteImport
+      parentRoute: typeof PagesCollectionsReferenceRoute
+    }
+    '/_pages/edit/$editId/': {
+      id: '/_pages/edit/$editId/'
+      path: '/'
+      fullPath: '/edit/$editId/'
+      preLoaderRoute: typeof PagesEditEditIdIndexRouteImport
+      parentRoute: typeof PagesEditEditIdRoute
+    }
+    '/_pages/edit/$editId/update': {
+      id: '/_pages/edit/$editId/update'
+      path: '/update'
+      fullPath: '/edit/$editId/update'
+      preLoaderRoute: typeof PagesEditEditIdUpdateRouteImport
+      parentRoute: typeof PagesEditEditIdRoute
+    }
+    '/_pages/manga/$slug/': {
+      id: '/_pages/manga/$slug/'
+      path: '/'
+      fullPath: '/manga/$slug/'
+      preLoaderRoute: typeof PagesMangaSlugIndexRouteImport
+      parentRoute: typeof PagesMangaSlugRoute
+    }
+    '/_pages/manga/$slug/characters': {
+      id: '/_pages/manga/$slug/characters'
+      path: '/characters'
+      fullPath: '/manga/$slug/characters'
+      preLoaderRoute: typeof PagesMangaSlugCharactersRouteImport
+      parentRoute: typeof PagesMangaSlugRoute
+    }
+    '/_pages/manga/$slug/franchise': {
+      id: '/_pages/manga/$slug/franchise'
+      path: '/franchise'
+      fullPath: '/manga/$slug/franchise'
+      preLoaderRoute: typeof PagesMangaSlugFranchiseRouteImport
+      parentRoute: typeof PagesMangaSlugRoute
+    }
+    '/_pages/manga/$slug/staff': {
+      id: '/_pages/manga/$slug/staff'
+      path: '/staff'
+      fullPath: '/manga/$slug/staff'
+      preLoaderRoute: typeof PagesMangaSlugStaffRouteImport
+      parentRoute: typeof PagesMangaSlugRoute
+    }
+    '/_pages/novel/$slug/': {
+      id: '/_pages/novel/$slug/'
+      path: '/'
+      fullPath: '/novel/$slug/'
+      preLoaderRoute: typeof PagesNovelSlugIndexRouteImport
+      parentRoute: typeof PagesNovelSlugRoute
+    }
+    '/_pages/novel/$slug/characters': {
+      id: '/_pages/novel/$slug/characters'
+      path: '/characters'
+      fullPath: '/novel/$slug/characters'
+      preLoaderRoute: typeof PagesNovelSlugCharactersRouteImport
+      parentRoute: typeof PagesNovelSlugRoute
+    }
+    '/_pages/novel/$slug/franchise': {
+      id: '/_pages/novel/$slug/franchise'
+      path: '/franchise'
+      fullPath: '/novel/$slug/franchise'
+      preLoaderRoute: typeof PagesNovelSlugFranchiseRouteImport
+      parentRoute: typeof PagesNovelSlugRoute
+    }
+    '/_pages/novel/$slug/staff': {
+      id: '/_pages/novel/$slug/staff'
+      path: '/staff'
+      fullPath: '/novel/$slug/staff'
+      preLoaderRoute: typeof PagesNovelSlugStaffRouteImport
+      parentRoute: typeof PagesNovelSlugRoute
+    }
+    '/_pages/people/$slug/': {
+      id: '/_pages/people/$slug/'
+      path: '/'
+      fullPath: '/people/$slug/'
+      preLoaderRoute: typeof PagesPeopleSlugIndexRouteImport
+      parentRoute: typeof PagesPeopleSlugRoute
+    }
+    '/_pages/people/$slug/anime': {
+      id: '/_pages/people/$slug/anime'
+      path: '/anime'
+      fullPath: '/people/$slug/anime'
+      preLoaderRoute: typeof PagesPeopleSlugAnimeRouteImport
+      parentRoute: typeof PagesPeopleSlugRoute
+    }
+    '/_pages/people/$slug/characters': {
+      id: '/_pages/people/$slug/characters'
+      path: '/characters'
+      fullPath: '/people/$slug/characters'
+      preLoaderRoute: typeof PagesPeopleSlugCharactersRouteImport
+      parentRoute: typeof PagesPeopleSlugRoute
+    }
+    '/_pages/people/$slug/manga': {
+      id: '/_pages/people/$slug/manga'
+      path: '/manga'
+      fullPath: '/people/$slug/manga'
+      preLoaderRoute: typeof PagesPeopleSlugMangaRouteImport
+      parentRoute: typeof PagesPeopleSlugRoute
+    }
+    '/_pages/people/$slug/novel': {
+      id: '/_pages/people/$slug/novel'
+      path: '/novel'
+      fullPath: '/people/$slug/novel'
+      preLoaderRoute: typeof PagesPeopleSlugNovelRouteImport
+      parentRoute: typeof PagesPeopleSlugRoute
+    }
+    '/_pages/settings/applications/': {
+      id: '/_pages/settings/applications/'
+      path: '/applications'
+      fullPath: '/settings/applications/'
+      preLoaderRoute: typeof PagesSettingsApplicationsIndexRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/applications/authorized': {
+      id: '/_pages/settings/applications/authorized'
+      path: '/applications/authorized'
+      fullPath: '/settings/applications/authorized'
+      preLoaderRoute: typeof PagesSettingsApplicationsAuthorizedRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/applications/clients': {
+      id: '/_pages/settings/applications/clients'
+      path: '/applications/clients'
+      fullPath: '/settings/applications/clients'
+      preLoaderRoute: typeof PagesSettingsApplicationsClientsRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/customization/': {
+      id: '/_pages/settings/customization/'
+      path: '/customization'
+      fullPath: '/settings/customization/'
+      preLoaderRoute: typeof PagesSettingsCustomizationIndexRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/customization/appearance': {
+      id: '/_pages/settings/customization/appearance'
+      path: '/customization/appearance'
+      fullPath: '/settings/customization/appearance'
+      preLoaderRoute: typeof PagesSettingsCustomizationAppearanceRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/customization/effects': {
+      id: '/_pages/settings/customization/effects'
+      path: '/customization/effects'
+      fullPath: '/settings/customization/effects'
+      preLoaderRoute: typeof PagesSettingsCustomizationEffectsRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/customization/general': {
+      id: '/_pages/settings/customization/general'
+      path: '/customization/general'
+      fullPath: '/settings/customization/general'
+      preLoaderRoute: typeof PagesSettingsCustomizationGeneralRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/list/': {
+      id: '/_pages/settings/list/'
       path: '/list'
-      fullPath: '/u/$username/list/'
-      preLoaderRoute: typeof PagesUUsernameListIndexRouteImport
+      fullPath: '/settings/list/'
+      preLoaderRoute: typeof PagesSettingsListIndexRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/list/export': {
+      id: '/_pages/settings/list/export'
+      path: '/list/export'
+      fullPath: '/settings/list/export'
+      preLoaderRoute: typeof PagesSettingsListExportRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/settings/list/import': {
+      id: '/_pages/settings/list/import'
+      path: '/list/import'
+      fullPath: '/settings/list/import'
+      preLoaderRoute: typeof PagesSettingsListImportRouteImport
+      parentRoute: typeof PagesSettingsRoute
+    }
+    '/_pages/u/$username/': {
+      id: '/_pages/u/$username/'
+      path: '/'
+      fullPath: '/u/$username/'
+      preLoaderRoute: typeof PagesUUsernameIndexRouteImport
+      parentRoute: typeof PagesUUsernameRoute
+    }
+    '/_pages/u/$username/favorites': {
+      id: '/_pages/u/$username/favorites'
+      path: '/favorites'
+      fullPath: '/u/$username/favorites'
+      preLoaderRoute: typeof PagesUUsernameFavoritesRouteImport
+      parentRoute: typeof PagesUUsernameRoute
+    }
+    '/_pages/u/$username/history': {
+      id: '/_pages/u/$username/history'
+      path: '/history'
+      fullPath: '/u/$username/history'
+      preLoaderRoute: typeof PagesUUsernameHistoryRouteImport
       parentRoute: typeof PagesUUsernameRoute
     }
     '/_pages/comments/$content_type/$slug/': {
@@ -1809,19 +1802,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagesCommentsContent_typeSlugIndexRouteImport
       parentRoute: typeof PagesRoute
     }
-    '/_pages/u/$username/list/$content_type': {
-      id: '/_pages/u/$username/list/$content_type'
-      path: '/list/$content_type'
-      fullPath: '/u/$username/list/$content_type'
-      preLoaderRoute: typeof PagesUUsernameListContent_typeRouteImport
-      parentRoute: typeof PagesUUsernameRoute
-    }
     '/_pages/comments/$content_type/$slug/$': {
       id: '/_pages/comments/$content_type/$slug/$'
       path: '/comments/$content_type/$slug/$'
       fullPath: '/comments/$content_type/$slug/$'
       preLoaderRoute: typeof PagesCommentsContent_typeSlugSplatRouteImport
       parentRoute: typeof PagesRoute
+    }
+    '/_pages/u/$username/list/': {
+      id: '/_pages/u/$username/list/'
+      path: '/list'
+      fullPath: '/u/$username/list/'
+      preLoaderRoute: typeof PagesUUsernameListIndexRouteImport
+      parentRoute: typeof PagesUUsernameRoute
+    }
+    '/_pages/u/$username/list/$content_type': {
+      id: '/_pages/u/$username/list/$content_type'
+      path: '/list/$content_type'
+      fullPath: '/u/$username/list/$content_type'
+      preLoaderRoute: typeof PagesUUsernameListContent_typeRouteImport
+      parentRoute: typeof PagesUUsernameRoute
     }
   }
 }

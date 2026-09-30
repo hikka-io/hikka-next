@@ -156,13 +156,12 @@ describe('directive-like text', () => {
         expect(flatText(value)).toBe('kept');
     });
 
-    it.each([
-        'Re:Zero is great',
-        'see :foo[x] ok',
-        '::foo[leaf]',
-    ])('keeps %j as literal text', (markdown) => {
-        expect(flatText(deserialize(markdown))).toBe(markdown);
-    });
+    it.each(['Re:Zero is great', 'see :foo[x] ok', '::foo[leaf]'])(
+        'keeps %j as literal text',
+        (markdown) => {
+            expect(flatText(deserialize(markdown))).toBe(markdown);
+        },
+    );
 });
 
 describe('article editor', () => {

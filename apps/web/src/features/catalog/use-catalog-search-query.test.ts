@@ -613,115 +613,122 @@ describe('catalog search args builders', () => {
 });
 
 describe('useCatalogSearchQuery', () => {
-    it.each(HOOK_CASES)('$type: $name, size $size', ({
-        type,
-        name,
-        raw,
-        size,
-    }) => {
-        const search = parseSearch(type, raw);
-        mocks.search = search;
+    it.each(HOOK_CASES)(
+        '$type: $name, size $size',
+        ({ type, name, raw, size }) => {
+            const search = parseSearch(type, raw);
+            mocks.search = search;
 
-        const result = useCatalogSearchQuery(type, size);
+            const result = useCatalogSearchQuery(type, size);
 
-        expect(mocks.infiniteListCalls).toHaveLength(1);
-        const [call] = mocks.infiniteListCalls;
-        expect(call).toHaveLength(1);
-        const options = call[0] as Record<string, unknown>;
-        expect(Object.keys(options)).toEqual([
-            'queryFn',
-            'queryKey',
-            'initialPageParam',
-            'getNextPageParam',
-        ]);
-        expect(options.queryFn).toBeTypeOf('function');
-        expect(options.getNextPageParam).toBeTypeOf('function');
-        expect(serialize(options.queryKey)).toBe(
-            EXPECTED_KEYS[`${type} | ${name} | ${size}`],
-        );
-        expect(
-            serialize({ args: result.args, page: options.initialPageParam }),
-        ).toBe(EXPECTED_ARGS[`${type} | ${name}`]);
-        expect(Object.keys(result)).toEqual([
-            'list',
-            'queryKey',
-            'args',
-            'search',
-        ]);
-        expect(result.queryKey).toBe(options.queryKey);
-        expect(result.search).toBe(search);
-    });
+            expect(mocks.infiniteListCalls).toHaveLength(1);
+            const [call] = mocks.infiniteListCalls;
+            expect(call).toHaveLength(1);
+            const options = call[0] as Record<string, unknown>;
+            expect(Object.keys(options)).toEqual([
+                'queryFn',
+                'queryKey',
+                'initialPageParam',
+                'getNextPageParam',
+            ]);
+            expect(options.queryFn).toBeTypeOf('function');
+            expect(options.getNextPageParam).toBeTypeOf('function');
+            expect(serialize(options.queryKey)).toBe(
+                EXPECTED_KEYS[`${type} | ${name} | ${size}`],
+            );
+            expect(
+                serialize({
+                    args: result.args,
+                    page: options.initialPageParam,
+                }),
+            ).toBe(EXPECTED_ARGS[`${type} | ${name}`]);
+            expect(Object.keys(result)).toEqual([
+                'list',
+                'queryKey',
+                'args',
+                'search',
+            ]);
+            expect(result.queryKey).toBe(options.queryKey);
+            expect(result.search).toBe(search);
+        },
+    );
 });
 
 describe('CatalogList and CatalogListSummary', () => {
-    it.each(COMPONENT_CASES)('$type: $view, $props', ({
-        type,
-        view,
-        props,
-    }) => {
-        const expected =
-            EXPECTED_COMPONENTS[`${type} | ${view} | ${serialize(props)}`];
-        const listProps = props as { extendedSize?: 1 | 7; pageSize?: number };
-        mocks.search = parseSearch(type, { statuses: ['ongoing'], page: '2' });
-        mocks.view = view;
+    it.each(COMPONENT_CASES)(
+        '$type: $view, $props',
+        ({ type, view, props }) => {
+            const expected =
+                EXPECTED_COMPONENTS[`${type} | ${view} | ${serialize(props)}`];
+            const listProps = props as {
+                extendedSize?: 1 | 7;
+                pageSize?: number;
+            };
+            mocks.search = parseSearch(type, {
+                statuses: ['ongoing'],
+                page: '2',
+            });
+            mocks.view = view;
 
-        renderToStaticMarkup(
-            createElement(CatalogList, { contentType: type, ...listProps }),
-        );
-        renderToStaticMarkup(
-            createElement(CatalogListSummary, {
-                contentType: type,
-                pageSize: listProps.pageSize,
-            }),
-        );
+            renderToStaticMarkup(
+                createElement(CatalogList, { contentType: type, ...listProps }),
+            );
+            renderToStaticMarkup(
+                createElement(CatalogListSummary, {
+                    contentType: type,
+                    pageSize: listProps.pageSize,
+                }),
+            );
 
-        expect(mocks.infiniteListCalls).toHaveLength(2);
-        const [[listOptions], [summaryOptions]] = mocks.infiniteListCalls as [
-            [{ queryKey: unknown }],
-            [{ queryKey: unknown }],
-        ];
-        expect(serialize(listOptions.queryKey)).toBe(expected.queryKey);
-        expect(serialize(summaryOptions.queryKey)).toBe(expected.queryKey);
-        expect(mocks.viewKeys).toEqual(['catalog']);
+            expect(mocks.infiniteListCalls).toHaveLength(2);
+            const [[listOptions], [summaryOptions]] =
+                mocks.infiniteListCalls as [
+                    [{ queryKey: unknown }],
+                    [{ queryKey: unknown }],
+                ];
+            expect(serialize(listOptions.queryKey)).toBe(expected.queryKey);
+            expect(serialize(summaryOptions.queryKey)).toBe(expected.queryKey);
+            expect(mocks.viewKeys).toEqual(['catalog']);
 
-        expect(mocks.viewProps).toHaveLength(1);
-        const [viewProps] = mocks.viewProps;
-        expect(Object.keys(viewProps)).toEqual([
-            'list',
-            'view',
-            'isLoading',
-            'isFetchingNextPage',
-            'hasNextPage',
-            'fetchNextPage',
-            'hasMultiplePages',
-            'pagination',
-            'removeQueryKey',
-            'extendedSize',
-            'renderGridItem',
-            'renderListItem',
-        ]);
-        expect(viewProps.removeQueryKey).toBe(listOptions.queryKey);
-        const { renderGridItem, renderListItem } = viewProps as {
-            renderGridItem: (item: unknown) => ReactElement;
-            renderListItem: (item: unknown) => ReactElement;
-        };
-        const dataProps = Object.fromEntries(
-            Object.entries(viewProps).filter(
-                ([key]) =>
-                    ![
-                        'removeQueryKey',
-                        'renderGridItem',
-                        'renderListItem',
-                    ].includes(key),
-            ),
-        );
-        expect(serialize(dataProps)).toBe(expected.viewProps);
-        expect(describeElement(renderGridItem(ITEMS[type]))).toBe(
-            expected.grid,
-        );
-        expect(describeElement(renderListItem(ITEMS[type]))).toBe(
-            expected.list,
-        );
-        expect(serialize(mocks.summaryProps)).toBe(expected.summary);
-    });
+            expect(mocks.viewProps).toHaveLength(1);
+            const [viewProps] = mocks.viewProps;
+            expect(Object.keys(viewProps)).toEqual([
+                'list',
+                'view',
+                'isLoading',
+                'isFetchingNextPage',
+                'hasNextPage',
+                'fetchNextPage',
+                'hasMultiplePages',
+                'pagination',
+                'removeQueryKey',
+                'extendedSize',
+                'renderGridItem',
+                'renderListItem',
+            ]);
+            expect(viewProps.removeQueryKey).toBe(listOptions.queryKey);
+            const { renderGridItem, renderListItem } = viewProps as {
+                renderGridItem: (item: unknown) => ReactElement;
+                renderListItem: (item: unknown) => ReactElement;
+            };
+            const dataProps = Object.fromEntries(
+                Object.entries(viewProps).filter(
+                    ([key]) =>
+                        ![
+                            'removeQueryKey',
+                            'renderGridItem',
+                            'renderListItem',
+                        ].includes(key),
+                ),
+            );
+            expect(serialize(dataProps)).toBe(expected.viewProps);
+            expect(describeElement(renderGridItem(ITEMS[type]))).toBe(
+                expected.grid,
+            );
+            expect(describeElement(renderListItem(ITEMS[type]))).toBe(
+                expected.list,
+            );
+            expect(serialize(mocks.summaryProps)).toBe(expected.summary);
+        },
+    );
 });

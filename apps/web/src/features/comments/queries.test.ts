@@ -201,49 +201,49 @@ describe('commentListPrefetchBody', () => {
     });
 });
 
-describe.each(LOADER_CASES)('$route comments prefetch', ({
-    loader,
-    component,
-}) => {
-    it('keeps the loader key and options of the inline body', () => {
-        const client = ssrRequestClient();
-        const next = loader(commentListPrefetchBody(), client);
-        const head = loader(headLoaderBody(), client);
+describe.each(LOADER_CASES)(
+    '$route comments prefetch',
+    ({ loader, component }) => {
+        it('keeps the loader key and options of the inline body', () => {
+            const client = ssrRequestClient();
+            const next = loader(commentListPrefetchBody(), client);
+            const head = loader(headLoaderBody(), client);
 
-        expect(next.queryKey).toStrictEqual(head.queryKey);
-        expect(Object.keys(next)).toEqual(Object.keys(head));
-    });
-
-    it('hashes equal to the component default key', () => {
-        const loaderKey = loader(
-            commentListPrefetchBody(),
-            ssrRequestClient(),
-        ).queryKey;
-        const componentKey = component().queryKey;
-
-        expect(hashKey(loaderKey)).toBe(hashKey(componentKey));
-        expect(loaderKey).toEqual(componentKey);
-    });
-
-    it('sends the same request as the component query', async () => {
-        const client = createRequestClient({
-            baseUrl: BASE_URL,
-            authToken: 'token',
+            expect(next.queryKey).toStrictEqual(head.queryKey);
+            expect(Object.keys(next)).toEqual(Object.keys(head));
         });
-        const fromLoader = await sentRequest(
-            loader(commentListPrefetchBody(), client),
-            client,
-        );
-        const fromComponent = await sentRequest(
-            component(),
-            getBrowserClient(),
-        );
 
-        expect(fromLoader.method).toBe('POST');
-        expect(fromLoader).toEqual(fromComponent);
-        expect(JSON.parse(fromLoader.body)).toEqual(headLoaderBody());
-    });
-});
+        it('hashes equal to the component default key', () => {
+            const loaderKey = loader(
+                commentListPrefetchBody(),
+                ssrRequestClient(),
+            ).queryKey;
+            const componentKey = component().queryKey;
+
+            expect(hashKey(loaderKey)).toBe(hashKey(componentKey));
+            expect(loaderKey).toEqual(componentKey);
+        });
+
+        it('sends the same request as the component query', async () => {
+            const client = createRequestClient({
+                baseUrl: BASE_URL,
+                authToken: 'token',
+            });
+            const fromLoader = await sentRequest(
+                loader(commentListPrefetchBody(), client),
+                client,
+            );
+            const fromComponent = await sentRequest(
+                component(),
+                getBrowserClient(),
+            );
+
+            expect(fromLoader.method).toBe('POST');
+            expect(fromLoader).toEqual(fromComponent);
+            expect(JSON.parse(fromLoader.body)).toEqual(headLoaderBody());
+        });
+    },
+);
 
 describe('commentThreadInfiniteOptions', () => {
     const reference = '0d3b8a44-5d69-4f0e-9a3c-2f3e2b1c9d10';

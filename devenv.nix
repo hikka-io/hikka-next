@@ -8,7 +8,7 @@
   # https://devenv.sh/languages/
   languages.javascript = {
     enable = true;
-    package = pkgs.nodejs_20;
+    package = pkgs.nodejs_22;
     corepack.enable = true;
   };
 

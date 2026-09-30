@@ -212,23 +212,21 @@ describe('endpointSchema', () => {
         expect(messages(endpointSchema, value)).toEqual([]);
     });
 
-    it.each([
-        ' https://example.com/cb ',
-        'https://example.com/a b',
-    ])('accepts %j, which the API normalises', (value) => {
-        expect(messages(endpointSchema, value)).toEqual([]);
-    });
+    it.each([' https://example.com/cb ', 'https://example.com/a b'])(
+        'accepts %j, which the API normalises',
+        (value) => {
+            expect(messages(endpointSchema, value)).toEqual([]);
+        },
+    );
 
-    it.each([
-        '/auth/confirm',
-        'callback',
-        'http://',
-        'https://exa mple.com',
-    ])('rejects %j before the API answers "Invalid field endpoint"', (value) => {
-        expect(messages(endpointSchema, value)).toEqual([
-            'Потрібне повне посилання: https://… або myapp://…',
-        ]);
-    });
+    it.each(['/auth/confirm', 'callback', 'http://', 'https://exa mple.com'])(
+        'rejects %j before the API answers "Invalid field endpoint"',
+        (value) => {
+            expect(messages(endpointSchema, value)).toEqual([
+                'Потрібне повне посилання: https://… або myapp://…',
+            ]);
+        },
+    );
 
     it.each([
         ['example.com', 'https://example.com'],
@@ -260,16 +258,15 @@ describe('endpointSchema', () => {
         expect(suggestEndpoint(value)).toBe(suggestion);
     });
 
-    it.each([
-        '192.168.999.999/cb',
-        '10.0.0/cb',
-        '172.32.0.1.5/cb',
-    ])('does not suggest an invalid address for %j', (value) => {
-        expect(suggestEndpoint(value)).toBeNull();
-        expect(messages(endpointSchema, value)).toEqual([
-            'Потрібне повне посилання: https://… або myapp://…',
-        ]);
-    });
+    it.each(['192.168.999.999/cb', '10.0.0/cb', '172.32.0.1.5/cb'])(
+        'does not suggest an invalid address for %j',
+        (value) => {
+            expect(suggestEndpoint(value)).toBeNull();
+            expect(messages(endpointSchema, value)).toEqual([
+                'Потрібне повне посилання: https://… або myapp://…',
+            ]);
+        },
+    );
 
     it.each([
         'myapp:auth',
@@ -321,16 +318,23 @@ describe('bounds follow API_LIMITS', () => {
             API_LIMITS.clientDescription,
             'x',
         ],
-    ] as const)('%s accepts exactly min..max characters', (_, schema, limits, char) => {
-        expect(schema.safeParse(char.repeat(limits.min - 1)).success).toBe(
-            false,
-        );
-        expect(schema.safeParse(char.repeat(limits.min)).success).toBe(true);
-        expect(schema.safeParse(char.repeat(limits.max)).success).toBe(true);
-        expect(schema.safeParse(char.repeat(limits.max + 1)).success).toBe(
-            false,
-        );
-    });
+    ] as const)(
+        '%s accepts exactly min..max characters',
+        (_, schema, limits, char) => {
+            expect(schema.safeParse(char.repeat(limits.min - 1)).success).toBe(
+                false,
+            );
+            expect(schema.safeParse(char.repeat(limits.min)).success).toBe(
+                true,
+            );
+            expect(schema.safeParse(char.repeat(limits.max)).success).toBe(
+                true,
+            );
+            expect(schema.safeParse(char.repeat(limits.max + 1)).success).toBe(
+                false,
+            );
+        },
+    );
 
     it('states the bounds in the same words', () => {
         expect(USERNAME_HINT).toBe(

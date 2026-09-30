@@ -78,15 +78,16 @@ describe.each([
     ['markdown', MarkdownEditorKit],
     ['article', ArticleKit],
 ])('%s editor', (_, plugins) => {
-    it.each(
-        CONTENT_CASES,
-    )('inserts a %s link to the content page', (type, slug, text, path) => {
-        const editor = makeEditor(plugins);
+    it.each(CONTENT_CASES)(
+        'inserts a %s link to the content page',
+        (type, slug, text, path) => {
+            const editor = makeEditor(plugins);
 
-        insertContentLink(editor, { type, slug, text });
+            insertContentLink(editor, { type, slug, text });
 
-        expect(editor.children).toEqual(withLink(`${SITE}${path}`, text));
-    });
+            expect(editor.children).toEqual(withLink(`${SITE}${path}`, text));
+        },
+    );
 
     it('inserts a mention that links by reference', () => {
         const editor = makeEditor(plugins);

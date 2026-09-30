@@ -269,21 +269,21 @@ describe('articles loader and ArticleList', () => {
         ).not.toBeNull();
     });
 
-    it.each(CASES)('sends the list body once from the loader: $name', async ({
-        search,
-        body,
-    }) => {
-        const { serverSent } = await renderHydrated(search);
+    it.each(CASES)(
+        'sends the list body once from the loader: $name',
+        async ({ search, body }) => {
+            const { serverSent } = await renderHydrated(search);
 
-        expect(
-            serverSent
-                .filter(({ path }) => path === '/articles')
-                .map((request) => ({
-                    ...request,
-                    body: JSON.parse(request.body),
-                })),
-        ).toEqual([{ method: 'POST', path: '/articles', body }]);
-    });
+            expect(
+                serverSent
+                    .filter(({ path }) => path === '/articles')
+                    .map((request) => ({
+                        ...request,
+                        body: JSON.parse(request.body),
+                    })),
+            ).toEqual([{ method: 'POST', path: '/articles', body }]);
+        },
+    );
 
     it.each(CASES)('keeps the component key: $name', async ({ search }) => {
         const { queryClient } = await renderHydrated(search);

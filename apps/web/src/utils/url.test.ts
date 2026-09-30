@@ -37,13 +37,13 @@ describe('resolveSameOriginUrl', () => {
         expect(resolveSameOriginUrl(target, SITE_URL)).toBeNull();
     });
 
-    it.each([
-        'http://[',
-        'https://hikka.io:99999/',
-    ])('rejects the malformed target %s', (target) => {
-        expect(() => resolveSameOriginUrl(target, SITE_URL)).not.toThrow();
-        expect(resolveSameOriginUrl(target, SITE_URL)).toBeNull();
-    });
+    it.each(['http://[', 'https://hikka.io:99999/'])(
+        'rejects the malformed target %s',
+        (target) => {
+            expect(() => resolveSameOriginUrl(target, SITE_URL)).not.toThrow();
+            expect(resolveSameOriginUrl(target, SITE_URL)).toBeNull();
+        },
+    );
 
     it('rejects everything when the base is malformed', () => {
         expect(resolveSameOriginUrl('/anime', '')).toBeNull();

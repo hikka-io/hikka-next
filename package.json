@@ -25,10 +25,11 @@
     "packageManager": "pnpm@10.33.4",
     "pnpm": {
         "overrides": {
-            "@types/react": "19.2.7",
-            "@types/react-dom": "19.2.3",
-            "react": "19.2.1",
-            "react-dom": "19.2.1"
+            "@types/react": "19.3.0",
+            "@types/react-dom": "19.3.0",
+            "react": "19.3.0",
+            "react-dom": "19.3.0",
+            "mdast-util-to-markdown": "2.1.2"
         },
         "onlyBuiltDependencies": [
             "@swc/core",
@@ -36,8 +37,8 @@
         ]
     },
     "devDependencies": {
-        "@biomejs/biome": "2.5.1",
-        "turbo": "^2.9.18",
+        "@biomejs/biome": "2.5.14",
+        "turbo": "^2.11.5",
         "typescript": "6.0.3"
     }
 }

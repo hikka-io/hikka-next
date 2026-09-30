@@ -124,20 +124,20 @@ describe('UserSearchInputElement', () => {
         expect(emptyText()).toBe('Введіть щонайменше 3 символи');
     });
 
-    it.each([
-        'abc',
-        '  abc',
-    ])('searches users from three characters in %j', async (value) => {
-        const { search, lastOptions, emptyText } = await mount();
+    it.each(['abc', '  abc'])(
+        'searches users from three characters in %j',
+        async (value) => {
+            const { search, lastOptions, emptyText } = await mount();
 
-        await search(value);
+            await search(value);
 
-        expect(lastOptions().enabled).toBe(true);
-        expect(lastOptions().queryKey).toEqual(
-            searchUsersOptions({ body: { query: value } }).queryKey,
-        );
-        expect(emptyText()).toBe('Користувачів не знайдено');
-    });
+            expect(lastOptions().enabled).toBe(true);
+            expect(lastOptions().queryKey).toEqual(
+                searchUsersOptions({ body: { query: value } }).queryKey,
+            );
+            expect(emptyText()).toBe('Користувачів не знайдено');
+        },
+    );
 
     it('waits for the debounce before searching', async () => {
         const { lastOptions, emptyText } = await mount();

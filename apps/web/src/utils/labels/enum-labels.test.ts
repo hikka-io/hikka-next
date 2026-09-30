@@ -164,11 +164,12 @@ const EXPECTED: [string, Dictionary, string[][]][] = [
 ];
 
 describe('enum labels', () => {
-    it.each(
-        EXPECTED,
-    )('%s keeps its option order and labels', (_, dictionary, expected) => {
-        expect(labels(dictionary)).toEqual(expected);
-    });
+    it.each(EXPECTED)(
+        '%s keeps its option order and labels',
+        (_, dictionary, expected) => {
+            expect(labels(dictionary)).toEqual(expected);
+        },
+    );
 
     it('merges every media type in anime, manga, novel order', () => {
         expect(Object.keys(MEDIA_TYPE)).toEqual([
@@ -239,15 +240,12 @@ describe('getMediaTypeLabel', () => {
         expect(new Set(values).size).toBe(values.length);
     });
 
-    it.each([
-        undefined,
-        null,
-        '',
-        'unknown',
-        'constructor',
-    ])('returns undefined for %j', (value) => {
-        expect(getMediaTypeLabel(value)).toBeUndefined();
-    });
+    it.each([undefined, null, '', 'unknown', 'constructor'])(
+        'returns undefined for %j',
+        (value) => {
+            expect(getMediaTypeLabel(value)).toBeUndefined();
+        },
+    );
 });
 
 describe('MEDIA_TYPE_BY_CONTENT_TYPE', () => {
@@ -303,16 +301,15 @@ describe('enum label coverage', () => {
         ['WATCH_STATUS', WATCH_STATUS, WatchStatusEnum],
         ['ARTICLE_CATEGORY', ARTICLE_CATEGORY, ArticleCategoryEnum],
         ['EDIT_STATUS', EDIT_STATUS, EditStatusEnum],
-    ] as [
-        string,
-        Dictionary,
-        Record<string, string>,
-    ][])('%s has a Ukrainian title for every enum value', (_, dictionary, values) => {
-        for (const value of Object.values(values)) {
-            expect(dictionary[value]?.title_ua).toEqual(expect.any(String));
-            expect(dictionary[value].title_ua).not.toBe('');
-        }
-    });
+    ] as [string, Dictionary, Record<string, string>][])(
+        '%s has a Ukrainian title for every enum value',
+        (_, dictionary, values) => {
+            for (const value of Object.values(values)) {
+                expect(dictionary[value]?.title_ua).toEqual(expect.any(String));
+                expect(dictionary[value].title_ua).not.toBe('');
+            }
+        },
+    );
 });
 
 describe('English titles', () => {
@@ -327,30 +324,30 @@ describe('English titles', () => {
         ['PERSON_ISSUES', PERSON_ISSUES],
         ['CHARACTER_ISSUES', CHARACTER_ISSUES],
         ['EDIT_STATUS', EDIT_STATUS],
-    ] as [
-        string,
-        Dictionary,
-    ][])('%s carries no English title', (_, dictionary) => {
-        for (const entry of Object.values(dictionary)) {
-            expect(entry).not.toHaveProperty('title_en');
-            expect(entry.title_ua).toEqual(expect.any(String));
-        }
-    });
+    ] as [string, Dictionary][])(
+        '%s carries no English title',
+        (_, dictionary) => {
+            for (const entry of Object.values(dictionary)) {
+                expect(entry).not.toHaveProperty('title_en');
+                expect(entry.title_ua).toEqual(expect.any(String));
+            }
+        },
+    );
 
     it.each([
         ['VIDEO', VIDEO],
         ['OST', OST],
         ['READ_STATUS', READ_STATUS],
         ['WATCH_STATUS', WATCH_STATUS],
-    ] as [
-        string,
-        Record<string, { title_en: string }>,
-    ][])('%s keeps the English fallback title', (_, dictionary) => {
-        for (const entry of Object.values(dictionary)) {
-            expect(entry.title_en).toEqual(expect.any(String));
-            expect(entry.title_en).not.toBe('');
-        }
-    });
+    ] as [string, Record<string, { title_en: string }>][])(
+        '%s keeps the English fallback title',
+        (_, dictionary) => {
+            for (const entry of Object.values(dictionary)) {
+                expect(entry.title_en).toEqual(expect.any(String));
+                expect(entry.title_en).not.toBe('');
+            }
+        },
+    );
 
     it('keeps the issue keys the todo filters send', () => {
         expect(Object.keys(CONTENT_ISSUES)).toEqual([

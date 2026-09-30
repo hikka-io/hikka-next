@@ -175,24 +175,27 @@ describe('login form', () => {
             'olexh@hikka.io',
             { body: { email: 'olexh@hikka.io', password: 'password1' } },
         ],
-    ])('logs %j in with the same request as before', async (identifier, request) => {
-        const { input, submit } = await mount();
+    ])(
+        'logs %j in with the same request as before',
+        async (identifier, request) => {
+            const { input, submit } = await mount();
 
-        await type(input('identifier'), identifier);
-        await type(input('password'), 'password1');
-        await submit();
+            await type(input('identifier'), identifier);
+            await type(input('password'), 'password1');
+            await submit();
 
-        expect(mutationFn).toHaveBeenCalledTimes(1);
-        expect(mutationFn.mock.calls[0][0]).toEqual({
-            ...request,
-            headers: { captcha: 'captcha-token' },
-        });
-        expect(handleAuthSuccess).toHaveBeenCalledWith(
-            'secret',
-            expect.anything(),
-        );
-        expect(push).toHaveBeenCalledWith('/');
-    });
+            expect(mutationFn).toHaveBeenCalledTimes(1);
+            expect(mutationFn.mock.calls[0][0]).toEqual({
+                ...request,
+                headers: { captcha: 'captcha-token' },
+            });
+            expect(handleAuthSuccess).toHaveBeenCalledWith(
+                'secret',
+                expect.anything(),
+            );
+            expect(push).toHaveBeenCalledWith('/');
+        },
+    );
 
     it('resets the captcha when the login fails', async () => {
         mutationFn.mockRejectedValueOnce(new Error('401'));

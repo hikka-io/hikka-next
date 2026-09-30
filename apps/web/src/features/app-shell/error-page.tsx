@@ -11,7 +11,10 @@ import Image from '@/components/ui/image';
 import { Link } from '@/utils/navigation';
 
 const ErrorPage: React.FC<ErrorComponentProps> = (props) => {
-    const details = props.error.stack ?? props.error.message;
+    const details =
+        props.error instanceof Error
+            ? (props.error.stack ?? props.error.message)
+            : String(props.error);
 
     return (
         <div className="relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">

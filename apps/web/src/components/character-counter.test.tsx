@@ -14,16 +14,16 @@ describe('CharacterCounter', () => {
         expect(render(length)).toBe('');
     });
 
-    it.each([
-        MAX - 200,
-        MAX,
-    ])('shows %i characters out of the limit', (length) => {
-        const markup = render(length);
+    it.each([MAX - 200, MAX])(
+        'shows %i characters out of the limit',
+        (length) => {
+            const markup = render(length);
 
-        expect(markup).toContain(`${length}/${MAX}`);
-        expect(markup).toContain('text-muted-foreground');
-        expect(markup).not.toContain('text-destructive');
-    });
+            expect(markup).toContain(`${length}/${MAX}`);
+            expect(markup).toContain('text-muted-foreground');
+            expect(markup).not.toContain('text-destructive');
+        },
+    );
 
     it('marks a length over the limit', () => {
         const markup = render(MAX + 1);

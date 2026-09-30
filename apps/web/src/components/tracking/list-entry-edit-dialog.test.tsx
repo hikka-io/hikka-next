@@ -199,37 +199,35 @@ describe('ListEntryEditDialog', () => {
         vi.unstubAllGlobals();
     });
 
-    it.each(CASES)('renders the same closed markup as the $name shell', ({
-        dialog,
-        legacy,
-    }) => {
-        const shell = { open: false, onOpenChange: () => {} };
+    it.each(CASES)(
+        'renders the same closed markup as the $name shell',
+        ({ dialog, legacy }) => {
+            const shell = { open: false, onOpenChange: () => {} };
 
-        expect(renderToStaticMarkup(dialog(shell))).toBe(
-            renderToStaticMarkup(legacy(shell)),
-        );
-    });
+            expect(renderToStaticMarkup(dialog(shell))).toBe(
+                renderToStaticMarkup(legacy(shell)),
+            );
+        },
+    );
 
     it.each(
         CASES.flatMap((c) => [
             { ...c, surface: 'mobile page sheet', desktop: false },
             { ...c, surface: 'desktop dialog', desktop: true },
         ]),
-    )('mounts the same open $surface as the $name shell', async ({
-        dialog,
-        legacy,
-        text,
-        desktop,
-    }) => {
-        stubViewport(desktop);
-        const shell = { open: true, onOpenChange: () => {} };
+    )(
+        'mounts the same open $surface as the $name shell',
+        async ({ dialog, legacy, text, desktop }) => {
+            stubViewport(desktop);
+            const shell = { open: true, onOpenChange: () => {} };
 
-        const markup = await mountedMarkup(dialog(shell));
+            const markup = await mountedMarkup(dialog(shell));
 
-        expect(markup).toContain('role="dialog"');
-        expect(markup).toContain(text);
-        expect(markup).toBe(await mountedMarkup(legacy(shell)));
-    });
+            expect(markup).toContain('role="dialog"');
+            expect(markup).toContain(text);
+            expect(markup).toBe(await mountedMarkup(legacy(shell)));
+        },
+    );
 
     it('closes through onOpenChange when the form calls onClose', async () => {
         stubViewport(true);

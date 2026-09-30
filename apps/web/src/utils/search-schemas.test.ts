@@ -131,19 +131,17 @@ const ENUM_SCHEMA_CASES: EnumSchemaCase[] = [
 describe('schemas built on generated enums', () => {
     const candidates = [...Object.values(ContentTypeEnum), 'garbage'];
 
-    it.each(
-        ENUM_SCHEMA_CASES,
-    )('$name accepts exactly its previous value set', ({
-        schema,
-        key,
-        generated,
-        previous,
-    }) => {
-        expect(new Set(Object.values(generated))).toEqual(new Set(previous));
+    it.each(ENUM_SCHEMA_CASES)(
+        '$name accepts exactly its previous value set',
+        ({ schema, key, generated, previous }) => {
+            expect(new Set(Object.values(generated))).toEqual(
+                new Set(previous),
+            );
 
-        const accepted = candidates.filter(
-            (value) => parse(schema, `?${key}=${value}`)[key] === value,
-        );
-        expect(new Set(accepted)).toEqual(new Set(previous));
-    });
+            const accepted = candidates.filter(
+                (value) => parse(schema, `?${key}=${value}`)[key] === value,
+            );
+            expect(new Set(accepted)).toEqual(new Set(previous));
+        },
+    );
 });

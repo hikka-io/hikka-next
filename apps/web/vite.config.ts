@@ -23,6 +23,6 @@ export default defineConfig({
         tailwindcss(),
     ],
     resolve: {
-        dedupe: ['react', 'react-dom', '@tanstack/react-query'],
+        dedupe: ['react', 'react-dom', '@tanstack/react-query', 'slate'],
     },
 });

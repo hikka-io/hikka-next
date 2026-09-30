@@ -386,132 +386,134 @@ const EXPECTED_KEYS: Record<
     },
 };
 
-describe.each(
-    Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[],
-)('%s detail loader', (type) => {
-    const { route, info } = CONTENT_ROUTES[type];
+describe.each(Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[])(
+    '%s detail loader',
+    (type) => {
+        const { route, info } = CONTENT_ROUTES[type];
 
-    it.each([
-        'anonymous',
-        'authenticated',
-    ] as const)('ensures the HEAD query keys in order (%s)', async (auth) => {
-        const { calls } = await runLoader(route, info(), auth);
+        it.each(['anonymous', 'authenticated'] as const)(
+            'ensures the HEAD query keys in order (%s)',
+            async (auth) => {
+                const { calls } = await runLoader(route, info(), auth);
 
-        expect(calls).toEqual(EXPECTED_KEYS[type][auth]);
-    });
-
-    it('strips restricted externals for anonymous visitors under the info key', async () => {
-        const { calls, setQueryDataCalls, result } = await runLoader(
-            route,
-            info(),
-            'anonymous',
-        );
-        const stripped = { ...info(), external: [GENERAL_LINK] };
-
-        expect(setQueryDataCalls).toEqual([
-            [calls[0].slice(calls[0].indexOf(' ') + 1), stripped],
-        ]);
-        expect(Object.keys(result)).toEqual([type, 'nsfwConsented']);
-        expect(result).toEqual({ [type]: stripped, nsfwConsented: false });
-    });
-
-    it('keeps restricted externals for authenticated visitors', async () => {
-        const { setQueryDataCalls, result } = await runLoader(
-            route,
-            info(),
-            'authenticated',
+                expect(calls).toEqual(EXPECTED_KEYS[type][auth]);
+            },
         );
 
-        expect(setQueryDataCalls).toEqual([]);
-        expect(Object.keys(result)).toEqual([type, 'nsfwConsented']);
-        expect(result).toEqual({ [type]: info(), nsfwConsented: false });
-    });
+        it('strips restricted externals for anonymous visitors under the info key', async () => {
+            const { calls, setQueryDataCalls, result } = await runLoader(
+                route,
+                info(),
+                'anonymous',
+            );
+            const stripped = { ...info(), external: [GENERAL_LINK] };
 
-    it('asks for nsfw consent only for nsfw titles', async () => {
-        await runLoader(route, info(), 'anonymous');
-        expect(getNsfwConsentFn).not.toHaveBeenCalled();
-
-        const nsfw = { ...info(), nsfw: true };
-        const withoutConsent = await runLoader(route, nsfw, 'anonymous');
-        expect(withoutConsent.result.nsfwConsented).toBe(false);
-
-        cookies.nsfwConsent = 'granted';
-        const withConsent = await runLoader(route, nsfw, 'authenticated');
-        expect(withConsent.result.nsfwConsented).toBe(true);
-        expect(getNsfwConsentFn).toHaveBeenCalledTimes(2);
-    });
-
-    it('retries the info fetch once after a cancel and leaves prefetches unwrapped', async () => {
-        const infoId = {
-            anime: 'animeSlug',
-            manga: 'mangaInfo',
-            novel: 'novelInfo',
-        }[type];
-        const cancelled = await runLoader(route, info(), 'anonymous', {
-            id: infoId,
-            error: new CancelledError(),
-            times: 1,
+            expect(setQueryDataCalls).toEqual([
+                [calls[0].slice(calls[0].indexOf(' ') + 1), stripped],
+            ]);
+            expect(Object.keys(result)).toEqual([type, 'nsfwConsented']);
+            expect(result).toEqual({ [type]: stripped, nsfwConsented: false });
         });
 
-        expect(cancelled.calls).toEqual([
-            EXPECTED_KEYS[type].anonymous[0],
-            ...EXPECTED_KEYS[type].anonymous,
-        ]);
+        it('keeps restricted externals for authenticated visitors', async () => {
+            const { setQueryDataCalls, result } = await runLoader(
+                route,
+                info(),
+                'authenticated',
+            );
 
-        const prefetchId = JSON.parse(
-            EXPECTED_KEYS[type].anonymous[1].slice(
-                EXPECTED_KEYS[type].anonymous[1].indexOf(' ') + 1,
-            ),
-        )[0]._id;
-        const failedPrefetch = await runLoader(route, info(), 'anonymous', {
-            id: prefetchId,
-            error: new CancelledError(),
-            times: 1,
+            expect(setQueryDataCalls).toEqual([]);
+            expect(Object.keys(result)).toEqual([type, 'nsfwConsented']);
+            expect(result).toEqual({ [type]: info(), nsfwConsented: false });
         });
 
-        expect(failedPrefetch.calls).toEqual(EXPECTED_KEYS[type].anonymous);
-    });
+        it('asks for nsfw consent only for nsfw titles', async () => {
+            await runLoader(route, info(), 'anonymous');
+            expect(getNsfwConsentFn).not.toHaveBeenCalled();
 
-    it('maps a 404 and an empty info response to notFound', async () => {
-        const infoId = {
-            anime: 'animeSlug',
-            manga: 'mangaInfo',
-            novel: 'novelInfo',
-        }[type];
-        const missing = runLoader(route, info(), 'anonymous', {
-            id: infoId,
-            error: new HikkaApiError('Not found', 404, 'system:not_found'),
-            times: 1,
+            const nsfw = { ...info(), nsfw: true };
+            const withoutConsent = await runLoader(route, nsfw, 'anonymous');
+            expect(withoutConsent.result.nsfwConsented).toBe(false);
+
+            cookies.nsfwConsent = 'granted';
+            const withConsent = await runLoader(route, nsfw, 'authenticated');
+            expect(withConsent.result.nsfwConsented).toBe(true);
+            expect(getNsfwConsentFn).toHaveBeenCalledTimes(2);
         });
 
-        await expect(missing).rejects.toSatisfy(isNotFound);
-        await expect(runLoader(route, null, 'anonymous')).rejects.toSatisfy(
-            isNotFound,
+        it('retries the info fetch once after a cancel and leaves prefetches unwrapped', async () => {
+            const infoId = {
+                anime: 'animeSlug',
+                manga: 'mangaInfo',
+                novel: 'novelInfo',
+            }[type];
+            const cancelled = await runLoader(route, info(), 'anonymous', {
+                id: infoId,
+                error: new CancelledError(),
+                times: 1,
+            });
+
+            expect(cancelled.calls).toEqual([
+                EXPECTED_KEYS[type].anonymous[0],
+                ...EXPECTED_KEYS[type].anonymous,
+            ]);
+
+            const prefetchId = JSON.parse(
+                EXPECTED_KEYS[type].anonymous[1].slice(
+                    EXPECTED_KEYS[type].anonymous[1].indexOf(' ') + 1,
+                ),
+            )[0]._id;
+            const failedPrefetch = await runLoader(route, info(), 'anonymous', {
+                id: prefetchId,
+                error: new CancelledError(),
+                times: 1,
+            });
+
+            expect(failedPrefetch.calls).toEqual(EXPECTED_KEYS[type].anonymous);
+        });
+
+        it('maps a 404 and an empty info response to notFound', async () => {
+            const infoId = {
+                anime: 'animeSlug',
+                manga: 'mangaInfo',
+                novel: 'novelInfo',
+            }[type];
+            const missing = runLoader(route, info(), 'anonymous', {
+                id: infoId,
+                error: new HikkaApiError('Not found', 404, 'system:not_found'),
+                times: 1,
+            });
+
+            await expect(missing).rejects.toSatisfy(isNotFound);
+            await expect(runLoader(route, null, 'anonymous')).rejects.toSatisfy(
+                isNotFound,
+            );
+        });
+    },
+);
+
+describe.each(Object.keys(ENTITY_ROUTES) as (keyof typeof ENTITY_ROUTES)[])(
+    '%s detail loader',
+    (type) => {
+        const { route, info } = ENTITY_ROUTES[type];
+
+        it.each(['anonymous', 'authenticated'] as const)(
+            'ensures the HEAD query keys in order (%s)',
+            async (auth) => {
+                const { calls, setQueryDataCalls, result } = await runLoader(
+                    route,
+                    info(),
+                    auth,
+                );
+
+                expect(calls).toEqual(EXPECTED_KEYS[type][auth]);
+                expect(setQueryDataCalls).toEqual([]);
+                expect(Object.keys(result)).toEqual([type]);
+                expect(result).toEqual({ [type]: info() });
+            },
         );
-    });
-});
-
-describe.each(
-    Object.keys(ENTITY_ROUTES) as (keyof typeof ENTITY_ROUTES)[],
-)('%s detail loader', (type) => {
-    const { route, info } = ENTITY_ROUTES[type];
-
-    it.each([
-        'anonymous',
-        'authenticated',
-    ] as const)('ensures the HEAD query keys in order (%s)', async (auth) => {
-        const { calls, setQueryDataCalls, result } = await runLoader(
-            route,
-            info(),
-            auth,
-        );
-
-        expect(calls).toEqual(EXPECTED_KEYS[type][auth]);
-        expect(setQueryDataCalls).toEqual([]);
-        expect(Object.keys(result)).toEqual([type]);
-        expect(result).toEqual({ [type]: info() });
-    });
-});
+    },
+);
 
 const HEAD_CASES = {
     fallback: (type: string, info: object) => ({
@@ -736,118 +738,121 @@ const EXPECTED_HEAD: Record<string, Record<string, string[]>> = {
     },
 };
 
-describe.each(
-    Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[],
-)('%s detail head', (type) => {
-    const { route, info } = CONTENT_ROUTES[type];
-
-    it('returns no tags without loader data', () => {
-        expect(runHead(route, undefined)).toEqual({});
-    });
-
-    it.each([
-        'fallback',
-        'nsfw',
-    ] as const)('matches the HEAD tags (%s)', (variant) => {
-        const lines = headLines(
-            runHead(route, HEAD_CASES[variant](type, info())),
-        );
-        expect(lines).toEqual(EXPECTED_HEAD[type][variant]);
-    });
-});
-
-describe.each(
-    Object.keys(ENTITY_ROUTES) as (keyof typeof ENTITY_ROUTES)[],
-)('%s detail head', (type) => {
-    const { route, info } = ENTITY_ROUTES[type];
-
-    it('returns no tags without loader data', () => {
-        expect(runHead(route, undefined)).toEqual({});
-    });
-
-    it.each([
-        'named',
-        'defaults',
-    ] as const)('matches the HEAD tags (%s)', (variant) => {
-        const lines = headLines(
-            runHead(route, HEAD_CASES[variant](type, info())),
-        );
-        expect(lines).toEqual(EXPECTED_HEAD[type][variant]);
-    });
-});
-
-describe('detail loader session', () => {
-    it.each(
-        Object.entries({ ...CONTENT_ROUTES, ...ENTITY_ROUTES }),
-    )('%s reads the session from the cache, not the cookie', async (_, {
-        route,
-        info,
-    }) => {
-        await runLoader(route, info(), 'anonymous');
-        await runLoader(route, info(), 'authenticated');
-
-        expect(getAuthTokenFn).not.toHaveBeenCalled();
-    });
-
-    it.each(
-        Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[],
-    )('%s treats a cookie without a cached profile as anonymous', async (type) => {
+describe.each(Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[])(
+    '%s detail head',
+    (type) => {
         const { route, info } = CONTENT_ROUTES[type];
-        cookies.authToken = 'token';
-        const recorder = recordingQueryClient(info(), 'anonymous');
-        const loader = route.options.loader as (
-            ctx: unknown,
-        ) => Promise<unknown>;
 
-        await loader({
-            params: { slug },
-            context: {
-                queryClient: recorder.queryClient,
-                apiClient: apiClientFor('authenticated'),
-            },
+        it('returns no tags without loader data', () => {
+            expect(runHead(route, undefined)).toEqual({});
         });
 
-        expect(recorder.calls).toEqual(EXPECTED_KEYS[type].anonymous);
-        expect(recorder.setQueryDataCalls).toHaveLength(1);
-    });
+        it.each(['fallback', 'nsfw'] as const)(
+            'matches the HEAD tags (%s)',
+            (variant) => {
+                const lines = headLines(
+                    runHead(route, HEAD_CASES[variant](type, info())),
+                );
+                expect(lines).toEqual(EXPECTED_HEAD[type][variant]);
+            },
+        );
+    },
+);
+
+describe.each(Object.keys(ENTITY_ROUTES) as (keyof typeof ENTITY_ROUTES)[])(
+    '%s detail head',
+    (type) => {
+        const { route, info } = ENTITY_ROUTES[type];
+
+        it('returns no tags without loader data', () => {
+            expect(runHead(route, undefined)).toEqual({});
+        });
+
+        it.each(['named', 'defaults'] as const)(
+            'matches the HEAD tags (%s)',
+            (variant) => {
+                const lines = headLines(
+                    runHead(route, HEAD_CASES[variant](type, info())),
+                );
+                expect(lines).toEqual(EXPECTED_HEAD[type][variant]);
+            },
+        );
+    },
+);
+
+describe('detail loader session', () => {
+    it.each(Object.entries({ ...CONTENT_ROUTES, ...ENTITY_ROUTES }))(
+        '%s reads the session from the cache, not the cookie',
+        async (_, { route, info }) => {
+            await runLoader(route, info(), 'anonymous');
+            await runLoader(route, info(), 'authenticated');
+
+            expect(getAuthTokenFn).not.toHaveBeenCalled();
+        },
+    );
+
+    it.each(Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[])(
+        '%s treats a cookie without a cached profile as anonymous',
+        async (type) => {
+            const { route, info } = CONTENT_ROUTES[type];
+            cookies.authToken = 'token';
+            const recorder = recordingQueryClient(info(), 'anonymous');
+            const loader = route.options.loader as (
+                ctx: unknown,
+            ) => Promise<unknown>;
+
+            await loader({
+                params: { slug },
+                context: {
+                    queryClient: recorder.queryClient,
+                    apiClient: apiClientFor('authenticated'),
+                },
+            });
+
+            expect(recorder.calls).toEqual(EXPECTED_KEYS[type].anonymous);
+            expect(recorder.setQueryDataCalls).toHaveLength(1);
+        },
+    );
 });
 
 describe('contentDetailHead and entityDetailHead', () => {
-    it.each(
-        Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[],
-    )('%s matches the HEAD tags', (type) => {
-        const { info } = CONTENT_ROUTES[type];
+    it.each(Object.keys(CONTENT_ROUTES) as (keyof typeof CONTENT_ROUTES)[])(
+        '%s matches the HEAD tags',
+        (type) => {
+            const { info } = CONTENT_ROUTES[type];
 
-        expect(contentDetailHead(type, undefined)).toEqual({});
-        for (const variant of ['fallback', 'nsfw'] as const) {
-            expect(
-                headLines(
-                    contentDetailHead(
-                        type,
-                        HEAD_CASES[variant](type, info()) as never,
+            expect(contentDetailHead(type, undefined)).toEqual({});
+            for (const variant of ['fallback', 'nsfw'] as const) {
+                expect(
+                    headLines(
+                        contentDetailHead(
+                            type,
+                            HEAD_CASES[variant](type, info()) as never,
+                        ),
                     ),
-                ),
-            ).toEqual(EXPECTED_HEAD[type][variant]);
-        }
-    });
+                ).toEqual(EXPECTED_HEAD[type][variant]);
+            }
+        },
+    );
 
-    it.each(
-        Object.keys(ENTITY_ROUTES) as (keyof typeof ENTITY_ROUTES)[],
-    )('%s matches the HEAD tags', (type) => {
-        const { info } = ENTITY_ROUTES[type];
+    it.each(Object.keys(ENTITY_ROUTES) as (keyof typeof ENTITY_ROUTES)[])(
+        '%s matches the HEAD tags',
+        (type) => {
+            const { info } = ENTITY_ROUTES[type];
 
-        expect(entityDetailHead(type, undefined)).toEqual({});
-        for (const variant of ['named', 'defaults'] as const) {
-            expect(
-                headLines(
-                    entityDetailHead(
-                        type,
-                        HEAD_CASES[variant](type, info()) as never,
+            expect(entityDetailHead(type, undefined)).toEqual({});
+            for (const variant of ['named', 'defaults'] as const) {
+                expect(
+                    headLines(
+                        entityDetailHead(
+                            type,
+                            HEAD_CASES[variant](type, info()) as never,
+                        ),
                     ),
-                ),
-            ).toEqual(EXPECTED_HEAD[type][variant]);
-        }
-    });
+                ).toEqual(EXPECTED_HEAD[type][variant]);
+            }
+        },
+    );
 });
 
 describe('contentDetailHead year', () => {

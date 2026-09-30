@@ -427,19 +427,18 @@ const EXPECTED_PROFILE_CALLS = [
 ];
 
 describe('user list loader', () => {
-    it.each(LIST_CASES)('keeps the HEAD calls: $name', async ({
-        name,
-        type,
-        raw,
-    }) => {
-        const calls = await runLoader(
-            ListRoute,
-            { username, content_type: type },
-            userlistSearchSchema.parse(raw),
-        );
+    it.each(LIST_CASES)(
+        'keeps the HEAD calls: $name',
+        async ({ name, type, raw }) => {
+            const calls = await runLoader(
+                ListRoute,
+                { username, content_type: type },
+                userlistSearchSchema.parse(raw),
+            );
 
-        expect(calls).toEqual(EXPECTED_LIST_CALLS[name]);
-    });
+            expect(calls).toEqual(EXPECTED_LIST_CALLS[name]);
+        },
+    );
 
     it('ignores the page param', () => {
         expect(EXPECTED_LIST_CALLS['anime, page 2']).toEqual(
@@ -462,27 +461,28 @@ describe('list hooks', () => {
         ...PREFETCHED_LIST_CASES.map(({ name, raw }) => ({ name, raw })),
     ];
 
-    it.each(HOOK_SEARCHES)('useWatchList passes the HEAD options: $name', ({
-        raw,
-    }) => {
-        const search = userlistSearchSchema.parse(raw);
-        mocks.params = { username, content_type: 'anime' };
-        mocks.search = search;
+    it.each(HOOK_SEARCHES)(
+        'useWatchList passes the HEAD options: $name',
+        ({ raw }) => {
+            const search = userlistSearchSchema.parse(raw);
+            mocks.params = { username, content_type: 'anime' };
+            mocks.search = search;
 
-        useWatchList({ enabled: true });
-        useWatchList();
+            useWatchList({ enabled: true });
+            useWatchList();
 
-        const [[options, extra], [, noExtra]] = mocks.infiniteListCalls as [
-            [CapturedOptions, unknown],
-            [CapturedOptions, unknown],
-        ];
-        const head = headUseWatchListOptions(search, mocks.params).queryKey;
+            const [[options, extra], [, noExtra]] = mocks.infiniteListCalls as [
+                [CapturedOptions, unknown],
+                [CapturedOptions, unknown],
+            ];
+            const head = headUseWatchListOptions(search, mocks.params).queryKey;
 
-        expect(options.queryKey).toStrictEqual(head);
-        expect(hashKey(options.queryKey)).toBe(hashKey(head));
-        expect(extra).toStrictEqual({ enabled: true });
-        expect(noExtra).toStrictEqual({ enabled: undefined });
-    });
+            expect(options.queryKey).toStrictEqual(head);
+            expect(hashKey(options.queryKey)).toBe(hashKey(head));
+            expect(extra).toStrictEqual({ enabled: true });
+            expect(noExtra).toStrictEqual({ enabled: undefined });
+        },
+    );
 
     it.each(
         HOOK_SEARCHES.flatMap((search) => [
@@ -545,32 +545,34 @@ const READ_SEARCHES = [
 ];
 
 describe('userWatchListOptions', () => {
-    it.each(WATCH_SEARCHES)('equals the HEAD component key: $name', ({
-        raw,
-    }) => {
-        const search = userlistSearchSchema.parse(raw);
-        const params = { username, content_type: 'anime' };
-        const component = userWatchListOptions(username, search).queryKey;
-        const head = headUseWatchListOptions(search, params).queryKey;
+    it.each(WATCH_SEARCHES)(
+        'equals the HEAD component key: $name',
+        ({ raw }) => {
+            const search = userlistSearchSchema.parse(raw);
+            const params = { username, content_type: 'anime' };
+            const component = userWatchListOptions(username, search).queryKey;
+            const head = headUseWatchListOptions(search, params).queryKey;
 
-        expect(component).toStrictEqual(head);
-        expect(hashKey(component)).toBe(hashKey(head));
-    });
+            expect(component).toStrictEqual(head);
+            expect(hashKey(component)).toBe(hashKey(head));
+        },
+    );
 
-    it.each(WATCH_SEARCHES)('keys the loader like the component: $name', ({
-        raw,
-    }) => {
-        const search = userlistSearchSchema.parse(raw);
-        const loader = userWatchListOptions(
-            username,
-            search,
-            ssrRequestClient(),
-        ).queryKey;
-        const component = userWatchListOptions(username, search).queryKey;
+    it.each(WATCH_SEARCHES)(
+        'keys the loader like the component: $name',
+        ({ raw }) => {
+            const search = userlistSearchSchema.parse(raw);
+            const loader = userWatchListOptions(
+                username,
+                search,
+                ssrRequestClient(),
+            ).queryKey;
+            const component = userWatchListOptions(username, search).queryKey;
 
-        expect(loader).toStrictEqual(component);
-        expect(hashKey(loader)).toBe(hashKey(component));
-    });
+            expect(loader).toStrictEqual(component);
+            expect(hashKey(loader)).toBe(hashKey(component));
+        },
+    );
 
     it('leaves the page out of the key', () => {
         const pageOne = userlistSearchSchema.parse({
@@ -637,30 +639,30 @@ describe('userReadListOptions', () => {
             { ...search, contentType: 'manga' as ReadContentTypeEnum },
             { ...search, contentType: 'novel' as ReadContentTypeEnum },
         ]),
-    )('equals the HEAD component key: $contentType, $name', ({
-        raw,
-        contentType,
-    }) => {
-        const search = userlistSearchSchema.parse(raw);
-        const params = { username, content_type: contentType };
-        const component = userReadListOptions(
-            username,
-            contentType,
-            search,
-        ).queryKey;
-        const loader = userReadListOptions(
-            username,
-            contentType,
-            search,
-            ssrRequestClient(),
-        ).queryKey;
-        const head = headUseReadListOptions(search, params).queryKey;
+    )(
+        'equals the HEAD component key: $contentType, $name',
+        ({ raw, contentType }) => {
+            const search = userlistSearchSchema.parse(raw);
+            const params = { username, content_type: contentType };
+            const component = userReadListOptions(
+                username,
+                contentType,
+                search,
+            ).queryKey;
+            const loader = userReadListOptions(
+                username,
+                contentType,
+                search,
+                ssrRequestClient(),
+            ).queryKey;
+            const head = headUseReadListOptions(search, params).queryKey;
 
-        expect(component).toStrictEqual(head);
-        expect(hashKey(component)).toBe(hashKey(head));
-        expect(loader).toStrictEqual(component);
-        expect(hashKey(loader)).toBe(hashKey(component));
-    });
+            expect(component).toStrictEqual(head);
+            expect(hashKey(component)).toBe(hashKey(head));
+            expect(loader).toStrictEqual(component);
+            expect(hashKey(loader)).toBe(hashKey(component));
+        },
+    );
 
     it('hashes manga and novel differently', () => {
         const search = userlistSearchSchema.parse({

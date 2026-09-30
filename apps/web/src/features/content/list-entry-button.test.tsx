@@ -173,23 +173,29 @@ describe('ListEntryButton', () => {
         );
     });
 
-    it.each([
-        ContentTypeEnum.CHARACTER,
-        ContentTypeEnum.PERSON,
-    ] as const)('renders nothing for %s', (content_type) => {
-        expect(
-            renderToStaticMarkup(
-                <ListEntryButton content_type={content_type} size="icon-md" />,
-            ),
-        ).toBe(
-            renderToStaticMarkup(
-                <LegacyActionBarButton content_type={content_type} />,
-            ),
-        );
-        expect(
-            renderToStaticMarkup(
-                <ListEntryButton content_type={content_type} size="icon-md" />,
-            ),
-        ).toBe('');
-    });
+    it.each([ContentTypeEnum.CHARACTER, ContentTypeEnum.PERSON] as const)(
+        'renders nothing for %s',
+        (content_type) => {
+            expect(
+                renderToStaticMarkup(
+                    <ListEntryButton
+                        content_type={content_type}
+                        size="icon-md"
+                    />,
+                ),
+            ).toBe(
+                renderToStaticMarkup(
+                    <LegacyActionBarButton content_type={content_type} />,
+                ),
+            );
+            expect(
+                renderToStaticMarkup(
+                    <ListEntryButton
+                        content_type={content_type}
+                        size="icon-md"
+                    />,
+                ),
+            ).toBe('');
+        },
+    );
 });

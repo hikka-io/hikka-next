@@ -376,17 +376,18 @@ beforeEach(() => {
 });
 
 describe.each(TYPES)('FavoriteSection(%s)', (type) => {
-    it.each(
-        Object.entries(CASES),
-    )('renders the legacy markup for a %s list', (_, state) => {
-        Object.assign(mocks.state, state(type));
+    it.each(Object.entries(CASES))(
+        'renders the legacy markup for a %s list',
+        (_, state) => {
+            Object.assign(mocks.state, state(type));
 
-        for (const extended of [false, true]) {
-            expect(
-                html(<FavoriteSection type={type} extended={extended} />),
-            ).toBe(html(<LegacySection type={type} extended={extended} />));
-        }
-    });
+            for (const extended of [false, true]) {
+                expect(
+                    html(<FavoriteSection type={type} extended={extended} />),
+                ).toBe(html(<LegacySection type={type} extended={extended} />));
+            }
+        },
+    );
 
     it('passes the legacy options and a uniform enabled guard', () => {
         html(<FavoriteSection type={type} />);

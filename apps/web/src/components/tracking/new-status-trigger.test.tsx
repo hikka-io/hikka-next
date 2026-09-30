@@ -347,46 +347,49 @@ const interact = async (options: StatusOption[], trigger: ReactElement) => {
     return result;
 };
 
-describe.each(KINDS)('NewStatusTrigger for $kind', ({
-    kind,
-    options,
-    mutation,
-    pair,
-}) => {
-    afterEach(() => {
-        vi.unstubAllGlobals();
-    });
+describe.each(KINDS)(
+    'NewStatusTrigger for $kind',
+    ({ kind, options, mutation, pair }) => {
+        afterEach(() => {
+            vi.unstubAllGlobals();
+        });
 
-    it('renders the legacy markup for every prop variant', () => {
-        const render = (side: 'legacy' | 'next') =>
-            VARIANTS.map((variant) =>
-                renderToStaticMarkup(
-                    <Harness options={options} trigger={pair(variant)[side]} />,
-                ),
+        it('renders the legacy markup for every prop variant', () => {
+            const render = (side: 'legacy' | 'next') =>
+                VARIANTS.map((variant) =>
+                    renderToStaticMarkup(
+                        <Harness
+                            options={options}
+                            trigger={pair(variant)[side]}
+                        />,
+                    ),
+                );
+
+            const next = render('next');
+
+            expect(next.every((html) => html.includes('Додати у список'))).toBe(
+                true,
             );
+            expect(next).toEqual(render('legacy'));
+        });
 
-        const next = render('next');
+        it('adds to planned, opens and selects like the legacy trigger', async () => {
+            stubDom();
+            const { legacy, next } = pair({});
 
-        expect(next.every((html) => html.includes('Додати у список'))).toBe(
-            true,
-        );
-        expect(next).toEqual(render('legacy'));
-    });
+            const result = await interact(options, next);
 
-    it('adds to planned, opens and selects like the legacy trigger', async () => {
-        stubDom();
-        const { legacy, next } = pair({});
-
-        const result = await interact(options, next);
-
-        expect(result.mutations).toEqual([mutation]);
-        expect(result.added).toBe(result.closed);
-        expect(result.open).toContain('cmdk-item');
-        expect(result.selected).toEqual([[options[1].value]]);
-        expect(result.hooks[kind === 'anime' ? 'read' : 'watch']).toEqual([]);
-        expect(
-            result.hooks[kind === 'anime' ? 'watch' : 'read'].length,
-        ).toBeGreaterThan(0);
-        expect(result).toEqual(await interact(options, legacy));
-    });
-});
+            expect(result.mutations).toEqual([mutation]);
+            expect(result.added).toBe(result.closed);
+            expect(result.open).toContain('cmdk-item');
+            expect(result.selected).toEqual([[options[1].value]]);
+            expect(result.hooks[kind === 'anime' ? 'read' : 'watch']).toEqual(
+                [],
+            );
+            expect(
+                result.hooks[kind === 'anime' ? 'watch' : 'read'].length,
+            ).toBeGreaterThan(0);
+            expect(result).toEqual(await interact(options, legacy));
+        });
+    },
+);

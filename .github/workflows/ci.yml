@@ -25,12 +25,12 @@ jobs:
             - name: Set up Biome
               uses: biomejs/setup-biome@v2
               with:
-                  version: 2.5.1
+                  version: 2.5.14
 
             - name: Set up Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: 20
+                  node-version: 22
 
             - name: Biome
               run: biome ci --reporter=github --diagnostic-level=error .
@@ -59,7 +59,7 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: 20
+                  node-version: 22
                   cache: pnpm
 
             - name: Install dependencies

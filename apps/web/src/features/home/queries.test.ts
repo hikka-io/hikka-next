@@ -323,18 +323,16 @@ const EXPECTED_HOME_CALLS: Record<string, string[]> = {
 };
 
 describe('home loader', () => {
-    it.each(HOME_CASES)('makes the expected calls: $name', async ({
-        name,
-        date,
-        type,
-        loggedIn,
-    }) => {
-        useFakeDate(date);
+    it.each(HOME_CASES)(
+        'makes the expected calls: $name',
+        async ({ name, date, type, loggedIn }) => {
+            useFakeDate(date);
 
-        expect(await runHomeLoader(type, loggedIn)).toEqual(
-            EXPECTED_HOME_CALLS[name],
-        );
-    });
+            expect(await runHomeLoader(type, loggedIn)).toEqual(
+                EXPECTED_HOME_CALLS[name],
+            );
+        },
+    );
 });
 
 describe('OngoingsWidget', () => {
@@ -373,21 +371,22 @@ describe('ongoingsOptions', () => {
         expect(hashKey(component)).toBe(hashKey(head));
     });
 
-    it.each(
-        Object.entries(DATES),
-    )('keys the loader size like both widget sizes (%s)', (_, date) => {
-        useFakeDate(date);
-        const loader = ongoingsOptions({
-            size: 5,
-            client: ssrRequestClient(),
-        }).queryKey;
+    it.each(Object.entries(DATES))(
+        'keys the loader size like both widget sizes (%s)',
+        (_, date) => {
+            useFakeDate(date);
+            const loader = ongoingsOptions({
+                size: 5,
+                client: ssrRequestClient(),
+            }).queryKey;
 
-        for (const side of ['center', 'left'] as const) {
-            const head = headOngoingsWidgetOptions(side).queryKey;
-            expect(loader).toStrictEqual(head);
-            expect(hashKey(loader)).toBe(hashKey(head));
-        }
-    });
+            for (const side of ['center', 'left'] as const) {
+                const head = headOngoingsWidgetOptions(side).queryKey;
+                expect(loader).toStrictEqual(head);
+                expect(hashKey(loader)).toBe(hashKey(head));
+            }
+        },
+    );
 
     it('hashes another size differently', () => {
         useFakeDate(DATES.september);
@@ -514,14 +513,14 @@ const FEED_ARGS_CASES: {
 ];
 
 describe('buildFeedArgs', () => {
-    it.each(FEED_ARGS_CASES)('equals the HEAD widget args: $name', ({
-        onlyFollowed,
-        filters,
-    }) => {
-        expect(buildFeedArgs(filters, onlyFollowed)).toStrictEqual(
-            headWidgetFeedArgs(onlyFollowed, filters),
-        );
-    });
+    it.each(FEED_ARGS_CASES)(
+        'equals the HEAD widget args: $name',
+        ({ onlyFollowed, filters }) => {
+            expect(buildFeedArgs(filters, onlyFollowed)).toStrictEqual(
+                headWidgetFeedArgs(onlyFollowed, filters),
+            );
+        },
+    );
 
     it('reads unset groups like null ones', () => {
         expect(buildFeedArgs({}, false)).toStrictEqual({});
@@ -608,16 +607,17 @@ describe('home feed prefetch', () => {
         useFakeDate(DATES.september);
     });
 
-    it.each(
-        FEED_PREFETCH_CASES,
-    )('prefetches the widget feed key: $name', async ({ loggedIn, ui }) => {
-        const loader = await loaderFeedKey(loggedIn, ui);
-        const widget = widgetFeedQuery(loggedIn, ui);
+    it.each(FEED_PREFETCH_CASES)(
+        'prefetches the widget feed key: $name',
+        async ({ loggedIn, ui }) => {
+            const loader = await loaderFeedKey(loggedIn, ui);
+            const widget = widgetFeedQuery(loggedIn, ui);
 
-        expect(widget.enabled).toBe(true);
-        expect(loader).toStrictEqual(widget.queryKey);
-        expect(hashKey(loader ?? [])).toBe(hashKey(widget.queryKey));
-    });
+            expect(widget.enabled).toBe(true);
+            expect(loader).toStrictEqual(widget.queryKey);
+            expect(hashKey(loader ?? [])).toBe(hashKey(widget.queryKey));
+        },
+    );
 
     it('sends the preferences as the body', async () => {
         expect(await loaderFeedKey(true, uiWithFeed(CUSTOM_FEED))).toEqual([

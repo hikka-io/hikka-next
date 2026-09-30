@@ -55,17 +55,20 @@ describe('FiltersSidebarLayout', () => {
     it.each([
         ['visible', {}, true],
         ['hidden', { catalog_filters_sidebar: false }, false],
-    ])('matches the catalog markup with the sidebar %s', (_, prefs, visible) => {
-        expect(
-            html(
-                <FiltersSidebarLayout sidebar={<b>filters</b>}>
-                    <i>navbar</i>
-                    <i>list</i>
-                </FiltersSidebarLayout>,
-                prefs,
-            ),
-        ).toBe(html(<LegacyCatalog visible={visible} />));
-    });
+    ])(
+        'matches the catalog markup with the sidebar %s',
+        (_, prefs, visible) => {
+            expect(
+                html(
+                    <FiltersSidebarLayout sidebar={<b>filters</b>}>
+                        <i>navbar</i>
+                        <i>list</i>
+                    </FiltersSidebarLayout>,
+                    prefs,
+                ),
+            ).toBe(html(<LegacyCatalog visible={visible} />));
+        },
+    );
 
     it('reads visibility from its storage key', () => {
         const layout = (

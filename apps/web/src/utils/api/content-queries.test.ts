@@ -118,40 +118,39 @@ beforeAll(() => {
     configureBrowserClient({ baseUrl: BASE_URL });
 });
 
-describe.each([
-    'anime',
-    'manga',
-    'novel',
-] as const)('listEntryOptions(%s)', (type) => {
-    it('keeps the key and shape of the legacy hook options', () => {
-        const options = listEntryOptions(type, slug);
-        const legacy = LEGACY_HOOK_OPTIONS[type]();
+describe.each(['anime', 'manga', 'novel'] as const)(
+    'listEntryOptions(%s)',
+    (type) => {
+        it('keeps the key and shape of the legacy hook options', () => {
+            const options = listEntryOptions(type, slug);
+            const legacy = LEGACY_HOOK_OPTIONS[type]();
 
-        expect(options.queryKey).toEqual(EXPECTED[type].key);
-        expect(options.queryKey).toEqual(legacy.queryKey);
-        expect(Object.keys(options)).toEqual(Object.keys(legacy));
-    });
+            expect(options.queryKey).toEqual(EXPECTED[type].key);
+            expect(options.queryKey).toEqual(legacy.queryKey);
+            expect(Object.keys(options)).toEqual(Object.keys(legacy));
+        });
 
-    it('shares the key with the logged-in loader prefetch', () => {
-        const client = ssrRequestClient();
+        it('shares the key with the logged-in loader prefetch', () => {
+            const client = ssrRequestClient();
 
-        expect(listEntryOptions(type, slug).queryKey).toEqual(
-            LOADER_OPTIONS[type](client).queryKey,
-        );
-        expect(listEntryOptions(type, slug, client).queryKey).toEqual(
-            listEntryOptions(type, slug).queryKey,
-        );
-    });
+            expect(listEntryOptions(type, slug).queryKey).toEqual(
+                LOADER_OPTIONS[type](client).queryKey,
+            );
+            expect(listEntryOptions(type, slug, client).queryKey).toEqual(
+                listEntryOptions(type, slug).queryKey,
+            );
+        });
 
-    it('requests the same URL as the legacy hook options', async () => {
-        expect(await requestedUrl(listEntryOptions(type, slug))).toBe(
-            EXPECTED[type].url,
-        );
-        expect(await requestedUrl(LEGACY_HOOK_OPTIONS[type]())).toBe(
-            EXPECTED[type].url,
-        );
-    });
-});
+        it('requests the same URL as the legacy hook options', async () => {
+            expect(await requestedUrl(listEntryOptions(type, slug))).toBe(
+                EXPECTED[type].url,
+            );
+            expect(await requestedUrl(LEGACY_HOOK_OPTIONS[type]())).toBe(
+                EXPECTED[type].url,
+            );
+        });
+    },
+);
 
 const editId = '12345';
 

@@ -133,15 +133,16 @@ beforeEach(() => {
 });
 
 describe.each(['user', 'following'] as const)('HistoryGrid(%s)', (source) => {
-    it.each(
-        Object.entries(CASES),
-    )('renders the legacy markup for a %s list', (_, state) => {
-        Object.assign(mocks.state, state);
+    it.each(Object.entries(CASES))(
+        'renders the legacy markup for a %s list',
+        (_, state) => {
+            Object.assign(mocks.state, state);
 
-        expect(html(<HistoryGrid source={source} />)).toBe(
-            html(<LegacyHistory source={source} />),
-        );
-    });
+            expect(html(<HistoryGrid source={source} />)).toBe(
+                html(<LegacyHistory source={source} />),
+            );
+        },
+    );
 
     it('passes the legacy query options', () => {
         html(<HistoryGrid source={source} />);

@@ -92,7 +92,9 @@ describe('EntitySearchList', () => {
     it.each(['ab', '  ab'])('sends the typed query %j unchanged', (value) => {
         render(value);
 
-        expect((lastCall()?.[0] as ListOptions).queryKey).toEqual(
+        const [options] = lastCall() ?? [];
+
+        expect((options as ListOptions).queryKey).toEqual(
             searchAnimeInfiniteOptions({
                 body: { query: value },
                 query: { size: 30 },

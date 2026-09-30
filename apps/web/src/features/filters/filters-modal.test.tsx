@@ -145,24 +145,27 @@ describe('FiltersModal', () => {
     it.each([
         ['mobile page sheet', false],
         ['desktop sheet', true],
-    ])('mounts the same open %s as the legacy controlled shell', async (_, desktop) => {
-        vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);
-        vi.stubGlobal('matchMedia', () => ({
-            matches: desktop,
-            addEventListener: () => {},
-            removeEventListener: () => {},
-        }));
+    ])(
+        'mounts the same open %s as the legacy controlled shell',
+        async (_, desktop) => {
+            vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);
+            vi.stubGlobal('matchMedia', () => ({
+                matches: desktop,
+                addEventListener: () => {},
+                removeEventListener: () => {},
+            }));
 
-        const markup = await mountedMarkup(
-            <FiltersModal {...controlled(true)} />,
-        );
+            const markup = await mountedMarkup(
+                <FiltersModal {...controlled(true)} />,
+            );
 
-        expect(markup).toContain('role="dialog"');
-        expect(markup).toContain('footer');
-        expect(markup).toBe(
-            await mountedMarkup(
-                <LegacyControlledFiltersModal {...controlled(true)} />,
-            ),
-        );
-    });
+            expect(markup).toContain('role="dialog"');
+            expect(markup).toContain('footer');
+            expect(markup).toBe(
+                await mountedMarkup(
+                    <LegacyControlledFiltersModal {...controlled(true)} />,
+                ),
+            );
+        },
+    );
 });

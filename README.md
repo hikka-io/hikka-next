@@ -46,7 +46,7 @@ packages/api/         → Generated API client + TanStack Query options (@hikka/
 
 ### Prerequisites
 
-- Node.js >= 20.15.0
+- Node.js >= 22.12.0
 - Corepack enabled (ships with Node.js)
 
 ### Installation

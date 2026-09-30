@@ -173,140 +173,145 @@ afterEach(() => {
     vi.unstubAllGlobals();
 });
 
-describe.each(CASES)('UserContentStats ($contentType)', ({
-    contentType,
-    entry,
-    path,
-    progressKey,
-    unit,
-    snapshot,
-}) => {
-    beforeEach(async () => {
-        mocks.onSaved = (body) =>
-            render(contentType, {
-                ...current,
-                ...body,
-                note: body.note ?? null,
-            } as Entry);
-        await act(async () => render(contentType, entry));
-    });
+describe.each(CASES)(
+    'UserContentStats ($contentType)',
+    ({ contentType, entry, path, progressKey, unit, snapshot }) => {
+        beforeEach(async () => {
+            mocks.onSaved = (body) =>
+                render(contentType, {
+                    ...current,
+                    ...body,
+                    note: body.note ?? null,
+                } as Entry);
+            await act(async () => render(contentType, entry));
+        });
 
-    it('writes the progress with the full snapshot after the debounce', async () => {
-        await click(button(`Додати ${unit}`));
+        it('writes the progress with the full snapshot after the debounce', async () => {
+            await click(button(`Додати ${unit}`));
 
-        await advance(DEBOUNCE_MS.commit - 1);
-        expect(mocks.sent).toHaveLength(0);
+            await advance(DEBOUNCE_MS.commit - 1);
+            expect(mocks.sent).toHaveLength(0);
 
-        await advance(1);
-        expect(mocks.sent.map(({ resolve, ...request }) => request)).toEqual([
-            {
-                path,
-                body: {
-                    ...snapshot,
-                    [progressKey]: 4,
-                    score: 6,
-                    note: 'old note',
-                    start_date: 1700000000,
-                    end_date: null,
+            await advance(1);
+            expect(
+                mocks.sent.map(({ resolve, ...request }) => request),
+            ).toEqual([
+                {
+                    path,
+                    body: {
+                        ...snapshot,
+                        [progressKey]: 4,
+                        score: 6,
+                        note: 'old note',
+                        start_date: 1700000000,
+                        end_date: null,
+                    },
                 },
-            },
-        ]);
-    });
-
-    it('keeps a note saved while a progress click lands during the save', async () => {
-        await typeNote('new note');
-        await click(button('Зберегти'));
-        expect(mocks.sent.map(({ body }) => body.note)).toEqual(['new note']);
-
-        const add = button(`Додати ${unit}`);
-        const disabledDuringSave = [
-            add.disabled,
-            button(`Прибрати ${unit}`).disabled,
-        ];
-        await click(add);
-        await advance(DEBOUNCE_MS.commit);
-        await resolveAll();
-        await advance(DEBOUNCE_MS.commit);
-
-        expect(container.querySelector('textarea')).toBeNull();
-        expect(mocks.sent.map(({ body }) => body.note)).toEqual(['new note']);
-        expect(current.note).toBe('new note');
-        expect(disabledDuringSave).toEqual([true, true]);
-
-        expect(button(`Додати ${unit}`).disabled).toBe(false);
-        await click(button(`Додати ${unit}`));
-        await advance(DEBOUNCE_MS.commit);
-
-        expect(mocks.sent.at(-1)?.body).toEqual({
-            ...snapshot,
-            [progressKey]: 4,
-            score: 6,
-            note: 'new note',
-            start_date: 1700000000,
-            end_date: null,
+            ]);
         });
-    });
 
-    it('keeps a note saved while a score change lands during the save', async () => {
-        await typeNote('new note');
-        await click(button('Зберегти'));
+        it('keeps a note saved while a progress click lands during the save', async () => {
+            await typeNote('new note');
+            await click(button('Зберегти'));
+            expect(mocks.sent.map(({ body }) => body.note)).toEqual([
+                'new note',
+            ]);
 
-        const rating = container.querySelector<HTMLElement>('[role="slider"]');
-        await act(async () => {
-            rating?.dispatchEvent(
-                new KeyboardEvent('keydown', {
-                    key: 'ArrowRight',
-                    bubbles: true,
-                }),
-            );
-        });
-        await advance(DEBOUNCE_MS.commit);
-        await resolveAll();
-        await advance(DEBOUNCE_MS.commit);
+            const add = button(`Додати ${unit}`);
+            const disabledDuringSave = [
+                add.disabled,
+                button(`Прибрати ${unit}`).disabled,
+            ];
+            await click(add);
+            await advance(DEBOUNCE_MS.commit);
+            await resolveAll();
+            await advance(DEBOUNCE_MS.commit);
 
-        expect(container.querySelector('textarea')).toBeNull();
-        expect(mocks.sent.map(({ body }) => body.note)).toEqual(['new note']);
-        expect(current.note).toBe('new note');
-    });
+            expect(container.querySelector('textarea')).toBeNull();
+            expect(mocks.sent.map(({ body }) => body.note)).toEqual([
+                'new note',
+            ]);
+            expect(current.note).toBe('new note');
+            expect(disabledDuringSave).toEqual([true, true]);
 
-    it('sends the pending progress with the note and skips the debounced write', async () => {
-        await click(button(`Додати ${unit}`));
-        await typeNote('new note');
-        await click(button('Зберегти'));
-        await advance(DEBOUNCE_MS.commit);
+            expect(button(`Додати ${unit}`).disabled).toBe(false);
+            await click(button(`Додати ${unit}`));
+            await advance(DEBOUNCE_MS.commit);
 
-        expect(mocks.sent.map(({ body }) => body)).toEqual([
-            {
+            expect(mocks.sent.at(-1)?.body).toEqual({
                 ...snapshot,
                 [progressKey]: 4,
                 score: 6,
                 note: 'new note',
                 start_date: 1700000000,
                 end_date: null,
-            },
-        ]);
-    });
+            });
+        });
 
-    it('drops a pending progress write when the slug changes', async () => {
-        await click(button(`Додати ${unit}`));
+        it('keeps a note saved while a score change lands during the save', async () => {
+            await typeNote('new note');
+            await click(button('Зберегти'));
 
-        const other = {
-            ...entry,
-            reference: 'other-reference',
-            ...(contentType === ContentTypeEnum.ANIME
-                ? { anime: { slug: 'other-slug', episodes_total: 12 } }
-                : {
-                      content: {
-                          slug: 'other-slug',
-                          chapters: 12,
-                          data_type: 'manga',
-                      },
-                  }),
-        } as Entry;
-        await act(async () => render(contentType, other));
-        await advance(DEBOUNCE_MS.commit);
+            const rating =
+                container.querySelector<HTMLElement>('[role="slider"]');
+            await act(async () => {
+                rating?.dispatchEvent(
+                    new KeyboardEvent('keydown', {
+                        key: 'ArrowRight',
+                        bubbles: true,
+                    }),
+                );
+            });
+            await advance(DEBOUNCE_MS.commit);
+            await resolveAll();
+            await advance(DEBOUNCE_MS.commit);
 
-        expect(mocks.sent).toHaveLength(0);
-        expect(container.textContent).toContain('3/12');
-    });
-});
+            expect(container.querySelector('textarea')).toBeNull();
+            expect(mocks.sent.map(({ body }) => body.note)).toEqual([
+                'new note',
+            ]);
+            expect(current.note).toBe('new note');
+        });
+
+        it('sends the pending progress with the note and skips the debounced write', async () => {
+            await click(button(`Додати ${unit}`));
+            await typeNote('new note');
+            await click(button('Зберегти'));
+            await advance(DEBOUNCE_MS.commit);
+
+            expect(mocks.sent.map(({ body }) => body)).toEqual([
+                {
+                    ...snapshot,
+                    [progressKey]: 4,
+                    score: 6,
+                    note: 'new note',
+                    start_date: 1700000000,
+                    end_date: null,
+                },
+            ]);
+        });
+
+        it('drops a pending progress write when the slug changes', async () => {
+            await click(button(`Додати ${unit}`));
+
+            const other = {
+                ...entry,
+                reference: 'other-reference',
+                ...(contentType === ContentTypeEnum.ANIME
+                    ? { anime: { slug: 'other-slug', episodes_total: 12 } }
+                    : {
+                          content: {
+                              slug: 'other-slug',
+                              chapters: 12,
+                              data_type: 'manga',
+                          },
+                      }),
+            } as Entry;
+            await act(async () => render(contentType, other));
+            await advance(DEBOUNCE_MS.commit);
+
+            expect(mocks.sent).toHaveLength(0);
+            expect(container.textContent).toContain('3/12');
+        });
+    },
+);

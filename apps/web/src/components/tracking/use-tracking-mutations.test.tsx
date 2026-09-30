@@ -648,16 +648,15 @@ describe('use-tracking-mutations', () => {
         PAIRS.flatMap((pair) =>
             OUTCOMES.map((outcome) => ({ ...pair, ...outcome })),
         ),
-    )('matches the $site site on $outcome', async ({
-        legacy,
-        next,
-        ...scenario
-    }) => {
-        const before = await run({ ...scenario, useHook: legacy });
-        const after = await run({ ...scenario, useHook: next });
+    )(
+        'matches the $site site on $outcome',
+        async ({ legacy, next, ...scenario }) => {
+            const before = await run({ ...scenario, useHook: legacy });
+            const after = await run({ ...scenario, useHook: next });
 
-        expect(after).toEqual(before);
-    });
+            expect(after).toEqual(before);
+        },
+    );
 
     it('passes data and variables to the caller after applying caches', async () => {
         const result = await run({

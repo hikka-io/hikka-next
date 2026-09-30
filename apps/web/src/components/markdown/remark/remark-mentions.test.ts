@@ -111,13 +111,12 @@ describe('bare mentions follow the username rule', () => {
         ]);
     });
 
-    it.each([
-        ['a@b.com'],
-        ['пишіть на olexh@gmail.com'],
-        ['olexh@gmail'],
-    ])('does not link the address in %j', (text) => {
-        expect(mentionsIn(text)).toEqual([]);
-    });
+    it.each([['a@b.com'], ['пишіть на olexh@gmail.com'], ['olexh@gmail']])(
+        'does not link the address in %j',
+        (text) => {
+            expect(mentionsIn(text)).toEqual([]);
+        },
+    );
 
     it.each([
         ['at the start of the text', '@olexh привіт'],

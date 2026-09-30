@@ -162,39 +162,43 @@ beforeEach(() => {
     vi.mocked(useInfiniteList).mockClear();
 });
 
-describe.each(
-    Object.keys(VARIANTS) as Variant[],
-)('CollectionListModal(%s)', (variant) => {
-    const { body, icon, title, description } = VARIANTS[variant];
-    const modal = (
-        <CollectionListModal
-            body={body}
-            emptyState={
-                <EmptyState
-                    icon={icon}
-                    title={title}
-                    description={description}
-                />
-            }
-        />
-    );
-
-    it.each(
-        Object.entries(CASES),
-    )('renders the legacy markup when %s', (_, next) => {
-        Object.assign(state, next);
-
-        expect(renderToString(modal)).toBe(
-            renderToString(<LegacyCollectionsModal variant={variant} />),
+describe.each(Object.keys(VARIANTS) as Variant[])(
+    'CollectionListModal(%s)',
+    (variant) => {
+        const { body, icon, title, description } = VARIANTS[variant];
+        const modal = (
+            <CollectionListModal
+                body={body}
+                emptyState={
+                    <EmptyState
+                        icon={icon}
+                        title={title}
+                        description={description}
+                    />
+                }
+            />
         );
-    });
 
-    it('keeps the legacy query key', () => {
-        renderToString(modal);
-        renderToString(<LegacyCollectionsModal variant={variant} />);
+        it.each(Object.entries(CASES))(
+            'renders the legacy markup when %s',
+            (_, next) => {
+                Object.assign(state, next);
 
-        const [[options], [legacy]] = vi.mocked(useInfiniteList).mock.calls;
+                expect(renderToString(modal)).toBe(
+                    renderToString(
+                        <LegacyCollectionsModal variant={variant} />,
+                    ),
+                );
+            },
+        );
 
-        expect(options.queryKey).toEqual(legacy.queryKey);
-    });
-});
+        it('keeps the legacy query key', () => {
+            renderToString(modal);
+            renderToString(<LegacyCollectionsModal variant={variant} />);
+
+            const [[options], [legacy]] = vi.mocked(useInfiniteList).mock.calls;
+
+            expect(options.queryKey).toEqual(legacy.queryKey);
+        });
+    },
+);
