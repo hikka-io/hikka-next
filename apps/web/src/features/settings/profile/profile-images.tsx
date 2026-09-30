@@ -14,15 +14,16 @@ import { Label } from '@/components/ui/label';
 import Spinner from '@/components/ui/spinner';
 import { CropEditorModal } from '@/features/users';
 import { useSession } from '@/services/session';
-import { invalidateSession } from '@/utils/api/invalidate-content-state';
-import { useRouter } from '@/utils/navigation';
+import {
+    invalidateSession,
+    invalidateUserProfile,
+} from '@/utils/api/invalidate-content-state';
 
 type AvatarOrCoverType =
     | typeof UploadTypeEnum.AVATAR
     | typeof UploadTypeEnum.COVER;
 
 const ProfileImages = () => {
-    const router = useRouter();
     const uploadAvatarRef = useRef<HTMLInputElement>(null);
     const uploadCoverRef = useRef<HTMLInputElement>(null);
     const [cropOpen, setCropOpen] = useState(false);
@@ -38,7 +39,9 @@ const ProfileImages = () => {
         ...deleteUserImageMutation(),
         onSuccess: () => {
             invalidateSession(queryClient);
-            router.refresh();
+            if (loggedUser) {
+                invalidateUserProfile(queryClient, loggedUser.username);
+            }
         },
     });
 

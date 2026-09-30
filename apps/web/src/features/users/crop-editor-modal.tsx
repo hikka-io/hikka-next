@@ -19,12 +19,15 @@ import {
 } from '@/components/ui/responsive-modal';
 import { Slider } from '@/components/ui/slider';
 import Spinner from '@/components/ui/spinner';
+import { useSession } from '@/services/session';
 import { apiErrorMessage } from '@/utils/api/api-error-message';
-import { invalidateSession } from '@/utils/api/invalidate-content-state';
+import {
+    invalidateSession,
+    invalidateUserProfile,
+} from '@/utils/api/invalidate-content-state';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import { cn } from '@/utils/cn';
 import { getImage } from '@/utils/image';
-import { useRouter } from '@/utils/navigation';
 
 type BodyProps = {
     file: File;
@@ -53,8 +56,8 @@ const CROP_PARAMS = {
 };
 
 const CropEditorModalBody: FC<BodyProps> = ({ file, type, onClose }) => {
-    const router = useRouter();
     const queryClient = useQueryClient();
+    const { user: loggedUser } = useSession();
 
     const editor = useRef<AvatarEditor>(null);
     const [scale, setScale] = useState<number>(100);
@@ -80,7 +83,9 @@ const CropEditorModalBody: FC<BodyProps> = ({ file, type, onClose }) => {
         },
         onSettled: () => {
             invalidateSession(queryClient);
-            router.refresh();
+            if (loggedUser) {
+                invalidateUserProfile(queryClient, loggedUser.username);
+            }
             onClose();
         },
     });

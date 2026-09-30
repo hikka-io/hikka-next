@@ -556,6 +556,19 @@ export function invalidateSession(
     return invalidateByIds(queryClient, SESSION_IDS, options);
 }
 
+/** Refetch one user's public profile (avatar, cover) after they change it. */
+export function invalidateUserProfile(
+    queryClient: QueryClient,
+    username: string,
+    options?: InvalidateOptions,
+): Promise<void> {
+    return queryClient.invalidateQueries({
+        predicate: (query) =>
+            matchesPath(query.queryKey, USER_PROFILE_ID, 'username', username),
+        refetchType: refetchTypeFor(options),
+    });
+}
+
 /** Invalidate the notification list + unseen-count after marking seen. */
 export function invalidateNotifications(
     queryClient: QueryClient,

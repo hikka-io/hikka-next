@@ -20,6 +20,7 @@ import {
     invalidateReadState,
     invalidateSession,
     invalidateUserClients,
+    invalidateUserProfile,
     invalidateVote,
     invalidateWatchState,
     patchEmbeddedFollow,
@@ -255,6 +256,16 @@ describe('invalidation helpers', () => {
             'invalidateUserClients',
             (queryClient) => invalidateUserClients(queryClient),
             [expected(['listUserClients'])],
+        ],
+        [
+            'invalidateUserProfile for the profile owner',
+            (queryClient) => invalidateUserProfile(queryClient, USERNAME),
+            [expected(['userProfile'])],
+        ],
+        [
+            'invalidateUserProfile for a username prefix',
+            (queryClient) => invalidateUserProfile(queryClient, 'target'),
+            [expected([])],
         ],
         [
             'invalidateVote for a comment',
