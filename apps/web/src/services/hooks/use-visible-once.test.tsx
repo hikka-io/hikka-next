@@ -53,10 +53,14 @@ const emit = async (isIntersecting: boolean) => {
     });
 };
 
-const Probe = () => {
+const Probe = ({ swapped = false }: { swapped?: boolean }) => {
     const { ref, visible } = useVisibleOnce();
 
-    return <div ref={ref}>{String(visible)}</div>;
+    return swapped ? (
+        <span ref={ref}>{String(visible)}</span>
+    ) : (
+        <div ref={ref}>{String(visible)}</div>
+    );
 };
 
 let container: HTMLDivElement;
@@ -94,6 +98,14 @@ describe('useVisibleOnce', () => {
 
     it('does not turn back after leaving the viewport', async () => {
         await emit(true);
+        await emit(false);
+
+        expect(container.textContent).toBe('true');
+    });
+
+    it('stays visible when the observed element is replaced', async () => {
+        await emit(true);
+        await act(async () => root.render(<Probe swapped />));
         await emit(false);
 
         expect(container.textContent).toBe('true');
