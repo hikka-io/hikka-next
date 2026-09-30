@@ -1,4 +1,5 @@
-// Checks apps/web/src against Rules F, P, D, H and B (CLAUDE.md); --self-test proves each check fires.
+// Checks apps/web/src against Rules F, P, D, H and B (CLAUDE.md); --self-test proves each check fires, --update rewrites the two-file folder baseline.
+import { spawnSync } from 'node:child_process';
 import {
     mkdirSync,
     mkdtempSync,
@@ -12,6 +13,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const SRC = fileURLToPath(new URL('../src/', import.meta.url));
+const BASELINE = new URL('./structure-baseline.json', import.meta.url);
 const DISPLAY_PREFIX = 'apps/web/src/';
 const FORBIDDEN_FOLDERS = new Set([
     'hooks',
@@ -33,6 +35,17 @@ const REEXPORT =
     /export\s+(?:type\s+)?(?:\*(?:\s+as\s+[\w$]+)?|\{[^}]*\})\s+from\s+(['"])[^'"\n]+\1\s*;?/g;
 const COMMENT = /\/\*[\s\S]*?\*\/|(^|\s)\/\/.*$/gm;
 
+const isTracked = (root, path) => {
+    const run = spawnSync('git', ['ls-files', '--', path], {
+        cwd: root,
+        encoding: 'utf8',
+    });
+    return run.status === 0 && run.stdout.trim() !== '';
+};
+
+const isCounted = (file) =>
+    file !== 'index.ts' && !/\.test\.[cm]?[jt]sx?$/.test(file);
+
 const walk = (root) => {
     const folders = [];
     const visit = (rel) => {
@@ -42,12 +55,20 @@ const walk = (root) => {
             withFileTypes: true,
         })) {
             const path = rel ? `${rel}/${entry.name}` : entry.name;
-            if (entry.name.startsWith('.') || path in IGNORED) continue;
+            if (entry.name.startsWith('.')) continue;
+            if (path in IGNORED && !isTracked(root, path)) continue;
             if (entry.isDirectory()) subfolders.push(entry.name);
             else if (entry.isFile()) files.push(entry.name);
         }
-        folders.push({ rel, files, subfolders });
-        for (const name of subfolders) visit(rel ? `${rel}/${name}` : name);
+        const folder = { rel, files, subfolders, total: 0 };
+        folders.push(folder);
+        folder.total =
+            files.filter(isCounted).length +
+            subfolders.reduce(
+                (sum, name) => sum + visit(rel ? `${rel}/${name}` : name),
+                0,
+            );
+        return folder.total;
     };
     visit('');
     return folders;
@@ -60,7 +81,7 @@ const isRuleFExempt = (segments) =>
         segments[1] === 'icons' &&
         segments.length === 3);
 
-const checkFolder = ({ rel, files, subfolders }, report, notes) => {
+const checkFolder = ({ rel, files, subfolders, total }, report, twoFile) => {
     const segments = rel.split('/');
     const [root] = segments;
     const name = segments.at(-1);
@@ -114,10 +135,18 @@ const checkFolder = ({ rel, files, subfolders }, report, notes) => {
         report(rel, 'D', `more than one folder level inside ${root}/`);
     }
 
-    if (isRuleFExempt(segments) || subfolders.length > 0) return;
-    const counted = files.filter(
-        (file) => file !== 'index.ts' && !/\.test\.[cm]?[jt]sx?$/.test(file),
-    ).length;
+    if (isRuleFExempt(segments)) return;
+    if (subfolders.length > 0) {
+        if (total < 3) {
+            report(
+                rel,
+                'F',
+                `holds ${total} file(s) including its subfolders; a folder needs 3+ (move the files up and delete the folder)`,
+            );
+        }
+        return;
+    }
+    const counted = files.filter(isCounted).length;
     if (counted < 2) {
         report(
             rel,
@@ -125,7 +154,7 @@ const checkFolder = ({ rel, files, subfolders }, report, notes) => {
             `holds ${counted} file(s); a folder needs 3+ (move the file up and delete the folder and its barrel)`,
         );
     } else if (counted === 2) {
-        notes.push(rel);
+        twoFile.push(rel);
     }
 };
 
@@ -172,13 +201,13 @@ const checkFile = (root, rel, report) => {
     }
 };
 
-const check = (root) => {
+const check = (root, baseline) => {
     const violations = [];
-    const notes = [];
+    const twoFile = [];
     const report = (path, rule, message) =>
         violations.push({ path, rule, message });
     for (const folder of walk(root)) {
-        if (folder.rel) checkFolder(folder, report, notes);
+        if (folder.rel) checkFolder(folder, report, twoFile);
         for (const file of folder.files) {
             checkFile(
                 root,
@@ -187,8 +216,31 @@ const check = (root) => {
             );
         }
     }
+    const frozen = new Set(baseline);
+    for (const rel of twoFile) {
+        if (!frozen.has(rel)) {
+            report(
+                rel,
+                'F',
+                'new two-file folder; a folder needs 3+ (only the folders frozen in structure-baseline.json are tolerated)',
+            );
+        }
+    }
+    for (const rel of frozen) {
+        if (!twoFile.includes(rel)) {
+            report(
+                rel,
+                'F',
+                'structure-baseline.json lists it but it is no longer a two-file folder; shrink the baseline with --update',
+            );
+        }
+    }
     violations.sort((a, b) => a.path.localeCompare(b.path));
-    return { violations, notes: notes.sort() };
+    return {
+        violations,
+        notes: twoFile.filter((rel) => frozen.has(rel)).sort(),
+        twoFile: twoFile.sort(),
+    };
 };
 
 const FIXTURE = {
@@ -202,6 +254,15 @@ const FIXTURE = {
     'features/a/empty/': null,
     'features/a/two/x.tsx': '',
     'features/a/two/y.tsx': '',
+    'features/a/new-two/x.tsx': '',
+    'features/a/new-two/y.tsx': '',
+    'features/a/outer/index.ts': '',
+    'features/a/outer/inner/x.tsx': '',
+    'features/a/outer/inner/y.tsx': '',
+    'features/a/outer/inner/x.test.tsx': '',
+    'features/a/wrap/inner/x.tsx': '',
+    'features/a/wrap/inner/y.tsx': '',
+    'features/a/wrap/inner/z.tsx': '',
     'features/a/hooks/use-a.ts': '',
     'features/a/hooks/use-b.ts': '',
     'features/a/hooks/use-c.ts': '',
@@ -225,7 +286,7 @@ const FIXTURE = {
     'features/b/c.tsx': '',
     'features/b/index.ts':
         "// barrel\nexport { default as A } from './a';\nexport {\n    default as B,\n    type C, // note\n} from './b';\n/* block */\nexport * from './c';\nexport type * as T from './c';",
-    'features/about/prototype/': null,
+    'features/about/prototype/x.ts': '',
     'features:': 'services-',
     'components/g/a.tsx': '',
     'components/g/b.tsx': '',
@@ -237,6 +298,8 @@ const FIXTURE = {
     'components/g/sub/deep/b.tsx': '',
     'components/g/sub/deep/c.tsx': '',
     'components/icons/mdi/x.tsx': '',
+    'components/icons/mdi/y.tsx': '',
+    'components/icons/mdi/z.tsx': '',
     'components/plate/editor/value/deep/x.ts': '',
     'services/hooks/use-thing.ts': 'export default function useThing() {}',
     'services/hooks/use-other.ts': 'export function useOther() {}',
@@ -257,16 +320,27 @@ const FIXTURE = {
     'vite-env.d.ts': "declare module 'x';\ninterface ImportMeta {}",
 };
 
+const FIXTURE_BASELINE = [
+    'features/a/two',
+    'features/a/outer/inner',
+    'features/a/gone',
+    'features/b',
+];
+
 const EXPECTED = [
     'components/g/index.tsx: B',
     'components/g/sub/deep: D',
     'features/a/components: P',
     'features/a/deep/deeper/deepest: D',
     'features/a/empty: F',
+    'features/a/gone: F',
     'features/a/hooks: H',
     'features/a/index.ts: B',
+    'features/a/new-two: F',
     'features/a/one: F',
+    'features/a/outer: F',
     'features/a/types: P',
+    'features/b: F',
     'services/hooks/use-thing.ts: H',
     'types: P',
     'types/hikka.d.ts: ambient',
@@ -275,8 +349,25 @@ const EXPECTED = [
     'utils/area/nested: D',
 ];
 
+const EXPECTED_WHEN_TRACKED = [
+    'features/about: F',
+    'features/about/prototype: F',
+];
+
+const diff = (got, expected) => [
+    ...expected.filter((e) => !got.includes(e)).map((e) => `missing ${e}`),
+    ...got.filter((g) => !expected.includes(g)).map((g) => `unexpected ${g}`),
+];
+
 const selfTest = () => {
     const dir = mkdtempSync(join(tmpdir(), 'check-structure-'));
+    const run = () => {
+        const { violations, notes } = check(dir, FIXTURE_BASELINE);
+        return {
+            got: violations.map((v) => `${v.path}: ${v.rule}`),
+            notes: notes.join(),
+        };
+    };
     try {
         for (const [path, source] of Object.entries(FIXTURE)) {
             const target = join(dir, path);
@@ -287,18 +378,21 @@ const selfTest = () => {
                 writeFileSync(target, `${source}\n`);
             }
         }
-        const { violations, notes } = check(dir);
-        const got = violations.map((v) => `${v.path}: ${v.rule}`);
+        const untracked = run();
+        const git = spawnSync('git', ['init', '-q'], { cwd: dir });
+        const add = spawnSync('git', ['add', 'features/about'], { cwd: dir });
+        if (git.status !== 0 || add.status !== 0) {
+            return ['git init/add failed in the fixture'];
+        }
+        const tracked = run();
         return [
-            ...EXPECTED.filter((e) => !got.includes(e)).map(
-                (e) => `missing ${e}`,
-            ),
-            ...got
-                .filter((g) => !EXPECTED.includes(g))
-                .map((g) => `unexpected ${g}`),
-            ...(notes.join() === 'features/a/two'
+            ...diff(untracked.got, EXPECTED),
+            ...(untracked.notes === 'features/a/outer/inner,features/a/two'
                 ? []
-                : [`notes ${JSON.stringify(notes)}`]),
+                : [`notes ${untracked.notes}`]),
+            ...diff(tracked.got, [...EXPECTED, ...EXPECTED_WHEN_TRACKED]).map(
+                (problem) => `${problem} (features/about tracked by git)`,
+            ),
         ];
     } finally {
         rmSync(dir, { recursive: true, force: true });
@@ -317,12 +411,22 @@ if (process.argv.includes('--self-test')) {
     process.exit(0);
 }
 
-const { violations, notes } = check(SRC);
+const readBaseline = () => JSON.parse(readFileSync(BASELINE, 'utf8'));
+
+if (process.argv.includes('--update')) {
+    const { twoFile } = check(SRC, []);
+    writeFileSync(BASELINE, `${JSON.stringify(twoFile, null, 4)}\n`);
+    console.log(
+        `check-structure: baseline written (${twoFile.length} two-file folders)`,
+    );
+}
+
+const { violations, notes } = check(SRC, readBaseline());
 for (const { path, rule, message } of violations) {
     console.error(`${DISPLAY_PREFIX}${path}: ${rule}: ${message}`);
 }
 console.log(
-    `check-structure: note: ${notes.length} existing two-file folders tolerated by Rule F`,
+    `check-structure: note: ${notes.length} two-file folders frozen in structure-baseline.json`,
 );
 if (process.argv.includes('--verbose')) {
     for (const path of notes) console.log(`  ${DISPLAY_PREFIX}${path}`);
