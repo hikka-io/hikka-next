@@ -14,7 +14,6 @@ import NotificationsSettings from './notifications-settings';
 
 const mocks = vi.hoisted(() => ({
     mutationFn: vi.fn(),
-    invalidate: vi.fn(),
     success: vi.fn(),
 }));
 
@@ -23,10 +22,6 @@ vi.mock('@hikka/api', async (importOriginal) => ({
     changeIgnoredNotificationsMutation: () => ({
         mutationFn: mocks.mutationFn,
     }),
-}));
-
-vi.mock('@/utils/api/invalidate-content-state', () => ({
-    invalidateIgnoredNotifications: mocks.invalidate,
 }));
 
 vi.mock('sonner', () => ({ toast: { success: mocks.success } }));
@@ -227,7 +222,6 @@ describe('notifications settings', () => {
         expect(mocks.mutationFn.mock.calls[0][0]).toEqual({
             body: { ignored_notifications: [] },
         });
-        expect(mocks.invalidate).not.toHaveBeenCalled();
         expect(mocks.success).toHaveBeenCalledWith(
             'Ви успішно змінили налаштування сповіщень.',
         );
@@ -289,6 +283,5 @@ describe('notifications settings', () => {
         expect(
             queryClient.getQueryData(getIgnoredNotificationsOptions().queryKey),
         ).toEqual(saved);
-        expect(mocks.invalidate).not.toHaveBeenCalled();
     });
 });

@@ -8,7 +8,6 @@ import {
     type UserResponseFollowed,
     unfollowMutation,
     userProfileOptions,
-    userProfileQueryKey,
 } from '@hikka/api';
 
 import MaterialSymbolsPersonAddOutlineRounded from '@/components/icons/material-symbols/MaterialSymbolsPersonAddOutlineRounded';
@@ -45,28 +44,23 @@ const FollowButton: FC<Props> = ({
 
     const user = userProp || userQuery;
 
-    const updateFollowState = (is_followed: boolean) => {
-        if (!user?.username) return;
-        queryClient.setQueryData(
-            userProfileQueryKey({ path: { username: user.username } }),
-            (prev: UserResponseFollowed | undefined) =>
-                prev ? { ...prev, is_followed } : prev,
-        );
-    };
-
     const { mutate: mutateFollow, isPending: followLoading } = useMutation({
         ...followMutation(),
         onSuccess: (_data, { path }) => {
-            updateFollowState(true);
-            invalidateFollow(queryClient, path.username);
+            invalidateFollow(queryClient, {
+                username: path.username,
+                is_followed: true,
+            });
         },
     });
 
     const { mutate: mutateUnfollow, isPending: unfollowLoading } = useMutation({
         ...unfollowMutation(),
         onSuccess: (_data, { path }) => {
-            updateFollowState(false);
-            invalidateFollow(queryClient, path.username);
+            invalidateFollow(queryClient, {
+                username: path.username,
+                is_followed: false,
+            });
         },
     });
 

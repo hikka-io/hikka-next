@@ -36,7 +36,10 @@ const FeedItemMenu: FC<Props> = ({ author, shareUrl }) => {
         ...followMutation(),
         onSuccess: (_data, { path }) => {
             setIsFollowed(true);
-            invalidateFollow(queryClient, path.username);
+            invalidateFollow(queryClient, {
+                username: path.username,
+                is_followed: true,
+            });
         },
     });
 
@@ -44,7 +47,10 @@ const FeedItemMenu: FC<Props> = ({ author, shareUrl }) => {
         ...unfollowMutation(),
         onSuccess: (_data, { path }) => {
             setIsFollowed(false);
-            invalidateFollow(queryClient, path.username);
+            invalidateFollow(queryClient, {
+                username: path.username,
+                is_followed: false,
+            });
         },
     });
 

@@ -5,8 +5,12 @@ import {
     type FavouriteResponse,
     getEditQueryKey,
     getFavouriteQueryKey,
+    getVoteQueryKey,
     type ReadResponse,
     readGetQueryKey,
+    type SetVoteData,
+    VoteContentTypeEnum,
+    type VoteResponse,
     type WatchResponse,
     watchGetQueryKey,
 } from '@hikka/api';
@@ -57,13 +61,17 @@ const READ_EMBED_IDS: readonly QueryId[] = [
     'getCollections',
 ];
 
-/** Comment lists + content-list queries that embed a comments count/preview. */
-const COMMENT_IDS: readonly QueryId[] = [
+const COMMENT_LIST_IDS: readonly QueryId[] = [
     'commentsList',
     'getCommentsList',
     'getCommentsUser',
     'thread',
     'latestComments',
+];
+
+/** Comment lists + content-list queries that embed a comments count/preview. */
+const COMMENT_IDS: readonly QueryId[] = [
+    ...COMMENT_LIST_IDS,
     'animeSlug',
     'mangaInfo',
     'novelInfo',
@@ -119,11 +127,13 @@ const CONTENT_DETAIL_IDS: readonly QueryId[] = [
     'personVoices',
 ];
 
-const VOTE_IDS: readonly QueryId[] = [
-    'getArticle',
-    'getCollection',
-    ...COMMENT_IDS,
-];
+const VOTE_DETAIL = {
+    [VoteContentTypeEnum.ARTICLE]: ['getArticle', 'slug'],
+    [VoteContentTypeEnum.COLLECTION]: ['getCollection', 'reference'],
+} as const satisfies Record<
+    Exclude<VoteContentTypeEnum, typeof VoteContentTypeEnum.COMMENT>,
+    readonly [QueryId, string]
+>;
 
 const SESSION_IDS: readonly QueryId[] = ['profile'];
 
@@ -132,19 +142,40 @@ const NOTIFICATION_IDS: readonly QueryId[] = [
     'unseenNotificationsCount',
 ];
 
-const IGNORED_NOTIFICATION_IDS: readonly QueryId[] = [
-    'getIgnoredNotifications',
-];
-
 const USER_CLIENT_IDS: readonly QueryId[] = ['listUserClients'];
 
 const FAVOURITE_IDS: readonly QueryId[] = ['favouriteList'];
 
 const USER_PROFILE_ID: QueryId = 'userProfile';
 
+// Every query embedding a user object whose `is_followed` a follow flips.
+const FOLLOW_EMBED_SET = new Set<QueryId>([
+    ...ARTICLE_IDS,
+    ...COLLECTION_IDS,
+    'followingList',
+    'followersList',
+    ...FAVOURITE_IDS,
+    USER_PROFILE_ID,
+]);
+
+const COMMENT_LIST_SET = new Set(COMMENT_LIST_IDS);
+
+export type FollowChange = { username: string; is_followed: boolean };
+
 /** Read the generated query key's leading `_id` discriminator (`[{ _id, ... }]`). */
 export function queryId(queryKey: readonly unknown[]): string | undefined {
     return (queryKey[0] as { _id?: string } | undefined)?._id;
+}
+
+function matchesPath(
+    queryKey: readonly unknown[],
+    id: string,
+    field: string,
+    value: string,
+): boolean {
+    if (queryId(queryKey) !== id) return false;
+    const path = (queryKey[0] as { path?: Record<string, unknown> }).path;
+    return path?.[field] === value;
 }
 
 export type InvalidateOptions = {
@@ -226,22 +257,20 @@ const WATCH_EMBED_SET = new Set(WATCH_EMBED_IDS);
 const READ_EMBED_SET = new Set(READ_EMBED_IDS);
 
 /**
- * Return `node` with the embedded `field` array of every `{ slug, [field] }`
- * content object matching `slug` replaced by `next` (or cleared). Walks arbitrary
- * nesting and preserves referential identity for unchanged branches — so
- * `setQueriesData` skips notifying observers of queries that didn't contain the
- * slug, and React only re-renders the cards that actually changed.
+ * Walk arbitrary nesting and let `patchNode` replace object nodes: it returns
+ * the replacement (the record itself to keep it and stop descending) or
+ * `undefined` to descend into its children. Preserves referential identity for
+ * unchanged branches — so `setQueriesData` skips notifying observers of queries
+ * that didn't contain the target, and React only re-renders what changed.
  */
-function patchEmbeddedStatus<T>(
+function patchTree<T>(
     node: T,
-    slug: string,
-    field: StatusField,
-    next: object | undefined,
+    patchNode: (record: Record<string, unknown>) => unknown,
 ): T {
     if (Array.isArray(node)) {
         let changed = false;
         const mapped = node.map((child) => {
-            const patched = patchEmbeddedStatus(child, slug, field, next);
+            const patched = patchTree(child, patchNode);
             if (patched !== child) changed = true;
             return patched;
         });
@@ -251,21 +280,93 @@ function patchEmbeddedStatus<T>(
     if (node === null || typeof node !== 'object') return node;
     const record = node as Record<string, unknown>;
 
-    // A status-bearing content node: patch it if it's our target, and never
-    // descend further either way (its children hold no other matching content).
-    if (typeof record.slug === 'string' && Array.isArray(record[field])) {
-        if (record.slug !== slug) return node;
-        return { ...record, [field]: next ? [next] : [] } as T;
-    }
+    const replaced = patchNode(record);
+    if (replaced !== undefined) return replaced as T;
 
-    let changed = false;
-    const out: Record<string, unknown> = {};
+    let out: Record<string, unknown> | undefined;
     for (const key in record) {
-        const patched = patchEmbeddedStatus(record[key], slug, field, next);
-        if (patched !== record[key]) changed = true;
-        out[key] = patched;
+        const patched = patchTree(record[key], patchNode);
+        if (patched !== record[key]) out ??= { ...record };
+        if (out) out[key] = patched;
     }
-    return (changed ? out : node) as T;
+    return (out ?? node) as T;
+}
+
+/**
+ * Return `node` with the embedded `field` array of every `{ slug, [field] }`
+ * content object matching `slug` replaced by `next` (or cleared). A
+ * status-bearing content node is never descended into: its children hold no
+ * other matching content.
+ */
+function patchEmbeddedStatus<T>(
+    node: T,
+    slug: string,
+    field: StatusField,
+    next: object | undefined,
+): T {
+    return patchTree(node, (record) => {
+        if (typeof record.slug !== 'string' || !Array.isArray(record[field]))
+            return undefined;
+        if (record.slug !== slug) return record;
+        return { ...record, [field]: next ? [next] : [] };
+    });
+}
+
+/** Set `is_followed` on every embedded user object of `username`. */
+export function patchEmbeddedFollow<T>(
+    node: T,
+    { username, is_followed }: FollowChange,
+): T {
+    return patchTree(node, (record) => {
+        if (
+            typeof record.username !== 'string' ||
+            typeof record.is_followed !== 'boolean'
+        )
+            return undefined;
+        if (record.username !== username || record.is_followed === is_followed)
+            return record;
+        return { ...record, is_followed };
+    });
+}
+
+/** Apply the user's new `score` to every embedded copy of the voted entity. */
+export function patchEmbeddedVote<T>(
+    node: T,
+    reference: string,
+    score: number,
+): T {
+    return patchTree(node, (record) => {
+        if (
+            record.reference !== reference ||
+            typeof record.my_score !== 'number' ||
+            typeof record.vote_score !== 'number'
+        )
+            return undefined;
+        if (record.my_score === score) return record;
+        return {
+            ...record,
+            my_score: score,
+            vote_score: record.vote_score + score - record.my_score,
+        };
+    });
+}
+
+/**
+ * Patch every query whose `_id` is in `ids`, leaving the ones the patch does
+ * not change untouched: `setQueryData` would otherwise mark them fresh.
+ */
+function patchQueries(
+    queryClient: QueryClient,
+    ids: ReadonlySet<string>,
+    patch: (data: unknown) => unknown,
+): void {
+    queryClient.setQueriesData<unknown>(
+        { predicate: (query) => ids.has(queryId(query.queryKey) ?? '') },
+        (data: unknown) => {
+            const next = patch(data);
+            return next === data ? undefined : next;
+        },
+    );
 }
 
 /** Patch the embedded status of `slug` across every query whose `_id` is in `ids`. */
@@ -315,13 +416,27 @@ export function applyWatchMutation(
     return invalidateWatchState(queryClient, options);
 }
 
+// An in-flight fetch of the entry would land after this write and restore the deleted entry.
+async function setQueryDataAfterCancel(
+    queryClient: QueryClient,
+    queryKey: readonly unknown[],
+    data: unknown,
+): Promise<void> {
+    await queryClient.cancelQueries({ queryKey, exact: true });
+    queryClient.setQueryData(queryKey, data);
+}
+
 /** Clear a deleted watch entry from the per-content + embedding caches, then invalidate. */
-export function applyWatchDeletion(
+export async function applyWatchDeletion(
     queryClient: QueryClient,
     slug: string,
     options?: InvalidateOptions,
 ): Promise<void> {
-    queryClient.setQueryData(watchGetQueryKey({ path: { slug } }), null);
+    await setQueryDataAfterCancel(
+        queryClient,
+        watchGetQueryKey({ path: { slug } }),
+        null,
+    );
     patchEmbeddedStatusInQueries(
         queryClient,
         WATCH_EMBED_SET,
@@ -364,13 +479,14 @@ export function applyReadMutation(
 }
 
 /** Read mirror of `applyWatchDeletion`. */
-export function applyReadDeletion(
+export async function applyReadDeletion(
     queryClient: QueryClient,
     content_type: ReadResponse['content']['data_type'],
     slug: string,
     options?: InvalidateOptions,
 ): Promise<void> {
-    queryClient.setQueryData(
+    await setQueryDataAfterCancel(
+        queryClient,
         readGetQueryKey({ path: { content_type, slug } }),
         null,
     );
@@ -444,14 +560,6 @@ export function invalidateNotifications(
     return invalidateByIds(queryClient, NOTIFICATION_IDS, options);
 }
 
-/** Invalidate the ignored-notification settings query after saving toggles. */
-export function invalidateIgnoredNotifications(
-    queryClient: QueryClient,
-    options?: InvalidateOptions,
-): Promise<void> {
-    return invalidateByIds(queryClient, IGNORED_NOTIFICATION_IDS, options);
-}
-
 /** Invalidate the user's OAuth client list after create/update/delete. */
 export function invalidateUserClients(
     queryClient: QueryClient,
@@ -484,13 +592,14 @@ export function applyFavouriteMutation(
 }
 
 /** Favourite mirror of `applyWatchDeletion`. */
-export function applyFavouriteDeletion(
+export async function applyFavouriteDeletion(
     queryClient: QueryClient,
     content_type: FavouriteContentTypeEnum,
     slug: string,
     options?: InvalidateOptions,
 ): Promise<void> {
-    queryClient.setQueryData(
+    await setQueryDataAfterCancel(
+        queryClient,
         getFavouriteQueryKey({ path: { content_type, slug } }),
         null,
     );
@@ -498,36 +607,69 @@ export function applyFavouriteDeletion(
 }
 
 /**
- * Invalidate everything a follow/unfollow can change: follow lists/stats, the
- * personalised feed, the article/collection feeds (which order by followed
- * authors), and the target user's profile (`is_followed`).
+ * Reflect a follow/unfollow: patch `is_followed` into the embedded authors and
+ * the target's profile, refetch the follow lists/stats, the personalised feed
+ * and the target's profile, and only stale-mark the article/collection lists
+ * (they order by followed authors) so one click never reloads a large list.
  */
 export function invalidateFollow(
     queryClient: QueryClient,
-    targetUsername: string,
+    change: FollowChange,
     options?: InvalidateOptions,
 ): Promise<void> {
-    return invalidateByIds(
-        queryClient,
-        [...FOLLOW_IDS, ...ARTICLE_IDS, ...COLLECTION_IDS],
-        options,
-        (query) =>
-            queryId(query.queryKey) === USER_PROFILE_ID &&
-            JSON.stringify(query.queryKey).includes(targetUsername),
+    patchQueries(queryClient, FOLLOW_EMBED_SET, (data) =>
+        patchEmbeddedFollow(data, change),
     );
+    return Promise.all([
+        invalidateByIds(queryClient, FOLLOW_IDS, options, (query) =>
+            matchesPath(
+                query.queryKey,
+                USER_PROFILE_ID,
+                'username',
+                change.username,
+            ),
+        ),
+        invalidateByIds(queryClient, [...ARTICLE_IDS, ...COLLECTION_IDS], {
+            refetch: false,
+        }),
+    ]).then(() => undefined);
 }
 
 /**
- * Invalidate the caches that embed a vote score/my-score for the voted entity:
- * article and collection detail plus comment lists (comments are voted through
- * the same endpoint). The standalone `getVote` status is updated separately via
- * `setQueryData`.
+ * Store a vote and refresh what embeds it. The vote button is optimistic, so a
+ * comment vote patches the comment lists and only stale-marks them; an
+ * article/collection vote refetches that one detail.
  */
-export function invalidateVote(
+export function applyVoteMutation(
     queryClient: QueryClient,
+    target: SetVoteData['path'],
+    data: VoteResponse,
     options?: InvalidateOptions,
 ): Promise<void> {
-    return invalidateByIds(queryClient, VOTE_IDS, options);
+    queryClient.setQueryData(getVoteQueryKey({ path: target }), data);
+    if (target.content_type === VoteContentTypeEnum.COMMENT) {
+        patchQueries(queryClient, COMMENT_LIST_SET, (cached) =>
+            patchEmbeddedVote(cached, target.slug, data.score),
+        );
+    }
+    return invalidateVote(queryClient, target, options);
+}
+
+export function invalidateVote(
+    queryClient: QueryClient,
+    { content_type, slug }: SetVoteData['path'],
+    options?: InvalidateOptions,
+): Promise<void> {
+    if (content_type === VoteContentTypeEnum.COMMENT) {
+        return invalidateByIds(queryClient, COMMENT_LIST_IDS, {
+            refetch: false,
+        });
+    }
+    const [id, field] = VOTE_DETAIL[content_type];
+    return queryClient.invalidateQueries({
+        predicate: (query) => matchesPath(query.queryKey, id, field, slug),
+        refetchType: refetchTypeFor(options),
+    });
 }
 
 /**

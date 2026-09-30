@@ -1,13 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import {
-    getVoteQueryKey,
-    setVoteMutation,
-    type VoteContentTypeEnum,
-} from '@hikka/api';
+import { setVoteMutation, type VoteContentTypeEnum } from '@hikka/api';
 
 import { useSession } from '@/services/session';
-import { invalidateVote } from '@/utils/api/invalidate-content-state';
+import { applyVoteMutation } from '@/utils/api/invalidate-content-state';
 import { useRouter } from '@/utils/navigation';
 
 interface UseVoteParams {
@@ -30,13 +26,7 @@ export function useVote({
     const mutation = useMutation({
         ...setVoteMutation(),
         onSuccess: (data, { path }) => {
-            queryClient.setQueryData(
-                getVoteQueryKey({
-                    path: { content_type: path.content_type, slug: path.slug },
-                }),
-                data,
-            );
-            invalidateVote(queryClient);
+            applyVoteMutation(queryClient, path, data);
         },
     });
 
