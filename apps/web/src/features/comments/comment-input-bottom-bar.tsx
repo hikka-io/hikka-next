@@ -1,8 +1,9 @@
-import type { FC } from 'react';
+import { type FC, useMemo } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Minimize2, Send } from 'lucide-react';
-import { useEditorRef, useEditorSelector } from 'platejs/react';
+import type { Value } from 'platejs';
+import { useEditorRef, useEditorSelector, useEditorValue } from 'platejs/react';
 
 import {
     API_LIMITS,
@@ -23,6 +24,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Field, FieldLabel, FieldTitle } from '@/components/ui/field';
 import Spinner from '@/components/ui/spinner';
+import { DEBOUNCE_MS, useDebounce } from '@/services/hooks/use-debounce';
 import { invalidateComments } from '@/utils/api/invalidate-content-state';
 
 import { useCommentsContext } from './comments-provider';
@@ -30,6 +32,8 @@ import type { Verdict } from './review/review';
 import { toReviewArgs } from './review/review';
 
 const MAX_COMMENT_DEPTH = 5;
+
+const codePointLength = (text: string) => Array.from(text).length;
 
 type Props = {
     slug: string;
@@ -70,9 +74,13 @@ const CommentInputBottomBar: FC<Props> = ({
         !isEdit && comment?.depth && comment.depth >= MAX_COMMENT_DEPTH
             ? `@${comment.author.username} `
             : '';
-    const textLength = useEditorSelector(
-        (editor) => getCommentText(editor).length,
-        [],
+    const [countedValue] = useDebounce<Value>({
+        value: useEditorValue(),
+        delay: DEBOUNCE_MS.input,
+    });
+    const textLength = useMemo(
+        () => codePointLength(getCommentText(editor, countedValue)),
+        [editor, countedValue],
     );
     const sentLength = replyMention.length + textLength;
     const isTooLong = sentLength > API_LIMITS.commentText.max;
@@ -137,7 +145,10 @@ const CommentInputBottomBar: FC<Props> = ({
             return;
         }
 
-        if (replyMention.length + text.length > API_LIMITS.commentText.max) {
+        if (
+            replyMention.length + codePointLength(text) >
+            API_LIMITS.commentText.max
+        ) {
             return;
         }
 

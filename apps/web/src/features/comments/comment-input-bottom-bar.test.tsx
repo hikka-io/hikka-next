@@ -1,10 +1,11 @@
 import { act, type ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 
+import { MarkdownPlugin } from '@platejs/markdown';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { Value } from 'platejs';
-import { createPlateEditor, Plate } from 'platejs/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { createPlateEditor, Plate, PlateSlate } from 'platejs/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
     API_LIMITS,
@@ -14,6 +15,7 @@ import {
 
 import { MarkdownEditorKit } from '@/components/plate/editor/markdown-editor-kit';
 import { getCommentText } from '@/components/plate/editor/value/submit-value';
+import { DEBOUNCE_MS } from '@/services/hooks/use-debounce';
 
 import CommentInputBottomBar from './comment-input-bottom-bar';
 
@@ -77,6 +79,8 @@ const DEEP_COMMENT = {
 
 const MENTION = '@olexh ';
 
+const EMOJI = '\u{1F600}';
+
 const teardown: (() => void)[] = [];
 
 afterEach(async () => {
@@ -106,11 +110,13 @@ async function mount(
         root.render(
             <QueryClientProvider client={queryClient}>
                 <Plate editor={editor}>
-                    <CommentInputBottomBar
-                        slug="some-slug"
-                        content_type={'anime' as CommentsContentType}
-                        {...props}
-                    />
+                    <PlateSlate>
+                        <CommentInputBottomBar
+                            slug="some-slug"
+                            content_type={'anime' as CommentsContentType}
+                            {...props}
+                        />
+                    </PlateSlate>
                 </Plate>
             </QueryClientProvider>,
         ),
@@ -133,7 +139,7 @@ async function mount(
         await act(async () => send().click());
     };
 
-    return { send, counter, click };
+    return { editor, send, counter, click };
 }
 
 const sentText = (mutation: typeof mocks.write) =>
@@ -233,5 +239,100 @@ describe('comment length limit', () => {
         await click();
 
         expect(mocks.write).not.toHaveBeenCalled();
+    });
+
+    it('counts an emoji as one character like the backend', async () => {
+        const fits = await mount(paragraph(EMOJI.repeat(MAX - OVERHEAD)));
+
+        expect(fits.send().disabled).toBe(false);
+        expect(fits.counter()?.textContent).toBe(`${MAX}/${MAX}`);
+
+        await fits.click();
+
+        await vi.waitFor(() => expect(mocks.write).toHaveBeenCalledTimes(1));
+        expect(Array.from(sentText(mocks.write))).toHaveLength(MAX);
+
+        const over = await mount(paragraph(EMOJI.repeat(MAX - OVERHEAD + 1)));
+
+        expect(over.send().disabled).toBe(true);
+        expect(over.counter()?.textContent).toBe(`${MAX + 1}/${MAX}`);
+    });
+});
+
+describe('comment length counter', () => {
+    beforeEach(() => {
+        vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+        vi.useRealTimers();
+        vi.restoreAllMocks();
+    });
+
+    const wait = async (ms: number) => {
+        await act(async () => vi.advanceTimersByTime(ms));
+    };
+
+    const edit = async (change: () => void) => {
+        await act(async () => change());
+    };
+
+    it('does not serialize the comment when only the caret moves', async () => {
+        const { editor, counter } = await mount(withLength(MAX - 10));
+        const serialize = vi.spyOn(
+            editor.getApi(MarkdownPlugin).markdown,
+            'serialize',
+        );
+
+        for (const offset of [0, 5, 20, 3]) {
+            await edit(() => editor.tf.select({ path: [0, 0], offset }));
+        }
+        await wait(DEBOUNCE_MS.input);
+
+        expect(serialize).not.toHaveBeenCalled();
+        expect(counter()?.textContent).toBe(`${MAX - 10}/${MAX}`);
+    });
+
+    it('serializes once per typing pause, not per keystroke', async () => {
+        const { editor, counter } = await mount(withLength(MAX - 10));
+        const serialize = vi.spyOn(
+            editor.getApi(MarkdownPlugin).markdown,
+            'serialize',
+        );
+
+        await edit(() => editor.tf.select(editor.api.end([])));
+        for (const char of 'abcde') {
+            await edit(() => editor.tf.insertText(char));
+            await wait(DEBOUNCE_MS.input - 1);
+        }
+
+        expect(serialize).not.toHaveBeenCalled();
+        expect(counter()?.textContent).toBe(`${MAX - 10}/${MAX}`);
+
+        await wait(1);
+
+        expect(serialize).toHaveBeenCalledTimes(1);
+        expect(counter()?.textContent).toBe(`${MAX - 5}/${MAX}`);
+    });
+
+    it('blocks an over-limit send before the counter catches up', async () => {
+        const { editor, send, counter, click } = await mount(withLength(MAX));
+
+        await edit(() => {
+            editor.tf.select(editor.api.end([]));
+            editor.tf.insertText('b');
+        });
+
+        expect(send().disabled).toBe(false);
+        expect(counter()?.textContent).toBe(`${MAX}/${MAX}`);
+
+        await click();
+
+        expect(mocks.write).not.toHaveBeenCalled();
+
+        await wait(DEBOUNCE_MS.input);
+
+        expect(send().disabled).toBe(true);
+        expect(counter()?.textContent).toBe(`${MAX + 1}/${MAX}`);
     });
 });

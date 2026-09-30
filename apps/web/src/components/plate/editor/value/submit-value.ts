@@ -8,12 +8,15 @@ export function getCommentValue(editor: SlateEditor): TElement[] {
     return trimEmptyBlocks(editor.children as TElement[]);
 }
 
-export function getCommentText(editor: SlateEditor): string {
-    const value = getCommentValue(editor);
+export function getCommentText(
+    editor: SlateEditor,
+    value: Value = editor.children,
+): string {
+    const trimmed = trimEmptyBlocks(value as TElement[]);
 
-    if (value.length === 0) return '';
+    if (trimmed.length === 0) return '';
 
-    return editor.getApi(MarkdownPlugin).markdown.serialize({ value });
+    return editor.getApi(MarkdownPlugin).markdown.serialize({ value: trimmed });
 }
 
 export function getArticleDocument(document: Value): Value {
