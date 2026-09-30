@@ -1,5 +1,6 @@
 import { type FC, useState } from 'react';
 
+import { range } from '@antfu/utils';
 import { useQuery } from '@tanstack/react-query';
 
 import {
@@ -15,6 +16,7 @@ import {
 import { MaterialSymbolsClockLoader10 } from '@/components/icons/material-symbols/MaterialSymbolsClockLoader10';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
     Tooltip,
     TooltipContent,
@@ -55,6 +57,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
     const [hoveredStatus, setHoveredStatus] = useState<string | null>(null);
     const isAnime = type === ContentTypeEnum.ANIME;
     const sortParam = isAnime ? 'watch_score' : 'read_score';
+    const statusCount = (isAnime ? WATCH_ORDER : READ_ORDER).length;
 
     const { data: watchData } = useQuery({
         ...userWatchStatsOptions({ path: { username } }),
@@ -73,8 +76,22 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
         enabled: !isAnime,
     });
 
-    if (isAnime && !watchData) return null;
-    if (!isAnime && !readData) return null;
+    if ((isAnime && !watchData) || (!isAnime && !readData)) {
+        return (
+            <div className={cn('flex grow flex-col gap-2', className)}>
+                <div className="px-4">
+                    <Skeleton className="h-2 w-full rounded-xs" />
+                </div>
+                <div className="grid grid-cols-2 gap-1 px-2">
+                    {range(0, statusCount + 1).map((index) => (
+                        <div key={index} className="p-2">
+                            <Skeleton className="h-4.5 w-full rounded-sm" />
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     const statuses = isAnime ? WATCH_ORDER : READ_ORDER;
     const statusMap = LIST_STATUS[isAnime ? 'watch' : 'read'];

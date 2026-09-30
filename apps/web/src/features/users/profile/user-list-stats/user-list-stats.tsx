@@ -1,6 +1,13 @@
 import { useState } from 'react';
 
-import { ContentTypeEnum, type MainContentTypeEnum } from '@hikka/api';
+import { useQueryClient } from '@tanstack/react-query';
+
+import {
+    ContentTypeEnum,
+    type MainContentTypeEnum,
+    type ReadContentTypeEnum,
+    userReadStatsOptions,
+} from '@hikka/api';
 
 import Card from '@/components/ui/card';
 import {
@@ -41,6 +48,12 @@ const UserListStats = () => {
         ContentTypeEnum.ANIME,
     );
     const tabConfig = TAB_LIST_CONFIG[activeTab];
+    const queryClient = useQueryClient();
+
+    const warmReadStats = (content_type: ReadContentTypeEnum) => () =>
+        queryClient.prefetchQuery(
+            userReadStatsOptions({ path: { username, content_type } }),
+        );
 
     return (
         <Card className="p-0 py-4" id="user-list-stats">
@@ -66,12 +79,24 @@ const UserListStats = () => {
                             </TabsTrigger>
                             <TabsTrigger
                                 value={ContentTypeEnum.MANGA}
+                                onPointerEnter={warmReadStats(
+                                    ContentTypeEnum.MANGA as ReadContentTypeEnum,
+                                )}
+                                onFocus={warmReadStats(
+                                    ContentTypeEnum.MANGA as ReadContentTypeEnum,
+                                )}
                                 aria-label="Манґа"
                             >
                                 Манґа
                             </TabsTrigger>
                             <TabsTrigger
                                 value={ContentTypeEnum.NOVEL}
+                                onPointerEnter={warmReadStats(
+                                    ContentTypeEnum.NOVEL as ReadContentTypeEnum,
+                                )}
+                                onFocus={warmReadStats(
+                                    ContentTypeEnum.NOVEL as ReadContentTypeEnum,
+                                )}
                                 aria-label="Ранобе"
                             >
                                 Ранобе
