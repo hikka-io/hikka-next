@@ -16,6 +16,10 @@ import { ErrorPage } from '@/features/app-shell';
 import { getInternalApiUrl, PUBLIC_API_URL } from '@/utils/api/base-url';
 import { getClientIpFn } from '@/utils/api/client-ip';
 import { shouldSkipGlobalErrorToast } from '@/utils/api/mutation-meta';
+import {
+    applyQueryDefaults,
+    QUERY_CLIENT_DEFAULTS,
+} from '@/utils/api/query-defaults';
 import { getAuthTokenFn } from '@/utils/cookies';
 
 import { routeTree } from './routeTree.gen';
@@ -35,14 +39,9 @@ export async function createRouter() {
                 toast.error(error.message);
             },
         }),
-        defaultOptions: {
-            queries: {
-                staleTime: 60 * 1000,
-                gcTime: Infinity,
-                retry: false,
-            },
-        },
+        defaultOptions: { queries: QUERY_CLIENT_DEFAULTS },
     });
+    applyQueryDefaults(queryClient);
 
     const authToken = await getAuthTokenFn();
     const clientIp = isServer ? await getClientIpFn() : null;
