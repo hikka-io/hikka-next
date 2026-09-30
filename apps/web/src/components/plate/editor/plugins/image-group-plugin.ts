@@ -2,6 +2,8 @@ import { ElementApi, type PluginConfig, type TElement } from 'platejs';
 import { createTPlatePlugin } from 'platejs/react';
 import { toast } from 'sonner';
 
+import { apiErrorMessage } from '@/utils/api/api-error-message';
+
 import {
     ELEMENT_IMAGE_GROUP,
     MAX_IMAGE_COUNT,
@@ -102,8 +104,7 @@ export const ImageGroupPlugin = createTPlatePlugin<ImageGroupConfig>({
             } catch (error) {
                 if (entry?.abort.signal.aborted) return; // user cancelled
 
-                const message =
-                    (error as Error)?.message ?? 'Помилка завантаження';
+                const message = apiErrorMessage(error, 'Помилка завантаження');
 
                 editor
                     .getTransforms(ImagePlaceholderPlugin)

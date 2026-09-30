@@ -10,6 +10,7 @@ import {
     applyVoteMutation,
     applyWatchDeletion,
     invalidateArticles,
+    invalidateAuthTokens,
     invalidateCollections,
     invalidateComments,
     invalidateContentBySlug,
@@ -23,6 +24,8 @@ import {
     invalidateWatchState,
     patchEmbeddedFollow,
     patchEmbeddedVote,
+    resetPageList,
+    writeIgnoredNotifications,
     writeReadToCaches,
     writeWatchToCaches,
 } from './invalidate-content-state';
@@ -237,6 +240,11 @@ describe('invalidation helpers', () => {
             'invalidateSession',
             (queryClient) => invalidateSession(queryClient),
             [expected(['profile'])],
+        ],
+        [
+            'invalidateAuthTokens',
+            (queryClient) => invalidateAuthTokens(queryClient),
+            [expected(['thirdPartyAuthTokens'])],
         ],
         [
             'invalidateNotifications',
@@ -735,5 +743,37 @@ describe('applyVoteMutation on a live cache', () => {
         voted.unsubscribe();
         other.unsubscribe();
         list.unsubscribe();
+    });
+});
+
+describe('writeIgnoredNotifications', () => {
+    it('replaces the cached ignored types without refetching', () => {
+        const queryClient = new QueryClient();
+        const key = api.getIgnoredNotificationsQueryKey();
+        queryClient.setQueryData(key, { ignored_notifications: [] });
+
+        writeIgnoredNotifications(queryClient, {
+            ignored_notifications: ['comment_reply'],
+        } as api.IgnoredNotificationsResponse);
+
+        expect(queryClient.getQueryData(key)).toEqual({
+            ignored_notifications: ['comment_reply'],
+        });
+        expect(queryClient.getQueryState(key)?.isInvalidated).toBe(false);
+    });
+});
+
+describe('resetPageList', () => {
+    it('removes only the queries under the given key', () => {
+        const queryClient = new QueryClient();
+        queryClient.setQueryData(['list', 1], 'page one');
+        queryClient.setQueryData(['list', 2], 'page two');
+        queryClient.setQueryData(['other'], 'kept');
+
+        resetPageList(queryClient, ['list']);
+
+        expect(queryClient.getQueryData(['list', 1])).toBeUndefined();
+        expect(queryClient.getQueryData(['list', 2])).toBeUndefined();
+        expect(queryClient.getQueryData(['other'])).toBe('kept');
     });
 });

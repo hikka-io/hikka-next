@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/responsive-modal';
 import { Slider } from '@/components/ui/slider';
 import Spinner from '@/components/ui/spinner';
+import { apiErrorMessage } from '@/utils/api/api-error-message';
 import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import { cn } from '@/utils/cn';
@@ -71,8 +72,10 @@ const CropEditorModalBody: FC<BodyProps> = ({ file, type, onClose }) => {
         },
         onError: (error) => {
             toast.error(
-                (error as unknown as Error)?.message ??
+                apiErrorMessage(
+                    error,
                     'Не вдалося завантажити зображення. Спробуйте ще раз.',
+                ),
             );
         },
         onSettled: () => {

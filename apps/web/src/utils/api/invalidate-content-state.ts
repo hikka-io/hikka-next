@@ -1,11 +1,13 @@
-import type { QueryClient } from '@tanstack/react-query';
+import type { QueryClient, QueryKey } from '@tanstack/react-query';
 
 import {
     type FavouriteContentTypeEnum,
     type FavouriteResponse,
     getEditQueryKey,
     getFavouriteQueryKey,
+    getIgnoredNotificationsQueryKey,
     getVoteQueryKey,
+    type IgnoredNotificationsResponse,
     type ReadResponse,
     readGetQueryKey,
     type SetVoteData,
@@ -143,6 +145,8 @@ const NOTIFICATION_IDS: readonly QueryId[] = [
 ];
 
 const USER_CLIENT_IDS: readonly QueryId[] = ['listUserClients'];
+
+const AUTH_TOKEN_IDS: readonly QueryId[] = ['thirdPartyAuthTokens'];
 
 const FAVOURITE_IDS: readonly QueryId[] = ['favouriteList'];
 
@@ -566,6 +570,30 @@ export function invalidateUserClients(
     options?: InvalidateOptions,
 ): Promise<void> {
     return invalidateByIds(queryClient, USER_CLIENT_IDS, options);
+}
+
+/** Invalidate the authorized third-party apps list after revoking access. */
+export function invalidateAuthTokens(
+    queryClient: QueryClient,
+    options?: InvalidateOptions,
+): Promise<void> {
+    return invalidateByIds(queryClient, AUTH_TOKEN_IDS, options);
+}
+
+/** Replace the cached ignored-notification types with the saved response. */
+export function writeIgnoredNotifications(
+    queryClient: QueryClient,
+    saved: IgnoredNotificationsResponse,
+): void {
+    queryClient.setQueryData(getIgnoredNotificationsQueryKey(), saved);
+}
+
+/** Drop an infinite list with several loaded pages before a page jump restarts it. */
+export function resetPageList(
+    queryClient: QueryClient,
+    queryKey: QueryKey,
+): void {
+    queryClient.removeQueries({ queryKey });
 }
 
 /** Invalidate the favourite lists after toggling a favourite. */

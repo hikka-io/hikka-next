@@ -11,6 +11,7 @@ import {
 
 import { SubmitButton, useAppForm } from '@/components/form';
 import { Header, HeaderContainer, HeaderTitle } from '@/components/ui/header';
+import { writeIgnoredNotifications } from '@/utils/api/invalidate-content-state';
 
 const GROUPS = [
     { id: 'comments', title: 'Коментарі' },
@@ -130,10 +131,7 @@ const NotificationsSettings = () => {
     const { mutate: changeIgnoredNotifications, isPending } = useMutation({
         ...changeIgnoredNotificationsMutation(),
         onSuccess: (saved) => {
-            queryClient.setQueryData(
-                getIgnoredNotificationsOptions().queryKey,
-                saved,
-            );
+            writeIgnoredNotifications(queryClient, saved);
             toast.success('Ви успішно змінили налаштування сповіщень.');
         },
     });

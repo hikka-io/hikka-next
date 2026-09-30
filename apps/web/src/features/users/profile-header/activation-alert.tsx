@@ -1,11 +1,16 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import { activationResendMutation, userProfileOptions } from '@hikka/api';
+import {
+    activationResendMutation,
+    HikkaApiError,
+    userProfileOptions,
+} from '@hikka/api';
 
 import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
 import { Button } from '@/components/ui/button';
 import { useSession } from '@/services/session';
+import { apiErrorMessage } from '@/utils/api/api-error-message';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 import { useParams } from '@/utils/navigation';
 
@@ -32,7 +37,10 @@ const ActivationAlert = () => {
             );
         },
         onError: (error) => {
-            if ((error as any)?.code === 'auth-modal:activation_valid') {
+            if (
+                error instanceof HikkaApiError &&
+                error.code === 'auth-modal:activation_valid'
+            ) {
                 toast.error(
                     <span>
                         <span className="font-bold">
@@ -45,8 +53,10 @@ const ActivationAlert = () => {
                 return;
             }
             toast.error(
-                (error as unknown as Error)?.message ??
+                apiErrorMessage(
+                    error,
                     'Не вдалося надіслати лист. Спробуйте, будь ласка, ще раз',
+                ),
             );
         },
     });

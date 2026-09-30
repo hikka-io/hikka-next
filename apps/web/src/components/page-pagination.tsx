@@ -4,6 +4,7 @@ import { useNavigate } from '@tanstack/react-router';
 import type { PaginationResponse } from '@hikka/api';
 
 import { StickyPagination } from '@/components/ui/pagination';
+import { resetPageList } from '@/utils/api/invalidate-content-state';
 
 type Props = {
     pagination: Pick<PaginationResponse, 'page' | 'pages'>;
@@ -16,7 +17,7 @@ const PagePagination = ({ pagination, resetQueryKey }: Props) => {
 
     const updatePage = (newPage: number) => {
         if (resetQueryKey) {
-            queryClient.removeQueries({ queryKey: resetQueryKey });
+            resetPageList(queryClient, resetQueryKey);
         }
 
         navigate({

@@ -1,7 +1,8 @@
 import type { QueryClient } from '@tanstack/react-query';
 
-import { profileQueryKey, setAuthToken } from '@hikka/api';
+import { setAuthToken } from '@hikka/api';
 
+import { invalidateSession } from '@/utils/api/invalidate-content-state';
 import { setAuthCookieFn } from '@/utils/cookies';
 
 /**
@@ -15,5 +16,5 @@ export async function handleAuthSuccess(
 ) {
     await setAuthCookieFn({ data: { secret } });
     setAuthToken(secret);
-    await queryClient.invalidateQueries({ queryKey: profileQueryKey() });
+    await invalidateSession(queryClient);
 }

@@ -5,11 +5,7 @@ import { format } from 'date-fns/format';
 import { LucideChevronsUpDown } from 'lucide-react';
 import { toast } from 'sonner';
 
-import {
-    type AuthTokenInfoResponse,
-    revokeTokenMutation,
-    thirdPartyAuthTokensInfiniteOptions,
-} from '@hikka/api';
+import { type AuthTokenInfoResponse, revokeTokenMutation } from '@hikka/api';
 
 import MaterialSymbolsDeleteForeverRounded from '@/components/icons/material-symbols/MaterialSymbolsDeleteForeverRounded';
 import MaterialSymbolsVerifiedRounded from '@/components/icons/material-symbols/MaterialSymbolsVerifiedRounded';
@@ -37,6 +33,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { invalidateAuthTokens } from '@/utils/api/invalidate-content-state';
 import { MUTATION_META_SKIP_ERROR_TOAST } from '@/utils/api/mutation-meta';
 
 type Props = {
@@ -53,9 +50,7 @@ const AuthorizedAppItem: FC<{ token: AuthTokenInfoResponse }> = ({ token }) => {
         ...revokeTokenMutation(),
         meta: MUTATION_META_SKIP_ERROR_TOAST,
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: thirdPartyAuthTokensInfiniteOptions().queryKey,
-            });
+            invalidateAuthTokens(queryClient);
             toast.success('Доступ успішно відкликано.');
         },
         onError: () => {
@@ -209,25 +204,21 @@ const AuthorizedAppGroup: FC<Props> = ({
 }) => {
     const queryClient = useQueryClient();
 
+    const { mutateAsync: revokeToken } = useMutation({
+        ...revokeTokenMutation(),
+        meta: MUTATION_META_SKIP_ERROR_TOAST,
+    });
+
     const { mutate: revokeAll, isPending: isRevokingAll } = useMutation({
         meta: MUTATION_META_SKIP_ERROR_TOAST,
-        mutationFn: async () => {
-            const { mutationFn } = revokeTokenMutation();
-            if (!mutationFn) return;
-
-            await Promise.all(
+        mutationFn: () =>
+            Promise.all(
                 tokens.map((token) =>
-                    mutationFn(
-                        { path: { token_reference: token.reference } },
-                        undefined as any,
-                    ),
+                    revokeToken({ path: { token_reference: token.reference } }),
                 ),
-            );
-        },
+            ),
         onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: thirdPartyAuthTokensInfiniteOptions().queryKey,
-            });
+            invalidateAuthTokens(queryClient);
             toast.success('Усі сеанси доступу успішно відкликано.');
         },
         onError: () => {

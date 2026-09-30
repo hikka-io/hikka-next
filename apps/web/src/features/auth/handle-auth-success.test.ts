@@ -22,9 +22,8 @@ vi.mock('@hikka/api', async (importOriginal) => ({
 describe('handleAuthSuccess', () => {
     it('persists the secret and invalidates only the profile query', async () => {
         const queryClient = new QueryClient();
-        const invalidate = vi
-            .spyOn(queryClient, 'invalidateQueries')
-            .mockResolvedValue();
+        queryClient.setQueryData(profileQueryKey(), { username: 'old' });
+        queryClient.setQueryData(['other'], 'kept');
 
         await handleAuthSuccess('secret', queryClient);
 
@@ -32,9 +31,9 @@ describe('handleAuthSuccess', () => {
             data: { secret: 'secret' },
         });
         expect(mocks.setAuthToken).toHaveBeenCalledWith('secret');
-        expect(invalidate).toHaveBeenCalledTimes(1);
-        expect(invalidate).toHaveBeenCalledWith({
-            queryKey: profileQueryKey(),
-        });
+        expect(
+            queryClient.getQueryState(profileQueryKey())?.isInvalidated,
+        ).toBe(true);
+        expect(queryClient.getQueryState(['other'])?.isInvalidated).toBe(false);
     });
 });
