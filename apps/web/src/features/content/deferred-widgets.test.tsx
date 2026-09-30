@@ -187,6 +187,22 @@ describe('deferred overview widgets', () => {
         expect(container.querySelector('.animate-pulse')).not.toBeNull();
     });
 
+    it('sizes the franchise skeleton like its two-item preview', async () => {
+        await render(<Franchise content_type="anime" />);
+
+        expect(container.querySelector('.grid-min-20')?.children).toHaveLength(
+            2,
+        );
+    });
+
+    it('sizes the staff skeleton like its five-person preview', async () => {
+        await render(<ContentStaff content_type={ContentTypeEnum.ANIME} />);
+
+        expect(container.querySelector('.grid-min-6')?.children).toHaveLength(
+            5,
+        );
+    });
+
     it('requests the collections preview with a size of 3, once', async () => {
         await render(<ContentCollections content_type="anime" />);
         await scrollIntoView();

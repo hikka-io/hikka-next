@@ -8,17 +8,20 @@ import Card from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import Stack from '@/components/ui/stack';
 
-const PREVIEW_COUNT = 2;
+type Props = {
+    count: number;
+};
 
-const FranchiseSkeleton: FC = () => (
+const FranchiseSkeleton: FC<Props> = ({ count }) => (
     <Block>
         <div className="flex h-8 items-center">
             <Skeleton className="h-6 w-28 rounded" />
         </div>
         <Stack size={2} className="grid-min-20">
-            {range(0, PREVIEW_COUNT).map((index) => (
+            {range(0, count).map((index) => (
                 <Card key={index}>
                     <HorizontalCardSkeleton />
+                    <Skeleton className="hidden h-10 w-full rounded-md md:block" />
                 </Card>
             ))}
         </Stack>

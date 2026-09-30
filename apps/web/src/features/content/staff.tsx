@@ -19,6 +19,8 @@ import { useParams } from '@/utils/navigation';
 import StaffSkeleton from './staff-skeleton';
 import { useStaff } from './use-staff';
 
+const PREVIEW_SIZE = 5;
+
 type Props = {
     extended?: boolean;
     content_type: MainContentTypeEnum;
@@ -43,7 +45,7 @@ const ContentStaff: FC<Props> = ({ extended, content_type }) => {
     if (!list) {
         return !extended && isPending ? (
             <div ref={visibleRef}>
-                <StaffSkeleton />
+                <StaffSkeleton count={PREVIEW_SIZE} />
             </div>
         ) : null;
     }
@@ -52,7 +54,7 @@ const ContentStaff: FC<Props> = ({ extended, content_type }) => {
         return null;
     }
 
-    const filteredData = extended ? list : list.slice(0, 5);
+    const filteredData = extended ? list : list.slice(0, PREVIEW_SIZE);
 
     const block = (
         <Block id="content-staff">

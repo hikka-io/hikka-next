@@ -7,9 +7,11 @@ import Block from '@/components/ui/block';
 import { Skeleton } from '@/components/ui/skeleton';
 import Stack from '@/components/ui/stack';
 
-const PREVIEW_COUNT = 5;
+type Props = {
+    count: number;
+};
 
-const StaffSkeleton: FC = () => (
+const StaffSkeleton: FC<Props> = ({ count }) => (
     <Block>
         <div className="flex h-8 items-center">
             <Skeleton className="h-6 w-28 rounded" />
@@ -19,7 +21,7 @@ const StaffSkeleton: FC = () => (
             className="grid-min-6 grid-cols-3 sm:grid-cols-4"
             imagePreset="card"
         >
-            {range(0, PREVIEW_COUNT).map((index) => (
+            {range(0, count).map((index) => (
                 <PosterCardSkeleton key={index} />
             ))}
         </Stack>

@@ -20,6 +20,7 @@ const mocks = vi.hoisted(() => ({
     user: undefined as { username: string } | undefined,
     visible: false,
     calls: [] as unknown[][],
+    result: { list: undefined } as Record<string, unknown>,
 }));
 
 vi.mock('@/services/session', () => ({
@@ -38,10 +39,19 @@ vi.mock('@/services/hooks/use-close-on-route-change', () => ({
     useCloseOnRouteChange: () => {},
 }));
 
+vi.mock('./components/following-item', () => ({
+    default: () => null,
+}));
+
+vi.mock('@/components/ui/responsive-modal', () => ({
+    ResponsiveModal: () => null,
+    ResponsiveModalContent: () => null,
+}));
+
 vi.mock('@/utils/api/use-infinite-list', () => ({
     useInfiniteList: (...args: unknown[]) => {
         mocks.calls.push(args);
-        return { list: undefined };
+        return mocks.result;
     },
 }));
 
@@ -80,6 +90,7 @@ beforeEach(() => {
     mocks.calls = [];
     mocks.user = undefined;
     mocks.visible = false;
+    mocks.result = { list: undefined };
 });
 
 describe.each([
@@ -134,5 +145,17 @@ describe.each([
         expect((watch.queryKey as [{ query: unknown }])[0].query).toEqual(
             PREVIEW_QUERY,
         );
+    });
+
+    it('titles the preview with the total count, not the preview length', () => {
+        mocks.user = { username: 'someone' };
+        mocks.visible = true;
+        mocks.result = {
+            list: [{ reference: 'a' }, { reference: 'b' }, { reference: 'c' }],
+            pagination: { total: 42, pages: 14, page: 1 },
+            isPending: false,
+        };
+
+        expect(render()).toContain('(42)');
     });
 });

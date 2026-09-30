@@ -31,6 +31,8 @@ import FranchiseFilters from './components/franchise-filters';
 import FranchiseItem from './components/franchise-item';
 import FranchiseSkeleton from './components/franchise-skeleton';
 
+const PREVIEW_SIZE = 2;
+
 type Props = {
     extended?: boolean;
     content_type: RelatedContentTypeEnum;
@@ -72,7 +74,7 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
     if (!franchise) {
         return !extended && !error && isPending ? (
             <div ref={ref}>
-                <FranchiseSkeleton />
+                <FranchiseSkeleton count={PREVIEW_SIZE} />
             </div>
         ) : null;
     }
@@ -84,7 +86,9 @@ const Franchise: FC<Props> = ({ extended, content_type }) => {
     });
     const filteredData = extended
         ? sortedList.filter((v) => contentTypes.includes(v.data_type))
-        : sortedList.filter((v) => v.slug !== params.slug).slice(0, 2);
+        : sortedList
+              .filter((v) => v.slug !== params.slug)
+              .slice(0, PREVIEW_SIZE);
 
     const title = (
         <span>
