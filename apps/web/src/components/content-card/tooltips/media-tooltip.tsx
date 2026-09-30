@@ -36,32 +36,6 @@ type MediaBody =
     | MangaInfoResponse
     | NovelInfoResponse;
 
-/**
- * One query per type rather than one options record indexed by it: `useQuery`
- * cannot unify a union of the generated option objects, and gating each on the
- * type keeps them individually typed. Only the matching one ever runs.
- */
-function useMediaInfo(
-    type: MainContentTypeEnum,
-    slug: string,
-    enabled: boolean,
-): MediaBody | undefined {
-    const anime = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.ANIME, slug),
-        enabled: enabled && type === ContentTypeEnum.ANIME,
-    });
-    const manga = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.MANGA, slug),
-        enabled: enabled && type === ContentTypeEnum.MANGA,
-    });
-    const novel = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.NOVEL, slug),
-        enabled: enabled && type === ContentTypeEnum.NOVEL,
-    });
-
-    return anime.data ?? manga.data ?? novel.data;
-}
-
 function progressRows(data: MediaBody): MediaTooltipRow[] {
     if (data.data_type === 'anime') {
         if (
@@ -166,7 +140,10 @@ const MediaTooltipData: FC<TooltipDataProps> = ({
     item,
 }) => {
     const { user: loggedUser } = useSession();
-    const fetched = useMediaInfo(type, slug, !item);
+    const { data: fetched } = useQuery({
+        ...contentInfoOptions(type, slug),
+        enabled: !item,
+    });
     const data: MediaBody | undefined = item ?? fetched;
     const title = useTitle(data);
 

@@ -6,7 +6,10 @@ import {
     type ReviewStatsResponse,
 } from '@hikka/api';
 
-import { contentInfoOptions } from '@/utils/api/content-queries';
+import {
+    type ContentInfo,
+    contentInfoOptions,
+} from '@/utils/api/content-queries';
 
 type Params = {
     content_type: CommentContentTypeEnum;
@@ -18,42 +21,25 @@ type Result = {
     commentsCount: number | undefined;
 };
 
-type InfoResponse = {
-    review_stats: ReviewStatsResponse;
-    comments_count: number;
-};
-
-const select = (data: InfoResponse): Result => ({
-    stats: data.review_stats,
-    commentsCount: data.comments_count,
-});
-
 const EMPTY: Result = { stats: undefined, commentsCount: undefined };
 
+const REVIEW_CONTENT_TYPES = new Set<CommentContentTypeEnum>([
+    ContentTypeEnum.ANIME,
+    ContentTypeEnum.MANGA,
+    ContentTypeEnum.NOVEL,
+]);
+
+const select = (data: ContentInfo<CommentContentTypeEnum>): Result =>
+    'review_stats' in data
+        ? { stats: data.review_stats, commentsCount: data.comments_count }
+        : EMPTY;
+
 export function useReviewStats({ content_type, slug }: Params): Result {
-    const animeQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.ANIME, slug),
-        enabled: content_type === ContentTypeEnum.ANIME,
+    const { data } = useQuery({
+        ...contentInfoOptions(content_type, slug),
+        enabled: REVIEW_CONTENT_TYPES.has(content_type),
         select,
     });
 
-    const mangaQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.MANGA, slug),
-        enabled: content_type === ContentTypeEnum.MANGA,
-        select,
-    });
-
-    const novelQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.NOVEL, slug),
-        enabled: content_type === ContentTypeEnum.NOVEL,
-        select,
-    });
-
-    const byType: Partial<Record<CommentContentTypeEnum, Result>> = {
-        [ContentTypeEnum.ANIME]: animeQuery.data,
-        [ContentTypeEnum.MANGA]: mangaQuery.data,
-        [ContentTypeEnum.NOVEL]: novelQuery.data,
-    };
-
-    return byType[content_type] ?? EMPTY;
+    return data ?? EMPTY;
 }

@@ -1,129 +1,65 @@
 import { useQuery } from '@tanstack/react-query';
 
-import {
-    type CommentContentTypeEnum,
+import type {
+    CommentContentTypeEnum,
     ContentTypeEnum,
-    type EditContentTypeEnum as EditContentType,
+    EditContentTypeEnum,
 } from '@hikka/api';
 
 import { useSessionUI } from '@/services/session';
-import { contentInfoOptions } from '@/utils/api/content-queries';
+import {
+    type ContentInfo,
+    type ContentInfoType,
+    contentInfoOptions,
+} from '@/utils/api/content-queries';
 import { getContentTitle } from '@/utils/title/get-content-title';
 
-interface UseContentParams {
-    content_type:
-        | CommentContentTypeEnum
-        | EditContentType
-        | typeof ContentTypeEnum.USER;
+type HeaderContentType =
+    | CommentContentTypeEnum
+    | EditContentTypeEnum
+    | typeof ContentTypeEnum.USER;
+
+type UseContentParams<T extends HeaderContentType> = {
+    content_type: T;
     slug: string;
-}
+};
 
-export function useContent({ content_type, slug }: UseContentParams) {
+const CONTENT_IMAGE: {
+    [T in ContentInfoType]: (data: ContentInfo<T>) => string | null;
+} = {
+    anime: (data) => data.image,
+    manga: (data) => data.image,
+    novel: (data) => data.image,
+    character: (data) => data.image,
+    person: (data) => data.image,
+    collection: (data) => data.collection[0].content.image,
+    edit: (data) => data.content.image,
+    article: () => null,
+    user: (data) => data.avatar,
+};
+
+const contentImage = <T extends ContentInfoType>(
+    type: T,
+    data: ContentInfo<T>,
+) => CONTENT_IMAGE[type](data);
+
+export function useContent<T extends HeaderContentType>({
+    content_type,
+    slug,
+}: UseContentParams<T>) {
     const { preferences } = useSessionUI();
-    const titleLang = preferences.title_language;
-    const nameLang = preferences.name_language;
 
-    const animeQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.ANIME, slug),
-        enabled: content_type === ContentTypeEnum.ANIME,
+    return useQuery({
+        ...contentInfoOptions(content_type, slug),
         select: (data) => ({
-            content_type: ContentTypeEnum.ANIME,
-            title: getContentTitle(content_type, data, titleLang, nameLang),
-            image: data.image,
+            content_type,
+            title: getContentTitle(
+                content_type,
+                data,
+                preferences.title_language,
+                preferences.name_language,
+            ),
+            image: contentImage(content_type, data),
         }),
     });
-
-    const mangaQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.MANGA, slug),
-        enabled: content_type === ContentTypeEnum.MANGA,
-        select: (data) => ({
-            content_type: ContentTypeEnum.MANGA,
-            title: getContentTitle(content_type, data, titleLang, nameLang),
-            image: data.image,
-        }),
-    });
-
-    const novelQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.NOVEL, slug),
-        enabled: content_type === ContentTypeEnum.NOVEL,
-        select: (data) => ({
-            content_type: ContentTypeEnum.NOVEL,
-            title: getContentTitle(content_type, data, titleLang, nameLang),
-            image: data.image,
-        }),
-    });
-
-    const characterQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.CHARACTER, slug),
-        enabled: content_type === ContentTypeEnum.CHARACTER,
-        select: (data) => ({
-            content_type: ContentTypeEnum.CHARACTER,
-            title: getContentTitle(content_type, data, titleLang, nameLang),
-            image: data.image,
-        }),
-    });
-
-    const personQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.PERSON, slug),
-        enabled: content_type === ContentTypeEnum.PERSON,
-        select: (data) => ({
-            content_type: ContentTypeEnum.PERSON,
-            title: getContentTitle(content_type, data, titleLang, nameLang),
-            image: data.image,
-        }),
-    });
-
-    const collectionQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.COLLECTION, slug),
-        enabled: content_type === ContentTypeEnum.COLLECTION,
-        select: (data) => ({
-            content_type: ContentTypeEnum.COLLECTION,
-            title: getContentTitle(content_type, data),
-            image: data.collection[0].content.image,
-        }),
-    });
-
-    const editQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.EDIT, slug),
-        enabled: content_type === ContentTypeEnum.EDIT,
-        select: (data) => ({
-            content_type: ContentTypeEnum.EDIT,
-            title: getContentTitle(content_type, data),
-            image: data.content.image,
-        }),
-    });
-
-    const articleQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.ARTICLE, slug),
-        enabled: content_type === ContentTypeEnum.ARTICLE,
-        select: (data) => ({
-            title: getContentTitle(content_type, data),
-            content_type: ContentTypeEnum.ARTICLE,
-            image: null,
-        }),
-    });
-
-    const userQuery = useQuery({
-        ...contentInfoOptions(ContentTypeEnum.USER, slug),
-        enabled: content_type === ContentTypeEnum.USER,
-        select: (data) => ({
-            content_type: ContentTypeEnum.USER,
-            title: getContentTitle(content_type, data),
-            image: data.avatar,
-        }),
-    });
-
-    const queries = {
-        [ContentTypeEnum.ANIME]: animeQuery,
-        [ContentTypeEnum.MANGA]: mangaQuery,
-        [ContentTypeEnum.NOVEL]: novelQuery,
-        [ContentTypeEnum.CHARACTER]: characterQuery,
-        [ContentTypeEnum.PERSON]: personQuery,
-        [ContentTypeEnum.COLLECTION]: collectionQuery,
-        [ContentTypeEnum.EDIT]: editQuery,
-        [ContentTypeEnum.ARTICLE]: articleQuery,
-        [ContentTypeEnum.USER]: userQuery,
-    };
-
-    return queries[content_type];
 }
