@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 const FollowUserItemSkeleton: FC = () => (
     <HorizontalCardSkeleton
         imageRatio={1}
-        action={<Skeleton className="h-10 w-28 shrink-0 rounded-md" />}
+        action={<Skeleton className="h-10 w-36 shrink-0 rounded-md" />}
     />
 );
 
