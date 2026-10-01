@@ -9,7 +9,7 @@ import {
 
 import { CircleX } from 'lucide-react';
 
-import type { ContentTypeEnum, UserResponse } from '@hikka/api';
+import { ContentTypeEnum } from '@hikka/api';
 
 import { Button } from '@/components/ui/button';
 import { CommandDialog, CommandInput } from '@/components/ui/command';
@@ -27,18 +27,21 @@ import SearchHistoryList from './components/search-lists/search-history-list';
 import UserSearchList from './components/search-lists/user-search-list';
 import SearchToggle from './components/search-toggle';
 import useSearchModal from './hooks/use-search-modal';
+import { SEARCH_ENTITY_BY_TYPE } from './search-entities';
 import {
     SEARCH_TYPE_ALL,
-    type SearchContent,
+    type SearchEntityType,
+    type SearchResult,
+    type SearchResultVariant,
     type SearchTypeValue,
 } from './types';
 
 type Props = {
-    onClick?: (content: SearchContent | UserResponse) => void;
-    type?: 'link' | 'button';
+    onClick?: (content: SearchResult) => void;
+    type?: SearchResultVariant;
     children?: ReactNode;
-    content_type?: ContentTypeEnum;
-    allowedTypes?: ContentTypeEnum[];
+    content_type?: SearchEntityType;
+    allowedTypes?: SearchEntityType[];
     disableHotkey?: boolean;
     /** Controlled mode: the caller owns the state and renders its own trigger. */
     open?: boolean;
@@ -84,7 +87,7 @@ const SearchModal: FC<Props> = ({
     );
 
     const onDismiss = useCallback(
-        (content: SearchContent | UserResponse) => {
+        (content: SearchResult) => {
             if (searchValue && searchValue.trim().length >= MIN_SEARCH_LENGTH) {
                 addHistoryEntry(searchValue);
             }
@@ -117,8 +120,59 @@ const SearchModal: FC<Props> = ({
         [setDebouncedValue],
     );
 
+    const onCloseResults = useCallback(() => {
+        setSearchValue('');
+        setOpen(false);
+    }, [setOpen]);
+
     const showHistory =
         hasHistoryEntries && (!searchValue || searchValue.trim().length === 0);
+
+    // `all` has no entity of its own; every other type resolves to exactly one.
+    const renderResults = () => {
+        if (searchType === SEARCH_TYPE_ALL) {
+            return (
+                <AllSearchList
+                    onDismiss={onDismiss}
+                    onClose={onCloseResults}
+                    onSwitchType={setSearchType}
+                    allowedTypes={allowedTypes}
+                    value={value}
+                    type={type}
+                />
+            );
+        }
+
+        const entity = SEARCH_ENTITY_BY_TYPE[searchType];
+
+        // Users get their own list: `/user/list` answers with a bare array, so
+        // the entry carries no infinite options.
+        if (entity.type === ContentTypeEnum.USER) {
+            return (
+                <UserSearchList
+                    entity={entity}
+                    onDismiss={onDismiss}
+                    value={value}
+                    type={type}
+                />
+            );
+        }
+
+        // Everything else is paginated; `options` is optional on the registry
+        // entry only because of the user entry above.
+        if (!entity.options) return null;
+
+        return (
+            <EntitySearchList
+                entity={entity}
+                options={entity.options}
+                onDismiss={onDismiss}
+                onClose={onCloseResults}
+                value={value}
+                type={type}
+            />
+        );
+    };
 
     useSearchModal({
         open,
@@ -180,43 +234,7 @@ const SearchModal: FC<Props> = ({
                             query={searchValue}
                         />
 
-                        {searchType === 'all' && (
-                            <AllSearchList
-                                onDismiss={onDismiss}
-                                onClose={() => {
-                                    setSearchValue('');
-                                    setOpen(false);
-                                }}
-                                onSwitchType={setSearchType}
-                                value={value}
-                                type={type}
-                            />
-                        )}
-
-                        {(searchType === 'anime' ||
-                            searchType === 'manga' ||
-                            searchType === 'novel' ||
-                            searchType === 'character' ||
-                            searchType === 'person') && (
-                            <EntitySearchList
-                                contentType={searchType}
-                                onDismiss={onDismiss}
-                                onClose={() => {
-                                    setSearchValue('');
-                                    setOpen(false);
-                                }}
-                                value={value}
-                                type={type}
-                            />
-                        )}
-
-                        {searchType === 'user' && (
-                            <UserSearchList
-                                onDismiss={onDismiss}
-                                value={value}
-                                type={type}
-                            />
-                        )}
+                        {renderResults()}
                     </Fragment>
                 )}
             </CommandDialog>

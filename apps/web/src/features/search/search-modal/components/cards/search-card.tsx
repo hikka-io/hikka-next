@@ -18,7 +18,7 @@ import {
 } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
-import type { SearchContent } from '../../types';
+import type { SearchContent, SearchResultVariant } from '../../types';
 
 export type SearchCardType =
     | 'anime'
@@ -29,8 +29,9 @@ export type SearchCardType =
 
 type MediaTypeMap = Record<string, { title_ua: string }>;
 
+// The row's href comes from the search entity registry, so it stays next to
+// the `getHref` that builds the cmdk value for the same row.
 type CardConfig = {
-    href: string;
     subtitleKey: 'title_ja' | 'title_original' | 'name_ja' | 'name_native';
     mediaTypeMap?: MediaTypeMap;
     track?: 'watch' | 'read';
@@ -38,34 +39,32 @@ type CardConfig = {
 
 const CARD_CONFIG: Record<SearchCardType, CardConfig> = {
     anime: {
-        href: '/anime',
         subtitleKey: 'title_ja',
         mediaTypeMap: ANIME_MEDIA_TYPE as MediaTypeMap,
         track: 'watch',
     },
     manga: {
-        href: '/manga',
         subtitleKey: 'title_original',
         mediaTypeMap: MANGA_MEDIA_TYPE as MediaTypeMap,
         track: 'read',
     },
     novel: {
-        href: '/novel',
         subtitleKey: 'title_original',
         mediaTypeMap: NOVEL_MEDIA_TYPE as MediaTypeMap,
         track: 'read',
     },
-    character: { href: '/characters', subtitleKey: 'name_ja' },
-    person: { href: '/people', subtitleKey: 'name_native' },
+    character: { subtitleKey: 'name_ja' },
+    person: { subtitleKey: 'name_native' },
 };
 
 type Props = {
     content: SearchContent;
     contentType: SearchCardType;
-    type?: 'link' | 'button';
+    href: string;
+    type?: SearchResultVariant;
 };
 
-const SearchCard = ({ content, contentType, type }: Props) => {
+const SearchCard = ({ content, contentType, href, type }: Props) => {
     const config = CARD_CONFIG[contentType];
     const Comp = type === 'button' ? 'button' : Link;
     const title = useTitle(content);
@@ -87,10 +86,7 @@ const SearchCard = ({ content, contentType, type }: Props) => {
               : undefined;
 
     return (
-        <Comp
-            to={`${config.href}/${content.slug}`}
-            className="flex w-full items-center gap-4 text-left"
-        >
+        <Comp to={href} className="flex w-full items-center gap-4 text-left">
             <div className="w-12">
                 <PosterCard
                     containerClassName="rounded-(--base-radius)"

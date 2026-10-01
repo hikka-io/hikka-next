@@ -8,19 +8,19 @@ import { Label } from '@/components/ui/label';
 import { USER_ROLE } from '@/utils/constants/common';
 import { Link } from '@/utils/navigation';
 
+import type { SearchResultVariant } from '../../types';
+
 type Props = {
     user: UserResponse;
-    type?: 'link' | 'button';
+    href: string;
+    type?: SearchResultVariant;
 };
 
-const UserCard = ({ user, type }: Props) => {
+const UserCard = ({ user, href, type }: Props) => {
     const Comp = type === 'button' ? 'button' : Link;
 
     return (
-        <Comp
-            to={`/u/${user.username}`}
-            className="flex w-full items-center gap-4 text-left"
-        >
+        <Comp to={href} className="flex w-full items-center gap-4 text-left">
             <div className="w-12">
                 <PosterCard image={user.avatar} containerRatio={1} />
             </div>
