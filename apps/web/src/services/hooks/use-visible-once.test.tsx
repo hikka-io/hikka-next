@@ -19,7 +19,7 @@ class MockIntersectionObserver {
         MockIntersectionObserver.instances.push(this);
     }
 
-    private targets = new Set<Element>();
+    readonly targets = new Set<Element>();
 
     observe(target: Element) {
         this.targets.add(target);
@@ -101,6 +101,16 @@ describe('useVisibleOnce', () => {
         await emit(false);
 
         expect(container.textContent).toBe('true');
+    });
+
+    it('stops observing after the first intersection', async () => {
+        await emit(true);
+
+        expect(
+            MockIntersectionObserver.instances.map(
+                (observer) => observer.targets.size,
+            ),
+        ).toEqual(MockIntersectionObserver.instances.map(() => 0));
     });
 
     it('stays visible when the observed element is replaced', async () => {
