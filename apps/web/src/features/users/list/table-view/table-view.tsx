@@ -1,5 +1,6 @@
 import { type FC, Fragment } from 'react';
 
+import { range } from '@antfu/utils';
 import { useRouter } from '@tanstack/react-router';
 
 import {
@@ -21,15 +22,17 @@ import { useSession } from '@/services/session';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 import type { UserlistSearch } from '@/utils/search-schemas';
 
+import { DEFAULT_PAGE_SIZE } from '../../queries';
 import DetailsCell from './details-cell';
 import MediaCell from './media-cell';
 import NumberCell from './number-cell';
 import ProgressCell from './progress-cell';
 import ScoreCell from './score-cell';
 import SortableHead from './sortable-head';
+import TableRowSkeleton from './table-row-skeleton';
 
 type Props = {
-    data: ReadResponse[] | WatchResponse[];
+    data?: ReadResponse[] | WatchResponse[];
     content_type: MainContentTypeEnum;
 };
 
@@ -135,7 +138,14 @@ const TableView: FC<Props> = ({ data, content_type }) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((res, i) => {
+                    {!data &&
+                        range(0, DEFAULT_PAGE_SIZE).map((index) => (
+                            <TableRowSkeleton
+                                key={index}
+                                content_type={content_type}
+                            />
+                        ))}
+                    {data?.map((res, i) => {
                         const isAnime = content_type === ContentTypeEnum.ANIME;
                         const content = isAnime
                             ? (res as WatchResponse).anime

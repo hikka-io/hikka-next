@@ -44,7 +44,11 @@ const UserList: FC<Props> = ({ content_type, extendedSize }) => {
         return isPending && status ? (
             <div className="flex flex-col gap-6">
                 <CatalogSummary isLoading />
-                <UserListSkeleton view={view} extendedSize={extendedSize} />
+                <UserListSkeleton
+                    view={view}
+                    content_type={content_type}
+                    extendedSize={extendedSize}
+                />
             </div>
         ) : null;
     }

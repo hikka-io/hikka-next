@@ -5,10 +5,7 @@ import { range } from '@antfu/utils';
 import SkeletonCard from '@/components/content-card/poster-card-skeleton';
 import Stack from '@/components/ui/stack';
 
-import { FAVOURITES_PREVIEW_SIZE } from '../../../queries';
-
-// The full list is not sized by the client, so the backend default page size applies.
-const PAGE_SIZE = 15;
+import { DEFAULT_PAGE_SIZE, FAVOURITES_PREVIEW_SIZE } from '../../../queries';
 
 type Props = {
     extended?: boolean;
@@ -16,7 +13,7 @@ type Props = {
 };
 
 const FavoriteSkeleton: FC<Props> = ({ extended, total }) => {
-    const size = extended ? PAGE_SIZE : FAVOURITES_PREVIEW_SIZE;
+    const size = extended ? DEFAULT_PAGE_SIZE : FAVOURITES_PREVIEW_SIZE;
     const count = Math.min(total || size, size);
 
     return (

@@ -47,6 +47,8 @@ const HISTORY_PREVIEW_SIZE = 3;
 const ARTICLES_PREVIEW_SIZE = 3;
 export const COLLECTIONS_PREVIEW_SIZE = 3;
 export const FAVOURITES_PREVIEW_SIZE = 6;
+// Backend page size of the lists below that send no `size`; skeletons render this many.
+export const DEFAULT_PAGE_SIZE = 15;
 
 function listYears(search: UserlistSearch) {
     return (search.years ?? []) as [number | null, number | null];
