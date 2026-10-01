@@ -26,20 +26,24 @@ const HistoryTimelineSkeleton: FC<Props> = ({
 }) => (
     <section className={className}>
         {size === 'lg' ? (
-            <SkeletonText
-                className="mb-4 font-bold text-base"
-                barClassName="w-32 rounded"
-            />
+            <div className="mb-4 flex items-center gap-2">
+                <SkeletonText
+                    className="font-bold text-base"
+                    barClassName="w-24 rounded"
+                />
+                <SkeletonText className="text-sm" barClassName="w-16 rounded" />
+            </div>
         ) : (
-            <SkeletonText
-                className="mb-3 text-xs"
-                barClassName="w-24 rounded"
-            />
+            <div className="mb-3 flex items-center gap-1.5 text-xs">
+                <SkeletonText barClassName="w-14 rounded" />
+                <SkeletonText barClassName="w-12 rounded" />
+            </div>
         )}
         <div className={historyRowsVariants({ size })}>
             {range(0, count).map((index) => (
                 <HistoryRow
                     key={index}
+                    className="not-last:before:bg-secondary/20"
                     node={<Skeleton className="size-8 shrink-0 rounded-md" />}
                     poster={
                         <AspectRatio ratio={DEFAULT_CONTAINER_RATIO}>
@@ -47,10 +51,16 @@ const HistoryTimelineSkeleton: FC<Props> = ({
                         </AspectRatio>
                     }
                 >
-                    <SkeletonText
-                        className={labelVariants()}
-                        barClassName="w-1/2 rounded"
-                    />
+                    <div className="flex gap-3">
+                        <SkeletonText
+                            className={cn(labelVariants(), 'flex-1')}
+                            barClassName="w-1/2 rounded"
+                        />
+                        <SkeletonText
+                            className="text-xs"
+                            barClassName="w-9 rounded"
+                        />
+                    </div>
                     <SkeletonText
                         className={cn('text-xs', size === 'lg' && 'md:text-sm')}
                         barClassName="w-2/3 rounded"
