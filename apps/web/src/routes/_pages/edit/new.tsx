@@ -19,7 +19,10 @@ export const Route = createFileRoute('/_pages/edit/new')({
 
         return { newEdit: { content_type, slug } };
     },
-    loaderDeps: ({ search }) => search,
+    loaderDeps: ({ search: { content_type, slug } }) => ({
+        content_type,
+        slug,
+    }),
     loader: async ({ context: { queryClient, apiClient, newEdit } }) => {
         const { content_type, slug } = newEdit;
 

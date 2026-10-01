@@ -11,10 +11,10 @@ import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/anime/')({
     validateSearch: zodValidator(animeSearchSchema),
-    loaderDeps: ({ search }) => ({ search }),
-    loader: ({ context, deps: { search }, preload }) =>
+    loaderDeps: ({ search }) => search,
+    loader: ({ context, deps, preload }) =>
         loadCatalogFirstPage(
-            { contentType: ContentTypeEnum.ANIME, search, preload },
+            { contentType: ContentTypeEnum.ANIME, search: deps, preload },
             context,
         ),
     head: () =>

@@ -1,4 +1,10 @@
-import { isRedirect } from '@tanstack/react-router';
+import {
+    createMemoryHistory,
+    createRootRoute,
+    createRoute,
+    createRouter,
+    isRedirect,
+} from '@tanstack/react-router';
 import { describe, expect, it } from 'vitest';
 
 import { Route } from '../../routes/_pages/edit/new';
@@ -28,6 +34,33 @@ describe('new edit route guard', () => {
             runBeforeLoad({ content_type: 'anime', slug: 'test-slug' }),
         ).toEqual({
             context: { newEdit: { content_type: 'anime', slug: 'test-slug' } },
+        });
+    });
+});
+
+describe('new edit loader deps', () => {
+    it('keys the loader on the target only, not on stray search params', async () => {
+        const root = createRootRoute();
+        const page = createRoute({
+            getParentRoute: () => root,
+            path: '/edit/new',
+            validateSearch: Route.options.validateSearch,
+            loaderDeps: Route.options.loaderDeps,
+            loader: () => undefined,
+        } as never);
+        const router = createRouter({
+            routeTree: root.addChildren([page]),
+            history: createMemoryHistory({
+                initialEntries: [
+                    '/edit/new?content_type=anime&slug=test-slug&utm_source=x',
+                ],
+            }),
+        });
+        await router.load();
+
+        expect(router.state.matches.at(-1)?.loaderDeps).toEqual({
+            content_type: 'anime',
+            slug: 'test-slug',
         });
     });
 });

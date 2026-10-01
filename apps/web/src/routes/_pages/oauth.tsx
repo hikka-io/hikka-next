@@ -20,7 +20,7 @@ export const Route = createFileRoute('/_pages/oauth')({
 
         return { clientReference: reference };
     },
-    loaderDeps: ({ search }) => search,
+    loaderDeps: ({ search: { reference } }) => ({ reference }),
     loader: async ({
         context: { queryClient, apiClient, clientReference },
     }) => {

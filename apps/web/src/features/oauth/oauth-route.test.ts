@@ -29,3 +29,17 @@ describe('oauth route guard', () => {
         ).toEqual({ context: { clientReference: 'client-ref' } });
     });
 });
+
+describe('oauth loader deps', () => {
+    it('keys the loader on the client reference only', () => {
+        const loaderDeps = Route.options.loaderDeps as (ctx: {
+            search: object;
+        }) => unknown;
+
+        expect(
+            loaderDeps({
+                search: { reference: 'client-ref', scope: 'read:user' },
+            }),
+        ).toEqual({ reference: 'client-ref' });
+    });
+});

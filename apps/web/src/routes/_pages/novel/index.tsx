@@ -11,10 +11,10 @@ import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/novel/')({
     validateSearch: zodValidator(novelSearchSchema),
-    loaderDeps: ({ search }) => ({ search }),
-    loader: ({ context, deps: { search }, preload }) =>
+    loaderDeps: ({ search }) => search,
+    loader: ({ context, deps, preload }) =>
         loadCatalogFirstPage(
-            { contentType: ContentTypeEnum.NOVEL, search, preload },
+            { contentType: ContentTypeEnum.NOVEL, search: deps, preload },
             context,
         ),
     head: () =>

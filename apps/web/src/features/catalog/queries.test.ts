@@ -232,7 +232,7 @@ const runLoader = (
     ctx: { queryClient: QueryClient; search: object; preload?: boolean },
 ) =>
     (ROUTES[type].options.loader as (ctx: unknown) => Promise<unknown>)({
-        deps: { search: ctx.search },
+        deps: ctx.search,
         preload: ctx.preload ?? false,
         context: { queryClient: ctx.queryClient, apiClient: requestClient() },
     });
@@ -465,6 +465,6 @@ describe('catalog route loaders', () => {
         }) => unknown;
         const search = parseSearch(type, RAW_SEARCH);
 
-        expect(loaderDeps({ search })).toEqual({ search });
+        expect(loaderDeps({ search })).toEqual(search);
     });
 });
