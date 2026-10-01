@@ -195,13 +195,10 @@ async function runLoader(
         | ((ctx: unknown) => unknown)
         | undefined;
     const loader = route.options.loader as (ctx: unknown) => Promise<unknown>;
+    const context = { queryClient, apiClient: ssrRequestClient() };
     try {
-        beforeLoad?.({ params, search: deps });
-        await loader({
-            params,
-            deps,
-            context: { queryClient, apiClient: ssrRequestClient() },
-        });
+        await beforeLoad?.({ params, search: deps, context });
+        await loader({ params, deps, context });
     } catch (error) {
         if (!isRedirect(error)) throw error;
         calls.push(`redirect ${serialize(error.options)}`);
@@ -580,30 +577,41 @@ describe('user layout loader', () => {
         expect(calls).toEqual(['userProfile', 'followStats', 'userProfile']);
     });
 
-    it('redirects a user reference without the follow stats', async () => {
-        const calls: string[] = [];
-        const queryClient = new QueryClient();
-        Object.assign(queryClient, {
-            ensureQueryData: async (options: RecordedOptions) => {
-                calls.push(queryId(options));
-                return { username };
-            },
-            prefetchQuery: async (options: RecordedOptions) => {
-                calls.push(queryId(options));
-            },
-        });
-        const loader = LayoutRoute.options.loader as (
-            ctx: unknown,
-        ) => Promise<unknown>;
+    it.each([
+        ['0b7c7ef2-6f7a-4a8e-9f7e-2a8d2f3c9b10', ['userReference'], true],
+        [username, [], false],
+    ] as const)(
+        'redirects a user reference from beforeLoad: %s',
+        async (param, expected, redirects) => {
+            const calls: string[] = [];
+            const queryClient = new QueryClient();
+            Object.assign(queryClient, {
+                ensureQueryData: async (options: RecordedOptions) => {
+                    calls.push(queryId(options));
+                    return { username };
+                },
+                prefetchQuery: async (options: RecordedOptions) => {
+                    calls.push(queryId(options));
+                },
+            });
+            const beforeLoad = LayoutRoute.options.beforeLoad as (
+                ctx: unknown,
+            ) => Promise<unknown>;
 
-        const error = await loader({
-            params: { username: '0b7c7ef2-6f7a-4a8e-9f7e-2a8d2f3c9b10' },
-            context: { queryClient, apiClient: ssrRequestClient() },
-        }).catch((thrown: unknown) => thrown);
+            const error = await beforeLoad({
+                params: { username: param },
+                context: { queryClient, apiClient: ssrRequestClient() },
+            }).catch((thrown: unknown) => thrown);
 
-        expect(isRedirect(error)).toBe(true);
-        expect(calls).toEqual(['userReference']);
-    });
+            expect(isRedirect(error)).toBe(redirects);
+            if (redirects) {
+                expect(
+                    (error as { options: { params: object } }).options.params,
+                ).toEqual({ username });
+            }
+            expect(calls).toEqual(expected);
+        },
+    );
 });
 
 describe('profile sub-route loaders', () => {

@@ -28,27 +28,29 @@ import { usePathname } from '@/utils/navigation';
 import { SITE_ORIGIN } from '@/utils/url';
 
 export const Route = createFileRoute('/_pages/u/$username')({
-    loader: async ({ params, context: { queryClient, apiClient } }) => {
+    beforeLoad: async ({ params, context: { queryClient, apiClient } }) => {
         const { username } = params;
 
-        if (isUserReference(username)) {
-            const user = await ensureOr404(() =>
-                queryClient.ensureQueryData(
-                    userReferenceOptions({
-                        path: { reference: username },
-                        client: apiClient,
-                    }),
-                ),
-            );
+        if (!isUserReference(username)) return;
 
-            if (!user.username) throw notFound();
+        const user = await ensureOr404(() =>
+            queryClient.ensureQueryData(
+                userReferenceOptions({
+                    path: { reference: username },
+                    client: apiClient,
+                }),
+            ),
+        );
 
-            // biome-ignore lint/plugin/no-loader-redirect: the target username comes from the fetched reference lookup
-            throw redirect({
-                to: '/u/$username',
-                params: { username: user.username },
-            });
-        }
+        if (!user.username) throw notFound();
+
+        throw redirect({
+            to: '/u/$username',
+            params: { username: user.username },
+        });
+    },
+    loader: async ({ params, context: { queryClient, apiClient } }) => {
+        const { username } = params;
 
         const [user] = await Promise.all([
             ensureOr404(() =>
