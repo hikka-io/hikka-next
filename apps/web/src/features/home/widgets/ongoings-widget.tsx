@@ -6,10 +6,12 @@ import { ContentTypeEnum, type SeasonEnum } from '@hikka/api';
 
 import { MediaTooltip } from '@/components/content-card';
 import AnimeCard from '@/components/content-card/anime-card';
+import { DEFAULT_CONTAINER_RATIO } from '@/components/content-card/image-presets';
 import PosterCard from '@/components/content-card/poster-card';
 import SkeletonCard from '@/components/content-card/poster-card-skeleton';
 import MaterialSymbolsLiveTvRounded from '@/components/icons/material-symbols/MaterialSymbolsLiveTvRounded';
 import MaterialSymbolsStarRounded from '@/components/icons/material-symbols/MaterialSymbolsStarRounded';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Badge } from '@/components/ui/badge';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
@@ -35,13 +37,26 @@ import { homeOngoingsOptions, ONGOINGS_SIZE } from '../queries';
 import type { WidgetProps } from '../types';
 
 const OngoingItemSkeleton = () => (
-    <div className="flex items-center gap-3 rounded-sm px-2 py-1.5">
-        <Skeleton className="size-10 shrink-0 rounded-sm" />
-        <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-            <Skeleton className="h-3.5 w-full rounded" />
-            <Skeleton className="h-3 w-2/3 rounded" />
+    <div className="flex items-center gap-4 px-2 py-2">
+        <div className="w-12 shrink-0">
+            <AspectRatio ratio={DEFAULT_CONTAINER_RATIO}>
+                <Skeleton className="size-full rounded-(--base-radius)" />
+            </AspectRatio>
         </div>
-        <Skeleton className="h-5 w-8 shrink-0 rounded-full" />
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
+            <div className="flex flex-col text-xs">
+                <div className="flex h-lh items-center">
+                    <Skeleton className="h-3 w-full" />
+                </div>
+                <div className="flex h-lh items-center">
+                    <Skeleton className="h-3 w-2/3" />
+                </div>
+            </div>
+            <div className="flex h-4 items-center">
+                <Skeleton className="h-3 w-20" />
+            </div>
+        </div>
+        <Skeleton className="h-5.5 w-14 shrink-0 rounded-sm" />
     </div>
 );
 
