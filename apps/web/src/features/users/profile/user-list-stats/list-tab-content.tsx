@@ -58,10 +58,10 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
     const sortParam = isAnime ? 'watch_score' : 'read_score';
     const statusCount = (isAnime ? WATCH_ORDER : READ_ORDER).length;
 
-    const { data } = useQuery(userListStatsOptions(username, type));
+    const { data, isPending } = useQuery(userListStatsOptions(username, type));
 
     if (!data) {
-        return (
+        return isPending ? (
             <div className={cn('flex grow flex-col gap-2', className)}>
                 <div className="px-4">
                     <Skeleton className="h-2 w-full rounded-xs" />
@@ -74,7 +74,7 @@ const ListTabContent: FC<Props> = ({ type, username, className }) => {
                     ))}
                 </div>
             </div>
-        );
+        ) : null;
     }
 
     const statuses = isAnime ? WATCH_ORDER : READ_ORDER;

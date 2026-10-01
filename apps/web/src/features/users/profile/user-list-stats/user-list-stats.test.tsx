@@ -149,4 +149,23 @@ describe('UserListStats', () => {
             [hashKey(readStatsKey(ContentTypeEnum.MANGA))]: 1,
         });
     });
+
+    it('renders no stats and no skeleton when the request fails', async () => {
+        fetchMock.mockImplementationOnce(async () =>
+            Response.json({ code: 'system:error' }, { status: 500 }),
+        );
+
+        await act(async () => trigger('Манґа').click());
+        await act(() => new Promise((resolve) => setTimeout(resolve, 10)));
+
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        expect(
+            queryClient.getQueryState(readStatsKey(ContentTypeEnum.MANGA))
+                ?.status,
+        ).toBe('error');
+        expect(bodyText()).not.toContain('Всього');
+        expect(
+            container.querySelector('#user-list-stats .animate-pulse'),
+        ).toBeNull();
+    });
 });
