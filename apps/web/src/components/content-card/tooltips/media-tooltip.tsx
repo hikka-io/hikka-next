@@ -148,7 +148,7 @@ const MediaTooltipData: FC<TooltipDataProps> = ({
     const title = useTitle(data);
 
     if (!data) {
-        return <MediaTooltipSkeleton />;
+        return <MediaTooltipSkeleton withAction={Boolean(loggedUser)} />;
     }
 
     return (
