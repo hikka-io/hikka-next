@@ -156,6 +156,7 @@ const Link: FC<PropsWithChildren<Props>> = ({ children, href, className }) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger
+                nativeButton={false}
                 render={
                     <span
                         className={cn(
