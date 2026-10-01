@@ -19,6 +19,7 @@ import {
     HeaderNavButton,
     HeaderTitle,
 } from '@/components/ui/header';
+import { Skeleton } from '@/components/ui/skeleton';
 import { LoginButton } from '@/features/auth';
 import { Sort } from '@/features/filters';
 import { useVisibleOnce } from '@/services/hooks/use-visible-once';
@@ -250,6 +251,9 @@ const CommentList: FC<Props> = ({
                         />
                     )}
                     {isLoading && <CommentListSkeleton />}
+                    {isLoading && preview && (
+                        <Skeleton className="h-12 w-full rounded-lg" />
+                    )}
                     {list &&
                         list.length === 0 &&
                         (commentType === 'review' ? (

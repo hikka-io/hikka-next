@@ -19,7 +19,7 @@ import type { LoaderContext } from '@/utils/api/loader-prefetch';
 import { type CommentOrder, getCommentSort } from '@/utils/sort';
 
 export const THREAD_PAGE_SIZE = API_LIMITS.pageSize.max;
-const COMMENT_PREVIEW_SIZE = 3;
+export const COMMENT_PREVIEW_SIZE = 3;
 
 type CommentListFilters = {
     commentType?: CommentTypeEnum;

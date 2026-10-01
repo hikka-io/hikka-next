@@ -142,7 +142,7 @@ const UserCommentList: FC<Props> = ({
                         value={commentType}
                         onValueChange={setCommentType}
                     />
-                    {isLoading && <CommentListSkeleton />}
+                    {isLoading && <CommentListSkeleton withContent />}
                     {list &&
                         list.length === 0 &&
                         (commentType === 'review' ? (
