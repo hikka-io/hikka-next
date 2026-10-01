@@ -11,7 +11,7 @@ import {
     joinFacts,
     status,
     value,
-} from './convert-shared';
+} from './fact-builder';
 import type { HistoryEntry, HistoryFact, HistoryMedium } from './types';
 
 // @hikka/api types `HistoryResponse.data` as `{ [key]: unknown }`; these mirror the backend payloads.
@@ -30,7 +30,7 @@ const WATCH_TYPES: HistoryTypeEnum[] = [
     HistoryTypeEnum.FAVOURITE_ANIME_REMOVE,
 ];
 
-export const getHistoryMedium = (type: HistoryTypeEnum): HistoryMedium =>
+const getHistoryMedium = (type: HistoryTypeEnum): HistoryMedium =>
     WATCH_TYPES.includes(type) ? 'watch' : 'read';
 
 const getTotals = (content: HistoryResponse['content']): ListEntryTotals => {

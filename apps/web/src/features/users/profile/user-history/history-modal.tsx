@@ -30,15 +30,8 @@ const HistoryModal = () => {
 
     return (
         <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-            {isLoading && (
-                <HistoryTimelineSkeleton
-                    variant="panel"
-                    count={DEFAULT_PAGE_SIZE}
-                />
-            )}
-            {list && list.length > 0 && (
-                <HistoryTimeline items={list} variant="panel" />
-            )}
+            {isLoading && <HistoryTimelineSkeleton count={DEFAULT_PAGE_SIZE} />}
+            {list && list.length > 0 && <HistoryTimeline items={list} />}
             {!isLoading && list?.length === 0 && (
                 <EmptyState
                     icon={<MaterialSymbolsHistoryRounded />}

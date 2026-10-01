@@ -68,10 +68,7 @@ const UserHistory: FC<Props> = ({ className }) => {
                         <HeaderNavButton />
                     </Header>
                     {filteredActivity && filteredActivity.length > 0 && (
-                        <HistoryTimeline
-                            items={filteredActivity}
-                            variant="card"
-                        />
+                        <HistoryTimeline items={filteredActivity} compact />
                     )}
                     {activity && activity?.length === 0 && (
                         <EmptyState

@@ -42,15 +42,12 @@ const HistoryFeed: FC<Props> = ({ source }) => {
     return (
         <Fragment>
             {isPending && (
-                <HistoryTimelineSkeleton
-                    variant="page"
-                    count={DEFAULT_PAGE_SIZE}
-                />
+                <HistoryTimelineSkeleton size="lg" count={DEFAULT_PAGE_SIZE} />
             )}
             {list && list.length > 0 && (
                 <HistoryTimeline
                     items={list}
-                    variant="page"
+                    size="lg"
                     withUser={isFollowing}
                 />
             )}

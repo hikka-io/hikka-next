@@ -9,45 +9,52 @@ import { cn } from '@/utils/cn';
 import { groupHistoryByDay } from './history-dates';
 import HistoryDayHeading from './history-day-heading';
 import HistoryItem from './history-item';
-import { HISTORY_VARIANTS, type HistoryVariant } from './history-variants';
+import { type HistorySize, historyRowsVariants } from './history-row';
 
 // SSR cannot know the viewer's time zone; render the audience's zone until hydration so markup matches.
 const SERVER_TIME_ZONE = 'Europe/Kyiv';
 
 type Props = {
     items: HistoryResponse[];
-    variant: HistoryVariant;
+    size?: HistorySize;
+    compact?: boolean;
     withUser?: boolean;
     className?: string;
 };
 
 const HistoryTimeline: FC<Props> = ({
     items,
-    variant,
+    size = 'default',
+    compact,
     withUser,
     className,
 }) => {
     const hydrated = useHydrated();
     const timeZone = hydrated ? undefined : SERVER_TIME_ZONE;
-    const config = HISTORY_VARIANTS[variant];
     const days = groupHistoryByDay(items, Date.now(), timeZone);
 
     return (
-        <div className={cn('flex flex-col', config.days, className)}>
+        <div
+            className={cn(
+                'flex flex-col',
+                size === 'lg' ? 'gap-10' : 'gap-6',
+                className,
+            )}
+        >
             {days.map((day) => (
                 <section key={day.key}>
                     <HistoryDayHeading
                         label={day.label}
                         detail={day.detail}
-                        large={config.largeHeading}
+                        size={size}
                     />
-                    <div className={cn('flex flex-col', config.rows)}>
+                    <div className={historyRowsVariants({ size })}>
                         {day.items.map((item) => (
                             <HistoryItem
                                 key={item.reference}
                                 data={item}
-                                posterClassName={config.poster}
-                                mainFactOnly={config.mainFactOnly}
+                                size={size}
+                                compact={compact}
                                 withUser={withUser}
                                 timeZone={timeZone}
                             />

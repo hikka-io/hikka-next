@@ -14,13 +14,13 @@ import {
 } from '@/utils/i18n/word-forms';
 import { LIST_STATUS } from '@/utils/labels/enum-labels';
 
-import { fact, into, joinFacts, outOf, status, value } from './convert-shared';
+import { fact, into, joinFacts, outOf, status, value } from './fact-builder';
 import { formatHistoryDate } from './history-dates';
 import type { HistoryFact, HistoryIcon, HistoryMedium } from './types';
 
 type Unit = 'episodes' | 'chapters' | 'volumes';
 
-export type ListEntryState = Partial<
+type ListEntryState = Partial<
     Record<
         Unit | 'score' | 'rewatches' | 'rereads' | 'start_date' | 'end_date',
         number | null
@@ -201,6 +201,19 @@ function describeDates(
     });
 }
 
+const mergeSteps = (steps: Step[]): Step[] =>
+    steps.length > 1
+        ? [
+              {
+                  fact: joinFacts(
+                      steps.map((step) => step.fact),
+                      ', ',
+                  ),
+                  icon: steps[0].icon,
+              },
+          ]
+        : steps;
+
 export function convertListEntry(
     medium: HistoryMedium,
     data: ListEntryData,
@@ -233,17 +246,7 @@ export function convertListEntry(
 
     const steps = [
         describeStatus(medium, before, after, isNew),
-        ...(isNew && progress.length > 1
-            ? [
-                  {
-                      fact: joinFacts(
-                          progress.map((step) => step.fact),
-                          ', ',
-                      ),
-                      icon: progress[0].icon,
-                  },
-              ]
-            : progress),
+        ...(isNew ? mergeSteps(progress) : progress),
         describeScore(before.score ?? 0, after.score ?? 0, isNew),
         describeRepeats(
             medium,

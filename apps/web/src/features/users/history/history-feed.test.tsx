@@ -84,25 +84,25 @@ describe.each(['user', 'following'] as const)('HistoryFeed(%s)', (source) => {
         expect(extra).toBeUndefined();
     });
 
-    it('renders the page skeleton while the first page loads', () => {
+    it('renders the large skeleton while the first page loads', () => {
         mocks.state.isPending = true;
 
         const markup = renderToStaticMarkup(<HistoryFeed source={source} />);
 
         expect(markup).toContain('data-stub="history-timeline-skeleton"');
-        expect(prop(markup, 'variant')).toBe('&quot;page&quot;');
+        expect(prop(markup, 'size')).toBe('&quot;lg&quot;');
         expect(prop(markup, 'count')).toBe('15');
         expect(markup).not.toContain('data-stub="history-timeline"');
     });
 
-    it('renders the page timeline for a loaded list', () => {
+    it('renders the large timeline for a loaded list', () => {
         mocks.state.list = ITEMS;
 
         const markup = renderToStaticMarkup(<HistoryFeed source={source} />);
 
         expect(markup).toContain('data-stub="history-timeline"');
         expect(markup).not.toContain('history-timeline-skeleton');
-        expect(prop(markup, 'variant')).toBe('&quot;page&quot;');
+        expect(prop(markup, 'size')).toBe('&quot;lg&quot;');
         expect(prop(markup, 'withUser')).toBe(String(source === 'following'));
         expect(
             JSON.parse((prop(markup, 'items') ?? '').replaceAll('&quot;', '"')),

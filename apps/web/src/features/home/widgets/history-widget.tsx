@@ -49,7 +49,7 @@ const HistoryWidget: FC<WidgetProps> = () => {
 
                 <div className="px-4">
                     {list && list.length > 0 && (
-                        <HistoryTimeline items={list} variant="card" withUser />
+                        <HistoryTimeline items={list} compact withUser />
                     )}
                     {list?.length === 0 && (
                         <EmptyState
