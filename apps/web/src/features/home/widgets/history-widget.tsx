@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
-import { HistoryItem } from '@/components/list-items';
+import { HistoryTimeline } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import Card from '@/components/ui/card';
 import EmptyState from '@/components/ui/empty-state';
@@ -47,14 +47,10 @@ const HistoryWidget: FC<WidgetProps> = () => {
                     <HeaderNavButton />
                 </Header>
 
-                <div className="flex flex-col gap-6 px-4">
-                    {list?.map((item) => (
-                        <HistoryItem
-                            data={item}
-                            key={item.reference}
-                            withUser
-                        />
-                    ))}
+                <div className="px-4">
+                    {list && list.length > 0 && (
+                        <HistoryTimeline items={list} variant="card" withUser />
+                    )}
                     {list?.length === 0 && (
                         <EmptyState
                             icon={<MaterialSymbolsHistoryRounded />}

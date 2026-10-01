@@ -1,15 +1,16 @@
-import { range } from '@antfu/utils';
-
 import { userHistoryInfiniteOptions } from '@hikka/api';
 
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
-import { HistoryItem, HistoryItemSkeleton } from '@/components/list-items';
+import {
+    HistoryTimeline,
+    HistoryTimelineSkeleton,
+} from '@/components/list-items';
 import LoadMoreButton from '@/components/load-more-button';
 import EmptyState from '@/components/ui/empty-state';
 import { useInfiniteList } from '@/utils/api/use-infinite-list';
 import { useParams } from '@/utils/navigation';
 
-const SKELETON_COUNT = 5;
+import { DEFAULT_PAGE_SIZE } from '../../queries';
 
 const HistoryModal = () => {
     const params = useParams();
@@ -29,13 +30,15 @@ const HistoryModal = () => {
 
     return (
         <div className="-m-4 flex flex-1 flex-col gap-6 overflow-y-scroll p-4">
-            {isLoading &&
-                range(0, SKELETON_COUNT).map((index) => (
-                    <HistoryItemSkeleton key={index} />
-                ))}
-            {list?.map((item) => (
-                <HistoryItem data={item} key={item.reference} />
-            ))}
+            {isLoading && (
+                <HistoryTimelineSkeleton
+                    variant="panel"
+                    count={DEFAULT_PAGE_SIZE}
+                />
+            )}
+            {list && list.length > 0 && (
+                <HistoryTimeline items={list} variant="panel" />
+            )}
             {!isLoading && list?.length === 0 && (
                 <EmptyState
                     icon={<MaterialSymbolsHistoryRounded />}

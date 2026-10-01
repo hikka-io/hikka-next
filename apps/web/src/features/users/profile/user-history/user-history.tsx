@@ -2,7 +2,7 @@ import { type FC, useState } from 'react';
 
 import { MaterialSymbolsGridViewRounded } from '@/components/icons/material-symbols/MaterialSymbolsGridViewRounded';
 import MaterialSymbolsHistoryRounded from '@/components/icons/material-symbols/MaterialSymbolsHistoryRounded';
-import { HistoryItem } from '@/components/list-items';
+import { HistoryTimeline } from '@/components/list-items';
 import Block from '@/components/ui/block';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/ui/card';
@@ -67,22 +67,23 @@ const UserHistory: FC<Props> = ({ className }) => {
                         </HeaderContainer>
                         <HeaderNavButton />
                     </Header>
-                    <div className="flex flex-col gap-6">
-                        {filteredActivity?.map((item) => (
-                            <HistoryItem data={item} key={item.reference} />
-                        ))}
-                        {activity && activity?.length === 0 && (
-                            <EmptyState
-                                icon={<MaterialSymbolsHistoryRounded />}
-                                title="Історія відсутня"
-                                description="Інформація оновиться після змін у списку"
-                            />
-                        )}
-                    </div>
+                    {filteredActivity && filteredActivity.length > 0 && (
+                        <HistoryTimeline
+                            items={filteredActivity}
+                            variant="card"
+                        />
+                    )}
+                    {activity && activity?.length === 0 && (
+                        <EmptyState
+                            icon={<MaterialSymbolsHistoryRounded />}
+                            title="Історія відсутня"
+                            description="Інформація оновиться після змін у списку"
+                        />
+                    )}
                 </Block>
             </Card>
             <ResponsiveModal open={open} onOpenChange={setOpen} type="sheet">
-                <ResponsiveModalContent side="right" title="Активність">
+                <ResponsiveModalContent side="right" title="Історія">
                     <HistoryModal />
                 </ResponsiveModalContent>
             </ResponsiveModal>

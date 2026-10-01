@@ -10,7 +10,9 @@ import { cn } from '@/utils/cn';
 import { useParams, useRouteSearch } from '@/utils/navigation';
 import type { HistorySearch } from '@/utils/search-schemas';
 
-import HistoryGrid from './history-grid';
+import HistoryFeed from './history-feed';
+
+const TRIGGER_CLASSES = 'group-data-[size=sm]/tabs-list:text-sm';
 
 type Props = {
     className?: string;
@@ -41,6 +43,7 @@ const UserHistoryPage: FC<Props> = ({ className }) => {
                         <TabsList size="sm">
                             <TabsTrigger
                                 value="user"
+                                className={TRIGGER_CLASSES}
                                 aria-label="Власна історія"
                             >
                                 Власна
@@ -48,6 +51,7 @@ const UserHistoryPage: FC<Props> = ({ className }) => {
                             {params.username === loggedUser?.username && (
                                 <TabsTrigger
                                     value="following"
+                                    className={TRIGGER_CLASSES}
                                     aria-label="Історія відстежуючих"
                                 >
                                     Відстежується
@@ -57,8 +61,8 @@ const UserHistoryPage: FC<Props> = ({ className }) => {
                     </Tabs>
                 </HeaderContainer>
             </Header>
-            {type === 'user' && <HistoryGrid source="user" />}
-            {type === 'following' && <HistoryGrid source="following" />}
+            {type === 'user' && <HistoryFeed source="user" />}
+            {type === 'following' && <HistoryFeed source="following" />}
         </Block>
     );
 };

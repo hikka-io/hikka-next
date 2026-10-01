@@ -8,7 +8,7 @@ import { historySearchSchema } from '@/utils/search-schemas';
 export const Route = createFileRoute('/_pages/u/$username/history')({
     validateSearch: zodValidator(historySearchSchema),
     head: ({ params }) =>
-        generateHeadMeta({ title: `Активність / ${params.username}` }),
+        generateHeadMeta({ title: `Історія / ${params.username}` }),
     component: HistoryPage,
 });
 

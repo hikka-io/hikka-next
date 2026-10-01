@@ -1,89 +1,98 @@
-import { type FC, memo } from 'react';
+import type { FC } from 'react';
 
-import type { HistoryResponse } from '@hikka/api';
+import { type HistoryResponse, HistoryTypeEnum } from '@hikka/api';
 
-import {
-    HorizontalCard,
-    HorizontalCardContainer,
-    HorizontalCardImage,
-    HorizontalCardTitle,
-} from '@/components/horizontal-card';
-import MaterialSymbolsInfoRounded from '@/components/icons/material-symbols/MaterialSymbolsInfoRounded';
-import RelativeTime from '@/components/relative-time';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { labelVariants } from '@/components/ui/label';
+import TextLink from '@/components/ui/text-link';
 import { useTitle } from '@/services/session';
-import { CONTENT_TYPE_LINKS } from '@/utils/content-paths';
-import { Link } from '@/utils/navigation';
+import { cn } from '@/utils/cn';
+import { contentPath } from '@/utils/content-paths';
 
 import { convertHistory } from './convert-history';
+import { formatHistoryTime } from './history-dates';
 import HistoryFacts from './history-facts';
+import HistoryNode from './history-node';
+import HistoryPoster from './history-poster';
+import { HISTORY_ROW_LINE } from './history-variants';
 
 type Props = {
     data: HistoryResponse;
-    className?: string;
+    posterClassName: string;
+    mainFactOnly?: boolean;
     withUser?: boolean;
+    timeZone?: string;
 };
 
-const User: FC<Props> = memo(({ data }) => (
-    <Tooltip>
-        <TooltipTrigger render={<Link to={`/u/${data.user.username}`} />}>
-            <Avatar className="size-10 rounded-md">
-                <AvatarImage
-                    className="size-10 rounded-md"
-                    src={data.user.avatar}
-                />
-                <AvatarFallback
-                    className="size-10 rounded-md"
-                    title={data.user.username?.[0]}
-                />
-            </Avatar>
-        </TooltipTrigger>
-        <TooltipContent>{data.user.username}</TooltipContent>
-    </Tooltip>
-));
+const IMPORT_TITLES: Partial<Record<HistoryTypeEnum, string>> = {
+    [HistoryTypeEnum.WATCH_IMPORT]: 'Імпорт аніме',
+    [HistoryTypeEnum.READ_IMPORT]: 'Імпорт манґи та ранобе',
+};
 
-const HistoryItem: FC<Props> = (props) => {
-    const { data, withUser, className } = props;
+const HistoryItem: FC<Props> = ({
+    data,
+    posterClassName,
+    mainFactOnly,
+    withUser,
+    timeZone,
+}) => {
     const title = useTitle(data.content);
-
-    const { facts } = convertHistory(data);
+    const entry = convertHistory(data, timeZone);
+    const facts = mainFactOnly ? entry.facts.slice(0, 1) : entry.facts;
 
     return (
-        <HorizontalCard className={className}>
-            <HorizontalCardImage
-                image={
-                    data.content?.data_type === 'anime'
-                        ? data.content?.image
-                        : data.content?.image || (
-                              <MaterialSymbolsInfoRounded className="flex-1 text-muted-foreground text-xl" />
-                          )
-                }
-                to={
-                    data.content
-                        ? `${CONTENT_TYPE_LINKS[data.content.data_type as keyof typeof CONTENT_TYPE_LINKS]}/${data.content.slug}`
-                        : undefined
-                }
-            />
-            <HorizontalCardContainer>
-                <HorizontalCardTitle
-                    to={
-                        data.content
-                            ? `${CONTENT_TYPE_LINKS[data.content.data_type as keyof typeof CONTENT_TYPE_LINKS]}/${data.content.slug}`
-                            : '#'
+        <div className={cn('flex items-start gap-4', HISTORY_ROW_LINE)}>
+            <div className="flex shrink-0 items-center gap-3">
+                <HistoryNode
+                    entry={entry}
+                    user={withUser ? data.user : undefined}
+                />
+                <HistoryPoster
+                    content={data.content}
+                    medium={entry.medium}
+                    deleted={entry.icon.kind === 'delete'}
+                    className={posterClassName}
+                />
+            </div>
+            <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 self-stretch">
+                <div className="flex items-baseline gap-3">
+                    <TextLink
+                        to={
+                            data.content
+                                ? contentPath(
+                                      data.content.data_type,
+                                      data.content.slug,
+                                  )
+                                : undefined
+                        }
+                        className={cn(labelVariants(), 'min-w-0 truncate')}
+                    >
+                        {title ||
+                            IMPORT_TITLES[data.history_type] ||
+                            'Загальне'}
+                    </TextLink>
+                    <time
+                        dateTime={new Date(data.created * 1000).toISOString()}
+                        className="ml-auto shrink-0 text-muted-foreground text-xs tabular-nums opacity-60"
+                        suppressHydrationWarning
+                    >
+                        {formatHistoryTime(data.created, timeZone)}
+                    </time>
+                </div>
+                <HistoryFacts
+                    facts={facts}
+                    lead={
+                        withUser && (
+                            <TextLink
+                                to={`/u/${data.user.username}`}
+                                className="font-medium text-foreground"
+                            >
+                                {data.user.username}
+                            </TextLink>
+                        )
                     }
-                >
-                    {title || 'Загальне'}
-                </HorizontalCardTitle>
-                <HistoryFacts facts={facts} />
-                <RelativeTime value={data.created} className="opacity-60" />
-            </HorizontalCardContainer>
-            {withUser && <User {...props} />}
-        </HorizontalCard>
+                />
+            </div>
+        </div>
     );
 };
 
